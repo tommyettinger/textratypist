@@ -8,5 +8,8 @@
   -->
 <module>
     <source path="com/github/tommyettinger/textra" />
+    <inherits name="com.badlogic.gdx.backends.gdx_backends_gwt" />
     <inherits name="textramode" />
+    <inherits name="regexodus" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.github.tommyettinger.textra"/>
 </module>
