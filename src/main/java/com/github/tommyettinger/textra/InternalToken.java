@@ -4,26 +4,26 @@ package com.github.tommyettinger.textra;
 enum InternalToken {
     // @formatter:off
 	// Public
-	WAIT          ("WAIT",          com.github.tommyettinger.textra.TokenCategory.WAIT     ),
-	SPEED         ("SPEED",         com.github.tommyettinger.textra.TokenCategory.SPEED    ),
-	SLOWER        ("SLOWER",        com.github.tommyettinger.textra.TokenCategory.SPEED    ),
-	SLOW          ("SLOW",          com.github.tommyettinger.textra.TokenCategory.SPEED    ),
-	NORMAL        ("NORMAL",        com.github.tommyettinger.textra.TokenCategory.SPEED    ),
-	FAST          ("FAST",          com.github.tommyettinger.textra.TokenCategory.SPEED    ),
-	FASTER        ("FASTER",        com.github.tommyettinger.textra.TokenCategory.SPEED    ),
-	COLOR         ("COLOR",         com.github.tommyettinger.textra.TokenCategory.COLOR    ),
-	CLEARCOLOR    ("CLEARCOLOR",    com.github.tommyettinger.textra.TokenCategory.COLOR    ),
-	ENDCOLOR      ("ENDCOLOR",      com.github.tommyettinger.textra.TokenCategory.COLOR    ),
-	VAR           ("VAR",           com.github.tommyettinger.textra.TokenCategory.VARIABLE ),
-	EVENT         ("EVENT",         com.github.tommyettinger.textra.TokenCategory.EVENT    ),
-	RESET         ("RESET",         com.github.tommyettinger.textra.TokenCategory.RESET    ),
-	SKIP          ("SKIP",          com.github.tommyettinger.textra.TokenCategory.SKIP     );
+	WAIT          ("WAIT",          TokenCategory.WAIT     ),
+	SPEED         ("SPEED",         TokenCategory.SPEED    ),
+	SLOWER        ("SLOWER",        TokenCategory.SPEED    ),
+	SLOW          ("SLOW",          TokenCategory.SPEED    ),
+	NORMAL        ("NORMAL",        TokenCategory.SPEED    ),
+	FAST          ("FAST",          TokenCategory.SPEED    ),
+	FASTER        ("FASTER",        TokenCategory.SPEED    ),
+	COLOR         ("COLOR",         TokenCategory.COLOR    ),
+	CLEARCOLOR    ("CLEARCOLOR",    TokenCategory.COLOR    ),
+	ENDCOLOR      ("ENDCOLOR",      TokenCategory.COLOR    ),
+	VAR           ("VAR",           TokenCategory.VARIABLE ),
+	EVENT         ("EVENT",         TokenCategory.EVENT    ),
+	RESET         ("RESET",         TokenCategory.RESET    ),
+	SKIP          ("SKIP",          TokenCategory.SKIP     );
 	// @formatter:on
 
     final String        name;
-    final com.github.tommyettinger.textra.TokenCategory category;
+    final TokenCategory category;
 
-    private InternalToken(String name, com.github.tommyettinger.textra.TokenCategory category) {
+    private InternalToken(String name, TokenCategory category) {
         this.name = name;
         this.category = category;
     }

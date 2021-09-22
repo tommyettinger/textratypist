@@ -23,13 +23,13 @@ public abstract class Effect {
     }
 
     /** Applies the effect to the given glyph. */
-    public final void apply(com.github.tommyettinger.textra.TypingGlyph glyph, int glyphIndex, float delta) {
+    public final void apply(TypingGlyph glyph, int glyphIndex, float delta) {
         int localIndex = glyphIndex - indexStart;
         onApply(glyph, localIndex, delta);
     }
 
     /** Called when this effect should be applied to the given glyph. */
-    protected abstract void onApply(com.github.tommyettinger.textra.TypingGlyph glyph, int localIndex, float delta);
+    protected abstract void onApply(TypingGlyph glyph, int localIndex, float delta);
 
     /** Returns whether or not this effect is finished and should be removed. Note that effects are infinite by default. */
     public boolean isFinished() {
@@ -89,17 +89,17 @@ public abstract class Effect {
 
     /** Returns a float value parsed from the given String, or the default value if the string couldn't be parsed. */
     protected float paramAsFloat(String str, float defaultValue) {
-        return com.github.tommyettinger.textra.Parser.stringToFloat(str, defaultValue);
+        return Parser.stringToFloat(str, defaultValue);
     }
 
     /** Returns a boolean value parsed from the given String, or the default value if the string couldn't be parsed. */
     protected boolean paramAsBoolean(String str) {
-        return com.github.tommyettinger.textra.Parser.stringToBoolean(str);
+        return Parser.stringToBoolean(str);
     }
 
     /** Parses a color from the given string. Returns null if the color couldn't be parsed. */
     protected Color paramAsColor(String str) {
-        return com.github.tommyettinger.textra.Parser.stringToColor(str);
+        return Parser.stringToColor(str);
     }
 
 }
