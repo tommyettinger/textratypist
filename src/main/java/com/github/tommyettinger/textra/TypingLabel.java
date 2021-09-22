@@ -449,16 +449,19 @@ public class TypingLabel extends TextraLabel {
             rawCharIndex++;
 
             // Get next character and calculate cooldown increment
-            int safeIndex = MathUtils.clamp(rawCharIndex, 0, getText().length - 1);
-            char primitiveChar = '\u0000'; // Null character by default
-            if(getText().length > 0) {
-                primitiveChar = getText().charAt(safeIndex);
-                float intervalMultiplier = TypingConfig.INTERVAL_MULTIPLIERS_BY_CHAR.get(primitiveChar, 1);
+
+            //TODO: handle multiple lines
+            LongArray glyphs = layout.getLine(0).glyphs;
+            int safeIndex = MathUtils.clamp(rawCharIndex, 0, glyphs.size - 1);
+            long primitiveChar = '\u0000'; // Null character by default
+            if(glyphs.size > 0) {
+                primitiveChar = glyphs.get(safeIndex);
+                float intervalMultiplier = TypingConfig.INTERVAL_MULTIPLIERS_BY_CHAR.get((char)primitiveChar, 1);
                 charCooldown += textSpeed * intervalMultiplier;
             }
 
             // If char progression is finished, or if text is empty, notify listener and abort routine
-            int textLen = getText().length;
+            int textLen = glyphs.size;
             if(textLen == 0 || rawCharIndex >= textLen) {
                 if(!ended) {
                     ended = true;
@@ -535,8 +538,8 @@ public class TypingLabel extends TextraLabel {
             }
 
             // Notify listener about char progression
-            int nextIndex = rawCharIndex == 0 ? 0 : MathUtils.clamp(rawCharIndex, 0, getText().length - 1);
-            Character nextChar = nextIndex == 0 ? null : getText().charAt(nextIndex);
+            int nextIndex = rawCharIndex == 0 ? 0 : MathUtils.clamp(rawCharIndex, 0, glyphs.size - 1);
+            Character nextChar = nextIndex == 0 ? null : (char)glyphs.get(nextIndex);
             if(nextChar != null && listener != null) {
                 listener.onChar(nextChar);
             }
@@ -567,136 +570,17 @@ public class TypingLabel extends TextraLabel {
         return super.remove();
     }
 
-    ////////////////////////////////////
-    /// --- Superclass Mirroring --- ///
-    ////////////////////////////////////
-
-    @Override
-    public BitmapFontCache getBitmapFontCache() {
-        return super.getBitmapFontCache();
-    }
-
-    @Override
-    public void setEllipsis(String ellipsis) {
-        // Mimics superclass but keeps an accessible reference
-        super.setEllipsis(ellipsis);
-        this.ellipsis = ellipsis;
-    }
-
-    @Override
-    public void setEllipsis(boolean ellipsis) {
-        // Mimics superclass but keeps an accessible reference
-        super.setEllipsis(ellipsis);
-        if(ellipsis)
-            this.ellipsis = "...";
-        else
-            this.ellipsis = null;
-    }
-
-    @Override
-    public void setWrap(boolean wrap) {
-        // Mimics superclass but keeps an accessible reference
-        super.setWrap(wrap);
-        this.wrap = wrap;
-    }
-
-    @Override
-    public void setFontScale(float fontScale) {
-        super.setFontScale(fontScale);
-        this.fontScaleChanged = true;
-    }
-
-    @Override
-    public void setFontScale(float fontScaleX, float fontScaleY) {
-        super.setFontScale(fontScaleX, fontScaleY);
-        this.fontScaleChanged = true;
-    }
-
-    @Override
-    public void setFontScaleX(float fontScaleX) {
-        super.setFontScaleX(fontScaleX);
-        this.fontScaleChanged = true;
-    }
-
-    @Override
-    public void setFontScaleY(float fontScaleY) {
-        super.setFontScaleY(fontScaleY);
-        this.fontScaleChanged = true;
-    }
 
     @Override
     public void layout() {
         // --- SUPERCLASS IMPLEMENTATION (but with accessible getters instead) ---
-        BitmapFontCache cache = getBitmapFontCache();
-        StringBuilder text = getText();
-        GlyphLayout layout = super.getGlyphLayout();
-        int lineAlign = getLineAlign();
-        int labelAlign = getLabelAlign();
-        LabelStyle style = getStyle();
 
-        BitmapFont font = cache.getFont();
-        float oldScaleX = font.getScaleX();
-        float oldScaleY = font.getScaleY();
-        if(fontScaleChanged) font.getData().setScale(getFontScaleX(), getFontScaleY());
-
-        boolean wrap = this.wrap && ellipsis == null;
-        if(wrap) {
-            float prefHeight = getPrefHeight();
-            if(prefHeight != lastPrefHeight) {
-                lastPrefHeight = prefHeight;
-                invalidateHierarchy();
-            }
-        }
-
-        float width = getWidth(), height = getHeight();
-        Drawable background = style.background;
-        float x = 0, y = 0;
-        if(background != null) {
-            x = background.getLeftWidth();
-            y = background.getBottomHeight();
-            width -= background.getLeftWidth() + background.getRightWidth();
-            height -= background.getBottomHeight() + background.getTopHeight();
-        }
-
-        float textWidth, textHeight;
-        if(wrap || text.indexOf("\n") != -1) {
-            // If the text can span multiple lines, determine the text's actual size so it can be aligned within the label.
-            layout.setText(font, text, 0, text.length, Color.WHITE, width, lineAlign, wrap, ellipsis);
-            textWidth = layout.width;
-            textHeight = layout.height;
-
-            if((labelAlign & Align.left) == 0) {
-                if((labelAlign & Align.right) != 0)
-                    x += width - textWidth;
-                else
-                    x += (width - textWidth) / 2;
-            }
-        } else {
-            textWidth = width;
-            textHeight = font.getData().capHeight;
-        }
-
-        if((labelAlign & Align.top) != 0) {
-            y += cache.getFont().isFlipped() ? 0 : height - textHeight;
-            y += style.font.getDescent();
-        } else if((labelAlign & Align.bottom) != 0) {
-            y += cache.getFont().isFlipped() ? height - textHeight : 0;
-            y -= style.font.getDescent();
-        } else {
-            y += (height - textHeight) / 2;
-        }
-        if(!cache.getFont().isFlipped()) y += textHeight;
-
-        layout.setText(font, text, 0, text.length, Color.WHITE, textWidth, lineAlign, wrap, ellipsis);
-        cache.setText(layout, x, y);
-
-        if(fontScaleChanged) font.getData().setScale(oldScaleX, oldScaleY);
+        super.layout();
 
         // --- END OF SUPERCLASS IMPLEMENTATION ---
 
-        // Store coordinates passed to BitmapFontCache
-        lastLayoutX = x;
-        lastLayoutY = y;
+        lastLayoutX = getX();
+        lastLayoutY = getY();
 
         // Perform cache layout operation, where the magic happens
         GlyphUtils.freeAll(glyphCache);
