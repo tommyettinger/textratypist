@@ -14,7 +14,7 @@ import regexodus.REFlags;
 
 /** Utility class to parse tokens from a {@link TypingLabel}. */
 class Parser {
-    private static final Pattern PATTERN_MARKUP_STRIP      = Pattern.compile("(\\[{2})|(\\[#?\\w*(\\[|\\])?)");
+    private static final Pattern PATTERN_MARKUP_STRIP      = Pattern.compile("(\\[{2})|(\\[[^\\[\\]]*(\\[|\\])?)");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-F0-9]{6}");
 
     private static final String[] BOOLEAN_TRUE = {"true", "yes", "t", "y", "on", "1"};
@@ -34,9 +34,6 @@ class Parser {
             RESET_REPLACEMENT = getResetReplacement();
         }
 
-        // Adjust and check markup color
-        if(label.forceMarkupColor) label.getBitmapFontCache().getFont().getData().markupEnabled = true;
-
         // Remove any previous entries
         label.tokenEntries.clear();
 
@@ -49,6 +46,8 @@ class Parser {
         // Parse color markups and register SKIP tokens
         parseColorMarkups(label);
 
+        label.setText(label.getIntermediateText().toString(), false, false);
+
         // Sort token entries
         label.tokenEntries.sort();
         label.tokenEntries.reverse();
@@ -57,8 +56,8 @@ class Parser {
     /** Parse tokens that only replace text, such as colors and variables. */
     private static void parseReplacements(TypingLabel label) {
         // Get text
-        CharSequence text = label.getText();
-        boolean hasMarkup = label.getBitmapFontCache().getFont().getData().markupEnabled;
+        CharSequence text = label.getOriginalText();
+        boolean hasMarkup = true;
 
         // Create string builder
         StringBuilder sb = new StringBuilder(text.length());
@@ -131,13 +130,13 @@ class Parser {
         }
 
         // Set new text
-        label.setText(text, false, false);
+        label.setIntermediateText(text, false, false);
     }
 
     /** Parses regular tokens that don't need replacement and register their indexes in the {@link TypingLabel}. */
     private static void parseRegularTokens(TypingLabel label) {
         // Get text
-        CharSequence text = label.getText();
+        CharSequence text = label.getIntermediateText();
 
         // Create matcher and StringBuilder
         Matcher m = PATTERN_TOKEN_STRIP.matcher(text);
@@ -257,13 +256,13 @@ class Parser {
         }
 
         // Update label text
-        label.setText(text, false, false);
+        label.setIntermediateText(text, false, false);
     }
 
     /** Parse color markup tags and register SKIP tokens. */
     private static void parseColorMarkups(TypingLabel label) {
         // Get text
-        final CharSequence text = label.getText();
+        final CharSequence text = label.getIntermediateText();
 
         // Iterate through matches and register skip tokens
         Matcher m = PATTERN_MARKUP_STRIP.matcher(text);
