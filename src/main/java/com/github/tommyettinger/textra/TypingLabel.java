@@ -38,6 +38,7 @@ public class TypingLabel extends TextraLabel {
 
     // Internal state
     private final StringBuilder      originalText          = new StringBuilder();
+    private final StringBuilder      intermediateText      = new StringBuilder();
     private final Array<TypingGlyph> glyphCache            = new Array<TypingGlyph>();
     private final IntArray           glyphRunCapacities    = new IntArray();
     private final IntArray           offsetCache           = new IntArray();
@@ -105,7 +106,7 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Modifies the text of this label. If the char progression is already running, it's highly recommended to use
-     * {@link #restart(CharSequence)} instead.
+     * {@link #restart(String)} instead.
      */
     @Override
     public void setText(String newText) {
@@ -117,7 +118,7 @@ public class TypingLabel extends TextraLabel {
      *
      * @param modifyOriginalText Flag determining if the original text should be modified as well. If {@code false},
      *                           only the display text is changed while the original text is untouched.
-     * @see #restart(CharSequence)
+     * @see #restart(String)
      */
     protected void setText(String newText, boolean modifyOriginalText) {
         setText(newText, modifyOriginalText, true);
@@ -129,7 +130,7 @@ public class TypingLabel extends TextraLabel {
      * @param modifyOriginalText Flag determining if the original text should be modified as well. If {@code false},
      *                           only the display text is changed while the original text is untouched.
      * @param restart            Whether or not this label should restart. Defaults to true.
-     * @see #restart(CharSequence)
+     * @see #restart(String)
      */
     protected void setText(String newText, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
@@ -152,7 +153,7 @@ public class TypingLabel extends TextraLabel {
      * Copies the content of {@link #getOriginalText()} to the {@link StringBuilder} containing the original
      * text with all tokens unchanged.
      */
-    protected void saveOriginalText(String text) {
+    protected void saveOriginalText(CharSequence text) {
         originalText.setLength(0);
         originalText.insert(0, text);
         originalText.trimToSize();
@@ -298,14 +299,14 @@ public class TypingLabel extends TextraLabel {
      * automatically parsed.
      */
     public void restart() {
-        restart(getOriginalText());
+        restart(getOriginalText().toString());
     }
 
     /**
      * Restarts this label with the given text and starts the char progression right away. All tokens are automatically
      * parsed.
      */
-    public void restart(CharSequence newText) {
+    public void restart(String newText) {
         // Reset cache collections
         GlyphUtils.freeAll(glyphCache);
         glyphCache.clear();
@@ -863,4 +864,21 @@ public class TypingLabel extends TextraLabel {
         super.draw(batch, parentAlpha);
     }
 
+    public void setIntermediateText(CharSequence text, boolean modifyOriginalText, boolean restart) {
+        final boolean hasEnded = this.hasEnded();
+        intermediateText.setLength(0);
+        intermediateText.append(text);
+        intermediateText.trimToSize();
+        if(modifyOriginalText) saveOriginalText(text);
+        if(restart) {
+            this.restart();
+        }
+        if(hasEnded) {
+            this.skipToTheEnd(true, false);
+        }
+    }
+
+    public StringBuilder getIntermediateText() {
+        return intermediateText;
+    }
 }
