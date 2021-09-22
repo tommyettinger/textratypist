@@ -8,8 +8,8 @@ import com.badlogic.gdx.utils.ReflectionPool;
 
 /** Utility class to manage {@link Glyph} pooling and cloning. */
 class GlyphUtils {
-    private static final Pool<com.github.tommyettinger.textra.TypingGlyph> pool = new ReflectionPool<com.github.tommyettinger.textra.TypingGlyph>(com.github.tommyettinger.textra.TypingGlyph.class) {
-        protected void reset(com.github.tommyettinger.textra.TypingGlyph glyph) {
+    private static final Pool<TypingGlyph> pool = new ReflectionPool<TypingGlyph>(TypingGlyph.class) {
+        protected void reset(TypingGlyph glyph) {
             GlyphUtils.reset(glyph);
         }
     };
@@ -18,7 +18,7 @@ class GlyphUtils {
      * Returns a glyph from this pool. The glyph may be new (from {@link Pool#newObject()}) or reused (previously {@link
      * Pool#free(Object) freed}).
      */
-    static com.github.tommyettinger.textra.TypingGlyph obtain() {
+    static TypingGlyph obtain() {
         return pool.obtain();
     }
 
@@ -27,7 +27,7 @@ class GlyphUtils {
      * Pool#newObject()}) or reused (previously {@link Pool#free(Object) freed}).
      */
     static Glyph obtainClone(Glyph from) {
-        com.github.tommyettinger.textra.TypingGlyph glyph = pool.obtain();
+        TypingGlyph glyph = pool.obtain();
         clone(from, glyph);
         return glyph;
     }
@@ -36,7 +36,7 @@ class GlyphUtils {
      * Puts the specified glyph in the pool, making it eligible to be returned by {@link #obtain()}. If the pool already
      * contains {@link Pool#max} free glyphs, the specified glyph is reset but not added to the pool.
      */
-    static void free(com.github.tommyettinger.textra.TypingGlyph glyph) {
+    static void free(TypingGlyph glyph) {
         pool.free(glyph);
     }
 
@@ -45,12 +45,12 @@ class GlyphUtils {
      *
      * @see Pool#free(Object)
      */
-    static void freeAll(Array<com.github.tommyettinger.textra.TypingGlyph> glyphs) {
+    static void freeAll(Array<TypingGlyph> glyphs) {
         pool.freeAll(glyphs);
     }
 
     /** Called when a glyph is freed to clear the state of the glyph for possible later reuse. */
-    static void reset(com.github.tommyettinger.textra.TypingGlyph glyph) {
+    static void reset(TypingGlyph glyph) {
         glyph.id = 0;
         glyph.srcX = 0;
         glyph.srcY = 0;
@@ -72,7 +72,7 @@ class GlyphUtils {
     }
 
     /** Copies all contents from the first glyph to the second one. */
-    static void clone(Glyph from, com.github.tommyettinger.textra.TypingGlyph to) {
+    static void clone(Glyph from, TypingGlyph to) {
         to.id = from.id;
         to.srcX = from.srcX;
         to.srcY = from.srcY;

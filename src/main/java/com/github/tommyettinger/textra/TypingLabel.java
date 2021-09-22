@@ -12,36 +12,38 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.*;
-import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
+
+import java.lang.StringBuilder;
+import java.util.Map;
 
 /**
  * An extension of {@link Label} that progressively shows the text as if it was being typed in real time, and allows the
  * use of tokens in the following format: <tt>{TOKEN=PARAMETER}</tt>.
  */
-public class TypingLabel extends Label {
+public class TypingLabel extends TextraLabel {
     ///////////////////////
     /// --- Members --- ///
     ///////////////////////
 
     // Collections
     private final   ObjectMap<String, String> variables    = new ObjectMap<String, String>();
-    protected final Array<com.github.tommyettinger.textra.TokenEntry>         tokenEntries = new Array<com.github.tommyettinger.textra.TokenEntry>();
+    protected final Array<TokenEntry>         tokenEntries = new Array<TokenEntry>();
 
     // Config
-    private Color          clearColor = new Color(com.github.tommyettinger.textra.TypingConfig.DEFAULT_CLEAR_COLOR);
-    private com.github.tommyettinger.textra.TypingListener listener   = null;
-    boolean forceMarkupColor = com.github.tommyettinger.textra.TypingConfig.FORCE_COLOR_MARKUP_BY_DEFAULT;
+    private final Color    clearColor = new Color(TypingConfig.DEFAULT_CLEAR_COLOR);
+    private TypingListener listener   = null;
+    boolean forceMarkupColor = TypingConfig.FORCE_COLOR_MARKUP_BY_DEFAULT;
 
     // Internal state
     private final StringBuilder      originalText          = new StringBuilder();
-    private final Array<com.github.tommyettinger.textra.TypingGlyph> glyphCache            = new Array<com.github.tommyettinger.textra.TypingGlyph>();
+    private final Array<TypingGlyph> glyphCache            = new Array<TypingGlyph>();
     private final IntArray           glyphRunCapacities    = new IntArray();
     private final IntArray           offsetCache           = new IntArray();
     private final IntArray           layoutLineBreaks      = new IntArray();
-    private final Array<com.github.tommyettinger.textra.Effect>      activeEffects         = new Array<com.github.tommyettinger.textra.Effect>();
-    private       float              textSpeed             = com.github.tommyettinger.textra.TypingConfig.DEFAULT_SPEED_PER_CHAR;
+    private final Array<Effect>      activeEffects         = new Array<Effect>();
+    private       float              textSpeed             = TypingConfig.DEFAULT_SPEED_PER_CHAR;
     private       float              charCooldown          = textSpeed;
     private       int                rawCharIndex          = -2; // All chars, including color codes
     private       int                glyphCharIndex        = -1; // Only renderable chars, excludes color codes
@@ -67,29 +69,34 @@ public class TypingLabel extends Label {
     /// --- Constructors --- ///
     ////////////////////////////
 
-    public TypingLabel(CharSequence text, LabelStyle style) {
-        super(text, style);
-        saveOriginalText();
+    public TypingLabel() {
+        super();
+        saveOriginalText("");
     }
 
-    public TypingLabel(CharSequence text, Skin skin, String fontName, Color color) {
-        super(text, skin, fontName, color);
-        saveOriginalText();
-    }
-
-    public TypingLabel(CharSequence text, Skin skin, String fontName, String colorName) {
-        super(text, skin, fontName, colorName);
-        saveOriginalText();
-    }
-
-    public TypingLabel(CharSequence text, Skin skin, String styleName) {
-        super(text, skin, styleName);
-        saveOriginalText();
-    }
-
-    public TypingLabel(CharSequence text, Skin skin) {
+    public TypingLabel(String text, Skin skin) {
         super(text, skin);
-        saveOriginalText();
+        saveOriginalText(text);
+    }
+
+    public TypingLabel(String text, Skin skin, String styleName) {
+        super(text, skin, styleName);
+        saveOriginalText(text);
+    }
+
+    public TypingLabel(String text, Label.LabelStyle style) {
+        super(text, style);
+        saveOriginalText(text);
+    }
+
+    public TypingLabel(String text, Font font) {
+        super(text, font);
+        saveOriginalText(text);
+    }
+
+    public TypingLabel(String text, Font font, Color color) {
+        super(text, font, color);
+        saveOriginalText(text);
     }
 
     /////////////////////////////
@@ -101,7 +108,7 @@ public class TypingLabel extends Label {
      * {@link #restart(CharSequence)} instead.
      */
     @Override
-    public void setText(CharSequence newText) {
+    public void setText(String newText) {
         this.setText(newText, true);
     }
 
@@ -112,7 +119,7 @@ public class TypingLabel extends Label {
      *                           only the display text is changed while the original text is untouched.
      * @see #restart(CharSequence)
      */
-    protected void setText(CharSequence newText, boolean modifyOriginalText) {
+    protected void setText(String newText, boolean modifyOriginalText) {
         setText(newText, modifyOriginalText, true);
     }
 
@@ -124,10 +131,10 @@ public class TypingLabel extends Label {
      * @param restart            Whether or not this label should restart. Defaults to true.
      * @see #restart(CharSequence)
      */
-    protected void setText(CharSequence newText, boolean modifyOriginalText, boolean restart) {
+    protected void setText(String newText, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
         super.setText(newText);
-        if(modifyOriginalText) saveOriginalText();
+        if(modifyOriginalText) saveOriginalText(newText);
         if(restart) {
             this.restart();
         }
@@ -136,18 +143,18 @@ public class TypingLabel extends Label {
         }
     }
 
-    /** Similar to {@link #getText()}, but returns the original text with all the tokens unchanged. */
+    /** Similar to {@link Layout#toString()}, but returns the original text with all the tokens unchanged. */
     public StringBuilder getOriginalText() {
         return originalText;
     }
 
     /**
-     * Copies the content of {@link #getText()} to the {@link StringBuilder} containing the original text with all
-     * tokens unchanged.
+     * Copies the content of {@link #getOriginalText()} to the {@link StringBuilder} containing the original
+     * text with all tokens unchanged.
      */
-    protected void saveOriginalText() {
+    protected void saveOriginalText(String text) {
         originalText.setLength(0);
-        originalText.insert(0, this.getText());
+        originalText.insert(0, text);
         originalText.trimToSize();
     }
 
@@ -156,7 +163,7 @@ public class TypingLabel extends Label {
      * parse the tokens again.
      */
     protected void restoreOriginalText() {
-        super.setText(originalText);
+        super.setText(originalText.toString());
         this.parsed = false;
     }
 
@@ -164,21 +171,21 @@ public class TypingLabel extends Label {
     /// --- External API --- ///
     ////////////////////////////
 
-    /** Returns the {@link com.github.tommyettinger.textra.TypingListener} associated with this label. May be {@code null}. */
-    public com.github.tommyettinger.textra.TypingListener getTypingListener() {
+    /** Returns the {@link TypingListener} associated with this label. May be {@code null}. */
+    public TypingListener getTypingListener() {
         return listener;
     }
 
-    /** Sets the {@link com.github.tommyettinger.textra.TypingListener} associated with this label, or {@code null} to remove the current one. */
-    public void setTypingListener(com.github.tommyettinger.textra.TypingListener listener) {
+    /** Sets the {@link TypingListener} associated with this label, or {@code null} to remove the current one. */
+    public void setTypingListener(TypingListener listener) {
         this.listener = listener;
     }
 
     /**
      * Returns a {@link Color} instance with the color to be used on {@code CLEARCOLOR} tokens. Modify this instance to
-     * change the token color. Default value is specified by {@link com.github.tommyettinger.textra.TypingConfig}.
+     * change the token color. Default value is specified by {@link TypingConfig}.
      *
-     * @see com.github.tommyettinger.textra.TypingConfig#DEFAULT_CLEAR_COLOR
+     * @see TypingConfig#DEFAULT_CLEAR_COLOR
      */
     public Color getClearColor() {
         return clearColor;
@@ -187,7 +194,7 @@ public class TypingLabel extends Label {
     /**
      * Sets whether or not this instance should enable markup color by force.
      *
-     * @see com.github.tommyettinger.textra.TypingConfig#FORCE_COLOR_MARKUP_BY_DEFAULT
+     * @see TypingConfig#FORCE_COLOR_MARKUP_BY_DEFAULT
      */
     public void setForceMarkupColor(boolean forceMarkupColor) {
         this.forceMarkupColor = forceMarkupColor;
@@ -210,8 +217,8 @@ public class TypingLabel extends Label {
 
     /** Parses all tokens of this label. Use this after setting the text and any variables that should be replaced. */
     public void parseTokens() {
-        this.setText(getDefaultToken() + getText(), false, false);
-        com.github.tommyettinger.textra.Parser.parseTokens(this);
+        this.setText(getDefaultToken() + originalText, false, false);
+        Parser.parseTokens(this);
         parsed = true;
     }
 
@@ -300,7 +307,7 @@ public class TypingLabel extends Label {
      */
     public void restart(CharSequence newText) {
         // Reset cache collections
-        com.github.tommyettinger.textra.GlyphUtils.freeAll(glyphCache);
+        GlyphUtils.freeAll(glyphCache);
         glyphCache.clear();
         glyphRunCapacities.clear();
         offsetCache.clear();
@@ -308,7 +315,7 @@ public class TypingLabel extends Label {
         activeEffects.clear();
 
         // Reset state
-        textSpeed = com.github.tommyettinger.textra.TypingConfig.DEFAULT_SPEED_PER_CHAR;
+        textSpeed = TypingConfig.DEFAULT_SPEED_PER_CHAR;
         charCooldown = textSpeed;
         rawCharIndex = -2;
         glyphCharIndex = -1;
@@ -351,9 +358,9 @@ public class TypingLabel extends Label {
     }
 
     /** Registers a set of variables and their respective replacement values to this label. */
-    public void setVariables(java.util.Map<String, String> variableMap) {
+    public void setVariables(Map<String, String> variableMap) {
         this.variables.clear();
-        for(java.util.Map.Entry<String, String> entry : variableMap.entrySet()) {
+        for(Map.Entry<String, String> entry : variableMap.entrySet()) {
             this.variables.put(entry.getKey().toUpperCase(), entry.getValue());
         }
     }
@@ -386,7 +393,7 @@ public class TypingLabel extends Label {
         // Restore glyph offsets
         if(activeEffects.size > 0) {
             for(int i = 0; i < glyphCache.size; i++) {
-                com.github.tommyettinger.textra.TypingGlyph glyph = glyphCache.get(i);
+                TypingGlyph glyph = glyphCache.get(i);
                 glyph.xoffset = offsetCache.get(i * 2);
                 glyph.yoffset = offsetCache.get(i * 2 + 1);
             }
@@ -395,7 +402,7 @@ public class TypingLabel extends Label {
         // Apply effects
         if(!ignoringEffects) {
             for(int i = activeEffects.size - 1; i >= 0; i--) {
-                com.github.tommyettinger.textra.Effect effect = activeEffects.get(i);
+                Effect effect = activeEffects.get(i);
                 effect.update(delta);
                 int start = effect.indexStart;
                 int end = effect.indexEnd >= 0 ? effect.indexEnd : glyphCharIndex;
@@ -408,7 +415,7 @@ public class TypingLabel extends Label {
 
                 // Apply effect to glyph
                 for(int j = Math.max(0, start); j <= glyphCharIndex && j <= end && j < glyphCache.size; j++) {
-                    com.github.tommyettinger.textra.TypingGlyph glyph = glyphCache.get(j);
+                    TypingGlyph glyph = glyphCache.get(j);
                     effect.apply(glyph, j, delta);
                 }
             }
@@ -445,7 +452,7 @@ public class TypingLabel extends Label {
             char primitiveChar = '\u0000'; // Null character by default
             if(getText().length > 0) {
                 primitiveChar = getText().charAt(safeIndex);
-                float intervalMultiplier = com.github.tommyettinger.textra.TypingConfig.INTERVAL_MULTIPLIERS_BY_CHAR.get(primitiveChar, 1);
+                float intervalMultiplier = TypingConfig.INTERVAL_MULTIPLIERS_BY_CHAR.get(primitiveChar, 1);
                 charCooldown += textSpeed * intervalMultiplier;
             }
 
@@ -472,9 +479,9 @@ public class TypingLabel extends Label {
 
             // Process tokens according to the current index
             while(tokenEntries.size > 0 && tokenEntries.peek().index == rawCharIndex) {
-                com.github.tommyettinger.textra.TokenEntry entry = tokenEntries.pop();
+                TokenEntry entry = tokenEntries.pop();
                 String token = entry.token;
-                com.github.tommyettinger.textra.TokenCategory category = entry.category;
+                TokenCategory category = entry.category;
 
                 // Process tokens
                 switch(category) {
@@ -503,12 +510,12 @@ public class TypingLabel extends Label {
                     case EFFECT_START:
                     case EFFECT_END: {
                         // Get effect class
-                        boolean isStart = category == com.github.tommyettinger.textra.TokenCategory.EFFECT_START;
-                        Class<? extends com.github.tommyettinger.textra.Effect> effectClass = isStart ? com.github.tommyettinger.textra.TypingConfig.EFFECT_START_TOKENS.get(token) : com.github.tommyettinger.textra.TypingConfig.EFFECT_END_TOKENS.get(token);
+                        boolean isStart = category == TokenCategory.EFFECT_START;
+                        Class<? extends Effect> effectClass = isStart ? TypingConfig.EFFECT_START_TOKENS.get(token) : TypingConfig.EFFECT_END_TOKENS.get(token);
 
                         // End all effects of the same type
                         for(int i = 0; i < activeEffects.size; i++) {
-                            com.github.tommyettinger.textra.Effect effect = activeEffects.get(i);
+                            Effect effect = activeEffects.get(i);
                             if(effect.indexEnd < 0) {
                                 if(ClassReflection.isAssignableFrom(effectClass, effect.getClass())) {
                                     effect.indexEnd = glyphCharIndex - 1;
@@ -544,7 +551,7 @@ public class TypingLabel extends Label {
 
             // Break loop if enough chars were processed
             charCounter++;
-            int charLimit = com.github.tommyettinger.textra.TypingConfig.CHAR_LIMIT_PER_FRAME;
+            int charLimit = TypingConfig.CHAR_LIMIT_PER_FRAME;
             if(!skipping && charLimit > 0 && charCounter > charLimit) {
                 charCooldown = Math.max(charCooldown, textSpeed);
                 break;
@@ -554,7 +561,7 @@ public class TypingLabel extends Label {
 
     @Override
     public boolean remove() {
-        com.github.tommyettinger.textra.GlyphUtils.freeAll(glyphCache);
+        GlyphUtils.freeAll(glyphCache);
         glyphCache.clear();
         return super.remove();
     }
@@ -691,7 +698,7 @@ public class TypingLabel extends Label {
         lastLayoutY = y;
 
         // Perform cache layout operation, where the magic happens
-        com.github.tommyettinger.textra.GlyphUtils.freeAll(glyphCache);
+        GlyphUtils.freeAll(glyphCache);
         glyphCache.clear();
         layoutCache();
     }
@@ -744,15 +751,15 @@ public class TypingLabel extends Label {
                 Glyph original = glyphs.get(j);
 
                 // Get clone glyph
-                com.github.tommyettinger.textra.TypingGlyph clone = null;
+                TypingGlyph clone = null;
                 if(index < glyphCache.size) {
                     clone = glyphCache.get(index);
                 }
                 if(clone == null) {
-                    clone = com.github.tommyettinger.textra.GlyphUtils.obtain();
+                    clone = GlyphUtils.obtain();
                     glyphCache.set(index, clone);
                 }
-                com.github.tommyettinger.textra.GlyphUtils.clone(original, clone);
+                GlyphUtils.clone(original, clone);
                 clone.width *= getFontScaleX();
                 clone.height *= getFontScaleY();
                 clone.xoffset *= getFontScaleX();
@@ -824,7 +831,7 @@ public class TypingLabel extends Label {
 
                 // Put new glyph to this run
                 cachedGlyphCharIndex++;
-                com.github.tommyettinger.textra.TypingGlyph glyph = glyphCache.get(cachedGlyphCharIndex);
+                TypingGlyph glyph = glyphCache.get(cachedGlyphCharIndex);
                 glyphs.add(glyph);
 
                 // Cache glyph's vertex index
@@ -847,7 +854,7 @@ public class TypingLabel extends Label {
         getBitmapFontCache().setText(getGlyphLayout(), lastLayoutX, lastLayoutY);
 
         // Tint glyphs
-        for(com.github.tommyettinger.textra.TypingGlyph glyph : glyphCache) {
+        for(TypingGlyph glyph : glyphCache) {
             if(glyph.internalIndex >= 0 && glyph.color != null) {
                 bitmapFontCache.setColors(glyph.color, glyph.internalIndex, glyph.internalIndex + 1);
             }

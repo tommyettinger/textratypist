@@ -4,13 +4,13 @@ package com.github.tommyettinger.textra;
 /** Container representing a token, parsed parameters and its position in text. */
 class TokenEntry implements Comparable<TokenEntry> {
     String        token;
-    com.github.tommyettinger.textra.TokenCategory category;
+    TokenCategory category;
     int           index;
     float         floatValue;
     String        stringValue;
     Effect        effect;
 
-    TokenEntry(String token, com.github.tommyettinger.textra.TokenCategory category, int index, float floatValue, String stringValue) {
+    TokenEntry(String token, TokenCategory category, int index, float floatValue, String stringValue) {
         this.token = token;
         this.category = category;
         this.index = index;

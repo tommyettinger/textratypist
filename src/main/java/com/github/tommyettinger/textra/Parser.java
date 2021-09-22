@@ -27,10 +27,10 @@ class Parser {
     /** Parses all tokens from the given {@link TypingLabel}. */
     static void parseTokens(TypingLabel label) {
         // Compile patterns if necessary
-        if(PATTERN_TOKEN_STRIP == null || com.github.tommyettinger.textra.TypingConfig.dirtyEffectMaps) {
+        if(PATTERN_TOKEN_STRIP == null || TypingConfig.dirtyEffectMaps) {
             PATTERN_TOKEN_STRIP = compileTokenPattern();
         }
-        if(RESET_REPLACEMENT == null || com.github.tommyettinger.textra.TypingConfig.dirtyEffectMaps) {
+        if(RESET_REPLACEMENT == null || TypingConfig.dirtyEffectMaps) {
             RESET_REPLACEMENT = getResetReplacement();
         }
 
@@ -110,7 +110,7 @@ class Parser {
 
                     // If replacement is still null, get value from global scope
                     if(replacement == null) {
-                        replacement = com.github.tommyettinger.textra.TypingConfig.GLOBAL_VARS.get(param.toUpperCase());
+                        replacement = TypingConfig.GLOBAL_VARS.get(param.toUpperCase());
                     }
 
                     // Make sure we're not inserting "null" to the text.
@@ -156,13 +156,13 @@ class Parser {
 
             // Get token name and category
             String tokenName = m.group(INDEX_TOKEN).toUpperCase();
-            com.github.tommyettinger.textra.TokenCategory tokenCategory = null;
+            TokenCategory tokenCategory = null;
             InternalToken tmpToken = InternalToken.fromName(tokenName);
             if(tmpToken == null) {
-                if(com.github.tommyettinger.textra.TypingConfig.EFFECT_START_TOKENS.containsKey(tokenName)) {
-                    tokenCategory = com.github.tommyettinger.textra.TokenCategory.EFFECT_START;
-                } else if(com.github.tommyettinger.textra.TypingConfig.EFFECT_END_TOKENS.containsKey(tokenName)) {
-                    tokenCategory = com.github.tommyettinger.textra.TokenCategory.EFFECT_END;
+                if(TypingConfig.EFFECT_START_TOKENS.containsKey(tokenName)) {
+                    tokenCategory = TokenCategory.EFFECT_START;
+                } else if(TypingConfig.EFFECT_END_TOKENS.containsKey(tokenName)) {
+                    tokenCategory = TokenCategory.EFFECT_END;
                 }
             } else {
                 tokenCategory = tmpToken.category;
@@ -189,7 +189,7 @@ class Parser {
 
             switch(tokenCategory) {
                 case WAIT: {
-                    floatValue = stringToFloat(firstParam, com.github.tommyettinger.textra.TypingConfig.DEFAULT_WAIT_VALUE);
+                    floatValue = stringToFloat(firstParam, TypingConfig.DEFAULT_WAIT_VALUE);
                     break;
                 }
                 case EVENT: {
@@ -200,31 +200,31 @@ class Parser {
                 case SPEED: {
                     switch(tokenName) {
                         case "SPEED":
-                            float minModifier = com.github.tommyettinger.textra.TypingConfig.MIN_SPEED_MODIFIER;
-                            float maxModifier = com.github.tommyettinger.textra.TypingConfig.MAX_SPEED_MODIFIER;
+                            float minModifier = TypingConfig.MIN_SPEED_MODIFIER;
+                            float maxModifier = TypingConfig.MAX_SPEED_MODIFIER;
                             float modifier = MathUtils.clamp(stringToFloat(firstParam, 1), minModifier, maxModifier);
-                            floatValue = com.github.tommyettinger.textra.TypingConfig.DEFAULT_SPEED_PER_CHAR / modifier;
+                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / modifier;
                             break;
                         case "SLOWER":
-                            floatValue = com.github.tommyettinger.textra.TypingConfig.DEFAULT_SPEED_PER_CHAR / 0.500f;
+                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / 0.500f;
                             break;
                         case "SLOW":
-                            floatValue = com.github.tommyettinger.textra.TypingConfig.DEFAULT_SPEED_PER_CHAR / 0.667f;
+                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / 0.667f;
                             break;
                         case "NORMAL":
-                            floatValue = com.github.tommyettinger.textra.TypingConfig.DEFAULT_SPEED_PER_CHAR;
+                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR;
                             break;
                         case "FAST":
-                            floatValue = com.github.tommyettinger.textra.TypingConfig.DEFAULT_SPEED_PER_CHAR / 2.000f;
+                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / 2.000f;
                             break;
                         case "FASTER":
-                            floatValue = com.github.tommyettinger.textra.TypingConfig.DEFAULT_SPEED_PER_CHAR / 4.000f;
+                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / 4.000f;
                             break;
                     }
                     break;
                 }
                 case EFFECT_START: {
-                    Class<? extends Effect> clazz = com.github.tommyettinger.textra.TypingConfig.EFFECT_START_TOKENS.get(tokenName.toUpperCase());
+                    Class<? extends Effect> clazz = TypingConfig.EFFECT_START_TOKENS.get(tokenName.toUpperCase());
                     try {
                         if(clazz != null) {
                             Constructor constructor = ClassReflection.getConstructors(clazz)[0];
@@ -270,7 +270,7 @@ class Parser {
         while(m.find()) {
             final String tag = m.group(0);
             final int index = m.start(0);
-            label.tokenEntries.add(new TokenEntry("SKIP", com.github.tommyettinger.textra.TokenCategory.SKIP, index, 0, tag));
+            label.tokenEntries.add(new TokenEntry("SKIP", TokenCategory.SKIP, index, 0, tag));
         }
     }
 
@@ -347,8 +347,8 @@ class Parser {
         StringBuilder sb = new StringBuilder();
         sb.append("\\{(");
         Array<String> tokens = new Array<>();
-        com.github.tommyettinger.textra.TypingConfig.EFFECT_START_TOKENS.keys().toArray(tokens);
-        com.github.tommyettinger.textra.TypingConfig.EFFECT_END_TOKENS.keys().toArray(tokens);
+        TypingConfig.EFFECT_START_TOKENS.keys().toArray(tokens);
+        TypingConfig.EFFECT_END_TOKENS.keys().toArray(tokens);
         for(InternalToken token : InternalToken.values()) {
             tokens.add(token.name);
         }
@@ -363,7 +363,7 @@ class Parser {
     /** Returns the replacement string intended to be used on {RESET} tokens. */
     private static String getResetReplacement() {
         Array<String> tokens = new Array<>();
-        com.github.tommyettinger.textra.TypingConfig.EFFECT_END_TOKENS.keys().toArray(tokens);
+        TypingConfig.EFFECT_END_TOKENS.keys().toArray(tokens);
         tokens.add("CLEARCOLOR");
         tokens.add("NORMAL");
 
