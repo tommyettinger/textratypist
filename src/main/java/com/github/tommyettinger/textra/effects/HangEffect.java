@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.IntFloatMap;
 import com.github.tommyettinger.textra.Effect;
-import com.github.tommyettinger.textra.TypingGlyph;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /** Hangs the text in midair and suddenly drops it. Doesn't repeat itself. */
@@ -33,7 +32,7 @@ public class HangEffect extends Effect {
     }
 
     @Override
-    protected void onApply(TypingGlyph glyph, int localIndex, float delta) {
+    protected void onApply(long glyph, int localIndex, float delta) {
         // Calculate real intensity
         float realIntensity = intensity * 1f * DEFAULT_INTENSITY;
 

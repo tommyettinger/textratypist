@@ -3,7 +3,6 @@ package com.github.tommyettinger.textra.effects;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.github.tommyettinger.textra.Effect;
-import com.github.tommyettinger.textra.TypingGlyph;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /** Makes the text jumps and falls as if there was gravity. */
@@ -41,7 +40,7 @@ public class JumpEffect extends Effect {
     }
 
     @Override
-    protected void onApply(TypingGlyph glyph, int localIndex, float delta) {
+    protected void onApply(long glyph, int localIndex, float delta) {
         // Calculate progress
         float progressModifier = (1f / intensity) * DEFAULT_INTENSITY;
         float normalFrequency = (1f / frequency) * DEFAULT_FREQUENCY;

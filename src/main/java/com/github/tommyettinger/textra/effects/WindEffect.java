@@ -1,9 +1,7 @@
 
 package com.github.tommyettinger.textra.effects;
 
-import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.textra.Effect;
-import com.github.tommyettinger.textra.TypingGlyph;
 import com.github.tommyettinger.textra.TypingLabel;
 import com.github.tommyettinger.textra.utils.NoiseUtils;
 
@@ -64,7 +62,7 @@ public class WindEffect extends Effect {
     }
 
     @Override
-    protected void onApply(TypingGlyph glyph, int localIndex, float delta) {
+    protected void onApply(long glyph, int localIndex, float delta) {
         // Calculate progress
         float progressModifier = DEFAULT_INTENSITY / intensity;
         float normalSpacing = DEFAULT_SPACING / spacing;

@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.IntFloatMap;
 import com.github.tommyettinger.textra.Effect;
-import com.github.tommyettinger.textra.TypingGlyph;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /** Moves the text vertically easing it into the final position. Doesn't repeat itself. */
@@ -39,7 +38,7 @@ public class EaseEffect extends Effect {
     }
 
     @Override
-    protected void onApply(TypingGlyph glyph, int localIndex, float delta) {
+    protected void onApply(long glyph, int localIndex, float delta) {
         // Calculate real intensity
         float realIntensity = intensity * (elastic ? 3f : 1f) * DEFAULT_INTENSITY;
 
