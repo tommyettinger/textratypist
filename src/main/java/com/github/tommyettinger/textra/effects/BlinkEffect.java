@@ -4,7 +4,6 @@ package com.github.tommyettinger.textra.effects;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.github.tommyettinger.textra.Effect;
-import com.github.tommyettinger.textra.TypingGlyph;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /** Blinks the entire text in two different colors at once, without interpolation. */
@@ -46,7 +45,7 @@ public class BlinkEffect extends Effect {
     }
 
     @Override
-    protected void onApply(TypingGlyph glyph, int localIndex, float delta) {
+    protected void onApply(long glyph, int localIndex, float delta) {
         // Calculate progress
         float frequencyMod = (1f / frequency) * DEFAULT_FREQUENCY;
         float progress = calculateProgress(frequencyMod);

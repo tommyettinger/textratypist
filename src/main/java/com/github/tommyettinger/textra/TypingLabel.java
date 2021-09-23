@@ -400,6 +400,7 @@ public class TypingLabel extends TextraLabel {
 
         // Apply effects
         if(!ignoringEffects) {
+            int workingLayoutSize = getLayoutSize(workingLayout);
             for(int i = activeEffects.size - 1; i >= 0; i--) {
                 Effect effect = activeEffects.get(i);
                 effect.update(delta);
@@ -413,7 +414,7 @@ public class TypingLabel extends TextraLabel {
                 }
 
                 // Apply effect to glyph
-                for(int j = Math.max(0, start); j <= glyphCharIndex && j <= end && j < workingLayout.size; j++) {
+                for(int j = Math.max(0, start); j <= glyphCharIndex && j <= end && j < workingLayoutSize; j++) {
                     long glyph = getInLayout(workingLayout, j);
                     if(glyph == 0xFFFF) break; // invalid char
                     effect.apply(glyph, j, delta);
@@ -670,19 +671,19 @@ public class TypingLabel extends TextraLabel {
 
         // Get runs
         Layout layout = super.layout;
-        Array<Line> runs = layout.lines;
+        Array<Line> lines = layout.lines;
 
         // Iterate through GlyphRuns to find the next glyph spot
         int glyphCount = 0;
-        for(int runIndex = 0; runIndex < lineCapacities.size; runIndex++) {
-            int runCapacity = lineCapacities.get(runIndex);
+        for(int lineIndex = 0; lineIndex < lineCapacities.size; lineIndex++) {
+            int runCapacity = lineCapacities.get(lineIndex);
             if((glyphCount + runCapacity) < cachedGlyphCharIndex) {
                 glyphCount += runCapacity;
                 continue;
             }
 
             // Get run and increase glyphCount up to its current size
-            Array<Glyph> glyphs = runs.get(runIndex).glyphs;
+            LongArray glyphs = lines.get(lineIndex).glyphs;
             glyphCount += glyphs.size;
 
             // Next glyphs go here
@@ -696,11 +697,8 @@ public class TypingLabel extends TextraLabel {
 
                 // Put new glyph to this run
                 cachedGlyphCharIndex++;
-                TypingGlyph glyph = workingLayout.get(cachedGlyphCharIndex);
+                long glyph = getInLayout(workingLayout, cachedGlyphCharIndex);
                 glyphs.add(glyph);
-
-                // Cache glyph's vertex index
-                glyph.internalIndex = glyphCount;
 
                 // Advance glyph count
                 glyphCount++;
@@ -713,10 +711,6 @@ public class TypingLabel extends TextraLabel {
     public void draw(Batch batch, float parentAlpha) {
         super.validate();
         addMissingGlyphs();
-
-        // Update cache with new glyphs
-        BitmapFontCache bitmapFontCache = getBitmapFontCache();
-        getBitmapFontCache().setText(getGlyphLayout(), lastLayoutX, lastLayoutY);
 
         super.draw(batch, parentAlpha);
     }

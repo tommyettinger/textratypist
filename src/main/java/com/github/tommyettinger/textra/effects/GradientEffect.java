@@ -3,7 +3,6 @@ package com.github.tommyettinger.textra.effects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.github.tommyettinger.textra.Effect;
-import com.github.tommyettinger.textra.TypingGlyph;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /** Tints the text in a gradient pattern. */
@@ -45,7 +44,7 @@ public class GradientEffect extends Effect {
     }
 
     @Override
-    protected void onApply(TypingGlyph glyph, int localIndex, float delta) {
+    protected void onApply(long glyph, int localIndex, float delta) {
         // Calculate progress
         float distanceMod = (1f / distance) * (1f - DEFAULT_DISTANCE);
         float frequencyMod = (1f / frequency) * DEFAULT_FREQUENCY;

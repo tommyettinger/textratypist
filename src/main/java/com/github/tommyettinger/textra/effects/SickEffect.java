@@ -4,7 +4,6 @@ package com.github.tommyettinger.textra.effects;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.IntArray;
 import com.github.tommyettinger.textra.Effect;
-import com.github.tommyettinger.textra.TypingGlyph;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /** Drips the text in a random pattern. */
@@ -38,7 +37,7 @@ public class SickEffect extends Effect {
     }
 
     @Override
-    protected void onApply(TypingGlyph glyph, int localIndex, float delta) {
+    protected void onApply(long glyph, int localIndex, float delta) {
         // Calculate progress
         float progressModifier = (1f / intensity) * DEFAULT_INTENSITY;
         float progressOffset = localIndex / DEFAULT_FREQUENCY;
