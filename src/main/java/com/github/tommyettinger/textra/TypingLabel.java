@@ -37,7 +37,6 @@ public class TypingLabel extends TextraLabel {
     private final Layout             workingLayout         = Pools.obtain(Layout.class);
     private final IntArray           lineCapacities        = new IntArray();
     private final FloatArray         offsets               = new FloatArray();
-    private final IntArray           layoutLineBreaks      = new IntArray();
     private final Array<Effect>      activeEffects         = new Array<Effect>();
     private       float              textSpeed             = TypingConfig.DEFAULT_SPEED_PER_CHAR;
     private       float              charCooldown          = textSpeed;
@@ -45,8 +44,6 @@ public class TypingLabel extends TextraLabel {
     private       int                glyphCharIndex        = -1; // Only renderable chars, excludes color codes
     private       int                glyphCharCompensation = 0;
     private       int                cachedGlyphCharIndex  = -1; // Last glyphCharIndex sent to the cache
-    private       float              lastLayoutX           = 0;
-    private       float              lastLayoutY           = 0;
     private       boolean            parsed                = false;
     private       boolean            paused                = false;
     private       boolean            ended                 = false;
@@ -306,7 +303,6 @@ public class TypingLabel extends TextraLabel {
         Pools.free(workingLayout);
         lineCapacities.clear();
         offsets.clear();
-        layoutLineBreaks.clear();
         activeEffects.clear();
 
         // Reset state
@@ -316,8 +312,6 @@ public class TypingLabel extends TextraLabel {
         glyphCharIndex = -1;
         glyphCharCompensation = 0;
         cachedGlyphCharIndex = -1;
-        lastLayoutX = 0;
-        lastLayoutY = 0;
         parsed = false;
         paused = false;
         ended = false;
@@ -458,15 +452,8 @@ public class TypingLabel extends TextraLabel {
                 return;
             }
 
-            // Detect layout line breaks
-            boolean isLayoutLineBreak = false;
-            if(layoutLineBreaks.contains(glyphCharIndex)) {
-                layoutLineBreaks.removeValue(glyphCharIndex);
-                isLayoutLineBreak = true;
-            }
-
-            // Increase glyph char index for all characters, except new lines.
-            if(rawCharIndex >= 0 && (char)baseChar != '\n' && !isLayoutLineBreak) glyphCharIndex++;
+            // Increase glyph char index for all characters (line breaks aren't chars here)
+            if(rawCharIndex >= 0) glyphCharIndex++;
 
             // Process tokens according to the current index
             while(tokenEntries.size > 0 && tokenEntries.peek().index == rawCharIndex) {
@@ -574,9 +561,6 @@ public class TypingLabel extends TextraLabel {
 
         // --- END OF SUPERCLASS IMPLEMENTATION ---
 
-        lastLayoutX = getX();
-        lastLayoutY = getY();
-
         // Perform cache layout operation, where the magic happens
         Pools.free(workingLayout);
         layoutCache();
@@ -589,9 +573,6 @@ public class TypingLabel extends TextraLabel {
     private void layoutCache() {
         Layout layout = super.layout;
         Array<Line> lines = layout.lines;
-
-        // Reset layout line breaks
-        layoutLineBreaks.clear();
 
         // Store Line sizes and count how many glyphs we have
         int glyphCount = 0;
