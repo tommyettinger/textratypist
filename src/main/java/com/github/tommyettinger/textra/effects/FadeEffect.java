@@ -43,7 +43,7 @@ public class FadeEffect extends Effect {
     }
 
     @Override
-    protected void onApply(long glyph, int localIndex, float delta) {
+    protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
         float progress = MathUtils.clamp(timePassed / fadeDuration, 0, 1);

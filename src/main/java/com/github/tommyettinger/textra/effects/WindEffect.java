@@ -62,7 +62,7 @@ public class WindEffect extends Effect {
     }
 
     @Override
-    protected void onApply(long glyph, int localIndex, float delta) {
+    protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate progress
         float progressModifier = DEFAULT_INTENSITY / intensity;
         float normalSpacing = DEFAULT_SPACING / spacing;

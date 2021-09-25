@@ -45,14 +45,13 @@ public class BlinkEffect extends Effect {
     }
 
     @Override
-    protected void onApply(long glyph, int localIndex, float delta) {
+    protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate progress
         float frequencyMod = (1f / frequency) * DEFAULT_FREQUENCY;
         float progress = calculateProgress(frequencyMod);
 
-        // Calculate color
-        if(glyph.color == null) glyph.color = new Color(Color.WHITE);
-        glyph.color.set(progress <= threshold ? color1 : color2);
+        // Calculate and assign color
+        label.setInLayout(label.layout, globalIndex, (glyph & 0xFFFFFFFFL) | Color.rgba8888(progress <= threshold ? color1 : color2));
     }
 
 }

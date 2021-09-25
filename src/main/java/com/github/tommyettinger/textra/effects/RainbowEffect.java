@@ -41,7 +41,7 @@ public class RainbowEffect extends Effect {
     }
 
     @Override
-    protected void onApply(long glyph, int localIndex, float delta) {
+    protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate progress
         float distanceMod = (1f / distance) * (1f - DEFAULT_DISTANCE);
         float frequencyMod = (1f / frequency) * DEFAULT_FREQUENCY;

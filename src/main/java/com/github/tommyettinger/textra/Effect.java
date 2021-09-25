@@ -25,11 +25,11 @@ public abstract class Effect {
     /** Applies the effect to the given glyph. */
     public final void apply(long glyph, int glyphIndex, float delta) {
         int localIndex = glyphIndex - indexStart;
-        onApply(glyph, localIndex, delta);
+        onApply(glyph, localIndex, glyphIndex, delta);
     }
 
     /** Called when this effect should be applied to the given glyph. */
-    protected abstract void onApply(long glyph, int localIndex, float delta);
+    protected abstract void onApply(long glyph, int localIndex, int globalIndex, float delta);
 
     /** Returns whether or not this effect is finished and should be removed. Note that effects are infinite by default. */
     public boolean isFinished() {
@@ -38,7 +38,7 @@ public abstract class Effect {
 
     /** Calculates the fadeout of this effect, if any. Only considers the second half of the duration. */
     protected float calculateFadeout() {
-        if(Float.isInfinite(duration)) return 1;
+        if(duration == Float.POSITIVE_INFINITY) return 1;
 
         // Calculate raw progress
         float progress = MathUtils.clamp(totalTime / duration, 0, 1);

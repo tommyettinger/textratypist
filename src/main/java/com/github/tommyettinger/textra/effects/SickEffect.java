@@ -37,7 +37,7 @@ public class SickEffect extends Effect {
     }
 
     @Override
-    protected void onApply(long glyph, int localIndex, float delta) {
+    protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate progress
         float progressModifier = (1f / intensity) * DEFAULT_INTENSITY;
         float progressOffset = localIndex / DEFAULT_FREQUENCY;
