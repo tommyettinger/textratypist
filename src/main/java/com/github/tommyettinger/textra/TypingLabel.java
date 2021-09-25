@@ -29,7 +29,6 @@ public class TypingLabel extends TextraLabel {
     // Config
     private final Color    clearColor = new Color(TypingConfig.DEFAULT_CLEAR_COLOR);
     private TypingListener listener   = null;
-    boolean forceMarkupColor = TypingConfig.FORCE_COLOR_MARKUP_BY_DEFAULT;
 
     // Internal state
     private final StringBuilder      originalText          = new StringBuilder();
@@ -182,15 +181,6 @@ public class TypingLabel extends TextraLabel {
      */
     public Color getClearColor() {
         return clearColor;
-    }
-
-    /**
-     * Sets whether or not this instance should enable markup color by force.
-     *
-     * @see TypingConfig#FORCE_COLOR_MARKUP_BY_DEFAULT
-     */
-    public void setForceMarkupColor(boolean forceMarkupColor) {
-        this.forceMarkupColor = forceMarkupColor;
     }
 
     /** Returns the default token being used in this label. Defaults to empty string. */
@@ -713,5 +703,17 @@ public class TypingLabel extends TextraLabel {
                 index -= glyphs.size;
         }
         return 0xFFFFFFL;
+    }
+
+    public void setInLayout(Layout layout, int index, long newGlyph){
+        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
+            LongArray glyphs = layout.getLine(i).glyphs;
+            if(index < glyphs.size) {
+                glyphs.set(index, newGlyph);
+                return;
+            }
+            else
+                index -= glyphs.size;
+        }
     }
 }

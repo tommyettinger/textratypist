@@ -38,7 +38,7 @@ public class SlideEffect extends Effect {
     }
 
     @Override
-    protected void onApply(long glyph, int localIndex, float delta) {
+    protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate real intensity
         float realIntensity = intensity * (elastic ? 3f : 1f) * DEFAULT_INTENSITY;
 

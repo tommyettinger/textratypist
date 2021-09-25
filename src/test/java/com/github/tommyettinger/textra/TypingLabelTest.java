@@ -52,7 +52,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         label = createTypingLabel();
 
         labelEvent = new TypingLabel("", skin);
-        labelEvent.setAlignment(Align.left, Align.center);
+        labelEvent.setAlignment(Align.left);
         labelEvent.pause();
         labelEvent.setVisible(false);
 
@@ -116,9 +116,6 @@ public class TypingLabelTest extends ApplicationAdapter {
         // Change color used by CLEARCOLOR token
         TypingConfig.DEFAULT_CLEAR_COLOR = Color.WHITE;
 
-        // Force bitmap fonts to use color markup
-        TypingConfig.FORCE_COLOR_MARKUP_BY_DEFAULT = true;
-
         // Create some global variables to handle style
         TypingConfig.GLOBAL_VARS.put("FIRE_WIND", "{FASTER}{GRADIENT=ORANGE;DB6600;-0.5;5}{SLOWER}{WIND=2;4;0.5;0.5}");
     }
@@ -140,11 +137,12 @@ public class TypingLabelTest extends ApplicationAdapter {
         text.append("{VAR=FIRE_WIND}Imagine the possibilities! =D {RESET}\n");
 
         // Create label
-        final TypingLabel label = new TypingLabel(text, skin);
+        final TypingLabel label = new TypingLabel(text.toString(), skin);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 
         // Make the label wrap to new lines, respecting the table's layout.
-        label.setWrap(true);
+        label.layout.maxLines = 15;
+        label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth());
 
         // Set variable replacements for the {VAR} token
         label.setVariable("title", "curious human");
