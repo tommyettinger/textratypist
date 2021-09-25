@@ -65,5 +65,24 @@ public class ColorUtils {
         float l = x * (1f - 0.5f * d / (x + 1e-10f));
         return Color.rgba8888(Math.abs(z + (w - y) / (6f * d + 1e-10f)), (x - l) / (Math.min(l, 1f - l) + 1e-10f), l, a);
     }
+    /**
+     * Interpolates from the RGBA8888 int color start towards end by change. Both start and end should be RGBA8888
+     * ints, and change can be between 0f (keep start) and 1f (only use end). This is a good way to reduce allocations
+     * of temporary Colors.
+     *
+     * @param s      the starting color as a packed int
+     * @param e      the end/target color as a packed int
+     * @param change how much to go from start toward end, as a float between 0 and 1; higher means closer to end
+     * @return an RGBA8888 int that represents a color between start and end
+     */
+    public static int lerpColors(final int s, final int e, final float change) {
+        final int
+                sR = (s & 0xFF), sG = (s >>> 8) & 0xFF, sB = (s >>> 16) & 0xFF, sA = s >>> 24 & 0xFF,
+                eR = (e & 0xFF), eG = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eA = e >>> 24 & 0xFF;
+        return (((int) (sR + change * (eR - sR)) & 0xFF)
+                | (((int) (sG + change * (eG - sG)) & 0xFF) << 8)
+                | (((int) (sB + change * (eB - sB)) & 0xFF) << 16)
+                | (((int) (sA + change * (eA - sA)) & 0xFF) << 24));
+    }
 
 }

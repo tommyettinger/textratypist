@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.IntFloatMap;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
+import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /** Fades the text's color from between colors or alphas. Doesn't repeat itself. */
 public class FadeEffect extends Effect {
@@ -48,23 +49,18 @@ public class FadeEffect extends Effect {
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
         float progress = MathUtils.clamp(timePassed / fadeDuration, 0, 1);
 
-        // Create glyph color if necessary
-        if(glyph.color == null) {
-            glyph.color = new Color(glyph.run.color);
-        }
-
         // Calculate initial color
         if(this.color1 == null) {
-            glyph.color.a = MathUtils.lerp(glyph.color.a, this.alpha1, 1f - progress);
+            glyph = (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha1 * 255, 1f - progress) << 32;
         } else {
-            glyph.color.lerp(this.color1, 1f - progress);
+            glyph = (glyph & 0xFFFFFFFFL) | ColorUtils.lerpColors((int)(glyph >>> 32), Color.rgba8888(this.color1), 1f - progress);
         }
 
         // Calculate final color
         if(this.color2 == null) {
-            glyph.color.a = MathUtils.lerp(glyph.color.a, this.alpha2, progress);
+            glyph = (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha2 * 255, progress) << 32;
         } else {
-            glyph.color.lerp(this.color2, progress);
+            glyph = (glyph & 0xFFFFFFFFL) | ColorUtils.lerpColors((int)(glyph >>> 32), Color.rgba8888(this.color2), progress);
         }
     }
 
