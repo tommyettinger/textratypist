@@ -2,10 +2,6 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.Glyph;
-import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout.GlyphRun;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -14,6 +10,7 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 import java.lang.StringBuilder;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -387,16 +384,6 @@ public class TypingLabel extends TextraLabel {
                 processCharProgression();
             }
         }
-//TODO: make drawing use a FloatArray of x offset and y offset pairs.
-
-//        // Restore glyph offsets
-//        if(activeEffects.size > 0) {
-//            for(int i = 0; i < workingLayout.size; i++) {
-//                TypingGlyph glyph = workingLayout.get(i);
-//                glyph.xoffset = offsetCache.get(i * 2);
-//                glyph.yoffset = offsetCache.get(i * 2 + 1);
-//            }
-//        }
 
         // Apply effects
         if(!ignoringEffects) {
@@ -416,7 +403,7 @@ public class TypingLabel extends TextraLabel {
                 // Apply effect to glyph
                 for(int j = Math.max(0, start); j <= glyphCharIndex && j <= end && j < workingLayoutSize; j++) {
                     long glyph = getInLayout(workingLayout, j);
-                    if(glyph == 0xFFFF) break; // invalid char
+                    if(glyph == 0xFFFFFFL) break; // invalid char
                     effect.apply(glyph, j, delta);
                 }
             }
@@ -596,8 +583,8 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * Reallocate glyph clones according to the updated {@link GlyphLayout}. This should only be called when the text or
-     * the layout changes.
+     * Ensures that there are enough offsets and that they are all initialized; also sets the line capacities.
+     * This should only be called when the text or the layout changes.
      */
     private void layoutCache() {
         Layout layout = super.layout;
@@ -606,7 +593,7 @@ public class TypingLabel extends TextraLabel {
         // Reset layout line breaks
         layoutLineBreaks.clear();
 
-        // Store GlyphRun sizes and count how many glyphs we have
+        // Store Line sizes and count how many glyphs we have
         int glyphCount = 0;
         lineCapacities.setSize(lines.size);
         for(int i = 0; i < lines.size; i++) {
@@ -615,31 +602,9 @@ public class TypingLabel extends TextraLabel {
             glyphCount += size;
         }
 
-        int workingLayoutSize = getLayoutSize(workingLayout);
-
-        // Make sure our cache array can hold all glyphs
-        if(workingLayoutSize < glyphCount) {
-            offsets.setSize(glyphCount * 2);
-        }
-
-        // Clone original glyphs with independent instances
-        int index = -1;
-        float lastY = 0;
-        for(int i = 0; i < lines.size; i++) {
-            Line run = lines.get(i);
-            LongArray glyphs = run.glyphs;
-            for(int j = 0; j < glyphs.size; j++) {
-                // Increment index
-                index++;
-
-                // Get original glyph
-                long original = glyphs.get(j);
-
-                // Store offset data
-                offsets.set(index * 2, 0);
-                offsets.set(index * 2 + 1, 0);
-            }
-        }
+        // Ensure there are enough x and y offset entries, and that they are all 0
+        offsets.ensureCapacity(glyphCount * 2);
+        Arrays.fill(offsets.items, 0, glyphCount * 2, 0f);
 
         // Remove exceeding glyphs from original array
         int glyphCountdown = glyphCharIndex;
@@ -673,7 +638,7 @@ public class TypingLabel extends TextraLabel {
         Layout layout = super.layout;
         Array<Line> lines = layout.lines;
 
-        // Iterate through GlyphRuns to find the next glyph spot
+        // Iterate through Lines to find the next glyph spot
         int glyphCount = 0;
         for(int lineIndex = 0; lineIndex < lineCapacities.size; lineIndex++) {
             int runCapacity = lineCapacities.get(lineIndex);
@@ -711,8 +676,33 @@ public class TypingLabel extends TextraLabel {
     public void draw(Batch batch, float parentAlpha) {
         super.validate();
         addMissingGlyphs();
-
-        super.draw(batch, parentAlpha);
+        batch.setColor(1f, 1f, 1f, parentAlpha);
+        final int lines = layout.lines();
+        float baseX = getX(align), baseY = getY(align);
+        for (int ln = 0; ln < lines; ln++) {
+            Line glyphs = layout.getLine(ln);
+            float x = baseX, y = baseY;
+            if(Align.isCenterHorizontal(align))
+                x -= glyphs.width * 0.5f;
+            else if(Align.isRight(align))
+                x -= glyphs.width;
+            if(font.kerning != null) {
+                int kern = -1;
+                float amt;
+                long glyph;
+                for (int i = 0, o = 0, n = glyphs.glyphs.size; i < n; i++) {
+                    kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
+                    amt = font.kerning.get(kern, 0) * font.scaleX;
+                    x += font.drawGlyph(batch, glyph, x + amt + offsets.get(o++), y + offsets.get(o++)) + amt;
+                }
+            }
+            else {
+                for (int i = 0, o = 0, n = glyphs.glyphs.size; i < n; i++) {
+                    x += font.drawGlyph(batch, glyphs.glyphs.get(i), x + offsets.get(o++), y + offsets.get(o++));
+                }
+            }
+            baseY -= font.cellHeight;
+        }
     }
 
     public void setIntermediateText(CharSequence text, boolean modifyOriginalText, boolean restart) {
@@ -741,6 +731,6 @@ public class TypingLabel extends TextraLabel {
             else
                 index -= glyphs.size;
         }
-        return 0xFFFFL;
+        return 0xFFFFFFL;
     }
 }
