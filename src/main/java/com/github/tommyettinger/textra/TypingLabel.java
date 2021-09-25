@@ -31,25 +31,25 @@ public class TypingLabel extends TextraLabel {
     private TypingListener listener   = null;
 
     // Internal state
-    private final StringBuilder      originalText          = new StringBuilder();
-    private final StringBuilder      intermediateText      = new StringBuilder();
-    private final Layout             workingLayout         = Pools.obtain(Layout.class);
-    private final IntArray           lineCapacities        = new IntArray();
-    private final FloatArray         offsets               = new FloatArray();
-    private final Array<Effect>      activeEffects         = new Array<Effect>();
-    private       float              textSpeed             = TypingConfig.DEFAULT_SPEED_PER_CHAR;
-    private       float              charCooldown          = textSpeed;
-    private       int                rawCharIndex          = -2; // All chars, including color codes
-    private       int                glyphCharIndex        = -1; // Only renderable chars, excludes color codes
-    private       int                glyphCharCompensation = 0;
-    private       int                cachedGlyphCharIndex  = -1; // Last glyphCharIndex sent to the cache
-    private       boolean            parsed                = false;
-    private       boolean            paused                = false;
-    private       boolean            ended                 = false;
-    private       boolean            skipping              = false;
-    private       boolean            ignoringEvents        = false;
-    private       boolean            ignoringEffects       = false;
-    private       String             defaultToken          = "";
+    private final   StringBuilder    originalText          = new StringBuilder();
+    private final   StringBuilder    intermediateText      = new StringBuilder();
+    private final   Layout           workingLayout         = Pools.obtain(Layout.class);
+    private final   IntArray         lineCapacities        = new IntArray();
+    public final    FloatArray       offsets               = new FloatArray();
+    private final   Array<Effect>    activeEffects         = new Array<Effect>();
+    private         float            textSpeed             = TypingConfig.DEFAULT_SPEED_PER_CHAR;
+    private         float            charCooldown          = textSpeed;
+    private         int              rawCharIndex          = -2; // All chars, including color codes
+    private         int              glyphCharIndex        = -1; // Only renderable chars, excludes color codes
+    private         int              glyphCharCompensation = 0;
+    private         int              cachedGlyphCharIndex  = -1; // Last glyphCharIndex sent to the cache
+    private         boolean          parsed                = false;
+    private         boolean          paused                = false;
+    private         boolean          ended                 = false;
+    private         boolean          skipping              = false;
+    private         boolean          ignoringEvents        = false;
+    private         boolean          ignoringEffects       = false;
+    private         String           defaultToken          = "";
 
     // Superclass mirroring
     boolean wrap;
