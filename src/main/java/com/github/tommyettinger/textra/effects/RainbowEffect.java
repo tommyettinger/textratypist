@@ -47,11 +47,7 @@ public class RainbowEffect extends Effect {
         float frequencyMod = (1f / frequency) * DEFAULT_FREQUENCY;
         float progress = calculateProgress(frequencyMod, distanceMod * localIndex, false);
 
-        // Calculate color
-        if(glyph.color == null) {
-            glyph.color = new Color(Color.WHITE);
-        }
-        Color.rgba8888ToColor(glyph.color, ColorUtils.hsl2rgb(progress, saturation, brightness, 1f));
+        label.setInLayout(label.layout, globalIndex, (glyph & 0xFFFFFFFFL) | (long)ColorUtils.hsl2rgb(progress, saturation, brightness, 1f) << 32);
     }
 
 }
