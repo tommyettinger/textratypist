@@ -52,7 +52,6 @@ public class EaseEffect extends Effect {
         float y = getLineHeight() * distance * interpolatedValue * DEFAULT_DISTANCE;
 
         label.offsets.incr(globalIndex << 1 | 1, y);
-        // Apply changes
     }
 
 }

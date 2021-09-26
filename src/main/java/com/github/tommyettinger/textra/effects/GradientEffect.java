@@ -4,6 +4,7 @@ package com.github.tommyettinger.textra.effects;
 import com.badlogic.gdx.graphics.Color;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
+import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /** Tints the text in a gradient pattern. */
 public class GradientEffect extends Effect {
@@ -51,8 +52,8 @@ public class GradientEffect extends Effect {
         float progress = calculateProgress(frequencyMod, distanceMod * localIndex, true);
 
         // Calculate color
-        if(glyph.color == null) glyph.color = new Color(Color.WHITE);
-        glyph.color.set(color1).lerp(color2, progress);
+        label.setInLayout(label.layout, globalIndex,
+                (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors(Color.rgba8888(this.color1), Color.rgba8888(this.color2), progress) << 32);
     }
 
 }
