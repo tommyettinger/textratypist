@@ -51,16 +51,20 @@ public class FadeEffect extends Effect {
 
         // Calculate initial color
         if(this.color1 == null) {
-            glyph = (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha1 * 255, 1f - progress) << 32;
+            label.setInLayout(label.layout, globalIndex,
+                    (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha1 * 255, 1f - progress) << 32);
         } else {
-            glyph = (glyph & 0xFFFFFFFFL) | ColorUtils.lerpColors((int)(glyph >>> 32), Color.rgba8888(this.color1), 1f - progress);
+            label.setInLayout(label.layout, globalIndex,
+                    (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors((int)(glyph >>> 32), Color.rgba8888(this.color1), 1f - progress) << 32);
         }
 
         // Calculate final color
         if(this.color2 == null) {
-            glyph = (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha2 * 255, progress) << 32;
+            label.setInLayout(label.layout, globalIndex,
+                    (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha2 * 255, progress) << 32);
         } else {
-            glyph = (glyph & 0xFFFFFFFFL) | ColorUtils.lerpColors((int)(glyph >>> 32), Color.rgba8888(this.color2), progress);
+            label.setInLayout(label.layout, globalIndex,
+                    (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors((int)(glyph >>> 32), Color.rgba8888(this.color2), progress) << 32);
         }
     }
 
