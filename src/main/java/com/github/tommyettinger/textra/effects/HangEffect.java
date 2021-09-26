@@ -56,7 +56,7 @@ public class HangEffect extends Effect {
         y *= fadeout;
 
         // Apply changes
-        glyph.yoffset += y;
+        label.offsets.incr(globalIndex << 1 | 1, y);
     }
 
 }

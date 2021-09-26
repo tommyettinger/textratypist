@@ -62,7 +62,7 @@ public class JumpEffect extends Effect {
         y *= fadeout;
 
         // Apply changes
-        glyph.yoffset += y;
+        label.offsets.incr(globalIndex << 1 | 1, y);
     }
 
 }
