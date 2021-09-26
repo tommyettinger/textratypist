@@ -88,7 +88,7 @@ public class WindEffect extends Effect {
         x = Math.abs(x) * -Math.signum(distanceX);
 
         // Apply changes
-        glyph.xoffset += x;
-        glyph.yoffset += y;
+        label.offsets.incr(globalIndex << 1, x);
+        label.offsets.incr(globalIndex << 1 | 1, y);
     }
 }

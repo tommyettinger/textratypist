@@ -52,7 +52,7 @@ public class SlideEffect extends Effect {
         float x = getLineHeight() * distance * interpolatedValue * DEFAULT_DISTANCE;
 
         // Apply changes
-        glyph.xoffset += x;
+        label.offsets.incr(globalIndex << 1, x);
     }
 
 }
