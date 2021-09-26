@@ -68,8 +68,8 @@ public class ShakeEffect extends Effect {
         lastOffsets.set(localIndex * 2 + 1, y);
 
         // Apply changes
-        glyph.xoffset += x;
-        glyph.yoffset += y;
+        label.offsets.incr(globalIndex << 1, x);
+        label.offsets.incr(globalIndex << 1 | 1, y);
     }
 
 }
