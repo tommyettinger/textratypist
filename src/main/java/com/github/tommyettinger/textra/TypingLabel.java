@@ -553,6 +553,10 @@ public class TypingLabel extends TextraLabel {
 
         // --- END OF SUPERCLASS IMPLEMENTATION ---
 
+        for (int i = 0; i < layout.lines(); i++) {
+            workingLayout.lines.get(i).glyphs.clear();
+            workingLayout.lines.get(i).glyphs.addAll(layout.lines.get(i).glyphs);
+        }
         layoutCache();
     }
 
@@ -561,21 +565,7 @@ public class TypingLabel extends TextraLabel {
      * This should only be called when the text or the layout changes.
      */
     private void layoutCache() {
-        Layout layout = super.layout;
-        Array<Line> lines = layout.lines;
-
-        // Store Line sizes and count how many glyphs we have
-        int glyphCount = 0;
-        lineCapacities.setSize(lines.size);
-        for(int i = 0; i < lines.size; i++) {
-            int size = lines.get(i).glyphs.size;
-            lineCapacities.set(i, size);
-            glyphCount += size;
-        }
-
-        // Ensure there are enough x and y offset entries, and that they are all 0
-        offsets.ensureCapacity(glyphCount * 2);
-        Arrays.fill(offsets.items, 0, glyphCount * 2, 0f);
+        Array<Line> lines = workingLayout.lines;
 
         // Remove exceeding glyphs from original array
         int glyphCountdown = glyphCharIndex;
@@ -594,6 +584,19 @@ public class TypingLabel extends TextraLabel {
                 glyphCountdown--;
             }
         }
+
+        // Store Line sizes and count how many glyphs we have
+        int glyphCount = 0;
+        lineCapacities.setSize(layout.lines.size);
+        for(int i = 0; i < layout.lines.size; i++) {
+            int size = layout.lines.get(i).glyphs.size;
+            lineCapacities.set(i, size);
+            glyphCount += size;
+        }
+
+        // Ensure there are enough x and y offset entries, and that they are all 0
+        offsets.setSize(glyphCount * 2);
+        Arrays.fill(offsets.items, 0, glyphCount * 2, 0f);
     }
 
     /** Adds cached glyphs to the active BitmapFontCache as the char index progresses. */
@@ -603,8 +606,7 @@ public class TypingLabel extends TextraLabel {
         if(glyphLeft < 1) return;
 
         // Get runs
-        Layout layout = super.layout;
-        Array<Line> lines = layout.lines;
+        Array<Line> lines = workingLayout.lines;
 
         // Iterate through Lines to find the next glyph spot
         int glyphCount = 0;
@@ -630,8 +632,8 @@ public class TypingLabel extends TextraLabel {
 
                 // Put new glyph to this run
                 cachedGlyphCharIndex++;
-                long glyph = getInLayout(workingLayout, cachedGlyphCharIndex);
-                glyphs.add(glyph);
+                long glyph = getInLayout(layout, cachedGlyphCharIndex);
+                workingLayout.add(glyph);
 
                 // Advance glyph count
                 glyphCount++;
@@ -645,10 +647,10 @@ public class TypingLabel extends TextraLabel {
         super.validate();
         addMissingGlyphs();
         batch.setColor(1f, 1f, 1f, parentAlpha);
-        final int lines = layout.lines();
+        final int lines = workingLayout.lines();
         float baseX = getX(align), baseY = getY(align);
         for (int ln = 0; ln < lines; ln++) {
-            Line glyphs = layout.getLine(ln);
+            Line glyphs = workingLayout.getLine(ln);
             float x = baseX, y = baseY;
             if(Align.isCenterHorizontal(align))
                 x -= glyphs.width * 0.5f;
