@@ -310,8 +310,8 @@ public class TypingLabel extends TextraLabel {
         ignoringEffects = false;
 
         // Set new text
-        this.setText(newText, true, false);
         invalidate();
+        saveOriginalText(newText);
 
         // Parse tokens
         tokenEntries.clear();
