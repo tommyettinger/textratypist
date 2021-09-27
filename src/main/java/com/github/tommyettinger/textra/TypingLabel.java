@@ -145,8 +145,10 @@ public class TypingLabel extends TextraLabel {
      * text with all tokens unchanged.
      */
     protected void saveOriginalText(CharSequence text) {
-        originalText.setLength(0);
-        originalText.insert(0, text);
+        if(text != originalText) {
+            originalText.setLength(0);
+            originalText.insert(0, text);
+        }
         originalText.trimToSize();
     }
 
@@ -551,8 +553,6 @@ public class TypingLabel extends TextraLabel {
 
         // --- END OF SUPERCLASS IMPLEMENTATION ---
 
-        // Perform cache layout operation, where the magic happens
-        Pools.free(workingLayout);
         layoutCache();
     }
 
@@ -594,9 +594,6 @@ public class TypingLabel extends TextraLabel {
                 glyphCountdown--;
             }
         }
-
-        layout.clear();
-        layout.lines.addAll(workingLayout.lines);
     }
 
     /** Adds cached glyphs to the active BitmapFontCache as the char index progresses. */
@@ -678,8 +675,10 @@ public class TypingLabel extends TextraLabel {
 
     public void setIntermediateText(CharSequence text, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
-        intermediateText.setLength(0);
-        intermediateText.append(text);
+        if(text != intermediateText) {
+            intermediateText.setLength(0);
+            intermediateText.append(text);
+        }
         intermediateText.trimToSize();
         if(modifyOriginalText) saveOriginalText(text);
         if(restart) {
