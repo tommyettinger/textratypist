@@ -26,7 +26,6 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     Stage       stage;
     SpriteBatch batch;
     TypingLabel label;
-    TypingLabel labelEvent;
     TextButton  buttonPause;
     TextButton  buttonResume;
     TextButton  buttonRestart;
@@ -50,11 +49,6 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         table.setFillParent(true);
 
         label = createTypingLabel();
-
-        labelEvent = new TypingLabel("", skin);
-        labelEvent.setAlignment(Align.left);
-        labelEvent.pause();
-        labelEvent.setVisible(false);
 
         buttonPause = new TextButton("Pause", skin);
         buttonPause.addListener(new ClickListener() {
@@ -102,7 +96,6 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         table.pad(50f);
         table.add(label).colspan(5).growX();
         table.row();
-        table.add(labelEvent).colspan(5).align(Align.center);
         table.row().uniform().expand().growX().space(40).center();
         table.add(buttonPause, buttonResume, buttonRestart, buttonSkip, buttonRebuild);
 
@@ -122,7 +115,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 
     public TypingLabel createTypingLabel() {
         // Create label
-        final TypingLabel label = new TypingLabel("{WAIT=1}{SLOWER}Welcome, {VAR=title}!", skin);
+        final TypingLabel label = new TypingLabel("Welcome, you!", skin);
+//        final TypingLabel label = new TypingLabel("{WAIT=1}{SLOWER}Welcome, {VAR=title}!", skin);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 
         // Make the label wrap to new lines, respecting the table's layout.
@@ -137,18 +131,6 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
             @Override
             public void event(String event) {
                 System.out.println("Event: " + event);
-
-                labelEvent.restart("{FADE}{SLIDE=2;1;1}{FASTER}{COLOR=GRAY}Event:{WAIT=0.1}{COLOR=LIME} " + event);
-                labelEvent.clearActions();
-                labelEvent.addAction(
-                    sequence(
-                        visible(true),
-                        alpha(0),
-                        alpha(1, 0.25f, Interpolation.pow2In),
-                        delay(0.5f),
-                        alpha(0, 2f, Interpolation.pow2)
-                    )
-                );
             }
 
             @Override
