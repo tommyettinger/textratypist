@@ -435,7 +435,7 @@ public class TypingLabel extends TextraLabel {
 
             // If char progression is finished, or if text is empty, notify listener and abort routine
             int textLen = layoutSize;
-            if(textLen == 0 || rawCharIndex >= textLen) {
+            if(textLen == 0 || glyphCharIndex >= textLen) {
                 if(!ended) {
                     ended = true;
                     skipping = false;
