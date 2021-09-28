@@ -18,7 +18,7 @@ public class TypingAdapter implements TypingListener {
     }
 
     @Override
-    public void onChar(Character ch) {
+    public void onChar(Long ch) {
     }
 
 }

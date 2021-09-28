@@ -51,19 +51,19 @@ public class FadeEffect extends Effect {
 
         // Calculate initial color
         if(this.color1 == null) {
-            label.setInLayout(label.layout, globalIndex,
+            label.setInLayouts(globalIndex,
                     (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha1 * 255, 1f - progress) << 32);
         } else {
-            label.setInLayout(label.layout, globalIndex,
+            label.setInLayouts(globalIndex,
                     (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors((int)(glyph >>> 32), Color.rgba8888(this.color1), 1f - progress) << 32);
         }
 
         // Calculate final color
         if(this.color2 == null) {
-            label.setInLayout(label.layout, globalIndex,
+            label.setInLayouts(globalIndex,
                     (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha2 * 255, progress) << 32);
         } else {
-            label.setInLayout(label.layout, globalIndex,
+            label.setInLayouts(globalIndex,
                     (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors((int)(glyph >>> 32), Color.rgba8888(this.color2), progress) << 32);
         }
     }
