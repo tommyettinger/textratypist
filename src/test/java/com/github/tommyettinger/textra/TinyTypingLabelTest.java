@@ -112,7 +112,9 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 
     public TypingLabel createTypingLabel() {
         // Create label
-        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!",
+        final TypingLabel label = new TypingLabel("JUNGLE TO THE WELCOME, WE'VE GOT A MAN, A PLAN, A CANAL: PANAMA!",
+//        final TypingLabel label = new TypingLabel("[/][*][GREEN]JUNGLE[*][WHITE] TO THE[/] WELCOME!",
+//        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!",
                 new Font(new BitmapFont(Gdx.files.internal("OpenSans.fnt")), Font.DistanceFieldType.STANDARD,
                         0f, 0f, 0f, 0f).scale(0.5f, 0.5f).setTextureFilter());
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!", skin);
@@ -157,6 +159,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.draw();
+        Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
 
     @Override

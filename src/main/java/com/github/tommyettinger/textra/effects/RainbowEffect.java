@@ -14,7 +14,7 @@ public class RainbowEffect extends Effect {
     private float distance   = 1; // How extensive the rainbow effect should be.
     private float frequency  = 1; // How frequently the color pattern should move through the text.
     private float saturation = 1; // Color saturation
-    private float brightness = 1; // Color brightness
+    private float brightness = 0.5f; // Color brightness
 
     public RainbowEffect(TypingLabel label, String[] params) {
         super(label);
@@ -36,7 +36,7 @@ public class RainbowEffect extends Effect {
 
         // Brightness
         if(params.length > 3) {
-            this.brightness = paramAsFloat(params[3], 1);
+            this.brightness = paramAsFloat(params[3], 0.5f);
         }
     }
 
@@ -47,7 +47,7 @@ public class RainbowEffect extends Effect {
         float frequencyMod = (1f / frequency) * DEFAULT_FREQUENCY;
         float progress = calculateProgress(frequencyMod, distanceMod * localIndex, false);
 
-        label.setInLayout(label.layout, globalIndex, (glyph & 0xFFFFFFFFL) | (long)ColorUtils.hsl2rgb(progress, saturation, brightness, 1f) << 32);
+        label.setInLayouts(globalIndex, (glyph & 0xFFFFFFFFL) | (long)ColorUtils.hsl2rgb(progress, saturation, brightness, 1f) << 32);
     }
 
 }

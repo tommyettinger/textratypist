@@ -7,6 +7,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -51,7 +52,9 @@ public class TypingLabelTest extends ApplicationAdapter {
 
         label = createTypingLabel();
 
-        labelEvent = new TypingLabel("", skin);
+        labelEvent = new TypingLabel("",
+                new Font(new BitmapFont(Gdx.files.internal("OpenSans.fnt")), Font.DistanceFieldType.STANDARD,
+                        0f, 0f, 0f, 0f).scale(0.5f, 0.5f).setTextureFilter());
         labelEvent.setAlignment(Align.left);
         labelEvent.pause();
         labelEvent.setVisible(false);
@@ -123,18 +126,20 @@ public class TypingLabelTest extends ApplicationAdapter {
     public TypingLabel createTypingLabel() {
         // Create text with tokens
         final StringBuilder text = new StringBuilder();
-        text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}Welcome,{WAIT} {VAR=title}!{ENDEASE}");
-        text.append("{FAST}\n\n");
-        text.append("{RESET}{HANG=0.7}This is a simple test{ENDHANG} to show you");
-        text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {JUMP}how to make dialogues {SLOW}fun again! {ENDJUMP}{WAIT}{ENDGRADIENT}\n");
-        text.append("{NORMAL}{CLEARCOLOR}{SICK} With this library{ENDSICK} you can control the flow of the text with");
-        text.append(" {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
-        text.append("{SPEED=2.50}{COLOR=#84DD60} making the text go {SHAKE=1;1;3}really fast{ENDSHAKE}{WAIT=0.5} ");
-        text.append("{SPEED=0.25}{COLOR=#A6E22D}{WAVE=0.66}or extremely slow.{ENDWAVE}");
+//        text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}Welcome,{WAIT} {VAR=title}!");
+//        text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}Welcome,{WAIT} {VAR=title}!{ENDEASE}");
+//        text.append("{FAST}\n\n");
+//        text.append("{RESET}{HANG=0.7}This is a simple test{ENDHANG} to show you");
+//        text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {JUMP}how to make dialogues {SLOW}fun again! {ENDJUMP}{WAIT}{ENDGRADIENT}\n");
+//        text.append("{NORMAL}{CLEARCOLOR}{SICK} With this library{ENDSICK} you can control the flow of the text with");
+//        text.append(" {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
+//        text.append("{SPEED=2.50}{COLOR=#84DD60} making the text go {SHAKE=1;1;3}really fast{ENDSHAKE}{WAIT=0.5} ");
+//        text.append("{SPEED=0.25}{COLOR=#A6E22D}{WAVE=0.66}or extremely slow.{ENDWAVE}");
         text.append("{RESET} You can also wait for a {EASE=-15;2;1}second{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
-        text.append("{RAINBOW=1;1;0.7} just to catch an event in code{EVENT=example}!{WAIT} {ENDHANG}{ENDRAINBOW}");
-        text.append("{NORMAL}\n\n");
-        text.append("{VAR=FIRE_WIND}Imagine the possibilities! =D {RESET}\n");
+//        text.append("{COLOR=SKY} just to catch an event in code{EVENT=example}!{WAIT} {ENDHANG}{ENDRAINBOW}");
+        text.append("{RAINBOW=1;1;0.7;0.5} just to catch an event in code{EVENT=example}!{WAIT} {ENDHANG}{ENDRAINBOW}");
+//        text.append("{NORMAL}\n\n");
+//        text.append("{VAR=FIRE_WIND}Imagine the possibilities! =D {RESET}\n");
 
         // Create label
         final TypingLabel label = new TypingLabel(text.toString(), skin);
