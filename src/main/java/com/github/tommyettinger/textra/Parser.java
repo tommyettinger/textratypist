@@ -133,6 +133,26 @@ class Parser {
         label.setIntermediateText(text, false, false);
     }
 
+
+    /**
+     * Scans repeatedly in {@code source} for the codepoint {@code search} (which is usually a char literal), not
+     * scanning the same section twice, and returns the number of instances of search that were found, or 0 if source is
+     * null.
+     * @param source a String to look through
+     * @param search a codepoint or char to look for
+     * @return the number of times search was found in source
+     */
+    public static int count(final String source, final int search, final int endIndex)
+    {
+        if(source == null || source.isEmpty())
+            return 0;
+        int amount = 0, idx = -1;
+        while ((idx = source.indexOf(search, idx+1)) >= 0 && idx < endIndex)
+            ++amount;
+        return amount;
+    }
+
+
     /** Parses regular tokens that don't need replacement and register their indexes in the {@link TypingLabel}. */
     private static void parseRegularTokens(TypingLabel label) {
         // Get text
@@ -172,7 +192,7 @@ class Parser {
             final String paramsString = groupCount == INDEX_PARAM ? m.group(INDEX_PARAM) : null;
             final String[] params = paramsString == null ? new String[0] : paramsString.split(";");
             final String firstParam = params.length > 0 ? params[0] : null;
-            final int index = m.start(0);
+            final int index = m.start(0) - count(text.toString(), '\n', m.start(0));
             int indexOffset = 0;
 
             // If token couldn't be parsed, move one index forward to continue the search
@@ -268,7 +288,7 @@ class Parser {
         Matcher m = PATTERN_MARKUP_STRIP.matcher(text);
         while(m.find()) {
             final String tag = m.group(0);
-            final int index = m.start(0);
+            final int index = m.start(0) - count(text.toString(), '\n', m.start(0));;
             label.tokenEntries.add(new TokenEntry("SKIP", TokenCategory.SKIP, index, 0, tag));
         }
     }

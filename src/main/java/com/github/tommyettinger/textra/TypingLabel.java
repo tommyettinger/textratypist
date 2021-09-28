@@ -423,7 +423,6 @@ public class TypingLabel extends TextraLabel {
 
             // Get next character and calculate cooldown increment
 
-//            LongArray glyphs = layout.getLine(0).glyphs;
             int layoutSize = getLayoutSize(layout);
             int safeIndex = MathUtils.clamp(rawCharIndex, 0, layoutSize - 1);
             long baseChar = 0L; // Null character by default
@@ -612,6 +611,13 @@ public class TypingLabel extends TextraLabel {
         int glyphCount = 0;
         for(int lineIndex = 0; lineIndex < lineCapacities.size && lineIndex < workingLayout.lines(); lineIndex++) {
             int runCapacity = lineCapacities.get(lineIndex);
+            if(runCapacity == 0
+                    && lineIndex + 1 == workingLayout.lines()
+                    && lineIndex + 1 < lineCapacities.size) {
+                workingLayout.pushLine();
+                break;
+            }
+
             if((glyphCount + runCapacity) < cachedGlyphCharIndex) {
                 glyphCount += runCapacity;
                 continue;
@@ -627,6 +633,9 @@ public class TypingLabel extends TextraLabel {
                 // Skip run if this one is full
                 int runSize = glyphs.size;
                 if(runCapacity == runSize) {
+                    if(lineIndex + 1 == workingLayout.lines() && lineIndex + 1 < lineCapacities.size) {
+                        workingLayout.pushLine();
+                    }
                     break;
                 }
 
