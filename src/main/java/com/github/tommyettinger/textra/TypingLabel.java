@@ -671,6 +671,7 @@ public class TypingLabel extends TextraLabel {
         batch.setColor(1f, 1f, 1f, parentAlpha);
         final int lines = workingLayout.lines();
         float baseX = getX(align), baseY = getY(align);
+        int o = 0;
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
             float x = baseX, y = baseY;
@@ -682,14 +683,14 @@ public class TypingLabel extends TextraLabel {
                 int kern = -1;
                 float amt;
                 long glyph;
-                for (int i = 0, o = 0, n = glyphs.glyphs.size; i < n; i++) {
+                for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
                     kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
                     amt = font.kerning.get(kern, 0) * font.scaleX;
                     x += font.drawGlyph(batch, glyph, x + amt + offsets.get(o++), y + offsets.get(o++)) + amt;
                 }
             }
             else {
-                for (int i = 0, o = 0, n = glyphs.glyphs.size; i < n; i++) {
+                for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
                     x += font.drawGlyph(batch, glyphs.glyphs.get(i), x + offsets.get(o++), y + offsets.get(o++));
                 }
             }
