@@ -501,7 +501,11 @@ public class TypingLabel extends TextraLabel {
                         if(isStart) {
                             entry.effect.indexStart = glyphCharIndex;
                             activeEffects.add(entry.effect);
+//                            System.out.println("START of " + entry.token + ": " + entry.effect.indexStart);
                         }
+//                        else
+//                            System.out.println(entry.token);
+
 
                     }
                 }
