@@ -14,7 +14,7 @@ import regexodus.REFlags;
 
 /** Utility class to parse tokens from a {@link TypingLabel}. */
 class Parser {
-    private static final Pattern PATTERN_MARKUP_STRIP      = Pattern.compile("(\\[{2})|(\\[[^\\[\\]]*(\\[|\\])?)");
+    private static final Pattern PATTERN_MARKUP_STRIP      = Pattern.compile("(\\[\\[)|(\\[[^\\[\\]]*(\\[|\\])?)");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-F0-9]{6}");
 
     private static final String[] BOOLEAN_TRUE = {"true", "yes", "t", "y", "on", "1"};
@@ -192,7 +192,7 @@ class Parser {
             final String paramsString = groupCount == INDEX_PARAM ? m.group(INDEX_PARAM) : null;
             final String[] params = paramsString == null ? new String[0] : paramsString.split(";");
             final String firstParam = params.length > 0 ? params[0] : null;
-            final int index = m.start(0) - count(text.toString(), '\n', m.start(0));
+            final int index = m.start(0);
             int indexOffset = 0;
 
             // If token couldn't be parsed, move one index forward to continue the search
@@ -288,7 +288,7 @@ class Parser {
         Matcher m = PATTERN_MARKUP_STRIP.matcher(text);
         while(m.find()) {
             final String tag = m.group(0);
-            final int index = m.start(0) - count(text.toString(), '\n', m.start(0));;
+            final int index = m.start(0);// - count(text.toString(), '\n', m.start(0));;
             label.tokenEntries.add(new TokenEntry("SKIP", TokenCategory.SKIP, index, 0, tag));
         }
     }
