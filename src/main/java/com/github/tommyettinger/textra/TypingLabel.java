@@ -370,10 +370,15 @@ public class TypingLabel extends TextraLabel {
                 processCharProgression();
             }
         }
+        int glyphCount = getLayoutSize(layout);
+        offsets.setSize(glyphCount + glyphCount);
+        Arrays.fill(offsets.items, 0, glyphCount + glyphCount, 0f);
 
         // Apply effects
         if(!ignoringEffects) {
             int workingLayoutSize = getLayoutSize(workingLayout);
+            // Ensure there are enough x and y offset entries, and that they are all 0
+
             for(int i = activeEffects.size - 1; i >= 0; i--) {
                 Effect effect = activeEffects.get(i);
                 effect.update(delta);
@@ -592,10 +597,10 @@ public class TypingLabel extends TextraLabel {
             lineCapacities.set(i, size);
             glyphCount += size;
         }
-
         // Ensure there are enough x and y offset entries, and that they are all 0
         offsets.setSize(glyphCount * 2);
         Arrays.fill(offsets.items, 0, glyphCount * 2, 0f);
+
     }
 
     /** Adds glyphs from layout to workingLayout as the char index progresses. */
