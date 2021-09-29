@@ -202,9 +202,13 @@ public class TypingLabel extends TextraLabel {
 
     /** Parses all tokens of this label. Use this after setting the text and any variables that should be replaced. */
     public void parseTokens() {
+        float actualWidth = layout.getTargetWidth();
+        layout.setTargetWidth(0f);
         this.setText(getDefaultToken() + originalText, false, false);
         Parser.parseTokens(this);
         parsed = true;
+        workingLayout.setTargetWidth(actualWidth);
+
     }
 
     /**
