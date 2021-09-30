@@ -14,7 +14,8 @@ import regexodus.REFlags;
 
 /** Utility class to parse tokens from a {@link TypingLabel}. */
 class Parser {
-    private static final Pattern PATTERN_MARKUP_STRIP      = Pattern.compile("(\\[\\[)|(\\[[^\\[\\]]*(\\[|\\])?)");
+    private static final Pattern PATTERN_MARKUP_STRIP      = Pattern.compile("(\\[{2})|(\\[[^\\[\\]]*(\\[|\\])?)");
+//    private static final Pattern PATTERN_MARKUP_STRIP      = Pattern.compile("(\\[{2})|(\\[#?\\w*(\\[|\\])?)");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-F0-9]{6}");
 
     private static final String[] BOOLEAN_TRUE = {"true", "yes", "t", "y", "on", "1"};
@@ -57,7 +58,6 @@ class Parser {
     private static void parseReplacements(TypingLabel label) {
         // Get text
         CharSequence text = label.layout.appendInto(new StringBuilder());
-        boolean hasMarkup = true;
 
         // Create string builder
         StringBuilder sb = new StringBuilder(text.length());
@@ -88,11 +88,11 @@ class Parser {
             String replacement = "";
             switch(internalToken) {
                 case COLOR:
-                    if(hasMarkup) replacement = stringToColorMarkup(param);
+                    replacement = stringToColorMarkup(param);
                     break;
                 case ENDCOLOR:
                 case CLEARCOLOR:
-                    if(hasMarkup) replacement = "[#" + label.getClearColor().toString() + "]";
+                    replacement = "[#" + label.getClearColor().toString() + "]";
                     break;
                 case VAR:
                     replacement = null;
@@ -157,7 +157,6 @@ class Parser {
     private static void parseRegularTokens(TypingLabel label) {
         // Get text
         CharSequence text = label.getIntermediateText();
-
         // Create matcher and StringBuilder
         Matcher m = PATTERN_TOKEN_STRIP.matcher(text);
         StringBuilder sb = new StringBuilder(text.length());
@@ -383,10 +382,9 @@ class Parser {
     private static String getResetReplacement() {
         Array<String> tokens = new Array<>();
         TypingConfig.EFFECT_END_TOKENS.keys().toArray(tokens);
-        tokens.add("CLEARCOLOR");
         tokens.add("NORMAL");
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder("[]");
         for(String token : tokens) {
             sb.append('{').append(token).append('}');
         }
