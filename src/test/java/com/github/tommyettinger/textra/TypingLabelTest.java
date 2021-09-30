@@ -135,7 +135,12 @@ public class TypingLabelTest extends ApplicationAdapter {
 //        text.append(" {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
 //        text.append("{SPEED=2.50}{COLOR=#84DD60} making the text go {SHAKE=1;1;3}really fast{ENDSHAKE}{WAIT=0.5} ");
 //        text.append("{SPEED=0.25}{COLOR=#A6E22D}{WAVE=0.66}or extremely slow.{ENDWAVE}");
+
         text.append(" {RESET}You can also wait for a 1234567890{EASE=-15;2;1}second{ENDEASE}\n\n{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
+//        text.append(" You can also wait for a 1234567890{EASE=-15;2;1}second{ENDEASE}\n\n{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
+//        text.append(" You can also wait for a 1234567890{EASE=-15;2;1}second{ENDEASE}\n\n {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE},");
+//        text.append("{RAINBOW=1;1;0.7;0.5} just to catch an event in code{EVENT=example}! {ENDRAINBOW}");
+
 //        text.append(" {RESET}You can also wait for a {EASE=-15;2;1}second{ENDEASE}\n\n{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
         text.append("{RAINBOW=1;1;0.7;0.5} just to catch an event in code{EVENT=example}!{WAIT} {ENDRAINBOW}");
 //        text.append("{NORMAL}\n\n");

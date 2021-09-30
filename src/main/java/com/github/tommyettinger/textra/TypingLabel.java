@@ -381,7 +381,6 @@ public class TypingLabel extends TextraLabel {
         // Apply effects
         if(!ignoringEffects) {
             int workingLayoutSize = getLayoutSize(workingLayout);
-            // Ensure there are enough x and y offset entries, and that they are all 0
 
             for(int i = activeEffects.size - 1; i >= 0; i--) {
                 Effect effect = activeEffects.get(i);
@@ -433,7 +432,7 @@ public class TypingLabel extends TextraLabel {
             // Get next character and calculate cooldown increment
 
             int layoutSize = getLayoutSize(layout);
-            int safeIndex = MathUtils.clamp(rawCharIndex, 0, layoutSize - 1);
+            int safeIndex = MathUtils.clamp(glyphCharIndex, 0, layoutSize - 1);
             long baseChar = 0L; // Null character by default
             if(layoutSize > 0) {
                 baseChar = getInLayout(layout, safeIndex);
@@ -452,8 +451,16 @@ public class TypingLabel extends TextraLabel {
                 return;
             }
 
-            // Increase glyph char index for all characters (line breaks aren't chars here)
+            // Increase glyph char index for all characters
             if(rawCharIndex >= 0) glyphCharIndex++;
+
+//            if(glyphCharIndex >= 30 && glyphCharIndex < 33) {
+//                //debug here
+//                for(Effect e : activeEffects){
+//                    System.out.print(e.getClass().getSimpleName() + ", ");
+//                }
+//                System.out.println();
+//            }
 
             // Process tokens according to the current index
             while(tokenEntries.size > 0 && tokenEntries.peek().index == rawCharIndex) {
@@ -516,7 +523,7 @@ public class TypingLabel extends TextraLabel {
             }
 
             // Notify listener about char progression
-            int nextIndex = rawCharIndex == 0 ? 0 : MathUtils.clamp(rawCharIndex, 0, layoutSize - 1);
+            int nextIndex = glyphCharIndex == 0 ? 0 : MathUtils.clamp(glyphCharIndex, 0, layoutSize - 1);
             Long nextChar = nextIndex == 0 ? null : getInLayout(layout, nextIndex);
             if(nextChar != null && listener != null) {
                 listener.onChar(nextChar);
@@ -727,6 +734,11 @@ public class TypingLabel extends TextraLabel {
                 index -= glyphs.size;
         }
         return 0xFFFFFFL;
+    }
+
+    public long getFromIntermediate(int index){
+        if(index >= 0 && intermediateText.length() > index) return intermediateText.charAt(index);
+        else return 0xFFFFFFL;
     }
 
     public void setInLayout(Layout layout, int index, long newGlyph){
