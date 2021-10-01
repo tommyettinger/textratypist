@@ -574,7 +574,7 @@ public class TypingLabel extends TextraLabel {
 
         for (int i = 0; i < workingLayout.lines(); i++) {
             workingLayout.lines.get(i).glyphs.clear();
-            workingLayout.lines.get(i).glyphs.addAll(layout.lines.get(i).glyphs);
+//            workingLayout.lines.get(i).glyphs.addAll(layout.lines.get(i).glyphs);
         }
         layoutCache();
     }
@@ -674,7 +674,6 @@ public class TypingLabel extends TextraLabel {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.validate();
-        addMissingGlyphs();
         batch.setColor(1f, 1f, 1f, parentAlpha);
         final int lines = workingLayout.lines();
         float baseX = getX(align), baseY = getY(align);
@@ -703,6 +702,8 @@ public class TypingLabel extends TextraLabel {
             }
             baseY -= font.cellHeight;
         }
+        addMissingGlyphs();
+
     }
 
     public void setIntermediateText(CharSequence text, boolean modifyOriginalText, boolean restart) {
