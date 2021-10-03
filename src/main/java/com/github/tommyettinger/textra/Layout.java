@@ -120,6 +120,7 @@ public class Layout implements Pool.Poolable {
      * @return the Line at the given index
      */
     public Line getLine(int i) {
+        if(i >= lines.size) return null;
         return lines.get(i);
     }
 
