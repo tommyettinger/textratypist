@@ -76,12 +76,14 @@ public class Layout implements Pool.Poolable {
      */
     public Layout add(long glyph){
         if(!atLimit){
-            lines.peek().glyphs.add(glyph);
+            if((glyph & 0xFFFFL) == 10L) {
+                pushLine();
+            }
+            else {
+                lines.peek().glyphs.add(glyph);
+            }
         }
-        if((glyph & 0xFFFFL) == 10L)
-        {
-            pushLine();
-        }
+
         return this;
     }
 
@@ -131,8 +133,9 @@ public class Layout implements Pool.Poolable {
             return null;
         }
 
-        Line line = Pools.obtain(Line.class);
-        line.height = lines.peek().height;
+        Line line = Pools.obtain(Line.class), prev = lines.peek();
+        prev.glyphs.add('\n');
+        line.height = prev.height;
         lines.add(line);
         return line;
     }

@@ -1788,7 +1788,9 @@ public class Font implements Disposable {
                                             }
                                         }
                                     }
-                                    earlier.glyphs.truncate(j + 1);
+//                                    earlier.glyphs.truncate(j + 1);
+                                    earlier.glyphs.truncate(j + 2);
+                                    earlier.glyphs.set(j+1, '\n');
                                     later.width = changeNext;
                                     earlier.width -= change;
                                     break;
@@ -1915,7 +1917,9 @@ public class Font implements Disposable {
                                         }
                                     }
                                 }
-                                earlier.glyphs.truncate(j + 1);
+//                                    earlier.glyphs.truncate(j + 1);
+                                earlier.glyphs.truncate(j + 2);
+                                earlier.glyphs.set(j+1, '\n');
                                 later.width = changeNext;
                                 earlier.width -= change;
                                 break;
