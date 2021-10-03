@@ -63,31 +63,37 @@ public class TypingLabel extends TextraLabel {
 
     public TypingLabel() {
         super();
+        workingLayout.font(super.font);
         saveOriginalText("");
     }
 
     public TypingLabel(String text, Skin skin) {
         super(text, skin);
+        workingLayout.font(super.font);
         saveOriginalText(text);
     }
 
     public TypingLabel(String text, Skin skin, String styleName) {
         super(text, skin, styleName);
+        workingLayout.font(super.font);
         saveOriginalText(text);
     }
 
     public TypingLabel(String text, Label.LabelStyle style) {
         super(text, style);
+        workingLayout.font(super.font);
         saveOriginalText(text);
     }
 
     public TypingLabel(String text, Font font) {
         super(text, font);
+        workingLayout.font(font);
         saveOriginalText(text);
     }
 
     public TypingLabel(String text, Font font, Color color) {
         super(text, font, color);
+        workingLayout.font(font);
         saveOriginalText(text);
     }
 
@@ -129,6 +135,7 @@ public class TypingLabel extends TextraLabel {
         layout.setTargetWidth(Float.MAX_VALUE);
         workingLayout.setTargetWidth(actualWidth);
         super.setText(newText);
+        layout.setTargetWidth(actualWidth);
         if(modifyOriginalText) saveOriginalText(newText);
         if(restart) {
             this.restart();
@@ -136,7 +143,6 @@ public class TypingLabel extends TextraLabel {
         if(hasEnded) {
             this.skipToTheEnd(true, false);
         }
-        layout.setTargetWidth(actualWidth);
     }
 
     /** Similar to {@link Layout#toString()}, but returns the original text with all the tokens unchanged. */
@@ -300,7 +306,15 @@ public class TypingLabel extends TextraLabel {
      */
     public void restart(String newText) {
         // Reset cache collections
-        workingLayout.reset();
+        workingLayout.baseColor = Color.WHITE_FLOAT_BITS;
+        workingLayout.maxLines = Integer.MAX_VALUE;
+        workingLayout.atLimit = false;
+        workingLayout.ellipsis = null;
+        ellipsis = null;
+        Pools.freeAll(workingLayout.lines);
+        workingLayout.lines.clear();
+        workingLayout.lines.add(Pools.obtain(Line.class));
+
         lineCapacities.clear();
         offsets.clear();
         activeEffects.clear();
@@ -420,6 +434,8 @@ public class TypingLabel extends TextraLabel {
 
     /** Proccess char progression according to current cooldown and process all tokens in the current index. */
     private void processCharProgression() {
+        font.wrap(workingLayout, workingLayout.targetWidth);
+
         // Keep a counter of how many chars we're processing in this tick.
         int charCounter = 0;
 
