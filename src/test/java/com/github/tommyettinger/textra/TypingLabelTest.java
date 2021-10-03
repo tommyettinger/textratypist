@@ -79,6 +79,9 @@ public class TypingLabelTest extends ApplicationAdapter {
         buttonRestart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Cell<TypingLabel> labelCell = table.getCell(label);
+                System.out.printf("label is located at %3.4f by %3.4f with text\n%s\n", labelCell.getActorX(), labelCell.getActorY(), label.layout.toString());
+
                 label.restart();
             }
         });
@@ -89,6 +92,7 @@ public class TypingLabelTest extends ApplicationAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 adjustTypingConfigs();
                 Cell<TypingLabel> labelCell = table.getCell(label);
+                System.out.printf("label is located at %3.4f by %3.4f with text\n%s\n", labelCell.getActorX(), labelCell.getActorY(), label.layout.toString());
                 label = createTypingLabel();
                 labelCell.setActor(label);
             }
@@ -125,35 +129,33 @@ public class TypingLabelTest extends ApplicationAdapter {
 
     public TypingLabel createTypingLabel() {
         // Create text with tokens
-        final StringBuilder text = new StringBuilder();
-//        text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}Welcome,{WAIT} {VAR=title}!");
-//        text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}Welcome,{WAIT} {VAR=title}!{ENDEASE}");
-//        text.append("{FAST}\n\n");
-//        text.append("{RESET}{HANG=0.7}This is a simple test{ENDHANG} to show you");
-//        text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {JUMP}how to make dialogues {SLOW}fun again! {ENDJUMP}{WAIT}{ENDGRADIENT}\n");
-//        text.append("{NORMAL}{CLEARCOLOR}{SICK} With this library{ENDSICK} you can control the flow of the text with");
-//        text.append(" {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
-//        text.append("{SPEED=2.50}{COLOR=#84DD60} making the text go {SHAKE=1;1;3}really fast{ENDSHAKE}{WAIT=0.5} ");
-//        text.append("{SPEED=0.25}{COLOR=#A6E22D}{WAVE=0.66}or extremely slow.{ENDWAVE}");
-
-        text.append(" {RESET}You can also wait for a 1234567890{EASE=-15;2;1}second{ENDEASE}\n\n{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
-//        text.append(" You can also wait for a 1234567890{EASE=-15;2;1}second{ENDEASE}\n\n{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
-//        text.append(" You can also wait for a 1234567890{EASE=-15;2;1}second{ENDEASE}\n\n {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE},");
-//        text.append("{RAINBOW=1;1;0.7;0.5} just to catch an event in code{EVENT=example}! {ENDRAINBOW}");
-
+//        final StringBuilder text = new StringBuilder();
 //        text.append(" {RESET}You can also wait for a {EASE=-15;2;1}second{ENDEASE}\n\n{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
-        text.append("{RAINBOW=1;1;0.7;0.5} just to catch an event in code{EVENT=example}!{WAIT} {ENDRAINBOW}");
-//        text.append("{NORMAL}\n\n");
-//        text.append("{VAR=FIRE_WIND}Imagine the possibilities! =D {RESET}\n");
+//        text.append("{RAINBOW=1;1;0.7;0.5} just to catch an event in code{EVENT=example}!{WAIT} {ENDRAINBOW}");
+        final StringBuilder text = new StringBuilder();
+        text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}Welcome,{WAIT} {VAR=title}!{ENDEASE}");
+        text.append("{FAST}\n\n");
+        text.append("{RESET}{HANG=0.7}This is a simple test{ENDHANG} to show you");
+        text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {JUMP}how to make dialogues {SLOW}fun again! {ENDJUMP}{WAIT}{ENDGRADIENT}\n");
+        text.append("{NORMAL}{CLEARCOLOR}{SICK} With this library{ENDSICK} you can control the flow of the text with");
+        text.append(" {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
+        text.append("{SPEED=2.50}{COLOR=#84DD60} making the text go {SHAKE=1;1;3}really fast{ENDSHAKE}{WAIT=0.5} ");
+        text.append("{SPEED=0.25}{COLOR=#A6E22D}{WAVE=0.66}or extremely slow.{ENDWAVE}");
+        text.append("{RESET} You can also wait for a {EASE=-15;2;1}second{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
+        text.append("{RAINBOW=1;1;0.7} just to catch an event in code{EVENT=example}!{WAIT} {ENDHANG}{ENDRAINBOW}");
+        text.append("{NORMAL}\n\n");
+        text.append("{VAR=FIRE_WIND}Imagine the possibilities! =D {RESET}\n");
 
         // Create label
-        final TypingLabel label = new TypingLabel(text.toString(), skin);
+        final TypingLabel label = new TypingLabel("", skin);
+        label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 //        label.setDefaultToken("{EASE=15;8;1}");
 
         // Make the label wrap to new lines, respecting the table's layout.
         label.layout.maxLines = 15;
-        label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth());
+        label.layout.setTargetWidth(Gdx.graphics.getWidth());
+        label.setText(text.toString(), true, true);
 
         // Set variable replacements for the {VAR} token
         label.setVariable("title", "curious human");
@@ -180,6 +182,7 @@ public class TypingLabelTest extends ApplicationAdapter {
             @Override
             public void end() {
                 System.out.println("End");
+                System.out.println(label);
             }
         });
 

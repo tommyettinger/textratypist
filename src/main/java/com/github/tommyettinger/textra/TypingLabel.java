@@ -125,6 +125,9 @@ public class TypingLabel extends TextraLabel {
      */
     protected void setText(String newText, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
+        float actualWidth = layout.getTargetWidth();
+        layout.setTargetWidth(Float.MAX_VALUE);
+        workingLayout.setTargetWidth(actualWidth);
         super.setText(newText);
         if(modifyOriginalText) saveOriginalText(newText);
         if(restart) {
@@ -133,6 +136,7 @@ public class TypingLabel extends TextraLabel {
         if(hasEnded) {
             this.skipToTheEnd(true, false);
         }
+        layout.setTargetWidth(actualWidth);
     }
 
     /** Similar to {@link Layout#toString()}, but returns the original text with all the tokens unchanged. */
@@ -157,7 +161,10 @@ public class TypingLabel extends TextraLabel {
      * parse the tokens again.
      */
     protected void restoreOriginalText() {
+        float actualWidth = layout.getTargetWidth();
+        layout.setTargetWidth(Float.MAX_VALUE);
         super.setText(originalText.toString());
+        layout.setTargetWidth(actualWidth);
         this.parsed = false;
     }
 
@@ -202,13 +209,10 @@ public class TypingLabel extends TextraLabel {
 
     /** Parses all tokens of this label. Use this after setting the text and any variables that should be replaced. */
     public void parseTokens() {
-        float actualWidth = layout.getTargetWidth();
-        layout.setTargetWidth(0f);
         this.setText(getDefaultToken() + originalText, false, false);
         Parser.parseTokens(this);
         parsed = true;
-        workingLayout.setTargetWidth(actualWidth);
-
+//        setSize(actualWidth, workingLayout.getHeight());
     }
 
     /**
@@ -353,6 +357,16 @@ public class TypingLabel extends TextraLabel {
     /** Removes all variables from this label. */
     public void clearVariables() {
         this.variables.clear();
+    }
+
+    @Override
+    public float getPrefWidth() {
+        return workingLayout.getWidth();
+    }
+
+    @Override
+    public float getPrefHeight() {
+        return workingLayout.getHeight();
     }
 
     //////////////////////////////////
@@ -704,6 +718,11 @@ public class TypingLabel extends TextraLabel {
         }
         addMissingGlyphs();
 
+    }
+
+    @Override
+    public String toString() {
+        return workingLayout.toString();
     }
 
     public void setIntermediateText(CharSequence text, boolean modifyOriginalText, boolean restart) {
