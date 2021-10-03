@@ -154,7 +154,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
         // Make the label wrap to new lines, respecting the table's layout.
         label.layout.maxLines = 15;
-        label.layout.setTargetWidth(Gdx.graphics.getWidth());
+        label.layout.setTargetWidth(620);
         label.setText(text.toString(), true, true);
 
         // Set variable replacements for the {VAR} token

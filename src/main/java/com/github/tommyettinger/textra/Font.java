@@ -1958,7 +1958,10 @@ public class Font implements Disposable {
                     if(changing.lines() >= changing.maxLines) {
                         changing.atLimit = true;
                         later = null;
-                    } else {
+                    } else if(ln + 1 < changing.lines()) {
+                        later = changing.getLine(ln + 1);
+                    }
+                    else{
                         Line line = Pools.obtain(Line.class);
                         line.height = earlier.height;
                         changing.lines.insert(ln + 1, line);
@@ -2037,12 +2040,14 @@ public class Font implements Disposable {
                                         float adv = xAdvance(curr = earlier.glyphs.get(k));
                                         change += adv;
                                         if (--leading < 0) {
-                                            Line line = Pools.obtain(Line.class);
-                                            line.height = earlier.height;
-                                            later.glyphs.add(curr);
-                                            if((curr & 0xFFFFL) == 10L)
-                                                changing.lines.insert(ln + 2, line);
+                                            if((curr & 0xFFFFL) == 10L) {
+                                                Line line = Pools.obtain(Line.class);
+                                                line.height = earlier.height;
+                                                changing.lines.insert(ln + 1, line);
+                                                later.glyphs.add(curr);
+                                            }
                                             changeNext += adv;
+                                            break;
                                         }
                                     }
                                 } else {
@@ -2055,18 +2060,20 @@ public class Font implements Disposable {
                                         if (--leading < 0) {
                                             k3 = k3 << 16 | (char) curr;
                                             changeNext += adv + kerning.get(k3, 0) * scaleX;
-                                            Line line = Pools.obtain(Line.class);
-                                            line.height = earlier.height;
-                                            later.glyphs.add(curr);
-                                            if((curr & 0xFFFFL) == 10L)
-                                                changing.lines.insert(ln + 2, line);
+                                            if((curr & 0xFFFFL) == 10L) {
+                                                Line line = Pools.obtain(Line.class);
+                                                line.height = earlier.height;
+                                                changing.lines.insert(ln + 1, line);
+                                                later.glyphs.add(curr);
+                                            }
+                                            break;
                                         }
                                     }
                                 }
 //                                for (int p = 0; p < earlier.glyphs.size - (j + 1); p++) {
 //                                    later.glyphs.insert(p, earlier.glyphs.get(j + 1 + p));
 //                                }
-                                earlier.glyphs.truncate(j + 1);
+                                earlier.glyphs.truncate(j);
                                 earlier.glyphs.add('\n');
                                 later.width = changeNext;
                                 earlier.width -= change;
