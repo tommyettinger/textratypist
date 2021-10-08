@@ -475,6 +475,7 @@ public class TypingLabel extends TextraLabel {
                     ended = true;
                     skipping = false;
                     if(listener != null) listener.end();
+//                    System.out.println(0xFFFFFFL & getInLayout(workingLayout, getLayoutSize(workingLayout) - 1));
                 }
                 return;
             }
@@ -690,7 +691,8 @@ public class TypingLabel extends TextraLabel {
                 // Put new glyph to this run
                 cachedGlyphCharIndex++;
                 long glyph = getInLayout(layout, cachedGlyphCharIndex);
-                workingLayout.add(glyph);
+                if(glyph != 0xFFFFFFL)
+                    workingLayout.add(glyph);
 
                 // Advance glyph count
                 glyphCount++;
@@ -725,7 +727,7 @@ public class TypingLabel extends TextraLabel {
                 }
             }
             else {
-                for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
+                for (int i = 0, n = glyphs.glyphs.size; i < n && o < offsets.size - 1; i++) {
                     x += font.drawGlyph(batch, glyphs.glyphs.get(i), x + offsets.get(o++), y + offsets.get(o++));
                 }
             }
