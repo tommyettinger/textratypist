@@ -1708,6 +1708,7 @@ public class Font implements Disposable {
                     appendTo.add(current | '[');
                     if(targetWidth > 0 && w > targetWidth) {
                         Line earlier = appendTo.peekLine();
+                        int ln = appendTo.lines() - 1;
                         Line later = appendTo.pushLine();
                         if(later == null){
                             // here, the max lines have been reached, and an ellipsis may need to be added
@@ -1822,6 +1823,7 @@ public class Font implements Disposable {
                 appendTo.add(current | ch);
                 if((targetWidth > 0 && w > targetWidth) || appendTo.atLimit) {
                     Line earlier = appendTo.peekLine();
+                    int ln = appendTo.lines() - 1;
                     Line later = appendTo.pushLine();
                     if(later == null){
                         // here, the max lines have been reached, and an ellipsis may need to be added
@@ -1891,13 +1893,22 @@ public class Font implements Disposable {
                                 }
                                 float change = 0f, changeNext = 0f;
                                 long curr;
+
+
+
                                 if (kerning == null) {
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         float adv = xAdvance(curr = earlier.glyphs.get(k));
                                         change += adv;
                                         if (--leading < 0) {
+//                                            if((curr & 0xFFFFL) == 10L) {
+//                                                Line line = Pools.obtain(Line.class);
+//                                                line.height = earlier.height;
+//                                                appendTo.lines.insert(ln + 1, line);
+//                                            }
                                             appendTo.add(curr);
                                             changeNext += adv;
+                                            break;
                                         }
                                     }
                                 } else {
@@ -1910,13 +1921,45 @@ public class Font implements Disposable {
                                         if (--leading < 0) {
                                             k3 = k3 << 16 | (char) curr;
                                             changeNext += adv + kerning.get(k3, 0) * scaleX;
+//                                            if((curr & 0xFFFFL) == 10L) {
+//                                                Line line = Pools.obtain(Line.class);
+//                                                line.height = earlier.height;
+//                                                appendTo.lines.insert(ln + 1, line);
+//                                            }
                                             appendTo.add(curr);
+                                            break;
                                         }
                                     }
                                 }
-//                                    earlier.glyphs.truncate(j + 1);
-                                earlier.glyphs.truncate(j + 2);
-                                earlier.glyphs.set(j+1, '\n');
+
+
+
+
+//                                if (kerning == null) {
+//                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
+//                                        float adv = xAdvance(curr = earlier.glyphs.get(k));
+//                                        change += adv;
+//                                        if (--leading < 0) {
+//                                            appendTo.add(curr);
+//                                            changeNext += adv;
+//                                        }
+//                                    }
+//                                } else {
+//                                    int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF), k3 = -1;
+//                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
+//                                        curr = earlier.glyphs.get(k);
+//                                        k2 = k2 << 16 | (char) curr;
+//                                        float adv = xAdvance(curr);
+//                                        change += adv + kerning.get(k2, 0) * scaleX;
+//                                        if (--leading < 0) {
+//                                            k3 = k3 << 16 | (char) curr;
+//                                            changeNext += adv + kerning.get(k3, 0) * scaleX;
+//                                            appendTo.add(curr);
+//                                        }
+//                                    }
+//                                }
+                                earlier.glyphs.truncate(j);
+                                earlier.glyphs.add('\n');
                                 later.width = changeNext;
                                 earlier.width -= change;
                                 break;
@@ -1937,7 +1980,6 @@ public class Font implements Disposable {
         int kern = -1;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
         long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(changing.getBaseColor())) & COLOR_MASK;
-        PER_LINE:
         for (int ln = 0; ln < changing.lines(); ln++) {
             Line earlier = changing.getLine(ln);
             float nextWidth = 0f;
@@ -1955,9 +1997,12 @@ public class Font implements Disposable {
                     Line later;
 
 
-                    if(changing.lines() >= changing.maxLines) {
+                    if(ln + 1 >= changing.maxLines) {
                         changing.atLimit = true;
                         later = null;
+//                        later = Pools.obtain(Line.class);
+//                        later.height = earlier.height;
+
                     } else if(ln + 1 < changing.lines()) {
                         later = changing.getLine(ln + 1);
                     }
@@ -2040,12 +2085,12 @@ public class Font implements Disposable {
                                         float adv = xAdvance(curr = earlier.glyphs.get(k));
                                         change += adv;
                                         if (--leading < 0) {
-                                            if((curr & 0xFFFFL) == 10L) {
-                                                Line line = Pools.obtain(Line.class);
-                                                line.height = earlier.height;
-                                                changing.lines.insert(ln + 1, line);
-                                                later.glyphs.add(curr);
-                                            }
+//                                            if((curr & 0xFFFFL) == 10L) {
+//                                                Line line = Pools.obtain(Line.class);
+//                                                line.height = earlier.height;
+//                                                changing.lines.insert(ln + 1, line);
+//                                            }
+                                            later.glyphs.add(curr);
                                             changeNext += adv;
                                             break;
                                         }
@@ -2060,12 +2105,12 @@ public class Font implements Disposable {
                                         if (--leading < 0) {
                                             k3 = k3 << 16 | (char) curr;
                                             changeNext += adv + kerning.get(k3, 0) * scaleX;
-                                            if((curr & 0xFFFFL) == 10L) {
-                                                Line line = Pools.obtain(Line.class);
-                                                line.height = earlier.height;
-                                                changing.lines.insert(ln + 1, line);
-                                                later.glyphs.add(curr);
-                                            }
+//                                            if((curr & 0xFFFFL) == 10L) {
+//                                                Line line = Pools.obtain(Line.class);
+//                                                line.height = earlier.height;
+//                                                changing.lines.insert(ln + 1, line);
+//                                            }
+                                            later.glyphs.add(curr);
                                             break;
                                         }
                                     }
@@ -2074,7 +2119,7 @@ public class Font implements Disposable {
 //                                    later.glyphs.insert(p, earlier.glyphs.get(j + 1 + p));
 //                                }
                                 earlier.glyphs.truncate(j);
-                                earlier.glyphs.add('\n');
+                                changing.add('\n');
                                 later.width = changeNext;
                                 earlier.width -= change;
                                 break PER_GLYPH;
