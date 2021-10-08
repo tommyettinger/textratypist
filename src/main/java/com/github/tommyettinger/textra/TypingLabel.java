@@ -33,8 +33,7 @@ public class TypingLabel extends TextraLabel {
     // Internal state
     private final   StringBuilder    originalText          = new StringBuilder();
     private final   StringBuilder    intermediateText      = new StringBuilder();
-    private final   Layout           workingLayout         = Pools.obtain(Layout.class);
-    private final   IntArray         lineCapacities        = new IntArray();
+    protected final Layout           workingLayout         = Pools.obtain(Layout.class);
     public final    FloatArray       offsets               = new FloatArray();
     private final   Array<Effect>    activeEffects         = new Array<Effect>();
     private         float            textSpeed             = TypingConfig.DEFAULT_SPEED_PER_CHAR;
@@ -95,6 +94,7 @@ public class TypingLabel extends TextraLabel {
         super(text = Parser.preprocess(text), font, color);
         workingLayout.font(font);
         saveOriginalText(text);
+
     }
 
     /////////////////////////////
@@ -315,7 +315,6 @@ public class TypingLabel extends TextraLabel {
         workingLayout.lines.clear();
         workingLayout.lines.add(Pools.obtain(Line.class));
 
-        lineCapacities.clear();
         offsets.clear();
         activeEffects.clear();
 
@@ -481,7 +480,9 @@ public class TypingLabel extends TextraLabel {
             }
 
             // Increase glyph char index for all characters
-            if(rawCharIndex >= 0) glyphCharIndex++;
+            if(rawCharIndex >= 0) {
+                glyphCharIndex++;
+            }
 
 //            if(glyphCharIndex >= 30 && glyphCharIndex < 33) {
 //                //debug here
@@ -632,13 +633,10 @@ public class TypingLabel extends TextraLabel {
                 glyphCountdown--;
             }
         }
-
         // Store Line sizes and count how many glyphs we have
         int glyphCount = 0;
-        lineCapacities.setSize(layout.lines.size);
         for(int i = 0; i < layout.lines.size; i++) {
             int size = layout.lines.get(i).glyphs.size;
-            lineCapacities.set(i, size);
             glyphCount += size;
         }
         // Ensure there are enough x and y offset entries, and that they are all 0
@@ -651,53 +649,18 @@ public class TypingLabel extends TextraLabel {
     private void addMissingGlyphs() {
         // Add additional glyphs to layout array, if any
         int glyphLeft = glyphCharIndex - cachedGlyphCharIndex;
-        if(glyphLeft < 1) return;
+        if (glyphLeft < 1) return;
+        // Next glyphs go here
+        while (glyphLeft > 0) {
 
-        // Get runs
-        Array<Line> lines = workingLayout.lines;
+            // Put new glyph to this run
+            cachedGlyphCharIndex++;
+            long glyph = getInLayout(layout, cachedGlyphCharIndex);
+            if (glyph != 0xFFFFFFL)
+                workingLayout.add(glyph);
 
-        // Iterate through lines to find the next glyph spot
-        int glyphCount = 0;
-        for(int lineIndex = 0; lineIndex < lineCapacities.size && lineIndex < workingLayout.lines(); lineIndex++) {
-            int runCapacity = lineCapacities.get(lineIndex);
-//            if(runCapacity == 0
-//                    && lineIndex + 1 == workingLayout.lines()
-//                    && lineIndex + 1 < lineCapacities.size) {
-//                workingLayout.pushLine();
-//                break;
-//            }
-
-            if((glyphCount + runCapacity) < cachedGlyphCharIndex) {
-                glyphCount += runCapacity;
-                continue;
-            }
-
-            // Get run and increase glyphCount up to its current size
-            LongArray glyphs = lines.get(lineIndex).glyphs;
-            glyphCount += glyphs.size;
-
-            // Next glyphs go here
-            while(glyphLeft > 0) {
-
-                // Skip run if this one is full
-                int runSize = glyphs.size;
-                if(runCapacity == runSize) {
-//                    if(lineIndex + 1 == workingLayout.lines() && lineIndex + 1 < lineCapacities.size) {
-//                        workingLayout.pushLine();
-//                    }
-                    break;
-                }
-
-                // Put new glyph to this run
-                cachedGlyphCharIndex++;
-                long glyph = getInLayout(layout, cachedGlyphCharIndex);
-                if(glyph != 0xFFFFFFL)
-                    workingLayout.add(glyph);
-
-                // Advance glyph count
-                glyphCount++;
-                glyphLeft--;
-            }
+            // Advance glyph count
+            glyphLeft--;
         }
         font.wrap(workingLayout, workingLayout.targetWidth);
     }
