@@ -434,8 +434,6 @@ public class TypingLabel extends TextraLabel {
 
     /** Proccess char progression according to current cooldown and process all tokens in the current index. */
     private void processCharProgression() {
-        font.wrap(workingLayout, workingLayout.targetWidth);
-
         // Keep a counter of how many chars we're processing in this tick.
         int charCounter = 0;
 
@@ -699,6 +697,7 @@ public class TypingLabel extends TextraLabel {
                 glyphLeft--;
             }
         }
+        font.wrap(workingLayout, workingLayout.targetWidth);
     }
 
     @Override
