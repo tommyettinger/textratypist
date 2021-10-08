@@ -11,12 +11,13 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
 import regexodus.Matcher;
 import regexodus.Pattern;
 import regexodus.REFlags;
+import regexodus.Replacer;
 
 /** Utility class to parse tokens from a {@link TypingLabel}. */
 class Parser {
     private static final Pattern PATTERN_MARKUP_STRIP      = Pattern.compile("(\\[{2})|(\\[[^\\[\\]]*(\\[|\\])?)");
-//    private static final Pattern PATTERN_MARKUP_STRIP      = Pattern.compile("(\\[{2})|(\\[#?\\w*(\\[|\\])?)");
-    private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{6}");
+    private static final Replacer MARKUP_TO_TAG            = new Replacer(Pattern.compile("\\[([^\\[\\]]+)\\]?"), "{STYLE=$1}");
+    private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{6,8}");
 
     private static final String[] BOOLEAN_TRUE = {"true", "yes", "t", "y", "on", "1"};
     private static final int      INDEX_TOKEN  = 1;
@@ -24,6 +25,10 @@ class Parser {
 
     private static Pattern PATTERN_TOKEN_STRIP;
     private static String  RESET_REPLACEMENT;
+
+    static String preprocess(CharSequence text){
+        return MARKUP_TO_TAG.replace(text);
+    }
 
     /** Parses all tokens from the given {@link TypingLabel}. */
     static void parseTokens(TypingLabel label) {
@@ -343,13 +348,9 @@ class Parser {
     /** Encloses the given string in brackets to work as a regular color markup tag. */
     private static String stringToColorMarkup(String str) {
         if(str != null) {
-            // If color isn't registered by name, try to parse it as an hex code.
-            Color namedColor = Colors.get(str);
-            if(namedColor == null) {
-                boolean isHexWithoutHashChar = str.length() >= 6 && PATTERN_COLOR_HEX_NO_HASH.matches(str);
-                if(isHexWithoutHashChar) {
+            // If color isn't registered by name, try to parse it as a hex code.
+            if(!Colors.getColors().containsKey(str) && str.length() >= 6 && PATTERN_COLOR_HEX_NO_HASH.matches(str)) {
                     str = "#" + str;
-                }
             }
         }
 
@@ -359,21 +360,29 @@ class Parser {
 
     /** Matches style names to syntax and encloses the given string in brackets to work as a style markup tag. */
     private static String stringToStyleMarkup(String str) {
-        if(str != null) {
-            if(str.equals("*") || str.equalsIgnoreCase("B") || str.equalsIgnoreCase("BOLD") || str.equalsIgnoreCase("STRONG"))
+        if (str != null) {
+            if (str.equals("*") || str.equalsIgnoreCase("B") || str.equalsIgnoreCase("BOLD") || str.equalsIgnoreCase("STRONG"))
                 return "[*]";
-            if(str.equals("/") || str.equalsIgnoreCase("I") || str.equalsIgnoreCase("OBLIQUE") || str.equalsIgnoreCase("ITALIC"))
+            if (str.equals("/") || str.equalsIgnoreCase("I") || str.equalsIgnoreCase("OBLIQUE") || str.equalsIgnoreCase("ITALIC"))
                 return "[/]";
-            if(str.equals("_") || str.equalsIgnoreCase("U") || str.equalsIgnoreCase("UNDER") || str.equalsIgnoreCase("UNDERLINE"))
+            if (str.equals("_") || str.equalsIgnoreCase("U") || str.equalsIgnoreCase("UNDER") || str.equalsIgnoreCase("UNDERLINE"))
                 return "[_]";
-            if(str.equals("~") || str.equalsIgnoreCase("STRIKE") || str.equalsIgnoreCase("STRIKETHROUGH"))
+            if (str.equals("~") || str.equalsIgnoreCase("STRIKE") || str.equalsIgnoreCase("STRIKETHROUGH"))
                 return "[~]";
-            if(str.equals(".") || str.equalsIgnoreCase("SUB") || str.equalsIgnoreCase("SUBSCRIPT"))
+            if (str.equals(".") || str.equalsIgnoreCase("SUB") || str.equalsIgnoreCase("SUBSCRIPT"))
                 return "[.]";
-            if(str.equals("=") || str.equalsIgnoreCase("MID") || str.equalsIgnoreCase("MIDSCRIPT"))
+            if (str.equals("=") || str.equalsIgnoreCase("MID") || str.equalsIgnoreCase("MIDSCRIPT"))
                 return "[=]";
-            if(str.equals("^") || str.equalsIgnoreCase("SUPER") || str.equalsIgnoreCase("SUPERSCRIPT"))
+            if (str.equals("^") || str.equalsIgnoreCase("SUPER") || str.equalsIgnoreCase("SUPERSCRIPT"))
                 return "[^]";
+            if (str.equals("!") || str.equalsIgnoreCase("UP") || str.equalsIgnoreCase("UPPER"))
+                return "[!]";
+            if (str.equals(",") || str.equalsIgnoreCase("LOW") || str.equalsIgnoreCase("LOWER"))
+                return "[,]";
+            if (str.equals(";") || str.equalsIgnoreCase("EACH") || str.equalsIgnoreCase("TITLE"))
+                return "[;]";
+            if (!Colors.getColors().containsKey(str) && str.length() >= 6 && PATTERN_COLOR_HEX_NO_HASH.matches(str))
+                return "[#" + str + "]";
         }
         // Return unaltered code, enclosed
         return "[" + str + "]";
@@ -381,7 +390,7 @@ class Parser {
 
     /**
      * Returns a compiled {@link Pattern} that groups the token name in the first group and the params in an optional
-     * second one. Case insensitive.
+     * second one. Case-insensitive.
      */
     private static Pattern compileTokenPattern() {
         StringBuilder sb = new StringBuilder();

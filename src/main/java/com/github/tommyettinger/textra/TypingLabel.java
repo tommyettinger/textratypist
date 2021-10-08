@@ -68,31 +68,31 @@ public class TypingLabel extends TextraLabel {
     }
 
     public TypingLabel(String text, Skin skin) {
-        super(text, skin);
+        super(text = Parser.preprocess(text), skin);
         workingLayout.font(super.font);
         saveOriginalText(text);
     }
 
     public TypingLabel(String text, Skin skin, String styleName) {
-        super(text, skin, styleName);
+        super(text = Parser.preprocess(text), skin, styleName);
         workingLayout.font(super.font);
         saveOriginalText(text);
     }
 
     public TypingLabel(String text, Label.LabelStyle style) {
-        super(text, style);
+        super(text = Parser.preprocess(text), style);
         workingLayout.font(super.font);
         saveOriginalText(text);
     }
 
     public TypingLabel(String text, Font font) {
-        super(text, font);
+        super(text = Parser.preprocess(text), font);
         workingLayout.font(font);
         saveOriginalText(text);
     }
 
     public TypingLabel(String text, Font font, Color color) {
-        super(text, font, color);
+        super(text = Parser.preprocess(text), font, color);
         workingLayout.font(font);
         saveOriginalText(text);
     }
