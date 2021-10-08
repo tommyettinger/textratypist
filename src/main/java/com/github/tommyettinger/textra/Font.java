@@ -1982,6 +1982,8 @@ public class Font implements Disposable {
         long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(changing.getBaseColor())) & COLOR_MASK;
         for (int ln = 0; ln < changing.lines(); ln++) {
             Line earlier = changing.getLine(ln);
+//            if(ln >= 7)
+//                System.out.println(earlier);
             float nextWidth = 0f;
             PER_GLYPH:
             for (int i = 0; i < earlier.glyphs.size; i++) {

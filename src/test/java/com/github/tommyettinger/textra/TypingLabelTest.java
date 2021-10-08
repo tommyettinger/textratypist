@@ -134,16 +134,15 @@ public class TypingLabelTest extends ApplicationAdapter {
 //        text.append("{RAINBOW=1;1;0.7;0.5} just to catch an event in code{EVENT=example}!{WAIT} {ENDRAINBOW}");
         final StringBuilder text = new StringBuilder();
         text.append("Welcome, curious human!");
-//        text.append("\n\n");
-        text.append(" This is a simple test to show you");
-        text.append(" how to make dialogues fun again! ");
-        text.append(" With this library you can control the flow of the text with");
-        text.append(" tokens,");
-        text.append(" making the text go really fast ");
-        text.append("or extremely slow.");
-        text.append(" You can also wait for a second or two,");
-        text.append(" just to catch an event in code!");
-        text.append(" Imagine the possibilities! =D");
+        text.append("\n\n");
+        text.append("This is a simple test to show you ");
+        text.append("how to make dialogues fun again!\n");
+        text.append("With this library you can control the flow of the text with ");
+        text.append("tokens, making the text go really fast ");
+        text.append("or extremely slow. ");
+        text.append("You can also wait for a second or two, ");
+        text.append("just to catch an event in code!\n\n");
+        text.append("Imagine the possibilities! =D");
 
         /* //This version is what we should eventually test on.
         text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}Welcome,{WAIT} {VAR=title}!{ENDEASE}");
