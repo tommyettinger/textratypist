@@ -1146,11 +1146,13 @@ public class Font implements Disposable {
     /**
      * Gets the distance to advance the cursor after drawing {@code glyph}, scaled by {@link #scaleX} as if drawing.
      * This handles monospaced fonts correctly and ensures that for variable-width fonts, subscript, midscript, and
-     * superscript halve the advance amount. This does not consider kerning, if the font has it.
+     * superscript halve the advance amount. This does not consider kerning, if the font has it. If the glyph is fully
+     * transparent, this does not draw it at all, and treats its x advance as 0.
      * @param glyph a long encoding the color, style information, and char of a glyph, as from a {@link Line}
      * @return the (possibly non-integer) amount to advance the cursor when you draw the given glyph, not counting kerning
      */
     public float xAdvance(long glyph){
+        if(glyph >>> 32 == 0L) return 0;
         GlyphRegion tr = mapping.get((char) glyph);
         if (tr == null) return 0f;
         float changedW = tr.xAdvance * scaleX;
@@ -1571,10 +1573,12 @@ public class Font implements Disposable {
      * a {@link Layout} holding one or more {@link Line}s. A common way of getting a Layout is with
      * {@code Pools.obtain(Layout.class)}; you can free the Layout when you are done using it with
      * {@link Pools#free(Object)}. This parses an extension of libGDX markup and uses it to determine color, size,
-     * position, shape, strikethrough, underline, and case of the given CharSequence. The text drawn will start as
-     * white, with the normal size as determined by the font's metrics and scale ({@link #scaleX} and {@link #scaleY}),
-     * normal case, and without bold, italic, superscript, subscript, strikethrough, or underline. Markup starts with
-     * {@code [}; the next character determines what that piece of markup toggles. Markup this knows:
+     * position, shape, strikethrough, underline, and case of the given CharSequence. It also reads typing markup, for
+     * effects, but passes it through without changing it and without considering it for line wrapping or text position.
+     * The text drawn will start as white, with the normal size as determined by the font's metrics and scale
+     * ({@link #scaleX} and {@link #scaleY}), normal case, and without bold, italic, superscript, subscript,
+     * strikethrough, or underline. Markup starts with {@code [}; the next character determines what that piece of
+     * markup toggles. Markup this knows:
      * <ul>
      *     <li>{@code [[} escapes a literal left bracket.</li>
      *     <li>{@code []} clears all markup to the initial state without any applied.</li>
@@ -1615,7 +1619,16 @@ public class Font implements Disposable {
         float targetWidth = appendTo.getTargetWidth();
         int kern = -1;
         for (int i = 0, n = text.length(); i < n; i++) {
-            if(text.charAt(i) == '['){
+            if((c = text.charAt(i)) == '{') {
+                if (i+1 < n && text.charAt(i+1) != '{') {
+                    int end = text.indexOf('}', i);
+                    for (; i < n && i <= end; i++) {
+                        appendTo.add(text.charAt(i));
+                    }
+                    i--;
+                }
+            }
+            else if(text.charAt(i) == '['){
                 if(++i < n && (c = text.charAt(i)) != '['){
                     if(c == ']'){
                         color = baseColor;
@@ -1716,12 +1729,12 @@ public class Font implements Disposable {
                             if(appendTo.ellipsis != null) {
                                 for (int j = earlier.glyphs.size - 1 - appendTo.ellipsis.length(); j >= 0; j--) {
                                     int leading = 0;
-                                    while (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) earlier.glyphs.get(j)) >= 0) {
+                                    long currE, curr;
+                                    while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0) {
                                         ++leading;
                                         --j;
                                     }
                                     float change = 0f, changeNext = 0f;
-                                    long currE, curr;
                                     if (kerning == null) {
                                         for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
                                             change += xAdvance(earlier.glyphs.get(k));
@@ -1756,14 +1769,17 @@ public class Font implements Disposable {
                         }
                         else {
                             for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
-                                if (Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) earlier.glyphs.get(j)) >= 0) {
+
+                                long curr;
+                                if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                        Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                                     int leading = 0;
-                                    while (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) earlier.glyphs.get(j)) >= 0) {
+                                    while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                            Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0) {
                                         ++leading;
                                         --j;
                                     }
                                     float change = 0f, changeNext = 0f;
-                                    long curr;
                                     if (kerning == null) {
                                         for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                             float adv = xAdvance(curr = earlier.glyphs.get(k));
@@ -1831,16 +1847,20 @@ public class Font implements Disposable {
                         if(appendTo.ellipsis != null) {
                             for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
                                 int leading = 0;
-                                while (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) earlier.glyphs.get(j)) < 0 && j > 0) {
+                                long curr;
+                                // remove a full word or other group of non-space characters.
+                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0 && j > 0) {
                                     ++leading;
                                     --j;
                                 }
-                                while (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) earlier.glyphs.get(j)) >= 0 && j > 0) {
+                                // remove the remaining space characters.
+                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0 && j > 0) {
                                     ++leading;
                                     --j;
                                 }
                                 float change = 0f, changeNext = 0f;
-                                long currE, curr;
+                                long currE;
                                 if (kerning == null) {
                                     for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
                                         change += xAdvance(earlier.glyphs.get(k));
@@ -1885,17 +1905,16 @@ public class Font implements Disposable {
                     }
                     else {
                         for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
-                            if (Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) earlier.glyphs.get(j)) >= 0) {
+                            long curr;
+                            if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                    Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                                 int leading = 0;
-                                while (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) earlier.glyphs.get(j)) >= 0) {
+                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0) {
                                     ++leading;
                                     --j;
                                 }
                                 float change = 0f, changeNext = 0f;
-                                long curr;
-
-
-
                                 if (kerning == null) {
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         float adv = xAdvance(curr = earlier.glyphs.get(k));
@@ -1934,30 +1953,6 @@ public class Font implements Disposable {
 
 
 
-
-//                                if (kerning == null) {
-//                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
-//                                        float adv = xAdvance(curr = earlier.glyphs.get(k));
-//                                        change += adv;
-//                                        if (--leading < 0) {
-//                                            appendTo.add(curr);
-//                                            changeNext += adv;
-//                                        }
-//                                    }
-//                                } else {
-//                                    int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF), k3 = -1;
-//                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
-//                                        curr = earlier.glyphs.get(k);
-//                                        k2 = k2 << 16 | (char) curr;
-//                                        float adv = xAdvance(curr);
-//                                        change += adv + kerning.get(k2, 0) * scaleX;
-//                                        if (--leading < 0) {
-//                                            k3 = k3 << 16 | (char) curr;
-//                                            changeNext += adv + kerning.get(k3, 0) * scaleX;
-//                                            appendTo.add(curr);
-//                                        }
-//                                    }
-//                                }
                                 earlier.glyphs.truncate(j);
                                 earlier.glyphs.add('\n');
                                 later.width = changeNext;
