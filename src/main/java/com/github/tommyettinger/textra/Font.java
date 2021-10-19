@@ -443,7 +443,7 @@ public class Font implements Disposable {
 
     /**
      * Constructs a Font by reading in the given .fnt file and loading any images it specifies. Tries an internal handle
-     * first, then a classpath handle. Does not use a distance field effect.
+     * first, then a local handle. Does not use a distance field effect.
      * @param fntName the file path and name to a .fnt file this will load
      */
     public Font(String fntName){
@@ -451,7 +451,7 @@ public class Font implements Disposable {
     }
     /**
      * Constructs a Font by reading in the given .fnt file and loading any images it specifies. Tries an internal handle
-     * first, then a classpath handle. Uses the specified distance field effect.
+     * first, then a local handle. Uses the specified distance field effect.
      * @param fntName the file path and name to a .fnt file this will load
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      */
@@ -461,7 +461,7 @@ public class Font implements Disposable {
 
     /**
      * Constructs a Font by reading in the given .fnt file and the given Texture by filename. Tries an internal handle
-     * first, then a classpath handle. Does not use a distance field effect.
+     * first, then a local handle. Does not use a distance field effect.
      * @param fntName the file path and name to a .fnt file this will load
      */
     public Font(String fntName, String textureName){
@@ -469,7 +469,7 @@ public class Font implements Disposable {
     }
     /**
      * Constructs a Font by reading in the given .fnt file and the given Texture by filename. Tries an internal handle
-     * first, then a classpath handle. Uses the specified distance field effect.
+     * first, then a local handle. Uses the specified distance field effect.
      * @param fntName the file path and name to a .fnt file this will load
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      */
@@ -509,7 +509,7 @@ public class Font implements Disposable {
     /**
      * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried first, then a
      * classpath handle) and loading any images specified in that file. No distance field effect is used.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or classpath
+     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust how many pixels to offset each character's y-position by, moving up
      * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
@@ -523,7 +523,7 @@ public class Font implements Disposable {
     /**
      * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried first, then a
      * classpath handle) and loading any images specified in that file. The specified distance field effect is used.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or classpath
+     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust how many pixels to offset each character's y-position by, moving up
@@ -549,8 +549,8 @@ public class Font implements Disposable {
     /**
      * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then classpath),
      * and no distance field effect.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or classpath
-     * @param textureName the path and filename of a texture file this will load; may be internal or classpath
+     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
+     * @param textureName the path and filename of a texture file this will load; may be internal or local
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust how many pixels to offset each character's y-position by, moving up
      * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
@@ -564,8 +564,8 @@ public class Font implements Disposable {
     /**
      * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then classpath),
      * and the specified distance field effect.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or classpath
-     * @param textureName the path and filename of a texture file this will load; may be internal or classpath
+     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
+     * @param textureName the path and filename of a texture file this will load; may be internal or local
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust how many pixels to offset each character's y-position by, moving up
@@ -587,7 +587,7 @@ public class Font implements Disposable {
         }
         FileHandle textureHandle;
         if ((textureHandle = Gdx.files.internal(textureName)).exists()
-                || (textureHandle = Gdx.files.classpath(textureName)).exists()) {
+                || (textureHandle = Gdx.files.local(textureName)).exists()) {
             parents = Array.with(new TextureRegion(new Texture(textureHandle)));
             if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF) {
                 parents.first().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -600,7 +600,7 @@ public class Font implements Disposable {
 
     /**
      * Constructs a font using the given TextureRegion that holds all of its glyphs, with no distance field effect.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or classpath
+     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param textureRegion an existing TextureRegion, typically inside a larger TextureAtlas
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust how many pixels to offset each character's y-position by, moving up
@@ -613,9 +613,9 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a font using the given TextureRegion that holds all of its glyphs, with the specified distance field
-     * effect.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or classpath
+     * Constructs a font based off of an AngelCode BMFont .fnt file and the given TextureRegion that holds all of its
+     * glyphs, with the specified distance field effect.
+     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param textureRegion an existing TextureRegion, typically inside a larger TextureAtlas
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
@@ -644,8 +644,9 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a Font using the given TextureRegion Array, with no distance field effect.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or classpath
+     * Constructs a font based off of an AngelCode BMFont .fnt file and the given TextureRegion Array, with no distance
+     * field effect.
+     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param textureRegions an Array of TextureRegions that will be used in order as the .fnt file uses more pages
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust how many pixels to offset each character's y-position by, moving up
@@ -657,8 +658,9 @@ public class Font implements Disposable {
         this(fntName, textureRegions, DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust);
     }
     /**
-     * Constructs a Font using the given TextureRegion Array and specified distance field effect.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or classpath
+     * Constructs a font based off of an AngelCode BMFont .fnt file, with the given TextureRegion Array and specified
+     * distance field effect.
+     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param textureRegions an Array of TextureRegions that will be used in order as the .fnt file uses more pages
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
@@ -784,9 +786,9 @@ public class Font implements Disposable {
         scale(bmFont.getScaleX(), bmFont.getScaleY());
     }
     /**
-     * The gritty parsing code that pulls relevant info from a FNT file and uses it to assemble the
+     * The gritty parsing code that pulls relevant info from an AngelCode BMFont .fnt file and uses it to assemble the
      * many {@code TextureRegion}s this has for each glyph.
-     * @param fntName the file name of the .fnt file; can be internal or classpath
+     * @param fntName the file name of the .fnt file; can be internal or local
      * @param xAdjust added to the x-position for each glyph in the font
      * @param yAdjust added to the y-position for each glyph in the font
      * @param widthAdjust added to the glyph width for each glyph in the font
@@ -796,7 +798,7 @@ public class Font implements Disposable {
         FileHandle fntHandle;
         String fnt;
         if ((fntHandle = Gdx.files.internal(fntName)).exists()
-                || (fntHandle = Gdx.files.classpath(fntName)).exists()) {
+                || (fntHandle = Gdx.files.local(fntName)).exists()) {
             fnt = fntHandle.readString("UTF8");
         } else {
             throw new RuntimeException("Missing font file: " + fntName);
@@ -810,7 +812,7 @@ public class Font implements Disposable {
             for (int i = 0; i < pages; i++) {
                 String textureName = fnt.substring(idx = indexAfter(fnt, "file=\"", idx), idx = fnt.indexOf('"', idx));
                 if ((textureHandle = Gdx.files.internal(textureName)).exists()
-                        || (textureHandle = Gdx.files.classpath(textureName)).exists()) {
+                        || (textureHandle = Gdx.files.local(textureName)).exists()) {
                     parents.add(new TextureRegion(new Texture(textureHandle)));
                     if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF)
                         parents.peek().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -2008,7 +2010,6 @@ public class Font implements Disposable {
                         later = changing.getLine(ln + 1);
                     }
                     else{
-                        System.out.println("Adding line #" + changing.lines() + " with ln==" + ln);
                         Line line = Pools.obtain(Line.class);
                         line.height = earlier.height;
 //                        earlier.glyphs.add('\n');
@@ -2085,7 +2086,6 @@ public class Font implements Disposable {
                                 }
                                 --leading;
                                 ++j;
-                                System.out.println((char) earlier.glyphs.get(j));
                                 float change = 0f, changeNext = 0f;
                                 long curr;
                                 if (kerning == null) {
