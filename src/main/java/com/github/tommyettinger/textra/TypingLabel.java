@@ -459,7 +459,7 @@ public class TypingLabel extends TextraLabel {
             // Get next character and calculate cooldown increment
 
             int layoutSize = getLayoutSize(layout);
-            int safeIndex = MathUtils.clamp(glyphCharIndex, 0, layoutSize - 1);
+            int safeIndex = MathUtils.clamp(glyphCharIndex + 1, 0, layoutSize - 1);
             long baseChar = 0L; // Null character by default
             if(layoutSize > 0) {
                 baseChar = getInLayout(layout, safeIndex);
