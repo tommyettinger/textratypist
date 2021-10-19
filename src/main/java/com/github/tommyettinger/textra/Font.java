@@ -1927,7 +1927,6 @@ public class Font implements Disposable {
 //                                            }
                                             appendTo.add(curr);
                                             changeNext += adv;
-                                            break;
                                         }
                                     }
                                 } else {
@@ -1946,14 +1945,13 @@ public class Font implements Disposable {
 //                                                appendTo.lines.insert(ln + 1, line);
 //                                            }
                                             appendTo.add(curr);
-                                            break;
                                         }
                                     }
                                 }
 
 
 
-                                earlier.glyphs.truncate(j);
+                                earlier.glyphs.truncate(j+1);
                                 earlier.glyphs.add('\n');
                                 later.width = changeNext;
                                 earlier.width -= change;
