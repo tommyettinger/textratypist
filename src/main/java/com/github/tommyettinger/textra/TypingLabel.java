@@ -132,10 +132,10 @@ public class TypingLabel extends TextraLabel {
     protected void setText(String newText, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
         float actualWidth = layout.getTargetWidth();
-        layout.setTargetWidth(Float.MAX_VALUE);
+//        layout.setTargetWidth(Float.MAX_VALUE);
         workingLayout.setTargetWidth(actualWidth);
         super.setText(newText);
-        layout.setTargetWidth(actualWidth);
+//        layout.setTargetWidth(actualWidth);
         if(modifyOriginalText) saveOriginalText(newText);
         if(restart) {
             this.restart();
@@ -167,10 +167,10 @@ public class TypingLabel extends TextraLabel {
      * parse the tokens again.
      */
     protected void restoreOriginalText() {
-        float actualWidth = layout.getTargetWidth();
-        layout.setTargetWidth(Float.MAX_VALUE);
+//        float actualWidth = layout.getTargetWidth();
+//        layout.setTargetWidth(Float.MAX_VALUE);
         super.setText(originalText.toString());
-        layout.setTargetWidth(actualWidth);
+//        layout.setTargetWidth(actualWidth);
         this.parsed = false;
     }
 
@@ -662,9 +662,9 @@ public class TypingLabel extends TextraLabel {
             // Advance glyph count
             glyphLeft--;
         }
-        int changed = font.wrap(workingLayout, workingLayout.targetWidth);
-        rawCharIndex += changed;
-        glyphCharIndex += changed;
+//        int changed = font.wrap(workingLayout, workingLayout.targetWidth);
+//        rawCharIndex += changed;
+//        glyphCharIndex += changed;
     }
 
     @Override
