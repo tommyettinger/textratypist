@@ -1839,8 +1839,15 @@ public class Font implements Disposable {
                 appendTo.add(current | ch);
                 if((targetWidth > 0 && w > targetWidth) || appendTo.atLimit) {
                     Line earlier = appendTo.peekLine();
-                    int ln = appendTo.lines() - 1;
-                    Line later = appendTo.pushLine();
+                    Line later;
+                    if(appendTo.lines.size >= appendTo.maxLines) {
+                        later = null;
+                    }
+                    else {
+                        later = Pools.obtain(Line.class);
+                        later.height = earlier.height;
+                        appendTo.lines.add(later);
+                    }
                     if(later == null){
                         // here, the max lines have been reached, and an ellipsis may need to be added
                         // to the last line.
