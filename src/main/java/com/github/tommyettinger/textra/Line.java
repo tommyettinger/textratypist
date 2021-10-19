@@ -48,4 +48,17 @@ public class Line implements Pool.Poolable {
         width = 0;
         height = 0;
     }
+
+    public StringBuilder appendTo(StringBuilder sb) {
+        sb.append("(\"");
+        for (int i = 0, n = glyphs.size; i < n; i++) {
+            sb.append((char) glyphs.get(i));
+        }
+        sb.append("\" w=").append(width).append(" h=").append(height).append(')');
+        return sb;
+    }
+
+    public String toString(){
+        return appendTo(new StringBuilder(glyphs.size + 20)).toString();
+    }
 }
