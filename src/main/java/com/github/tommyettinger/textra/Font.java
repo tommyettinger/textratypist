@@ -772,6 +772,26 @@ public class Font implements Disposable {
                                     if (k != 0) {
                                         kerning.put(glyph.id << 16 | (b << 9 | i), k);
                                     }
+                                    if((b << 9 | i) == '['){
+                                        kerning.put(glyph.id << 16 | 2, k);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if((glyph.id & 0xFFFF) == '['){
+                        mapping.put(2, gr);
+                        if(glyph.kerning != null) {
+                            for (int b = 0; b < glyph.kerning.length; b++) {
+                                byte[] kern = glyph.kerning[b];
+                                if(kern != null) {
+                                    int k;
+                                    for (int i = 0; i < 512; i++) {
+                                        k = kern[i];
+                                        if (k != 0) {
+                                            kerning.put(2 << 16 | (b << 9 | i), k);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -854,6 +874,9 @@ public class Font implements Disposable {
             gr.offsetY = yo;
             gr.xAdvance = a;
             mapping.put(c, gr);
+            if(c == '['){
+                mapping.put(2, gr);
+            }
         }
         idx = indexAfter(fnt, "\nkernings count=", 0);
         if(idx < fnt.length()){
@@ -864,6 +887,12 @@ public class Font implements Disposable {
                 int second = intFromDec(fnt, idx, idx = indexAfter(fnt, " amount=", idx));
                 int amount = intFromDec(fnt, idx, idx = indexAfter(fnt, "\nkerning first=", idx));
                 kerning.put(first << 16 | second, amount);
+                if(first == '['){
+                    kerning.put(2 << 16 | second, amount);
+                }
+                if(second == '['){
+                    kerning.put(first << 16 | 2, amount);
+                }
             }
         }
         defaultValue = mapping.get(' ', mapping.get(0));
@@ -1720,7 +1749,7 @@ public class Font implements Disposable {
                         kern = kern << 16 | '[';
                         w = (appendTo.peekLine().width += xAdvance(current | '[') + kerning.get(kern, 0) * scaleX);
                     }
-                    appendTo.add(current | '[');
+                    appendTo.add(current | 2);
                     if(targetWidth > 0 && w > targetWidth) {
                         Line earlier = appendTo.peekLine();
                         int ln = appendTo.lines() - 1;

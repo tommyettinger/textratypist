@@ -255,10 +255,12 @@ public class Layout implements Pool.Poolable {
      * @return sb, for chaining
      */
     public StringBuilder appendInto(StringBuilder sb){
+        long gl;
         for (int i = 0, n = lines.size; i < n; i++) {
             Line line = lines.get(i);
             for (int j = 0, ln = line.glyphs.size; j < ln; j++) {
-                sb.append((char)line.glyphs.get(j));
+                gl = line.glyphs.get(j);
+                sb.append((char)gl);
             }
         }
         return sb;
@@ -266,6 +268,6 @@ public class Layout implements Pool.Poolable {
 
     @Override
     public String toString() {
-        return appendInto(new StringBuilder()).toString();
+        return appendInto(new StringBuilder()).toString().replace('\u0002', '[');
     }
 }
