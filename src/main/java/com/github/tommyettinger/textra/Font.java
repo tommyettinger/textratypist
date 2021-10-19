@@ -1318,30 +1318,31 @@ public class Font implements Disposable {
         if ((glyph & UNDERLINE) != 0L) {
             final GlyphRegion under = mapping.get('_');
             if (under != null) {
-                final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.25f,
+                final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.625f,
                         underV = under.getV(),
-                        underU2 = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.75f,
+                        underU2 = underU + iw,
                         underV2 = under.getV2(),
                         hu = under.getRegionHeight() * scaleY, yu = y + cellHeight - hu - under.offsetY * scaleY;
-                vertices[0] = x - 1f;
+                x0 = x - (under.offsetX);
+                vertices[0] = x0 - 1f;
                 vertices[1] = yu + hu;
                 vertices[2] = color;
                 vertices[3] = underU;
                 vertices[4] = underV;
 
-                vertices[5] = x - 1f;
+                vertices[5] = x0 - 1f;
                 vertices[6] = yu;
                 vertices[7] = color;
                 vertices[8] = underU;
                 vertices[9] = underV2;
 
-                vertices[10] = x + changedW + 1f;
+                vertices[10] = x0 + changedW + 1f;
                 vertices[11] = yu;
                 vertices[12] = color;
                 vertices[13] = underU2;
                 vertices[14] = underV2;
 
-                vertices[15] = x + changedW + 1f;
+                vertices[15] = x0 + changedW + 1f;
                 vertices[16] = yu + hu;
                 vertices[17] = color;
                 vertices[18] = underU2;
