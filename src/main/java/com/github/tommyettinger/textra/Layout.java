@@ -141,6 +141,19 @@ public class Layout implements Pool.Poolable {
         return line;
     }
 
+    public Line insertLine(int index) {
+        if(lines.size >= maxLines) {
+            atLimit = true;
+            return null;
+        }
+        if(index < 0 || index >= maxLines) return null;
+        Line line = Pools.obtain(Line.class), prev = lines.get(index);
+        prev.glyphs.add('\n');
+        line.height = prev.height;
+        lines.insert(index + 1, line);
+        return line;
+    }
+
     public float getTargetWidth() {
         return targetWidth;
     }

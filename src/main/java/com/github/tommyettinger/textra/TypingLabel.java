@@ -662,7 +662,9 @@ public class TypingLabel extends TextraLabel {
             // Advance glyph count
             glyphLeft--;
         }
-        font.wrap(workingLayout, workingLayout.targetWidth);
+        int changed = font.wrap(workingLayout, workingLayout.targetWidth);
+        rawCharIndex += changed;
+        glyphCharIndex += changed;
     }
 
     @Override
