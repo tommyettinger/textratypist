@@ -1972,18 +1972,18 @@ public class Font implements Disposable {
         return appendTo;
     }
 
-    public Layout wrap(Layout changing, float targetWidth) {
+    public int wrap(Layout changing, float targetWidth) {
         if(changing.font == null || !changing.font.equals(this) || targetWidth <= 0f)
         {
-            return changing;
+            return 0;
         }
-        int kern = -1;
+        int kern = -1, changed = 0;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
         long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(changing.getBaseColor())) & COLOR_MASK;
         for (int ln = 0; ln < changing.lines(); ln++) {
             Line earlier = changing.getLine(ln);
 //            if(ln >= 7)
-//                System.out.println(earlier);
+//                System.out.println(earlier.glyphs.size);
             float nextWidth = 0f;
             PER_GLYPH:
             for (int i = 0; i < earlier.glyphs.size; i++) {
@@ -2008,8 +2008,11 @@ public class Font implements Disposable {
                         later = changing.getLine(ln + 1);
                     }
                     else{
+                        System.out.println("Adding line #" + changing.lines() + " with ln==" + ln);
                         Line line = Pools.obtain(Line.class);
                         line.height = earlier.height;
+//                        earlier.glyphs.add('\n');
+//                        changed++;
                         changing.lines.insert(ln + 1, line);
                         later = line;
                     }
@@ -2059,15 +2062,16 @@ public class Font implements Disposable {
                                         earlier.glyphs.add(baseColor | changing.ellipsis.charAt(e));
                                     }
                                     earlier.width = earlier.width + changeNext;
-                                    return changing;
+                                    return changed + changing.ellipsis.length();
                                 }
                                 if (earlier.width - change + changeNext < targetWidth) {
+                                    changed += j + 1 - earlier.glyphs.size;
                                     earlier.glyphs.truncate(j + 1);
                                     for (int e = 0; e < changing.ellipsis.length(); e++) {
                                         earlier.glyphs.add(baseColor | changing.ellipsis.charAt(e));
                                     }
                                     earlier.width = earlier.width - change + changeNext;
-                                    return changing;
+                                    return changed + changing.ellipsis.length();
                                 }
                             }
                         }
@@ -2098,6 +2102,7 @@ public class Font implements Disposable {
                                             break;
                                         }
                                         later.glyphs.insert(idx++, curr);
+                                        changed++;
                                     }
                                 } else {
                                     int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF), k3 = -1;
@@ -2117,14 +2122,20 @@ public class Font implements Disposable {
                                             break;
                                         }
                                         later.glyphs.insert(idx++, curr);
+                                        changed++;
                                     }
                                 }
                                 for (int p = 0; p < earlier.glyphs.size - 1 - j; p++) {
                                     later.glyphs.insert(p, earlier.glyphs.get(j + 1 + p));
+                                    changed++;
                                 }
+                                changed += j - earlier.glyphs.size;
                                 earlier.glyphs.truncate(j);
                                 if(ln + 1 < changing.maxLines)
+                                {
                                     earlier.glyphs.add('\n');
+                                    changed++;
+                                }
 //                                changing.add('\n');
                                 later.width += changeNext;
                                 earlier.width -= change;
@@ -2136,7 +2147,7 @@ public class Font implements Disposable {
             }
         }
 
-        return changing;
+        return changed;
     }
 
     /**

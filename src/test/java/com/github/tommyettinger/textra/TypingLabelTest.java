@@ -138,10 +138,10 @@ public class TypingLabelTest extends ApplicationAdapter {
         text.append("This is a simple test to show you ");
         text.append("how to make dialogues fun again!\n");
         text.append("With this library you can control the flow of the text with ");
-        text.append("tokens, making the text go\nreally fast ");
+        text.append("tokens, making the text go really fast ");
         text.append("or extremely slow. ");
         text.append("You can also wait for a second or two, ");
-        text.append("just to catch an\nevent in code!\n\n");
+        text.append("just to catch an event in code!\n\n");
         text.append("Imagine the possibilities! =D");
 
         /* //This version is what we should eventually test on.
