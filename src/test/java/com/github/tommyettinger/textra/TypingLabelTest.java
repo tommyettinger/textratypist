@@ -130,6 +130,9 @@ public class TypingLabelTest extends ApplicationAdapter {
     public TypingLabel createTypingLabel() {
         // Create text with tokens
 //        final StringBuilder text = new StringBuilder();
+//        text.append("Cool{STYLE=^}{COLOR=SKY}[[citation needed]{STYLE=^}{COLOR=WHITE}.");
+
+//        final StringBuilder text = new StringBuilder();
 //        text.append(" {RESET}You can also wait for a {EASE=-15;2;1}second{ENDEASE}\n\n{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
 //        text.append("{RAINBOW=1;1;0.7;0.5} just to catch an event in code{EVENT=example}!{WAIT} {ENDRAINBOW}");
 
@@ -158,21 +161,23 @@ public class TypingLabelTest extends ApplicationAdapter {
 
         //This version is what we should eventually test on.
         final StringBuilder text = new StringBuilder();
-        text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}Welcome,{WAIT} {VAR=title}!{ENDEASE}");
+        text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}Welcome,{WAIT} {STYLE=/}{VAR=title}{STYLE=/}!{ENDEASE}");
         text.append("{FAST}\n\n");
-        text.append("{RESET}{HANG=0.7}This is a simple test{ENDHANG} to show you");
+        text.append("{RESET}{HANG=0.7}This is a simple test{ENDHANG} to {STYLE=_}show you{STYLE=_}");
         text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {JUMP}how to make dialogues {SLOW}fun again! {ENDJUMP}{WAIT}{ENDGRADIENT}\n");
-        text.append("{NORMAL}{CLEARCOLOR}{SICK} With this library{ENDSICK} you can control the flow of the text with");
+        text.append("{NORMAL}{CLEARCOLOR}{SICK} With this library{ENDSICK} you can control the flow{STYLE=^}{COLOR=SKY} [[citation needed]{STYLE=^}{COLOR=WHITE} of the text with");
         text.append(" {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
         text.append("{SPEED=2.50}{COLOR=#84DD60} making the text go {SHAKE=1;1;3}really fast{ENDSHAKE}{WAIT=0.5} ");
         text.append("{SPEED=0.25}{COLOR=#A6E22D}{WAVE=0.66}or extremely slow.{ENDWAVE}");
         text.append("{RESET} You can also wait for a {EASE=-15;2;1}second{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
         text.append("{RAINBOW=1;1;0.7} just to catch an event in code{EVENT=example}!{WAIT} {ENDHANG}{ENDRAINBOW}");
         text.append("{NORMAL}\n\n");
-        text.append("{VAR=FIRE_WIND}Imagine the possibilities! =D {RESET}");
+        text.append("{VAR=FIRE_WIND}Imagine the {STYLE=STRIKE}bugs{STYLE=STRIKE} possibilities! =D {RESET}");
 
 
         // Create label
+//        Font font = new Font("Gentium-sdf.fnt", Font.DistanceFieldType.SDF).scaleTo(50, 50).setTextureFilter();
+//        font.distanceFieldCrispness = 1.5f;
         final TypingLabel label = new TypingLabel("", skin);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");

@@ -15,8 +15,8 @@ import regexodus.Replacer;
 
 /** Utility class to parse tokens from a {@link TypingLabel}. */
 class Parser {
-    private static final Pattern PATTERN_MARKUP_STRIP      = Pattern.compile("(\\[{2})|(\\[[^\\[\\]]*(\\[|\\])?)");
-    private static final Replacer MARKUP_TO_TAG            = new Replacer(Pattern.compile("\\[([^\\[\\]]+)\\]?"), "{STYLE=$1}");
+    private static final Pattern PATTERN_MARKUP_STRIP      = Pattern.compile("(\\[[^\\[\\]]*(\\]|$))");
+    private static final Replacer MARKUP_TO_TAG            = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]]+)(\\]|$)"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{6,8}");
 
     private static final String[] BOOLEAN_TRUE = {"true", "yes", "t", "y", "on", "1"};
@@ -295,7 +295,7 @@ class Parser {
         Matcher m = PATTERN_MARKUP_STRIP.matcher(text);
         while(m.find()) {
             final String tag = m.group(0);
-            final int index = m.start(0);// - count(text.toString(), '\n', m.start(0));;
+            final int index = m.start(0);
             label.tokenEntries.add(new TokenEntry("SKIP", TokenCategory.SKIP, index, 0, tag));
         }
     }
