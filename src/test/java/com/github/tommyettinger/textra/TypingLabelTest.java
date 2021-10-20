@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
@@ -40,10 +41,10 @@ public class TypingLabelTest extends ApplicationAdapter {
 
         batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("uiskin.json"));
-        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Linear, TextureFilter.Linear);
         float scale = 1;
         skin.getFont("default-font").getData().setScale(scale);
-        stage = new Stage(new ScreenViewport(), batch);
+        stage = new Stage(new StretchViewport(720, 405), batch);
         Gdx.input.setInputProcessor(stage);
 
         final Table table = new Table();
@@ -110,7 +111,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         table.add(label).colspan(5).growX();
         table.row();
         table.add(labelEvent).colspan(5).align(Align.center);
-        table.row().uniform().expand().growX().space(40).center();
+        table.row().uniform().expand().growX().space(40).align(Align.bottom);
         table.add(buttonPause, buttonResume, buttonRestart, buttonSkip, buttonRebuild);
 
         table.pack();
@@ -176,9 +177,9 @@ public class TypingLabelTest extends ApplicationAdapter {
 
 
         // Create label
-//        Font font = new Font("Gentium-sdf.fnt", Font.DistanceFieldType.SDF).scaleTo(50, 50).setTextureFilter();
-//        font.distanceFieldCrispness = 1.5f;
-        final TypingLabel label = new TypingLabel("", skin);
+        Font font = new Font("Gentium-sdf.fnt", Font.DistanceFieldType.SDF).scaleTo(36, 36).setTextureFilter();
+        font.distanceFieldCrispness = 1.5f;
+        final TypingLabel label = new TypingLabel("", font);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 //        label.setDefaultToken("{EASE=15;8;1}");
@@ -252,7 +253,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TypingLabel Test");
         config.setWindowedMode(720, 405);
-        config.setResizable(false);
+        config.setResizable(true);
         config.setForegroundFPS(60);
         config.useVsync(true);
         new Lwjgl3Application(new TypingLabelTest(), config);

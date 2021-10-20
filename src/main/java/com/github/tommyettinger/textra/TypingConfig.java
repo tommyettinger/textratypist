@@ -93,7 +93,7 @@ public class TypingConfig {
         INTERVAL_MULTIPLIERS_BY_CHAR.put('.', 2.5f);
         INTERVAL_MULTIPLIERS_BY_CHAR.put('!', 5.0f);
         INTERVAL_MULTIPLIERS_BY_CHAR.put('?', 5.0f);
-        INTERVAL_MULTIPLIERS_BY_CHAR.put('\n', 20f);
+        INTERVAL_MULTIPLIERS_BY_CHAR.put('\n', 2.5f);
 
         // Register default tokens
         registerEffect("EASE", "ENDEASE", EaseEffect.class);
