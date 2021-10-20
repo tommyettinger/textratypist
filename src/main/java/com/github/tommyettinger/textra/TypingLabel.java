@@ -662,14 +662,23 @@ public class TypingLabel extends TextraLabel {
             // Advance glyph count
             glyphLeft--;
         }
-//        int changed = font.wrap(workingLayout, workingLayout.targetWidth);
-//        rawCharIndex += changed;
-//        glyphCharIndex += changed;
     }
 
+    /**
+     * If your font uses {@link com.github.tommyettinger.textra.Font.DistanceFieldType#SDF} or {@link com.github.tommyettinger.textra.Font.DistanceFieldType#MSDF},
+     * then this has to do some extra work to use the appropriate shader.
+     * If {@link Font#enableShader(Batch)} was called before rendering a group of TypingLabels, then they will try to
+     * share one Batch; otherwise this will change the shader to render SDF or MSDF, then change it back at the end of
+     * each draw() call.
+     * @param batch
+     * @param parentAlpha
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.validate();
+        boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
+        if(resetShader)
+            font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
         final int lines = workingLayout.lines();
         float baseX = getX(align), baseY = getY(align);
@@ -699,7 +708,8 @@ public class TypingLabel extends TextraLabel {
             baseY -= font.cellHeight;
         }
         addMissingGlyphs();
-
+        if(resetShader)
+            batch.setShader(null);
     }
 
     @Override
