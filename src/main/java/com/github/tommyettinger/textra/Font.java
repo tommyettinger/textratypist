@@ -1318,12 +1318,12 @@ public class Font implements Disposable {
         if ((glyph & UNDERLINE) != 0L) {
             final GlyphRegion under = mapping.get('_');
             if (under != null) {
-                final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.625f,
+                final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.375f,
                         underV = under.getV(),
-                        underU2 = underU + iw,
+                        underU2 = underU + iw * 0.25f,
                         underV2 = under.getV2(),
                         hu = under.getRegionHeight() * scaleY, yu = y + cellHeight - hu - under.offsetY * scaleY;
-                x0 = x - (under.offsetX);
+                x0 = x+2f;
                 vertices[0] = x0 - 1f;
                 vertices[1] = yu + hu;
                 vertices[2] = color;
@@ -1353,12 +1353,12 @@ public class Font implements Disposable {
         if ((glyph & STRIKETHROUGH) != 0L) {
             final GlyphRegion dash = mapping.get('-');
             if (dash != null) {
-                final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.625f,
+                final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.375f,
                         dashV = dash.getV(),
-                        dashU2 = dashU + iw,
+                        dashU2 = dashU + iw * 0.25f,
                         dashV2 = dash.getV2(),
                         hd = dash.getRegionHeight() * scaleY, yd = y + cellHeight - hd - dash.offsetY * scaleY;
-                x0 = x - (dash.offsetX);
+                x0 = x+2f;
                 vertices[0] = x0 - 1f;
                 vertices[1] = yd + hd;
                 vertices[2] = color;
