@@ -149,26 +149,26 @@ public class TypingLabelTest extends ApplicationAdapter {
 //        text.append("just to catch an\nevent in code!\n\n");
 //        text.append("Imagine the possibilities! =D");
 
-        final StringBuilder text = new StringBuilder("Fonts can be rendered normally, but using {{TAGS}, you can..."
-                + "\n{COLOR=#E74200}...use CSS-style hex colors like #E74200..."
-                + "\n{COLOR=FOREST}...use named colors from the Colors class, like FOREST...{RESET}"
-                + "\n...and use {STYLE=!}effects{STYLE=!}!"
-                + "\nNormal, {STYLE=*}bold{STYLE=*}, {STYLE=/}oblique{STYLE=/} (like italic), {STYLE=*}{STYLE=/}bold oblique{RESET},"
-                + "\n{STYLE=_}underline (even for multiple words){STYLE=_}, {STYLE=~}strikethrough (same){RESET},"
-                + "\nvarious heights: {STYLE=.}sub-{STYLE=.}, {STYLE==}mid-{STYLE==}, and {STYLE=^}super-{STYLE=^}script,"
-                + "\ncapitalization changes: {STYLE=;}each cap, {STYLE=,}All Lower, {STYLE=!}Caps lock{RESET},"
-                + "\nUnicode support: Pchnąć w tę łódź {COLOR=BROWN}jeża{RESET} lub ośm skrzyń {COLOR=PURPLE}fig{RESET}."
-                + "\nWELCOME {STYLE=/}TO THE {STYLE=*}{COLOR=GREEN}JUNGLE{RESET}.");
-//        final StringBuilder text = new StringBuilder("Fonts can be rendered normally, but using [[TAGS], you can..."
-//                + "\n[#E74200]...use CSS-style hex colors like #E74200..."
-//                + "\n[FOREST]...use named colors from the Colors class, like FOREST...[]"
-//                + "\n...and use [!]effects[!]!"
-//                + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
-//                + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
-//                + "\nvarious heights: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
-//                + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[],"
-//                + "\nUnicode support: Pchnąć w tę łódź [BROWN]jeża[] lub ośm skrzyń [PURPLE]fig[]."
-//                + "\nWELCOME [/]TO THE [*][GREEN]JUNGLE[].");
+//        final StringBuilder text = new StringBuilder("Fonts can be rendered normally, but using {{TAGS}, you can..."
+//                + "\n{COLOR=#E74200}...use CSS-style hex colors like #E74200..."
+//                + "\n{COLOR=FOREST}...use named colors from the Colors class, like FOREST...{RESET}"
+//                + "\n...and use {STYLE=!}effects{STYLE=!}!"
+//                + "\nNormal, {STYLE=*}bold{STYLE=*}, {STYLE=/}oblique{STYLE=/} (like italic), {STYLE=*}{STYLE=/}bold oblique{RESET},"
+//                + "\n{STYLE=_}underline (even for multiple words){STYLE=_}, {STYLE=~}strikethrough (same){RESET},"
+//                + "\nvarious heights: {STYLE=.}sub-{STYLE=.}, {STYLE==}mid-{STYLE==}, and {STYLE=^}super-{STYLE=^}script,"
+//                + "\ncapitalization changes: {STYLE=;}each cap, {STYLE=,}All Lower, {STYLE=!}Caps lock{RESET},"
+//                + "\nUnicode support: Pchnąć w tę łódź {COLOR=BROWN}jeża{RESET} lub ośm skrzyń {COLOR=PURPLE}fig{RESET}."
+//                + "\nWELCOME {STYLE=/}TO THE {STYLE=*}{COLOR=GREEN}JUNGLE{RESET}.");
+        final StringBuilder text = new StringBuilder("Fonts can be rendered normally, but using [[TAGS], you can..."
+                + "\n[#E74200]...use CSS-style hex colors like #E74200..."
+                + "\n[FOREST]...use named colors from the Colors class, like FOREST...[]"
+                + "\n...and use [!]effects[!]!"
+                + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
+                + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
+                + "\nvarious heights: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
+                + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[],"
+                + "\nUnicode support: Pchnąć w tę łódź [BROWN]jeża[] lub ośm skrzyń [PURPLE]fig[]."
+                + "\nWELCOME [/]TO THE [*][GREEN]JUNGLE[].");
 
 //        final StringBuilder text = new StringBuilder();
 //        text.append("Welcome, curious human!\n");
@@ -211,7 +211,8 @@ public class TypingLabelTest extends ApplicationAdapter {
         // Make the label wrap to new lines, respecting the table's layout.
         label.layout.maxLines = 15;
         label.layout.setTargetWidth(620);
-        label.setText(text.toString(), true, true);
+//        label.setText(Parser.preprocess(text.toString()), true, true);
+        label.setText(text.toString());
 
         // Set variable replacements for the {VAR} token
         label.setVariable("title", "curious human");
