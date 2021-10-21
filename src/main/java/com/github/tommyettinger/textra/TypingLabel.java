@@ -50,12 +50,6 @@ public class TypingLabel extends TextraLabel {
     private         boolean          ignoringEffects       = false;
     private         String           defaultToken          = "";
 
-    // Superclass mirroring
-    boolean wrap;
-    String  ellipsis;
-    float   lastPrefHeight;
-    boolean fontScaleChanged = false;
-
     ////////////////////////////
     /// --- Constructors --- ///
     ////////////////////////////
@@ -114,7 +108,9 @@ public class TypingLabel extends TextraLabel {
      * Sets the text of this label.
      *
      * @param modifyOriginalText Flag determining if the original text should be modified as well. If {@code false},
-     *                           only the display text is changed while the original text is untouched.
+     *                           only the display text is changed while the original text is untouched. If {@code true},
+     *                           then this runs {@link Parser#preprocess(CharSequence)} on the text, which should only
+     *                           generally be run once per original text.
      * @see #restart(String)
      */
     protected void setText(String newText, boolean modifyOriginalText) {
@@ -312,7 +308,6 @@ public class TypingLabel extends TextraLabel {
         workingLayout.maxLines = Integer.MAX_VALUE;
         workingLayout.atLimit = false;
         workingLayout.ellipsis = null;
-        ellipsis = null;
         Pools.freeAll(workingLayout.lines);
         workingLayout.lines.clear();
         workingLayout.lines.add(Pools.obtain(Line.class));
@@ -476,7 +471,6 @@ public class TypingLabel extends TextraLabel {
                     ended = true;
                     skipping = false;
                     if(listener != null) listener.end();
-//                    System.out.println(0xFFFFFFL & getInLayout(workingLayout, getLayoutSize(workingLayout) - 1));
                 }
                 return;
             }
@@ -485,14 +479,6 @@ public class TypingLabel extends TextraLabel {
             if(rawCharIndex >= 0) {
                 glyphCharIndex++;
             }
-
-//            if(glyphCharIndex >= 30 && glyphCharIndex < 33) {
-//                //debug here
-//                for(Effect e : activeEffects){
-//                    System.out.print(e.getClass().getSimpleName() + ", ");
-//                }
-//                System.out.println();
-//            }
 
             // Process tokens according to the current index
             while(tokenEntries.size > 0 && tokenEntries.peek().index == rawCharIndex) {
@@ -544,12 +530,7 @@ public class TypingLabel extends TextraLabel {
                         if(isStart) {
                             entry.effect.indexStart = glyphCharIndex;
                             activeEffects.add(entry.effect);
-//                            System.out.println("START of " + entry.token + ": " + entry.effect.indexStart);
                         }
-//                        else
-//                            System.out.println(entry.token);
-
-
                     }
                 }
             }
