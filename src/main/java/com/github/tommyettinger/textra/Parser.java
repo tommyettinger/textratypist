@@ -405,7 +405,7 @@ class Parser {
             sb.append(tokens.get(i));
             if((i + 1) < tokens.size) sb.append('|');
         }
-        sb.append(")(?:=([;#-_ \\.\\w]+))?\\}");
+        sb.append(")(?:=([^\\{\\}]+))?\\}");
         return Pattern.compile(sb.toString(), REFlags.IGNORE_CASE);
     }
 
