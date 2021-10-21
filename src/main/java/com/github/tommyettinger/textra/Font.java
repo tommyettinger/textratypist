@@ -1659,7 +1659,7 @@ public class Font implements Disposable {
                 if (i+1 < n && text.charAt(i+1) != '{') {
                     int end = text.indexOf('}', i);
                     for (; i < n && i <= end; i++) {
-                        appendTo.add(text.charAt(i));
+                        appendTo.add(current | text.charAt(i));
                     }
                     i--;
                 }
