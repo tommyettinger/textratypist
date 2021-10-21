@@ -27,7 +27,7 @@ class Parser {
     private static String  RESET_REPLACEMENT;
 
     static String preprocess(CharSequence text){
-        return MARKUP_TO_TAG.replace(text);
+        return MARKUP_TO_TAG.replace(text).replace("[]", "{RESET}");
     }
 
     /** Parses all tokens from the given {@link TypingLabel}. */
