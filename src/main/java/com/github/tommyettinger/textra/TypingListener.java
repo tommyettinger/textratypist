@@ -10,10 +10,10 @@ public interface TypingListener {
      * @param event Name of the event specified in the token. e.g. <tt>{EVENT=player_name}</tt> will have
      *              <tt>player_name</tt> as argument.
      */
-    public void event(String event);
+    void event(String event);
 
     /** Called when the char progression reaches the end. */
-    public void end();
+    void end();
 
     /**
      * Called when variable tokens are replaced in text. This is an alternative method to deal with variables, other
@@ -28,13 +28,13 @@ public interface TypingListener {
      * @see TypingLabel#setVariables(java.util.Map)
      * @see TypingLabel#setVariables(com.badlogic.gdx.utils.ObjectMap)
      */
-    public String replaceVariable(String variable);
+    String replaceVariable(String variable);
 
     /**
      * Called when a new character is displayed. May be called many times per frame depending on the label
      * configurations and text speed. Useful to do a certain action each time a character is displayed, like playing a
      * sound effect.
      */
-    public void onChar(Long ch);
+    void onChar(Long ch);
 
 }

@@ -9,13 +9,6 @@ import com.github.tommyettinger.textra.effects.*;
 /** Configuration class that easily allows the user to fine tune the library's functionality. */
 public class TypingConfig {
 
-    /**
-     * Whether or not <a href="https://github.com/libgdx/libgdx/wiki/Color-Markup-Language">LibGDX's Color Markup
-     * Language</a> should be enabled when parsing a {@link TypingLabel}. Note that this library doesn't truly handle
-     * colors, but simply convert them to the markup format. If markup is disabled, color tokens will be ignored.
-     */
-    public static boolean FORCE_COLOR_MARKUP_BY_DEFAULT = true;
-
     /** Default time in seconds that an empty {@code WAIT} token should wait for. Default value is {@code 0.250}. */
     public static float DEFAULT_WAIT_VALUE = 0.250f;
 
