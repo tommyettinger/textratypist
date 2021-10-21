@@ -183,8 +183,8 @@ public class TypingLabelTest extends ApplicationAdapter {
         final StringBuilder text = new StringBuilder();
         text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}Welcome,{WAIT} {STYLE=/}{VAR=title}{STYLE=/}!{ENDEASE}");
         text.append("{FAST}\n\n");
-        text.append("{RESET}{HANG=0.7}This is a [*]simple[*] test{ENDHANG} to {STYLE=_}show you{STYLE=_}");
-        text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {JUMP}how to make dialogues {SLOW}fun again! {ENDJUMP}{WAIT}{ENDGRADIENT}\n");
+        text.append("{RESET}{HANG=0.7}This is a [*][YELLOW]simple[WHITE][*] test{ENDHANG} to {STYLE=_}show you{STYLE=_}");
+        text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {JUMP}how to make dialogues {SLOW}[*][/]fun[/][*] again! {ENDJUMP}{WAIT}{ENDGRADIENT}\n");
         text.append("{NORMAL}{CLEARCOLOR}{SICK}With this library{ENDSICK} you can control the flow[^][SKY] [[citation needed][] of the text with");
         text.append(" {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
         text.append("{SPEED=2.50}{COLOR=#84DD60} making the text go {SHAKE=1;1;3}really fast{ENDSHAKE}{WAIT=0.5} ");

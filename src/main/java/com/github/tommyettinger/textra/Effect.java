@@ -98,7 +98,7 @@ public abstract class Effect {
     }
 
     /** Parses a color from the given string. Returns null if the color couldn't be parsed. */
-    protected Color paramAsColor(String str) {
+    protected Integer paramAsColor(String str) {
         return Parser.stringToColor(str);
     }
 

@@ -304,19 +304,22 @@ class Parser {
     }
 
     /** Parses a color from the given string. Returns null if the color couldn't be parsed. */
-    static Color stringToColor(String str) {
+    static Integer stringToColor(String str) {
         if(str != null) {
 
             // Try to parse named color
-            Color namedColor = Colors.get(str.toUpperCase());
+            Color namedColor = Colors.get(str);
             if(namedColor != null) {
-                return new Color(namedColor);
+                return Color.rgba8888(namedColor);
             }
 
             // Try to parse hex
             if(str.length() >= 6) {
                 try {
-                    return Color.valueOf(str);
+                    if(str.startsWith("#")) str = str.substring(1);
+                    if(str.length() == 6) return Integer.parseInt(str, 16) << 8 | 0xFF;
+                    if(str.length() == 7) return Integer.parseInt(str.substring(0, 6), 16) << 8 | 0xFF;
+                    if(str.length() == 8) return Integer.parseInt(str, 16);
                 } catch(NumberFormatException ignored) {
                 }
             }

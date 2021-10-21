@@ -11,8 +11,8 @@ public class GradientEffect extends Effect {
     private static final float DEFAULT_DISTANCE  = 0.975f;
     private static final float DEFAULT_FREQUENCY = 2f;
 
-    private Color color1    = null; // First color of the gradient.
-    private Color color2    = null; // Second color of the gradient.
+    private int color1      = 0xFFFFFFFF; // First color of the gradient, RGBA8888.
+    private int color2      = 0xFFFFFFFF; // Second color of the gradient, RGBA8888.
     private float distance  = 1; // How extensive the rainbow effect should be.
     private float frequency = 1; // How frequently the color pattern should move through the text.
 
@@ -21,12 +21,14 @@ public class GradientEffect extends Effect {
 
         // Color 1
         if(params.length > 0) {
-            this.color1 = paramAsColor(params[0]);
+            Integer c = paramAsColor(params[0]);
+            if(c != null) this.color1 = c;
         }
 
         // Color 2
         if(params.length > 1) {
-            this.color2 = paramAsColor(params[1]);
+            Integer c = paramAsColor(params[1]);
+            if(c != null) this.color2 = c;
         }
 
         // Distance
@@ -38,10 +40,6 @@ public class GradientEffect extends Effect {
         if(params.length > 3) {
             this.frequency = paramAsFloat(params[3], 1);
         }
-
-        // Validate parameters
-        if(this.color1 == null) this.color1 = new Color(Color.WHITE);
-        if(this.color2 == null) this.color2 = new Color(Color.WHITE);
     }
 
     @Override
@@ -53,7 +51,7 @@ public class GradientEffect extends Effect {
 
         // Calculate color
         label.setInLayouts(globalIndex,
-                (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors(Color.rgba8888(this.color1), Color.rgba8888(this.color2), progress) << 32);
+                (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors(this.color1, this.color2, progress) << 32);
     }
 
 }
