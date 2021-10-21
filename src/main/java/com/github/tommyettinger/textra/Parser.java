@@ -350,7 +350,7 @@ class Parser {
         if(str != null) {
             // If color isn't registered by name, try to parse it as a hex code.
             if(!Colors.getColors().containsKey(str) && str.length() >= 6 && PATTERN_COLOR_HEX_NO_HASH.matches(str)) {
-                    str = "#" + str;
+                    return "[#" + str + "]";
             }
         }
 
