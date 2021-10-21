@@ -10,8 +10,8 @@ import com.github.tommyettinger.textra.TypingLabel;
 public class BlinkEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 1f;
 
-    private Color color1    = null; // First color of the effect.
-    private Color color2    = null; // Second color of the effect.
+    private int color1      = 0xFFFFFFFF; // First color of the effect, RGBA8888.
+    private int color2      = 0xFFFFFFFF; // Second color of the effect, RGBA8888.
     private float frequency = 1; // How frequently the color pattern should move through the text.
     private float threshold = 0.5f; // Point to switch colors.
 
@@ -20,12 +20,14 @@ public class BlinkEffect extends Effect {
 
         // Color 1
         if(params.length > 0) {
-            this.color1 = paramAsColor(params[0]);
+            Integer c = paramAsColor(params[0]);
+            if(c != null) this.color1 = c;
         }
 
         // Color 2
         if(params.length > 1) {
-            this.color2 = paramAsColor(params[1]);
+            Integer c = paramAsColor(params[1]);
+            if(c != null) this.color2 = c;
         }
 
         // Frequency
@@ -39,8 +41,6 @@ public class BlinkEffect extends Effect {
         }
 
         // Validate parameters
-        if(this.color1 == null) this.color1 = new Color(Color.WHITE);
-        if(this.color2 == null) this.color2 = new Color(Color.WHITE);
         this.threshold = MathUtils.clamp(this.threshold, 0, 1);
     }
 
@@ -51,7 +51,7 @@ public class BlinkEffect extends Effect {
         float progress = calculateProgress(frequencyMod);
 
         // Calculate and assign color
-        label.setInLayouts(globalIndex, (glyph & 0xFFFFFFFFL) | (long) Color.rgba8888(progress <= threshold ? color1 : color2) << 32);
+        label.setInLayouts(globalIndex, (glyph & 0xFFFFFFFFL) | (long) (progress <= threshold ? color1 : color2) << 32);
     }
 
 }

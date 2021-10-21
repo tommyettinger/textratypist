@@ -10,8 +10,8 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /** Fades the text's color from between colors or alphas. Doesn't repeat itself. */
 public class FadeEffect extends Effect {
-    private Color color1       = null; // First color of the effect.
-    private Color color2       = null; // Second color of the effect.
+    private Integer color1     = null; // First color of the effect.
+    private Integer color2     = null; // Second color of the effect.
     private float alpha1       = 0; // First alpha of the effect, in case a color isn't provided.
     private float alpha2       = 1; // Second alpha of the effect, in case a color isn't provided.
     private float fadeDuration = 1; // Duration of the fade effect
@@ -55,7 +55,7 @@ public class FadeEffect extends Effect {
                     (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha1 * 255, 1f - progress) << 32);
         } else {
             label.setInLayouts(globalIndex,
-                    (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors((int)(glyph >>> 32), Color.rgba8888(this.color1), 1f - progress) << 32);
+                    (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors((int)(glyph >>> 32), this.color1, 1f - progress) << 32);
         }
 
         // Calculate final color
@@ -64,7 +64,7 @@ public class FadeEffect extends Effect {
                     (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha2 * 255, progress) << 32);
         } else {
             label.setInLayouts(globalIndex,
-                    (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors((int)(glyph >>> 32), Color.rgba8888(this.color2), progress) << 32);
+                    (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors((int)(glyph >>> 32), this.color2, progress) << 32);
         }
     }
 
