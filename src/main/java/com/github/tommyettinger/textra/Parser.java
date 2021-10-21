@@ -26,6 +26,8 @@ class Parser {
     private static Pattern PATTERN_TOKEN_STRIP;
     private static String  RESET_REPLACEMENT;
 
+    static ColorLookup lookup = ColorLookup.GdxColorLookup.INSTANCE;
+
     static String preprocess(CharSequence text){
         return MARKUP_TO_TAG.replace(text).replace("[]", "{RESET}");
     }
@@ -308,9 +310,9 @@ class Parser {
         if(str != null) {
 
             // Try to parse named color
-            Color namedColor = Colors.get(str);
+            Integer namedColor = lookup.getRgba(str);
             if(namedColor != null) {
-                return Color.rgba8888(namedColor);
+                return namedColor;
             }
 
             // Try to parse hex
