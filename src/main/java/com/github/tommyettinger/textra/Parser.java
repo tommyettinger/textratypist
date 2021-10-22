@@ -306,11 +306,11 @@ class Parser {
     }
 
     /** Parses a color from the given string. Returns null if the color couldn't be parsed. */
-    static Integer stringToColor(String str) {
+    static Integer stringToColor(TypingLabel label, String str) {
         if(str != null) {
 
             // Try to parse named color
-            Integer namedColor = lookup.getRgba(str);
+            Integer namedColor = label.font.getColorLookup().getRgba(str);
             if(namedColor != null) {
                 return namedColor;
             }
