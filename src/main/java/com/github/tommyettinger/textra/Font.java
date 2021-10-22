@@ -499,8 +499,8 @@ public class Font implements Disposable {
     }
 
     /**
-     * Copy constructor; does not copy the font's {@link #shader}, if it has one (it keeps a reference), but will fully
-     * copy everything else.
+     * Copy constructor; does not copy the font's {@link #shader} or {@link #colorLookup}, if it has them (it uses the
+     * same reference for the new Font), but will fully copy everything else.
      * @param toCopy another Font to copy
      */
     public Font(Font toCopy){
@@ -522,9 +522,12 @@ public class Font implements Disposable {
         defaultValue = toCopy.defaultValue;
         kerning = toCopy.kerning == null ? null : new IntIntMap(toCopy.kerning);
 
-        // the shader is not copied, because there isn't much point in having different copies of a ShaderProgram.
+        // shader and colorLookup are not copied, because there isn't much point in having different copies of
+        // a ShaderProgram or stateless ColorLookup.
         if(toCopy.shader != null)
             shader = toCopy.shader;
+        if(toCopy.colorLookup != null)
+            colorLookup = toCopy.colorLookup;
     }
 
     /**
