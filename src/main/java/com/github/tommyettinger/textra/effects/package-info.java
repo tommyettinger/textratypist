@@ -14,26 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.tommyettinger.textra;
-
-/** Simple listener for label events. You can derive from this and only override what you are interested in. */
-public class TypingAdapter implements TypingListener {
-
-    @Override
-    public void event(String event) {
-    }
-
-    @Override
-    public void end() {
-    }
-
-    @Override
-    public String replaceVariable(String variable) {
-        return null;
-    }
-
-    @Override
-    public void onChar(Long ch) {
-    }
-
-}
+/**
+ * Contains the various effects that can be applied to text in a TypingLabel.
+ */
+package com.github.tommyettinger.textra.effects;
