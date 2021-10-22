@@ -197,19 +197,16 @@ public class TypingLabelTest extends ApplicationAdapter {
 
         // Create label
         Font font = new Font("Gentium-sdf.fnt", Font.DistanceFieldType.SDF, 0f, 0f, 0f, 0f).scaleTo(36, 36).setTextureFilter();
-        font.distanceFieldCrispness = 1.5f;
         font.originalCellHeight *= 0.8125f;
         font.cellHeight *= 0.8125f;
         final TypingLabel label = new TypingLabel("", font);
 //        final TypingLabel label = new TypingLabel("", skin);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
-//        label.setDefaultToken("{EASE=15;8;1}");
 
         // Make the label wrap to new lines, respecting the table's layout.
         label.layout.maxLines = 15;
         label.layout.setTargetWidth(620);
-//        label.setText(Parser.preprocess(text.toString()), true, true);
         label.setText(text.toString());
 
         // Set variable replacements for the {VAR} token

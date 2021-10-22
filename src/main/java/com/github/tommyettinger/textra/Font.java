@@ -944,6 +944,18 @@ public class Font implements Disposable {
     }
 
     /**
+     * Multiplies the line height by {@code multiplier} without changing the size of any characters.
+     * This can cut off the tops of letters if the multiplier is too small.
+     * @param multiplier will be applied to {@link #cellHeight} and {@link #originalCellHeight}
+     * @return this Font, for chaining
+     */
+    public Font adjustLineHeight(float multiplier){
+        cellHeight *= multiplier;
+        originalCellHeight *= multiplier;
+        return this;
+    }
+
+    /**
      * Calls {@link #setTextureFilter(Texture.TextureFilter, Texture.TextureFilter)} with
      * {@link Texture.TextureFilter#Linear} for both min and mag filters.
      * This is the most common usage for setting the texture filters, and is appropriate when you have
@@ -982,6 +994,11 @@ public class Font implements Disposable {
      * unless you are mixing them with SDF/MSDF fonts or other shaders. This also resets the Batch color to white, in
      * case it had been left with a different setting before. If this Font is not an MSDF font, then this resets batch's
      * shader to the default (using {@code batch.setShader(null)}).
+     * <br>
+     * This is called automatically for {@link TextraLabel} and {@link TypingLabel} if it hasn't been called already.
+     * You may still want to call this automatically for those cases if you have multiple such Labels that use the same
+     * Font; in that case, you can draw several Labels without ending the current batch. You do need to set the shader
+     * back to whatever you use for other items before you draw those, typically with {@code batch.setShader(null);} .
      * @param batch the Batch to instruct to use the appropriate shader for this font; should usually be a SpriteBatch
      */
     public void enableShader(Batch batch) {
@@ -993,8 +1010,8 @@ public class Font implements Disposable {
         } else if(distanceField == DistanceFieldType.SDF){
             if (batch.getShader() != shader) {
                 batch.setShader(shader);
-                final float scale = Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth) * 0.5f + 0.5f;
-                shader.setUniformf("u_smoothing", (distanceFieldCrispness / (scale * scale)));
+                final float scale = Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth) * 0.5f + 0.125f;
+                shader.setUniformf("u_smoothing", (distanceFieldCrispness / (scale)));
             }
         } else {
             batch.setShader(null);
