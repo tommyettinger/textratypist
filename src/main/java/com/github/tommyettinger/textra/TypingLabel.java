@@ -761,14 +761,4 @@ public class TypingLabel extends TextraLabel {
                 index -= glyphs.size;
         }
     }
-
-    /**
-     * Unlikely to be used in most games, this allows changing how colors are looked up by name (or built) given a
-     * {@link ColorLookup} interface implementation.
-     * @param lookup a non-null ColorLookup
-     */
-    public static void setColorLookup(ColorLookup lookup){
-        if(lookup != null)
-            Parser.lookup = lookup;
-    }
 }

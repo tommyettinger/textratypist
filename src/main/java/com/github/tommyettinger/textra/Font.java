@@ -11,7 +11,14 @@ import com.badlogic.gdx.graphics.g2d.DistanceFieldFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.CharArray;
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.IntIntMap;
+import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.NumberUtils;
+import com.badlogic.gdx.utils.Pools;
 
 import java.util.Arrays;
 import java.util.BitSet;
@@ -171,6 +178,29 @@ public class Font implements Disposable {
      * Scale multiplier for height.
      */
     public float scaleY = 1f;
+
+    /**
+     * Determines how colors are looked up by name; defaults to using {@link Colors}.
+     */
+    public ColorLookup colorLookup = ColorLookup.GdxColorLookup.INSTANCE;
+
+    /**
+     * Gets the ColorLookup this uses to look up colors by name.
+     * @return a ColorLookup implementation
+     */
+    public ColorLookup getColorLookup() {
+        return colorLookup;
+    }
+
+    /**
+     * Unlikely to be used in most games, this allows changing how colors are looked up by name (or built) given a
+     * {@link ColorLookup} interface implementation.
+     * @param lookup a non-null ColorLookup
+     */
+    public void setColorLookup(ColorLookup lookup){
+        if(lookup != null)
+            colorLookup = lookup;
+    }
 
     public static final long BOLD = 1L << 30, OBLIQUE = 1L << 29,
             UNDERLINE = 1L << 28, STRIKETHROUGH = 1L << 27,
@@ -1153,9 +1183,9 @@ public class Font implements Disposable {
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode.</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
-     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
-     *     {@link Colors}, changes the color. The name can optionally be preceded by {@code |}, which allows looking up
-     *     colors with names that contain punctuation.</li>
+     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up with
+     *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
+     *     looking up colors with names that contain punctuation.</li>
      * </ul>
      * <br>
      * Parsing markup for a full screen every frame typically isn't necessary, and you may want to store the most recent
@@ -1734,8 +1764,8 @@ public class Font implements Disposable {
      *     <li>{@code [;]} toggles capitalize each word mode.</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
-     *     {@link Colors}, changes the color. The name can optionally be preceded by {@code |}, which allows looking up
-     *     colors with names that contain punctuation.</li>
+     *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
+     *     looking up colors with names that contain punctuation.</li>
      * </ul>
      * You can render {@code appendTo} using {@link #drawGlyphs(Batch, Layout, float, float)}.
      * @param text text with markup
@@ -1835,17 +1865,17 @@ public class Font implements Disposable {
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         case '|':
-                            // attempt to look up a known Color name from Colors
-                            Color lookupColor = Colors.get(text.substring(i + 1, i + len));
+                            // attempt to look up a known Color name with a ColorLookup
+                            Integer lookupColor = colorLookup.getRgba(text.substring(i + 1, i + len));
                             if (lookupColor == null) color = baseColor;
-                            else color = (long) Color.rgba8888(lookupColor) << 32;
+                            else color = (long) lookupColor << 32;
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         default:
-                            // attempt to look up a known Color name from Colors
-                            Color gdxColor = Colors.get(text.substring(i, i + len));
+                            // attempt to look up a known Color name with a ColorLookup
+                            Integer gdxColor = colorLookup.getRgba(text.substring(i, i + len));
                             if (gdxColor == null) color = baseColor;
-                            else color = (long) Color.rgba8888(gdxColor) << 32;
+                            else color = (long) gdxColor << 32;
                             current = (current & ~COLOR_MASK) | color;
                     }
                     i += len;
