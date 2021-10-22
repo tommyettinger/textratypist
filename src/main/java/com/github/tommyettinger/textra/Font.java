@@ -1045,6 +1045,93 @@ public class Font implements Disposable {
             x += current.getRegionWidth();
         }
     }
+
+    /**
+     * Draws a grid made of rectangular blocks of int colors (typically RGBA) at the given x,y position in world space.
+     * This is only useful for monospace fonts.
+     * This assumes there is a full-block character at char u0000; Glamer produces fonts that have this already.
+     * The {@code colors} parameter should be a rectangular 2D array, and because any colors that are the default int
+     * value {@code 0} will be treated as transparent RGBA values, if a value is not assigned to a slot in the array
+     * then nothing will be drawn there. This is usually called before other methods that draw foreground text.
+     * <br>
+     * Internally, this uses {@link Batch#draw(Texture, float[], int, int)} to draw each rectangle with minimal
+     * overhead, and this also means it is unaffected by the batch color. If you want to alter the colors using a
+     * shader, the shader will receive each color in {@code colors} as its {@code a_color} attribute, the same as if it
+     * was passed via the batch color.
+     * @param batch typically a SpriteBatch
+     * @param colors a 2D rectangular array of int colors (typically RGBA)
+     * @param x the x position in world space to draw the text at (lower left corner)
+     * @param y the y position in world space to draw the text at (lower left corner)
+     */
+    public void drawBlocks(Batch batch, int[][] colors, float x, float y) {
+        drawBlocks(batch, '\u0000', colors, x, y);
+    }
+    /**
+     * Draws a grid made of rectangular blocks of int colors (typically RGBA) at the given x,y position in world space.
+     * This is only useful for monospace fonts.
+     * The {@code blockChar} should visually be represented by a very large block, occupying all of a monospaced cell.
+     * The {@code colors} parameter should be a rectangular 2D array, and because any colors that are the default int
+     * value {@code 0} will be treated as transparent RGBA values, if a value is not assigned to a slot in the array
+     * then nothing will be drawn there. This is usually called before other methods that draw foreground text.
+     * <br>
+     * Internally, this uses {@link Batch#draw(Texture, float[], int, int)} to draw each rectangle with minimal
+     * overhead, and this also means it is unaffected by the batch color. If you want to alter the colors using a
+     * shader, the shader will receive each color in {@code colors} as its {@code a_color} attribute, the same as if it
+     * was passed via the batch color.
+     * @param batch typically a SpriteBatch
+     * @param blockChar a char that renders as a full block, occupying an entire monospaced cell with a color
+     * @param colors a 2D rectangular array of int colors (typically RGBA)
+     * @param x the x position in world space to draw the text at (lower left corner)
+     * @param y the y position in world space to draw the text at (lower left corner)
+     */
+    public void drawBlocks(Batch batch, char blockChar, int[][] colors, float x, float y) {
+        final TextureRegion block = mapping.get(blockChar);
+        if(block == null) return;
+        final Texture parent = block.getTexture();
+        final float u = block.getU() + (block.getU2() - block.getU()) * 0.25f,
+                v = block.getV() + (block.getV2() - block.getV()) * 0.25f,
+                u2 = block.getU2() - (block.getU2() - block.getU()) * 0.25f,
+                v2 = block.getV2() - (block.getV2() - block.getV()) * 0.25f;
+        vertices[0] = x;
+        vertices[1] = y;
+        //vertices[2] = color;
+        vertices[3] = u;
+        vertices[4] = v;
+
+        vertices[5] = x;
+        vertices[6] = y + cellHeight;
+        //vertices[7] = color;
+        vertices[8] = u;
+        vertices[9] = v2;
+
+        vertices[10] = x + cellWidth;
+        vertices[11] = y + cellHeight;
+        //vertices[12] = color;
+        vertices[13] = u2;
+        vertices[14] = v2;
+
+        vertices[15] = x + cellWidth;
+        vertices[16] = y;
+        //vertices[17] = color;
+        vertices[18] = u2;
+        vertices[19] = v;
+        for (int xi = 0, xn = colors.length, yn = colors[0].length; xi < xn; xi++) {
+            for (int yi = 0; yi < yn; yi++) {
+                if((colors[xi][yi] & 254) != 0) {
+                    vertices[2] = vertices[7] = vertices[12] = vertices[17] =
+                            NumberUtils.intBitsToFloat(Integer.reverseBytes(colors[xi][yi] & -2));
+                    batch.draw(parent, vertices, 0, 20);
+                }
+                vertices[1] = vertices[16] += cellHeight;
+                vertices[6] = vertices[11] += cellHeight;
+            }
+            vertices[0] = vertices[5] += cellWidth;
+            vertices[10] = vertices[15] += cellWidth;
+            vertices[1] = vertices[16] = y;
+            vertices[6] = vertices[11] = y + cellHeight;
+        }
+    }
+
     /**
      * Draws the specified text at the given x,y position (in world space), parsing an extension of libGDX markup
      * and using it to determine color, size, position, shape, strikethrough, underline, and case of the given
