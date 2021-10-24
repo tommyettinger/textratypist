@@ -823,6 +823,12 @@ public class Font implements Disposable {
                 }
             }
         }
+        // Newlines shouldn't render.
+        if(mapping.containsKey('\n')){
+            GlyphRegion gr = mapping.get('\n');
+            gr.setRegionWidth(0);
+            gr.setRegionHeight(0);
+        }
         defaultValue =  mapping.get(data.missingGlyph == null ? ' ' : data.missingGlyph.id, mapping.get(' ', mapping.values().next()));
         originalCellWidth = cellWidth;
         originalCellHeight = cellHeight;
@@ -918,6 +924,12 @@ public class Font implements Disposable {
                     kerning.put(first << 16 | 2, amount);
                 }
             }
+        }
+        // Newlines shouldn't render.
+        if(mapping.containsKey('\n')){
+            GlyphRegion gr = mapping.get('\n');
+            gr.setRegionWidth(0);
+            gr.setRegionHeight(0);
         }
         defaultValue = mapping.get(' ', mapping.get(0));
         originalCellWidth = cellWidth;
