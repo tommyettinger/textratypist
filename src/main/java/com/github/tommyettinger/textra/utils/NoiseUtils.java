@@ -34,6 +34,7 @@ public class NoiseUtils {
         final int xFloor = x >= 0f ? (int) x : (int) x - 1,
                 rise = 1 - ((x >= 0f ? (int) (x + x) : (int) (x + x) - 1) & 2);
         x -= xFloor;
+        // gets a random float between -16 and 16. Magic.
         final float h = NumberUtils.intBitsToFloat((int)((seed + xFloor ^ 0x9E3779B97F4A7C15L) * 0xD1B54A32D192ED03L >>> 41) | 0x42000000) - 48f;
         x *= x - 1f;
         return rise * x * x * h;
