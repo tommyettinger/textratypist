@@ -19,20 +19,23 @@ package com.github.tommyettinger.textra.effects;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.FloatArray;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
-/** Shakes the text in a random pattern. */
-public class ShakeEffect extends Effect {
+/** Randomly selects and shakes individual characters in the text. */
+public class JoltEffect extends Effect {
     private static final float DEFAULT_DISTANCE  = 0.12f;
     private static final float DEFAULT_INTENSITY = 0.5f;
+    private static final float DEFAULT_LIKELIHOOD = 0.05f;
 
     private final FloatArray lastOffsets = new FloatArray();
 
-    private float distance  = 1; // How far the glyphs should move
-    private float intensity = 1; // How fast the glyphs should move
+    private float distance  = DEFAULT_DISTANCE; // How far the glyphs should move
+    private float intensity = DEFAULT_INTENSITY; // How fast the glyphs should move
+    private float likelihood = DEFAULT_LIKELIHOOD; // How likely it is that each glyph will shake; repeatedly checked
 
-    public ShakeEffect(TypingLabel label, String[] params) {
+    public JoltEffect(TypingLabel label, String[] params) {
         super(label);
 
         // Distance
@@ -47,7 +50,12 @@ public class ShakeEffect extends Effect {
 
         // Duration
         if(params.length > 2) {
-            this.duration = paramAsFloat(params[2], -1);
+            this.duration = paramAsFloat(params[2], Float.POSITIVE_INFINITY);
+        }
+
+        // Likelihood
+        if(params.length > 3) {
+            this.likelihood = paramAsFloat(params[3], DEFAULT_LIKELIHOOD);
         }
     }
 
@@ -63,21 +71,23 @@ public class ShakeEffect extends Effect {
         float lastY = lastOffsets.get(localIndex * 2 + 1);
 
         // Calculate new offsets
-        float x = getLineHeight() * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
-        float y = getLineHeight() * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
+        float x = 0f, y = 0f;
+        if(likelihood > determineFloat((TimeUtils.millis() >>> 10) + globalIndex)) {
+            x = getLineHeight() * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
+            y = getLineHeight() * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
 
-        // Apply intensity
-        float normalIntensity = MathUtils.clamp(intensity * DEFAULT_INTENSITY, 0, 1);
-        x = Interpolation.linear.apply(lastX, x, normalIntensity);
-        y = Interpolation.linear.apply(lastY, y, normalIntensity);
+            // Apply intensity
+            float normalIntensity = MathUtils.clamp(intensity * DEFAULT_INTENSITY, 0, 1);
+            x = Interpolation.linear.apply(lastX, x, normalIntensity);
+            y = Interpolation.linear.apply(lastY, y, normalIntensity);
 
-        // Apply fadeout
-        float fadeout = calculateFadeout();
-        x *= fadeout;
-        y *= fadeout;
-        x = MathUtils.round(x);
-        y = MathUtils.round(y);
-
+            // Apply fadeout
+            float fadeout = calculateFadeout();
+            x *= fadeout;
+            y *= fadeout;
+            x = MathUtils.round(x);
+            y = MathUtils.round(y);
+        }
         // Store offsets for the next tick
         lastOffsets.set(localIndex * 2, x);
         lastOffsets.set(localIndex * 2 + 1, y);
@@ -85,6 +95,10 @@ public class ShakeEffect extends Effect {
         // Apply changes
         label.offsets.incr(globalIndex << 1, x);
         label.offsets.incr(globalIndex << 1 | 1, y);
+    }
+
+    private static float determineFloat(long state) {
+        return ((((state = (((state * 0x632BE59BD9B4E019L) ^ 0x9E3779B97F4A7C15L) * 0xC6BC279692B5CC83L)) ^ state >>> 27) * 0xAEF17502108EF2D9L) >>> 40) * 0x1p-24f;
     }
 
 }

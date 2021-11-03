@@ -20,7 +20,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
-/** Blinks the entire text in two different colors at once, without interpolation. */
+/**
+ * Blinks the entire text in two different colors at once, without interpolation.
+ */
 public class BlinkEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 1f;
 

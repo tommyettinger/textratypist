@@ -116,6 +116,7 @@ public class TypingConfig {
         registerEffect("GRADIENT", "ENDGRADIENT", GradientEffect.class);
         registerEffect("FADE", "ENDFADE", FadeEffect.class);
         registerEffect("BLINK", "ENDBLINK", BlinkEffect.class);
+        registerEffect("JOLT", "ENDJOLT", JoltEffect.class);
     }
 
 }
