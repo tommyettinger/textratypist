@@ -43,9 +43,12 @@ if(JavaVersion.current().isJava9Compatible()) {
     }
 }
 
-sourceSets.test.resources.srcDirs = [ file('src/test/resources').path ]
+sourceSets.test.resources.srcDirs = [ file('src/test/resources').path, file('knownFonts').path ]
 
 javadoc.destinationDir = file('docs/apidocs')
+
+processResources.duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+processTestResources.duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 
 jar {
     archiveBaseName.set(projectName)
