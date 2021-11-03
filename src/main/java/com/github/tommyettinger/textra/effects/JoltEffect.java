@@ -61,14 +61,14 @@ public class JoltEffect extends Effect {
             this.likelihood = paramAsFloat(params[3], DEFAULT_LIKELIHOOD);
         }
 
-        // Color 1
-        if(params.length > 0) {
+        // Base Color
+        if(params.length > 4) {
             Integer c = paramAsColor(params[4]);
             if(c != null) this.baseColor = c;
         }
 
-        // Color 2
-        if(params.length > 1) {
+        // Actively Jolting Color
+        if(params.length > 5) {
             Integer c = paramAsColor(params[5]);
             if(c != null) this.joltColor = c;
         }
