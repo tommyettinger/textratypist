@@ -112,7 +112,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     public TypingLabel createTypingLabel() {
         // Create label
 //        final TypingLabel label = new TypingLabel("WELCOME {STYLE=OBLIQUE}TO THE {STYLE=bold}{COLOR=11bb00}JUNGLE{RESET}, WE'VE GOT A MAN, A PLAN, A CANAL: PANAMA!",
-        final TypingLabel label = new TypingLabel("{VAR=ICE_WIND}WELCOME [/]TO THE {STYLE=bold}{COLOR=88ccff}WINTER OF OUR DISCONTENT{RESET}, WE'VE GOT A MAN, A PLAN, A CANAL: PANAMA!",
+        final TypingLabel label = new TypingLabel("{JOLT=1;1.2;inf;0.3}THERE'S A [/]{STYLE=bold}{COLOR=772288}STORM[WHITE]{RESET}, WE'VE GOT A MAN, A PLAN, A CANAL: PANAMA!",
 //        final TypingLabel label = new TypingLabel("[/][*][GREEN]JUNGLE[*][WHITE] TO THE[/] WELCOME!",
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!",
                 new Font(new BitmapFont(Gdx.files.internal("OpenSans.fnt")), Font.DistanceFieldType.STANDARD,

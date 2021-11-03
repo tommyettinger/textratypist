@@ -29,9 +29,9 @@ public class EaseEffect extends Effect {
 
     private float   distance  = 1; // How much of their height they should move
     private float   intensity = 1; // How fast the glyphs should move
-    private boolean elastic   = false; // Whether or not the glyphs have an elastic movement
+    private boolean elastic   = false; // True if the glyphs have an elastic movement
 
-    private IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
+    private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
 
     public EaseEffect(TypingLabel label, String[] params) {
         super(label);
