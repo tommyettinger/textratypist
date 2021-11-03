@@ -14,7 +14,7 @@ import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
  * Typical usage involves calling one of the static methods like {@link #getCozette()} or {@link #getGentium()} to get a
  * particular Font. This knows a fair amount of fonts, but it doesn't require the image assets for all of those to be
  * present in a game -- only the files mentioned in the documentation for a method are needed, and only if you call that
- * method. It's likely that many games would only use one font file, and so would generally only need a .fnt file, a
+ * method. It's likely that many games would only use one Font, and so would generally only need a .fnt file, a
  * .png file, and some kind of license file. They could ignore all other assets required by other fonts.
  */
 public class KnownFonts implements LifecycleListener {
@@ -43,9 +43,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Cozette.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Cozette.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Cozette-license.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-license.txt</li>
      * </ul>
      * @return the Font object that represents the 7x13px font Cozette
      */
@@ -74,9 +74,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/OpenSans.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/OpenSans.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/OpenSans-License.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-License.txt</li>
      * </ul>
      * @return the Font object that represents the variable-width font OpenSans
      */
@@ -109,9 +109,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/AStarry-msdf.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/AStarry-msdf.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/AStarry-license.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-msdf.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-msdf.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-license.txt</li>
      * </ul>
      * @return the Font object that can represent many sizes of the font A Starry using MSDF
      */
@@ -147,9 +147,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/CascadiaMono-msdf.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/CascadiaMono-msdf.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Cascadia-license.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-msdf.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-msdf.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-license.txt</li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Cascadia Code Mono using MSDF
      */
@@ -181,9 +181,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/DejaVuSansMono-msdf.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/DejaVuSansMono-msdf.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/DejaVuSansMono-License.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-msdf.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-msdf.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-License.txt</li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Inconsolata LGC using MSDF
      */
@@ -212,9 +212,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Inconsolata-LGC-Custom-msdf.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Inconsolata-LGC-Custom-msdf.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Inconsolata-LGC-License.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-msdf.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-msdf.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt</li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Inconsolata LGC using MSDF
      */
@@ -249,9 +249,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Iosevka-msdf.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Iosevka-msdf.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Iosevka-License.md</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-msdf.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-msdf.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md</li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Iosevka.ttf using MSDF
      */
@@ -286,9 +286,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Iosevka-Slab-msdf.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Iosevka-Slab-msdf.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Iosevka-License.md</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md</li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf using MSDF
      */
@@ -322,9 +322,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Gentium-sdf.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Gentium-sdf.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Gentium-license.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-license.txt</li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Gentium.ttf using SDF
      */
@@ -357,9 +357,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/LibertinusSerif-Regular-msdf.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/LibertinusSerif-Regular-msdf.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/LibertinusSerif-License.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-Regular-msdf.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-Regular-msdf.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-License.txt</li>
      * </ul>
      * @return the Font object that can represent many sizes of the font LibertinusSerif.ttf using MSDF
      */
@@ -392,15 +392,15 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/KingthingsFoundation-bold.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/KingthingsFoundation-bold.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Kingthings-License.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-bold.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-bold.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt</li>
      * </ul>
      * You may instead want the non-bold version, but this doesn't have a pre-made instance in KnownFonts:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/KingthingsFoundation-standard.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/KingthingsFoundation-standard.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Kingthings-License.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt</li>
      * </ul>
      * @return the Font object that can represent many sizes of the font KingthingsFoundation.ttf
      */
@@ -432,9 +432,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Oxanium-standard.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Oxanium-standard.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Oxanium-License.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-License.txt</li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Oxanium.ttf
      */
@@ -466,9 +466,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/YanoneKaffeesatz-standard.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/YanoneKaffeesatz-standard.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/YanoneKaffeesatz-License.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-standard.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-standard.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-License.txt</li>
      * </ul>
      * @return the Font object that can represent many sizes of the font YanoneKaffeesatz.ttf
      */
@@ -502,9 +502,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Canada1500-standard.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Canada1500-standard.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/Canada1500-License.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-License.txt</li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Canada1500.ttf
      */
@@ -537,9 +537,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/RobotoCondensed-standard.fnt</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/RobotoCondensed-standard.png</li>
-     *     <li>https://github.com/yellowstonegames/SquidSquad/blob/master/assets/RobotoCondensed-License.txt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-standard.fnt</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-standard.png</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-License.txt</li>
      * </ul>
      * @return the Font object that can represent many sizes of the font RobotoCondensed.ttf
      */
