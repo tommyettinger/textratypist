@@ -15,8 +15,16 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 
 Yes, it has more than the typewriter mode! Text can hang above and then drop into place. It can jump up and down in a
 long wave. It can waver and shudder, as if it is sick. It can blink in different colors, move in a gradient smoothly
-between two colors, or go across a whole rainbow. Lots of options; lots of fun. Effects are exactly the same as in
+between two colors, or go across a whole rainbow. Lots of options; lots of fun. Effects are almost the same as in
 typing-label, so you should consult [its documentation](https://github.com/rafaskb/typing-label/wiki/Examples) for now.
+
+The one new effect so far is `{JOLT}`, which randomly chooses glyphs over time to get "shocked," shaking them as with
+the `{SHAKE}` effect briefly and optionally changing their color while shocked. It takes distance (often 1), intensity
+(often 1), duration (often "inf" to make it last forever), likelihood (a low float between 0 and 1, with higher values
+making more glyphs get shocked), base color and jolting color.
+
+I'll probably clone the typing-label wiki at some point and update the relevant parts for the way this library works,
+but I haven't done this yet.
 
 ## And now, it's got style!
 
@@ -44,18 +52,37 @@ to do the same thing. The full list of styles:
   - This also can be used with a color tag, such as `{COLOR=SKY}` (which Colors can handle right away) or
     `{COLOR=Lighter Orange-Red}` (which would need that color to be defined).
 
+## But wait, there's fonts!
+
+Textratypist makes heavy use of its new `Font` class, which is a full overhaul of libGDX's BitmapFont that shares
+essentially no code with its ancestor. A Font has various qualities that give it more power than BitmapFont, mostly
+derived from how it stores (and makes available) the glyph images as TextureRegions in a map. There's nothing strictly
+preventing you from adding your own images to the `mapping` of a Font, as long as they have the requisite information to
+be used as a textual glyph, and then placing those images in with your text. Textratypist supports standard bitmap
+fonts and also distance field fonts, using SDF or MSDF. `TypingLabel` will automatically enable the ShaderProgram that
+the appropriate distance field type needs (if it needs one) and disable it after rendering itself. You can change this
+behavior by manually calling the `Font.enableShader(Batch)` method on your Font, and changing the Batch back to your
+other ShaderProgram of choice with its `Batch.setShader()` method (often, you just pass null here to reset the shader).
+
+There are several preconfigured font settings in `KnownFonts`; the documentation for each font getter says what files
+are needed to use that font. This is meant to save some hassle getting the xAdjust, yAdjust, widthAdjust, 
+and heightAdjust parameters just right, though you're still free to change them however you wish. The license files for
+each font are included in the same folder, in `knownFonts` here. All fonts provided here were checked to ensure their
+licenses permit commercial use without fees, and all do. Most require attribution; check the licenses for details. The
+variety of font types isn't amazing, but it should be a good starting point.
+
 ## How do I get it?
 
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.1.0"
+implementation "com.github.tommyettinger:textratypist:0.1.1"
 ```
 
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.1.0:sources"
+implementation "com.github.tommyettinger:textratypist:0.1.1:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
