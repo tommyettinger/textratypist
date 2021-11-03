@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
+import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /** Randomly selects and shakes individual characters in the text. */
 public class JoltEffect extends Effect {
@@ -34,6 +35,8 @@ public class JoltEffect extends Effect {
     private float distance  = DEFAULT_DISTANCE; // How far the glyphs should move
     private float intensity = DEFAULT_INTENSITY; // How fast the glyphs should move
     private float likelihood = DEFAULT_LIKELIHOOD; // How likely it is that each glyph will shake; repeatedly checked
+    private int baseColor = 0xFFFFFFFF;
+    private int joltColor = 0xFFFFFFFF;
 
     public JoltEffect(TypingLabel label, String[] params) {
         super(label);
@@ -57,6 +60,19 @@ public class JoltEffect extends Effect {
         if(params.length > 3) {
             this.likelihood = paramAsFloat(params[3], DEFAULT_LIKELIHOOD);
         }
+
+        // Color 1
+        if(params.length > 0) {
+            Integer c = paramAsColor(params[4]);
+            if(c != null) this.baseColor = c;
+        }
+
+        // Color 2
+        if(params.length > 1) {
+            Integer c = paramAsColor(params[5]);
+            if(c != null) this.joltColor = c;
+        }
+
     }
 
     @Override
@@ -72,7 +88,7 @@ public class JoltEffect extends Effect {
 
         // Calculate new offsets
         float x = 0f, y = 0f;
-        if(likelihood > determineFloat((TimeUtils.millis() >>> 10) + globalIndex)) {
+        if(likelihood > determineFloat((TimeUtils.millis() >>> 10) * globalIndex + localIndex)) {
             x = getLineHeight() * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
             y = getLineHeight() * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
 
@@ -87,7 +103,12 @@ public class JoltEffect extends Effect {
             y *= fadeout;
             x = MathUtils.round(x);
             y = MathUtils.round(y);
+            if(fadeout > 0)
+                label.setInLayouts(globalIndex, (glyph & 0xFFFFFFFFL) | (long) joltColor << 32);
         }
+        else
+            label.setInLayouts(globalIndex, (glyph & 0xFFFFFFFFL) | (long) baseColor << 32);
+
         // Store offsets for the next tick
         lastOffsets.set(localIndex * 2, x);
         lastOffsets.set(localIndex * 2 + 1, y);

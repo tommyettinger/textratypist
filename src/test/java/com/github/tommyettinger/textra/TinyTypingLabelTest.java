@@ -112,7 +112,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     public TypingLabel createTypingLabel() {
         // Create label
 //        final TypingLabel label = new TypingLabel("WELCOME {STYLE=OBLIQUE}TO THE {STYLE=bold}{COLOR=11bb00}JUNGLE{RESET}, WE'VE GOT A MAN, A PLAN, A CANAL: PANAMA!",
-        final TypingLabel label = new TypingLabel("{JOLT=1;1.2;inf;0.3}THERE'S A [/]{STYLE=bold}{COLOR=772288}STORM[WHITE]{RESET}, WE'VE GOT A MAN, A PLAN, A CANAL: PANAMA!",
+        final TypingLabel label = new TypingLabel("{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]{STYLE=bold}STORM{RESET} on the way, she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}," +
+                "whippin' her way through the [*]whole dang[*] town! Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, this storm will be there on clouds one through eight!",
 //        final TypingLabel label = new TypingLabel("[/][*][GREEN]JUNGLE[*][WHITE] TO THE[/] WELCOME!",
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!",
                 new Font(new BitmapFont(Gdx.files.internal("OpenSans.fnt")), Font.DistanceFieldType.STANDARD,
@@ -123,7 +124,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 
         // Make the label wrap to new lines, respecting the table's layout.
         label.layout.maxLines = 15;
-        label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth());
+        label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth() - 100);
 
         // Set variable replacements for the {VAR} token
         label.setVariable("title", "curious human");
