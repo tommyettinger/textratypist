@@ -34,7 +34,7 @@ import com.badlogic.gdx.utils.Pools;
 public class TextraLabel extends Widget {
     public Layout layout;
     public Font font;
-    public int align = Align.topLeft;
+    public int align = Align.left;
     public boolean wrap = false;
     public TextraLabel(){
         layout = Pools.obtain(Layout.class);
@@ -77,7 +77,7 @@ public class TextraLabel extends Widget {
         if(resetShader)
             font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
-        font.drawGlyphs(batch, layout, getX(align), getY(align), align);
+        font.drawGlyphs(batch, layout, getX(align), getHeight() * 0.5f + getY(align), align);
         if(resetShader)
             batch.setShader(null);
     }
@@ -113,10 +113,7 @@ public class TextraLabel extends Widget {
             layout.setTargetWidth(width);
             invalidateHierarchy();
             font.regenerateLayout(layout);
-//            layout.lineUp();
-//            for (int i = 0; i < layout.lines.size; i++) {
-//                layout.lines.get(i).height = font.cellHeight;
-//            }
+//            setSize(layout.getWidth(), layout.getHeight());
         }
     }
 
