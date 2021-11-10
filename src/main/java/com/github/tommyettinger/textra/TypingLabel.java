@@ -592,6 +592,12 @@ public class TypingLabel extends TextraLabel {
         return super.remove();
     }
 
+    @Override
+    public void setSize(float width, float height) {
+        super.setSize(width, height);
+        if(wrap)
+            workingLayout.setTargetWidth(width);
+    }
 
     @Override
     public void layout() {
