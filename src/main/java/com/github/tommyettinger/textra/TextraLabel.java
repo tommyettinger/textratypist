@@ -107,13 +107,15 @@ public class TextraLabel extends Widget {
 
     @Override
     public void layout() {
-        super.layout();
         float width = getWidth();
         if (wrap && layout.getTargetWidth() != width) {
             layout.setTargetWidth(width);
             layout.lineUp();
+            for (int i = 0; i < layout.lines.size; i++) {
+                layout.lines.get(i).height = font.cellHeight;
+            }
+            invalidateHierarchy();
         }
-
     }
 
     /**
