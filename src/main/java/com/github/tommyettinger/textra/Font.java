@@ -27,14 +27,7 @@ import com.badlogic.gdx.graphics.g2d.DistanceFieldFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.CharArray;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.IntIntMap;
-import com.badlogic.gdx.utils.IntMap;
-import com.badlogic.gdx.utils.NumberUtils;
-import com.badlogic.gdx.utils.Pools;
+import com.badlogic.gdx.utils.*;
 import regexodus.Category;
 
 import java.util.Arrays;
@@ -2133,6 +2126,158 @@ public class Font implements Disposable {
             }
         }
         return appendTo;
+    }
+
+    public Layout regenerateLayout(Layout changing) {
+        boolean capitalize = false, previousWasLetter = false,
+                capsLock = false, lowerCase = false;
+        int c;
+        final long COLOR_MASK = 0xFFFFFFFF00000000L;
+        long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(changing.getBaseColor())) & COLOR_MASK;
+        if(changing.font == null || !changing.font.equals(this)) {
+            return changing;
+        }
+        float targetWidth = changing.getTargetWidth();
+        int oldLength = changing.lines.size;
+        Line[] oldLines = changing.lines.items;
+        changing.lines.items = new Line[oldLength];
+        changing.lines.size = 0;
+        changing.lines.add(Pools.obtain(Line.class));
+        changing.lines.peek().height = cellHeight;
+        int kern = -1;
+        for (int ln = 0; ln < oldLength; ln++) {
+            Line line = oldLines[ln];
+            LongArray glyphs = line.glyphs;
+            for (int i = 0, n = glyphs.size; i < n; i++) {
+                long glyph = glyphs.get(i);
+                if(i > 0 && (glyph & 0xFFFF) == '\n')
+                    glyph ^= 42;
+                float w;
+                if (kerning == null) {
+                    w = (changing.peekLine().width += xAdvance(glyph));
+                } else {
+                    kern = kern << 16 | (int) ((glyph) & 0xFFFF);
+                    w = (changing.peekLine().width += xAdvance(glyph) + kerning.get(kern, 0) * scaleX);
+                }
+                changing.add(glyph);
+                if ((targetWidth > 0 && w > targetWidth) || changing.atLimit) {
+                    Line earlier = changing.peekLine();
+                    Line later;
+                    if (changing.lines.size >= changing.maxLines) {
+                        later = null;
+                    } else {
+                        later = Pools.obtain(Line.class);
+                        later.height = earlier.height;
+                        changing.lines.add(later);
+                    }
+                    if (later == null) {
+                        // here, the max lines have been reached, and an ellipsis may need to be added
+                        // to the last line.
+                        if (changing.ellipsis != null) {
+                            for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
+                                int leading = 0;
+                                long curr;
+                                // remove a full word or other group of non-space characters.
+                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0 && j > 0) {
+                                    ++leading;
+                                    --j;
+                                }
+                                // remove the remaining space characters.
+                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0 && j > 0) {
+                                    ++leading;
+                                    --j;
+                                }
+                                float change = 0f, changeNext = 0f;
+                                long currE;
+                                if (kerning == null) {
+                                    for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
+                                        change += xAdvance(earlier.glyphs.get(k));
+                                        if ((e < changing.ellipsis.length())) {
+                                            float adv = xAdvance(baseColor | changing.ellipsis.charAt(e));
+                                            changeNext += adv;
+                                        }
+                                    }
+                                } else {
+                                    int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
+                                    int k2e = changing.ellipsis.charAt(0) & 0xFFFF;
+                                    for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
+                                        curr = earlier.glyphs.get(k);
+                                        k2 = k2 << 16 | (char) curr;
+                                        float adv = xAdvance(curr);
+                                        change += adv + kerning.get(k2, 0) * scaleX;
+                                        if ((e < changing.ellipsis.length())) {
+                                            currE = baseColor | changing.ellipsis.charAt(e);
+                                            k2e = k2e << 16 | (char) currE;
+                                            changeNext += xAdvance(currE) + kerning.get(k2e, 0) * scaleX;
+                                        }
+                                    }
+                                }
+                                if (earlier.width + changeNext < changing.getTargetWidth()) {
+                                    for (int e = 0; e < changing.ellipsis.length(); e++) {
+                                        earlier.glyphs.add(baseColor | changing.ellipsis.charAt(e));
+                                    }
+                                    earlier.width = earlier.width + changeNext;
+                                    return changing;
+                                }
+                                if (earlier.width - change + changeNext < changing.getTargetWidth()) {
+                                    earlier.glyphs.truncate(j + 1);
+                                    for (int e = 0; e < changing.ellipsis.length(); e++) {
+                                        earlier.glyphs.add(baseColor | changing.ellipsis.charAt(e));
+                                    }
+                                    earlier.width = earlier.width - change + changeNext;
+                                    return changing;
+                                }
+                            }
+                        }
+                    } else {
+                        for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
+                            long curr;
+                            if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                    Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
+                                int leading = 0;
+                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0) {
+                                    ++leading;
+                                    --j;
+                                }
+                                float change = 0f, changeNext = 0f;
+                                if (kerning == null) {
+                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
+                                        float adv = xAdvance(curr = earlier.glyphs.get(k));
+                                        change += adv;
+                                        if (--leading < 0) {
+                                            changing.add(curr);
+                                            changeNext += adv;
+                                        }
+                                    }
+                                } else {
+                                    int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF), k3 = -1;
+                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
+                                        curr = earlier.glyphs.get(k);
+                                        k2 = k2 << 16 | (char) curr;
+                                        float adv = xAdvance(curr);
+                                        change += adv + kerning.get(k2, 0) * scaleX;
+                                        if (--leading < 0) {
+                                            k3 = k3 << 16 | (char) curr;
+                                            changeNext += adv + kerning.get(k3, 0) * scaleX;
+                                            changing.add(curr);
+                                        }
+                                    }
+                                }
+
+                                earlier.glyphs.truncate(j + 1);
+                                earlier.glyphs.add('\n');
+                                later.width = changeNext;
+                                earlier.width -= change;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return changing;
     }
 
     /**
