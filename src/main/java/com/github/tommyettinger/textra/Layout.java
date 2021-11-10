@@ -19,6 +19,7 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.LongArray;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 
@@ -177,6 +178,33 @@ public class Layout implements Pool.Poolable {
     public Layout setTargetWidth(float targetWidth) {
         // we may want this to lay existing lines out again if the width changed.
         this.targetWidth = targetWidth;
+        return this;
+    }
+
+    public Layout lineUp() {
+        int lineCount = lines.size;
+        Line[] lineItems = lines.items;
+        lines.items = new Line[lineCount];
+        lines.size = 0;
+        lines.add(Pools.obtain(Line.class));
+        for (int i = 0; i < lineCount; i++) {
+            LongArray ln = lineItems[i].glyphs;
+            for (int j = 0; j < ln.size; j++) {
+                if(atLimit)
+                    break;
+                long glyph = ln.get(j);
+                if(j == 0 && (glyph & 0xFFFFL) == 10L) {
+                    pushLine();
+                }
+                if((glyph & 0xFFFFL) == 10L) {
+                    lines.peek().glyphs.add(glyph ^ 42); // takes out newline, puts in space, keeps styles.
+                }
+                else {
+                    lines.peek().glyphs.add(glyph);
+                }
+            }
+            Pools.free(lineItems[i]);
+        }
         return this;
     }
 
