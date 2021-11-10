@@ -193,14 +193,18 @@ public class Layout implements Pool.Poolable {
                 if(atLimit)
                     break;
                 long glyph = ln.get(j);
-                if(j == 0 && (glyph & 0xFFFFL) == 10L) {
+                Line line = lines.peek();
+                if(line.width >= targetWidth || (j == 0 && (glyph & 0xFFFFL) == 10L)) {
                     pushLine();
+                    line = lines.peek();
                 }
                 if((glyph & 0xFFFFL) == 10L) {
-                    lines.peek().glyphs.add(glyph ^ 42); // takes out newline, puts in space, keeps styles.
+                    line.glyphs.add(glyph ^ 42); // takes out newline, puts in space, keeps styles.
+                    line.width += font.xAdvance(glyph ^ 42);
                 }
                 else {
-                    lines.peek().glyphs.add(glyph);
+                    line.glyphs.add(glyph);
+                    line.width += font.xAdvance(glyph);
                 }
             }
             Pools.free(lineItems[i]);
