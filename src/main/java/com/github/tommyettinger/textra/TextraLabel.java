@@ -34,7 +34,7 @@ import com.badlogic.gdx.utils.Pools;
 public class TextraLabel extends Widget {
     public Layout layout;
     public Font font;
-    public int align = Align.bottomLeft;
+    public int align = Align.topLeft;
     public boolean wrap = false;
     public TextraLabel(){
         layout = Pools.obtain(Layout.class);
@@ -97,7 +97,8 @@ public class TextraLabel extends Widget {
     }
 
     public void setWrap(boolean wrap) {
-        this.wrap = wrap;
+        if(this.wrap != (this.wrap = wrap))
+            invalidateHierarchy();
     }
 
     @Override
@@ -110,12 +111,12 @@ public class TextraLabel extends Widget {
         float width = getWidth();
         if (wrap && layout.getTargetWidth() != width) {
             layout.setTargetWidth(width);
+            invalidateHierarchy();
             font.regenerateLayout(layout);
 //            layout.lineUp();
 //            for (int i = 0; i < layout.lines.size; i++) {
 //                layout.lines.get(i).height = font.cellHeight;
 //            }
-            invalidateHierarchy();
         }
     }
 
