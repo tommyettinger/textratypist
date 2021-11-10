@@ -103,8 +103,10 @@ public class TextraLabel extends Widget {
     @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);
-        if(wrap)
+        if (wrap && layout.getTargetWidth() != width) {
             layout.setTargetWidth(width);
+            layout.lineUp();
+        }
     }
 
     /**
