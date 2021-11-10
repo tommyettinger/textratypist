@@ -11,4 +11,5 @@
     <inherits name="com.badlogic.gdx.backends.gdx_backends_gwt" />
     <inherits name="regexodus" />
     <extend-configuration-property name="gdx.reflect.include" value="com.github.tommyettinger.textra"/>
+    <extend-configuration-property name="gdx.reflect.include" value="com.github.tommyettinger.textra.effects"/>
 </module>

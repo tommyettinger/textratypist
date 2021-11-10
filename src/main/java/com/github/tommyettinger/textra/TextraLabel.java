@@ -35,6 +35,7 @@ public class TextraLabel extends Widget {
     public Layout layout;
     public Font font;
     public int align = Align.bottomLeft;
+    public boolean wrap = false;
     public TextraLabel(){
         layout = Pools.obtain(Layout.class);
         font = new Font(new BitmapFont(), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0);
@@ -89,6 +90,21 @@ public class TextraLabel extends Widget {
     @Override
     public float getPrefHeight() {
         return layout.getHeight();
+    }
+
+    public boolean isWrap() {
+        return wrap;
+    }
+
+    public void setWrap(boolean wrap) {
+        this.wrap = wrap;
+    }
+
+    @Override
+    public void setSize(float width, float height) {
+        super.setSize(width, height);
+        if(wrap)
+            layout.setTargetWidth(width);
     }
 
     /**
