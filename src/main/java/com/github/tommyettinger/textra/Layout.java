@@ -122,7 +122,7 @@ public class Layout implements Pool.Poolable {
     public float getHeight() {
         float h = 0;
         for (int i = 0, n = lines.size; i < n; i++) {
-            h = Math.max(h, lines.get(i).height);
+            h += lines.get(i).height;
         }
         return h;
     }
