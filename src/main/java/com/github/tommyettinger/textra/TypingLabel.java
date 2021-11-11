@@ -607,7 +607,6 @@ public class TypingLabel extends TextraLabel {
 
         float width = getWidth();
         if (wrap && (workingLayout.getTargetWidth() != width)) {
-            System.out.println("Resizing TypingLabel from targetWidth="+workingLayout.getTargetWidth()+" to "+width+" at "+ System.currentTimeMillis());
             layout.setTargetWidth(width);
             workingLayout.setTargetWidth(width);
             invalidateHierarchy();
