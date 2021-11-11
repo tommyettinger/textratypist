@@ -218,6 +218,7 @@ public class Font implements Disposable {
 
     private final float[] vertices = new float[20];
     private final Layout tempLayout = Pools.obtain(Layout.class);
+    private final LongArray glyphBuffer = new LongArray(128);
     /**
      * Must be in lexicographic order because we use {@link Arrays#binarySearch(char[], int, int, char)} to
      * verify if a char is present.
@@ -2087,13 +2088,14 @@ public class Font implements Disposable {
                                     ++leading;
                                     --j;
                                 }
+                                glyphBuffer.clear();
                                 float change = 0f, changeNext = 0f;
                                 if (kerning == null) {
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         float adv = xAdvance(curr = earlier.glyphs.get(k));
                                         change += adv;
                                         if (--leading < 0) {
-                                            appendTo.add(curr);
+                                            glyphBuffer.add(curr);
                                             changeNext += adv;
                                         }
                                     }
@@ -2107,17 +2109,17 @@ public class Font implements Disposable {
                                         if (--leading < 0) {
                                             k3 = k3 << 16 | (char) curr;
                                             changeNext += adv + kerning.get(k3, 0) * scaleX;
-                                            appendTo.add(curr);
+                                            glyphBuffer.add(curr);
                                         }
                                     }
                                 }
-
-
-
+                                if(earlier.width - change >= targetWidth)
+                                    continue;
                                 earlier.glyphs.truncate(j+1);
                                 earlier.glyphs.add('\n');
                                 later.width = changeNext;
                                 earlier.width -= change;
+                                later.glyphs.addAll(glyphBuffer);
                                 break;
                             }
                         }
@@ -2129,9 +2131,6 @@ public class Font implements Disposable {
     }
 
     public Layout regenerateLayout(Layout changing) {
-        boolean capitalize = false, previousWasLetter = false,
-                capsLock = false, lowerCase = false;
-        int c;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
         long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(changing.getBaseColor())) & COLOR_MASK;
         if(changing.font == null || !changing.font.equals(this)) {
@@ -2218,6 +2217,9 @@ public class Font implements Disposable {
                                         earlier.glyphs.add(baseColor | changing.ellipsis.charAt(e));
                                     }
                                     earlier.width = earlier.width + changeNext;
+                                    for (int k = ln; k < oldLength; k++) {
+                                        Pools.free(oldLines[k]);
+                                    }
                                     return changing;
                                 }
                                 if (earlier.width - change + changeNext < changing.getTargetWidth()) {
@@ -2226,6 +2228,9 @@ public class Font implements Disposable {
                                         earlier.glyphs.add(baseColor | changing.ellipsis.charAt(e));
                                     }
                                     earlier.width = earlier.width - change + changeNext;
+                                    for (int k = ln; k < oldLength; k++) {
+                                        Pools.free(oldLines[k]);
+                                    }
                                     return changing;
                                 }
                             }
@@ -2242,12 +2247,13 @@ public class Font implements Disposable {
                                     --j;
                                 }
                                 float change = 0f, changeNext = 0f;
+                                glyphBuffer.clear();
                                 if (kerning == null) {
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         float adv = xAdvance(curr = earlier.glyphs.get(k));
                                         change += adv;
                                         if (--leading < 0) {
-                                            changing.add(curr);
+                                            glyphBuffer.add(curr);
                                             changeNext += adv;
                                         }
                                     }
@@ -2261,21 +2267,24 @@ public class Font implements Disposable {
                                         if (--leading < 0) {
                                             k3 = k3 << 16 | (char) curr;
                                             changeNext += adv + kerning.get(k3, 0) * scaleX;
-                                            changing.add(curr);
+                                            glyphBuffer.add(curr);
                                         }
                                     }
                                 }
-
+                                if(earlier.width - change >= targetWidth)
+                                    continue;
                                 earlier.glyphs.truncate(j + 1);
                                 earlier.glyphs.add('\n');
-                                later.width = changeNext;
+                                later.width += changeNext;
                                 earlier.width -= change;
+                                later.glyphs.addAll(glyphBuffer);
                                 break;
                             }
                         }
                     }
                 }
             }
+            Pools.free(line);
         }
         return changing;
     }

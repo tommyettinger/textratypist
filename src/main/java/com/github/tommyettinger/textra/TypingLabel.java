@@ -16,6 +16,7 @@
 
 package com.github.tommyettinger.textra;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
@@ -606,6 +607,7 @@ public class TypingLabel extends TextraLabel {
 
         float width = getWidth();
         if (wrap && (workingLayout.getTargetWidth() != width)) {
+            System.out.println("Resizing TypingLabel from targetWidth="+workingLayout.getTargetWidth()+" to "+width+" at "+ System.currentTimeMillis());
             layout.setTargetWidth(width);
             workingLayout.setTargetWidth(width);
             invalidateHierarchy();
