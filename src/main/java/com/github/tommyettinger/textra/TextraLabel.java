@@ -36,6 +36,7 @@ public class TextraLabel extends Widget {
     public Font font;
     public int align = Align.left;
     public boolean wrap = false;
+    public String storedText;
     public TextraLabel(){
         layout = Pools.obtain(Layout.class);
         font = new Font(new BitmapFont(), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0);
@@ -53,21 +54,24 @@ public class TextraLabel extends Widget {
         font = new Font(style.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0);
         layout = Pools.obtain(Layout.class);
         layout.setBaseColor(style.fontColor);
+        storedText = text;
         font.markup(text, layout);
-        setSize(layout.getWidth(), layout.getHeight());
+//        setSize(layout.getWidth(), layout.getHeight());
     }
     public TextraLabel(String text, Font font) {
         this.font = font;
         layout = Pools.obtain(Layout.class);
+        storedText = text;
         font.markup(text, layout);
-        setSize(layout.getWidth(), layout.getHeight());
+//        setSize(layout.getWidth(), layout.getHeight());
     }
     public TextraLabel(String text, Font font, Color color) {
         this.font = font;
         layout = Pools.obtain(Layout.class);
         layout.setBaseColor(color);
+        storedText = text;
         font.markup(text, layout);
-        setSize(layout.getWidth(), layout.getHeight());
+//        setSize(layout.getWidth(), layout.getHeight());
     }
 
     @Override
@@ -111,8 +115,10 @@ public class TextraLabel extends Widget {
         float width = getWidth();
         if (wrap && layout.getTargetWidth() != width) {
             layout.setTargetWidth(width);
+//            font.regenerateLayout(layout);
+            // TODO: I cannot figure out how markup() works, but regenerateLayout() doesn't...
+            font.markup(storedText, layout.clear());
             invalidateHierarchy();
-            font.regenerateLayout(layout);
         }
     }
 
@@ -140,6 +146,7 @@ public class TextraLabel extends Widget {
      * @param markupText a String that can contain Font markup
      */
     public void setText(String markupText) {
+        storedText = markupText;
         font.markup(markupText, layout.clear());
     }
 }
