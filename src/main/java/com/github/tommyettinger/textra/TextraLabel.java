@@ -84,7 +84,7 @@ public class TextraLabel extends Widget {
 
     @Override
     public float getPrefWidth() {
-        return wrap ? 0 : layout.getWidth();
+        return wrap ? 0f : layout.getWidth();
     }
 
     @Override
@@ -113,7 +113,6 @@ public class TextraLabel extends Widget {
             layout.setTargetWidth(width);
             invalidateHierarchy();
             font.regenerateLayout(layout);
-//            setSize(layout.getWidth(), layout.getHeight());
         }
     }
 
