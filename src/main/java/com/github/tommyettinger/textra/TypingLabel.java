@@ -387,12 +387,12 @@ public class TypingLabel extends TextraLabel {
 
     @Override
     public float getPrefWidth() {
-        return workingLayout.getWidth();
+        return wrap ? 0f : workingLayout.getWidth();
     }
 
     @Override
     public float getPrefHeight() {
-        return workingLayout.getHeight();
+        return workingLayout.getHeight() + font.cellHeight * 0.5f;
     }
 
     //////////////////////////////////
@@ -575,6 +575,7 @@ public class TypingLabel extends TextraLabel {
                 break;
             }
         }
+        invalidateHierarchy();
     }
 
     private int getLayoutSize(Layout layout) {
@@ -603,52 +604,58 @@ public class TypingLabel extends TextraLabel {
     public void layout() {
         // --- SUPERCLASS IMPLEMENTATION ---
 
-        super.layout();
+        float width = getWidth();
+        if (wrap && (workingLayout.getTargetWidth() != width)) {
+            layout.setTargetWidth(width);
+            workingLayout.setTargetWidth(width);
+            invalidateHierarchy();
+            font.regenerateLayout(layout);
+            font.regenerateLayout(workingLayout);
+        }
+
 
         // --- END OF SUPERCLASS IMPLEMENTATION ---
 
-        for (int i = 0; i < workingLayout.lines(); i++) {
-            workingLayout.lines.get(i).glyphs.clear();
-//            workingLayout.lines.get(i).glyphs.addAll(layout.lines.get(i).glyphs);
-        }
-        layoutCache();
+//        for (int i = 0; i < workingLayout.lines(); i++) {
+//            workingLayout.lines.get(i).glyphs.clear();
+//        }
+//        layoutCache();
     }
 
-    /**
-     * Ensures that there are enough offsets and that they are all initialized; also sets the line capacities.
-     * This should only be called when the text or the layout changes.
-     */
-    private void layoutCache() {
-        Array<Line> lines = workingLayout.lines;
-
-        // Remove exceeding glyphs from original array
-        int glyphCountdown = glyphCharIndex;
-        for(int i = 0; i < lines.size; i++) {
-            LongArray glyphs = lines.get(i).glyphs;
-            if(glyphs.size < glyphCountdown) {
-                glyphCountdown -= glyphs.size;
-                continue;
-            }
-
-            for(int j = 0; j < glyphs.size; j++) {
-                if(glyphCountdown < 0) {
-                    glyphs.removeRange(j, glyphs.size - 1);
-                    break;
-                }
-                glyphCountdown--;
-            }
-        }
-        // Store Line sizes and count how many glyphs we have
-        int glyphCount = 0;
-        for(int i = 0; i < layout.lines.size; i++) {
-            int size = layout.lines.get(i).glyphs.size;
-            glyphCount += size;
-        }
-        // Ensure there are enough x and y offset entries, and that they are all 0
-        offsets.setSize(glyphCount * 2);
-        Arrays.fill(offsets.items, 0, glyphCount * 2, 0f);
-
-    }
+//    /**
+//     * Ensures that there are enough offsets and that they are all initialized; also sets the line capacities.
+//     * This should only be called when the text or the layout changes.
+//     */
+//    private void layoutCache() {
+//        Array<Line> lines = workingLayout.lines;
+//
+//        // Remove exceeding glyphs from original array
+//        int glyphCountdown = glyphCharIndex;
+//        for(int i = 0; i < lines.size; i++) {
+//            LongArray glyphs = lines.get(i).glyphs;
+//            if(glyphs.size < glyphCountdown) {
+//                glyphCountdown -= glyphs.size;
+//                continue;
+//            }
+//
+//            for(int j = 0; j < glyphs.size; j++) {
+//                if(glyphCountdown < 0) {
+//                    glyphs.removeRange(j, glyphs.size - 1);
+//                    break;
+//                }
+//                glyphCountdown--;
+//            }
+//        }
+//        // Store Line sizes and count how many glyphs we have
+//        int glyphCount = 0;
+//        for(int i = 0; i < layout.lines.size; i++) {
+//            int size = layout.lines.get(i).glyphs.size;
+//            glyphCount += size;
+//        }
+//        // Ensure there are enough x and y offset entries, and that they are all 0
+//        offsets.setSize(glyphCount * 2);
+//        Arrays.fill(offsets.items, 0, glyphCount * 2, 0f);
+//    }
 
     /** Adds glyphs from layout to workingLayout as the char index progresses. */
     private void addMissingGlyphs() {
@@ -663,7 +670,6 @@ public class TypingLabel extends TextraLabel {
             long glyph = getInLayout(layout, cachedGlyphCharIndex);
             if (glyph != 0xFFFFFFL)
                 workingLayout.add(glyph);
-
             // Advance glyph count
             glyphLeft--;
         }
@@ -686,7 +692,7 @@ public class TypingLabel extends TextraLabel {
             font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
         final int lines = workingLayout.lines();
-        float baseX = getX(align), baseY = getY(align);
+        float baseX = getX(align), baseY = getHeight() * 0.5f + getY(align) - font.cellHeight;
         int o = 0;
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
