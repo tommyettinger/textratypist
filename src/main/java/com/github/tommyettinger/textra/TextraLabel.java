@@ -77,7 +77,7 @@ public class TextraLabel extends Widget {
         if(resetShader)
             font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
-        font.drawGlyphs(batch, layout, getX(align), getHeight() * 0.5f + getY(align), align);
+        font.drawGlyphs(batch, layout, getX(align), getHeight() * 0.5f + getY(align) - font.cellHeight, align);
         if(resetShader)
             batch.setShader(null);
     }
@@ -89,7 +89,7 @@ public class TextraLabel extends Widget {
 
     @Override
     public float getPrefHeight() {
-        return layout.getHeight();
+        return layout.getHeight() + font.cellHeight * 0.5f;
     }
 
     public boolean isWrap() {
