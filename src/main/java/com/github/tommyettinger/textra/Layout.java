@@ -181,36 +181,36 @@ public class Layout implements Pool.Poolable {
         return this;
     }
 
-    public Layout lineUp() {
-        int lineCount = lines.size;
-        Line[] lineItems = lines.items;
-        lines.items = new Line[lineCount];
-        lines.size = 0;
-        lines.add(Pools.obtain(Line.class));
-        for (int i = 0; i < lineCount; i++) {
-            LongArray ln = lineItems[i].glyphs;
-            for (int j = 0; j < ln.size; j++) {
-                if(atLimit)
-                    break;
-                long glyph = ln.get(j);
-                Line line = lines.peek();
-                if(line.width >= targetWidth || (j == 0 && (glyph & 0xFFFFL) == 10L)) {
-                    pushLine();
-                    line = lines.peek();
-                }
-                if((glyph & 0xFFFFL) == 10L) {
-                    line.glyphs.add(glyph ^ 42); // takes out newline, puts in space, keeps styles.
-                    line.width += font.xAdvance(glyph ^ 42);
-                }
-                else {
-                    line.glyphs.add(glyph);
-                    line.width += font.xAdvance(glyph);
-                }
-            }
-            Pools.free(lineItems[i]);
-        }
-        return this;
-    }
+//    public Layout lineUp() {
+//        int lineCount = lines.size;
+//        Line[] lineItems = lines.items;
+//        lines.items = new Line[lineCount];
+//        lines.size = 0;
+//        lines.add(Pools.obtain(Line.class));
+//        for (int i = 0; i < lineCount; i++) {
+//            LongArray ln = lineItems[i].glyphs;
+//            for (int j = 0; j < ln.size; j++) {
+//                if(atLimit)
+//                    break;
+//                long glyph = ln.get(j);
+//                Line line = lines.peek();
+//                if(line.width >= targetWidth || (j == 0 && (glyph & 0xFFFFL) == 10L)) {
+//                    pushLine();
+//                    line = lines.peek();
+//                }
+//                if((glyph & 0xFFFFL) == 10L) {
+//                    line.glyphs.add(glyph ^ 42); // takes out newline, puts in space, keeps styles.
+//                    line.width += font.xAdvance(glyph ^ 42);
+//                }
+//                else {
+//                    line.glyphs.add(glyph);
+//                    line.width += font.xAdvance(glyph);
+//                }
+//            }
+//            Pools.free(lineItems[i]);
+//        }
+//        return this;
+//    }
 
     /**
      * Gets the base color of the Layout, as the float bits of a Color. The base color is what font color
