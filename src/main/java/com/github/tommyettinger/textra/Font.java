@@ -2180,153 +2180,271 @@ public class Font implements Disposable {
         }
         float targetWidth = changing.getTargetWidth();
         int oldLength = changing.lines.size;
-        Line[] oldLines = changing.lines.items;
-        changing.lines.items = new Line[oldLength];
-        changing.lines.size = 0;
-        changing.lines.add(Pools.obtain(Line.class));
-        changing.lines.peek().height = cellHeight;
-        int kern = -1;
-        for (int ln = 0; ln < oldLength; ln++) {
-            Line line = oldLines[ln];
+        for (int ln = 0; ln < changing.lines(); ln++) {
+            Line line = changing.getLine(ln);
+            line.height = cellHeight;
+            float drawn = 0f;
+            int cutoff = 0, breakPoint = -2, spacingPoint = -2, spacingSpan = 0;
             LongArray glyphs = line.glyphs;
-            for (int i = 0, n = glyphs.size; i < n; i++) {
-                long glyph = glyphs.get(i);
-                if(i > 0 && (glyph & 0xFFFF) == '\n')
-                    glyph ^= 42;
-                float w;
-                if (kerning == null) {
-                    w = (changing.peekLine().width += xAdvance(glyph));
-                } else {
-                    kern = kern << 16 | (int) ((glyph) & 0xFFFF);
-                    w = (changing.peekLine().width += xAdvance(glyph) + kerning.get(kern, 0) * scaleX);
+            if (kerning != null) {
+                int kern = -1;
+                float amt = 0;
+                long glyph;
+                for (int i = 0, n = glyphs.size; i < n; i++) {
+                    kern = kern << 16 | (int) ((glyph = glyphs.get(i)) & 0xFFFF);
+                    amt = kerning.get(kern, 0) * scaleX;
+                    GlyphRegion tr = mapping.get((char)glyph);
+                    if(tr == null) continue;
+                    float changedW = tr.xAdvance * scaleX;
+                    if (isMono) {
+                        changedW += tr.offsetX * scaleX;
+                    }
+                    if(!isMono && (glyph & SUPERSCRIPT) != 0L)
+                        changedW *= 0.5f;
+                    if (glyph >>> 32 == 0L){
+                        breakPoint = i;
+                        if(spacingPoint + 1 < i){
+                            spacingSpan = 1;
+                        }
+                        else spacingSpan++;
+                        spacingPoint = i;
+                    }
+                    if(Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0){
+                        breakPoint = i;
+                        if(Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0){
+                            if(spacingPoint + 1 < i){
+                                spacingSpan = 0;
+                            }
+                            else spacingSpan++;
+                            spacingPoint = i;
+                        }
+                    }
+                    if(drawn + changedW + amt > targetWidth) {
+                        cutoff = breakPoint - spacingSpan;
+                        Line next;
+                        if(changing.lines() == ln + 1)
+                            next = changing.pushLine();
+                        else
+                            next = changing.getLine(ln+1);
+                        int nextSize = next.glyphs.size;
+                        long[] arr = next.glyphs.ensureCapacity(i - cutoff);
+                        System.arraycopy(arr, 0, arr, i - cutoff, nextSize);
+                        System.arraycopy(glyphs.items, cutoff, arr, 0, i - cutoff);
+                        next.glyphs.size += i - cutoff;
+                        glyphs.truncate(cutoff);
+                        break;
+                    }
+                    drawn += changedW + amt;
                 }
-                changing.add(glyph);
-                if ((targetWidth > 0 && w > targetWidth) || changing.atLimit) {
-                    Line earlier = changing.peekLine();
-                    Line later;
-                    if (changing.lines.size >= changing.maxLines) {
-                        later = null;
-                    } else {
-                        later = Pools.obtain(Line.class);
-                        later.height = earlier.height;
-                        changing.lines.add(later);
+            } else {
+                for (int i = 0, n = glyphs.size; i < n; i++) {
+                    long glyph = glyphs.get(i);
+                    if((glyph & 0xFFFF) == '\n')
+                        glyph ^= 42L;
+                    GlyphRegion tr = mapping.get((char)glyph);
+                    if(tr == null) continue;
+                    float changedW = tr.xAdvance * scaleX;
+                    if (isMono) {
+                        changedW += tr.offsetX * scaleX;
                     }
-                    if (later == null) {
-                        // here, the max lines have been reached, and an ellipsis may need to be added
-                        // to the last line.
-                        String ellipsis = (changing.ellipsis == null) ? "" : changing.ellipsis;
-                        for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
-                            long curr;
-                            // remove a full word or other group of non-space characters.
-                            while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0 && j > 0) {
-                                --j;
-                            }
-                            // remove the remaining space characters.
-                            while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                    Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0 && j > 0) {
-                                --j;
-                            }
-                            float change = 0f, changeNext = 0f;
-                            long currE;
-                            if (kerning == null) {
-                                for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
-                                    change += xAdvance(earlier.glyphs.get(k));
-                                    if ((e < ellipsis.length())) {
-                                        float adv = xAdvance(baseColor | ellipsis.charAt(e));
-                                        changeNext += adv;
-                                    }
-                                }
-                            } else {
-                                int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
-                                int k2e = ellipsis.charAt(0) & 0xFFFF;
-                                for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
-                                    curr = earlier.glyphs.get(k);
-                                    k2 = k2 << 16 | (char) curr;
-                                    float adv = xAdvance(curr);
-                                    change += adv + kerning.get(k2, 0) * scaleX;
-                                    if ((e < ellipsis.length())) {
-                                        currE = baseColor | ellipsis.charAt(e);
-                                        k2e = k2e << 16 | (char) currE;
-                                        changeNext += xAdvance(currE) + kerning.get(k2e, 0) * scaleX;
-                                    }
-                                }
-                            }
-                            if (earlier.width + changeNext < changing.getTargetWidth()) {
-                                for (int e = 0; e < ellipsis.length(); e++) {
-                                    earlier.glyphs.add(baseColor | ellipsis.charAt(e));
-                                }
-                                earlier.width = earlier.width + changeNext;
-                                for (int k = ln; k < oldLength; k++) {
-                                    Pools.free(oldLines[k]);
-                                }
-                                return changing;
-                            }
-                            if (earlier.width - change + changeNext < changing.getTargetWidth()) {
-                                earlier.glyphs.truncate(j + 1);
-                                for (int e = 0; e < ellipsis.length(); e++) {
-                                    earlier.glyphs.add(baseColor | ellipsis.charAt(e));
-                                }
-                                earlier.width = earlier.width - change + changeNext;
-                                for (int k = ln; k < oldLength; k++) {
-                                    Pools.free(oldLines[k]);
-                                }
-                                return changing;
-                            }
+                    if(!isMono && (glyph & SUPERSCRIPT) != 0L)
+                        changedW *= 0.5f;
+                    if (glyph >>> 32 == 0L){
+                        breakPoint = i;
+                        if(spacingPoint + 1 < i){
+                            spacingSpan = 1;
                         }
-                    } else {
-                        for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
-                            long curr;
-                            if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                    Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
-                                int leading = 0;
-                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0) {
-                                    ++leading;
-                                    --j;
-                                }
-                                float change = 0f, changeNext = 0f;
-                                glyphBuffer.clear();
-                                if (kerning == null) {
-                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
-                                        float adv = xAdvance(curr = earlier.glyphs.get(k));
-                                        change += adv;
-                                        if (--leading < 0) {
-                                            glyphBuffer.add(curr);
-                                            changeNext += adv;
-                                        }
-                                    }
-                                } else {
-                                    int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF), k3 = -1;
-                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
-                                        curr = earlier.glyphs.get(k);
-                                        k2 = k2 << 16 | (char) curr;
-                                        float adv = xAdvance(curr);
-                                        change += adv + kerning.get(k2, 0) * scaleX;
-                                        if (--leading < 0) {
-                                            k3 = k3 << 16 | (char) curr;
-                                            changeNext += adv + kerning.get(k3, 0) * scaleX;
-                                            glyphBuffer.add(curr);
-                                        }
-                                    }
-                                }
-                                if(earlier.width - change > targetWidth)
-                                    continue;
-                                earlier.glyphs.truncate(j + 1);
-                                earlier.glyphs.add('\n');
-                                later.width = changeNext;
-                                earlier.width -= change;
-                                later.glyphs.addAll(glyphBuffer);
-                                System.out.println("Line has width " + measureWidth(earlier));
-                                break;
+                        else spacingSpan++;
+                        spacingPoint = i;
+                    }
+                    if(Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0){
+                        breakPoint = i;
+                        if(Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0){
+                            if(spacingPoint + 1 < i){
+                                spacingSpan = 0;
                             }
+                            else spacingSpan++;
+                            spacingPoint = i;
                         }
                     }
+                    if(drawn + changedW > targetWidth) {
+                        cutoff = breakPoint - spacingSpan;
+                        Line next;
+                        if(changing.lines() == ln + 1)
+                            next = changing.pushLine();
+                        else
+                            next = changing.getLine(ln+1);
+                        int nextSize = next.glyphs.size;
+                        long[] arr = next.glyphs.ensureCapacity(i - cutoff);
+                        System.arraycopy(arr, 0, arr, 1 + i - cutoff, nextSize);
+                        System.arraycopy(glyphs.items, cutoff, arr, 0, 1 + i - cutoff);
+                        next.glyphs.size += 1 + i - cutoff;
+                        glyphs.truncate(cutoff);
+                        break;
+                    }
+                    drawn += changedW;
                 }
             }
-            Pools.free(line);
+
         }
         return changing;
     }
+
+//    public Layout regenerateLayout(Layout changing) {
+//        final long COLOR_MASK = 0xFFFFFFFF00000000L;
+//        long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(changing.getBaseColor())) & COLOR_MASK;
+//        if(changing.font == null || !changing.font.equals(this)) {
+//            return changing;
+//        }
+//        float targetWidth = changing.getTargetWidth();
+//        int oldLength = changing.lines.size;
+//        Line[] oldLines = changing.lines.items;
+//        changing.lines.items = new Line[oldLength];
+//        changing.lines.size = 0;
+//        changing.lines.add(Pools.obtain(Line.class));
+//        changing.lines.peek().height = cellHeight;
+//        int kern = -1;
+//        for (int ln = 0; ln < oldLength; ln++) {
+//            Line line = oldLines[ln];
+//            LongArray glyphs = line.glyphs;
+//            for (int i = 0, n = glyphs.size; i < n; i++) {
+//                long glyph = glyphs.get(i);
+//                if(i > 0 && (glyph & 0xFFFF) == '\n')
+//                    glyph ^= 42;
+//                float w;
+//                if (kerning == null) {
+//                    w = (changing.peekLine().width += xAdvance(glyph));
+//                } else {
+//                    kern = kern << 16 | (int) ((glyph) & 0xFFFF);
+//                    w = (changing.peekLine().width += xAdvance(glyph) + kerning.get(kern, 0) * scaleX);
+//                }
+//                changing.add(glyph);
+//                if ((targetWidth > 0 && w > targetWidth) || changing.atLimit) {
+//                    Line earlier = changing.peekLine();
+//                    Line later;
+//                    if (changing.lines.size >= changing.maxLines) {
+//                        later = null;
+//                    } else {
+//                        later = Pools.obtain(Line.class);
+//                        later.height = earlier.height;
+//                        changing.lines.add(later);
+//                    }
+//                    if (later == null) {
+//                        // here, the max lines have been reached, and an ellipsis may need to be added
+//                        // to the last line.
+//                        String ellipsis = (changing.ellipsis == null) ? "" : changing.ellipsis;
+//                        for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
+//                            long curr;
+//                            // remove a full word or other group of non-space characters.
+//                            while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0 && j > 0) {
+//                                --j;
+//                            }
+//                            // remove the remaining space characters.
+//                            while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+//                                    Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0 && j > 0) {
+//                                --j;
+//                            }
+//                            float change = 0f, changeNext = 0f;
+//                            long currE;
+//                            if (kerning == null) {
+//                                for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
+//                                    change += xAdvance(earlier.glyphs.get(k));
+//                                    if ((e < ellipsis.length())) {
+//                                        float adv = xAdvance(baseColor | ellipsis.charAt(e));
+//                                        changeNext += adv;
+//                                    }
+//                                }
+//                            } else {
+//                                int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
+//                                int k2e = ellipsis.charAt(0) & 0xFFFF;
+//                                for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
+//                                    curr = earlier.glyphs.get(k);
+//                                    k2 = k2 << 16 | (char) curr;
+//                                    float adv = xAdvance(curr);
+//                                    change += adv + kerning.get(k2, 0) * scaleX;
+//                                    if ((e < ellipsis.length())) {
+//                                        currE = baseColor | ellipsis.charAt(e);
+//                                        k2e = k2e << 16 | (char) currE;
+//                                        changeNext += xAdvance(currE) + kerning.get(k2e, 0) * scaleX;
+//                                    }
+//                                }
+//                            }
+//                            if (earlier.width + changeNext < changing.getTargetWidth()) {
+//                                for (int e = 0; e < ellipsis.length(); e++) {
+//                                    earlier.glyphs.add(baseColor | ellipsis.charAt(e));
+//                                }
+//                                earlier.width = earlier.width + changeNext;
+//                                for (int k = ln; k < oldLength; k++) {
+//                                    Pools.free(oldLines[k]);
+//                                }
+//                                return changing;
+//                            }
+//                            if (earlier.width - change + changeNext < changing.getTargetWidth()) {
+//                                earlier.glyphs.truncate(j + 1);
+//                                for (int e = 0; e < ellipsis.length(); e++) {
+//                                    earlier.glyphs.add(baseColor | ellipsis.charAt(e));
+//                                }
+//                                earlier.width = earlier.width - change + changeNext;
+//                                for (int k = ln; k < oldLength; k++) {
+//                                    Pools.free(oldLines[k]);
+//                                }
+//                                return changing;
+//                            }
+//                        }
+//                    } else {
+//                        for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
+//                            long curr;
+//                            if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+//                                    Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
+//                                int leading = 0;
+//                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+//                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0) {
+//                                    ++leading;
+//                                    --j;
+//                                }
+//                                float change = 0f, changeNext = 0f;
+//                                glyphBuffer.clear();
+//                                if (kerning == null) {
+//                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
+//                                        float adv = xAdvance(curr = earlier.glyphs.get(k));
+//                                        change += adv;
+//                                        if (--leading < 0) {
+//                                            glyphBuffer.add(curr);
+//                                            changeNext += adv;
+//                                        }
+//                                    }
+//                                } else {
+//                                    int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF), k3 = -1;
+//                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
+//                                        curr = earlier.glyphs.get(k);
+//                                        k2 = k2 << 16 | (char) curr;
+//                                        float adv = xAdvance(curr);
+//                                        change += adv + kerning.get(k2, 0) * scaleX;
+//                                        if (--leading < 0) {
+//                                            k3 = k3 << 16 | (char) curr;
+//                                            changeNext += adv + kerning.get(k3, 0) * scaleX;
+//                                            glyphBuffer.add(curr);
+//                                        }
+//                                    }
+//                                }
+//                                if(earlier.width - change > targetWidth)
+//                                    continue;
+//                                earlier.glyphs.truncate(j + 1);
+//                                earlier.glyphs.add('\n');
+//                                later.width = changeNext;
+//                                earlier.width -= change;
+//                                later.glyphs.addAll(glyphBuffer);
+//                                System.out.println("Line has width " + measureWidth(earlier));
+//                                break;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            Pools.free(line);
+//        }
+//        return changing;
+//    }
 
     /**
      * Releases all resources of this object.
