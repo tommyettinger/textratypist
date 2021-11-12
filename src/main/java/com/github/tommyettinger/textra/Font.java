@@ -2180,6 +2180,15 @@ public class Font implements Disposable {
         }
         float targetWidth = changing.getTargetWidth();
         int oldLength = changing.lines.size;
+        Line firstLine = changing.getLine(0);
+        for (int i = 1; i < oldLength; i++) {
+            int last = firstLine.glyphs.size;
+//            if((firstLine.glyphs.get(last - 1) & 0xFFFF) == '\n')
+//                firstLine.glyphs.set(last - 1, firstLine.glyphs.get(last - 1) ^ 42L);
+            firstLine.glyphs.addAll(changing.getLine(i).glyphs);
+            changing.getLine(i).reset();
+        }
+        changing.lines.truncate(1);
         for (int ln = 0; ln < changing.lines(); ln++) {
             Line line = changing.getLine(ln);
             line.height = cellHeight;
@@ -2239,8 +2248,9 @@ public class Font implements Disposable {
             } else {
                 for (int i = 0, n = glyphs.size; i < n; i++) {
                     long glyph = glyphs.get(i);
-                    if((glyph & 0xFFFF) == '\n')
-                        glyph ^= 42L;
+                    if((glyph & 0xFFFFL) == '\n') {
+                        glyphs.set(i, glyph ^= 42L);
+                    }
                     GlyphRegion tr = mapping.get((char)glyph);
                     if(tr == null) continue;
                     float changedW = tr.xAdvance * scaleX;
@@ -2252,12 +2262,12 @@ public class Font implements Disposable {
                     if (glyph >>> 32 == 0L){
                         breakPoint = i;
                         if(spacingPoint + 1 < i){
-                            spacingSpan = 1;
+                            spacingSpan = 0;
                         }
                         else spacingSpan++;
                         spacingPoint = i;
                     }
-                    if(Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0){
+                    else if(Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0){
                         breakPoint = i;
                         if(Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0){
                             if(spacingPoint + 1 < i){
@@ -2271,9 +2281,16 @@ public class Font implements Disposable {
                         cutoff = breakPoint - spacingSpan;
                         Line next;
                         if(changing.lines() == ln + 1)
+                        {
                             next = changing.pushLine();
+                            line.glyphs.pop();
+                        }
                         else
                             next = changing.getLine(ln+1);
+                        if(next == null) {
+                            glyphs.truncate(cutoff);
+                            break;
+                        }
                         int nextSize = next.glyphs.size;
                         long[] arr = next.glyphs.ensureCapacity(glyphs.size - cutoff);
                         System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
@@ -2285,7 +2302,7 @@ public class Font implements Disposable {
                     drawn += changedW;
                 }
             }
-
+            line.width = drawn;
         }
         return changing;
     }
