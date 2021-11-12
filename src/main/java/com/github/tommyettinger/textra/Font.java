@@ -1285,7 +1285,7 @@ public class Font implements Disposable {
      */
     public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align) {
         if(glyphs == null) return 0;
-        int drawn = 0;
+        float drawn = 0f;
         if(Align.isCenterHorizontal(align))
             x -= glyphs.width * 0.5f;
         else if(Align.isRight(align))
@@ -1294,18 +1294,22 @@ public class Font implements Disposable {
             int kern = -1;
             float amt = 0;
             long glyph;
-            for (int i = 0, n = glyphs.glyphs.size; i < n; i++, drawn++) {
+            for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
                 kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
                 amt = kerning.get(kern, 0) * scaleX;
-                x += drawGlyph(batch, glyph, x + amt, y) + amt;
+                float single = drawGlyph(batch, glyph, x + amt, y) + amt;
+                x += single;
+                drawn += single;
             }
         }
         else {
-            for (int i = 0, n = glyphs.glyphs.size; i < n; i++, drawn++) {
-                x += drawGlyph(batch, glyphs.glyphs.get(i), x, y);
+            for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
+                float single = drawGlyph(batch, glyphs.glyphs.get(i), x, y);
+                x += single;
+                drawn += single;
             }
         }
-        return x;
+        return drawn;
     }
 
     /**
@@ -1328,6 +1332,48 @@ public class Font implements Disposable {
             changedW *= 0.5f;
         }
         return changedW;
+    }
+
+    /**
+     * Measures the actual width that the given Line will use when drawn.
+     * @param line a Line, as from inside a Layout
+     * @return the width in world units
+     */
+    public float measureWidth(Line line) {
+        float drawn = 0f;
+        LongArray glyphs = line.glyphs;
+        if (kerning != null) {
+            int kern = -1;
+            float amt = 0;
+            long glyph;
+            for (int i = 0, n = glyphs.size; i < n; i++) {
+                kern = kern << 16 | (int) ((glyph = glyphs.get(i)) & 0xFFFF);
+                amt = kerning.get(kern, 0) * scaleX;
+                GlyphRegion tr = mapping.get((char)glyph);
+                if(tr == null) continue;
+                float changedW = tr.xAdvance * scaleX;
+                if (isMono) {
+                    changedW += tr.offsetX * scaleX;
+                }
+                if(!isMono && (glyph & SUPERSCRIPT) != 0L)
+                    changedW *= 0.5f;
+                drawn += changedW + amt;
+            }
+        } else {
+            for (int i = 0, n = glyphs.size; i < n; i++) {
+                long glyph = glyphs.get(i);
+                GlyphRegion tr = mapping.get((char)glyph);
+                if(tr == null) continue;
+                float changedW = tr.xAdvance * scaleX;
+                if (isMono) {
+                    changedW += tr.offsetX * scaleX;
+                }
+                if(!isMono && (glyph & SUPERSCRIPT) != 0L)
+                    changedW *= 0.5f;
+                drawn += changedW;
+            }
+        }
+        return drawn;
     }
 
     /**
@@ -2109,7 +2155,7 @@ public class Font implements Disposable {
                                         }
                                     }
                                 }
-                                if(earlier.width - change >= targetWidth)
+                                if(earlier.width - change > targetWidth)
                                     continue;
                                 earlier.glyphs.truncate(j+1);
                                 earlier.glyphs.add('\n');
@@ -2263,13 +2309,14 @@ public class Font implements Disposable {
                                         }
                                     }
                                 }
-                                if(earlier.width - change >= targetWidth)
+                                if(earlier.width - change > targetWidth)
                                     continue;
                                 earlier.glyphs.truncate(j + 1);
                                 earlier.glyphs.add('\n');
                                 later.width = changeNext;
                                 earlier.width -= change;
                                 later.glyphs.addAll(glyphBuffer);
+                                System.out.println("Line has width " + measureWidth(earlier));
                                 break;
                             }
                         }

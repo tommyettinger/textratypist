@@ -721,7 +721,7 @@ public class TypingLabel extends TextraLabel {
                     drawn += single;
                 }
             }
-            System.out.println("Line " + ln + " has width " + (drawn));
+//            System.out.println("Line " + ln + " has width " + (drawn));
             baseY -= font.cellHeight;
         }
         addMissingGlyphs();
