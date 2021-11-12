@@ -697,7 +697,7 @@ public class TypingLabel extends TextraLabel {
         int o = 0;
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
-            float x = baseX, y = baseY;
+            float x = baseX, y = baseY, drawn = 0;
             if(Align.isCenterHorizontal(align))
                 x -= glyphs.width * 0.5f;
             else if(Align.isRight(align))
@@ -709,14 +709,19 @@ public class TypingLabel extends TextraLabel {
                 for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
                     kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
                     amt = font.kerning.get(kern, 0) * font.scaleX;
-                    x += font.drawGlyph(batch, glyph, x + amt + offsets.get(o++), y + offsets.get(o++)) + amt;
+                    float single = font.drawGlyph(batch, glyph, x + amt + offsets.get(o++), y + offsets.get(o++)) + amt;
+                    x += single;
+                    drawn += single;
                 }
             }
             else {
                 for (int i = 0, n = glyphs.glyphs.size; i < n && o < offsets.size - 1; i++) {
-                    x += font.drawGlyph(batch, glyphs.glyphs.get(i), x + offsets.get(o++), y + offsets.get(o++));
+                    float single = font.drawGlyph(batch, glyphs.glyphs.get(i), x + offsets.get(o++), y + offsets.get(o++));
+                    x += single;
+                    drawn += single;
                 }
             }
+            System.out.println("Line " + ln + " has width " + (drawn));
             baseY -= font.cellHeight;
         }
         addMissingGlyphs();

@@ -1233,7 +1233,7 @@ public class Font implements Disposable {
      * @param y the y position in world space to start drawing the glyph at (lower left corner)
      * @return the number of glyphs drawn
      */
-    public int drawGlyphs(Batch batch, Layout glyphs, float x, float y) {
+    public float drawGlyphs(Batch batch, Layout glyphs, float x, float y) {
         return drawGlyphs(batch, glyphs, x, y, Align.left);
     }
     /**
@@ -1248,8 +1248,8 @@ public class Font implements Disposable {
      * @param align an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
      * @return the number of glyphs drawn
      */
-    public int drawGlyphs(Batch batch, Layout glyphs, float x, float y, int align) {
-        int drawn = 0;
+    public float drawGlyphs(Batch batch, Layout glyphs, float x, float y, int align) {
+        float drawn = 0;
         final int lines = glyphs.lines();
         for (int ln = 0; ln < lines; ln++) {
             drawn += drawGlyphs(batch, glyphs.getLine(ln), x, y, align);
@@ -1267,7 +1267,7 @@ public class Font implements Disposable {
      * @param y the y position in world space to start drawing the glyph at (lower left corner)
      * @return the number of glyphs drawn
      */
-    public int drawGlyphs(Batch batch, Line glyphs, float x, float y) {
+    public float drawGlyphs(Batch batch, Line glyphs, float x, float y) {
         if(glyphs == null) return 0;
         return drawGlyphs(batch, glyphs, x, y, Align.left);
     }
@@ -1283,7 +1283,7 @@ public class Font implements Disposable {
      * @param align an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
      * @return the number of glyphs drawn
      */
-    public int drawGlyphs(Batch batch, Line glyphs, float x, float y, int align) {
+    public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align) {
         if(glyphs == null) return 0;
         int drawn = 0;
         if(Align.isCenterHorizontal(align))
@@ -1305,7 +1305,7 @@ public class Font implements Disposable {
                 x += drawGlyph(batch, glyphs.glyphs.get(i), x, y);
             }
         }
-        return drawn;
+        return x;
     }
 
     /**
@@ -2019,61 +2019,57 @@ public class Font implements Disposable {
                     if(later == null){
                         // here, the max lines have been reached, and an ellipsis may need to be added
                         // to the last line.
-                        if(appendTo.ellipsis != null) {
-                            for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
-                                int leading = 0;
-                                long curr;
-                                // remove a full word or other group of non-space characters.
-                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0 && j > 0) {
-                                    ++leading;
-                                    --j;
-                                }
-                                // remove the remaining space characters.
-                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0 && j > 0) {
-                                    ++leading;
-                                    --j;
-                                }
-                                float change = 0f, changeNext = 0f;
-                                long currE;
-                                if (kerning == null) {
-                                    for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
-                                        change += xAdvance(earlier.glyphs.get(k));
-                                        if ((e < appendTo.ellipsis.length())) {
-                                            float adv = xAdvance(baseColor | appendTo.ellipsis.charAt(e));
-                                            changeNext += adv;
-                                        }
-                                    }
-                                } else {
-                                    int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
-                                    int k2e = appendTo.ellipsis.charAt(0) & 0xFFFF;
-                                    for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
-                                        curr = earlier.glyphs.get(k);
-                                        k2 = k2 << 16 | (char) curr;
-                                        float adv = xAdvance(curr);
-                                        change += adv + kerning.get(k2, 0) * scaleX;
-                                        if ((e < appendTo.ellipsis.length())) {
-                                            currE = baseColor | appendTo.ellipsis.charAt(e);
-                                            k2e = k2e << 16 | (char) currE;
-                                            changeNext += xAdvance(currE) + kerning.get(k2e, 0) * scaleX;
-                                        }
+                        String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
+                        for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
+                            long curr;
+                            // remove a full word or other group of non-space characters.
+                            while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0 && j > 0) {
+                                --j;
+                            }
+                            // remove the remaining space characters.
+                            while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                    Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0 && j > 0) {
+                                --j;
+                            }
+                            float change = 0f, changeNext = 0f;
+                            long currE;
+                            if (kerning == null) {
+                                for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
+                                    change += xAdvance(earlier.glyphs.get(k));
+                                    if ((e < ellipsis.length())) {
+                                        float adv = xAdvance(baseColor | ellipsis.charAt(e));
+                                        changeNext += adv;
                                     }
                                 }
-                                if (earlier.width + changeNext < appendTo.getTargetWidth()) {
-                                    for (int e = 0; e < appendTo.ellipsis.length(); e++) {
-                                        earlier.glyphs.add(baseColor | appendTo.ellipsis.charAt(e));
+                            } else {
+                                int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
+                                int k2e = ellipsis.charAt(0) & 0xFFFF;
+                                for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
+                                    curr = earlier.glyphs.get(k);
+                                    k2 = k2 << 16 | (char) curr;
+                                    float adv = xAdvance(curr);
+                                    change += adv + kerning.get(k2, 0) * scaleX;
+                                    if ((e < ellipsis.length())) {
+                                        currE = baseColor | ellipsis.charAt(e);
+                                        k2e = k2e << 16 | (char) currE;
+                                        changeNext += xAdvance(currE) + kerning.get(k2e, 0) * scaleX;
                                     }
-                                    earlier.width = earlier.width + changeNext;
-                                    return appendTo;
                                 }
-                                if (earlier.width - change + changeNext < appendTo.getTargetWidth()) {
-                                    earlier.glyphs.truncate(j + 1);
-                                    for (int e = 0; e < appendTo.ellipsis.length(); e++) {
-                                        earlier.glyphs.add(baseColor | appendTo.ellipsis.charAt(e));
-                                    }
-                                    earlier.width = earlier.width - change + changeNext;
-                                    return appendTo;
+                            }
+                            if (earlier.width + changeNext < appendTo.getTargetWidth()) {
+                                for (int e = 0; e < ellipsis.length(); e++) {
+                                    earlier.glyphs.add(baseColor | ellipsis.charAt(e));
                                 }
+                                earlier.width = earlier.width + changeNext;
+                                return appendTo;
+                            }
+                            if (earlier.width - change + changeNext < appendTo.getTargetWidth()) {
+                                earlier.glyphs.truncate(j + 1);
+                                for (int e = 0; e < ellipsis.length(); e++) {
+                                    earlier.glyphs.add(baseColor | ellipsis.charAt(e));
+                                }
+                                earlier.width = earlier.width - change + changeNext;
+                                return appendTo;
                             }
                         }
                     }
@@ -2172,67 +2168,63 @@ public class Font implements Disposable {
                     if (later == null) {
                         // here, the max lines have been reached, and an ellipsis may need to be added
                         // to the last line.
-                        if (changing.ellipsis != null) {
-                            for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
-                                int leading = 0;
-                                long curr;
-                                // remove a full word or other group of non-space characters.
-                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0 && j > 0) {
-                                    ++leading;
-                                    --j;
-                                }
-                                // remove the remaining space characters.
-                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0 && j > 0) {
-                                    ++leading;
-                                    --j;
-                                }
-                                float change = 0f, changeNext = 0f;
-                                long currE;
-                                if (kerning == null) {
-                                    for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
-                                        change += xAdvance(earlier.glyphs.get(k));
-                                        if ((e < changing.ellipsis.length())) {
-                                            float adv = xAdvance(baseColor | changing.ellipsis.charAt(e));
-                                            changeNext += adv;
-                                        }
-                                    }
-                                } else {
-                                    int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
-                                    int k2e = changing.ellipsis.charAt(0) & 0xFFFF;
-                                    for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
-                                        curr = earlier.glyphs.get(k);
-                                        k2 = k2 << 16 | (char) curr;
-                                        float adv = xAdvance(curr);
-                                        change += adv + kerning.get(k2, 0) * scaleX;
-                                        if ((e < changing.ellipsis.length())) {
-                                            currE = baseColor | changing.ellipsis.charAt(e);
-                                            k2e = k2e << 16 | (char) currE;
-                                            changeNext += xAdvance(currE) + kerning.get(k2e, 0) * scaleX;
-                                        }
+                        String ellipsis = (changing.ellipsis == null) ? "" : changing.ellipsis;
+                        for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
+                            long curr;
+                            // remove a full word or other group of non-space characters.
+                            while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0 && j > 0) {
+                                --j;
+                            }
+                            // remove the remaining space characters.
+                            while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                    Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0 && j > 0) {
+                                --j;
+                            }
+                            float change = 0f, changeNext = 0f;
+                            long currE;
+                            if (kerning == null) {
+                                for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
+                                    change += xAdvance(earlier.glyphs.get(k));
+                                    if ((e < ellipsis.length())) {
+                                        float adv = xAdvance(baseColor | ellipsis.charAt(e));
+                                        changeNext += adv;
                                     }
                                 }
-                                if (earlier.width + changeNext < changing.getTargetWidth()) {
-                                    for (int e = 0; e < changing.ellipsis.length(); e++) {
-                                        earlier.glyphs.add(baseColor | changing.ellipsis.charAt(e));
+                            } else {
+                                int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
+                                int k2e = ellipsis.charAt(0) & 0xFFFF;
+                                for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
+                                    curr = earlier.glyphs.get(k);
+                                    k2 = k2 << 16 | (char) curr;
+                                    float adv = xAdvance(curr);
+                                    change += adv + kerning.get(k2, 0) * scaleX;
+                                    if ((e < ellipsis.length())) {
+                                        currE = baseColor | ellipsis.charAt(e);
+                                        k2e = k2e << 16 | (char) currE;
+                                        changeNext += xAdvance(currE) + kerning.get(k2e, 0) * scaleX;
                                     }
-                                    earlier.width = earlier.width + changeNext;
-                                    for (int k = ln; k < oldLength; k++) {
-                                        Pools.free(oldLines[k]);
-                                    }
-                                    return changing;
                                 }
-                                if (earlier.width - change + changeNext < changing.getTargetWidth()) {
-                                    earlier.glyphs.truncate(j + 1);
-                                    for (int e = 0; e < changing.ellipsis.length(); e++) {
-                                        earlier.glyphs.add(baseColor | changing.ellipsis.charAt(e));
-                                    }
-                                    earlier.width = earlier.width - change + changeNext;
-                                    for (int k = ln; k < oldLength; k++) {
-                                        Pools.free(oldLines[k]);
-                                    }
-                                    return changing;
+                            }
+                            if (earlier.width + changeNext < changing.getTargetWidth()) {
+                                for (int e = 0; e < ellipsis.length(); e++) {
+                                    earlier.glyphs.add(baseColor | ellipsis.charAt(e));
                                 }
+                                earlier.width = earlier.width + changeNext;
+                                for (int k = ln; k < oldLength; k++) {
+                                    Pools.free(oldLines[k]);
+                                }
+                                return changing;
+                            }
+                            if (earlier.width - change + changeNext < changing.getTargetWidth()) {
+                                earlier.glyphs.truncate(j + 1);
+                                for (int e = 0; e < ellipsis.length(); e++) {
+                                    earlier.glyphs.add(baseColor | ellipsis.charAt(e));
+                                }
+                                earlier.width = earlier.width - change + changeNext;
+                                for (int k = ln; k < oldLength; k++) {
+                                    Pools.free(oldLines[k]);
+                                }
+                                return changing;
                             }
                         }
                     } else {
@@ -2275,7 +2267,7 @@ public class Font implements Disposable {
                                     continue;
                                 earlier.glyphs.truncate(j + 1);
                                 earlier.glyphs.add('\n');
-                                later.width += changeNext;
+                                later.width = changeNext;
                                 earlier.width -= change;
                                 later.glyphs.addAll(glyphBuffer);
                                 break;
