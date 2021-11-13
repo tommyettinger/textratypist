@@ -2186,7 +2186,7 @@ public class Font implements Disposable {
 //            if((firstLine.glyphs.get(last - 1) & 0xFFFF) == '\n')
 //                firstLine.glyphs.set(last - 1, firstLine.glyphs.get(last - 1) ^ 42L);
             firstLine.glyphs.addAll(changing.getLine(i).glyphs);
-            changing.getLine(i).reset();
+            Pools.free(changing.getLine(i));
         }
         changing.lines.truncate(1);
         for (int ln = 0; ln < changing.lines(); ln++) {
@@ -2232,14 +2232,21 @@ public class Font implements Disposable {
                         cutoff = breakPoint - spacingSpan;
                         Line next;
                         if(changing.lines() == ln + 1)
+                        {
                             next = changing.pushLine();
+                            line.glyphs.pop();
+                        }
                         else
                             next = changing.getLine(ln+1);
+                        if(next == null) {
+                            glyphs.truncate(cutoff);
+                            break;
+                        }
                         int nextSize = next.glyphs.size;
-                        long[] arr = next.glyphs.ensureCapacity(i - cutoff);
-                        System.arraycopy(arr, 0, arr, i - cutoff, nextSize);
-                        System.arraycopy(glyphs.items, cutoff, arr, 0, i - cutoff);
-                        next.glyphs.size += i - cutoff;
+                        long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
+                        System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
+                        System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
+//                        next.glyphs.size += glyphs.size - cutoff;
                         glyphs.truncate(cutoff);
                         break;
                     }
@@ -2280,8 +2287,7 @@ public class Font implements Disposable {
                     if(drawn + changedW > targetWidth) {
                         cutoff = breakPoint - spacingSpan;
                         Line next;
-                        if(changing.lines() == ln + 1)
-                        {
+                        if(changing.lines() == ln + 1) {
                             next = changing.pushLine();
                             line.glyphs.pop();
                         }
@@ -2292,10 +2298,10 @@ public class Font implements Disposable {
                             break;
                         }
                         int nextSize = next.glyphs.size;
-                        long[] arr = next.glyphs.ensureCapacity(glyphs.size - cutoff);
+                        long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
                         System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
                         System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
-                        next.glyphs.size += glyphs.size - cutoff;
+//                        next.glyphs.size += glyphs.size - cutoff;
                         glyphs.truncate(cutoff);
                         break;
                     }
