@@ -2201,7 +2201,11 @@ public class Font implements Disposable {
                 float amt = 0;
                 long glyph;
                 for (int i = 0, n = glyphs.size; i < n; i++) {
-                    kern = kern << 16 | (int) ((glyph = glyphs.get(i)) & 0xFFFF);
+                    glyph = glyphs.get(i);
+                    if((glyph & 0xFFFFL) == '\n') {
+                        glyphs.set(i, glyph ^= 42L);
+                    }
+                    kern = kern << 16 | (int) (glyph & 0xFFFF);
                     amt = kerning.get(kern, 0) * scaleX;
                     GlyphRegion tr = mapping.get((char)glyph);
                     if(tr == null) continue;
@@ -2212,6 +2216,7 @@ public class Font implements Disposable {
                     if(!isMono && (glyph & SUPERSCRIPT) != 0L)
                         changedW *= 0.5f;
                     if (glyph >>> 32 == 0L){
+                        hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
                         if(spacingPoint + 1 < i){
                             spacingSpan = 1;
@@ -2220,6 +2225,7 @@ public class Font implements Disposable {
                         spacingPoint = i;
                     }
                     if(Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0){
+                        hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
                         if(Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0){
                             if(spacingPoint + 1 < i){
@@ -2229,7 +2235,7 @@ public class Font implements Disposable {
                             spacingPoint = i;
                         }
                     }
-                    if(drawn + changedW + amt > targetWidth) {
+                    if(hasMultipleGaps && drawn + changedW + amt > targetWidth) {
                         cutoff = breakPoint - spacingSpan;
                         Line next;
                         if(changing.lines() == ln + 1)
