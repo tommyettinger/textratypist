@@ -2182,7 +2182,7 @@ public class Font implements Disposable {
         int oldLength = changing.lines.size;
         Line firstLine = changing.getLine(0);
         for (int i = 1; i < oldLength; i++) {
-            int last = firstLine.glyphs.size;
+//            int last = firstLine.glyphs.size;
 //            if((firstLine.glyphs.get(last - 1) & 0xFFFF) == '\n')
 //                firstLine.glyphs.set(last - 1, firstLine.glyphs.get(last - 1) ^ 42L);
             firstLine.glyphs.addAll(changing.getLine(i).glyphs);
@@ -2195,6 +2195,7 @@ public class Font implements Disposable {
             float drawn = 0f;
             int cutoff = 0, breakPoint = -2, spacingPoint = -2, spacingSpan = 0;
             LongArray glyphs = line.glyphs;
+            boolean hasMultipleGaps = false;
             if (kerning != null) {
                 int kern = -1;
                 float amt = 0;
@@ -2267,6 +2268,7 @@ public class Font implements Disposable {
                     if(!isMono && (glyph & SUPERSCRIPT) != 0L)
                         changedW *= 0.5f;
                     if (glyph >>> 32 == 0L){
+                        hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
                         if(spacingPoint + 1 < i){
                             spacingSpan = 0;
@@ -2275,6 +2277,7 @@ public class Font implements Disposable {
                         spacingPoint = i;
                     }
                     else if(Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0){
+                        hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
                         if(Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0){
                             if(spacingPoint + 1 < i){
@@ -2284,7 +2287,7 @@ public class Font implements Disposable {
                             spacingPoint = i;
                         }
                     }
-                    if(drawn + changedW > targetWidth) {
+                    if(hasMultipleGaps && drawn + changedW > targetWidth) {
                         cutoff = breakPoint - spacingSpan;
                         Line next;
                         if(changing.lines() == ln + 1) {
