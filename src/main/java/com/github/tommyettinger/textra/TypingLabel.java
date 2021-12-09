@@ -604,13 +604,14 @@ public class TypingLabel extends TextraLabel {
     @Override
     public void layout() {
         // --- SUPERCLASS IMPLEMENTATION ---
+        super.layout();
 
         float width = getWidth();
         if (wrap && (workingLayout.getTargetWidth() != width)) {
-            layout.setTargetWidth(width);
+//            layout.setTargetWidth(width);
             workingLayout.setTargetWidth(width);
-            invalidateHierarchy();
-            font.regenerateLayout(layout);
+//            invalidateHierarchy();
+//            font.regenerateLayout(layout);
             font.regenerateLayout(workingLayout);
         }
 
