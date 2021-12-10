@@ -613,6 +613,7 @@ public class TypingLabel extends TextraLabel {
 //            invalidateHierarchy();
 //            font.regenerateLayout(layout);
             font.regenerateLayout(workingLayout);
+            parseTokens();
         }
 
 
