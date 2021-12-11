@@ -576,6 +576,11 @@ public class TypingLabel extends TextraLabel {
                 break;
             }
         }
+        if (wrap) {
+            font.regenerateLayout(workingLayout);
+            parseTokens();
+        }
+
         invalidateHierarchy();
     }
 
@@ -608,10 +613,7 @@ public class TypingLabel extends TextraLabel {
 
         float width = getWidth();
         if (wrap && (workingLayout.getTargetWidth() != width)) {
-//            layout.setTargetWidth(width);
             workingLayout.setTargetWidth(width);
-//            invalidateHierarchy();
-//            font.regenerateLayout(layout);
             font.regenerateLayout(workingLayout);
             parseTokens();
         }
