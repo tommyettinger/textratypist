@@ -76,13 +76,13 @@ variety of font types isn't amazing, but it should be a good starting point.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.1.2"
+implementation "com.github.tommyettinger:textratypist:0.1.3"
 ```
 
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.1.2:sources"
+implementation "com.github.tommyettinger:textratypist:0.1.3:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
