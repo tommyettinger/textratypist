@@ -790,9 +790,14 @@ public class TypingLabel extends TextraLabel {
         for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = layout.getLine(i).glyphs;
             if(index < glyphs.size) {
+                char old = (char) glyphs.get(index);
                 glyphs.set(index, newGlyph);
-                if(i < workingLayout.lines() && index < workingLayout.getLine(i).glyphs.size)
+                if(i < workingLayout.lines() && index < workingLayout.getLine(i).glyphs.size) {
+                    char work;
+                    if((work = (char)workingLayout.getLine(i).glyphs.get(index)) != old)
+                        System.out.println("Different: " + old + " ! => " + work + " at index " + index);
                     workingLayout.getLine(i).glyphs.set(index, newGlyph);
+                }
                 return;
             }
             else
