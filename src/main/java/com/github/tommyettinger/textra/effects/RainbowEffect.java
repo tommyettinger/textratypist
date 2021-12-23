@@ -61,7 +61,7 @@ public class RainbowEffect extends Effect {
         float frequencyMod = (1f / frequency) * DEFAULT_FREQUENCY;
         float progress = calculateProgress(frequencyMod, distanceMod * localIndex, false);
 
-        label.setInLayouts(globalIndex, (glyph & 0xFFFFFFFFL) | (long)ColorUtils.hsl2rgb(progress, saturation, brightness, 1f) << 32);
+        label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long)ColorUtils.hsl2rgb(progress, saturation, brightness, 1f) << 32);
     }
 
 }

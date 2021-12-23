@@ -2307,14 +2307,11 @@ public class Font implements Disposable {
                             break;
                         }
                         int nextSize = next.glyphs.size;
-//                        next.glyphs.insertRange(0, glyphs.size - cutoff);
-//                        long[] arr = next.glyphs.items;
                         long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
                         System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
                         System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
 //                        next.glyphs.size += glyphs.size - cutoff;
                         glyphs.truncate(cutoff);
-//                        glyphs.add('\n');
                         break;
                     }
                     drawn += changedW;

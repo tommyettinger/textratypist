@@ -67,7 +67,7 @@ public class BlinkEffect extends Effect {
         float progress = calculateProgress(frequencyMod);
 
         // Calculate and assign color
-        label.setInLayouts(globalIndex, (glyph & 0xFFFFFFFFL) | (long) (progress <= threshold ? color1 : color2) << 32);
+        label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) (progress <= threshold ? color1 : color2) << 32);
     }
 
 }
