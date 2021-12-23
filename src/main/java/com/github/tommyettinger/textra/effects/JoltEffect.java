@@ -22,7 +22,6 @@ import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
-import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /** Randomly selects and shakes individual characters in the text. */
 public class JoltEffect extends Effect {
@@ -104,10 +103,10 @@ public class JoltEffect extends Effect {
             x = MathUtils.round(x);
             y = MathUtils.round(y);
             if(fadeout > 0)
-                label.setInLayouts(globalIndex, (glyph & 0xFFFFFFFFL) | (long) joltColor << 32);
+                label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) joltColor << 32);
         }
         else
-            label.setInLayouts(globalIndex, (glyph & 0xFFFFFFFFL) | (long) baseColor << 32);
+            label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) baseColor << 32);
 
         // Store offsets for the next tick
         lastOffsets.set(localIndex * 2, x);

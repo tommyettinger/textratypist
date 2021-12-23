@@ -64,7 +64,7 @@ public class GradientEffect extends Effect {
         float progress = calculateProgress(frequencyMod, distanceMod * localIndex, true);
 
         // Calculate color
-        label.setInLayouts(globalIndex,
+        label.setInWorkingLayout(globalIndex,
                 (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors(this.color1, this.color2, progress) << 32);
     }
 
