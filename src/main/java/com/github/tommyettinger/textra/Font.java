@@ -1392,7 +1392,7 @@ public class Font implements Disposable {
         Texture tex = tr.getTexture();
         float x0 = 0f, x1 = 0f, x2 = 0f, x3 = 0f;
         float y0 = 0f, y1 = 0f, y2 = 0f, y3 = 0f;
-        float color = NumberUtils.intBitsToFloat(((int)(batch.getColor().a * 127.999f) << 25)
+        float color = NumberUtils.intBitsToFloat(((int)(batch.getColor().a * (glyph >>> 33 & 127)) << 25)
                 | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
         final float iw = 1f / tex.getWidth();
         float u, v, u2, v2;
@@ -1601,7 +1601,8 @@ public class Font implements Disposable {
         float y0 = 0f;
         float y1 = 0f;
         float y2 = 0f;
-        float color = NumberUtils.intBitsToFloat(Integer.reverseBytes(((int) (glyph >>> 32) & -256) | (int)(batch.getColor().a * 255.999f)));
+        float color = NumberUtils.intBitsToFloat(((int)(batch.getColor().a * (glyph >>> 33 & 127)) << 25)
+                | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
         final float iw = 1f / tex.getWidth();
         float u, v, u2, v2;
         u = tr.getU();
