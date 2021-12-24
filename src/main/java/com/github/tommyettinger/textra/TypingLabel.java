@@ -580,8 +580,10 @@ public class TypingLabel extends TextraLabel {
             parseTokens();
         }
         else {
-            for(Line ln : workingLayout.lines)
+            for (Line ln : workingLayout.lines) {
                 ln.width = font.measureWidth(ln);
+                ln.height = font.cellHeight;
+            }
         }
 
         invalidateHierarchy();
