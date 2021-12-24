@@ -2,12 +2,16 @@
 Extra features for something like typing-label, with both effects and styles.
 
 What does this look like? A little something like this...
+![Still preview](https://i.imgur.com/eIUH9Cc.png)
 
+Or perhaps like this...
 ![Animated preview](images/preview.gif)
 
 ## It's a label!
 
-TypingLabel is a fairly normal scene2d.ui widget, much like a Label from libGDX. However, it puts letters up on
+There's a "normal" label here in the form of TextraLabel, which acts almost exactly like Label in scene2d.ui, but
+allows the styles covered below. A lot of usage may prefer TypingLabel, though!
+TypingLabel is a fairly normal scene2d.ui widget, and extends TextraLabel. However, it puts letters up on
 the screen one at a time, unless it is told to skip ahead. This is a nostalgic effect found in many older text-heavy
 games, and it looks like a typewriter is putting up each letter at some slower-than-instantaneous rate.
 
@@ -76,13 +80,13 @@ variety of font types isn't amazing, but it should be a good starting point.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.1.3"
+implementation "com.github.tommyettinger:textratypist:0.1.4"
 ```
 
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.1.3:sources"
+implementation "com.github.tommyettinger:textratypist:0.1.4:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
