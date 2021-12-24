@@ -579,6 +579,10 @@ public class TypingLabel extends TextraLabel {
             font.regenerateLayout(workingLayout);
             parseTokens();
         }
+        else {
+            for(Line ln : workingLayout.lines)
+                ln.width = font.measureWidth(ln);
+        }
 
         invalidateHierarchy();
     }
