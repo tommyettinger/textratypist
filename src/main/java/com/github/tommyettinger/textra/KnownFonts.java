@@ -121,8 +121,8 @@ public class KnownFonts implements LifecycleListener {
         if(instance.astarry == null)
         {
             try {
-                instance.astarry = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, 1, 0, 0).scaleTo(18, 18);
-                instance.astarry.distanceFieldCrispness = 3f;
+                instance.astarry = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, 1, 0, 0).scaleTo(10, 10);
+                instance.astarry.distanceFieldCrispness = 1.5f;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -369,7 +369,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.libertinusSerif == null)
         {
             try {
-                instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, 6f, 0f, -2f, 0f).scaleTo(150, 32);
+                instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, 5, 2, -2, -2).scaleTo(150, 32);
             } catch (Exception e) {
                 e.printStackTrace();
             }

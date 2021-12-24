@@ -1502,12 +1502,12 @@ public class Font implements Disposable {
 //                        underV = under.getV() + iw,
 //                        underU2 = under.getU2(),
 //                        underV2 = under.getV2() - iw,
-                final float underU = under.getU() + (2f - under.offsetX) * iw,
+                final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.5f,
                         underV = under.getV(),
                         underU2 = underU + iw,
                         underV2 = under.getV2(),
                         hu = under.getRegionHeight() * scaleY, yu = y + cellHeight - hu - under.offsetY * scaleY;
-                x0 = x + scaleX * 2f + 1f;
+                x0 = x + scaleX * under.offsetX + 1f;
                 vertices[0] = x0 - 1f;
                 vertices[1] = yu + hu;
                 vertices[2] = color;
@@ -1537,12 +1537,12 @@ public class Font implements Disposable {
         if ((glyph & STRIKETHROUGH) != 0L) {
             final GlyphRegion dash = mapping.get('-');
             if (dash != null) {
-                final float dashU = dash.getU() + (2f - dash.offsetX) * iw,
+                final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.5f,
                         dashV = dash.getV(),
                         dashU2 = dashU + iw,
                         dashV2 = dash.getV2(),
                         hd = dash.getRegionHeight() * scaleY, yd = y + cellHeight - hd - dash.offsetY * scaleY;
-                x0 = x + scaleX * 2f + 1f;
+                x0 = x + scaleX * dash.offsetX + 1f;
                 vertices[0] = x0 - 1f;
                 vertices[1] = yd + hd;
                 vertices[2] = color;
