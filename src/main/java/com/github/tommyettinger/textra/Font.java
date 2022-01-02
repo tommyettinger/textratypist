@@ -2173,6 +2173,124 @@ public class Font implements Disposable {
         return appendTo;
     }
 
+    /**
+     * Reads markup from {@code markup}, processes it, and applies it to the given char {@code chr}; returns a long
+     * in the format used for styled glyphs here. This parses an extension of libGDX markup and uses it to determine
+     * color, size, position, shape, strikethrough, underline, and case of the given CharSequence.
+     * The text drawn will start as white, with the normal size as determined by the font's metrics and scale
+     * ({@link #scaleX} and {@link #scaleY}), normal case, and without bold, italic, superscript, subscript,
+     * strikethrough, or underline. Markup starts with {@code [}; the next character determines what that piece of
+     * markup toggles. Markup this knows:
+     * <ul>
+     *     <li>{@code [[} escapes a literal left bracket.</li>
+     *     <li>{@code []} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code [*]} toggles bold mode.</li>
+     *     <li>{@code [/]} toggles italic (technically, oblique) mode.</li>
+     *     <li>{@code [^]} toggles superscript mode (and turns off subscript or midscript mode).</li>
+     *     <li>{@code [=]} toggles midscript mode (and turns off superscript or subscript mode).</li>
+     *     <li>{@code [.]} toggles subscript mode (and turns off superscript or midscript mode).</li>
+     *     <li>{@code [_]} toggles underline mode.</li>
+     *     <li>{@code [~]} toggles strikethrough mode.</li>
+     *     <li>{@code [!]} toggles all upper case mode.</li>
+     *     <li>{@code [,]} toggles all lower case mode.</li>
+     *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
+     *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
+     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
+     *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
+     *     looking up colors with names that contain punctuation.</li>
+     * </ul>
+     * You can render the result using {@link #drawGlyph(Batch, long, float, float)}.
+     * @param chr a single char to apply markup to
+     * @param markup a String containing only markup syntax, like "[*][_][RED]" for bold underline in red
+     * @return a long that encodes the given char with the specified markup
+     */
+    public long markupGlyph(char chr, String markup) {
+        boolean capsLock = false, lowerCase = false;
+        int c;
+        final long COLOR_MASK = 0xFFFFFFFF00000000L;
+        long baseColor = COLOR_MASK | chr;
+        long color = baseColor;
+        long current = color;
+        for (int i = 0, n = markup.length(); i < n; i++) {
+            if (markup.charAt(i) == '[') {
+                if (++i < n && (c = markup.charAt(i)) != '[') {
+                    if (c == ']') {
+                        color = baseColor;
+                        current = color;
+                        capsLock = false;
+                        lowerCase = false;
+                        continue;
+                    }
+                    int len = markup.indexOf(']', i) - i;
+                    switch (c) {
+                        case '*':
+                            current ^= BOLD;
+                            break;
+                        case '/':
+                            current ^= OBLIQUE;
+                            break;
+                        case '^':
+                            if ((current & SUPERSCRIPT) == SUPERSCRIPT)
+                                current &= ~SUPERSCRIPT;
+                            else
+                                current |= SUPERSCRIPT;
+                            break;
+                        case '.':
+                            if ((current & SUPERSCRIPT) == SUBSCRIPT)
+                                current &= ~SUBSCRIPT;
+                            else
+                                current = (current & ~SUPERSCRIPT) | SUBSCRIPT;
+                            break;
+                        case '=':
+                            if ((current & SUPERSCRIPT) == MIDSCRIPT)
+                                current &= ~MIDSCRIPT;
+                            else
+                                current = (current & ~SUPERSCRIPT) | MIDSCRIPT;
+                            break;
+                        case '_':
+                            current ^= UNDERLINE;
+                            break;
+                        case '~':
+                            current ^= STRIKETHROUGH;
+                            break;
+                        case ';':
+                        case '!':
+                            capsLock = !capsLock;
+                            lowerCase = false;
+                            break;
+                        case ',':
+                            lowerCase = !lowerCase;
+                            capsLock = false;
+                            break;
+                        case '#':
+                            if (len >= 7 && len < 9)
+                                color = longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FF00000000L;
+                            else if (len >= 9)
+                                color = longFromHex(markup, i + 1, i + 9) << 32;
+                            else
+                                color = baseColor;
+                            current = (current & ~COLOR_MASK) | color;
+                            break;
+                        case '|':
+                            // attempt to look up a known Color name with a ColorLookup
+                            Integer lookupColor = colorLookup.getRgba(markup.substring(i + 1, i + len));
+                            if (lookupColor == null) color = baseColor;
+                            else color = (long) lookupColor << 32;
+                            current = (current & ~COLOR_MASK) | color;
+                            break;
+                        default:
+                            // attempt to look up a known Color name with a ColorLookup
+                            Integer gdxColor = colorLookup.getRgba(markup.substring(i, i + len));
+                            if (gdxColor == null) color = baseColor;
+                            else color = (long) gdxColor << 32;
+                            current = (current & ~COLOR_MASK) | color;
+                    }
+                }
+            }
+        }
+        return current;
+    }
+
     public Layout regenerateLayout(Layout changing) {
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
         long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(changing.getBaseColor())) & COLOR_MASK;
