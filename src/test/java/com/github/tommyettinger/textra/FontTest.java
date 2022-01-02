@@ -5,18 +5,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class FontTest extends ApplicationAdapter {
 
     Font font;
     SpriteBatch batch;
     Layout layout = new Layout().setTargetWidth(750);
+    Array<String> colorNames;
+    long startTime;
 
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -33,6 +36,7 @@ public class FontTest extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
+        colorNames = Colors.getColors().keys().toArray();
 //        font = new Font(new BitmapFont(Gdx.files.internal("OpenSans.fnt")), Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f)
 //                .scale(0.5f, 0.5f).setTextureFilter();
 //        font = new Font(new BitmapFont(Gdx.files.internal("Gentium.fnt")), Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f)
@@ -42,8 +46,9 @@ public class FontTest extends ApplicationAdapter {
 //        font = new Font("LibertinusSerif.fnt",
 //                new TextureRegion(new Texture(Gdx.files.internal("LibertinusSerif.png"), true)), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0)
 //        .scale(0.25f, 0.25f).setTextureFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.MipMapLinearNearest);
-        font = KnownFonts.getLibertinusSerif().scaleTo(165, 40);
+//        font = KnownFonts.getLibertinusSerif().scaleTo(165, 40);
 //        font = KnownFonts.getCozette().scale(2, 2);
+        font = KnownFonts.getGentium().scaleTo(55, 40);
 //        font = KnownFonts.getAStarry();
 //        font = KnownFonts.getIosevkaSlab().scaleTo(12, 40);
 //        font = KnownFonts.getInconsolataLGC().scaleTo(12, 40);
@@ -53,7 +58,7 @@ public class FontTest extends ApplicationAdapter {
         layout.setBaseColor(Color.DARK_GRAY);
         layout.setMaxLines(10);
         layout.setEllipsis("...");
-        font.markup("Fonts can be rendered normally, but using [[tags], you can..."
+        font.markup("@ Fonts can be rendered normally, but using [[tags], you can..."
                 + "\n[#E74200]...use CSS-style hex colors like #E74200..."
                 + "\n[FOREST]...use named colors from the Colors class, like FOREST...[]"
                 + "\n...and use [!]effects[!]!"
@@ -79,12 +84,14 @@ public class FontTest extends ApplicationAdapter {
 //                + "\n[*]Водяно́й[] — в славянской мифологии дух, обитающий в воде, хозяин вод[^][BLUE][[2][]."
 //                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][].", layout);
         System.out.println(layout);
+        startTime = TimeUtils.millis();
     }
 
     @Override
     public void render() {
         Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
         float x = 400, y = font.cellHeight * (layout.lines() - 1);
         batch.begin();
         font.enableShader(batch);
