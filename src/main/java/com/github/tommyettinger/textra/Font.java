@@ -1792,10 +1792,10 @@ public class Font implements Disposable {
      * {@link Pools#free(Object)}. This parses an extension of libGDX markup and uses it to determine color, size,
      * position, shape, strikethrough, underline, and case of the given CharSequence. It also reads typing markup, for
      * effects, but passes it through without changing it and without considering it for line wrapping or text position.
-     * The text drawn will start as white, with the normal size as determined by the font's metrics and scale
-     * ({@link #scaleX} and {@link #scaleY}), normal case, and without bold, italic, superscript, subscript,
-     * strikethrough, or underline. Markup starts with {@code [}; the next character determines what that piece of
-     * markup toggles. Markup this knows:
+     * The text drawn will start in {@code appendTo}'s {@link Layout#baseColor}, which is usually white, with the normal
+     * size as determined by the font's metrics and scale ({@link #scaleX} and {@link #scaleY}), normal case, and
+     * without bold, italic, superscript, subscript, strikethrough, or underline. Markup starts with {@code [}; the next
+     * character determines what that piece of markup toggles. Markup this knows:
      * <ul>
      *     <li>{@code [[} escapes a literal left bracket.</li>
      *     <li>{@code []} clears all markup to the initial state without any applied.</li>
@@ -2176,13 +2176,12 @@ public class Font implements Disposable {
     /**
      * Reads markup from {@code markup}, processes it, and applies it to the given char {@code chr}; returns a long
      * in the format used for styled glyphs here. This parses an extension of libGDX markup and uses it to determine
-     * color, size, position, shape, strikethrough, underline, and case of the given CharSequence.
-     * The text drawn will start as white, with the normal size as determined by the font's metrics and scale
+     * color, size, position, shape, strikethrough, underline, and case of the given char.
+     * The char drawn will start in white, with the normal size as determined by the font's metrics and scale
      * ({@link #scaleX} and {@link #scaleY}), normal case, and without bold, italic, superscript, subscript,
      * strikethrough, or underline. Markup starts with {@code [}; the next character determines what that piece of
      * markup toggles. Markup this knows:
      * <ul>
-     *     <li>{@code [[} escapes a literal left bracket.</li>
      *     <li>{@code []} clears all markup to the initial state without any applied.</li>
      *     <li>{@code [*]} toggles bold mode.</li>
      *     <li>{@code [/]} toggles italic (technically, oblique) mode.</li>
@@ -2199,7 +2198,9 @@ public class Font implements Disposable {
      *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
      *     looking up colors with names that contain punctuation.</li>
      * </ul>
-     * You can render the result using {@link #drawGlyph(Batch, long, float, float)}.
+     * You can render the result using {@link #drawGlyph(Batch, long, float, float)}. It is recommended that you avoid
+     * calling this method every frame, because the color lookups usually allocate some memory, and because this can
+     * usually be stored for later without needing repeated computation.
      * @param chr a single char to apply markup to
      * @param markup a String containing only markup syntax, like "[*][_][RED]" for bold underline in red
      * @return a long that encodes the given char with the specified markup
@@ -2292,8 +2293,6 @@ public class Font implements Disposable {
     }
 
     public Layout regenerateLayout(Layout changing) {
-        final long COLOR_MASK = 0xFFFFFFFF00000000L;
-        long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(changing.getBaseColor())) & COLOR_MASK;
         if(changing.font == null || !changing.font.equals(this)) {
             return changing;
         }
@@ -2301,9 +2300,6 @@ public class Font implements Disposable {
         int oldLength = changing.lines.size;
         Line firstLine = changing.getLine(0);
         for (int i = 1; i < oldLength; i++) {
-//            int last = firstLine.glyphs.size;
-//            if((firstLine.glyphs.get(last - 1) & 0xFFFF) == '\n')
-//                firstLine.glyphs.set(last - 1, firstLine.glyphs.get(last - 1) ^ 42L);
             firstLine.glyphs.addAll(changing.getLine(i).glyphs);
             Pools.free(changing.getLine(i));
         }
@@ -2338,7 +2334,7 @@ public class Font implements Disposable {
                         hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
                         if(spacingPoint + 1 < i){
-                            spacingSpan = 1;
+                            spacingSpan = 0;
                         }
                         else spacingSpan++;
                         spacingPoint = i;
@@ -2360,7 +2356,7 @@ public class Font implements Disposable {
                         if(changing.lines() == ln + 1)
                         {
                             next = changing.pushLine();
-                            line.glyphs.pop();
+                            glyphs.pop();
                         }
                         else
                             next = changing.getLine(ln+1);
@@ -2440,162 +2436,6 @@ public class Font implements Disposable {
         }
         return changing;
     }
-
-//    public Layout regenerateLayout(Layout changing) {
-//        final long COLOR_MASK = 0xFFFFFFFF00000000L;
-//        long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(changing.getBaseColor())) & COLOR_MASK;
-//        if(changing.font == null || !changing.font.equals(this)) {
-//            return changing;
-//        }
-//        float targetWidth = changing.getTargetWidth();
-//        int oldLength = changing.lines.size;
-//        Line[] oldLines = changing.lines.items;
-//        changing.lines.items = new Line[oldLength];
-//        changing.lines.size = 0;
-//        changing.lines.add(Pools.obtain(Line.class));
-//        changing.lines.peek().height = cellHeight;
-//        int kern = -1;
-//        for (int ln = 0; ln < oldLength; ln++) {
-//            Line line = oldLines[ln];
-//            LongArray glyphs = line.glyphs;
-//            for (int i = 0, n = glyphs.size; i < n; i++) {
-//                long glyph = glyphs.get(i);
-//                if(i > 0 && (glyph & 0xFFFF) == '\n')
-//                    glyph ^= 42;
-//                float w;
-//                if (kerning == null) {
-//                    w = (changing.peekLine().width += xAdvance(glyph));
-//                } else {
-//                    kern = kern << 16 | (int) ((glyph) & 0xFFFF);
-//                    w = (changing.peekLine().width += xAdvance(glyph) + kerning.get(kern, 0) * scaleX);
-//                }
-//                changing.add(glyph);
-//                if ((targetWidth > 0 && w > targetWidth) || changing.atLimit) {
-//                    Line earlier = changing.peekLine();
-//                    Line later;
-//                    if (changing.lines.size >= changing.maxLines) {
-//                        later = null;
-//                    } else {
-//                        later = Pools.obtain(Line.class);
-//                        later.height = earlier.height;
-//                        changing.lines.add(later);
-//                    }
-//                    if (later == null) {
-//                        // here, the max lines have been reached, and an ellipsis may need to be added
-//                        // to the last line.
-//                        String ellipsis = (changing.ellipsis == null) ? "" : changing.ellipsis;
-//                        for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
-//                            long curr;
-//                            // remove a full word or other group of non-space characters.
-//                            while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0 && j > 0) {
-//                                --j;
-//                            }
-//                            // remove the remaining space characters.
-//                            while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-//                                    Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0 && j > 0) {
-//                                --j;
-//                            }
-//                            float change = 0f, changeNext = 0f;
-//                            long currE;
-//                            if (kerning == null) {
-//                                for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
-//                                    change += xAdvance(earlier.glyphs.get(k));
-//                                    if ((e < ellipsis.length())) {
-//                                        float adv = xAdvance(baseColor | ellipsis.charAt(e));
-//                                        changeNext += adv;
-//                                    }
-//                                }
-//                            } else {
-//                                int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
-//                                int k2e = ellipsis.charAt(0) & 0xFFFF;
-//                                for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
-//                                    curr = earlier.glyphs.get(k);
-//                                    k2 = k2 << 16 | (char) curr;
-//                                    float adv = xAdvance(curr);
-//                                    change += adv + kerning.get(k2, 0) * scaleX;
-//                                    if ((e < ellipsis.length())) {
-//                                        currE = baseColor | ellipsis.charAt(e);
-//                                        k2e = k2e << 16 | (char) currE;
-//                                        changeNext += xAdvance(currE) + kerning.get(k2e, 0) * scaleX;
-//                                    }
-//                                }
-//                            }
-//                            if (earlier.width + changeNext < changing.getTargetWidth()) {
-//                                for (int e = 0; e < ellipsis.length(); e++) {
-//                                    earlier.glyphs.add(baseColor | ellipsis.charAt(e));
-//                                }
-//                                earlier.width = earlier.width + changeNext;
-//                                for (int k = ln; k < oldLength; k++) {
-//                                    Pools.free(oldLines[k]);
-//                                }
-//                                return changing;
-//                            }
-//                            if (earlier.width - change + changeNext < changing.getTargetWidth()) {
-//                                earlier.glyphs.truncate(j + 1);
-//                                for (int e = 0; e < ellipsis.length(); e++) {
-//                                    earlier.glyphs.add(baseColor | ellipsis.charAt(e));
-//                                }
-//                                earlier.width = earlier.width - change + changeNext;
-//                                for (int k = ln; k < oldLength; k++) {
-//                                    Pools.free(oldLines[k]);
-//                                }
-//                                return changing;
-//                            }
-//                        }
-//                    } else {
-//                        for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
-//                            long curr;
-//                            if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-//                                    Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
-//                                int leading = 0;
-//                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-//                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0) {
-//                                    ++leading;
-//                                    --j;
-//                                }
-//                                float change = 0f, changeNext = 0f;
-//                                glyphBuffer.clear();
-//                                if (kerning == null) {
-//                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
-//                                        float adv = xAdvance(curr = earlier.glyphs.get(k));
-//                                        change += adv;
-//                                        if (--leading < 0) {
-//                                            glyphBuffer.add(curr);
-//                                            changeNext += adv;
-//                                        }
-//                                    }
-//                                } else {
-//                                    int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF), k3 = -1;
-//                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
-//                                        curr = earlier.glyphs.get(k);
-//                                        k2 = k2 << 16 | (char) curr;
-//                                        float adv = xAdvance(curr);
-//                                        change += adv + kerning.get(k2, 0) * scaleX;
-//                                        if (--leading < 0) {
-//                                            k3 = k3 << 16 | (char) curr;
-//                                            changeNext += adv + kerning.get(k3, 0) * scaleX;
-//                                            glyphBuffer.add(curr);
-//                                        }
-//                                    }
-//                                }
-//                                if(earlier.width - change > targetWidth)
-//                                    continue;
-//                                earlier.glyphs.truncate(j + 1);
-//                                earlier.glyphs.add('\n');
-//                                later.width = changeNext;
-//                                earlier.width -= change;
-//                                later.glyphs.addAll(glyphBuffer);
-//                                System.out.println("Line has width " + measureWidth(earlier));
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            Pools.free(line);
-//        }
-//        return changing;
-//    }
 
     /**
      * Releases all resources of this object.
