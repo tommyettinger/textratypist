@@ -83,6 +83,11 @@ You probably want to get this with Gradle! The dependency for a libGDX project's
 implementation "com.github.tommyettinger:textratypist:0.1.4"
 ```
 
+This assumes you already depend on libGDX; textratypist depends on version 1.10.0 or higher, and should have no problems
+updating to 1.10.1-SNAPSHOT or 1.10.1 when it is released. This is different from typing-label, which unfortunately had
+the rug pulled out from under it by changes in libGDX's font rendering code during the 1.10.1-SNAPSHOT period, and needs
+a different version for 1.10.1 (-SNAPSHOT) and higher vs. 1.10.0 .
+
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
