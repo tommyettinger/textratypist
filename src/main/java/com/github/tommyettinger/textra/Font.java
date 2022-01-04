@@ -27,11 +27,18 @@ import com.badlogic.gdx.graphics.g2d.DistanceFieldFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.CharArray;
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.IntIntMap;
+import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.LongArray;
+import com.badlogic.gdx.utils.NumberUtils;
+import com.badlogic.gdx.utils.Pools;
 import regexodus.Category;
 
 import java.util.Arrays;
-import java.util.BitSet;
 
 /**
  * A replacement for libGDX's BitmapFont class, supporting additional markup to allow styling text with various effects.
@@ -2201,11 +2208,55 @@ public class Font implements Disposable {
      * You can render the result using {@link #drawGlyph(Batch, long, float, float)}. It is recommended that you avoid
      * calling this method every frame, because the color lookups usually allocate some memory, and because this can
      * usually be stored for later without needing repeated computation.
+     * <br>
+     * This is equivalent to calling the static {@link #markupGlyph(char, String, ColorLookup)} and giving it this
+     * Font's {@link #colorLookup} value.
      * @param chr a single char to apply markup to
      * @param markup a String containing only markup syntax, like "[*][_][RED]" for bold underline in red
      * @return a long that encodes the given char with the specified markup
      */
     public long markupGlyph(char chr, String markup) {
+        return markupGlyph(chr, markup, colorLookup);
+    }
+    /**
+     * Reads markup from {@code markup}, processes it, and applies it to the given char {@code chr}; returns a long
+     * in the format used for styled glyphs here. This parses an extension of libGDX markup and uses it to determine
+     * color, size, position, shape, strikethrough, underline, and case of the given char.
+     * The char drawn will start in white, with the normal size as determined by the font's metrics and scale
+     * ({@link #scaleX} and {@link #scaleY}), normal case, and without bold, italic, superscript, subscript,
+     * strikethrough, or underline. Markup starts with {@code [}; the next character determines what that piece of
+     * markup toggles. Markup this knows:
+     * <ul>
+     *     <li>{@code []} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code [*]} toggles bold mode.</li>
+     *     <li>{@code [/]} toggles italic (technically, oblique) mode.</li>
+     *     <li>{@code [^]} toggles superscript mode (and turns off subscript or midscript mode).</li>
+     *     <li>{@code [=]} toggles midscript mode (and turns off superscript or subscript mode).</li>
+     *     <li>{@code [.]} toggles subscript mode (and turns off superscript or midscript mode).</li>
+     *     <li>{@code [_]} toggles underline mode.</li>
+     *     <li>{@code [~]} toggles strikethrough mode.</li>
+     *     <li>{@code [!]} toggles all upper case mode.</li>
+     *     <li>{@code [,]} toggles all lower case mode.</li>
+     *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
+     *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
+     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
+     *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
+     *     looking up colors with names that contain punctuation.</li>
+     * </ul>
+     * You can render the result using {@link #drawGlyph(Batch, long, float, float)}. It is recommended that you avoid
+     * calling this method every frame, because the color lookups usually allocate some memory, and because this can
+     * usually be stored for later without needing repeated computation.
+     * <br>
+     * This takes a ColorLookup so that it can look up colors given a name or description; if you don't know what to
+     * use, then {@link ColorLookup.GdxColorLookup#INSTANCE} is often perfectly fine. Because this is static, it does
+     * not need a Font to be involved.
+     * @param chr a single char to apply markup to
+     * @param markup a String containing only markup syntax, like "[*][_][RED]" for bold underline in red
+     * @param colorLookup a ColorLookup (often a method reference or {@link ColorLookup.GdxColorLookup#INSTANCE}) to get
+     *                   colors from textual names or descriptions
+     * @return a long that encodes the given char with the specified markup
+     */
+    public static long markupGlyph(char chr, String markup, ColorLookup colorLookup) {
         boolean capsLock = false, lowerCase = false;
         int c;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
