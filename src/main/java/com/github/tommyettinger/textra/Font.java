@@ -197,6 +197,13 @@ public class Font implements Disposable {
     public float scaleY = 1f;
 
     /**
+     * A char that will be used to draw solid blocks with {@link #drawBlocks(Batch, int[][], float, float)}. The glyph
+     * that corresponds to this char should be a maximum-size block of solid white pixels in most cases. Because Glamer
+     * (which generated many of the knownFonts here) places a solid block at character 0, this defaults to u0000 .
+     */
+    public char solidBlock = '\u0000';
+
+    /**
      * Determines how colors are looked up by name; defaults to using {@link Colors}.
      */
     public ColorLookup colorLookup = ColorLookup.GdxColorLookup.INSTANCE;
@@ -1085,8 +1092,8 @@ public class Font implements Disposable {
 
     /**
      * Draws a grid made of rectangular blocks of int colors (typically RGBA) at the given x,y position in world space.
-     * This is only useful for monospace fonts.
-     * This assumes there is a full-block character at char u0000; Glamer produces fonts that have this already.
+     * This is only useful for monospace fonts. This assumes there is a full-block character at char u0000 by default,
+     * or at {@link #solidBlock} if you have set that field; Glamer produces fonts that have a block at u0000 already.
      * The {@code colors} parameter should be a rectangular 2D array, and because any colors that are the default int
      * value {@code 0} will be treated as transparent RGBA values, if a value is not assigned to a slot in the array
      * then nothing will be drawn there. This is usually called before other methods that draw foreground text.
@@ -1101,7 +1108,7 @@ public class Font implements Disposable {
      * @param y the y position in world space to draw the text at (lower left corner)
      */
     public void drawBlocks(Batch batch, int[][] colors, float x, float y) {
-        drawBlocks(batch, '\u0000', colors, x, y);
+        drawBlocks(batch, solidBlock, colors, x, y);
     }
     /**
      * Draws a grid made of rectangular blocks of int colors (typically RGBA) at the given x,y position in world space.
