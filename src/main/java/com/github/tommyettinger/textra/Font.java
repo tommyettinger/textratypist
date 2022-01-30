@@ -968,41 +968,26 @@ public class Font implements Disposable {
         int allWidth = fnt.getInt("GlyphWidth");
         int rows = (parent.getRegionHeight() + padding) / (allHeight + padding);
         int size = rows * columns;
-        mapping = new IntMap<>(size);
-        int minWidth = Integer.MAX_VALUE;
-//        for (int i = 0; i < size; i++) {
-//            int c = intFromDec(fnt, idx, idx = indexAfter(fnt, " x=", idx));
-//            int x = intFromDec(fnt, idx, idx = indexAfter(fnt, " y=", idx));
-//            int y = intFromDec(fnt, idx, idx = indexAfter(fnt, " width=", idx));
-//            int w = intFromDec(fnt, idx, idx = indexAfter(fnt, " height=", idx));
-//            int h = intFromDec(fnt, idx, idx = indexAfter(fnt, " xoffset=", idx));
-//            int xo = intFromDec(fnt, idx, idx = indexAfter(fnt, " yoffset=", idx));
-//            int yo = intFromDec(fnt, idx, idx = indexAfter(fnt, " xadvance=", idx));
-//            int a = intFromDec(fnt, idx, idx = indexAfter(fnt, " page=", idx));
-//            int p = intFromDec(fnt, idx, idx = indexAfter(fnt, "\nchar id=", idx));
-//
-//            x += xAdjust;
-//            y += yAdjust;
-//            a += widthAdjust;
-//            h += heightAdjust;
-//            minWidth = Math.min(minWidth, a);
-//            cellWidth = Math.max(a, cellWidth);
-//            cellHeight = Math.max(h, cellHeight);
-//            GlyphRegion gr = new GlyphRegion(parents.get(p), x, y, w, h);
-//            if(c == 10)
-//            {
-//                a = 0;
-//                gr.offsetX = 0;
-//            }
-//            else
-//                gr.offsetX = xo;
-//            gr.offsetY = yo;
-//            gr.xAdvance = a;
-//            mapping.put(c, gr);
-//            if(c == '['){
-//                mapping.put(2, gr);
-//            }
-//        }
+        mapping = new IntMap<>(size+1);
+        for (int y = 0, c = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++, c++) {
+                GlyphRegion gr = new GlyphRegion(parent, x * (allWidth + padding), y * (allHeight + padding), allWidth, allHeight);
+                gr.offsetX = 0;
+                gr.offsetY = 0;
+                if (c == 10) {
+                    gr.xAdvance = 0;
+                } else {
+                    gr.xAdvance = allWidth;
+                }
+                mapping.put(c, gr);
+                if (c == '[') {
+                    if(mapping.containsKey(2))
+                        mapping.put(size, mapping.get(2));
+                    mapping.put(2, gr);
+                }
+            }
+        }
+        solidBlock = (char) fnt.getInt("SolidGlyphIndex");
         // Newlines shouldn't render.
         if(mapping.containsKey('\n')){
             GlyphRegion gr = mapping.get('\n');
