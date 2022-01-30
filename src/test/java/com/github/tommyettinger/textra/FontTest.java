@@ -48,13 +48,13 @@ public class FontTest extends ApplicationAdapter {
 //        .scale(0.25f, 0.25f).setTextureFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.MipMapLinearNearest);
 //        font = KnownFonts.getLibertinusSerif().scaleTo(165, 40);
 //        font = KnownFonts.getCozette().scale(2, 2);
-        font = KnownFonts.getGentium().scaleTo(55, 40);
+//        font = KnownFonts.getGentium().scaleTo(55, 40);
 //        font = KnownFonts.getAStarry();
 //        font = KnownFonts.getIosevkaSlab().scaleTo(12, 40);
 //        font = KnownFonts.getInconsolataLGC().scaleTo(12, 40);
 //        font = KnownFonts.getIosevka().scaleTo(12, 40);
 //        font = new Font("Iosevka-distance.fnt", "Iosevka-distance.png", Font.DistanceFieldType.SDF, 0, 0, 0, 0).scaleTo(12f, 24f);
-
+        font = KnownFonts.getIBM8x16();
         layout.setBaseColor(Color.DARK_GRAY);
         layout.setMaxLines(10);
         layout.setEllipsis("...");

@@ -575,6 +575,43 @@ public class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getRobotoCondensed() not found.");
     }
 
+    private Font ibm8x16;
+    /**
+     * Returns a Font configured to use a classic, nostalgic fixed-width bitmap font,
+     * IBM 8x16 from the early, oft-beloved computer line. This font is notably loaded
+     * from a SadConsole format file, which shouldn't affect how it looks (but in reality,
+     * it might). This does not scale except to integer multiples, but it should look very
+     * crisp at its default size of 8x16 pixels. This supports some extra characters, but
+     * not at the typical Unicode codepoints.
+     * <br>
+     * This does not include a license because the source, <a href="https://github.com/Thraka/SadConsole/tree/master/Fonts">SadConsole's fonts</a>,
+     * did not include one. It is doubtful that IBM would have any issues with respectful use
+     * of their signature font throughout the 1980s, but if the legality is concerning, you
+     * can use {@link #getCozette()} for a different bitmap font.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM.font</li>
+     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM8x16.png</li>
+     * </ul>
+     * @return the Font object that represents an 8x16 font included with early IBM computers
+     */
+    public static Font getIBM8x16()
+    {
+        initialize();
+        if(instance.ibm8x16 == null)
+        {
+            try {
+                instance.ibm8x16 = new Font("IBM.font", true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if(instance.ibm8x16 != null)
+            return new Font(instance.ibm8x16);
+        throw new RuntimeException("Assets for getIBM8x16() not found.");
+    }
+
 
     @Override
     public void pause() {
@@ -640,6 +677,10 @@ public class KnownFonts implements LifecycleListener {
         if(kaffeesatz != null){
             kaffeesatz.dispose();
             kaffeesatz = null;
+        }
+        if(ibm8x16 != null){
+            ibm8x16.dispose();
+            ibm8x16 = null;
         }
     }
 }

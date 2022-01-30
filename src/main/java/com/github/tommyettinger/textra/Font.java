@@ -521,6 +521,7 @@ public class Font implements Disposable {
         }
         defaultValue = toCopy.defaultValue;
         kerning = toCopy.kerning == null ? null : new IntIntMap(toCopy.kerning);
+        solidBlock = toCopy.solidBlock;
 
         // shader and colorLookup are not copied, because there isn't much point in having different copies of
         // a ShaderProgram or stateless ColorLookup.
