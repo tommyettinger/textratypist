@@ -27,15 +27,7 @@ import com.badlogic.gdx.graphics.g2d.DistanceFieldFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.CharArray;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.IntIntMap;
-import com.badlogic.gdx.utils.IntMap;
-import com.badlogic.gdx.utils.LongArray;
-import com.badlogic.gdx.utils.NumberUtils;
-import com.badlogic.gdx.utils.Pools;
+import com.badlogic.gdx.utils.*;
 import regexodus.Category;
 
 import java.util.Arrays;
@@ -943,6 +935,84 @@ public class Font implements Disposable {
         originalCellWidth = cellWidth;
         originalCellHeight = cellHeight;
         isMono = minWidth == cellWidth && kerning == null;
+    }
+
+    protected void loadSad(String fntName) {
+        FileHandle fntHandle;
+        JsonValue fnt;
+        JsonReader reader = new JsonReader();
+        if ((fntHandle = Gdx.files.internal(fntName)).exists()
+                || (fntHandle = Gdx.files.local(fntName)).exists()) {
+            fnt = reader.parse(fntHandle);
+        } else {
+            throw new RuntimeException("Missing font file: " + fntName);
+        }
+        int pages = 1;
+        TextureRegion parent;
+        if (parents == null || parents.size == 0) {
+            if (parents == null) parents = new Array<>(true, pages, TextureRegion.class);
+            FileHandle textureHandle;
+            String textureName = fnt.getString("FilePath");
+            if ((textureHandle = Gdx.files.internal(textureName)).exists()
+                    || (textureHandle = Gdx.files.local(textureName)).exists()) {
+                parents.add(parent = new TextureRegion(new Texture(textureHandle)));
+            } else {
+                throw new RuntimeException("Missing texture file: " + textureName);
+            }
+        }
+        else parent = parents.first();
+
+        int columns = fnt.getInt("Columns");
+        int padding = fnt.getInt("GlyphPadding");
+        int allHeight = fnt.getInt("GlyphHeight");
+        int allWidth = fnt.getInt("GlyphWidth");
+        int rows = (parent.getRegionHeight() + padding) / (allHeight + padding);
+        int size = rows * columns;
+        mapping = new IntMap<>(size);
+        int minWidth = Integer.MAX_VALUE;
+//        for (int i = 0; i < size; i++) {
+//            int c = intFromDec(fnt, idx, idx = indexAfter(fnt, " x=", idx));
+//            int x = intFromDec(fnt, idx, idx = indexAfter(fnt, " y=", idx));
+//            int y = intFromDec(fnt, idx, idx = indexAfter(fnt, " width=", idx));
+//            int w = intFromDec(fnt, idx, idx = indexAfter(fnt, " height=", idx));
+//            int h = intFromDec(fnt, idx, idx = indexAfter(fnt, " xoffset=", idx));
+//            int xo = intFromDec(fnt, idx, idx = indexAfter(fnt, " yoffset=", idx));
+//            int yo = intFromDec(fnt, idx, idx = indexAfter(fnt, " xadvance=", idx));
+//            int a = intFromDec(fnt, idx, idx = indexAfter(fnt, " page=", idx));
+//            int p = intFromDec(fnt, idx, idx = indexAfter(fnt, "\nchar id=", idx));
+//
+//            x += xAdjust;
+//            y += yAdjust;
+//            a += widthAdjust;
+//            h += heightAdjust;
+//            minWidth = Math.min(minWidth, a);
+//            cellWidth = Math.max(a, cellWidth);
+//            cellHeight = Math.max(h, cellHeight);
+//            GlyphRegion gr = new GlyphRegion(parents.get(p), x, y, w, h);
+//            if(c == 10)
+//            {
+//                a = 0;
+//                gr.offsetX = 0;
+//            }
+//            else
+//                gr.offsetX = xo;
+//            gr.offsetY = yo;
+//            gr.xAdvance = a;
+//            mapping.put(c, gr);
+//            if(c == '['){
+//                mapping.put(2, gr);
+//            }
+//        }
+        // Newlines shouldn't render.
+        if(mapping.containsKey('\n')){
+            GlyphRegion gr = mapping.get('\n');
+            gr.setRegionWidth(0);
+            gr.setRegionHeight(0);
+        }
+        defaultValue = mapping.get(' ', mapping.get(0));
+        originalCellWidth = cellWidth;
+        originalCellHeight = cellHeight;
+        isMono = true;
     }
 
     //// usage section
