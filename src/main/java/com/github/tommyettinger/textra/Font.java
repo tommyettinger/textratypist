@@ -982,20 +982,20 @@ public class Font implements Disposable {
 
         int columns = fnt.getInt("Columns");
         int padding = fnt.getInt("GlyphPadding");
-        int allHeight = fnt.getInt("GlyphHeight");
-        int allWidth = fnt.getInt("GlyphWidth");
-        int rows = (parent.getRegionHeight() + padding) / (allHeight + padding);
+        cellHeight = fnt.getInt("GlyphHeight");
+        cellWidth = fnt.getInt("GlyphWidth");
+        int rows = (parent.getRegionHeight() + padding) / ((int) cellHeight + padding);
         int size = rows * columns;
         mapping = new IntMap<>(size+1);
         for (int y = 0, c = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++, c++) {
-                GlyphRegion gr = new GlyphRegion(parent, x * (allWidth + padding), y * (allHeight + padding), allWidth, allHeight);
+                GlyphRegion gr = new GlyphRegion(parent, x * ((int)cellWidth + padding), y * ((int)cellHeight + padding), (int)cellWidth, (int)cellHeight);
                 gr.offsetX = 0;
                 gr.offsetY = 0;
                 if (c == 10) {
                     gr.xAdvance = 0;
                 } else {
-                    gr.xAdvance = allWidth;
+                    gr.xAdvance = cellWidth;
                 }
                 mapping.put(c, gr);
                 if (c == '[') {
@@ -1013,8 +1013,8 @@ public class Font implements Disposable {
             gr.setRegionHeight(0);
         }
         defaultValue = mapping.get(' ', mapping.get(0));
-        originalCellWidth = cellWidth;
-        originalCellHeight = cellHeight;
+        originalCellWidth = this.cellWidth;
+        originalCellHeight = this.cellHeight;
         isMono = true;
     }
 
