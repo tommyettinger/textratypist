@@ -532,7 +532,7 @@ public class Font implements Disposable {
 
     /**
      * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried first, then a
-     * classpath handle) and loading any images specified in that file. No distance field effect is used.
+     * local handle) and loading any images specified in that file. No distance field effect is used.
      * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust how many pixels to offset each character's y-position by, moving up
@@ -546,7 +546,7 @@ public class Font implements Disposable {
 
     /**
      * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried first, then a
-     * classpath handle) and loading any images specified in that file. The specified distance field effect is used.
+     * local handle) and loading any images specified in that file. The specified distance field effect is used.
      * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
@@ -571,7 +571,7 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then classpath),
+     * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then local),
      * and no distance field effect.
      * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param textureName the path and filename of a texture file this will load; may be internal or local
@@ -586,7 +586,7 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then classpath),
+     * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then local),
      * and the specified distance field effect.
      * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param textureName the path and filename of a texture file this will load; may be internal or local
@@ -835,9 +835,22 @@ public class Font implements Disposable {
         isMono = minWidth == cellWidth && kerning == null;
         scale(bmFont.getScaleX(), bmFont.getScaleY());
     }
+
+    /**
+     * Constructs a new Font by reading in a SadConsole .font file with the given name (an internal handle is tried
+     * first, then a local handle) and loading any images specified in that file. This never uses a distance field
+     * effect, and always tries to load one image by the path specified in the .font file.
+     * @param fntName the path and filename of a .font file this will load; may be internal or local
+     * @param sadConsole the value is ignored here; the presence of this parameter says to load a SadConsole .font file
+     */
+    public Font(String fntName, boolean sadConsole) {
+        this.distanceField = DistanceFieldType.STANDARD;
+        loadSad(fntName);
+    }
+
     /**
      * The gritty parsing code that pulls relevant info from an AngelCode BMFont .fnt file and uses it to assemble the
-     * many {@code TextureRegion}s this has for each glyph.
+     * many {@link GlyphRegion}s this has for each glyph.
      * @param fntName the file name of the .fnt file; can be internal or local
      * @param xAdjust added to the x-position for each glyph in the font
      * @param yAdjust added to the y-position for each glyph in the font
@@ -937,6 +950,11 @@ public class Font implements Disposable {
         isMono = minWidth == cellWidth && kerning == null;
     }
 
+    /**
+     * The parsing code that pulls relevant info from a SadConsole .font configuration file and uses it to assemble the
+     * many {@link GlyphRegion}s this has for each glyph.
+     * @param fntName the name of a font file this will load from an internal or local file handle (tried in that order)
+     */
     protected void loadSad(String fntName) {
         FileHandle fntHandle;
         JsonValue fnt;
