@@ -35,7 +35,7 @@ if (JavaVersion.current().isJava8Compatible()) {
     }
 }
 
-if(JavaVersion.current().isJava9Compatible()) {
+if (JavaVersion.current().isJava9Compatible()) {
     allprojects {
         tasks.withType(JavaCompile) {
             options.release.set(7)
@@ -43,7 +43,7 @@ if(JavaVersion.current().isJava9Compatible()) {
     }
 }
 
-sourceSets.test.resources.srcDirs = [ file('src/test/resources').path, file('knownFonts').path ]
+sourceSets.test.resources.srcDirs = [file('src/test/resources').path, file('knownFonts').path]
 
 javadoc.destinationDir = file('docs/apidocs')
 
@@ -64,8 +64,11 @@ repositories {
 }
 
 dependencies {
-  api "com.github.tommyettinger:regexodus:$regexodusVersion"
-  api "com.badlogicgames.gdx:gdx:$gdxVersion"
-  testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-  testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    api "com.github.tommyettinger:regexodus:$regexodusVersion"
+    api "com.badlogicgames.gdx:gdx:$gdxVersion"
+    testImplementation ("com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"){
+        exclude group: "org.jcraft", module: "jorbis"
+        exclude group: "org.lwjgl", module: "lwjgl-openal"
+    }
+    testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 }

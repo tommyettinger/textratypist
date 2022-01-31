@@ -230,9 +230,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		config.setTitle("textramode UI test");
 		config.setWindowedMode(640, 480);
 		config.disableAudio(true);
-		ShaderProgram.prependVertexCode = "#version 150\n";
-		ShaderProgram.prependFragmentCode = "#version 150\n";
-		config.enableGLDebugOutput(true, System.out);
+		config.setForegroundFPS(60);
 		config.useVsync(true);
 		new Lwjgl3Application(new TypingUITest(), config);
 	}
