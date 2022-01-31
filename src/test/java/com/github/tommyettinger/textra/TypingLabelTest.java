@@ -277,6 +277,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         config.setResizable(true);
         config.setForegroundFPS(60);
         config.useVsync(true);
+        config.disableAudio(true);
         new Lwjgl3Application(new TypingLabelTest(), config);
     }
 }

@@ -181,6 +181,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         config.setResizable(false);
         config.setForegroundFPS(60);
         config.useVsync(true);
+        config.disableAudio(true);
         new Lwjgl3Application(new TinyTypingLabelTest(), config);
     }
 }
