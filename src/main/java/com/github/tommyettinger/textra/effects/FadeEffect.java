@@ -24,8 +24,8 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /** Fades the text's color from between colors or alphas. Doesn't repeat itself. */
 public class FadeEffect extends Effect {
-    private Integer color1     = null; // First color of the effect.
-    private Integer color2     = null; // Second color of the effect.
+    private int color1         = 256; // First color of the effect.
+    private int color2         = 256; // Second color of the effect.
     private float alpha1       = 0; // First alpha of the effect, in case a color isn't provided.
     private float alpha2       = 1; // Second alpha of the effect, in case a color isn't provided.
     private float fadeDuration = 1; // Duration of the fade effect
@@ -38,7 +38,7 @@ public class FadeEffect extends Effect {
         // Color 1 or Alpha 1
         if(params.length > 0) {
             this.color1 = paramAsColor(params[0]);
-            if(this.color1 == null) {
+            if(this.color1 == 256) {
                 alpha1 = paramAsFloat(params[0], 0);
             }
         }
@@ -46,7 +46,7 @@ public class FadeEffect extends Effect {
         // Color 2 or Alpha 2
         if(params.length > 1) {
             this.color2 = paramAsColor(params[1]);
-            if(this.color2 == null) {
+            if(this.color2 == 256) {
                 alpha2 = paramAsFloat(params[1], 1);
             }
         }
@@ -64,7 +64,7 @@ public class FadeEffect extends Effect {
         float progress = MathUtils.clamp(timePassed / fadeDuration, 0, 1);
 
         // Calculate initial color
-        if(this.color1 == null) {
+        if(this.color1 == 256) {
             label.setInWorkingLayout(globalIndex,
                     glyph = (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha1 * 255, 1f - progress) << 32);
         } else {
@@ -73,7 +73,7 @@ public class FadeEffect extends Effect {
         }
 
         // Calculate final color
-        if(this.color2 == null) {
+        if(this.color2 == 256) {
             label.setInWorkingLayout(globalIndex,
                     (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha2 * 255, progress) << 32);
         } else {
