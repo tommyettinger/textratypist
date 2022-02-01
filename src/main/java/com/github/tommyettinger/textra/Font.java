@@ -2001,15 +2001,15 @@ public class Font implements Disposable {
                             break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
-                            Integer lookupColor = colorLookup.getRgba(text.substring(i + 1, i + len));
-                            if (lookupColor == null) color = baseColor;
+                            int lookupColor = colorLookup.getRgba(text.substring(i + 1, i + len));
+                            if (lookupColor == 256) color = baseColor;
                             else color = (long) lookupColor << 32;
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         default:
                             // attempt to look up a known Color name with a ColorLookup
-                            Integer gdxColor = colorLookup.getRgba(text.substring(i, i + len));
-                            if (gdxColor == null) color = baseColor;
+                            int gdxColor = colorLookup.getRgba(text.substring(i, i + len));
+                            if (gdxColor == 256) color = baseColor;
                             else color = (long) gdxColor << 32;
                             current = (current & ~COLOR_MASK) | color;
                     }
@@ -2406,15 +2406,15 @@ public class Font implements Disposable {
                             break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
-                            Integer lookupColor = colorLookup.getRgba(markup.substring(i + 1, i + len));
-                            if (lookupColor == null) color = baseColor;
+                            int lookupColor = colorLookup.getRgba(markup.substring(i + 1, i + len));
+                            if (lookupColor == 256) color = baseColor;
                             else color = (long) lookupColor << 32;
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         default:
                             // attempt to look up a known Color name with a ColorLookup
-                            Integer gdxColor = colorLookup.getRgba(markup.substring(i, i + len));
-                            if (gdxColor == null) color = baseColor;
+                            int gdxColor = colorLookup.getRgba(markup.substring(i, i + len));
+                            if (gdxColor == 256) color = baseColor;
                             else color = (long) gdxColor << 32;
                             current = (current & ~COLOR_MASK) | color;
                     }

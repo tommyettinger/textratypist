@@ -320,12 +320,12 @@ class Parser {
     }
 
     /** Parses a color from the given string. Returns null if the color couldn't be parsed. */
-    static Integer stringToColor(TypingLabel label, String str) {
+    static int stringToColor(TypingLabel label, String str) {
         if(str != null) {
 
             // Try to parse named color
-            Integer namedColor = label.font.getColorLookup().getRgba(str);
-            if(namedColor != null) {
+            int namedColor = label.font.getColorLookup().getRgba(str);
+            if(namedColor != 256) {
                 return namedColor;
             }
 
@@ -341,7 +341,7 @@ class Parser {
             }
         }
 
-        return null;
+        return 256;
     }
 
     /** Encloses the given string in brackets to work as a regular color markup tag. */

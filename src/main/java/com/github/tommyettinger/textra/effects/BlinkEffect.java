@@ -36,14 +36,14 @@ public class BlinkEffect extends Effect {
 
         // Color 1
         if(params.length > 0) {
-            Integer c = paramAsColor(params[0]);
-            if(c != null) this.color1 = c;
+            int c = paramAsColor(params[0]);
+            if(c != 256) this.color1 = c;
         }
 
         // Color 2
         if(params.length > 1) {
-            Integer c = paramAsColor(params[1]);
-            if(c != null) this.color2 = c;
+            int c = paramAsColor(params[1]);
+            if(c != 256) this.color2 = c;
         }
 
         // Frequency
