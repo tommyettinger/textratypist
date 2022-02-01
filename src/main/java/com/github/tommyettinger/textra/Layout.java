@@ -298,11 +298,13 @@ public class Layout implements Pool.Poolable {
     }
 
     /**
-     * Primarily used by {@link #toString()}, but can be useful if you want to append many Layouts into a StringBuilder.
+     * Can be useful if you want to append many Layouts into a StringBuilder. This does not treat character u0002 any
+     * differently from other characters, which is where it differs from {@link #appendInto(StringBuilder)}.
+     * This does not add or remove newlines from the Layout's contents, and can produce line breaks if they appear.
      * @param sb a non-null StringBuilder from the JDK
      * @return sb, for chaining
      */
-    public StringBuilder appendInto(StringBuilder sb){
+    public StringBuilder appendIntoDirect(StringBuilder sb){
         long gl;
         for (int i = 0, n = lines.size; i < n; i++) {
             Line line = lines.get(i);
@@ -314,8 +316,28 @@ public class Layout implements Pool.Poolable {
         return sb;
     }
 
+    /**
+     * Primarily used by {@link #toString()}, but can be useful if you want to append many Layouts into a StringBuilder.
+     * This treats instances of the character u0002 as {@code '['}, as the library does internally, instead of
+     * potentially printing a gibberish character.
+     * This does not add or remove newlines from the Layout's contents, and can produce line breaks if they appear.
+     * @param sb a non-null StringBuilder from the JDK
+     * @return sb, for chaining
+     */
+    public StringBuilder appendInto(StringBuilder sb){
+        char gl;
+        for (int i = 0, n = lines.size; i < n; i++) {
+            Line line = lines.get(i);
+            for (int j = 0, ln = line.glyphs.size; j < ln; j++) {
+                gl = (char)line.glyphs.get(j);
+                sb.append(gl == 2 ? '[' : gl);
+            }
+        }
+        return sb;
+    }
+
     @Override
     public String toString() {
-        return appendInto(new StringBuilder()).toString().replace('\u0002', '[');
+        return appendInto(new StringBuilder()).toString();
     }
 }

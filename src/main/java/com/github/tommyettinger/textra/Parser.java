@@ -78,7 +78,7 @@ class Parser {
     /** Parse tokens that only replace text, such as colors and variables. */
     private static void parseReplacements(TypingLabel label) {
         // Get text
-        CharSequence text = label.layout.appendInto(new StringBuilder());
+        CharSequence text = label.layout.appendIntoDirect(new StringBuilder());
 
         // Create string builder
         StringBuilder sb = new StringBuilder(text.length());
