@@ -46,7 +46,7 @@ public class ColorUtils {
         return Color.rgba8888(v * MathUtils.lerp(1f, x, d), v * MathUtils.lerp(1f, y, d), v * MathUtils.lerp(1f, z, d), a);
     }
     /**
-     * Converts the four RGBA components, each in the 0.0 to 1.0 range, to an int in "HSLA format" (hue,
+     * Converts the four RGBA components, each in the 0.0 to 1.0 range, to an int in HSLA format (hue,
      * saturation, lightness, alpha). This format is exactly like RGBA8888 but treats what would normally be red as hue,
      * green as saturation, and blue as lightness; alpha is the same.
      * @param r red, from 0.0 to 1.0
@@ -99,6 +99,19 @@ public class ColorUtils {
                 | (((int) (sG + change * (eG - sG)) & 0xFF) << 8)
                 | (((int) (sB + change * (eB - sB)) & 0xFF) << 16)
                 | (((int) (sA + change * (eA - sA)) & 0xFF) << 24));
+    }
+
+    /**
+     * Given an RGBA8888 or HSLA color as an int, this multiplies the alpha of that color by multiplier and returns
+     * another int color of the same format passed in. This clamps the alpha if it would go below 0 or above 255, and
+     * leaves the RGB or HSL channels alone.
+     * @param color an RGBA8888 or HSLA color
+     * @param multiplier a multiplier to apply to color's alpha
+     * @return another color of the same format as the one given, with alpha multiplied
+     */
+    public static int multiplyAlpha(int color, float multiplier){
+        return (color & 0xFFFFFF00) | Math.min(Math.max((int)((color & 0xFF) * multiplier), 0), 255);
+
     }
 
 }
