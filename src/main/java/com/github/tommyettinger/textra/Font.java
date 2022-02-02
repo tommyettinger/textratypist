@@ -28,6 +28,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.*;
+import com.github.tommyettinger.textra.utils.ColorUtils;
 import regexodus.Category;
 
 import java.util.Arrays;
@@ -1170,12 +1171,16 @@ public class Font implements Disposable {
      * or at {@link #solidBlock} if you have set that field; Glamer produces fonts that have a block at u0000 already.
      * The {@code colors} parameter should be a rectangular 2D array, and because any colors that are the default int
      * value {@code 0} will be treated as transparent RGBA values, if a value is not assigned to a slot in the array
-     * then nothing will be drawn there. This is usually called before other methods that draw foreground text.
+     * then nothing will be drawn there. The 2D array is treated as [x][y] indexed here. This is usually called before
+     * other methods that draw foreground text.
      * <br>
      * Internally, this uses {@link Batch#draw(Texture, float[], int, int)} to draw each rectangle with minimal
      * overhead, and this also means it is unaffected by the batch color. If you want to alter the colors using a
      * shader, the shader will receive each color in {@code colors} as its {@code a_color} attribute, the same as if it
      * was passed via the batch color.
+     * <br>
+     * If you want to change the alpha of the colors array, you can use
+     * {@link ColorUtils#multiplyAllAlpha(int[][], float)}.
      * @param batch typically a SpriteBatch
      * @param colors a 2D rectangular array of int colors (typically RGBA)
      * @param x the x position in world space to draw the text at (lower left corner)
@@ -1190,12 +1195,16 @@ public class Font implements Disposable {
      * The {@code blockChar} should visually be represented by a very large block, occupying all of a monospaced cell.
      * The {@code colors} parameter should be a rectangular 2D array, and because any colors that are the default int
      * value {@code 0} will be treated as transparent RGBA values, if a value is not assigned to a slot in the array
-     * then nothing will be drawn there. This is usually called before other methods that draw foreground text.
+     * then nothing will be drawn there. The 2D array is treated as [x][y] indexed here. This is usually called before
+     * other methods that draw foreground text.
      * <br>
      * Internally, this uses {@link Batch#draw(Texture, float[], int, int)} to draw each rectangle with minimal
      * overhead, and this also means it is unaffected by the batch color. If you want to alter the colors using a
      * shader, the shader will receive each color in {@code colors} as its {@code a_color} attribute, the same as if it
      * was passed via the batch color.
+     * <br>
+     * If you want to change the alpha of the colors array, you can use
+     * {@link ColorUtils#multiplyAllAlpha(int[][], float)}.
      * @param batch typically a SpriteBatch
      * @param blockChar a char that renders as a full block, occupying an entire monospaced cell with a color
      * @param colors a 2D rectangular array of int colors (typically RGBA)
