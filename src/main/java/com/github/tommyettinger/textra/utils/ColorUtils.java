@@ -20,7 +20,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 
 /**
- * Just has methods to convert from HSL colors to RGB and back again, for hue-changing effects mainly.
+ * A few static methods for commonly-used color handling tasks.
+ * This has methods to convert from HSLA colors to RGBA and back again, for hue-changing effects mainly.
+ * It also has {@link #lerpColors(int, int, float)} to blend RGBA colors, and {@link #multiplyAlpha(int, float)} to
+ * alter only the alpha channel on an RGBA or HSLA int color.
  */
 public class ColorUtils {
     /**
@@ -111,7 +114,23 @@ public class ColorUtils {
      */
     public static int multiplyAlpha(int color, float multiplier){
         return (color & 0xFFFFFF00) | Math.min(Math.max((int)((color & 0xFF) * multiplier), 0), 255);
+    }
 
+    /**
+     * Given any purely-non-null 2D int array representing RGBA or HSLA colors, this multiplies the alpha channel of
+     * each color by multiplier, modifying the given array, and returns the changed array for chaining. This uses
+     * {@link #multiplyAlpha(int, float)} internally, so its documentation applies.
+     * @param colors a 2D int array of RGBA or HSLA colors, none of which can include null arrays
+     * @param multiplier a multiplier to apply to each color's alpha
+     * @return colors, after having each item's alpha multiplied
+     */
+    public static int[][] multiplyAllAlpha(int[][] colors, float multiplier){
+        for (int x = 0; x < colors.length; x++) {
+            for (int y = 0; y < colors[x].length; y++) {
+                colors[x][y] = multiplyAlpha(colors[x][y], multiplier);
+            }
+        }
+        return colors;
     }
 
 }
