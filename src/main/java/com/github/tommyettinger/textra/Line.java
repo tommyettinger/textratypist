@@ -18,25 +18,21 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.utils.LongArray;
 import com.badlogic.gdx.utils.Pool;
-import com.badlogic.gdx.utils.Pools;
 
 /**
  * One line of possibly-colorful, possibly-styled text, with a width and height set by
  * {@link Font#markup(String, Layout)} on Lines in a {@link Layout}. This stores each (colorful, styled) char as a
  * {@code long} in a libGDX {@link LongArray}. This is a Poolable class, and you can obtain a
- * Line with {@code Pools.obtain(Line.class)}, or just using a constructor.
+ * Line with {@code Line.POOL.obtain()}, or just using a constructor.
  */
 public class Line implements Pool.Poolable {
 
-    private static final Pool<Line> pool = new Pool<Line>() {
+    public static final Pool<Line> POOL = new Pool<Line>() {
         @Override
         protected Line newObject() {
             return new Line();
         }
     };
-    static {
-        Pools.set(Line.class, pool);
-    }
 
     public final LongArray glyphs;
     public float width, height;

@@ -49,7 +49,7 @@ public class TypingLabel extends TextraLabel {
     // Internal state
     private final   StringBuilder    originalText          = new StringBuilder();
     private final   StringBuilder    intermediateText      = new StringBuilder();
-    protected final Layout           workingLayout         = Pools.obtain(Layout.class);
+    protected final Layout           workingLayout         = Layout.POOL.obtain();
     public final    FloatArray       offsets               = new FloatArray();
     private final   Array<Effect>    activeEffects         = new Array<Effect>();
     private         float            textSpeed             = TypingConfig.DEFAULT_SPEED_PER_CHAR;
@@ -324,9 +324,9 @@ public class TypingLabel extends TextraLabel {
         workingLayout.maxLines = Integer.MAX_VALUE;
         workingLayout.atLimit = false;
         workingLayout.ellipsis = null;
-        Pools.freeAll(workingLayout.lines);
+        Line.POOL.freeAll(workingLayout.lines);
         workingLayout.lines.clear();
-        workingLayout.lines.add(Pools.obtain(Line.class));
+        workingLayout.lines.add(Line.POOL.obtain());
 
         offsets.clear();
         activeEffects.clear();
@@ -599,8 +599,8 @@ public class TypingLabel extends TextraLabel {
 
     @Override
     public boolean remove() {
-        Pools.free(workingLayout);
-        Pools.free(layout);
+        Layout.POOL.free(workingLayout);
+        Layout.POOL.free(layout);
         return super.remove();
     }
 
