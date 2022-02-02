@@ -223,7 +223,7 @@ public class Font implements Disposable {
             SUBSCRIPT = 1L << 25, MIDSCRIPT = 2L << 25, SUPERSCRIPT = 3L << 25;
 
     private final float[] vertices = new float[20];
-    private final Layout tempLayout = Pools.obtain(Layout.class);
+    private final Layout tempLayout = Layout.POOL.obtain();
     private final LongArray glyphBuffer = new LongArray(128);
     /**
      * Must be in lexicographic order because we use {@link Arrays#binarySearch(char[], int, int, char)} to
@@ -1876,8 +1876,8 @@ public class Font implements Disposable {
     /**
      * Reads markup from text, along with the chars to receive markup, processes it, and appends into appendTo, which is
      * a {@link Layout} holding one or more {@link Line}s. A common way of getting a Layout is with
-     * {@code Pools.obtain(Layout.class)}; you can free the Layout when you are done using it with
-     * {@link Pools#free(Object)}. This parses an extension of libGDX markup and uses it to determine color, size,
+     * {@code Layout.POOL.obtain()}; you can free the Layout when you are done using it with {@link Pool#free(Object)}
+     * on {@link Layout#POOL}. This parses an extension of libGDX markup and uses it to determine color, size,
      * position, shape, strikethrough, underline, and case of the given CharSequence. It also reads typing markup, for
      * effects, but passes it through without changing it and without considering it for line wrapping or text position.
      * The text drawn will start in {@code appendTo}'s {@link Layout#baseColor}, which is usually white, with the normal
@@ -2147,7 +2147,7 @@ public class Font implements Disposable {
                         later = null;
                     }
                     else {
-                        later = Pools.obtain(Line.class);
+                        later = Line.POOL.obtain();
                         later.height = earlier.height;
                         appendTo.lines.add(later);
                     }
@@ -2433,7 +2433,7 @@ public class Font implements Disposable {
         Line firstLine = changing.getLine(0);
         for (int i = 1; i < oldLength; i++) {
             firstLine.glyphs.addAll(changing.getLine(i).glyphs);
-            Pools.free(changing.getLine(i));
+            Line.POOL.free(changing.getLine(i));
         }
         changing.lines.truncate(1);
         for (int ln = 0; ln < changing.lines(); ln++) {
@@ -2574,7 +2574,7 @@ public class Font implements Disposable {
      */
     @Override
     public void dispose() {
-        Pools.free(tempLayout);
+        Layout.POOL.free(tempLayout);
         if(shader != null)
             shader.dispose();
     }

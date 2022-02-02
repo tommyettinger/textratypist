@@ -23,7 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Pools;
 
 /**
  * A scene2d.ui Widget that displays text using a {@link Font} rather than a libGDX BitmapFont. This supports being
@@ -38,7 +37,7 @@ public class TextraLabel extends Widget {
     public boolean wrap = false;
     public String storedText;
     public TextraLabel(){
-        layout = Pools.obtain(Layout.class);
+        layout = Layout.POOL.obtain();
         font = new Font(new BitmapFont(), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0);
     }
     public TextraLabel(String text, Skin skin) {
@@ -52,7 +51,7 @@ public class TextraLabel extends Widget {
 
     public TextraLabel(String text, Label.LabelStyle style) {
         font = new Font(style.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0);
-        layout = Pools.obtain(Layout.class);
+        layout = Layout.POOL.obtain();
         layout.setBaseColor(style.fontColor);
         storedText = text;
         font.markup(text, layout);
@@ -60,14 +59,14 @@ public class TextraLabel extends Widget {
     }
     public TextraLabel(String text, Font font) {
         this.font = font;
-        layout = Pools.obtain(Layout.class);
+        layout = Layout.POOL.obtain();
         storedText = text;
         font.markup(text, layout);
 //        setSize(layout.getWidth(), layout.getHeight());
     }
     public TextraLabel(String text, Font font, Color color) {
         this.font = font;
-        layout = Pools.obtain(Layout.class);
+        layout = Layout.POOL.obtain();
         layout.setBaseColor(color);
         storedText = text;
         font.markup(text, layout);
