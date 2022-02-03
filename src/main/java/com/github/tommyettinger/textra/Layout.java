@@ -37,7 +37,7 @@ public class Layout implements Pool.Poolable {
     };
 
     protected Font font;
-    protected final Array<Line> lines = new Array<>(true, 8, Line.class);
+    protected final Array<Line> lines = new Array<>(true, 8);
     protected int maxLines = Integer.MAX_VALUE;
     protected boolean atLimit = false;
     protected String ellipsis = null;
