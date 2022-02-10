@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import static com.github.tommyettinger.textra.Font.DistanceFieldType.MSDF;
+
 public class FontTest extends ApplicationAdapter {
 
     Font font;
@@ -50,13 +52,14 @@ public class FontTest extends ApplicationAdapter {
 //        font = KnownFonts.getCozette().scale(2, 2);
 //        font = KnownFonts.getGentium().scaleTo(55, 40);
 //        font = KnownFonts.getAStarry();
-//        font = KnownFonts.getIosevkaSlab().scaleTo(12, 40);
+//        font = KnownFonts.getIosevkaSlab().scaleTo(8, 16);
 //        font = KnownFonts.getInconsolataLGC().scaleTo(12, 40);
 //        font = KnownFonts.getIosevka().scaleTo(12, 40);
 //        font = new Font("Iosevka-distance.fnt", "Iosevka-distance.png", Font.DistanceFieldType.SDF, 0, 0, 0, 0).scaleTo(12f, 24f);
-        font = KnownFonts.getIBM8x16();
+//        font = KnownFonts.getIBM8x16();
+        font = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, 16f, -7).scaleTo(16, 16);
         layout.setBaseColor(Color.DARK_GRAY);
-        layout.setMaxLines(10);
+        layout.setMaxLines(20);
         layout.setEllipsis("...");
         font.markup("@ Fonts can be rendered normally, but using [[tags], you can..."
                 + "\n[#E74200]...use CSS-style hex colors like #E74200..."

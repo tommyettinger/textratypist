@@ -47,7 +47,7 @@ public class NoiseUtils {
      * @return a noise value between -1.0 and 1.0
      */
     public static float octaveNoise1D(float x, int seed){
-        return noise1D(x, seed) * 0.6666667f + noise1D(x * 1.9f, ~seed) * 0.33333334f;
+        return noise1D(x, seed) * 0.6666667f + noise1D(x * 1.9f, ~seed) * 0.33333333f;
     }
 }
 

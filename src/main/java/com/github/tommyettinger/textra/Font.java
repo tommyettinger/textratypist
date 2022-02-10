@@ -535,6 +535,12 @@ public class Font implements Disposable {
     /**
      * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried first, then a
      * local handle) and loading any images specified in that file. No distance field effect is used.
+     * This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
      * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust how many pixels to offset each character's y-position by, moving up
@@ -549,6 +555,12 @@ public class Font implements Disposable {
     /**
      * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried first, then a
      * local handle) and loading any images specified in that file. The specified distance field effect is used.
+     * This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
      * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
@@ -575,6 +587,12 @@ public class Font implements Disposable {
     /**
      * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then local),
      * and no distance field effect.
+     * This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
      * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param textureName the path and filename of a texture file this will load; may be internal or local
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
@@ -590,6 +608,12 @@ public class Font implements Disposable {
     /**
      * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then local),
      * and the specified distance field effect.
+     * This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
      * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param textureName the path and filename of a texture file this will load; may be internal or local
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
@@ -626,6 +650,12 @@ public class Font implements Disposable {
 
     /**
      * Constructs a font using the given TextureRegion that holds all of its glyphs, with no distance field effect.
+     * This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
      * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param textureRegion an existing TextureRegion, typically inside a larger TextureAtlas
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
@@ -641,6 +671,12 @@ public class Font implements Disposable {
     /**
      * Constructs a font based off of an AngelCode BMFont .fnt file and the given TextureRegion that holds all of its
      * glyphs, with the specified distance field effect.
+     * This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
      * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param textureRegion an existing TextureRegion, typically inside a larger TextureAtlas
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
@@ -671,7 +707,12 @@ public class Font implements Disposable {
 
     /**
      * Constructs a font based off of an AngelCode BMFont .fnt file and the given TextureRegion Array, with no distance
-     * field effect.
+     * field effect. This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
      * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param textureRegions an Array of TextureRegions that will be used in order as the .fnt file uses more pages
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
@@ -685,7 +726,12 @@ public class Font implements Disposable {
     }
     /**
      * Constructs a font based off of an AngelCode BMFont .fnt file, with the given TextureRegion Array and specified
-     * distance field effect.
+     * distance field effect. This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
      * @param fntName the path and filename of a .fnt file this will load; may be internal or local
      * @param textureRegions an Array of TextureRegions that will be used in order as the .fnt file uses more pages
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
@@ -1071,6 +1117,18 @@ public class Font implements Disposable {
     public Font adjustLineHeight(float multiplier){
         cellHeight *= multiplier;
         originalCellHeight *= multiplier;
+        return this;
+    }
+
+    /**
+     * Multiplies the width used by each glyph in a monospaced font by {@code multiplier} without changing the size of
+     * any characters.
+     * @param multiplier will be applied to {@link #cellWidth} and {@link #originalCellWidth}
+     * @return this Font, for chaining
+     */
+    public Font adjustCellWidth(float multiplier){
+        cellWidth *= multiplier;
+        originalCellWidth *= multiplier;
         return this;
     }
 
