@@ -61,8 +61,8 @@ public class FontTest extends ApplicationAdapter {
         layout.setBaseColor(Color.DARK_GRAY);
         layout.setMaxLines(20);
         layout.setEllipsis("...");
-        font.markup("@ Fonts can be rendered normally, [%200]but[] using [[tags], you can..."
-                + "\n[#E74200]...use CSS-style hex colors like #E74200..."
+        font.markup("@ Fonts can be rendered normally, [%100]but[] using [[tags], you can..."
+                + "\n[#E74200]...use CSS-style [%200]hex[] colors like #E74200..."
                 + "\n[FOREST]...use named colors from the Colors class, like FOREST...[]"
                 + "\n...and use [!]effects[!]!"
                 + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
@@ -95,7 +95,7 @@ public class FontTest extends ApplicationAdapter {
         Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
-        float x = 400, y = font.cellHeight * (layout.lines() - 1);
+        float x = 400, y = layout.getHeight();
         batch.begin();
         font.enableShader(batch);
         font.drawGlyphs(batch, layout, x, y, Align.center);

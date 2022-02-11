@@ -148,7 +148,7 @@ public class Layout implements Pool.Poolable {
 
         Line line = Line.POOL.obtain(), prev = lines.peek();
         prev.glyphs.add('\n');
-        line.height = prev.height;
+        line.height = 0;
         lines.add(line);
         return line;
     }

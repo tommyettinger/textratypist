@@ -1406,9 +1406,11 @@ public class Font implements Disposable {
     public float drawGlyphs(Batch batch, Layout glyphs, float x, float y, int align) {
         float drawn = 0;
         final int lines = glyphs.lines();
+        Line l;
         for (int ln = 0; ln < lines; ln++) {
-            drawn += drawGlyphs(batch, glyphs.getLine(ln), x, y, align);
-            y -= cellHeight;
+            l = glyphs.getLine(ln);
+            y -= l.height;
+            drawn += drawGlyphs(batch, l, x, y, align);
         }
         return drawn;
     }
@@ -1992,7 +1994,7 @@ public class Font implements Disposable {
             appendTo.clear();
             appendTo.font(this);
         }
-        appendTo.peekLine().height = cellHeight;
+        appendTo.peekLine().height = 0;
         float targetWidth = appendTo.getTargetWidth();
         int kern = -1;
         for (int i = 0, n = text.length(); i < n; i++) {
@@ -2194,10 +2196,14 @@ public class Font implements Disposable {
                                     earlier.glyphs.set(j+1, '\n');
                                     later.width = changeNext;
                                     earlier.width -= change;
+                                    later.height = Math.max(later.height, cellHeight * (scale + 1) * 0.25f);
                                     break;
                                 }
                             }
                         }
+                    }
+                    else {
+                        appendTo.peekLine().height = Math.max(appendTo.peekLine().height, cellHeight * (scale + 1) * 0.25f);
                     }
                 }
             } else {
@@ -2231,7 +2237,7 @@ public class Font implements Disposable {
                     }
                     else {
                         later = Line.POOL.obtain();
-                        later.height = earlier.height;
+                        later.height = 0;
                         appendTo.lines.add(later);
                     }
                     if(later == null){
@@ -2334,11 +2340,16 @@ public class Font implements Disposable {
                                 later.width = changeNext;
                                 earlier.width -= change;
                                 later.glyphs.addAll(glyphBuffer);
+                                later.height = Math.max(later.height, cellHeight * (scale + 1) * 0.25f);
                                 break;
                             }
                         }
                     }
                 }
+                else {
+                    appendTo.peekLine().height = Math.max(appendTo.peekLine().height, cellHeight * (scale + 1) * 0.25f);
+                }
+
             }
         }
         scaleX = storedScaleX;
