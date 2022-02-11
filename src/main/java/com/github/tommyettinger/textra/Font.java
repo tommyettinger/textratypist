@@ -1547,6 +1547,10 @@ public class Font implements Disposable {
         Texture tex = tr.getTexture();
         float x0 = 0f, x1 = 0f, x2 = 0f, x3 = 0f;
         float y0 = 0f, y1 = 0f, y2 = 0f, y3 = 0f;
+        int scale = (int)(glyph & 0xF00000) >>> 20;
+        float scaleX = this.scaleX * (scale + 1) * 0.25f;
+        float scaleY = this.scaleY * (scale + 1) * 0.25f;
+
         float color = NumberUtils.intBitsToFloat(((int)(batch.getColor().a * (glyph >>> 33 & 127)) << 25)
                 | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
         final float iw = 1f / tex.getWidth();
@@ -1561,7 +1565,7 @@ public class Font implements Disposable {
         } else {
             x += tr.offsetX * scaleX;
         }
-        float yt = y + cellHeight - h - tr.offsetY * scaleY;
+        float yt = y + cellHeight * (scale + 1) * 0.25f - h - tr.offsetY * scaleY;
         if ((glyph & OBLIQUE) != 0L) {
             x0 += h * 0.2f;
             x1 -= h * 0.2f;
@@ -1977,11 +1981,12 @@ public class Font implements Disposable {
     public Layout markup(String text, Layout appendTo) {
         boolean capitalize = false, previousWasLetter = false,
                 capsLock = false, lowerCase = false;
-        int c;
+        int c, scale = 3;
+        float storedScaleX = scaleX, storedScaleY = scaleY;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
         long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(appendTo.getBaseColor())) & COLOR_MASK;
         long color = baseColor;
-        long current = color;
+        long current = color | 0x300000L;
         if(appendTo.font == null || !appendTo.font.equals(this))
         {
             appendTo.clear();
@@ -1991,6 +1996,8 @@ public class Font implements Disposable {
         float targetWidth = appendTo.getTargetWidth();
         int kern = -1;
         for (int i = 0, n = text.length(); i < n; i++) {
+            scaleX = storedScaleX * (scale + 1) * 0.25f;
+            scaleY = storedScaleY * (scale + 1) * 0.25f;
             if((c = text.charAt(i)) == '{') {
                 if (i+1 < n && text.charAt(i+1) != '{') {
                     int end = text.indexOf('}', i);
@@ -2004,7 +2011,8 @@ public class Font implements Disposable {
                 if(++i < n && (c = text.charAt(i)) != '['){
                     if(c == ']'){
                         color = baseColor;
-                        current = color;
+                        current = color | 0x300000L;
+                        scale = 3;
                         capitalize = false;
                         capsLock = false;
                         lowerCase = false;
@@ -2056,6 +2064,14 @@ public class Font implements Disposable {
                             lowerCase = !lowerCase;
                             capitalize = false;
                             capsLock = false;
+                            break;
+                        case '%':
+                            if(len >= 2)
+                                current = (current & 0xFFFFFFFFFF0FFFFFL) | (scale = ((intFromDec(text, i + 1, i + len) - 24) / 25) & 15) << 20;
+                            else {
+                                current = (current & 0xFFFFFFFFFF0FFFFFL) | 0x300000L;
+                                scale = 3;
+                            }
                             break;
                         case '#':
                             if (len >= 7 && len < 9)
@@ -2325,6 +2341,8 @@ public class Font implements Disposable {
                 }
             }
         }
+        scaleX = storedScaleX;
+        scaleY = storedScaleY;
         return appendTo;
     }
 
@@ -2408,7 +2426,7 @@ public class Font implements Disposable {
         boolean capsLock = false, lowerCase = false;
         int c;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
-        long baseColor = COLOR_MASK | chr;
+        long baseColor = COLOR_MASK | 0x300000L | chr;
         long color = baseColor;
         long current = color;
         for (int i = 0, n = markup.length(); i < n; i++) {
@@ -2461,6 +2479,12 @@ public class Font implements Disposable {
                         case ',':
                             lowerCase = !lowerCase;
                             capsLock = false;
+                            break;
+                        case '%':
+                            if(len >= 2)
+                                current = (current & 0xFFFFFFFFFF0FFFFFL) | (((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) << 20;
+                            else
+                                current = (current & 0xFFFFFFFFFF0FFFFFL) | 0x300000L;
                             break;
                         case '#':
                             if (len >= 7 && len < 9)

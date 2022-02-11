@@ -43,8 +43,8 @@ public class FontTest extends ApplicationAdapter {
 //                .scale(0.5f, 0.5f).setTextureFilter();
 //        font = new Font(new BitmapFont(Gdx.files.internal("Gentium.fnt")), Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f)
 //                .scale(0.42f, 0.42f).setTextureFilter();
-////      font = new Font("Gentium.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scale(0.5f, 0.5f)
-//          .setTextureFilter();
+      font = new Font("Gentium.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scale(0.35f, 0.35f)
+          .setTextureFilter().adjustLineHeight(0.8f);
 //        font = new Font("LibertinusSerif.fnt",
 //                new TextureRegion(new Texture(Gdx.files.internal("LibertinusSerif.png"), true)), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0)
 //        .scale(0.25f, 0.25f).setTextureFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.MipMapLinearNearest);
@@ -52,16 +52,16 @@ public class FontTest extends ApplicationAdapter {
 //        font = KnownFonts.getCozette().scale(2, 2);
 //        font = KnownFonts.getGentium().scaleTo(55, 40);
 //        font = KnownFonts.getAStarry();
-//        font = KnownFonts.getIosevkaSlab().scaleTo(8, 16);
+//        font = KnownFonts.getIosevkaSlab().scaleTo(12, 24);
 //        font = KnownFonts.getInconsolataLGC().scaleTo(12, 40);
 //        font = KnownFonts.getIosevka().scaleTo(12, 40);
 //        font = new Font("Iosevka-distance.fnt", "Iosevka-distance.png", Font.DistanceFieldType.SDF, 0, 0, 0, 0).scaleTo(12f, 24f);
 //        font = KnownFonts.getIBM8x16();
-        font = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, 16f, -7).scaleTo(16, 16);
+//        font = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, 16f, -7).scaleTo(16, 16);
         layout.setBaseColor(Color.DARK_GRAY);
         layout.setMaxLines(20);
         layout.setEllipsis("...");
-        font.markup("@ Fonts can be rendered normally, but using [[tags], you can..."
+        font.markup("@ Fonts can be rendered normally, [%200]but[] using [[tags], you can..."
                 + "\n[#E74200]...use CSS-style hex colors like #E74200..."
                 + "\n[FOREST]...use named colors from the Colors class, like FOREST...[]"
                 + "\n...and use [!]effects[!]!"
