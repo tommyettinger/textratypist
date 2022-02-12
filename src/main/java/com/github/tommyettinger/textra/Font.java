@@ -2530,6 +2530,7 @@ public class Font implements Disposable {
         if(changing.font == null || !changing.font.equals(this)) {
             return changing;
         }
+        float storedScaleX = scaleX, storedScaleY = scaleY;
         float targetWidth = changing.getTargetWidth();
         int oldLength = changing.lines.size;
         Line firstLine = changing.getLine(0);
@@ -2540,9 +2541,10 @@ public class Font implements Disposable {
         changing.lines.truncate(1);
         for (int ln = 0; ln < changing.lines(); ln++) {
             Line line = changing.getLine(ln);
-            line.height = cellHeight;
+            line.height = 0;
             float drawn = 0f;
             int cutoff = 0, breakPoint = -2, spacingPoint = -2, spacingSpan = 0;
+            int scale;
             LongArray glyphs = line.glyphs;
             boolean hasMultipleGaps = false;
             if (kerning != null) {
@@ -2554,6 +2556,10 @@ public class Font implements Disposable {
                     if((glyph & 0xFFFFL) == '\n') {
                         glyphs.set(i, glyph ^= 42L);
                     }
+                    scale = (int) (glyph >>> 20 & 15);
+                    line.height = Math.max(line.height, cellHeight * (scale + 1) * 0.25f);
+                    scaleX = storedScaleX * (scale + 1) * 0.25f;
+                    scaleY = storedScaleY * (scale + 1) * 0.25f;
                     kern = kern << 16 | (int) (glyph & 0xFFFF);
                     amt = kerning.get(kern, 0) * scaleX;
                     GlyphRegion tr = mapping.get((char)glyph);
@@ -2598,6 +2604,8 @@ public class Font implements Disposable {
                             glyphs.truncate(cutoff);
                             break;
                         }
+                        next.height = Math.max(next.height, cellHeight * (scale + 1) * 0.25f);
+
                         int nextSize = next.glyphs.size;
                         long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
                         System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
@@ -2614,6 +2622,10 @@ public class Font implements Disposable {
                     if((glyph & 0xFFFFL) == '\n') {
                         glyphs.set(i, glyph ^= 42L);
                     }
+                    scale = (int) (glyph >>> 20 & 15);
+                    line.height = Math.max(line.height, cellHeight * (scale + 1) * 0.25f);
+                    scaleX = storedScaleX * (scale + 1) * 0.25f;
+                    scaleY = storedScaleY * (scale + 1) * 0.25f;
                     GlyphRegion tr = mapping.get((char)glyph);
                     if(tr == null) continue;
                     float changedW = tr.xAdvance * scaleX;
@@ -2655,6 +2667,8 @@ public class Font implements Disposable {
                             glyphs.truncate(cutoff);
                             break;
                         }
+                        next.height = Math.max(next.height, cellHeight * (scale + 1) * 0.25f);
+
                         int nextSize = next.glyphs.size;
                         long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
                         System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
@@ -2668,6 +2682,8 @@ public class Font implements Disposable {
             }
             line.width = drawn;
         }
+        scaleX = storedScaleX;
+        scaleY = storedScaleY;
         return changing;
     }
 
