@@ -203,7 +203,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         font.cellHeight *= 0.8125f;
         final TypingLabel label = new TypingLabel("", font);
 //        final TypingLabel label = new TypingLabel("", skin);
-        label.setAlignment(Align.center);
+        label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 
         // Make the label wrap to new lines, respecting the table's layout.

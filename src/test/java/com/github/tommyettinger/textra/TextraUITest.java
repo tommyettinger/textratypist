@@ -153,10 +153,10 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		window.row();
 		window.add(splitPane).fill().expand().colspan(4).maxHeight(200);
 		window.row();
-		window.add(passwordLabel).colspan(2);
+		window.add(passwordLabel).left().colspan(2);
 		window.add(passwordTextField).minWidth(100).expandX().fillX().colspan(2);
 		window.row();
-		window.add(fpsLabel).colspan(4);
+		window.add(fpsLabel).left().colspan(4);
 		window.pack();
 
 		// stage.addActor(new Button("Behind Window", skin));
