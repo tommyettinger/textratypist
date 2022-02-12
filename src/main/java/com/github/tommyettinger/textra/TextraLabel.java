@@ -34,7 +34,7 @@ public class TextraLabel extends Widget {
     public Layout layout;
     public Font font;
     public int align = Align.left;
-    public boolean wrap = false;
+    public boolean wrap = true;
     public String storedText;
     public TextraLabel(){
         layout = Layout.POOL.obtain();

@@ -577,7 +577,7 @@ public class TypingLabel extends TextraLabel {
         }
         if (wrap) {
             font.regenerateLayout(workingLayout);
-            parseTokens();
+//            parseTokens();
         }
         else {
             for (Line ln : workingLayout.lines) {
@@ -619,7 +619,7 @@ public class TypingLabel extends TextraLabel {
         if (wrap && (workingLayout.getTargetWidth() != width)) {
             workingLayout.setTargetWidth(width);
             font.regenerateLayout(workingLayout);
-            parseTokens();
+//            parseTokens();
         }
 
 
