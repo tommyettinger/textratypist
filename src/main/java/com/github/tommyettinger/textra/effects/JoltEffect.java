@@ -88,8 +88,8 @@ public class JoltEffect extends Effect {
         // Calculate new offsets
         float x = 0f, y = 0f;
         if(likelihood > determineFloat((TimeUtils.millis() >>> 10) * globalIndex + localIndex)) {
-            x = getLineHeight() * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
-            y = getLineHeight() * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
+            x = label.getLineHeight(globalIndex) * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
+            y = label.getLineHeight(globalIndex) * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
 
             // Apply intensity
             float normalIntensity = MathUtils.clamp(intensity * DEFAULT_INTENSITY, 0, 1);

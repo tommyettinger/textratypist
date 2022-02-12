@@ -582,7 +582,6 @@ public class TypingLabel extends TextraLabel {
         else {
             for (Line ln : workingLayout.lines) {
                 ln.width = font.measureWidth(ln);
-                ln.height = font.cellHeight;
             }
         }
 
@@ -702,10 +701,11 @@ public class TypingLabel extends TextraLabel {
             font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
         final int lines = workingLayout.lines();
-        float baseX = getX(align), baseY = getHeight() * 0.5f + getY(align) - font.cellHeight;
+        float baseX = getX(align), baseY = getHeight() * 0.5f + getY(align);
         int o = 0;
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
+            baseY -= glyphs.height;
             float x = baseX, y = baseY, drawn = 0;
             if(Align.isCenterHorizontal(align))
                 x -= glyphs.width * 0.5f;
@@ -731,7 +731,6 @@ public class TypingLabel extends TextraLabel {
                 }
             }
 //            System.out.println("Line " + ln + " has width " + (drawn));
-            baseY -= font.cellHeight;
         }
         addMissingGlyphs();
         if(resetShader)
@@ -772,6 +771,28 @@ public class TypingLabel extends TextraLabel {
                 index -= glyphs.size;
         }
         return 0xFFFFFFL;
+    }
+
+    public Line getLineInLayout(Layout layout, int index){
+        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
+            LongArray glyphs = layout.getLine(i).glyphs;
+            if(index < glyphs.size)
+                return layout.getLine(i);
+            else
+                index -= glyphs.size;
+        }
+        return null;
+    }
+
+    public float getLineHeight(int index){
+        for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
+            LongArray glyphs = workingLayout.getLine(i).glyphs;
+            if(index < glyphs.size)
+                return workingLayout.getLine(i).height;
+            else
+                index -= glyphs.size;
+        }
+        return font.cellHeight;
     }
 
     public long getFromIntermediate(int index){

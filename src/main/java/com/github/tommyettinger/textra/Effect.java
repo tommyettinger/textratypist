@@ -96,11 +96,6 @@ public abstract class Effect {
         return progress;
     }
 
-    /** Returns the line height of the label controlling this effect. */
-    protected float getLineHeight() {
-        return label.font.cellHeight;
-    }
-
     /** Returns a float value parsed from the given String, or the default value if the string couldn't be parsed. */
     protected float paramAsFloat(String str, float defaultValue) {
         return Parser.stringToFloat(str, defaultValue);

@@ -70,7 +70,7 @@ public class JumpEffect extends Effect {
         } else {
             interpolation = Interpolation.bounceOut.apply(1, 0, (progress - split) / (1f - split));
         }
-        float y = getLineHeight() * distance * interpolation * DEFAULT_DISTANCE;
+        float y = label.getLineHeight(globalIndex) * distance * interpolation * DEFAULT_DISTANCE;
 
         // Calculate fadeout
         float fadeout = calculateFadeout();

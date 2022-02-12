@@ -78,7 +78,7 @@ public class SickEffect extends Effect {
         } else {
             interpolation = Interpolation.pow2In.apply(1, 0, (progress - split) / (1f - split));
         }
-        float y = getLineHeight() * distance * interpolation * DEFAULT_DISTANCE;
+        float y = label.getLineHeight(globalIndex) * distance * interpolation * DEFAULT_DISTANCE;
 
         if(indices.contains(localIndex))
             y *= 2.15f;
