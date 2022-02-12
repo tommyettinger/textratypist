@@ -90,7 +90,7 @@ public class WindEffect extends Effect {
         float noiseY = NoiseUtils.octaveNoise1D(noiseCursorY + indexOffset, -4321);
 
         // Calculate offset
-        float lineHeight = getLineHeight();
+        float lineHeight = label.getLineHeight(globalIndex);
         float x = lineHeight * noiseX * progress * distanceX * DISTANCE_X_RATIO * DEFAULT_DISTANCE;
         float y = lineHeight * noiseY * progress * distanceY * DISTANCE_Y_RATIO * DEFAULT_DISTANCE;
 

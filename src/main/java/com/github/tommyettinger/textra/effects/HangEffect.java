@@ -64,7 +64,7 @@ public class HangEffect extends Effect {
             interpolation = Interpolation.swing.apply(1, 0, (progress - split) / (1f - split));
         }
         float distanceFactor = Interpolation.linear.apply(1.0f, 1.5f, progress);
-        float y = getLineHeight() * distance * distanceFactor * interpolation * DEFAULT_DISTANCE;
+        float y = label.getLineHeight(globalIndex) * distance * distanceFactor * interpolation * DEFAULT_DISTANCE;
 
         // Calculate fadeout
         float fadeout = calculateFadeout();

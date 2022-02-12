@@ -64,7 +64,7 @@ public class EaseEffect extends Effect {
         // Calculate offset
         Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;
         float interpolatedValue = interpolation.apply(1, 0, progress);
-        float y = getLineHeight() * distance * interpolatedValue * DEFAULT_DISTANCE;
+        float y = label.getLineHeight(globalIndex) * distance * interpolatedValue * DEFAULT_DISTANCE;
 
         label.offsets.incr(globalIndex << 1 | 1, y);
     }

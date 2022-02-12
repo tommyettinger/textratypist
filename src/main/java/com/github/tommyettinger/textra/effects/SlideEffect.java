@@ -64,7 +64,7 @@ public class SlideEffect extends Effect {
         // Calculate offset
         Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;
         float interpolatedValue = interpolation.apply(1, 0, progress);
-        float x = getLineHeight() * distance * interpolatedValue * DEFAULT_DISTANCE;
+        float x = label.getLineHeight(globalIndex) * distance * interpolatedValue * DEFAULT_DISTANCE;
 
         // Apply changes
         label.offsets.incr(globalIndex << 1, x);

@@ -63,7 +63,7 @@ public class WaveEffect extends Effect {
         float progress = calculateProgress(progressModifier, progressOffset);
 
         // Calculate offset
-        float y = getLineHeight() * distance * Interpolation.sine.apply(-1, 1, progress) * DEFAULT_DISTANCE;
+        float y = label.getLineHeight(globalIndex) * distance * Interpolation.sine.apply(-1, 1, progress) * DEFAULT_DISTANCE;
 
         // Calculate fadeout
         float fadeout = calculateFadeout();
