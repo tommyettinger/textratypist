@@ -1534,6 +1534,60 @@ public class Font implements Disposable {
     }
 
     /**
+     * Measures the actual width that the given Line will use when drawn.
+     * @param line a Line, as from inside a Layout
+     * @return the width in world units
+     */
+    public Line calculateSize(Line line) {
+        float drawn = 0f;
+        float storedScaleX = scaleX, storedScaleY = scaleY;
+        int scale = 3;
+        LongArray glyphs = line.glyphs;
+        if (kerning != null) {
+            int kern = -1;
+            float amt = 0;
+            long glyph;
+            for (int i = 0, n = glyphs.size; i < n; i++) {
+                kern = kern << 16 | (int) ((glyph = glyphs.get(i)) & 0xFFFF);
+                scale = (int) (glyph >>> 20 & 15);
+                line.height = Math.max(line.height, cellHeight * (scale + 1) * 0.25f);
+                scaleX = storedScaleX * (scale + 1) * 0.25f;
+                scaleY = storedScaleY * (scale + 1) * 0.25f;
+                amt = kerning.get(kern, 0) * scaleX;
+                GlyphRegion tr = mapping.get((char)glyph);
+                if(tr == null) continue;
+                float changedW = tr.xAdvance * scaleX;
+                if (isMono) {
+                    changedW += tr.offsetX * scaleX;
+                }
+                if(!isMono && (glyph & SUPERSCRIPT) != 0L)
+                    changedW *= 0.5f;
+                drawn += changedW + amt;
+            }
+        } else {
+            for (int i = 0, n = glyphs.size; i < n; i++) {
+                long glyph = glyphs.get(i);
+                GlyphRegion tr = mapping.get((char)glyph);
+                if(tr == null) continue;
+                scale = (int) (glyph >>> 20 & 15);
+                line.height = Math.max(line.height, cellHeight * (scale + 1) * 0.25f);
+                scaleX = storedScaleX * (scale + 1) * 0.25f;
+                scaleY = storedScaleY * (scale + 1) * 0.25f;
+                float changedW = tr.xAdvance * scaleX;
+                if (isMono) {
+                    changedW += tr.offsetX * scaleX;
+                }
+                if(!isMono && (glyph & SUPERSCRIPT) != 0L)
+                    changedW *= 0.5f;
+                drawn += changedW;
+            }
+        }
+        scaleX = storedScaleX;
+        scaleY = storedScaleY;
+        return line;
+    }
+
+    /**
      * Draws the specified glyph with a Batch at the given x, y position. The glyph contains multiple types of data all
      * packed into one {@code long}: the bottom 16 bits store a {@code char}, the roughly 16 bits above that store
      * formatting (bold, underline, superscript, etc.), and the remaining upper 32 bits store color as RGBA.
