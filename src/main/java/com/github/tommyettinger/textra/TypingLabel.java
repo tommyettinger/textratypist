@@ -581,7 +581,7 @@ public class TypingLabel extends TextraLabel {
         }
         else {
             for (Line ln : workingLayout.lines) {
-                ln.width = font.measureWidth(ln);
+                font.calculateSize(ln);
             }
         }
 
