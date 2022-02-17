@@ -1481,9 +1481,10 @@ public class Font implements Disposable {
         if(glyph >>> 32 == 0L) return 0;
         GlyphRegion tr = mapping.get((char) glyph);
         if (tr == null) return 0f;
-        float changedW = tr.xAdvance * scaleX;
+        float scale = scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+        float changedW = tr.xAdvance * scale;
         if (isMono) {
-            changedW += tr.offsetX * scaleX;
+            changedW += tr.offsetX * scale;
         }
         else if((glyph & SUPERSCRIPT) != 0L){
             changedW *= 0.5f;
@@ -1505,12 +1506,13 @@ public class Font implements Disposable {
             long glyph;
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 kern = kern << 16 | (int) ((glyph = glyphs.get(i)) & 0xFFFF);
-                amt = kerning.get(kern, 0) * scaleX;
+                float scale = scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+                amt = kerning.get(kern, 0) * scale;
                 GlyphRegion tr = mapping.get((char)glyph);
                 if(tr == null) continue;
-                float changedW = tr.xAdvance * scaleX;
+                float changedW = tr.xAdvance * scale;
                 if (isMono) {
-                    changedW += tr.offsetX * scaleX;
+                    changedW += tr.offsetX * scale;
                 }
                 if(!isMono && (glyph & SUPERSCRIPT) != 0L)
                     changedW *= 0.5f;
@@ -1519,11 +1521,12 @@ public class Font implements Disposable {
         } else {
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 long glyph = glyphs.get(i);
+                float scale = scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
                 GlyphRegion tr = mapping.get((char)glyph);
                 if(tr == null) continue;
-                float changedW = tr.xAdvance * scaleX;
+                float changedW = tr.xAdvance * scale;
                 if (isMono) {
-                    changedW += tr.offsetX * scaleX;
+                    changedW += tr.offsetX * scale;
                 }
                 if(!isMono && (glyph & SUPERSCRIPT) != 0L)
                     changedW *= 0.5f;
@@ -1541,7 +1544,7 @@ public class Font implements Disposable {
     public Line calculateSize(Line line) {
         float drawn = 0f;
         float storedScaleX = scaleX, storedScaleY = scaleY;
-        int scale = 3;
+        float scale = 1f;
         LongArray glyphs = line.glyphs;
         if (kerning != null) {
             int kern = -1;
@@ -1549,10 +1552,10 @@ public class Font implements Disposable {
             long glyph;
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 kern = kern << 16 | (int) ((glyph = glyphs.get(i)) & 0xFFFF);
-                scale = (int) (glyph >>> 20 & 15);
-                line.height = Math.max(line.height, cellHeight * (scale + 1) * 0.25f);
-                scaleX = storedScaleX * (scale + 1) * 0.25f;
-                scaleY = storedScaleY * (scale + 1) * 0.25f;
+                scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+                line.height = Math.max(line.height, cellHeight * scale);
+                scaleX = storedScaleX * scale;
+                scaleY = storedScaleY * scale;
                 amt = kerning.get(kern, 0) * scaleX;
                 GlyphRegion tr = mapping.get((char)glyph);
                 if(tr == null) continue;
@@ -1569,10 +1572,10 @@ public class Font implements Disposable {
                 long glyph = glyphs.get(i);
                 GlyphRegion tr = mapping.get((char)glyph);
                 if(tr == null) continue;
-                scale = (int) (glyph >>> 20 & 15);
-                line.height = Math.max(line.height, cellHeight * (scale + 1) * 0.25f);
-                scaleX = storedScaleX * (scale + 1) * 0.25f;
-                scaleY = storedScaleY * (scale + 1) * 0.25f;
+                scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+                line.height = Math.max(line.height, cellHeight * scale);
+                scaleX = storedScaleX * scale;
+                scaleY = storedScaleY * scale;
                 float changedW = tr.xAdvance * scaleX;
                 if (isMono) {
                     changedW += tr.offsetX * scaleX;
@@ -1603,9 +1606,9 @@ public class Font implements Disposable {
         Texture tex = tr.getTexture();
         float x0 = 0f, x1 = 0f, x2 = 0f, x3 = 0f;
         float y0 = 0f, y1 = 0f, y2 = 0f, y3 = 0f;
-        int scale = (int)(glyph & 0xF00000) >>> 20;
-        float scaleX = this.scaleX * (scale + 1) * 0.25f;
-        float scaleY = this.scaleY * (scale + 1) * 0.25f;
+        float scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+        float scaleX = this.scaleX * scale;
+        float scaleY = this.scaleY * scale;
 
         float color = NumberUtils.intBitsToFloat(((int)(batch.getColor().a * (glyph >>> 33 & 127)) << 25)
                 | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
@@ -1621,7 +1624,7 @@ public class Font implements Disposable {
         } else {
             x += tr.offsetX * scaleX;
         }
-        float yt = y + cellHeight * (scale + 1) * 0.25f - h - tr.offsetY * scaleY;
+        float yt = y + cellHeight * scale - h - tr.offsetY * scaleY;
         if ((glyph & OBLIQUE) != 0L) {
             x0 += h * 0.2f;
             x1 -= h * 0.2f;
@@ -2042,7 +2045,7 @@ public class Font implements Disposable {
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
         long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(appendTo.getBaseColor())) & COLOR_MASK;
         long color = baseColor;
-        long current = color | 0x300000L;
+        long current = color;
         if(appendTo.font == null || !appendTo.font.equals(this))
         {
             appendTo.clear();
@@ -2067,7 +2070,7 @@ public class Font implements Disposable {
                 if(++i < n && (c = text.charAt(i)) != '['){
                     if(c == ']'){
                         color = baseColor;
-                        current = color | 0x300000L;
+                        current = color;
                         scale = 3;
                         capitalize = false;
                         capsLock = false;
@@ -2123,9 +2126,9 @@ public class Font implements Disposable {
                             break;
                         case '%':
                             if(len >= 2)
-                                current = (current & 0xFFFFFFFFFF0FFFFFL) | (scale = ((intFromDec(text, i + 1, i + len) - 24) / 25) & 15) << 20;
+                                current = (current & 0xFFFFFFFFFF0FFFFFL) | (scale = ((intFromDec(text, i + 1, i + len) - 24) / 25) - 3 & 15) << 20;
                             else {
-                                current = (current & 0xFFFFFFFFFF0FFFFFL) | 0x300000L;
+                                current = (current & 0xFFFFFFFFFF0FFFFFL);
                                 scale = 3;
                             }
                             break;
@@ -2408,6 +2411,11 @@ public class Font implements Disposable {
         }
         scaleX = storedScaleX;
         scaleY = storedScaleY;
+
+        for (int i = 0; i < appendTo.lines(); i++) {
+            calculateSize(appendTo.getLine(i));
+        }
+
         return appendTo;
     }
 
@@ -2491,7 +2499,7 @@ public class Font implements Disposable {
         boolean capsLock = false, lowerCase = false;
         int c;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
-        long baseColor = COLOR_MASK | 0x300000L | chr;
+        long baseColor = COLOR_MASK | chr;
         long color = baseColor;
         long current = color;
         for (int i = 0, n = markup.length(); i < n; i++) {
@@ -2547,9 +2555,9 @@ public class Font implements Disposable {
                             break;
                         case '%':
                             if(len >= 2)
-                                current = (current & 0xFFFFFFFFFF0FFFFFL) | (((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) << 20;
+                                current = (current & 0xFFFFFFFFFF0FFFFFL) | (((intFromDec(markup, i + 1, i + len) - 24) / 25) - 3 & 15) << 20;
                             else
-                                current = (current & 0xFFFFFFFFFF0FFFFFL) | 0x300000L;
+                                current = (current & 0xFFFFFFFFFF0FFFFFL);
                             break;
                         case '#':
                             if (len >= 7 && len < 9)
@@ -2610,7 +2618,7 @@ public class Font implements Disposable {
                     if((glyph & 0xFFFFL) == '\n') {
                         glyphs.set(i, glyph ^= 42L);
                     }
-                    scale = (int) (glyph >>> 20 & 15);
+                    scale = (int) (glyph + 0x300000L >>> 20 & 15);
                     line.height = Math.max(line.height, cellHeight * (scale + 1) * 0.25f);
                     scaleX = storedScaleX * (scale + 1) * 0.25f;
                     scaleY = storedScaleY * (scale + 1) * 0.25f;
@@ -2676,7 +2684,7 @@ public class Font implements Disposable {
                     if((glyph & 0xFFFFL) == '\n') {
                         glyphs.set(i, glyph ^= 42L);
                     }
-                    scale = (int) (glyph >>> 20 & 15);
+                    scale = (int) (glyph + 0x300000L >>> 20 & 15);
                     line.height = Math.max(line.height, cellHeight * (scale + 1) * 0.25f);
                     scaleX = storedScaleX * (scale + 1) * 0.25f;
                     scaleY = storedScaleY * (scale + 1) * 0.25f;
