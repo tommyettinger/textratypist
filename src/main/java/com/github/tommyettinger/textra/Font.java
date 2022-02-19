@@ -2051,6 +2051,7 @@ public class Font implements Disposable {
                 capsLock = false, lowerCase = false;
         int c, scale = 3;
         float storedScaleX = scaleX, storedScaleY = scaleY;
+        float scaleX = storedScaleX, scaleY = storedScaleY;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
         long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(appendTo.getBaseColor())) & COLOR_MASK;
         long color = baseColor;
