@@ -1319,7 +1319,7 @@ public class Font implements Disposable {
 
     /**
      * Draws the specified text at the given x,y position (in world space), parsing an extension of libGDX markup
-     * and using it to determine color, size, position, shape, strikethrough, underline, and case of the given
+     * and using it to determine color, size, position, shape, strikethrough, underline, case, and scale of the given
      * CharSequence. The text drawn will start as white, with the normal size as by {@link #cellWidth} and
      * {@link #cellHeight}, normal case, and without bold, italic, superscript, subscript, strikethrough, or
      * underline. Markup starts with {@code [}; the next non-letter character determines what that piece of markup
@@ -1337,6 +1337,9 @@ public class Font implements Disposable {
      *     <li>{@code [!]} toggles all upper case mode.</li>
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode.</li>
+     *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
+     *     the nearest 25% mark).</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100%.</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up with
      *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
@@ -1812,6 +1815,9 @@ public class Font implements Disposable {
 
         GlyphRegion tr = mapping.get((char) glyph);
         if (tr == null) return 0f;
+        float scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+        float scaleX = this.scaleX * scale;
+        float scaleY = this.scaleY * scale;
         Texture tex = tr.getTexture();
         float x0 = 0f;
         float x1 = 0f;
@@ -1833,7 +1839,7 @@ public class Font implements Disposable {
         } else {
             x += tr.offsetX * scaleX;
         }
-        float yt = y + cellHeight - h - tr.offsetY * scaleY;
+        float yt = y + cellHeight * scale - h - tr.offsetY * scaleY;
         if ((glyph & OBLIQUE) != 0L) {
             x0 += h * 0.2f;
             x1 -= h * 0.2f;
@@ -2007,8 +2013,8 @@ public class Font implements Disposable {
      * Reads markup from text, along with the chars to receive markup, processes it, and appends into appendTo, which is
      * a {@link Layout} holding one or more {@link Line}s. A common way of getting a Layout is with
      * {@code Layout.POOL.obtain()}; you can free the Layout when you are done using it with {@link Pool#free(Object)}
-     * on {@link Layout#POOL}. This parses an extension of libGDX markup and uses it to determine color, size,
-     * position, shape, strikethrough, underline, and case of the given CharSequence. It also reads typing markup, for
+     * on {@link Layout#POOL}. This parses an extension of libGDX markup and uses it to determine color, size, position,
+     * shape, strikethrough, underline, case, and scale of the given CharSequence. It also reads typing markup, for
      * effects, but passes it through without changing it and without considering it for line wrapping or text position.
      * The text drawn will start in {@code appendTo}'s {@link Layout#baseColor}, which is usually white, with the normal
      * size as determined by the font's metrics and scale ({@link #scaleX} and {@link #scaleY}), normal case, and
@@ -2027,6 +2033,9 @@ public class Font implements Disposable {
      *     <li>{@code [!]} toggles all upper case mode.</li>
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode.</li>
+     *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
+     *     the nearest 25% mark).</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100%.</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
      *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
@@ -2422,7 +2431,7 @@ public class Font implements Disposable {
     /**
      * Reads markup from {@code markup}, processes it, and applies it to the given char {@code chr}; returns a long
      * in the format used for styled glyphs here. This parses an extension of libGDX markup and uses it to determine
-     * color, size, position, shape, strikethrough, underline, and case of the given char.
+     * color, size, position, shape, strikethrough, underline, case, and scale of the given char.
      * The char drawn will start in white, with the normal size as determined by the font's metrics and scale
      * ({@link #scaleX} and {@link #scaleY}), normal case, and without bold, italic, superscript, subscript,
      * strikethrough, or underline. Markup starts with {@code [}; the next character determines what that piece of
@@ -2439,6 +2448,9 @@ public class Font implements Disposable {
      *     <li>{@code [!]} toggles all upper case mode.</li>
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
+     *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
+     *     the nearest 25% mark).</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100% (this usually has no effect here).</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
      *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
@@ -2460,7 +2472,7 @@ public class Font implements Disposable {
     /**
      * Reads markup from {@code markup}, processes it, and applies it to the given char {@code chr}; returns a long
      * in the format used for styled glyphs here. This parses an extension of libGDX markup and uses it to determine
-     * color, size, position, shape, strikethrough, underline, and case of the given char.
+     * color, size, position, shape, strikethrough, underline, case, and scale of the given char.
      * The char drawn will start in white, with the normal size as determined by the font's metrics and scale
      * ({@link #scaleX} and {@link #scaleY}), normal case, and without bold, italic, superscript, subscript,
      * strikethrough, or underline. Markup starts with {@code [}; the next character determines what that piece of
@@ -2477,6 +2489,9 @@ public class Font implements Disposable {
      *     <li>{@code [!]} toggles all upper case mode.</li>
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
+     *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
+     *     the nearest 25% mark).</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100% (this usually has no effect here).</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
      *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
@@ -2555,7 +2570,7 @@ public class Font implements Disposable {
                             break;
                         case '%':
                             if(len >= 2)
-                                current = (current & 0xFFFFFFFFFF0FFFFFL) | (((intFromDec(markup, i + 1, i + len) - 24) / 25) - 3 & 15) << 20;
+                                current = (current & 0xFFFFFFFFFF0FFFFFL) | ((((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
                             else
                                 current = (current & 0xFFFFFFFFFF0FFFFFL);
                             break;

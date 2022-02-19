@@ -62,9 +62,9 @@ public class FontTest extends ApplicationAdapter {
         layout.setMaxLines(20);
         layout.setEllipsis("...");
         font.markup("@ Fonts can be rendered normally, but using [[tags], you can..."
-                + "\n[#E74200]...use CSS-style hex [%150]colors[%] like #E74200..."
+                + "\n[#E74200]...use CSS-style hex [%125]colors[%] like #E74200..."
                 + "\n[FOREST]...use named colors from the Colors class, like FOREST...[]"
-                + "\n...[%75]and [%125]use [%150][!]effects[!][%]!"
+                + "\n...[%75]and [%125]use [%175][!]effects[!][%]!"
                 + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
                 + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
                 + "\nvarious heights: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
@@ -86,6 +86,9 @@ public class FontTest extends ApplicationAdapter {
 //        font.markup("Good day to you all, sirs and madams!"
 //                + "\n[*]Водяно́й[] — в славянской мифологии дух, обитающий в воде, хозяин вод[^][BLUE][[2][]."
 //                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][].", layout);
+
+//        for(Line line : layout.lines)
+//            font.calculateSize(line);
         System.out.println(layout);
         startTime = TimeUtils.millis();
     }
