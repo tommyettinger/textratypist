@@ -64,7 +64,7 @@ public class FontTest extends ApplicationAdapter {
         font.markup("@ Fonts can be rendered normally, but using [[tags], you can..."
                 + "\n[#E74200]...use CSS-style hex [%125]colors[%] like #E74200..."
                 + "\n[FOREST]...use named colors from the Colors class, like FOREST...[]"
-                + "\n...[%75]and [%125]use [%175][!]effects[!][%]!"
+                + "\n[_]...[%75]and [%125]use [%175][!]effects[!][%][_]!"
                 + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
                 + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
                 + "\nvarious heights: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
