@@ -2126,7 +2126,7 @@ public class Font implements Disposable {
                             break;
                         case '%':
                             if(len >= 2)
-                                current = (current & 0xFFFFFFFFFF0FFFFFL) | (scale = ((intFromDec(text, i + 1, i + len) - 24) / 25) - 3 & 15) << 20;
+                                current = (current & 0xFFFFFFFFFF0FFFFFL) | ((scale = ((intFromDec(text, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
                             else {
                                 current = (current & 0xFFFFFFFFFF0FFFFFL);
                                 scale = 3;
