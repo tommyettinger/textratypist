@@ -61,10 +61,10 @@ public class FontTest extends ApplicationAdapter {
         layout.setBaseColor(Color.DARK_GRAY);
         layout.setMaxLines(20);
         layout.setEllipsis("...");
-        font.markup("@ Fonts can be rendered normally, [%100]but[] using [[tags], you can..."
-                + "\n[#E74200]...use CSS-style [%200]hex[] colors like #E74200..."
+        font.markup("@ Fonts can be rendered normally, but using [[tags], you can..."
+                + "\n[#E74200]...use CSS-style hex [%150]colors[%] like #E74200..."
                 + "\n[FOREST]...use named colors from the Colors class, like FOREST...[]"
-                + "\n...and use [!]effects[!]!"
+                + "\n...[%75]and [%125]use [%150][!]effects[!][%]!"
                 + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
                 + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
                 + "\nvarious heights: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
