@@ -1727,7 +1727,7 @@ public class Font implements Disposable {
                         underV = under.getV(),
                         underU2 = underU + iw,
                         underV2 = under.getV2(),
-                        hu = under.getRegionHeight() * scaleY, yu = y + cellHeight - hu - under.offsetY * scaleY;
+                        hu = under.getRegionHeight() * scaleY, yu = y + cellHeight * scale - hu - under.offsetY * scaleY;
                 x0 = x + scaleX * under.offsetX + 1f;
                 vertices[0] = x0 - 1f;
                 vertices[1] = yu + hu;
@@ -1762,7 +1762,7 @@ public class Font implements Disposable {
                         dashV = dash.getV(),
                         dashU2 = dashU + iw,
                         dashV2 = dash.getV2(),
-                        hd = dash.getRegionHeight() * scaleY, yd = y + cellHeight - hd - dash.offsetY * scaleY;
+                        hd = dash.getRegionHeight() * scaleY, yd = y + cellHeight * scale - hd - dash.offsetY * scaleY;
                 x0 = x + scaleX * dash.offsetX + 1f;
                 vertices[0] = x0 - 1f;
                 vertices[1] = yd + hd;
@@ -1941,7 +1941,7 @@ public class Font implements Disposable {
                         underV = under.getV(),
                         underU2 = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.75f,
                         underV2 = under.getV2(),
-                        hu = under.getRegionHeight() * scaleY, yu = y + cellHeight - hu - under.offsetY * scaleY;
+                        hu = under.getRegionHeight() * scaleY, yu = y + cellHeight * scale - hu - under.offsetY * scaleY;
                 vertices[2] = color;
                 vertices[3] = underU;
                 vertices[4] = underV;
@@ -1977,7 +1977,7 @@ public class Font implements Disposable {
                         dashV = dash.getV(),
                         dashU2 = dashU + iw,
                         dashV2 = dash.getV2(),
-                        hd = dash.getRegionHeight() * scaleY, yd = y + cellHeight - hd - dash.offsetY * scaleY;
+                        hd = dash.getRegionHeight() * scaleY, yd = y + cellHeight * scale - hd - dash.offsetY * scaleY;
                 x0 = x - (dash.offsetX);
                 vertices[2] = color;
                 vertices[3] = dashU;
