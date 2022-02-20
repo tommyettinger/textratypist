@@ -62,12 +62,12 @@ public class FontTest extends ApplicationAdapter {
         layout.setMaxLines(20);
         layout.setEllipsis("...");
         font.markup("@ Fonts can be rendered normally, but using [[tags], you can..."
-                + "\n[#E74200]...use CSS-style hex [%125]colors[%] like #E74200..."
-                + "\n[FOREST]...use named colors from the Colors class, like FOREST...[]"
-                + "\n[_]...[%75]and [%125]use [%175][!]effects[!][%][_]!"
+                + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
+                + "\n[FOREST]...use named colors from the Colors class, like [/]FOREST[/]...[]"
+                + "\n[_]...and use [!]effects[!][_]!"
                 + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
                 + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
-                + "\nvarious heights: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
+                + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
                 + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[],"
                 + "\nUnicode support: Pchnąć w tę łódź [BROWN]jeża[] lub ośm skrzyń [PURPLE]fig[]."
                 + "\nWelcome to the [_][*][TEAL]Textra Zone[]!"

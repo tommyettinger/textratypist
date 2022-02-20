@@ -1728,26 +1728,26 @@ public class Font implements Disposable {
                         underU2 = underU + iw,
                         underV2 = under.getV2(),
                         hu = under.getRegionHeight() * scaleY, yu = y + cellHeight * scale - hu - under.offsetY * scaleY;
-                x0 = x + scaleX * under.offsetX + 1f;
-                vertices[0] = x0 - 1f;
+                x0 = x + scaleX * under.offsetX + scale;
+                vertices[0] = x0 - scale;
                 vertices[1] = yu + hu;
                 vertices[2] = color;
                 vertices[3] = underU;
                 vertices[4] = underV;
 
-                vertices[5] = x0 - 1f;
+                vertices[5] = x0 - scale;
                 vertices[6] = yu;
                 vertices[7] = color;
                 vertices[8] = underU;
                 vertices[9] = underV2;
 
-                vertices[10] = x0 + changedW + 1f;
+                vertices[10] = x0 + changedW + scale;
                 vertices[11] = yu;
                 vertices[12] = color;
                 vertices[13] = underU2;
                 vertices[14] = underV2;
 
-                vertices[15] = x0 + changedW + 1f;
+                vertices[15] = x0 + changedW + scale;
                 vertices[16] = yu + hu;
                 vertices[17] = color;
                 vertices[18] = underU2;
@@ -1763,26 +1763,26 @@ public class Font implements Disposable {
                         dashU2 = dashU + iw,
                         dashV2 = dash.getV2(),
                         hd = dash.getRegionHeight() * scaleY, yd = y + cellHeight * scale - hd - dash.offsetY * scaleY;
-                x0 = x + scaleX * dash.offsetX + 1f;
-                vertices[0] = x0 - 1f;
+                x0 = x + scaleX * dash.offsetX + scale;
+                vertices[0] = x0 - scale;
                 vertices[1] = yd + hd;
                 vertices[2] = color;
                 vertices[3] = dashU;
                 vertices[4] = dashV;
 
-                vertices[5] = x0 - 1f;
+                vertices[5] = x0 - scale;
                 vertices[6] = yd;
                 vertices[7] = color;
                 vertices[8] = dashU;
                 vertices[9] = dashV2;
 
-                vertices[10] = x0 + changedW + 1f;
+                vertices[10] = x0 + changedW + scale;
                 vertices[11] = yd;
                 vertices[12] = color;
                 vertices[13] = dashU2;
                 vertices[14] = dashV2;
 
-                vertices[15] = x0 + changedW + 1f;
+                vertices[15] = x0 + changedW + scale;
                 vertices[16] = yd + hd;
                 vertices[17] = color;
                 vertices[18] = dashU2;
@@ -1958,11 +1958,11 @@ public class Font implements Disposable {
                 vertices[18] = underU2;
                 vertices[19] = underV;
 
-                p0x = x - 1f;
+                p0x = x - scale;
                 p0y = yu + hu;
-                p1x = x - 1f;
+                p1x = x - scale;
                 p1y = yu;
-                p2x = x + changedW + 1f;
+                p2x = x + changedW + scale;
                 p2y = yu;
                 vertices[15] = (vertices[0]  = cos * p0x - sin * p0y) - (vertices[5]  = cos * p1x - sin * p1y) + (vertices[10] = cos * p2x - sin * p2y);
                 vertices[16] = (vertices[1]  = sin * p0x + cos * p0y) - (vertices[6]  = sin * p1x + cos * p1y) + (vertices[11] = sin * p2x + cos * p2y);
@@ -1995,11 +1995,11 @@ public class Font implements Disposable {
                 vertices[18] = dashU2;
                 vertices[19] = dashV;
 
-                p0x = x0 - 1f;
+                p0x = x0 - scale;
                 p0y = yd + hd;
-                p1x = x0 - 1f;
+                p1x = x0 - scale;
                 p1y = yd;
-                p2x = x0 + changedW + 1f;
+                p2x = x0 + changedW + scale;
                 p2y = yd;
                 vertices[15] = (vertices[0]  = cos * p0x - sin * p0y) - (vertices[5]  = cos * p1x - sin * p1y) + (vertices[10] = cos * p2x - sin * p2y);
                 vertices[16] = (vertices[1]  = sin * p0x + cos * p0y) - (vertices[6]  = sin * p1x + cos * p1y) + (vertices[11] = sin * p2x + cos * p2y);
