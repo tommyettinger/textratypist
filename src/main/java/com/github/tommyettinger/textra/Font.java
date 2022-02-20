@@ -2766,6 +2766,35 @@ public class Font implements Disposable {
     }
 
     /**
+     * Given the new width and height for a window, this attempts to adjust the {@link #distanceFieldCrispness} of an
+     * SDF or MSDF font so that it will display cleanly at a different size.
+     * This is a suggestion for what to call in your {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
+     * method for each SDF or MSDF font you have currently rendering.
+     * @param width the new window width; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
+     * @param height the new window height; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
+     */
+    public void resizeDistanceField(int width, int height) {
+        if(distanceField == DistanceFieldType.SDF) {
+            if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
+                distanceFieldCrispness = 1f;
+            } else {
+                distanceFieldCrispness = (float) Math.pow(4f,
+                        Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
+                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 1.4f);
+            }
+        }
+        else if(distanceField == DistanceFieldType.MSDF){
+            if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
+                distanceFieldCrispness = 1f;
+            } else {
+                distanceFieldCrispness = (float) Math.pow(8f,
+                        Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
+                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 1.4f);
+            }
+        }
+    }
+
+    /**
      * Releases all resources of this object.
      */
     @Override
