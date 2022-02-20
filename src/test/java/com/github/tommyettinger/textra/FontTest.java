@@ -43,14 +43,14 @@ public class FontTest extends ApplicationAdapter {
 //                .scale(0.5f, 0.5f).setTextureFilter();
 //        font = new Font(new BitmapFont(Gdx.files.internal("Gentium.fnt")), Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f)
 //                .scale(0.42f, 0.42f).setTextureFilter();
-      font = new Font("Gentium.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scale(0.35f, 0.35f)
-          .setTextureFilter().adjustLineHeight(0.8f);
+//      font = new Font("Gentium.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scale(0.35f, 0.35f)
+//          .setTextureFilter().adjustLineHeight(0.8f);
 //        font = new Font("LibertinusSerif.fnt",
 //                new TextureRegion(new Texture(Gdx.files.internal("LibertinusSerif.png"), true)), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0)
 //        .scale(0.25f, 0.25f).setTextureFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.MipMapLinearNearest);
 //        font = KnownFonts.getLibertinusSerif().scaleTo(165, 40);
 //        font = KnownFonts.getCozette().scale(2, 2);
-//        font = KnownFonts.getGentium().scaleTo(55, 40);
+        font = KnownFonts.getGentium().scaleTo(55, 40).adjustLineHeight(0.8f);
 //        font = KnownFonts.getAStarry();
 //        font = KnownFonts.getIosevkaSlab().scaleTo(12, 24);
 //        font = KnownFonts.getInconsolataLGC().scaleTo(12, 40);
@@ -104,5 +104,16 @@ public class FontTest extends ApplicationAdapter {
         font.drawGlyphs(batch, layout, x, y, Align.center);
         batch.end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        if(Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0){
+            font.distanceFieldCrispness = 1f;
+        }
+        else {
+            font.distanceFieldCrispness = Math.max((float) width / Gdx.graphics.getBackBufferWidth(), (float) height / Gdx.graphics.getBackBufferHeight());
+            font.distanceFieldCrispness = (float) Math.pow(4f, font.distanceFieldCrispness * 1.9f - 1.4f);
+        }
     }
 }
