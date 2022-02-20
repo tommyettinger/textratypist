@@ -13,8 +13,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
-import static com.github.tommyettinger.textra.Font.DistanceFieldType.MSDF;
-
 public class FontTest extends ApplicationAdapter {
 
     Font font;
@@ -50,9 +48,9 @@ public class FontTest extends ApplicationAdapter {
 //        .scale(0.25f, 0.25f).setTextureFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.MipMapLinearNearest);
 //        font = KnownFonts.getLibertinusSerif().scaleTo(165, 40);
 //        font = KnownFonts.getCozette().scale(2, 2);
-        font = KnownFonts.getGentium().scaleTo(55, 40).adjustLineHeight(0.8f);
+//        font = KnownFonts.getGentium().scaleTo(55, 40).adjustLineHeight(0.8f);
 //        font = KnownFonts.getAStarry();
-//        font = KnownFonts.getIosevkaSlab().scaleTo(12, 24);
+        font = KnownFonts.getIosevkaSlab().scaleTo(12, 24);
 //        font = KnownFonts.getInconsolataLGC().scaleTo(12, 40);
 //        font = KnownFonts.getIosevka().scaleTo(12, 40);
 //        font = new Font("Iosevka-distance.fnt", "Iosevka-distance.png", Font.DistanceFieldType.SDF, 0, 0, 0, 0).scaleTo(12f, 24f);
@@ -108,12 +106,6 @@ public class FontTest extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        if(Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0){
-            font.distanceFieldCrispness = 1f;
-        }
-        else {
-            font.distanceFieldCrispness = Math.max((float) width / Gdx.graphics.getBackBufferWidth(), (float) height / Gdx.graphics.getBackBufferHeight());
-            font.distanceFieldCrispness = (float) Math.pow(4f, font.distanceFieldCrispness * 1.9f - 1.4f);
-        }
+        font.resizeDistanceField(width, height);
     }
 }
