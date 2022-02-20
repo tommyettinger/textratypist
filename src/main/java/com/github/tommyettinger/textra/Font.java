@@ -2795,6 +2795,91 @@ public class Font implements Disposable {
     }
 
     /**
+     * Given a glyph as a long, this returns the RGBA8888 color it uses.
+     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @return the int color used by the given glyph, as RGBA8888
+     */
+    public static int extractColor(long glyph){
+        return (int) (glyph>>>32);
+    }
+
+    /**
+     * Replaces the section of glyph that stores its color with the given RGBA8888 int color.
+     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param color the int color to use, as an RGBA8888 int
+     * @return another long glyph that uses the specified color
+     */
+    public static long applyColor(long glyph, int color){
+        return (glyph & 0xFFFFFFFFL) | ((long) color << 32);
+    }
+
+    /**
+     * Given a glyph as a long, this returns the style bits it uses. You can cross-reference these with
+     * {@link #BOLD}, {@link #OBLIQUE}, {@link #UNDERLINE}, {@link #STRIKETHROUGH}, {@link #SUBSCRIPT},
+     * {@link #MIDSCRIPT}, and {@link #SUPERSCRIPT}.
+     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @return the style bits used by the given glyph
+     */
+    public static long extractStyle(long glyph){
+        return glyph & 0x7E000000L;
+    }
+
+    /**
+     * Replaces the section of glyph that stores its style with the given long bits.You can get the bit constants with
+     * {@link #BOLD}, {@link #OBLIQUE}, {@link #UNDERLINE}, {@link #STRIKETHROUGH}, {@link #SUBSCRIPT},
+     * {@link #MIDSCRIPT}, and {@link #SUPERSCRIPT}. Because only a small section is used from style, you can pass an
+     * existing styled glyph as the second parameter to copy its style information into glyph.
+     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param style the long style bits to use, which should usually be bits from the aforementioned constants
+     * @return another long glyph that uses the specified style
+     */
+    public static long applyStyle(long glyph, long style){
+        return (glyph & 0xFFFFFFFF81FFFFFFL) | (style & 0x7E000000L);
+    }
+
+    /**
+     * Given a glyph as a long, this returns the float multiplier it uses for scale.
+     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @return the float scale used by the given glyph, from 0.0f to 3.75f
+     */
+    public static float extractScale(long glyph){
+        return (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+    }
+
+    /**
+     * Replaces the section of glyph that stores its scale with the given float multiplier, rounded to a multiple of
+     * 0.25 and wrapped to within 0.0 to 3.75, both inclusive.
+     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param scale the float scale to use, which should be between 0.0 and 3.75, both inclusive
+     * @return another long glyph that uses the specified scale
+     */
+    public static long applyScale(long glyph, float scale){
+        return (glyph & 0xFFFFFFFFFF0FFFFFL) | ((long) Math.floor(scale * 4.0 - 4.0) & 15L) << 20;
+    }
+
+    /**
+     * Given a glyph as a long, this returns the char it displays. This automatically corrects the placeholder char
+     * u0002 to the glyph it displays as, {@code '['}.
+     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @return the char used by the given glyph
+     */
+    public static char extractChar(long glyph){
+        final char c = (char) glyph;
+        return c == 2 ? '[' : c;
+    }
+
+    /**
+     * Replaces the section of glyph that stores its scale with the given float multiplier, rounded to a multiple of
+     * 0.25 and wrapped to within 0.0 to 3.75, both inclusive.
+     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param c the char to use
+     * @return another long glyph that uses the specified char
+     */
+    public static long applyChar(long glyph, char c){
+        return (glyph & 0xFFFFFFFFFFFF0000L) | c;
+    }
+
+    /**
      * Releases all resources of this object.
      */
     @Override
