@@ -2767,7 +2767,8 @@ public class Font implements Disposable {
 
     /**
      * Given the new width and height for a window, this attempts to adjust the {@link #distanceFieldCrispness} of an
-     * SDF or MSDF font so that it will display cleanly at a different size.
+     * SDF or MSDF font so that it will display cleanly at a different size. Note that this ignores any previous setting
+     * for this font's distanceFieldCrispness, so you may want to adjust that after each call.
      * This is a suggestion for what to call in your {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      * method for each SDF or MSDF font you have currently rendering.
      * @param width the new window width; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
@@ -2780,7 +2781,7 @@ public class Font implements Disposable {
             } else {
                 distanceFieldCrispness = (float) Math.pow(4f,
                         Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
-                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 1.4f);
+                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 1f - Math.max(cellWidth, cellHeight) * 0.0275f);
             }
         }
         else if(distanceField == DistanceFieldType.MSDF){
@@ -2789,7 +2790,7 @@ public class Font implements Disposable {
             } else {
                 distanceFieldCrispness = (float) Math.pow(8f,
                         Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
-                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 1.4f);
+                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 1f - Math.max(cellWidth, cellHeight) * 0.0275f);
             }
         }
     }
