@@ -187,7 +187,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         text.append("{FAST}\n\n");
         text.append("{RESET}{HANG=0.7}This is a [*][YELLOW]simple[WHITE][*] test{ENDHANG} to {STYLE=_}show you{STYLE=_}");
         text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {JUMP}how to make dialogues {SLOW}[*][/]fun[/][*] again! {ENDJUMP}{WAIT}{ENDGRADIENT}\n");
-        text.append("{NORMAL}{CLEARCOLOR}{SICK}With this library{ENDSICK} you can control the flow[^][SKY] [[citation needed][] of the text with");
+        text.append("{NORMAL}{CLEARCOLOR}{SICK}With this library{ENDSICK} you can {SIZE=150%}control {SIZE=%75}the{SIZE=150%} flow[^][SKY] [[citation needed][] of the text with");
         text.append(" {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
         text.append("{SPEED=2.50}{COLOR=#84DD60} making the text go {SHAKE=1;1;3}really fast{ENDSHAKE}{WAIT=0.5} ");
         text.append("{SPEED=0.25}{COLOR=#A6E22D}{WAVE=0.66}or extremely slow.{ENDWAVE}");
@@ -198,7 +198,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
 
         // Create label
-        Font font = new Font("Gentium-sdf.fnt", Font.DistanceFieldType.SDF, 0f, 0f, 0f, 0f).scaleTo(36, 36).setTextureFilter();
+        Font font = KnownFonts.getGentium().scaleTo(36, 36);
         font.originalCellHeight *= 0.8125f;
         font.cellHeight *= 0.8125f;
         final TypingLabel label = new TypingLabel("", font);
@@ -261,6 +261,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
+        label.font.resizeDistanceField(width, height);
         stage.getViewport().update(width, height, true);
     }
 
