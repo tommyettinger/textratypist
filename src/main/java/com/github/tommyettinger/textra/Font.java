@@ -1635,36 +1635,37 @@ public class Font implements Disposable {
             x3 += h * 0.2f;
         }
         final long script = (glyph & SUPERSCRIPT);
+        float scaledHeight = cellHeight * scale;
         if (script == SUPERSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = y + cellHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
-            y0 += cellHeight * 0.375f;
-            y1 += cellHeight * 0.375f;
-            y2 += cellHeight * 0.375f;
-            y3 += cellHeight * 0.375f;
+            yt = y + scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
+            y0 += scaledHeight * 0.375f;
+            y1 += scaledHeight * 0.375f;
+            y2 += scaledHeight * 0.375f;
+            y3 += scaledHeight * 0.375f;
             if(!isMono)
                 changedW *= 0.5f;
         }
         else if (script == SUBSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = y + cellHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
-            y0 -= cellHeight * 0.125f;
-            y1 -= cellHeight * 0.125f;
-            y2 -= cellHeight * 0.125f;
-            y3 -= cellHeight * 0.125f;
+            yt = y + scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
+            y0 -= scaledHeight * 0.125f;
+            y1 -= scaledHeight * 0.125f;
+            y2 -= scaledHeight * 0.125f;
+            y3 -= scaledHeight * 0.125f;
             if(!isMono)
                 changedW *= 0.5f;
         }
         else if(script == MIDSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = y + cellHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
-            y0 += cellHeight * 0.125f;
-            y1 += cellHeight * 0.125f;
-            y2 += cellHeight * 0.125f;
-            y3 += cellHeight * 0.125f;
+            yt = y + scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
+            y0 += scaledHeight * 0.125f;
+            y1 += scaledHeight * 0.125f;
+            y2 += scaledHeight * 0.125f;
+            y3 += scaledHeight * 0.125f;
             if(!isMono)
                 changedW *= 0.5f;
         }
