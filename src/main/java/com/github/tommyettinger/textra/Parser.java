@@ -112,6 +112,7 @@ class Parser {
                     replacement = stringToColorMarkup(param);
                     break;
                 case STYLE:
+                case SIZE:
                     replacement = stringToStyleMarkup(param);
                     break;
                 case ENDCOLOR:
@@ -380,6 +381,10 @@ class Parser {
                 return "[,]";
             if (str.equals(";") || str.equalsIgnoreCase("EACH") || str.equalsIgnoreCase("TITLE"))
                 return "[;]";
+            if(str.endsWith("%"))
+                return "[%" + str.substring(0, str.length() - 1) + "]";
+            if(str.startsWith("%"))
+                return "[%" + str.substring(1) + "]";
             if (!Colors.getColors().containsKey(str) && str.length() >= 6 && PATTERN_COLOR_HEX_NO_HASH.matches(str))
                 return "[#" + str + "]";
         }
