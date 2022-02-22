@@ -329,8 +329,9 @@ public class KnownFonts implements LifecycleListener {
     private Font gentium;
     /**
      * Returns a Font already configured to use a variable-width serif font with excellent Unicode support, that should
-     * scale cleanly to even very large sizes (using an SDF technique).
-     * Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
+     * scale cleanly to even very large sizes (using an SDF technique). You usually will want to reduce the line height
+     * of this Font after you scale it; using {@code KnownFonts.getGentium().scaleTo(55, 45).adjustLineHeight(0.8f)}
+     * usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
      * License) typeface by SIL (see https://software.sil.org/gentium/ ). It supports a lot of glyphs, including quite a
      * bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. This
      * uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but should be
@@ -352,7 +353,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.gentium == null)
         {
             try {
-                instance.gentium = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 0f, 5f, 0f, -5f).adjustLineHeight(0.8f);
+                instance.gentium = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 0f, 5f, 0f, -5f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
