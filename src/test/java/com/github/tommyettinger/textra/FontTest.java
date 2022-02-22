@@ -50,7 +50,7 @@ public class FontTest extends ApplicationAdapter {
 //        font = KnownFonts.getCozette().scale(2, 2);
 //        font = KnownFonts.getGentium().scaleTo(55, 40).adjustLineHeight(0.8f);
 //        font = KnownFonts.getAStarry();
-        font = KnownFonts.getIosevkaSlab().scaleTo(12, 24);
+        font = KnownFonts.getIosevkaSlab().scaleTo(12, 28);
 //        font = KnownFonts.getInconsolataLGC().scaleTo(12, 40);
 //        font = KnownFonts.getIosevka().scaleTo(12, 40);
 //        font = new Font("Iosevka-distance.fnt", "Iosevka-distance.png", Font.DistanceFieldType.SDF, 0, 0, 0, 0).scaleTo(12f, 24f);
