@@ -350,7 +350,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.gentium == null)
         {
             try {
-                instance.gentium = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 0f, 5f, 0f, -5f);
+                instance.gentium = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 0f, 5f, 0f, -5f).adjustLineHeight(0.8f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
