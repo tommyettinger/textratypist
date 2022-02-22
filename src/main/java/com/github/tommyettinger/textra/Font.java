@@ -2859,7 +2859,7 @@ public class Font implements Disposable {
             } else {
                 distanceFieldCrispness = (float) Math.pow(4f,
                         Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
-                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 1.8f - cellHeight * 0.0025f);
+                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 2f + cellHeight * 0.005f);
             }
         }
         else if(distanceField == DistanceFieldType.MSDF){
