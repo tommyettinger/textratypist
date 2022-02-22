@@ -159,9 +159,20 @@ public class Font implements Disposable {
     /**
      * When {@link #distanceField} is {@link DistanceFieldType#SDF} or {@link DistanceFieldType#MSDF}, this determines
      * how much the edges of the glyphs should be aliased sharply (higher values) or anti-aliased softly (lower values).
-     * The default value is 1.
+     * The default value is 1. This is set internally by {@link #resizeDistanceField(int, int)} using
+     * {@link #distanceFieldCrispness} as a multiplier; when you want to have a change to crispness persist, use that
+     * other field.
+     */
+    public float actualCrispness = 1f;
+
+    /**
+     * When {@link #distanceField} is {@link DistanceFieldType#SDF} or {@link DistanceFieldType#MSDF}, this determines
+     * how much the edges of the glyphs should be aliased sharply (higher values) or anti-aliased softly (lower values).
+     * The default value is 1. This is used as a persistent multiplier that can be configured per-font, whereas
+     * {@link #actualCrispness} is the working value that changes often but is influenced by this one.
      */
     public float distanceFieldCrispness = 1f;
+
     /**
      * Only actually refers to a "cell" when {@link #isMono} is true; otherwise refers to the largest width of any
      * glyph in the font, after scaling.
@@ -317,7 +328,7 @@ public class Font implements Disposable {
      * {@link DistanceFieldType#SDF}. It can be set to a user-defined ShaderProgram; if it is meant to render
      * MSDF or SDF fonts, then the ShaderProgram should have a {@code uniform float u_smoothing;} that will be
      * set by {@link #enableShader(Batch)}. Values passed to u_smoothing can vary a lot, depending on how the
-     * font was initially created, its current scale, and its {@link #distanceFieldCrispness} field. You can
+     * font was initially created, its current scale, and its {@link #actualCrispness} field. You can
      * also use a user-defined ShaderProgram with a font using {@link DistanceFieldType#STANDARD}, which may be
      * easier and can use any uniforms you normally could with a ShaderProgram, since enableShader() won't
      * change any of the uniforms.
@@ -507,6 +518,7 @@ public class Font implements Disposable {
     public Font(Font toCopy){
         distanceField = toCopy.distanceField;
         isMono = toCopy.isMono;
+        actualCrispness = toCopy.actualCrispness;
         distanceFieldCrispness = toCopy.distanceFieldCrispness;
         parents = new Array<>(toCopy.parents);
         cellWidth = toCopy.cellWidth;
@@ -1182,13 +1194,13 @@ public class Font implements Disposable {
         if(distanceField == DistanceFieldType.MSDF) {
             if (batch.getShader() != shader) {
                 batch.setShader(shader);
-                shader.setUniformf("u_smoothing", 7f * distanceFieldCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth));
+                shader.setUniformf("u_smoothing", 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth));
             }
         } else if(distanceField == DistanceFieldType.SDF){
             if (batch.getShader() != shader) {
                 batch.setShader(shader);
                 final float scale = Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth) * 0.5f + 0.125f;
-                shader.setUniformf("u_smoothing", (distanceFieldCrispness / (scale)));
+                shader.setUniformf("u_smoothing", (actualCrispness / (scale)));
             }
         } else {
             batch.setShader(null);
@@ -2844,7 +2856,7 @@ public class Font implements Disposable {
     }
 
     /**
-     * Given the new width and height for a window, this attempts to adjust the {@link #distanceFieldCrispness} of an
+     * Given the new width and height for a window, this attempts to adjust the {@link #actualCrispness} of an
      * SDF or MSDF font so that it will display cleanly at a different size. Note that this ignores any previous setting
      * for this font's distanceFieldCrispness, so you may want to adjust that after each call.
      * This is a suggestion for what to call in your {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
@@ -2855,20 +2867,20 @@ public class Font implements Disposable {
     public void resizeDistanceField(int width, int height) {
         if(distanceField == DistanceFieldType.SDF) {
             if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
-                distanceFieldCrispness = 1f;
+                actualCrispness = distanceFieldCrispness;
             } else {
-                distanceFieldCrispness = (float) Math.pow(4f,
+                actualCrispness = distanceFieldCrispness * (float) Math.pow(4f,
                         Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
                                 (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 2f + cellHeight * 0.005f);
             }
         }
         else if(distanceField == DistanceFieldType.MSDF){
             if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
-                distanceFieldCrispness = 1f;
+                actualCrispness = distanceFieldCrispness;
             } else {
-                distanceFieldCrispness = (float) Math.pow(8f,
+                actualCrispness = distanceFieldCrispness * (float) Math.pow(8f,
                         Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
-                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 1f - Math.max(cellWidth, cellHeight) * 0.0275f);
+                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 2.15f + cellHeight * 0.01f);
             }
         }
     }

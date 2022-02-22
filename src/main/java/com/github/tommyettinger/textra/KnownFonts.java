@@ -119,7 +119,9 @@ public class KnownFonts implements LifecycleListener {
      * typeface used on the Atari ST console, that should scale cleanly to many sizes. This font only supports ASCII,
      * but it supports all of it. Caches the result for later calls. The font is "a-starry", based on "Atari ST
      * (low-res)" by Damien Guard; it is available under a CC-BY-SA-3.0 license, which requires attribution to Damien
-     * Guard (and technically Tommy Ettinger, because he made changes in a-starry) if you use it.
+     * Guard (and technically Tommy Ettinger, because he made changes in a-starry) if you use it. This uses the
+     * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
+     * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
      *
      * <br>
@@ -138,7 +140,7 @@ public class KnownFonts implements LifecycleListener {
         {
             try {
                 instance.astarry = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, 1, 0, 0).scaleTo(10, 10);
-                instance.astarry.distanceFieldCrispness = 1.5f;
+                instance.astarry.distanceFieldCrispness = 2.5f;
             } catch (Exception e) {
                 e.printStackTrace();
             }
