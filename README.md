@@ -2,7 +2,7 @@
 Extra features for something like typing-label, with both effects and styles.
 
 What does this look like? A little something like this...
-![Still preview](https://i.imgur.com/eIUH9Cc.png)
+![Still preview](https://i.imgur.com/Xkcm92I.png)
 
 Or perhaps like this...
 ![Animated preview](images/preview.gif)
@@ -47,10 +47,14 @@ to do the same thing. The full list of styles:
 - `[!]` toggles all upper case mode (replacing any other case mode). Can use style names `!`, `UP`, `UPPER`.
 - `[,]` toggles all lower case mode (replacing any other case mode). Can use style names `,`, `LOW`, `LOWER`.
 - `[;]` toggles capitalize each word mode (replacing any other case mode). Can use style names `;`, `EACH`, `TITLE`.
+- `[%DDD]`, where DDD is a percentage from 0 to 375, scales text to that multiple. Can be used with `{SIZE=150%}`, `{SIZE=%25}`, or similarly `{STYLE=200%}`.
+- `[%]` on its own sets text to the default 100% scale.
 - `[#HHHHHHHH]`, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color. This is a normal `{COLOR=#HHHHHHHH}` tag.
 - `[COLORNAME]`, where COLORNAME is a typically-upper-case color name that will be looked up externally, changes the color.
   - By default, this looks up COLORNAME in libGDX's `Colors` class, but it can be configured to create colors differently.
-    - You can use `Font`'s `setColorLookup()` method with your own `ColorLookup` implementation to do what you want here. 
+    - You can use `Font`'s `setColorLookup()` method with your own `ColorLookup` implementation to do what you want here.
+    - `TypingLabel` does still try to look up color names in `Colors`, but will fall back to using whatever `ColorLookup`
+         a `Font` uses. You can clear the known names with `Colors.getColors().clear()`, which will force a `ColorLookup` to be used.
   - The name can optionally be preceded by `|`, which allows looking up colors with names that contain punctuation.
       For example, `[|;_;]` would look up a color called `;_;`, "the color of sadness," and would not act like `[;]`.
   - This also can be used with a color tag, such as `{COLOR=SKY}` (which Colors can handle right away) or
@@ -80,7 +84,7 @@ variety of font types isn't amazing, but it should be a good starting point.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.1.5"
+implementation "com.github.tommyettinger:textratypist:0.1.6"
 ```
 
 This assumes you already depend on libGDX; textratypist depends on version 1.10.0 or higher, and should have no problems
@@ -91,7 +95,7 @@ a different version for 1.10.1 (-SNAPSHOT) and higher vs. 1.10.0 .
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.1.5:sources"
+implementation "com.github.tommyettinger:textratypist:0.1.6:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
