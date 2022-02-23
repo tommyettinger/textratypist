@@ -177,6 +177,41 @@ public class Font implements Disposable {
             }
         }
 
+        /**
+         * Constructs a FontFamily given an OrderedMap of String keys (names of Fonts) to Font values (the Fonts that
+         * can be switched between). This only uses up to the first 16 keys of map.
+         * @param map an OrderedMap of String keys to Font values
+         */
+        public FontFamily(OrderedMap<String, Font> map){
+            Array<String> ks = map.orderedKeys();
+            for (int i = 0; i < map.size && i < 16; i++) {
+                String name = ks.get(i);
+                fontAliases.put(name, i);
+                fontAliases.put(String.valueOf(i), i);
+                connected[i] = map.get(name);
+            }
+        }
+
+        /**
+         * Copy constructor for another FontFamily. Font items in {@link #connected} will not be copied, and the same
+         * references will be used.
+         * @param other another, non-null, FontFamily to copy into this.
+         */
+        public FontFamily(FontFamily other){
+            System.arraycopy(other.connected, 0, connected, 0, 16);
+            fontAliases.putAll(other.fontAliases);
+        }
+
+        /**
+         * Gets the corresponding Font for a name/alias, or null if it was not found.
+         * @param name a name or alias for a font, such as "Gentium" or "2"
+         * @return the Font corresponding to the given name, or null if not found
+         */
+        public Font get(String name){
+            if(name == null) return null;
+            return connected[fontAliases.get(name, 0) & 15];
+        }
+
     }
 
     /**
