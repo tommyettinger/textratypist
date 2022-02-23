@@ -63,7 +63,7 @@ public class JumpEffect extends Effect {
         float progress = calculateProgress(progressModifier, -progressOffset, false);
 
         // Calculate offset
-        float interpolation = 0;
+        float interpolation;
         float split = 0.2f;
         if(progress < split) {
             interpolation = Interpolation.pow2Out.apply(0, 1, progress / split);

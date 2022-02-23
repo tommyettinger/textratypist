@@ -473,7 +473,7 @@ public class TypingLabel extends TextraLabel {
 
             int layoutSize = getLayoutSize(layout);
             int safeIndex = MathUtils.clamp(glyphCharIndex + 1, 0, layoutSize - 1);
-            long baseChar = 0L; // Null character by default
+            long baseChar; // Null character by default
             if(layoutSize > 0) {
                 baseChar = getInLayout(layout, safeIndex);
                 float intervalMultiplier = TypingConfig.INTERVAL_MULTIPLIERS_BY_CHAR.get((char)baseChar, 1);

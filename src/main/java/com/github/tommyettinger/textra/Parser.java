@@ -106,7 +106,7 @@ class Parser {
             }
 
             // Process tokens and handle replacement
-            String replacement = "";
+            String replacement;
             switch(internalToken) {
                 case COLOR:
                     replacement = stringToColorMarkup(param);
