@@ -150,11 +150,41 @@ public class Font implements Disposable {
 
     //// members section
 
+    /**
+     * Maps char keys (stored as ints) to their corresponding {@link GlyphRegion} values. You can add arbitrary images
+     * to this mapping if you create appropriate GlyphRegion values (as with
+     * {@link GlyphRegion#GlyphRegion(TextureRegion, int, int, int, int)}), though they must map to a char.
+     */
     public IntMap<GlyphRegion> mapping;
+    /**
+     * Which GlyphRegion to display if a char isn't found in {@link #mapping}. May be null to show a space by default.
+     */
     public GlyphRegion defaultValue;
+    /**
+     * The larger TextureRegions that {@link GlyphRegion} images are pulled from; these could be whole Textures or be
+     * drawn from a TextureAtlas that the font shares with other images.
+     */
     public Array<TextureRegion> parents;
+    /**
+     * A {@link DistanceFieldType} that should be {@link DistanceFieldType#STANDARD} for most fonts, and can be
+     * {@link DistanceFieldType#SDF} or {@link DistanceFieldType#MSDF} if you know you have a font made to be used with
+     * one of those rendering techniques. See {@link #distanceFieldCrispness} for one way to configure SDF and MSDF
+     * fonts, and {@link #resizeDistanceField(int, int)} for a convenience method to handle window-resizing sharply.
+     */
     public DistanceFieldType distanceField;
+    /**
+     * If true, this is a fixed-width (monospace) font; if false, this is probably a variable-width font. This affects
+     * some rendering decisions Font makes, such as whether subscript chars should take up half-width (for variable
+     * fonts) or full-width (for monospace).
+     */
     public boolean isMono;
+    /**
+     * Unlikely to be used externally, this is one way of storing the kerning information that some fonts have. Kerning
+     * can improve the appearance of variable-width fonts, and is always null for monospace fonts. This uses a
+     * combination of two chars as a key (the earlier char is in the upper 16 bits, and the later char is in the lower
+     * 16 bits). Each such combination that has a special kerning value (not the default 0) has an int associated with
+     * it, which applies to the x-position of the later char.
+     */
     public IntIntMap kerning;
     /**
      * When {@link #distanceField} is {@link DistanceFieldType#SDF} or {@link DistanceFieldType#MSDF}, this determines
@@ -211,28 +241,24 @@ public class Font implements Disposable {
      * Determines how colors are looked up by name; defaults to using {@link Colors}.
      */
     public ColorLookup colorLookup = ColorLookup.GdxColorLookup.INSTANCE;
-
+    /** Bit flag for bold mode, as a long. */
+    public static final long BOLD = 1L << 30;
+    /** Bit flag for oblique mode, as a long. */
+    public static final long OBLIQUE = 1L << 29;
+    /** Bit flag for underline mode, as a long. */
+    public static final long UNDERLINE = 1L << 28;
+    /** Bit flag for strikethrough mode, as a long. */
+    public static final long STRIKETHROUGH = 1L << 27;
+    /** Bit flag for subscript mode, as a long. */
+    public static final long SUBSCRIPT = 1L << 25;
+    /** Bit flag for midscript mode, as a long. */
+    public static final long MIDSCRIPT = 2L << 25;
     /**
-     * Gets the ColorLookup this uses to look up colors by name.
-     * @return a ColorLookup implementation
+     * Two-bit flag for superscript mode, as a long.
+     * This can also be checked to see if it is non-zero, which it will be if any of
+     * {@link #SUBSCRIPT}, {@link #MIDSCRIPT}, or SUPERSCRIPT are enabled.
      */
-    public ColorLookup getColorLookup() {
-        return colorLookup;
-    }
-
-    /**
-     * Unlikely to be used in most games, this allows changing how colors are looked up by name (or built) given a
-     * {@link ColorLookup} interface implementation.
-     * @param lookup a non-null ColorLookup
-     */
-    public void setColorLookup(ColorLookup lookup){
-        if(lookup != null)
-            colorLookup = lookup;
-    }
-
-    public static final long BOLD = 1L << 30, OBLIQUE = 1L << 29,
-            UNDERLINE = 1L << 28, STRIKETHROUGH = 1L << 27,
-            SUBSCRIPT = 1L << 25, MIDSCRIPT = 2L << 25, SUPERSCRIPT = 3L << 25;
+    public static final long SUPERSCRIPT = 3L << 25;
 
     private final float[] vertices = new float[20];
     private final Layout tempLayout = Layout.POOL.obtain();
@@ -470,6 +496,24 @@ public class Font implements Disposable {
      */
     public static boolean isUpperCase(char c) {
         return Category.Lu.contains(c);
+    }
+
+    /**
+     * Gets the ColorLookup this uses to look up colors by name.
+     * @return a ColorLookup implementation
+     */
+    public ColorLookup getColorLookup() {
+        return colorLookup;
+    }
+
+    /**
+     * Unlikely to be used in most games, this allows changing how colors are looked up by name (or built) given a
+     * {@link ColorLookup} interface implementation.
+     * @param lookup a non-null ColorLookup
+     */
+    public void setColorLookup(ColorLookup lookup){
+        if(lookup != null)
+            colorLookup = lookup;
     }
 
     //// constructor section
