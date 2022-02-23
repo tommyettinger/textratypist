@@ -120,6 +120,66 @@ public class Font implements Disposable {
     }
 
     /**
+     * Holds up to 16 Font values, accessible by index or by name, that markup can switch between while rendering.
+     * This uses the [@Name] syntax. It is suggested that multiple Font objects share the same FontFamily so users can
+     * have the same names mean the same fonts reliably.
+     */
+    public static class FontFamily {
+        /**
+         * Stores this Font and up to 15 other connected Fonts that can be switched between using [@Name] syntax.
+         * If an item is null and this tries to switch to it, the font does not change.
+         */
+        public final Font[] connected = new Font[16];
+
+        /**
+         * Stores the names of Fonts (or aliases for those Fonts) as keys, mapped to ints between 0 and 15 inclusive.
+         * The int values that this map keeps are stored in long glyphs and looked up as indices in {@link #connected}.
+         */
+        public final ObjectIntMap<String> fontAliases = new ObjectIntMap<>(32);
+
+        /**
+         * Creates a FontFamily that only allows staying on the same font, unless later configured otherwise.
+         */
+        public FontFamily(){
+        }
+
+        /**
+         * Creates a FontFamily given an array of String names and a (almost-always same-sized) array of Font values
+         * that those names will refer to. This allows switching to different fonts using the [@Name] syntax. This
+         * also registers aliases for the Strings "0" through up to "15" to refer to the Font values with the same
+         * indices (it can register fewer aliases than up to "15" if there are fewer than 16 Fonts). You should avoid
+         * using more than 16 fonts with this.
+         * @param aliases a non-null array of up to 16 String names to use for fonts (individual items may be null)
+         * @param fonts a non-null array of Font values that should have the same length as aliases (no more than 16)
+         */
+        public FontFamily(String[] aliases, Font[] fonts){
+            this(aliases, fonts, 0, Math.min(aliases.length, fonts.length));
+        }
+
+        /**
+         * Creates a FontFamily given an array of String names, a (almost-always same-sized) array of Font values that
+         * those names will refer to, and offset/length values for those arrays (allowing {@link Array} to sometimes be
+         * used to get the items for aliases and fonts). This allows switching to different fonts using the [@Name]
+         * syntax. This also registers aliases for the Strings "0" through up to "15" to refer to the Font values with
+         * the same indices (it can register fewer aliases than up to "15" if there are fewer than 16 Fonts). You should
+         * avoid using more than 16 fonts with this.
+         * @param aliases an array of up to 16 String names to use for fonts (individual items may be null)
+         * @param fonts an array of Font values that should have the same length as aliases (no more than 16)
+         * @param offset where to start accessing aliases and fonts, as a non-negative index
+         * @param length how many items to use from aliases and fonts, if that many are provided
+         */
+        public FontFamily(String[] aliases, Font[] fonts, int offset, int length){
+            if(aliases == null || fonts == null || (aliases.length & fonts.length) == 0) return;
+            for (int i = offset, a = 0; i < length && i < aliases.length && i < fonts.length; i++, a++) {
+                connected[a & 15] = fonts[i];
+                fontAliases.put(aliases[i], a & 15);
+                fontAliases.put(String.valueOf(a & 15), a & 15);
+            }
+        }
+
+    }
+
+    /**
      * Defines what types of distance field font this can use and render.
      * STANDARD has no distance field.
      * SDF is the signed distance field technique Hiero is compatible with, and uses only an alpha channel.
