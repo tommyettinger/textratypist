@@ -1,6 +1,8 @@
 # textratypist
 Extra features for something like typing-label, with both effects and styles.
 
+This brings more features to text rendering in libGDX.
+
 What does this look like? A little something like this...
 ![Still preview](https://i.imgur.com/Xkcm92I.png)
 

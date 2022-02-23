@@ -153,7 +153,7 @@ public class Font implements Disposable {
     public IntMap<GlyphRegion> mapping;
     public GlyphRegion defaultValue;
     public Array<TextureRegion> parents;
-    public DistanceFieldType distanceField = DistanceFieldType.STANDARD;
+    public DistanceFieldType distanceField;
     public boolean isMono;
     public IntIntMap kerning;
     /**
@@ -349,7 +349,7 @@ public class Font implements Disposable {
      * Reads in a CharSequence containing only hex digits (only 0-9, a-f, and A-F) with an optional sign at the start
      * and returns the long they represent, reading at most 16 characters (17 if there is a sign) and returning the
      * result if valid, or 0 if nothing could be read. The leading sign can be '+' or '-' if present. This can also
-     * represent negative numbers as they are printed by such methods as String.format given a %x in the formatting
+     * represent negative numbers as they are printed by such methods as String.format given %x in the formatting
      * string; that is, if the first char of a 16-char (or longer)
      * CharSequence is a hex digit 8 or higher, then the whole number represents a negative number, using two's
      * complement and so on. This means "FFFFFFFFFFFFFFFF" would return the long -1 when passed to this, though you
@@ -360,7 +360,7 @@ public class Font implements Disposable {
      * Should be fairly close to Java 8's Long.parseUnsignedLong method, which is an odd omission from earlier JDKs.
      * This doesn't throw on invalid input, though, instead returning 0 if the first char is not a hex digit, or
      * stopping the parse process early if a non-hex-digit char is read before end is reached. If the parse is stopped
-     * early, this behaves as you would expect for a number with less digits, and simply doesn't fill the larger places.
+     * early, this behaves as you would expect for a number with fewer digits, and simply doesn't fill the larger places.
      * @param cs a CharSequence, such as a String, containing only hex digits with an optional sign (no 0x at the start)
      * @param start the (inclusive) first character position in cs to read
      * @param end the (exclusive) last character position in cs to read (this stops after 16 characters if end is too large)
@@ -408,7 +408,7 @@ public class Font implements Disposable {
      * just String data, and allows specifying a start and end. This doesn't throw on invalid input, either, instead
      * returning 0 if the first char is not a decimal digit, or stopping the parse process early if a non-decimal-digit
      * char is read before end is reached. If the parse is stopped early, this behaves as you would expect for a number
-     * with less digits, and simply doesn't fill the larger places.
+     * with fewer digits, and simply doesn't fill the larger places.
      * @param cs a CharSequence, such as a String, containing only digits 0-9 with an optional sign
      * @param start the (inclusive) first character position in cs to read
      * @param end the (exclusive) last character position in cs to read (this stops after 10 or 11 characters if end is too large, depending on sign)
@@ -586,12 +586,12 @@ public class Font implements Disposable {
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
             if (!shader.isCompiled())
-                Gdx.app.error("textramode", "MSDF shader failed to compile: " + shader.getLog());
+                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
         }
         else if(distanceField == DistanceFieldType.SDF){
             shader = DistanceFieldFont.createDistanceFieldShader();
             if(!shader.isCompiled())
-                Gdx.app.error("textramode", "SDF shader failed to compile: " + shader.getLog());
+                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
         loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust);
     }
@@ -640,12 +640,12 @@ public class Font implements Disposable {
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
             if (!shader.isCompiled())
-                Gdx.app.error("textramode", "MSDF shader failed to compile: " + shader.getLog());
+                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
         }
         else if(distanceField == DistanceFieldType.SDF){
             shader = DistanceFieldFont.createDistanceFieldShader();
             if(!shader.isCompiled())
-                Gdx.app.error("textramode", "SDF shader failed to compile: " + shader.getLog());
+                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
         FileHandle textureHandle;
         if ((textureHandle = Gdx.files.internal(textureName)).exists()
@@ -703,12 +703,12 @@ public class Font implements Disposable {
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
             if (!shader.isCompiled())
-                Gdx.app.error("textramode", "MSDF shader failed to compile: " + shader.getLog());
+                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
         }
         else if(distanceField == DistanceFieldType.SDF){
             shader = DistanceFieldFont.createDistanceFieldShader();
             if(!shader.isCompiled())
-                Gdx.app.error("textramode", "SDF shader failed to compile: " + shader.getLog());
+                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
         this.parents = Array.with(textureRegion);
         if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF) {
@@ -758,12 +758,12 @@ public class Font implements Disposable {
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
             if (!shader.isCompiled())
-                Gdx.app.error("textramode", "MSDF shader failed to compile: " + shader.getLog());
+                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
         }
         else if(distanceField == DistanceFieldType.SDF){
             shader = DistanceFieldFont.createDistanceFieldShader();
             if(!shader.isCompiled())
-                Gdx.app.error("textramode", "SDF shader failed to compile: " + shader.getLog());
+                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
         this.parents = textureRegions;
         if ((distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF)
@@ -804,12 +804,12 @@ public class Font implements Disposable {
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
             if (!shader.isCompiled())
-                Gdx.app.error("textramode", "MSDF shader failed to compile: " + shader.getLog());
+                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
         }
         else if(distanceField == DistanceFieldType.SDF){
             shader = DistanceFieldFont.createDistanceFieldShader();
             if(!shader.isCompiled())
-                Gdx.app.error("textramode", "SDF shader failed to compile: " + shader.getLog());
+                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
         this.parents = bmFont.getRegions();
         if ((distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF)
@@ -901,9 +901,9 @@ public class Font implements Disposable {
      * first, then a local handle) and loading any images specified in that file. This never uses a distance field
      * effect, and always tries to load one image by the path specified in the .font file.
      * @param fntName the path and filename of a .font file this will load; may be internal or local
-     * @param sadConsole the value is ignored here; the presence of this parameter says to load a SadConsole .font file
+     * @param ignoredSadConsoleFlag the value is ignored here; the presence of this parameter says to load a SadConsole .font file
      */
-    public Font(String fntName, boolean sadConsole) {
+    public Font(String fntName, boolean ignoredSadConsoleFlag) {
         this.distanceField = DistanceFieldType.STANDARD;
         loadSad(fntName);
     }
@@ -1378,7 +1378,7 @@ public class Font implements Disposable {
             int n = line.glyphs.size;
             drawn += n;
             if (kerning != null) {
-                int kern = -1, amt = 0;
+                int kern = -1, amt;
                 long glyph;
                 for (int i = 0; i < n; i++) {
                     kern = kern << 16 | (int) ((glyph = line.glyphs.get(i)) & 0xFFFF);
@@ -1464,7 +1464,7 @@ public class Font implements Disposable {
             x -= glyphs.width;
         if(kerning != null) {
             int kern = -1;
-            float amt = 0;
+            float amt;
             long glyph;
             for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
                 kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
@@ -1541,7 +1541,7 @@ public class Font implements Disposable {
         LongArray glyphs = line.glyphs;
         if (kerning != null) {
             int kern = -1;
-            float amt = 0;
+            float amt;
             long glyph;
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 kern = kern << 16 | (int) ((glyph = glyphs.get(i)) & 0xFFFF);
@@ -1583,12 +1583,12 @@ public class Font implements Disposable {
     public Line calculateSize(Line line) {
         float drawn = 0f;
         float storedScaleX = scaleX, storedScaleY = scaleY;
-        float scale = 1f;
+        float scale;
         LongArray glyphs = line.glyphs;
         boolean curly = false;
         if (kerning != null) {
             int kern = -1;
-            float amt = 0;
+            float amt;
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
@@ -1607,8 +1607,6 @@ public class Font implements Disposable {
                     continue;
                 }
                 kern = kern << 16 | ch;
-//                if(scale != (scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f))
-//                    System.out.println("Measured scale change: " + scale);
                 scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
                 line.height = Math.max(line.height, cellHeight * scale);
                 scaleX = storedScaleX * scale;
@@ -1644,8 +1642,6 @@ public class Font implements Disposable {
                 }
                 GlyphRegion tr = mapping.get(ch);
                 if(tr == null) continue;
-//                if(scale != (scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f))
-//                    System.out.println("Measured scale change: " + scale);
                 scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
                 line.height = Math.max(line.height, cellHeight * scale);
                 scaleX = storedScaleX * scale;
@@ -2273,7 +2269,8 @@ public class Font implements Disposable {
                             // here, the max lines have been reached, and an ellipsis may need to be added
                             // to the last line.
                             if(appendTo.ellipsis != null) {
-                                for (int j = earlier.glyphs.size - 1 - appendTo.ellipsis.length(); j >= 0; j--) {
+                                int j = earlier.glyphs.size - 1 - appendTo.ellipsis.length();
+                                if (j >= 0) {
                                     int leading = 0;
                                     long currE, curr;
                                     while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0) {
@@ -2711,13 +2708,13 @@ public class Font implements Disposable {
             Line line = changing.getLine(ln);
             line.height = 0;
             float drawn = 0f;
-            int cutoff = 0, breakPoint = -2, spacingPoint = -2, spacingSpan = 0;
+            int cutoff, breakPoint = -2, spacingPoint = -2, spacingSpan = 0;
             int scale;
             LongArray glyphs = line.glyphs;
             boolean hasMultipleGaps = false;
             if (kerning != null) {
                 int kern = -1;
-                float amt = 0;
+                float amt;
                 long glyph;
                 for (int i = 0, n = glyphs.size; i < n; i++) {
                     glyph = glyphs.get(i);
@@ -2857,8 +2854,8 @@ public class Font implements Disposable {
 
     /**
      * Given the new width and height for a window, this attempts to adjust the {@link #actualCrispness} of an
-     * SDF or MSDF font so that it will display cleanly at a different size. Note that this ignores any previous setting
-     * for this font's distanceFieldCrispness, so you may want to adjust that after each call.
+     * SDF or MSDF font so that it will display cleanly at a different size. This uses this font's
+     * {@link #distanceFieldCrispness} as a multiplier applied after calculating the initial crispness.
      * This is a suggestion for what to call in your {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      * method for each SDF or MSDF font you have currently rendering.
      * @param width the new window width; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}

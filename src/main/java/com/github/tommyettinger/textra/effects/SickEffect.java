@@ -71,7 +71,7 @@ public class SickEffect extends Effect {
             return;
 
         // Calculate offset
-        float interpolation = 0;
+        float interpolation;
         float split = 0.5f;
         if(progress < split) {
             interpolation = Interpolation.pow2Out.apply(0, 1, progress / split);
