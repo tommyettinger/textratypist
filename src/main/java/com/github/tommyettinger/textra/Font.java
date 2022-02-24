@@ -2543,11 +2543,11 @@ public class Font implements Disposable {
                     previousWasLetter = false;
                 }
                 float w;
-                if (kerning == null) {
+                if (font.kerning == null) {
                     w = (appendTo.peekLine().width += xAdvanceInternal(font, scaleX, current | ch));
                 } else {
                     kern = kern << 16 | (int) ((current | ch) & 0xFFFF);
-                    w = (appendTo.peekLine().width += xAdvanceInternal(font, scaleX, current | ch) + kerning.get(kern, 0) * scaleX);
+                    w = (appendTo.peekLine().width += xAdvanceInternal(font, scaleX, current | ch) + font.kerning.get(kern, 0) * scaleX);
                 }
                 appendTo.add(current | ch);
                 if((targetWidth > 0 && w > targetWidth) || appendTo.atLimit) {
@@ -2578,7 +2578,7 @@ public class Font implements Disposable {
                             }
                             float change = 0f, changeNext = 0f;
                             long currE;
-                            if (kerning == null) {
+                            if (font.kerning == null) {
                                 for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
                                     change += xAdvanceInternal(font, scaleX, earlier.glyphs.get(k));
                                     if ((e < ellipsis.length())) {
@@ -2593,11 +2593,11 @@ public class Font implements Disposable {
                                     curr = earlier.glyphs.get(k);
                                     k2 = k2 << 16 | (char) curr;
                                     float adv = xAdvanceInternal(font, scaleX, curr);
-                                    change += adv + kerning.get(k2, 0) * scaleX;
+                                    change += adv + font.kerning.get(k2, 0) * scaleX;
                                     if ((e < ellipsis.length())) {
                                         currE = baseColor | ellipsis.charAt(e);
                                         k2e = k2e << 16 | (char) currE;
-                                        changeNext += xAdvanceInternal(font, scaleX, currE) + kerning.get(k2e, 0) * scaleX;
+                                        changeNext += xAdvanceInternal(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX;
                                     }
                                 }
                             }
@@ -2631,7 +2631,7 @@ public class Font implements Disposable {
                                 }
                                 glyphBuffer.clear();
                                 float change = 0f, changeNext = 0f;
-                                if (kerning == null) {
+                                if (font.kerning == null) {
                                     boolean curly = false;
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
@@ -2680,10 +2680,10 @@ public class Font implements Disposable {
                                         }
                                         k2 = k2 << 16 | (char) curr;
                                         float adv = xAdvanceInternal(font, scaleX, curr);
-                                        change += adv + kerning.get(k2, 0) * scaleX;
+                                        change += adv + font.kerning.get(k2, 0) * scaleX;
                                         if (--leading < 0) {
                                             k3 = k3 << 16 | (char) curr;
-                                            changeNext += adv + kerning.get(k3, 0) * scaleX;
+                                            changeNext += adv + font.kerning.get(k3, 0) * scaleX;
                                             glyphBuffer.add(curr);
                                         }
                                     }
@@ -2695,16 +2695,15 @@ public class Font implements Disposable {
                                 later.width = changeNext;
                                 earlier.width -= change;
                                 later.glyphs.addAll(glyphBuffer);
-                                later.height = Math.max(later.height, cellHeight * (scale + 1) * 0.25f);
+                                later.height = Math.max(later.height, font.cellHeight * (scale + 1) * 0.25f);
                                 break;
                             }
                         }
                     }
                 }
                 else {
-                    appendTo.peekLine().height = Math.max(appendTo.peekLine().height, cellHeight * (scale + 1) * 0.25f);
+                    appendTo.peekLine().height = Math.max(appendTo.peekLine().height, font.cellHeight * (scale + 1) * 0.25f);
                 }
-
             }
         }
 
@@ -2754,7 +2753,7 @@ public class Font implements Disposable {
      * @return a long that encodes the given char with the specified markup
      */
     public long markupGlyph(char chr, String markup) {
-        return markupGlyph(chr, markup, colorLookup);
+        return markupGlyph(chr, markup, colorLookup, family);
     }
     /**
      * Reads markup from {@code markup}, processes it, and applies it to the given char {@code chr}; returns a long
@@ -2798,6 +2797,50 @@ public class Font implements Disposable {
      * @return a long that encodes the given char with the specified markup
      */
     public static long markupGlyph(char chr, String markup, ColorLookup colorLookup) {
+        return markupGlyph(chr, markup, colorLookup, null);
+    }
+    /**
+     * Reads markup from {@code markup}, processes it, and applies it to the given char {@code chr}; returns a long
+     * in the format used for styled glyphs here. This parses an extension of libGDX markup and uses it to determine
+     * color, size, position, shape, strikethrough, underline, case, and scale of the given char.
+     * The char drawn will start in white, with the normal size as determined by the font's metrics and scale
+     * ({@link #scaleX} and {@link #scaleY}), normal case, and without bold, italic, superscript, subscript,
+     * strikethrough, or underline. Markup starts with {@code [}; the next character determines what that piece of
+     * markup toggles. Markup this knows:
+     * <ul>
+     *     <li>{@code []} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code [*]} toggles bold mode.</li>
+     *     <li>{@code [/]} toggles italic (technically, oblique) mode.</li>
+     *     <li>{@code [^]} toggles superscript mode (and turns off subscript or midscript mode).</li>
+     *     <li>{@code [=]} toggles midscript mode (and turns off superscript or subscript mode).</li>
+     *     <li>{@code [.]} toggles subscript mode (and turns off superscript or midscript mode).</li>
+     *     <li>{@code [_]} toggles underline mode.</li>
+     *     <li>{@code [~]} toggles strikethrough mode.</li>
+     *     <li>{@code [!]} toggles all upper case mode.</li>
+     *     <li>{@code [,]} toggles all lower case mode.</li>
+     *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
+     *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
+     *     the nearest 25% mark).</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100% (this usually has no effect here).</li>
+     *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
+     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
+     *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
+     *     looking up colors with names that contain punctuation.</li>
+     * </ul>
+     * You can render the result using {@link #drawGlyph(Batch, long, float, float)}. It is recommended that you avoid
+     * calling this method every frame, because the color lookups usually allocate some memory, and because this can
+     * usually be stored for later without needing repeated computation.
+     * <br>
+     * This takes a ColorLookup so that it can look up colors given a name or description; if you don't know what to
+     * use, then {@link ColorLookup.GdxColorLookup#INSTANCE} is often perfectly fine. Because this is static, it does
+     * not need a Font to be involved.
+     * @param chr a single char to apply markup to
+     * @param markup a String containing only markup syntax, like "[*][_][RED]" for bold underline in red
+     * @param colorLookup a ColorLookup (often a method reference or {@link ColorLookup.GdxColorLookup#INSTANCE}) to get
+     *                   colors from textual names or descriptions
+     * @return a long that encodes the given char with the specified markup
+     */
+    public static long markupGlyph(char chr, String markup, ColorLookup colorLookup, FontFamily family) {
         boolean capsLock = false, lowerCase = false;
         int c;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
@@ -2860,6 +2903,13 @@ public class Font implements Disposable {
                                 current = (current & 0xFFFFFFFFFF0FFFFFL) | ((((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
                             else
                                 current = (current & 0xFFFFFFFFFF0FFFFFL);
+                            break;
+                        case '@':
+                            if(family == null){
+                                break;
+                            }
+                            int fontIndex = family.fontAliases.get(markup.substring(i + 1, i + len), 0);
+                            current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
                             break;
                         case '#':
                             if (len >= 7 && len < 9)
