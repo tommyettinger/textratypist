@@ -2262,9 +2262,9 @@ public class Font implements Disposable {
     public Layout markup(String text, Layout appendTo) {
         boolean capitalize = false, previousWasLetter = false,
                 capsLock = false, lowerCase = false;
-        int c, scale = 3;
-        float storedScaleX = scaleX, storedScaleY = scaleY;
-        float scaleX = storedScaleX, scaleY = storedScaleY;
+        int c, scale = 3, fontIndex = -1;
+        Font font = this;
+        float scaleX;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
         long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(appendTo.getBaseColor())) & COLOR_MASK;
         long color = baseColor;
@@ -2278,20 +2278,31 @@ public class Font implements Disposable {
         float targetWidth = appendTo.getTargetWidth();
         int kern = -1;
         for (int i = 0, n = text.length(); i < n; i++) {
-            scaleX = storedScaleX * (scale + 1) * 0.25f;
-            scaleY = storedScaleY * (scale + 1) * 0.25f;
+            scaleX = font.scaleX * (scale + 1) * 0.25f;
             if(text.charAt(i) == '{') {
                 int start = i;
                 if (i+1 < n && text.charAt(i+1) != '{') {
-                    int sizeChange = -1;
+                    int sizeChange = -1, fontChange = -1;
                     int end = text.indexOf('}', i);
                     for (; i < n && i <= end; i++) {
                         c = text.charAt(i);
                         appendTo.add(current | c);
-                        if(c == '%') sizeChange = i;
+                        if(c == '@') fontChange = i;
+                        else if(c == '%') sizeChange = i;
                     }
                     if(start + 1 == end || "RESET".equalsIgnoreCase(text.substring(start+1, end)))
+                    {
                         scale = 3;
+                        font = this;
+                    }
+                    else if(fontChange >= 0 && family != null) {
+                        fontIndex = family.fontAliases.get(text.substring(fontChange + 1, end), -1);
+                        if (fontIndex == -1) font = this;
+                        else {
+                            font = family.connected[fontIndex];
+                            if (font == null) font = this;
+                        }
+                    }
                     else if(sizeChange >= 0) {
                         if (sizeChange + 1 == end) {
                             int eq = text.indexOf('=', start);
@@ -2313,6 +2324,7 @@ public class Font implements Disposable {
                         color = baseColor;
                         current = color;
                         scale = 3;
+                        font = this;
                         capitalize = false;
                         capsLock = false;
                         lowerCase = false;
@@ -2685,8 +2697,6 @@ public class Font implements Disposable {
 
             }
         }
-        this.scaleX = storedScaleX;
-        this.scaleY = storedScaleY;
 
 //        for (int i = 0; i < appendTo.lines(); i++) {
 //            calculateSize(appendTo.getLine(i));
