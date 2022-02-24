@@ -2620,8 +2620,24 @@ public class Font implements Disposable {
                                     }
                                 } else {
                                     int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF), k3 = -1;
+                                    boolean curly = false;
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
+                                        if(curly){
+                                            if((char)curr == '{'){
+                                                curly = false;
+                                            }
+                                            else if((char)curr == '}'){
+                                                curly = false;
+                                                continue;
+                                            }
+                                            else continue;
+                                        }
+                                        if((char)curr == '{')
+                                        {
+                                            curly = true;
+                                            continue;
+                                        }
                                         k2 = k2 << 16 | (char) curr;
                                         float adv = xAdvanceInternal(scaleX, curr);
                                         change += adv + kerning.get(k2, 0) * scaleX;
