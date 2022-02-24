@@ -1600,30 +1600,30 @@ public class Font implements Disposable {
      * @return the number of glyphs drawn
      */
     public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align) {
-        if(glyphs == null) return 0;
+        if (glyphs == null) return 0;
         float drawn = 0f;
-        if(Align.isCenterHorizontal(align))
+        if (Align.isCenterHorizontal(align))
             x -= glyphs.width * 0.5f;
-        else if(Align.isRight(align))
+        else if (Align.isRight(align))
             x -= glyphs.width;
-        if(kerning != null) {
-            int kern = -1;
-            float amt;
-            long glyph;
-            for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
-                kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
-                amt = kerning.get(kern, 0) * scaleX;
-                float single = drawGlyph(batch, glyph, x + amt, y) + amt;
-                x += single;
-                drawn += single;
+        int kern = -1;
+        long glyph;
+        float single;
+        for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
+            glyph = glyphs.glyphs.get(i);
+            Font font = null;
+            if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
+            if(font == null) font = this;
+
+            if (font.kerning != null) {
+                kern = kern << 16 | (int) (glyph & 0xFFFF);
+                float amt = font.kerning.get(kern, 0) * font.scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+                single = drawGlyph(batch, glyph, x + amt, y) + amt;
+            } else {
+                single = drawGlyph(batch, glyph, x, y);
             }
-        }
-        else {
-            for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
-                float single = drawGlyph(batch, glyphs.glyphs.get(i), x, y);
-                x += single;
-                drawn += single;
-            }
+            x += single;
+            drawn += single;
         }
         return drawn;
     }
@@ -1816,14 +1816,18 @@ public class Font implements Disposable {
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text
      */
     public float drawGlyph(Batch batch, long glyph, float x, float y) {
-        GlyphRegion tr = mapping.get((char) glyph);
+        Font font = null;
+        if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
+        if(font == null) font = this;
+
+        GlyphRegion tr = font.mapping.get((char) glyph);
         if (tr == null) return 0f;
         Texture tex = tr.getTexture();
         float x0 = 0f, x1 = 0f, x2 = 0f, x3 = 0f;
         float y0 = 0f, y1 = 0f, y2 = 0f, y3 = 0f;
         float scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
-        float scaleX = this.scaleX * scale;
-        float scaleY = this.scaleY * scale;
+        float scaleX = font.scaleX * scale;
+        float scaleY = font.scaleY * scale;
 
         float color = NumberUtils.intBitsToFloat(((int)(batch.getColor().a * (glyph >>> 33 & 127)) << 25)
                 | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
@@ -1834,12 +1838,12 @@ public class Font implements Disposable {
         u2 = tr.getU2();
         v2 = tr.getV2();
         float w = tr.getRegionWidth() * scaleX, changedW = tr.xAdvance * scaleX, h = tr.getRegionHeight() * scaleY;
-        if (isMono) {
+        if (font.isMono) {
             changedW += tr.offsetX * scaleX;
         } else {
             x += tr.offsetX * scaleX;
         }
-        float yt = y + cellHeight * scale - h - tr.offsetY * scaleY;
+        float yt = y + font.cellHeight * scale - h - tr.offsetY * scaleY;
         if ((glyph & OBLIQUE) != 0L) {
             x0 += h * 0.2f;
             x1 -= h * 0.2f;
@@ -1847,7 +1851,7 @@ public class Font implements Disposable {
             x3 += h * 0.2f;
         }
         final long script = (glyph & SUPERSCRIPT);
-        float scaledHeight = cellHeight * scale;
+        float scaledHeight = font.cellHeight * scale;
         if (script == SUPERSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
@@ -1856,7 +1860,7 @@ public class Font implements Disposable {
             y1 += scaledHeight * 0.375f;
             y2 += scaledHeight * 0.375f;
             y3 += scaledHeight * 0.375f;
-            if(!isMono)
+            if(!font.isMono)
                 changedW *= 0.5f;
         }
         else if (script == SUBSCRIPT) {
@@ -1867,7 +1871,7 @@ public class Font implements Disposable {
             y1 -= scaledHeight * 0.125f;
             y2 -= scaledHeight * 0.125f;
             y3 -= scaledHeight * 0.125f;
-            if(!isMono)
+            if(!font.isMono)
                 changedW *= 0.5f;
         }
         else if(script == MIDSCRIPT) {
@@ -1878,7 +1882,7 @@ public class Font implements Disposable {
             y1 += scaledHeight * 0.125f;
             y2 += scaledHeight * 0.125f;
             y3 += scaledHeight * 0.125f;
-            if(!isMono)
+            if(!font.isMono)
                 changedW *= 0.5f;
         }
 
@@ -1927,20 +1931,15 @@ public class Font implements Disposable {
             vertices[10] += 1f;
             vertices[15] += 1f;
             batch.draw(tex, vertices, 0, 20);
-
         }
         if ((glyph & UNDERLINE) != 0L) {
-            final GlyphRegion under = mapping.get('_');
+            final GlyphRegion under = font.mapping.get('_');
             if (under != null) {
-//                final float underU = under.getU(),
-//                        underV = under.getV() + iw,
-//                        underU2 = under.getU2(),
-//                        underV2 = under.getV2() - iw,
                 final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.5f,
                         underV = under.getV(),
                         underU2 = underU + iw,
                         underV2 = under.getV2(),
-                        hu = under.getRegionHeight() * scaleY, yu = y + cellHeight * scale - hu - under.offsetY * scaleY;
+                        hu = under.getRegionHeight() * scaleY, yu = y + font.cellHeight * scale - hu - under.offsetY * scaleY;
                 x0 = x + scaleX * under.offsetX + scale;
                 vertices[0] = x0 - scale;
                 vertices[1] = yu + hu;
@@ -1969,13 +1968,13 @@ public class Font implements Disposable {
             }
         }
         if ((glyph & STRIKETHROUGH) != 0L) {
-            final GlyphRegion dash = mapping.get('-');
+            final GlyphRegion dash = font.mapping.get('-');
             if (dash != null) {
                 final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.5f,
                         dashV = dash.getV(),
                         dashU2 = dashU + iw,
                         dashV2 = dash.getV2(),
-                        hd = dash.getRegionHeight() * scaleY, yd = y + cellHeight * scale - hd - dash.offsetY * scaleY;
+                        hd = dash.getRegionHeight() * scaleY, yd = y + font.cellHeight * scale - hd - dash.offsetY * scaleY;
                 x0 = x + scaleX * dash.offsetX + scale;
                 vertices[0] = x0 - scale;
                 vertices[1] = yd + hd;
@@ -2026,11 +2025,15 @@ public class Font implements Disposable {
         final float sin = MathUtils.sinDeg(rotation);
         final float cos = MathUtils.cosDeg(rotation);
 
-        GlyphRegion tr = mapping.get((char) glyph);
+        Font font = null;
+        if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
+        if(font == null) font = this;
+
+        GlyphRegion tr = font.mapping.get((char) glyph);
         if (tr == null) return 0f;
         float scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
-        float scaleX = this.scaleX * scale;
-        float scaleY = this.scaleY * scale;
+        float scaleX = font.scaleX * scale;
+        float scaleY = font.scaleY * scale;
         Texture tex = tr.getTexture();
         float x0 = 0f;
         float x1 = 0f;
@@ -2047,12 +2050,12 @@ public class Font implements Disposable {
         u2 = tr.getU2();
         v2 = tr.getV2();
         float w = tr.getRegionWidth() * scaleX, changedW = tr.xAdvance * scaleX, h = tr.getRegionHeight() * scaleY;
-        if (isMono) {
+        if (font.isMono) {
             changedW += tr.offsetX * scaleX;
         } else {
             x += tr.offsetX * scaleX;
         }
-        float yt = y + cellHeight * scale - h - tr.offsetY * scaleY;
+        float yt = y + font.cellHeight * scale - h - tr.offsetY * scaleY;
         if ((glyph & OBLIQUE) != 0L) {
             x0 += h * 0.2f;
             x1 -= h * 0.2f;
@@ -2062,28 +2065,28 @@ public class Font implements Disposable {
         if (script == SUPERSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            y1 += cellHeight * 0.375f;
-            y2 += cellHeight * 0.375f;
-            y0 += cellHeight * 0.375f;
-            if(!isMono)
+            y1 += font.cellHeight * 0.375f;
+            y2 += font.cellHeight * 0.375f;
+            y0 += font.cellHeight * 0.375f;
+            if(!font.isMono)
                 changedW *= 0.5f;
         }
         else if (script == SUBSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            y1 -= cellHeight * 0.125f;
-            y2 -= cellHeight * 0.125f;
-            y0 -= cellHeight * 0.125f;
-            if(!isMono)
+            y1 -= font.cellHeight * 0.125f;
+            y2 -= font.cellHeight * 0.125f;
+            y0 -= font.cellHeight * 0.125f;
+            if(!font.isMono)
                 changedW *= 0.5f;
         }
         else if(script == MIDSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            y0 += cellHeight * 0.125f;
-            y1 += cellHeight * 0.125f;
-            y2 += cellHeight * 0.125f;
-            if(!isMono)
+            y0 += font.cellHeight * 0.125f;
+            y1 += font.cellHeight * 0.125f;
+            y2 += font.cellHeight * 0.125f;
+            if(!font.isMono)
                 changedW *= 0.5f;
         }
 
@@ -2148,13 +2151,13 @@ public class Font implements Disposable {
             batch.draw(tex, vertices, 0, 20);
         }
         if ((glyph & UNDERLINE) != 0L) {
-            final GlyphRegion under = mapping.get('_');
+            final GlyphRegion under = font.mapping.get('_');
             if (under != null) {
                 final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.25f,
                         underV = under.getV(),
                         underU2 = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.75f,
                         underV2 = under.getV2(),
-                        hu = under.getRegionHeight() * scaleY, yu = y + cellHeight * scale - hu - under.offsetY * scaleY;
+                        hu = under.getRegionHeight() * scaleY, yu = y + font.cellHeight * scale - hu - under.offsetY * scaleY;
                 vertices[2] = color;
                 vertices[3] = underU;
                 vertices[4] = underV;
@@ -2184,13 +2187,13 @@ public class Font implements Disposable {
             }
         }
         if ((glyph & STRIKETHROUGH) != 0L) {
-            final GlyphRegion dash = mapping.get('-');
+            final GlyphRegion dash = font.mapping.get('-');
             if (dash != null) {
                 final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.625f,
                         dashV = dash.getV(),
                         dashU2 = dashU + iw,
                         dashV2 = dash.getV2(),
-                        hd = dash.getRegionHeight() * scaleY, yd = y + cellHeight * scale - hd - dash.offsetY * scaleY;
+                        hd = dash.getRegionHeight() * scaleY, yd = y + font.cellHeight * scale - hd - dash.offsetY * scaleY;
                 x0 = x - (dash.offsetX);
                 vertices[2] = color;
                 vertices[3] = dashU;
