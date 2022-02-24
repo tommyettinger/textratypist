@@ -2610,8 +2610,26 @@ public class Font implements Disposable {
                                 glyphBuffer.clear();
                                 float change = 0f, changeNext = 0f;
                                 if (kerning == null) {
+                                    boolean curly = false;
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
-                                        float adv = xAdvanceInternal(scaleX, curr = earlier.glyphs.get(k));
+                                        curr = earlier.glyphs.get(k);
+                                        if(curly){
+                                            if((char)curr == '{'){
+                                                curly = false;
+                                            }
+                                            else if((char)curr == '}'){
+                                                curly = false;
+                                                continue;
+                                            }
+                                            else continue;
+                                        }
+                                        if((char)curr == '{')
+                                        {
+                                            curly = true;
+                                            continue;
+                                        }
+
+                                        float adv = xAdvanceInternal(scaleX, curr);
                                         change += adv;
                                         if (--leading < 0) {
                                             glyphBuffer.add(curr);
@@ -2670,9 +2688,9 @@ public class Font implements Disposable {
         this.scaleX = storedScaleX;
         this.scaleY = storedScaleY;
 
-        for (int i = 0; i < appendTo.lines(); i++) {
-            calculateSize(appendTo.getLine(i));
-        }
+//        for (int i = 0; i < appendTo.lines(); i++) {
+//            calculateSize(appendTo.getLine(i));
+//        }
 
         return appendTo;
     }
