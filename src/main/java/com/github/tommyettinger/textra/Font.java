@@ -2394,6 +2394,16 @@ public class Font implements Disposable {
                                 color = baseColor;
                             current = (current & ~COLOR_MASK) | color;
                             break;
+                        case '@':
+                            if(family == null){
+                                font = this;
+                                break;
+                            }
+                            fontIndex = family.fontAliases.get(text.substring(i + 1, i + len), 0);
+                            current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
+                            font = family.connected[fontIndex & 15];
+                            if(font == null) font = this;
+                            break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
                             int lookupColor = colorLookup.getRgba(text.substring(i + 1, i + len));
