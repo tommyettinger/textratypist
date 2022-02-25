@@ -110,20 +110,32 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     }
 
     public TypingLabel createTypingLabel() {
+        Font.FontFamily family = new Font.FontFamily(
+                new String[]{
+                        "Serif", "OpenSans", "Cozette", "KingThings",
+                },
+                new Font[]{
+                        new Font("LibertinusSerif.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scaleTo(32, 38).adjustLineHeight(0.8f).setTextureFilter(),
+                        new Font("OpenSans.fnt", Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f).scaleTo(25, 32).adjustLineHeight(0.7f).setTextureFilter(),
+                        KnownFonts.getCozette().scale(2, 2),
+                        KnownFonts.getKingthingsFoundation().scaleTo(25, 34).setTextureFilter(),
+                });
+        Font font = family.connected[0].setFamily(family);
+
+//        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
         // Create label
 //        final TypingLabel label = new TypingLabel("WELCOME {STYLE=OBLIQUE}TO THE {STYLE=bold}{COLOR=11bb00}JUNGLE{RESET}, WE'VE GOT A MAN, A PLAN, A CANAL: PANAMA!",
-        final TypingLabel label = new TypingLabel("{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]{STYLE=bold}STORM{RESET} on the way, she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}," +
-                "whippin' her way through the [*]whole dang[*] town! Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, this [%150]storm[%] will be there on clouds [%75]one[%] through [%200]eight[%]!",
+        final TypingLabel label = new TypingLabel("{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@KingThings]STORM{RESET} on the way, she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}," +
+                "whippin' her way through the [@OpenSans]whole dang[@] town! Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, this [%150]storm[%] will be there on clouds [%75]one[%] through [%200]eight[%]!",
 //        final TypingLabel label = new TypingLabel("[/][*][GREEN]JUNGLE[*][WHITE] TO THE[/] WELCOME!",
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!",
-                new Font(new BitmapFont(Gdx.files.internal("OpenSans.fnt")), Font.DistanceFieldType.STANDARD,
-                        0f, 0f, 0f, 0f).scale(0.5f, 0.5f).setTextureFilter());
+                font);
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!", skin);
 //        final TypingLabel label = new TypingLabel("{WAIT=1}{SLOWER}Welcome, {VAR=title}!", skin);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 
         // Make the label wrap to new lines, respecting the table's layout.
-//        label.wrap = true;
+        label.wrap = true;
         label.layout.maxLines = 15;
         label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth() - 100);
 
