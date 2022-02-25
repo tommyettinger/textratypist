@@ -2947,7 +2947,8 @@ public class Font implements Disposable {
         if(changing.font == null || !changing.font.equals(this)) {
             return changing;
         }
-        float storedScaleX = scaleX, storedScaleY = scaleY;
+        Font font = null;
+        float scaleX;
         float targetWidth = changing.getTargetWidth();
         int oldLength = changing.lines.size;
         Line firstLine = changing.getLine(0);
@@ -2970,22 +2971,23 @@ public class Font implements Disposable {
                 long glyph;
                 for (int i = 0, n = glyphs.size; i < n; i++) {
                     glyph = glyphs.get(i);
+                    if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
+                    if(font == null) font = this;
                     if((glyph & 0xFFFFL) == '\n') {
                         glyphs.set(i, glyph ^= 42L);
                     }
                     scale = (int) (glyph + 0x300000L >>> 20 & 15);
-                    line.height = Math.max(line.height, cellHeight * (scale + 1) * 0.25f);
-                    scaleX = storedScaleX * (scale + 1) * 0.25f;
-                    scaleY = storedScaleY * (scale + 1) * 0.25f;
+                    line.height = Math.max(line.height, font.cellHeight * (scale + 1) * 0.25f);
+                    scaleX = font.scaleX * (scale + 1) * 0.25f;
                     kern = kern << 16 | (int) (glyph & 0xFFFF);
-                    amt = kerning.get(kern, 0) * scaleX;
-                    GlyphRegion tr = mapping.get((char)glyph);
+                    amt = font.kerning.get(kern, 0) * scaleX;
+                    GlyphRegion tr = font.mapping.get((char)glyph);
                     if(tr == null) continue;
                     float changedW = tr.xAdvance * scaleX;
-                    if (isMono) {
+                    if (font.isMono) {
                         changedW += tr.offsetX * scaleX;
                     }
-                    if(!isMono && (glyph & SUPERSCRIPT) != 0L)
+                    if(!font.isMono && (glyph & SUPERSCRIPT) != 0L)
                         changedW *= 0.5f;
                     if (glyph >>> 32 == 0L){
                         hasMultipleGaps = breakPoint >= 0;
@@ -3021,7 +3023,7 @@ public class Font implements Disposable {
                             glyphs.truncate(cutoff);
                             break;
                         }
-                        next.height = Math.max(next.height, cellHeight * (scale + 1) * 0.25f);
+                        next.height = Math.max(next.height, font.cellHeight * (scale + 1) * 0.25f);
 
                         int nextSize = next.glyphs.size;
                         long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
@@ -3036,20 +3038,21 @@ public class Font implements Disposable {
             } else {
                 for (int i = 0, n = glyphs.size; i < n; i++) {
                     long glyph = glyphs.get(i);
+                    if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
+                    if(font == null) font = this;
                     if((glyph & 0xFFFFL) == '\n') {
                         glyphs.set(i, glyph ^= 42L);
                     }
                     scale = (int) (glyph + 0x300000L >>> 20 & 15);
-                    line.height = Math.max(line.height, cellHeight * (scale + 1) * 0.25f);
-                    scaleX = storedScaleX * (scale + 1) * 0.25f;
-                    scaleY = storedScaleY * (scale + 1) * 0.25f;
-                    GlyphRegion tr = mapping.get((char)glyph);
+                    line.height = Math.max(line.height, font.cellHeight * (scale + 1) * 0.25f);
+                    scaleX = font.scaleX * (scale + 1) * 0.25f;
+                    GlyphRegion tr = font.mapping.get((char)glyph);
                     if(tr == null) continue;
                     float changedW = tr.xAdvance * scaleX;
-                    if (isMono) {
+                    if (font.isMono) {
                         changedW += tr.offsetX * scaleX;
                     }
-                    if(!isMono && (glyph & SUPERSCRIPT) != 0L)
+                    if(!font.isMono && (glyph & SUPERSCRIPT) != 0L)
                         changedW *= 0.5f;
                     if (glyph >>> 32 == 0L){
                         hasMultipleGaps = breakPoint >= 0;
@@ -3084,7 +3087,7 @@ public class Font implements Disposable {
                             glyphs.truncate(cutoff);
                             break;
                         }
-                        next.height = Math.max(next.height, cellHeight * (scale + 1) * 0.25f);
+                        next.height = Math.max(next.height, font.cellHeight * (scale + 1) * 0.25f);
 
                         int nextSize = next.glyphs.size;
                         long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
@@ -3099,8 +3102,6 @@ public class Font implements Disposable {
             }
             line.width = drawn;
         }
-        scaleX = storedScaleX;
-        scaleY = storedScaleY;
         return changing;
     }
 
