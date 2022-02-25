@@ -115,18 +115,27 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                         "Serif", "OpenSans", "Cozette", "KingThings",
                 },
                 new Font[]{
-                        new Font("LibertinusSerif.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scaleTo(32, 38).adjustLineHeight(0.8f).setTextureFilter(),
-                        new Font("OpenSans.fnt", Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f).scaleTo(25, 32).adjustLineHeight(0.7f).setTextureFilter(),
-                        KnownFonts.getCozette().scale(2, 2),
-                        KnownFonts.getKingthingsFoundation().scaleTo(25, 34).setTextureFilter(),
+//                        KnownFonts.getYanoneKaffeesatz().scaleTo(29, 40).setTextureFilter(),
+//                        new Font("LibertinusSerif.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scaleTo(32, 38).adjustLineHeight(0.8f).setTextureFilter(),
+                        new Font("Gentium.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scaleTo(49, 43).scale(1.15f, 1.15f).adjustLineHeight(0.8f).setTextureFilter(),
+                        new Font("OpenSans.fnt", Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f).scaleTo(23, 35).scale(1.15f, 1.15f).adjustLineHeight(0.7f).setTextureFilter(),
+                        KnownFonts.getCozette().scale(2.5f, 2.5f),
+                        KnownFonts.getKingthingsFoundation().scaleTo(25, 34).scale(1.15f, 1.15f).setTextureFilter(),
                 });
         Font font = family.connected[0].setFamily(family);
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
         // Create label
 //        final TypingLabel label = new TypingLabel("WELCOME {STYLE=OBLIQUE}TO THE {STYLE=bold}{COLOR=11bb00}JUNGLE{RESET}, WE'VE GOT A MAN, A PLAN, A CANAL: PANAMA!",
-        final TypingLabel label = new TypingLabel("{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@KingThings]STORM{RESET} on the way, she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}," +
-                "whippin' her way through the [@OpenSans]whole dang[@] town! Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, this [%150]storm[%] will be there on clouds [%75]one[%] through [%200]eight[%]!",
+
+        // There's a strange bug that can happen with the WIND effect, but it only seems to happen when the affected
+        // text wraps across lines... Not totally sure what's happening.
+        final TypingLabel label = new TypingLabel(
+                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@KingThings]STORM{RESET} on the way, " +
+                "she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
+                "whippin' her way through the [@OpenSans]whole dang[@] town! " +
+                "Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, " +
+                "this [%150]storm[%] will be there on clouds [%75]one[%] through [%200]eight[%]!",
 //        final TypingLabel label = new TypingLabel("[/][*][GREEN]JUNGLE[*][WHITE] TO THE[/] WELCOME!",
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!",
                 font);
