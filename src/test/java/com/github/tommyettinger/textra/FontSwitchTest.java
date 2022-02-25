@@ -39,21 +39,22 @@ public class FontSwitchTest extends ApplicationAdapter {
         colorNames = Colors.getColors().keys().toArray();
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{
-                        "Gentium", "OpenSans", "Cozette"
+                        "Gentium", "OpenSans", "Cozette", "KingThings",
                 },
                 new Font[]{
                         new Font("Gentium.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scaleTo(47, 40).adjustLineHeight(0.8f).setTextureFilter(),
-                        new Font("OpenSans.fnt", Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f).scaleTo(35, 40).setTextureFilter(),
-                        KnownFonts.getCozette().scale(2, 2)
+                        new Font("OpenSans.fnt", Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f).scaleTo(25, 32).adjustLineHeight(0.7f).setTextureFilter(),
+                        KnownFonts.getCozette().scale(2, 2),
+                        KnownFonts.getKingthingsFoundation().scaleTo(25, 34).setTextureFilter(),
                 });
         font = family.connected[0].setFamily(family);
         layout.setBaseColor(Color.DARK_GRAY);
         layout.setMaxLines(20);
         layout.setEllipsis("...");
         font.markup("@ Fonts can be rendered normally, but using [@Cozette][[tags][@], you can..."
-                + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
-                + "\n[FOREST]...use named colors from the Colors class, like [/]FOREST[/]...[]"
-                + "\n[_]...and use [!]effects[!][_]!"
+                + "\n[#E74200]...use [@OpenSans]CSS-style[@] hex colors like [*]#E74200[*]..."
+                + "\n[FOREST]...use [@OpenSans]named[@] colors from the Colors class, like [/]FOREST[/]...[]"
+                + "\n...[_]and[_] use [@KingThings]effects[@]!"
                 + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
                 + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
                 + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
