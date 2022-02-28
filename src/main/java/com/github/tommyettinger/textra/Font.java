@@ -2297,13 +2297,20 @@ public class Font implements Disposable {
                     {
                         scale = 3;
                         font = this;
+                        fontIndex = 0;
                     }
                     else if(fontChange >= 0 && family != null) {
                         fontIndex = family.fontAliases.get(text.substring(fontChange + 1, end), -1);
-                        if (fontIndex == -1) font = this;
+                        if (fontIndex == -1) {
+                            font = this;
+                            fontIndex = 0;
+                        }
                         else {
                             font = family.connected[fontIndex];
-                            if (font == null) font = this;
+                            if (font == null) {
+                                font = this;
+                                fontIndex = 0;
+                            }
                         }
                     }
                     else if(sizeChange >= 0) {
@@ -2318,6 +2325,7 @@ public class Font implements Disposable {
                             scale = ((intFromDec(text, sizeChange + 1, end) - 24) / 25) & 15;
                         }
                     }
+                    current = (current & 0xFFFFFFFFFF00FFFFL) | (scale - 3 & 15) << 20 | (fontIndex & 15) << 16;
                     i--;
                 }
             }
@@ -2400,6 +2408,7 @@ public class Font implements Disposable {
                         case '@':
                             if(family == null){
                                 font = this;
+                                fontIndex = 0;
                                 break;
                             }
                             fontIndex = family.fontAliases.get(text.substring(i + 1, i + len), 0);
