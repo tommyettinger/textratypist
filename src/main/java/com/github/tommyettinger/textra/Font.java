@@ -2620,8 +2620,7 @@ public class Font implements Disposable {
                                 return appendTo;
                             }
                         }
-                    }
-                    else {
+                    } else {
                         for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
                             long curr;
                             if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
@@ -2639,6 +2638,7 @@ public class Font implements Disposable {
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
                                         if(curly){
+                                            glyphBuffer.add(curr);
                                             if((char)curr == '{'){
                                                 curly = false;
                                             }
@@ -2650,6 +2650,7 @@ public class Font implements Disposable {
                                         }
                                         if((char)curr == '{')
                                         {
+                                            glyphBuffer.add(curr);
                                             curly = true;
                                             continue;
                                         }
@@ -2667,6 +2668,7 @@ public class Font implements Disposable {
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
                                         if(curly){
+                                            glyphBuffer.add(curr);
                                             if((char)curr == '{'){
                                                 curly = false;
                                             }
@@ -2678,6 +2680,7 @@ public class Font implements Disposable {
                                         }
                                         if((char)curr == '{')
                                         {
+                                            glyphBuffer.add(curr);
                                             curly = true;
                                             continue;
                                         }

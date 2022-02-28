@@ -140,8 +140,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                "Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, " +
 //                "this [%150]storm[%] will be there on clouds [%75]one[%] through [%200]eight[%]!",
 
-                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM{RESET} on the way, " +
-                "she's {WIND=3;2;0.2;0.2} blowin' on down{ENDWIND}, " +
+                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
+                "she's {WIND=3;2;0.2;0.2}blowin' on down{ENDWIND}, " +
                 "whippin' her way through the [*]whole dang[*] town! " +
                 "Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, " +
                 "this [%150]storm[%] will be there on clouds [%75]one[%] through [%200]eight[%]!",
@@ -176,7 +176,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 
             @Override
             public void end() {
-                System.out.println("End");
+                System.out.println(label.getIntermediateText());
             }
         });
 
