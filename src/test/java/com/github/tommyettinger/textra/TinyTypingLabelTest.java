@@ -160,7 +160,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 
         // Make the label wrap to new lines, respecting the table's layout.
-        label.wrap = false;
+        label.wrap = true;
         label.layout.maxLines = 15;
         label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth() - 100);
 

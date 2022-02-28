@@ -198,11 +198,9 @@ public class TypingLabelTest extends ApplicationAdapter {
 
 
         // Create label
-        Font font = KnownFonts.getGentium().scaleTo(36, 36);
-        font.originalCellHeight *= 0.8125f;
-        font.cellHeight *= 0.8125f;
+        Font font = KnownFonts.getGentium().scaleTo(36, 36).adjustLineHeight(0.8125f);
+        font.distanceFieldCrispness = 0.75f;
         final TypingLabel label = new TypingLabel("", font);
-//        final TypingLabel label = new TypingLabel("", skin);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 
