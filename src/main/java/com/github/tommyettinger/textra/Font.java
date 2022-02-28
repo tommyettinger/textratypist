@@ -2287,17 +2287,41 @@ public class Font implements Disposable {
                 if (i+1 < n && text.charAt(i+1) != '{') {
                     int sizeChange = -1, fontChange = -1;
                     int end = text.indexOf('}', i);
+                    int eq = end;
                     for (; i < n && i <= end; i++) {
                         c = text.charAt(i);
                         appendTo.add(current | c);
                         if(c == '@') fontChange = i;
                         else if(c == '%') sizeChange = i;
+                        else if(c == '=') eq = Math.min(eq, i);
                     }
-                    if(start + 1 == end || "RESET".equalsIgnoreCase(text.substring(start+1, end)))
-                    {
+                    char after = eq == end ? '\u0000' : text.charAt(eq+1);
+                    if(start + 1 == end || "RESET".equalsIgnoreCase(text.substring(start+1, end))) {
                         scale = 3;
                         font = this;
                         fontIndex = 0;
+                    }
+                    else if(after == '^' || after == '=' || after == '.') {
+                        switch (after){
+                            case '^':
+                                if ((current & SUPERSCRIPT) == SUPERSCRIPT)
+                                    current &= ~SUPERSCRIPT;
+                                else
+                                    current |= SUPERSCRIPT;
+                                break;
+                            case '.':
+                                if ((current & SUPERSCRIPT) == SUBSCRIPT)
+                                    current &= ~SUBSCRIPT;
+                                else
+                                    current = (current & ~SUPERSCRIPT) | SUBSCRIPT;
+                                break;
+                            case '=':
+                                if ((current & SUPERSCRIPT) == MIDSCRIPT)
+                                    current &= ~MIDSCRIPT;
+                                else
+                                    current = (current & ~SUPERSCRIPT) | MIDSCRIPT;
+                                break;
+                        }
                     }
                     else if(fontChange >= 0 && family != null) {
                         fontIndex = family.fontAliases.get(text.substring(fontChange + 1, end), -1);
@@ -2315,7 +2339,6 @@ public class Font implements Disposable {
                     }
                     else if(sizeChange >= 0) {
                         if (sizeChange + 1 == end) {
-                            int eq = text.indexOf('=', start);
                             if (eq + 1 == sizeChange) {
                                 scale = 3;
                             } else {
@@ -2689,22 +2712,21 @@ public class Font implements Disposable {
                                     boolean curly = false;
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
-//                                        if(curly){
-//                                            glyphBuffer.add(curr);
-//                                            if((char)curr == '{'){
-//                                                curly = false;
-//                                            }
-//                                            else if((char)curr == '}'){
-//                                                curly = false;
-//                                                continue;
-//                                            }
-//                                            else continue;
-//                                        }
-//                                        if((char)curr == '{')
-                                        if((char)curr == '}')
+                                        if(curly){
+                                            glyphBuffer.add(curr);
+                                            if((char)curr == '{'){
+                                                curly = false;
+                                            }
+                                            else if((char)curr == '}'){
+                                                curly = false;
+                                                continue;
+                                            }
+                                            else continue;
+                                        }
+                                        if((char)curr == '{')
                                         {
                                             glyphBuffer.add(curr);
-//                                            curly = true;
+                                            curly = true;
                                             continue;
                                         }
                                         k2 = k2 << 16 | (char) curr;
