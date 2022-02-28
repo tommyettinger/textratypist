@@ -112,15 +112,16 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     public TypingLabel createTypingLabel() {
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{
-                        "Serif", "OpenSans", "Cozette", "KingThings",
+                        "Serif", "OpenSans", "Cozette", "KingThings", "Gentium"
                 },
                 new Font[]{
 //                        KnownFonts.getYanoneKaffeesatz().scaleTo(29, 40).setTextureFilter(),
 //                        new Font("LibertinusSerif.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scaleTo(32, 38).adjustLineHeight(0.8f).setTextureFilter(),
-                        new Font("Gentium.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scaleTo(49, 43).scale(1.15f, 1.15f).adjustLineHeight(0.8f).setTextureFilter(),
+                        new Font("Gentium.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scaleTo(49, 43).scale(1.32f, 1.15f).adjustLineHeight(0.8f).setTextureFilter(),
                         new Font("OpenSans.fnt", Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f).scaleTo(23, 35).scale(1.15f, 1.15f).adjustLineHeight(0.7f).setTextureFilter(),
                         KnownFonts.getCozette().scale(2.5f, 2.5f),
-                        KnownFonts.getKingthingsFoundation().scaleTo(25, 34).scale(1.15f, 1.15f).setTextureFilter(),
+                        KnownFonts.getKingthingsFoundation().scaleTo(35, 34).scale(1.15f, 1.15f).setTextureFilter(),
+                        new Font("Gentium.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scaleTo(49, 43).scale(1.32f, 1.15f).adjustLineHeight(0.8f).setTextureFilter(),
                 });
         Font font = family.connected[0].setFamily(family);
 
@@ -130,12 +131,27 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 
         // There's a strange bug that can happen with the WIND effect, but it only seems to happen when the affected
         // text wraps across lines... Not totally sure what's happening.
+        // OK, it is definitely not something that requires different fonts to trigger. Specific widths cause line
+        // wrapping to somehow break the ENDWIND token (or RESET).
         final TypingLabel label = new TypingLabel(
-                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@KingThings]STORM{RESET} on the way, " +
-                "she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
-                "whippin' her way through the [@OpenSans]whole dang[@] town! " +
+//                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@KingThings]STORM{RESET} on the way, " +
+//                "she's {WIND=3;2;0.2;0.2} blowin' on down{ENDWIND}, " +
+//                "whippin' her way through the [@OpenSans]whole dang[@] town! " +
+//                "Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, " +
+//                "this [%150]storm[%] will be there on clouds [%75]one[%] through [%200]eight[%]!",
+
+                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM{RESET} on the way, " +
+                "she's {WIND=3;2;0.2;0.2} blowin' on down{ENDWIND}, " +
+                "whippin' her way through the [*]whole dang[*] town! " +
                 "Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, " +
                 "this [%150]storm[%] will be there on clouds [%75]one[%] through [%200]eight[%]!",
+//
+//                "[@Gentium]{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM{RESET}[@Gentium] on the way, " +
+//                "she's {WIND=3;2;0.2;0.2} blowin' on down{ENDWIND}, " +
+//                "whippin' her way through the [*]whole dang[*] town! " +
+//                "Sure as [/]I reckon[][@Gentium], if we meet our {HANG}fate{RESET}, " +
+//                "this [%150]storm[%] will be there on clouds [%75]one[%] through [%200]eight[%]!",
+
 //        final TypingLabel label = new TypingLabel("[/][*][GREEN]JUNGLE[*][WHITE] TO THE[/] WELCOME!",
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!",
                 font);
@@ -144,7 +160,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 
         // Make the label wrap to new lines, respecting the table's layout.
-        label.wrap = true;
+        label.wrap = false;
         label.layout.maxLines = 15;
         label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth() - 100);
 
