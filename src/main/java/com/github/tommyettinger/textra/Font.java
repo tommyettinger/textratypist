@@ -2429,7 +2429,7 @@ public class Font implements Disposable {
                         w = (appendTo.peekLine().width += xAdvanceInternal(font, scaleX, current | '['));
                     } else {
                         kern = kern << 16 | '[';
-                        w = (appendTo.peekLine().width += xAdvanceInternal(font, scaleX, current | '[') + font.kerning.get(kern, 0) * scaleX);
+                        w = (appendTo.peekLine().width += xAdvanceInternal(font, scaleX, current | '[') + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63)));
                     }
                     appendTo.add(current | 2);
                     if(targetWidth > 0 && w > targetWidth) {
@@ -2464,10 +2464,9 @@ public class Font implements Disposable {
                                             curr = earlier.glyphs.get(k);
                                             k2 = k2 << 16 | (char) curr;
                                             k2e = k2e << 16 | (char) currE;
-                                            float adv = xAdvanceInternal(font, scaleX, curr);
-                                            change += adv + font.kerning.get(k2, 0) * scaleX;
+                                            change += xAdvanceInternal(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                             if (--leading < 0 && (e < appendTo.ellipsis.length())) {
-                                                changeNext += xAdvanceInternal(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX;
+                                                changeNext += xAdvanceInternal(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
                                             }
                                         }
                                     }
@@ -2508,10 +2507,10 @@ public class Font implements Disposable {
                                             curr = earlier.glyphs.get(k);
                                             k2 = k2 << 16 | (char) curr;
                                             float adv = xAdvanceInternal(font, scaleX, curr);
-                                            change += adv + font.kerning.get(k2, 0) * scaleX;
+                                            change += adv + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                             if (--leading < 0) {
                                                 k3 = k3 << 16 | (char) curr;
-                                                changeNext += adv + font.kerning.get(k3, 0) * scaleX;
+                                                changeNext += adv + font.kerning.get(k3, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                                 appendTo.add(curr);
                                             }
                                         }
@@ -2549,8 +2548,8 @@ public class Font implements Disposable {
                 if (font.kerning == null) {
                     w = (appendTo.peekLine().width += xAdvanceInternal(font, scaleX, current | ch));
                 } else {
-                    kern = kern << 16 | (int) ((current | ch) & 0xFFFF);
-                    w = (appendTo.peekLine().width += xAdvanceInternal(font, scaleX, current | ch) + font.kerning.get(kern, 0) * scaleX);
+                    kern = kern << 16 | ch;
+                    w = (appendTo.peekLine().width += xAdvanceInternal(font, scaleX, current | ch) + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-((current | ch) & SUPERSCRIPT) >> 63)));
                 }
                 appendTo.add(current | ch);
                 if((targetWidth > 0 && w > targetWidth) || appendTo.atLimit) {
@@ -2595,12 +2594,11 @@ public class Font implements Disposable {
                                 for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
                                     curr = earlier.glyphs.get(k);
                                     k2 = k2 << 16 | (char) curr;
-                                    float adv = xAdvanceInternal(font, scaleX, curr);
-                                    change += adv + font.kerning.get(k2, 0) * scaleX;
+                                    change += xAdvanceInternal(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                     if ((e < ellipsis.length())) {
                                         currE = baseColor | ellipsis.charAt(e);
                                         k2e = k2e << 16 | (char) currE;
-                                        changeNext += xAdvanceInternal(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX;
+                                        changeNext += xAdvanceInternal(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
                                     }
                                 }
                             }
@@ -2686,10 +2684,10 @@ public class Font implements Disposable {
                                         }
                                         k2 = k2 << 16 | (char) curr;
                                         float adv = xAdvanceInternal(font, scaleX, curr);
-                                        change += adv + font.kerning.get(k2, 0) * scaleX;
+                                        change += adv + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                         if (--leading < 0) {
                                             k3 = k3 << 16 | (char) curr;
-                                            changeNext += adv + font.kerning.get(k3, 0) * scaleX;
+                                            changeNext += adv + font.kerning.get(k3, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                             glyphBuffer.add(curr);
                                         }
                                     }
