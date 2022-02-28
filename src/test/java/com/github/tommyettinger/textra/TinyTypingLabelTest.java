@@ -117,7 +117,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 new Font[]{
 //                        KnownFonts.getYanoneKaffeesatz().scaleTo(29, 40).setTextureFilter(),
 //                        new Font("LibertinusSerif.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scaleTo(32, 38).adjustLineHeight(0.8f).setTextureFilter(),
-                        new Font("Gentium.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scaleTo(49, 43).scale(1.32f, 1.15f).adjustLineHeight(0.8f).setTextureFilter(),
+                        new Font("Gentium.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scaleTo(49, 43).scale(1.15f, 1.15f).adjustLineHeight(0.8f).setTextureFilter(),
                         new Font("OpenSans.fnt", Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f).scaleTo(23, 35).scale(1.15f, 1.15f).adjustLineHeight(0.7f).setTextureFilter(),
                         KnownFonts.getCozette().scale(2.5f, 2.5f),
                         KnownFonts.getKingthingsFoundation().scaleTo(35, 34).scale(1.15f, 1.15f).setTextureFilter(),
@@ -134,17 +134,17 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         // OK, it is definitely not something that requires different fonts to trigger. Specific widths cause line
         // wrapping to somehow break the ENDWIND token (or RESET).
         final TypingLabel label = new TypingLabel(
-//                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@KingThings]STORM{RESET} on the way, " +
-//                "she's {WIND=3;2;0.2;0.2} blowin' on down{ENDWIND}, " +
-//                "whippin' her way through the [@OpenSans]whole dang[@] town! " +
+                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@KingThings]STORM{RESET} on the way, " +
+                "she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
+                "whippin' her way through the [*]{FONT=OpenSans}whole dang[@][*] town! " +
+                "Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, " +
+                "this [%150]storm[%] will be there on clouds [%75]one{CLEARSIZE} through [%200]eight[%]!",
+
+//                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
+//                "she's {WIND=3;2;0.2;0.2}blowin' on down{ENDWIND}, " +
+//                "whippin' her way through the [*]whole dang[*] town! " +
 //                "Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, " +
 //                "this [%150]storm[%] will be there on clouds [%75]one[%] through [%200]eight[%]!",
-
-                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
-                "she's {WIND=3;2;0.2;0.2}blowin' on down{ENDWIND}, " +
-                "whippin' her way through the [*]whole dang[*] town! " +
-                "Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, " +
-                "this [%150]storm[%] will be there on clouds [%75]one[%] through [%200]eight[%]!",
 //
 //                "[@Gentium]{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM{RESET}[@Gentium] on the way, " +
 //                "she's {WIND=3;2;0.2;0.2} blowin' on down{ENDWIND}, " +

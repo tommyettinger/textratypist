@@ -115,9 +115,18 @@ class Parser {
                 case SIZE:
                     replacement = stringToStyleMarkup(param);
                     break;
+                case FONT:
+                    replacement = "[@" + param + ']';
+                    break;
                 case ENDCOLOR:
                 case CLEARCOLOR:
-                    replacement = "[#" + label.getClearColor().toString() + "]";
+                    replacement = "[#" + label.getClearColor().toString() + ']';
+                    break;
+                case CLEARSIZE:
+                    replacement = "[%]";
+                    break;
+                case CLEARFONT:
+                    replacement = "[@]";
                     break;
                 case VAR:
                     replacement = null;
@@ -381,6 +390,8 @@ class Parser {
                 return "[,]";
             if (str.equals(";") || str.equalsIgnoreCase("EACH") || str.equalsIgnoreCase("TITLE"))
                 return "[;]";
+            if(str.startsWith("@"))
+                return "[@" + str.substring(1) + "]";
             if(str.endsWith("%"))
                 return "[%" + str.substring(0, str.length() - 1) + "]";
             if(str.startsWith("%"))
