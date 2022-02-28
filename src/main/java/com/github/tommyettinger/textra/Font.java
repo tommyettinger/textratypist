@@ -371,6 +371,8 @@ public class Font implements Disposable {
             '\t',    // horizontal tab
             ' ',     // space
             '-',     // ASCII hyphen-minus
+            '\u007B',// opening curly brace
+            '\u007D',// closing curly brace
             '\u00AD',// soft hyphen
             '\u2000',// Unicode space
             '\u2001',// Unicode space
@@ -1726,7 +1728,7 @@ public class Font implements Disposable {
      */
     public Line calculateSize(Line line) {
         float drawn = 0f;
-        float storedScaleX = scaleX, storedScaleY = scaleY;
+        float scaleX;
         float scale;
         LongArray glyphs = line.glyphs;
         boolean curly = false;
@@ -1750,20 +1752,17 @@ public class Font implements Disposable {
                     curly = true;
                     continue;
                 }
+                GlyphRegion tr = mapping.get(ch);
+                if(tr == null) continue;
+                Font font = null;
+                if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
+                if(font == null) font = this;
                 kern = kern << 16 | ch;
                 scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
-                line.height = Math.max(line.height, cellHeight * scale);
-                scaleX = storedScaleX * scale;
-                scaleY = storedScaleY * scale;
-                amt = kerning.get(kern, 0) * scaleX;
-                GlyphRegion tr = mapping.get((char)glyph);
-                if(tr == null) continue;
+                scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
+                line.height = Math.max(line.height, font.cellHeight * scale);
+                amt = font.kerning.get(kern, 0) * scaleX;
                 float changedW = tr.xAdvance * scaleX;
-                if (isMono) {
-                    changedW += tr.offsetX * scaleX;
-                }
-                else if((glyph & SUPERSCRIPT) != 0L)
-                    changedW *= 0.5f;
                 drawn += changedW + amt;
             }
         } else {
@@ -1786,22 +1785,20 @@ public class Font implements Disposable {
                 }
                 GlyphRegion tr = mapping.get(ch);
                 if(tr == null) continue;
+                Font font = null;
+                if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
+                if(font == null) font = this;
                 scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
-                line.height = Math.max(line.height, cellHeight * scale);
-                scaleX = storedScaleX * scale;
-                scaleY = storedScaleY * scale;
+                line.height = Math.max(line.height, font.cellHeight * scale);
+                scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
                 float changedW = tr.xAdvance * scaleX;
-                if (isMono) {
+                if (font.isMono) {
                     changedW += tr.offsetX * scaleX;
                 }
-                if(!isMono && (glyph & SUPERSCRIPT) != 0L)
-                    changedW *= 0.5f;
                 drawn += changedW;
             }
         }
         line.width = drawn;
-        scaleX = storedScaleX;
-        scaleY = storedScaleY;
         return line;
     }
 
@@ -2282,6 +2279,9 @@ public class Font implements Disposable {
         int kern = -1;
         for (int i = 0, n = text.length(); i < n; i++) {
             scaleX = font.scaleX * (scale + 1) * 0.25f;
+
+            //// CURLY BRACKETS
+
             if(text.charAt(i) == '{') {
                 int start = i;
                 if (i+1 < n && text.charAt(i+1) != '{') {
@@ -2330,6 +2330,9 @@ public class Font implements Disposable {
                 }
             }
             else if(text.charAt(i) == '['){
+
+                //// SQUARE BRACKET MARKUP
+
                 if(++i < n && (c = text.charAt(i)) != '['){
                     if(c == ']'){
                         color = baseColor;
@@ -2432,6 +2435,9 @@ public class Font implements Disposable {
                     }
                     i += len;
                 }
+
+                //// ESCAPED SQUARE BRACKET RENDERING
+
                 else {
                     float w;
                     if (font.kerning == null) {
@@ -2539,6 +2545,9 @@ public class Font implements Disposable {
                     }
                 }
             } else {
+
+                //// VISIBLE CHAR RENDERING
+
                 char ch = text.charAt(i);
                 if (isLowerCase(ch)) {
                     if ((capitalize && !previousWasLetter) || capsLock) {
@@ -2573,6 +2582,9 @@ public class Font implements Disposable {
                         appendTo.lines.add(later);
                     }
                     if(later == null){
+
+                        //// ELLIPSIS FOR VISIBLE
+
                         // here, the max lines have been reached, and an ellipsis may need to be added
                         // to the last line.
                         String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
@@ -2628,6 +2640,9 @@ public class Font implements Disposable {
                             }
                         }
                     } else {
+
+                        //// WRAP VISIBLE
+
                         for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
                             long curr;
                             if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
@@ -2670,32 +2685,33 @@ public class Font implements Disposable {
                                         }
                                     }
                                 } else {
-                                    int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF), k3 = -1;
+                                    int k2 = (char) earlier.glyphs.get(j), k3 = -1;
                                     boolean curly = false;
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
-                                        if(curly){
-                                            glyphBuffer.add(curr);
-                                            if((char)curr == '{'){
-                                                curly = false;
-                                            }
-                                            else if((char)curr == '}'){
-                                                curly = false;
-                                                continue;
-                                            }
-                                            else continue;
-                                        }
-                                        if((char)curr == '{')
+//                                        if(curly){
+//                                            glyphBuffer.add(curr);
+//                                            if((char)curr == '{'){
+//                                                curly = false;
+//                                            }
+//                                            else if((char)curr == '}'){
+//                                                curly = false;
+//                                                continue;
+//                                            }
+//                                            else continue;
+//                                        }
+//                                        if((char)curr == '{')
+                                        if((char)curr == '}')
                                         {
                                             glyphBuffer.add(curr);
-                                            curly = true;
+//                                            curly = true;
                                             continue;
                                         }
                                         k2 = k2 << 16 | (char) curr;
                                         float adv = xAdvanceInternal(font, scaleX, curr);
                                         change += adv + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                         if (--leading < 0) {
-                                            k3 = k3 << 16 | (char) curr;
+                                            k3 = k3 << 16 | (char)curr;
                                             changeNext += adv + font.kerning.get(k3, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                             glyphBuffer.add(curr);
                                         }
