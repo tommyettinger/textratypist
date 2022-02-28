@@ -371,8 +371,8 @@ public class Font implements Disposable {
             '\t',    // horizontal tab
             ' ',     // space
             '-',     // ASCII hyphen-minus
-            '\u007B',// opening curly brace
-            '\u007D',// closing curly brace
+//            '\u007B',// opening curly brace
+//            '\u007D',// closing curly brace
             '\u00AD',// soft hyphen
             '\u2000',// Unicode space
             '\u2001',// Unicode space
@@ -2300,6 +2300,7 @@ public class Font implements Disposable {
                         scale = 3;
                         font = this;
                         fontIndex = 0;
+                        current &= ~SUPERSCRIPT;
                     }
                     else if(after == '^' || after == '=' || after == '.') {
                         switch (after){
@@ -2359,7 +2360,7 @@ public class Font implements Disposable {
                 if(++i < n && (c = text.charAt(i)) != '['){
                     if(c == ']'){
                         color = baseColor;
-                        current = color;
+                        current = color & ~SUPERSCRIPT;
                         scale = 3;
                         font = this;
                         capitalize = false;
@@ -2679,6 +2680,9 @@ public class Font implements Disposable {
                                 glyphBuffer.clear();
                                 float change = 0f, changeNext = 0f;
                                 if (font.kerning == null) {
+
+                                    // NO KERNING
+
                                     boolean curly = false;
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
@@ -2708,6 +2712,9 @@ public class Font implements Disposable {
                                         }
                                     }
                                 } else {
+
+                                    // YES KERNING
+
                                     int k2 = (char) earlier.glyphs.get(j), k3 = -1;
                                     boolean curly = false;
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
