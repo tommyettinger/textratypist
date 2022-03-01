@@ -4,10 +4,10 @@ Extra features for something like typing-label, with both effects and styles.
 This brings more features to text rendering in libGDX.
 
 What does this look like? A little something like this...
-![Still preview](https://i.imgur.com/Xkcm92I.png)
+![Still preview](https://i.imgur.com/DOZ222M.png)
 
 Or perhaps like this...
-![Animated preview](images/preview.gif)
+![Animated preview](https://i.imgur.com/PkFm3ar.gif)
 
 ## It's a label!
 
@@ -35,9 +35,11 @@ but I haven't done this yet.
 ## And now, it's got style!
 
 This library extends what the original typing-label can do -- it allows styles to be applied to text, such as bold,
-underline, oblique, superscript, etc. The full list of styles is long, but isn't as detailed as the effect tokens. You
-can enable styles with something like libGDX color markup, in square brackets like `[*]`, or you can use `{STYLE=BOLD}`
-to do the same thing. The full list of styles:
+underline, oblique, superscript, etc. Related to styles are scale changes, which can shrink or enlarge text without
+changing your font, and the "font family" feature. A font can be assigned a "family" of other fonts and names to use to
+refer to them; this acts like a normal style, but actually changes what Font is used to draw. The full list of styles is
+long, but isn't as detailed as the effect tokens. You can enable styles with something like libGDX color markup, in
+square brackets like `[*]`, or you can use `{STYLE=BOLD}` to do the same thing. The full list of styles:
 
 - `[*]` toggles bold mode. Can use style names `*`, `B`, `BOLD`, `STRONG`.
 - `[/]` toggles oblique mode (like italics). Can use style names `/`, `I`, `OBLIQUE`, `ITALIC`.
@@ -51,6 +53,8 @@ to do the same thing. The full list of styles:
 - `[;]` toggles capitalize each word mode (replacing any other case mode). Can use style names `;`, `EACH`, `TITLE`.
 - `[%DDD]`, where DDD is a percentage from 0 to 375, scales text to that multiple. Can be used with `{SIZE=150%}`, `{SIZE=%25}`, or similarly `{STYLE=200%}`.
 - `[%]` on its own sets text to the default 100% scale.
+- `[@Name]`, where Name is a key/name in this Font's `family` variable, switches the current typeface to the named one.
+- `[@]` on its own resets the typeface to this Font, ignoring its family.
 - `[#HHHHHHHH]`, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color. This is a normal `{COLOR=#HHHHHHHH}` tag.
 - `[COLORNAME]`, where COLORNAME is a typically-upper-case color name that will be looked up externally, changes the color.
   - By default, this looks up COLORNAME in libGDX's `Colors` class, but it can be configured to create colors differently.
