@@ -198,7 +198,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
 
         // Create label
-        Font font = KnownFonts.getGentium().scaleTo(36, 36).adjustLineHeight(0.8125f);
+        Font font = KnownFonts.getGentiumSDF().scaleTo(36, 36).adjustLineHeight(0.8125f);
         font.distanceFieldCrispness = 0.75f;
         final TypingLabel label = new TypingLabel("", font);
         label.setAlignment(Align.left);
