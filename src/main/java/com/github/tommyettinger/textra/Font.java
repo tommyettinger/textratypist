@@ -1732,31 +1732,28 @@ public class Font implements Disposable {
         float scale;
         LongArray glyphs = line.glyphs;
         boolean curly = false;
-        if (kerning != null) {
-            int kern = -1;
-            float amt;
-            for (int i = 0, n = glyphs.size; i < n; i++) {
-                long glyph = glyphs.get(i);
-                char ch = (char) glyph;
-                if(curly) {
-                    if(ch == '}')
-                    {
-                        curly = false;
-                        continue;
-                    }
-                    else if(ch == '{')
-                        curly = false;
-                    else continue;
-                }
-                else if(ch == '{') {
-                    curly = true;
+        int kern = -1;
+        float amt;
+        for (int i = 0, n = glyphs.size; i < n; i++) {
+            long glyph = glyphs.get(i);
+            char ch = (char) glyph;
+            if (curly) {
+                if (ch == '}') {
+                    curly = false;
                     continue;
-                }
-                GlyphRegion tr = mapping.get(ch);
-                if(tr == null) continue;
-                Font font = null;
-                if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
-                if(font == null) font = this;
+                } else if (ch == '{')
+                    curly = false;
+                else continue;
+            } else if (ch == '{') {
+                curly = true;
+                continue;
+            }
+            GlyphRegion tr = mapping.get(ch);
+            if (tr == null) continue;
+            Font font = null;
+            if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
+            if (font == null) font = this;
+            if (font.kerning != null) {
                 kern = kern << 16 | ch;
                 scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
                 scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
@@ -1764,30 +1761,7 @@ public class Font implements Disposable {
                 amt = font.kerning.get(kern, 0) * scaleX;
                 float changedW = tr.xAdvance * scaleX;
                 drawn += changedW + amt;
-            }
-        } else {
-            for (int i = 0, n = glyphs.size; i < n; i++) {
-                long glyph = glyphs.get(i);
-                char ch = (char) glyph;
-                if(curly) {
-                    if(ch == '}')
-                    {
-                        curly = false;
-                        continue;
-                    }
-                    else if(ch == '{')
-                        curly = false;
-                    else continue;
-                }
-                else if(ch == '{') {
-                    curly = true;
-                    continue;
-                }
-                GlyphRegion tr = mapping.get(ch);
-                if(tr == null) continue;
-                Font font = null;
-                if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
-                if(font == null) font = this;
+            } else {
                 scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
                 line.height = Math.max(line.height, font.cellHeight * scale);
                 scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
