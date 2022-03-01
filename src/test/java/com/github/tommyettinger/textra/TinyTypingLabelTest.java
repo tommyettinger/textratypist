@@ -117,7 +117,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 new Font[]{
                         KnownFonts.getGentium().scaleTo(32, 35).scale(1.15f, 1.15f),
                         KnownFonts.getOpenSans().scaleTo(23, 35).scale(1.15f, 1.15f).adjustLineHeight(0.55f),
-                        KnownFonts.getCozette().scaleTo(16, 35).scale(1.15f, 1.15f),
+                        KnownFonts.getInconsolata().scaleTo(15, 35).scale(1.15f, 1.15f).adjustLineHeight(0.85f),
                         KnownFonts.getKingthingsFoundation().scaleTo(35, 34).scale(1.15f, 1.15f).adjustLineHeight(0.875f)
                 });
         Font font = family.connected[0].setFamily(family);
@@ -134,7 +134,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@Medieval]STORM{RESET} on the way, " +
                 "she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
                 "whippin' her way through the [*]{FONT=Sans}whole dang[@][*] town! " +
-                "Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, " +
+                "Sure as [/]I reckon[], if we [@Mono]meet our {HANG}fate{RESET}, " +
                 "this [%150]storm[%] will be there on clouds [%75]one{CLEARSIZE} through [%200]eight[%]!",
 
 //                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
