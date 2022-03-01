@@ -27,7 +27,7 @@ import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
  * disposal stage of the lifecycle is called, then all Font instances here will be disposed and assigned null. This may
  * do more regarding its LifecycleListener code in the future, if Android turns out to need more work.
  * <br>
- * Typical usage involves calling one of the static methods like {@link #getCozette()} or {@link #getGentium()} to get a
+ * Typical usage involves calling one of the static methods like {@link #getCozette()} or {@link #getGentiumSDF()} to get a
  * particular Font. This knows a fair amount of fonts, but it doesn't require the image assets for all of those to be
  * present in a game -- only the files mentioned in the documentation for a method are needed, and only if you call that
  * method. It's likely that many games would only use one Font, and so would generally only need a .fnt file, a
@@ -59,9 +59,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-license.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette.fnt">Cozette.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette.png">Cozette.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-license.txt">Cozette-license.txt</a></li>
      * </ul>
      * @return the Font object that represents the 7x13px font Cozette
      */
@@ -90,9 +90,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-License.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans.fnt">OpenSans.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans.png">OpenSans.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-License.txt">OpenSans-License.txt</a></li>
      * </ul>
      * @return the Font object that represents the variable-width font OpenSans
      */
@@ -127,9 +127,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-msdf.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-msdf.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-license.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-msdf.fnt">AStarry-msdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-msdf.png">AStarry-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-license.txt">AStarry-license.txt</a></li>
      * </ul>
      * @return the Font object that can represent many sizes of the font A Starry using MSDF
      */
@@ -156,7 +156,7 @@ public class KnownFonts implements LifecycleListener {
      * and a humanist style, that should scale cleanly to even very large sizes (using an MSDF technique).
      * Caches the result for later calls. The font used is Cascadia Code Mono, an open-source (SIL Open Font
      * License) typeface by Microsoft (see https://github.com/microsoft/cascadia-code ). It supports a lot of glyphs,
-     * including most extended Latin (though it doesn't support a handful of chars used by FakeLanguageGen), Greek,
+     * including most extended Latin, Greek,
      * Braille, and Cyrillic, but also the necessary box drawing characters. This uses the Multi-channel Signed Distance
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
@@ -165,9 +165,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-msdf.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-msdf.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-license.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-msdf.fnt">CascadiaMono-msdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-msdf.png">CascadiaMono-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-license.txt">Cascadia-license.txt</a></li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Cascadia Code Mono using MSDF
      */
@@ -199,11 +199,11 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-msdf.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-msdf.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-License.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-msdf.fnt">DejaVuSansMono-msdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-msdf.png">DejaVuSansMono-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-License.txt">DejaVuSansMono-License.txt</a></li>
      * </ul>
-     * @return the Font object that can represent many sizes of the font Inconsolata LGC using MSDF
+     * @return the Font object that can represent many sizes of the font DejaVu Sans Mono using MSDF
      */
     public static Font getDejaVuSansMono()
     {
@@ -230,9 +230,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-msdf.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-msdf.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-msdf.fnt">Inconsolata-LGC-Custom-msdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-msdf.png">Inconsolata-LGC-Custom-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Inconsolata LGC using MSDF
      */
@@ -267,9 +267,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-msdf.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-msdf.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-msdf.fnt">Iosevka-msdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-msdf.png">Iosevka-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Iosevka.ttf using MSDF
      */
@@ -304,9 +304,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.fnt">Iosevka-Slab-msdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.png">Iosevka-Slab-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf using MSDF
      */
@@ -327,6 +327,44 @@ public class KnownFonts implements LifecycleListener {
     }
 
     private Font gentium;
+
+    /**
+     * Returns a Font already configured to use a variable-width serif font with excellent Unicode support, that should
+     * scale well from a height of about 132 down to a height of 34. You usually will want to reduce the line height
+     * of this Font after you scale it; using {@code KnownFonts.getGentium().scaleTo(55, 45).adjustLineHeight(0.8f)}
+     * usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
+     * License) typeface by SIL (see https://software.sil.org/gentium/ ). It supports a lot of glyphs, including quite a
+     * bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. This
+     * does not use a distance field effect, as opposed to {@link #getGentiumSDF()}. You may want to stick using just
+     * fonts that avoid distance fields if you have a family of fonts.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/JXGbHVf.png">Image link (of the SDF version)</a>
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-standard.fnt">Gentium-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-standard.png">Gentium-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-license.txt">Gentium-license.txt</a></li>
+     * </ul>
+     * @return the Font object that can represent many sizes of the font Gentium.ttf
+     */
+    public static Font getGentium()
+    {
+        initialize();
+        if(instance.gentium == null)
+        {
+            try {
+                instance.gentium = new Font("Gentium-standard.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).setTextureFilter();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if(instance.gentium != null)
+            return new Font(instance.gentium);
+        throw new RuntimeException("Assets for getGentium() not found.");
+    }
+
+    private Font gentiumSDF;
     /**
      * Returns a Font already configured to use a variable-width serif font with excellent Unicode support, that should
      * scale cleanly to even very large sizes (using an SDF technique). You usually will want to reduce the line height
@@ -341,26 +379,26 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-license.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.fnt">Gentium-sdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.png">Gentium-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-license.txt">Gentium-license.txt</a></li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Gentium.ttf using SDF
      */
-    public static Font getGentium()
+    public static Font getGentiumSDF()
     {
         initialize();
-        if(instance.gentium == null)
+        if(instance.gentiumSDF == null)
         {
             try {
-                instance.gentium = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 0f, 5f, 0f, -5f);
+                instance.gentiumSDF = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 0f, 5f, 0f, -5f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        if(instance.gentium != null)
-            return new Font(instance.gentium);
-        throw new RuntimeException("Assets for getGentium() not found.");
+        if(instance.gentiumSDF != null)
+            return new Font(instance.gentiumSDF);
+        throw new RuntimeException("Assets for getGentiumSDF() not found.");
     }
 
     private Font libertinusSerif;
@@ -376,9 +414,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-Regular-msdf.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-Regular-msdf.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-License.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-Regular-msdf.fnt">LibertinusSerif-Regular-msdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-Regular-msdf.png">LibertinusSerif-Regular-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-License.txt">LibertinusSerif-License.txt</a></li>
      * </ul>
      * @return the Font object that can represent many sizes of the font LibertinusSerif.ttf using MSDF
      */
@@ -411,15 +449,15 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-bold.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-bold.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-bold.fnt">KingthingsFoundation-bold.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-bold.png">KingthingsFoundation-bold.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
      * </ul>
      * You may instead want the non-bold version, but this doesn't have a pre-made instance in KnownFonts:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.fnt">KingthingsFoundation-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.png">KingthingsFoundation-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
      * </ul>
      * @return the Font object that can represent many sizes of the font KingthingsFoundation.ttf
      */
@@ -451,9 +489,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-License.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.fnt">Oxanium-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.png">Oxanium-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-License.txt">Oxanium-License.txt</a></li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Oxanium.ttf
      */
@@ -485,9 +523,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-standard.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-standard.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-License.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-standard.fnt">YanoneKaffeesatz-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-standard.png">YanoneKaffeesatz-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-License.txt">YanoneKaffeesatz-License.txt</a></li>
      * </ul>
      * @return the Font object that can represent many sizes of the font YanoneKaffeesatz.ttf
      */
@@ -521,9 +559,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-License.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.fnt">Canada1500-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.png">Canada1500-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-License.txt">Canada1500-License.txt</a></li>
      * </ul>
      * @return the Font object that can represent many sizes of the font Canada1500.ttf
      */
@@ -556,9 +594,9 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-standard.fnt</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-standard.png</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-License.txt</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-standard.fnt">RobotoCondensed-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-standard.png">RobotoCondensed-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-License.txt">RobotoCondensed-License.txt</a></li>
      * </ul>
      * @return the Font object that can represent many sizes of the font RobotoCondensed.ttf
      */
@@ -594,8 +632,8 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM.font</li>
-     *     <li>https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM8x16.png</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM.font">IBM.font</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM8x16.png">IBM8x16.png</a></li>
      * </ul>
      * @return the Font object that represents an 8x16 font included with early IBM computers
      */
@@ -629,59 +667,63 @@ public class KnownFonts implements LifecycleListener {
     @Override
     public void dispose() {
 
-        if(cozette != null){
+        if (cozette != null) {
             cozette.dispose();
             cozette = null;
         }
-        if(openSans != null){
+        if (openSans != null) {
             openSans.dispose();
             openSans = null;
         }
-        if(astarry != null){
+        if (astarry != null) {
             astarry.dispose();
             astarry = null;
         }
-        if(cascadiaMono != null){
+        if (cascadiaMono != null) {
             cascadiaMono.dispose();
             cascadiaMono = null;
         }
-        if(dejaVuSansMono != null){
+        if (dejaVuSansMono != null) {
             dejaVuSansMono.dispose();
             dejaVuSansMono = null;
         }
-        if(inconsolataLGC != null){
+        if (inconsolataLGC != null) {
             inconsolataLGC.dispose();
             inconsolataLGC = null;
         }
-        if(iosevka != null){
+        if (iosevka != null) {
             iosevka.dispose();
             iosevka = null;
         }
-        if(iosevkaSlab != null){
+        if (iosevkaSlab != null) {
             iosevkaSlab.dispose();
             iosevkaSlab = null;
         }
-        if(gentium != null){
+        if (gentium != null) {
             gentium.dispose();
             gentium = null;
         }
-        if(libertinusSerif != null){
+        if (gentiumSDF != null) {
+            gentiumSDF.dispose();
+            gentiumSDF = null;
+        }
+        if (libertinusSerif != null) {
             libertinusSerif.dispose();
             libertinusSerif = null;
         }
-        if(kingthingsFoundation != null){
+        if (kingthingsFoundation != null) {
             kingthingsFoundation.dispose();
             kingthingsFoundation = null;
         }
-        if(oxanium != null){
+        if (oxanium != null) {
             oxanium.dispose();
             oxanium = null;
         }
-        if(kaffeesatz != null){
+        if (kaffeesatz != null) {
             kaffeesatz.dispose();
             kaffeesatz = null;
         }
-        if(ibm8x16 != null){
+        if (ibm8x16 != null) {
             ibm8x16.dispose();
             ibm8x16 = null;
         }
