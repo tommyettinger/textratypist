@@ -42,10 +42,10 @@ public class FontSwitchTest extends ApplicationAdapter {
                         "Gentium", "OpenSans", "Cozette", "KingThings",
                 },
                 new Font[]{
-                        new Font("Gentium.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scaleTo(47, 40).adjustLineHeight(0.8f).setTextureFilter(),
-                        new Font("OpenSans.fnt", Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f).scaleTo(25, 32).adjustLineHeight(0.7f).setTextureFilter(),
-                        KnownFonts.getCozette().scale(2, 2),
-                        KnownFonts.getKingthingsFoundation().scaleTo(25, 34).setTextureFilter(),
+                        KnownFonts.getGentium().scaleTo(32, 35),
+                        KnownFonts.getOpenSans().scaleTo(23, 35).adjustLineHeight(0.55f),
+                        KnownFonts.getCozette().scale(2, 2).adjustLineHeight(0.8f),
+                        KnownFonts.getKingthingsFoundation().scaleTo(25, 34).adjustLineHeight(0.875f).setTextureFilter(),
                 });
         font = family.connected[0].setFamily(family);
         layout.setBaseColor(Color.DARK_GRAY);

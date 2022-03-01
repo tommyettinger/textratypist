@@ -112,13 +112,14 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     public TypingLabel createTypingLabel() {
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{
-                        "Serif", "Sans", "Mono", "Medieval"
+                        "Serif", "Sans", "Mono", "Medieval", "Future"
                 },
                 new Font[]{
                         KnownFonts.getGentium().scaleTo(32, 35).scale(1.15f, 1.15f),
-                        KnownFonts.getOpenSans().scaleTo(23, 35).scale(1.15f, 1.15f).adjustLineHeight(0.55f),
-                        KnownFonts.getInconsolata().scaleTo(15, 35).scale(1.15f, 1.15f).adjustLineHeight(0.85f),
-                        KnownFonts.getKingthingsFoundation().scaleTo(35, 34).scale(1.15f, 1.15f).adjustLineHeight(0.875f)
+                        KnownFonts.getOpenSans().scaleTo(23, 35).scale(1.15f, 1.15f).adjustLineHeight(0.6f),
+                        KnownFonts.getInconsolata().scaleTo(15, 35).scale(1.15f, 1.15f).adjustLineHeight(0.9375f),
+                        KnownFonts.getKingthingsFoundation().scaleTo(35, 35).scale(1.15f, 1.15f),
+                        KnownFonts.getOxanium().scaleTo(32, 35).scale(1.15f, 1.15f).adjustLineHeight(1.05f)
                 });
         Font font = family.connected[0].setFamily(family);
 
@@ -131,7 +132,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         // OK, it is definitely not something that requires different fonts to trigger. Specific widths cause line
         // wrapping to somehow break the ENDWIND token (or RESET).
         final TypingLabel label = new TypingLabel(
-                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@Medieval]STORM{RESET} on the way, " +
+                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
                 "she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
                 "whippin' her way through the [*]{FONT=Sans}whole dang[@][*] town! " +
                 "Sure as [/]I reckon[], if we [@Mono]meet our {HANG}fate{RESET}, " +
