@@ -59,7 +59,7 @@ public class FontTest extends ApplicationAdapter {
         layout.setBaseColor(Color.DARK_GRAY);
         layout.setMaxLines(20);
         layout.setEllipsis("...");
-        font.markup("@ Fonts can be rendered normally, but using [[tags], you can..."
+        font.markup("@ Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
                 + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
                 + "\n[FOREST]...use named colors from the Colors class, like [/]FOREST[/]...[]"
                 + "\n[_]...and use [!]effects[!][_]!"

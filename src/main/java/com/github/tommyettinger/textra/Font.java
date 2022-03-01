@@ -35,22 +35,36 @@ import java.util.Arrays;
 
 /**
  * A replacement for libGDX's BitmapFont class, supporting additional markup to allow styling text with various effects.
- * This includes a "faux bold" and oblique mode using one font image; you don't need a bold and italic/oblique image
- * separate from the book face.
+ * This includes the commonly-requested "faux bold" and oblique mode using one font image; you don't need a bold and
+ * italic/oblique image separate from the book face. This also supports underline, strikethrough, subscript/superscript
+ * (and "midscript," for a height between the two), color markup, scale/size markup, and the option to switch to other
+ * Fonts from a family of several.
  * <br>
  * A Font represents either one size of a "standard" bitmap font (which can be drawn scaled up or down), or many sizes
  * of a distance field font (using either the commonly-used SDF format or newer MSDF format). The same class is used for
  * standard, SDF, and MSDF fonts, but you call {@link #enableShader(Batch)} before rendering with SDF or MSDF fonts, and
- * can switch back to a normal SpriteBatch shader with {@code batch.setShader(null);}. You don't have to use SDF or MSDF
- * fonts, but they scale more cleanly. You can generate SDF fonts with
+ * can switch back to a normal SpriteBatch shader with {@code batch.setShader(null);}. The {@link TextraLabel} and
+ * {@link TypingLabel} classes handle the calls to enableShader() for you. You don't have to use SDF or MSDF
+ * fonts, but they can scale more cleanly. You can generate SDF fonts with
  * Hiero or [a related
  * tool](https://github.com/libgdx/libgdx/wiki/Distance-field-fonts#using-distance-fields-for-arbitrary-images) that is
  * part of libGDX; MSDF fonts are harder to generate, but possible using a tool like
- * <a href="https://github.com/tommyettinger/Glamer">Glamer</a>.
+ * <a href="https://github.com/tommyettinger/Glamer">Glamer</a>. Note that SDF and non-distance-field fonts can be
+ * created with kerning information, but currently MSDF fonts cannot, making MSDF a better choice for monospace fonts
+ * than variable-width ones.
  * <br>
  * This interacts with the {@link Layout} class, with a Layout referencing a Font, and various methods in Font taking
  * a Layout. You usually want to have a Layout for any text you draw repeatedly, and draw that Layout each frame with
  * {@link #drawGlyphs(Batch, Layout, float, float, int)} or a similar method.
+ * <br>
+ * The {@link TypingLabel} class has its own markup that generally has an equivalent for all the markup options here.
+ * This class has some special behavior for both the square-bracket markup used here and the curly-bracket markup used
+ * by TypingLabel, even if the markup isn't actually used in a TypingLabel. In particular, anything in curly brackets is
+ * ignored and left alone when markup() is called, and is not considered part of the size of the Layout. Anything inside
+ * single curly braces is not rendered here, though it may be interpreted by TypingLabel if you use a Layout this
+ * produces there. You should escape both square brackets with <code>[[</code> and curly braces with <code>{{</code> if
+ * you intend them to appear.
+ *
  * @see #markup(String, Layout) The markup() method's documentation covers all the markup tags.
  */
 public class Font implements Disposable {
@@ -113,7 +127,7 @@ public class Font implements Disposable {
             super.flip(x, y);
             if (x) {
                 offsetX = -offsetX;
-                xAdvance = -xAdvance; // TODO: not sure if this is the expected behavior...
+                xAdvance = -xAdvance;
             }
             if (y) offsetY = -offsetY;
         }
@@ -371,8 +385,6 @@ public class Font implements Disposable {
             '\t',    // horizontal tab
             ' ',     // space
             '-',     // ASCII hyphen-minus
-//            '\u007B',// opening curly brace
-//            '\u007D',// closing curly brace
             '\u00AD',// soft hyphen
             '\u2000',// Unicode space
             '\u2001',// Unicode space
@@ -682,8 +694,11 @@ public class Font implements Disposable {
         kerning = toCopy.kerning == null ? null : new IntIntMap(toCopy.kerning);
         solidBlock = toCopy.solidBlock;
 
+        if(toCopy.family != null)
+            family = new FontFamily(toCopy.family);
+
         // shader and colorLookup are not copied, because there isn't much point in having different copies of
-        // a ShaderProgram or stateless ColorLookup.
+        // a ShaderProgram or stateless ColorLookup. They are referenced directly.
         if(toCopy.shader != null)
             shader = toCopy.shader;
         if(toCopy.colorLookup != null)
@@ -1498,6 +1513,10 @@ public class Font implements Disposable {
      *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
      *     the nearest 25% mark).</li>
      *     <li>{@code [%]}, with no number just after it, resets scale to 100%.</li>
+     *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
+     *     in this.family by that name. This is ignored if family is null.</li>
+     *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
+     *     if family is non-null).</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up with
      *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
@@ -1611,8 +1630,21 @@ public class Font implements Disposable {
         int kern = -1;
         long glyph;
         float single;
+        boolean curly = false;
         for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
             glyph = glyphs.glyphs.get(i);
+            char ch = (char) glyph;
+            if (curly) {
+                if (ch == '}') {
+                    curly = false;
+                    continue;
+                } else if (ch == '{')
+                    curly = false;
+                else continue;
+            } else if (ch == '{') {
+                curly = true;
+                continue;
+            }
             Font font = null;
             if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
             if(font == null) font = this;
@@ -2223,6 +2255,10 @@ public class Font implements Disposable {
      *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
      *     the nearest 25% mark).</li>
      *     <li>{@code [%]}, with no number just after it, resets scale to 100%.</li>
+     *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
+     *     in this.family by that name. This is ignored if family is null.</li>
+     *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
+     *     if family is non-null).</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
      *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
@@ -2256,76 +2292,70 @@ public class Font implements Disposable {
 
             //// CURLY BRACKETS
 
-            if(text.charAt(i) == '{') {
+            if(text.charAt(i) == '{' && i+1 < n && text.charAt(i+1) != '{') {
                 int start = i;
-                if (i+1 < n && text.charAt(i+1) != '{') {
-                    int sizeChange = -1, fontChange = -1;
-                    int end = text.indexOf('}', i);
-                    int eq = end;
-                    for (; i < n && i <= end; i++) {
-                        c = text.charAt(i);
-                        appendTo.add(current | c);
-                        if(c == '@') fontChange = i;
-                        else if(c == '%') sizeChange = i;
-                        else if(c == '=') eq = Math.min(eq, i);
+                int sizeChange = -1, fontChange = -1;
+                int end = text.indexOf('}', i);
+                int eq = end;
+                for (; i < n && i <= end; i++) {
+                    c = text.charAt(i);
+                    appendTo.add(current | c);
+                    if (c == '@') fontChange = i;
+                    else if (c == '%') sizeChange = i;
+                    else if (c == '=') eq = Math.min(eq, i);
+                }
+                char after = eq == end ? '\u0000' : text.charAt(eq + 1);
+                if (start + 1 == end || "RESET".equalsIgnoreCase(text.substring(start + 1, end))) {
+                    scale = 3;
+                    font = this;
+                    fontIndex = 0;
+                    current &= ~SUPERSCRIPT;
+                } else if (after == '^' || after == '=' || after == '.') {
+                    switch (after) {
+                        case '^':
+                            if ((current & SUPERSCRIPT) == SUPERSCRIPT)
+                                current &= ~SUPERSCRIPT;
+                            else
+                                current |= SUPERSCRIPT;
+                            break;
+                        case '.':
+                            if ((current & SUPERSCRIPT) == SUBSCRIPT)
+                                current &= ~SUBSCRIPT;
+                            else
+                                current = (current & ~SUPERSCRIPT) | SUBSCRIPT;
+                            break;
+                        case '=':
+                            if ((current & SUPERSCRIPT) == MIDSCRIPT)
+                                current &= ~MIDSCRIPT;
+                            else
+                                current = (current & ~SUPERSCRIPT) | MIDSCRIPT;
+                            break;
                     }
-                    char after = eq == end ? '\u0000' : text.charAt(eq+1);
-                    if(start + 1 == end || "RESET".equalsIgnoreCase(text.substring(start+1, end))) {
-                        scale = 3;
+                } else if (fontChange >= 0 && family != null) {
+                    fontIndex = family.fontAliases.get(text.substring(fontChange + 1, end), -1);
+                    if (fontIndex == -1) {
                         font = this;
                         fontIndex = 0;
-                        current &= ~SUPERSCRIPT;
-                    }
-                    else if(after == '^' || after == '=' || after == '.') {
-                        switch (after){
-                            case '^':
-                                if ((current & SUPERSCRIPT) == SUPERSCRIPT)
-                                    current &= ~SUPERSCRIPT;
-                                else
-                                    current |= SUPERSCRIPT;
-                                break;
-                            case '.':
-                                if ((current & SUPERSCRIPT) == SUBSCRIPT)
-                                    current &= ~SUBSCRIPT;
-                                else
-                                    current = (current & ~SUPERSCRIPT) | SUBSCRIPT;
-                                break;
-                            case '=':
-                                if ((current & SUPERSCRIPT) == MIDSCRIPT)
-                                    current &= ~MIDSCRIPT;
-                                else
-                                    current = (current & ~SUPERSCRIPT) | MIDSCRIPT;
-                                break;
-                        }
-                    }
-                    else if(fontChange >= 0 && family != null) {
-                        fontIndex = family.fontAliases.get(text.substring(fontChange + 1, end), -1);
-                        if (fontIndex == -1) {
+                    } else {
+                        font = family.connected[fontIndex];
+                        if (font == null) {
                             font = this;
                             fontIndex = 0;
                         }
-                        else {
-                            font = family.connected[fontIndex];
-                            if (font == null) {
-                                font = this;
-                                fontIndex = 0;
-                            }
-                        }
                     }
-                    else if(sizeChange >= 0) {
-                        if (sizeChange + 1 == end) {
-                            if (eq + 1 == sizeChange) {
-                                scale = 3;
-                            } else {
-                                scale = ((intFromDec(text, eq + 1, sizeChange) - 24) / 25) & 15;
-                            }
+                } else if (sizeChange >= 0) {
+                    if (sizeChange + 1 == end) {
+                        if (eq + 1 == sizeChange) {
+                            scale = 3;
                         } else {
-                            scale = ((intFromDec(text, sizeChange + 1, end) - 24) / 25) & 15;
+                            scale = ((intFromDec(text, eq + 1, sizeChange) - 24) / 25) & 15;
                         }
+                    } else {
+                        scale = ((intFromDec(text, sizeChange + 1, end) - 24) / 25) & 15;
                     }
-                    current = (current & 0xFFFFFFFFFF00FFFFL) | (scale - 3 & 15) << 20 | (fontIndex & 15) << 16;
-                    i--;
                 }
+                current = (current & 0xFFFFFFFFFF00FFFFL) | (scale - 3 & 15) << 20 | (fontIndex & 15) << 16;
+                i--;
             }
             else if(text.charAt(i) == '['){
 
@@ -2476,9 +2506,9 @@ public class Font implements Disposable {
                                             currE = baseColor | appendTo.ellipsis.charAt(e);
                                             curr = earlier.glyphs.get(k);
                                             k2 = k2 << 16 | (char) curr;
-                                            k2e = k2e << 16 | (char) currE;
                                             change += xAdvanceInternal(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                             if (--leading < 0 && (e < appendTo.ellipsis.length())) {
+                                                k2e = k2e << 16 | (char) currE;
                                                 changeNext += xAdvanceInternal(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
                                             }
                                         }
@@ -2769,6 +2799,10 @@ public class Font implements Disposable {
      *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
      *     the nearest 25% mark).</li>
      *     <li>{@code [%]}, with no number just after it, resets scale to 100% (this usually has no effect here).</li>
+     *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
+     *     in this.family by that name. This is ignored if family is null.</li>
+     *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
+     *     if family is non-null).</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
      *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
@@ -2810,6 +2844,10 @@ public class Font implements Disposable {
      *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
      *     the nearest 25% mark).</li>
      *     <li>{@code [%]}, with no number just after it, resets scale to 100% (this usually has no effect here).</li>
+     *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
+     *     in this.family by that name. This is ignored if family is null.</li>
+     *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
+     *     if family is non-null).</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
      *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
@@ -2854,6 +2892,10 @@ public class Font implements Disposable {
      *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
      *     the nearest 25% mark).</li>
      *     <li>{@code [%]}, with no number just after it, resets scale to 100% (this usually has no effect here).</li>
+     *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
+     *     in this.family by that name. This is ignored if family is null.</li>
+     *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
+     *     if family is non-null).</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
      *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
@@ -3004,6 +3046,9 @@ public class Font implements Disposable {
                     glyphs.set(i, glyph ^= 42L);
                 }
                 if (font.kerning == null) {
+
+                    //// no kerning
+
                     scale = (int) (glyph + 0x300000L >>> 20 & 15);
                     line.height = Math.max(line.height, font.cellHeight * (scale + 1) * 0.25f);
                     scaleX = font.scaleX * (scale + 1) * 0.25f;
@@ -3050,7 +3095,6 @@ public class Font implements Disposable {
                         long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
                         System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
                         System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
-//                        next.glyphs.size += glyphs.size - cutoff;
                         glyphs.truncate(cutoff);
                         break;
                     }
