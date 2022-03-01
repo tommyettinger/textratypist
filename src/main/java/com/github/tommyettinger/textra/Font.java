@@ -3020,125 +3020,53 @@ public class Font implements Disposable {
             int scale;
             LongArray glyphs = line.glyphs;
             boolean hasMultipleGaps = false;
-            if (kerning != null) {
-                int kern = -1;
-                float amt;
-                long glyph;
-                for (int i = 0, n = glyphs.size; i < n; i++) {
-                    glyph = glyphs.get(i);
-                    if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
-                    if(font == null) font = this;
-                    if((glyph & 0xFFFFL) == '\n') {
-                        glyphs.set(i, glyph ^= 42L);
-                    }
-                    scale = (int) (glyph + 0x300000L >>> 20 & 15);
-                    line.height = Math.max(line.height, font.cellHeight * (scale + 1) * 0.25f);
-                    scaleX = font.scaleX * (scale + 1) * 0.25f;
-                    kern = kern << 16 | (int) (glyph & 0xFFFF);
-                    amt = font.kerning.get(kern, 0) * scaleX;
-                    GlyphRegion tr = font.mapping.get((char)glyph);
-                    if(tr == null) continue;
-                    float changedW = tr.xAdvance * scaleX;
-                    if (font.isMono) {
-                        changedW += tr.offsetX * scaleX;
-                    }
-                    if(!font.isMono && (glyph & SUPERSCRIPT) != 0L)
-                        changedW *= 0.5f;
-                    if (glyph >>> 32 == 0L){
-                        hasMultipleGaps = breakPoint >= 0;
-                        breakPoint = i;
-                        if(spacingPoint + 1 < i){
-                            spacingSpan = 0;
-                        }
-                        else spacingSpan++;
-                        spacingPoint = i;
-                    }
-                    if(Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0){
-                        hasMultipleGaps = breakPoint >= 0;
-                        breakPoint = i;
-                        if(Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0){
-                            if(spacingPoint + 1 < i){
-                                spacingSpan = 0;
-                            }
-                            else spacingSpan++;
-                            spacingPoint = i;
-                        }
-                    }
-                    if(hasMultipleGaps && drawn + changedW + amt > targetWidth) {
-                        cutoff = breakPoint - spacingSpan;
-                        Line next;
-                        if(changing.lines() == ln + 1)
-                        {
-                            next = changing.pushLine();
-                            glyphs.pop();
-                        }
-                        else
-                            next = changing.getLine(ln+1);
-                        if(next == null) {
-                            glyphs.truncate(cutoff);
-                            break;
-                        }
-                        next.height = Math.max(next.height, font.cellHeight * (scale + 1) * 0.25f);
-
-                        int nextSize = next.glyphs.size;
-                        long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
-                        System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
-                        System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
-//                        next.glyphs.size += glyphs.size - cutoff;
-                        glyphs.truncate(cutoff);
-                        break;
-                    }
-                    drawn += changedW + amt;
+            int kern = -1;
+            float amt;
+            for (int i = 0, n = glyphs.size; i < n; i++) {
+                long glyph = glyphs.get(i);
+                if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
+                if (font == null) font = this;
+                if ((glyph & 0xFFFFL) == '\n') {
+                    glyphs.set(i, glyph ^= 42L);
                 }
-            } else {
-                for (int i = 0, n = glyphs.size; i < n; i++) {
-                    long glyph = glyphs.get(i);
-                    if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
-                    if(font == null) font = this;
-                    if((glyph & 0xFFFFL) == '\n') {
-                        glyphs.set(i, glyph ^= 42L);
-                    }
+                if (font.kerning == null) {
                     scale = (int) (glyph + 0x300000L >>> 20 & 15);
                     line.height = Math.max(line.height, font.cellHeight * (scale + 1) * 0.25f);
                     scaleX = font.scaleX * (scale + 1) * 0.25f;
-                    GlyphRegion tr = font.mapping.get((char)glyph);
-                    if(tr == null) continue;
+                    GlyphRegion tr = font.mapping.get((char) glyph);
+                    if (tr == null) continue;
                     float changedW = tr.xAdvance * scaleX;
                     if (font.isMono) {
                         changedW += tr.offsetX * scaleX;
                     }
-                    if(!font.isMono && (glyph & SUPERSCRIPT) != 0L)
+                    if (!font.isMono && (glyph & SUPERSCRIPT) != 0L)
                         changedW *= 0.5f;
-                    if (glyph >>> 32 == 0L){
+                    if (glyph >>> 32 == 0L) {
                         hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
-                        if(spacingPoint + 1 < i){
+                        if (spacingPoint + 1 < i) {
                             spacingSpan = 0;
-                        }
-                        else spacingSpan++;
+                        } else spacingSpan++;
                         spacingPoint = i;
-                    }
-                    else if(Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0){
+                    } else if (Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0) {
                         hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
-                        if(Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0){
-                            if(spacingPoint + 1 < i){
+                        if (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0) {
+                            if (spacingPoint + 1 < i) {
                                 spacingSpan = 0;
-                            }
-                            else spacingSpan++;
+                            } else spacingSpan++;
                             spacingPoint = i;
                         }
                     }
-                    if(hasMultipleGaps && drawn + changedW > targetWidth) {
+                    if (hasMultipleGaps && drawn + changedW > targetWidth) {
                         cutoff = breakPoint - spacingSpan;
                         Line next;
-                        if(changing.lines() == ln + 1) {
+                        if (changing.lines() == ln + 1) {
                             next = changing.pushLine();
                             glyphs.pop();
-                        }
-                        else
-                            next = changing.getLine(ln+1);
-                        if(next == null) {
+                        } else
+                            next = changing.getLine(ln + 1);
+                        if (next == null) {
                             glyphs.truncate(cutoff);
                             break;
                         }
@@ -3153,6 +3081,63 @@ public class Font implements Disposable {
                         break;
                     }
                     drawn += changedW;
+                } else {
+
+                    //// font has kerning
+
+                    scale = (int) (glyph + 0x300000L >>> 20 & 15);
+                    line.height = Math.max(line.height, font.cellHeight * (scale + 1) * 0.25f);
+                    scaleX = font.scaleX * (scale + 1) * 0.25f;
+                    kern = kern << 16 | (int) (glyph & 0xFFFF);
+                    amt = font.kerning.get(kern, 0) * scaleX;
+                    GlyphRegion tr = font.mapping.get((char) glyph);
+                    if (tr == null) continue;
+                    float changedW = tr.xAdvance * scaleX;
+                    if (font.isMono) {
+                        changedW += tr.offsetX * scaleX;
+                    }
+                    if (!font.isMono && (glyph & SUPERSCRIPT) != 0L)
+                        changedW *= 0.5f;
+                    if (glyph >>> 32 == 0L) {
+                        hasMultipleGaps = breakPoint >= 0;
+                        breakPoint = i;
+                        if (spacingPoint + 1 < i) {
+                            spacingSpan = 0;
+                        } else spacingSpan++;
+                        spacingPoint = i;
+                    }
+                    if (Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0) {
+                        hasMultipleGaps = breakPoint >= 0;
+                        breakPoint = i;
+                        if (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0) {
+                            if (spacingPoint + 1 < i) {
+                                spacingSpan = 0;
+                            } else spacingSpan++;
+                            spacingPoint = i;
+                        }
+                    }
+                    if (hasMultipleGaps && drawn + changedW + amt > targetWidth) {
+                        cutoff = breakPoint - spacingSpan;
+                        Line next;
+                        if (changing.lines() == ln + 1) {
+                            next = changing.pushLine();
+                            glyphs.pop();
+                        } else
+                            next = changing.getLine(ln + 1);
+                        if (next == null) {
+                            glyphs.truncate(cutoff);
+                            break;
+                        }
+                        next.height = Math.max(next.height, font.cellHeight * (scale + 1) * 0.25f);
+
+                        int nextSize = next.glyphs.size;
+                        long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
+                        System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
+                        System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
+                        glyphs.truncate(cutoff);
+                        break;
+                    }
+                    drawn += changedW + amt;
                 }
             }
             line.width = drawn;
