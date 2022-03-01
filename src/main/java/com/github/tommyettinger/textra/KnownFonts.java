@@ -221,12 +221,45 @@ public class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getDejaVuSansMono() not found.");
     }
 
-
-    private Font inconsolataLGC;
+    private Font inconsolata;
     /**
      * A customized version of Inconsolata LGC, a fixed-width geometric font that supports a large range of Latin,
      * Greek, and Cyrillic glyphs, plus box drawing and some dingbat characters (like zodiac signs). The original font
-     * Inconsolata is by Raph Levien, and various other contributors added support for other languages.
+     * Inconsolata is by Raph Levien, and various other contributors added support for other languages. This does not
+     * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}. You may want to stick using just fonts
+     * that avoid distance fields if you have a family of fonts.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-standard.fnt">Inconsolata-LGC-Custom-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-standard.png">Inconsolata-LGC-Custom-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
+     * </ul>
+     * @return the Font object that can represent many sizes of the font Inconsolata LGC
+     */
+    public static Font getInconsolata()
+    {
+        initialize();
+        if(instance.inconsolata == null)
+        {
+            try {
+                instance.inconsolata = new Font("Inconsolata-LGC-Custom-standard.fnt", "Inconsolata-LGC-Custom-standard.png", STANDARD, 0f, 0f, -6f, 0f);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if(instance.inconsolata != null)
+            return new Font(instance.inconsolata);
+        throw new RuntimeException("Assets for getInconsolata() not found.");
+    }
+
+    private Font inconsolataMSDF;
+    /**
+     * A customized version of Inconsolata LGC, a fixed-width geometric font that supports a large range of Latin,
+     * Greek, and Cyrillic glyphs, plus box drawing and some dingbat characters (like zodiac signs). The original font
+     * Inconsolata is by Raph Levien, and various other contributors added support for other languages. This uses the
+     * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
+     * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
      * Needs files:
      * <ul>
@@ -236,20 +269,20 @@ public class KnownFonts implements LifecycleListener {
      * </ul>
      * @return the Font object that can represent many sizes of the font Inconsolata LGC using MSDF
      */
-    public static Font getInconsolataLGC()
+    public static Font getInconsolataMSDF()
     {
         initialize();
-        if(instance.inconsolataLGC == null)
+        if(instance.inconsolataMSDF == null)
         {
             try {
-                instance.inconsolataLGC = new Font("Inconsolata-LGC-Custom-msdf.fnt", "Inconsolata-LGC-Custom-msdf.png", MSDF, 5f, 1f, -10f, -8f);
+                instance.inconsolataMSDF = new Font("Inconsolata-LGC-Custom-msdf.fnt", "Inconsolata-LGC-Custom-msdf.png", MSDF, 5f, 1f, -10f, -8f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        if(instance.inconsolataLGC != null)
-            return new Font(instance.inconsolataLGC);
-        throw new RuntimeException("Assets for getInconsolataLGC() not found.");
+        if(instance.inconsolataMSDF != null)
+            return new Font(instance.inconsolataMSDF);
+        throw new RuntimeException("Assets for getInconsolataMSDF() not found.");
     }
 
     private Font iosevka;
@@ -687,9 +720,13 @@ public class KnownFonts implements LifecycleListener {
             dejaVuSansMono.dispose();
             dejaVuSansMono = null;
         }
-        if (inconsolataLGC != null) {
-            inconsolataLGC.dispose();
-            inconsolataLGC = null;
+        if (inconsolata != null) {
+            inconsolata.dispose();
+            inconsolata = null;
+        }
+        if (inconsolataMSDF != null) {
+            inconsolataMSDF.dispose();
+            inconsolataMSDF = null;
         }
         if (iosevka != null) {
             iosevka.dispose();
