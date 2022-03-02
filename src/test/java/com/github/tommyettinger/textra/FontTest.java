@@ -57,8 +57,8 @@ public class FontTest extends ApplicationAdapter {
 //        font = KnownFonts.getIBM8x16();
 //        font = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, 16f, -7).scaleTo(16, 16);
         layout.setBaseColor(Color.DARK_GRAY);
-        layout.setMaxLines(20);
-        layout.setEllipsis("...");
+        layout.setMaxLines(6);
+        layout.setEllipsis(" and so on and so forth...");
         font.markup("@ Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
                 + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
                 + "\n[FOREST]...use named colors from the Colors class, like [/]FOREST[/]...[]"
