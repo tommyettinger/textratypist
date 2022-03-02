@@ -52,7 +52,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 
 	@Override
 	public void create () {
-		skin = new Skin(Gdx.files.internal("uiskin.json"));
+		skin = new Skin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
 		TextureRegion image = new TextureRegion(texture1);
@@ -230,8 +230,8 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		config.setTitle("textramode UI test");
 		config.setWindowedMode(640, 480);
 		config.disableAudio(true);
-		ShaderProgram.prependVertexCode = "#version 150\n";
-		ShaderProgram.prependFragmentCode = "#version 150\n";
+		ShaderProgram.prependVertexCode = "#version 110\n";
+		ShaderProgram.prependFragmentCode = "#version 110\n";
 		config.enableGLDebugOutput(true, System.out);
 		config.useVsync(true);
 		new Lwjgl3Application(new TextraUITest(), config);
