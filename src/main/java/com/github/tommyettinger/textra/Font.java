@@ -2518,51 +2518,55 @@ public class Font implements Disposable {
                     if(targetWidth > 0 && w > targetWidth) {
                         Line earlier = appendTo.peekLine();
                         Line later = appendTo.pushLine();
-                        if(later == null){
+                        if(later == null) {
                             // here, the max lines have been reached, and an ellipsis may need to be added
                             // to the last line.
-                            if(appendTo.ellipsis != null) {
-                                int j = earlier.glyphs.size - 1 - appendTo.ellipsis.length();
-                                if (j >= 0) {
-                                    int leading = 0;
-                                    long currE, curr;
-                                    while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0) {
-                                        ++leading;
-                                        --j;
-                                    }
-                                    float change = 0f, changeNext = 0f;
-                                    if (font.kerning == null) {
-                                        for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
+                            String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
+                            int j = earlier.glyphs.size - 1 - ellipsis.length();
+                            if (j >= 0) {
+                                long currE, curr;
+                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0) {
+                                    --j;
+                                }
+                                float change = 0f, changeNext = 0f;
+                                if (font.kerning == null) {
+                                    for (int k = j + 1, e = 0; e < ellipsis.length(); k++, e++) {
+                                        if (k < earlier.glyphs.size) {
                                             change += xAdvanceInternal(font, scaleX, earlier.glyphs.get(k));
-                                            if (--leading < 0 && (e < appendTo.ellipsis.length())) {
-                                                float adv = xAdvanceInternal(font, scaleX, current | appendTo.ellipsis.charAt(e));
-                                                changeNext += adv;
-                                            }
                                         }
-                                    } else {
-                                        int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
-                                        int k2e = appendTo.ellipsis.charAt(0) & 0xFFFF;
-                                        for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
-                                            currE = current | appendTo.ellipsis.charAt(e);
+                                        changeNext += xAdvanceInternal(font, scaleX, current | ellipsis.charAt(e));
+                                    }
+                                } else {
+                                    int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
+                                    int k2e = 0xFFFF;
+                                    for (int k = j + 1, e = 0; e < ellipsis.length(); k++, e++) {
+                                        if (k < earlier.glyphs.size) {
                                             curr = earlier.glyphs.get(k);
                                             k2 = k2 << 16 | (char) curr;
                                             change += xAdvanceInternal(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
-                                            if (--leading < 0 && (e < appendTo.ellipsis.length())) {
-                                                k2e = k2e << 16 | (char) currE;
-                                                changeNext += xAdvanceInternal(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
-                                            }
                                         }
+                                        currE = current | ellipsis.charAt(e);
+                                        k2e = k2e << 16 | (char) currE;
+                                        changeNext += xAdvanceInternal(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
                                     }
+                                }
+                                if (earlier.width + changeNext < appendTo.getTargetWidth()) {
+                                    for (int e = 0; e < ellipsis.length(); e++) {
+                                        earlier.glyphs.add(current | ellipsis.charAt(e));
+                                    }
+                                    earlier.width = earlier.width + changeNext;
+                                    return appendTo;
+                                }
+                                if (earlier.width - change + changeNext < appendTo.getTargetWidth()) {
                                     earlier.glyphs.truncate(j + 1);
-                                    for (int e = 0; e < appendTo.ellipsis.length(); e++) {
-                                        earlier.glyphs.add(baseColor | appendTo.ellipsis.charAt(e));
+                                    for (int e = 0; e < ellipsis.length(); e++) {
+                                        earlier.glyphs.add(current | ellipsis.charAt(e));
                                     }
                                     earlier.width = earlier.width - change + changeNext;
                                     return appendTo;
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
 
                                 long curr;
@@ -2656,7 +2660,6 @@ public class Font implements Disposable {
                         // here, the max lines have been reached, and an ellipsis may need to be added
                         // to the last line.
                         String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
-                        TRY_AGAIN:
                         for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
                             long curr;
                             // remove a full word or other group of non-space characters.
@@ -2672,21 +2675,20 @@ public class Font implements Disposable {
                             long currE;
                             if (font.kerning == null) {
                                 for (int k = j + 1, e = 0; e < ellipsis.length(); k++, e++) {
-                                    if (k >= earlier.glyphs.size)
-                                        continue TRY_AGAIN;
-                                    change += xAdvanceInternal(font, scaleX, earlier.glyphs.get(k));
+                                    if (k < earlier.glyphs.size) {
+                                        change += xAdvanceInternal(font, scaleX, earlier.glyphs.get(k));
+                                    }
                                     changeNext += xAdvanceInternal(font, scaleX, current | ellipsis.charAt(e));
                                 }
                             } else {
                                 int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
                                 int k2e = 0xFFFF;
                                 for (int k = j + 1, e = 0; e < ellipsis.length(); k++, e++) {
-                                    if (k >= earlier.glyphs.size)
-                                        continue TRY_AGAIN;
-                                    curr = earlier.glyphs.get(k);
-                                    k2 = k2 << 16 | (char) curr;
-                                    change += xAdvanceInternal(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
-
+                                    if (k < earlier.glyphs.size) {
+                                        curr = earlier.glyphs.get(k);
+                                        k2 = k2 << 16 | (char) curr;
+                                        change += xAdvanceInternal(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
+                                    }
                                     currE = current | ellipsis.charAt(e);
                                     k2e = k2e << 16 | (char) currE;
                                     changeNext += xAdvanceInternal(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
