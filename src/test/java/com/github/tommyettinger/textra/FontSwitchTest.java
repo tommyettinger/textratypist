@@ -26,8 +26,8 @@ public class FontSwitchTest extends ApplicationAdapter {
         config.setTitle("textramode Font test");
         config.setWindowedMode(800, 400);
         config.disableAudio(true);
-        ShaderProgram.prependVertexCode = "#version 150\n";
-        ShaderProgram.prependFragmentCode = "#version 150\n";
+        ShaderProgram.prependVertexCode = "#version 110\n";
+        ShaderProgram.prependFragmentCode = "#version 110\n";
         config.enableGLDebugOutput(true, System.out);
         config.useVsync(true);
         new Lwjgl3Application(new FontSwitchTest(), config);

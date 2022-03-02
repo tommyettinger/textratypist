@@ -52,7 +52,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 
 	@Override
 	public void create () {
-		skin = new Skin(Gdx.files.internal("uiskin.json"));
+		skin = new Skin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
 		TextureRegion image = new TextureRegion(texture1);
@@ -117,7 +117,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TypingLabel("fps:", skin);
+		fpsLabel = new TypingLabel("fps: 0000[^][SKY][[citation needed]", skin);
 		fpsLabel.setAlignment(Align.topLeft);
 		// configures an example of a TextField in password mode.
 		final TypingLabel passwordLabel = new TypingLabel("Textfield in [~]secure[] password mode: ", skin);
@@ -196,7 +196,10 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	public void render () {
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]", true, false);
+		String s = String.format("% 4d", Gdx.graphics.getFramesPerSecond());
+		for (int i = 0; i < 4; i++) {
+			fpsLabel.setInWorkingLayout(5+i, s.charAt(i) | 0xFFFFFFFF00000000L);
+		}
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 	}
