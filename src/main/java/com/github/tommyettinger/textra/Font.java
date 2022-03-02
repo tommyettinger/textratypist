@@ -1707,12 +1707,14 @@ public class Font implements Disposable {
      * This handles monospaced fonts correctly and ensures that for variable-width fonts, subscript, midscript, and
      * superscript halve the advance amount. This does not consider kerning, if the font has it. If the glyph is fully
      * transparent, this does not draw it at all, and treats its x advance as 0. This version of xAdvance does not
-     * read the scale information from glyph, and instead takes it from the scale parameter.
+     * read the scale information from glyph, and instead takes it from the scale parameter. This takes a Font to allow
+     * for families to swap out the current font for a different one.
+     * @param font the Font object to use to measure
      * @param scale the scale to draw the glyph at, usually {@link #scaleX} and possibly adjusted by per-glyph scaling
      * @param glyph a long encoding the color, style information, and char of a glyph, as from a {@link Line}
      * @return the (possibly non-integer) amount to advance the cursor when you draw the given glyph, not counting kerning
      */
-    private float xAdvanceInternal(Font font, float scale, long glyph){
+    public static float xAdvance(Font font, float scale, long glyph){
         if(glyph >>> 32 == 0L) return 0;
         GlyphRegion tr = font.mapping.get((char) glyph);
         if (tr == null) return 0f;
@@ -1730,7 +1732,8 @@ public class Font implements Disposable {
      * Gets the distance to advance the cursor after drawing {@code glyph}, scaled by {@link #scaleX} as if drawing.
      * This handles monospaced fonts correctly and ensures that for variable-width fonts, subscript, midscript, and
      * superscript halve the advance amount. This does not consider kerning, if the font has it. If the glyph is fully
-     * transparent, this does not draw it at all, and treats its x advance as 0.
+     * transparent, this does not draw it at all, and treats its x advance as 0. This only uses the current font, and
+     * will not consider swapped-out fonts from a family.
      * @param glyph a long encoding the color, style information, and char of a glyph, as from a {@link Line}
      * @return the (possibly non-integer) amount to advance the cursor when you draw the given glyph, not counting kerning
      */
@@ -1756,37 +1759,45 @@ public class Font implements Disposable {
      */
     public float measureWidth(Line line) {
         float drawn = 0f;
+        float scaleX;
+        float scale;
         LongArray glyphs = line.glyphs;
-        if (kerning != null) {
-            int kern = -1;
-            float amt;
-            long glyph;
-            for (int i = 0, n = glyphs.size; i < n; i++) {
-                kern = kern << 16 | (int) ((glyph = glyphs.get(i)) & 0xFFFF);
-                float scale = scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
-                amt = kerning.get(kern, 0) * scale;
-                GlyphRegion tr = mapping.get((char)glyph);
-                if(tr == null) continue;
-                float changedW = tr.xAdvance * scale;
-                if (isMono) {
-                    changedW += tr.offsetX * scale;
-                }
-                else if((glyph & SUPERSCRIPT) != 0L)
-                    changedW *= 0.5f;
-                drawn += changedW + amt;
+        boolean curly = false;
+        int kern = -1;
+        float amt;
+        for (int i = 0, n = glyphs.size; i < n; i++) {
+            long glyph = glyphs.get(i);
+            char ch = (char) glyph;
+            if (curly) {
+                if (ch == '}') {
+                    curly = false;
+                    continue;
+                } else if (ch == '{')
+                    curly = false;
+                else continue;
+            } else if (ch == '{') {
+                curly = true;
+                continue;
             }
-        } else {
-            for (int i = 0, n = glyphs.size; i < n; i++) {
-                long glyph = glyphs.get(i);
-                float scale = scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
-                GlyphRegion tr = mapping.get((char)glyph);
-                if(tr == null) continue;
-                float changedW = tr.xAdvance * scale;
-                if (isMono) {
-                    changedW += tr.offsetX * scale;
+            Font font = null;
+            if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
+            if (font == null) font = this;
+            GlyphRegion tr = font.mapping.get(ch);
+            if (tr == null) continue;
+            if (font.kerning != null) {
+                kern = kern << 16 | ch;
+                scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+                scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
+                amt = font.kerning.get(kern, 0) * scaleX;
+                float changedW = tr.xAdvance * scaleX;
+                drawn += changedW + amt;
+            } else {
+                scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+                scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
+                float changedW = tr.xAdvance * scaleX;
+                if (font.isMono) {
+                    changedW += tr.offsetX * scaleX;
                 }
-                else if((glyph & SUPERSCRIPT) != 0L)
-                    changedW *= 0.5f;
                 drawn += changedW;
             }
         }
@@ -1820,11 +1831,11 @@ public class Font implements Disposable {
                 curly = true;
                 continue;
             }
-            GlyphRegion tr = mapping.get(ch);
-            if (tr == null) continue;
             Font font = null;
             if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
             if (font == null) font = this;
+            GlyphRegion tr = font.mapping.get(ch);
+            if (tr == null) continue;
             if (font.kerning != null) {
                 kern = kern << 16 | ch;
                 scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
@@ -2509,10 +2520,10 @@ public class Font implements Disposable {
                 else {
                     float w;
                     if (font.kerning == null) {
-                        w = (appendTo.peekLine().width += xAdvanceInternal(font, scaleX, current | '['));
+                        w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | '['));
                     } else {
                         kern = kern << 16 | '[';
-                        w = (appendTo.peekLine().width += xAdvanceInternal(font, scaleX, current | '[') + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63)));
+                        w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | '[') + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63)));
                     }
                     appendTo.add(current | 2);
                     if(targetWidth > 0 && w > targetWidth) {
@@ -2532,9 +2543,9 @@ public class Font implements Disposable {
                                 if (font.kerning == null) {
                                     for (int k = j + 1, e = 0; e < ellipsis.length(); k++, e++) {
                                         if (k < earlier.glyphs.size) {
-                                            change += xAdvanceInternal(font, scaleX, earlier.glyphs.get(k));
+                                            change += xAdvance(font, scaleX, earlier.glyphs.get(k));
                                         }
-                                        changeNext += xAdvanceInternal(font, scaleX, current | ellipsis.charAt(e));
+                                        changeNext += xAdvance(font, scaleX, current | ellipsis.charAt(e));
                                     }
                                 } else {
                                     int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
@@ -2543,11 +2554,11 @@ public class Font implements Disposable {
                                         if (k < earlier.glyphs.size) {
                                             curr = earlier.glyphs.get(k);
                                             k2 = k2 << 16 | (char) curr;
-                                            change += xAdvanceInternal(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
+                                            change += xAdvance(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                         }
                                         currE = current | ellipsis.charAt(e);
                                         k2e = k2e << 16 | (char) currE;
-                                        changeNext += xAdvanceInternal(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
+                                        changeNext += xAdvance(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
                                     }
                                 }
                                 if (earlier.width + changeNext < appendTo.getTargetWidth()) {
@@ -2581,7 +2592,7 @@ public class Font implements Disposable {
                                     float change = 0f, changeNext = 0f;
                                     if (font.kerning == null) {
                                         for (int k = j + 1; k < earlier.glyphs.size; k++) {
-                                            float adv = xAdvanceInternal(font, scaleX, curr = earlier.glyphs.get(k));
+                                            float adv = xAdvance(font, scaleX, curr = earlier.glyphs.get(k));
                                             change += adv;
                                             if (--leading < 0) {
                                                 appendTo.add(curr);
@@ -2593,7 +2604,7 @@ public class Font implements Disposable {
                                         for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                             curr = earlier.glyphs.get(k);
                                             k2 = k2 << 16 | (char) curr;
-                                            float adv = xAdvanceInternal(font, scaleX, curr);
+                                            float adv = xAdvance(font, scaleX, curr);
                                             change += adv + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                             if (--leading < 0) {
                                                 k3 = k3 << 16 | (char) curr;
@@ -2636,10 +2647,10 @@ public class Font implements Disposable {
                 }
                 float w;
                 if (font.kerning == null) {
-                    w = (appendTo.peekLine().width += xAdvanceInternal(font, scaleX, current | ch));
+                    w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | ch));
                 } else {
                     kern = kern << 16 | ch;
-                    w = (appendTo.peekLine().width += xAdvanceInternal(font, scaleX, current | ch) + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-((current | ch) & SUPERSCRIPT) >> 63)));
+                    w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | ch) + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-((current | ch) & SUPERSCRIPT) >> 63)));
                 }
                 appendTo.add(current | ch);
                 if((targetWidth > 0 && w > targetWidth) || appendTo.atLimit) {
@@ -2676,9 +2687,9 @@ public class Font implements Disposable {
                             if (font.kerning == null) {
                                 for (int k = j + 1, e = 0; e < ellipsis.length(); k++, e++) {
                                     if (k < earlier.glyphs.size) {
-                                        change += xAdvanceInternal(font, scaleX, earlier.glyphs.get(k));
+                                        change += xAdvance(font, scaleX, earlier.glyphs.get(k));
                                     }
-                                    changeNext += xAdvanceInternal(font, scaleX, current | ellipsis.charAt(e));
+                                    changeNext += xAdvance(font, scaleX, current | ellipsis.charAt(e));
                                 }
                             } else {
                                 int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
@@ -2687,11 +2698,11 @@ public class Font implements Disposable {
                                     if (k < earlier.glyphs.size) {
                                         curr = earlier.glyphs.get(k);
                                         k2 = k2 << 16 | (char) curr;
-                                        change += xAdvanceInternal(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
+                                        change += xAdvance(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                     }
                                     currE = current | ellipsis.charAt(e);
                                     k2e = k2e << 16 | (char) currE;
-                                    changeNext += xAdvanceInternal(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
+                                    changeNext += xAdvance(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
                                 }
                             }
                             if (earlier.width + changeNext < appendTo.getTargetWidth()) {
@@ -2751,7 +2762,7 @@ public class Font implements Disposable {
                                             continue;
                                         }
 
-                                        float adv = xAdvanceInternal(font, scaleX, curr);
+                                        float adv = xAdvance(font, scaleX, curr);
                                         change += adv;
                                         if (--leading < 0) {
                                             glyphBuffer.add(curr);
@@ -2784,7 +2795,7 @@ public class Font implements Disposable {
                                             continue;
                                         }
                                         k2 = k2 << 16 | (char) curr;
-                                        float adv = xAdvanceInternal(font, scaleX, curr);
+                                        float adv = xAdvance(font, scaleX, curr);
                                         change += adv + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                         if (--leading < 0) {
                                             k3 = k3 << 16 | (char)curr;
@@ -2811,11 +2822,6 @@ public class Font implements Disposable {
                 }
             }
         }
-
-//        for (int i = 0; i < appendTo.lines(); i++) {
-//            calculateSize(appendTo.getLine(i));
-//        }
-
         return appendTo;
     }
 
