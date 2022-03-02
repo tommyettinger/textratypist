@@ -54,13 +54,14 @@ public class KnownFonts implements LifecycleListener {
      * <a href="https://github.com/slavfox/Cozette">Cozette by slavfox</a>. Cozette has broad coverage of Unicode,
      * including Greek, Cyrillic, Braille, and tech-related icons. This does not scale except to integer
      * multiples, but it should look very crisp at its default size of 7x13 pixels.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
      *
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette.fnt">Cozette.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette.png">Cozette.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-standard.fnt">Cozette-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-standard.png">Cozette-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-license.txt">Cozette-license.txt</a></li>
      * </ul>
      * @return the Font object that represents the 7x13px font Cozette
@@ -71,7 +72,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.cozette == null)
         {
             try {
-                instance.cozette = new Font("Cozette.fnt", "Cozette.png", STANDARD, 1, 1, 0, -1);
+                instance.cozette = new Font("Cozette-standard.fnt", "Cozette-standard.png", STANDARD, 1, 1, 0, -1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -83,15 +84,17 @@ public class KnownFonts implements LifecycleListener {
 
     private Font openSans;
     /**
-     * Returns a Font configured to use a clean variable-width font, Open Sans. This makes an especially large
-     * font by default, but can be scaled down nicely.
+     * Returns a Font configured to use a clean variable-width font, Open Sans. It has good extended-Latin coverage, but
+     * does not support Greek, Cyrillic, or other scripts. This makes an especially large font by default, but can be
+     * scaled down nicely.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
      *
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans.fnt">OpenSans.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans.png">OpenSans.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-standard.fnt">OpenSans-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-standard.png">OpenSans-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-License.txt">OpenSans-License.txt</a></li>
      * </ul>
      * @return the Font object that represents the variable-width font OpenSans
@@ -102,7 +105,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.openSans == null)
         {
             try {
-                instance.openSans = new Font("OpenSans.fnt", "OpenSans.png", STANDARD, 2, 0, 0, 0);
+                instance.openSans = new Font("OpenSans-standard.fnt", "OpenSans-standard.png", STANDARD, 2, 0, 0, 0);
                 instance.openSans.setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -156,8 +159,7 @@ public class KnownFonts implements LifecycleListener {
      * and a humanist style, that should scale cleanly to even very large sizes (using an MSDF technique).
      * Caches the result for later calls. The font used is Cascadia Code Mono, an open-source (SIL Open Font
      * License) typeface by Microsoft (see https://github.com/microsoft/cascadia-code ). It supports a lot of glyphs,
-     * including most extended Latin, Greek,
-     * Braille, and Cyrillic, but also the necessary box drawing characters. This uses the Multi-channel Signed Distance
+     * including most extended Latin, Greek, Braille, and Cyrillic. This uses the Multi-channel Signed Distance
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
@@ -195,7 +197,9 @@ public class KnownFonts implements LifecycleListener {
      * Greek (including Extended), Cyrillic (including some optional glyphs), IPA, Armenian (maybe the only font here to
      * do so), Georgian (which won't be treated correctly by some case-insensitive code, so it should only be used if
      * case doesn't matter), and Lao. It has full box drawing and Braille support, handles a wide variety of math
-     * symbols, technical marks, and dingbats, etc.
+     * symbols, technical marks, and dingbats, etc. This uses the Multi-channel Signed Distance
+     * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
+     * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
      * Needs files:
      * <ul>
@@ -235,7 +239,7 @@ public class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-standard.png">Inconsolata-LGC-Custom-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
      * </ul>
-     * @return the Font object that can represent many sizes of the font Inconsolata LGC
+     * @return the Font object that can represent many sizes of the font Inconsolata LGC Custom
      */
     public static Font getInconsolata()
     {
@@ -267,7 +271,7 @@ public class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-msdf.png">Inconsolata-LGC-Custom-msdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
      * </ul>
-     * @return the Font object that can represent many sizes of the font Inconsolata LGC using MSDF
+     * @return the Font object that can represent many sizes of the font Inconsolata LGC Custom using MSDF
      */
     public static Font getInconsolataMSDF()
     {
@@ -482,14 +486,14 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-bold.fnt">KingthingsFoundation-bold.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-bold.png">KingthingsFoundation-bold.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.fnt">KingthingsFoundation-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.png">KingthingsFoundation-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
      * </ul>
      * You may instead want the non-bold version, but this doesn't have a pre-made instance in KnownFonts:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.fnt">KingthingsFoundation-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.png">KingthingsFoundation-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-Light-standard.fnt">KingthingsFoundation-Light-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-Light-standard.png">KingthingsFoundation-Light-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
      * </ul>
      * @return the Font object that can represent many sizes of the font KingthingsFoundation.ttf
@@ -500,7 +504,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.kingthingsFoundation == null)
         {
             try {
-                instance.kingthingsFoundation = new Font("KingthingsFoundation-bold.fnt", STANDARD, 2, 0, -2.5f, 0).setTextureFilter();
+                instance.kingthingsFoundation = new Font("KingthingsFoundation-standard.fnt", STANDARD, 2, 0, -2.5f, 0).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
             }
