@@ -2535,7 +2535,7 @@ public class Font implements Disposable {
                                         for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
                                             change += xAdvanceInternal(font, scaleX, earlier.glyphs.get(k));
                                             if (--leading < 0 && (e < appendTo.ellipsis.length())) {
-                                                float adv = xAdvanceInternal(font, scaleX, baseColor | appendTo.ellipsis.charAt(e));
+                                                float adv = xAdvanceInternal(font, scaleX, current | appendTo.ellipsis.charAt(e));
                                                 changeNext += adv;
                                             }
                                         }
@@ -2543,7 +2543,7 @@ public class Font implements Disposable {
                                         int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
                                         int k2e = appendTo.ellipsis.charAt(0) & 0xFFFF;
                                         for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
-                                            currE = baseColor | appendTo.ellipsis.charAt(e);
+                                            currE = current | appendTo.ellipsis.charAt(e);
                                             curr = earlier.glyphs.get(k);
                                             k2 = k2 << 16 | (char) curr;
                                             change += xAdvanceInternal(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
@@ -2656,6 +2656,7 @@ public class Font implements Disposable {
                         // here, the max lines have been reached, and an ellipsis may need to be added
                         // to the last line.
                         String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
+                        TRY_AGAIN:
                         for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
                             long curr;
                             // remove a full word or other group of non-space characters.
@@ -2670,30 +2671,30 @@ public class Font implements Disposable {
                             float change = 0f, changeNext = 0f;
                             long currE;
                             if (font.kerning == null) {
-                                for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
+                                for (int k = j + 1, e = 0; e < ellipsis.length(); k++, e++) {
+                                    if (k >= earlier.glyphs.size)
+                                        continue TRY_AGAIN;
                                     change += xAdvanceInternal(font, scaleX, earlier.glyphs.get(k));
-                                    if ((e < ellipsis.length())) {
-                                        float adv = xAdvanceInternal(font, scaleX, baseColor | ellipsis.charAt(e));
-                                        changeNext += adv;
-                                    }
+                                    changeNext += xAdvanceInternal(font, scaleX, current | ellipsis.charAt(e));
                                 }
                             } else {
                                 int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
-                                int k2e = ellipsis.charAt(0) & 0xFFFF;
-                                for (int k = j + 1, e = 0; k < earlier.glyphs.size; k++, e++) {
+                                int k2e = 0xFFFF;
+                                for (int k = j + 1, e = 0; e < ellipsis.length(); k++, e++) {
+                                    if (k >= earlier.glyphs.size)
+                                        continue TRY_AGAIN;
                                     curr = earlier.glyphs.get(k);
                                     k2 = k2 << 16 | (char) curr;
                                     change += xAdvanceInternal(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
-                                    if ((e < ellipsis.length())) {
-                                        currE = baseColor | ellipsis.charAt(e);
-                                        k2e = k2e << 16 | (char) currE;
-                                        changeNext += xAdvanceInternal(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
-                                    }
+
+                                    currE = current | ellipsis.charAt(e);
+                                    k2e = k2e << 16 | (char) currE;
+                                    changeNext += xAdvanceInternal(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
                                 }
                             }
                             if (earlier.width + changeNext < appendTo.getTargetWidth()) {
                                 for (int e = 0; e < ellipsis.length(); e++) {
-                                    earlier.glyphs.add(baseColor | ellipsis.charAt(e));
+                                    earlier.glyphs.add(current | ellipsis.charAt(e));
                                 }
                                 earlier.width = earlier.width + changeNext;
                                 return appendTo;
@@ -2701,7 +2702,7 @@ public class Font implements Disposable {
                             if (earlier.width - change + changeNext < appendTo.getTargetWidth()) {
                                 earlier.glyphs.truncate(j + 1);
                                 for (int e = 0; e < ellipsis.length(); e++) {
-                                    earlier.glyphs.add(baseColor | ellipsis.charAt(e));
+                                    earlier.glyphs.add(current | ellipsis.charAt(e));
                                 }
                                 earlier.width = earlier.width - change + changeNext;
                                 return appendTo;
