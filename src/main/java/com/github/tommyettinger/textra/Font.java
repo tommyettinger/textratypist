@@ -308,7 +308,8 @@ public class Font implements Disposable {
      * When {@link #distanceField} is {@link DistanceFieldType#SDF} or {@link DistanceFieldType#MSDF}, this determines
      * how much the edges of the glyphs should be aliased sharply (higher values) or anti-aliased softly (lower values).
      * The default value is 1. This is used as a persistent multiplier that can be configured per-font, whereas
-     * {@link #actualCrispness} is the working value that changes often but is influenced by this one.
+     * {@link #actualCrispness} is the working value that changes often but is influenced by this one. This variable is
+     * used by {@link #resizeDistanceField(int, int)} to affect the working crispness value.
      */
     public float distanceFieldCrispness = 1f;
 
@@ -1242,7 +1243,8 @@ public class Font implements Disposable {
     //// usage section
 
     /**
-     * Assembles two chars into a kerning pair that can be looked up as a key in {@link #kerning}.
+     * Assembles two chars into a kerning pair that can be looked up as a key in {@link #kerning}. This is unlikely to
+     * be used by most user code, but can be useful for anything that's digging deeply into the internals here.
      * If you give such a pair to {@code kerning}'s {@link IntIntMap#get(int, int)} method, you'll get the amount of
      * extra space (in the same unit the font uses) this will insert between {@code first} and {@code second}.
      * @param first the first char
@@ -1336,6 +1338,44 @@ public class Font implements Disposable {
         for(TextureRegion parent : parents){
             parent.getTexture().setFilter(minFilter, magFilter);
         }
+        return this;
+    }
+
+    /**
+     * Gets the "crispness" multiplier for distance field fonts (SDF and MSDF). This is usually 1.0 unless it has been
+     * changed. The default value is 1.0; lower values look softer and fuzzier, while higher values look sharper and
+     * possibly more jagged. This is used as a persistent multiplier that can be configured per-font, whereas
+     * {@link #actualCrispness} is the working value that changes often but is influenced by this one. This variable is
+     * used by {@link #resizeDistanceField(int, int)} to affect the working crispness value.
+     * @return the current crispness multiplier, as a float
+     */
+    public float getCrispness() {
+        return distanceFieldCrispness;
+    }
+    /**
+     * Sets the "crispness" multiplier for distance field fonts (SDF and MSDF). The default value is 1.0; lower values
+     * look softer and fuzzier, while higher values look sharper and possibly more jagged. This is used as a persistent
+     * multiplier that can be configured per-font, whereas {@link #actualCrispness} is the working value that changes
+     * often but is influenced by this one. This variable is used by {@link #resizeDistanceField(int, int)} to affect
+     * the working crispness value.
+     * @param crispness a float multiplier to be applied to the working crispness; 1.0 is the default
+     * @return this Font, for chaining
+     */
+    public Font setCrispness(float crispness) {
+        distanceFieldCrispness = crispness;
+        return this;
+    }
+    /**
+     * Takes the "crispness" multiplier for distance field fonts (SDF and MSDF) and multiplies it by another multiplier.
+     * Using lower values for multiplier will make the font look softer and fuzzier, while higher values will make it
+     * look sharper and possibly more jagged. This affects a persistent multiplier that can be configured per-font,
+     * whereas {@link #actualCrispness} is the working value that changes often but is influenced by this one. The
+     * variable this affects is used by {@link #resizeDistanceField(int, int)} to affect the working crispness value.
+     * @param multiplier a float multiplier to be applied to the working crispness multiplier
+     * @return this Font, for chaining
+     */
+    public Font multiplyCrispness(float multiplier) {
+        distanceFieldCrispness *= multiplier;
         return this;
     }
 
