@@ -669,8 +669,8 @@ public class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM.font">IBM.font</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM8x16.png">IBM8x16.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-standard.font">IBM-8x16-standard.font</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-standard.png">IBM-8x16-standard.png</a></li>
      * </ul>
      * @return the Font object that represents an 8x16 font included with early IBM computers
      */
@@ -680,7 +680,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.ibm8x16 == null)
         {
             try {
-                instance.ibm8x16 = new Font("IBM.font", true);
+                instance.ibm8x16 = new Font("IBM-8x16-standard.font", true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
