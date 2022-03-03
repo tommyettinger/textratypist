@@ -289,7 +289,45 @@ public class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getInconsolataMSDF() not found.");
     }
 
-    private Font iosevka;
+    private Font iosevkaSDF;
+    /**
+     * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
+     * and a sans-serif geometric style, that should scale cleanly to fairly large sizes (using an SDF technique).
+     * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font
+     * License) typeface by Belleve Invis (see https://be5invis.github.io/Iosevka/ ), and it uses several customizations
+     * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
+     * Greek, and Cyrillic, but also the necessary box drawing characters. This uses the Signed Distance Field (SDF)
+     * technique as opposed to the Multi-channel Signed Distance Field technique that {@link #getIosevkaMSDF()} uses,
+     * which isn't as sharp at large sizes but can look a little better at small sizes.
+     * <br>
+     *
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-sdf.fnt">Iosevka-sdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-sdf.png">Iosevka-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
+     * </ul>
+     * @return the Font object that can represent many sizes of the font Iosevka.ttf using SDF
+     */
+    public static Font getIosevkaSDF()
+    {
+        initialize();
+        if(instance.iosevkaSDF == null)
+        {
+            try {
+                instance.iosevkaSDF = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", SDF, 0f, 0f, 0f, 0f);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if(instance.iosevkaSDF != null)
+            return new Font(instance.iosevkaSDF);
+        throw new RuntimeException("Assets for getIosevkaSDF() not found.");
+    }
+
+
+    private Font iosevkaMSDF;
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
      * and a sans-serif geometric style, that should scale cleanly to even very large sizes (using an MSDF technique).
@@ -310,20 +348,20 @@ public class KnownFonts implements LifecycleListener {
      * </ul>
      * @return the Font object that can represent many sizes of the font Iosevka.ttf using MSDF
      */
-    public static Font getIosevka()
+    public static Font getIosevkaMSDF()
     {
         initialize();
-        if(instance.iosevka == null)
+        if(instance.iosevkaMSDF == null)
         {
             try {
-                instance.iosevka = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 3f, 6, -4f, -7);
+                instance.iosevkaMSDF = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 3f, 6, -4f, -7);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        if(instance.iosevka != null)
-            return new Font(instance.iosevka);
-        throw new RuntimeException("Assets for getIosevka() not found.");
+        if(instance.iosevkaMSDF != null)
+            return new Font(instance.iosevkaMSDF);
+        throw new RuntimeException("Assets for getIosevkaMSDF() not found.");
     }
 
     private Font iosevkaSlab;
