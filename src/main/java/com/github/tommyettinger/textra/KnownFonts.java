@@ -292,7 +292,7 @@ public class KnownFonts implements LifecycleListener {
     private Font iosevka;
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
-     * and a sans-serif geometric style. Does not use a distance field effect.
+     * and a sans-serif geometric style. Does not use a distance field effect, and is sized best at 10x30 pixels.
      * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font
      * License) typeface by Belleve Invis (see https://be5invis.github.io/Iosevka/ ), and it uses several customizations
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
@@ -400,6 +400,43 @@ public class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getIosevkaMSDF() not found.");
     }
 
+    private Font iosevkaSlab;
+    /**
+     * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
+     * and a slab-serif geometric style. Does not use a distance field effect, and is sized best at 10x30 pixels.
+     * Caches the result for later calls. The font used is Iosevka with Slab style, an open-source (SIL Open Font
+     * License) typeface by Belleve Invis (see https://be5invis.github.io/Iosevka/ ), and it uses several customizations
+     * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
+     * Greek, and Cyrillic, but also the necessary box drawing characters. You may want to call
+     * {@link Font#setTextureFilter()} on this if you expect to scale it, but be advised that it can have visual
+     * artifacts with bold or some other effects.
+     * <br>
+     *
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-standard.fnt">Iosevka-Slab-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-standard.png">Iosevka-Slab-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
+     * </ul>
+     * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf
+     */
+    public static Font getIosevkaSlab()
+    {
+        initialize();
+        if(instance.iosevkaSlab == null)
+        {
+            try {
+                instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, 0f, 0f, 0f, 0f);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if(instance.iosevkaSlab != null)
+            return new Font(instance.iosevkaSlab);
+        throw new RuntimeException("Assets for getIosevkaSlab() not found.");
+    }
+
     private Font iosevkaSlabSDF;
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
@@ -419,7 +456,7 @@ public class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-sdf.png">Iosevka-Slab-sdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
      * </ul>
-     * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf using MSDF
+     * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf using SDF
      */
     public static Font getIosevkaSlabSDF()
     {
@@ -854,6 +891,10 @@ public class KnownFonts implements LifecycleListener {
         if (iosevkaMSDF != null) {
             iosevkaMSDF.dispose();
             iosevkaMSDF = null;
+        }
+        if (iosevkaSlab != null) {
+            iosevkaSlab.dispose();
+            iosevkaSlab = null;
         }
         if (iosevkaSlabSDF != null) {
             iosevkaSlabSDF.dispose();
