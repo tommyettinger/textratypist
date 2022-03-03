@@ -400,7 +400,44 @@ public class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getIosevkaMSDF() not found.");
     }
 
-    private Font iosevkaSlab;
+    private Font iosevkaSlabSDF;
+    /**
+     * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
+     * and a slab-serif geometric style, that should scale cleanly to fairly large sizes (using an SDF technique).
+     * Caches the result for later calls. The font used is Iosevka with Slab style, an open-source (SIL Open Font
+     * License) typeface by Belleve Invis (see https://be5invis.github.io/Iosevka/ ), and it uses several customizations
+     * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
+     * Greek, and Cyrillic, but also the necessary box drawing characters. This uses the Signed Distance Field (SDF)
+     * technique as opposed to the Multi-channel Signed Distance Field technique that {@link #getIosevkaMSDF()} uses,
+     * which isn't as sharp at large sizes but can look a little better at small sizes.
+     * <br>
+     *
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-sdf.fnt">Iosevka-Slab-sdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-sdf.png">Iosevka-Slab-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
+     * </ul>
+     * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf using MSDF
+     */
+    public static Font getIosevkaSlabSDF()
+    {
+        initialize();
+        if(instance.iosevkaSlabSDF == null)
+        {
+            try {
+                instance.iosevkaSlabSDF = new Font("Iosevka-Slab-sdf.fnt", "Iosevka-Slab-sdf.png", SDF, 0f, 0f, 0f, 0f);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if(instance.iosevkaSlabSDF != null)
+            return new Font(instance.iosevkaSlabSDF);
+        throw new RuntimeException("Assets for getIosevkaSlabSDF() not found.");
+    }
+
+    private Font iosevkaSlabMSDF;
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
      * and a slab-serif geometric style, that should scale cleanly to even very large sizes (using an MSDF technique).
@@ -421,20 +458,20 @@ public class KnownFonts implements LifecycleListener {
      * </ul>
      * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf using MSDF
      */
-    public static Font getIosevkaSlab()
+    public static Font getIosevkaSlabMSDF()
     {
         initialize();
-        if(instance.iosevkaSlab == null)
+        if(instance.iosevkaSlabMSDF == null)
         {
             try {
-                instance.iosevkaSlab = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, -4f, -7);
+                instance.iosevkaSlabMSDF = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, -4f, -7);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        if(instance.iosevkaSlab != null)
-            return new Font(instance.iosevkaSlab);
-        throw new RuntimeException("Assets for getIosevkaSlab() not found.");
+        if(instance.iosevkaSlabMSDF != null)
+            return new Font(instance.iosevkaSlabMSDF);
+        throw new RuntimeException("Assets for getIosevkaSlabMSDF() not found.");
     }
 
     private Font gentium;
@@ -810,9 +847,6 @@ public class KnownFonts implements LifecycleListener {
             iosevka.dispose();
             iosevka = null;
         }
-        if (iosevkaSlab != null) {
-            iosevkaSlab.dispose();
-            iosevkaSlab = null;
         if (iosevkaSDF != null) {
             iosevkaSDF.dispose();
             iosevkaSDF = null;
@@ -821,6 +855,13 @@ public class KnownFonts implements LifecycleListener {
             iosevkaMSDF.dispose();
             iosevkaMSDF = null;
         }
+        if (iosevkaSlabSDF != null) {
+            iosevkaSlabSDF.dispose();
+            iosevkaSlabSDF = null;
+        }
+        if (iosevkaSlabMSDF != null) {
+            iosevkaSlabMSDF.dispose();
+            iosevkaSlabMSDF = null;
         }
         if (gentium != null) {
             gentium.dispose();
