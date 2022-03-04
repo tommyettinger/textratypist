@@ -4,10 +4,12 @@ A text-display library centered around a label that prints over time, with both 
 In other words, this brings more features to text rendering in libGDX.
 
 What does this look like? A little something like this...
+
 ![Still preview](https://i.imgur.com/DOZ222M.png)
 
 Or perhaps like this...
-![Animated preview](https://i.imgur.com/PkFm3ar.gif)
+
+![Animated preview](images/preview.gif)
 
 ## It's a label!
 
