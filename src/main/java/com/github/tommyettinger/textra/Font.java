@@ -20,7 +20,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -813,7 +812,7 @@ public class Font implements Disposable {
         FileHandle textureHandle;
         if ((textureHandle = Gdx.files.internal(textureName)).exists()
                 || (textureHandle = Gdx.files.local(textureName)).exists()) {
-            parents = Array.with(new TextureRegion(new Texture(new Pixmap(textureHandle))));
+            parents = Array.with(new TextureRegion(new Texture(textureHandle)));
             if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF) {
                 parents.first().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             }
@@ -1099,12 +1098,13 @@ public class Font implements Disposable {
                 String textureName = fnt.substring(idx = indexAfter(fnt, "file=\"", idx), idx = fnt.indexOf('"', idx));
                 if ((textureHandle = Gdx.files.internal(textureName)).exists()
                         || (textureHandle = Gdx.files.local(textureName)).exists()) {
-                    parents.add(new TextureRegion(new Texture(new Pixmap(textureHandle))));
+                    parents.add(new TextureRegion(new Texture(textureHandle)));
                     if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF)
                         parents.peek().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
                 } else {
                     throw new RuntimeException("Missing texture file: " + textureName);
                 }
+
             }
         }
         int size = intFromDec(fnt, idx = indexAfter(fnt, "\nchars count=", idx), idx = indexAfter(fnt, "\nchar id=", idx));
@@ -1170,16 +1170,6 @@ public class Font implements Disposable {
         originalCellWidth = cellWidth;
         originalCellHeight = cellHeight;
         isMono = minWidth == cellWidth && kerning == null;
-        if(!mapping.containsKey(solidBlock)) {
-            Pixmap white = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
-            white.setColor(-1);
-            white.fill();
-            TextureRegion p = parents.peek();
-            int px = p.getRegionX() + p.getRegionWidth() - 3, py = p.getRegionY() + p.getRegionHeight() - 3;
-            p.getTexture().draw(white, px, py);
-            mapping.put(solidBlock, new GlyphRegion(p, px + 1, py + 1, 1, 1));
-            white.dispose();
-        }
     }
 
     /**
@@ -1205,7 +1195,7 @@ public class Font implements Disposable {
             String textureName = fnt.getString("FilePath");
             if ((textureHandle = Gdx.files.internal(textureName)).exists()
                     || (textureHandle = Gdx.files.local(textureName)).exists()) {
-                parents.add(parent = new TextureRegion(new Texture(new Pixmap(textureHandle))));
+                parents.add(parent = new TextureRegion(new Texture(textureHandle)));
             } else {
                 throw new RuntimeException("Missing texture file: " + textureName);
             }
