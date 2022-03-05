@@ -112,14 +112,15 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     public TypingLabel createTypingLabel() {
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{
-                        "Serif", "Sans", "Mono", "Medieval", "Future"
+                        "Serif", "Sans", "Mono", "Medieval", "Future", "Humanist"
                 },
                 new Font[]{
                         KnownFonts.getGentium().scaleTo(32, 35).scale(1.15f, 1.15f),
                         KnownFonts.getOpenSans().scaleTo(23, 35).scale(1.15f, 1.15f).adjustLineHeight(0.6f),
                         KnownFonts.getInconsolata().scaleTo(15, 35).scale(1.15f, 1.15f).adjustLineHeight(0.9375f),
                         KnownFonts.getKingthingsFoundation().scaleTo(35, 35).scale(1.15f, 1.15f),
-                        KnownFonts.getOxanium().scaleTo(32, 35).scale(1.15f, 1.15f).adjustLineHeight(1.05f)
+                        KnownFonts.getOxanium().scaleTo(32, 35).scale(1.15f, 1.15f).adjustLineHeight(1.05f),
+                        KnownFonts.getYanoneKaffeesatz().scaleTo(32, 35).scale(1.15f, 1.15f).adjustLineHeight(0.85f)
                 });
         Font font = family.connected[0].setFamily(family);
 
