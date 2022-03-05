@@ -622,13 +622,15 @@ public class Font implements Disposable {
     }
 
     /**
-     * Unlikely to be used in most games, this allows changing how colors are looked up by name (or built) given a
-     * {@link ColorLookup} interface implementation.
+     * Unlikely to be used in most games (meant more for other libraries), this allows changing how colors are looked up
+     * by name (or built) given a {@link ColorLookup} interface implementation.
      * @param lookup a non-null ColorLookup
+     * @return this, for chaining
      */
-    public void setColorLookup(ColorLookup lookup){
+    public Font setColorLookup(ColorLookup lookup){
         if(lookup != null)
             colorLookup = lookup;
+        return this;
     }
 
     //// constructor section
