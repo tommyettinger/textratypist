@@ -59,7 +59,7 @@ public class FontTest extends ApplicationAdapter {
         layout.setBaseColor(Color.DARK_GRAY);
         layout.setMaxLines(10);
         layout.setEllipsis(" and so on and so forth...");
-        font.markup("@ Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
+        font.markup("Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
                 + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
                 + "\n[FOREST]...use named colors from the Colors class, like [/]FOREST[/]...[]"
                 + "\n[_]...and use [!]effects[!][_]!"
@@ -95,7 +95,7 @@ public class FontTest extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
+//        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
         float x = 400, y = layout.getHeight();
         batch.begin();
         font.enableShader(batch);
