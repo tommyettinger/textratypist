@@ -53,12 +53,14 @@ public class FontTest extends ApplicationAdapter {
 //        font = KnownFonts.getIosevkaSlab().scaleTo(12, 28);
 //        font = KnownFonts.getInconsolataLGC().scaleTo(12, 40);
 //        font = KnownFonts.getIosevka().scaleTo(10, 30);
-        font = KnownFonts.getIosevkaSlab().scaleTo(10, 30);
+//        font = KnownFonts.getIosevkaSlab().scaleTo(10, 30);
+//        font = KnownFonts.getIosevkaSDF().scaleTo(10, 25);
+        font = KnownFonts.getIosevkaSlabSDF().scaleTo(10, 25);
 //        font = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", Font.DistanceFieldType.SDF, 0, 0, 0, 0).scaleTo(12f, 24f);
 //        font = KnownFonts.getIBM8x16();
 //        font = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, 16f, -7).scaleTo(16, 16);
         layout.setBaseColor(Color.DARK_GRAY);
-        layout.setMaxLines(10);
+        layout.setMaxLines(20);
         layout.setEllipsis(" and so on and so forth...");
         font.markup("Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
                 + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
