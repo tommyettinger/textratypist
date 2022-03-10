@@ -296,11 +296,9 @@ public class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font
      * License) typeface by Belleve Invis (see https://be5invis.github.io/Iosevka/ ), and it uses several customizations
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
-     * Greek, and Cyrillic, but also the necessary box drawing characters. You may want to call
-     * {@link Font#setTextureFilter()} on this if you expect to scale it, but be advised that it can have visual
-     * artifacts with bold or some other effects.
+     * Greek, and Cyrillic, but also the necessary box drawing characters.
      * <br>
-     *
+     * Preview: <a href="https://i.imgur.com/1rix7FZ.png">Image link</a> (uses width=10, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -316,7 +314,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevka == null)
         {
             try {
-                instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, 1f, 0f, 0f, 0f);
+                instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, 1f, 0f, 0f, 0f).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
             }
