@@ -52,11 +52,12 @@ public class KnownFonts implements LifecycleListener {
     /**
      * Returns a Font configured to use a cozy fixed-width bitmap font,
      * <a href="https://github.com/slavfox/Cozette">Cozette by slavfox</a>. Cozette has broad coverage of Unicode,
-     * including Greek, Cyrillic, Braille, and tech-related icons. This does not scale except to integer
+     * including Greek, Cyrillic, Braille, and tech-related icons. This does not scale well except to integer
      * multiples, but it should look very crisp at its default size of 7x13 pixels.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     *
+     * Preview: <a href="https://i.imgur.com/9BiTygE.png">Image link</a> (uses width=7, height=13; this makes the scaled
+     * text look bad in some places)
      * <br>
      * Needs files:
      * <ul>
@@ -89,7 +90,7 @@ public class KnownFonts implements LifecycleListener {
      * scaled down nicely.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     *
+     * Preview: <a href="https://i.imgur.com/ubLguhJ.png">Image link</a> (uses width=25, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -105,8 +106,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.openSans == null)
         {
             try {
-                instance.openSans = new Font("OpenSans-standard.fnt", "OpenSans-standard.png", STANDARD, 2, 0, 0, 0);
-                instance.openSans.setTextureFilter();
+                instance.openSans = new Font("OpenSans-standard.fnt", "OpenSans-standard.png", STANDARD, 2, 0, 0, 0).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -126,7 +126,7 @@ public class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     *
+     * Preview: <a href="https://i.imgur.com/MCxVm53.png">Image link</a> (uses width=18, height=18)
      * <br>
      * Needs files:
      * <ul>
@@ -142,8 +142,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.astarry == null)
         {
             try {
-                instance.astarry = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, 1, 0, 0).scaleTo(10, 10);
-                instance.astarry.distanceFieldCrispness = 2.5f;
+                instance.astarry = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, -1, -2, -2).scaleTo(9, 9).setCrispness(5f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
