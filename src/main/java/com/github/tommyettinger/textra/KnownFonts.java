@@ -372,7 +372,7 @@ public class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/YlzFEVX.png">Image link</a>
+     * Preview: <a href="https://i.imgur.com/G3EoXHL.png">Image link</a> (uses width=10, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -388,7 +388,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaMSDF == null)
         {
             try {
-                instance.iosevkaMSDF = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 3f, 6, -4f, -7);
+                instance.iosevkaMSDF = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 3f, 6, -4f, -7).setCrispness(0.75f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -481,7 +481,7 @@ public class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/YlzFEVX.png">Image link</a>
+     * Preview: <a href="https://i.imgur.com/Ln4ixBD.png">Image link</a> (uses width=10, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -497,7 +497,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaSlabMSDF == null)
         {
             try {
-                instance.iosevkaSlabMSDF = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, -4f, -7);
+                instance.iosevkaSlabMSDF = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, -4f, -7).setCrispness(0.75f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
