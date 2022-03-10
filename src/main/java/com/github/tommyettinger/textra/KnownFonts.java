@@ -335,7 +335,7 @@ public class KnownFonts implements LifecycleListener {
      * technique as opposed to the Multi-channel Signed Distance Field technique that {@link #getIosevkaMSDF()} uses,
      * which isn't as sharp at large sizes but can look a little better at small sizes.
      * <br>
-     *
+     * Preview: <a href="https://i.imgur.com/s3xMfzc.png">Image link</a> (uses width=10, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -351,7 +351,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaSDF == null)
         {
             try {
-                instance.iosevkaSDF = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", SDF, 0f, 0f, 0f, 0f);
+                instance.iosevkaSDF = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", SDF, 0f, 0f, -2f, 0f).setCrispness(0.5f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -444,7 +444,7 @@ public class KnownFonts implements LifecycleListener {
      * technique as opposed to the Multi-channel Signed Distance Field technique that {@link #getIosevkaMSDF()} uses,
      * which isn't as sharp at large sizes but can look a little better at small sizes.
      * <br>
-     *
+     * Preview: <a href="https://i.imgur.com/DvjtnZK.png">Image link</a> (uses width=10, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -460,7 +460,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaSlabSDF == null)
         {
             try {
-                instance.iosevkaSlabSDF = new Font("Iosevka-Slab-sdf.fnt", "Iosevka-Slab-sdf.png", SDF, 0f, 0f, 0f, 0f);
+                instance.iosevkaSlabSDF = new Font("Iosevka-Slab-sdf.fnt", "Iosevka-Slab-sdf.png", SDF, 0f, 0f, -2f, 0f).setCrispness(0.5f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
