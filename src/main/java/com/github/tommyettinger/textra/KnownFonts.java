@@ -405,11 +405,9 @@ public class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Iosevka with Slab style, an open-source (SIL Open Font
      * License) typeface by Belleve Invis (see https://be5invis.github.io/Iosevka/ ), and it uses several customizations
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
-     * Greek, and Cyrillic, but also the necessary box drawing characters. You may want to call
-     * {@link Font#setTextureFilter()} on this if you expect to scale it, but be advised that it can have visual
-     * artifacts with bold or some other effects.
+     * Greek, and Cyrillic, but also the necessary box drawing characters.
      * <br>
-     *
+     * Preview: <a href="https://i.imgur.com/pv0kl9U.png">Image link</a> (uses width=10, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -425,7 +423,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaSlab == null)
         {
             try {
-                instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, 0f, 0f, 0f, 0f);
+                instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, 1f, 0f, 1f, 0f).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
             }
