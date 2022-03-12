@@ -730,7 +730,6 @@ public class TypingLabel extends TextraLabel {
                     drawn += single;
                 }
             }
-//            System.out.println("Line " + ln + " has width " + (drawn));
         }
         addMissingGlyphs();
         if(resetShader)

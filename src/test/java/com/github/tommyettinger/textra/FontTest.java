@@ -60,7 +60,8 @@ public class FontTest extends ApplicationAdapter {
 //        font = KnownFonts.getIosevkaSlabMSDF().scaleTo(10, 25);
 //        font = KnownFonts.getCozette().scaleTo(7, 13);
 //        font = KnownFonts.getOpenSans().scaleTo(25, 35);
-        font = KnownFonts.getAStarry().scaleTo(18, 18);
+//        font = KnownFonts.getAStarry().scaleTo(18, 18);
+        font = KnownFonts.getCascadiaMono().scaleTo(10, 20);
 //        font = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", Font.DistanceFieldType.SDF, 0, 0, 0, 0).scaleTo(12f, 24f);
 //        font = KnownFonts.getIBM8x16();
 //        font = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, 16f, -7).scaleTo(16, 16);
