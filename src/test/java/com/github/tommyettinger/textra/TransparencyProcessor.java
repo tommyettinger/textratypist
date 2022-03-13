@@ -61,7 +61,7 @@ public class TransparencyProcessor extends ApplicationAdapter {
 
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("textramode block stamper tool");
+        config.setTitle("textratypist transparency tool");
         config.setWindowedMode(800, 400);
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
@@ -84,7 +84,8 @@ public class TransparencyProcessor extends ApplicationAdapter {
                 return name.endsWith(".png") && !name.endsWith("-msdf.png");
             }
         });
-        for (FileHandle file : files)
+//        for (FileHandle file : files)
+        FileHandle file = Gdx.files.local("knownFonts/Inconsolata-LGC-Custom-standard.png");
             rewrite(file);
         Gdx.app.exit();
     }
