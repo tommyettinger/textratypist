@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import java.nio.ByteBuffer;
+
 public class FontTest extends ApplicationAdapter {
 
     Font fnt;
@@ -107,7 +109,13 @@ public class FontTest extends ApplicationAdapter {
             font.enableShader(batch);
             font.drawGlyphs(batch, layout, x, y, Align.center);
             batch.end();
-            Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+            Gdx.gl.glPixelStorei(GL20.GL_PACK_ALIGNMENT, 1);
+
+            final Pixmap pm = new Pixmap(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGB888);
+            ByteBuffer pixels = pm.getPixels();
+            Gdx.gl.glReadPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), GL20.GL_RGB, GL20.GL_UNSIGNED_BYTE, pixels);
+
+//            Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
             PixmapIO.writePNG(Gdx.files.local("out/image"+(index++) + ".png"), pm, 6, true);
 
         }
