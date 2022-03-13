@@ -844,6 +844,48 @@ public class KnownFonts implements LifecycleListener {
 
     }
 
+    /**
+     * Returns a new array of Font instances, calling each getXyz() method in this class that returns any Font.
+     * This will only function at all if all the assets (for every known Font) are present and load-able.
+     * @return a new array containing all Font instances this knows
+     */
+    public static Font[] getAll() {
+        return new Font[]{getAStarry(), getCanada(), getCascadiaMono(), getCozette(), getDejaVuSansMono(), getGentium(),
+                getGentiumSDF(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(),
+                getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
+                getLibertinusSerif(), getOpenSans(), getOxanium(), getRobotoCondensed(), getYanoneKaffeesatz()};
+    }
+    /**
+     * Returns a new array of Font instances, calling each getXyz() method in this class that returns any
+     * non-distance-field Font.
+     * This will only function at all if all the assets (for every known standard Font) are present and load-able.
+     * @return a new array containing all non-distance-field Font instances this knows
+     */
+    public static Font[] getAllStandard() {
+        return new Font[]{getCanada(), getCozette(), getGentium(), getIBM8x16(), getInconsolata(), getIosevka(),
+                getIosevkaSlab(), getKingthingsFoundation(), getOpenSans(), getOxanium(), getRobotoCondensed(),
+                getYanoneKaffeesatz()};
+    }
+
+    /**
+     * Returns a new array of Font instances, calling each getXyz() method in this class that returns any SDF Font.
+     * This will only function at all if all the assets (for every known SDF Font) are present and load-able.
+     * @return a new array containing all SDF Font instances this knows
+     */
+    public static Font[] getAllSDF() {
+        return new Font[]{getGentiumSDF(), getIosevkaSDF(), getIosevkaSlabSDF()};
+    }
+
+    /**
+     * Returns a new array of Font instances, calling each getXyz() method in this class that returns any MSDF Font.
+     * This will only function at all if all the assets (for every known MSDF Font) are present and load-able.
+     * @return a new array containing all MSDF Font instances this knows
+     */
+    public static Font[] getAllMSDF() {
+        return new Font[]{getAStarry(), getCascadiaMono(), getDejaVuSansMono(), getInconsolataMSDF(), getIosevkaMSDF(),
+                getIosevkaSlabMSDF(), getLibertinusSerif()};
+    }
+
     @Override
     public void dispose() {
 
