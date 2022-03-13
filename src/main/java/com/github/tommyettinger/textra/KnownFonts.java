@@ -246,7 +246,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.inconsolata == null)
         {
             try {
-                instance.inconsolata = new Font("Inconsolata-LGC-Custom-standard.fnt", "Inconsolata-LGC-Custom-standard.png", STANDARD, 0f, 0f, -6f, 0f).scaleTo(10, 20).setTextureFilter();
+                instance.inconsolata = new Font("Inconsolata-LGC-Custom-standard.fnt", "Inconsolata-LGC-Custom-standard.png", STANDARD, 0f, 0f, -4f, 0f).scaleTo(10, 26).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -278,7 +278,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.inconsolataMSDF == null)
         {
             try {
-                instance.inconsolataMSDF = new Font("Inconsolata-LGC-Custom-msdf.fnt", "Inconsolata-LGC-Custom-msdf.png", MSDF, 5f, 1f, -10f, -8f).scaleTo(10, 20);
+                instance.inconsolataMSDF = new Font("Inconsolata-LGC-Custom-msdf.fnt", "Inconsolata-LGC-Custom-msdf.png", MSDF, 5f, 1f, -10f, -8f).scaleTo(10, 26);
             } catch (Exception e) {
                 e.printStackTrace();
             }

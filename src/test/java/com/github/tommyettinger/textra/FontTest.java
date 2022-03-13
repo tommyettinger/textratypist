@@ -30,6 +30,7 @@ public class FontTest extends ApplicationAdapter {
         ShaderProgram.prependFragmentCode = "#version 110\n";
         config.enableGLDebugOutput(true, System.out);
         config.useVsync(true);
+//        config.setBackBufferConfig(8, 8, 8, 8, 16, 0, 2);
         new Lwjgl3Application(new FontTest(), config);
     }
 
@@ -37,8 +38,10 @@ public class FontTest extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
         colorNames = Colors.getColors().keys().toArray();
+//        Font[] fonts = {KnownFonts.getInconsolata()};
         Font[] fonts = KnownFonts.getAll();
         fnt = fonts[fonts.length - 1];
+        System.out.println("Is mono? " + fnt.isMono);
         Gdx.files.local("out/").mkdirs();
         int index = 0;
         for (Font font : fonts) {
@@ -101,7 +104,7 @@ public class FontTest extends ApplicationAdapter {
 //                + "\n[*]Водяно́й[] — в славянской мифологии дух, обитающий в воде, хозяин вод[^][BLUE][[2][]."
 //                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][].", layout);
 
-            Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
+            Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1f);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 //        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
             float x = 400, y = layout.getHeight();
