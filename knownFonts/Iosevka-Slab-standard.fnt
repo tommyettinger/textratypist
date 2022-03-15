@@ -69,7 +69,7 @@ char id=91 x=756 y=0 width=10 height=30 xoffset=-1 yoffset=-1 xadvance=10 page=0
 char id=92 x=768 y=0 width=10 height=30 xoffset=-1 yoffset=-1 xadvance=10 page=0 chnl=15
 char id=93 x=780 y=0 width=10 height=30 xoffset=-1 yoffset=-1 xadvance=10 page=0 chnl=15
 char id=94 x=792 y=0 width=10 height=30 xoffset=-1 yoffset=-1 xadvance=10 page=0 chnl=15
-char id=95 x=804 y=0 width=10 height=30 xoffset=-1 yoffset=-1 xadvance=10 page=0 chnl=15
+char id=95 x=804 y=0 width=10 height=30 xoffset=-1 yoffset=2 xadvance=10 page=0 chnl=15
 char id=96 x=816 y=0 width=10 height=30 xoffset=-1 yoffset=-1 xadvance=10 page=0 chnl=15
 char id=97 x=828 y=0 width=10 height=30 xoffset=-1 yoffset=-1 xadvance=10 page=0 chnl=15
 char id=98 x=840 y=0 width=10 height=30 xoffset=-1 yoffset=-1 xadvance=10 page=0 chnl=15
