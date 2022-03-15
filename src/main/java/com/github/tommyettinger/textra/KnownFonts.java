@@ -58,7 +58,7 @@ public class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/MCxVm53.png">Image link</a> (uses width=18, height=18)
+     * Preview: <a href="https://i.imgur.com/J411L6i.png">Image link</a> (uses width=9, height=9)
      * <br>
      * Needs files:
      * <ul>
@@ -94,7 +94,7 @@ public class KnownFonts implements LifecycleListener {
      * or narrowed down so width is smaller.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * <br>
-     * Preview: <a href="https://i.imgur.com/KFUOFSz.png">Image link</a> (uses width=40, height=58)
+     * Preview: <a href="https://i.imgur.com/PtiY6wy.png">Image link</a> (uses width=30, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -130,7 +130,7 @@ public class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     *
+     * Preview: <a href="https://i.imgur.com/iGtq0Sh.png">Image link</a> (uses width=10, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -164,8 +164,8 @@ public class KnownFonts implements LifecycleListener {
      * multiples, but it should look very crisp at its default size of 7x13 pixels.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/9BiTygE.png">Image link</a> (uses width=7, height=13; this makes the scaled
-     * text look bad in some places)
+     * Preview: <a href="https://i.imgur.com/thZP5CD.png">Image link</a> (uses width=7, height=13; this is small enough
+     * to make the scaled text look bad in some places)
      * <br>
      * Needs files:
      * <ul>
@@ -203,6 +203,8 @@ public class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
+     * Preview: <a href="https://i.imgur.com/vf170gC.png">Image link</a> (uses width=10, height=20)
+     * <br>
      * Needs files:
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-msdf.fnt">DejaVuSansMono-msdf.fnt</a></li>
@@ -239,7 +241,7 @@ public class KnownFonts implements LifecycleListener {
      * does not use a distance field effect, as opposed to {@link #getGentiumSDF()}. You may want to stick using just
      * fonts that avoid distance fields if you have a family of fonts.
      * <br>
-     * Preview: <a href="https://i.imgur.com/7Dt16gz.png">Image link</a> (uses width=31, height=35)
+     * Preview: <a href="https://i.imgur.com/tMY5qhR.png">Image link</a> (uses width=31, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -276,7 +278,7 @@ public class KnownFonts implements LifecycleListener {
      * uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but should be
      * crisp enough when zoomed out.
      * <br>
-     * Preview: <a href="https://i.imgur.com/cszdPWI.png">Image link</a> (uses width=60, height=45, adjustLineHeight(0.8f))
+     * Preview: <a href="https://i.imgur.com/voKEzv0.png">Image link</a> (uses width=60, height=45, adjustLineHeight(0.8f))
      * <br>
      * Needs files:
      * <ul>
@@ -317,6 +319,8 @@ public class KnownFonts implements LifecycleListener {
      * of their signature font throughout the 1980s, but if the legality is concerning, you
      * can use {@link #getCozette()} for a different bitmap font.
      * <br>
+     * Preview: <a href="https://i.imgur.com/bvMagBS.png">Image link</a> (uses width=8, height=16)
+     * <br>
      * Needs files:
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-standard.font">IBM-8x16-standard.font</a></li>
@@ -347,6 +351,8 @@ public class KnownFonts implements LifecycleListener {
      * Inconsolata is by Raph Levien, and various other contributors added support for other languages. This does not
      * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}. You may want to stick using just fonts
      * that avoid distance fields if you have a family of fonts.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/VMD9bRw.png">Image link</a> (uses width=10, height=26)
      * <br>
      * Needs files:
      * <ul>
@@ -379,6 +385,8 @@ public class KnownFonts implements LifecycleListener {
      * Inconsolata is by Raph Levien, and various other contributors added support for other languages. This uses the
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/pQRnZRz.png">Image link</a> (uses width=10, height=26)
      * <br>
      * Needs files:
      * <ul>
@@ -413,7 +421,7 @@ public class KnownFonts implements LifecycleListener {
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
      * Greek, and Cyrillic, but also the necessary box drawing characters.
      * <br>
-     * Preview: <a href="https://i.imgur.com/1rix7FZ.png">Image link</a> (uses width=10, height=30)
+     * Preview: <a href="https://i.imgur.com/12LGZ5T.png">Image link</a> (uses width=9, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -429,7 +437,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevka == null)
         {
             try {
-                instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(10, 25).setTextureFilter();
+                instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(9, 25).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -450,7 +458,7 @@ public class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/G3EoXHL.png">Image link</a> (uses width=10, height=25)
+     * Preview: <a href="https://i.imgur.com/zKeic4A.png">Image link</a> (uses width=9, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -466,7 +474,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaMSDF == null)
         {
             try {
-                instance.iosevkaMSDF = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 3f, 6, -4f, -7).setCrispness(0.75f).scaleTo(10, 25);
+                instance.iosevkaMSDF = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 3f, 6, -4f, -7).setCrispness(0.75f).scaleTo(9, 25);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -487,7 +495,7 @@ public class KnownFonts implements LifecycleListener {
      * technique as opposed to the Multi-channel Signed Distance Field technique that {@link #getIosevkaMSDF()} uses,
      * which isn't as sharp at large sizes but can look a little better at small sizes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/s3xMfzc.png">Image link</a> (uses width=10, height=25)
+     * Preview: <a href="https://i.imgur.com/M4dNNi5.png">Image link</a> (uses width=9, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -503,7 +511,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaSDF == null)
         {
             try {
-                instance.iosevkaSDF = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", SDF, 0f, 0f, -2f, 0f).setCrispness(0.5f).scaleTo(10, 25);
+                instance.iosevkaSDF = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", SDF, 0f, 0f, -2f, 0f).setCrispness(0.5f).scaleTo(9, 25);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -522,7 +530,7 @@ public class KnownFonts implements LifecycleListener {
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
      * Greek, and Cyrillic, but also the necessary box drawing characters.
      * <br>
-     * Preview: <a href="https://i.imgur.com/pv0kl9U.png">Image link</a> (uses width=10, height=30)
+     * Preview: <a href="https://i.imgur.com/HSn2Z7W.png">Image link</a> (uses width=9, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -538,7 +546,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaSlab == null)
         {
             try {
-                instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(10, 25).setTextureFilter();
+                instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(9, 25).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -559,7 +567,7 @@ public class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/Ln4ixBD.png">Image link</a> (uses width=10, height=25)
+     * Preview: <a href="https://i.imgur.com/ceHGAVr.png">Image link</a> (uses width=9, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -575,7 +583,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaSlabMSDF == null)
         {
             try {
-                instance.iosevkaSlabMSDF = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, -4f, -7).setCrispness(0.75f).scaleTo(10, 25);
+                instance.iosevkaSlabMSDF = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, -4f, -7).setCrispness(0.75f).scaleTo(9, 25);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -596,7 +604,7 @@ public class KnownFonts implements LifecycleListener {
      * technique as opposed to the Multi-channel Signed Distance Field technique that {@link #getIosevkaMSDF()} uses,
      * which isn't as sharp at large sizes but can look a little better at small sizes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/DvjtnZK.png">Image link</a> (uses width=10, height=25)
+     * Preview: <a href="https://i.imgur.com/8TBD3xn.png">Image link</a> (uses width=9, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -612,7 +620,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaSlabSDF == null)
         {
             try {
-                instance.iosevkaSlabSDF = new Font("Iosevka-Slab-sdf.fnt", "Iosevka-Slab-sdf.png", SDF, 0f, 0f, -2f, 0f).setCrispness(0.5f).scaleTo(10, 25);
+                instance.iosevkaSlabSDF = new Font("Iosevka-Slab-sdf.fnt", "Iosevka-Slab-sdf.png", SDF, 0f, 0f, -2f, 0f).setCrispness(0.5f).scaleTo(9, 25);
             } catch (Exception e) {
                 e.printStackTrace();
             }

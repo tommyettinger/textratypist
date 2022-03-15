@@ -41,7 +41,6 @@ public class FontTest extends ApplicationAdapter {
 //        Font[] fonts = {KnownFonts.getInconsolata()};
         Font[] fonts = KnownFonts.getAll();
         fnt = fonts[fonts.length - 1];
-        System.out.println("Is mono? " + fnt.isMono);
         Gdx.files.local("out/").mkdirs();
         int index = 0;
         for (Font font : fonts) {
