@@ -33,7 +33,7 @@ import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
  * method. It's likely that many games would only use one Font, and so would generally only need a .fnt file, a
  * .png file, and some kind of license file. They could ignore all other assets required by other fonts.
  */
-public class KnownFonts implements LifecycleListener {
+public final class KnownFonts implements LifecycleListener {
     private static KnownFonts instance;
 
     private KnownFonts() {
@@ -437,6 +437,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevka == null)
         {
             try {
+                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 2.
                 instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(9, 25).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -474,6 +475,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaMSDF == null)
         {
             try {
+                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 instance.iosevkaMSDF = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 3f, 6, -4f, -7).setCrispness(0.75f).scaleTo(9, 25);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -511,6 +513,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaSDF == null)
         {
             try {
+                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 instance.iosevkaSDF = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", SDF, 0f, 0f, -2f, 0f).setCrispness(0.5f).scaleTo(9, 25);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -546,6 +549,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaSlab == null)
         {
             try {
+                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 2.
                 instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(9, 25).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -583,6 +587,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaSlabMSDF == null)
         {
             try {
+                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 instance.iosevkaSlabMSDF = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, -4f, -7).setCrispness(0.75f).scaleTo(9, 25);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -620,6 +625,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.iosevkaSlabSDF == null)
         {
             try {
+                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 instance.iosevkaSlabSDF = new Font("Iosevka-Slab-sdf.fnt", "Iosevka-Slab-sdf.png", SDF, 0f, 0f, -2f, 0f).setCrispness(0.5f).scaleTo(9, 25);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -639,7 +645,7 @@ public class KnownFonts implements LifecycleListener {
      * can still apply bold again using markup. It supports only ASCII.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * <br>
-     * Preview: <a href="https://i.imgur.com/DwXRXd3.png">Image link</a> (uses width=45, height=60)
+     * Preview: <a href="https://i.imgur.com/GD9iyKO.png">Image link</a> (uses width=25, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -680,7 +686,7 @@ public class KnownFonts implements LifecycleListener {
      * This uses the Multi-channel Signed Distance Field (MSDF) technique, which should be very sharp. This probably
      * needs to be scaled so that it has much larger width than height; the default is 150x32.
      * <br>
-     * Preview: <a href="https://i.imgur.com/nESDlFJ.png">Image link</a>
+     * Preview: <a href="https://i.imgur.com/ia9Q8ej.png">Image link</a> (uses width=150, height=132)
      * <br>
      * Needs files:
      * <ul>
@@ -713,7 +719,7 @@ public class KnownFonts implements LifecycleListener {
      * scaled down nicely.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ubLguhJ.png">Image link</a> (uses width=25, height=35)
+     * Preview: <a href="https://i.imgur.com/qQEUQvz.png">Image link</a> (uses width=25, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -747,7 +753,7 @@ public class KnownFonts implements LifecycleListener {
      * and extended Latin, but not Greek or Cyrillic.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * <br>
-     * Preview: <a href="https://i.imgur.com/uQzCEo9.png">Image link</a> (uses width=40, height=50)
+     * Preview: <a href="https://i.imgur.com/PBaqi5O.png">Image link</a> (uses width=31, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -782,7 +788,7 @@ public class KnownFonts implements LifecycleListener {
      * This font is meant to be condensed in its natural appearance, but can be scaled to be wider if desired.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ytyx61F.png">Image link</a> (uses width=40, height=58)
+     * Preview: <a href="https://i.imgur.com/8QIqEgk.png">Image link</a> (uses width=25, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -798,7 +804,7 @@ public class KnownFonts implements LifecycleListener {
         if(instance.robotoCondensed == null)
         {
             try {
-                instance.robotoCondensed = new Font("RobotoCondensed-standard.fnt", STANDARD, 0, 0, 0, 0).scaleTo(40, 58).setTextureFilter();
+                instance.robotoCondensed = new Font("RobotoCondensed-standard.fnt", STANDARD, 0, 0, 0, 0).scaleTo(25, 35).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -816,7 +822,7 @@ public class KnownFonts implements LifecycleListener {
      * of Latin, Cyrillic, and some extended Latin, but not Greek.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * <br>
-     * Preview: <a href="https://i.imgur.com/qSdhTsw.png">Image link</a> (uses width=45, height=60)
+     * Preview: <a href="https://i.imgur.com/ymJT8SD.png">Image link</a> (uses width=30, height=35)
      * <br>
      * Needs files:
      * <ul>
