@@ -93,7 +93,7 @@ variety of font types isn't amazing, but it should be a good starting point.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.2.0"
+implementation "com.github.tommyettinger:textratypist:0.2.1"
 ```
 
 This assumes you already depend on libGDX; textratypist depends on version 1.10.0 or higher, and should have no problems
@@ -104,7 +104,7 @@ a different version for 1.10.1 (-SNAPSHOT) and higher vs. 1.10.0 .
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.2.0:sources"
+implementation "com.github.tommyettinger:textratypist:0.2.1:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
