@@ -227,7 +227,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 
 	public static void main(String[] args){
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setTitle("textramode UI test");
+		config.setTitle("TextraLabel UI test");
 		config.setWindowedMode(640, 480);
 		config.disableAudio(true);
 		ShaderProgram.prependVertexCode = "#version 110\n";

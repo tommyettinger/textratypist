@@ -229,7 +229,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 
 	public static void main(String[] args){
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setTitle("textramode UI test");
+		config.setTitle("TypingLabel UI test");
 		config.setWindowedMode(640, 480);
 		config.disableAudio(true);
 		config.setForegroundFPS(60);

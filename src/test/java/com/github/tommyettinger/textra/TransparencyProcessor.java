@@ -37,20 +37,19 @@ import java.util.zip.DeflaterOutputStream;
  * one color used (here, white), and correct the fully transparent color from 0x000000 to match the 0xFFFFFF used
  * everywhere else in the image. What this is useful for, is to make linear filtering look (much) better when used
  * against a light-colored background. It has no real effect if drawing black text, but with white or brightly-colored
- * text on almost any background, it can be very noticeable, especially with bold text.
+ * text on almost any background, it can be very noticeable, especially with bold text. If you later optimize the
+ * resulting PNGs for file size, you can use pngout with the /kp argument to keep the palette as-is.
  * <br>
  * This copies a lot of code from anim8-gdx, which in turn copied a lot from PixmapIO in libGDX.
  */
 public class TransparencyProcessor extends ApplicationAdapter {
     static private final byte[] SIGNATURE = {(byte)137, 80, 78, 71, 13, 10, 26, 10};
     static private final int IHDR = 0x49484452, IDAT = 0x49444154, IEND = 0x49454E44,
-            PLTE = 0x504C5445, TRNS = 0x74524E53,
-            acTL = 0x6163544C, fcTL = 0x6663544C, fdAT = 0x66644154;
+            PLTE = 0x504C5445, TRNS = 0x74524E53;
     static private final byte COLOR_INDEXED = 3;
     static private final byte COMPRESSION_DEFLATE = 0;
     static private final byte INTERLACE_NONE = 0;
     static private final byte FILTER_NONE = 0;
-//    static private final byte FILTER_PAETH = 4;
 
     private final ChunkBuffer buffer;
     private final Deflater deflater;
@@ -58,39 +57,50 @@ public class TransparencyProcessor extends ApplicationAdapter {
     private ByteArray prevLineBytes;
     private boolean flipY = false;
     private int lastLineLen;
+    private String[] parameters;
 
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("textratypist transparency tool");
-        config.setWindowedMode(800, 400);
+        config.setTitle("Transparency Pre-Processor Tool");
+        config.setWindowedMode(600, 400);
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
         config.useVsync(true);
-        new Lwjgl3Application(new TransparencyProcessor(), config);
+        new Lwjgl3Application(new TransparencyProcessor(args), config);
     }
 
 
-    public TransparencyProcessor() {
+    public TransparencyProcessor(String[] args) {
         buffer = new ChunkBuffer(65536);
         deflater = new Deflater();
+        if(args == null || args.length == 0){
+            System.out.println("Please specify one or more file names.");
+            return;
+        }
+        parameters = args;
     }
 
     @Override
     public void create() {
-        FileHandle[] files = Gdx.files.local("knownFonts").list(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".png") && !name.endsWith("-msdf.png");
-            }
-        });
+//        FileHandle[] files = Gdx.files.local("knownFonts").list(new FilenameFilter() {
+//            @Override
+//            public boolean accept(File dir, String name) {
+//                return name.endsWith(".png") && !name.endsWith("-msdf.png");
+//            }
+//        });
 //        for (FileHandle file : files)
-        FileHandle file = Gdx.files.local("knownFonts/Inconsolata-LGC-Custom-standard.png");
-            rewrite(file);
+//        FileHandle file = Gdx.files.local("knownFonts/Inconsolata-LGC-Custom-standard.png");
+        for(String name : parameters)
+            rewrite(Gdx.files.local(name));
         Gdx.app.exit();
     }
 
     private void rewrite (FileHandle file) {
+        if(!file.exists()) {
+            System.out.println("The specified file " + file + " does not exist; skipping.");
+            return;
+        }
         Pixmap pixmap = new Pixmap(file);
         OutputStream output = file.write(false);
         try {
@@ -157,30 +167,6 @@ public class TransparencyProcessor extends ApplicationAdapter {
                         }
                         curLine[px] = (byte) (color & 255);
                     }
-
-//            lineOut[0] = (byte)(curLine[0] - prevLine[0]);
-//
-//            //Paeth
-//            for (int x = 1; x < lineLen; x++) {
-//                int a = curLine[x - 1] & 0xff;
-//                int b = prevLine[x] & 0xff;
-//                int c = prevLine[x - 1] & 0xff;
-//                int p = a + b - c;
-//                int pa = p - a;
-//                if (pa < 0) pa = -pa;
-//                int pb = p - b;
-//                if (pb < 0) pb = -pb;
-//                int pc = p - c;
-//                if (pc < 0) pc = -pc;
-//                if (pa <= pb && pa <= pc)
-//                    c = a;
-//                else if (pb <= pc)
-//                    c = b;
-//                lineOut[x] = (byte)(curLine[x] - c);
-//            }
-//
-//            deflaterOutput.write(FILTER_PAETH);
-//            deflaterOutput.write(lineOut, 0, lineLen);
 
                     deflaterOutput.write(FILTER_NONE);
                     deflaterOutput.write(curLine, 0, lineLen);

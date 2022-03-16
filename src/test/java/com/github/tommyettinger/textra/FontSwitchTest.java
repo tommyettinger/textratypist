@@ -23,7 +23,7 @@ public class FontSwitchTest extends ApplicationAdapter {
 
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("textramode Font test");
+        config.setTitle("Multiple Font test");
         config.setWindowedMode(800, 400);
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
@@ -45,7 +45,7 @@ public class FontSwitchTest extends ApplicationAdapter {
                         KnownFonts.getGentium().scaleTo(32, 35),
                         KnownFonts.getOpenSans().scaleTo(23, 35).adjustLineHeight(0.55f),
                         KnownFonts.getCozette().scale(2, 2).adjustLineHeight(0.8f),
-                        KnownFonts.getKingthingsFoundation().scaleTo(25, 34).adjustLineHeight(0.875f).setTextureFilter(),
+                        KnownFonts.getKingthingsFoundation().scaleTo(25, 34).adjustLineHeight(0.875f),
                 });
         font = family.connected[0].setFamily(family);
         layout.setBaseColor(Color.DARK_GRAY);

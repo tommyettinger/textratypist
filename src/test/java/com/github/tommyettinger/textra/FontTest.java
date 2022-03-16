@@ -23,14 +23,13 @@ public class FontTest extends ApplicationAdapter {
 
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("textramode Font test");
+        config.setTitle("Font Preview Generator");
         config.setWindowedMode(800, 400);
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
         config.enableGLDebugOutput(true, System.out);
         config.useVsync(true);
-//        config.setBackBufferConfig(8, 8, 8, 8, 16, 0, 2);
         new Lwjgl3Application(new FontTest(), config);
     }
 
@@ -111,11 +110,13 @@ public class FontTest extends ApplicationAdapter {
             font.enableShader(batch);
             font.drawGlyphs(batch, layout, x, y, Align.center);
             batch.end();
-            Gdx.gl.glPixelStorei(GL20.GL_PACK_ALIGNMENT, 1);
 
+            // Modified Pixmap.createFromFrameBuffer() code that uses RGB instead of RGBA
+            Gdx.gl.glPixelStorei(GL20.GL_PACK_ALIGNMENT, 1);
             final Pixmap pm = new Pixmap(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGB888);
             ByteBuffer pixels = pm.getPixels();
             Gdx.gl.glReadPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), GL20.GL_RGB, GL20.GL_UNSIGNED_BYTE, pixels);
+            // End Pixmap.createFromFrameBuffer() modified code
 
 //            Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
             PixmapIO.writePNG(Gdx.files.local("out/image"+(index++) + ".png"), pm, 6, true);
