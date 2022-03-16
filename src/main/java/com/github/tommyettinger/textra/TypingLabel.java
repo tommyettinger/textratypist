@@ -481,14 +481,13 @@ public class TypingLabel extends TextraLabel {
             }
 
             // If char progression is finished, or if text is empty, notify listener and abort routine
-            int textLen = layoutSize;
-            if(textLen == 0 || glyphCharIndex >= textLen) {
+            if(layoutSize == 0 || glyphCharIndex >= layoutSize) {
                 if(!ended) {
                     ended = true;
                     skipping = false;
                     if(listener != null) listener.end();
                 }
-                return;
+                break;
             }
 
             // Increase glyph char index for all characters
@@ -682,6 +681,16 @@ public class TypingLabel extends TextraLabel {
             // Advance glyph count
             glyphLeft--;
         }
+        if(wrap) {
+            font.regenerateLayout(workingLayout);
+        }
+        else {
+            for (Line ln : workingLayout.lines) {
+                font.calculateSize(ln);
+            }
+        }
+        invalidateHierarchy();
+
     }
 
     /**

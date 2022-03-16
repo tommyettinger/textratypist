@@ -3132,7 +3132,7 @@ public class Font implements Disposable {
                         }
                     }
                     if (hasMultipleGaps && drawn + changedW > targetWidth) {
-                        cutoff = breakPoint - spacingSpan;
+                        cutoff = breakPoint - spacingSpan + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLine();
@@ -3189,7 +3189,7 @@ public class Font implements Disposable {
                         }
                     }
                     if (hasMultipleGaps && drawn + changedW + amt > targetWidth) {
-                        cutoff = breakPoint - spacingSpan;
+                        cutoff = breakPoint - spacingSpan + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLine();

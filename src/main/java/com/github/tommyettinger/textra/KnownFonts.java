@@ -903,25 +903,37 @@ public final class KnownFonts implements LifecycleListener {
     @Override
     public void dispose() {
 
-        if (cozette != null) {
-            cozette.dispose();
-            cozette = null;
-        }
-        if (openSans != null) {
-            openSans.dispose();
-            openSans = null;
-        }
         if (astarry != null) {
             astarry.dispose();
             astarry = null;
+        }
+        if (canada != null) {
+            canada.dispose();
+            canada = null;
         }
         if (cascadiaMono != null) {
             cascadiaMono.dispose();
             cascadiaMono = null;
         }
+        if (cozette != null) {
+            cozette.dispose();
+            cozette = null;
+        }
         if (dejaVuSansMono != null) {
             dejaVuSansMono.dispose();
             dejaVuSansMono = null;
+        }
+        if (gentium != null) {
+            gentium.dispose();
+            gentium = null;
+        }
+        if (gentiumSDF != null) {
+            gentiumSDF.dispose();
+            gentiumSDF = null;
+        }
+        if (ibm8x16 != null) {
+            ibm8x16.dispose();
+            ibm8x16 = null;
         }
         if (inconsolata != null) {
             inconsolata.dispose();
@@ -935,41 +947,37 @@ public final class KnownFonts implements LifecycleListener {
             iosevka.dispose();
             iosevka = null;
         }
-        if (iosevkaSDF != null) {
-            iosevkaSDF.dispose();
-            iosevkaSDF = null;
-        }
         if (iosevkaMSDF != null) {
             iosevkaMSDF.dispose();
             iosevkaMSDF = null;
+        }
+        if (iosevkaSDF != null) {
+            iosevkaSDF.dispose();
+            iosevkaSDF = null;
         }
         if (iosevkaSlab != null) {
             iosevkaSlab.dispose();
             iosevkaSlab = null;
         }
-        if (iosevkaSlabSDF != null) {
-            iosevkaSlabSDF.dispose();
-            iosevkaSlabSDF = null;
-        }
         if (iosevkaSlabMSDF != null) {
             iosevkaSlabMSDF.dispose();
             iosevkaSlabMSDF = null;
         }
-        if (gentium != null) {
-            gentium.dispose();
-            gentium = null;
+        if (iosevkaSlabSDF != null) {
+            iosevkaSlabSDF.dispose();
+            iosevkaSlabSDF = null;
         }
-        if (gentiumSDF != null) {
-            gentiumSDF.dispose();
-            gentiumSDF = null;
+        if (kingthingsFoundation != null) {
+            kingthingsFoundation.dispose();
+            kingthingsFoundation = null;
         }
         if (libertinusSerif != null) {
             libertinusSerif.dispose();
             libertinusSerif = null;
         }
-        if (kingthingsFoundation != null) {
-            kingthingsFoundation.dispose();
-            kingthingsFoundation = null;
+        if (openSans != null) {
+            openSans.dispose();
+            openSans = null;
         }
         if (oxanium != null) {
             oxanium.dispose();
@@ -982,10 +990,6 @@ public final class KnownFonts implements LifecycleListener {
         if (kaffeesatz != null) {
             kaffeesatz.dispose();
             kaffeesatz = null;
-        }
-        if (ibm8x16 != null) {
-            ibm8x16.dispose();
-            ibm8x16 = null;
         }
     }
 }
