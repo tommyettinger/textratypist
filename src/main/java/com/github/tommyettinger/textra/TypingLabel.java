@@ -611,59 +611,13 @@ public class TypingLabel extends TextraLabel {
 
     @Override
     public void layout() {
-        // --- SUPERCLASS IMPLEMENTATION ---
         super.layout();
 
         float width = getWidth();
         if (wrap && (workingLayout.getTargetWidth() != width)) {
-//            workingLayout.setTargetWidth(width);
             font.regenerateLayout(workingLayout);
-//            parseTokens();
         }
-
-
-        // --- END OF SUPERCLASS IMPLEMENTATION ---
-
-//        for (int i = 0; i < workingLayout.lines(); i++) {
-//            workingLayout.lines.get(i).glyphs.clear();
-//        }
-//        layoutCache();
     }
-
-//    /**
-//     * Ensures that there are enough offsets and that they are all initialized; also sets the line capacities.
-//     * This should only be called when the text or the layout changes.
-//     */
-//    private void layoutCache() {
-//        Array<Line> lines = workingLayout.lines;
-//
-//        // Remove exceeding glyphs from original array
-//        int glyphCountdown = glyphCharIndex;
-//        for(int i = 0; i < lines.size; i++) {
-//            LongArray glyphs = lines.get(i).glyphs;
-//            if(glyphs.size < glyphCountdown) {
-//                glyphCountdown -= glyphs.size;
-//                continue;
-//            }
-//
-//            for(int j = 0; j < glyphs.size; j++) {
-//                if(glyphCountdown < 0) {
-//                    glyphs.removeRange(j, glyphs.size - 1);
-//                    break;
-//                }
-//                glyphCountdown--;
-//            }
-//        }
-//        // Store Line sizes and count how many glyphs we have
-//        int glyphCount = 0;
-//        for(int i = 0; i < layout.lines.size; i++) {
-//            int size = layout.lines.get(i).glyphs.size;
-//            glyphCount += size;
-//        }
-//        // Ensure there are enough x and y offset entries, and that they are all 0
-//        offsets.setSize(glyphCount * 2);
-//        Arrays.fill(offsets.items, 0, glyphCount * 2, 0f);
-//    }
 
     /** Adds glyphs from layout to workingLayout as the char index progresses. */
     private void addMissingGlyphs() {
