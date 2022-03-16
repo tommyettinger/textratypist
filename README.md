@@ -15,6 +15,7 @@ Or perhaps like this...
 
 There's a "normal" label here in the form of TextraLabel, which acts almost exactly like Label in scene2d.ui, but
 allows the styles covered below. A lot of usage may prefer TypingLabel, though!
+
 TypingLabel is a fairly normal scene2d.ui widget, and extends TextraLabel. However, it puts letters up on
 the screen one at a time, unless it is told to skip ahead. This is a nostalgic effect found in many older text-heavy
 games, and it looks like a typewriter is putting up each letter at some slower-than-instantaneous rate.
