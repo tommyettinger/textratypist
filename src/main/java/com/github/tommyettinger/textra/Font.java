@@ -1489,10 +1489,15 @@ public class Font implements Disposable {
         final TextureRegion block = mapping.get(blockChar);
         if(block == null) return;
         final Texture parent = block.getTexture();
-        final float u = block.getU() + (block.getU2() - block.getU()) * 0.25f,
-                v = block.getV() + (block.getV2() - block.getV()) * 0.25f,
-                u2 = block.getU2() - (block.getU2() - block.getU()) * 0.25f,
-                v2 = block.getV2() - (block.getV2() - block.getV()) * 0.25f;
+        final float pWidth = parent.getWidth(), pHeight = parent.getHeight(), ipw = 1f / pWidth, iph = 1f / pHeight;
+        final float u = block.getU(),
+                v = block.getV(),
+                u2 = block.getU() + ipw,
+                v2 = block.getV() - iph;
+//        final float u = block.getU() + (block.getU2() - block.getU()) * 0.25f,
+//                v = block.getV() + (block.getV2() - block.getV()) * 0.25f,
+//                u2 = block.getU2() - (block.getU2() - block.getU()) * 0.25f,
+//                v2 = block.getV2() - (block.getV2() - block.getV()) * 0.25f;
         vertices[0] = x;
         vertices[1] = y;
         //vertices[2] = color;
