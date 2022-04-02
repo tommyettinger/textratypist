@@ -232,6 +232,9 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 		ShaderProgram.prependVertexCode = "#version 110\n";
 		ShaderProgram.prependFragmentCode = "#version 110\n";
 //		config.enableGLDebugOutput(true, System.out);
+//		config.useVsync(true);
+		config.useVsync(false);
+		config.setForegroundFPS(0);
 		new Lwjgl3Application(new StandardUITest(), config);
 	}
 
