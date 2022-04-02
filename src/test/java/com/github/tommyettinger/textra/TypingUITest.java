@@ -232,8 +232,10 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		config.setTitle("TypingLabel UI test");
 		config.setWindowedMode(640, 480);
 		config.disableAudio(true);
-		config.setForegroundFPS(60);
-		config.useVsync(true);
+//		config.setForegroundFPS(60);
+//		config.useVsync(true);
+		config.useVsync(false);
+		config.setForegroundFPS(0);
 		new Lwjgl3Application(new TypingUITest(), config);
 	}
 
