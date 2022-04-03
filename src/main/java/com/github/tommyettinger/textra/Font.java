@@ -2127,30 +2127,34 @@ public class Font implements Disposable {
             x2 -= h * 0.2f;
         }
         final long script = (glyph & SUPERSCRIPT);
+        float scaledHeight = font.cellHeight * scale;
         if (script == SUPERSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            y1 += font.cellHeight * 0.375f;
-            y2 += font.cellHeight * 0.375f;
-            y0 += font.cellHeight * 0.375f;
+            yt = y + scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
+            y1 += scaledHeight * 0.375f;
+            y2 += scaledHeight * 0.375f;
+            y0 += scaledHeight * 0.375f;
             if(!font.isMono)
                 changedW *= 0.5f;
         }
         else if (script == SUBSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            y1 -= font.cellHeight * 0.125f;
-            y2 -= font.cellHeight * 0.125f;
-            y0 -= font.cellHeight * 0.125f;
+            yt = y + scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
+            y1 -= scaledHeight * 0.125f;
+            y2 -= scaledHeight * 0.125f;
+            y0 -= scaledHeight * 0.125f;
             if(!font.isMono)
                 changedW *= 0.5f;
         }
         else if(script == MIDSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            y0 += font.cellHeight * 0.125f;
-            y1 += font.cellHeight * 0.125f;
-            y2 += font.cellHeight * 0.125f;
+            yt = y + scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
+            y0 += scaledHeight * 0.125f;
+            y1 += scaledHeight * 0.125f;
+            y2 += scaledHeight * 0.125f;
             if(!font.isMono)
                 changedW *= 0.5f;
         }
@@ -2218,11 +2222,12 @@ public class Font implements Disposable {
         if ((glyph & UNDERLINE) != 0L) {
             final GlyphRegion under = font.mapping.get('_');
             if (under != null) {
-                final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.25f,
+                final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.5f,
                         underV = under.getV(),
-                        underU2 = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.75f,
+                        underU2 = underU + iw,
                         underV2 = under.getV2(),
                         hu = under.getRegionHeight() * scaleY, yu = y + font.cellHeight * scale - hu - under.offsetY * scaleY;
+                x0 = x + scaleX * under.offsetX + scale;
                 vertices[2] = color;
                 vertices[3] = underU;
                 vertices[4] = underV;
@@ -2239,11 +2244,11 @@ public class Font implements Disposable {
                 vertices[18] = underU2;
                 vertices[19] = underV;
 
-                p0x = x - scale;
+                p0x = x0 - scale;
                 p0y = yu + hu;
-                p1x = x - scale;
+                p1x = x0 - scale;
                 p1y = yu;
-                p2x = x + changedW + scale;
+                p2x = x0 + changedW + scale;
                 p2y = yu;
                 vertices[15] = (vertices[0]  = cos * p0x - sin * p0y) - (vertices[5]  = cos * p1x - sin * p1y) + (vertices[10] = cos * p2x - sin * p2y);
                 vertices[16] = (vertices[1]  = sin * p0x + cos * p0y) - (vertices[6]  = sin * p1x + cos * p1y) + (vertices[11] = sin * p2x + cos * p2y);
@@ -2254,12 +2259,12 @@ public class Font implements Disposable {
         if ((glyph & STRIKETHROUGH) != 0L) {
             final GlyphRegion dash = font.mapping.get('-');
             if (dash != null) {
-                final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.625f,
+                final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.5f,
                         dashV = dash.getV(),
                         dashU2 = dashU + iw,
                         dashV2 = dash.getV2(),
                         hd = dash.getRegionHeight() * scaleY, yd = y + font.cellHeight * scale - hd - dash.offsetY * scaleY;
-                x0 = x - (dash.offsetX);
+                x0 = x + scaleX * dash.offsetX + scale;
                 vertices[2] = color;
                 vertices[3] = dashU;
                 vertices[4] = dashV;
