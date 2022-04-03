@@ -1489,7 +1489,8 @@ public class Font implements Disposable {
         final TextureRegion block = mapping.get(blockChar);
         if(block == null) return;
         final Texture parent = block.getTexture();
-        final float pWidth = parent.getWidth(), pHeight = parent.getHeight(), ipw = 1f / pWidth, iph = 1f / pHeight;
+        final float ipw = 1f / parent.getWidth();
+        final float iph = 1f / parent.getHeight();
         final float u = block.getU(),
                 v = block.getV(),
                 u2 = block.getU() + ipw,
