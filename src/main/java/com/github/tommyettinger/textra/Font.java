@@ -1643,6 +1643,34 @@ public class Font implements Disposable {
         }
         return drawn;
     }
+    /**
+     * Draws the specified Layout of glyphs with a Batch at a given x, y position, rotated using degrees, using
+     * {@code align} to determine how to position the text and where to pivot the rotation around. Typically, align is
+     * {@link Align#left}, {@link Align#center}, or {@link Align#right}, which make the given x,y point refer to the
+     * center-left edge point, center point, or center-right edge point, respectively, of the first Line. The rotation
+     * will pivot around the point as determined by the {@code align} value.
+     * @param batch typically a SpriteBatch
+     * @param glyphs typically returned by {@link #markup(String, Layout)}
+     * @param x the x position in world space to start drawing the glyph at (where this is depends on align)
+     * @param y the y position in world space to start drawing the glyph at (where this is depends on align)
+     * @param align an {@link Align} constant; if {@link Align#left}, x and y refer to the left edge of the first Line
+     * @param rotation measured in degrees counterclockwise, typically 0-360, and applied to the whole Layout
+     * @return the number of glyphs drawn
+     */
+    public float drawGlyphs(Batch batch, Layout glyphs, float x, float y, int align, float rotation) {
+        float drawn = 0;
+        float sn = MathUtils.sinDeg(rotation);
+        float cs = MathUtils.cosDeg(rotation);
+        final int lines = glyphs.lines();
+        Line l;
+        for (int ln = 0; ln < lines; ln++) {
+            l = glyphs.getLine(ln);
+            y -= cs * l.height;
+            x += sn * l.height;
+            drawn += drawGlyphs(batch, l, x, y, align, rotation);
+        }
+        return drawn;
+    }
 
     /**
      * Draws the specified Line of glyphs with a Batch at a given x, y position, drawing the full Line using left
@@ -1711,15 +1739,17 @@ public class Font implements Disposable {
         return drawn;
     }
     /**
-     * Draws the specified Line of glyphs with a Batch at a given x, y position, using {@code align} to
-     * determine how to position the text. Typically, align is {@link Align#left}, {@link Align#center}, or
-     * {@link Align#right}, which make the given x,y point refer to the lower-left corner, center-bottom edge point, or
-     * lower-right corner, respectively.
+     * Draws the specified Line of glyphs with a Batch at a given x, y position, rotated using degrees, using
+     * {@code align} to determine how to position the text and where to pivot the rotation around. Typically, align is
+     * {@link Align#left}, {@link Align#center}, or {@link Align#right}, which make the given x,y point refer to the
+     * center-left edge point, center point, or center-right edge point, respectively, of the first Line. The rotation
+     * will pivot around the point as determined by the {@code align} value.
      * @param batch typically a SpriteBatch
      * @param glyphs typically returned as part of {@link #markup(String, Layout)}
      * @param x the x position in world space to start drawing the glyph at (where this is depends on align)
      * @param y the y position in world space to start drawing the glyph at (where this is depends on align)
      * @param align an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
+     * @param rotation measured in degrees counterclockwise and applied to the whole Line
      * @return the number of glyphs drawn
      */
     public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align, float rotation) {
@@ -2146,7 +2176,7 @@ public class Font implements Disposable {
      * @param glyph a long storing a char, format, and color; typically part of a longer formatted text as a LongList
      * @param x the x position in world space to start drawing the glyph at (lower left corner)
      * @param y the y position in world space to start drawing the glyph at (lower left corner)
-     * @param rotation what angle to rotate the glyph, measured in degrees
+     * @param rotation what angle to rotate the glyph, measured in degrees counterclockwise
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text along the given rotation
      */
     public float drawGlyph(Batch batch, long glyph, float x, float y, float rotation) {
@@ -2180,14 +2210,12 @@ public class Font implements Disposable {
         v = tr.getV();
         u2 = tr.getU2();
         v2 = tr.getV2();
-        float w = tr.getRegionWidth() * scaleX, changedW = tr.xAdvance * scaleX, h = tr.getRegionHeight() * scaleY;
-//        if (!font.isMono) {
-//            changedW += tr.offsetX * scaleX;
-//        }
-//        else {
-        float centerX = font.cellWidth * 0.5f, centerY = font.cellHeight * 0.5f;
+        float w = tr.getRegionWidth() * scaleX;
+        float changedW = tr.xAdvance * scaleX;
+        float h = tr.getRegionHeight() * scaleY;
+        float centerX = font.cellWidth * 0.5f;
+        float centerY = font.cellHeight * 0.5f;
         float xc = tr.offsetX * scaleX - centerX * scale;
-//        }
         float yt = font.cellHeight * scale - centerY * scale - h - tr.offsetY * scaleY;
 
         x += centerX;
