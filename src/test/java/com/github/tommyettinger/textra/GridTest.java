@@ -142,7 +142,7 @@ public class GridTest extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.9f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        float x = 0, y = layout.getHeight();
+        float x = 0, y = layout.getHeight() + font.cellHeight * 2;
         batch.begin();
         font.enableShader(batch);
 
@@ -169,7 +169,7 @@ public class GridTest extends ApplicationAdapter {
                     (MathUtils.sinDeg(since * 0.01f + g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length,
                     g, since * 0.0625f);
         }
-        font.drawGlyphs(batch, layout.getLine(0), Gdx.graphics.getBackBufferWidth() * 0.5f, y, Align.center, since * 0.05f);
+        font.drawGlyphs(batch, layout, Gdx.graphics.getBackBufferWidth() * 0.5f, y, Align.center, since * 0.05f);
         batch.end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
