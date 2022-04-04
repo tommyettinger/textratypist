@@ -32,6 +32,17 @@ public class BlockUtils {
     public static final float DOUBLE_END2 = 0.65f;
     public static final float DOUBLE_ACROSS = 0.1f;
 
+    /**
+     * Returns true if the given char can be handled by the box drawing data here, or false if the Font should try to
+     * handle that char itself.
+     * @param c a char (or int in the char range, 0-65535) that could potentially be a box drawing char
+     * @return true if c is a box drawing char that this can handle
+     */
+    public static boolean isBoxDrawing(int c){
+        return false; // TODO: enable this when we can draw using the float[] items in BOX_DRAWING.
+//        return (c >= '\u2500' && c <= '\u2503');
+    }
+
     // So, what's the plan here...
     // Each glyph that isn't commented out here can be drawn using only axis-aligned rectangles.
     // The idea is to list the rectangles needed to draw this character, measured in fractions of a cell, so monospace
