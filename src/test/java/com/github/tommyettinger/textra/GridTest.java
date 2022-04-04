@@ -66,7 +66,7 @@ public class GridTest extends ApplicationAdapter {
         lines = new char[][]
                 {
                         "┼┤┤├".toCharArray(),
-                        "┴││┴".toCharArray(),
+                        "┌││┌".toCharArray(),
                         "─└├┼".toCharArray(),
                         "┤├│┐".toCharArray()};
 

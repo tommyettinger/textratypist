@@ -21,16 +21,19 @@ public class BlockUtils {
     public static final float THIN_START = 0.45f;
     public static final float THIN_END = 0.55f;
     public static final float THIN_ACROSS = 0.1f;
+    public static final float THIN_OVER = 1f - THIN_START;
 
-    public static final float THICK_START = 0.4f;
-    public static final float THICK_END = 0.6f;
-    public static final float THICK_ACROSS = 0.6f;
+    public static final float WIDE_START = 0.4f;
+    public static final float WIDE_END = 0.6f;
+    public static final float WIDE_ACROSS = 0.2f;
+    public static final float WIDE_OVER = 1f - WIDE_START;
 
-    public static final float DOUBLE_START1 = 0.35f;
-    public static final float DOUBLE_END1 = 0.45f;
-    public static final float DOUBLE_START2 = 0.55f;
-    public static final float DOUBLE_END2 = 0.65f;
-    public static final float DOUBLE_ACROSS = 0.1f;
+    public static final float TWIN_START1 = 0.35f;
+    public static final float TWIN_END1 = 0.45f;
+    public static final float TWIN_START2 = 0.55f;
+    public static final float TWIN_END2 = 0.65f;
+    public static final float TWIN_ACROSS = 0.1f;
+    public static final float TWIN_OVER = 1f - TWIN_START1;
 
     /**
      * Returns true if the given char can be handled by the box drawing data here, or false if the Font should try to
@@ -39,7 +42,8 @@ public class BlockUtils {
      * @return true if c is a box drawing char that this can handle
      */
     public static boolean isBoxDrawing(int c){
-        return (c >= '\u2500' && c <= '\u2503');
+//        return false;
+        return (c >= '\u2500' && c <= '\u250F');
     }
 
     // So, what's the plan here...
@@ -49,21 +53,21 @@ public class BlockUtils {
     // The format is left x, lower y, width, height, ... (may have more rectangles in groups of four).
     public static final float[][] BOX_DRAWING = new float[][]{
             /* ─ : u2500 */ {0, THIN_START, 1, THIN_ACROSS},
-            /* ━ : u2501 */ {0, THICK_START, 1, THICK_ACROSS},
+            /* ━ : u2501 */ {0, WIDE_START, 1, WIDE_ACROSS},
             /* │ : u2502 */ {THIN_START, 0, THIN_ACROSS, 1},
-            /* ┃ : u2503 */ {THICK_START, 0, THICK_ACROSS, 1},
-            /* ┄ : u2504 */ {},
-            /* ┅ : u2505 */ {},
-            /* ┆ : u2506 */ {},
-            /* ┇ : u2507 */ {},
-            /* ┈ : u2508 */ {},
-            /* ┉ : u2509 */ {},
-            /* ┊ : u250A */ {},
-            /* ┋ : u250B */ {},
-            /* ┌ : u250C */ {},
-            /* ┍ : u250D */ {},
-            /* ┎ : u250E */ {},
-            /* ┏ : u250F */ {},
+            /* ┃ : u2503 */ {WIDE_START, 0, WIDE_ACROSS, 1},
+            /* ┄ : u2504 */ {0, THIN_START, 0.2f, THIN_ACROSS, 0.4f, THIN_START, 0.2f, THIN_ACROSS, 0.8f, THIN_START, 0.2f, THIN_ACROSS},
+            /* ┅ : u2505 */ {0, WIDE_START, 0.2f, WIDE_ACROSS, 0.4f, WIDE_START, 0.2f, WIDE_ACROSS, 0.8f, WIDE_START, 0.2f, WIDE_ACROSS},
+            /* ┆ : u2506 */ {THIN_START, 0, THIN_ACROSS, 0.2f, THIN_START, 0.4f, THIN_ACROSS, 0.2f, THIN_START, 0.8f, THIN_ACROSS, 0.2f},
+            /* ┇ : u2507 */ {WIDE_START, 0, WIDE_ACROSS, 0.2f, WIDE_START, 0.4f, WIDE_ACROSS, 0.2f, WIDE_START, 0.8f, WIDE_ACROSS, 0.2f},
+            /* ┈ : u2508 */ {0, THIN_START, 1/7f, THIN_ACROSS, 2/7f, THIN_START, 1/7f, THIN_ACROSS, 4/7f, THIN_START, 1/7f, THIN_ACROSS, 6/7f, THIN_START, 1/7f, THIN_ACROSS},
+            /* ┉ : u2509 */ {0, WIDE_START, 1/7f, WIDE_ACROSS, 2/7f, WIDE_START, 1/7f, WIDE_ACROSS, 4/7f, WIDE_START, 1/7f, WIDE_ACROSS, 6/7f, WIDE_START, 1/7f, WIDE_ACROSS},
+            /* ┊ : u250A */ {THIN_START, 0, THIN_ACROSS, 1/7f, THIN_START, 2/7f, THIN_ACROSS, 1/7f, THIN_START, 4/7f, THIN_ACROSS, 1/7f, THIN_START, 6/7f, THIN_ACROSS, 1/7f},
+            /* ┋ : u250B */ {WIDE_START, 0, WIDE_ACROSS, 1/7f, WIDE_START, 2/7f, WIDE_ACROSS, 1/7f, WIDE_START, 4/7f, WIDE_ACROSS, 1/7f, WIDE_START, 6/7f, WIDE_ACROSS, 1/7f},
+            /* ┌ : u250C */ {THIN_START, THIN_START, THIN_OVER, THIN_ACROSS, THIN_START, 0, THIN_ACROSS, THIN_OVER},
+            /* ┍ : u250D */ {THIN_START, WIDE_START, THIN_OVER, WIDE_ACROSS, THIN_START, 0, THIN_ACROSS, WIDE_OVER},
+            /* ┎ : u250E */ {WIDE_START, THIN_START, WIDE_OVER, THIN_ACROSS, WIDE_START, 0, WIDE_ACROSS, THIN_OVER},
+            /* ┏ : u250F */ {WIDE_START, WIDE_START, WIDE_OVER, WIDE_ACROSS, WIDE_START, 0, WIDE_ACROSS, WIDE_OVER},
             /* ┐ : u2510 */ {},
             /* ┑ : u2511 */ {},
             /* ┒ : u2512 */ {},
