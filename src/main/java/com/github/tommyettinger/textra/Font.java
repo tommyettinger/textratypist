@@ -28,6 +28,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.*;
+import com.github.tommyettinger.textra.utils.BlockUtils;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 import regexodus.Category;
 
@@ -341,9 +342,12 @@ public class Font implements Disposable {
     public float scaleY = 1f;
 
     /**
-     * A char that will be used to draw solid blocks with {@link #drawBlocks(Batch, int[][], float, float)}. The glyph
-     * that corresponds to this char should be a maximum-size block of solid white pixels in most cases. Because Glamer
-     * (which generated many of the knownFonts here) places a solid block at character 0, this defaults to u0000 .
+     * A char that will be used to draw solid blocks with {@link #drawBlocks(Batch, int[][], float, float)}, and to draw
+     * box-drawing/block-element characters if {@code ownGridGlyphs} is true in the constructor. The glyph
+     * that corresponds to this char should be a 1x1 pixel block of solid white pixels in most cases. Because Glamer
+     * (which generated many of the knownFonts here) places a solid block at character 0, this defaults to u0000 . There
+     * is also a test in textratypist, BlockStamper, that can place a tiny solid block in the lower-right corner and use
+     * that for this purpose.
      */
     public char solidBlock = '\u0000';
 
@@ -746,6 +750,27 @@ public class Font implements Disposable {
      */
     public Font(String fntName, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
+        this(fntName, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, true);
+    }
+    /**
+     * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried first, then a
+     * local handle) and loading any images specified in that file. The specified distance field effect is used.
+     * This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
+     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
+     * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     * @param ownGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     */
+    public Font(String fntName, DistanceFieldType distanceField,
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean ownGridGlyphs) {
         this.distanceField = distanceField;
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
@@ -757,7 +782,7 @@ public class Font implements Disposable {
             if(!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
-        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust);
+        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, ownGridGlyphs);
     }
 
     /**
@@ -800,6 +825,28 @@ public class Font implements Disposable {
      */
     public Font(String fntName, String textureName, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
+        this(fntName, textureName, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, true);
+    }
+    /**
+     * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then local),
+     * and the specified distance field effect.
+     * This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
+     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
+     * @param textureName the path and filename of a texture file this will load; may be internal or local
+     * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     * @param ownGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     */
+    public Font(String fntName, String textureName, DistanceFieldType distanceField,
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean ownGridGlyphs) {
         this.distanceField = distanceField;
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
@@ -821,7 +868,7 @@ public class Font implements Disposable {
         } else {
             throw new RuntimeException("Missing texture file: " + textureName);
         }
-        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust);
+        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, ownGridGlyphs);
     }
 
     /**
@@ -863,6 +910,28 @@ public class Font implements Disposable {
      */
     public Font(String fntName, TextureRegion textureRegion, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
+        this(fntName, textureRegion, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, true);
+    }
+    /**
+     * Constructs a font based off of an AngelCode BMFont .fnt file and the given TextureRegion that holds all of its
+     * glyphs, with the specified distance field effect.
+     * This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
+     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
+     * @param textureRegion an existing TextureRegion, typically inside a larger TextureAtlas
+     * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     * @param ownGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     */
+    public Font(String fntName, TextureRegion textureRegion, DistanceFieldType distanceField,
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean ownGridGlyphs) {
         this.distanceField = distanceField;
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
@@ -878,7 +947,7 @@ public class Font implements Disposable {
         if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF) {
             textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
-        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust);
+        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, ownGridGlyphs);
     }
 
     /**
@@ -900,6 +969,7 @@ public class Font implements Disposable {
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
         this(fntName, textureRegions, DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust);
     }
+
     /**
      * Constructs a font based off of an AngelCode BMFont .fnt file, with the given TextureRegion Array and specified
      * distance field effect. This allows globally adjusting the x and y positions of glyphs in the font, as well as
@@ -918,6 +988,28 @@ public class Font implements Disposable {
      */
     public Font(String fntName, Array<TextureRegion> textureRegions, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
+        this(fntName, textureRegions, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, true);
+    }
+
+    /**
+     * Constructs a font based off of an AngelCode BMFont .fnt file, with the given TextureRegion Array and specified
+     * distance field effect. This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
+     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
+     * @param textureRegions an Array of TextureRegions that will be used in order as the .fnt file uses more pages
+     * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     * @param ownGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     */
+    public Font(String fntName, Array<TextureRegion> textureRegions, DistanceFieldType distanceField,
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean ownGridGlyphs) {
         this.distanceField = distanceField;
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
@@ -936,7 +1028,7 @@ public class Font implements Disposable {
             for(TextureRegion parent : textureRegions)
                 parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
-        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust);
+        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, ownGridGlyphs);
     }
 
     /**
@@ -964,6 +1056,21 @@ public class Font implements Disposable {
      */
     public Font(BitmapFont bmFont, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
+        this(bmFont, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, true);
+    }
+    /**
+     * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
+     * with the specified distance field effect.
+     * @param bmFont an existing BitmapFont that will be copied in almost every way this can
+     * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     * @param ownGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     */
+    public Font(BitmapFont bmFont, DistanceFieldType distanceField,
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean ownGridGlyphs) {
         this.distanceField = distanceField;
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
@@ -1002,6 +1109,9 @@ public class Font implements Disposable {
                     {
                         a = 0;
                         gr.offsetX = 0;
+                    }
+                    else if(ownGridGlyphs && BlockUtils.isBoxDrawing(glyph.id)){
+                        gr.offsetX = Float.NaN;
                     }
                     else {
                         gr.offsetX = glyph.xoffset;
@@ -1081,7 +1191,7 @@ public class Font implements Disposable {
      * @param widthAdjust added to the glyph width for each glyph in the font
      * @param heightAdjust added to the glyph height for each glyph in the font
      */
-    protected void loadFNT(String fntName, float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
+    protected void loadFNT(String fntName, float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean ownGridGlyphs) {
         FileHandle fntHandle;
         String fnt;
         if ((fntHandle = Gdx.files.internal(fntName)).exists()
@@ -1135,6 +1245,9 @@ public class Font implements Disposable {
             {
                 a = 0;
                 gr.offsetX = 0;
+            } else if(ownGridGlyphs && BlockUtils.isBoxDrawing(c))
+            {
+                gr.offsetX = Float.NaN;
             }
             else
                 gr.offsetX = xo;
