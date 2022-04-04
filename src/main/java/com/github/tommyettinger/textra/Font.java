@@ -1710,6 +1710,73 @@ public class Font implements Disposable {
         }
         return drawn;
     }
+    /**
+     * Draws the specified Line of glyphs with a Batch at a given x, y position, using {@code align} to
+     * determine how to position the text. Typically, align is {@link Align#left}, {@link Align#center}, or
+     * {@link Align#right}, which make the given x,y point refer to the lower-left corner, center-bottom edge point, or
+     * lower-right corner, respectively.
+     * @param batch typically a SpriteBatch
+     * @param glyphs typically returned as part of {@link #markup(String, Layout)}
+     * @param x the x position in world space to start drawing the glyph at (where this is depends on align)
+     * @param y the y position in world space to start drawing the glyph at (where this is depends on align)
+     * @param align an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
+     * @return the number of glyphs drawn
+     */
+    public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align, float rotation) {
+        if (glyphs == null) return 0;
+        float drawn = 0f, cs = MathUtils.cosDeg(rotation), sn = MathUtils.sinDeg(rotation);
+        float centerX = cellWidth * 0.5f, centerY = cellHeight * 0.5f;
+        x += centerX;
+        y += centerY;
+        if (Align.isCenterHorizontal(align))
+        {
+            x -= cs * (glyphs.width * 0.5f);
+            y -= sn * (glyphs.width * 0.5f);
+        }
+        else if (Align.isRight(align))
+        {
+            x -= cs * glyphs.width;
+            y -= sn * glyphs.width;
+        }
+
+
+        int kern = -1;
+        long glyph;
+        float single, xChange = -centerX, yChange = -centerY;
+        boolean curly = false;
+        for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
+            glyph = glyphs.glyphs.get(i);
+            char ch = (char) glyph;
+            if (curly) {
+                if (ch == '}') {
+                    curly = false;
+                    continue;
+                } else if (ch == '{')
+                    curly = false;
+                else continue;
+            } else if (ch == '{') {
+                curly = true;
+                continue;
+            }
+            Font font = null;
+            if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
+            if(font == null) font = this;
+
+            if (font.kerning != null) {
+                kern = kern << 16 | (int) (glyph & 0xFFFF);
+                float amt = font.kerning.get(kern, 0) * font.scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+                xChange += cs * amt;
+                yChange += sn * amt;
+                single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation) + amt;
+            } else {
+                single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation);
+            }
+            xChange += cs * single;
+            yChange += sn * single;
+            drawn += single;
+        }
+        return drawn;
+    }
 
     /**
      * Gets the distance to advance the cursor after drawing {@code glyph}, scaled by {@link #scaleX} as if drawing.

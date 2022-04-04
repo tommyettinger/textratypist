@@ -116,7 +116,7 @@ public class GridTest extends ApplicationAdapter {
 //        font.markup("\n[*]Водяной[] — в славянской мифологии дух, обитающий в воде, хозяин вод[^][BLUE][[2][]."
 //                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][[citation needed][].", layout);
 //
-        font.markup("\nThe [#800000]MAW[] of the [/][#66DDFF]wendigo[/] (wendigo)[] [*]appears[*]!"
+        font.markup("The [#800000]MAW[] of the [/][#66DDFF]wendigo[/] (wendigo)[] [*]appears[*]!"
                         + "\nThe [_][#666666]BLADE[] of [*][/][#FFFF44]DYNAST-KINGS[] strikes!"
                         + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[], [?]Unknown[]?"
                         + "\n[#BBAA44]φ[] = (1 + 5[^]0.5[^]) * 0.5"
@@ -168,7 +168,7 @@ public class GridTest extends ApplicationAdapter {
                     (MathUtils.sinDeg(since * 0.01f + g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length,
                     g, since * 0.0625f);
         }
-        font.drawGlyphs(batch, layout, x, y, Align.left);
+        font.drawGlyphs(batch, layout.getLine(0), Gdx.graphics.getBackBufferWidth() * 0.5f, y, Align.center, since * 0.05f);
         batch.end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
