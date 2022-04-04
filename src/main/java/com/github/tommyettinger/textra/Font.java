@@ -1110,7 +1110,7 @@ public class Font implements Disposable {
                         a = 0;
                         gr.offsetX = 0;
                     }
-                    else if(ownGridGlyphs && BlockUtils.isBoxDrawing(glyph.id)){
+                    else if(ownGridGlyphs && minWidth == cellWidth && BlockUtils.isBoxDrawing(glyph.id)){
                         gr.offsetX = Float.NaN;
                     }
                     else {
@@ -1245,7 +1245,7 @@ public class Font implements Disposable {
             {
                 a = 0;
                 gr.offsetX = 0;
-            } else if(ownGridGlyphs && BlockUtils.isBoxDrawing(c))
+            } else if(ownGridGlyphs && minWidth == cellWidth && BlockUtils.isBoxDrawing(c))
             {
                 gr.offsetX = Float.NaN;
             }
@@ -1649,6 +1649,52 @@ public class Font implements Disposable {
             vertices[10] = vertices[15] += cellWidth;
             vertices[1] = vertices[16] = y;
             vertices[6] = vertices[11] = y + cellHeight;
+        }
+    }
+
+    protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y) {
+        final Texture parent = block.getTexture();
+        final float ipw = 1f / parent.getWidth();
+        final float iph = 1f / parent.getHeight();
+        final float u = block.getU(),
+                v = block.getV(),
+                u2 = u + ipw,
+                v2 = v - iph;
+        float startX, startY, sizeX, sizeY;
+//        final float u = block.getU() + (block.getU2() - block.getU()) * 0.25f,
+//                v = block.getV() + (block.getV2() - block.getV()) * 0.25f,
+//                u2 = block.getU2() - (block.getU2() - block.getU()) * 0.25f,
+//                v2 = block.getV2() - (block.getV2() - block.getV()) * 0.25f;
+        for (int b = 0; b < sequence.length; b += 4) {
+            startX = x + sequence[b] * cellWidth;
+            startY = y + sequence[b+1] * cellHeight;
+            sizeX = sequence[b+2] * cellWidth;
+            sizeY = sequence[b+3] * cellHeight;
+            vertices[0] = startX;
+            vertices[1] = startY;
+            vertices[2] = color;
+            vertices[3] = u;
+            vertices[4] = v;
+
+            vertices[5] = startX;
+            vertices[6] = startY + sizeY;
+            vertices[7] = color;
+            vertices[8] = u;
+            vertices[9] = v2;
+
+            vertices[10] = startX + sizeX;
+            vertices[11] = startY + sizeY;
+            vertices[12] = color;
+            vertices[13] = u2;
+            vertices[14] = v2;
+
+            vertices[15] = startX + sizeX;
+            vertices[16] = startY;
+            vertices[17] = color;
+            vertices[18] = u2;
+            vertices[19] = v;
+
+            batch.draw(parent, vertices, 0, 20);
         }
     }
 
@@ -2095,6 +2141,14 @@ public class Font implements Disposable {
 
         GlyphRegion tr = font.mapping.get((char) glyph);
         if (tr == null) return 0f;
+        float color = NumberUtils.intBitsToFloat(((int)(batch.getColor().a * (glyph >>> 33 & 127)) << 25)
+                | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
+        // this indicates a box drawing character that we draw ourselves.
+        if(tr.offsetX != tr.offsetX) {
+            float[] boxes = BlockUtils.BOX_DRAWING[(char)glyph - 0x2500];
+            drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color, x, y);
+            return cellWidth;
+        }
         Texture tex = tr.getTexture();
         float x0 = 0f, x1 = 0f, x2 = 0f, x3 = 0f;
         float y0 = 0f, y1 = 0f, y2 = 0f, y3 = 0f;
@@ -2102,8 +2156,6 @@ public class Font implements Disposable {
         float scaleX = font.scaleX * scale;
         float scaleY = font.scaleY * scale;
 
-        float color = NumberUtils.intBitsToFloat(((int)(batch.getColor().a * (glyph >>> 33 & 127)) << 25)
-                | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
         final float iw = 1f / tex.getWidth();
         float u, v, u2, v2;
         u = tr.getU();
@@ -2305,6 +2357,8 @@ public class Font implements Disposable {
 
         GlyphRegion tr = font.mapping.get((char) glyph);
         if (tr == null) return 0f;
+        float color = NumberUtils.intBitsToFloat(((int)(batch.getColor().a * (glyph >>> 33 & 127)) << 25)
+                | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
         float scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
         float scaleX = font.scaleX * scale;
         float scaleY = font.scaleY * scale;
@@ -2315,8 +2369,6 @@ public class Font implements Disposable {
         float y0 = 0f;
         float y1 = 0f;
         float y2 = 0f;
-        float color = NumberUtils.intBitsToFloat(((int)(batch.getColor().a * (glyph >>> 33 & 127)) << 25)
-                | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
         final float iw = 1f / tex.getWidth();
         float u, v, u2, v2;
         u = tr.getU();

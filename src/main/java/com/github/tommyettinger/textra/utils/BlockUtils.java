@@ -39,8 +39,7 @@ public class BlockUtils {
      * @return true if c is a box drawing char that this can handle
      */
     public static boolean isBoxDrawing(int c){
-        return false; // TODO: enable this when we can draw using the float[] items in BOX_DRAWING.
-//        return (c >= '\u2500' && c <= '\u2503');
+        return (c >= '\u2500' && c <= '\u2503');
     }
 
     // So, what's the plan here...
