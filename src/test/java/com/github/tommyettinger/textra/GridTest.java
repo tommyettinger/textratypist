@@ -22,7 +22,9 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class GridTest extends ApplicationAdapter {
     Font font;
@@ -30,6 +32,7 @@ public class GridTest extends ApplicationAdapter {
     int[][] backgrounds;
     char[][] lines;
     Layout layout;
+    long startTime;
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Font test");
@@ -130,6 +133,8 @@ public class GridTest extends ApplicationAdapter {
 //                +" \"[!]Would somebody shut that thing off[!]? We're quite aware by now!\" [orange]Captain Luiz Tigre[] shouted at no one in particular, while frantically flipping the remaining" +
 //                " switches on the capacitor controls. \"Sir, we need to get the [silver]teleprojector[] online. Send a party aboard, say they're negotiators.\" [light sky]First Admiral Zototh[] said with urgency." +
 //                " \"[*]Negotiators[*]? Are you serious?\" \"I said to [/]say[/] they're negotiators... just with really big guns.\"", layout);
+
+        startTime = TimeUtils.millis();
     }
 
     @Override
@@ -155,6 +160,11 @@ public class GridTest extends ApplicationAdapter {
 //        for (int i = 0, n = glyphs[0].size(); i < n; i++) {
 //            glyphs[0].set(i, glyphs[0].get(i) & 0xFFFFFFFFL | color);
 //        }
+        long since = TimeUtils.timeSinceMillis(startTime);
+        font.drawGlyph(batch, 0xDDDDDDFE00000000L | '&',
+                20f * font.cellWidth,
+                //(MathUtils.sinDeg(since * 0.1f) * 0.5f + 0.5f) * font.cellWidth * backgrounds.length,
+                y - 2f, since * 0.01f);
         font.drawGlyphs(batch, layout, x, y, Align.left);
         batch.end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
