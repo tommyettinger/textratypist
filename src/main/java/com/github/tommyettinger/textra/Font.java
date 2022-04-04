@@ -2118,9 +2118,13 @@ public class Font implements Disposable {
 //            changedW += tr.offsetX * scaleX;
 //        }
 //        else {
-            x += tr.offsetX * scaleX;
+        float centerX = font.cellWidth * 0.5f, centerY = font.cellHeight * 0.5f;
+        float xc = tr.offsetX * scaleX - centerX * scale;
 //        }
-        float yt = y + font.cellHeight * scale - h - tr.offsetY * scaleY;
+        float yt = font.cellHeight * scale - centerY * scale - h - tr.offsetY * scaleY;
+
+        x += centerX;
+        y += centerY;
         if ((glyph & OBLIQUE) != 0L) {
             x0 += h * 0.2f;
             x1 -= h * 0.2f;
@@ -2131,7 +2135,7 @@ public class Font implements Disposable {
         if (script == SUPERSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = y + scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
+            yt = scaledHeight * 0.625f - centerY - h - tr.offsetY * scaleY * 0.5f;
             y1 += scaledHeight * 0.375f;
             y2 += scaledHeight * 0.375f;
             y0 += scaledHeight * 0.375f;
@@ -2141,7 +2145,7 @@ public class Font implements Disposable {
         else if (script == SUBSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = y + scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
+            yt = scaledHeight * 0.625f - centerY - h - tr.offsetY * scaleY * 0.5f;
             y1 -= scaledHeight * 0.125f;
             y2 -= scaledHeight * 0.125f;
             y0 -= scaledHeight * 0.125f;
@@ -2151,7 +2155,7 @@ public class Font implements Disposable {
         else if(script == MIDSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = y + scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
+            yt = scaledHeight * 0.625f - centerY - h - tr.offsetY * scaleY * 0.5f;
             y0 += scaledHeight * 0.125f;
             y1 += scaledHeight * 0.125f;
             y2 += scaledHeight * 0.125f;
@@ -2182,15 +2186,15 @@ public class Font implements Disposable {
         vertices[18] = u2;
         vertices[19] = v;
 
-        p0x = x + x0;
+        p0x = xc + x0;
         p0y = yt + y0 + h;
-        p1x = x + x1;
+        p1x = xc + x1;
         p1y = yt + y1;
-        p2x = x + x2 + w;
+        p2x = xc + x2 + w;
         p2y = yt + y2;
 
-        vertices[15] = (vertices[0]  = cos * p0x - sin * p0y) - (vertices[5]  = cos * p1x - sin * p1y) + (vertices[10] = cos * p2x - sin * p2y);
-        vertices[16] = (vertices[1]  = sin * p0x + cos * p0y) - (vertices[6]  = sin * p1x + cos * p1y) + (vertices[11] = sin * p2x + cos * p2y);
+        vertices[15] = (vertices[0]  = x + cos * p0x - sin * p0y) - (vertices[5]  = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
+        vertices[16] = (vertices[1]  = y + sin * p0x + cos * p0y) - (vertices[6]  = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
 
         batch.draw(tex, vertices, 0, 20);
         if ((glyph & BOLD) != 0L) {

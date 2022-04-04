@@ -161,10 +161,13 @@ public class GridTest extends ApplicationAdapter {
 //            glyphs[0].set(i, glyphs[0].get(i) & 0xFFFFFFFFL | color);
 //        }
         long since = TimeUtils.timeSinceMillis(startTime);
-        font.drawGlyph(batch, 0xDDDDDDFE00000000L | '&',
-                20f * font.cellWidth,
-                //(MathUtils.sinDeg(since * 0.1f) * 0.5f + 0.5f) * font.cellWidth * backgrounds.length,
-                y - 2f, since * 0.01f);
+        for (float g = y; g < Gdx.graphics.getBackBufferHeight(); g+= font.cellHeight) {
+
+            font.drawGlyph(batch, 0xBB0011FE00200000L | '&',
+//                    2f * font.cellWidth,
+                    (MathUtils.sinDeg(since * 0.01f + g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length,
+                    g, since * 0.0625f);
+        }
         font.drawGlyphs(batch, layout, x, y, Align.left);
         batch.end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
