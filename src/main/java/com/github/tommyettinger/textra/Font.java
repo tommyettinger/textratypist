@@ -343,7 +343,7 @@ public class Font implements Disposable {
 
     /**
      * A char that will be used to draw solid blocks with {@link #drawBlocks(Batch, int[][], float, float)}, and to draw
-     * box-drawing/block-element characters if {@code ownGridGlyphs} is true in the constructor. The glyph
+     * box-drawing/block-element characters if {@code generateGridGlyphs} is true in the constructor. The glyph
      * that corresponds to this char should be a 1x1 pixel block of solid white pixels in most cases. Because Glamer
      * (which generated many of the knownFonts here) places a solid block at character 0, this defaults to u0000 . There
      * is also a test in textratypist, BlockStamper, that can place a tiny solid block in the lower-right corner and use
@@ -767,10 +767,10 @@ public class Font implements Disposable {
      * @param yAdjust how many pixels to offset each character's y-position by, moving up
      * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
      * @param heightAdjust how many pixels to add to the used height of each character, using more above
-     * @param ownGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     * @param generateGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
     public Font(String fntName, DistanceFieldType distanceField,
-                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean ownGridGlyphs) {
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean generateGridGlyphs) {
         this.distanceField = distanceField;
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
@@ -782,7 +782,7 @@ public class Font implements Disposable {
             if(!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
-        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, ownGridGlyphs);
+        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, generateGridGlyphs);
     }
 
     /**
@@ -843,10 +843,10 @@ public class Font implements Disposable {
      * @param yAdjust how many pixels to offset each character's y-position by, moving up
      * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
      * @param heightAdjust how many pixels to add to the used height of each character, using more above
-     * @param ownGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     * @param generateGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
     public Font(String fntName, String textureName, DistanceFieldType distanceField,
-                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean ownGridGlyphs) {
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean generateGridGlyphs) {
         this.distanceField = distanceField;
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
@@ -868,7 +868,7 @@ public class Font implements Disposable {
         } else {
             throw new RuntimeException("Missing texture file: " + textureName);
         }
-        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, ownGridGlyphs);
+        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, generateGridGlyphs);
     }
 
     /**
@@ -928,10 +928,10 @@ public class Font implements Disposable {
      * @param yAdjust how many pixels to offset each character's y-position by, moving up
      * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
      * @param heightAdjust how many pixels to add to the used height of each character, using more above
-     * @param ownGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     * @param generateGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
     public Font(String fntName, TextureRegion textureRegion, DistanceFieldType distanceField,
-                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean ownGridGlyphs) {
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean generateGridGlyphs) {
         this.distanceField = distanceField;
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
@@ -947,7 +947,7 @@ public class Font implements Disposable {
         if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF) {
             textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
-        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, ownGridGlyphs);
+        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, generateGridGlyphs);
     }
 
     /**
@@ -1006,10 +1006,10 @@ public class Font implements Disposable {
      * @param yAdjust how many pixels to offset each character's y-position by, moving up
      * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
      * @param heightAdjust how many pixels to add to the used height of each character, using more above
-     * @param ownGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     * @param generateGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
     public Font(String fntName, Array<TextureRegion> textureRegions, DistanceFieldType distanceField,
-                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean ownGridGlyphs) {
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean generateGridGlyphs) {
         this.distanceField = distanceField;
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
@@ -1028,7 +1028,7 @@ public class Font implements Disposable {
             for(TextureRegion parent : textureRegions)
                 parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
-        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, ownGridGlyphs);
+        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, generateGridGlyphs);
     }
 
     /**
@@ -1067,10 +1067,10 @@ public class Font implements Disposable {
      * @param yAdjust how many pixels to offset each character's y-position by, moving up
      * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
      * @param heightAdjust how many pixels to add to the used height of each character, using more above
-     * @param ownGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     * @param generateGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
     public Font(BitmapFont bmFont, DistanceFieldType distanceField,
-                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean ownGridGlyphs) {
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean generateGridGlyphs) {
         this.distanceField = distanceField;
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
@@ -1110,7 +1110,7 @@ public class Font implements Disposable {
                         a = 0;
                         gr.offsetX = 0;
                     }
-                    else if(ownGridGlyphs && minWidth == cellWidth && BlockUtils.isBoxDrawing(glyph.id)){
+                    else if(generateGridGlyphs && minWidth == cellWidth && BlockUtils.isBoxDrawing(glyph.id)){
                         gr.offsetX = Float.NaN;
                     }
                     else {
@@ -1190,8 +1190,9 @@ public class Font implements Disposable {
      * @param yAdjust added to the y-position for each glyph in the font
      * @param widthAdjust added to the glyph width for each glyph in the font
      * @param heightAdjust added to the glyph height for each glyph in the font
+     * @param generateGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
-    protected void loadFNT(String fntName, float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean ownGridGlyphs) {
+    protected void loadFNT(String fntName, float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean generateGridGlyphs) {
         FileHandle fntHandle;
         String fnt;
         if ((fntHandle = Gdx.files.internal(fntName)).exists()
@@ -1245,7 +1246,7 @@ public class Font implements Disposable {
             {
                 a = 0;
                 gr.offsetX = 0;
-            } else if(ownGridGlyphs && minWidth == cellWidth && BlockUtils.isBoxDrawing(c))
+            } else if(generateGridGlyphs && minWidth == cellWidth && BlockUtils.isBoxDrawing(c))
             {
                 gr.offsetX = Float.NaN;
             }

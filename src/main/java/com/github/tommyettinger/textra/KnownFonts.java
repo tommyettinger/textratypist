@@ -181,7 +181,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.cozette == null)
         {
             try {
-                instance.cozette = new Font("Cozette-standard.fnt", "Cozette-standard.png", STANDARD, 1, 1, 0, -1);
+                instance.cozette = new Font("Cozette-standard.fnt", "Cozette-standard.png", STANDARD, 1, 1, 0, -1, false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
