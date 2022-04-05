@@ -43,7 +43,7 @@ public class BlockUtils {
      */
     public static boolean isBoxDrawing(int c){
 //        return false;
-        return (c >= '\u2500' && c <= '\u250F');
+        return (c >= '\u2500' && c <= '\u251B');
     }
 
     // So, what's the plan here...
@@ -68,18 +68,18 @@ public class BlockUtils {
             /* ┍ : u250D */ {THIN_START, WIDE_START, THIN_OVER, WIDE_ACROSS, THIN_START, 0, THIN_ACROSS, WIDE_OVER},
             /* ┎ : u250E */ {WIDE_START, THIN_START, WIDE_OVER, THIN_ACROSS, WIDE_START, 0, WIDE_ACROSS, THIN_OVER},
             /* ┏ : u250F */ {WIDE_START, WIDE_START, WIDE_OVER, WIDE_ACROSS, WIDE_START, 0, WIDE_ACROSS, WIDE_OVER},
-            /* ┐ : u2510 */ {},
-            /* ┑ : u2511 */ {},
-            /* ┒ : u2512 */ {},
-            /* ┓ : u2513 */ {},
-            /* └ : u2514 */ {},
-            /* ┕ : u2515 */ {},
-            /* ┖ : u2516 */ {},
-            /* ┗ : u2517 */ {},
-            /* ┘ : u2518 */ {},
-            /* ┙ : u2519 */ {},
-            /* ┚ : u251A */ {},
-            /* ┛ : u251B */ {},
+            /* ┐ : u2510 */ {0, THIN_START, THIN_OVER, THIN_ACROSS, THIN_START, 0, THIN_ACROSS, THIN_OVER},
+            /* ┑ : u2511 */ {0, WIDE_START, THIN_OVER, WIDE_ACROSS, THIN_START, 0, THIN_ACROSS, WIDE_OVER},
+            /* ┒ : u2512 */ {0, THIN_START, WIDE_OVER, THIN_ACROSS, WIDE_START, 0, WIDE_ACROSS, THIN_OVER},
+            /* ┓ : u2513 */ {0, WIDE_START, WIDE_OVER, WIDE_ACROSS, WIDE_START, 0, WIDE_ACROSS, WIDE_OVER},
+            /* └ : u2514 */ {THIN_START, THIN_START, THIN_OVER, THIN_ACROSS, THIN_START, THIN_START, THIN_ACROSS, THIN_OVER},
+            /* ┕ : u2515 */ {THIN_START, WIDE_START, THIN_OVER, WIDE_ACROSS, THIN_START, WIDE_START, THIN_ACROSS, WIDE_OVER},
+            /* ┖ : u2516 */ {WIDE_START, THIN_START, WIDE_OVER, THIN_ACROSS, WIDE_START, THIN_START, WIDE_ACROSS, THIN_OVER},
+            /* ┗ : u2517 */ {WIDE_START, WIDE_START, WIDE_OVER, WIDE_ACROSS, WIDE_START, WIDE_START, WIDE_ACROSS, WIDE_OVER},
+            /* ┘ : u2518 */ {0, THIN_START, THIN_OVER, THIN_ACROSS, THIN_START, THIN_START, THIN_ACROSS, THIN_OVER},
+            /* ┙ : u2519 */ {0, WIDE_START, THIN_OVER, WIDE_ACROSS, THIN_START, WIDE_START, THIN_ACROSS, WIDE_OVER},
+            /* ┚ : u251A */ {0, THIN_START, WIDE_OVER, THIN_ACROSS, WIDE_START, THIN_START, WIDE_ACROSS, THIN_OVER},
+            /* ┛ : u251B */ {0, WIDE_START, WIDE_OVER, WIDE_ACROSS, WIDE_START, WIDE_START, WIDE_ACROSS, WIDE_OVER},
             /* ├ : u251C */ {},
             /* ┝ : u251D */ {},
             /* ┞ : u251E */ {},
