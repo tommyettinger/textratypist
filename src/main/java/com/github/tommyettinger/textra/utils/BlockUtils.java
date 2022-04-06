@@ -33,7 +33,8 @@ public class BlockUtils {
     public static final float TWIN_START2 = 0.55f;
     public static final float TWIN_END2 = 0.65f;
     public static final float TWIN_ACROSS = 0.1f;
-    public static final float TWIN_OVER = 1f - TWIN_START1;
+    public static final float TWIN_OVER1 = 1f - TWIN_START1;
+    public static final float TWIN_OVER2 = 1f - TWIN_START2;
 
     /**
      * Returns true if the given char can be handled by the box drawing data here, or false if the Font should try to
@@ -128,15 +129,15 @@ public class BlockUtils {
             /* ╉ : u2549 */ {0, WIDE_START, WIDE_OVER, WIDE_ACROSS, THIN_START, THIN_START, THIN_OVER, THIN_ACROSS, WIDE_START, 0, WIDE_ACROSS, 1},
             /* ╊ : u254A */ {0, THIN_START, THIN_OVER, THIN_ACROSS, WIDE_START, WIDE_START, WIDE_OVER, WIDE_ACROSS, WIDE_START, 0, WIDE_ACROSS, 1},
             /* ╋ : u254B */ {0, WIDE_START, 1, WIDE_ACROSS, WIDE_START, 0, WIDE_ACROSS, 1},
-            /* ╌ : u254C */ {},
-            /* ╍ : u254D */ {},
-            /* ╎ : u254E */ {},
-            /* ╏ : u254F */ {},
-            /* ═ : u2550 */ {},
-            /* ║ : u2551 */ {},
-            /* ╒ : u2552 */ {},
-            /* ╓ : u2553 */ {},
-            /* ╔ : u2554 */ {},
+            /* ╌ : u254C */ {0.125f, THIN_START, 0.25f, THIN_ACROSS, 0.625f, THIN_START, 0.25f, THIN_ACROSS},
+            /* ╍ : u254D */ {0.125f, WIDE_START, 0.25f, WIDE_ACROSS, 0.625f, WIDE_START, 0.25f, WIDE_ACROSS},
+            /* ╎ : u254E */ {THIN_START, 0.125f, THIN_ACROSS, 0.25f, THIN_START, 0.625f, THIN_ACROSS, 0.25f},
+            /* ╏ : u254F */ {WIDE_START, 0.125f, WIDE_ACROSS, 0.25f, WIDE_START, 0.625f, WIDE_ACROSS, 0.25f},
+            /* ═ : u2550 */ {0, TWIN_START1, 1, TWIN_ACROSS, 0, TWIN_START2, 1, TWIN_ACROSS},
+            /* ║ : u2551 */ {TWIN_START1, 0, TWIN_ACROSS, 1, TWIN_START2, 0, TWIN_ACROSS, 1},
+            /* ╒ : u2552 */ {THIN_START, 0, TWIN_OVER1, THIN_ACROSS, THIN_START, TWIN_START1, THIN_OVER, TWIN_ACROSS, THIN_START, TWIN_START2, THIN_OVER, TWIN_ACROSS},
+            /* ╓ : u2553 */ {TWIN_START1, 0, TWIN_ACROSS, THIN_OVER, TWIN_START2, 0, TWIN_ACROSS, THIN_OVER, TWIN_START1, THIN_START, TWIN_OVER1, THIN_ACROSS},
+            /* ╔ : u2554 */ {TWIN_START1, 0, TWIN_ACROSS, TWIN_OVER2, TWIN_START2, 0, TWIN_ACROSS, TWIN_OVER1, TWIN_START2, TWIN_START1, TWIN_OVER2, TWIN_ACROSS, TWIN_START1, TWIN_START2, TWIN_OVER1, TWIN_ACROSS},
             /* ╕ : u2555 */ {},
             /* ╖ : u2556 */ {},
             /* ╗ : u2557 */ {},
