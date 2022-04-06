@@ -168,17 +168,17 @@ public class BlockUtils {
             /* ╱ : u2571 */ {}, // NOT USED
             /* ╲ : u2572 */ {}, // NOT USED
             /* ╳ : u2573 */ {}, // NOT USED
-            /* ╴ : u2574 */ {},
-            /* ╵ : u2575 */ {},
-            /* ╶ : u2576 */ {},
-            /* ╷ : u2577 */ {},
-            /* ╸ : u2578 */ {},
-            /* ╹ : u2579 */ {},
-            /* ╺ : u257A */ {},
-            /* ╻ : u257B */ {},
-            /* ╼ : u257C */ {},
-            /* ╽ : u257D */ {},
-            /* ╾ : u257E */ {},
-            /* ╿ : u257F */ {},
+            /* ╴ : u2574 */ {0, THIN_START, THIN_OVER, THIN_ACROSS},
+            /* ╵ : u2575 */ {THIN_START, THIN_START, THIN_ACROSS, THIN_OVER},
+            /* ╶ : u2576 */ {THIN_START, THIN_START, THIN_OVER, THIN_ACROSS},
+            /* ╷ : u2577 */ {THIN_START, 0, THIN_ACROSS, THIN_OVER},
+            /* ╸ : u2578 */ {0, WIDE_START, WIDE_OVER, WIDE_ACROSS},
+            /* ╹ : u2579 */ {WIDE_START, WIDE_START, WIDE_ACROSS, WIDE_OVER},
+            /* ╺ : u257A */ {WIDE_START, WIDE_START, WIDE_OVER, WIDE_ACROSS},
+            /* ╻ : u257B */ {WIDE_START, 0, WIDE_ACROSS, WIDE_OVER},
+            /* ╼ : u257C */ {0, THIN_START, THIN_OVER, THIN_ACROSS, WIDE_START, WIDE_START, WIDE_OVER, WIDE_ACROSS},
+            /* ╽ : u257D */ {THIN_START, THIN_START, THIN_ACROSS, THIN_OVER, WIDE_START, 0, WIDE_ACROSS, WIDE_OVER},
+            /* ╾ : u257E */ {0, WIDE_START, WIDE_OVER, WIDE_ACROSS, THIN_START, THIN_START, THIN_OVER, THIN_ACROSS},
+            /* ╿ : u257F */ {WIDE_START, WIDE_START, WIDE_ACROSS, WIDE_OVER, THIN_START, 0, THIN_ACROSS, THIN_OVER},
     };
 }
