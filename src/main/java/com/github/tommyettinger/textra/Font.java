@@ -1110,7 +1110,7 @@ public class Font implements Disposable {
                         a = 0;
                         gr.offsetX = 0;
                     }
-                    else if(generateGridGlyphs && minWidth == cellWidth && BlockUtils.isBoxDrawing(glyph.id)){
+                    else if(generateGridGlyphs && minWidth == cellWidth && BlockUtils.isBlockGlyph(glyph.id)){
                         gr.offsetX = Float.NaN;
                     }
                     else {
@@ -1246,7 +1246,7 @@ public class Font implements Disposable {
             {
                 a = 0;
                 gr.offsetX = 0;
-            } else if(generateGridGlyphs && minWidth == cellWidth && BlockUtils.isBoxDrawing(c))
+            } else if(generateGridGlyphs && minWidth == cellWidth && BlockUtils.isBlockGlyph(c))
             {
                 gr.offsetX = Float.NaN;
             }

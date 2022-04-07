@@ -37,14 +37,14 @@ public class BlockUtils {
     public static final float TWIN_OVER2 = 1f - TWIN_START2;
 
     /**
-     * Returns true if the given char can be handled by the box drawing data here, or false if the Font should try to
-     * handle that char itself.
-     * @param c a char (or int in the char range, 0-65535) that could potentially be a box drawing char
-     * @return true if c is a box drawing char that this can handle
+     * Returns true if the given char can be handled by the box drawing and block element data here, or false if the
+     * Font should try to handle that char itself.
+     * @param c a char (or int in the char range, 0-65535) that could potentially be a box drawing/block element char
+     * @return true if c is a box drawing/block element char that this can handle
      */
-    public static boolean isBoxDrawing(int c){
+    public static boolean isBlockGlyph(int c){
 //        return false;
-        return (c >= '\u2500' && c <= '\u256C') || (c >= '\u2574' && c <= '\u257F');
+        return (c >= '\u2500' && c <= '\u256C') || (c >= '\u2574' && c <= '\u2590') || (c >= '\u2594' && c <= '\u2595');
     }
 
     // So, what's the plan here...
@@ -181,5 +181,37 @@ public class BlockUtils {
             /* ╽ : u257D */ {THIN_START, THIN_START, THIN_ACROSS, THIN_OVER, WIDE_START, 0, WIDE_ACROSS, WIDE_OVER},
             /* ╾ : u257E */ {0, WIDE_START, WIDE_OVER, WIDE_ACROSS, THIN_START, THIN_START, THIN_OVER, THIN_ACROSS},
             /* ╿ : u257F */ {WIDE_START, WIDE_START, WIDE_ACROSS, WIDE_OVER, THIN_START, 0, THIN_ACROSS, THIN_OVER},
+            /* ▀ : u2580 */ {0, 0.5f, 1, 0.5f},
+            /* ▁ : u2581 */ {0, 0, 1, 0.125f},
+            /* ▂ : u2582 */ {0, 0, 1, 0.25f},
+            /* ▃ : u2583 */ {0, 0, 1, 0.375f},
+            /* ▄ : u2584 */ {0, 0, 1, 0.5f},
+            /* ▅ : u2585 */ {0, 0, 1, 0.625f},
+            /* ▆ : u2586 */ {0, 0, 1, 0.75f},
+            /* ▇ : u2587 */ {0, 0, 1, 0.875f},
+            /* █ : u2588 */ {0, 0, 1, 1},
+            /* ▉ : u2589 */ {0, 0, 0.875f, 1},
+            /* ▊ : u258A */ {0, 0, 0.75f, 1},
+            /* ▋ : u258B */ {0, 0, 0.625f, 1},
+            /* ▌ : u258C */ {0, 0, 0.5f, 1},
+            /* ▍ : u258D */ {0, 0, 0.375f, 1},
+            /* ▎ : u258E */ {0, 0, 0.25f, 1},
+            /* ▏ : u258F */ {0, 0, 0.125f, 1},
+            /* ▐ : u2590 */ {0.5f, 0, 0.5f, 1},
+            /* ░ : u2591 */ {}, // NOT USED
+            /* ▒ : u2592 */ {}, // NOT USED
+            /* ▓ : u2593 */ {}, // NOT USED
+            /* ▔ : u2594 */ {0, 0.875f, 1, 0.125f},
+            /* ▕ : u2595 */ {0.875f, 0, 0.125f, 1},
+            /* ▖ : u2596 */ {},
+            /* ▗ : u2597 */ {},
+            /* ▘ : u2598 */ {},
+            /* ▙ : u2599 */ {},
+            /* ▚ : u259A */ {},
+            /* ▛ : u259B */ {},
+            /* ▜ : u259C */ {},
+            /* ▝ : u259D */ {},
+            /* ▞ : u259E */ {},
+            /* ▟ : u259F */ {}
     };
 }
