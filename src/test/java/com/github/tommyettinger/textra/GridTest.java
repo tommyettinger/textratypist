@@ -73,7 +73,7 @@ public class GridTest extends ApplicationAdapter {
         batch = new SpriteBatch();
         font = KnownFonts.getInconsolataMSDF().scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(16, 32);
-//        font = KnownFonts.getIosevka().scale(0.75f, 0.75f);
+//        font = KnownFonts.getIosevka();
 //        font = KnownFonts.getIosevkaSlab().scale(0.75f, 0.75f);
 //        font = KnownFonts.getIosevkaSlabMSDF().scaleTo(20, 20);
 //        font = KnownFonts.getDejaVuSansMono().scale(0.75f, 0.75f);
