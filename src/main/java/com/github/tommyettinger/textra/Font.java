@@ -1425,6 +1425,37 @@ public class Font implements Disposable {
     }
 
     /**
+     * Fits all chars into cells width by height in size, and optionally centers them in their cells.
+     * This sets {@link #isMono} to true, and {@link #kerning} to null.
+     * If you call {@link #scaleTo(float, float)} after this, you will need to call fitCell() again to update cell size.
+     * @param width the target width of a cell, in world units
+     * @param height the target height of a cell, in world units
+     * @param center if true, this will center every glyph in its cell
+     * @return this Font, for chaining
+     */
+    public Font fitCell(float width, float height, boolean center) {
+        float widthHalf = width * 0.5f;
+        cellWidth = width;
+        cellHeight = height;
+        IntMap.Values<GlyphRegion> vs = mapping.values();
+        if (center) {
+            while (vs.hasNext) {
+                GlyphRegion g = vs.next();
+                g.offsetX += widthHalf - g.xAdvance * 0.5f;
+                g.xAdvance = width;
+            }
+        }
+        else {
+            while (vs.hasNext) {
+                vs.next().xAdvance = width;
+            }
+        }
+        isMono = true;
+        kerning = null;
+        return this;
+    }
+
+    /**
      * Calls {@link #setTextureFilter(Texture.TextureFilter, Texture.TextureFilter)} with
      * {@link Texture.TextureFilter#Linear} for both min and mag filters.
      * This is the most common usage for setting the texture filters, and is appropriate when you have

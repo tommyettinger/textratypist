@@ -25,7 +25,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class GridTest extends ApplicationAdapter {
     Font font;
@@ -75,9 +74,9 @@ public class GridTest extends ApplicationAdapter {
                         "┤├│┐".toCharArray()};
 
         batch = new SpriteBatch();
-        font = KnownFonts.getInconsolataMSDF().scaleTo(16, 32);
+//        font = KnownFonts.getInconsolataMSDF().scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(16, 32);
-//        font = KnownFonts.getIosevka();
+        font = KnownFonts.getIosevka();
 //        font = KnownFonts.getIosevkaSlab().scale(0.75f, 0.75f);
 //        font = KnownFonts.getIosevkaSlabMSDF().scaleTo(20, 20);
 //        font = KnownFonts.getDejaVuSansMono().scale(0.75f, 0.75f);
@@ -91,6 +90,8 @@ public class GridTest extends ApplicationAdapter {
 //        font = KnownFonts.getYanoneKaffeesatz().scaleTo(45, 60);
 //        font = KnownFonts.getCanada().scaleTo(40, 58);
 //        font = KnownFonts.getRobotoCondensed().scaleTo(37, 53);
+
+        font.fitCell(24f, 24f, true);
 
         layout = new Layout(font).setTargetWidth(Gdx.graphics.getWidth());
         backgrounds = new int[(int) Math.ceil(PIXEL_WIDTH / font.cellWidth)][(int) Math.ceil(PIXEL_HEIGHT / font.cellHeight)];
@@ -170,10 +171,12 @@ public class GridTest extends ApplicationAdapter {
 
             font.drawGlyph(batch, 0xBB0011FE00200000L | '&',
 //                    2f * font.cellWidth,
-                    (MathUtils.sinDeg(since * 0.01f + g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length,
-                    g, since * 0.0625f);
+                    (MathUtils.sinDeg(since * 0.01f + g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length, g,
+                    since * 0.0625f);
         }
-        font.drawGlyphs(batch, layout, PIXEL_WIDTH * 0.5f, y, Align.center, since * 0.05f);
+        font.drawGlyphs(batch, layout, PIXEL_WIDTH * 0.5f, y, Align.center
+//                , since * 0.05f
+        );
         batch.end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
