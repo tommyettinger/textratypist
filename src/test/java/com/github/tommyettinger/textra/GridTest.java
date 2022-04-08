@@ -75,7 +75,7 @@ public class GridTest extends ApplicationAdapter {
 
         batch = new SpriteBatch();
 //        font = KnownFonts.getInconsolataMSDF().scaleTo(16, 32);
-        font = KnownFonts.getCascadiaMono().scaleTo(16, 32);
+        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
 //        font = KnownFonts.getIosevka();
 //        font = KnownFonts.getIosevkaSlab().scale(0.75f, 0.75f);
 //        font = KnownFonts.getIosevkaSlabMSDF().scaleTo(20, 20);
@@ -92,6 +92,7 @@ public class GridTest extends ApplicationAdapter {
 //        font = KnownFonts.getRobotoCondensed().scaleTo(37, 53);
 
         font.fitCell(font.cellWidth, font.cellHeight, true);
+//        font.fitCell(24, 24, true);
 
         layout = new Layout(font).setTargetWidth(Gdx.graphics.getWidth());
         backgrounds = new int[(int) Math.ceil(PIXEL_WIDTH / font.cellWidth)][(int) Math.ceil(PIXEL_HEIGHT / font.cellHeight)];
