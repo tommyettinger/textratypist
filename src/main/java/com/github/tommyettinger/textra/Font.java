@@ -1685,6 +1685,9 @@ public class Font implements Disposable {
     }
 
     protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y) {
+        drawBlockSequence(batch, sequence, block, color, x, y, cellWidth, cellHeight);
+    }
+    protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y, float width, float height) {
         final Texture parent = block.getTexture();
         final float ipw = 1f / parent.getWidth();
         final float iph = 1f / parent.getHeight();
@@ -1698,10 +1701,10 @@ public class Font implements Disposable {
 //                u2 = block.getU2() - (block.getU2() - block.getU()) * 0.25f,
 //                v2 = block.getV2() - (block.getV2() - block.getV()) * 0.25f;
         for (int b = 0; b < sequence.length; b += 4) {
-            startX = x + sequence[b] * cellWidth;
-            startY = y + sequence[b+1] * cellHeight;
-            sizeX = sequence[b+2] * cellWidth;
-            sizeY = sequence[b+3] * cellHeight;
+            startX = x + sequence[b] * width;
+            startY = y + sequence[b+1] * height;
+            sizeX = sequence[b+2] * width;
+            sizeY = sequence[b+3] * height;
             vertices[0] = startX;
             vertices[1] = startY;
             vertices[2] = color;
@@ -2291,73 +2294,84 @@ public class Font implements Disposable {
             batch.draw(tex, vertices, 0, 20);
         }
         if ((glyph & UNDERLINE) != 0L) {
-            final GlyphRegion under = font.mapping.get('_');
-            if (under != null) {
-                final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.5f,
-                        underV = under.getV(),
-                        underU2 = underU + iw,
-                        underV2 = under.getV2(),
-                        hu = under.getRegionHeight() * scaleY, yu = y + font.cellHeight * scale - hu - under.offsetY * scaleY;
-                x0 = x + scaleX * under.offsetX + scale;
-                vertices[0] = x0 - scale;
-                vertices[1] = yu + hu;
-                vertices[2] = color;
-                vertices[3] = underU;
-                vertices[4] = underV;
+            GlyphRegion under = font.mapping.get(0x2500);
+            if(under != null && under.offsetX != under.offsetX){
+                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color, x, y - cellHeight * 0.375f);
+            }
+            else {
+                under = font.mapping.get('_');
+                if (under != null) {
+                    final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.5f,
+                            underV = under.getV(),
+                            underU2 = underU + iw,
+                            underV2 = under.getV2(),
+                            hu = under.getRegionHeight() * scaleY, yu = y + font.cellHeight * scale - hu - under.offsetY * scaleY;
+                    x0 = x + scaleX * under.offsetX + scale;
+                    vertices[0] = x0 - scale;
+                    vertices[1] = yu + hu;
+                    vertices[2] = color;
+                    vertices[3] = underU;
+                    vertices[4] = underV;
 
-                vertices[5] = x0 - scale;
-                vertices[6] = yu;
-                vertices[7] = color;
-                vertices[8] = underU;
-                vertices[9] = underV2;
+                    vertices[5] = x0 - scale;
+                    vertices[6] = yu;
+                    vertices[7] = color;
+                    vertices[8] = underU;
+                    vertices[9] = underV2;
 
-                vertices[10] = x0 + changedW + scale;
-                vertices[11] = yu;
-                vertices[12] = color;
-                vertices[13] = underU2;
-                vertices[14] = underV2;
+                    vertices[10] = x0 + changedW + scale;
+                    vertices[11] = yu;
+                    vertices[12] = color;
+                    vertices[13] = underU2;
+                    vertices[14] = underV2;
 
-                vertices[15] = x0 + changedW + scale;
-                vertices[16] = yu + hu;
-                vertices[17] = color;
-                vertices[18] = underU2;
-                vertices[19] = underV;
-                batch.draw(under.getTexture(), vertices, 0, 20);
+                    vertices[15] = x0 + changedW + scale;
+                    vertices[16] = yu + hu;
+                    vertices[17] = color;
+                    vertices[18] = underU2;
+                    vertices[19] = underV;
+                    batch.draw(under.getTexture(), vertices, 0, 20);
+                }
             }
         }
         if ((glyph & STRIKETHROUGH) != 0L) {
-            final GlyphRegion dash = font.mapping.get('-');
-            if (dash != null) {
-                final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.5f,
-                        dashV = dash.getV(),
-                        dashU2 = dashU + iw,
-                        dashV2 = dash.getV2(),
-                        hd = dash.getRegionHeight() * scaleY, yd = y + font.cellHeight * scale - hd - dash.offsetY * scaleY;
-                x0 = x + scaleX * dash.offsetX + scale;
-                vertices[0] = x0 - scale;
-                vertices[1] = yd + hd;
-                vertices[2] = color;
-                vertices[3] = dashU;
-                vertices[4] = dashV;
+            GlyphRegion dash = font.mapping.get(0x2500);
+            if (dash != null && dash.offsetX != dash.offsetX) {
+                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color, x, y);
+            } else {
+                dash = font.mapping.get('-');
+                if (dash != null) {
+                    final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.5f,
+                            dashV = dash.getV(),
+                            dashU2 = dashU + iw,
+                            dashV2 = dash.getV2(),
+                            hd = dash.getRegionHeight() * scaleY, yd = y + font.cellHeight * scale - hd - dash.offsetY * scaleY;
+                    x0 = x + scaleX * dash.offsetX + scale;
+                    vertices[0] = x0 - scale;
+                    vertices[1] = yd + hd;
+                    vertices[2] = color;
+                    vertices[3] = dashU;
+                    vertices[4] = dashV;
 
-                vertices[5] = x0 - scale;
-                vertices[6] = yd;
-                vertices[7] = color;
-                vertices[8] = dashU;
-                vertices[9] = dashV2;
+                    vertices[5] = x0 - scale;
+                    vertices[6] = yd;
+                    vertices[7] = color;
+                    vertices[8] = dashU;
+                    vertices[9] = dashV2;
 
-                vertices[10] = x0 + changedW + scale;
-                vertices[11] = yd;
-                vertices[12] = color;
-                vertices[13] = dashU2;
-                vertices[14] = dashV2;
+                    vertices[10] = x0 + changedW + scale;
+                    vertices[11] = yd;
+                    vertices[12] = color;
+                    vertices[13] = dashU2;
+                    vertices[14] = dashV2;
 
-                vertices[15] = x0 + changedW + scale;
-                vertices[16] = yd + hd;
-                vertices[17] = color;
-                vertices[18] = dashU2;
-                vertices[19] = dashV;
-                batch.draw(dash.getTexture(), vertices, 0, 20);
+                    vertices[15] = x0 + changedW + scale;
+                    vertices[16] = yd + hd;
+                    vertices[17] = color;
+                    vertices[18] = dashU2;
+                    vertices[19] = dashV;
+                    batch.draw(dash.getTexture(), vertices, 0, 20);
+                }
             }
         }
         return changedW;
