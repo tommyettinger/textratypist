@@ -1437,11 +1437,12 @@ public class Font implements Disposable {
         float widthHalf = width * 0.5f;
         cellWidth = width;
         cellHeight = height;
+        width /= scaleX;
         IntMap.Values<GlyphRegion> vs = mapping.values();
         if (center) {
             while (vs.hasNext) {
                 GlyphRegion g = vs.next();
-                g.offsetX += widthHalf - g.xAdvance * 0.5f;
+                g.offsetX += (g.xAdvance - width) * 0.5f;
                 g.xAdvance = width;
             }
         }
@@ -2296,7 +2297,7 @@ public class Font implements Disposable {
         if ((glyph & UNDERLINE) != 0L) {
             GlyphRegion under = font.mapping.get(0x2500);
             if(under != null && under.offsetX != under.offsetX){
-                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color, x, y - cellHeight * 0.375f);
+                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color, x - tr.offsetX, y - cellHeight * 0.375f);
             }
             else {
                 under = font.mapping.get('_');
@@ -2337,7 +2338,7 @@ public class Font implements Disposable {
         if ((glyph & STRIKETHROUGH) != 0L) {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
-                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color, x, y);
+                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color, x - tr.offsetX, y);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
