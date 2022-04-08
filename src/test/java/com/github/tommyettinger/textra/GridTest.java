@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class GridTest extends ApplicationAdapter {
     Font font;
@@ -33,10 +34,13 @@ public class GridTest extends ApplicationAdapter {
     char[][] lines;
     Layout layout;
     long startTime;
+
+    static final int PIXEL_WIDTH = 800, PIXEL_HEIGHT = 640;
+
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Font test");
-        config.setWindowedMode(800, 640);
+        config.setWindowedMode(PIXEL_WIDTH, PIXEL_HEIGHT);
         config.disableAudio(true);
         config.useVsync(true);
         new Lwjgl3Application(new GridTest(), config);
@@ -89,7 +93,7 @@ public class GridTest extends ApplicationAdapter {
 //        font = KnownFonts.getRobotoCondensed().scaleTo(37, 53);
 
         layout = new Layout(font).setTargetWidth(Gdx.graphics.getWidth());
-        backgrounds = new int[(int) Math.ceil(800 / font.cellWidth)][(int) Math.ceil(640 / font.cellHeight)];
+        backgrounds = new int[(int) Math.ceil(PIXEL_WIDTH / font.cellWidth)][(int) Math.ceil(PIXEL_HEIGHT / font.cellHeight)];
         int sw = 0x669E83FF, se = 0x2A8528FF, nw = 0xF0DDA0FF, ne = 0x7A4A31FF;
         backgrounds[0][0] = sw;
         backgrounds[0][backgrounds[0].length - 1] = nw;
@@ -162,14 +166,14 @@ public class GridTest extends ApplicationAdapter {
 //            glyphs[0].set(i, glyphs[0].get(i) & 0xFFFFFFFFL | color);
 //        }
         long since = TimeUtils.timeSinceMillis(startTime);
-        for (float g = y; g < Gdx.graphics.getBackBufferHeight(); g+= font.cellHeight) {
+        for (float g = y; g < PIXEL_HEIGHT; g+= font.cellHeight) {
 
             font.drawGlyph(batch, 0xBB0011FE00200000L | '&',
 //                    2f * font.cellWidth,
                     (MathUtils.sinDeg(since * 0.01f + g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length,
                     g, since * 0.0625f);
         }
-        font.drawGlyphs(batch, layout, Gdx.graphics.getBackBufferWidth() * 0.5f, y, Align.center, since * 0.05f);
+        font.drawGlyphs(batch, layout, PIXEL_WIDTH * 0.5f, y, Align.center, since * 0.05f);
         batch.end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
