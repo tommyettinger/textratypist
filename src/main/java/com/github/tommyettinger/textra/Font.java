@@ -1696,10 +1696,6 @@ public class Font implements Disposable {
                 u2 = u + ipw,
                 v2 = v - iph;
         float startX, startY, sizeX, sizeY;
-//        final float u = block.getU() + (block.getU2() - block.getU()) * 0.25f,
-//                v = block.getV() + (block.getV2() - block.getV()) * 0.25f,
-//                u2 = block.getU2() - (block.getU2() - block.getU()) * 0.25f,
-//                v2 = block.getV2() - (block.getV2() - block.getV()) * 0.25f;
         for (int b = 0; b < sequence.length; b += 4) {
             startX = x + sequence[b] * width;
             startY = y + sequence[b+1] * height;
@@ -1725,6 +1721,70 @@ public class Font implements Disposable {
 
             vertices[15] = startX + sizeX;
             vertices[16] = startY;
+            vertices[17] = color;
+            vertices[18] = u2;
+            vertices[19] = v;
+
+            batch.draw(parent, vertices, 0, 20);
+        }
+    }
+
+    protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y, float width, float height, float rotation) {
+        final Texture parent = block.getTexture();
+        final float ipw = 1f / parent.getWidth();
+        final float iph = 1f / parent.getHeight();
+        final float u = block.getU(),
+                v = block.getV(),
+                u2 = u + ipw,
+                v2 = v - iph;
+        final float sin = MathUtils.sinDeg(rotation);
+        final float cos = MathUtils.cosDeg(rotation);
+        float centerX = cellWidth * 0.5f;
+        float centerY = cellHeight * 0.5f;
+        float xc = -centerX;
+        float yt = cellHeight - centerY - height;
+
+        x += centerX;
+        y += centerY;
+
+        float startX, startY, sizeX, sizeY;
+        for (int b = 0; b < sequence.length; b += 4) {
+            startX = sequence[b] * width;
+            startY = sequence[b+1] * height;
+            sizeX = sequence[b+2] * width;
+            sizeY = sequence[b+3] * height;
+
+            float p0x = xc + startX;
+            float p0y = yt + startY + sizeY;
+            float p1x = xc + startX;
+            float p1y = yt + startY;
+            float p2x = xc + startX + sizeX;
+            float p2y = yt + startY;
+
+            vertices[15] = (vertices[0]  = x + cos * p0x - sin * p0y) - (vertices[5]  = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
+            vertices[16] = (vertices[1]  = y + sin * p0x + cos * p0y) - (vertices[6]  = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
+
+
+//            vertices[0] = startX;
+//            vertices[1] = startY;
+            vertices[2] = color;
+            vertices[3] = u;
+            vertices[4] = v;
+
+//            vertices[5] = startX;
+//            vertices[6] = startY + sizeY;
+            vertices[7] = color;
+            vertices[8] = u;
+            vertices[9] = v2;
+
+//            vertices[10] = startX + sizeX;
+//            vertices[11] = startY + sizeY;
+            vertices[12] = color;
+            vertices[13] = u2;
+            vertices[14] = v2;
+
+//            vertices[15] = startX + sizeX;
+//            vertices[16] = startY;
             vertices[17] = color;
             vertices[18] = u2;
             vertices[19] = v;
@@ -2405,6 +2465,13 @@ public class Font implements Disposable {
         if (tr == null) return 0f;
         float color = NumberUtils.intBitsToFloat(((int)(batch.getColor().a * (glyph >>> 33 & 127)) << 25)
                 | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
+        // this indicates a box drawing character that we draw ourselves.
+        if(tr.offsetX != tr.offsetX) {
+            float[] boxes = BlockUtils.BOX_DRAWING[(char)glyph - 0x2500];
+            drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color, x, y, cellWidth, cellHeight, rotation);
+            return cellWidth;
+        }
+
         float scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
         float scaleX = font.scaleX * scale;
         float scaleY = font.scaleY * scale;
@@ -2469,13 +2536,6 @@ public class Font implements Disposable {
                 changedW *= 0.5f;
         }
 
-        float p0x;
-        float p0y;
-        float p1x;
-        float p1y;
-        float p2x;
-        float p2y;
-
         vertices[2] = color;
         vertices[3] = u;
         vertices[4] = v;
@@ -2492,12 +2552,12 @@ public class Font implements Disposable {
         vertices[18] = u2;
         vertices[19] = v;
 
-        p0x = xc + x0;
-        p0y = yt + y0 + h;
-        p1x = xc + x1;
-        p1y = yt + y1;
-        p2x = xc + x2 + w;
-        p2y = yt + y2;
+        float p0x = xc + x0;
+        float p0y = yt + y0 + h;
+        float p1x = xc + x1;
+        float p1y = yt + y1;
+        float p2x = xc + x2 + w;
+        float p2y = yt + y2;
 
         vertices[15] = (vertices[0]  = x + cos * p0x - sin * p0y) - (vertices[5]  = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
         vertices[16] = (vertices[1]  = y + sin * p0x + cos * p0y) - (vertices[6]  = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);

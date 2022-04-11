@@ -67,20 +67,20 @@ public class GridTest extends ApplicationAdapter {
     @Override
     public void create() {
         lines = new char[][]
-                {
+                {//"┼┌─┤"
                         "┼┤┤├".toCharArray(),
                         "┌││┌".toCharArray(),
                         "─└├┼".toCharArray(),
                         "┤├│┐".toCharArray()};
 
         batch = new SpriteBatch();
-//        font = KnownFonts.getInconsolataMSDF().scaleTo(16, 32);
-        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
+        font = KnownFonts.getInconsolataMSDF().scaleTo(16, 32);
+//        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
 //        font = KnownFonts.getIosevka();
 //        font = KnownFonts.getIosevkaSlab().scale(0.75f, 0.75f);
 //        font = KnownFonts.getIosevkaSlabMSDF().scaleTo(20, 20);
 //        font = KnownFonts.getDejaVuSansMono().scale(0.75f, 0.75f);
-//        font = KnownFonts.getCozette();
+//        font = KnownFonts.getCozette().scale(2, 2);
 //        font = KnownFonts.getOpenSans().scale(0.75f, 0.75f);
 //        font = KnownFonts.getAStarry();
 //        font = KnownFonts.getGentium().scaleTo(48, 48);
@@ -126,7 +126,7 @@ public class GridTest extends ApplicationAdapter {
                         + "\nThe [#800000]MAW[] of the [/][#66DDFF]wendigo[/] (wendigo)[] [*]appears[*]!"
                         + "\nThe [_][#666666]BLADE[] of [*][/][#FFFF44]DYNAST-KINGS[] strikes!"
                         + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[], [?]Unknown[]?"
-                        + "\n[#BBAA44]φ[] = (1 + 5[^]0.5[^]) * 0.5"
+                        + "\n[#BBAA44]φ[] = (1 + 5[^]0.5[^]) * 0.5 ┼┌─┤"
                         + "\n[#FF8822]¿Qué son estos? ¡Arribate, mijo![]"
                         + "\nPchnąć[] w tę łódź [#775522]jeża[] lub ośm skrzyń [#CC00CC]fig[]."
                 , layout);
@@ -176,9 +176,9 @@ public class GridTest extends ApplicationAdapter {
                     since * 0.0625f);
         }
         font.drawGlyphs(batch, layout,
-0f, y, Align.left
-//                PIXEL_WIDTH * 0.5f, y, Align.center
-//                , since * 0.05f
+//0f, y, Align.left
+                PIXEL_WIDTH * 0.5f, y, Align.center
+                , since * 0.05f
         );
         batch.end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
