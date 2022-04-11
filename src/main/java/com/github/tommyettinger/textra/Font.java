@@ -2590,41 +2590,49 @@ public class Font implements Disposable {
             batch.draw(tex, vertices, 0, 20);
         }
         if ((glyph & UNDERLINE) != 0L) {
-            final GlyphRegion under = font.mapping.get('_');
-            if (under != null) {
-                final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.5f,
-                        underV = under.getV(),
-                        underU2 = underU + iw,
-                        underV2 = under.getV2(),
-                        hu = under.getRegionHeight() * scaleY, yu = font.cellHeight * scale - hu - under.offsetY * scaleY - centerY * scale;
-                xc = under.offsetX * scaleX - centerX * scale;
-                x0 = scaleX * under.offsetX + scale;
-                vertices[2] = color;
-                vertices[3] = underU;
-                vertices[4] = underV;
+            GlyphRegion under = font.mapping.get(0x2500);
+            if (under != null && under.offsetX != under.offsetX) {
+                p0x = -tr.offsetX * scaleX;
+                p0y = -cellHeight * 0.375f;
+                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
+                        x + cos * p0x - sin * p0y - centerX, y + sin * p0x + cos * p0y - centerY, w, h, rotation);
+            } else {
+                under = font.mapping.get('_');
+                if (under != null) {
+                    final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.5f,
+                            underV = under.getV(),
+                            underU2 = underU + iw,
+                            underV2 = under.getV2(),
+                            hu = under.getRegionHeight() * scaleY, yu = font.cellHeight * scale - hu - under.offsetY * scaleY - centerY * scale;
+                    xc = under.offsetX * scaleX - centerX * scale;
+                    x0 = scaleX * under.offsetX + scale;
+                    vertices[2] = color;
+                    vertices[3] = underU;
+                    vertices[4] = underV;
 
-                vertices[7] = color;
-                vertices[8] = underU;
-                vertices[9] = underV2;
+                    vertices[7] = color;
+                    vertices[8] = underU;
+                    vertices[9] = underV2;
 
-                vertices[12] = color;
-                vertices[13] = underU2;
-                vertices[14] = underV2;
+                    vertices[12] = color;
+                    vertices[13] = underU2;
+                    vertices[14] = underV2;
 
-                vertices[17] = color;
-                vertices[18] = underU2;
-                vertices[19] = underV;
+                    vertices[17] = color;
+                    vertices[18] = underU2;
+                    vertices[19] = underV;
 
-                p0x = xc + x0 - scale;
-                p0y = yu + hu;
-                p1x = xc + x0 - scale;
-                p1y = yu;
-                p2x = xc + x0 + changedW + scale;
-                p2y = yu;
-                vertices[15] = (vertices[0]  = x + cos * p0x - sin * p0y) - (vertices[5]  = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
-                vertices[16] = (vertices[1]  = y + sin * p0x + cos * p0y) - (vertices[6]  = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
+                    p0x = xc + x0 - scale;
+                    p0y = yu + hu;
+                    p1x = xc + x0 - scale;
+                    p1y = yu;
+                    p2x = xc + x0 + changedW + scale;
+                    p2y = yu;
+                    vertices[15] = (vertices[0] = x + cos * p0x - sin * p0y) - (vertices[5] = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
+                    vertices[16] = (vertices[1] = y + sin * p0x + cos * p0y) - (vertices[6] = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
 
-                batch.draw(under.getTexture(), vertices, 0, 20);
+                    batch.draw(under.getTexture(), vertices, 0, 20);
+                }
             }
         }
         if ((glyph & STRIKETHROUGH) != 0L) {
