@@ -178,7 +178,7 @@ public class GridTest extends ApplicationAdapter {
         font.drawGlyphs(batch, layout,
 //0f, y, Align.left
                 PIXEL_WIDTH * 0.5f, y, Align.center
-                , since * 0.05f
+                , since * 0.0f
         );
         batch.end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
