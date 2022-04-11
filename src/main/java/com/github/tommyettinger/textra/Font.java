@@ -1742,7 +1742,7 @@ public class Font implements Disposable {
         float centerX = cellWidth * 0.5f;
         float centerY = cellHeight * 0.5f;
         float xc = -centerX;
-        float yt = cellHeight - centerY - height;
+        float yt = -centerY;
 
         x += centerX;
         y += centerY;
@@ -2356,7 +2356,7 @@ public class Font implements Disposable {
         if ((glyph & UNDERLINE) != 0L) {
             GlyphRegion under = font.mapping.get(0x2500);
             if(under != null && under.offsetX != under.offsetX){
-                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color, x - tr.offsetX * scaleX, y - cellHeight * 0.375f);
+                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color, x - tr.offsetX * scaleX, y - cellHeight * 0.3f, w, h * 0.75f);
             }
             else {
                 under = font.mapping.get('_');
@@ -2593,9 +2593,9 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -tr.offsetX * scaleX;
-                p0y = -cellHeight * 0.375f;
+                p0y = -cellHeight * 0.3f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
-                        x + cos * p0x - sin * p0y - centerX, y + sin * p0x + cos * p0y - centerY, w, h, rotation);
+                        x + cos * p0x - sin * p0y - centerX, y + sin * p0x + cos * p0y - centerY, w, h * 0.75f, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
