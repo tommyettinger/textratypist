@@ -2636,41 +2636,49 @@ public class Font implements Disposable {
             }
         }
         if ((glyph & STRIKETHROUGH) != 0L) {
-            final GlyphRegion dash = font.mapping.get('-');
-            if (dash != null) {
-                final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.5f,
-                        dashV = dash.getV(),
-                        dashU2 = dashU + iw,
-                        dashV2 = dash.getV2(),
-                        hd = dash.getRegionHeight() * scaleY, yd = font.cellHeight * scale - hd - dash.offsetY * scaleY - centerY * scale;
-                xc = dash.offsetX * scaleX - centerX * scale;
-                x0 = scaleX * dash.offsetX + scale;
-                vertices[2] = color;
-                vertices[3] = dashU;
-                vertices[4] = dashV;
+            GlyphRegion dash = font.mapping.get(0x2500);
+            if (dash != null && dash.offsetX != dash.offsetX) {
+                p0x = -tr.offsetX * scaleX;
+                p0y = 0;
+                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
+                        x + cos * p0x - sin * p0y - centerX, y + sin * p0x + cos * p0y - centerY, w, h, rotation);
+            } else {
+                dash = font.mapping.get('-');
+                if (dash != null) {
+                    final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.5f,
+                            dashV = dash.getV(),
+                            dashU2 = dashU + iw,
+                            dashV2 = dash.getV2(),
+                            hd = dash.getRegionHeight() * scaleY, yd = font.cellHeight * scale - hd - dash.offsetY * scaleY - centerY * scale;
+                    xc = dash.offsetX * scaleX - centerX * scale;
+                    x0 = scaleX * dash.offsetX + scale;
+                    vertices[2] = color;
+                    vertices[3] = dashU;
+                    vertices[4] = dashV;
 
-                vertices[7] = color;
-                vertices[8] = dashU;
-                vertices[9] = dashV2;
+                    vertices[7] = color;
+                    vertices[8] = dashU;
+                    vertices[9] = dashV2;
 
-                vertices[12] = color;
-                vertices[13] = dashU2;
-                vertices[14] = dashV2;
+                    vertices[12] = color;
+                    vertices[13] = dashU2;
+                    vertices[14] = dashV2;
 
-                vertices[17] = color;
-                vertices[18] = dashU2;
-                vertices[19] = dashV;
+                    vertices[17] = color;
+                    vertices[18] = dashU2;
+                    vertices[19] = dashV;
 
-                p0x = xc + x0 - scale;
-                p0y = yd + hd;
-                p1x = xc + x0 - scale;
-                p1y = yd;
-                p2x = xc + x0 + changedW + scale;
-                p2y = yd;
-                vertices[15] = (vertices[0]  = x + cos * p0x - sin * p0y) - (vertices[5]  = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
-                vertices[16] = (vertices[1]  = y + sin * p0x + cos * p0y) - (vertices[6]  = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
+                    p0x = xc + x0 - scale;
+                    p0y = yd + hd;
+                    p1x = xc + x0 - scale;
+                    p1y = yd;
+                    p2x = xc + x0 + changedW + scale;
+                    p2y = yd;
+                    vertices[15] = (vertices[0] = x + cos * p0x - sin * p0y) - (vertices[5] = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
+                    vertices[16] = (vertices[1] = y + sin * p0x + cos * p0y) - (vertices[6] = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
 
-                batch.draw(dash.getTexture(), vertices, 0, 20);
+                    batch.draw(dash.getTexture(), vertices, 0, 20);
+                }
             }
         }
         return changedW;
