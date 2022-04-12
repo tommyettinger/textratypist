@@ -74,7 +74,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.astarry == null)
         {
             try {
-                instance.astarry = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, -1, -2, -2).scaleTo(9, 9).setCrispness(5f);
+                instance.astarry = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, -1, -2, -2, false).scaleTo(9, 9).setCrispness(5f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -438,7 +438,7 @@ public final class KnownFonts implements LifecycleListener {
         {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 2.
-                instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(9, 25).setTextureFilter();
+                instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(9, 25).adjustLineHeight(0.9f).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -550,7 +550,7 @@ public final class KnownFonts implements LifecycleListener {
         {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 2.
-                instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(9, 25).setTextureFilter();
+                instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(9, 25).adjustLineHeight(0.9f).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -735,7 +735,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.openSans == null)
         {
             try {
-                instance.openSans = new Font("OpenSans-standard.fnt", "OpenSans-standard.png", STANDARD, 2, 0, 0, 0).scaleTo(25, 35).setTextureFilter();
+                instance.openSans = new Font("OpenSans-standard.fnt", "OpenSans-standard.png", STANDARD, 2, 0, 0, 0).scaleTo(25, 35).adjustLineHeight(0.75f).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
             }
