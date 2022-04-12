@@ -1110,7 +1110,7 @@ public class Font implements Disposable {
                         a = 0;
                         gr.offsetX = 0;
                     }
-                    else if(generateGridGlyphs && minWidth == cellWidth && BlockUtils.isBlockGlyph(glyph.id)){
+                    else if(generateGridGlyphs && BlockUtils.isBlockGlyph(glyph.id)){
                         gr.offsetX = Float.NaN;
                     }
                     else {
@@ -1162,6 +1162,19 @@ public class Font implements Disposable {
             GlyphRegion gr = mapping.get('\n');
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
+        }
+        solidBlock = mapping.containsKey(0) ? 0 : mapping.containsKey(0x2588) ? '\u2588' : '\uFFFF';
+        if(generateGridGlyphs){
+            GlyphRegion block = mapping.get(solidBlock, null);
+            if(block != null) {
+                for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
+                    GlyphRegion gr = new GlyphRegion(block);
+                    gr.offsetX = Float.NaN;
+                    gr.xAdvance = cellWidth;
+                    gr.offsetY = cellHeight;
+                    mapping.put(i, gr);
+                }
+            }
         }
         defaultValue =  mapping.get(data.missingGlyph == null ? ' ' : data.missingGlyph.id, mapping.get(' ', mapping.values().next()));
         originalCellWidth = cellWidth;
@@ -1246,7 +1259,7 @@ public class Font implements Disposable {
             {
                 a = 0;
                 gr.offsetX = 0;
-            } else if(generateGridGlyphs && minWidth == cellWidth && BlockUtils.isBlockGlyph(c))
+            } else if(generateGridGlyphs && BlockUtils.isBlockGlyph(c))
             {
                 gr.offsetX = Float.NaN;
             }
@@ -1282,11 +1295,23 @@ public class Font implements Disposable {
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
         }
+        solidBlock = mapping.containsKey(0) ? 0 : mapping.containsKey(0x2588) ? '\u2588' : '\uFFFF';
+        if(generateGridGlyphs){
+            GlyphRegion block = mapping.get(solidBlock, null);
+            if(block != null) {
+                for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
+                    GlyphRegion gr = new GlyphRegion(block);
+                    gr.offsetX = Float.NaN;
+                    gr.xAdvance = cellWidth;
+                    gr.offsetY = cellHeight;
+                    mapping.put(i, gr);
+                }
+            }
+        }
         defaultValue = mapping.get(' ', mapping.get(0));
         originalCellWidth = cellWidth;
         originalCellHeight = cellHeight;
         isMono = minWidth == cellWidth && kerning == null;
-        solidBlock = mapping.containsKey(0) ? 0 : mapping.containsKey(0x2588) ? '\u2588' : '\uFFFF';
     }
 
     /**
