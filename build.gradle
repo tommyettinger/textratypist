@@ -20,7 +20,7 @@ def projectName = 'textratypist'
 version "$VERSION_NAME"
 group 'com.github.tommyettinger'
 
-//api "com.github.tommyettinger:textratypist:0.2.0"
+//api "com.github.tommyettinger:textratypist:0.3.0"
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
