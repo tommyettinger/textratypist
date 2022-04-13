@@ -43,7 +43,6 @@ public class BlockUtils {
      * @return true if c is a box drawing/block element char that this can handle
      */
     public static boolean isBlockGlyph(int c){
-//        return false;
         return (c >= '\u2500' && c <= '\u256C') || (c >= '\u2574' && c <= '\u2590') || (c >= '\u2594' && c <= '\u259F');
     }
 

@@ -43,7 +43,7 @@ public class FontSwitchTest extends ApplicationAdapter {
                 },
                 new Font[]{
                         KnownFonts.getGentium().scaleTo(32, 35),
-                        KnownFonts.getOpenSans().scaleTo(23, 35).adjustLineHeight(0.55f),
+                        KnownFonts.getOpenSans().scaleTo(23, 35).adjustLineHeight(0.9f),
                         KnownFonts.getCozette().scale(2, 2).adjustLineHeight(0.8f),
                         KnownFonts.getKingthingsFoundation().scaleTo(25, 34).adjustLineHeight(0.875f),
                 });
