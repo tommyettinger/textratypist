@@ -71,11 +71,11 @@ public class GridTest extends ApplicationAdapter {
     public void create() {
         random = new RandomXS128(123);
         lines = new char[40][10];
+        int c = -1;
         for (int x = 0; x < 40; x++) {
             for (int y = 0; y < 10; y++) {
-                int c;
                 do {
-                    c = random.nextInt(BlockUtils.BOX_DRAWING.length);
+                    c = (c + 1) % BlockUtils.BOX_DRAWING.length;
                 } while (BlockUtils.BOX_DRAWING[c].length == 0);
                 lines[x][y] = (char) (0x2500 + c);
             }
