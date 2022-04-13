@@ -34,7 +34,7 @@ cursor
   orig: 3, 3
   offset: 0, 0
   index: -1
-default
+default2
   rotate: false
   xy: 1, 50
   size: 254, 77

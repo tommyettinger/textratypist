@@ -1,7 +1,7 @@
 info face="Gentium Plus" size=123 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=2,2,10,2 spacing=0,0 outline=0
 common lineHeight=123 base=92 scaleW=2048 scaleH=2048 pages=1 packed=0 alphaChnl=0 redChnl=4 greenChnl=4 blueChnl=4
 page id=0 file="Gentium-standard.png"
-chars count=1297
+chars count=1298
 char id=0 x=2046 y=2046 width=1 height=1 xoffset=0 yoffset=0 xadvance=1 page=0 chnl=15
 char id=32 x=2042 y=1374 width=5 height=13 xoffset=-2 yoffset=-2 xadvance=18 page=0 chnl=15
 char id=33 x=1866 y=1017 width=15 height=75 xoffset=3 yoffset=29 xadvance=23 page=0 chnl=15
