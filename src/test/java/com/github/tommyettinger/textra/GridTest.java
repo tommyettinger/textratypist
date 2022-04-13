@@ -23,8 +23,10 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.github.tommyettinger.textra.utils.BlockUtils;
 
 public class GridTest extends ApplicationAdapter {
     Font font;
@@ -33,6 +35,7 @@ public class GridTest extends ApplicationAdapter {
     char[][] lines;
     Layout layout;
     long startTime;
+    RandomXS128 random;
 
     static final int PIXEL_WIDTH = 800, PIXEL_HEIGHT = 640;
 
@@ -66,12 +69,17 @@ public class GridTest extends ApplicationAdapter {
 
     @Override
     public void create() {
-        lines = new char[][]
-                {//"┼┌─┤"
-                        "┼┤┤├".toCharArray(),
-                        "┌││┌".toCharArray(),
-                        "─└├┼".toCharArray(),
-                        "┤├│┐".toCharArray()};
+        random = new RandomXS128(123);
+        lines = new char[40][10];
+        for (int x = 0; x < 40; x++) {
+            for (int y = 0; y < 10; y++) {
+                int c;
+                do {
+                    c = random.nextInt(BlockUtils.BOX_DRAWING.length);
+                } while (BlockUtils.BOX_DRAWING[c].length == 0);
+                lines[x][y] = (char) (0x2500 + c);
+            }
+        }
 
         batch = new SpriteBatch();
         font = KnownFonts.getInconsolataMSDF().scaleTo(16, 32);
@@ -153,8 +161,8 @@ public class GridTest extends ApplicationAdapter {
         font.enableShader(batch);
 
         font.drawBlocks(batch, backgrounds, 0f, 0f);
-        for (int xx = 0; xx < 4; xx++) {
-            for (int yy = 0; yy < 4; yy++) {
+        for (int xx = 0; xx < lines.length; xx++) {
+            for (int yy = 0; yy < lines[0].length; yy++) {
                 font.drawGlyph(batch, 0xFFFFFFFE00000000L | lines[xx][yy], font.cellWidth * xx, y + font.cellHeight * (1 + yy));
             }
         }
@@ -168,13 +176,6 @@ public class GridTest extends ApplicationAdapter {
 //            glyphs[0].set(i, glyphs[0].get(i) & 0xFFFFFFFFL | color);
 //        }
         long since = TimeUtils.timeSinceMillis(startTime);
-        for (float g = y; g < PIXEL_HEIGHT; g+= font.cellHeight) {
-
-            font.drawGlyph(batch, 0xBB0011FE00200000L | '&',
-//                    2f * font.cellWidth,
-                    (MathUtils.sinDeg(since * 0.01f + g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length, g,
-                    since * 0.0625f);
-        }
         font.drawGlyphs(batch, layout,
 //0f, y, Align.left
                 PIXEL_WIDTH * 0.5f, y, Align.center
