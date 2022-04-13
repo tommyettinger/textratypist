@@ -1722,8 +1722,8 @@ public class Font implements Disposable {
                 v2 = v - iph;
         float startX, startY, sizeX, sizeY;
         for (int b = 0; b < sequence.length; b += 4) {
-            startX = MathUtils.round(x + sequence[b] * width);
-            startY = MathUtils.round(y + sequence[b+1] * height);
+            startX = (x + sequence[b] * width);
+            startY = (y + sequence[b+1] * height);
             sizeX = Math.max(1, sequence[b+2] * width);
             sizeY = Math.max(1, sequence[b+3] * height);
             vertices[0] = startX;
@@ -1774,8 +1774,8 @@ public class Font implements Disposable {
 
         float startX, startY, sizeX, sizeY;
         for (int b = 0; b < sequence.length; b += 4) {
-            startX = MathUtils.round(sequence[b] * width);
-            startY = MathUtils.round(sequence[b+1] * height);
+            startX = (sequence[b] * width);
+            startY = (sequence[b+1] * height);
             sizeX = Math.max(1, sequence[b+2] * width);
             sizeY = Math.max(1, sequence[b+3] * height);
 
