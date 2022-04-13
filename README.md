@@ -88,12 +88,26 @@ each font are included in the same folder, in `knownFonts` here. All fonts provi
 licenses permit commercial use without fees, and all do. Most require attribution; check the licenses for details. The
 variety of font types isn't amazing, but it should be a good starting point.
 
+## Act now and get these features, free of charge!
+
+You can rotate individual glyphs (if you draw them individually) or rotate whole blocks of text as a Layout, using an
+optional overload of `Font.drawGlyph()` or `Font.drawGlyphs()`. You can also, for some fonts, have box-drawing
+characters and block elements be automatically generated. This needs a solid white block character (of any size,
+typically 1x1) present in the font at id 0 (used here because most fonts don't use it) or 9608 (the Unicode full block
+index). This also enables a better guarantee of underline and strikethrough characters connecting properly, and without
+smudging where two underscores or hyphens overlap each other. `Font` attempts to enable this by default, but if it fails
+then it falls back to using underscores for underline and hyphens for strikethrough. All of the fonts in `KnownFonts`
+either are configured to use a solid block or to specifically avoid it because that font renders better without it.
+
+These two features are new in 0.3.0, and are expected to see more attention in future releases (such as more
+configuration for rotation origin).
+
 ## How do I get it?
 
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.2.1"
+implementation "com.github.tommyettinger:textratypist:0.3.0"
 ```
 
 This assumes you already depend on libGDX; textratypist depends on version 1.10.0 or higher, and should have no problems
@@ -104,7 +118,7 @@ a different version for 1.10.1 (-SNAPSHOT) and higher vs. 1.10.0 .
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.2.1:sources"
+implementation "com.github.tommyettinger:textratypist:0.3.0:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
