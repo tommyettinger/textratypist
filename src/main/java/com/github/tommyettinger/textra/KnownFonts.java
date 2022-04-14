@@ -93,6 +93,7 @@ public final class KnownFonts implements LifecycleListener {
      * many dingbats, and more. This font can look good at its natural size, which uses width roughly equal to height,
      * or narrowed down so width is smaller.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
      * Preview: <a href="https://i.imgur.com/i77ogHe.png">Image link</a> (uses width=30, height=35)
      * <br>
@@ -125,7 +126,8 @@ public final class KnownFonts implements LifecycleListener {
      * Returns a Font already configured to use a quirky fixed-width font with good Unicode support
      * and a humanist style, that should scale cleanly to even very large sizes (using an MSDF technique).
      * Caches the result for later calls. The font used is Cascadia Code Mono, an open-source (SIL Open Font
-     * License) typeface by Microsoft (see https://github.com/microsoft/cascadia-code ). It supports a lot of glyphs,
+     * License) typeface by Microsoft (see <a href="https://github.com/microsoft/cascadia-code">Microsoft's page</a>).
+     * It supports a lot of glyphs,
      * including most extended Latin, Greek, Braille, and Cyrillic. This uses the Multi-channel Signed Distance
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
@@ -315,13 +317,14 @@ public final class KnownFonts implements LifecycleListener {
      * it might). This does not scale except to integer multiples, but it should look very
      * crisp at its default size of 8x16 pixels. This supports some extra characters, but
      * not at the typical Unicode codepoints.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
      * This does not include a license because the source, <a href="https://github.com/Thraka/SadConsole/tree/master/Fonts">SadConsole's fonts</a>,
      * did not include one. It is doubtful that IBM would have any issues with respectful use
      * of their signature font throughout the 1980s, but if the legality is concerning, you
      * can use {@link #getCozette()} for a different bitmap font.
      * <br>
-     * Preview: <a href="https://i.imgur.com/bvMagBS.png">Image link</a> (uses width=8, height=16)
+     * Preview: <a href="https://i.imgur.com/dNwh5qu.png">Image link</a> (uses width=8, height=16)
      * <br>
      * Needs files:
      * <ul>
@@ -354,7 +357,7 @@ public final class KnownFonts implements LifecycleListener {
      * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}. You may want to stick using just fonts
      * that avoid distance fields if you have a family of fonts.
      * <br>
-     * Preview: <a href="https://i.imgur.com/VMD9bRw.png">Image link</a> (uses width=10, height=26)
+     * Preview: <a href="https://i.imgur.com/rew6udn.png">Image link</a> (uses width=10, height=26)
      * <br>
      * Needs files:
      * <ul>
@@ -388,7 +391,7 @@ public final class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/pQRnZRz.png">Image link</a> (uses width=10, height=26)
+     * Preview: <a href="https://i.imgur.com/KDSSHrI.png">Image link</a> (uses width=10, height=26)
      * <br>
      * Needs files:
      * <ul>
@@ -417,13 +420,14 @@ public final class KnownFonts implements LifecycleListener {
     private Font iosevka;
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
-     * and a sans-serif geometric style. Does not use a distance field effect, and is sized best at 10x30 pixels.
-     * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font
-     * License) typeface by Belleve Invis (see https://be5invis.github.io/Iosevka/ ), and it uses several customizations
+     * and a sans-serif geometric style. Does not use a distance field effect, and is sized best at 9x25 pixels.
+     * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font License) typeface by
+     * <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several customizations
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
-     * Greek, and Cyrillic, but also the necessary box drawing characters.
+     * Greek, and Cyrillic.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/12LGZ5T.png">Image link</a> (uses width=9, height=25)
+     * Preview: <a href="https://i.imgur.com/b7PsfDS.png">Image link</a> (uses width=9, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -440,6 +444,7 @@ public final class KnownFonts implements LifecycleListener {
         {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 2.
+                // This might be OK now that this uses the box-drawing underline.
                 instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(9, 25).adjustLineHeight(0.9f).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -454,14 +459,14 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
      * and a sans-serif geometric style, that should scale cleanly to even very large sizes (using an MSDF technique).
-     * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font
-     * License) typeface by Belleve Invis (see https://be5invis.github.io/Iosevka/ ), and it uses several customizations
+     * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font License) typeface by
+     * <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several customizations
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
-     * Greek, and Cyrillic, but also the necessary box drawing characters. This uses the Multi-channel Signed Distance
+     * Greek, and Cyrillic. This uses the Multi-channel Signed Distance
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/zKeic4A.png">Image link</a> (uses width=9, height=25)
+     * Preview: <a href="https://i.imgur.com/Pl19IiH.png">Image link</a> (uses width=9, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -478,6 +483,7 @@ public final class KnownFonts implements LifecycleListener {
         {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
+                // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaMSDF = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 3f, 6, -4f, -7).setCrispness(0.75f).scaleTo(9, 25);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -492,14 +498,14 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
      * and a sans-serif geometric style, that should scale cleanly to fairly large sizes (using an SDF technique).
-     * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font
-     * License) typeface by Belleve Invis (see https://be5invis.github.io/Iosevka/ ), and it uses several customizations
+     * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font License) typeface by
+     * <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several customizations
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
-     * Greek, and Cyrillic, but also the necessary box drawing characters. This uses the Signed Distance Field (SDF)
+     * Greek, and Cyrillic. This uses the Signed Distance Field (SDF)
      * technique as opposed to the Multi-channel Signed Distance Field technique that {@link #getIosevkaMSDF()} uses,
      * which isn't as sharp at large sizes but can look a little better at small sizes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/M4dNNi5.png">Image link</a> (uses width=9, height=25)
+     * Preview: <a href="https://i.imgur.com/tG4YcFA.png">Image link</a> (uses width=9, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -516,6 +522,7 @@ public final class KnownFonts implements LifecycleListener {
         {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
+                // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSDF = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", SDF, 0f, 0f, -2f, 0f).setCrispness(0.5f).scaleTo(9, 25);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -529,13 +536,14 @@ public final class KnownFonts implements LifecycleListener {
     private Font iosevkaSlab;
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
-     * and a slab-serif geometric style. Does not use a distance field effect, and is sized best at 10x30 pixels.
+     * and a slab-serif geometric style. Does not use a distance field effect, and is sized best at 9x25 pixels.
      * Caches the result for later calls. The font used is Iosevka with Slab style, an open-source (SIL Open Font
-     * License) typeface by Belleve Invis (see https://be5invis.github.io/Iosevka/ ), and it uses several customizations
-     * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
-     * Greek, and Cyrillic, but also the necessary box drawing characters.
+     * License) typeface by <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several
+     * customizations thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of
+     * extended Latin, Greek, and Cyrillic.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/HSn2Z7W.png">Image link</a> (uses width=9, height=25)
+     * Preview: <a href="https://i.imgur.com/mODOHAC.png">Image link</a> (uses width=9, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -552,6 +560,7 @@ public final class KnownFonts implements LifecycleListener {
         {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 2.
+                // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(9, 25).adjustLineHeight(0.9f).setTextureFilter();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -567,13 +576,13 @@ public final class KnownFonts implements LifecycleListener {
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
      * and a slab-serif geometric style, that should scale cleanly to even very large sizes (using an MSDF technique).
      * Caches the result for later calls. The font used is Iosevka with Slab style, an open-source (SIL Open Font
-     * License) typeface by Belleve Invis (see https://be5invis.github.io/Iosevka/ ), and it uses several customizations
-     * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
-     * Greek, and Cyrillic, but also the necessary box drawing characters. This uses the Multi-channel Signed Distance
+     * License) typeface by <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several
+     * customizations thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of
+     * extended Latin, Greek, and Cyrillic. This uses the Multi-channel Signed Distance
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ceHGAVr.png">Image link</a> (uses width=9, height=25)
+     * Preview: <a href="https://i.imgur.com/Uunaj6Y.png">Image link</a> (uses width=9, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -590,6 +599,7 @@ public final class KnownFonts implements LifecycleListener {
         {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
+                // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSlabMSDF = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, -4f, -7).setCrispness(0.75f).scaleTo(9, 25);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -605,13 +615,13 @@ public final class KnownFonts implements LifecycleListener {
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
      * and a slab-serif geometric style, that should scale cleanly to fairly large sizes (using an SDF technique).
      * Caches the result for later calls. The font used is Iosevka with Slab style, an open-source (SIL Open Font
-     * License) typeface by Belleve Invis (see https://be5invis.github.io/Iosevka/ ), and it uses several customizations
-     * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
-     * Greek, and Cyrillic, but also the necessary box drawing characters. This uses the Signed Distance Field (SDF)
+     * License) typeface by <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several
+     * customizations thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of
+     * extended Latin, Greek, and Cyrillic. This uses the Signed Distance Field (SDF)
      * technique as opposed to the Multi-channel Signed Distance Field technique that {@link #getIosevkaMSDF()} uses,
      * which isn't as sharp at large sizes but can look a little better at small sizes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/8TBD3xn.png">Image link</a> (uses width=9, height=25)
+     * Preview: <a href="https://i.imgur.com/6GjwoK5.png">Image link</a> (uses width=9, height=25)
      * <br>
      * Needs files:
      * <ul>
@@ -628,6 +638,7 @@ public final class KnownFonts implements LifecycleListener {
         {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
+                // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSlabSDF = new Font("Iosevka-Slab-sdf.fnt", "Iosevka-Slab-sdf.png", SDF, 0f, 0f, -2f, 0f).setCrispness(0.5f).scaleTo(9, 25);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -646,8 +657,9 @@ public final class KnownFonts implements LifecycleListener {
      * typeface; this has faux-bold applied already in order to make some ornamental curls visible at more sizes. You
      * can still apply bold again using markup. It supports only ASCII.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/GD9iyKO.png">Image link</a> (uses width=25, height=30)
+     * Preview: <a href="https://i.imgur.com/cj5UiPu.png">Image link</a> (uses width=25, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -688,7 +700,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses the Multi-channel Signed Distance Field (MSDF) technique, which should be very sharp. This probably
      * needs to be scaled so that it has much larger width than height; the default is 150x32.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ia9Q8ej.png">Image link</a> (uses width=150, height=132)
+     * Preview: <a href="https://i.imgur.com/h1CoKlW.png">Image link</a> (uses width=150, height=132)
      * <br>
      * Needs files:
      * <ul>
@@ -721,7 +733,7 @@ public final class KnownFonts implements LifecycleListener {
      * scaled down nicely.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/qQEUQvz.png">Image link</a> (uses width=25, height=35)
+     * Preview: <a href="https://i.imgur.com/8hU1lEB.png">Image link</a> (uses width=25, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -754,8 +766,9 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Oxanium, a free (OFL) typeface. It supports a lot of Latin
      * and extended Latin, but not Greek or Cyrillic.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/PBaqi5O.png">Image link</a> (uses width=31, height=35)
+     * Preview: <a href="https://i.imgur.com/6qYfNCK.png">Image link</a> (uses width=31, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -789,8 +802,9 @@ public final class KnownFonts implements LifecycleListener {
      * Robertson. It supports Latin-based scripts almost entirely, plus Greek, (extended) Cyrillic, and more.
      * This font is meant to be condensed in its natural appearance, but can be scaled to be wider if desired.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/8QIqEgk.png">Image link</a> (uses width=25, height=35)
+     * Preview: <a href="https://i.imgur.com/c8IEVMe.png">Image link</a> (uses width=25, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -823,8 +837,9 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
      * of Latin, Cyrillic, and some extended Latin, but not Greek.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ymJT8SD.png">Image link</a> (uses width=30, height=35)
+     * Preview: <a href="https://i.imgur.com/ZZhXZmK.png">Image link</a> (uses width=30, height=35)
      * <br>
      * Needs files:
      * <ul>
