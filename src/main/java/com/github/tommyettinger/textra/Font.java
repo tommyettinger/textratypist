@@ -1724,8 +1724,8 @@ public class Font implements Disposable {
         for (int b = 0; b < sequence.length; b += 4) {
             startX = (x + sequence[b] * width);
             startY = (y + sequence[b+1] * height);
-            sizeX = Math.max(1, sequence[b+2] * width);
-            sizeY = Math.max(1, sequence[b+3] * height);
+            sizeX = (sequence[b+2] * width);
+            sizeY = (sequence[b+3] * height);
             vertices[0] = startX;
             vertices[1] = startY;
             vertices[2] = color;
@@ -1776,8 +1776,8 @@ public class Font implements Disposable {
         for (int b = 0; b < sequence.length; b += 4) {
             startX = (sequence[b] * width);
             startY = (sequence[b+1] * height);
-            sizeX = Math.max(1, sequence[b+2] * width);
-            sizeY = Math.max(1, sequence[b+3] * height);
+            sizeX = (sequence[b+2] * width);
+            sizeY = (sequence[b+3] * height);
 
             float p0x = xc + startX;
             float p0y = yt + startY + sizeY;
