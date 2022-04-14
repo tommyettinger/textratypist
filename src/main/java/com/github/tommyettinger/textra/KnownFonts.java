@@ -58,7 +58,7 @@ public final class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/J411L6i.png">Image link</a> (uses width=9, height=9)
+     * Preview: <a href="https://i.imgur.com/V4Z9vZT.png">Image link</a> (uses width=9, height=9)
      * <br>
      * Needs files:
      * <ul>
@@ -94,7 +94,7 @@ public final class KnownFonts implements LifecycleListener {
      * or narrowed down so width is smaller.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * <br>
-     * Preview: <a href="https://i.imgur.com/PtiY6wy.png">Image link</a> (uses width=30, height=35)
+     * Preview: <a href="https://i.imgur.com/i77ogHe.png">Image link</a> (uses width=30, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -130,7 +130,7 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/iGtq0Sh.png">Image link</a> (uses width=10, height=20)
+     * Preview: <a href="https://i.imgur.com/SSmmfdA.png">Image link</a> (uses width=10, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -164,7 +164,7 @@ public final class KnownFonts implements LifecycleListener {
      * multiples, but it should look very crisp at its default size of 7x13 pixels.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/thZP5CD.png">Image link</a> (uses width=7, height=13; this is small enough
+     * Preview: <a href="https://i.imgur.com/6lE56Fb.png">Image link</a> (uses width=7, height=13; this is small enough
      * to make the scaled text look bad in some places)
      * <br>
      * Needs files:
@@ -203,7 +203,7 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/vf170gC.png">Image link</a> (uses width=10, height=20)
+     * Preview: <a href="https://i.imgur.com/J7ppp82.png">Image link</a> (uses width=10, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -236,12 +236,13 @@ public final class KnownFonts implements LifecycleListener {
      * scale well from a height of about 132 down to a height of 34. You usually will want to reduce the line height
      * of this Font after you scale it; using {@code KnownFonts.getGentium().scaleTo(55, 45).adjustLineHeight(0.8f)}
      * usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
-     * License) typeface by SIL (see https://software.sil.org/gentium/ ). It supports a lot of glyphs, including quite a
+     * License) typeface by SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It
+     * supports a lot of glyphs, including quite a
      * bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. This
      * does not use a distance field effect, as opposed to {@link #getGentiumSDF()}. You may want to stick using just
      * fonts that avoid distance fields if you have a family of fonts.
      * <br>
-     * Preview: <a href="https://i.imgur.com/tMY5qhR.png">Image link</a> (uses width=31, height=35)
+     * Preview: <a href="https://i.imgur.com/PWGVxIK.png">Image link</a> (uses width=31, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -273,12 +274,13 @@ public final class KnownFonts implements LifecycleListener {
      * scale cleanly to even very large sizes (using an SDF technique). You usually will want to reduce the line height
      * of this Font after you scale it; using {@code KnownFonts.getGentium().scaleTo(55, 45).adjustLineHeight(0.8f)}
      * usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
-     * License) typeface by SIL (see https://software.sil.org/gentium/ ). It supports a lot of glyphs, including quite a
+     * License) typeface by SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It
+     * supports a lot of glyphs, including quite a
      * bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. This
      * uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but should be
      * crisp enough when zoomed out.
      * <br>
-     * Preview: <a href="https://i.imgur.com/voKEzv0.png">Image link</a> (uses width=60, height=45, adjustLineHeight(0.8f))
+     * Preview: <a href="https://i.imgur.com/Ixe9e69.png">Image link</a> (uses width=60, height=45, adjustLineHeight(0.8f))
      * <br>
      * Needs files:
      * <ul>
