@@ -22,7 +22,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -82,7 +81,7 @@ public class GridTest extends ApplicationAdapter {
         }
 
         batch = new SpriteBatch();
-        font = KnownFonts.getInconsolataMSDF().scaleTo(16, 32);
+        font = KnownFonts.getInconsolata();//.scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
 //        font = KnownFonts.getIosevka();
 //        font = KnownFonts.getIosevkaSlab().scale(0.75f, 0.75f);
@@ -99,8 +98,9 @@ public class GridTest extends ApplicationAdapter {
 //        font = KnownFonts.getCanada().scaleTo(40, 58);
 //        font = KnownFonts.getRobotoCondensed().scaleTo(37, 53);
 
-        font.fitCell(font.cellWidth, font.cellHeight, true);
-//        font.fitCell(24, 24, true);
+//        font.fitCell(font.cellWidth, font.cellHeight, true);
+//        font.fitCell(font.cellHeight, font.cellHeight, true);
+        font.scaleTo(font.cellWidth * 25f / font.cellHeight, 25f).fitCell(25f, 25f, true);
 
         layout = new Layout(font).setTargetWidth(Gdx.graphics.getWidth());
         backgrounds = new int[(int) Math.ceil(PIXEL_WIDTH / font.cellWidth)][(int) Math.ceil(PIXEL_HEIGHT / font.cellHeight)];
@@ -134,7 +134,7 @@ public class GridTest extends ApplicationAdapter {
                         + "\nThe [#800000]MAW[] of the [/][#66DDFF]wendigo[/] (wendigo)[] [*]appears[*]!"
                         + "\nThe [_][#666666]BLADE[] of [*][/][#FFFF44]DYNAST-KINGS[] strikes!"
                         + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[], [?]Unknown[]?"
-                        + "\n[#BBAA44]φ[] = (1 + 5[^]0.5[^]) * 0.5 ┼┌─┤"
+                        + "\n[#BBAA44]φ[] = (1 + 5[^]0.5[^]) * 0.5"
                         + "\n[#FF8822]¿Qué son estos? ¡Arribate, mijo![]"
                         + "\nPchnąć[] w tę łódź [#775522]jeża[] lub ośm skrzyń [#CC00CC]fig[]."
                 , layout);
@@ -156,7 +156,7 @@ public class GridTest extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.9f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        float x = 0, y = layout.getHeight() + font.cellHeight * 2;
+        float x = 0, y = layout.getHeight() ;
         batch.begin();
         font.enableShader(batch);
 
@@ -179,7 +179,6 @@ public class GridTest extends ApplicationAdapter {
         font.drawGlyphs(batch, layout,
 //0f, y, Align.left
                 PIXEL_WIDTH * 0.5f, y, Align.center
-                , since * 0.0f
         );
         batch.end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
