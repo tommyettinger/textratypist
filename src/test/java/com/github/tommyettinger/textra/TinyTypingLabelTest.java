@@ -116,7 +116,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 },
                 new Font[]{
                         KnownFonts.getGentium().scaleTo(32, 35).scale(1.15f, 1.15f),
-                        KnownFonts.getOpenSans().scaleTo(23, 35).scale(1.15f, 1.15f).adjustLineHeight(0.6f),
+                        KnownFonts.getOpenSans().scaleTo(23, 35).scale(1.15f, 1.15f).adjustLineHeight(0.9f),
                         KnownFonts.getInconsolata().scaleTo(15, 35).scale(1.15f, 1.15f).adjustLineHeight(0.9375f),
                         KnownFonts.getKingthingsFoundation().scaleTo(35, 35).scale(1.15f, 1.15f),
                         KnownFonts.getOxanium().scaleTo(32, 35).scale(1.15f, 1.15f).adjustLineHeight(1.05f),
