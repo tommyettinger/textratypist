@@ -576,7 +576,7 @@ public class TypingLabel extends TextraLabel {
         }
         if (wrap) {
             font.regenerateLayout(workingLayout);
-//            parseTokens();
+            parseTokens();
         }
         else {
             for (Line ln : workingLayout.lines) {
