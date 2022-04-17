@@ -40,7 +40,7 @@ public class TextraLabel extends Widget {
      */
     public TextraLabel(){
         layout = Layout.POOL.obtain();
-        font = new Font(new BitmapFont(), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0);
+        font = new Font(new BitmapFont(), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, false);
     }
 
     /**
@@ -53,6 +53,16 @@ public class TextraLabel extends Widget {
     }
 
     /**
+     * Creates a TextraLabel with the given text (which may be multi-line) and using the specified Skin's LabelStyle.
+     * @param text the text to use; may be multi-line, but will default to not wrapping
+     * @param skin the default Label.LabelStyle will be obtained from this and used
+     * @param makeGridGlyphs if true, the font should have a solid block glyph available, and underline/strikethrough
+     *                      may be drawn more clearly; if false, underline/strikethrough will use underscore/dash
+     */
+    public TextraLabel(String text, Skin skin, boolean makeGridGlyphs) {
+        this(text, skin.get(Label.LabelStyle.class), makeGridGlyphs);
+    }
+    /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the specified style from the given
      * Skin.
      * @param text the text to use; may be multi-line, but will default to not wrapping
@@ -61,6 +71,19 @@ public class TextraLabel extends Widget {
      */
     public TextraLabel(String text, Skin skin, String styleName) {
         this(text, skin.get(styleName, Label.LabelStyle.class));
+    }
+
+    /**
+     * Creates a TextraLabel with the given text (which may be multi-line) and using the specified style from the given
+     * Skin.
+     * @param text the text to use; may be multi-line, but will default to not wrapping
+     * @param skin the default Label.LabelStyle will be obtained from this and used
+     * @param styleName the name of a Label.LabelStyle to use from the Skin
+     * @param makeGridGlyphs if true, the font should have a solid block glyph available, and underline/strikethrough
+     *                      may be drawn more clearly; if false, underline/strikethrough will use underscore/dash
+     */
+    public TextraLabel(String text, Skin skin, String styleName, boolean makeGridGlyphs) {
+        this(text, skin.get(styleName, Label.LabelStyle.class), makeGridGlyphs);
     }
     /**
      * Creates a TextraLabel with the given text (which may be multi-line), using the specified style from the given
@@ -92,7 +115,17 @@ public class TextraLabel extends Widget {
      * @param style the Label.LabelStyle to use
      */
     public TextraLabel(String text, Label.LabelStyle style) {
-        font = new Font(style.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0);
+        this(text, style, true);
+    }
+    /**
+     * Creates a TextraLabel with the given text (which may be multi-line) and using the given style.
+     * @param text the text to use; may be multi-line, but will default to not wrapping
+     * @param style the Label.LabelStyle to use
+     * @param makeGridGlyphs if true, the font should have a solid block glyph available, and underline/strikethrough
+     *                      may be drawn more clearly; if false, underline/strikethrough will use underscore/dash
+     */
+    public TextraLabel(String text, Label.LabelStyle style, boolean makeGridGlyphs) {
+        font = new Font(style.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
         layout = Layout.POOL.obtain();
         layout.setBaseColor(style.fontColor);
         storedText = text;
