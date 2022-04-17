@@ -211,9 +211,9 @@ public class TextraLabel extends Widget {
         float width = getWidth();
         if (wrap && layout.getTargetWidth() != width) {
             layout.setTargetWidth(width);
-//            font.regenerateLayout(layout);
-            // TODO: I cannot figure out how markup() works, but regenerateLayout() doesn't...
-            font.markup(storedText, layout.clear());
+            font.regenerateLayout(layout);
+            // This was used earlier, but regenerateLayout() seems to work better in its place.
+//            font.markup(storedText, layout.clear());
             invalidateHierarchy();
         }
     }
