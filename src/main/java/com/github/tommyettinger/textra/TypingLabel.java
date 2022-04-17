@@ -51,7 +51,7 @@ public class TypingLabel extends TextraLabel {
     private final   StringBuilder    intermediateText      = new StringBuilder();
     protected final Layout           workingLayout         = Layout.POOL.obtain();
     public final    FloatArray       offsets               = new FloatArray();
-    private final   Array<Effect>    activeEffects         = new Array<Effect>();
+    protected final Array<Effect>    activeEffects         = new Array<Effect>();
     private         float            textSpeed             = TypingConfig.DEFAULT_SPEED_PER_CHAR;
     private         float            charCooldown          = textSpeed;
     private         int              rawCharIndex          = -2; // All chars, including color codes
@@ -229,7 +229,7 @@ public class TypingLabel extends TextraLabel {
 
     /** Parses all tokens of this label. Use this after setting the text and any variables that should be replaced. */
     public void parseTokens() {
-        this.setText(getDefaultToken() + originalText, false, false);
+        this.setText(Parser.preprocess(getDefaultToken() + originalText), false, false);
         Parser.parseTokens(this);
         parsed = true;
 //        setSize(actualWidth, workingLayout.getHeight());
@@ -575,8 +575,10 @@ public class TypingLabel extends TextraLabel {
             }
         }
         if (wrap) {
-            font.regenerateLayout(workingLayout);
-            parseTokens();
+//            font.regenerateLayout(workingLayout);
+//            parseTokens();
+            this.setText(intermediateText.toString(), false, false);
+
         }
         else {
             for (Line ln : workingLayout.lines) {

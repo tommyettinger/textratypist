@@ -434,6 +434,7 @@ class Parser {
         for(String token : tokens) {
             sb.append('{').append(token).append('}');
         }
+        TypingConfig.dirtyEffectMaps = false;
         return sb.toString();
     }
 
