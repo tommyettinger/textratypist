@@ -115,11 +115,6 @@ public class TextraButton extends Button {
 		return label;
 	}
 
-	public TextraButton useIntegerPositions(boolean integer) {
-		label.integerPosition = integer;
-		return this;
-	}
-
 	public Cell<TextraLabel> getTextraLabelCell () {
 		return getCell(label);
 	}
