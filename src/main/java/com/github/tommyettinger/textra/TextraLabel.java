@@ -19,6 +19,7 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
@@ -33,6 +34,7 @@ public class TextraLabel extends Widget {
     public Font font;
     public int align = Align.left;
     public boolean wrap = false;
+    public boolean integerPosition = false;
     public String storedText;
 
     /**
@@ -41,6 +43,7 @@ public class TextraLabel extends Widget {
     public TextraLabel(){
         layout = Layout.POOL.obtain();
         font = new Font(new BitmapFont(), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, false);
+        integerPosition = true;
     }
 
     /**
@@ -165,7 +168,7 @@ public class TextraLabel extends Widget {
         if(resetShader)
             font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
-        font.drawGlyphs(batch, layout, getX(align), getHeight() * 0.5f + getY(align), align);
+        font.drawGlyphs(batch, layout, integerPosition ? MathUtils.round(getX(align)) : getX(align), integerPosition ? MathUtils.round(getHeight() * 0.5f + getY(align)) : getHeight() * 0.5f + getY(align), align);
         if(resetShader)
             batch.setShader(null);
     }
@@ -199,6 +202,11 @@ public class TextraLabel extends Widget {
     public void setWrap(boolean wrap) {
         if(this.wrap != (this.wrap = wrap))
             invalidateHierarchy();
+    }
+
+    public TextraLabel useIntegerPosition(boolean integer){
+        integerPosition = integer;
+        return this;
     }
 
     @Override
