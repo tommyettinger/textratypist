@@ -51,8 +51,32 @@ public class TextraButton extends Button {
 		setSize(getPrefWidth(), getPrefHeight());
 	}
 
+
+	public TextraButton(@Null String text, Skin skin, Font replacementFont) {
+		this(text, skin.get(TextButtonStyle.class), replacementFont);
+		setSkin(skin);
+	}
+
+	public TextraButton(@Null String text, Skin skin, String styleName, Font replacementFont) {
+		this(text, skin.get(styleName, TextButtonStyle.class), replacementFont);
+		setSkin(skin);
+	}
+
+	public TextraButton(@Null String text, TextButtonStyle style, Font replacementFont) {
+		super();
+		setStyle(style, replacementFont);
+		label = newLabel(text, replacementFont, style.fontColor);
+		label.setAlignment(Align.center);
+		add(label).expand().fill();
+		setSize(getPrefWidth(), getPrefHeight());
+	}
+
 	protected TextraLabel newLabel(String text, LabelStyle style) {
 		return new TextraLabel(text, style);
+	}
+
+	protected TextraLabel newLabel(String text, Font font, Color color) {
+		return new TextraLabel(text, font, color);
 	}
 
 	public void setStyle (ButtonStyle style) {
@@ -68,6 +92,19 @@ public class TextraButton extends Button {
 		if (label != null) {
 			TextButtonStyle textButtonStyle = (TextButtonStyle)style;
 			label.font = new Font(textButtonStyle.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
+			label.setColor(textButtonStyle.fontColor);
+		}
+	}
+
+	public void setStyle (ButtonStyle style, Font font) {
+		if (style == null) throw new NullPointerException("style cannot be null");
+		if (!(style instanceof TextButtonStyle)) throw new IllegalArgumentException("style must be a TextButtonStyle.");
+		this.style = (TextButtonStyle)style;
+		super.setStyle(style);
+
+		if (label != null) {
+			TextButtonStyle textButtonStyle = (TextButtonStyle)style;
+			label.font = font;
 			label.setColor(textButtonStyle.fontColor);
 		}
 	}

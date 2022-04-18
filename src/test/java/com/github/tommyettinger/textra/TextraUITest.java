@@ -63,6 +63,10 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
+
+		Font font = new Font(skin.get(Label.LabelStyle.class).font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true)
+				.adjustLineHeight(0.75f).useIntegerPositions(true);
+
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
@@ -74,11 +78,11 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
 		ImageButton iconButton = new ImageButton(style);
 
-		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle").useIntegerPositions(true);
+		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
-		TextraLabel myLabel = new TextraLabel("This is some text.", skin);
+		TextraLabel myLabel = new TextraLabel("This is some text.", font);
 
 		Table t = new Table();
 		t.row();
@@ -116,15 +120,15 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TextraLabel minSizeLabel = new TextraLabel("minWidth cell", skin); // demos SplitPane respecting widget's minWidth
+		TextraLabel minSizeLabel = new TextraLabel("minWidth cell", font); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TextraLabel("fps:", skin);
+		fpsLabel = new TextraLabel("fps:", font);
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
-		final TextraLabel passwordLabel = new TextraLabel("Textfield in [~]secure[] password mode: ", skin);
+		final TextraLabel passwordLabel = new TextraLabel("Textfield in [~]secure[] password mode: ", font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
@@ -135,12 +139,12 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 			skin));
 		Table tooltipTable = new Table(skin);
 		tooltipTable.pad(10).background("default-round");
-		tooltipTable.add(new TextraButton("Fancy tooltip!", skin).useIntegerPositions(true));
+		tooltipTable.add(new TextraButton("Fancy tooltip!", skin, font));
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
 		Window window = new Window("Dialog", skin);
-		window.getTitleTable().add(new TextraButton("X", skin).useIntegerPositions(true)).height(window.getPadTop());
+		window.getTitleTable().add(new TextraButton("X", skin, font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
 		window.row().fill().expandX();
