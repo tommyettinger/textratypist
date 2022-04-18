@@ -121,7 +121,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TypingLabel("fps: 0000[^][SKY][[citation needed]", skin);
+		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin);
 		fpsLabel.setAlignment(Align.topLeft);
 		// configures an example of a TextField in password mode.
 		final TypingLabel passwordLabel = new TypingLabel("Textfield in [~]secure[] password mode: ", skin);
@@ -201,9 +201,13 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		profiler.reset();
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		String s = String.format("% 4d", Gdx.graphics.getFramesPerSecond());
-		for (int i = 0; i < 4; i++) {
+		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
+		int i;
+		for (i = 0; i < s.length() && i < 5; i++) {
 			fpsLabel.setInWorkingLayout(5+i, s.charAt(i) | 0xFFFFFFFF00000000L);
+		}
+		for (; i < 5; i++) {
+			fpsLabel.setInWorkingLayout(5+i, 0L);
 		}
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
