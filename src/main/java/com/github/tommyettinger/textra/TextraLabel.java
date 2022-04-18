@@ -180,6 +180,11 @@ public class TextraLabel extends Widget {
         return layout.getHeight() + font.cellHeight * 0.5f;
     }
 
+    public TextraLabel useIntegerPositions(boolean integer) {
+        font.integerPosition = integer;
+        return this;
+    }
+
     /**
      * Gets the current wrapping mode. When wrap is enabled,
      * the preferred and/or min/max sizes must be used so this knows where to wrap. If wrap is disabled, lines that are

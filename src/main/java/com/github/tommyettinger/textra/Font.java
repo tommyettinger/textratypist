@@ -360,6 +360,15 @@ public class Font implements Disposable {
      * Determines how colors are looked up by name; defaults to using {@link Colors}.
      */
     public ColorLookup colorLookup = ColorLookup.GdxColorLookup.INSTANCE;
+
+    /**
+     * If true, this will always use integers for x and y position (rounding), which can help some fonts look more
+     * clear. However, if your world units are measured so that one world unit covers several pixels, then having this
+     * enabled can cause bizarre-looking visual glitches involving stretched or disappearing glyphs. This defaults to
+     * false, unlike what libGDX BitmapFont defaults to.
+     */
+    public boolean integerPosition = false;
+
     /** Bit flag for bold mode, as a long. */
     public static final long BOLD = 1L << 30;
     /** Bit flag for oblique mode, as a long. */
@@ -1514,6 +1523,11 @@ public class Font implements Disposable {
         return this;
     }
 
+    public Font useIntegerPositions(boolean integer) {
+        integerPosition = integer;
+        return this;
+    }
+
     /**
      * Gets the "crispness" multiplier for distance field fonts (SDF and MSDF). This is usually 1.0 unless it has been
      * changed. The default value is 1.0; lower values look softer and fuzzier, while higher values look sharper and
@@ -1525,6 +1539,7 @@ public class Font implements Disposable {
     public float getCrispness() {
         return distanceFieldCrispness;
     }
+
     /**
      * Sets the "crispness" multiplier for distance field fonts (SDF and MSDF). The default value is 1.0; lower values
      * look softer and fuzzier, while higher values look sharper and possibly more jagged. This is used as a persistent
@@ -2244,6 +2259,10 @@ public class Font implements Disposable {
         return line;
     }
 
+    protected float handleIntegerPosition(float p) {
+        return integerPosition ? MathUtils.round(p) : p;
+    }
+
     /**
      * Draws the specified glyph with a Batch at the given x, y position. The glyph contains multiple types of data all
      * packed into one {@code long}: the bottom 16 bits store a {@code char}, the roughly 16 bits above that store
@@ -2332,26 +2351,26 @@ public class Font implements Disposable {
                 changedW *= 0.5f;
         }
 
-        vertices[0] = x + x0;
-        vertices[1] = yt + y0 + h;
+        vertices[0] = handleIntegerPosition(x + x0);
+        vertices[1] = handleIntegerPosition(yt + y0 + h);
         vertices[2] = color;
         vertices[3] = u;
         vertices[4] = v;
 
-        vertices[5] = x + x1;
-        vertices[6] = yt + y1;
+        vertices[5] = handleIntegerPosition(x + x1);
+        vertices[6] = handleIntegerPosition(yt + y1);
         vertices[7] = color;
         vertices[8] = u;
         vertices[9] = v2;
 
-        vertices[10] = x + x2 + w;
-        vertices[11] = yt + y2;
+        vertices[10] = handleIntegerPosition(x + x2 + w);
+        vertices[11] = handleIntegerPosition(yt + y2);
         vertices[12] = color;
         vertices[13] = u2;
         vertices[14] = v2;
 
-        vertices[15] = x + x3 + w;
-        vertices[16] = yt + y3 + h;
+        vertices[15] = handleIntegerPosition(x + x3 + w);
+        vertices[16] = handleIntegerPosition(yt + y3 + h);
         vertices[17] = color;
         vertices[18] = u2;
         vertices[19] = v;
@@ -2392,26 +2411,26 @@ public class Font implements Disposable {
                             underV2 = under.getV2(),
                             hu = under.getRegionHeight() * scaleY, yu = y + font.cellHeight * scale - hu - under.offsetY * scaleY;
                     x0 = x + scaleX * under.offsetX + scale;
-                    vertices[0] = x0 - scale;
-                    vertices[1] = yu + hu;
+                    vertices[0] = handleIntegerPosition(x0 - scale);
+                    vertices[1] = handleIntegerPosition(yu + hu);
                     vertices[2] = color;
                     vertices[3] = underU;
                     vertices[4] = underV;
 
-                    vertices[5] = x0 - scale;
-                    vertices[6] = yu;
+                    vertices[5] = handleIntegerPosition(x0 - scale);
+                    vertices[6] = handleIntegerPosition(yu);
                     vertices[7] = color;
                     vertices[8] = underU;
                     vertices[9] = underV2;
 
-                    vertices[10] = x0 + changedW + scale;
-                    vertices[11] = yu;
+                    vertices[10] = handleIntegerPosition(x0 + changedW + scale);
+                    vertices[11] = handleIntegerPosition(yu);
                     vertices[12] = color;
                     vertices[13] = underU2;
                     vertices[14] = underV2;
 
-                    vertices[15] = x0 + changedW + scale;
-                    vertices[16] = yu + hu;
+                    vertices[15] = handleIntegerPosition(x0 + changedW + scale);
+                    vertices[16] = handleIntegerPosition(yu + hu);
                     vertices[17] = color;
                     vertices[18] = underU2;
                     vertices[19] = underV;
@@ -2432,26 +2451,26 @@ public class Font implements Disposable {
                             dashV2 = dash.getV2(),
                             hd = dash.getRegionHeight() * scaleY, yd = y + font.cellHeight * scale - hd - dash.offsetY * scaleY;
                     x0 = x + scaleX * dash.offsetX + scale;
-                    vertices[0] = x0 - scale;
-                    vertices[1] = yd + hd;
+                    vertices[0] = handleIntegerPosition(x0 - scale);
+                    vertices[1] = handleIntegerPosition(yd + hd);
                     vertices[2] = color;
                     vertices[3] = dashU;
                     vertices[4] = dashV;
 
-                    vertices[5] = x0 - scale;
-                    vertices[6] = yd;
+                    vertices[5] = handleIntegerPosition(x0 - scale);
+                    vertices[6] = handleIntegerPosition(yd);
                     vertices[7] = color;
                     vertices[8] = dashU;
                     vertices[9] = dashV2;
 
-                    vertices[10] = x0 + changedW + scale;
-                    vertices[11] = yd;
+                    vertices[10] = handleIntegerPosition(x0 + changedW + scale);
+                    vertices[11] = handleIntegerPosition(yd);
                     vertices[12] = color;
                     vertices[13] = dashU2;
                     vertices[14] = dashV2;
 
-                    vertices[15] = x0 + changedW + scale;
-                    vertices[16] = yd + hd;
+                    vertices[15] = handleIntegerPosition(x0 + changedW + scale);
+                    vertices[16] = handleIntegerPosition(yd + hd);
                     vertices[17] = color;
                     vertices[18] = dashU2;
                     vertices[19] = dashV;

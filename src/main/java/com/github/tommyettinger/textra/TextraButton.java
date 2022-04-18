@@ -119,6 +119,11 @@ public class TextraButton extends Button {
 		return getCell(label);
 	}
 
+	public TextraButton useIntegerPositions(boolean integer) {
+		label.font.integerPosition = integer;
+		return this;
+	}
+
 	public void setText (@Null String text) {
 		label.setText(text);
 	}
