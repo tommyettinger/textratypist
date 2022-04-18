@@ -74,7 +74,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
 		ImageButton iconButton = new ImageButton(style);
 
-		Button buttonMulti = new TextButton("Multi\nLine\nToggle", skin, "toggle");
+		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle");
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
@@ -135,12 +135,12 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 			skin));
 		Table tooltipTable = new Table(skin);
 		tooltipTable.pad(10).background("default-round");
-		tooltipTable.add(new TextButton("Fancy tooltip!", skin));
+		tooltipTable.add(new TextraButton("Fancy tooltip!", skin));
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
 		Window window = new Window("Dialog", skin);
-		window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
+		window.getTitleTable().add(new TextraButton("X", skin)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
 		window.row().fill().expandX();
