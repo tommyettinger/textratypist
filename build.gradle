@@ -71,4 +71,5 @@ dependencies {
         exclude group: "org.lwjgl", module: "lwjgl-openal"
     }
     testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    testImplementation "com.rafaskoberg.gdx:typing-label:1.2.0"
 }
