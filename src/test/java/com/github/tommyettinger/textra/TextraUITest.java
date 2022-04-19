@@ -78,7 +78,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		Font font = new Font(skin.get(LabelStyle.class).font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true)
+		final Font font = new Font(skin.get(LabelStyle.class).font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true)
 				.adjustLineHeight(0.75f).useIntegerPositions(true);
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
@@ -198,7 +198,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 
 		iconButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				new TextraDialog("Some TextraDialog", skin, "dialog") {
+				new TextraDialog("Some TextraDialog", skin, "dialog", font) {
 					protected void result (Object object) {
 						System.out.println("Chosen: " + object);
 					}
