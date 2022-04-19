@@ -56,14 +56,49 @@ public class TextraCheckBox extends TextraButton {
 		setSize(getPrefWidth(), getPrefHeight());
 	}
 
+	public TextraCheckBox(@Null String text, Skin skin, Font replacementFont) {
+		this(text, skin.get(CheckBoxStyle.class), replacementFont);
+	}
+
+	public TextraCheckBox(@Null String text, Skin skin, String styleName, Font replacementFont) {
+		this(text, skin.get(styleName, CheckBoxStyle.class), replacementFont);
+	}
+
+	public TextraCheckBox(@Null String text, CheckBoxStyle style, Font replacementFont) {
+		super(text, style, replacementFont);
+
+		TextraLabel label = getTextraLabel();
+		label.setAlignment(Align.left);
+
+		image = newImage();
+		image.setDrawable(style.checkboxOff);
+
+		clearChildren();
+		imageCell = add(image);
+		add(label);
+		setSize(getPrefWidth(), getPrefHeight());
+	}
+
 	protected Image newImage () {
-		return new Image((Drawable)null, Scaling.none);
+		return new Image(null, Scaling.none);
 	}
 
 	public void setStyle (ButtonStyle style) {
 		if (!(style instanceof CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
 		this.style = (CheckBoxStyle)style;
 		super.setStyle(style);
+	}
+
+	public void setStyle (ButtonStyle style, boolean makeGridGlyphs) {
+		if (!(style instanceof CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
+		this.style = (CheckBoxStyle)style;
+		super.setStyle(style, makeGridGlyphs);
+	}
+
+	public void setStyle (ButtonStyle style, Font font) {
+		if (!(style instanceof CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
+		this.style = (CheckBoxStyle)style;
+		super.setStyle(style, font);
 	}
 
 	/** Returns the checkbox's style. Modifying the returned style may not have an effect until {@link #setStyle(ButtonStyle)} is
