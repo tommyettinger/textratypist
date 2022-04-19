@@ -20,6 +20,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -73,6 +74,25 @@ public class TextraDialog extends TextraWindow {
 
 	public TextraDialog(String title, WindowStyle windowStyle) {
 		super(title, windowStyle);
+		initialize();
+	}
+
+	public TextraDialog(String title, Skin skin, Font replacementFont) {
+		super(title, skin.get(WindowStyle.class), replacementFont);
+		setSkin(skin);
+		this.skin = skin;
+		initialize();
+	}
+
+	public TextraDialog(String title, Skin skin, String windowStyleName, Font replacementFont) {
+		super(title, skin.get(windowStyleName, WindowStyle.class), replacementFont);
+		setSkin(skin);
+		this.skin = skin;
+		initialize();
+	}
+
+	public TextraDialog(String title, WindowStyle windowStyle, Font replacementFont) {
+		super(title, windowStyle, replacementFont);
 		initialize();
 	}
 
@@ -148,6 +168,15 @@ public class TextraDialog extends TextraWindow {
 		return text(new TextraLabel(text, labelStyle));
 	}
 
+	/** Adds a label to the content table. */
+	public TextraDialog text (@Null String text, Font font) {
+		return text(new TextraLabel(text, font));
+	}
+	/** Adds a label to the content table. */
+	public TextraDialog text (@Null String text, Font font, Color color) {
+		return text(new TextraLabel(text, font, color));
+	}
+
 	/** Adds the given Label to the content table */
 	public TextraDialog text (TextraLabel label) {
 		contentTable.add(label);
@@ -171,7 +200,9 @@ public class TextraDialog extends TextraWindow {
 	/** Adds a text button to the button table.
 	 * @param object The object that will be passed to {@link #result(Object)} if this button is clicked. May be null. */
 	public TextraDialog button (@Null String text, @Null Object object, TextButtonStyle buttonStyle) {
-		return button(new TextraButton(text, buttonStyle), object);
+		return button(font == null
+				? new TextraButton(text, buttonStyle)
+				: new TextraButton(text, buttonStyle, font), object);
 	}
 
 	/** Adds the given button to the button table. */

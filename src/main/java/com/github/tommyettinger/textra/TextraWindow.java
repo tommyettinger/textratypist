@@ -54,6 +54,8 @@ public class TextraWindow extends Table {
 	protected int edge;
 	protected boolean dragging;
 
+	protected Font font = null;
+
 	public TextraWindow(String title, Skin skin) {
 		this(title, skin.get(WindowStyle.class));
 		setSkin(skin);
@@ -267,6 +269,7 @@ public class TextraWindow extends Table {
 
 		setBackground(style.background);
 		titleLabel.font = font;
+		this.font = font;
 		titleLabel.setColor(style.titleFontColor);
 		invalidateHierarchy();
 	}
