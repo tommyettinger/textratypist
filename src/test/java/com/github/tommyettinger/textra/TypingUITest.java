@@ -25,7 +25,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -139,7 +138,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		Window window = new Window("Dialog", skin);
+		TextraWindow window = new TextraWindow("Dialog", skin);
 		window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
