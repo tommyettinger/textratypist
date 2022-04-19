@@ -85,7 +85,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 
 		t.layout();
 
-		final CheckBox checkBox = new CheckBox(" Continuous rendering", skin);
+		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin);
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
