@@ -104,7 +104,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 
 		t.layout();
 
-		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin);
+		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin, font);
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
