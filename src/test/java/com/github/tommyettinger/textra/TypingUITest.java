@@ -138,7 +138,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		TextraWindow window = new TextraWindow("Dialog", skin);
+		TextraWindow window = new TextraWindow("TextraDialog", skin);
 		window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
@@ -179,7 +179,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 
 		iconButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				new Dialog("Some Dialog", skin, "dialog") {
+				new TextraDialog("Some TextraDialog", skin, "dialog") {
 					protected void result (Object object) {
 						System.out.println("Chosen: " + object);
 					}
