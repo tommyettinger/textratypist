@@ -65,12 +65,48 @@ public class ImageTextraButton extends Button {
 		setSize(getPrefWidth(), getPrefHeight());
 	}
 
+	public ImageTextraButton(@Null String text, Skin skin, Font replacementFont) {
+		this(text, skin.get(ImageTextButtonStyle.class), replacementFont);
+		setSkin(skin);
+	}
+
+	public ImageTextraButton(@Null String text, Skin skin, String styleName, Font replacementFont) {
+		this(text, skin.get(styleName, ImageTextButtonStyle.class), replacementFont);
+		setSkin(skin);
+	}
+
+	public ImageTextraButton(@Null String text, ImageTextButtonStyle style, Font replacementFont) {
+		super(style);
+		this.style = style;
+
+		defaults().space(3);
+
+		image = newImage();
+
+		label = newLabel(text, replacementFont, style.fontColor);
+		label.setAlignment(Align.center);
+
+		add(image);
+		add(label);
+
+		setStyle(style, replacementFont);
+
+		setSize(getPrefWidth(), getPrefHeight());
+	}
+
 	protected Image newImage () {
-		return new Image((Drawable)null, Scaling.fit);
+		return new Image(null, Scaling.fit);
 	}
 
 	protected TextraLabel newLabel (String text, LabelStyle style) {
 		return new TextraLabel(text, style);
+	}
+
+	protected TextraLabel newLabel (String text, Font font) {
+		return new TextraLabel(text, font);
+	}
+	protected TextraLabel newLabel (String text, Font font, Color color) {
+		return new TextraLabel(text, font, color);
 	}
 
 	public void setStyle (ButtonStyle style) {
@@ -83,6 +119,33 @@ public class ImageTextraButton extends Button {
 		if (label != null) {
 			ImageTextButtonStyle textButtonStyle = (ImageTextButtonStyle)style;
 			label.font = new Font(textButtonStyle.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true);
+			label.setColor(getFontColor());
+		}
+	}
+
+	public void setStyle (ButtonStyle style, boolean makeGridGlyphs) {
+		if (!(style instanceof ImageTextButtonStyle)) throw new IllegalArgumentException("style must be a ImageTextButtonStyle.");
+		this.style = (ImageTextButtonStyle)style;
+		super.setStyle(style);
+
+		if (image != null) updateImage();
+
+		if (label != null) {
+			ImageTextButtonStyle textButtonStyle = (ImageTextButtonStyle)style;
+			label.font = new Font(textButtonStyle.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
+			label.setColor(getFontColor());
+		}
+	}
+
+	public void setStyle (ButtonStyle style, Font font) {
+		if (!(style instanceof ImageTextButtonStyle)) throw new IllegalArgumentException("style must be a ImageTextButtonStyle.");
+		this.style = (ImageTextButtonStyle)style;
+		super.setStyle(style);
+
+		if (image != null) updateImage();
+
+		if (label != null) {
+			label.font = font;
 			label.setColor(getFontColor());
 		}
 	}

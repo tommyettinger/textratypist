@@ -78,7 +78,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		ImageTextButtonStyle style = new ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style);
+		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
 		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
