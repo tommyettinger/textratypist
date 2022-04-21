@@ -76,7 +76,7 @@ public class TextraButton extends Button {
 	}
 
 	protected TextraLabel newLabel(String text, Font font, Color color) {
-		return new TextraLabel(text, font, color);
+		return color == null ? new TextraLabel(text, font) : new TextraLabel(text, font, color);
 	}
 
 	public void setStyle (ButtonStyle style) {
@@ -92,7 +92,7 @@ public class TextraButton extends Button {
 		if (label != null) {
 			TextButtonStyle textButtonStyle = (TextButtonStyle)style;
 			label.font = new Font(textButtonStyle.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
-			label.setColor(textButtonStyle.fontColor);
+			if(textButtonStyle.fontColor != null) label.setColor(textButtonStyle.fontColor);
 		}
 	}
 
@@ -105,7 +105,7 @@ public class TextraButton extends Button {
 		if (label != null) {
 			TextButtonStyle textButtonStyle = (TextButtonStyle)style;
 			label.font = font;
-			label.setColor(textButtonStyle.fontColor);
+			if(textButtonStyle.fontColor != null) label.setColor(textButtonStyle.fontColor);
 		}
 	}
 

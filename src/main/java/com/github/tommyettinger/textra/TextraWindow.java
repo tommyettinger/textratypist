@@ -246,7 +246,7 @@ public class TextraWindow extends Table {
 	}
 
 	protected TextraLabel newLabel (String text, Font font, Color color) {
-		return new TextraLabel(text, font, color);
+		return color == null ? new TextraLabel(text, font) : new TextraLabel(text, font, color);
 	}
 
 	public void setStyle (WindowStyle style) {
@@ -259,7 +259,7 @@ public class TextraWindow extends Table {
 
 		setBackground(style.background);
 		titleLabel.font = new Font(style.titleFont, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
-		titleLabel.setColor(style.titleFontColor);
+		if(style.titleFontColor != null) titleLabel.setColor(style.titleFontColor);
 		invalidateHierarchy();
 	}
 
@@ -270,7 +270,7 @@ public class TextraWindow extends Table {
 		setBackground(style.background);
 		titleLabel.font = font;
 		this.font = font;
-		titleLabel.setColor(style.titleFontColor);
+		if(style.titleFontColor != null) titleLabel.setColor(style.titleFontColor);
 		invalidateHierarchy();
 	}
 
