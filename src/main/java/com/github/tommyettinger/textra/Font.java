@@ -3568,6 +3568,21 @@ public class Font implements Disposable {
                     scale = (int) (glyph + 0x300000L >>> 20 & 15);
                     line.height = Math.max(line.height, font.cellHeight * (scale + 1) * 0.25f);
                     scaleX = font.scaleX * (scale + 1) * 0.25f;
+                    if((char) glyph == '\r') {
+                        Line next;
+                        next = changing.pushLine();
+                        glyphs.pop();
+                        if (next == null) {
+                            break;
+                        }
+                        next.height = Math.max(next.height, font.cellHeight * (scale + 1) * 0.25f);
+
+                        long[] arr = next.glyphs.setSize(glyphs.size - i-1);
+                        System.arraycopy(glyphs.items, i+1, arr, 0, glyphs.size - i-1);
+                        glyphs.truncate(i);
+                        glyphs.add('\n');
+                        break;
+                    }
                     GlyphRegion tr = font.mapping.get((char) glyph);
                     if (tr == null) continue;
                     float changedW = tr.xAdvance * scaleX;
@@ -3627,8 +3642,6 @@ public class Font implements Disposable {
                     if((char) glyph == '\r') {
                         Line next;
                         next = changing.pushLine();
-//                        glyphs.items[i] ^= 13L ^ 32L;
-//                        glyphs.pop();
                         glyphs.pop();
                         if (next == null) {
                             break;
