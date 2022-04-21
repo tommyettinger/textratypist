@@ -3627,15 +3627,18 @@ public class Font implements Disposable {
                     if((char) glyph == '\r') {
                         Line next;
                         next = changing.pushLine();
+//                        glyphs.items[i] ^= 13L ^ 32L;
+//                        glyphs.pop();
                         glyphs.pop();
                         if (next == null) {
                             break;
                         }
                         next.height = Math.max(next.height, font.cellHeight * (scale + 1) * 0.25f);
 
-                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
-                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
+                        long[] arr = next.glyphs.setSize(glyphs.size - i-1);
+                        System.arraycopy(glyphs.items, i+1, arr, 0, glyphs.size - i-1);
                         glyphs.truncate(i);
+                        glyphs.add('\n');
                         break;
                     }
                     GlyphRegion tr = font.mapping.get((char) glyph);
