@@ -17,12 +17,10 @@
 package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip.TextTooltipStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Tooltip;
-import com.badlogic.gdx.scenes.scene2d.ui.TooltipManager;
 import com.badlogic.gdx.utils.Null;
 
 /** A tooltip that shows a TextraLabel.
@@ -51,9 +49,14 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
 	public TextraTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style) {
 		super(null, manager);
 
-		TextraLabel label = newLabel(text, style.label);
+		final TextraLabel label = newLabel(text, style.label);
 		label.setWrap(true);
 		getContainer().fill().setActor(label);
+		getContainer().width(new Value() {
+			public float get (@Null Actor context) {
+				return Math.min(manager.maxWidth, label.layout.getWidth());
+			}
+		});
 
 		setStyle(style);
 	}
@@ -81,9 +84,14 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
 	public TextraTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style, Font replacementFont) {
 		super(null, manager);
 
-		TextraLabel label = newLabel(text, replacementFont, style.label.fontColor);
+		final TextraLabel label = newLabel(text, replacementFont, style.label.fontColor);
 		label.setWrap(true);
 		getContainer().fill().setActor(label);
+		getContainer().width(new Value() {
+			public float get (@Null Actor context) {
+				return Math.min(manager.maxWidth, label.layout.getWidth());
+			}
+		});
 
 		setStyle(style, replacementFont);
 	}
