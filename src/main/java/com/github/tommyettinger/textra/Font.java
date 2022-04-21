@@ -1167,10 +1167,13 @@ public class Font implements Disposable {
             }
         }
         // Newlines shouldn't render.
-        if(mapping.containsKey('\n')){
+        if(mapping.containsKey('\n')) {
             GlyphRegion gr = mapping.get('\n');
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
+        }
+        if(mapping.containsKey(' ')) {
+            mapping.put('\r', mapping.get(' '));
         }
         solidBlock = mapping.containsKey(0) ? 0 : mapping.containsKey(0x2588) ? '\u2588' : '\uFFFF';
         if(generateGridGlyphs){
@@ -1304,6 +1307,9 @@ public class Font implements Disposable {
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
         }
+        if(mapping.containsKey(' ')) {
+            mapping.put('\r', mapping.get(' '));
+        }
         solidBlock = mapping.containsKey(0) ? 0 : mapping.containsKey(0x2588) ? '\u2588' : '\uFFFF';
         if(generateGridGlyphs){
             GlyphRegion block = mapping.get(solidBlock, null);
@@ -1384,6 +1390,9 @@ public class Font implements Disposable {
             GlyphRegion gr = mapping.get('\n');
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
+        }
+        if(mapping.containsKey(' ')) {
+            mapping.put('\r', mapping.get(' '));
         }
         defaultValue = mapping.get(' ', mapping.get(0));
         originalCellWidth = this.cellWidth;
