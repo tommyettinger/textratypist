@@ -127,7 +127,7 @@ public class TextraLabel extends Widget {
     public TextraLabel(String text, Label.LabelStyle style, boolean makeGridGlyphs) {
         font = new Font(style.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
         layout = Layout.POOL.obtain();
-        layout.setBaseColor(style.fontColor);
+        if(style.fontColor != null) layout.setBaseColor(style.fontColor);
         storedText = text;
         font.markup(text, layout);
     }
@@ -153,7 +153,7 @@ public class TextraLabel extends Widget {
     public TextraLabel(String text, Font font, Color color) {
         this.font = font;
         layout = Layout.POOL.obtain();
-        layout.setBaseColor(color);
+        if(color != null) layout.setBaseColor(color);
         storedText = text;
         font.markup(text, layout);
     }

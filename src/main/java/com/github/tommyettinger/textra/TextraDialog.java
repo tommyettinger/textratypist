@@ -174,7 +174,7 @@ public class TextraDialog extends TextraWindow {
 	}
 	/** Adds a label to the content table. */
 	public TextraDialog text (@Null String text, Font font, Color color) {
-		return text(new TextraLabel(text, font, color));
+		return color == null ? text(new TextraLabel(text, font)) : text(new TextraLabel(text, font, color));
 	}
 
 	/** Adds the given Label to the content table */
