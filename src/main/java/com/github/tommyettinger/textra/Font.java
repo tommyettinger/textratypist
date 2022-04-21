@@ -3557,8 +3557,9 @@ public class Font implements Disposable {
                 long glyph = glyphs.get(i);
                 if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
                 if (font == null) font = this;
+
                 if ((glyph & 0xFFFFL) == '\n') {
-                    glyphs.set(i, glyph ^= 42L);
+                    glyphs.set(i, glyph ^= 7L);
                 }
                 if (font.kerning == null) {
 
@@ -3623,6 +3624,20 @@ public class Font implements Disposable {
                     scaleX = font.scaleX * (scale + 1) * 0.25f;
                     kern = kern << 16 | (int) (glyph & 0xFFFF);
                     amt = font.kerning.get(kern, 0) * scaleX;
+                    if((char) glyph == '\r') {
+                        Line next;
+                        next = changing.pushLine();
+                        glyphs.pop();
+                        if (next == null) {
+                            break;
+                        }
+                        next.height = Math.max(next.height, font.cellHeight * (scale + 1) * 0.25f);
+
+                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
+                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
+                        glyphs.truncate(i);
+                        break;
+                    }
                     GlyphRegion tr = font.mapping.get((char) glyph);
                     if (tr == null) continue;
                     float changedW = tr.xAdvance * scaleX;

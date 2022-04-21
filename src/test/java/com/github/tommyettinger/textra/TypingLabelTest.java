@@ -253,6 +253,8 @@ public class TypingLabelTest extends ApplicationAdapter {
             }
         });
 
+        label.setWrap(true);
+
         // Finally parse tokens in the label text.
         label.parseTokens();
 
