@@ -2205,11 +2205,12 @@ public class Font implements Disposable {
     }
 
     /**
-     * Measures the actual width that the given Line will use when drawn.
+     * Measures the actual width that the given Line will use when drawn, and sets it into the Line's {@link Line#width}
+     * field.
      * @param line a Line, as from inside a Layout
      * @return the width in world units
      */
-    public Line calculateSize(Line line) {
+    public float calculateSize(Line line) {
         float drawn = 0f;
         float scaleX;
         float scale;
@@ -2256,7 +2257,15 @@ public class Font implements Disposable {
             }
         }
         line.width = drawn;
-        return line;
+        return drawn;
+    }
+
+    public float calculateSize(Layout layout) {
+        float w = 0f;
+        for (int i = 0; i < layout.lines(); i++) {
+            w = Math.max(w, calculateSize(layout.getLine(i)));
+        }
+        return w;
     }
 
     protected float handleIntegerPosition(float p) {
