@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip.TextTooltipStyle;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
 
 /** A tooltip that shows a TextraLabel.
@@ -50,8 +51,9 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
 		super(null, manager);
 
 		final TextraLabel label = newLabel(text, style.label);
+		label.setAlignment(Align.center);
 		label.setWrap(true);
-		getContainer().fill().setActor(label);
+		getContainer().setActor(label);
 		getContainer().width(new Value() {
 			public float get (@Null Actor context) {
 				return Math.min(manager.maxWidth, label.layout.getWidth());
@@ -85,8 +87,9 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
 		super(null, manager);
 
 		final TextraLabel label = newLabel(text, replacementFont, style.label.fontColor);
+		label.setAlignment(Align.center);
 		label.setWrap(true);
-		getContainer().fill().setActor(label);
+		getContainer().setActor(label);
 		getContainer().width(new Value() {
 			public float get (@Null Actor context) {
 				return Math.min(manager.maxWidth, label.layout.getWidth());
@@ -105,7 +108,7 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
 	}
 
 	protected TextraLabel newLabel (String text, Font font, Color color) {
-		return new TextraLabel(text, font, color);
+		return color == null ? new TextraLabel(text, font) : new TextraLabel(text, font, color);
 	}
 
 	public void setStyle (TextTooltipStyle style) {
