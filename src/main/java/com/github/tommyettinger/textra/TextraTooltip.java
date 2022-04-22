@@ -119,8 +119,9 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
 		if (style == null) throw new NullPointerException("style cannot be null");
 		Container<TextraLabel> container = getContainer();
 		container.getActor().font = new Font(style.label.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
-		if(style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
 		container.getActor().layout.targetWidth = style.wrapWidth;
+		if(style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
+		container.getActor().font.regenerateLayout(container.getActor().layout);
 		container.getActor().font.calculateSize(container.getActor().layout);
 		container.getActor().setWidth(container.getActor().layout.getWidth());
 		container.setBackground(style.background);
@@ -133,6 +134,7 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
 		container.getActor().font = font;
 		container.getActor().layout.targetWidth = style.wrapWidth;
 		if(style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
+		font.regenerateLayout(container.getActor().layout);
 		font.calculateSize(container.getActor().layout);
 		container.getActor().setWidth(container.getActor().layout.getWidth());
 		container.setBackground(style.background);
