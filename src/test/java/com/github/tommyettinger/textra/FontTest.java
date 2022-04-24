@@ -37,7 +37,7 @@ public class FontTest extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
         colorNames = Colors.getColors().keys().toArray();
-//        Font[] fonts = {KnownFonts.getInconsolata()};
+//        Font[] fonts = {KnownFonts.getBitter()};
         Font[] fonts = KnownFonts.getAll();
         fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
