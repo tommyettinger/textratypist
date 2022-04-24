@@ -346,7 +346,7 @@ public class Font implements Disposable {
      * box-drawing/block-element characters if {@code generateGridGlyphs} is true in the constructor. The glyph
      * that corresponds to this char should be a 1x1 pixel block of solid white pixels in most cases. Because Glamer
      * (which generated many of the knownFonts here) places a solid block at character 0, this defaults to u0000 . There
-     * is also a test in textratypist, BlockStamper, that can place a tiny solid block in the lower-right corner and use
+     * is also a test in TextraTypist, BlockStamper, that can place a tiny solid block in the lower-right corner and use
      * that for this purpose.
      */
     public char solidBlock = '\u0000';
