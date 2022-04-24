@@ -1,4 +1,5 @@
-# textratypist
+# TextraTypist
+![Animated preview](images/logo_animated.gif)
 A text-display library centered around a label that prints over time, with both effects and styles.
 
 In other words, this brings more features to text rendering in libGDX.
@@ -11,7 +12,7 @@ Or perhaps like this...
 
 ![Animated preview](images/preview.gif)
 
-## It's a label!
+## It's got labels!
 
 There's a "normal" label here in the form of TextraLabel, which acts almost exactly like Label in scene2d.ui, but
 allows the styles covered below. A lot of usage may prefer TypingLabel, though!
@@ -102,6 +103,17 @@ either are configured to use a solid block or to specifically avoid it because t
 These two features are new in 0.3.0, and are expected to see more attention in future releases (such as more
 configuration for rotation origin).
 
+## Hold the phone, there's widgets!
+
+Starting in the 0.4.0 release (in development), there are various widgets that replace their
+scene2d.ui counterparts and swap out `Label` for `TextraLabel`, allowing you to use markup in them.
+The widgets are `ImageTextraButton`, `TextraButton`, `TextraCheckBox`, `TextraDialog`, `TextraLabel`, `TextraTooltip`, 
+and `TextraWindow`, at least, so far.
+
+Future additions to these widgets should permit setting the `TextraLabel` to a `TypingLabel` of your choice.
+While `TextArea` is not yet supported, `TextraLabel` defaults to supporting multiple lines, and may be able to stand-in
+for some usage. A counterpart to `TextArea` is planned.
+
 ## How do I get it?
 
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
@@ -110,7 +122,7 @@ You probably want to get this with Gradle! The dependency for a libGDX project's
 implementation "com.github.tommyettinger:textratypist:0.3.0"
 ```
 
-This assumes you already depend on libGDX; textratypist depends on version 1.10.0 or higher, and should have no problems
+This assumes you already depend on libGDX; TextraTypist depends on version 1.10.0 or higher, and should have no problems
 updating to 1.10.1-SNAPSHOT or 1.10.1 when it is released. This is different from typing-label, which unfortunately had
 the rug pulled out from under it by changes in libGDX's font rendering code during the 1.10.1-SNAPSHOT period, and needs
 a different version for 1.10.1 (-SNAPSHOT) and higher vs. 1.10.0 .
@@ -143,3 +155,6 @@ as-is, this Apache-licensed project is fully compliant with MIT. The full MIT li
 `typing-label.LICENSE`, and the Apache 2 license for this project is in the file `LICENSE`. Apache license headers are
 also present in all library source files here. The Apache license does not typically apply to non-code resources in the
 `src/test/resources` folder; individual fonts have their own licenses stored in that directory.
+
+The logo was made by Raymond "raeleus" Buckley and contributed to this project. It can be used freely for any purpose,
+but I request that it only be used to refer to this project unless substantially modified.
