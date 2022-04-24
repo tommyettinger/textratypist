@@ -84,6 +84,44 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getAStarry() not found.");
     }
 
+    private Font bitter;
+    /**
+     * Returns a Font already configured to use a variable-width slab serif font with good Latin and Cyrillic script
+     * support, that should scale pretty well from a height of about 160 down to a height of maybe 30.
+     * Caches the result for later calls. The font used is Bitter, a free (OFL) typeface by <a href="https://github.com/solmatas/BitterPro">The Bitter Project</a>.
+     * It supports quite a lot of Latin-based scripts and Cyrillic, but does not really cover Greek or any other
+     * scripts. This font can look good at its natural size, which uses width roughly equal to height,
+     * or squashed so height is slightly smaller.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/mX4RSqh.png">Image link</a> (uses width=33, height=29)
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-standard.fnt">Bitter-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-standard.png">Bitter-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-License.txt">Bitter-License.txt</a></li>
+     * </ul>
+     * @return the Font object that can represent many sizes of the font Canada1500.ttf
+     */
+    public static Font getBitter()
+    {
+        initialize();
+        if(instance.bitter == null)
+        {
+            try {
+                instance.bitter = new Font("Bitter-standard.fnt", STANDARD, 0, 0, 0, 0).scaleTo(33, 29).adjustLineHeight(1.25f).setTextureFilter();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if(instance.bitter != null)
+            return new Font(instance.bitter);
+        throw new RuntimeException("Assets for getBitter() not found.");
+    }
+
+
     private Font canada;
     /**
      * Returns a Font already configured to use a very-legible variable-width font with strong support for Canadian
@@ -881,7 +919,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all Font instances this knows
      */
     public static Font[] getAll() {
-        return new Font[]{getAStarry(), getCanada(), getCascadiaMono(), getCozette(), getDejaVuSansMono(), getGentium(),
+        return new Font[]{getAStarry(), getBitter(), getCanada(), getCascadiaMono(), getCozette(), getDejaVuSansMono(), getGentium(),
                 getGentiumSDF(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(),
                 getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getLibertinusSerif(), getOpenSans(), getOxanium(), getRobotoCondensed(), getYanoneKaffeesatz()};
@@ -893,7 +931,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all non-distance-field Font instances this knows
      */
     public static Font[] getAllStandard() {
-        return new Font[]{getCanada(), getCozette(), getGentium(), getIBM8x16(), getInconsolata(), getIosevka(),
+        return new Font[]{getBitter(), getCanada(), getCozette(), getGentium(), getIBM8x16(), getInconsolata(), getIosevka(),
                 getIosevkaSlab(), getKingthingsFoundation(), getOpenSans(), getOxanium(), getRobotoCondensed(),
                 getYanoneKaffeesatz()};
     }
@@ -923,6 +961,10 @@ public final class KnownFonts implements LifecycleListener {
         if (astarry != null) {
             astarry.dispose();
             astarry = null;
+        }
+        if (bitter != null) {
+            bitter.dispose();
+            bitter = null;
         }
         if (canada != null) {
             canada.dispose();
