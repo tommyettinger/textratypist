@@ -133,6 +133,9 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         // OK, it is definitely not something that requires different fonts to trigger. Specific widths cause line
         // wrapping to somehow break the ENDWIND token (or RESET).
         final TypingLabel label = new TypingLabel(
+//                "Behold, the [/Terror{RESET}-[*]Bunny[*]!",
+//                "{SHAKE=1,1,2}[@Medieval]Behold{RESET}, the [/]Terror{RESET}-Bunny!",
+
                 "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
                 "she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
                 "whippin' her way through the [*]{FONT=Sans}whole dang[@][*] town! " +

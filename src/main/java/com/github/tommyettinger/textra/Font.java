@@ -2906,6 +2906,7 @@ public class Font implements Disposable {
                         continue;
                     }
                     int len = text.indexOf(']', i) - i;
+                    if(len < 0) break;
                     switch (c) {
                         case '*':
                             current ^= BOLD;
@@ -3463,6 +3464,7 @@ public class Font implements Disposable {
                         continue;
                     }
                     int len = markup.indexOf(']', i) - i;
+                    if(len < 0) break;
                     switch (c) {
                         case '*':
                             current ^= BOLD;
