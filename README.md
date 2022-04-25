@@ -1,5 +1,6 @@
 # TextraTypist
 ![Animated preview](images/logo_animated.gif)
+
 A text-display library centered around a label that prints over time, with both effects and styles.
 
 In other words, this brings more features to text rendering in libGDX.

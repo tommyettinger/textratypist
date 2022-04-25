@@ -607,6 +607,22 @@ public class Font implements Disposable {
     }
 
     /**
+     * Like {@link String#substring(int, int)} but returns "" instead of throwing any sort of Exception.
+     * @param source the String to get a substring from
+     * @param beginIndex the first index, inclusive; will be treated as 0 if negative
+     * @param endIndex the index after the last character (exclusive); if negative this will be source.length()
+     * @return the substring of source between beginIndex and endIndex, or "" if any parameters are null/invalid
+     */
+    public static String safeSubstring(String source, int beginIndex, int endIndex)
+    {
+        if(source == null || source.isEmpty()) return "";
+        if(beginIndex < 0) beginIndex = 0;
+        if(endIndex < 0 || endIndex > source.length()) endIndex = source.length();
+        if(beginIndex >= endIndex) return "";
+        return source.substring(beginIndex, endIndex);
+    }
+
+    /**
      * Returns true if {@code c} is a lower-case letter, or false otherwise.
      * Similar to {@link Character#isLowerCase(char)}, but should actually work on GWT.
      * @param c a char to check
@@ -2822,7 +2838,7 @@ public class Font implements Disposable {
                     else if (c == '=') eq = Math.min(eq, i);
                 }
                 char after = eq == end ? '\u0000' : text.charAt(eq + 1);
-                if (start + 1 == end || "RESET".equalsIgnoreCase(text.substring(start + 1, end))) {
+                if (start + 1 == end || "RESET".equalsIgnoreCase(safeSubstring(text, start + 1, end))) {
                     scale = 3;
                     font = this;
                     fontIndex = 0;
@@ -2849,7 +2865,7 @@ public class Font implements Disposable {
                             break;
                     }
                 } else if (fontChange >= 0 && family != null) {
-                    fontIndex = family.fontAliases.get(text.substring(fontChange + 1, end), -1);
+                    fontIndex = family.fontAliases.get(safeSubstring(text, fontChange + 1, end), -1);
                     if (fontIndex == -1) {
                         font = this;
                         fontIndex = 0;
@@ -2959,21 +2975,21 @@ public class Font implements Disposable {
                                 fontIndex = 0;
                                 break;
                             }
-                            fontIndex = family.fontAliases.get(text.substring(i + 1, i + len), 0);
+                            fontIndex = family.fontAliases.get(safeSubstring(text, i + 1, i + len), 0);
                             current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
                             font = family.connected[fontIndex & 15];
                             if(font == null) font = this;
                             break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
-                            int lookupColor = colorLookup.getRgba(text.substring(i + 1, i + len));
+                            int lookupColor = colorLookup.getRgba(safeSubstring(text, i + 1, i + len));
                             if (lookupColor == 256) color = baseColor;
                             else color = (long) lookupColor << 32;
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         default:
                             // attempt to look up a known Color name with a ColorLookup
-                            int gdxColor = colorLookup.getRgba(text.substring(i, i + len));
+                            int gdxColor = colorLookup.getRgba(safeSubstring(text, i, i + len));
                             if (gdxColor == 256) color = baseColor;
                             else color = (long) gdxColor << 32;
                             current = (current & ~COLOR_MASK) | color;
@@ -3497,7 +3513,7 @@ public class Font implements Disposable {
                             if(family == null){
                                 break;
                             }
-                            int fontIndex = family.fontAliases.get(markup.substring(i + 1, i + len), 0);
+                            int fontIndex = family.fontAliases.get(safeSubstring(markup, i + 1, i + len), 0);
                             current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
                             break;
                         case '#':
@@ -3511,14 +3527,14 @@ public class Font implements Disposable {
                             break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
-                            int lookupColor = colorLookup.getRgba(markup.substring(i + 1, i + len));
+                            int lookupColor = colorLookup.getRgba(safeSubstring(markup, i + 1, i + len));
                             if (lookupColor == 256) color = baseColor;
                             else color = (long) lookupColor << 32;
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         default:
                             // attempt to look up a known Color name with a ColorLookup
-                            int gdxColor = colorLookup.getRgba(markup.substring(i, i + len));
+                            int gdxColor = colorLookup.getRgba(safeSubstring(markup, i, i + len));
                             if (gdxColor == 256) color = baseColor;
                             else color = (long) gdxColor << 32;
                             current = (current & ~COLOR_MASK) | color;
