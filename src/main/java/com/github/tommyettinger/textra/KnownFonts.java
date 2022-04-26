@@ -959,6 +959,38 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font ({@link #getGentium()}) with a FontFamily configured so that all non-distance-field Fonts can be
+     * used with syntax like {@code [@Sans]}. The names this supports can be accessed with code using
+     * {@code getStandardFamily().family.fontAliases.keys()}. These names so far are:
+     * <ul>
+     *     <li>Serif</li>
+     *     <li>Sans</li>
+     *     <li>Mono</li>
+     *     <li>Condensed</li>
+     *     <li>Humanist</li>
+     *     <li>Retro</li>
+     *     <li>Slab</li>
+     *     <li>Bitter</li>
+     *     <li>Canada</li>
+     *     <li>Cozette</li>
+     *     <li>Iosevka</li>
+     *     <li>Medieval</li>
+     *     <li>Future</li>
+     * </ul>
+     * @return a Font that can switch between 13 different Fonts in its FontFamily, to any non-distance-field Font this knows
+     */
+    public static Font getStandardFamily(){
+        Font.FontFamily family = new Font.FontFamily(
+                new String[]{"Serif", "Sans", "Mono", "Condensed", "Humanist",
+                        "Retro", "Slab", "Bitter", "Canada", "Cozette", "Iosevka",
+                        "Medieval", "Future"},
+                new Font[]{getGentium(), getOpenSans(), getInconsolata(), getRobotoCondensed(), getYanoneKaffeesatz(),
+                        getIBM8x16(), getIosevkaSlab(), getBitter(), getCanada(), getCozette(), getIosevka(),
+                        getKingthingsFoundation(), getOxanium()});
+        return family.connected[0].setFamily(family);
+    }
+
+    /**
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any SDF Font.
      * This will only function at all if all the assets (for every known SDF Font) are present and load-able.
      * @return a new array containing all SDF Font instances this knows
