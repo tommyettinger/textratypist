@@ -103,7 +103,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-standard.png">Bitter-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-License.txt">Bitter-License.txt</a></li>
      * </ul>
-     * @return the Font object that can represent many sizes of the font Canada1500.ttf
+     * @return the Font object that can represent many sizes of the font Bitter-Regular.ttf
      */
     public static Font getBitter()
     {

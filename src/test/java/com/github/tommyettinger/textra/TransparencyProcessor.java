@@ -75,7 +75,8 @@ public class TransparencyProcessor extends ApplicationAdapter {
         buffer = new ChunkBuffer(65536);
         deflater = new Deflater();
         if(args == null || args.length == 0){
-            System.out.println("Please specify one or more file names.");
+            parameters = null;
+            System.out.println("Attempting to run on all non-MSDF PNG files in knownFonts.");
             return;
         }
         parameters = args;
@@ -83,16 +84,23 @@ public class TransparencyProcessor extends ApplicationAdapter {
 
     @Override
     public void create() {
-//        FileHandle[] files = Gdx.files.local("knownFonts").list(new FilenameFilter() {
-//            @Override
-//            public boolean accept(File dir, String name) {
-//                return name.endsWith(".png") && !name.endsWith("-msdf.png");
-//            }
-//        });
-//        for (FileHandle file : files)
-//        FileHandle file = Gdx.files.local("knownFonts/Inconsolata-LGC-Custom-standard.png");
-        for(String name : parameters)
-            rewrite(Gdx.files.local(name));
+        if(parameters == null) {
+//            FileHandle[] files = {Gdx.files.local("knownFonts/Inconsolata-LGC-Custom-standard.png")};
+
+
+            FileHandle[] files = Gdx.files.local("knownFonts").list(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.endsWith(".png") && !name.endsWith("-msdf.png");
+                }
+            });
+            for (FileHandle file : files)
+                rewrite(file);
+        }
+        else {
+            for (String name : parameters)
+                rewrite(Gdx.files.local(name));
+        }
         Gdx.app.exit();
     }
 
