@@ -74,7 +74,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.astarry == null)
         {
             try {
-                instance.astarry = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, -1, -2, -2, false).scaleTo(9, 9).setCrispness(5f);
+                instance.astarry = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, -1, -2, -2, false)
+                        .scaleTo(9, 9).setCrispness(5f).setName("A Starry (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -111,7 +112,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.bitter == null)
         {
             try {
-                instance.bitter = new Font("Bitter-standard.fnt", STANDARD, 0, 0, 0, 0).scaleTo(33, 29).adjustLineHeight(1.25f).setTextureFilter();
+                instance.bitter = new Font("Bitter-standard.fnt", STANDARD, 0, 0, 0, 0)
+                        .scaleTo(33, 29).adjustLineHeight(1.25f).setTextureFilter().setName("Bitter");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -149,7 +151,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.canada == null)
         {
             try {
-                instance.canada = new Font("Canada1500-standard.fnt", STANDARD, 0, 0, 0, 0).scaleTo(30, 35).setTextureFilter();
+                instance.canada = new Font("Canada1500-standard.fnt", STANDARD, 0, 0, 0, 0)
+                        .scaleTo(30, 35).setTextureFilter().setName("Canada1500");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -186,7 +189,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.cascadiaMono == null)
         {
             try {
-                instance.cascadiaMono = new Font("CascadiaMono-msdf.fnt", "CascadiaMono-msdf.png", MSDF, 2f, 1f, -5.5f, -1.5f).scaleTo(10, 20);
+                instance.cascadiaMono = new Font("CascadiaMono-msdf.fnt", "CascadiaMono-msdf.png", MSDF, 2f, 1f, -5.5f, -1.5f)
+                        .scaleTo(10, 20).setName("Cascadia Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -221,7 +225,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.cozette == null)
         {
             try {
-                instance.cozette = new Font("Cozette-standard.fnt", "Cozette-standard.png", STANDARD, 1, 1, 0, -1, false);
+                instance.cozette = new Font("Cozette-standard.fnt", "Cozette-standard.png", STANDARD, 1, 1, 0, -1, false)
+                        .setName("Cozette");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -259,7 +264,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.dejaVuSansMono == null)
         {
             try {
-                instance.dejaVuSansMono = new Font("DejaVuSansMono-msdf.fnt", "DejaVuSansMono-msdf.png", MSDF, 1f, 4f, -1.5f, -4.5f).scaleTo(10, 20);
+                instance.dejaVuSansMono = new Font("DejaVuSansMono-msdf.fnt", "DejaVuSansMono-msdf.png", MSDF, 1f, 4f, -1.5f, -4.5f)
+                        .scaleTo(10, 20).setName("DejaVu Sans Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -298,7 +304,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.gentium == null)
         {
             try {
-                instance.gentium = new Font("Gentium-standard.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -2f, 0f).scaleTo(31, 35).setTextureFilter();
+                instance.gentium = new Font("Gentium-standard.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -2f, 0f)
+                        .scaleTo(31, 35).setTextureFilter().setName("Gentium");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -337,7 +344,7 @@ public final class KnownFonts implements LifecycleListener {
         {
             try {
                 instance.gentiumSDF = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 0f, 5f, 0f, -5f).scaleTo(60, 45)
-                        .adjustLineHeight(0.8f).setCrispness(1.5f);
+                        .adjustLineHeight(0.8f).setCrispness(1.5f).setName("Gentium (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -377,7 +384,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.ibm8x16 == null)
         {
             try {
-                instance.ibm8x16 = new Font("IBM-8x16-standard.font", true);
+                instance.ibm8x16 = new Font("IBM-8x16-standard.font", true)
+                        .setName("IBM 8x16");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -411,7 +419,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.inconsolata == null)
         {
             try {
-                instance.inconsolata = new Font("Inconsolata-LGC-Custom-standard.fnt", "Inconsolata-LGC-Custom-standard.png", STANDARD, 0f, 0f, -4f, 0f).scaleTo(10, 26).setTextureFilter();
+                instance.inconsolata = new Font("Inconsolata-LGC-Custom-standard.fnt", "Inconsolata-LGC-Custom-standard.png", STANDARD, 0f, 0f, -4f, 0f)
+                        .scaleTo(10, 26).setTextureFilter().setName("Inconsolata LGC");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -445,7 +454,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.inconsolataMSDF == null)
         {
             try {
-                instance.inconsolataMSDF = new Font("Inconsolata-LGC-Custom-msdf.fnt", "Inconsolata-LGC-Custom-msdf.png", MSDF, 5f, 1f, -12f, -8f).scaleTo(10, 26);
+                instance.inconsolataMSDF = new Font("Inconsolata-LGC-Custom-msdf.fnt", "Inconsolata-LGC-Custom-msdf.png", MSDF, 5f, 1f, -12f, -8f)
+                        .scaleTo(10, 26).setName("Inconsolata LGC (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -483,7 +493,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 2.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(9, 25).adjustLineHeight(0.9f).setTextureFilter();
+                instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, 1f, 0f, 0f, 0f)
+                        .scaleTo(9, 25).adjustLineHeight(0.9f).setTextureFilter().setName("Iosevka");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -522,7 +533,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevkaMSDF = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 3f, 6, -4f, -7).setCrispness(0.75f).scaleTo(9, 25);
+                instance.iosevkaMSDF = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 3f, 6, -4f, -7)
+                        .setCrispness(0.75f).scaleTo(9, 25).setName("Iosevka (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -561,7 +573,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevkaSDF = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", SDF, 0f, 0f, -2f, 0f).setCrispness(0.5f).scaleTo(9, 25);
+                instance.iosevkaSDF = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", SDF, 0f, 0f, -2f, 0f)
+                        .setCrispness(0.5f).scaleTo(9, 25).setName("Iosevka (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -599,7 +612,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 2.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, 1f, 0f, 0f, 0f).scaleTo(9, 25).adjustLineHeight(0.9f).setTextureFilter();
+                instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, 1f, 0f, 0f, 0f)
+                        .scaleTo(9, 25).adjustLineHeight(0.9f).setTextureFilter().setName("Iosevka Slab");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -638,7 +652,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevkaSlabMSDF = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, -4f, -7).setCrispness(0.75f).scaleTo(9, 25);
+                instance.iosevkaSlabMSDF = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, -4f, -7)
+                        .setCrispness(0.75f).scaleTo(9, 25).setName("Iosevka Slab (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -677,7 +692,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevkaSlabSDF = new Font("Iosevka-Slab-sdf.fnt", "Iosevka-Slab-sdf.png", SDF, 0f, 0f, -2f, 0f).setCrispness(0.5f).scaleTo(9, 25);
+                instance.iosevkaSlabSDF = new Font("Iosevka-Slab-sdf.fnt", "Iosevka-Slab-sdf.png", SDF, 0f, 0f, -2f, 0f)
+                        .setCrispness(0.5f).scaleTo(9, 25).setName("Iosevka Slab (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -719,7 +735,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.kingthingsFoundation == null)
         {
             try {
-                instance.kingthingsFoundation = new Font("KingthingsFoundation-standard.fnt", STANDARD, 2, 0, -2f, 0).scaleTo(25, 30).setTextureFilter();
+                instance.kingthingsFoundation = new Font("KingthingsFoundation-standard.fnt", STANDARD, 2, 0, -2f, 0)
+                        .scaleTo(25, 30).setTextureFilter().setName("KingThings Foundation");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -754,7 +771,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.libertinusSerif == null)
         {
             try {
-                instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, 5, 2, -2, -2).scaleTo(150, 32).setCrispness(0.75f);
+                instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, 5, 2, -2, -2)
+                        .scaleTo(150, 32).setCrispness(0.75f).setName("Libertinus Serif (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -787,7 +805,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.openSans == null)
         {
             try {
-                instance.openSans = new Font("OpenSans-standard.fnt", "OpenSans-standard.png", STANDARD, 2, 0, 0, 0).scaleTo(25, 35).adjustLineHeight(0.75f).setTextureFilter();
+                instance.openSans = new Font("OpenSans-standard.fnt", "OpenSans-standard.png", STANDARD, 2, 0, 0, 0)
+                        .scaleTo(25, 35).adjustLineHeight(0.75f).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -822,7 +841,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.oxanium == null)
         {
             try {
-                instance.oxanium = new Font("Oxanium-standard.fnt", STANDARD, 3, 0, -1, 0).scaleTo(31, 35).setTextureFilter();
+                instance.oxanium = new Font("Oxanium-standard.fnt", STANDARD, 3, 0, -1, 0)
+                        .scaleTo(31, 35).setTextureFilter().setName("Oxanium");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -858,7 +878,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.robotoCondensed == null)
         {
             try {
-                instance.robotoCondensed = new Font("RobotoCondensed-standard.fnt", STANDARD, 0, 0, 0, 0).scaleTo(25, 35).setTextureFilter();
+                instance.robotoCondensed = new Font("RobotoCondensed-standard.fnt", STANDARD, 0, 0, 0, 0)
+                        .scaleTo(25, 35).setTextureFilter().setName("Roboto Condensed");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -893,7 +914,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.kaffeesatz == null)
         {
             try {
-                instance.kaffeesatz = new Font("YanoneKaffeesatz-standard.fnt", STANDARD, 2f, 0, 0f, 0).scaleTo(30, 35).setTextureFilter();
+                instance.kaffeesatz = new Font("YanoneKaffeesatz-standard.fnt", STANDARD, 2f, 0, 0f, 0)
+                        .scaleTo(30, 35).setTextureFilter().setName("Yanone Kaffeesatz");
             } catch (Exception e) {
                 e.printStackTrace();
             }
