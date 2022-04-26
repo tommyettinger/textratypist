@@ -369,6 +369,12 @@ public class Font implements Disposable {
      */
     public boolean integerPosition = false;
 
+    /**
+     * The name of the Font, for display purposes. This is not necessarily the same as the name of the font used in any
+     * particular {@link FontFamily}.
+     */
+    public String name = "Unnamed Font";
+
     /** Bit flag for bold mode, as a long. */
     public static final long BOLD = 1L << 30;
     /** Bit flag for oblique mode, as a long. */
@@ -1550,6 +1556,15 @@ public class Font implements Disposable {
 
     public Font useIntegerPositions(boolean integer) {
         integerPosition = integer;
+        return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Font setName(String name) {
+        this.name = name;
         return this;
     }
 
@@ -3861,5 +3876,10 @@ public class Font implements Disposable {
         Layout.POOL.free(tempLayout);
         if(shader != null)
             shader.dispose();
+    }
+
+    @Override
+    public String toString() {
+        return "Font '" + name + "' at scale " + scaleX + " by " + scaleY;
     }
 }
