@@ -770,6 +770,8 @@ public class Font implements Disposable {
         defaultValue = toCopy.defaultValue;
         kerning = toCopy.kerning == null ? null : new IntIntMap(toCopy.kerning);
         solidBlock = toCopy.solidBlock;
+        name = toCopy.name;
+        integerPosition = toCopy.integerPosition;
 
         if(toCopy.family != null)
             family = new FontFamily(toCopy.family);
