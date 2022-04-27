@@ -150,7 +150,7 @@ public class Font implements Disposable {
          * Stores the names of Fonts (or aliases for those Fonts) as keys, mapped to ints between 0 and 15 inclusive.
          * The int values that this map keeps are stored in long glyphs and looked up as indices in {@link #connected}.
          */
-        public final ObjectIntMap<String> fontAliases = new ObjectIntMap<>(32);
+        public final ObjectIntMap<String> fontAliases = new ObjectIntMap<>(48);
 
         /**
          * Creates a FontFamily that only allows staying on the same font, unless later configured otherwise.
@@ -159,10 +159,43 @@ public class Font implements Disposable {
         }
 
         /**
+         * Creates a FontFamily given an array of Font values, using the {@link Font#name} of each Font as its alias.
+         * This allows switching to different fonts using the [@Name] syntax. This also registers aliases for the
+         * Strings "0" through up to "15" to refer to the Font values with the same indices (it can register fewer
+         * aliases than up to "15" if there are fewer than 16 Fonts). You should avoid using more than 16 fonts here.
+         * @param fonts a non-null array of Font values that should each have their name set (as by {@link #setName(String)}
+         */
+        public FontFamily(Font[] fonts){
+            this(fonts, 0, fonts.length);
+        }
+
+        /**
+         * Creates a FontFamily given an array of Font values that and offset/length values for those arrays (allowing
+         * {@link Array} to sometimes be used to get the items for fonts). This uses the {@link Font#name} of each Font
+         * as its alias. This allows switching to different fonts using the [@Name] syntax. This registers aliases for
+         * the Strings "0" through up to "15" to refer to the Font values with the same indices (it can register fewer
+         * aliases than up to "15" if there are fewer than 16 Fonts). You should avoid using more than 16 fonts here.
+         * @param fonts an array of Font values that should have the same length as aliases (no more than 16)
+         * @param offset where to start accessing fonts, as a non-negative index
+         * @param length how many items to use from fonts, if that many are provided
+         */
+        public FontFamily(Font[] fonts, int offset, int length){
+            if(fonts == null || fonts.length == 0) return;
+            for (int i = offset, a = 0; i < length && i < fonts.length; i++, a++) {
+                if(fonts[i] == null) continue;
+                connected[a & 15] = fonts[i];
+                if(fonts[i].name != null)
+                    fontAliases.put(fonts[i].name, a & 15);
+                fontAliases.put(String.valueOf(a & 15), a & 15);
+            }
+        }
+
+        /**
          * Creates a FontFamily given an array of String names and a (almost-always same-sized) array of Font values
          * that those names will refer to. This allows switching to different fonts using the [@Name] syntax. This
-         * also registers aliases for the Strings "0" through up to "15" to refer to the Font values with the same
-         * indices (it can register fewer aliases than up to "15" if there are fewer than 16 Fonts). You should avoid
+         * registers aliases for the Strings "0" through up to "15" to refer to the Font values with the same indices
+         * (it can register fewer aliases than up to "15" if there are fewer than 16 Fonts). It also registers the
+         * {@link Font#name} of each Font as an alias. You should avoid using more than 16 fonts here. You should avoid
          * using more than 16 fonts with this.
          * @param aliases a non-null array of up to 16 String names to use for fonts (individual items may be null)
          * @param fonts a non-null array of Font values that should have the same length as aliases (no more than 16)
@@ -175,9 +208,9 @@ public class Font implements Disposable {
          * Creates a FontFamily given an array of String names, a (almost-always same-sized) array of Font values that
          * those names will refer to, and offset/length values for those arrays (allowing {@link Array} to sometimes be
          * used to get the items for aliases and fonts). This allows switching to different fonts using the [@Name]
-         * syntax. This also registers aliases for the Strings "0" through up to "15" to refer to the Font values with
-         * the same indices (it can register fewer aliases than up to "15" if there are fewer than 16 Fonts). You should
-         * avoid using more than 16 fonts with this.
+         * syntax. This registers aliases for the Strings "0" through up to "15" to refer to the Font values with the
+         * same indices (it can register fewer aliases than up to "15" if there are fewer than 16 Fonts). It also
+         * registers the {@link Font#name} of each Font as an alias. You should avoid using more than 16 fonts here.
          * @param aliases an array of up to 16 String names to use for fonts (individual items may be null)
          * @param fonts an array of Font values that should have the same length as aliases (no more than 16)
          * @param offset where to start accessing aliases and fonts, as a non-negative index
@@ -186,24 +219,30 @@ public class Font implements Disposable {
         public FontFamily(String[] aliases, Font[] fonts, int offset, int length){
             if(aliases == null || fonts == null || (aliases.length & fonts.length) == 0) return;
             for (int i = offset, a = 0; i < length && i < aliases.length && i < fonts.length; i++, a++) {
+                if(fonts[i] == null) continue;
                 connected[a & 15] = fonts[i];
                 fontAliases.put(aliases[i], a & 15);
+                if(fonts[i].name != null)
+                    fontAliases.put(fonts[i].name, a & 15);
                 fontAliases.put(String.valueOf(a & 15), a & 15);
             }
         }
 
         /**
          * Constructs a FontFamily given an OrderedMap of String keys (names of Fonts) to Font values (the Fonts that
-         * can be switched between). This only uses up to the first 16 keys of map.
+         * can be switched between). This registers the Strings "0" up to "15" to be aliases for the Fonts with those
+         * indices in the map. It also registers the {@link Font#name} of each Font as an alias. This only uses up to
+         * the first 16 keys of map.
          * @param map an OrderedMap of String keys to Font values
          */
         public FontFamily(OrderedMap<String, Font> map){
             Array<String> ks = map.orderedKeys();
             for (int i = 0; i < map.size && i < 16; i++) {
                 String name = ks.get(i);
+                if((connected[i] = map.get(name)) == null) continue;
                 fontAliases.put(name, i);
+                fontAliases.put(connected[i].name, i);
                 fontAliases.put(String.valueOf(i), i);
-                connected[i] = map.get(name);
             }
         }
 
