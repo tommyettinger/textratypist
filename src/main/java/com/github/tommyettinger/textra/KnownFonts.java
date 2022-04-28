@@ -112,8 +112,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.bitter == null)
         {
             try {
-                instance.bitter = new Font("Bitter-standard.fnt", STANDARD, 0, 0, 0, 0)
-                        .scaleTo(33, 29).adjustLineHeight(1.25f).setTextureFilter().setName("Bitter");
+                instance.bitter = new Font("Bitter-standard.fnt", STANDARD, 0, 0, 0, 0, false)
+                        .scaleTo(33, 30).adjustLineHeight(1.225f).setTextureFilter().setName("Bitter");
             } catch (Exception e) {
                 e.printStackTrace();
             }
