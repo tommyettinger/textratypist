@@ -84,6 +84,31 @@ public class ColorUtils {
         float l = x * (1f - 0.5f * d / (x + 1e-10f));
         return Color.rgba8888(Math.abs(z + (w - y) / (6f * d + 1e-10f)), (x - l) / (Math.min(l, 1f - l) + 1e-10f), l, a);
     }
+
+    /**
+     * Given a packed int color and a channel value from 0 to 3, gets the value of that channel as a float from 0.0f
+     * to 1.0f . Channel 0 refers to R in RGBA8888 and H in {@link #rgb2hsl(float, float, float, float) HSLA} ints,
+     * channel 1 refers to G or S, 2 refers to B or L, and 3 always refers to A.
+     * @param color a packed int color in any 32-bit, 4-channel format
+     * @param channel which channel to access, as an index from 0 to 3 inclusive
+     * @return the non-packed float value of the requested channel, from 0.0f to 1.0f inclusive
+     */
+    public static float channel(int color, int channel) {
+        return (color >>> 24 - ((channel & 3) << 3) & 255) / 255f;
+    }
+
+    /**
+     * Given a packed int color and a channel value from 0 to 3, gets the value of that channel as an int from 0 to
+     * 255 . Channel 0 refers to R in RGBA8888 and H in {@link #rgb2hsl(float, float, float, float) HSLA} ints,
+     * channel 1 refers to G or S, 2 refers to B or L, and 3 always refers to A.
+     * @param color a packed int color in any 32-bit, 4-channel format
+     * @param channel which channel to access, as an index from 0 to 3 inclusive
+     * @return the int value of the requested channel, from 0 to 255 inclusive
+     */
+    public static float channelInt(int color, int channel) {
+        return (color >>> 24 - ((channel & 3) << 3) & 255);
+    }
+
     /**
      * Interpolates from the RGBA8888 int color start towards end by change. Both start and end should be RGBA8888
      * ints, and change can be between 0f (keep start) and 1f (only use end). This is a good way to reduce allocations
