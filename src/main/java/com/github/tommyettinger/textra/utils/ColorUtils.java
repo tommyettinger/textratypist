@@ -58,7 +58,7 @@ public class ColorUtils {
      * @param a alpha, from 0.0 to 1.0
      * @return an "HSLA-format" int
      */
-    public static float rgb2hsl(final float r, final float g, final float b, final float a) {
+    public static int rgb2hsl(final float r, final float g, final float b, final float a) {
         float x, y, z, w;
         if(g < b) {
             x = b;
