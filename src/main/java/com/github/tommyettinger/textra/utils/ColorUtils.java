@@ -48,6 +48,7 @@ public class ColorUtils {
         float d = 2f * (1f - l / (v + 1e-10f));
         return Color.rgba8888(v * MathUtils.lerp(1f, x, d), v * MathUtils.lerp(1f, y, d), v * MathUtils.lerp(1f, z, d), a);
     }
+
     /**
      * Converts the four RGBA components, each in the 0.0 to 1.0 range, to an int in HSLA format (hue,
      * saturation, lightness, alpha). This format is exactly like RGBA8888 but treats what would normally be red as hue,
@@ -83,6 +84,51 @@ public class ColorUtils {
         float d = x - Math.min(w, y);
         float l = x * (1f - 0.5f * d / (x + 1e-10f));
         return Color.rgba8888(Math.abs(z + (w - y) / (6f * d + 1e-10f)), (x - l) / (Math.min(l, 1f - l) + 1e-10f), l, a);
+    }
+
+    /**
+     * Converts the four HSBA/HSVA components, each in the 0.0 to 1.0 range, to an int in RGBA8888 format.
+     * I brought this over from colorful-gdx's FloatColors class. I can't recall where I got the original HSL(A) code
+     * from, but there's a strong chance it was written by cypherdare/cyphercove for their color space comparison.
+     * HSV and HSB are synonyms; it makes a little more sense to call the third channel brightness.
+     * @param h hue, from 0.0 to 1.0
+     * @param s saturation, from 0.0 to 1.0
+     * @param b brightness, from 0.0 to 1.0
+     * @param a alpha, from 0.0 to 1.0
+     * @return an RGBA8888-format int
+     */
+    public static int hsb2rgb(final float h, final float s, final float b, final float a){
+        float x = Math.min(Math.max(Math.abs(h * 6f - 3f) - 1f, 0f), 1f);
+        float y = h + (2f / 3f);
+        float z = h + (1f / 3f);
+        y -= (int)y;
+        z -= (int)z;
+        y = Math.min(Math.max(Math.abs(y * 6f - 3f) - 1f, 0f), 1f);
+        z = Math.min(Math.max(Math.abs(z * 6f - 3f) - 1f, 0f), 1f);
+        return Color.rgba8888(b * MathUtils.lerp(1f, x, s), b * MathUtils.lerp(1f, y, s), b * MathUtils.lerp(1f, z, s), a);
+    }
+
+    /**
+     * Converts the four RGBA components, each in the 0.0 to 1.0 range, to an int in HSBA/HSVA format (hue,
+     * saturation, brightness/value, alpha). This format is exactly like RGBA8888 but treats what would normally be red
+     * as hue, green as saturation, and blue as brightness/value; alpha is the same. HSV and HSB are synonyms; it makes
+     * a little more sense to call the third channel brightness.
+     * @param r red, from 0.0 to 1.0
+     * @param g green, from 0.0 to 1.0
+     * @param b blue, from 0.0 to 1.0
+     * @param a alpha, from 0.0 to 1.0
+     * @return an "HSBA/HSVA-format" int
+     */
+    public static int rgb2hsb(final float r, final float g, final float b, final float a) {
+        float v = Math.max(Math.max(r, g), b);
+        float n = Math.min(Math.min(r, g), b);
+        float c = v - n;
+        float h;
+        if(c == 0) h = 0f;
+        else if(v == r) h = ((g - b) / c) / 6f;
+        else if(v == g) h = ((b - r) / c + 2f) / 6f;
+        else            h = ((r - g) / c + 4f) / 6f;
+        return Color.rgba8888(h, v == 0 ? 0f : c / v, v, a);
     }
 
     /**
