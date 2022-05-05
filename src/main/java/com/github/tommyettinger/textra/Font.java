@@ -2885,6 +2885,7 @@ public class Font implements Disposable {
                 int start = i;
                 int sizeChange = -1, fontChange = -1;
                 int end = text.indexOf('}', i);
+                if(end == -1) end = text.length();
                 int eq = end;
                 for (; i < n && i <= end; i++) {
                     c = text.charAt(i);

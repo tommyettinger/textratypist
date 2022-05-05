@@ -27,7 +27,7 @@ public class GradientEffect extends Effect {
 
     private int color1      = 0xFFFFFFFF; // First color of the gradient, RGBA8888.
     private int color2      = 0xFFFFFFFF; // Second color of the gradient, RGBA8888.
-    private float distance  = 1; // How extensive the rainbow effect should be.
+    private float distance  = 1; // How extensive the gradient effect should be.
     private float frequency = 1; // How frequently the color pattern should move through the text.
 
     public GradientEffect(TypingLabel label, String[] params) {
