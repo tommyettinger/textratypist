@@ -46,7 +46,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 public class TextraDialog extends TextraWindow {
 	Table contentTable, buttonTable;
 	private @Null Skin skin;
-	ObjectMap<Actor, Object> values = new ObjectMap();
+	ObjectMap<Actor, Object> values = new ObjectMap<>();
 	boolean cancelHide;
 	Actor previousKeyboardFocus, previousScrollFocus;
 	FocusListener focusListener;
