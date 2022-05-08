@@ -135,13 +135,14 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         final TypingLabel label = new TypingLabel(
 //                "Behold, the [/Terror{RESET}-[*]Bunny[*]!",
 //                "{SHAKE=1,1,2}[@Medieval]Behold{RESET}, the [/]Terror{RESET}-{GRADIENT=WHITE;RED}Bunny!",
+                "{EASE=", // used to check unclosed effects with incomplete parameters
 //                "A {Bunny!", // used to check unclosed curly braces
 
-                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
-                "she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
-                "whippin' her way through the [*]{FONT=Sans}whole dang[@][*] town! " +
-                "Sure as [/]I reckon[], if we [@Mono]meet our {HANG}fate{RESET}, " +
-                "this [%150]storm[%] will be there on clouds [%75]one{CLEARSIZE} through [%200]eight[%]!",
+//                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
+//                "she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
+//                "whippin' her way through the [*]{FONT=Sans}whole dang[@][*] town! " +
+//                "Sure as [/]I reckon[], if we [@Mono]meet our {HANG}fate{RESET}, " +
+//                "this [%150]storm[%] will be there on clouds [%75]one{CLEARSIZE} through [%200]eight[%]!",
 
 //                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
 //                "she's {WIND=3;2;0.2;0.2}blowin' on down{ENDWIND}, " +
