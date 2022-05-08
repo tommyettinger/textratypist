@@ -2894,7 +2894,7 @@ public class Font implements Disposable {
                     else if (c == '%') sizeChange = i;
                     else if (c == '=') eq = Math.min(eq, i);
                 }
-                char after = eq == end ? '\u0000' : text.charAt(eq + 1);
+                char after = eq + 1 >= end ? '\u0000' : text.charAt(eq + 1);
                 if (start + 1 == end || "RESET".equalsIgnoreCase(safeSubstring(text, start + 1, end))) {
                     scale = 3;
                     font = this;
