@@ -2865,7 +2865,7 @@ public class Font implements Disposable {
         Font font = this;
         float scaleX;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
-        long baseColor = Long.reverseBytes(NumberUtils.floatToIntColor(appendTo.getBaseColor())) & COLOR_MASK;
+        long baseColor = Long.reverseBytes(NumberUtils.floatToIntBits(appendTo.getBaseColor())) & 0xFFFFFFFE00000000L;
         long color = baseColor;
         long current = color;
         if(appendTo.font == null || !appendTo.font.equals(this))
@@ -3020,9 +3020,9 @@ public class Font implements Disposable {
                             break;
                         case '#':
                             if (len >= 7 && len < 9)
-                                color = longFromHex(text, i + 1, i + 7) << 40 | 0x000000FF00000000L;
+                                color = longFromHex(text, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
-                                color = longFromHex(text, i + 1, i + 9) << 32;
+                                color = longFromHex(text, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
                             else
                                 color = baseColor;
                             current = (current & ~COLOR_MASK) | color;
@@ -3040,14 +3040,14 @@ public class Font implements Disposable {
                             break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
-                            int lookupColor = colorLookup.getRgba(safeSubstring(text, i + 1, i + len));
+                            int lookupColor = colorLookup.getRgba(safeSubstring(text, i + 1, i + len)) & 0xFFFFFFFE;
                             if (lookupColor == 256) color = baseColor;
                             else color = (long) lookupColor << 32;
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         default:
                             // attempt to look up a known Color name with a ColorLookup
-                            int gdxColor = colorLookup.getRgba(safeSubstring(text, i, i + len));
+                            int gdxColor = colorLookup.getRgba(safeSubstring(text, i, i + len)) & 0xFFFFFFFE;
                             if (gdxColor == 256) color = baseColor;
                             else color = (long) gdxColor << 32;
                             current = (current & ~COLOR_MASK) | color;
@@ -3507,7 +3507,7 @@ public class Font implements Disposable {
         boolean capsLock = false, lowerCase = false;
         int c;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
-        long baseColor = COLOR_MASK | chr;
+        long baseColor = 0xFFFFFFFE00000000L | chr;
         long color = baseColor;
         long current = color;
         for (int i = 0, n = markup.length(); i < n; i++) {
@@ -3577,23 +3577,23 @@ public class Font implements Disposable {
                             break;
                         case '#':
                             if (len >= 7 && len < 9)
-                                color = longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FF00000000L;
+                                color = longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
-                                color = longFromHex(markup, i + 1, i + 9) << 32;
+                                color = longFromHex(markup, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
                             else
                                 color = baseColor;
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
-                            int lookupColor = colorLookup.getRgba(safeSubstring(markup, i + 1, i + len));
+                            int lookupColor = colorLookup.getRgba(safeSubstring(markup, i + 1, i + len)) & 0xFFFFFFFE;
                             if (lookupColor == 256) color = baseColor;
                             else color = (long) lookupColor << 32;
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         default:
                             // attempt to look up a known Color name with a ColorLookup
-                            int gdxColor = colorLookup.getRgba(safeSubstring(markup, i, i + len));
+                            int gdxColor = colorLookup.getRgba(safeSubstring(markup, i, i + len)) & 0xFFFFFFFE;
                             if (gdxColor == 256) color = baseColor;
                             else color = (long) gdxColor << 32;
                             current = (current & ~COLOR_MASK) | color;
@@ -3841,7 +3841,7 @@ public class Font implements Disposable {
      * @return another long glyph that uses the specified color
      */
     public static long applyColor(long glyph, int color){
-        return (glyph & 0xFFFFFFFFL) | ((long) color << 32);
+        return (glyph & 0xFFFFFFFFL) | ((long) color << 32 & 0xFFFFFFFE00000000L);
     }
 
     /**
