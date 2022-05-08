@@ -274,7 +274,7 @@ public class TextraWindow extends Table {
 		invalidateHierarchy();
 	}
 
-	/** Returns the window's style. Modifying the returned style may not have an effect until {@link #setStyle(WindowStyle)} is
+	/** Returns the window's style. Modifying the returned style may not have an effect until {@link #setStyle(com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle)} is
 	 * called. */
 	public WindowStyle getStyle () {
 		return style;
