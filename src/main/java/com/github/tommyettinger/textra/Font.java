@@ -3076,7 +3076,7 @@ public class Font implements Disposable {
                             int j = earlier.glyphs.size - 1 - ellipsis.length();
                             if (j >= 0) {
                                 long currE, curr;
-                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0) {
+                                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
                                     --j;
                                 }
                                 float change = 0f, changeNext = 0f;
@@ -3124,8 +3124,8 @@ public class Font implements Disposable {
                                 if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
                                         Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                                     int leading = 0;
-                                    while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                            Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0) {
+                                    while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                            Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
                                         ++leading;
                                         --j;
                                     }
@@ -3214,12 +3214,12 @@ public class Font implements Disposable {
                         for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
                             long curr;
                             // remove a full word or other group of non-space characters.
-                            while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0 && j > 0) {
+                            while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0)) {
                                 --j;
                             }
                             // remove the remaining space characters.
-                            while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                    Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0 && j > 0) {
+                            while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                    Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
                                 --j;
                             }
                             float change = 0f, changeNext = 0f;
@@ -3270,8 +3270,8 @@ public class Font implements Disposable {
                             if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
                                     Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                                 int leading = 0;
-                                while ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0) {
+                                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
                                     ++leading;
                                     --j;
                                 }
