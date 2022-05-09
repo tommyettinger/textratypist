@@ -343,9 +343,8 @@ class Parser {
             if(str.length() >= 6) {
                 try {
                     if(str.startsWith("#")) str = str.substring(1);
-                    if(str.length() == 6) return Integer.parseInt(str, 16) << 8 | 0xFF;
-                    if(str.length() == 7) return Integer.parseInt(str.substring(0, 6), 16) << 8 | 0xFF;
-                    if(str.length() == 8) return Integer.parseInt(str, 16);
+                    if(str.length() >= 8) return Font.intFromHex(str, 0, 8);
+                    if(str.length() >= 6) return Font.intFromHex(str, 0, 6) << 8 | 0xFF;
                 } catch(NumberFormatException ignored) {
                 }
             }

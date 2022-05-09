@@ -135,7 +135,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         final TypingLabel label = new TypingLabel(
 //                "Behold, the [/Terror{RESET}-[*]Bunny[*]!",
 //                "{SHAKE=1,1,2}[@Medieval]Behold{RESET}, the [/]Terror{RESET}-{GRADIENT=WHITE;RED}Bunny!",
-                "{EASE=", // used to check unclosed effects with incomplete parameters
+                "{BLINK=ff0000ff;00ff27ff;1.0;0.5}redtogreen", // used to check unclosed effects with incomplete parameters
 //                "A {Bunny!", // used to check unclosed curly braces
 
 //                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
