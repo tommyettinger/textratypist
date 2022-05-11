@@ -669,11 +669,11 @@ public class TypingLabel extends TextraLabel {
             font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
         final int lines = workingLayout.lines();
-        float baseX = getX(align), baseY = getY() + workingLayout.getHeight();
-//        if ((align & bottom) != 0)
-//            baseY += workingLayout.getHeight();
-//        else if ((align & top) == 0) //
-//            baseY += workingLayout.getHeight() * 0.5f;
+        float baseX = getX(align), baseY = getY(align);
+        if ((align & bottom) != 0)
+            baseY += workingLayout.getHeight();
+        else if ((align & top) == 0) //
+            baseY += workingLayout.getHeight() * 0.5f;
         int o = 0;
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
