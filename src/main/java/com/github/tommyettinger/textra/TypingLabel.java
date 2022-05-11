@@ -29,6 +29,9 @@ import java.lang.StringBuilder;
 import java.util.Arrays;
 import java.util.Map;
 
+import static com.badlogic.gdx.utils.Align.bottom;
+import static com.badlogic.gdx.utils.Align.top;
+
 /**
  * An extension of {@link Label} that progressively shows the text as if it was being typed in real time, and allows the
  * use of tokens in the following format: <tt>{TOKEN=PARAMETER}</tt>.
@@ -666,7 +669,11 @@ public class TypingLabel extends TextraLabel {
             font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
         final int lines = workingLayout.lines();
-        float baseX = getX(align), baseY = getHeight() * 0.5f + getY(align);
+        float baseX = getX(align), baseY = getY() + workingLayout.getHeight();
+//        if ((align & bottom) != 0)
+//            baseY += workingLayout.getHeight();
+//        else if ((align & top) == 0) //
+//            baseY += workingLayout.getHeight() * 0.5f;
         int o = 0;
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);

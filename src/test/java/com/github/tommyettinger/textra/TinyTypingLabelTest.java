@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class TinyTypingLabelTest extends ApplicationAdapter {
@@ -135,14 +136,14 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         final TypingLabel label = new TypingLabel(
 //                "Behold, the [/Terror{RESET}-[*]Bunny[*]!",
 //                "{SHAKE=1,1,2}[@Medieval]Behold{RESET}, the [/]Terror{RESET}-{GRADIENT=WHITE;RED}Bunny!",
-                "{BLINK=ff0000ff;00ff27ff;1.0;0.5}redtogreen", // used to check unclosed effects with incomplete parameters
+//                "{BLINK=ff0000ff;00ff27ff;1.0;0.5}redtogreen", // used to check unclosed effects with incomplete parameters
 //                "A {Bunny!", // used to check unclosed curly braces
 
-//                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
-//                "she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
-//                "whippin' her way through the [*]{FONT=Sans}whole dang[@][*] town! " +
-//                "Sure as [/]I reckon[], if we [@Mono]meet our {HANG}fate{RESET}, " +
-//                "this [%150]storm[%] will be there on clouds [%75]one{CLEARSIZE} through [%200]eight[%]!",
+                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
+                "she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
+                "whippin' her way through the [*]{FONT=Sans}whole dang[@][*] town! " +
+                "Sure as [/]I reckon[], if we [@Mono]meet our {HANG}fate{RESET}, " +
+                "this [%150]storm[%] will be there on clouds [%75]one{CLEARSIZE} through [%200]eight[%]!",
 
 //                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
 //                "she's {WIND=3;2;0.2;0.2}blowin' on down{ENDWIND}, " +
@@ -162,6 +163,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!", skin);
 //        final TypingLabel label = new TypingLabel("{WAIT=1}{SLOWER}Welcome, {VAR=title}!", skin);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
+        label.align = Align.topLeft;
 
         // Make the label wrap to new lines, respecting the table's layout.
         label.wrap = true;
