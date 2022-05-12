@@ -871,7 +871,7 @@ public class Font implements Disposable {
      */
     public Font(String fntName, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
-        this(fntName, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, true);
+        this(fntName, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, false);
     }
     /**
      * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried first, then a
@@ -946,7 +946,7 @@ public class Font implements Disposable {
      */
     public Font(String fntName, String textureName, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
-        this(fntName, textureName, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, true);
+        this(fntName, textureName, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, false);
     }
     /**
      * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then local),
@@ -1031,7 +1031,7 @@ public class Font implements Disposable {
      */
     public Font(String fntName, TextureRegion textureRegion, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
-        this(fntName, textureRegion, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, true);
+        this(fntName, textureRegion, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, false);
     }
     /**
      * Constructs a font based off of an AngelCode BMFont .fnt file and the given TextureRegion that holds all of its
@@ -1109,7 +1109,7 @@ public class Font implements Disposable {
      */
     public Font(String fntName, Array<TextureRegion> textureRegions, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
-        this(fntName, textureRegions, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, true);
+        this(fntName, textureRegions, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, false);
     }
 
     /**
@@ -1154,6 +1154,15 @@ public class Font implements Disposable {
 
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
+     * without a distance field effect or any adjustments to position.
+     * @param bmFont an existing BitmapFont that will be copied in almost every way this can
+     */
+    public Font(BitmapFont bmFont) {
+        this(bmFont, DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f);
+    }
+
+    /**
+     * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
      * without a distance field effect.
      * @param bmFont an existing BitmapFont that will be copied in almost every way this can
      * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
@@ -1177,7 +1186,7 @@ public class Font implements Disposable {
      */
     public Font(BitmapFont bmFont, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
-        this(bmFont, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, true);
+        this(bmFont, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, false);
     }
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
