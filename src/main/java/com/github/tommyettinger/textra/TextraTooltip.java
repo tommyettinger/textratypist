@@ -112,7 +112,7 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
 	}
 
 	public void setStyle (TextTooltipStyle style) {
-		setStyle(style, true);
+		setStyle(style, false);
 	}
 
 	public void setStyle (TextTooltipStyle style, boolean makeGridGlyphs) {
