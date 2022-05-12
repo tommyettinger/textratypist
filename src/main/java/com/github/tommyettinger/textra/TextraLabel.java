@@ -115,7 +115,7 @@ public class TextraLabel extends Widget {
      * @param style the Label.LabelStyle to use
      */
     public TextraLabel(String text, Label.LabelStyle style) {
-        this(text, style, true);
+        this(text, style, false);
     }
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the given style.

@@ -80,7 +80,7 @@ public class TextraButton extends Button {
 	}
 
 	public void setStyle (ButtonStyle style) {
-		setStyle(style, true);
+		setStyle(style, false);
 	}
 
 	public void setStyle (ButtonStyle style, boolean makeGridGlyphs) {

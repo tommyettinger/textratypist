@@ -67,7 +67,7 @@ public class TextraWindow extends Table {
 	}
 
 	public TextraWindow(String title, WindowStyle style) {
-		this(title, style, true);
+		this(title, style, false);
 	}
 	public TextraWindow(String title, WindowStyle style, boolean makeGridGlyphs) {
 		if (title == null) throw new IllegalArgumentException("title cannot be null.");
@@ -250,7 +250,7 @@ public class TextraWindow extends Table {
 	}
 
 	public void setStyle (WindowStyle style) {
-		setStyle(style, true);
+		setStyle(style, false);
 	}
 
 	public void setStyle (WindowStyle style, boolean makeGridGlyphs) {

@@ -118,7 +118,7 @@ public class ImageTextraButton extends Button {
 
 		if (label != null) {
 			ImageTextButtonStyle textButtonStyle = (ImageTextButtonStyle)style;
-			label.font = new Font(textButtonStyle.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true);
+			label.font = new Font(textButtonStyle.font);
 			label.setColor(getFontColor());
 		}
 	}
