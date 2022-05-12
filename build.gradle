@@ -13,8 +13,8 @@ buildscript {
 apply plugin: 'java-library'
 apply plugin: 'com.vanniktech.maven.publish'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 def projectName = 'textratypist'
 version "$VERSION_NAME"
@@ -39,7 +39,7 @@ if (JavaVersion.current().isJava8Compatible()) {
 if (JavaVersion.current().isJava9Compatible()) {
     allprojects {
         tasks.withType(JavaCompile) {
-            options.release.set(7)
+            options.release.set(8) // needed because LWJGL3 with libGDX 1.11.0 needs it
         }
     }
 }
