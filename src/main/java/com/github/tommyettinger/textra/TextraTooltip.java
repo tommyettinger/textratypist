@@ -54,11 +54,7 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
 		label.setAlignment(Align.center);
 		label.setWrap(true);
 		getContainer().setActor(label);
-		getContainer().width(new Value() {
-			public float get (@Null Actor context) {
-				return Math.min(manager.maxWidth, label.layout.getWidth());
-			}
-		});
+		getContainer().width(label.layout.getWidth());
 
 		setStyle(style);
 	}
@@ -90,12 +86,7 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
 		label.setAlignment(Align.center);
 		label.setWrap(true);
 		getContainer().setActor(label);
-		getContainer().width(new Value() {
-			public float get (@Null Actor context) {
-				return Math.min(manager.maxWidth, label.layout.getWidth());
-			}
-		});
-
+		getContainer().width(label.layout.getWidth());
 		setStyle(style, replacementFont);
 	}
 
