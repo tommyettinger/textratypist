@@ -130,7 +130,7 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 		passwordTextField.setPasswordCharacter('*');
 		passwordTextField.setPasswordMode(true);
 
-		buttonMulti.addListener(new TextTooltip(
+		buttonMulti.addListener(makeTooltip(
 			"This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip!",
 			skin));
 		Table tooltipTable = new Table(skin);
@@ -246,6 +246,31 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 		config.useVsync(false);
 		config.setForegroundFPS(0);
 		new Lwjgl3Application(new StandardUITest(), config);
+	}
+
+	/**
+	 * Needed starting in libGDX 1.11.0 to create TextTooltip widgets that wrap correctly.
+	 * @param text the text to show
+	 * @param skin the Skin to load style info from
+	 * @return a new TextTooltip that should act correctly.
+	 */
+	public static TextTooltip makeTooltip(String text, Skin skin) {
+		// we use the style in two places here.
+		TextTooltip.TextTooltipStyle style = skin.get(TextTooltip.TextTooltipStyle.class);
+
+		// this calls setStyle() as its last line, but we need to run some code before that.
+		TextTooltip tooltip = new TextTooltip(text, TooltipManager.getInstance(), style);
+
+		// this was used in libGDX 1.10.0, but was removed from 1.11.0, causing problems with some tooltips.
+		tooltip.getContainer().width(new Value() {
+			public float get (Actor context) {
+				return Math.min(tooltip.getManager().maxWidth, tooltip.getActor().getGlyphLayout().width);
+			}
+		});
+
+		// calling this last ensures the maxWidth is set correctly.
+		tooltip.setStyle(style);
+		return tooltip;
 	}
 
 }
