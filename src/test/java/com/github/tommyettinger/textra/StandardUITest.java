@@ -261,6 +261,9 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 		// this calls setStyle() as its last line, but we need to run some code before that.
 		TextTooltip tooltip = new TextTooltip(text, TooltipManager.getInstance(), style);
 
+		// in 1.10.0, tooltips were centered, but in 1.11.0... it doesn't seem like it.
+		tooltip.getActor().setAlignment(Align.center);
+		
 		// this was used in libGDX 1.10.0, but was removed from 1.11.0, causing problems with some tooltips.
 		tooltip.getContainer().width(new Value() {
 			public float get (Actor context) {
