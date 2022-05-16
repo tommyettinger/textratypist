@@ -16,6 +16,7 @@
 
 package com.github.tommyettinger.textra;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
@@ -151,6 +152,7 @@ public class TypingLabel extends TextraLabel {
         float actualWidth = layout.getWidth();
         workingLayout.setTargetWidth(actualWidth);
         font.markup(newText, layout.clear());
+        font.markup(newText, workingLayout.clear());
         if(modifyOriginalText) saveOriginalText(newText);
         if(restart) {
 //            layout.setTargetWidth(Float.MAX_VALUE);
@@ -174,7 +176,7 @@ public class TypingLabel extends TextraLabel {
     protected void saveOriginalText(CharSequence text) {
         if(text != originalText) {
             originalText.setLength(0);
-            originalText.insert(0, text);
+            originalText.append(text);
         }
         originalText.trimToSize();
     }
@@ -584,9 +586,7 @@ public class TypingLabel extends TextraLabel {
 
         }
         else {
-            for (Line ln : workingLayout.lines) {
-                font.calculateSize(ln);
-            }
+            font.calculateSize(workingLayout);
         }
 
         invalidateHierarchy();
@@ -644,9 +644,7 @@ public class TypingLabel extends TextraLabel {
             font.regenerateLayout(workingLayout);
         }
         else {
-            for (Line ln : workingLayout.lines) {
-                font.calculateSize(ln);
-            }
+            font.calculateSize(workingLayout);
         }
         invalidateHierarchy();
 
@@ -674,7 +672,8 @@ public class TypingLabel extends TextraLabel {
             baseY += workingLayout.getHeight();
         else if ((align & top) == 0) //
             baseY += workingLayout.getHeight() * 0.5f;
-        int o = 0;
+        int o = 0, gi = 0;
+        EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
             baseY -= glyphs.height;
@@ -687,7 +686,8 @@ public class TypingLabel extends TextraLabel {
                 int kern = -1;
                 float amt;
                 long glyph;
-                for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
+                for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex; i < n && o < offsets.size - 1; i++, gi++) {
+                    if(gi > end) break EACH_LINE;
                     kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
                     amt = font.kerning.get(kern, 0) * font.scaleX;
                     float single = font.drawGlyph(batch, glyph, x + amt + offsets.get(o++), y + offsets.get(o++)) + amt;
@@ -696,14 +696,16 @@ public class TypingLabel extends TextraLabel {
                 }
             }
             else {
-                for (int i = 0, n = glyphs.glyphs.size; i < n && o < offsets.size - 1; i++) {
+                for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex; i < n && o < offsets.size - 1; i++, gi++) {
+                    if(gi > end) break EACH_LINE;
                     float single = font.drawGlyph(batch, glyphs.glyphs.get(i), x + offsets.get(o++), y + offsets.get(o++));
                     x += single;
                     drawn += single;
                 }
             }
         }
-        addMissingGlyphs();
+        invalidateHierarchy();
+//        addMissingGlyphs();
         if(resetShader)
             batch.setShader(null);
     }

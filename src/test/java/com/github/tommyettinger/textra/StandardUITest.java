@@ -263,7 +263,7 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 
 		// in 1.10.0, tooltips were centered, but in 1.11.0... it doesn't seem like it.
 		tooltip.getActor().setAlignment(Align.center);
-		
+
 		// this was used in libGDX 1.10.0, but was removed from 1.11.0, causing problems with some tooltips.
 		tooltip.getContainer().width(new Value() {
 			public float get (Actor context) {
@@ -271,9 +271,9 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 			}
 		});
 
-		// calling this last ensures the maxWidth is set correctly.
-		tooltip.setStyle(style);
+		// calling this last ensures we wrap text at the desired width.
+		tooltip.getContainer().maxWidth(style.wrapWidth);
+
 		return tooltip;
 	}
-
 }

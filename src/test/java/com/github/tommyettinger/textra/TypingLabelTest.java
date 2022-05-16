@@ -223,7 +223,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         // Make the label wrap to new lines, respecting the table's layout.
         label.layout.maxLines = 15;
         label.layout.setTargetWidth(620);
-        label.setText(text.toString());
+        label.restart(text.toString());
 
         // Set variable replacements for the {VAR} token
         label.setVariable("title", "curious human");
