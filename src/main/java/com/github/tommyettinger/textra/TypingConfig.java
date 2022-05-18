@@ -110,6 +110,7 @@ public class TypingConfig {
         registerEffect("SHAKE", "ENDSHAKE", ShakeEffect.class);
         registerEffect("SICK", "ENDSICK", SickEffect.class);
         registerEffect("SLIDE", "ENDSLIDE", SlideEffect.class);
+        registerEffect("SPIRAL", "ENDSPIRAL", SpiralEffect.class);
         registerEffect("WAVE", "ENDWAVE", WaveEffect.class);
         registerEffect("WIND", "ENDWIND", WindEffect.class);
         registerEffect("RAINBOW", "ENDRAINBOW", RainbowEffect.class);
