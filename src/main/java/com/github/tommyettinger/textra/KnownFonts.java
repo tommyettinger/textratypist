@@ -981,6 +981,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li>Medieval</li>
      *     <li>Future</li>
      * </ul>
+     * You can also always use the full name of one of these fonts, which can be obtained using {@link Font#getName()}.
      * @return a Font that can switch between 13 different Fonts in its FontFamily, to any non-distance-field Font this knows
      */
     public static Font getStandardFamily(){
