@@ -43,7 +43,7 @@ public class SpiralEffect extends Effect {
 
         // Intensity
         if(params.length > 1) {
-            this.intensity = paramAsFloat(params[1], 1);
+            this.intensity = 1f / paramAsFloat(params[1], 1);
         }
 
         // Rotations

@@ -188,7 +188,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 //        text.append("Imagine the possibilities! =D");
 
         final StringBuilder text = new StringBuilder();
-        text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}[@Medieval]Welcome,[@]{WAIT} {SPIRAL=2;2}{STYLE=/}{STYLE=;}{VAR=title}{STYLE=;}{STYLE=/}{ENDSPIRAL}!{ENDEASE}{WAIT=0.8}");
+        text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}[@Medieval]Welcome,[@]{WAIT} {SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}{VAR=title}{STYLE=;}{STYLE=/}{ENDSPIRAL}!{ENDEASE}{WAIT=0.8}");
         text.append("{FAST}\n\n");
         text.append("{RESET}{HANG=0.7}This is a [*][YELLOW][@Sans]simple[WHITE][*] test[@]{ENDHANG} to {STYLE=_}show you{STYLE=_}");
         text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {JUMP}how to make dialogues {SLOW}[*][/]fun[/][*] again! {ENDJUMP}{WAIT}{ENDGRADIENT}\n");
@@ -201,6 +201,10 @@ public class TypingLabelTest extends ApplicationAdapter {
         text.append("{NORMAL}\n\n");
         text.append("{VAR=FIRE_WIND}Imagine the {STYLE=STRIKE}bugs{STYLE=STRIKE} possibilities! =D {RESET}");
 
+//        Array<String> names = KnownFonts.getStandardFamily().family.fontAliases.keys().toArray();
+//        names.sort();
+//        for(String name : names)
+//            System.out.println(name);
 
         // Create label
 //        Font font = KnownFonts.getGentiumSDF().scaleTo(36, 36).adjustLineHeight(0.8125f);

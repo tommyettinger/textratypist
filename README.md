@@ -29,10 +29,15 @@ long wave. It can waver and shudder, as if it is sick. It can blink in different
 between two colors, or go across a whole rainbow. Lots of options; lots of fun. Effects are almost the same as in
 typing-label, so you should consult [its documentation](https://github.com/rafaskb/typing-label/wiki/Examples) for now.
 
-The one new effect so far is `{JOLT}`, which randomly chooses glyphs over time to get "shocked," shaking them as with
-the `{SHAKE}` effect briefly and optionally changing their color while shocked. It takes distance (often 1), intensity
-(often 1), duration (often "inf" to make it last forever), likelihood (a low float between 0 and 1, with higher values
-making more glyphs get shocked), base color and jolting color.
+There are two new effects so far. One is `{JOLT}`, which randomly chooses glyphs over time to get "shocked," shaking
+them as with the `{SHAKE}` effect briefly and optionally changing their color while shocked. It takes distance (often
+1), intensity (often 1), duration (often "inf" to make it last forever), likelihood (a low float between 0 and 1, with
+higher values making more glyphs get shocked), base color and jolting color. The other new effect is `{SPIRAL}`, which
+is like the `{SLIDE}` effect but has glyphs start some distance outside of their starting position, and move in a circle
+as they go inward to reach their final place. It takes an initial distance (often 1, in multiples of the current line
+height), an intensity/speed (higher than 1 is faster than normal, less than 1 is slower than normal), and a rotation
+count (in the number of turns to make; this can be any float, and while positive values rotate counter-clockwise,
+negative ones rotate clockwise).
 
 I'll probably clone the typing-label wiki at some point and update the relevant parts for the way this library works,
 but I haven't done this yet.
@@ -85,10 +90,16 @@ other ShaderProgram of choice with its `Batch.setShader()` method (often, you ju
 
 There are several preconfigured font settings in `KnownFonts`; the documentation for each font getter says what files
 are needed to use that font. This is meant to save some hassle getting the xAdjust, yAdjust, widthAdjust, 
-and heightAdjust parameters just right, though you're still free to change them however you wish. The license files for
-each font are included in the same folder, in `knownFonts` here. All fonts provided here were checked to ensure their
-licenses permit commercial use without fees, and all do. Most require attribution; check the licenses for details. The
-variety of font types isn't amazing, but it should be a good starting point.
+and heightAdjust parameters just right, though you're still free to change them however you wish. The variety of font
+types isn't amazing, but it should be a good starting point. One nice new thing to note is the
+`KnownFonts.getStandardFamily()` method, which requires having 13 fonts in your assets, but naturally lets you switch
+between any of those 13 fonts using the `[@Medieval]` syntax (where Medieval is one of the names it knows, in this case
+for "KingThings Foundation"). All of these fonts work without a distance field effect, so they won't look as good at
+very large sizes, but are compatible with each other.
+
+The license files for each font are included in the same folder, in `knownFonts` here. All fonts provided here were
+checked to ensure their licenses permit commercial use without fees, and all do. Most require attribution; check the
+licenses for details.
 
 ## Act now and get these features, free of charge!
 
