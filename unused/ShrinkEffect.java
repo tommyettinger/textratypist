@@ -48,8 +48,9 @@ public class ShrinkEffect extends Effect {
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
         float progress = MathUtils.clamp(timePassed / fadeDuration, 0, 1);
+        float newSize = MathUtils.lerp(initial, 100, progress);
         label.setInWorkingLayout(globalIndex,
-                    (glyph & 0xFFFFFFFFFF0FFFFFL) | (long) ((int)((MathUtils.lerp(initial, 100, progress) - 24f) / 25f) & 15) << 20);
+                    (glyph & 0xFFFFFFFFFF0FFFFFL) | (long) ((int)((newSize - 24f) / 25f) & 15) << 20);
     }
 
 }
