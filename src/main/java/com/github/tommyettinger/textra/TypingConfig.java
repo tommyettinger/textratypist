@@ -109,9 +109,7 @@ public class TypingConfig {
         registerEffect("JUMP", "ENDJUMP", JumpEffect.class);
         registerEffect("SHAKE", "ENDSHAKE", ShakeEffect.class);
         registerEffect("SICK", "ENDSICK", SickEffect.class);
-        registerEffect("SHRINK", "ENDSHRINK", ShrinkEffect.class);
         registerEffect("SLIDE", "ENDSLIDE", SlideEffect.class);
-        registerEffect("SPIRAL", "ENDSPIRAL", SpiralEffect.class);
         registerEffect("WAVE", "ENDWAVE", WaveEffect.class);
         registerEffect("WIND", "ENDWIND", WindEffect.class);
         registerEffect("RAINBOW", "ENDRAINBOW", RainbowEffect.class);
@@ -119,6 +117,8 @@ public class TypingConfig {
         registerEffect("FADE", "ENDFADE", FadeEffect.class);
         registerEffect("BLINK", "ENDBLINK", BlinkEffect.class);
         registerEffect("JOLT", "ENDJOLT", JoltEffect.class);
+        registerEffect("SPIRAL", "ENDSPIRAL", SpiralEffect.class);
+//        registerEffect("SHRINK", "ENDSHRINK", ShrinkEffect.class);
     }
 
 }
