@@ -2643,7 +2643,27 @@ public class Font implements Disposable {
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text along the given rotation
      */
     public float drawGlyph(Batch batch, long glyph, float x, float y, float rotation) {
-        if(MathUtils.isZero(rotation % 360f)){
+        return drawGlyph(batch, glyph, x, y, rotation, 1f, 1f);
+    }
+    /**
+     * Draws the specified glyph with a Batch at the given x, y position, with the specified counterclockwise
+     * rotation, measured in degrees, and with the specified x and y sizing/scaling, which are meant to be treated
+     * independently of the incremental scales in a glyph, and can be smooth. The glyph contains multiple types of data
+     * all packed into one {@code long}: the bottom 16 bits store a {@code char}, the roughly 16 bits above that store
+     * formatting (bold, underline, superscript, etc.), and the remaining upper 32 bits store color as RGBA. Rotation is
+     * not stored in the long glyph; it may change frequently or as part of an animation. Sizing isn't part of the glyph
+     * either, and is meant to be handled by Effects in TypingLabel, and does not affect the text metrics.
+     * @param batch typically a SpriteBatch
+     * @param glyph a long storing a char, format, and color; typically part of a longer formatted text as a LongList
+     * @param x the x position in world space to start drawing the glyph at (lower left corner)
+     * @param y the y position in world space to start drawing the glyph at (lower left corner)
+     * @param rotation what angle to rotate the glyph, measured in degrees counterclockwise
+     * @param sizingX the multiple for the glyph to be stretched on x, where 1 is "no change"; does not affect metrics
+     * @param sizingY the multiple for the glyph to be stretched on y, where 1 is "no change"; does not affect metrics
+     * @return the distance in world units the drawn glyph uses up for width, as in a line of text along the given rotation
+     */
+    public float drawGlyph(Batch batch, long glyph, float x, float y, float rotation, float sizingX, float sizingY) {
+        if(MathUtils.isEqual(sizingX, 1f) && MathUtils.isEqual(sizingY, 1f) && MathUtils.isZero(rotation % 360f)){
             return drawGlyph(batch, glyph, x, y);
         }
         final float sin = MathUtils.sinDeg(rotation);
@@ -2660,7 +2680,9 @@ public class Font implements Disposable {
         // this indicates a box drawing character that we draw ourselves.
         if(tr.offsetX != tr.offsetX) {
             float[] boxes = BlockUtils.BOX_DRAWING[(char)glyph - 0x2500];
-            drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color, x, y, cellWidth, cellHeight, rotation);
+            drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
+                    x - cellWidth * (sizingX - 1.0f), y - cellHeight * (sizingY - 1.0f),
+                    cellWidth * sizingX, cellHeight * sizingY, rotation);
             return cellWidth;
         }
 
@@ -2680,13 +2702,13 @@ public class Font implements Disposable {
         v = tr.getV();
         u2 = tr.getU2();
         v2 = tr.getV2();
-        float w = tr.getRegionWidth() * scaleX;
+        float w = tr.getRegionWidth() * scaleX * sizingX;
         float changedW = tr.xAdvance * scaleX;
-        float h = tr.getRegionHeight() * scaleY;
+        float h = tr.getRegionHeight() * scaleY * sizingY;
         float centerX = font.cellWidth * 0.5f;
         float centerY = font.cellHeight * 0.5f;
-        float xc = tr.offsetX * scaleX - centerX * scale;
-        float yt = font.cellHeight * scale - centerY * scale - h - tr.offsetY * scaleY;
+        float xc = tr.offsetX * scaleX - centerX * scale * sizingX;
+        float yt = (font.cellHeight - centerY) * scale * sizingY - h - tr.offsetY * scaleY;
 
         x += centerX;
         y += centerY;
@@ -2696,7 +2718,7 @@ public class Font implements Disposable {
             x2 -= h * 0.2f;
         }
         final long script = (glyph & SUPERSCRIPT);
-        float scaledHeight = font.cellHeight * scale;
+        float scaledHeight = font.cellHeight * scale * sizingY;
         if (script == SUPERSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
@@ -2787,7 +2809,8 @@ public class Font implements Disposable {
                 p0x = -tr.offsetX * scaleX - scaleX;
                 p0y = -cellHeight * 0.45f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
-                        x + cos * p0x - sin * p0y - centerX, y + sin * p0x + cos * p0y - centerY, changedW + scaleX * 3f, cellHeight, rotation);
+                        x + cos * p0x - sin * p0y - centerX, y + sin * p0x + cos * p0y - centerY,
+                        (changedW + scaleX * 3f), cellHeight, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -2795,7 +2818,8 @@ public class Font implements Disposable {
                             underV = under.getV(),
                             underU2 = underU + iw,
                             underV2 = under.getV2(),
-                            hu = under.getRegionHeight() * scaleY, yu = font.cellHeight * scale - hu - under.offsetY * scaleY - centerY * scale;
+                            hu = under.getRegionHeight() * scaleY,
+                            yu = font.cellHeight * scale - hu - under.offsetY * scaleY - centerY * scale;
                     xc = under.offsetX * scaleX - centerX * scale;
                     x0 = scaleX * under.offsetX + scale;
                     vertices[2] = color;
@@ -2833,7 +2857,8 @@ public class Font implements Disposable {
                 p0x = -tr.offsetX * scaleX - scaleX;
                 p0y = cellHeight * -0.1f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
-                        x + cos * p0x - sin * p0y - centerX, y + sin * p0x + cos * p0y - centerY, changedW + scaleX * 3, cellHeight, rotation);
+                        x + cos * p0x - sin * p0y - centerX, y + sin * p0x + cos * p0y - centerY,
+                        (changedW + scaleX * 3), cellHeight, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
@@ -2841,7 +2866,8 @@ public class Font implements Disposable {
                             dashV = dash.getV(),
                             dashU2 = dashU + iw,
                             dashV2 = dash.getV2(),
-                            hd = dash.getRegionHeight() * scaleY, yd = font.cellHeight * scale - hd - dash.offsetY * scaleY - centerY * scale;
+                            hd = dash.getRegionHeight() * scaleY,
+                            yd = font.cellHeight * scale - hd - dash.offsetY * scaleY - centerY * scale;
                     xc = dash.offsetX * scaleX - centerX * scale;
                     x0 = scaleX * dash.offsetX + scale;
                     vertices[2] = color;
