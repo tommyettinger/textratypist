@@ -120,7 +120,7 @@ public class TypingConfig {
         registerEffect("SPIRAL", "ENDSPIRAL", SpiralEffect.class);
         registerEffect("SPIN", "ENDSPIN", SpinEffect.class);
         registerEffect("CROWD", "ENDCROWD", CrowdEffect.class);
-//        registerEffect("SHRINK", "ENDSHRINK", ShrinkEffect.class);
+        registerEffect("SHRINK", "ENDSHRINK", ShrinkEffect.class);
     }
 
 }
