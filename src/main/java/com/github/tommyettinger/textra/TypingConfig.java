@@ -119,6 +119,7 @@ public class TypingConfig {
         registerEffect("JOLT", "ENDJOLT", JoltEffect.class);
         registerEffect("SPIRAL", "ENDSPIRAL", SpiralEffect.class);
         registerEffect("SPIN", "ENDSPIN", SpinEffect.class);
+        registerEffect("CROWD", "ENDCROWD", CrowdEffect.class);
 //        registerEffect("SHRINK", "ENDSHRINK", ShrinkEffect.class);
     }
 
