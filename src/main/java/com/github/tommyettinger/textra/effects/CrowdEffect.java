@@ -51,7 +51,7 @@ public class CrowdEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate offset
-        float rot = NoiseUtils.octaveNoise1D((TimeUtils.millis() & 0xFFFFFF) * intensity * DEFAULT_INTENSITY, globalIndex) * distance * DEFAULT_DISTANCE;
+        float rot = NoiseUtils.octaveNoise1D((TimeUtils.millis() & 0xFFFFFF) * intensity * DEFAULT_INTENSITY + globalIndex * 0.42f, globalIndex) * distance * DEFAULT_DISTANCE;
 
         // Calculate fadeout
         float fadeout = calculateFadeout();

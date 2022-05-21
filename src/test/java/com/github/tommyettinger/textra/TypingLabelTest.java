@@ -191,7 +191,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}{SHRINK}[@Medieval]Welcome,{ENDSHRINK}[@]{WAIT} {SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}{VAR=title}{STYLE=;}{STYLE=/}{ENDSPIRAL}!{ENDEASE}{WAIT=0.8}");
         text.append("{FAST}\n\n");
         text.append("{RESET}{HANG=0.7}This is a [*][YELLOW][@Sans]simple[WHITE][*] test[@]{ENDHANG} to {SPIN}show you{ENDSPIN}");
-        text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {JUMP}how to make dialogues {SLOW}[*][/]fun[/][*] again! {ENDJUMP}{WAIT}{ENDGRADIENT}\n");
+        text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {CROWD}how to make dialogues{ENDCROWD} {JUMP}{SLOW}[*][/]fun[/][*] again! {ENDJUMP}{WAIT}{ENDGRADIENT}\n");
         text.append("{NORMAL}{CLEARCOLOR}{SICK}With this library{ENDSICK} you can {SIZE=150%}control {SIZE=%75}the{SIZE=150%} flow[^][SKY] [[citation needed][] of the text with");
         text.append(" {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
         text.append("{SPEED=2.50}{COLOR=#84DD60} making the text go {SHAKE=1;1;3}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5} ");
@@ -214,7 +214,7 @@ public class TypingLabelTest extends ApplicationAdapter {
                 },
                 new Font[]{
                         KnownFonts.getGentium().scaleTo(32, 35).scale(0.75f, 0.75f),
-                        KnownFonts.getOpenSans().scaleTo(23, 35).scale(0.75f, 0.75f).adjustLineHeight(0.6f),
+                        KnownFonts.getOpenSans().scaleTo(23, 35).scale(0.75f, 0.75f).adjustLineHeight(0.85f),
                         KnownFonts.getInconsolata().scaleTo(15, 35).scale(0.75f, 0.75f).adjustLineHeight(0.9375f),
                         KnownFonts.getKingthingsFoundation().scaleTo(35, 35).scale(0.75f, 0.75f),
                         KnownFonts.getOxanium().scaleTo(32, 35).scale(0.75f, 0.75f).adjustLineHeight(1.05f)
