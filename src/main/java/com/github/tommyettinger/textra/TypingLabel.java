@@ -54,7 +54,14 @@ public class TypingLabel extends TextraLabel {
     private final   StringBuilder    originalText          = new StringBuilder();
     private final   StringBuilder    intermediateText      = new StringBuilder();
     protected final Layout           workingLayout         = Layout.POOL.obtain();
+    /**
+     * Contains two floats per glyph; even items are x offsets, odd items are y offsets.
+     */
     public final    FloatArray       offsets               = new FloatArray();
+    /**
+     * Contains one float per glyph; each is a rotation to apply to that glyph (around its center).
+     */
+    public final    FloatArray       rotations             = new FloatArray();
     protected final Array<Effect>    activeEffects         = new Array<Effect>();
     private         float            textSpeed             = TypingConfig.DEFAULT_SPEED_PER_CHAR;
     private         float            charCooldown          = textSpeed;
@@ -332,6 +339,7 @@ public class TypingLabel extends TextraLabel {
         workingLayout.lines.add(Line.POOL.obtain());
 
         offsets.clear();
+        rotations.clear();
         activeEffects.clear();
 
         // Reset state
@@ -420,6 +428,8 @@ public class TypingLabel extends TextraLabel {
         int glyphCount = getLayoutSize(layout);
         offsets.setSize(glyphCount + glyphCount);
         Arrays.fill(offsets.items, 0, glyphCount + glyphCount, 0f);
+        rotations.setSize(glyphCount);
+        Arrays.fill(rotations.items, 0, glyphCount, 0f);
 
         // Apply effects
         if(!ignoringEffects) {
@@ -670,7 +680,7 @@ public class TypingLabel extends TextraLabel {
             baseY += workingLayout.getHeight();
         else if ((align & top) == 0) //
             baseY += workingLayout.getHeight() * 0.5f;
-        int o = 0, gi = 0;
+        int o = 0, r = 0, gi = 0;
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
@@ -681,22 +691,22 @@ public class TypingLabel extends TextraLabel {
             else if(Align.isRight(align))
                 x -= glyphs.width;
             if(font.kerning != null) {
-                int kern = -1;
+                int kern = -1, lim = Math.min(rotations.size, offsets.size >> 1);
                 float amt;
                 long glyph;
-                for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex; i < n && o < offsets.size - 1; i++, gi++) {
+                for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex; i < n && r < lim; i++, gi++) {
                     if(gi > end) break EACH_LINE;
                     kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
                     amt = font.kerning.get(kern, 0) * font.scaleX;
-                    float single = font.drawGlyph(batch, glyph, x + amt + offsets.get(o++), y + offsets.get(o++)) + amt;
+                    float single = font.drawGlyph(batch, glyph, x + amt + offsets.get(o++), y + offsets.get(o++), rotations.get(r++)) + amt;
                     x += single;
                     drawn += single;
                 }
             }
             else {
-                for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex; i < n && o < offsets.size - 1; i++, gi++) {
+                for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex, lim = Math.min(rotations.size, offsets.size >> 1); i < n && r < lim; i++, gi++) {
                     if(gi > end) break EACH_LINE;
-                    float single = font.drawGlyph(batch, glyphs.glyphs.get(i), x + offsets.get(o++), y + offsets.get(o++));
+                    float single = font.drawGlyph(batch, glyphs.glyphs.get(i), x + offsets.get(o++), y + offsets.get(o++), rotations.get(r++));
                     x += single;
                     drawn += single;
                 }
