@@ -59,6 +59,10 @@ public class TypingLabel extends TextraLabel {
      */
     public final    FloatArray       offsets               = new FloatArray();
     /**
+     * Contains two floats per glyph, as size multipliers; even items apply to x, odd items apply to y.
+     */
+    public final    FloatArray       sizing                = new FloatArray();
+    /**
      * Contains one float per glyph; each is a rotation to apply to that glyph (around its center).
      */
     public final    FloatArray       rotations             = new FloatArray();
@@ -339,6 +343,7 @@ public class TypingLabel extends TextraLabel {
         workingLayout.lines.add(Line.POOL.obtain());
 
         offsets.clear();
+        sizing.clear();
         rotations.clear();
         activeEffects.clear();
 
@@ -428,6 +433,8 @@ public class TypingLabel extends TextraLabel {
         int glyphCount = getLayoutSize(layout);
         offsets.setSize(glyphCount + glyphCount);
         Arrays.fill(offsets.items, 0, glyphCount + glyphCount, 0f);
+        sizing.setSize(glyphCount + glyphCount);
+        Arrays.fill(sizing.items, 0, glyphCount + glyphCount, 1f);
         rotations.setSize(glyphCount);
         Arrays.fill(rotations.items, 0, glyphCount, 0f);
 
@@ -680,7 +687,7 @@ public class TypingLabel extends TextraLabel {
             baseY += workingLayout.getHeight();
         else if ((align & top) == 0) //
             baseY += workingLayout.getHeight() * 0.5f;
-        int o = 0, r = 0, gi = 0;
+        int o = 0, s = 0, r = 0, gi = 0;
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
@@ -691,22 +698,24 @@ public class TypingLabel extends TextraLabel {
             else if(Align.isRight(align))
                 x -= glyphs.width;
             if(font.kerning != null) {
-                int kern = -1, lim = Math.min(rotations.size, offsets.size >> 1);
+                int kern = -1, lim = Math.min(Math.min(rotations.size, offsets.size >> 1), sizing.size >> 1);
                 float amt;
                 long glyph;
                 for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex; i < n && r < lim; i++, gi++) {
                     if(gi > end) break EACH_LINE;
                     kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
                     amt = font.kerning.get(kern, 0) * font.scaleX;
-                    float single = font.drawGlyph(batch, glyph, x + amt + offsets.get(o++), y + offsets.get(o++), rotations.get(r++)) + amt;
+                    float single = font.drawGlyph(batch, glyph, x + amt + offsets.get(o++), y + offsets.get(o++), rotations.get(r++), sizing.get(s++), sizing.get(s++)) + amt;
                     x += single;
                     drawn += single;
                 }
             }
             else {
-                for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex, lim = Math.min(rotations.size, offsets.size >> 1); i < n && r < lim; i++, gi++) {
+                for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex,
+                     lim = Math.min(Math.min(rotations.size, offsets.size >> 1), sizing.size >> 1);
+                     i < n && r < lim; i++, gi++) {
                     if(gi > end) break EACH_LINE;
-                    float single = font.drawGlyph(batch, glyphs.glyphs.get(i), x + offsets.get(o++), y + offsets.get(o++), rotations.get(r++));
+                    float single = font.drawGlyph(batch, glyphs.glyphs.get(i), x + offsets.get(o++), y + offsets.get(o++), rotations.get(r++), sizing.get(s++), sizing.get(s++));
                     x += single;
                     drawn += single;
                 }
