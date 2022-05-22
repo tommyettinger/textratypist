@@ -26,7 +26,7 @@ import com.github.tommyettinger.textra.TypingLabel;
 public class SquashEffect extends Effect {
     private static final float DEFAULT_INTENSITY = 0.125f;
 
-    private float   intensity = 2f; // How fast the glyphs should move
+    private float   intensity = 4f; // How fast the glyphs should move
     private boolean elastic   = false; // True if the glyphs have an elastic movement
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
@@ -36,7 +36,7 @@ public class SquashEffect extends Effect {
 
         // Distance
         if(params.length > 0) {
-            this.intensity = 1.0f / paramAsFloat(params[0], 0.5f);
+            this.intensity = 1.0f / paramAsFloat(params[0], 0.25f);
         }
 
         // Elastic

@@ -1940,8 +1940,8 @@ public class Font implements Disposable {
             float p2x = xc + startX + sizeX;
             float p2y = yt + startY;
 
-            vertices[15] = (vertices[0]  = x + cos * p0x - sin * p0y) - (vertices[5]  = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
-            vertices[16] = (vertices[1]  = y + sin * p0x + cos * p0y) - (vertices[6]  = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
+        vertices[15] = handleIntegerPosition((vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5]  = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y)));
+        vertices[16] = handleIntegerPosition((vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6]  = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y)));
 
 
 //            vertices[0] = startX;
@@ -2500,8 +2500,8 @@ public class Font implements Disposable {
         float h = tr.getRegionHeight() * scaleY * sizingY;
         float centerX = font.cellWidth * 0.5f;
         float centerY = font.cellHeight * 0.5f;
-        float xc = tr.offsetX * scaleX - centerX * scale * sizingX;
-        float yt = (font.cellHeight - centerY) * scale * sizingY - h - tr.offsetY * scaleY;
+        float xc = tr.offsetX * scaleX;
+        float yt = (font.cellHeight) * scale * sizingY - h - tr.offsetY * scaleY;
 
         x += centerX;
         y += centerY;
@@ -2515,7 +2515,7 @@ public class Font implements Disposable {
         if (script == SUPERSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = scaledHeight * 0.625f - centerY - h - tr.offsetY * scaleY * 0.5f;
+            yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
             y1 += scaledHeight * 0.375f;
             y2 += scaledHeight * 0.375f;
             y0 += scaledHeight * 0.375f;
@@ -2525,7 +2525,7 @@ public class Font implements Disposable {
         else if (script == SUBSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = scaledHeight * 0.625f - centerY - h - tr.offsetY * scaleY * 0.5f;
+            yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
             y1 -= scaledHeight * 0.125f;
             y2 -= scaledHeight * 0.125f;
             y0 -= scaledHeight * 0.125f;
@@ -2535,7 +2535,7 @@ public class Font implements Disposable {
         else if(script == MIDSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = scaledHeight * 0.625f - centerY - h - tr.offsetY * scaleY * 0.5f;
+            yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
             y0 += scaledHeight * 0.125f;
             y1 += scaledHeight * 0.125f;
             y2 += scaledHeight * 0.125f;
@@ -2566,34 +2566,34 @@ public class Font implements Disposable {
         float p2x = xc + x2 + w;
         float p2y = yt + y2;
 
-        vertices[15] = (vertices[0]  = x + cos * p0x - sin * p0y) - (vertices[5]  = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
-        vertices[16] = (vertices[1]  = y + sin * p0x + cos * p0y) - (vertices[6]  = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
+        vertices[15] = handleIntegerPosition((vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5]  = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y)));
+        vertices[16] = handleIntegerPosition((vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6]  = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y)));
 
         batch.draw(tex, vertices, 0, 20);
         if ((glyph & BOLD) != 0L) {
             p0x += 1f;
             p1x += 1f;
             p2x += 1f;
-            vertices[15] = (vertices[0]  = x + cos * p0x - sin * p0y) - (vertices[5]  = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
-            vertices[16] = (vertices[1]  = y + sin * p0x + cos * p0y) - (vertices[6]  = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
+        vertices[15] = handleIntegerPosition((vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5]  = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y)));
+        vertices[16] = handleIntegerPosition((vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6]  = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y)));
             batch.draw(tex, vertices, 0, 20);
             p0x -= 2f;
             p1x -= 2f;
             p2x -= 2f;
-            vertices[15] = (vertices[0]  = x + cos * p0x - sin * p0y) - (vertices[5]  = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
-            vertices[16] = (vertices[1]  = y + sin * p0x + cos * p0y) - (vertices[6]  = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
+        vertices[15] = handleIntegerPosition((vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5]  = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y)));
+        vertices[16] = handleIntegerPosition((vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6]  = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y)));
             batch.draw(tex, vertices, 0, 20);
             p0x += 0.5f;
             p1x += 0.5f;
             p2x += 0.5f;
-            vertices[15] = (vertices[0]  = x + cos * p0x - sin * p0y) - (vertices[5]  = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
-            vertices[16] = (vertices[1]  = y + sin * p0x + cos * p0y) - (vertices[6]  = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
+        vertices[15] = handleIntegerPosition((vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5]  = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y)));
+        vertices[16] = handleIntegerPosition((vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6]  = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y)));
             batch.draw(tex, vertices, 0, 20);
             p0x += 1f;
             p1x += 1f;
             p2x += 1f;
-            vertices[15] = (vertices[0]  = x + cos * p0x - sin * p0y) - (vertices[5]  = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
-            vertices[16] = (vertices[1]  = y + sin * p0x + cos * p0y) - (vertices[6]  = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
+        vertices[15] = handleIntegerPosition((vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5]  = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y)));
+        vertices[16] = handleIntegerPosition((vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6]  = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y)));
             batch.draw(tex, vertices, 0, 20);
         }
         if ((glyph & UNDERLINE) != 0L) {
@@ -2602,7 +2602,7 @@ public class Font implements Disposable {
                 p0x = -tr.offsetX * scaleX - scaleX;
                 p0y = -cellHeight * 0.45f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
-                        x + cos * p0x - sin * p0y - centerX, y + sin * p0x + cos * p0y - centerY,
+                        x + cos * p0x - sin * p0y, y + sin * p0x + cos * p0y,
                         (changedW + scaleX * 3f), cellHeight, rotation);
             } else {
                 under = font.mapping.get('_');
@@ -2650,7 +2650,7 @@ public class Font implements Disposable {
                 p0x = -tr.offsetX * scaleX - scaleX;
                 p0y = cellHeight * -0.1f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
-                        x + cos * p0x - sin * p0y - centerX, y + sin * p0x + cos * p0y - centerY,
+                        x + cos * p0x - sin * p0y, y + sin * p0x + cos * p0y,
                         (changedW + scaleX * 3), cellHeight, rotation);
             } else {
                 dash = font.mapping.get('-');
