@@ -40,7 +40,7 @@ public class SpinEffect extends Effect {
             this.intensity = paramAsFloat(params[0], 1);
         }
 
-        //Intensity
+        //Rotations
         if(params.length > 1) {
             this.rotations = paramAsFloat(params[1], 1);
         }
