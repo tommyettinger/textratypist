@@ -27,8 +27,8 @@ public class EaseEffect extends Effect {
     private static final float DEFAULT_DISTANCE  = 0.15f;
     private static final float DEFAULT_INTENSITY = 0.075f;
 
-    private float   distance  = -8; // How much of their height they should move
-    private float   intensity = 2; // How fast the glyphs should move
+    private float   distance  = -2; // How much of their height they should move
+    private float   intensity = 1; // How fast the glyphs should move
     private boolean elastic   = false; // True if the glyphs have an elastic movement
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
