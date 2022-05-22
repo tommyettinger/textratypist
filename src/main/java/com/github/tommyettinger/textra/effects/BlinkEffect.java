@@ -27,7 +27,7 @@ public class BlinkEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 1f;
 
     private int color1      = 0xFFFFFFFF; // First color of the effect, RGBA8888.
-    private int color2      = 0xFFFFFFFF; // Second color of the effect, RGBA8888.
+    private int color2      = 0x00000000; // Second color of the effect, RGBA8888.
     private float frequency = 1; // How frequently the color pattern should move through the text.
     private float threshold = 0.5f; // Point to switch colors.
 

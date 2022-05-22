@@ -128,7 +128,8 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
         StringBuilder sb = new StringBuilder(256);
         Array<String> starts = TypingConfig.EFFECT_START_TOKENS.orderedKeys();
         Array<String> ends = TypingConfig.EFFECT_END_TOKENS.orderedKeys();
-
+        starts.reverse();
+        ends.reverse();
         for (int i = 0, n = starts.size; i < n; i++) {
             sb.append('{').append(starts.get(i)).append('}').append(starts.get(i)).append(' ')
                     .append(starts.get(i).toLowerCase()).append('{').append(ends.get(i)).append("} {WAIT=1}");

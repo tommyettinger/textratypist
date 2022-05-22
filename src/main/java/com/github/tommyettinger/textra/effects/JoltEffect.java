@@ -31,11 +31,11 @@ public class JoltEffect extends Effect {
 
     private final FloatArray lastOffsets = new FloatArray();
 
-    private float distance  = DEFAULT_DISTANCE; // How far the glyphs should move
-    private float intensity = DEFAULT_INTENSITY; // How fast the glyphs should move
+    private float distance  = 1; // How far the glyphs should move
+    private float intensity = 1; // How fast the glyphs should move
     private float likelihood = DEFAULT_LIKELIHOOD; // How likely it is that each glyph will shake; repeatedly checked
     private int baseColor = 0xFFFFFFFF;
-    private int joltColor = 0xFFFFFFFF;
+    private int joltColor = 0xFFFF88FF;
 
     public JoltEffect(TypingLabel label, String[] params) {
         super(label);
