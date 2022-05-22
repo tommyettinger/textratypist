@@ -57,14 +57,14 @@ public class SquashEffect extends Effect {
         // Calculate offset
         if (progress < 0.4f) {
             float interpolatedValue = 1f - Interpolation.sine.apply(progress * 2.5f) * 0.5f;
-            label.offsets.incr(globalIndex << 1, label.font.mapping.get((char)glyph).xAdvance * (-0.25f * interpolatedValue));
+            label.offsets.incr(globalIndex << 1, label.font.mapping.get((char)glyph, label.font.defaultValue).xAdvance * (0.125f - 0.125f * interpolatedValue));
             label.sizing.incr(globalIndex << 1, 1.0f - interpolatedValue);
             label.sizing.incr(globalIndex << 1 | 1, interpolatedValue - 1.0f);
         }
         else {
             Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;
             float interpolatedValue = interpolation.apply((progress - 0.4f) * 1.666f) * 0.5f + 0.5f;
-            label.offsets.incr(globalIndex << 1, label.font.mapping.get((char)glyph).xAdvance * (-0.25f * interpolatedValue));
+            label.offsets.incr(globalIndex << 1, label.font.mapping.get((char)glyph, label.font.defaultValue).xAdvance * (0.125f - 0.125f * interpolatedValue));
             label.sizing.incr(globalIndex << 1, 1.0f - interpolatedValue);
             label.sizing.incr(globalIndex << 1 | 1, interpolatedValue - 1.0f);
         }

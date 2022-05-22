@@ -125,8 +125,8 @@ public class TypingConfig {
         registerEffect("SHRINK", "ENDSHRINK", ShrinkEffect.class);
         registerEffect("EMERGE", "ENDEMERGE", EmergeEffect.class);
         registerEffect("HEARTBEAT", "ENDHEARTBEAT", HeartbeatEffect.class);
-        registerEffect("SQUASH", "ENDSQUASH", SquashEffect.class);
         registerEffect("CAROUSEL", "ENDCAROUSEL", CarouselEffect.class);
+        registerEffect("SQUASH", "ENDSQUASH", SquashEffect.class);
     }
 
 }
