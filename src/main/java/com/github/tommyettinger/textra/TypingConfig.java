@@ -124,6 +124,7 @@ public class TypingConfig {
         registerEffect("CROWD", "ENDCROWD", CrowdEffect.class);
         registerEffect("SHRINK", "ENDSHRINK", ShrinkEffect.class);
         registerEffect("EMERGE", "ENDEMERGE", EmergeEffect.class);
+        registerEffect("HEARTBEAT", "ENDHEARTBEAT", HeartbeatEffect.class);
     }
 
 }
