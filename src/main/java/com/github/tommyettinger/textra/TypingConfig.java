@@ -19,6 +19,7 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.OrderedMap;
 import com.github.tommyettinger.textra.effects.*;
 
 /** Configuration class that easily allows the user to fine tune the library's functionality. */
@@ -61,10 +62,10 @@ public class TypingConfig {
     public static final ObjectMap<String, String> GLOBAL_VARS = new ObjectMap<>();
 
     /** Map of start tokens and their effect classes. Internal use only. */
-    static final ObjectMap<String, Class<? extends Effect>> EFFECT_START_TOKENS = new ObjectMap<>();
+    static final OrderedMap<String, Class<? extends Effect>> EFFECT_START_TOKENS = new OrderedMap<>();
 
     /** Map of end tokens and their effect classes. Internal use only. */
-    static final ObjectMap<String, Class<? extends Effect>> EFFECT_END_TOKENS = new ObjectMap<>();
+    static final OrderedMap<String, Class<? extends Effect>> EFFECT_END_TOKENS = new OrderedMap<>();
 
     /** Whether or not effect tokens are dirty and need to be recalculated. */
     static boolean dirtyEffectMaps = true;
@@ -91,6 +92,7 @@ public class TypingConfig {
     public static void unregisterEffect(String startTokenName, String endTokenName) {
         EFFECT_START_TOKENS.remove(startTokenName.toUpperCase());
         EFFECT_END_TOKENS.remove(endTokenName.toUpperCase());
+        dirtyEffectMaps = true;
     }
 
     static {
