@@ -139,11 +139,13 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                "{BLINK=ff0000ff;00ff27ff;1.0;0.5}redtogreen", // used to check unclosed effects with incomplete parameters
 //                "A {Bunny!", // used to check unclosed curly braces
 
+//                "[#8fc60cff][@OpenSans][%75]{spin}Lorem ipsum dolor sit amet, consectetur adipiscing elit.[]",
+
                 "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
                 "she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
                 "whippin' her way through the [*]{FONT=Sans}whole dang[@][*] town! " +
                 "Sure as [/]I reckon[], if we [@Mono]meet our {HANG}fate{RESET}, " +
-                "this [%150]storm[%] will be there on clouds [%75]one{CLEARSIZE} through [%200]eight[%]!",
+                "this [%150]storm[%] will be there on clouds {SPIN=2;1;false}[%75]one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%200]eight[%]{ENDSPIN}!",
 
 //                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
 //                "she's {WIND=3;2;0.2;0.2}blowin' on down{ENDWIND}, " +
