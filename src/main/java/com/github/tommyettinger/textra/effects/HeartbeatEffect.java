@@ -54,20 +54,20 @@ public class HeartbeatEffect extends Effect {
         float progress = totalTime * frequency * 360.0f * DEFAULT_FREQUENCY;
 
         float c = MathUtils.cosDeg(progress), s = MathUtils.sinDeg(progress);
-        float x = distance * Math.max(-0.125f, c * c * c) * DEFAULT_DISTANCE;
-        float y = distance * Math.max(-0.125f, s * s * s) * DEFAULT_DISTANCE;
+        float x = distance * Math.max(-0.125f, Math.max(c * c * c, s * s * s)) * DEFAULT_DISTANCE;
+//        float y = distance * Math.max(-0.125f, s * s * s) * DEFAULT_DISTANCE;
 
         // Calculate fadeout
         float fadeout = calculateFadeout();
         x *= fadeout;
-        y *= fadeout;
+//        y *= fadeout;
 
         // Apply changes
         label.sizing.incr(globalIndex << 1, x);
-        label.sizing.incr(globalIndex << 1 | 1, y);
+        label.sizing.incr(globalIndex << 1 | 1, x);
         float lineHeight = label.getLineHeight(globalIndex);
         label.offsets.incr(globalIndex << 1, label.font.mapping.get((char)glyph).xAdvance * (0.25f * x));
-        label.offsets.incr(globalIndex << 1 | 1, lineHeight * (-0.25f * y));
+        label.offsets.incr(globalIndex << 1 | 1, lineHeight * (-0.25f * x));
     }
 
 }
