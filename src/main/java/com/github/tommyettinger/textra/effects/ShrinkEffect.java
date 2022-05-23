@@ -38,12 +38,12 @@ public class ShrinkEffect extends Effect {
 
         // Distance
         if(params.length > 0) {
-            this.distance = paramAsFloat(params[0], 3f);
+            this.distance = paramAsFloat(params[0], 1.0f);
         }
 
         //Intensity
         if(params.length > 1) {
-            this.intensity = paramAsFloat(params[1], 1);
+            this.intensity = paramAsFloat(params[1], 1.0f);
         }
 
         // Elastic

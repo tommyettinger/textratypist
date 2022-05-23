@@ -31,7 +31,7 @@ public class CarouselEffect extends Effect {
 
         // Frequency
         if(params.length > 0) {
-            this.frequency = paramAsFloat(params[0], 0.5f);
+            this.frequency = paramAsFloat(params[0], 1.0f);
         }
 
         // Duration
