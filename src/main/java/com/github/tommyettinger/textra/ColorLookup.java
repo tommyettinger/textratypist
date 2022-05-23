@@ -22,7 +22,8 @@ import com.badlogic.gdx.graphics.Colors;
 
 /**
  * Allows looking up an RGBA8888 int color given a String key, returning either the color or 256 if none was found.
- * This is an extension point for games and libraries that may want their own way of looking up colors.
+ * This is an extension point for games and libraries that may want their own way of looking up colors. This can be
+ * treated as a functional interface in Java 8 and higher.
  * <br>
  * You can see how this is used in <a href="https://github.com/yellowstonegames/SquidSquad">SquidSquad</a>, which uses
  * it in its squidglyph module to look up colors by potentially complex descriptive terms.
@@ -41,7 +42,7 @@ public interface ColorLookup {
     /**
      * The default ColorLookup, this simply looks up {@code key} in {@link Colors}, returning 256 (fully transparent,
      * extremely dark blue) if no Color exists by that exact name (case-sensitive), or returning the RGBA8888 value
-     * of the color otherwise.
+     * of the color otherwise. All color names are {@code ALL_CAPS} in libGDX's Colors collection by default.
      */
     class GdxColorLookup implements ColorLookup{
         /**

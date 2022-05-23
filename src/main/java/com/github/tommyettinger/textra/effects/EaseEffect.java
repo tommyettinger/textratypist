@@ -38,7 +38,7 @@ public class EaseEffect extends Effect {
 
         // Distance
         if(params.length > 0) {
-            this.distance = paramAsFloat(params[0], 1);
+            this.distance = paramAsFloat(params[0], -2);
         }
 
         //Intensity
