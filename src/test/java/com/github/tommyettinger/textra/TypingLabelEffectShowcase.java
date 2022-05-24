@@ -126,6 +126,7 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
 //        Font font = family.connected[0].setFamily(family);
         Font font = KnownFonts.getStandardFamily();
         StringBuilder sb = new StringBuilder(256);
+        sb.append("{VAR=Rival} tests me, the fool... ");
         Array<String> starts = TypingConfig.EFFECT_START_TOKENS.orderedKeys();
         Array<String> ends = TypingConfig.EFFECT_END_TOKENS.orderedKeys();
         starts.reverse();
@@ -138,6 +139,7 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
         final TypingLabel label = new TypingLabel(
                 sb.toString(),
                 font);
+        label.setVariable("Rival", "[%150][#AA0000]Undot the Unreal[WHITE][%]");
 //        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
         label.align = Align.topLeft;
 
