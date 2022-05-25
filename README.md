@@ -27,20 +27,13 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 Yes, it has more than the typewriter mode! Text can hang above and then drop into place. It can jump up and down in a
 long wave. It can waver and shudder, as if it is sick. It can blink in different colors, move in a gradient smoothly
 between two colors, or go across a whole rainbow. Lots of options; lots of fun. Effects are almost the same as in
-typing-label, so you should consult [its documentation](https://github.com/rafaskb/typing-label/wiki/Examples) for now.
+typing-label, but there have been some changes. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
+for more information.
 
-There are two new effects so far. One is `{JOLT}`, which randomly chooses glyphs over time to get "shocked," shaking
-them as with the `{SHAKE}` effect briefly and optionally changing their color while shocked. It takes distance (often
-1), intensity (often 1), duration (often "inf" to make it last forever), likelihood (a low float between 0 and 1, with
-higher values making more glyphs get shocked), base color and jolting color. The other new effect is `{SPIRAL}`, which
-is like the `{SLIDE}` effect but has glyphs start some distance outside of their starting position, and move in a circle
-as they go inward to reach their final place. It takes an initial distance (often 1, in multiples of the current line
-height), an intensity/speed (higher than 1 is faster than normal, less than 1 is slower than normal), and a rotation
-count (in the number of turns to make; this can be any float, and while positive values rotate counter-clockwise,
-negative ones rotate clockwise).
-
-I'll probably clone the typing-label wiki at some point and update the relevant parts for the way this library works,
-but I haven't done this yet.
+As of 0.5.1, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, and Squash are
+all new to TextraTypist (not in typing-label). You can see usage instructions and sample GIFs at
+[the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
+make use of the smooth scaling and rotation options that effects can use starting in TextraTypist 0.5.1 .
 
 ## And now, it's got style!
 
@@ -70,11 +63,13 @@ square brackets like `[*]`, or you can use `{STYLE=BOLD}` to do the same thing. 
   - By default, this looks up COLORNAME in libGDX's `Colors` class, but it can be configured to create colors differently.
     - You can use `Font`'s `setColorLookup()` method with your own `ColorLookup` implementation to do what you want here.
     - `TypingLabel` does still try to look up color names in `Colors`, but will fall back to using whatever `ColorLookup`
-         a `Font` uses. You can clear the known names with `Colors.getColors().clear()`, which will force a `ColorLookup` to be used.
+       a `Font` uses. You can clear the known names with `Colors.getColors().clear()`, which will force a `ColorLookup` to be used.
   - The name can optionally be preceded by `|`, which allows looking up colors with names that contain punctuation.
-      For example, `[|;_;]` would look up a color called `;_;`, "the color of sadness," and would not act like `[;]`.
+    For example, `[|;_;]` would look up a color called `;_;`, "the color of sadness," and would not act like `[;]`.
   - This also can be used with a color tag, such as `{COLOR=SKY}` (which Colors can handle right away) or
     `{COLOR=Lighter Orange-Red}` (which would need that color to be defined).
+    - One way colors such as `Lighter Orange-Red` can be defined is done in [SquidSquad](https://github.com/yellowstonegames/SquidSquad),
+      which defines its own `ColorLookup`.
 
 ## But wait, there's fonts!
 
@@ -131,7 +126,7 @@ for some usage. A counterpart to `TextArea` is planned.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.5.0"
+implementation "com.github.tommyettinger:textratypist:0.5.1"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
@@ -140,7 +135,7 @@ was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.5.0:sources"
+implementation "com.github.tommyettinger:textratypist:0.5.1:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 

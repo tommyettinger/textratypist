@@ -126,7 +126,7 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
 //        Font font = family.connected[0].setFamily(family);
         Font font = KnownFonts.getStandardFamily();
         StringBuilder sb = new StringBuilder(256);
-        sb.append("{VAR=Rival} tests me, the fool... ");
+//        sb.append("{VAR=Rival} tests me, the fool... ");
         Array<String> starts = TypingConfig.EFFECT_START_TOKENS.orderedKeys();
         Array<String> ends = TypingConfig.EFFECT_END_TOKENS.orderedKeys();
         starts.reverse();
