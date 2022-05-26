@@ -164,7 +164,7 @@ public class TextraLabel extends Widget {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         if (style != null && style.background != null) {
-            batch.setPackedColor(layout.baseColor);
+            batch.setColor(getColor());
             style.background.draw(batch, getX(), getY(), getWidth(), getHeight());
         }
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
