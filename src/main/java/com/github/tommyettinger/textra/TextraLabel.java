@@ -34,6 +34,7 @@ public class TextraLabel extends Widget {
     public int align = Align.left;
     public boolean wrap = false;
     public String storedText;
+    public Label.LabelStyle style;
 
     /**
      * Creates a TextraLabel that uses the default libGDX font (lsans-15 in the current version) with white color.
@@ -128,6 +129,7 @@ public class TextraLabel extends Widget {
         font = new Font(style.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
         layout = Layout.POOL.obtain();
         if(style.fontColor != null) layout.setBaseColor(style.fontColor);
+        this.style = style;
         storedText = text;
         font.markup(text, layout);
     }
@@ -161,6 +163,10 @@ public class TextraLabel extends Widget {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+        if (style != null && style.background != null) {
+            batch.setPackedColor(layout.baseColor);
+            style.background.draw(batch, getX(), getY(), getWidth(), getHeight());
+        }
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if(resetShader)
             font.enableShader(batch);
