@@ -1313,6 +1313,7 @@ public class Font implements Disposable {
         originalCellWidth = cellWidth;
         originalCellHeight = cellHeight;
         isMono = minWidth == cellWidth && kerning == null;
+        integerPosition = bmFont.usesIntegerPositions();
         scale(bmFont.getScaleX(), bmFont.getScaleY());
     }
 
