@@ -2502,7 +2502,7 @@ public class Font implements Disposable {
         float centerX = font.cellWidth * scaleX * 0.5f;
         float centerY = font.cellHeight * scaleY * 0.5f;
         float xc = tr.offsetX * scaleX - centerX * scale * sizingX;
-        float yt = (font.cellHeight - centerY) * scale * sizingY - h - tr.offsetY * scaleY;
+        float yt = (font.cellHeight - centerY / sizingY) * scale - h - tr.offsetY * scaleY;
 
         x += centerX;
         y += centerY;
