@@ -2501,9 +2501,9 @@ public class Font implements Disposable {
         float h = tr.getRegionHeight() * scaleY * sizingY;
         float centerX = font.cellWidth * 0.5f;
         float centerY = font.cellHeight * 0.5f;
-        float xc = tr.offsetX * scaleX;
-        float yt = (font.cellHeight) * scale * sizingY - h - tr.offsetY * scaleY;
-
+        float xc = tr.offsetX * scaleX - centerX * scale * sizingX;
+        float yt = (font.cellHeight - centerY) * scale * sizingY - h - tr.offsetY * scaleY;
+        
         x += centerX;
         y += centerY;
         if ((glyph & OBLIQUE) != 0L) {
