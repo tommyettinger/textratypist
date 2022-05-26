@@ -2499,11 +2499,11 @@ public class Font implements Disposable {
         float w = tr.getRegionWidth() * scaleX * sizingX;
         float changedW = tr.xAdvance * scaleX;
         float h = tr.getRegionHeight() * scaleY * sizingY;
-        float centerX = font.cellWidth * 0.5f;
-        float centerY = font.cellHeight * 0.5f;
+        float centerX = font.cellWidth * scaleX * 0.5f;
+        float centerY = font.cellHeight * scaleY * 0.5f;
         float xc = tr.offsetX * scaleX - centerX * scale * sizingX;
         float yt = (font.cellHeight - centerY) * scale * sizingY - h - tr.offsetY * scaleY;
-        
+
         x += centerX;
         y += centerY;
         if ((glyph & OBLIQUE) != 0L) {
@@ -2516,7 +2516,7 @@ public class Font implements Disposable {
         if (script == SUPERSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
+            yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
             y1 += scaledHeight * 0.375f;
             y2 += scaledHeight * 0.375f;
             y0 += scaledHeight * 0.375f;
@@ -2526,7 +2526,7 @@ public class Font implements Disposable {
         else if (script == SUBSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
+            yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
             y1 -= scaledHeight * 0.125f;
             y2 -= scaledHeight * 0.125f;
             y0 -= scaledHeight * 0.125f;
@@ -2536,7 +2536,7 @@ public class Font implements Disposable {
         else if(script == MIDSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f;
+            yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
             y0 += scaledHeight * 0.125f;
             y1 += scaledHeight * 0.125f;
             y2 += scaledHeight * 0.125f;
@@ -2600,11 +2600,11 @@ public class Font implements Disposable {
         if ((glyph & UNDERLINE) != 0L) {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
-                p0x = -tr.offsetX * scaleX - scaleX;
-                p0y = -cellHeight * 0.45f;
+                p0x = -tr.offsetX * scaleX - scaleX - centerX * scale;
+                p0y = -cellHeight * 0.45f - centerY * scale;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + sin * p0x + cos * p0y,
-                        (changedW + scaleX * 3f), cellHeight, rotation);
+                        (changedW + scaleX * 3f), cellHeight * sizingY, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -2648,11 +2648,11 @@ public class Font implements Disposable {
         if ((glyph & STRIKETHROUGH) != 0L) {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
-                p0x = -tr.offsetX * scaleX - scaleX;
-                p0y = cellHeight * -0.1f;
+                p0x = -tr.offsetX * scaleX - scaleX - centerX * scale;
+                p0y = cellHeight * -0.1f - centerY * scale;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + sin * p0x + cos * p0y,
-                        (changedW + scaleX * 3), cellHeight, rotation);
+                        (changedW + scaleX * 3), cellHeight * sizingY, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
