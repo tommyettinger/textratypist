@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 
 /**
@@ -163,22 +164,29 @@ public class TextraLabel extends Widget {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+
+        float x = 0;
+
         if (style != null && style.background != null) {
+            Drawable background = style.background;
             batch.setColor(getColor());
-            style.background.draw(batch, getX(), getY(), getWidth(), getHeight());
+            background.draw(batch, getX(), getY(), getWidth(), getHeight());
+            x = background.getLeftWidth();
+//            y = background.getBottomHeight();
         }
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if(resetShader)
             font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
-        font.drawGlyphs(batch, layout, getX(align), getHeight() * 0.5f + getY(align), align);
+        font.drawGlyphs(batch, layout, x + getX(align), getHeight() * 0.5f + getY(align), align);
         if(resetShader)
             batch.setShader(null);
     }
 
     @Override
     public float getPrefWidth() {
-        return wrap ? 0f : layout.getWidth();
+        return wrap ? 0f : (layout.getWidth() + (style != null && style.background != null ?
+                        style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
     }
 
     @Override
@@ -220,6 +228,9 @@ public class TextraLabel extends Widget {
     @Override
     public void layout() {
         float width = getWidth();
+        if(style != null && style.background != null) {
+            layout.targetWidth = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
+        }
         if (wrap && layout.getTargetWidth() != width) {
             layout.setTargetWidth(width);
             font.regenerateLayout(layout);
