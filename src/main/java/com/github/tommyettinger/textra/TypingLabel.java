@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
@@ -162,6 +163,10 @@ public class TypingLabel extends TextraLabel {
         workingLayout.setTargetWidth(actualWidth);
         font.markup(newText, layout.clear());
         font.markup(newText, workingLayout.clear());
+
+        setWidth(actualWidth + (style != null && style.background != null ?
+                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
+
         if(modifyOriginalText) saveOriginalText(newText);
         if(restart) {
 //            layout.setTargetWidth(Float.MAX_VALUE);
@@ -403,12 +408,14 @@ public class TypingLabel extends TextraLabel {
 
     @Override
     public float getPrefWidth() {
-        return wrap ? 0f : workingLayout.getWidth();
+        return wrap ? 0f : (workingLayout.getWidth() + (style != null && style.background != null ?
+                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
     }
 
     @Override
     public float getPrefHeight() {
-        return workingLayout.getHeight() + font.cellHeight * 0.5f;
+        return workingLayout.getHeight() + (style != null && style.background != null ?
+                style.background.getBottomHeight() + style.background.getTopHeight() : 0.0f);
     }
 
     //////////////////////////////////
@@ -633,8 +640,7 @@ public class TypingLabel extends TextraLabel {
     public void layout() {
         super.layout();
 
-        float width = getWidth();
-        if (wrap && (workingLayout.getTargetWidth() != width)) {
+        if (wrap && (workingLayout.getTargetWidth() != getWidth())) {
             font.regenerateLayout(workingLayout);
         }
     }
@@ -683,6 +689,14 @@ public class TypingLabel extends TextraLabel {
         batch.setColor(1f, 1f, 1f, parentAlpha);
         final int lines = workingLayout.lines();
         float baseX = getX(align), baseY = getY(align);
+        if (style != null && style.background != null) {
+            Drawable background = style.background;
+            batch.setColor(getColor());
+            background.draw(batch, getX(), getY(), getWidth(), getHeight());
+            baseX += background.getLeftWidth();
+            baseY += background.getBottomHeight();
+        }
+
         if ((align & bottom) != 0)
             baseY += workingLayout.getHeight();
         else if ((align & top) == 0) //
