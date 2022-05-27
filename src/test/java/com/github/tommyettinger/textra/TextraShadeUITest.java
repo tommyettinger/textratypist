@@ -197,7 +197,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		profiler.reset();
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		fpsLabel.font.markup("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]", fpsLabel.layout.clear());
+		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "...[~]I think[]...");
 
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
