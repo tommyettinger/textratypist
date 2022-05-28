@@ -406,18 +406,6 @@ public class TypingLabel extends TextraLabel {
         this.variables.clear();
     }
 
-    @Override
-    public float getPrefWidth() {
-        return wrap ? 0f : (workingLayout.getWidth() + (style != null && style.background != null ?
-                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
-    }
-
-    @Override
-    public float getPrefHeight() {
-        return workingLayout.getHeight() + (style != null && style.background != null ?
-                style.background.getBottomHeight() + style.background.getTopHeight() : 0.0f);
-    }
-
     //////////////////////////////////
     /// --- Core Functionality --- ///
     //////////////////////////////////
@@ -693,13 +681,21 @@ public class TypingLabel extends TextraLabel {
             Drawable background = style.background;
             batch.setColor(getColor());
             background.draw(batch, getX(), getY(), getWidth(), getHeight());
-            baseX += background.getLeftWidth();
-            baseY += background.getBottomHeight();
+//            baseX += background.getLeftWidth();
+//            baseY += background.getBottomHeight();
+//
+//
+            if((align & Align.left) != 0) baseX += background.getLeftWidth();
+            else if((align & Align.right) != 0) baseX -= background.getRightWidth();
+            else baseX += (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
+            if((align & bottom) != 0) baseY += background.getBottomHeight();
+            else if((align & top) != 0) baseY -= background.getTopHeight();
+            else baseY += (background.getBottomHeight() - background.getTopHeight()) * 0.5f;
         }
 
         if ((align & bottom) != 0)
             baseY += workingLayout.getHeight();
-        else if ((align & top) == 0) //
+        else if ((align & top) == 0)
             baseY += workingLayout.getHeight() * 0.5f;
         int o = 0, s = 0, r = 0, gi = 0;
         EACH_LINE:

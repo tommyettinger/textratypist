@@ -25,6 +25,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 
+import static com.badlogic.gdx.utils.Align.bottom;
+import static com.badlogic.gdx.utils.Align.top;
+
 /**
  * A scene2d.ui Widget that displays text using a {@link Font} rather than a libGDX BitmapFont. This supports being
  * laid out in a Table just like the typical Label.
@@ -165,19 +168,27 @@ public class TextraLabel extends Widget {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        float x = 0;
+        float baseX = 0, baseY = 0;
 
         if (style != null && style.background != null) {
             Drawable background = style.background;
             batch.setColor(getColor());
             background.draw(batch, getX(), getY(), getWidth(), getHeight());
-            x = background.getLeftWidth();
+//            baseX = background.getLeftWidth();
+//            baseY = background.getBottomHeight();
+            if((align & Align.left) != 0) baseX += background.getLeftWidth();
+            else if((align & Align.right) != 0) baseX -= background.getRightWidth();
+            else baseX += (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
+            if((align & bottom) != 0) baseY += background.getBottomHeight();
+            else if((align & top) != 0) baseY -= background.getTopHeight();
+            else baseY += (background.getBottomHeight() - background.getTopHeight()) * 0.5f;
+
         }
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if(resetShader)
             font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
-        font.drawGlyphs(batch, layout, x + getX(align), getHeight() * 0.5f + getY(align), align);
+        font.drawGlyphs(batch, layout, baseX + getX(align), layout.getHeight() * 0.5f + baseY + getY(align), align);
         if(resetShader)
             batch.setShader(null);
     }
@@ -185,12 +196,13 @@ public class TextraLabel extends Widget {
     @Override
     public float getPrefWidth() {
         return wrap ? 0f : (layout.getWidth() + (style != null && style.background != null ?
-                        style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
+                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
     }
 
     @Override
     public float getPrefHeight() {
-        return layout.getHeight() + font.cellHeight * 0.5f;
+        return layout.getHeight() + (style != null && style.background != null ?
+                style.background.getBottomHeight() + style.background.getTopHeight() : 0.0f);
     }
 
     public TextraLabel useIntegerPositions(boolean integer) {
