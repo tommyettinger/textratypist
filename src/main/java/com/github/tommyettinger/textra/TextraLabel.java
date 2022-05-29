@@ -180,7 +180,7 @@ public class TextraLabel extends Widget {
             else baseX += (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
             if((align & bottom) != 0) baseY += background.getBottomHeight() * 0.5f;
             else if((align & bottom) == 0) baseY -= background.getTopHeight() * 0.5f;
-//            else baseY += background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f;
+            else baseY += background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.25f;
         }
         if(layout.lines.isEmpty()) return;
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
