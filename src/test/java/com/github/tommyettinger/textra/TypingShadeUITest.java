@@ -28,20 +28,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -74,6 +63,9 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
+		final Font font = new Font(skin.get(Label.LabelStyle.class).font)
+				.adjustLineHeight(0.75f).useIntegerPositions(true);
+
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
@@ -81,12 +73,12 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 
 		// stage.setDebugAll(true);
 
-		ImageButtonStyle style = new ImageButtonStyle(skin.get(ButtonStyle.class));
+		ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-		ImageButton iconButton = new ImageButton(style);
+		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-		Button buttonMulti = new TextButton("Multi\nLine\nToggle", skin, "toggle");
+		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
@@ -98,7 +90,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 
 		t.layout();
 
-		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin);
+		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin, font);
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
@@ -143,8 +135,8 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		passwordTextField.setPasswordMode(true);
 
 		// window.debug();
-		TextraWindow window = new TextraWindow("TextraDialog", skin);
-		window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
+		TextraWindow window = new TextraWindow("TextraDialog", skin, font);
+		window.getTitleTable().add(new TextraButton("X", skin, font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
 		window.row().fill().expandX();
@@ -184,7 +176,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 
 		iconButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				new TextraDialog("Some TextraDialog", skin, "dialog") {
+				new TextraDialog("Some TextraDialog", skin, "dialog", font) {
 					protected void result (Object object) {
 						System.out.println("Chosen: " + object);
 					}

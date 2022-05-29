@@ -671,9 +671,7 @@ public class TypingLabel extends TextraLabel {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.validate();
-        boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
-        if(resetShader)
-            font.enableShader(batch);
+        if(layout.lines.isEmpty()) return;
         batch.setColor(1f, 1f, 1f, parentAlpha);
         final int lines = workingLayout.lines();
         float baseX = getX(align), baseY = getY(align);
@@ -692,17 +690,21 @@ public class TypingLabel extends TextraLabel {
             else if((align & top) != 0) baseY -= background.getTopHeight();
             else baseY += (background.getBottomHeight() - background.getTopHeight()) * 0.5f;
         }
-
         if ((align & bottom) != 0)
             baseY += workingLayout.getHeight();
         else if ((align & top) == 0)
             baseY += workingLayout.getHeight() * 0.5f;
+        baseY -= workingLayout.lines.first().height;
         int o = 0, s = 0, r = 0, gi = 0;
+        boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
+        if(resetShader)
+            font.enableShader(batch);
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
-            baseY -= glyphs.height;
             float x = baseX, y = baseY, drawn = 0;
+            baseY -= glyphs.height;
+
             if(Align.isCenterHorizontal(align))
                 x -= glyphs.width * 0.5f;
             else if(Align.isRight(align))
