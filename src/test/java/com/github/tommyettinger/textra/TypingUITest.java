@@ -62,18 +62,21 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
+
+		final Font font = new Font(skin.get(Label.LabelStyle.class).font)
+				.adjustLineHeight(0.75f).useIntegerPositions(true);
+
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
-		// stage.setDebugAll(true);
+		 stage.setDebugAll(true);
 
-		ImageButtonStyle style = new ImageButtonStyle(skin.get(ButtonStyle.class));
+		ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-		ImageButton iconButton = new ImageButton(style);
+		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-		Button buttonMulti = new TextButton("Multi\nLine\nToggle", skin, "toggle");
+		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
@@ -134,11 +137,12 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 			skin));
 		Table tooltipTable = new Table(skin);
 		tooltipTable.pad(10).background("default-round");
-		tooltipTable.add(new TextButton("Fancy tooltip!", skin));
+		tooltipTable.add(new TextraButton("Fancy tooltip!", skin, font));
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
 		TextraWindow window = new TextraWindow("TextraDialog", skin);
+		window.font.adjustLineHeight(0.5f);
 		window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
@@ -179,7 +183,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 
 		iconButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				new TextraDialog("Some TextraDialog", skin, "dialog") {
+				new TextraDialog("Some TextraDialog", skin, "dialog", font) {
 					protected void result (Object object) {
 						System.out.println("Chosen: " + object);
 					}

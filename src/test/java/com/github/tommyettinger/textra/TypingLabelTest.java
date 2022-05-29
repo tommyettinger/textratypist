@@ -220,14 +220,13 @@ public class TypingLabelTest extends ApplicationAdapter {
                         KnownFonts.getOxanium().scaleTo(32, 35).scale(0.75f, 0.75f).adjustLineHeight(1.05f)
                 });
         Font font = family.connected[0].setFamily(family);
-        final TypingLabel label = new TypingLabel("", font);
+        final TypingLabel label = new TypingLabel(text.toString(), font);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 
         // Make the label wrap to new lines, respecting the table's layout.
         label.layout.maxLines = 15;
         label.layout.setTargetWidth(620);
-        label.restart(text.toString());
 
         // Set variable replacements for the {VAR} token
         label.setVariable("title", "curious human");
