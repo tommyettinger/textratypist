@@ -674,7 +674,7 @@ public class TypingLabel extends TextraLabel {
         if(layout.lines.isEmpty()) return;
         batch.setColor(1f, 1f, 1f, parentAlpha);
         final int lines = workingLayout.lines();
-        float baseX = getX(align), baseY = getY(align);
+        float baseX = getX(align), baseY = 0.5f * (layout.getHeight() - layout.lines.first().height) + getY(align);
         if (style != null && style.background != null) {
             Drawable background = style.background;
             batch.setColor(getColor());
@@ -694,7 +694,7 @@ public class TypingLabel extends TextraLabel {
             baseY += workingLayout.getHeight();
         else if ((align & top) == 0)
             baseY += workingLayout.getHeight() * 0.5f;
-        baseY -= workingLayout.lines.first().height;
+        baseY -= workingLayout.lines.first().height * 0.75f;
         int o = 0, s = 0, r = 0, gi = 0;
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if(resetShader)

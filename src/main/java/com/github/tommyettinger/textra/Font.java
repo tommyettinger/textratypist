@@ -2099,9 +2099,9 @@ public class Font implements Disposable {
         Line l;
         for (int ln = 0; ln < lines; ln++) {
             l = glyphs.getLine(ln);
+            drawn += drawGlyphs(batch, l, x, y, align, rotation);
             y -= cs * l.height;
             x += sn * l.height;
-            drawn += drawGlyphs(batch, l, x, y, align, rotation);
         }
         return drawn;
     }
@@ -2132,45 +2132,7 @@ public class Font implements Disposable {
      * @return the number of glyphs drawn
      */
     public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align) {
-        if (glyphs == null) return 0;
-        float drawn = 0f;
-        if (Align.isCenterHorizontal(align))
-            x -= glyphs.width * 0.5f;
-        else if (Align.isRight(align))
-            x -= glyphs.width;
-        int kern = -1;
-        long glyph;
-        float single;
-        boolean curly = false;
-        for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
-            glyph = glyphs.glyphs.get(i);
-            char ch = (char) glyph;
-            if (curly) {
-                if (ch == '}') {
-                    curly = false;
-                    continue;
-                } else if (ch == '{')
-                    curly = false;
-                else continue;
-            } else if (ch == '{') {
-                curly = true;
-                continue;
-            }
-            Font font = null;
-            if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
-            if(font == null) font = this;
-
-            if (font.kerning != null) {
-                kern = kern << 16 | (int) (glyph & 0xFFFF);
-                float amt = font.kerning.get(kern, 0) * font.scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
-                single = drawGlyph(batch, glyph, x + amt, y) + amt;
-            } else {
-                single = drawGlyph(batch, glyph, x, y);
-            }
-            x += single;
-            drawn += single;
-        }
-        return drawn;
+        return drawGlyphs(batch, glyphs, x, y, align, 0f);
     }
     /**
      * Draws the specified Line of glyphs with a Batch at a given x, y position, rotated using degrees, using
