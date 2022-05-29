@@ -624,6 +624,18 @@ public class TypingLabel extends TextraLabel {
             workingLayout.setTargetWidth(width);
     }
 
+//    @Override
+//    public float getPrefWidth() {
+//        return wrap ? 0f : (workingLayout.getWidth() + (style != null && style.background != null ?
+//                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
+//    }
+//
+//    @Override
+//    public float getPrefHeight() {
+//        return workingLayout.getHeight() + (style != null && style.background != null ?
+//                style.background.getBottomHeight() + style.background.getTopHeight() : 0.0f);
+//    }
+
     @Override
     public void layout() {
         super.layout();
@@ -674,7 +686,7 @@ public class TypingLabel extends TextraLabel {
         if(layout.lines.isEmpty()) return;
         batch.setColor(1f, 1f, 1f, parentAlpha);
         final int lines = workingLayout.lines();
-        float baseX = getX(align), baseY = 0.5f * (layout.getHeight() - layout.lines.first().height) + getY(align);
+        float baseX = getX(align), baseY = getY(align);
         if (style != null && style.background != null) {
             Drawable background = style.background;
             batch.setColor(getColor());
@@ -690,9 +702,9 @@ public class TypingLabel extends TextraLabel {
             else if((align & top) != 0) baseY -= background.getTopHeight();
             else baseY += (background.getBottomHeight() - background.getTopHeight()) * 0.5f;
         }
-        if ((align & bottom) != 0)
+        if (Align.isBottom(align))
             baseY += workingLayout.getHeight();
-        else if ((align & top) == 0)
+        else if (Align.isCenterVertical(align))
             baseY += workingLayout.getHeight() * 0.5f;
         baseY -= workingLayout.lines.first().height * 0.75f;
         int o = 0, s = 0, r = 0, gi = 0;

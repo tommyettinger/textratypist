@@ -221,7 +221,7 @@ public class TypingLabelTest extends ApplicationAdapter {
                 });
         Font font = family.connected[0].setFamily(family);
         final TypingLabel label = new TypingLabel(text.toString(), font);
-        label.setAlignment(Align.bottomRight);
+        label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 
         // Make the label wrap to new lines, respecting the table's layout.
