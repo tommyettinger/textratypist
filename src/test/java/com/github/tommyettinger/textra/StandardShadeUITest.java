@@ -229,7 +229,7 @@ public class StandardShadeUITest extends InputAdapter implements ApplicationList
 	public static void main(String[] args){
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("Label UI test");
-		config.setWindowedMode(640, 480);
+		config.setWindowedMode(640, 540);
 		config.disableAudio(true);
 		ShaderProgram.prependVertexCode = "#version 110\n";
 		ShaderProgram.prependFragmentCode = "#version 110\n";

@@ -69,7 +69,6 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
-		stage.setDebugAll(true);
 		Gdx.input.setInputProcessor(stage);
 
 		// stage.setDebugAll(true);
@@ -136,7 +135,8 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		passwordTextField.setPasswordMode(true);
 
 		// window.debug();
-		TextraWindow window = new TextraWindow("TextraDialog", skin, font);
+		TextraWindow window = new TextraWindow("TextraDialog", skin);
+		window.font.adjustLineHeight(0.75f);
 		window.getTitleTable().add(new TextraButton("X", skin, font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
@@ -234,7 +234,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 	public static void main(String[] args){
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("TextraLabel UI test");
-		config.setWindowedMode(640, 480);
+		config.setWindowedMode(640, 540);
 		config.disableAudio(true);
 		ShaderProgram.prependVertexCode = "#version 110\n";
 		ShaderProgram.prependFragmentCode = "#version 110\n";
