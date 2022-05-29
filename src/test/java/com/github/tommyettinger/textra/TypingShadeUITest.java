@@ -64,13 +64,14 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 		final Font font = new Font(skin.get(Label.LabelStyle.class).font)
-				.adjustLineHeight(0.75f).useIntegerPositions(true);
+//				.adjustLineHeight(0.75f)
+				.useIntegerPositions(true);
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
-		// stage.setDebugAll(true);
+		stage.setDebugAll(true);
 
 		ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);

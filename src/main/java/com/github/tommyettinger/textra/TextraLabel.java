@@ -26,7 +26,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 
 import static com.badlogic.gdx.utils.Align.bottom;
-import static com.badlogic.gdx.utils.Align.top;
 
 /**
  * A scene2d.ui Widget that displays text using a {@link Font} rather than a libGDX BitmapFont. This supports being
