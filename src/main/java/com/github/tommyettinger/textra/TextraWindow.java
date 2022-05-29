@@ -75,6 +75,7 @@ public class TextraWindow extends Table {
 		setClip(true);
 
 		titleLabel = newLabel(title, new LabelStyle(style.titleFont, style.titleFontColor));
+		font = titleLabel.font;
 		titleLabel.layout.ellipsis = "...";
 
 		titleTable = new Table() {
@@ -114,6 +115,7 @@ public class TextraWindow extends Table {
 		setClip(true);
 
 		titleLabel = newLabel(title, replacementFont, style.titleFontColor);
+		font = titleLabel.font;
 		titleLabel.layout.ellipsis = "...";
 
 		titleTable = new Table() {
@@ -258,7 +260,7 @@ public class TextraWindow extends Table {
 		this.style = style;
 
 		setBackground(style.background);
-		titleLabel.font = new Font(style.titleFont, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
+		font = titleLabel.font = new Font(style.titleFont, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
 		if(style.titleFontColor != null) titleLabel.setColor(style.titleFontColor);
 		invalidateHierarchy();
 	}
@@ -268,8 +270,7 @@ public class TextraWindow extends Table {
 		this.style = style;
 
 		setBackground(style.background);
-		titleLabel.font = font;
-		this.font = font;
+		this.font = titleLabel.font = font;
 		if(style.titleFontColor != null) titleLabel.setColor(style.titleFontColor);
 		invalidateHierarchy();
 	}
