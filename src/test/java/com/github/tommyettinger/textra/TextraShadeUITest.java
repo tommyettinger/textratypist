@@ -69,6 +69,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
+		stage.setDebugAll(true);
 		Gdx.input.setInputProcessor(stage);
 
 		// stage.setDebugAll(true);
@@ -78,7 +79,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
 		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
+		Button buttonMulti = new TextraButton("Multi\n[%100]Line[%]\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 

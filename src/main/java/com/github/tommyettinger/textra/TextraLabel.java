@@ -182,13 +182,13 @@ public class TextraLabel extends Widget {
             if((align & bottom) != 0) baseY += background.getBottomHeight();
             else if((align & top) != 0) baseY -= background.getTopHeight();
             else baseY += (background.getBottomHeight() - background.getTopHeight()) * 0.5f;
-
         }
+        if(layout.lines.isEmpty()) return;
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if(resetShader)
             font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
-        font.drawGlyphs(batch, layout, baseX + getX(align), layout.getHeight() * 0.5f + baseY + getY(align), align);
+        font.drawGlyphs(batch, layout, baseX + getX(align), 0.5f * (layout.getHeight() - layout.lines.first().height) + baseY + getY(align), align);
         if(resetShader)
             batch.setShader(null);
     }

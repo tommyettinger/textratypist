@@ -2072,8 +2072,8 @@ public class Font implements Disposable {
         Line l;
         for (int ln = 0; ln < lines; ln++) {
             l = glyphs.getLine(ln);
-            y -= l.height;
             drawn += drawGlyphs(batch, l, x, y, align);
+            y -= l.height;
         }
         return drawn;
     }
