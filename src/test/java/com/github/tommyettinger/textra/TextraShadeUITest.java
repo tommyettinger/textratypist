@@ -65,7 +65,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		TextureRegion image2 = new TextureRegion(texture2);
 
 		final Font font = new Font(skin.get(LabelStyle.class).font)
-				.adjustLineHeight(0.75f)
+//				.adjustLineHeight(0.75f)
 				.useIntegerPositions(true);
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
@@ -137,7 +137,6 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 
 		// window.debug();
 		TextraWindow window = new TextraWindow("TextraDialog", skin);
-		window.font.adjustLineHeight(0.75f);
 		window.getTitleTable().add(new TextraButton("X", skin, font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);

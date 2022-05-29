@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 
 import static com.badlogic.gdx.utils.Align.bottom;
+import static com.badlogic.gdx.utils.Align.top;
 
 /**
  * A scene2d.ui Widget that displays text using a {@link Font} rather than a libGDX BitmapFont. This supports being
@@ -178,16 +179,21 @@ public class TextraLabel extends Widget {
             if((align & Align.left) != 0) baseX += background.getLeftWidth();
             else if((align & Align.right) != 0) baseX -= background.getRightWidth();
             else baseX += (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
-            if((align & bottom) != 0) baseY += background.getBottomHeight() * 0.5f;
-            else if((align & bottom) == 0) baseY -= background.getTopHeight() * 0.5f;
-            else baseY += background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.25f;
+            if((align & bottom) != 0) baseY += background.getBottomHeight();
+            else if((align & top) != 0) baseY -= background.getTopHeight();
+            else baseY += background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f;
         }
         if(layout.lines.isEmpty()) return;
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if(resetShader)
             font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
-        font.drawGlyphs(batch, layout, baseX + getX(align), 0.5f * (layout.getHeight() - layout.lines.first().height) + baseY + getY(align), align);
+        if (Align.isBottom(align))
+            baseY += layout.getHeight();
+        else if (Align.isCenterVertical(align))
+            baseY += layout.getHeight() * 0.5f;
+        baseY -= layout.lines.first().height * 0.75f;
+        font.drawGlyphs(batch, layout, baseX + getX(align), baseY + getY(align), align);
         if(resetShader)
             batch.setShader(null);
     }
