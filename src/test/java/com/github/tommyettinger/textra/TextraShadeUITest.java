@@ -65,7 +65,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		TextureRegion image2 = new TextureRegion(texture2);
 
 		final Font font = new Font(skin.get(LabelStyle.class).font)
-//				.adjustLineHeight(0.75f)
+				.adjustLineHeight(0.75f)
 				.useIntegerPositions(true);
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());

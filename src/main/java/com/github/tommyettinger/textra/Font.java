@@ -2191,9 +2191,9 @@ public class Font implements Disposable {
             if (font.kerning != null) {
                 kern = kern << 16 | (int) (glyph & 0xFFFF);
                 float amt = font.kerning.get(kern, 0) * font.scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+                single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation) + amt;
                 xChange += cs * amt;
                 yChange += sn * amt;
-                single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation) + amt;
             } else {
                 single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation);
             }
