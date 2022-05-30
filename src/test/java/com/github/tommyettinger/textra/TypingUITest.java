@@ -64,7 +64,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		TextureRegion image2 = new TextureRegion(texture2);
 
 		final Font font =
-		KnownFonts.getIBM8x16()
+		KnownFonts.getOpenSans()
 //				new Font(skin.get(Label.LabelStyle.class).font)
 				.useIntegerPositions(true);
 ;
