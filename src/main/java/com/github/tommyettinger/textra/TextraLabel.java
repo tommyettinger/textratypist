@@ -122,6 +122,7 @@ public class TextraLabel extends Widget {
     public TextraLabel(String text, Label.LabelStyle style) {
         this(text, style, false);
     }
+
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the given style.
      * @param text the text to use; may be multi-line, but will default to not wrapping
@@ -131,6 +132,21 @@ public class TextraLabel extends Widget {
      */
     public TextraLabel(String text, Label.LabelStyle style, boolean makeGridGlyphs) {
         font = new Font(style.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
+        layout = Layout.POOL.obtain();
+        if(style.fontColor != null) layout.setBaseColor(style.fontColor);
+        this.style = style;
+        storedText = text;
+        font.markup(text, layout);
+    }
+
+    /**
+     * Creates a TextraLabel with the given text (which may be multi-line) and using the given style.
+     * @param text the text to use; may be multi-line, but will default to not wrapping
+     * @param style the Label.LabelStyle to use, except for its font
+     * @param replacementFont a Font that will be used in place of the one in style
+     */
+    public TextraLabel(String text, Label.LabelStyle style, Font replacementFont) {
+        font = replacementFont;
         layout = Layout.POOL.obtain();
         if(style.fontColor != null) layout.setBaseColor(style.fontColor);
         this.style = style;
