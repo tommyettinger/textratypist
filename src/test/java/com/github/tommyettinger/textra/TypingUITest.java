@@ -63,13 +63,15 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font(skin.get(Label.LabelStyle.class).font)
-				.adjustLineHeight(0.75f).useIntegerPositions(true);
-
+		final Font font =
+		KnownFonts.getCozette()
+//				new Font(skin.get(Label.LabelStyle.class).font)
+//				.useIntegerPositions(true);
+;
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
-		 stage.setDebugAll(true);
+//		stage.setDebugAll(true);
 
 		ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
@@ -79,14 +81,6 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
-
-		TypingLabel myLabel = new TypingLabel("This is some text.", skin);
-
-		Table t = new Table();
-		t.row();
-		t.add(myLabel);
-
-		t.layout();
 
 		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin);
 		checkBox.setChecked(true);
@@ -118,7 +112,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TypingLabel minSizeLabel = new TypingLabel("minWidth cell", skin); // demos SplitPane respecting widget's minWidth
+		TypingLabel minSizeLabel = new TypingLabel("minWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
@@ -126,7 +120,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin);
 		fpsLabel.setAlignment(Align.topLeft);
 		// configures an example of a TextField in password mode.
-		final TypingLabel passwordLabel = new TypingLabel("Textfield in [~]secure[] password mode: ", skin);
+		final TypingLabel passwordLabel = new TypingLabel("Textfield in [~]secure[] password mode: ", skin, font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
