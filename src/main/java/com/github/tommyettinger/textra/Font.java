@@ -1381,8 +1381,8 @@ public class Font implements Disposable {
             int a = intFromDec(fnt, idx, idx = indexAfter(fnt, " page=", idx));
             int p = intFromDec(fnt, idx, idx = indexAfter(fnt, "\nchar id=", idx));
 
-            x += xAdjust;
-            y += yAdjust;
+//            x += xAdjust;
+//            y += yAdjust;
             a += widthAdjust;
             h += heightAdjust;
             minWidth = Math.min(minWidth, a);
@@ -1398,8 +1398,8 @@ public class Font implements Disposable {
                 gr.offsetX = Float.NaN;
             }
             else
-                gr.offsetX = xo;
-            gr.offsetY = yo;
+                gr.offsetX = xo + xAdjust;
+            gr.offsetY = yo + yAdjust;
             gr.xAdvance = a;
             mapping.put(c, gr);
             if(c == '['){
