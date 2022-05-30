@@ -64,9 +64,9 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		TextureRegion image2 = new TextureRegion(texture2);
 
 		final Font font =
-		KnownFonts.getCozette()
+		KnownFonts.getIBM8x16()
 //				new Font(skin.get(Label.LabelStyle.class).font)
-//				.useIntegerPositions(true);
+				.useIntegerPositions(true);
 ;
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
@@ -136,7 +136,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 
 		// window.debug();
 		TextraWindow window = new TextraWindow("TextraDialog", skin);
-		window.font.adjustLineHeight(0.5f);
+//		window.font.adjustLineHeight(0.75f);
 		window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);

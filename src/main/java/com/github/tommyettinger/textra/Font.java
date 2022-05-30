@@ -1246,7 +1246,7 @@ public class Font implements Disposable {
                     else {
                         gr.offsetX = glyph.xoffset;
                     }
-                    gr.offsetY = -h - glyph.yoffset;
+                    gr.offsetY = (-h - glyph.yoffset);
                     gr.xAdvance = a;
                     mapping.put(glyph.id & 0xFFFF, gr);
                     if(glyph.kerning != null) {
@@ -1485,14 +1485,14 @@ public class Font implements Disposable {
         int padding = fnt.getInt("GlyphPadding");
         cellHeight = fnt.getInt("GlyphHeight");
         cellWidth = fnt.getInt("GlyphWidth");
-        int rows = (parent.getRegionHeight() + padding) / ((int) cellHeight + padding);
+        int rows = (parent.getRegionHeight() - padding) / ((int) cellHeight + padding);
         int size = rows * columns;
         mapping = new IntMap<>(size+1);
         for (int y = 0, c = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++, c++) {
-                GlyphRegion gr = new GlyphRegion(parent, x * ((int)cellWidth + padding), y * ((int)cellHeight + padding), (int)cellWidth, (int)cellHeight);
+                GlyphRegion gr = new GlyphRegion(parent, x * ((int)cellWidth + padding) + padding, y * ((int)cellHeight + padding) + padding, (int)cellWidth, (int)cellHeight);
                 gr.offsetX = 0;
-                gr.offsetY = 0;
+                gr.offsetY = (int)cellHeight >> 2;
                 if (c == 10) {
                     gr.xAdvance = 0;
                 } else {
