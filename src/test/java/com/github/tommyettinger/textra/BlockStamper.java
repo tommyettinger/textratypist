@@ -78,11 +78,11 @@ public class BlockStamper  extends ApplicationAdapter {
                 String text = fnt.readString("UTF-8");
                 if(text.contains("char id=0 ")){
                     fnt.writeString(text.replaceFirst(
-                            "char id=0 .+", "char id=0 x="+(w-2)+" y="+(h-2)+" width=1 height=1 xoffset=0 yoffset=0 xadvance=1 page=0 chnl=15"),
+                            "char id=0 .+", "char id=9608 x="+(w-2)+" y="+(h-2)+" width=1 height=1 xoffset=0 yoffset=0 xadvance=1 page=0 chnl=15"),
                             false, "UTF-8");
                 } else {
                     fnt.writeString(text.replaceFirst(
-                                    "(chars count=\\d+(\\R))", "$1char id=0 x="+(w-2)+" y="+(h-2)+" width=1 height=1 xoffset=0 yoffset=0 xadvance=1 page=0 chnl=15$2"),
+                                    "(chars count=\\d+(\\R))", "$1char id=9608 x="+(w-2)+" y="+(h-2)+" width=1 height=1 xoffset=0 yoffset=0 xadvance=1 page=0 chnl=15$2"),
                             false, "UTF-8");
 
                 }
