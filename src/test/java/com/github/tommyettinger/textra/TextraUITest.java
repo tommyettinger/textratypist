@@ -65,7 +65,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		TextureRegion image2 = new TextureRegion(texture2);
 
 		final Font font = new Font(skin.get(LabelStyle.class).font)
-				.adjustLineHeight(0.75f).useIntegerPositions(true);
+				.adjustLineHeight(0.75f);//.useIntegerPositions(true);
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());

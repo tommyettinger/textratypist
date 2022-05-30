@@ -1769,7 +1769,7 @@ char id=120084 x=946 y=502 width=47 height=67 xoffset=1 yoffset=15 xadvance=53 p
 char id=120086 x=946 y=502 width=47 height=67 xoffset=1 yoffset=15 xadvance=53 page=0 chnl=0
 char id=120087 x=946 y=502 width=47 height=67 xoffset=1 yoffset=15 xadvance=53 page=0 chnl=0
 char id=120089 x=946 y=502 width=47 height=67 xoffset=1 yoffset=15 xadvance=53 page=0 chnl=0
-char id=0 x=1548 y=472 width=47 height=67 xoffset=1 yoffset=15 xadvance=53 page=1 chnl=0
+char id=9608 x=1548 y=472 width=47 height=67 xoffset=1 yoffset=15 xadvance=53 page=1 chnl=0
 char id=35 x=1801 y=98 width=36 height=46 xoffset=1 yoffset=32 xadvance=38 page=1 chnl=0
 char id=42 x=130 y=346 width=31 height=35 xoffset=0 yoffset=22 xadvance=35 page=1 chnl=0
 char id=44 x=0 y=409 width=15 height=24 xoffset=1 yoffset=70 xadvance=20 page=1 chnl=0
