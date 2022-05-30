@@ -66,7 +66,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		final Font font =
 		KnownFonts.getRobotoCondensed()
 //				new Font(skin.get(Label.LabelStyle.class).font)
-				.useIntegerPositions(true);
+//				.useIntegerPositions(true);
 ;
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
