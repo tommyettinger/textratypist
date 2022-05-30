@@ -208,7 +208,7 @@ public class TextraLabel extends Widget {
             baseY += layout.getHeight();
         else if (Align.isCenterVertical(align))
             baseY += layout.getHeight() * 0.5f;
-        baseY -= layout.lines.first().height * 0.75f;
+        baseY += layout.lines.first().height * 0.25f;
         font.drawGlyphs(batch, layout, baseX + getX(align), baseY + getY(align), align);
         if(resetShader)
             batch.setShader(null);
