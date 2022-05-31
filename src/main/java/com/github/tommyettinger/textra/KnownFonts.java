@@ -193,8 +193,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.cascadiaMono == null)
         {
             try {
-                instance.cascadiaMono = new Font("CascadiaMono-msdf.fnt", "CascadiaMono-msdf.png", MSDF, 2f, 1f, -5.5f, -1.5f, true)
-                        .scaleTo(10, 20).setName("Cascadia Mono (MSDF)");
+                instance.cascadiaMono = new Font("CascadiaMono-msdf.fnt", "CascadiaMono-msdf.png", MSDF, 2f, 1f, 0f, 0f, true)
+                        .scaleTo(9, 16).setName("Cascadia Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -269,8 +269,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.dejaVuSansMono == null)
         {
             try {
-                instance.dejaVuSansMono = new Font("DejaVuSansMono-msdf.fnt", "DejaVuSansMono-msdf.png", MSDF, 1f, 4f, -1.5f, -4.5f, true)
-                        .scaleTo(10, 20).setName("DejaVu Sans Mono (MSDF)");
+                instance.dejaVuSansMono = new Font("DejaVuSansMono-msdf.fnt", "DejaVuSansMono-msdf.png", MSDF, 1f, 4f, 0f, 0f, true)
+                        .scaleTo(9, 20).setName("DejaVu Sans Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -390,7 +390,7 @@ public final class KnownFonts implements LifecycleListener {
         {
             try {
                 instance.ibm8x16 = new Font("IBM-8x16-standard.font", true)
-                        .setName("IBM 8x16");
+                        .fitCell(8, 16, false).setName("IBM 8x16");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -424,7 +424,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.inconsolata == null)
         {
             try {
-                instance.inconsolata = new Font("Inconsolata-LGC-Custom-standard.fnt", "Inconsolata-LGC-Custom-standard.png", STANDARD, 0f, 0f, -4f, 0f, true)
+                instance.inconsolata = new Font("Inconsolata-LGC-Custom-standard.fnt", "Inconsolata-LGC-Custom-standard.png", STANDARD, 0f, 0f, -4f, 0f, false)
                         .scaleTo(10, 26).setTextureFilter().setName("Inconsolata LGC");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -459,7 +459,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.inconsolataMSDF == null)
         {
             try {
-                instance.inconsolataMSDF = new Font("Inconsolata-LGC-Custom-msdf.fnt", "Inconsolata-LGC-Custom-msdf.png", MSDF, 5f, 1f, -12f, -8f, true)
+                instance.inconsolataMSDF = new Font("Inconsolata-LGC-Custom-msdf.fnt", "Inconsolata-LGC-Custom-msdf.png", MSDF, 0f, 1f, -12f, -8f, false)
                         .scaleTo(10, 26).setName("Inconsolata LGC (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -538,7 +538,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevkaMSDF = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 3f, 6, -4f, -7, true)
+                instance.iosevkaMSDF = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 0f, 2f, 0f, 0f, true)
                         .setCrispness(0.75f).scaleTo(9, 25).setName("Iosevka (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -657,7 +657,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevkaSlabMSDF = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, -4f, -7, true)
+                instance.iosevkaSlabMSDF = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 0f, 2f, 0f, 0f, true)
                         .setCrispness(0.75f).scaleTo(9, 25).setName("Iosevka Slab (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -740,7 +740,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.kingthingsFoundation == null)
         {
             try {
-                instance.kingthingsFoundation = new Font("KingthingsFoundation-standard.fnt", STANDARD, 2, 0, -2f, 0, true)
+                instance.kingthingsFoundation = new Font("KingthingsFoundation-standard.fnt", STANDARD, 2, -6, -2f, 0, false)
                         .scaleTo(25, 30).setTextureFilter().setName("KingThings Foundation");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -776,7 +776,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.libertinusSerif == null)
         {
             try {
-                instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, -2, 2, -2, 0, true)
+                instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, -2, 0, -2, 0, true)
                         .scaleTo(132, 28).setCrispness(1f).setName("Libertinus Serif (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -846,7 +846,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.oxanium == null)
         {
             try {
-                instance.oxanium = new Font("Oxanium-standard.fnt", STANDARD, 3, 0, -1, 0, true)
+                instance.oxanium = new Font("Oxanium-standard.fnt", STANDARD, 0, -12, -4, 0, false)
                         .scaleTo(31, 35).setTextureFilter().setName("Oxanium");
             } catch (Exception e) {
                 e.printStackTrace();
