@@ -2466,8 +2466,8 @@ public class Font implements Disposable {
         float xc = tr.offsetX * scaleX - centerX * sizingX;
         float yt = (font.cellHeight * scale - centerY) * sizingY - h - tr.offsetY * scaleY;
 
-        x += centerX;
-        y += centerY;
+        x = handleIntegerPosition(x) + centerX;
+        y = handleIntegerPosition(y) + centerY;
         if ((glyph & OBLIQUE) != 0L) {
             x0 += h * 0.2f;
             x1 -= h * 0.2f;
@@ -2529,34 +2529,34 @@ public class Font implements Disposable {
         float p2x = xc + x2 + w;
         float p2y = yt + y2;
 
-        vertices[15] = handleIntegerPosition((vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5]  = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y)));
-        vertices[16] = handleIntegerPosition((vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6]  = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y)));
+        vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5]  = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+        vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6]  = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
 
         batch.draw(tex, vertices, 0, 20);
         if ((glyph & BOLD) != 0L) {
             p0x += 1f;
             p1x += 1f;
             p2x += 1f;
-        vertices[15] = handleIntegerPosition((vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5]  = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y)));
-        vertices[16] = handleIntegerPosition((vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6]  = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y)));
+        vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5]  = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+        vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6]  = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
             batch.draw(tex, vertices, 0, 20);
             p0x -= 2f;
             p1x -= 2f;
             p2x -= 2f;
-        vertices[15] = handleIntegerPosition((vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5]  = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y)));
-        vertices[16] = handleIntegerPosition((vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6]  = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y)));
+        vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5]  = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+        vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6]  = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
             batch.draw(tex, vertices, 0, 20);
             p0x += 0.5f;
             p1x += 0.5f;
             p2x += 0.5f;
-        vertices[15] = handleIntegerPosition((vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5]  = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y)));
-        vertices[16] = handleIntegerPosition((vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6]  = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y)));
+        vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5]  = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+        vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6]  = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
             batch.draw(tex, vertices, 0, 20);
             p0x += 1f;
             p1x += 1f;
             p2x += 1f;
-        vertices[15] = handleIntegerPosition((vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5]  = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y)));
-        vertices[16] = handleIntegerPosition((vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6]  = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y)));
+        vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5]  = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+        vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6]  = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
             batch.draw(tex, vertices, 0, 20);
         }
         if ((glyph & UNDERLINE) != 0L) {
