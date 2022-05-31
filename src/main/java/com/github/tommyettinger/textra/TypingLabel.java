@@ -721,7 +721,7 @@ public class TypingLabel extends TextraLabel {
             baseY += workingLayout.getHeight();
         else if (Align.isCenterVertical(align))
             baseY += workingLayout.getHeight() * 0.5f;
-        baseY -= workingLayout.lines.first().height * 0.75f;
+        baseY += workingLayout.lines.first().height * 0.25f;
         int o = 0, s = 0, r = 0, gi = 0;
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if(resetShader)
@@ -729,8 +729,8 @@ public class TypingLabel extends TextraLabel {
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
-            float x = baseX, y = baseY, drawn = 0;
             baseY -= glyphs.height;
+            float x = baseX, y = baseY, drawn = 0;
 
             if(Align.isCenterHorizontal(align))
                 x -= glyphs.width * 0.5f;
