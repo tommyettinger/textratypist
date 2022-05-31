@@ -776,8 +776,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.libertinusSerif == null)
         {
             try {
-                instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, 5, 2, -2, -2, true)
-                        .scaleTo(150, 32).setCrispness(0.75f).setName("Libertinus Serif (MSDF)");
+                instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, -2, 2, -2, 0, true)
+                        .scaleTo(132, 28).setCrispness(1f).setName("Libertinus Serif (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
