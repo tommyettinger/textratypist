@@ -2565,8 +2565,8 @@ public class Font implements Disposable {
                 p0x = -tr.offsetX * scaleX - scaleX - centerX * scale;
                 p0y = -cellHeight * 0.45f - centerY * scale;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
-                        x + cos * p0x - sin * p0y, y + sin * p0x + cos * p0y,
-                        (changedW + scaleX * 3f), cellHeight * sizingY, rotation);
+                        x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y) * 0.6f - sizingY,
+                        (changedW + scaleX * 4f), cellHeight * sizingY * 0.6f, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -2613,8 +2613,8 @@ public class Font implements Disposable {
                 p0x = -tr.offsetX * scaleX - scaleX - centerX * scale;
                 p0y = cellHeight * -0.1f - centerY * scale;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
-                        x + cos * p0x - sin * p0y, y + sin * p0x + cos * p0y,
-                        (changedW + scaleX * 3), cellHeight * sizingY, rotation);
+                        x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y) * 0.6f + sizingY,
+                        (changedW + scaleX * 3), cellHeight * sizingY * 0.6f, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
