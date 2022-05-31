@@ -1941,8 +1941,8 @@ public class Font implements Disposable {
             float p2x = xc + startX + sizeX;
             float p2y = yt + startY;
 
-        vertices[15] = handleIntegerPosition((vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5]  = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y)));
-        vertices[16] = handleIntegerPosition((vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6]  = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y)));
+        vertices[15] = /* handleIntegerPosition */((vertices[0] = /* handleIntegerPosition */(x + cos * p0x - sin * p0y)) - (vertices[5]  = /* handleIntegerPosition */(x + cos * p1x - sin * p1y)) + (vertices[10] = /* handleIntegerPosition */(x + cos * p2x - sin * p2y)));
+        vertices[16] = /* handleIntegerPosition */((vertices[1] = /* handleIntegerPosition */(y + sin * p0x + cos * p0y)) - (vertices[6]  = /* handleIntegerPosition */(y + sin * p1x + cos * p1y)) + (vertices[11] = /* handleIntegerPosition */(y + sin * p2x + cos * p2y)));
 
 
 //            vertices[0] = startX;
@@ -2466,8 +2466,8 @@ public class Font implements Disposable {
         float xc = tr.offsetX * scaleX - centerX * sizingX;
         float yt = (font.cellHeight * scale - centerY) * sizingY - h - tr.offsetY * scaleY;
 
-        x = handleIntegerPosition(x) + centerX;
-        y = handleIntegerPosition(y) + centerY;
+        x = font.handleIntegerPosition(x) + centerX;
+        y = font.handleIntegerPosition(y) + centerY;
         if ((glyph & OBLIQUE) != 0L) {
             x0 += h * 0.2f;
             x1 -= h * 0.2f;
