@@ -188,7 +188,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 //        text.append("Imagine the possibilities! =D");
 
         final StringBuilder text = new StringBuilder();
-        text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}{SHRINK}[@Medieval]Welcome,{ENDSHRINK}[@]{WAIT} {SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}{VAR=title}{STYLE=;}{STYLE=/}{ENDSPIRAL}!{ENDEASE}{WAIT=0.8}");
+        text.append("{WAIT=1}{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}{SHRINK}[%125][@Medieval]Welcome,[%]{ENDSHRINK}[@] {WAIT}{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}{VAR=title}{STYLE=;}{STYLE=/}{ENDSPIRAL}!{ENDEASE}{WAIT=0.8}");
         text.append("{FAST}\n\n");
         text.append("{RESET}{HANG=0.7}This is a [*][YELLOW][@Sans]simple[WHITE][*] test[@]{ENDHANG} to {SPIN}show you{ENDSPIN}");
         text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {CROWD}how to make dialogues{ENDCROWD} {JUMP}{SLOW}[*][/]fun[/][*] again! {ENDJUMP}{WAIT}{ENDGRADIENT}\n");
@@ -210,14 +210,15 @@ public class TypingLabelTest extends ApplicationAdapter {
 //        Font font = KnownFonts.getGentiumSDF().scaleTo(36, 36).adjustLineHeight(0.8125f);
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{
-                        "Serif", "Sans", "Mono", "Medieval", "Future"
+                        "Serif", "Sans", "Mono", "Medieval", "Future", "Cozette"
                 },
                 new Font[]{
                         KnownFonts.getGentium().scaleTo(32, 35).scale(0.75f, 0.75f),
                         KnownFonts.getOpenSans().scaleTo(23, 35).scale(0.75f, 0.75f).adjustLineHeight(0.85f),
                         KnownFonts.getInconsolata().scaleTo(15, 35).scale(0.75f, 0.75f).adjustLineHeight(0.9375f),
-                        KnownFonts.getKingthingsFoundation().scaleTo(35, 35).scale(0.75f, 0.75f),
-                        KnownFonts.getOxanium().scaleTo(32, 35).scale(0.75f, 0.75f).adjustLineHeight(1.05f)
+                        KnownFonts.getKingthingsFoundation().scaleTo(35, 35).scale(0.75f, 0.75f).adjustLineHeight(0.9f),
+                        KnownFonts.getOxanium().scaleTo(32, 35).scale(0.75f, 0.75f).adjustLineHeight(1.05f),
+                        KnownFonts.getCozette()
                 });
         Font font = family.connected[0].setFamily(family);
         final TypingLabel label = new TypingLabel(text.toString(), font);
