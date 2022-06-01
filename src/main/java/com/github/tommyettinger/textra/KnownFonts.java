@@ -74,8 +74,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.astarry == null)
         {
             try {
-                instance.astarry = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, -1, -2, -2, false)
-                        .scaleTo(9, 9).setCrispness(5f).setName("A Starry (MSDF)");
+                instance.astarry = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, 0, 0, 0, false)
+                        .scaleTo(10, 10).setCrispness(2f).setName("A Starry (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -348,7 +348,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.gentiumSDF == null)
         {
             try {
-                instance.gentiumSDF = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 0f, 5f, 0f, -5f, true)
+                instance.gentiumSDF = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 8f, 0f, 0f, 0f, false)
                         .scaleTo(60, 45).adjustLineHeight(0.8f).setCrispness(1.5f).setName("Gentium (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
