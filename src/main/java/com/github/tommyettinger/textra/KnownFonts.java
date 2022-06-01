@@ -498,8 +498,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 2.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, 1f, 0f, 0f, 0f, true)
-                        .scaleTo(9, 25).adjustLineHeight(0.9f).setTextureFilter().setName("Iosevka");
+                instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, 0f, 0f, 0f, 0f, false)
+                        .scaleTo(20, 24).adjustLineHeight(0.9f).setTextureFilter().setName("Iosevka");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -617,8 +617,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 2.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, 1f, 0f, 0f, 0f, true)
-                        .scaleTo(9, 25).adjustLineHeight(0.9f).setTextureFilter().setName("Iosevka Slab");
+                instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, -5f, 0f, 0f, 0f, false)
+                        .scaleTo(20, 24).adjustLineHeight(0.9f).setTextureFilter().setName("Iosevka Slab");
             } catch (Exception e) {
                 e.printStackTrace();
             }
