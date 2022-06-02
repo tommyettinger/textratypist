@@ -1385,7 +1385,8 @@ public class Font implements Disposable {
 //            y += yAdjust;
             a += widthAdjust;
             h += heightAdjust;
-            minWidth = Math.min(minWidth, a);
+            if(c != 9608) // full block
+                minWidth = Math.min(minWidth, a);
             cellWidth = Math.max(a, cellWidth);
             cellHeight = Math.max(h, cellHeight);
             GlyphRegion gr = new GlyphRegion(parents.get(p), x, y, w, h);
