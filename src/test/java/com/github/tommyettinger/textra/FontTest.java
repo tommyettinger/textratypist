@@ -17,7 +17,7 @@ public class FontTest extends ApplicationAdapter {
 
     Font fnt;
     SpriteBatch batch;
-    Layout layout = new Layout().setTargetWidth(750);
+    Layout layout = new Layout().setTargetWidth(800);
     Array<String> colorNames;
     long startTime;
 
