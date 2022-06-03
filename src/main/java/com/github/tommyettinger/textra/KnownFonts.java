@@ -100,7 +100,7 @@ public final class KnownFonts implements LifecycleListener {
      * other strokes in the font. This does mean that strikethrough starts too far to the left, and extends too far to
      * the right, unfortunately, but its weight matches.
      * <br>
-     * Preview: <a href="https://i.imgur.com/fdWddp8.png">Image link</a> (uses width=33, height=30)
+     * Preview: <a href="https://i.imgur.com/fdWddp8.png">Image link</a> (uses width=33, height=30, adjustLineHeight(1.225f))
      * <br>
      * Needs files:
      * <ul>
@@ -255,7 +255,7 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/J7ppp82.png">Image link</a> (uses width=10, height=20)
+     * Preview: <a href="https://i.imgur.com/vf3aonl.png">Image link</a> (uses width=9, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -286,16 +286,14 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width serif font with excellent Unicode support, that should
-     * scale well from a height of about 132 down to a height of 34. You usually will want to reduce the line height
-     * of this Font after you scale it; using {@code KnownFonts.getGentium().scaleTo(55, 45).adjustLineHeight(0.8f)}
-     * usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
-     * License) typeface by SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It
-     * supports a lot of glyphs, including quite a
-     * bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. This
-     * does not use a distance field effect, as opposed to {@link #getGentiumSDF()}. You may want to stick using just
-     * fonts that avoid distance fields if you have a family of fonts.
+     * scale well from a height of about 132 down to a height of 34. Caches the result for later calls. The font used is
+     * Gentium, an open-source (SIL Open Font License) typeface by SIL (see
+     * <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It supports a lot of glyphs,
+     * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
+     * real languages. This does not use a distance field effect, as opposed to {@link #getGentiumSDF()}. You may want
+     * to stick using just fonts that avoid distance fields if you have a family of fonts.
      * <br>
-     * Preview: <a href="https://i.imgur.com/PWGVxIK.png">Image link</a> (uses width=31, height=35)
+     * Preview: <a href="https://i.imgur.com/CpRJhSy.png">Image link</a> (uses width=31, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -334,7 +332,7 @@ public final class KnownFonts implements LifecycleListener {
      * uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but should be
      * crisp enough when zoomed out.
      * <br>
-     * Preview: <a href="https://i.imgur.com/Ixe9e69.png">Image link</a> (uses width=60, height=45, adjustLineHeight(0.8f))
+     * Preview: <a href="https://i.imgur.com/C8zfNBL.png">Image link</a> (uses width=60, height=45, adjustLineHeight(0.8f))
      * <br>
      * Needs files:
      * <ul>
@@ -376,7 +374,7 @@ public final class KnownFonts implements LifecycleListener {
      * of their signature font throughout the 1980s, but if the legality is concerning, you
      * can use {@link #getCozette()} for a different bitmap font.
      * <br>
-     * Preview: <a href="https://i.imgur.com/dNwh5qu.png">Image link</a> (uses width=8, height=16)
+     * Preview: <a href="https://i.imgur.com/ImC7rjp.png">Image link</a> (uses width=8, height=16)
      * <br>
      * Needs files:
      * <ul>
@@ -407,10 +405,10 @@ public final class KnownFonts implements LifecycleListener {
      * A customized version of Inconsolata LGC, a fixed-width geometric font that supports a large range of Latin,
      * Greek, and Cyrillic glyphs, plus box drawing and some dingbat characters (like zodiac signs). The original font
      * Inconsolata is by Raph Levien, and various other contributors added support for other languages. This does not
-     * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}. You may want to stick using just fonts
-     * that avoid distance fields if you have a family of fonts.
+     * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/rew6udn.png">Image link</a> (uses width=10, height=26)
+     * Preview: <a href="https://i.imgur.com/YvfpMGu.png">Image link</a> (uses width=10, height=26)
      * <br>
      * Needs files:
      * <ul>
