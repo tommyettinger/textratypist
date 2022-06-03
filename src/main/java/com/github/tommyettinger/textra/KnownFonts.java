@@ -443,7 +443,7 @@ public final class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/KDSSHrI.png">Image link</a> (uses width=10, height=26)
+     * Preview: <a href="https://i.imgur.com/fMpSfcA.png">Image link</a> (uses width=10, height=26)
      * <br>
      * Needs files:
      * <ul>
@@ -478,9 +478,11 @@ public final class KnownFonts implements LifecycleListener {
      * <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several customizations
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
      * Greek, and Cyrillic.
+     * This Font is already configured with {@link Font#fitCell(float, float, boolean)}, and repeated calls to fitCell()
+     * have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/b7PsfDS.png">Image link</a> (uses width=9, height=25)
+     * Preview: <a href="https://i.imgur.com/K9maIsC.png">Image link</a> (uses .scaleTo(12, 26).fitCell(10, 26, false).adjustLineHeight(0.9f))
      * <br>
      * Needs files:
      * <ul>
@@ -496,8 +498,6 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.iosevka == null)
         {
             try {
-                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 2.
-                // This might be OK now that this uses the box-drawing underline.
                 instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, -2f, 0f, 0f, 0f, false)
                         .scaleTo(12, 26).fitCell(10, 26, false).adjustLineHeight(0.9f).setTextureFilter().setName("Iosevka");
             } catch (Exception e) {
@@ -516,11 +516,15 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font License) typeface by
      * <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several customizations
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
-     * Greek, and Cyrillic. This uses the Multi-channel Signed Distance
-     * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
-     * sharper edges and precise corners instead of rounded tips on strokes.
+     * Greek, and Cyrillic.
+     * This Font is already configured with {@link Font#fitCell(float, float, boolean)}, and repeated calls to fitCell()
+     * have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
+     * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
+     * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
+     * However, using a distance field makes it effectively impossible to mix fonts using a FontFamily (any variation in
+     * distance field settings would make some fonts in the family blurry and others too sharp).
      * <br>
-     * Preview: <a href="https://i.imgur.com/Pl19IiH.png">Image link</a> (uses width=9, height=25)
+     * Preview: <a href="https://i.imgur.com/5Y1xQxF.png">Image link</a> (uses .scaleTo(12, 25).fitCell(9, 25, false))
      * <br>
      * Needs files:
      * <ul>
@@ -556,11 +560,15 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font License) typeface by
      * <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several customizations
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
-     * Greek, and Cyrillic. This uses the Signed Distance Field (SDF)
-     * technique as opposed to the Multi-channel Signed Distance Field technique that {@link #getIosevkaMSDF()} uses,
-     * which isn't as sharp at large sizes but can look a little better at small sizes.
+     * Greek, and Cyrillic.
+     * This Font is already configured with {@link Font#fitCell(float, float, boolean)}, and repeated calls to fitCell()
+     * have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
+     * This uses the Signed Distance Field (SDF) technique as opposed to the Multi-channel Signed Distance Field
+     * technique that {@link #getIosevkaMSDF()} uses, which isn't as sharp at large sizes but can look a little better
+     * at small sizes. However, using a distance field makes it effectively impossible to mix fonts using a FontFamily
+     * (any variation in distance field settings would make some fonts in the family blurry and others too sharp).
      * <br>
-     * Preview: <a href="https://i.imgur.com/tG4YcFA.png">Image link</a> (uses width=9, height=25)
+     * Preview: <a href="https://i.imgur.com/p9J1bAT.png">Image link</a> (uses .scaleTo(12, 26).fitCell(10, 26, false))
      * <br>
      * Needs files:
      * <ul>
@@ -597,9 +605,11 @@ public final class KnownFonts implements LifecycleListener {
      * License) typeface by <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several
      * customizations thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of
      * extended Latin, Greek, and Cyrillic.
+     * This Font is already configured with {@link Font#fitCell(float, float, boolean)}, and repeated calls to fitCell()
+     * have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/mODOHAC.png">Image link</a> (uses width=9, height=25)
+     * Preview: <a href="https://i.imgur.com/WAap60Y.png">Image link</a> (uses .scaleTo(12, 26).fitCell(10, 26, false).adjustLineHeight(0.9f))
      * <br>
      * Needs files:
      * <ul>
@@ -615,8 +625,6 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.iosevkaSlab == null)
         {
             try {
-                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 2.
-                // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, -2f, 0f, 0f, 0f, false)
                         .scaleTo(12, 26).fitCell(10, 26, false).adjustLineHeight(0.9f).setTextureFilter().setName("Iosevka Slab");
             } catch (Exception e) {
