@@ -1433,7 +1433,7 @@ public class Font implements Disposable {
         if(mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
         }
-        solidBlock = mapping.containsKey(0) ? 0 : mapping.containsKey(0x2588) ? '\u2588' : '\uFFFF';
+        solidBlock = mapping.containsKey(0) ? 0 : mapping.containsKey(9608) ? '\u2588' : '\uFFFF';
         if(makeGridGlyphs){
             GlyphRegion block = mapping.get(solidBlock, null);
             if(block != null) {
@@ -2567,7 +2567,7 @@ public class Font implements Disposable {
                 p0y = -cellHeight * 0.45f - centerY * scale;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y) * 0.6f - sizingY,
-                        (changedW + scaleX * 4f), cellHeight * sizingY * 0.6f, rotation);
+                        (changedW + scaleX * 8f), cellHeight * sizingY * 0.6f, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -2615,7 +2615,7 @@ public class Font implements Disposable {
                 p0y = cellHeight * -0.1f - centerY * scale;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y) * 0.6f + sizingY,
-                        (changedW + scaleX * 3), cellHeight * sizingY * 0.6f, rotation);
+                        (changedW + scaleX * 8f), cellHeight * sizingY * 0.6f, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
