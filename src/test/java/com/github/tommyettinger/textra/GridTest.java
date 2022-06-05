@@ -29,6 +29,7 @@ import com.github.tommyettinger.textra.utils.BlockUtils;
 
 public class GridTest extends ApplicationAdapter {
     Font font;
+    Font[] fonts;
     SpriteBatch batch;
     int[][] backgrounds;
     char[][] lines;
@@ -81,7 +82,13 @@ public class GridTest extends ApplicationAdapter {
         }
 
         batch = new SpriteBatch();
-        font = KnownFonts.getInconsolata();//.scaleTo(16, 32);
+
+        fonts = KnownFonts.getAll();
+        for(Font f : fonts)
+            f.scaleTo(25f * f.cellWidth / f.cellHeight, 25).fitCell(25, 25, true);
+//        font = fonts[0];
+
+//        font = KnownFonts.getInconsolata();//.scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
 //        font = KnownFonts.getIosevka();
 //        font = KnownFonts.getIosevkaSlab().scale(0.75f, 0.75f);
@@ -93,10 +100,11 @@ public class GridTest extends ApplicationAdapter {
 //        font = KnownFonts.getGentium().scaleTo(48, 48);
 //        font = KnownFonts.getLibertinusSerif();
 //        font = KnownFonts.getKingthingsFoundation().scaleTo(45, 60);
-//        font = KnownFonts.getOxanium().scaleTo(40, 50);
+        font = KnownFonts.getOxanium();
 //        font = KnownFonts.getYanoneKaffeesatz().scaleTo(45, 60);
 //        font = KnownFonts.getCanada().scaleTo(40, 58);
 //        font = KnownFonts.getRobotoCondensed().scaleTo(37, 53);
+//        font = KnownFonts.getIBM8x16();
 
 //        font.fitCell(font.cellWidth, font.cellHeight, true);
 //        font.fitCell(font.cellHeight, font.cellHeight, true);
@@ -156,7 +164,8 @@ public class GridTest extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.9f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        float x = 0, y = layout.getHeight() ;
+        float x = 0, y = layout.getHeight();
+//        font = fonts[(int) (System.currentTimeMillis() >>> 10 & 0x7FFFFFFF) % fonts.length];
         batch.begin();
         font.enableShader(batch);
 
@@ -180,6 +189,7 @@ public class GridTest extends ApplicationAdapter {
 //0f, y, Align.left
                 PIXEL_WIDTH * 0.5f, y, Align.center
         );
+        font.drawGlyph(batch, Font.markupGlyph(font.solidBlock, "[RED]", ColorLookup.GdxColorLookup.INSTANCE), 0, Gdx.graphics.getHeight() - font.cellHeight);
         batch.end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
