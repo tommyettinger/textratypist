@@ -348,7 +348,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.gentiumSDF == null)
         {
             try {
-                instance.gentiumSDF = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 8f, 0f, 0f, 0f, false)
+                instance.gentiumSDF = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 8f, 0f, 0f, 0f, true)
                         .scaleTo(60, 45).adjustLineHeight(0.8f).setCrispness(1.5f).setName("Gentium (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -859,7 +859,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.oxanium == null)
         {
             try {
-                instance.oxanium = new Font("Oxanium-standard.fnt", STANDARD, 0, -12, -4, 0, false)
+                instance.oxanium = new Font("Oxanium-standard.fnt", STANDARD, -12, -12, -4, 0, true)
                         .scaleTo(31, 35).setTextureFilter().setName("Oxanium");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -996,6 +996,8 @@ public final class KnownFonts implements LifecycleListener {
      *     <li>Future</li>
      * </ul>
      * You can also always use the full name of one of these fonts, which can be obtained using {@link Font#getName()}.
+     * This will only function at all if all the assets (for every known standard Font) are present and load-able.
+     *
      * @return a Font that can switch between 13 different Fonts in its FontFamily, to any non-distance-field Font this knows
      */
     public static Font getStandardFamily(){

@@ -1371,6 +1371,8 @@ public class Font implements Disposable {
         mapping = new IntMap<>(size);
         int minWidth = Integer.MAX_VALUE;
         for (int i = 0; i < size; i++) {
+            if(idx == fnt.length())
+                break;
             int c = intFromDec(fnt, idx, idx = indexAfter(fnt, " x=", idx));
             int x = intFromDec(fnt, idx, idx = indexAfter(fnt, " y=", idx));
             int y = intFromDec(fnt, idx, idx = indexAfter(fnt, " width=", idx));
@@ -1493,7 +1495,7 @@ public class Font implements Disposable {
             for (int x = 0; x < columns; x++, c++) {
                 GlyphRegion gr = new GlyphRegion(parent, x * ((int)cellWidth + padding) + padding, y * ((int)cellHeight + padding) + padding, (int)cellWidth, (int)cellHeight);
                 gr.offsetX = 0;
-                gr.offsetY = (int)cellHeight >> 2;
+                gr.offsetY = 0;
                 if (c == 10) {
                     gr.xAdvance = 0;
                 } else {
@@ -1508,6 +1510,16 @@ public class Font implements Disposable {
             }
         }
         solidBlock = (char) fnt.getInt("SolidGlyphIndex");
+//        GlyphRegion block = mapping.get(solidBlock, null);
+//        if(block != null) {
+//            for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
+//                GlyphRegion gr = new GlyphRegion(block);
+//                gr.offsetX = Float.NaN;
+//                gr.xAdvance = cellWidth;
+//                gr.offsetY = cellHeight;
+//                mapping.put(i, gr);
+//            }
+//        }
         // Newlines shouldn't render.
         if(mapping.containsKey('\n')){
             GlyphRegion gr = mapping.get('\n');
