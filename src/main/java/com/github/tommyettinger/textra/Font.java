@@ -1815,16 +1815,19 @@ public class Font implements Disposable {
         final TextureRegion block = mapping.get(blockChar);
         if(block == null) return;
         final Texture parent = block.getTexture();
-        final float ipw = 1f / parent.getWidth();
-        final float iph = 1f / parent.getHeight();
+        final float ipw = 1.0f / parent.getWidth();
+        final float iph = 1.0f / parent.getHeight();
         final float u = block.getU(),
                 v = block.getV(),
                 u2 = block.getU() + ipw,
-                v2 = block.getV() - iph;
+                v2 = block.getV() + iph;
 //        final float u = block.getU() + (block.getU2() - block.getU()) * 0.25f,
 //                v = block.getV() + (block.getV2() - block.getV()) * 0.25f,
 //                u2 = block.getU2() - (block.getU2() - block.getU()) * 0.25f,
 //                v2 = block.getV2() - (block.getV2() - block.getV()) * 0.25f;
+
+        x += 0x1p-8f; // not sure exactly why this is needed, but bad line artifacts show up otherwise...
+        y += 0x1p-8f;
         vertices[0] = x;
         vertices[1] = y;
         //vertices[2] = color;
@@ -2578,7 +2581,7 @@ public class Font implements Disposable {
                             hu = under.getRegionHeight() * scaleY,
                             yu = font.cellHeight * scale - hu - under.offsetY * scaleY - centerY * scale;
                     xc = under.offsetX * scaleX - centerX * scale;
-                    x0 = scaleX * under.offsetX + scale;
+                    x0 = -scaleX * under.offsetX + scale;
                     vertices[2] = color;
                     vertices[3] = underU;
                     vertices[4] = underV;
@@ -2626,7 +2629,7 @@ public class Font implements Disposable {
                             hd = dash.getRegionHeight() * scaleY,
                             yd = font.cellHeight * scale - hd - dash.offsetY * scaleY - centerY * scale;
                     xc = dash.offsetX * scaleX - centerX * scale;
-                    x0 = scaleX * dash.offsetX + scale;
+                    x0 = -scaleX * dash.offsetX + scale;
                     vertices[2] = color;
                     vertices[3] = dashU;
                     vertices[4] = dashV;
