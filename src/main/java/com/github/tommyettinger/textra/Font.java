@@ -1435,7 +1435,9 @@ public class Font implements Disposable {
         if(mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
         }
-        solidBlock = mapping.containsKey(0) ? 0 : mapping.containsKey(9608) ? '\u2588' : '\uFFFF';
+        solidBlock =
+//                mapping.containsKey(0) ? 0 :
+                        mapping.containsKey(9608) ? '\u2588' : '\uFFFF';
         if(makeGridGlyphs){
             GlyphRegion block = mapping.get(solidBlock, null);
             if(block != null) {
