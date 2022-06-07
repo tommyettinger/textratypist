@@ -103,9 +103,9 @@ public class GridTest extends ApplicationAdapter {
 //        font = KnownFonts.getOxanium();
 //        font = KnownFonts.getYanoneKaffeesatz().scaleTo(45, 60);
 //        font = KnownFonts.getCanada().scaleTo(40, 58);
-//        font = KnownFonts.getRobotoCondensed().scaleTo(37, 53);
+//        font = KnownFonts.getRobotoCondensed();
 //        font = KnownFonts.getIBM8x16();
-        font = KnownFonts.getOpenSans();
+//        font = KnownFonts.getOpenSans();
 
 //        font.fitCell(font.cellWidth, font.cellHeight, true);
 //        font.fitCell(font.cellHeight, font.cellHeight, true);
@@ -167,7 +167,7 @@ public class GridTest extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float x = 0, y = layout.getHeight();
         long since = TimeUtils.timeSinceMillis(startTime);
-//        font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];
+        font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];
         batch.begin();
         font.enableShader(batch);
 
@@ -192,7 +192,7 @@ public class GridTest extends ApplicationAdapter {
         );
         font.drawGlyph(batch, Font.markupGlyph(font.solidBlock, "[RED]", ColorLookup.GdxColorLookup.INSTANCE), 0, Gdx.graphics.getHeight() - font.cellHeight);
         batch.end();
-        Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
+        Gdx.graphics.setTitle(font.name + " at " + Gdx.graphics.getFramesPerSecond() + " FPS");
     }
 
     @Override

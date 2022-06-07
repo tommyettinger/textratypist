@@ -896,7 +896,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.robotoCondensed == null)
         {
             try {
-                instance.robotoCondensed = new Font("RobotoCondensed-standard.fnt", STANDARD, 0, 12, 0, 0, false)
+                instance.robotoCondensed = new Font("RobotoCondensed-standard.fnt", STANDARD, -8, 4, 0, 0, true)
                         .scaleTo(25, 30).setTextureFilter().setName("Roboto Condensed");
             } catch (Exception e) {
                 e.printStackTrace();
