@@ -86,7 +86,7 @@ public class GridTest extends ApplicationAdapter {
         fonts = KnownFonts.getAll();
         for(Font f : fonts)
             f.scaleTo(25f * f.cellWidth / f.cellHeight, 25).fitCell(25, 25, true);
-//        font = fonts[0];
+        font = fonts[0];
 
 //        font = KnownFonts.getInconsolata();//.scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
@@ -100,11 +100,12 @@ public class GridTest extends ApplicationAdapter {
 //        font = KnownFonts.getGentium().scaleTo(48, 48);
 //        font = KnownFonts.getLibertinusSerif();
 //        font = KnownFonts.getKingthingsFoundation().scaleTo(45, 60);
-        font = KnownFonts.getOxanium();
+//        font = KnownFonts.getOxanium();
 //        font = KnownFonts.getYanoneKaffeesatz().scaleTo(45, 60);
 //        font = KnownFonts.getCanada().scaleTo(40, 58);
 //        font = KnownFonts.getRobotoCondensed().scaleTo(37, 53);
 //        font = KnownFonts.getIBM8x16();
+        font = KnownFonts.getOpenSans();
 
 //        font.fitCell(font.cellWidth, font.cellHeight, true);
 //        font.fitCell(font.cellHeight, font.cellHeight, true);
@@ -165,7 +166,8 @@ public class GridTest extends ApplicationAdapter {
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.9f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float x = 0, y = layout.getHeight();
-//        font = fonts[(int) (System.currentTimeMillis() >>> 10 & 0x7FFFFFFF) % fonts.length];
+        long since = TimeUtils.timeSinceMillis(startTime);
+//        font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];
         batch.begin();
         font.enableShader(batch);
 
@@ -184,7 +186,6 @@ public class GridTest extends ApplicationAdapter {
 //        for (int i = 0, n = glyphs[0].size(); i < n; i++) {
 //            glyphs[0].set(i, glyphs[0].get(i) & 0xFFFFFFFFL | color);
 //        }
-        long since = TimeUtils.timeSinceMillis(startTime);
         font.drawGlyphs(batch, layout,
 //0f, y, Align.left
                 PIXEL_WIDTH * 0.5f, y, Align.center
