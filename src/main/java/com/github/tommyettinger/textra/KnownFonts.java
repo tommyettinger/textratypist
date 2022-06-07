@@ -823,8 +823,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.openSans == null)
         {
             try {
-                instance.openSans = new Font("OpenSans-standard.fnt", "OpenSans-standard.png", STANDARD, 2, -4, 0, 4, true)
-                        .scaleTo(20, 28).adjustLineHeight(0.65f).setTextureFilter().setName("OpenSans");
+                instance.openSans = new Font("OpenSans-standard.fnt", "OpenSans-standard.png", STANDARD, -4, 0, 0, 0, true)
+                        .scaleTo(20, 28).adjustLineHeight(0.8f).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
             }
