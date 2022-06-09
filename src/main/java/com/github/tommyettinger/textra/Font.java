@@ -442,6 +442,7 @@ public class Font implements Disposable {
      */
     private final CharArray breakChars = CharArray.with(
             '\t',    // horizontal tab
+            '\r',    // carriage return (used like a space)
             ' ',     // space
             '-',     // ASCII hyphen-minus
             '\u00AD',// soft hyphen
@@ -469,6 +470,7 @@ public class Font implements Disposable {
      */
     private final CharArray spaceChars = CharArray.with(
             '\t',    // horizontal tab
+            '\r',    // carriage return (used like a space)
             ' ',     // space
             '\u2000',// Unicode space
             '\u2001',// Unicode space
