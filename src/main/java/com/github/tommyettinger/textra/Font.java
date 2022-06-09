@@ -1431,6 +1431,7 @@ public class Font implements Disposable {
             GlyphRegion gr = mapping.get('\n');
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
+            gr.xAdvance = 0;
         }
         if(mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
@@ -1527,6 +1528,7 @@ public class Font implements Disposable {
             GlyphRegion gr = mapping.get('\n');
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
+            gr.xAdvance = 0;
         }
         if(mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
