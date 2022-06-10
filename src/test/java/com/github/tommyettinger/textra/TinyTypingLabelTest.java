@@ -142,10 +142,11 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                "[#8fc60cff][@OpenSans][%75]{spin}Lorem ipsum dolor sit amet, consectetur adipiscing elit.[]",
 
                 "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
-                "she's {WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
+                "she's{WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
                 "whippin' her way through the [*]{FONT=Sans}whole dang[@][*] town! " +
-                "Sure as [/]I reckon[], if we [@Mono]meet our {HANG}fate{RESET}, " +
-                "this [%150]storm[%] will be there on clouds {SPIN=2;1;false}[%75]one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%200]eight[%]{ENDSPIN}!",
+                "Sure as [/]I reckon[], if we [@Mono]meet our{HANG} fate{RESET}, " +
+                "this [%150]storm[%] will be there on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%200]eight[%]{ENDSPIN}!\n" +
+                "{SCALE=80.0}Uh-huh.{ENDSCALE}",
 
 //                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
 //                "she's {WIND=3;2;0.2;0.2}blowin' on down{ENDWIND}, " +

@@ -310,7 +310,7 @@ class Parser {
     static float stringToFloat(String str, float defaultValue) {
         if(str != null) {
             try {
-                return Float.parseFloat(str);
+                return Float.parseFloat(str.replaceAll("[^\\d.\\-+]", ""));
             } catch(Exception e) {
             }
         }
