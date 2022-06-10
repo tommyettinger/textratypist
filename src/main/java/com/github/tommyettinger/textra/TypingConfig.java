@@ -127,6 +127,7 @@ public class TypingConfig {
         registerEffect("HEARTBEAT", "ENDHEARTBEAT", HeartbeatEffect.class);
         registerEffect("CAROUSEL", "ENDCAROUSEL", CarouselEffect.class);
         registerEffect("SQUASH", "ENDSQUASH", SquashEffect.class);
+        registerEffect("SCALE", "ENDSCALE", ScaleEffect.class);
     }
 
 }

@@ -46,10 +46,9 @@ import java.util.Arrays;
  * standard, SDF, and MSDF fonts, but you call {@link #enableShader(Batch)} before rendering with SDF or MSDF fonts, and
  * can switch back to a normal SpriteBatch shader with {@code batch.setShader(null);}. The {@link TextraLabel} and
  * {@link TypingLabel} classes handle the calls to enableShader() for you. You don't have to use SDF or MSDF
- * fonts, but they can scale more cleanly. You can generate SDF fonts with
- * Hiero or [a related
- * tool](https://github.com/libgdx/libgdx/wiki/Distance-field-fonts#using-distance-fields-for-arbitrary-images) that is
- * part of libGDX; MSDF fonts are harder to generate, but possible using a tool like
+ * fonts, but they can scale more cleanly. You can generate SDF fonts with Hiero or
+ * <a href="https://github.com/libgdx/libgdx/wiki/Distance-field-fonts#using-distance-fields-for-arbitrary-images">a related tool</a>
+ * that is part of libGDX; MSDF fonts are harder to generate, but possible using a tool like
  * <a href="https://github.com/tommyettinger/Glamer">Glamer</a>. Note that SDF and non-distance-field fonts can be
  * created with kerning information, but currently MSDF fonts cannot, making MSDF a better choice for monospace fonts
  * than variable-width ones.
@@ -65,6 +64,9 @@ import java.util.Arrays;
  * single curly braces is not rendered here, though it may be interpreted by TypingLabel if you use a Layout this
  * produces there. You should escape both square brackets with <code>[[</code> and curly braces with <code>{{</code> if
  * you intend them to appear.
+ * <br>
+ * There are some features here that cannot be used purely from markup, such as per-character rotation and smooth
+ * scaling, but these can be used by TypingLabel and its Effect assortment.
  *
  * @see #markup(String, Layout) The markup() method's documentation covers all the markup tags.
  */
