@@ -2601,7 +2601,7 @@ public class Font implements Disposable {
                             hu = under.getRegionHeight() * scaleY,
                             yu = font.cellHeight * scale - hu - under.offsetY * scaleY - centerY * scale;
                     xc = under.offsetX * scaleX - centerX * scale;
-                    x0 = -scaleX * under.offsetX + scale;
+                    x0 = -scaleX * under.offsetX - scale;
                     vertices[2] = color;
                     vertices[3] = underU;
                     vertices[4] = underV;
@@ -2649,7 +2649,7 @@ public class Font implements Disposable {
                             hd = dash.getRegionHeight() * scaleY,
                             yd = font.cellHeight * scale - hd - dash.offsetY * scaleY - centerY * scale;
                     xc = dash.offsetX * scaleX - centerX * scale;
-                    x0 = -scaleX * dash.offsetX + scale;
+                    x0 = -scaleX * dash.offsetX - scale;
                     vertices[2] = color;
                     vertices[3] = dashU;
                     vertices[4] = dashV;
