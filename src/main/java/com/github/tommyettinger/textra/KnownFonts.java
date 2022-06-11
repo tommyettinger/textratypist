@@ -348,8 +348,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.gentiumSDF == null)
         {
             try {
-                instance.gentiumSDF = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 8f, 0f, 0f, 0f, true)
-                        .scaleTo(60, 45).adjustLineHeight(0.8f).setCrispness(1.5f).setName("Gentium (SDF)");
+                instance.gentiumSDF = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 4f, 6f, 0f, 0f, true)
+                        .scaleTo(50, 45).adjustLineHeight(0.8f).setCrispness(1.5f).setName("Gentium (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -586,7 +586,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevkaSDF = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", SDF, 0f, 0f, -2f, 0f, true)
+                instance.iosevkaSDF = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", SDF, 2f, 0f, -2f, 0f, true)
                         .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 26, false).setName("Iosevka (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -710,7 +710,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevkaSlabSDF = new Font("Iosevka-Slab-sdf.fnt", "Iosevka-Slab-sdf.png", SDF, 0f, 0f, -2f, 0f, true)
+                instance.iosevkaSlabSDF = new Font("Iosevka-Slab-sdf.fnt", "Iosevka-Slab-sdf.png", SDF, 2f, 0f, -2f, 0f, true)
                         .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 26, false).setName("Iosevka Slab (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -823,7 +823,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.openSans == null)
         {
             try {
-                instance.openSans = new Font("OpenSans-standard.fnt", "OpenSans-standard.png", STANDARD, -4, 0, 0, 0, true)
+                instance.openSans = new Font("OpenSans-standard.fnt", "OpenSans-standard.png", STANDARD, 4, 0, 0, 0, true)
                         .scaleTo(20, 28).adjustLineHeight(0.8f).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
