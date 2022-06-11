@@ -859,7 +859,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.oxanium == null)
         {
             try {
-                instance.oxanium = new Font("Oxanium-standard.fnt", STANDARD, -12, -12, -4, 0, true)
+                instance.oxanium = new Font("Oxanium-standard.fnt", STANDARD, 0, -8, -4, 0, true)
                         .scaleTo(31, 35).setTextureFilter().setName("Oxanium");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -896,8 +896,8 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.robotoCondensed == null)
         {
             try {
-                instance.robotoCondensed = new Font("RobotoCondensed-standard.fnt", STANDARD, -8, 4, 0, 0, true)
-                        .scaleTo(25, 30).setTextureFilter().setName("Roboto Condensed");
+                instance.robotoCondensed = new Font("RobotoCondensed-standard.fnt", STANDARD, 0, 4, 0, 0, true)
+                        .scaleTo(25, 30).adjustLineHeight(0.9f).setTextureFilter().setName("Roboto Condensed");
             } catch (Exception e) {
                 e.printStackTrace();
             }

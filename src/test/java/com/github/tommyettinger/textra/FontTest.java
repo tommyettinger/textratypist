@@ -29,6 +29,7 @@ public class FontTest extends ApplicationAdapter {
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
         config.enableGLDebugOutput(true, System.out);
+        config.setForegroundFPS(1);
         config.useVsync(true);
         new Lwjgl3Application(new FontTest(), config);
     }

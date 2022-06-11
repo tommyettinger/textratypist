@@ -146,7 +146,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 "whippin' her way through the [*]{FONT=Sans}whole dang[@][*] town! " +
                 "Sure as [/]I reckon[], if we [@Mono]meet our{HANG} fate{RESET}, " +
                 "this [%150]storm[%] will be there on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%200]eight[%]{ENDSPIN}!\n" +
-                "{SCALE=60.0}Uh-huh.{ENDSCALE}{SCALE=120.0} All right.{ENDSCALE}",
+                "{SCALE=60.0}Uh-[_]huh[_].{ENDSCALE}{SCALE=120.0} All [~]right[~].{ENDSCALE}",
 
 //                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
 //                "she's {WIND=3;2;0.2;0.2}blowin' on down{ENDWIND}, " +
