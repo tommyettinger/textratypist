@@ -706,10 +706,6 @@ public class TypingLabel extends TextraLabel {
             Drawable background = style.background;
             batch.setColor(getColor());
             background.draw(batch, getX(), getY(), getWidth(), getHeight());
-//            baseX += background.getLeftWidth();
-//            baseY += background.getBottomHeight();
-//
-//
             if((align & Align.left) != 0) baseX += background.getLeftWidth();
             else if((align & Align.right) != 0) baseX -= background.getRightWidth();
             else baseX += (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
@@ -722,8 +718,13 @@ public class TypingLabel extends TextraLabel {
         else if (Align.isCenterVertical(align))
             baseY += workingLayout.getHeight() * 0.5f;
         baseY += workingLayout.lines.first().height * 0.25f;
+        final float rot = getRotation();
+        final float sn = MathUtils.sinDeg(rot);
+        final float cs = MathUtils.cosDeg(rot);
+
         int o = 0, s = 0, r = 0, gi = 0;
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
+        float centerX = font.cellWidth * 0.5f, centerY = font.cellHeight * 0.5f;
         if(resetShader)
             font.enableShader(batch);
         EACH_LINE:
@@ -731,11 +732,21 @@ public class TypingLabel extends TextraLabel {
             Line glyphs = workingLayout.getLine(ln);
             baseY -= glyphs.height;
             float x = baseX, y = baseY, drawn = 0;
+            x += centerX;
+            y += centerY;
+            float single, xChange = -centerX, yChange = -centerY;
 
-            if(Align.isCenterHorizontal(align))
-                x -= glyphs.width * 0.5f;
-            else if(Align.isRight(align))
-                x -= glyphs.width;
+            if (Align.isCenterHorizontal(align))
+            {
+                x -= cs * (glyphs.width * 0.5f);
+                y -= sn * (glyphs.width * 0.5f);
+            }
+            else if (Align.isRight(align))
+            {
+                x -= cs * glyphs.width;
+                y -= sn * glyphs.width;
+            }
+
             if(font.kerning != null) {
                 int kern = -1, lim = Math.min(Math.min(rotations.size, offsets.size >> 1), sizing.size >> 1);
                 float amt;
@@ -743,9 +754,12 @@ public class TypingLabel extends TextraLabel {
                 for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex; i < n && r < lim; i++, gi++) {
                     if(gi > end) break EACH_LINE;
                     kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
-                    amt = font.kerning.get(kern, 0) * font.scaleX;
-                    float single = font.drawGlyph(batch, glyph, x + amt + offsets.get(o++), y + offsets.get(o++), rotations.get(r++), sizing.get(s++), sizing.get(s++)) + amt;
-                    x += single;
+                    amt = font.kerning.get(kern, 0) * font.scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+                    xChange += cs * amt;
+                    yChange += sn * amt;
+                    single = font.drawGlyph(batch, glyph, x + xChange + offsets.get(o++), y + yChange + offsets.get(o++), rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++));
+                    xChange += cs * single;
+                    yChange += sn * single;
                     drawn += single;
                 }
             }
@@ -754,8 +768,9 @@ public class TypingLabel extends TextraLabel {
                      lim = Math.min(Math.min(rotations.size, offsets.size >> 1), sizing.size >> 1);
                      i < n && r < lim; i++, gi++) {
                     if(gi > end) break EACH_LINE;
-                    float single = font.drawGlyph(batch, glyphs.glyphs.get(i), x + offsets.get(o++), y + offsets.get(o++), rotations.get(r++), sizing.get(s++), sizing.get(s++));
-                    x += single;
+                    single = font.drawGlyph(batch, glyphs.glyphs.get(i), x + xChange + offsets.get(o++), y + yChange + offsets.get(o++), rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++));
+                    xChange += cs * single;
+                    yChange += sn * single;
                     drawn += single;
                 }
             }

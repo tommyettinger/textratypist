@@ -149,12 +149,13 @@ public class GridTest extends ApplicationAdapter {
                         + "\nPchnąć[] w tę łódź [#775522]jeża[] lub ośm skrzyń [#CC00CC]fig[]."
                 , layout);
 
-        marquee = new TypingLabel("{ROTATE=90}EAT AT JOE'S", font);
+        marquee = new TypingLabel("{BLINK}{ROTATE=90}EAT AT JOE'S", font);
         marquee.wrap = false;
         marquee.parseTokens();
         marquee.setWidth(Gdx.graphics.getWidth());
         marquee.setPosition(32, 400);
         marquee.skipToTheEnd();
+        marquee.setRotation(-90f);
 //        font.markup("\"You are ever more the [/]fool[/] than the pitiable cutpurse who [*]dares waylay[*] my castle road!\" the [dark rich gold]King[] admonished."
 //                +" \"Forsooth! Had [_]I[_] my right mind, I would have [dark red]both of [_]your heads[] by morning. But alas, I am stricken with" +
 //                " unreasonable mercy for your [~]wretched[~] souls. To [darker grey][*]the Trappists[] ye shall go; I am in need of" +
