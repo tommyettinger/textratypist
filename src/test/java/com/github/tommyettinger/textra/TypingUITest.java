@@ -118,7 +118,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
 		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin);
-		fpsLabel.setAlignment(Align.topLeft);
+		fpsLabel.setAlignment(Align.center);
 		// configures an example of a TextField in password mode.
 		final TypingLabel passwordLabel = new TypingLabel("Textfield in [~]secure[] password mode: ", skin, font);
 		final TextField passwordTextField = new TextField("", skin);
@@ -206,6 +206,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		for (; i < 5; i++) {
 			fpsLabel.setInWorkingLayout(5+i, 0L);
 		}
+		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
