@@ -202,6 +202,8 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[citation needed]");
+		// note, this does nothing here! it is present to contrast with other types of label.
+		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime());
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
