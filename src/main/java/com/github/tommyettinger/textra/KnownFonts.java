@@ -731,7 +731,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/O3rWqnq.png">Image link</a> (uses width=25, height=30)
+     * Preview: <a href="https://i.imgur.com/O3rWqnq.png">Image link</a> (uses width=23, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -807,7 +807,7 @@ public final class KnownFonts implements LifecycleListener {
      * scaled down nicely.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/wHCTmIU.png">Image link</a> (uses width=20, height=28, adjustLineHeight(0.65f))
+     * Preview: <a href="https://i.imgur.com/wHCTmIU.png">Image link</a> (uses width=20, height=28, adjustLineHeight(0.8f))
      * <br>
      * Needs files:
      * <ul>
