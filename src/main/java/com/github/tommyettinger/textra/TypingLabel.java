@@ -64,7 +64,7 @@ public class TypingLabel extends TextraLabel {
      */
     public final    FloatArray       sizing                = new FloatArray();
     /**
-     * Contains one float per glyph; each is a rotation to apply to that glyph (around its center).
+     * Contains one float per glyph; each is a rotation in degrees to apply to that glyph (around its center).
      */
     public final    FloatArray       rotations             = new FloatArray();
     protected final Array<Effect>    activeEffects         = new Array<Effect>();

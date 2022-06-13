@@ -128,6 +128,7 @@ public class TypingConfig {
         registerEffect("CAROUSEL", "ENDCAROUSEL", CarouselEffect.class);
         registerEffect("SQUASH", "ENDSQUASH", SquashEffect.class);
         registerEffect("SCALE", "ENDSCALE", ScaleEffect.class);
+        registerEffect("ROTATE", "ENDROTATE", RotateEffect.class);
     }
 
 }
