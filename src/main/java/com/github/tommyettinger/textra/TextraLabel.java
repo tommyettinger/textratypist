@@ -19,14 +19,16 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.Align;
 
-import static com.badlogic.gdx.utils.Align.bottom;
-import static com.badlogic.gdx.utils.Align.top;
+import static com.badlogic.gdx.utils.Align.*;
+import static com.badlogic.gdx.utils.Align.left;
 
 /**
  * A scene2d.ui Widget that displays text using a {@link Font} rather than a libGDX BitmapFont. This supports being
@@ -184,32 +186,82 @@ public class TextraLabel extends Widget {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        float baseX = 0, baseY = 0;
+        float baseX = getX(), baseY = getY();
+        float sn = MathUtils.sinDeg(getRotation());
+        float cs = MathUtils.cosDeg(getRotation());
+        float height = layout.getHeight();
+        if (Align.isBottom(align)) {
+            baseX -= sn * height;
+            baseY += cs * height;
+        }
+        else if (Align.isCenterVertical(align)) {
+            baseX -= sn * height * 0.5f;
+            baseY += cs * height * 0.5f;
+        }
 
         if (style != null && style.background != null) {
             Drawable background = style.background;
             batch.setColor(getColor());
-            background.draw(batch, getX(), getY(), getWidth(), getHeight());
-//            baseX = background.getLeftWidth();
-//            baseY = background.getBottomHeight();
-            if((align & Align.left) != 0) baseX += background.getLeftWidth();
-            else if((align & Align.right) != 0) baseX -= background.getRightWidth();
-            else baseX += (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
-            if((align & bottom) != 0) baseY += background.getBottomHeight();
-            else if((align & top) != 0) baseY -= background.getTopHeight();
-            else baseY += background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f;
+            if((align & Align.left) != 0) {
+                baseX += cs * background.getLeftWidth();
+                baseY += sn * background.getLeftWidth();
+            }
+            else if((align & Align.right) != 0) {
+                baseX -= cs * background.getRightWidth();
+                baseY -= sn * background.getRightWidth();
+            }
+            else {
+                baseX += cs * (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
+                baseY += sn * (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
+            }
+            if((align & bottom) != 0) {
+                baseX -= sn * background.getBottomHeight();
+                baseY += cs * background.getBottomHeight();
+            }
+            else if((align & top) != 0) {
+                baseX += sn * background.getTopHeight();
+                baseY -= cs * background.getTopHeight();
+            }
+            else {
+                baseX -= sn * (background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f);
+                baseY += cs * (background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f);
+            }
+            ((TransformDrawable)background).draw(batch, getX(), getY(), baseX, baseY,
+//                    (Align.isLeft(align) ? 0f : Align.isRight(align) ? getWidth() : getWidth() * 0.5f),
+//                    (Align.isBottom(align) ? 0f : Align.isTop(align) ? getHeight() : getHeight() * 0.5f),
+                    getWidth(), getHeight(), 1f, 1f, getRotation());
         }
         if(layout.lines.isEmpty()) return;
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if(resetShader)
             font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
-        if (Align.isBottom(align))
-            baseY += layout.getHeight();
-        else if (Align.isCenterVertical(align))
-            baseY += layout.getHeight() * 0.5f;
-        baseY += layout.lines.first().height * 0.25f;
-        font.drawGlyphs(batch, layout, baseX + getX(align), baseY + getY(align), align, getRotation());
+
+        baseX -= sn * layout.lines.first().height * 0.25f;
+        baseY += cs * layout.lines.first().height * 0.25f;
+
+        float width = getWidth();
+        height = getHeight();
+        if ((align & right) != 0)
+        {
+            baseX += cs * width;
+            baseY += sn * width;
+        }
+        else if ((align & left) == 0) {
+            baseX += cs * width * 0.5f;
+            baseY += sn * width * 0.5f;
+        }
+
+        if ((align & top) != 0)
+        {
+            baseX -= sn * height;
+            baseY += cs * height;
+        }
+        else if ((align & bottom) == 0) {
+            baseX -= sn * height * 0.5f;
+            baseY += cs * height * 0.5f;
+        }
+        font.drawGlyphs(batch, layout, baseX, baseY, align, getRotation());
         if(resetShader)
             batch.setShader(null);
     }
