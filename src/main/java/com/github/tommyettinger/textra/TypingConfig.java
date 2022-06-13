@@ -130,5 +130,4 @@ public class TypingConfig {
         registerEffect("SCALE", "ENDSCALE", ScaleEffect.class);
         registerEffect("ROTATE", "ENDROTATE", RotateEffect.class);
     }
-
 }
