@@ -34,6 +34,7 @@ public class GridTest extends ApplicationAdapter {
     int[][] backgrounds;
     char[][] lines;
     Layout layout;
+    TypingLabel marquee;
     long startTime;
     RandomXS128 random;
 
@@ -148,6 +149,12 @@ public class GridTest extends ApplicationAdapter {
                         + "\nPchnąć[] w tę łódź [#775522]jeża[] lub ośm skrzyń [#CC00CC]fig[]."
                 , layout);
 
+        marquee = new TypingLabel("{ROTATE=90}EAT AT JOE'S", font);
+        marquee.wrap = false;
+        marquee.parseTokens();
+        marquee.setWidth(Gdx.graphics.getWidth());
+        marquee.setPosition(32, 400);
+        marquee.skipToTheEnd();
 //        font.markup("\"You are ever more the [/]fool[/] than the pitiable cutpurse who [*]dares waylay[*] my castle road!\" the [dark rich gold]King[] admonished."
 //                +" \"Forsooth! Had [_]I[_] my right mind, I would have [dark red]both of [_]your heads[] by morning. But alas, I am stricken with" +
 //                " unreasonable mercy for your [~]wretched[~] souls. To [darker grey][*]the Trappists[] ye shall go; I am in need of" +
@@ -168,6 +175,7 @@ public class GridTest extends ApplicationAdapter {
         float x = 0, y = layout.getHeight();
         long since = TimeUtils.timeSinceMillis(startTime);
         font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];
+        marquee.act(Gdx.graphics.getDeltaTime());
         batch.begin();
         font.enableShader(batch);
 
@@ -191,6 +199,7 @@ public class GridTest extends ApplicationAdapter {
                 PIXEL_WIDTH * 0.5f, y, Align.center
         );
         font.drawGlyph(batch, Font.markupGlyph(font.solidBlock, "[RED]", ColorLookup.GdxColorLookup.INSTANCE), 0, Gdx.graphics.getHeight() - font.cellHeight);
+        marquee.draw(batch, 1f);
         batch.end();
         Gdx.graphics.setTitle(font.name + " at " + Gdx.graphics.getFramesPerSecond() + " FPS");
     }
