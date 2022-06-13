@@ -69,7 +69,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
-		stage.setDebugAll(true);
+//		stage.setDebugAll(true);
 
 		ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
@@ -203,6 +203,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		for (; i < 5; i++) {
 			fpsLabel.setInWorkingLayout(5+i, 0L);
 		}
+		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE))

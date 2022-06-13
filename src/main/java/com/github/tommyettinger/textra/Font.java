@@ -2175,9 +2175,9 @@ public class Font implements Disposable {
     public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align, float rotation) {
         if (glyphs == null) return 0;
         float drawn = 0f, cs = MathUtils.cosDeg(rotation), sn = MathUtils.sinDeg(rotation);
-        float centerX = cellWidth * 0.5f, centerY = cellHeight * 0.5f;
-        x += centerX;
-        y += centerY;
+//        float centerX = cellWidth * 0.5f, centerY = cellHeight * 0.5f;
+//        x += centerX;
+//        y += centerY;
         if (Align.isCenterHorizontal(align))
         {
             x -= cs * (glyphs.width * 0.5f);
@@ -2189,10 +2189,10 @@ public class Font implements Disposable {
             y -= sn * glyphs.width;
         }
 
-
         int kern = -1;
         long glyph;
-        float single, xChange = -centerX, yChange = -centerY;
+        float single, xChange = 0f, yChange = 0f;
+//        float single, xChange = -centerX, yChange = -centerY;
         boolean curly = false;
         for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
             glyph = glyphs.glyphs.get(i);
