@@ -730,50 +730,43 @@ public class TypingLabel extends TextraLabel {
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
-            baseY -= glyphs.height;
-            float x = baseX, y = baseY, drawn = 0;
-            x += centerX;
-            y += centerY;
-            float single, xChange = -centerX, yChange = -centerY;
 
-            if (Align.isCenterHorizontal(align))
-            {
+            baseX += sn * glyphs.height;
+            baseY -= cs * glyphs.height;
+
+            float x = baseX, y = baseY, drawn = 0;
+            float single, xChange = 0, yChange = 0;
+
+            if (Align.isCenterHorizontal(align)) {
                 x -= cs * (glyphs.width * 0.5f);
                 y -= sn * (glyphs.width * 0.5f);
-            }
-            else if (Align.isRight(align))
-            {
+            } else if (Align.isRight(align)) {
                 x -= cs * glyphs.width;
                 y -= sn * glyphs.width;
             }
-
-            if(font.kerning != null) {
-                int kern = -1, lim = Math.min(Math.min(rotations.size, offsets.size >> 1), sizing.size >> 1);
-                float amt;
-                long glyph;
-                for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex; i < n && r < lim; i++, gi++) {
-                    if(gi > end) break EACH_LINE;
+            Font f = null;
+            int kern = -1;
+            for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex,
+                 lim = Math.min(Math.min(rotations.size, offsets.size >> 1), sizing.size >> 1);
+                 i < n && r < lim; i++, gi++) {
+                if (gi > end) break EACH_LINE;
+                long glyph = glyphs.glyphs.get(i);
+                if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
+                if (f == null) f = font;
+                if (f.kerning != null) {
                     kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
-                    amt = font.kerning.get(kern, 0) * font.scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+                    float amt = f.kerning.get(kern, 0) * f.scaleX * ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
                     xChange += cs * amt;
                     yChange += sn * amt;
-                    single = font.drawGlyph(batch, glyph, x + xChange + offsets.get(o++), y + yChange + offsets.get(o++), rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++));
-                    xChange += cs * single;
-                    yChange += sn * single;
-                    drawn += single;
+                } else {
+                    kern = -1;
                 }
+                single = f.drawGlyph(batch, glyph, x + xChange + offsets.get(o++), y + yChange + offsets.get(o++), rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++));
+                xChange += cs * single;
+                yChange += sn * single;
+                drawn += single;
             }
-            else {
-                for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex,
-                     lim = Math.min(Math.min(rotations.size, offsets.size >> 1), sizing.size >> 1);
-                     i < n && r < lim; i++, gi++) {
-                    if(gi > end) break EACH_LINE;
-                    single = font.drawGlyph(batch, glyphs.glyphs.get(i), x + xChange + offsets.get(o++), y + yChange + offsets.get(o++), rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++));
-                    xChange += cs * single;
-                    yChange += sn * single;
-                    drawn += single;
-                }
-            }
+
         }
         invalidateHierarchy();
 //        addMissingGlyphs();
