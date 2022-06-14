@@ -64,7 +64,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		TextureRegion image2 = new TextureRegion(texture2);
 
 		final Font font =
-		KnownFonts.getRobotoCondensed()
+		KnownFonts.getStandardFamily()
 //				new Font(skin.get(Label.LabelStyle.class).font)
 //				.useIntegerPositions(true);
 ;
@@ -120,7 +120,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin);
 		fpsLabel.setAlignment(Align.center);
 		// configures an example of a TextField in password mode.
-		final TypingLabel passwordLabel = new TypingLabel("Textfield in [~]secure[] password mode: ", skin, font);
+		final TypingLabel passwordLabel = new TypingLabel("[@Medieval]Textfield in [~]secure[] password mode: ", skin, font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
