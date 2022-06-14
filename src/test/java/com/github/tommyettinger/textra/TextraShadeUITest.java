@@ -50,6 +50,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 	Texture texture1;
 	Texture texture2;
 	TextraLabel fpsLabel;
+	TextraLabel passwordLabel;
 	GLProfiler profiler;
 
 	@Override
@@ -129,7 +130,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		fpsLabel = new TextraLabel("fps:", skin, "title");
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
-		final TextraLabel passwordLabel = new TextraLabel("Textfield in [~]secure[] password mode: ", skin, "title");
+		passwordLabel = new TextraLabel("Textfield in [~]secure[] password mode: ", skin, "title");
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
@@ -200,6 +201,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "...[~]I think[]...");
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
+		passwordLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
@@ -240,8 +242,8 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		ShaderProgram.prependFragmentCode = "#version 110\n";
 //		config.enableGLDebugOutput(true, System.out);
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
-		config.useVsync(false);
-		config.setForegroundFPS(0);
+		config.useVsync(true);
+		config.setForegroundFPS(60);
 		new Lwjgl3Application(new TextraShadeUITest(), config);
 	}
 

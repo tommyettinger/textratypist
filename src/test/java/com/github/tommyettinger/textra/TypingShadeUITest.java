@@ -47,6 +47,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 	Texture texture1;
 	Texture texture2;
 	TypingLabel fpsLabel;
+	TypingLabel passwordLabel;
 	GLProfiler profiler;
 
 	@Override
@@ -126,7 +127,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin, "title");
 		fpsLabel.setAlignment(Align.topLeft);
 		// configures an example of a TextField in password mode.
-		final TypingLabel passwordLabel = new TypingLabel("Textfield in [~]secure[] password mode: ", skin, "title");
+		passwordLabel = new TypingLabel("Textfield in [~]secure[] password mode: ", skin, "title");
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
