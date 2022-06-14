@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.nio.ByteBuffer;
@@ -78,18 +79,19 @@ public class FontTest extends ApplicationAdapter {
             layout.setBaseColor(Color.DARK_GRAY);
             layout.setMaxLines(20);
             layout.setEllipsis(" and so on and so forth...");
-            font.markup("Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
-                            + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
-                            + "\n[FOREST]...use named colors from the Colors class, like [/]FOREST[/]...[]"
-                            + "\n[_]...and use [!]effects[!][_]!"
-                            + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
-                            + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
-                            + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
-                            + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[],"
-                            + "\nUnicode support: Pchnąć w tę łódź [BROWN]jeża[] lub ośm skrzyń [PURPLE]fig[]."
-                            + "\nWelcome to the [_][*][TEAL]Textra Zone[]!"
-//                + "\nВоплощение стихии воды как отрицательного[^][BLUE][[3][]..."
+            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
                     , layout);
+//            font.markup("Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
+//                            + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
+//                            + "\n[FOREST]...use named colors from the Colors class, like [/]FOREST[/]...[]"
+//                            + "\n[_]...and use [!]effects[!][_]!"
+//                            + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
+//                            + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
+//                            + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
+//                            + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[],"
+//                            + "\nUnicode support: Pchnąć w tę łódź [BROWN]jeża[] lub ośm skrzyń [PURPLE]fig[]."
+//                            + "\nWelcome to the [_][*][TEAL]Textra Zone[]!"
+//                    , layout);
 //        font.markup("I wanna thank you all for coming here tonight..."
 //                + "\n[#22BB22FF]Hello, [~]World[~]Universe[.]$[=]$[^]$[^]!"
 //                + "\nThe [RED]MAW[] of the [/][CYAN]wendigo[/] (wendigo)[] [*]appears[*]!"
@@ -104,8 +106,8 @@ public class FontTest extends ApplicationAdapter {
 //                + "\n[*]Водяно́й[] — в славянской мифологии дух, обитающий в воде, хозяин вод[^][BLUE][[2][]."
 //                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][].", layout);
 
-            Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1f);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//            Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1f);
+            ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
 //        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
             float x = 400, y = layout.getHeight();
             batch.begin();
@@ -130,8 +132,8 @@ public class FontTest extends ApplicationAdapter {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//        Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
+        ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
 //        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
         float x = 400, y = layout.getHeight();
         batch.begin();
