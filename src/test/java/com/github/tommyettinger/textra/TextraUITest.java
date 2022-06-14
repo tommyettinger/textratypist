@@ -64,8 +64,9 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font(skin.get(LabelStyle.class).font)
-				.adjustLineHeight(0.75f);//.useIntegerPositions(true);
+		final Font font = KnownFonts.getStandardFamily();
+//				new Font(skin.get(LabelStyle.class).font)
+//				.adjustLineHeight(0.75f);//.useIntegerPositions(true);
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
@@ -120,7 +121,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TextraLabel minSizeLabel = new TextraLabel("minWidth cell", font); // demos SplitPane respecting widget's minWidth
+		TextraLabel minSizeLabel = new TextraLabel("[@Medieval]minWidth cell", font); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
@@ -128,7 +129,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		fpsLabel = new TextraLabel("fps:", font);
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
-		final TextraLabel passwordLabel = new TextraLabel("Textfield in [~]secure[] password mode: ", font);
+		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[] password mode: ", font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');

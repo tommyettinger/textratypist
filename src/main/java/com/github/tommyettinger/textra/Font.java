@@ -1393,8 +1393,6 @@ public class Font implements Disposable {
             h += heightAdjust;
             if(c != 9608) // full block
                 minWidth = Math.min(minWidth, a);
-            cellWidth = Math.max(a, cellWidth);
-            cellHeight = Math.max(h, cellHeight);
             GlyphRegion gr = new GlyphRegion(parents.get(p), x, y, w, h);
             if(c == 10)
             {
@@ -1408,6 +1406,8 @@ public class Font implements Disposable {
                 gr.offsetX = xo + xAdjust;
             gr.offsetY = yo + yAdjust;
             gr.xAdvance = a;
+            cellWidth = Math.max(a, cellWidth);
+            cellHeight = Math.max(h, cellHeight);
             mapping.put(c, gr);
             if(c == '['){
                 mapping.put(2, gr);
@@ -2365,14 +2365,14 @@ public class Font implements Disposable {
             if (tr == null) continue;
             if (font.kerning != null) {
                 kern = kern << 16 | ch;
-                scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+                scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
                 scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
                 line.height = Math.max(line.height, font.cellHeight * scale);
                 amt = font.kerning.get(kern, 0) * scaleX;
                 float changedW = tr.xAdvance * scaleX;
                 drawn += changedW + amt;
             } else {
-                scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+                scale = ((glyph + 0x300000L >>> 20 & 15)+1) * 0.25f;
                 line.height = Math.max(line.height, font.cellHeight * scale);
                 scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
                 float changedW = tr.xAdvance * scaleX;
