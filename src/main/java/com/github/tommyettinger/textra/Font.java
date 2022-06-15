@@ -1231,8 +1231,8 @@ public class Font implements Disposable {
             for (BitmapFont.Glyph glyph : page) {
                 if (glyph != null) {
                     int x = glyph.srcX, y = glyph.srcY, w = glyph.width, h = glyph.height, a = glyph.xadvance;
-                    x += xAdjust;
-                    y += yAdjust;
+//                    x += xAdjust;
+//                    y += yAdjust;
                     a += widthAdjust;
                     h += heightAdjust;
                     minWidth = Math.min(minWidth, a);
@@ -1248,9 +1248,9 @@ public class Font implements Disposable {
                         gr.offsetX = Float.NaN;
                     }
                     else {
-                        gr.offsetX = glyph.xoffset;
+                        gr.offsetX = glyph.xoffset + xAdjust;
                     }
-                    gr.offsetY = (-h - glyph.yoffset);
+                    gr.offsetY = (-h - glyph.yoffset) + yAdjust;
                     gr.xAdvance = a;
                     mapping.put(glyph.id & 0xFFFF, gr);
                     if(glyph.kerning != null) {
@@ -1314,6 +1314,8 @@ public class Font implements Disposable {
             }
         }
         defaultValue =  mapping.get(data.missingGlyph == null ? ' ' : data.missingGlyph.id, mapping.get(' ', mapping.values().next()));
+        //TODO: experimental
+        cellHeight *= 1.125f;
         originalCellWidth = cellWidth;
         originalCellHeight = cellHeight;
         isMono = minWidth == cellWidth && kerning == null;
