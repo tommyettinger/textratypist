@@ -1314,8 +1314,6 @@ public class Font implements Disposable {
             }
         }
         defaultValue =  mapping.get(data.missingGlyph == null ? ' ' : data.missingGlyph.id, mapping.get(' ', mapping.values().next()));
-        //TODO: experimental
-        cellHeight *= 0.75f;
         originalCellWidth = cellWidth;
         originalCellHeight = cellHeight;
         isMono = minWidth == cellWidth && kerning == null;
@@ -2490,10 +2488,10 @@ public class Font implements Disposable {
         float centerX = font.cellWidth * scaleX * 0.5f;
         float centerY = font.cellHeight * scaleY * 0.5f;
         float xc = tr.offsetX * scaleX - centerX * sizingX;
-        float yt = (font.cellHeight * scale) - centerY * sizingY - tr.getRegionHeight() * scaleY - tr.offsetY * scaleY;
+        float yt = (font.cellHeight * scale) - (tr.getRegionHeight() + tr.offsetY) * scaleY;
 
-        x = font.handleIntegerPosition(x) + centerX;
-        y = font.handleIntegerPosition(y) + centerY;
+        x = font.handleIntegerPosition(x + centerX);
+        y = font.handleIntegerPosition(y + centerY);
         if ((glyph & OBLIQUE) != 0L) {
             x0 += h * 0.2f;
             x1 -= h * 0.2f;
@@ -2589,7 +2587,7 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -tr.offsetX * scaleX - scaleX - centerX * scale;
-                p0y = -cellHeight * 0.45f - centerY * scale;
+                p0y = -cellHeight * 0.45f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y) * 0.6f - sizingY,
                         (changedW + scaleX * 8f), cellHeight * sizingY * 0.6f, rotation);
@@ -2637,7 +2635,7 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = -tr.offsetX * scaleX - scaleX - centerX * scale;
-                p0y = cellHeight * -0.1f - centerY * scale;
+                p0y = cellHeight * -0.1f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y) * 0.6f + sizingY,
                         (changedW + scaleX * 8f), cellHeight * sizingY * 0.6f, rotation);

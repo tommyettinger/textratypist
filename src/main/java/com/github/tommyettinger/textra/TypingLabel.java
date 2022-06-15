@@ -717,7 +717,7 @@ public class TypingLabel extends TextraLabel {
             baseY += workingLayout.getHeight();
         else if (Align.isCenterVertical(align))
             baseY += workingLayout.getHeight() * 0.5f;
-        baseY += workingLayout.lines.first().height * 0.25f;
+//        baseY += workingLayout.lines.first().height * 0.25f;
         final float rot = getRotation();
         final float sn = MathUtils.sinDeg(rot);
         final float cs = MathUtils.cosDeg(rot);
