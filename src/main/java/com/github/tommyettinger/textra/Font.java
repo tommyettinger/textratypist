@@ -1315,7 +1315,7 @@ public class Font implements Disposable {
         }
         defaultValue =  mapping.get(data.missingGlyph == null ? ' ' : data.missingGlyph.id, mapping.get(' ', mapping.values().next()));
         //TODO: experimental
-        cellHeight *= 1.125f;
+        cellHeight *= 0.75f;
         originalCellWidth = cellWidth;
         originalCellHeight = cellHeight;
         isMono = minWidth == cellWidth && kerning == null;
