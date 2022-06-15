@@ -242,8 +242,8 @@ public class TextraLabel extends Widget {
             baseY += cs * height * 0.5f;
         }
 
-//        baseX -= sn * layout.lines.first().height * 0.25f;
-//        baseY += cs * layout.lines.first().height * 0.25f;
+        baseX -= sn * layout.lines.first().height * 0.25f;
+        baseY += cs * layout.lines.first().height * 0.25f;
 
         float width = getWidth();
         height = getHeight();
