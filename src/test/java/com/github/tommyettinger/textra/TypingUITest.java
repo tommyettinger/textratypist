@@ -24,6 +24,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -68,6 +69,12 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //				new Font(skin.get(Label.LabelStyle.class).font)
 //				.useIntegerPositions(true);
 ;
+		font.family.connected[11] =
+//				KnownFonts.getYanoneKaffeesatz()
+				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
+				.scaleTo(30, 35)
+				.setName("Kingthings Foundation");
+//		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
