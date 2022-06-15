@@ -2488,7 +2488,7 @@ public class Font implements Disposable {
         float centerX = font.cellWidth * scaleX * 0.5f;
         float centerY = font.cellHeight * scaleY * 0.5f;
         float xc = tr.offsetX * scaleX - centerX * sizingX;
-        float yt = (font.cellHeight * scale) - (tr.getRegionHeight() + tr.offsetY) * scaleY;
+        float yt = (font.cellHeight * scale) - centerY - (tr.getRegionHeight() + tr.offsetY) * scaleY;
 
         x = font.handleIntegerPosition(x + centerX);
         y = font.handleIntegerPosition(y + centerY);
@@ -2590,7 +2590,7 @@ public class Font implements Disposable {
                 p0y = -cellHeight * 0.45f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y) * 0.6f - sizingY,
-                        (changedW + scaleX * 8f), cellHeight * sizingY * 0.6f, rotation);
+                        (changedW + scaleX * 8f), cellHeight * sizingY * 0.6f - centerY, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -2599,7 +2599,7 @@ public class Font implements Disposable {
                             underU2 = underU + iw,
                             underV2 = under.getV2(),
                             hu = under.getRegionHeight() * scaleY,
-                            yu = font.cellHeight * scale - hu - under.offsetY * scaleY;
+                            yu = font.cellHeight * scale - hu - under.offsetY * scaleY - centerY;
                     xc = under.offsetX * scaleX - centerX * scale;
                     x0 = -scaleX * under.offsetX - scale;
                     vertices[2] = color;
@@ -2638,7 +2638,7 @@ public class Font implements Disposable {
                 p0y = cellHeight * -0.1f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y) * 0.6f + sizingY,
-                        (changedW + scaleX * 8f), cellHeight * sizingY * 0.6f, rotation);
+                        (changedW + scaleX * 8f), cellHeight * sizingY * 0.6f - centerY, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
@@ -2647,7 +2647,7 @@ public class Font implements Disposable {
                             dashU2 = dashU + iw,
                             dashV2 = dash.getV2(),
                             hd = dash.getRegionHeight() * scaleY,
-                            yd = font.cellHeight * scale - hd - dash.offsetY * scaleY;
+                            yd = font.cellHeight * scale - hd - dash.offsetY * scaleY - centerY;
                     xc = dash.offsetX * scaleX - centerX * scale;
                     x0 = -scaleX * dash.offsetX - scale;
                     vertices[2] = color;
