@@ -188,8 +188,8 @@ public class TextraLabel extends Widget {
 
         float baseX = 0, baseY = 0;
 
-        baseX += getX();
-        baseY += getY();
+        baseX += getOriginX();
+        baseY += getOriginY();
 
         float sn = MathUtils.sinDeg(getRotation());
         float cs = MathUtils.cosDeg(getRotation());
@@ -218,8 +218,8 @@ public class TextraLabel extends Widget {
                 baseY -= cs * background.getTopHeight();
             }
             else {
-                baseX -= sn * (background.getBottomHeight() * 0.5f); // - background.getTopHeight() * 0.5f
-                baseY += cs * (background.getBottomHeight() * 0.5f); // - background.getTopHeight() * 0.5f
+                baseX -= sn * (background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f);
+                baseY += cs * (background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f);
             }
             ((TransformDrawable)background).draw(batch, getX(), getY(), baseX, baseY,
 //                    (Align.isLeft(align) ? 0f : Align.isRight(align) ? getWidth() : getWidth() * 0.5f),
@@ -266,7 +266,7 @@ public class TextraLabel extends Widget {
             baseX -= sn * height * 0.5f;
             baseY += cs * height * 0.5f;
         }
-        font.drawGlyphs(batch, layout, baseX, baseY, align, getRotation());
+        font.drawGlyphs(batch, layout, getX() + baseX, getY() + baseY, align, getRotation());
         if(resetShader)
             batch.setShader(null);
     }
