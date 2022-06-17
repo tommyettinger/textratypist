@@ -218,8 +218,8 @@ public class TextraLabel extends Widget {
                 baseY -= cs * background.getTopHeight();
             }
             else {
-                baseX -= sn * (background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f);
-                baseY += cs * (background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f);
+                baseX -= sn * (background.getBottomHeight() * 0.5f); // - background.getTopHeight() * 0.5f
+                baseY += cs * (background.getBottomHeight() * 0.5f); // - background.getTopHeight() * 0.5f
             }
             ((TransformDrawable)background).draw(batch, getX(), getY(), baseX, baseY,
 //                    (Align.isLeft(align) ? 0f : Align.isRight(align) ? getWidth() : getWidth() * 0.5f),
@@ -242,8 +242,8 @@ public class TextraLabel extends Widget {
             baseY += cs * height * 0.5f;
         }
 
-        baseX -= sn * layout.lines.first().height * 0.25f;
-        baseY += cs * layout.lines.first().height * 0.25f;
+//        baseX -= sn * layout.lines.first().height * 0.25f;
+//        baseY += cs * layout.lines.first().height * 0.25f;
 
         float width = getWidth();
         height = getHeight();

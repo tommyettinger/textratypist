@@ -2466,7 +2466,7 @@ public class Font implements Disposable {
             return cellWidth;
         }
 
-        float scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+        float scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
         float scaleX = font.scaleX * scale;
         float scaleY = font.scaleY * scale;
         Texture tex = tr.getTexture();
@@ -2737,6 +2737,7 @@ public class Font implements Disposable {
             appendTo.clear();
             appendTo.font(this);
         }
+//        appendTo.pushLine();
         appendTo.peekLine().height = 0;
         float targetWidth = appendTo.getTargetWidth();
         int kern = -1;
@@ -3056,6 +3057,8 @@ public class Font implements Disposable {
                     kern = kern << 16 | ch;
                     w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | ch) + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-((current | ch) & SUPERSCRIPT) >> 63)));
                 }
+                if(ch == '\n')
+                    appendTo.peekLine().height = Math.max(appendTo.peekLine().height, font.cellHeight * (scale + 1) * 0.25f);
                 appendTo.add(current | ch);
                 if((targetWidth > 0 && w > targetWidth) || appendTo.atLimit) {
                     Line earlier = appendTo.peekLine();
