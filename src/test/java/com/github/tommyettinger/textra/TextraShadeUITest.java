@@ -65,20 +65,21 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font(skin.get(LabelStyle.class).font)
+		final Font font = new Font("RaeleusScriptius-standard.fnt");
+				//new Font(skin.get(LabelStyle.class).font)
 //				.adjustLineHeight(0.75f)
-				.useIntegerPositions(true);
+//				.useIntegerPositions(true);
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
-//		stage.setDebugAll(true);
+		stage.setDebugAll(true);
 
 		ImageTextButtonStyle style = new ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
+		ImageTextraButton iconButton = new ImageTextraButton("\n[/]a e s t h e t i c", style, font);
 
 		Button buttonMulti = new TextraButton("Multi\n[%100]Line[%]\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
@@ -122,7 +123,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TextraLabel minSizeLabel = new TextraLabel("minWidth cell", skin, "title"); // demos SplitPane respecting widget's minWidth
+		TextraLabel minSizeLabel = new TextraLabel("ginWidth cell", skin, "title"); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
