@@ -194,44 +194,6 @@ public class TextraLabel extends Widget {
         float sn = MathUtils.sinDeg(getRotation());
         float cs = MathUtils.cosDeg(getRotation());
 
-        if (style != null && style.background != null) {
-            Drawable background = style.background;
-            batch.setColor(getColor());
-            if((align & Align.left) != 0) {
-                baseX += cs * background.getLeftWidth();
-                baseY += sn * background.getLeftWidth();
-            }
-            else if((align & Align.right) != 0) {
-                baseX -= cs * background.getRightWidth();
-                baseY -= sn * background.getRightWidth();
-            }
-            else {
-                baseX += cs * (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
-                baseY += sn * (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
-            }
-            if((align & bottom) != 0) {
-                baseX -= sn * background.getBottomHeight();
-                baseY += cs * background.getBottomHeight();
-            }
-            else if((align & top) != 0) {
-                baseX += sn * background.getTopHeight();
-                baseY -= cs * background.getTopHeight();
-            }
-            else {
-                baseX -= sn * (background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f);
-                baseY += cs * (background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f);
-            }
-            ((TransformDrawable)background).draw(batch, getX(), getY(), baseX, baseY,
-//                    (Align.isLeft(align) ? 0f : Align.isRight(align) ? getWidth() : getWidth() * 0.5f),
-//                    (Align.isBottom(align) ? 0f : Align.isTop(align) ? getHeight() : getHeight() * 0.5f),
-                    getWidth(), getHeight(), 1f, 1f, getRotation());
-        }
-        if(layout.lines.isEmpty()) return;
-        boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
-        if(resetShader)
-            font.enableShader(batch);
-        batch.setColor(1f, 1f, 1f, parentAlpha);
-
         float height = layout.getHeight();
         if (Align.isBottom(align)) {
             baseX -= sn * height;
@@ -266,7 +228,48 @@ public class TextraLabel extends Widget {
             baseX -= sn * height * 0.5f;
             baseY += cs * height * 0.5f;
         }
+        if (style != null && style.background != null) {
+            Drawable background = style.background;
+            batch.setColor(getColor());
+            if(Align.isLeft(align)) {
+                baseX += cs * background.getLeftWidth();
+                baseY += sn * background.getLeftWidth();
+            }
+            else if(Align.isRight(align)) {
+                baseX -= cs * background.getRightWidth();
+                baseY -= sn * background.getRightWidth();
+            }
+            else {
+                baseX += cs * (background.getLeftWidth());// - background.getRightWidth()) * 0.5f;
+                baseY += sn * (background.getLeftWidth());// - background.getRightWidth()) * 0.5f;
+            }
+            if(Align.isBottom(align)) {
+                baseX -= sn * background.getBottomHeight();
+                baseY += cs * background.getBottomHeight();
+            }
+            else if(Align.isTop(align)) {
+                baseX += sn * background.getTopHeight();
+                baseY -= cs * background.getTopHeight();
+            }
+            else {
+                baseX -= sn * (background.getBottomHeight() * 0.5f);// - background.getTopHeight() * 0.5f);
+                baseY += cs * (background.getBottomHeight() * 0.5f);// - background.getTopHeight() * 0.5f);
+            }
+            ((TransformDrawable)background).draw(batch, getX(), getY(), baseX, baseY,
+//                    (Align.isLeft(align) ? 0f : Align.isRight(align) ? getWidth() : getWidth() * 0.5f),
+//                    (Align.isBottom(align) ? 0f : Align.isTop(align) ? getHeight() : getHeight() * 0.5f),
+                    getWidth(), getHeight(), 1f, 1f, getRotation());
+        }
+        if(layout.lines.isEmpty()) return;
+        boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
+        if(resetShader)
+            font.enableShader(batch);
+        batch.setColor(1f, 1f, 1f, parentAlpha);
+
         font.drawGlyphs(batch, layout, getX() + baseX, getY() + baseY, align, getRotation());
+
+        font.drawGlyph(batch, (MathUtils.random.nextInt() | 0x7FL) << 33 | 'P', getX(), getY());
+        font.drawGlyph(batch, (MathUtils.random.nextInt() | 0x7FL) << 33 | 'O', getX() + baseX, getY() + baseY);
         if(resetShader)
             batch.setShader(null);
     }
