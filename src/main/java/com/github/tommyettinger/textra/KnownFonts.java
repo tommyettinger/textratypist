@@ -753,7 +753,7 @@ public final class KnownFonts implements LifecycleListener {
         if(instance.kingthingsFoundation == null)
         {
             try {
-                instance.kingthingsFoundation = new Font("KingthingsFoundation-standard.fnt", STANDARD, 0, 6, 0, 0, false)
+                instance.kingthingsFoundation = new Font("KingthingsFoundation-standard.fnt", STANDARD, 0, -12, 0, 0, false)
                         .scaleTo(23, 30).setTextureFilter().setName("KingThings Foundation");
             } catch (Exception e) {
                 e.printStackTrace();

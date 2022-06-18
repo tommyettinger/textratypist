@@ -267,9 +267,10 @@ public class TextraLabel extends Widget {
         batch.setColor(1f, 1f, 1f, parentAlpha);
 
         font.drawGlyphs(batch, layout, getX() + baseX, getY() + baseY, align, getRotation());
-
-        font.drawGlyph(batch, (MathUtils.random.nextInt() | 0x7FL) << 33 | 'P', getX(), getY());
-        font.drawGlyph(batch, (MathUtils.random.nextInt() | 0x7FL) << 33 | 'O', getX() + baseX, getY() + baseY);
+        if(getDebug()) {
+            font.drawGlyph(batch, (MathUtils.random.nextInt() | 0x7FL) << 33 | 'X', getX(), getY());
+            font.drawGlyph(batch, (MathUtils.random.nextInt() | 0x7FL) << 33 | 'O', getX() + baseX, getY() + baseY);
+        }
         if(resetShader)
             batch.setShader(null);
     }
