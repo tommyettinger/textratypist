@@ -16,7 +16,9 @@
 
 package com.github.tommyettinger.textra;
 
-/** Simple listener for label events. You can derive from this and only override what you are interested in. */
+/**
+ * Simple listener for label events. You can derive from this and only override what you are interested in.
+ */
 public class TypingAdapter implements TypingListener {
 
     @Override

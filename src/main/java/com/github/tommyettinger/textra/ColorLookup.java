@@ -34,6 +34,7 @@ public interface ColorLookup {
      * 256 if none was found. 256 is used because it is different from the more commonly-used 0 for fully-transparent,
      * while still being easy to remember and very rare to ever want (it is fully transparent, very dark blue). This
      * library will never call this method with a null key, and in most cases you can safely assume key is non-null.
+     *
      * @param key the String key to use to look up or build a color; should not be null.
      * @return an RGBA8888 color; if 256, this can be considered to not know how to look up the given key.
      */
@@ -44,13 +45,16 @@ public interface ColorLookup {
      * extremely dark blue) if no Color exists by that exact name (case-sensitive), or returning the RGBA8888 value
      * of the color otherwise. All color names are {@code ALL_CAPS} in libGDX's Colors collection by default.
      */
-    class GdxColorLookup implements ColorLookup{
+    class GdxColorLookup implements ColorLookup {
         /**
          * The only way to access a GdxColorLookup. Since this class has no state and exists only to implement an
          * interface, it is fine that this is static.
          */
         public static final GdxColorLookup INSTANCE = new GdxColorLookup();
-        private GdxColorLookup(){}
+
+        private GdxColorLookup() {
+        }
+
         @Override
         public int getRgba(String key) {
             Color c = Colors.get(key);

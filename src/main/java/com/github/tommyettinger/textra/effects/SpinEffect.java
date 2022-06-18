@@ -22,13 +22,15 @@ import com.badlogic.gdx.utils.IntFloatMap;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
-/** Rotates each glyph quickly and slows down as it approaches some count of rotations. Doesn't repeat itself. */
+/**
+ * Rotates each glyph quickly and slows down as it approaches some count of rotations. Doesn't repeat itself.
+ */
 public class SpinEffect extends Effect {
     private static final float DEFAULT_INTENSITY = 1.0f;
 
-    private float   intensity = 1; // How fast the glyphs should move
-    private float   rotations = 1; // how many times the glyph should circle before stopping
-    private boolean elastic   = false; // True if the glyphs have an elastic movement
+    private float intensity = 1; // How fast the glyphs should move
+    private float rotations = 1; // how many times the glyph should circle before stopping
+    private boolean elastic = false; // True if the glyphs have an elastic movement
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
 
@@ -36,17 +38,17 @@ public class SpinEffect extends Effect {
         super(label);
 
         // Distance
-        if(params.length > 0) {
+        if (params.length > 0) {
             this.intensity = paramAsFloat(params[0], 1);
         }
 
         //Rotations
-        if(params.length > 1) {
+        if (params.length > 1) {
             this.rotations = paramAsFloat(params[1], 1);
         }
 
         // Elastic
-        if(params.length > 2) {
+        if (params.length > 2) {
             this.elastic = paramAsBoolean(params[2]);
         }
     }

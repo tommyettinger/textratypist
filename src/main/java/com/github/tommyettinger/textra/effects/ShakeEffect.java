@@ -22,31 +22,33 @@ import com.badlogic.gdx.utils.FloatArray;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
-/** Shakes the text in a random pattern. */
+/**
+ * Shakes the text in a random pattern.
+ */
 public class ShakeEffect extends Effect {
-    private static final float DEFAULT_DISTANCE  = 0.12f;
+    private static final float DEFAULT_DISTANCE = 0.12f;
     private static final float DEFAULT_INTENSITY = 0.5f;
 
     private final FloatArray lastOffsets = new FloatArray();
 
-    private float distance  = 1; // How far the glyphs should move
+    private float distance = 1; // How far the glyphs should move
     private float intensity = 1; // How fast the glyphs should move
 
     public ShakeEffect(TypingLabel label, String[] params) {
         super(label);
 
         // Distance
-        if(params.length > 0) {
+        if (params.length > 0) {
             this.distance = paramAsFloat(params[0], 1);
         }
 
         // Intensity
-        if(params.length > 1) {
+        if (params.length > 1) {
             this.intensity = paramAsFloat(params[1], 1);
         }
 
         // Duration
-        if(params.length > 2) {
+        if (params.length > 2) {
             this.duration = paramAsFloat(params[2], -1);
         }
     }
@@ -54,7 +56,7 @@ public class ShakeEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Make sure we can hold enough entries for the current index
-        if(localIndex >= lastOffsets.size / 2) {
+        if (localIndex >= lastOffsets.size / 2) {
             lastOffsets.setSize(lastOffsets.size + 16);
         }
 

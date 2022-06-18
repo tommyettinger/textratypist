@@ -25,7 +25,8 @@ public class NoiseUtils {
     /**
      * Quilez' 1D noise, with some changes to work on the CPU. Takes a distance x and any int seed, and produces a
      * smoothly-changing value as x goes up or down and seed stays the same. Uses a quartic curve.
-     * @param x should go up and/or down steadily and by small amounts (less than 1.0, certainly)
+     *
+     * @param x    should go up and/or down steadily and by small amounts (less than 1.0, certainly)
      * @param seed should stay the same for a given curve
      * @return a noise value between -1.0 and 1.0
      */
@@ -35,18 +36,19 @@ public class NoiseUtils {
                 rise = 1 - ((x >= 0f ? (int) (x + x) : (int) (x + x) - 1) & 2);
         x -= xFloor;
         // gets a random float between -16 and 16. Magic.
-        final float h = NumberUtils.intBitsToFloat((int)((seed + xFloor ^ 0x9E3779B97F4A7C15L) * 0xD1B54A32D192ED03L >>> 41) | 0x42000000) - 48f;
+        final float h = NumberUtils.intBitsToFloat((int) ((seed + xFloor ^ 0x9E3779B97F4A7C15L) * 0xD1B54A32D192ED03L >>> 41) | 0x42000000) - 48f;
         x *= x - 1f;
         return rise * x * x * h;
     }
 
     /**
      * Just gets two octaves of {@link #noise1D(float, int)}; still has a range of -1 to 1.
-     * @param x should go up and/or down steadily and by small amounts (less than 1.0, certainly)
+     *
+     * @param x    should go up and/or down steadily and by small amounts (less than 1.0, certainly)
      * @param seed should stay the same for a given curve
      * @return a noise value between -1.0 and 1.0
      */
-    public static float octaveNoise1D(float x, int seed){
+    public static float octaveNoise1D(float x, int seed) {
         return noise1D(x, seed) * 0.6666667f + noise1D(x * 1.9f, ~seed) * 0.33333333f;
     }
 }

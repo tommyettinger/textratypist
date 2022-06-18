@@ -23,15 +23,17 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
-/** Randomly selects and shakes individual characters in the text. */
+/**
+ * Randomly selects and shakes individual characters in the text.
+ */
 public class JoltEffect extends Effect {
-    private static final float DEFAULT_DISTANCE  = 0.12f;
+    private static final float DEFAULT_DISTANCE = 0.12f;
     private static final float DEFAULT_INTENSITY = 0.5f;
     private static final float DEFAULT_LIKELIHOOD = 0.05f;
 
     private final FloatArray lastOffsets = new FloatArray();
 
-    private float distance  = 1; // How far the glyphs should move
+    private float distance = 1; // How far the glyphs should move
     private float intensity = 1; // How fast the glyphs should move
     private float likelihood = DEFAULT_LIKELIHOOD; // How likely it is that each glyph will shake; repeatedly checked
     private int baseColor = 0xFFFFFFFF;
@@ -41,35 +43,35 @@ public class JoltEffect extends Effect {
         super(label);
 
         // Distance
-        if(params.length > 0) {
+        if (params.length > 0) {
             this.distance = paramAsFloat(params[0], 1);
         }
 
         // Intensity
-        if(params.length > 1) {
+        if (params.length > 1) {
             this.intensity = paramAsFloat(params[1], 1);
         }
 
         // Duration
-        if(params.length > 2) {
+        if (params.length > 2) {
             this.duration = paramAsFloat(params[2], Float.POSITIVE_INFINITY);
         }
 
         // Likelihood
-        if(params.length > 3) {
+        if (params.length > 3) {
             this.likelihood = paramAsFloat(params[3], DEFAULT_LIKELIHOOD);
         }
 
         // Base Color
-        if(params.length > 4) {
+        if (params.length > 4) {
             int c = paramAsColor(params[4]);
-            if(c != 256) this.baseColor = c;
+            if (c != 256) this.baseColor = c;
         }
 
         // Actively Jolting Color
-        if(params.length > 5) {
+        if (params.length > 5) {
             int c = paramAsColor(params[5]);
-            if(c != 256) this.joltColor = c;
+            if (c != 256) this.joltColor = c;
         }
 
     }
@@ -77,7 +79,7 @@ public class JoltEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Make sure we can hold enough entries for the current index
-        if(localIndex >= lastOffsets.size / 2) {
+        if (localIndex >= lastOffsets.size / 2) {
             lastOffsets.setSize(lastOffsets.size + 16);
         }
 
@@ -87,7 +89,7 @@ public class JoltEffect extends Effect {
 
         // Calculate new offsets
         float x = 0f, y = 0f;
-        if(likelihood > determineFloat((TimeUtils.millis() >>> 10) * globalIndex + localIndex)) {
+        if (likelihood > determineFloat((TimeUtils.millis() >>> 10) * globalIndex + localIndex)) {
             x = label.getLineHeight(globalIndex) * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
             y = label.getLineHeight(globalIndex) * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
 
@@ -102,10 +104,9 @@ public class JoltEffect extends Effect {
             y *= fadeout;
             x = MathUtils.round(x);
             y = MathUtils.round(y);
-            if(fadeout > 0)
+            if (fadeout > 0)
                 label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) joltColor << 32);
-        }
-        else
+        } else
             label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) baseColor << 32);
 
         // Store offsets for the next tick

@@ -27,32 +27,36 @@ import regexodus.Pattern;
 import regexodus.REFlags;
 import regexodus.Replacer;
 
-/** Utility class to parse tokens from a {@link TypingLabel}. */
+/**
+ * Utility class to parse tokens from a {@link TypingLabel}.
+ */
 class Parser {
-    private static final Pattern PATTERN_MARKUP_STRIP      = Pattern.compile("(\\[[^\\[\\]]*(\\]|$))");
-    private static final Replacer MARKUP_TO_TAG            = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]]+)(\\]|$)"), "{STYLE=$1}");
+    private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("(\\[[^\\[\\]]*(\\]|$))");
+    private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]]+)(\\]|$)"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{6,8}");
 
     private static final String[] BOOLEAN_TRUE = {"true", "yes", "t", "y", "on", "1"};
-    private static final int      INDEX_TOKEN  = 1;
-    private static final int      INDEX_PARAM  = 2;
+    private static final int INDEX_TOKEN = 1;
+    private static final int INDEX_PARAM = 2;
 
     private static Pattern PATTERN_TOKEN_STRIP;
-    private static String  RESET_REPLACEMENT;
+    private static String RESET_REPLACEMENT;
 
     static ColorLookup lookup = ColorLookup.GdxColorLookup.INSTANCE;
 
-    static String preprocess(CharSequence text){
+    static String preprocess(CharSequence text) {
         return MARKUP_TO_TAG.replace(text).replace("[]", "{RESET}");
     }
 
-    /** Parses all tokens from the given {@link TypingLabel}. */
+    /**
+     * Parses all tokens from the given {@link TypingLabel}.
+     */
     static void parseTokens(TypingLabel label) {
         // Compile patterns if necessary
-        if(PATTERN_TOKEN_STRIP == null || TypingConfig.dirtyEffectMaps) {
+        if (PATTERN_TOKEN_STRIP == null || TypingConfig.dirtyEffectMaps) {
             PATTERN_TOKEN_STRIP = compileTokenPattern();
         }
-        if(RESET_REPLACEMENT == null || TypingConfig.dirtyEffectMaps) {
+        if (RESET_REPLACEMENT == null || TypingConfig.dirtyEffectMaps) {
             RESET_REPLACEMENT = getResetReplacement();
         }
 
@@ -75,7 +79,9 @@ class Parser {
         label.tokenEntries.reverse();
     }
 
-    /** Parse tokens that only replace text, such as colors and variables. */
+    /**
+     * Parse tokens that only replace text, such as colors and variables.
+     */
     private static void parseReplacements(TypingLabel label) {
         // Get text
         CharSequence text = label.workingLayout.appendIntoDirect(new StringBuilder());
@@ -86,28 +92,28 @@ class Parser {
         int matcherIndexOffset = 0;
 
         // Iterate through matches
-        while(true) {
+        while (true) {
             // Reset StringBuilder and matcher
             sb.setLength(0);
             m.setTarget(text);
             m.setPosition(matcherIndexOffset);
 
             // Make sure there's at least one regex match
-            if(!m.find()) break;
+            if (!m.find()) break;
 
             // Get token and parameter
             final InternalToken internalToken = InternalToken.fromName(m.group(INDEX_TOKEN));
             final String param = m.group(INDEX_PARAM);
 
             // If token couldn't be parsed, move one index forward to continue the search
-            if(internalToken == null) {
+            if (internalToken == null) {
                 matcherIndexOffset++;
                 continue;
             }
 
             // Process tokens and handle replacement
             String replacement;
-            switch(internalToken) {
+            switch (internalToken) {
                 case COLOR:
                     replacement = stringToColorMarkup(param);
                     break;
@@ -132,22 +138,22 @@ class Parser {
                     replacement = null;
 
                     // Try to replace variable through listener.
-                    if(label.getTypingListener() != null) {
+                    if (label.getTypingListener() != null) {
                         replacement = label.getTypingListener().replaceVariable(param);
                     }
 
                     // If replacement is null, get value from maps.
-                    if(replacement == null) {
+                    if (replacement == null) {
                         replacement = label.getVariables().get(param.toUpperCase());
                     }
 
                     // If replacement is still null, get value from global scope
-                    if(replacement == null) {
+                    if (replacement == null) {
                         replacement = TypingConfig.GLOBAL_VARS.get(param.toUpperCase());
                     }
 
                     // Make sure we're not inserting "null" to the text.
-                    if(replacement == null) replacement = param.toUpperCase();
+                    if (replacement == null) replacement = param.toUpperCase();
                     break;
                 case RESET:
                     replacement = RESET_REPLACEMENT + label.getDefaultToken();
@@ -167,7 +173,9 @@ class Parser {
         label.setIntermediateText(text, false, false);
     }
 
-    /** Parses regular tokens that don't need replacement and register their indexes in the {@link TypingLabel}. */
+    /**
+     * Parses regular tokens that don't need replacement and register their indexes in the {@link TypingLabel}.
+     */
     private static void parseRegularTokens(TypingLabel label) {
         // Get text
         CharSequence text = label.getIntermediateText();
@@ -177,23 +185,23 @@ class Parser {
         int matcherIndexOffset = 0;
 
         // Iterate through matches
-        while(true) {
+        while (true) {
             // Reset matcher and StringBuilder
             m.setTarget(text);
             sb.setLength(0);
             m.setPosition(matcherIndexOffset);
 
             // Make sure there's at least one regex match
-            if(!m.find()) break;
+            if (!m.find()) break;
 
             // Get token name and category
             String tokenName = m.group(INDEX_TOKEN).toUpperCase();
             TokenCategory tokenCategory = null;
             InternalToken tmpToken = InternalToken.fromName(tokenName);
-            if(tmpToken == null) {
-                if(TypingConfig.EFFECT_START_TOKENS.containsKey(tokenName)) {
+            if (tmpToken == null) {
+                if (TypingConfig.EFFECT_START_TOKENS.containsKey(tokenName)) {
                     tokenCategory = TokenCategory.EFFECT_START;
-                } else if(TypingConfig.EFFECT_END_TOKENS.containsKey(tokenName)) {
+                } else if (TypingConfig.EFFECT_END_TOKENS.containsKey(tokenName)) {
                     tokenCategory = TokenCategory.EFFECT_END;
                 }
             } else {
@@ -209,7 +217,7 @@ class Parser {
             int indexOffset = 0;
 
             // If token couldn't be parsed, move one index forward to continue the search
-            if(tokenCategory == null) {
+            if (tokenCategory == null) {
                 matcherIndexOffset++;
                 continue;
             }
@@ -219,7 +227,7 @@ class Parser {
             String stringValue = null;
             Effect effect = null;
 
-            switch(tokenCategory) {
+            switch (tokenCategory) {
                 case WAIT: {
                     floatValue = stringToFloat(firstParam, TypingConfig.DEFAULT_WAIT_VALUE);
                     break;
@@ -230,7 +238,7 @@ class Parser {
                     break;
                 }
                 case SPEED: {
-                    switch(tokenName) {
+                    switch (tokenName) {
                         case "SPEED":
                             float minModifier = TypingConfig.MIN_SPEED_MODIFIER;
                             float maxModifier = TypingConfig.MAX_SPEED_MODIFIER;
@@ -258,16 +266,16 @@ class Parser {
                 case EFFECT_START: {
                     Class<? extends Effect> clazz = TypingConfig.EFFECT_START_TOKENS.get(tokenName.toUpperCase());
                     try {
-                        if(clazz != null) {
+                        if (clazz != null) {
                             Constructor constructor = ClassReflection.getConstructors(clazz)[0];
                             int constructorParamCount = constructor.getParameterTypes().length;
-                            if(constructorParamCount >= 2) {
+                            if (constructorParamCount >= 2) {
                                 effect = (Effect) constructor.newInstance(label, params);
                             } else {
                                 effect = (Effect) constructor.newInstance(label);
                             }
                         }
-                    } catch(ReflectionException e) {
+                    } catch (ReflectionException e) {
                         String message = "Failed to initialize " + tokenName + " effect token. Make sure the associated class (" + clazz + ") has only one constructor with TypingLabel as first parameter and optionally String[] as second.";
                         throw new IllegalStateException(message, e);
                     }
@@ -292,36 +300,42 @@ class Parser {
         label.setIntermediateText(text, false, false);
     }
 
-    /** Parse color markup tags and register SKIP tokens. */
+    /**
+     * Parse color markup tags and register SKIP tokens.
+     */
     private static void parseColorMarkups(TypingLabel label) {
         // Get text
         final CharSequence text = label.getIntermediateText();
 
         // Iterate through matches and register skip tokens
         Matcher m = PATTERN_MARKUP_STRIP.matcher(text);
-        while(m.find()) {
+        while (m.find()) {
             final String tag = m.group(0);
             final int index = m.start(0);
             label.tokenEntries.add(new TokenEntry("SKIP", TokenCategory.SKIP, index, 0, tag));
         }
     }
 
-    /** Returns a float value parsed from the given String, or the default value if the string couldn't be parsed. */
+    /**
+     * Returns a float value parsed from the given String, or the default value if the string couldn't be parsed.
+     */
     static float stringToFloat(String str, float defaultValue) {
-        if(str != null) {
+        if (str != null) {
             try {
                 return Float.parseFloat(str.replaceAll("[^\\d.\\-+]", ""));
-            } catch(Exception e) {
+            } catch (Exception e) {
             }
         }
         return defaultValue;
     }
 
-    /** Returns a boolean value parsed from the given String, or the default value if the string couldn't be parsed. */
+    /**
+     * Returns a boolean value parsed from the given String, or the default value if the string couldn't be parsed.
+     */
     static boolean stringToBoolean(String str) {
-        if(str != null) {
-            for(String booleanTrue : BOOLEAN_TRUE) {
-                if(booleanTrue.equalsIgnoreCase(str)) {
+        if (str != null) {
+            for (String booleanTrue : BOOLEAN_TRUE) {
+                if (booleanTrue.equalsIgnoreCase(str)) {
                     return true;
                 }
             }
@@ -329,23 +343,25 @@ class Parser {
         return false;
     }
 
-    /** Parses a color from the given string. Returns null if the color couldn't be parsed. */
+    /**
+     * Parses a color from the given string. Returns null if the color couldn't be parsed.
+     */
     static int stringToColor(TypingLabel label, String str) {
-        if(str != null) {
+        if (str != null) {
 
             // Try to parse named color
             int namedColor = label.font.getColorLookup().getRgba(str);
-            if(namedColor != 256) {
+            if (namedColor != 256) {
                 return namedColor;
             }
 
             // Try to parse hex
-            if(str.length() >= 6) {
+            if (str.length() >= 6) {
                 try {
-                    if(str.startsWith("#")) str = str.substring(1);
-                    if(str.length() >= 8) return Font.intFromHex(str, 0, 8);
-                    if(str.length() >= 6) return Font.intFromHex(str, 0, 6) << 8 | 0xFF;
-                } catch(NumberFormatException ignored) {
+                    if (str.startsWith("#")) str = str.substring(1);
+                    if (str.length() >= 8) return Font.intFromHex(str, 0, 8);
+                    if (str.length() >= 6) return Font.intFromHex(str, 0, 6) << 8 | 0xFF;
+                } catch (NumberFormatException ignored) {
                 }
             }
         }
@@ -353,12 +369,14 @@ class Parser {
         return 256;
     }
 
-    /** Encloses the given string in brackets to work as a regular color markup tag. */
+    /**
+     * Encloses the given string in brackets to work as a regular color markup tag.
+     */
     private static String stringToColorMarkup(String str) {
-        if(str != null) {
+        if (str != null) {
             // If color isn't registered by name, try to parse it as a hex code.
-            if(!Colors.getColors().containsKey(str) && str.length() >= 6 && PATTERN_COLOR_HEX_NO_HASH.matches(str)) {
-                    return "[#" + str + "]";
+            if (!Colors.getColors().containsKey(str) && str.length() >= 6 && PATTERN_COLOR_HEX_NO_HASH.matches(str)) {
+                return "[#" + str + "]";
             }
         }
 
@@ -366,7 +384,9 @@ class Parser {
         return "[" + str + "]";
     }
 
-    /** Matches style names to syntax and encloses the given string in brackets to work as a style markup tag. */
+    /**
+     * Matches style names to syntax and encloses the given string in brackets to work as a style markup tag.
+     */
     private static String stringToStyleMarkup(String str) {
         if (str != null) {
             if (str.equals("*") || str.equalsIgnoreCase("B") || str.equalsIgnoreCase("BOLD") || str.equalsIgnoreCase("STRONG"))
@@ -389,11 +409,11 @@ class Parser {
                 return "[,]";
             if (str.equals(";") || str.equalsIgnoreCase("EACH") || str.equalsIgnoreCase("TITLE"))
                 return "[;]";
-            if(str.startsWith("@"))
+            if (str.startsWith("@"))
                 return "[@" + str.substring(1) + "]";
-            if(str.endsWith("%"))
+            if (str.endsWith("%"))
                 return "[%" + str.substring(0, str.length() - 1) + "]";
-            if(str.startsWith("%"))
+            if (str.startsWith("%"))
                 return "[%" + str.substring(1) + "]";
             if (!Colors.getColors().containsKey(str) && str.length() >= 6 && PATTERN_COLOR_HEX_NO_HASH.matches(str))
                 return "[#" + str + "]";
@@ -412,25 +432,27 @@ class Parser {
         Array<String> tokens = new Array<>();
         TypingConfig.EFFECT_START_TOKENS.keys().toArray(tokens);
         TypingConfig.EFFECT_END_TOKENS.keys().toArray(tokens);
-        for(InternalToken token : InternalToken.values()) {
+        for (InternalToken token : InternalToken.values()) {
             tokens.add(token.name);
         }
-        for(int i = 0; i < tokens.size; i++) {
+        for (int i = 0; i < tokens.size; i++) {
             sb.append(tokens.get(i));
-            if((i + 1) < tokens.size) sb.append('|');
+            if ((i + 1) < tokens.size) sb.append('|');
         }
         sb.append(")(?:=([^\\{\\}]+))?\\}");
         return Pattern.compile(sb.toString(), REFlags.IGNORE_CASE);
     }
 
-    /** Returns the replacement string intended to be used on {RESET} tokens. */
+    /**
+     * Returns the replacement string intended to be used on {RESET} tokens.
+     */
     private static String getResetReplacement() {
         Array<String> tokens = new Array<>();
         TypingConfig.EFFECT_END_TOKENS.keys().toArray(tokens);
         tokens.add("NORMAL");
 
         StringBuilder sb = new StringBuilder("[]");
-        for(String token : tokens) {
+        for (String token : tokens) {
             sb.append('{').append(token).append('}');
         }
         TypingConfig.dirtyEffectMaps = false;

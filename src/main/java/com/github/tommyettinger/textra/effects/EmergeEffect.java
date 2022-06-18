@@ -22,12 +22,14 @@ import com.badlogic.gdx.utils.IntFloatMap;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
-/** Stretches the text vertically from the baseline up to its full height. Doesn't repeat itself. */
+/**
+ * Stretches the text vertically from the baseline up to its full height. Doesn't repeat itself.
+ */
 public class EmergeEffect extends Effect {
     private static final float DEFAULT_INTENSITY = 0.125f;
 
-    private float   intensity = 4f; // How fast the glyphs should move
-    private boolean elastic   = false; // True if the glyphs have an elastic movement
+    private float intensity = 4f; // How fast the glyphs should move
+    private boolean elastic = false; // True if the glyphs have an elastic movement
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
 
@@ -35,12 +37,12 @@ public class EmergeEffect extends Effect {
         super(label);
 
         // Distance
-        if(params.length > 0) {
+        if (params.length > 0) {
             this.intensity = 1.0f / paramAsFloat(params[0], 0.25f);
         }
 
         // Elastic
-        if(params.length > 1) {
+        if (params.length > 1) {
             this.elastic = paramAsBoolean(params[1]);
         }
     }

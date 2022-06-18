@@ -20,7 +20,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
-/** Makes the text jumps and falls as if there was gravity. */
+/**
+ * Makes the text jumps and falls as if there was gravity.
+ */
 public class CarouselEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 0.5f;
 
@@ -30,12 +32,12 @@ public class CarouselEffect extends Effect {
         super(label);
 
         // Frequency
-        if(params.length > 0) {
+        if (params.length > 0) {
             this.frequency = paramAsFloat(params[0], 1.0f);
         }
 
         // Duration
-        if(params.length > 1) {
+        if (params.length > 1) {
             this.duration = paramAsFloat(params[1], -1);
         }
     }
@@ -53,7 +55,7 @@ public class CarouselEffect extends Effect {
 
         // Apply changes
         label.sizing.incr(globalIndex << 1, s - 1.0f);
-        label.offsets.incr(globalIndex << 1, label.font.mapping.get((char)glyph, label.font.defaultValue).xAdvance * (0.125f * s));
+        label.offsets.incr(globalIndex << 1, label.font.mapping.get((char) glyph, label.font.defaultValue).xAdvance * (0.125f * s));
     }
 
 }

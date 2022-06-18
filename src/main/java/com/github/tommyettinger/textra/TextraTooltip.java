@@ -17,118 +17,123 @@
 package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip.TextTooltipStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Tooltip;
+import com.badlogic.gdx.scenes.scene2d.ui.TooltipManager;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
 
-/** A tooltip that shows a TextraLabel.
- * @author Nathan Sweet */
+/**
+ * A tooltip that shows a TextraLabel.
+ *
+ * @author Nathan Sweet
+ */
 public class TextraTooltip extends Tooltip<TextraLabel> {
-	public TextraTooltip(@Null String text, Skin skin) {
-		this(text, TooltipManager.getInstance(), skin.get(TextTooltipStyle.class));
-	}
+    public TextraTooltip(@Null String text, Skin skin) {
+        this(text, TooltipManager.getInstance(), skin.get(TextTooltipStyle.class));
+    }
 
-	public TextraTooltip(@Null String text, Skin skin, String styleName) {
-		this(text, TooltipManager.getInstance(), skin.get(styleName, TextTooltipStyle.class));
-	}
+    public TextraTooltip(@Null String text, Skin skin, String styleName) {
+        this(text, TooltipManager.getInstance(), skin.get(styleName, TextTooltipStyle.class));
+    }
 
-	public TextraTooltip(@Null String text, TextTooltipStyle style) {
-		this(text, TooltipManager.getInstance(), style);
-	}
+    public TextraTooltip(@Null String text, TextTooltipStyle style) {
+        this(text, TooltipManager.getInstance(), style);
+    }
 
-	public TextraTooltip(@Null String text, TooltipManager manager, Skin skin) {
-		this(text, manager, skin.get(TextTooltipStyle.class));
-	}
+    public TextraTooltip(@Null String text, TooltipManager manager, Skin skin) {
+        this(text, manager, skin.get(TextTooltipStyle.class));
+    }
 
-	public TextraTooltip(@Null String text, TooltipManager manager, Skin skin, String styleName) {
-		this(text, manager, skin.get(styleName, TextTooltipStyle.class));
-	}
+    public TextraTooltip(@Null String text, TooltipManager manager, Skin skin, String styleName) {
+        this(text, manager, skin.get(styleName, TextTooltipStyle.class));
+    }
 
-	public TextraTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style) {
-		super(null, manager);
+    public TextraTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style) {
+        super(null, manager);
 
-		final TextraLabel label = newLabel(text, style.label);
-		label.setAlignment(Align.center);
-		label.setWrap(true);
-		getContainer().setActor(label);
-		getContainer().width(label.layout.getWidth());
+        final TextraLabel label = newLabel(text, style.label);
+        label.setAlignment(Align.center);
+        label.setWrap(true);
+        getContainer().setActor(label);
+        getContainer().width(label.layout.getWidth());
 
-		setStyle(style);
-	}
+        setStyle(style);
+    }
 
-	public TextraTooltip(@Null String text, Skin skin, Font replacementFont) {
-		this(text, TooltipManager.getInstance(), skin.get(TextTooltipStyle.class), replacementFont);
-	}
+    public TextraTooltip(@Null String text, Skin skin, Font replacementFont) {
+        this(text, TooltipManager.getInstance(), skin.get(TextTooltipStyle.class), replacementFont);
+    }
 
-	public TextraTooltip(@Null String text, Skin skin, String styleName, Font replacementFont) {
-		this(text, TooltipManager.getInstance(), skin.get(styleName, TextTooltipStyle.class), replacementFont);
-	}
+    public TextraTooltip(@Null String text, Skin skin, String styleName, Font replacementFont) {
+        this(text, TooltipManager.getInstance(), skin.get(styleName, TextTooltipStyle.class), replacementFont);
+    }
 
-	public TextraTooltip(@Null String text, TextTooltipStyle style, Font replacementFont) {
-		this(text, TooltipManager.getInstance(), style, replacementFont);
-	}
+    public TextraTooltip(@Null String text, TextTooltipStyle style, Font replacementFont) {
+        this(text, TooltipManager.getInstance(), style, replacementFont);
+    }
 
-	public TextraTooltip(@Null String text, TooltipManager manager, Skin skin, Font replacementFont) {
-		this(text, manager, skin.get(TextTooltipStyle.class), replacementFont);
-	}
+    public TextraTooltip(@Null String text, TooltipManager manager, Skin skin, Font replacementFont) {
+        this(text, manager, skin.get(TextTooltipStyle.class), replacementFont);
+    }
 
-	public TextraTooltip(@Null String text, TooltipManager manager, Skin skin, String styleName, Font replacementFont) {
-		this(text, manager, skin.get(styleName, TextTooltipStyle.class), replacementFont);
-	}
+    public TextraTooltip(@Null String text, TooltipManager manager, Skin skin, String styleName, Font replacementFont) {
+        this(text, manager, skin.get(styleName, TextTooltipStyle.class), replacementFont);
+    }
 
-	public TextraTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style, Font replacementFont) {
-		super(null, manager);
+    public TextraTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style, Font replacementFont) {
+        super(null, manager);
 
-		final TextraLabel label = newLabel(text, replacementFont, style.label.fontColor);
-		label.setAlignment(Align.center);
-		label.setWrap(true);
-		getContainer().setActor(label);
-		getContainer().width(label.layout.getWidth());
-		setStyle(style, replacementFont);
-	}
+        final TextraLabel label = newLabel(text, replacementFont, style.label.fontColor);
+        label.setAlignment(Align.center);
+        label.setWrap(true);
+        getContainer().setActor(label);
+        getContainer().width(label.layout.getWidth());
+        setStyle(style, replacementFont);
+    }
 
-	protected TextraLabel newLabel (String text, LabelStyle style) {
-		return new TextraLabel(text, style);
-	}
+    protected TextraLabel newLabel(String text, LabelStyle style) {
+        return new TextraLabel(text, style);
+    }
 
-	protected TextraLabel newLabel (String text, Font font) {
-		return new TextraLabel(text, font);
-	}
+    protected TextraLabel newLabel(String text, Font font) {
+        return new TextraLabel(text, font);
+    }
 
-	protected TextraLabel newLabel (String text, Font font, Color color) {
-		return color == null ? new TextraLabel(text, font) : new TextraLabel(text, font, color);
-	}
+    protected TextraLabel newLabel(String text, Font font, Color color) {
+        return color == null ? new TextraLabel(text, font) : new TextraLabel(text, font, color);
+    }
 
-	public void setStyle (TextTooltipStyle style) {
-		setStyle(style, false);
-	}
+    public void setStyle(TextTooltipStyle style) {
+        setStyle(style, false);
+    }
 
-	public void setStyle (TextTooltipStyle style, boolean makeGridGlyphs) {
-		if (style == null) throw new NullPointerException("style cannot be null");
-		Container<TextraLabel> container = getContainer();
-		container.getActor().font = new Font(style.label.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
-		container.getActor().layout.targetWidth = style.wrapWidth;
-		if(style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
-		container.getActor().font.regenerateLayout(container.getActor().layout);
-		container.getActor().font.calculateSize(container.getActor().layout);
-		container.getActor().setWidth(container.getActor().layout.getWidth());
-		container.setBackground(style.background);
-		container.maxWidth(style.wrapWidth);
-	}
+    public void setStyle(TextTooltipStyle style, boolean makeGridGlyphs) {
+        if (style == null) throw new NullPointerException("style cannot be null");
+        Container<TextraLabel> container = getContainer();
+        container.getActor().font = new Font(style.label.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
+        container.getActor().layout.targetWidth = style.wrapWidth;
+        if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
+        container.getActor().font.regenerateLayout(container.getActor().layout);
+        container.getActor().font.calculateSize(container.getActor().layout);
+        container.getActor().setWidth(container.getActor().layout.getWidth());
+        container.setBackground(style.background);
+        container.maxWidth(style.wrapWidth);
+    }
 
-	public void setStyle (TextTooltipStyle style, Font font) {
-		if (style == null) throw new NullPointerException("style cannot be null");
-		Container<TextraLabel> container = getContainer();
-		container.getActor().font = font;
-		container.getActor().layout.targetWidth = style.wrapWidth;
-		if(style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
-		font.regenerateLayout(container.getActor().layout);
-		font.calculateSize(container.getActor().layout);
-		container.getActor().setWidth(container.getActor().layout.getWidth());
-		container.setBackground(style.background);
-		container.maxWidth(style.wrapWidth);
-	}
+    public void setStyle(TextTooltipStyle style, Font font) {
+        if (style == null) throw new NullPointerException("style cannot be null");
+        Container<TextraLabel> container = getContainer();
+        container.getActor().font = font;
+        container.getActor().layout.targetWidth = style.wrapWidth;
+        if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
+        font.regenerateLayout(container.getActor().layout);
+        font.calculateSize(container.getActor().layout);
+        container.getActor().setWidth(container.getActor().layout.getWidth());
+        container.setBackground(style.background);
+        container.maxWidth(style.wrapWidth);
+    }
 }

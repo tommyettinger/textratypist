@@ -37,18 +37,18 @@ public final class KnownFonts implements LifecycleListener {
     private static KnownFonts instance;
 
     private KnownFonts() {
-        if(Gdx.app == null)
+        if (Gdx.app == null)
             throw new IllegalStateException("Gdx.app cannot be null; initialize KnownFonts in create() or later.");
         Gdx.app.addLifecycleListener(this);
     }
 
-    private static void initialize()
-    {
-        if(instance == null)
+    private static void initialize() {
+        if (instance == null)
             instance = new KnownFonts();
     }
 
     private Font astarry;
+
     /**
      * Returns a Font already configured to use a square font with 45-degree angled sections, based on the
      * typeface used on the Atari ST console, that should scale cleanly to many sizes. This font only supports ASCII,
@@ -66,13 +66,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-msdf.png">AStarry-msdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-license.txt">AStarry-license.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font A Starry using MSDF
      */
-    public static Font getAStarry()
-    {
+    public static Font getAStarry() {
         initialize();
-        if(instance.astarry == null)
-        {
+        if (instance.astarry == null) {
             try {
                 instance.astarry = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, 0, 0, 0, false)
                         .scaleTo(10, 10).setCrispness(2f).setName("A Starry (MSDF)");
@@ -80,12 +79,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.astarry != null)
+        if (instance.astarry != null)
             return new Font(instance.astarry);
         throw new RuntimeException("Assets for getAStarry() not found.");
     }
 
     private Font bitter;
+
     /**
      * Returns a Font already configured to use a light-weight variable-width slab serif font with good Latin and
      * Cyrillic script support, that should scale pretty well from a height of about 160 down to a height of maybe 30.
@@ -108,13 +108,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-standard.png">Bitter-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-License.txt">Bitter-License.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Bitter-Light.ttf
      */
-    public static Font getBitter()
-    {
+    public static Font getBitter() {
         initialize();
-        if(instance.bitter == null)
-        {
+        if (instance.bitter == null) {
             try {
                 instance.bitter = new Font("Bitter-standard.fnt", STANDARD, 0, 0, 0, 0, false)
                         .scaleTo(33, 30).adjustLineHeight(1.225f).setTextureFilter().setName("Bitter");
@@ -122,13 +121,14 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.bitter != null)
+        if (instance.bitter != null)
             return new Font(instance.bitter);
         throw new RuntimeException("Assets for getBitter() not found.");
     }
 
 
     private Font canada;
+
     /**
      * Returns a Font already configured to use a very-legible variable-width font with strong support for Canadian
      * Aboriginal Syllabic, that should scale pretty well from a height of about 86 down to a height of maybe 30.
@@ -147,13 +147,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.png">Canada1500-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-License.txt">Canada1500-License.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Canada1500.ttf
      */
-    public static Font getCanada()
-    {
+    public static Font getCanada() {
         initialize();
-        if(instance.canada == null)
-        {
+        if (instance.canada == null) {
             try {
                 instance.canada = new Font("Canada1500-standard.fnt", STANDARD, 0, 0, 0, 0, true)
                         .scaleTo(30, 35).setTextureFilter().setName("Canada1500");
@@ -161,12 +160,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.canada != null)
+        if (instance.canada != null)
             return new Font(instance.canada);
         throw new RuntimeException("Assets for getCanada() not found.");
     }
 
     private Font cascadiaMono;
+
     /**
      * Returns a Font already configured to use a quirky fixed-width font with good Unicode support
      * and a humanist style, that should scale cleanly to even very large sizes (using an MSDF technique).
@@ -185,13 +185,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-msdf.png">CascadiaMono-msdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-license.txt">Cascadia-license.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Cascadia Code Mono using MSDF
      */
-    public static Font getCascadiaMono()
-    {
+    public static Font getCascadiaMono() {
         initialize();
-        if(instance.cascadiaMono == null)
-        {
+        if (instance.cascadiaMono == null) {
             try {
                 instance.cascadiaMono = new Font("CascadiaMono-msdf.fnt", "CascadiaMono-msdf.png", MSDF, 2f, 1f, 0f, 0f, true)
                         .scaleTo(9, 16).setName("Cascadia Mono (MSDF)");
@@ -199,12 +198,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.cascadiaMono != null)
+        if (instance.cascadiaMono != null)
             return new Font(instance.cascadiaMono);
         throw new RuntimeException("Assets for getCascadiaMono() not found.");
     }
 
     private Font cozette;
+
     /**
      * Returns a Font configured to use a cozy fixed-width bitmap font,
      * <a href="https://github.com/slavfox/Cozette">Cozette by slavfox</a>. Cozette has broad coverage of Unicode,
@@ -223,13 +223,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-standard.png">Cozette-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-license.txt">Cozette-license.txt</a></li>
      * </ul>
+     *
      * @return the Font object that represents the 7x13px font Cozette
      */
-    public static Font getCozette()
-    {
+    public static Font getCozette() {
         initialize();
-        if(instance.cozette == null)
-        {
+        if (instance.cozette == null) {
             try {
                 instance.cozette = new Font("Cozette-standard.fnt", "Cozette-standard.png", STANDARD, 0, 0, 0, 0, false)
                         .useIntegerPositions(true)
@@ -238,12 +237,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.cozette != null)
+        if (instance.cozette != null)
             return new Font(instance.cozette);
         throw new RuntimeException("Assets for getCozette() not found.");
     }
 
     private Font dejaVuSansMono;
+
     /**
      * A nice old standby font with very broad language support, DejaVu Sans Mono is fixed-width and can be clearly
      * readable but doesn't do anything unusual stylistically. It really does handle a lot of glyphs; not only does this
@@ -263,13 +263,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-msdf.png">DejaVuSansMono-msdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-License.txt">DejaVuSansMono-License.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font DejaVu Sans Mono using MSDF
      */
-    public static Font getDejaVuSansMono()
-    {
+    public static Font getDejaVuSansMono() {
         initialize();
-        if(instance.dejaVuSansMono == null)
-        {
+        if (instance.dejaVuSansMono == null) {
             try {
                 instance.dejaVuSansMono = new Font("DejaVuSansMono-msdf.fnt", "DejaVuSansMono-msdf.png", MSDF, 1f, 4f, 0f, 0f, true)
                         .scaleTo(9, 20).setName("DejaVu Sans Mono (MSDF)");
@@ -277,7 +276,7 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.dejaVuSansMono != null)
+        if (instance.dejaVuSansMono != null)
             return new Font(instance.dejaVuSansMono);
         throw new RuntimeException("Assets for getDejaVuSansMono() not found.");
     }
@@ -301,13 +300,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-standard.png">Gentium-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-license.txt">Gentium-license.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Gentium.ttf
      */
-    public static Font getGentium()
-    {
+    public static Font getGentium() {
         initialize();
-        if(instance.gentium == null)
-        {
+        if (instance.gentium == null) {
             try {
                 instance.gentium = new Font("Gentium-standard.fnt", Font.DistanceFieldType.STANDARD, 0f, -10f, 0f, 0f, true)
                         .scaleTo(31, 35).setTextureFilter().setName("Gentium");
@@ -315,12 +313,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.gentium != null)
+        if (instance.gentium != null)
             return new Font(instance.gentium);
         throw new RuntimeException("Assets for getGentium() not found.");
     }
 
     private Font gentiumSDF;
+
     /**
      * Returns a Font already configured to use a variable-width serif font with excellent Unicode support, that should
      * scale cleanly to even very large sizes (using an SDF technique). You usually will want to reduce the line height
@@ -340,13 +339,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.png">Gentium-sdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-license.txt">Gentium-license.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Gentium.ttf using SDF
      */
-    public static Font getGentiumSDF()
-    {
+    public static Font getGentiumSDF() {
         initialize();
-        if(instance.gentiumSDF == null)
-        {
+        if (instance.gentiumSDF == null) {
             try {
                 instance.gentiumSDF = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 4f, 6f, 0f, 0f, true)
                         .scaleTo(50, 45).adjustLineHeight(0.8f).setCrispness(1.5f).setName("Gentium (SDF)");
@@ -354,12 +352,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.gentiumSDF != null)
+        if (instance.gentiumSDF != null)
             return new Font(instance.gentiumSDF);
         throw new RuntimeException("Assets for getGentiumSDF() not found.");
     }
 
     private Font ibm8x16;
+
     /**
      * Returns a Font configured to use a classic, nostalgic fixed-width bitmap font,
      * IBM 8x16 from the early, oft-beloved computer line. This font is notably loaded
@@ -381,13 +380,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-standard.font">IBM-8x16-standard.font</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-standard.png">IBM-8x16-standard.png</a></li>
      * </ul>
+     *
      * @return the Font object that represents an 8x16 font included with early IBM computers
      */
-    public static Font getIBM8x16()
-    {
+    public static Font getIBM8x16() {
         initialize();
-        if(instance.ibm8x16 == null)
-        {
+        if (instance.ibm8x16 == null) {
             try {
                 instance.ibm8x16 = new Font("IBM-8x16-standard.font", true)
                         .fitCell(8, 16, false).setName("IBM 8x16");
@@ -395,12 +393,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.ibm8x16 != null)
+        if (instance.ibm8x16 != null)
             return new Font(instance.ibm8x16);
         throw new RuntimeException("Assets for getIBM8x16() not found.");
     }
 
     private Font inconsolata;
+
     /**
      * A customized version of Inconsolata LGC, a fixed-width geometric font that supports a large range of Latin,
      * Greek, and Cyrillic glyphs, plus box drawing and some dingbat characters (like zodiac signs). The original font
@@ -416,13 +415,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-standard.png">Inconsolata-LGC-Custom-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Inconsolata LGC Custom
      */
-    public static Font getInconsolata()
-    {
+    public static Font getInconsolata() {
         initialize();
-        if(instance.inconsolata == null)
-        {
+        if (instance.inconsolata == null) {
             try {
                 instance.inconsolata = new Font("Inconsolata-LGC-Custom-standard.fnt", "Inconsolata-LGC-Custom-standard.png", STANDARD, 0f, 0f, -4f, 0f, true)
                         .scaleTo(10, 26).setTextureFilter().setName("Inconsolata LGC");
@@ -430,12 +428,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.inconsolata != null)
+        if (instance.inconsolata != null)
             return new Font(instance.inconsolata);
         throw new RuntimeException("Assets for getInconsolata() not found.");
     }
 
     private Font inconsolataMSDF;
+
     /**
      * A customized version of Inconsolata LGC, a fixed-width geometric font that supports a large range of Latin,
      * Greek, and Cyrillic glyphs, plus box drawing and some dingbat characters (like zodiac signs). The original font
@@ -451,13 +450,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-msdf.png">Inconsolata-LGC-Custom-msdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Inconsolata LGC Custom using MSDF
      */
-    public static Font getInconsolataMSDF()
-    {
+    public static Font getInconsolataMSDF() {
         initialize();
-        if(instance.inconsolataMSDF == null)
-        {
+        if (instance.inconsolataMSDF == null) {
             try {
                 instance.inconsolataMSDF = new Font("Inconsolata-LGC-Custom-msdf.fnt", "Inconsolata-LGC-Custom-msdf.png", MSDF, 0f, 1f, -12f, -8f, true)
                         .scaleTo(10, 26).setName("Inconsolata LGC (MSDF)");
@@ -465,12 +463,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.inconsolataMSDF != null)
+        if (instance.inconsolataMSDF != null)
             return new Font(instance.inconsolataMSDF);
         throw new RuntimeException("Assets for getInconsolataMSDF() not found.");
     }
 
     private Font iosevka;
+
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
      * and a sans-serif geometric style. Does not use a distance field effect, and is sized best at 9x25 pixels.
@@ -490,13 +489,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-standard.png">Iosevka-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Iosevka.ttf
      */
-    public static Font getIosevka()
-    {
+    public static Font getIosevka() {
         initialize();
-        if(instance.iosevka == null)
-        {
+        if (instance.iosevka == null) {
             try {
                 instance.iosevka = new Font("Iosevka-standard.fnt", "Iosevka-standard.png", STANDARD, -2f, 0f, 0f, 0f, true)
                         .scaleTo(12, 26).fitCell(10, 26, false).adjustLineHeight(0.9f).setTextureFilter().setName("Iosevka");
@@ -504,12 +502,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.iosevka != null)
+        if (instance.iosevka != null)
             return new Font(instance.iosevka);
         throw new RuntimeException("Assets for getIosevka() not found.");
     }
 
     private Font iosevkaMSDF;
+
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
      * and a sans-serif geometric style, that should scale cleanly to even very large sizes (using an MSDF technique).
@@ -532,13 +531,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-msdf.png">Iosevka-msdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Iosevka.ttf using MSDF
      */
-    public static Font getIosevkaMSDF()
-    {
+    public static Font getIosevkaMSDF() {
         initialize();
-        if(instance.iosevkaMSDF == null)
-        {
+        if (instance.iosevkaMSDF == null) {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This should be OK now that this uses the box-drawing underline.
@@ -548,12 +546,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.iosevkaMSDF != null)
+        if (instance.iosevkaMSDF != null)
             return new Font(instance.iosevkaMSDF);
         throw new RuntimeException("Assets for getIosevkaMSDF() not found.");
     }
 
     private Font iosevkaSDF;
+
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
      * and a sans-serif geometric style, that should scale cleanly to fairly large sizes (using an SDF technique).
@@ -576,13 +575,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-sdf.png">Iosevka-sdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Iosevka.ttf using SDF
      */
-    public static Font getIosevkaSDF()
-    {
+    public static Font getIosevkaSDF() {
         initialize();
-        if(instance.iosevkaSDF == null)
-        {
+        if (instance.iosevkaSDF == null) {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This should be OK now that this uses the box-drawing underline.
@@ -592,12 +590,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.iosevkaSDF != null)
+        if (instance.iosevkaSDF != null)
             return new Font(instance.iosevkaSDF);
         throw new RuntimeException("Assets for getIosevkaSDF() not found.");
     }
 
     private Font iosevkaSlab;
+
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
      * and a slab-serif geometric style. Does not use a distance field effect, and is sized best at 9x25 pixels.
@@ -617,13 +616,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-standard.png">Iosevka-Slab-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf
      */
-    public static Font getIosevkaSlab()
-    {
+    public static Font getIosevkaSlab() {
         initialize();
-        if(instance.iosevkaSlab == null)
-        {
+        if (instance.iosevkaSlab == null) {
             try {
                 instance.iosevkaSlab = new Font("Iosevka-Slab-standard.fnt", "Iosevka-Slab-standard.png", STANDARD, 0f, 0f, 0f, 0f, true)
                         .scaleTo(12, 26).fitCell(10, 26, false).adjustLineHeight(0.9f).setTextureFilter().setName("Iosevka Slab");
@@ -631,12 +629,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.iosevkaSlab != null)
+        if (instance.iosevkaSlab != null)
             return new Font(instance.iosevkaSlab);
         throw new RuntimeException("Assets for getIosevkaSlab() not found.");
     }
 
     private Font iosevkaSlabMSDF;
+
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
      * and a slab-serif geometric style, that should scale cleanly to even very large sizes (using an MSDF technique).
@@ -657,13 +656,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.png">Iosevka-Slab-msdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf using MSDF
      */
-    public static Font getIosevkaSlabMSDF()
-    {
+    public static Font getIosevkaSlabMSDF() {
         initialize();
-        if(instance.iosevkaSlabMSDF == null)
-        {
+        if (instance.iosevkaSlabMSDF == null) {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
@@ -673,12 +671,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.iosevkaSlabMSDF != null)
+        if (instance.iosevkaSlabMSDF != null)
             return new Font(instance.iosevkaSlabMSDF);
         throw new RuntimeException("Assets for getIosevkaSlabMSDF() not found.");
     }
 
     private Font iosevkaSlabSDF;
+
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
      * and a slab-serif geometric style, that should scale cleanly to fairly large sizes (using an SDF technique).
@@ -700,13 +699,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-sdf.png">Iosevka-Slab-sdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf using SDF
      */
-    public static Font getIosevkaSlabSDF()
-    {
+    public static Font getIosevkaSlabSDF() {
         initialize();
-        if(instance.iosevkaSlabSDF == null)
-        {
+        if (instance.iosevkaSlabSDF == null) {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
@@ -716,12 +714,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.iosevkaSlabSDF != null)
+        if (instance.iosevkaSlabSDF != null)
             return new Font(instance.iosevkaSlabSDF);
         throw new RuntimeException("Assets for getIosevkaSlabSDF() not found.");
     }
 
     private Font kingthingsFoundation;
+
     /**
      * Returns a Font already configured to use a fairly-legible variable-width ornamental/medieval font, that should
      * scale pretty well from a height of about 90 down to a height of maybe 30.
@@ -745,13 +744,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-Light-standard.png">KingthingsFoundation-Light-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font KingthingsFoundation.ttf
      */
-    public static Font getKingthingsFoundation()
-    {
+    public static Font getKingthingsFoundation() {
         initialize();
-        if(instance.kingthingsFoundation == null)
-        {
+        if (instance.kingthingsFoundation == null) {
             try {
                 instance.kingthingsFoundation = new Font("KingthingsFoundation-standard.fnt", STANDARD, 0, -12, 0, 0, false)
                         .scaleTo(23, 30).setTextureFilter().setName("KingThings Foundation");
@@ -759,12 +757,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.kingthingsFoundation != null)
+        if (instance.kingthingsFoundation != null)
             return new Font(instance.kingthingsFoundation);
         throw new RuntimeException("Assets for getKingthingsFoundation() not found.");
     }
 
     private Font libertinusSerif;
+
     /**
      * Returns a Font already configured to use a variable-width serif font with good Unicode support, that should
      * scale cleanly to even very large sizes (using an MSDF technique).
@@ -781,13 +780,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-Regular-msdf.png">LibertinusSerif-Regular-msdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-License.txt">LibertinusSerif-License.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font LibertinusSerif.ttf using MSDF
      */
-    public static Font getLibertinusSerif()
-    {
+    public static Font getLibertinusSerif() {
         initialize();
-        if(instance.libertinusSerif == null)
-        {
+        if (instance.libertinusSerif == null) {
             try {
                 instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, -2, 0, -2, 0, true)
                         .scaleTo(132, 28).setCrispness(1f).setName("Libertinus Serif (MSDF)");
@@ -795,12 +793,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.libertinusSerif != null)
+        if (instance.libertinusSerif != null)
             return new Font(instance.libertinusSerif);
         throw new RuntimeException("Assets for getLibertinusSerif() not found.");
     }
 
     private Font openSans;
+
     /**
      * Returns a Font configured to use a clean variable-width font, Open Sans. It has good extended-Latin coverage, but
      * does not support Greek, Cyrillic, or other scripts. This makes an especially large font by default, but can be
@@ -815,13 +814,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-standard.png">OpenSans-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-License.txt">OpenSans-License.txt</a></li>
      * </ul>
+     *
      * @return the Font object that represents the variable-width font OpenSans
      */
-    public static Font getOpenSans()
-    {
+    public static Font getOpenSans() {
         initialize();
-        if(instance.openSans == null)
-        {
+        if (instance.openSans == null) {
             try {
                 instance.openSans = new Font("OpenSans-standard.fnt", "OpenSans-standard.png", STANDARD, 4, 0, 0, 0, true)
                         .scaleTo(20, 28).adjustLineHeight(0.8f).setTextureFilter().setName("OpenSans");
@@ -829,12 +827,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.openSans != null)
+        if (instance.openSans != null)
             return new Font(instance.openSans);
         throw new RuntimeException("Assets for getOpenSans() not found.");
     }
 
     private Font oxanium;
+
     /**
      * Returns a Font already configured to use a variable-width "science-fiction/high-tech" font, that should
      * scale pretty well down, but not up.
@@ -851,13 +850,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.png">Oxanium-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-License.txt">Oxanium-License.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font Oxanium.ttf
      */
-    public static Font getOxanium()
-    {
+    public static Font getOxanium() {
         initialize();
-        if(instance.oxanium == null)
-        {
+        if (instance.oxanium == null) {
             try {
                 instance.oxanium = new Font("Oxanium-standard.fnt", STANDARD, 0, -8, -4, 0, true)
                         .scaleTo(31, 35).setTextureFilter().setName("Oxanium");
@@ -865,12 +863,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.oxanium != null)
+        if (instance.oxanium != null)
             return new Font(instance.oxanium);
         throw new RuntimeException("Assets for getOxanium() not found.");
     }
 
-   private Font robotoCondensed;
+    private Font robotoCondensed;
+
     /**
      * Returns a Font already configured to use a very-legible condensed variable-width font with excellent Unicode
      * support, that should scale pretty well from a height of about 62 down to a height of maybe 20.
@@ -888,13 +887,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-standard.png">RobotoCondensed-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-License.txt">RobotoCondensed-License.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font RobotoCondensed.ttf
      */
-    public static Font getRobotoCondensed()
-    {
+    public static Font getRobotoCondensed() {
         initialize();
-        if(instance.robotoCondensed == null)
-        {
+        if (instance.robotoCondensed == null) {
             try {
                 instance.robotoCondensed = new Font("RobotoCondensed-standard.fnt", STANDARD, 0, 4, 0, 0, true)
                         .scaleTo(25, 30).adjustLineHeight(0.9f).setTextureFilter().setName("Roboto Condensed");
@@ -902,12 +900,13 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.robotoCondensed != null)
+        if (instance.robotoCondensed != null)
             return new Font(instance.robotoCondensed);
         throw new RuntimeException("Assets for getRobotoCondensed() not found.");
     }
 
     private Font kaffeesatz;
+
     /**
      * Returns a Font already configured to use a variable-width, narrow, humanist font, that should
      * scale pretty well down, but not up.
@@ -924,13 +923,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-standard.png">YanoneKaffeesatz-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-License.txt">YanoneKaffeesatz-License.txt</a></li>
      * </ul>
+     *
      * @return the Font object that can represent many sizes of the font YanoneKaffeesatz.ttf
      */
-    public static Font getYanoneKaffeesatz()
-    {
+    public static Font getYanoneKaffeesatz() {
         initialize();
-        if(instance.kaffeesatz == null)
-        {
+        if (instance.kaffeesatz == null) {
             try {
                 instance.kaffeesatz = new Font("YanoneKaffeesatz-standard.fnt", STANDARD, 2f, 0, 0f, 0, true)
                         .scaleTo(30, 35).setTextureFilter().setName("Yanone Kaffeesatz");
@@ -938,7 +936,7 @@ public final class KnownFonts implements LifecycleListener {
                 e.printStackTrace();
             }
         }
-        if(instance.kaffeesatz != null)
+        if (instance.kaffeesatz != null)
             return new Font(instance.kaffeesatz);
         throw new RuntimeException("Assets for getYanoneKaffeesatz() not found.");
     }
@@ -956,6 +954,7 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any Font.
      * This will only function at all if all the assets (for every known Font) are present and load-able.
+     *
      * @return a new array containing all Font instances this knows
      */
     public static Font[] getAll() {
@@ -964,10 +963,12 @@ public final class KnownFonts implements LifecycleListener {
                 getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getLibertinusSerif(), getOpenSans(), getOxanium(), getRobotoCondensed(), getYanoneKaffeesatz()};
     }
+
     /**
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any
      * non-distance-field Font.
      * This will only function at all if all the assets (for every known standard Font) are present and load-able.
+     *
      * @return a new array containing all non-distance-field Font instances this knows
      */
     public static Font[] getAllStandard() {
@@ -1000,7 +1001,7 @@ public final class KnownFonts implements LifecycleListener {
      *
      * @return a Font that can switch between 13 different Fonts in its FontFamily, to any non-distance-field Font this knows
      */
-    public static Font getStandardFamily(){
+    public static Font getStandardFamily() {
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{"Serif", "Sans", "Mono", "Condensed", "Humanist",
                         "Retro", "Slab", "Bitter", "Canada", "Cozette", "Iosevka",
@@ -1014,6 +1015,7 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any SDF Font.
      * This will only function at all if all the assets (for every known SDF Font) are present and load-able.
+     *
      * @return a new array containing all SDF Font instances this knows
      */
     public static Font[] getAllSDF() {
@@ -1023,6 +1025,7 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any MSDF Font.
      * This will only function at all if all the assets (for every known MSDF Font) are present and load-able.
+     *
      * @return a new array containing all MSDF Font instances this knows
      */
     public static Font[] getAllMSDF() {

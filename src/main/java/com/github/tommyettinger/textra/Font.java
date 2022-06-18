@@ -98,11 +98,12 @@ public class Font implements Disposable {
         /**
          * Creates a GlyphRegion from a parent TextureRegion (typically from an atlas), along with the lower-left x and
          * y coordinates, the width, and the height of the GlyphRegion.
+         *
          * @param textureRegion a TextureRegion, typically from a TextureAtlas
-         * @param x the x-coordinate of the left side of the texture, in pixels
-         * @param y the y-coordinate of the lower side of the texture, in pixels
-         * @param width the width of the GlyphRegion, in pixels
-         * @param height the height of the GlyphRegion, in pixels
+         * @param x             the x-coordinate of the left side of the texture, in pixels
+         * @param y             the y-coordinate of the lower side of the texture, in pixels
+         * @param width         the width of the GlyphRegion, in pixels
+         * @param height        the height of the GlyphRegion, in pixels
          */
         public GlyphRegion(TextureRegion textureRegion, int x, int y, int width, int height) {
             super(textureRegion, x, y, width, height);
@@ -110,6 +111,7 @@ public class Font implements Disposable {
 
         /**
          * Copies another GlyphRegion.
+         *
          * @param other the other GlyphRegion to copy
          */
         public GlyphRegion(GlyphRegion other) {
@@ -122,11 +124,12 @@ public class Font implements Disposable {
         /**
          * Flips the region, adjusting the offset so the image appears to be flipped as if no whitespace has been
          * removed for packing.
+         *
          * @param x true if this should flip x to be -x
          * @param y true if this should flip y to be -y
          */
         @Override
-        public void flip (boolean x, boolean y) {
+        public void flip(boolean x, boolean y) {
             super.flip(x, y);
             if (x) {
                 offsetX = -offsetX;
@@ -157,7 +160,7 @@ public class Font implements Disposable {
         /**
          * Creates a FontFamily that only allows staying on the same font, unless later configured otherwise.
          */
-        public FontFamily(){
+        public FontFamily() {
         }
 
         /**
@@ -165,9 +168,10 @@ public class Font implements Disposable {
          * This allows switching to different fonts using the [@Name] syntax. This also registers aliases for the
          * Strings "0" through up to "15" to refer to the Font values with the same indices (it can register fewer
          * aliases than up to "15" if there are fewer than 16 Fonts). You should avoid using more than 16 fonts here.
+         *
          * @param fonts a non-null array of Font values that should each have their name set (as by {@link #setName(String)}
          */
-        public FontFamily(Font[] fonts){
+        public FontFamily(Font[] fonts) {
             this(fonts, 0, fonts.length);
         }
 
@@ -177,16 +181,17 @@ public class Font implements Disposable {
          * as its alias. This allows switching to different fonts using the [@Name] syntax. This registers aliases for
          * the Strings "0" through up to "15" to refer to the Font values with the same indices (it can register fewer
          * aliases than up to "15" if there are fewer than 16 Fonts). You should avoid using more than 16 fonts here.
-         * @param fonts an array of Font values that should have the same length as aliases (no more than 16)
+         *
+         * @param fonts  an array of Font values that should have the same length as aliases (no more than 16)
          * @param offset where to start accessing fonts, as a non-negative index
          * @param length how many items to use from fonts, if that many are provided
          */
-        public FontFamily(Font[] fonts, int offset, int length){
-            if(fonts == null || fonts.length == 0) return;
+        public FontFamily(Font[] fonts, int offset, int length) {
+            if (fonts == null || fonts.length == 0) return;
             for (int i = offset, a = 0; i < length && i < fonts.length; i++, a++) {
-                if(fonts[i] == null) continue;
+                if (fonts[i] == null) continue;
                 connected[a & 15] = fonts[i];
-                if(fonts[i].name != null)
+                if (fonts[i].name != null)
                     fontAliases.put(fonts[i].name, a & 15);
                 fontAliases.put(String.valueOf(a & 15), a & 15);
             }
@@ -199,10 +204,11 @@ public class Font implements Disposable {
          * (it can register fewer aliases than up to "15" if there are fewer than 16 Fonts). It also registers the
          * {@link Font#name} of each Font as an alias. You should avoid using more than 16 fonts here. You should avoid
          * using more than 16 fonts with this.
+         *
          * @param aliases a non-null array of up to 16 String names to use for fonts (individual items may be null)
-         * @param fonts a non-null array of Font values that should have the same length as aliases (no more than 16)
+         * @param fonts   a non-null array of Font values that should have the same length as aliases (no more than 16)
          */
-        public FontFamily(String[] aliases, Font[] fonts){
+        public FontFamily(String[] aliases, Font[] fonts) {
             this(aliases, fonts, 0, Math.min(aliases.length, fonts.length));
         }
 
@@ -213,18 +219,19 @@ public class Font implements Disposable {
          * syntax. This registers aliases for the Strings "0" through up to "15" to refer to the Font values with the
          * same indices (it can register fewer aliases than up to "15" if there are fewer than 16 Fonts). It also
          * registers the {@link Font#name} of each Font as an alias. You should avoid using more than 16 fonts here.
+         *
          * @param aliases an array of up to 16 String names to use for fonts (individual items may be null)
-         * @param fonts an array of Font values that should have the same length as aliases (no more than 16)
-         * @param offset where to start accessing aliases and fonts, as a non-negative index
-         * @param length how many items to use from aliases and fonts, if that many are provided
+         * @param fonts   an array of Font values that should have the same length as aliases (no more than 16)
+         * @param offset  where to start accessing aliases and fonts, as a non-negative index
+         * @param length  how many items to use from aliases and fonts, if that many are provided
          */
-        public FontFamily(String[] aliases, Font[] fonts, int offset, int length){
-            if(aliases == null || fonts == null || (aliases.length & fonts.length) == 0) return;
+        public FontFamily(String[] aliases, Font[] fonts, int offset, int length) {
+            if (aliases == null || fonts == null || (aliases.length & fonts.length) == 0) return;
             for (int i = offset, a = 0; i < length && i < aliases.length && i < fonts.length; i++, a++) {
-                if(fonts[i] == null) continue;
+                if (fonts[i] == null) continue;
                 connected[a & 15] = fonts[i];
                 fontAliases.put(aliases[i], a & 15);
-                if(fonts[i].name != null)
+                if (fonts[i].name != null)
                     fontAliases.put(fonts[i].name, a & 15);
                 fontAliases.put(String.valueOf(a & 15), a & 15);
             }
@@ -235,13 +242,14 @@ public class Font implements Disposable {
          * can be switched between). This registers the Strings "0" up to "15" to be aliases for the Fonts with those
          * indices in the map. It also registers the {@link Font#name} of each Font as an alias. This only uses up to
          * the first 16 keys of map.
+         *
          * @param map an OrderedMap of String keys to Font values
          */
-        public FontFamily(OrderedMap<String, Font> map){
+        public FontFamily(OrderedMap<String, Font> map) {
             Array<String> ks = map.orderedKeys();
             for (int i = 0; i < map.size && i < 16; i++) {
                 String name = ks.get(i);
-                if((connected[i] = map.get(name)) == null) continue;
+                if ((connected[i] = map.get(name)) == null) continue;
                 fontAliases.put(name, i);
                 fontAliases.put(connected[i].name, i);
                 fontAliases.put(String.valueOf(i), i);
@@ -251,20 +259,22 @@ public class Font implements Disposable {
         /**
          * Copy constructor for another FontFamily. Font items in {@link #connected} will not be copied, and the same
          * references will be used.
+         *
          * @param other another, non-null, FontFamily to copy into this.
          */
-        public FontFamily(FontFamily other){
+        public FontFamily(FontFamily other) {
             System.arraycopy(other.connected, 0, connected, 0, 16);
             fontAliases.putAll(other.fontAliases);
         }
 
         /**
          * Gets the corresponding Font for a name/alias, or null if it was not found.
+         *
          * @param name a name or alias for a font, such as "Gentium" or "2"
          * @return the Font corresponding to the given name, or null if not found
          */
-        public Font get(String name){
-            if(name == null) return null;
+        public Font get(String name) {
+            if (name == null) return null;
             return connected[fontAliases.get(name, 0) & 15];
         }
 
@@ -416,17 +426,29 @@ public class Font implements Disposable {
      */
     public String name = "Unnamed Font";
 
-    /** Bit flag for bold mode, as a long. */
+    /**
+     * Bit flag for bold mode, as a long.
+     */
     public static final long BOLD = 1L << 30;
-    /** Bit flag for oblique mode, as a long. */
+    /**
+     * Bit flag for oblique mode, as a long.
+     */
     public static final long OBLIQUE = 1L << 29;
-    /** Bit flag for underline mode, as a long. */
+    /**
+     * Bit flag for underline mode, as a long.
+     */
     public static final long UNDERLINE = 1L << 28;
-    /** Bit flag for strikethrough mode, as a long. */
+    /**
+     * Bit flag for strikethrough mode, as a long.
+     */
     public static final long STRIKETHROUGH = 1L << 27;
-    /** Bit flag for subscript mode, as a long. */
+    /**
+     * Bit flag for subscript mode, as a long.
+     */
     public static final long SUBSCRIPT = 1L << 25;
-    /** Bit flag for midscript mode, as a long. */
+    /**
+     * Bit flag for midscript mode, as a long.
+     */
     public static final long MIDSCRIPT = 2L << 25;
     /**
      * Two-bit flag for superscript mode, as a long.
@@ -508,7 +530,7 @@ public class Font implements Disposable {
      * Fragment shader source meant for MSDF fonts. This is automatically used when {@link #enableShader(Batch)} is
      * called and the {@link #distanceField} is {@link DistanceFieldType#MSDF}.
      */
-    public static final String msdfFragmentShader =  "#ifdef GL_ES\n"
+    public static final String msdfFragmentShader = "#ifdef GL_ES\n"
             + "	precision mediump float;\n"
             + "	precision mediump int;\n"
             + "#endif\n"
@@ -541,13 +563,14 @@ public class Font implements Disposable {
     //// font parsing section
 
     private static final int[] hexCodes = new int[]
-            {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,-1,-1,-1,-1,-1,-1,
-                    -1,10,11,12,13,14,15,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                    -1,10,11,12,13,14,15};
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, -1, -1, -1, -1, -1, -1,
+                    -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                    -1, 10, 11, 12, 13, 14, 15};
+
     /**
      * Reads in a CharSequence containing only hex digits (only 0-9, a-f, and A-F) with an optional sign at the start
      * and returns the long they represent, reading at most 16 characters (17 if there is a sign) and returning the
@@ -564,9 +587,10 @@ public class Font implements Disposable {
      * This doesn't throw on invalid input, though, instead returning 0 if the first char is not a hex digit, or
      * stopping the parse process early if a non-hex-digit char is read before end is reached. If the parse is stopped
      * early, this behaves as you would expect for a number with fewer digits, and simply doesn't fill the larger places.
-     * @param cs a CharSequence, such as a String, containing only hex digits with an optional sign (no 0x at the start)
+     *
+     * @param cs    a CharSequence, such as a String, containing only hex digits with an optional sign (no 0x at the start)
      * @param start the (inclusive) first character position in cs to read
-     * @param end the (exclusive) last character position in cs to read (this stops after 16 characters if end is too large)
+     * @param end   the (exclusive) last character position in cs to read (this stops after 16 characters if end is too large)
      * @return the long that cs represents
      */
     public static long longFromHex(final CharSequence cs, final int start, int end) {
@@ -597,6 +621,7 @@ public class Font implements Disposable {
         }
         return data * len;
     }
+
     /**
      * Reads in a CharSequence containing only hex digits (only 0-9, a-f, and A-F) with an optional sign at the start
      * and returns the long they represent, reading at most 16 characters (17 if there is a sign) and returning the
@@ -613,9 +638,10 @@ public class Font implements Disposable {
      * This doesn't throw on invalid input, though, instead returning 0 if the first char is not a hex digit, or
      * stopping the parse process early if a non-hex-digit char is read before end is reached. If the parse is stopped
      * early, this behaves as you would expect for a number with fewer digits, and simply doesn't fill the larger places.
-     * @param cs a CharSequence, such as a String, containing only hex digits with an optional sign (no 0x at the start)
+     *
+     * @param cs    a CharSequence, such as a String, containing only hex digits with an optional sign (no 0x at the start)
      * @param start the (inclusive) first character position in cs to read
-     * @param end the (exclusive) last character position in cs to read (this stops after 16 characters if end is too large)
+     * @param end   the (exclusive) last character position in cs to read (this stops after 16 characters if end is too large)
      * @return the long that cs represents
      */
     public static int intFromHex(final CharSequence cs, final int start, int end) {
@@ -661,68 +687,64 @@ public class Font implements Disposable {
      * returning 0 if the first char is not a decimal digit, or stopping the parse process early if a non-decimal-digit
      * char is read before end is reached. If the parse is stopped early, this behaves as you would expect for a number
      * with fewer digits, and simply doesn't fill the larger places.
-     * @param cs a CharSequence, such as a String, containing only digits 0-9 with an optional sign
+     *
+     * @param cs    a CharSequence, such as a String, containing only digits 0-9 with an optional sign
      * @param start the (inclusive) first character position in cs to read
-     * @param end the (exclusive) last character position in cs to read (this stops after 10 or 11 characters if end is too large, depending on sign)
+     * @param end   the (exclusive) last character position in cs to read (this stops after 10 or 11 characters if end is too large, depending on sign)
      * @return the int that cs represents
      */
-    public static int intFromDec(final CharSequence cs, final int start, int end)
-    {
+    public static int intFromDec(final CharSequence cs, final int start, int end) {
         int len, h, lim = 10;
-        if(cs == null || start < 0 || end <=0 || end - start <= 0
+        if (cs == null || start < 0 || end <= 0 || end - start <= 0
                 || (len = cs.length()) - start <= 0 || end > len)
             return 0;
         char c = cs.charAt(start);
-        if(c == '-')
-        {
+        if (c == '-') {
             len = -1;
             lim = 11;
             h = 0;
-        }
-        else if(c == '+')
-        {
+        } else if (c == '+') {
             len = 1;
             lim = 11;
             h = 0;
-        }
-        else if(c > 102 || (h = hexCodes[c]) < 0 || h > 9)
+        } else if (c > 102 || (h = hexCodes[c]) < 0 || h > 9)
             return 0;
-        else
-        {
+        else {
             len = 1;
         }
         int data = h;
         for (int i = start + 1; i < end && i < start + lim; i++) {
-            if((c = cs.charAt(i)) > 102 || (h = hexCodes[c]) < 0 || h > 9)
+            if ((c = cs.charAt(i)) > 102 || (h = hexCodes[c]) < 0 || h > 9)
                 return data * len;
             data = data * 10 + h;
         }
         return data * len;
     }
 
-    private static int indexAfter(String text, String search, int from){
+    private static int indexAfter(String text, String search, int from) {
         return ((from = text.indexOf(search, from)) < 0 ? text.length() : from + search.length());
     }
 
     /**
      * Like {@link String#substring(int, int)} but returns "" instead of throwing any sort of Exception.
-     * @param source the String to get a substring from
+     *
+     * @param source     the String to get a substring from
      * @param beginIndex the first index, inclusive; will be treated as 0 if negative
-     * @param endIndex the index after the last character (exclusive); if negative this will be source.length()
+     * @param endIndex   the index after the last character (exclusive); if negative this will be source.length()
      * @return the substring of source between beginIndex and endIndex, or "" if any parameters are null/invalid
      */
-    public static String safeSubstring(String source, int beginIndex, int endIndex)
-    {
-        if(source == null || source.isEmpty()) return "";
-        if(beginIndex < 0) beginIndex = 0;
-        if(endIndex < 0 || endIndex > source.length()) endIndex = source.length();
-        if(beginIndex >= endIndex) return "";
+    public static String safeSubstring(String source, int beginIndex, int endIndex) {
+        if (source == null || source.isEmpty()) return "";
+        if (beginIndex < 0) beginIndex = 0;
+        if (endIndex < 0 || endIndex > source.length()) endIndex = source.length();
+        if (beginIndex >= endIndex) return "";
         return source.substring(beginIndex, endIndex);
     }
 
     /**
      * Returns true if {@code c} is a lower-case letter, or false otherwise.
      * Similar to {@link Character#isLowerCase(char)}, but should actually work on GWT.
+     *
      * @param c a char to check
      * @return true if c is a lower-case letter, or false otherwise.
      */
@@ -733,6 +755,7 @@ public class Font implements Disposable {
     /**
      * Returns true if {@code c} is an upper-case letter, or false otherwise.
      * Similar to {@link Character#isUpperCase(char)}, but should actually work on GWT.
+     *
      * @param c a char to check
      * @return true if c is an upper-case letter, or false otherwise.
      */
@@ -742,6 +765,7 @@ public class Font implements Disposable {
 
     /**
      * Gets the ColorLookup this uses to look up colors by name.
+     *
      * @return a ColorLookup implementation
      */
     public ColorLookup getColorLookup() {
@@ -751,11 +775,12 @@ public class Font implements Disposable {
     /**
      * Unlikely to be used in most games (meant more for other libraries), this allows changing how colors are looked up
      * by name (or built) given a {@link ColorLookup} interface implementation.
+     *
      * @param lookup a non-null ColorLookup
      * @return this, for chaining
      */
-    public Font setColorLookup(ColorLookup lookup){
-        if(lookup != null)
+    public Font setColorLookup(ColorLookup lookup) {
+        if (lookup != null)
             colorLookup = lookup;
         return this;
     }
@@ -765,45 +790,52 @@ public class Font implements Disposable {
     /**
      * Constructs a Font by reading in the given .fnt file and loading any images it specifies. Tries an internal handle
      * first, then a local handle. Does not use a distance field effect.
+     *
      * @param fntName the file path and name to a .fnt file this will load
      */
-    public Font(String fntName){
+    public Font(String fntName) {
         this(fntName, DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f);
     }
+
     /**
      * Constructs a Font by reading in the given .fnt file and loading any images it specifies. Tries an internal handle
      * first, then a local handle. Uses the specified distance field effect.
-     * @param fntName the file path and name to a .fnt file this will load
+     *
+     * @param fntName       the file path and name to a .fnt file this will load
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      */
-    public Font(String fntName, DistanceFieldType distanceField){
+    public Font(String fntName, DistanceFieldType distanceField) {
         this(fntName, distanceField, 0f, 0f, 0f, 0f);
     }
 
     /**
      * Constructs a Font by reading in the given .fnt file and the given Texture by filename. Tries an internal handle
      * first, then a local handle. Does not use a distance field effect.
+     *
      * @param fntName the file path and name to a .fnt file this will load
      */
-    public Font(String fntName, String textureName){
+    public Font(String fntName, String textureName) {
         this(fntName, textureName, DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f);
     }
+
     /**
      * Constructs a Font by reading in the given .fnt file and the given Texture by filename. Tries an internal handle
      * first, then a local handle. Uses the specified distance field effect.
-     * @param fntName the file path and name to a .fnt file this will load
+     *
+     * @param fntName       the file path and name to a .fnt file this will load
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      */
-    public Font(String fntName, String textureName, DistanceFieldType distanceField){
+    public Font(String fntName, String textureName, DistanceFieldType distanceField) {
         this(fntName, textureName, distanceField, 0f, 0f, 0f, 0f);
     }
 
     /**
      * Copy constructor; does not copy the font's {@link #shader} or {@link #colorLookup}, if it has them (it uses the
      * same reference for the new Font), but will fully copy everything else.
+     *
      * @param toCopy another Font to copy
      */
-    public Font(Font toCopy){
+    public Font(Font toCopy) {
         distanceField = toCopy.distanceField;
         isMono = toCopy.isMono;
         actualCrispness = toCopy.actualCrispness;
@@ -816,8 +848,8 @@ public class Font implements Disposable {
         originalCellWidth = toCopy.originalCellWidth;
         originalCellHeight = toCopy.originalCellHeight;
         mapping = new IntMap<>(toCopy.mapping.size);
-        for(IntMap.Entry<GlyphRegion> e : toCopy.mapping){
-            if(e.value == null) continue;
+        for (IntMap.Entry<GlyphRegion> e : toCopy.mapping) {
+            if (e.value == null) continue;
             mapping.put(e.key, new GlyphRegion(e.value));
         }
         defaultValue = toCopy.defaultValue;
@@ -826,14 +858,14 @@ public class Font implements Disposable {
         name = toCopy.name;
         integerPosition = toCopy.integerPosition;
 
-        if(toCopy.family != null)
+        if (toCopy.family != null)
             family = new FontFamily(toCopy.family);
 
         // shader and colorLookup are not copied, because there isn't much point in having different copies of
         // a ShaderProgram or stateless ColorLookup. They are referenced directly.
-        if(toCopy.shader != null)
+        if (toCopy.shader != null)
             shader = toCopy.shader;
-        if(toCopy.colorLookup != null)
+        if (toCopy.colorLookup != null)
             colorLookup = toCopy.colorLookup;
     }
 
@@ -846,10 +878,11 @@ public class Font implements Disposable {
      * If you want to add empty space around each character, you can add approximately the normal
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
+     *
+     * @param fntName      the path and filename of a .fnt file this will load; may be internal or local
+     * @param xAdjust      how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust      how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust  how many pixels to add to the used width of each character, using more to the right
      * @param heightAdjust how many pixels to add to the used height of each character, using more above
      */
     public Font(String fntName,
@@ -866,17 +899,19 @@ public class Font implements Disposable {
      * If you want to add empty space around each character, you can add approximately the normal
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
+     *
+     * @param fntName       the path and filename of a .fnt file this will load; may be internal or local
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
-     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     * @param xAdjust       how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust       how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust   how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust  how many pixels to add to the used height of each character, using more above
      */
     public Font(String fntName, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
         this(fntName, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, false);
     }
+
     /**
      * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried first, then a
      * local handle) and loading any images specified in that file. The specified distance field effect is used.
@@ -886,12 +921,13 @@ public class Font implements Disposable {
      * If you want to add empty space around each character, you can add approximately the normal
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
-     * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
-     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     *
+     * @param fntName        the path and filename of a .fnt file this will load; may be internal or local
+     * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust        how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust   how many pixels to add to the used height of each character, using more above
      * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
     public Font(String fntName, DistanceFieldType distanceField,
@@ -901,10 +937,9 @@ public class Font implements Disposable {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
-        }
-        else if(distanceField == DistanceFieldType.SDF){
+        } else if (distanceField == DistanceFieldType.SDF) {
             shader = DistanceFieldFont.createDistanceFieldShader();
-            if(!shader.isCompiled())
+            if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
         loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
@@ -919,11 +954,12 @@ public class Font implements Disposable {
      * If you want to add empty space around each character, you can add approximately the normal
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
-     * @param textureName the path and filename of a texture file this will load; may be internal or local
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
+     *
+     * @param fntName      the path and filename of a .fnt file this will load; may be internal or local
+     * @param textureName  the path and filename of a texture file this will load; may be internal or local
+     * @param xAdjust      how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust      how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust  how many pixels to add to the used width of each character, using more to the right
      * @param heightAdjust how many pixels to add to the used height of each character, using more above
      */
     public Font(String fntName, String textureName,
@@ -940,18 +976,20 @@ public class Font implements Disposable {
      * If you want to add empty space around each character, you can add approximately the normal
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
-     * @param textureName the path and filename of a texture file this will load; may be internal or local
+     *
+     * @param fntName       the path and filename of a .fnt file this will load; may be internal or local
+     * @param textureName   the path and filename of a texture file this will load; may be internal or local
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
-     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     * @param xAdjust       how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust       how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust   how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust  how many pixels to add to the used height of each character, using more above
      */
     public Font(String fntName, String textureName, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
         this(fntName, textureName, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, false);
     }
+
     /**
      * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then local),
      * and the specified distance field effect.
@@ -961,13 +999,14 @@ public class Font implements Disposable {
      * If you want to add empty space around each character, you can add approximately the normal
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
-     * @param textureName the path and filename of a texture file this will load; may be internal or local
-     * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
-     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     *
+     * @param fntName        the path and filename of a .fnt file this will load; may be internal or local
+     * @param textureName    the path and filename of a texture file this will load; may be internal or local
+     * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust        how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust   how many pixels to add to the used height of each character, using more above
      * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
     public Font(String fntName, String textureName, DistanceFieldType distanceField,
@@ -977,10 +1016,9 @@ public class Font implements Disposable {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
-        }
-        else if(distanceField == DistanceFieldType.SDF){
+        } else if (distanceField == DistanceFieldType.SDF) {
             shader = DistanceFieldFont.createDistanceFieldShader();
-            if(!shader.isCompiled())
+            if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
         FileHandle textureHandle;
@@ -1004,12 +1042,13 @@ public class Font implements Disposable {
      * If you want to add empty space around each character, you can add approximately the normal
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
+     *
+     * @param fntName       the path and filename of a .fnt file this will load; may be internal or local
      * @param textureRegion an existing TextureRegion, typically inside a larger TextureAtlas
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
-     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     * @param xAdjust       how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust       how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust   how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust  how many pixels to add to the used height of each character, using more above
      */
     public Font(String fntName, TextureRegion textureRegion,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
@@ -1025,18 +1064,20 @@ public class Font implements Disposable {
      * If you want to add empty space around each character, you can add approximately the normal
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
+     *
+     * @param fntName       the path and filename of a .fnt file this will load; may be internal or local
      * @param textureRegion an existing TextureRegion, typically inside a larger TextureAtlas
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
-     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     * @param xAdjust       how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust       how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust   how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust  how many pixels to add to the used height of each character, using more above
      */
     public Font(String fntName, TextureRegion textureRegion, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
         this(fntName, textureRegion, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, false);
     }
+
     /**
      * Constructs a font based off of an AngelCode BMFont .fnt file and the given TextureRegion that holds all of its
      * glyphs, with the specified distance field effect.
@@ -1046,13 +1087,14 @@ public class Font implements Disposable {
      * If you want to add empty space around each character, you can add approximately the normal
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
-     * @param textureRegion an existing TextureRegion, typically inside a larger TextureAtlas
-     * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
-     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     *
+     * @param fntName        the path and filename of a .fnt file this will load; may be internal or local
+     * @param textureRegion  an existing TextureRegion, typically inside a larger TextureAtlas
+     * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust        how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust   how many pixels to add to the used height of each character, using more above
      * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
     public Font(String fntName, TextureRegion textureRegion, DistanceFieldType distanceField,
@@ -1062,10 +1104,9 @@ public class Font implements Disposable {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
-        }
-        else if(distanceField == DistanceFieldType.SDF){
+        } else if (distanceField == DistanceFieldType.SDF) {
             shader = DistanceFieldFont.createDistanceFieldShader();
-            if(!shader.isCompiled())
+            if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
         this.parents = Array.with(textureRegion);
@@ -1083,12 +1124,13 @@ public class Font implements Disposable {
      * If you want to add empty space around each character, you can add approximately the normal
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
+     *
+     * @param fntName        the path and filename of a .fnt file this will load; may be internal or local
      * @param textureRegions an Array of TextureRegions that will be used in order as the .fnt file uses more pages
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
-     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust        how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust   how many pixels to add to the used height of each character, using more above
      */
     public Font(String fntName, Array<TextureRegion> textureRegions,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
@@ -1103,13 +1145,14 @@ public class Font implements Disposable {
      * If you want to add empty space around each character, you can add approximately the normal
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
+     *
+     * @param fntName        the path and filename of a .fnt file this will load; may be internal or local
      * @param textureRegions an Array of TextureRegions that will be used in order as the .fnt file uses more pages
-     * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
-     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust        how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust   how many pixels to add to the used height of each character, using more above
      */
     public Font(String fntName, Array<TextureRegion> textureRegions, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
@@ -1124,13 +1167,14 @@ public class Font implements Disposable {
      * If you want to add empty space around each character, you can add approximately the normal
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
-     * @param fntName the path and filename of a .fnt file this will load; may be internal or local
+     *
+     * @param fntName        the path and filename of a .fnt file this will load; may be internal or local
      * @param textureRegions an Array of TextureRegions that will be used in order as the .fnt file uses more pages
-     * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
-     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust        how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust   how many pixels to add to the used height of each character, using more above
      * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
     public Font(String fntName, Array<TextureRegion> textureRegions, DistanceFieldType distanceField,
@@ -1140,17 +1184,15 @@ public class Font implements Disposable {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
-        }
-        else if(distanceField == DistanceFieldType.SDF){
+        } else if (distanceField == DistanceFieldType.SDF) {
             shader = DistanceFieldFont.createDistanceFieldShader();
-            if(!shader.isCompiled())
+            if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
         this.parents = textureRegions;
         if ((distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF)
-                && textureRegions != null)
-        {
-            for(TextureRegion parent : textureRegions)
+                && textureRegions != null) {
+            for (TextureRegion parent : textureRegions)
                 parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
         loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
@@ -1159,6 +1201,7 @@ public class Font implements Disposable {
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
      * without a distance field effect or any adjustments to position.
+     *
      * @param bmFont an existing BitmapFont that will be copied in almost every way this can
      */
     public Font(BitmapFont bmFont) {
@@ -1168,39 +1211,44 @@ public class Font implements Disposable {
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
      * without a distance field effect.
-     * @param bmFont an existing BitmapFont that will be copied in almost every way this can
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
+     *
+     * @param bmFont       an existing BitmapFont that will be copied in almost every way this can
+     * @param xAdjust      how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust      how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust  how many pixels to add to the used width of each character, using more to the right
      * @param heightAdjust how many pixels to add to the used height of each character, using more above
      */
     public Font(BitmapFont bmFont,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
         this(bmFont, DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust);
     }
+
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
      * with the specified distance field effect.
-     * @param bmFont an existing BitmapFont that will be copied in almost every way this can
+     *
+     * @param bmFont        an existing BitmapFont that will be copied in almost every way this can
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
-     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     * @param xAdjust       how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust       how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust   how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust  how many pixels to add to the used height of each character, using more above
      */
     public Font(BitmapFont bmFont, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
         this(bmFont, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, false);
     }
+
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
      * with the specified distance field effect.
-     * @param bmFont an existing BitmapFont that will be copied in almost every way this can
-     * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
-     * @param xAdjust how many pixels to offset each character's x-position by, moving to the right
-     * @param yAdjust how many pixels to offset each character's y-position by, moving up
-     * @param widthAdjust how many pixels to add to the used width of each character, using more to the right
-     * @param heightAdjust how many pixels to add to the used height of each character, using more above
+     *
+     * @param bmFont         an existing BitmapFont that will be copied in almost every way this can
+     * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust        how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust   how many pixels to add to the used height of each character, using more above
      * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
     public Font(BitmapFont bmFont, DistanceFieldType distanceField,
@@ -1210,17 +1258,15 @@ public class Font implements Disposable {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
-        }
-        else if(distanceField == DistanceFieldType.SDF){
+        } else if (distanceField == DistanceFieldType.SDF) {
             shader = DistanceFieldFont.createDistanceFieldShader();
-            if(!shader.isCompiled())
+            if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
         this.parents = bmFont.getRegions();
         if ((distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF)
-                && parents != null)
-        {
-            for(TextureRegion parent : parents)
+                && parents != null) {
+            for (TextureRegion parent : parents)
                 parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
         BitmapFont.BitmapFontData data = bmFont.getData();
@@ -1239,44 +1285,41 @@ public class Font implements Disposable {
                     cellWidth = Math.max(a, cellWidth);
                     cellHeight = Math.max(h, cellHeight);
                     GlyphRegion gr = new GlyphRegion(bmFont.getRegion(glyph.page), x, y, w, h);
-                    if(glyph.id == 10)
-                    {
+                    if (glyph.id == 10) {
                         a = 0;
                         gr.offsetX = 0;
-                    }
-                    else if(makeGridGlyphs && BlockUtils.isBlockGlyph(glyph.id)){
+                    } else if (makeGridGlyphs && BlockUtils.isBlockGlyph(glyph.id)) {
                         gr.offsetX = Float.NaN;
-                    }
-                    else {
+                    } else {
                         gr.offsetX = glyph.xoffset + xAdjust;
                     }
                     gr.offsetY = (-h - glyph.yoffset) + yAdjust;
                     gr.xAdvance = a;
                     mapping.put(glyph.id & 0xFFFF, gr);
-                    if(glyph.kerning != null) {
-                        if(kerning == null) kerning = new IntIntMap(128);
+                    if (glyph.kerning != null) {
+                        if (kerning == null) kerning = new IntIntMap(128);
                         for (int b = 0; b < glyph.kerning.length; b++) {
                             byte[] kern = glyph.kerning[b];
-                            if(kern != null) {
+                            if (kern != null) {
                                 int k;
                                 for (int i = 0; i < 512; i++) {
                                     k = kern[i];
                                     if (k != 0) {
                                         kerning.put(glyph.id << 16 | (b << 9 | i), k);
                                     }
-                                    if((b << 9 | i) == '['){
+                                    if ((b << 9 | i) == '[') {
                                         kerning.put(glyph.id << 16 | 2, k);
                                     }
                                 }
                             }
                         }
                     }
-                    if((glyph.id & 0xFFFF) == '['){
+                    if ((glyph.id & 0xFFFF) == '[') {
                         mapping.put(2, gr);
-                        if(glyph.kerning != null) {
+                        if (glyph.kerning != null) {
                             for (int b = 0; b < glyph.kerning.length; b++) {
                                 byte[] kern = glyph.kerning[b];
-                                if(kern != null) {
+                                if (kern != null) {
                                     int k;
                                     for (int i = 0; i < 512; i++) {
                                         k = kern[i];
@@ -1292,18 +1335,18 @@ public class Font implements Disposable {
             }
         }
         // Newlines shouldn't render.
-        if(mapping.containsKey('\n')) {
+        if (mapping.containsKey('\n')) {
             GlyphRegion gr = mapping.get('\n');
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
         }
-        if(mapping.containsKey(' ')) {
+        if (mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
         }
         solidBlock = mapping.containsKey(0) ? 0 : mapping.containsKey(0x2588) ? '\u2588' : '\uFFFF';
-        if(makeGridGlyphs){
+        if (makeGridGlyphs) {
             GlyphRegion block = mapping.get(solidBlock, null);
-            if(block != null) {
+            if (block != null) {
                 for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
                     GlyphRegion gr = new GlyphRegion(block);
                     gr.offsetX = Float.NaN;
@@ -1313,7 +1356,7 @@ public class Font implements Disposable {
                 }
             }
         }
-        defaultValue =  mapping.get(data.missingGlyph == null ? ' ' : data.missingGlyph.id, mapping.get(' ', mapping.values().next()));
+        defaultValue = mapping.get(data.missingGlyph == null ? ' ' : data.missingGlyph.id, mapping.get(' ', mapping.values().next()));
         originalCellWidth = cellWidth;
         originalCellHeight = cellHeight;
         isMono = minWidth == cellWidth && kerning == null;
@@ -1325,7 +1368,8 @@ public class Font implements Disposable {
      * Constructs a new Font by reading in a SadConsole .font file with the given name (an internal handle is tried
      * first, then a local handle) and loading any images specified in that file. This never uses a distance field
      * effect, and always tries to load one image by the path specified in the .font file.
-     * @param fntName the path and filename of a .font file this will load; may be internal or local
+     *
+     * @param fntName               the path and filename of a .font file this will load; may be internal or local
      * @param ignoredSadConsoleFlag the value is ignored here; the presence of this parameter says to load a SadConsole .font file
      */
     public Font(String fntName, boolean ignoredSadConsoleFlag) {
@@ -1336,11 +1380,12 @@ public class Font implements Disposable {
     /**
      * The gritty parsing code that pulls relevant info from an AngelCode BMFont .fnt file and uses it to assemble the
      * many {@link GlyphRegion}s this has for each glyph.
-     * @param fntName the file name of the .fnt file; can be internal or local
-     * @param xAdjust added to the x-position for each glyph in the font
-     * @param yAdjust added to the y-position for each glyph in the font
-     * @param widthAdjust added to the glyph width for each glyph in the font
-     * @param heightAdjust added to the glyph height for each glyph in the font
+     *
+     * @param fntName        the file name of the .fnt file; can be internal or local
+     * @param xAdjust        added to the x-position for each glyph in the font
+     * @param yAdjust        added to the y-position for each glyph in the font
+     * @param widthAdjust    added to the glyph width for each glyph in the font
+     * @param heightAdjust   added to the glyph height for each glyph in the font
      * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
     protected void loadFNT(String fntName, float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
@@ -1375,7 +1420,7 @@ public class Font implements Disposable {
         mapping = new IntMap<>(size);
         int minWidth = Integer.MAX_VALUE;
         for (int i = 0; i < size; i++) {
-            if(idx == fnt.length())
+            if (idx == fnt.length())
                 break;
             int c = intFromDec(fnt, idx, idx = indexAfter(fnt, " x=", idx));
             int x = intFromDec(fnt, idx, idx = indexAfter(fnt, " y=", idx));
@@ -1391,30 +1436,27 @@ public class Font implements Disposable {
 //            y += yAdjust;
             a += widthAdjust;
             h += heightAdjust;
-            if(c != 9608) // full block
+            if (c != 9608) // full block
                 minWidth = Math.min(minWidth, a);
             GlyphRegion gr = new GlyphRegion(parents.get(p), x, y, w, h);
-            if(c == 10)
-            {
+            if (c == 10) {
                 a = 0;
                 gr.offsetX = 0;
-            } else if(makeGridGlyphs && BlockUtils.isBlockGlyph(c))
-            {
+            } else if (makeGridGlyphs && BlockUtils.isBlockGlyph(c)) {
                 gr.offsetX = Float.NaN;
-            }
-            else
+            } else
                 gr.offsetX = xo + xAdjust;
             gr.offsetY = yo + yAdjust;
             gr.xAdvance = a;
             cellWidth = Math.max(a, cellWidth);
             cellHeight = Math.max(h, cellHeight);
             mapping.put(c, gr);
-            if(c == '['){
+            if (c == '[') {
                 mapping.put(2, gr);
             }
         }
         idx = indexAfter(fnt, "\nkernings count=", 0);
-        if(idx < fnt.length()){
+        if (idx < fnt.length()) {
             int kernings = intFromDec(fnt, idx, idx = indexAfter(fnt, "\nkerning first=", idx));
             kerning = new IntIntMap(kernings);
             for (int i = 0; i < kernings; i++) {
@@ -1422,30 +1464,30 @@ public class Font implements Disposable {
                 int second = intFromDec(fnt, idx, idx = indexAfter(fnt, " amount=", idx));
                 int amount = intFromDec(fnt, idx, idx = indexAfter(fnt, "\nkerning first=", idx));
                 kerning.put(first << 16 | second, amount);
-                if(first == '['){
+                if (first == '[') {
                     kerning.put(2 << 16 | second, amount);
                 }
-                if(second == '['){
+                if (second == '[') {
                     kerning.put(first << 16 | 2, amount);
                 }
             }
         }
         // Newlines shouldn't render.
-        if(mapping.containsKey('\n')){
+        if (mapping.containsKey('\n')) {
             GlyphRegion gr = mapping.get('\n');
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
             gr.xAdvance = 0;
         }
-        if(mapping.containsKey(' ')) {
+        if (mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
         }
         solidBlock =
 //                mapping.containsKey(0) ? 0 :
-                        mapping.containsKey(9608) ? '\u2588' : '\uFFFF';
-        if(makeGridGlyphs){
+                mapping.containsKey(9608) ? '\u2588' : '\uFFFF';
+        if (makeGridGlyphs) {
             GlyphRegion block = mapping.get(solidBlock, null);
-            if(block != null) {
+            if (block != null) {
                 for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
                     GlyphRegion gr = new GlyphRegion(block);
                     gr.offsetX = Float.NaN;
@@ -1464,6 +1506,7 @@ public class Font implements Disposable {
     /**
      * The parsing code that pulls relevant info from a SadConsole .font configuration file and uses it to assemble the
      * many {@link GlyphRegion}s this has for each glyph.
+     *
      * @param fntName the name of a font file this will load from an internal or local file handle (tried in that order)
      */
     protected void loadSad(String fntName) {
@@ -1488,8 +1531,7 @@ public class Font implements Disposable {
             } else {
                 throw new RuntimeException("Missing texture file: " + textureName);
             }
-        }
-        else parent = parents.first();
+        } else parent = parents.first();
 
         int columns = fnt.getInt("Columns");
         int padding = fnt.getInt("GlyphPadding");
@@ -1497,10 +1539,10 @@ public class Font implements Disposable {
         cellWidth = fnt.getInt("GlyphWidth");
         int rows = (parent.getRegionHeight() - padding) / ((int) cellHeight + padding);
         int size = rows * columns;
-        mapping = new IntMap<>(size+1);
+        mapping = new IntMap<>(size + 1);
         for (int y = 0, c = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++, c++) {
-                GlyphRegion gr = new GlyphRegion(parent, x * ((int)cellWidth + padding) + padding, y * ((int)cellHeight + padding) + padding, (int)cellWidth, (int)cellHeight);
+                GlyphRegion gr = new GlyphRegion(parent, x * ((int) cellWidth + padding) + padding, y * ((int) cellHeight + padding) + padding, (int) cellWidth, (int) cellHeight);
                 gr.offsetX = 0;
                 gr.offsetY = 0;
                 if (c == 10) {
@@ -1510,7 +1552,7 @@ public class Font implements Disposable {
                 }
                 mapping.put(c, gr);
                 if (c == '[') {
-                    if(mapping.containsKey(2))
+                    if (mapping.containsKey(2))
                         mapping.put(size, mapping.get(2));
                     mapping.put(2, gr);
                 }
@@ -1528,13 +1570,13 @@ public class Font implements Disposable {
 //            }
 //        }
         // Newlines shouldn't render.
-        if(mapping.containsKey('\n')){
+        if (mapping.containsKey('\n')) {
             GlyphRegion gr = mapping.get('\n');
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
             gr.xAdvance = 0;
         }
-        if(mapping.containsKey(' ')) {
+        if (mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
         }
         defaultValue = mapping.get(' ', mapping.get(0));
@@ -1550,7 +1592,8 @@ public class Font implements Disposable {
      * be used by most user code, but can be useful for anything that's digging deeply into the internals here.
      * If you give such a pair to {@code kerning}'s {@link IntIntMap#get(int, int)} method, you'll get the amount of
      * extra space (in the same unit the font uses) this will insert between {@code first} and {@code second}.
-     * @param first the first char
+     *
+     * @param first  the first char
      * @param second the second char
      * @return a kerning pair that can be looked up in {@link #kerning}
      */
@@ -1560,8 +1603,9 @@ public class Font implements Disposable {
 
     /**
      * Scales the font by the given horizontal and vertical multipliers.
+     *
      * @param horizontal how much to multiply the width of each glyph by
-     * @param vertical how much to multiply the height of each glyph by
+     * @param vertical   how much to multiply the height of each glyph by
      * @return this Font, for chaining
      */
     public Font scale(float horizontal, float vertical) {
@@ -1574,14 +1618,15 @@ public class Font implements Disposable {
 
     /**
      * Scales the font so that it will have the given width and height.
-     * @param width the target width of the font, in world units
+     *
+     * @param width  the target width of the font, in world units
      * @param height the target height of the font, in world units
      * @return this Font, for chaining
      */
     public Font scaleTo(float width, float height) {
         scaleX = width / originalCellWidth;
         scaleY = height / originalCellHeight;
-        cellWidth  = width;
+        cellWidth = width;
         cellHeight = height;
         return this;
     }
@@ -1589,10 +1634,11 @@ public class Font implements Disposable {
     /**
      * Multiplies the line height by {@code multiplier} without changing the size of any characters.
      * This can cut off the tops of letters if the multiplier is too small.
+     *
      * @param multiplier will be applied to {@link #cellHeight} and {@link #originalCellHeight}
      * @return this Font, for chaining
      */
-    public Font adjustLineHeight(float multiplier){
+    public Font adjustLineHeight(float multiplier) {
         cellHeight *= multiplier;
         originalCellHeight *= multiplier;
         return this;
@@ -1601,10 +1647,11 @@ public class Font implements Disposable {
     /**
      * Multiplies the width used by each glyph in a monospaced font by {@code multiplier} without changing the size of
      * any characters.
+     *
      * @param multiplier will be applied to {@link #cellWidth} and {@link #originalCellWidth}
      * @return this Font, for chaining
      */
-    public Font adjustCellWidth(float multiplier){
+    public Font adjustCellWidth(float multiplier) {
         cellWidth *= multiplier;
         originalCellWidth *= multiplier;
         return this;
@@ -1614,7 +1661,8 @@ public class Font implements Disposable {
      * Fits all chars into cells width by height in size, and optionally centers them in their cells.
      * This sets {@link #isMono} to true, and {@link #kerning} to null.
      * If you call {@link #scaleTo(float, float)} after this, you will need to call fitCell() again to update cell size.
-     * @param width the target width of a cell, in world units
+     *
+     * @param width  the target width of a cell, in world units
      * @param height the target height of a cell, in world units
      * @param center if true, this will center every glyph in its cell
      * @return this Font, for chaining
@@ -1630,8 +1678,7 @@ public class Font implements Disposable {
                 g.offsetX += (wsx - g.xAdvance) * 0.5f;
                 g.xAdvance = wsx;
             }
-        }
-        else {
+        } else {
             while (vs.hasNext) {
                 vs.next().xAdvance = wsx;
             }
@@ -1651,6 +1698,7 @@ public class Font implements Disposable {
      * if the default {@link Texture.TextureFilter#Nearest} filter is used).
      * Note that this sets the filter on every Texture that holds a TextureRegion used by the font, so
      * it may affect the filter on other parts of an atlas.
+     *
      * @return this, for chaining
      */
     public Font setTextureFilter() {
@@ -1666,10 +1714,11 @@ public class Font implements Disposable {
      * set a font using {@link DistanceFieldType#SDF} or {@link DistanceFieldType#MSDF} to use TextureFilters
      * other than its default {@link Texture.TextureFilter#Linear}.
      * Note that this may affect the filter on other parts of an atlas.
+     *
      * @return this, for chaining
      */
     public Font setTextureFilter(Texture.TextureFilter minFilter, Texture.TextureFilter magFilter) {
-        for(TextureRegion parent : parents){
+        for (TextureRegion parent : parents) {
             parent.getTexture().setFilter(minFilter, magFilter);
         }
         return this;
@@ -1695,6 +1744,7 @@ public class Font implements Disposable {
      * possibly more jagged. This is used as a persistent multiplier that can be configured per-font, whereas
      * {@link #actualCrispness} is the working value that changes often but is influenced by this one. This variable is
      * used by {@link #resizeDistanceField(int, int)} to affect the working crispness value.
+     *
      * @return the current crispness multiplier, as a float
      */
     public float getCrispness() {
@@ -1707,6 +1757,7 @@ public class Font implements Disposable {
      * multiplier that can be configured per-font, whereas {@link #actualCrispness} is the working value that changes
      * often but is influenced by this one. This variable is used by {@link #resizeDistanceField(int, int)} to affect
      * the working crispness value.
+     *
      * @param crispness a float multiplier to be applied to the working crispness; 1.0 is the default
      * @return this Font, for chaining
      */
@@ -1714,12 +1765,14 @@ public class Font implements Disposable {
         distanceFieldCrispness = crispness;
         return this;
     }
+
     /**
      * Takes the "crispness" multiplier for distance field fonts (SDF and MSDF) and multiplies it by another multiplier.
      * Using lower values for multiplier will make the font look softer and fuzzier, while higher values will make it
      * look sharper and possibly more jagged. This affects a persistent multiplier that can be configured per-font,
      * whereas {@link #actualCrispness} is the working value that changes often but is influenced by this one. The
      * variable this affects is used by {@link #resizeDistanceField(int, int)} to affect the working crispness value.
+     *
      * @param multiplier a float multiplier to be applied to the working crispness multiplier
      * @return this Font, for chaining
      */
@@ -1738,15 +1791,16 @@ public class Font implements Disposable {
      * You may still want to call this automatically for those cases if you have multiple such Labels that use the same
      * Font; in that case, you can draw several Labels without ending the current batch. You do need to set the shader
      * back to whatever you use for other items before you draw those, typically with {@code batch.setShader(null);} .
+     *
      * @param batch the Batch to instruct to use the appropriate shader for this font; should usually be a SpriteBatch
      */
     public void enableShader(Batch batch) {
-        if(distanceField == DistanceFieldType.MSDF) {
+        if (distanceField == DistanceFieldType.MSDF) {
             if (batch.getShader() != shader) {
                 batch.setShader(shader);
                 shader.setUniformf("u_smoothing", 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth));
             }
-        } else if(distanceField == DistanceFieldType.SDF){
+        } else if (distanceField == DistanceFieldType.SDF) {
             if (batch.getShader() != shader) {
                 batch.setShader(shader);
                 final float scale = Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth) * 0.5f + 0.125f;
@@ -1760,20 +1814,23 @@ public class Font implements Disposable {
 
     /**
      * Draws the specified text at the given x,y position (in world space) with a white foreground.
+     *
      * @param batch typically a SpriteBatch
-     * @param text typically a String, but this can also be a StringBuilder or some custom class
-     * @param x the x position in world space to start drawing the text at (lower left corner)
-     * @param y the y position in world space to start drawing the text at (lower left corner)
+     * @param text  typically a String, but this can also be a StringBuilder or some custom class
+     * @param x     the x position in world space to start drawing the text at (lower left corner)
+     * @param y     the y position in world space to start drawing the text at (lower left corner)
      */
     public void drawText(Batch batch, CharSequence text, float x, float y) {
         drawText(batch, text, x, y, -2);
     }
+
     /**
      * Draws the specified text at the given x,y position (in world space) with the given foreground color.
+     *
      * @param batch typically a SpriteBatch
-     * @param text typically a String, but this can also be a StringBuilder or some custom class
-     * @param x the x position in world space to start drawing the text at (lower left corner)
-     * @param y the y position in world space to start drawing the text at (lower left corner)
+     * @param text  typically a String, but this can also be a StringBuilder or some custom class
+     * @param x     the x position in world space to start drawing the text at (lower left corner)
+     * @param y     the y position in world space to start drawing the text at (lower left corner)
      * @param color an int color; typically this is RGBA, but custom shaders or Batches can use other kinds of color
      */
     public void drawText(Batch batch, CharSequence text, float x, float y, int color) {
@@ -1801,14 +1858,16 @@ public class Font implements Disposable {
      * <br>
      * If you want to change the alpha of the colors array, you can use
      * {@link ColorUtils#multiplyAllAlpha(int[][], float)}.
-     * @param batch typically a SpriteBatch
+     *
+     * @param batch  typically a SpriteBatch
      * @param colors a 2D rectangular array of int colors (typically RGBA)
-     * @param x the x position in world space to draw the text at (lower left corner)
-     * @param y the y position in world space to draw the text at (lower left corner)
+     * @param x      the x position in world space to draw the text at (lower left corner)
+     * @param y      the y position in world space to draw the text at (lower left corner)
      */
     public void drawBlocks(Batch batch, int[][] colors, float x, float y) {
         drawBlocks(batch, solidBlock, colors, x, y);
     }
+
     /**
      * Draws a grid made of rectangular blocks of int colors (typically RGBA) at the given x,y position in world space.
      * This is only useful for monospace fonts.
@@ -1825,15 +1884,16 @@ public class Font implements Disposable {
      * <br>
      * If you want to change the alpha of the colors array, you can use
      * {@link ColorUtils#multiplyAllAlpha(int[][], float)}.
-     * @param batch typically a SpriteBatch
+     *
+     * @param batch     typically a SpriteBatch
      * @param blockChar a char that renders as a full block, occupying an entire monospaced cell with a color
-     * @param colors a 2D rectangular array of int colors (typically RGBA)
-     * @param x the x position in world space to draw the text at (lower left corner)
-     * @param y the y position in world space to draw the text at (lower left corner)
+     * @param colors    a 2D rectangular array of int colors (typically RGBA)
+     * @param x         the x position in world space to draw the text at (lower left corner)
+     * @param y         the y position in world space to draw the text at (lower left corner)
      */
     public void drawBlocks(Batch batch, char blockChar, int[][] colors, float x, float y) {
         final TextureRegion block = mapping.get(blockChar);
-        if(block == null) return;
+        if (block == null) return;
         final Texture parent = block.getTexture();
         final float ipw = 1.0f / parent.getWidth();
         final float iph = 1.0f / parent.getHeight();
@@ -1873,7 +1933,7 @@ public class Font implements Disposable {
         vertices[19] = v;
         for (int xi = 0, xn = colors.length, yn = colors[0].length; xi < xn; xi++) {
             for (int yi = 0; yi < yn; yi++) {
-                if((colors[xi][yi] & 254) != 0) {
+                if ((colors[xi][yi] & 254) != 0) {
                     vertices[2] = vertices[7] = vertices[12] = vertices[17] =
                             NumberUtils.intBitsToFloat(Integer.reverseBytes(colors[xi][yi] & -2));
                     batch.draw(parent, vertices, 0, 20);
@@ -1891,6 +1951,7 @@ public class Font implements Disposable {
     protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y) {
         drawBlockSequence(batch, sequence, block, color, x, y, cellWidth, cellHeight);
     }
+
     protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y, float width, float height) {
         final Texture parent = block.getTexture();
         final float ipw = 1f / parent.getWidth();
@@ -1902,9 +1963,9 @@ public class Font implements Disposable {
         float startX, startY, sizeX, sizeY;
         for (int b = 0; b < sequence.length; b += 4) {
             startX = (x + sequence[b] * width);
-            startY = (y + sequence[b+1] * height);
-            sizeX = (sequence[b+2] * width);
-            sizeY = (sequence[b+3] * height);
+            startY = (y + sequence[b + 1] * height);
+            sizeX = (sequence[b + 2] * width);
+            sizeY = (sequence[b + 3] * height);
             vertices[0] = startX;
             vertices[1] = startY;
             vertices[2] = color;
@@ -1954,9 +2015,9 @@ public class Font implements Disposable {
         float startX, startY, sizeX, sizeY;
         for (int b = 0; b < sequence.length; b += 4) {
             startX = (sequence[b] * width);
-            startY = (sequence[b+1] * height);
-            sizeX = (sequence[b+2] * width);
-            sizeY = (sequence[b+3] * height);
+            startY = (sequence[b + 1] * height);
+            sizeX = (sequence[b + 2] * width);
+            sizeY = (sequence[b + 3] * height);
 
             float p0x = xc + startX;
             float p0y = yt + startY + sizeY;
@@ -1965,8 +2026,8 @@ public class Font implements Disposable {
             float p2x = xc + startX + sizeX;
             float p2y = yt + startY;
 
-        vertices[15] = /* handleIntegerPosition */((vertices[0] = /* handleIntegerPosition */(x + cos * p0x - sin * p0y)) - (vertices[5]  = /* handleIntegerPosition */(x + cos * p1x - sin * p1y)) + (vertices[10] = /* handleIntegerPosition */(x + cos * p2x - sin * p2y)));
-        vertices[16] = /* handleIntegerPosition */((vertices[1] = /* handleIntegerPosition */(y + sin * p0x + cos * p0y)) - (vertices[6]  = /* handleIntegerPosition */(y + sin * p1x + cos * p1y)) + (vertices[11] = /* handleIntegerPosition */(y + sin * p2x + cos * p2y)));
+            vertices[15] = /* handleIntegerPosition */((vertices[0] = /* handleIntegerPosition */(x + cos * p0x - sin * p0y)) - (vertices[5] = /* handleIntegerPosition */(x + cos * p1x - sin * p1y)) + (vertices[10] = /* handleIntegerPosition */(x + cos * p2x - sin * p2y)));
+            vertices[16] = /* handleIntegerPosition */((vertices[1] = /* handleIntegerPosition */(y + sin * p0x + cos * p0y)) - (vertices[6] = /* handleIntegerPosition */(y + sin * p1x + cos * p1y)) + (vertices[11] = /* handleIntegerPosition */(y + sin * p2x + cos * p2y)));
 
 
 //            vertices[0] = startX;
@@ -2033,10 +2094,11 @@ public class Font implements Disposable {
      * Parsing markup for a full screen every frame typically isn't necessary, and you may want to store the most recent
      * glyphs by calling {@link #markup(String, Layout)} and render its result with
      * {@link #drawGlyphs(Batch, Layout, float, float)} every frame.
+     *
      * @param batch typically a SpriteBatch
-     * @param text typically a String with markup, but this can also be a StringBuilder or some custom class
-     * @param x the x position in world space to start drawing the text at (lower left corner)
-     * @param y the y position in world space to start drawing the text at (lower left corner)
+     * @param text  typically a String with markup, but this can also be a StringBuilder or some custom class
+     * @param x     the x position in world space to start drawing the text at (lower left corner)
+     * @param y     the y position in world space to start drawing the text at (lower left corner)
      * @return the number of glyphs drawn
      */
     public int drawMarkupText(Batch batch, String text, float x, float y) {
@@ -2067,27 +2129,30 @@ public class Font implements Disposable {
         return drawn;
     }
 
-        /**
+    /**
      * Draws the specified Layout of glyphs with a Batch at a given x, y position, drawing the full layout.
-     * @param batch typically a SpriteBatch
+     *
+     * @param batch  typically a SpriteBatch
      * @param glyphs typically returned as part of {@link #markup(String, Layout)}
-     * @param x the x position in world space to start drawing the glyph at (lower left corner)
-     * @param y the y position in world space to start drawing the glyph at (lower left corner)
+     * @param x      the x position in world space to start drawing the glyph at (lower left corner)
+     * @param y      the y position in world space to start drawing the glyph at (lower left corner)
      * @return the number of glyphs drawn
      */
     public float drawGlyphs(Batch batch, Layout glyphs, float x, float y) {
         return drawGlyphs(batch, glyphs, x, y, Align.left);
     }
+
     /**
      * Draws the specified Layout of glyphs with a Batch at a given x, y position, using {@code align} to
      * determine how to position the text. Typically, align is {@link Align#left}, {@link Align#center}, or
      * {@link Align#right}, which make the given x,y point refer to the lower-left corner, center-bottom edge point, or
      * lower-right corner, respectively.
-     * @param batch typically a SpriteBatch
+     *
+     * @param batch  typically a SpriteBatch
      * @param glyphs typically returned by {@link #markup(String, Layout)}
-     * @param x the x position in world space to start drawing the glyph at (where this is depends on align)
-     * @param y the y position in world space to start drawing the glyph at (where this is depends on align)
-     * @param align an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
+     * @param x      the x position in world space to start drawing the glyph at (where this is depends on align)
+     * @param y      the y position in world space to start drawing the glyph at (where this is depends on align)
+     * @param align  an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
      * @return the number of glyphs drawn
      */
     public float drawGlyphs(Batch batch, Layout glyphs, float x, float y, int align) {
@@ -2101,17 +2166,19 @@ public class Font implements Disposable {
         }
         return drawn;
     }
+
     /**
      * Draws the specified Layout of glyphs with a Batch at a given x, y position, rotated using degrees, using
      * {@code align} to determine how to position the text and where to pivot the rotation around. Typically, align is
      * {@link Align#left}, {@link Align#center}, or {@link Align#right}, which make the given x,y point refer to the
      * center-left edge point, center point, or center-right edge point, respectively, of the first Line. The rotation
      * will pivot around the point as determined by the {@code align} value.
-     * @param batch typically a SpriteBatch
-     * @param glyphs typically returned by {@link #markup(String, Layout)}
-     * @param x the x position in world space to start drawing the glyph at (where this is depends on align)
-     * @param y the y position in world space to start drawing the glyph at (where this is depends on align)
-     * @param align an {@link Align} constant; if {@link Align#left}, x and y refer to the left edge of the first Line
+     *
+     * @param batch    typically a SpriteBatch
+     * @param glyphs   typically returned by {@link #markup(String, Layout)}
+     * @param x        the x position in world space to start drawing the glyph at (where this is depends on align)
+     * @param y        the y position in world space to start drawing the glyph at (where this is depends on align)
+     * @param align    an {@link Align} constant; if {@link Align#left}, x and y refer to the left edge of the first Line
      * @param rotation measured in degrees counterclockwise, typically 0-360, and applied to the whole Layout
      * @return the number of glyphs drawn
      */
@@ -2133,42 +2200,47 @@ public class Font implements Disposable {
     /**
      * Draws the specified Line of glyphs with a Batch at a given x, y position, drawing the full Line using left
      * alignment.
-     * @param batch typically a SpriteBatch
+     *
+     * @param batch  typically a SpriteBatch
      * @param glyphs typically returned as part of {@link #markup(String, Layout)}
-     * @param x the x position in world space to start drawing the glyph at (lower left corner)
-     * @param y the y position in world space to start drawing the glyph at (lower left corner)
+     * @param x      the x position in world space to start drawing the glyph at (lower left corner)
+     * @param y      the y position in world space to start drawing the glyph at (lower left corner)
      * @return the number of glyphs drawn
      */
     public float drawGlyphs(Batch batch, Line glyphs, float x, float y) {
-        if(glyphs == null) return 0;
+        if (glyphs == null) return 0;
         return drawGlyphs(batch, glyphs, x, y, Align.left);
     }
+
     /**
      * Draws the specified Line of glyphs with a Batch at a given x, y position, using {@code align} to
      * determine how to position the text. Typically, align is {@link Align#left}, {@link Align#center}, or
      * {@link Align#right}, which make the given x,y point refer to the lower-left corner, center-bottom edge point, or
      * lower-right corner, respectively.
-     * @param batch typically a SpriteBatch
+     *
+     * @param batch  typically a SpriteBatch
      * @param glyphs typically returned as part of {@link #markup(String, Layout)}
-     * @param x the x position in world space to start drawing the glyph at (where this is depends on align)
-     * @param y the y position in world space to start drawing the glyph at (where this is depends on align)
-     * @param align an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
+     * @param x      the x position in world space to start drawing the glyph at (where this is depends on align)
+     * @param y      the y position in world space to start drawing the glyph at (where this is depends on align)
+     * @param align  an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
      * @return the number of glyphs drawn
      */
     public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align) {
         return drawGlyphs(batch, glyphs, x, y, align, 0f);
     }
+
     /**
      * Draws the specified Line of glyphs with a Batch at a given x, y position, rotated using degrees, using
      * {@code align} to determine how to position the text and where to pivot the rotation around. Typically, align is
      * {@link Align#left}, {@link Align#center}, or {@link Align#right}, which make the given x,y point refer to the
      * center-left edge point, center point, or center-right edge point, respectively, of the first Line. The rotation
      * will pivot around the point as determined by the {@code align} value.
-     * @param batch typically a SpriteBatch
-     * @param glyphs typically returned as part of {@link #markup(String, Layout)}
-     * @param x the x position in world space to start drawing the glyph at (where this is depends on align)
-     * @param y the y position in world space to start drawing the glyph at (where this is depends on align)
-     * @param align an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
+     *
+     * @param batch    typically a SpriteBatch
+     * @param glyphs   typically returned as part of {@link #markup(String, Layout)}
+     * @param x        the x position in world space to start drawing the glyph at (where this is depends on align)
+     * @param y        the y position in world space to start drawing the glyph at (where this is depends on align)
+     * @param align    an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
      * @param rotation measured in degrees counterclockwise and applied to the whole Line
      * @return the number of glyphs drawn
      */
@@ -2178,13 +2250,10 @@ public class Font implements Disposable {
 //        float centerX = cellWidth * 0.5f, centerY = cellHeight * 0.5f;
 //        x += centerX;
 //        y += centerY;
-        if (Align.isCenterHorizontal(align))
-        {
+        if (Align.isCenterHorizontal(align)) {
             x -= cs * (glyphs.width * 0.5f);
             y -= sn * (glyphs.width * 0.5f);
-        }
-        else if (Align.isRight(align))
-        {
+        } else if (Align.isRight(align)) {
             x -= cs * glyphs.width;
             y -= sn * glyphs.width;
         }
@@ -2209,8 +2278,8 @@ public class Font implements Disposable {
                 continue;
             }
             Font font = null;
-            if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
-            if(font == null) font = this;
+            if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
+            if (font == null) font = this;
 
             if (font.kerning != null) {
                 kern = kern << 16 | (int) (glyph & 0xFFFF);
@@ -2235,19 +2304,20 @@ public class Font implements Disposable {
      * transparent, this does not draw it at all, and treats its x advance as 0. This version of xAdvance does not
      * read the scale information from glyph, and instead takes it from the scale parameter. This takes a Font to allow
      * for families to swap out the current font for a different one.
-     * @param font the Font object to use to measure
+     *
+     * @param font  the Font object to use to measure
      * @param scale the scale to draw the glyph at, usually {@link #scaleX} and possibly adjusted by per-glyph scaling
      * @param glyph a long encoding the color, style information, and char of a glyph, as from a {@link Line}
      * @return the (possibly non-integer) amount to advance the cursor when you draw the given glyph, not counting kerning
      */
-    public static float xAdvance(Font font, float scale, long glyph){
-        if(glyph >>> 32 == 0L) return 0;
+    public static float xAdvance(Font font, float scale, long glyph) {
+        if (glyph >>> 32 == 0L) return 0;
         GlyphRegion tr = font.mapping.get((char) glyph);
         if (tr == null) return 0f;
         float changedW = tr.xAdvance * scale;
         if (!font.isMono) {
 //            changedW += tr.offsetX * scale;
-            if((glyph & SUPERSCRIPT) != 0L){
+            if ((glyph & SUPERSCRIPT) != 0L) {
                 changedW *= 0.5f;
             }
         }
@@ -2260,18 +2330,19 @@ public class Font implements Disposable {
      * superscript halve the advance amount. This does not consider kerning, if the font has it. If the glyph is fully
      * transparent, this does not draw it at all, and treats its x advance as 0. This only uses the current font, and
      * will not consider swapped-out fonts from a family.
+     *
      * @param glyph a long encoding the color, style information, and char of a glyph, as from a {@link Line}
      * @return the (possibly non-integer) amount to advance the cursor when you draw the given glyph, not counting kerning
      */
-    public float xAdvance(long glyph){
-        if(glyph >>> 32 == 0L) return 0;
+    public float xAdvance(long glyph) {
+        if (glyph >>> 32 == 0L) return 0;
         GlyphRegion tr = mapping.get((char) glyph);
         if (tr == null) return 0f;
         float scale = scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
         float changedW = tr.xAdvance * scale;
         if (!isMono) {
             changedW += tr.offsetX * scale;
-            if((glyph & SUPERSCRIPT) != 0L){
+            if ((glyph & SUPERSCRIPT) != 0L) {
                 changedW *= 0.5f;
             }
         }
@@ -2280,6 +2351,7 @@ public class Font implements Disposable {
 
     /**
      * Measures the actual width that the given Line will use when drawn.
+     *
      * @param line a Line, as from inside a Layout
      * @return the width in world units
      */
@@ -2333,6 +2405,7 @@ public class Font implements Disposable {
     /**
      * Measures the actual width that the given Line will use when drawn, and sets it into the Line's {@link Line#width}
      * field.
+     *
      * @param line a Line, as from inside a Layout
      * @return the width in world units
      */
@@ -2372,7 +2445,7 @@ public class Font implements Disposable {
                 float changedW = tr.xAdvance * scaleX;
                 drawn += changedW + amt;
             } else {
-                scale = ((glyph + 0x300000L >>> 20 & 15)+1) * 0.25f;
+                scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
                 line.height = Math.max(line.height, font.cellHeight * scale);
                 scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
                 float changedW = tr.xAdvance * scaleX;
@@ -2402,10 +2475,11 @@ public class Font implements Disposable {
      * Draws the specified glyph with a Batch at the given x, y position. The glyph contains multiple types of data all
      * packed into one {@code long}: the bottom 16 bits store a {@code char}, the roughly 16 bits above that store
      * formatting (bold, underline, superscript, etc.), and the remaining upper 32 bits store color as RGBA.
+     *
      * @param batch typically a SpriteBatch
      * @param glyph a long storing a char, format, and color; typically part of a longer formatted text as a LongArray
-     * @param x the x position in world space to start drawing the glyph at (lower left corner)
-     * @param y the y position in world space to start drawing the glyph at (lower left corner)
+     * @param x     the x position in world space to start drawing the glyph at (lower left corner)
+     * @param y     the y position in world space to start drawing the glyph at (lower left corner)
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text
      */
     public float drawGlyph(Batch batch, long glyph, float x, float y) {
@@ -2418,16 +2492,18 @@ public class Font implements Disposable {
      * the bottom 16 bits store a {@code char}, the roughly 16 bits above that store formatting (bold, underline,
      * superscript, etc.), and the remaining upper 32 bits store color as RGBA. Rotation is not stored in the long
      * glyph; it may change frequently or as part of an animation.
-     * @param batch typically a SpriteBatch
-     * @param glyph a long storing a char, format, and color; typically part of a longer formatted text as a LongList
-     * @param x the x position in world space to start drawing the glyph at (lower left corner)
-     * @param y the y position in world space to start drawing the glyph at (lower left corner)
+     *
+     * @param batch    typically a SpriteBatch
+     * @param glyph    a long storing a char, format, and color; typically part of a longer formatted text as a LongList
+     * @param x        the x position in world space to start drawing the glyph at (lower left corner)
+     * @param y        the y position in world space to start drawing the glyph at (lower left corner)
      * @param rotation what angle to rotate the glyph, measured in degrees counterclockwise
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text along the given rotation
      */
     public float drawGlyph(Batch batch, long glyph, float x, float y, float rotation) {
         return drawGlyph(batch, glyph, x, y, rotation, 1f, 1f);
     }
+
     /**
      * Draws the specified glyph with a Batch at the given x, y position, with the specified counterclockwise
      * rotation, measured in degrees, and with the specified x and y sizing/scaling, which are meant to be treated
@@ -2436,13 +2512,14 @@ public class Font implements Disposable {
      * formatting (bold, underline, superscript, etc.), and the remaining upper 32 bits store color as RGBA. Rotation is
      * not stored in the long glyph; it may change frequently or as part of an animation. Sizing isn't part of the glyph
      * either, and is meant to be handled by Effects in TypingLabel, and does not affect the text metrics.
-     * @param batch typically a SpriteBatch
-     * @param glyph a long storing a char, format, and color; typically part of a longer formatted text as a LongList
-     * @param x the x position in world space to start drawing the glyph at (lower left corner)
-     * @param y the y position in world space to start drawing the glyph at (lower left corner)
+     *
+     * @param batch    typically a SpriteBatch
+     * @param glyph    a long storing a char, format, and color; typically part of a longer formatted text as a LongList
+     * @param x        the x position in world space to start drawing the glyph at (lower left corner)
+     * @param y        the y position in world space to start drawing the glyph at (lower left corner)
      * @param rotation what angle to rotate the glyph, measured in degrees counterclockwise
-     * @param sizingX the multiple for the glyph to be stretched on x, where 1 is "no change"; does not affect metrics
-     * @param sizingY the multiple for the glyph to be stretched on y, where 1 is "no change"; does not affect metrics
+     * @param sizingX  the multiple for the glyph to be stretched on x, where 1 is "no change"; does not affect metrics
+     * @param sizingY  the multiple for the glyph to be stretched on y, where 1 is "no change"; does not affect metrics
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text along the given rotation
      */
     public float drawGlyph(Batch batch, long glyph, float x, float y, float rotation, float sizingX, float sizingY) {
@@ -2450,16 +2527,16 @@ public class Font implements Disposable {
         final float cos = MathUtils.cosDeg(rotation);
 
         Font font = null;
-        if(family != null) font = family.connected[(int)(glyph >>> 16 & 15)];
-        if(font == null) font = this;
+        if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
+        if (font == null) font = this;
 
         GlyphRegion tr = font.mapping.get((char) glyph);
         if (tr == null) return 0f;
-        float color = NumberUtils.intBitsToFloat(((int)(batch.getColor().a * (glyph >>> 33 & 127)) << 25)
+        float color = NumberUtils.intBitsToFloat(((int) (batch.getColor().a * (glyph >>> 33 & 127)) << 25)
                 | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
         // this indicates a box drawing character that we draw ourselves.
-        if(tr.offsetX != tr.offsetX) {
-            float[] boxes = BlockUtils.BOX_DRAWING[(char)glyph - 0x2500];
+        if (tr.offsetX != tr.offsetX) {
+            float[] boxes = BlockUtils.BOX_DRAWING[(char) glyph - 0x2500];
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
                     x - cellWidth * (sizingX - 1.0f), y - cellHeight * (sizingY - 1.0f),
                     cellWidth * sizingX, cellHeight * sizingY, rotation);
@@ -2506,27 +2583,25 @@ public class Font implements Disposable {
             y1 += scaledHeight * 0.375f;
             y2 += scaledHeight * 0.375f;
             y0 += scaledHeight * 0.375f;
-            if(!font.isMono)
+            if (!font.isMono)
                 changedW *= 0.5f;
-        }
-        else if (script == SUBSCRIPT) {
+        } else if (script == SUBSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
             yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
             y1 -= scaledHeight * 0.125f;
             y2 -= scaledHeight * 0.125f;
             y0 -= scaledHeight * 0.125f;
-            if(!font.isMono)
+            if (!font.isMono)
                 changedW *= 0.5f;
-        }
-        else if(script == MIDSCRIPT) {
+        } else if (script == MIDSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
             yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
             y0 += scaledHeight * 0.125f;
             y1 += scaledHeight * 0.125f;
             y2 += scaledHeight * 0.125f;
-            if(!font.isMono)
+            if (!font.isMono)
                 changedW *= 0.5f;
         }
 
@@ -2553,34 +2628,34 @@ public class Font implements Disposable {
         float p2x = xc + x2 + w;
         float p2y = yt + y2;
 
-        vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5]  = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
-        vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6]  = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
+        vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+        vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
 
         batch.draw(tex, vertices, 0, 20);
         if ((glyph & BOLD) != 0L) {
             p0x += 1f;
             p1x += 1f;
             p2x += 1f;
-        vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5]  = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
-        vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6]  = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
+            vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+            vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
             batch.draw(tex, vertices, 0, 20);
             p0x -= 2f;
             p1x -= 2f;
             p2x -= 2f;
-        vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5]  = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
-        vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6]  = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
+            vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+            vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
             batch.draw(tex, vertices, 0, 20);
             p0x += 0.5f;
             p1x += 0.5f;
             p2x += 0.5f;
-        vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5]  = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
-        vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6]  = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
+            vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+            vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
             batch.draw(tex, vertices, 0, 20);
             p0x += 1f;
             p1x += 1f;
             p2x += 1f;
-        vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5]  = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
-        vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6]  = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
+            vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+            vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
             batch.draw(tex, vertices, 0, 20);
         }
         if ((glyph & UNDERLINE) != 0L) {
@@ -2681,6 +2756,7 @@ public class Font implements Disposable {
         }
         return changedW;
     }
+
     /**
      * Reads markup from text, along with the chars to receive markup, processes it, and appends into appendTo, which is
      * a {@link Layout} holding one or more {@link Line}s. A common way of getting a Layout is with
@@ -2718,7 +2794,8 @@ public class Font implements Disposable {
      *     looking up colors with names that contain punctuation.</li>
      * </ul>
      * You can render {@code appendTo} using {@link #drawGlyphs(Batch, Layout, float, float)}.
-     * @param text text with markup
+     *
+     * @param text     text with markup
      * @param appendTo a Layout that stores one or more Line objects, carrying color, style, chars, and size
      * @return appendTo, for chaining
      */
@@ -2732,8 +2809,7 @@ public class Font implements Disposable {
         long baseColor = Long.reverseBytes(NumberUtils.floatToIntBits(appendTo.getBaseColor())) & 0xFFFFFFFE00000000L;
         long color = baseColor;
         long current = color;
-        if(appendTo.font == null || !appendTo.font.equals(this))
-        {
+        if (appendTo.font == null || !appendTo.font.equals(this)) {
             appendTo.clear();
             appendTo.font(this);
         }
@@ -2746,11 +2822,11 @@ public class Font implements Disposable {
 
             //// CURLY BRACKETS
 
-            if(text.charAt(i) == '{' && i+1 < n && text.charAt(i+1) != '{') {
+            if (text.charAt(i) == '{' && i + 1 < n && text.charAt(i + 1) != '{') {
                 int start = i;
                 int sizeChange = -1, fontChange = -1;
                 int end = text.indexOf('}', i);
-                if(end == -1) end = text.length();
+                if (end == -1) end = text.length();
                 int eq = end;
                 for (; i < n && i <= end; i++) {
                     c = text.charAt(i);
@@ -2811,13 +2887,12 @@ public class Font implements Disposable {
                 }
                 current = (current & 0xFFFFFFFFFF00FFFFL) | (scale - 3 & 15) << 20 | (fontIndex & 15) << 16;
                 i--;
-            }
-            else if(text.charAt(i) == '['){
+            } else if (text.charAt(i) == '[') {
 
                 //// SQUARE BRACKET MARKUP
 
-                if(++i < n && (c = text.charAt(i)) != '['){
-                    if(c == ']'){
+                if (++i < n && (c = text.charAt(i)) != '[') {
+                    if (c == ']') {
                         color = baseColor;
                         current = color & ~SUPERSCRIPT;
                         scale = 3;
@@ -2828,7 +2903,7 @@ public class Font implements Disposable {
                         continue;
                     }
                     int len = text.indexOf(']', i) - i;
-                    if(len < 0) break;
+                    if (len < 0) break;
                     switch (c) {
                         case '*':
                             current ^= BOLD;
@@ -2876,7 +2951,7 @@ public class Font implements Disposable {
                             capsLock = false;
                             break;
                         case '%':
-                            if(len >= 2)
+                            if (len >= 2)
                                 current = (current & 0xFFFFFFFFFF0FFFFFL) | ((scale = ((intFromDec(text, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
                             else {
                                 current = (current & 0xFFFFFFFFFF0FFFFFL);
@@ -2893,7 +2968,7 @@ public class Font implements Disposable {
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         case '@':
-                            if(family == null){
+                            if (family == null) {
                                 font = this;
                                 fontIndex = 0;
                                 break;
@@ -2901,7 +2976,7 @@ public class Font implements Disposable {
                             fontIndex = family.fontAliases.get(safeSubstring(text, i + 1, i + len), 0);
                             current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
                             font = family.connected[fontIndex & 15];
-                            if(font == null) font = this;
+                            if (font == null) font = this;
                             break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
@@ -2931,10 +3006,10 @@ public class Font implements Disposable {
                         w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | '[') + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63)));
                     }
                     appendTo.add(current | 2);
-                    if(targetWidth > 0 && w > targetWidth) {
+                    if (targetWidth > 0 && w > targetWidth) {
                         Line earlier = appendTo.peekLine();
                         Line later = appendTo.pushLine();
-                        if(later == null) {
+                        if (later == null) {
                             // here, the max lines have been reached, and an ellipsis may need to be added
                             // to the last line.
                             String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
@@ -3019,7 +3094,7 @@ public class Font implements Disposable {
                                         }
                                     }
                                     earlier.glyphs.truncate(j + 2);
-                                    earlier.glyphs.set(j+1, '\n');
+                                    earlier.glyphs.set(j + 1, '\n');
                                     later.width = changeNext;
                                     earlier.width -= change;
                                     later.height = Math.max(later.height, font.cellHeight * (scale + 1) * 0.25f);
@@ -3027,8 +3102,7 @@ public class Font implements Disposable {
                                 }
                             }
                         }
-                    }
-                    else {
+                    } else {
                         appendTo.peekLine().height = Math.max(appendTo.peekLine().height, font.cellHeight * (scale + 1) * 0.25f);
                     }
                 }
@@ -3057,21 +3131,20 @@ public class Font implements Disposable {
                     kern = kern << 16 | ch;
                     w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | ch) + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-((current | ch) & SUPERSCRIPT) >> 63)));
                 }
-                if(ch == '\n')
+                if (ch == '\n')
                     appendTo.peekLine().height = Math.max(appendTo.peekLine().height, font.cellHeight * (scale + 1) * 0.25f);
                 appendTo.add(current | ch);
-                if((targetWidth > 0 && w > targetWidth) || appendTo.atLimit) {
+                if ((targetWidth > 0 && w > targetWidth) || appendTo.atLimit) {
                     Line earlier = appendTo.peekLine();
                     Line later;
-                    if(appendTo.lines.size >= appendTo.maxLines) {
+                    if (appendTo.lines.size >= appendTo.maxLines) {
                         later = null;
-                    }
-                    else {
+                    } else {
                         later = Line.POOL.obtain();
                         later.height = 0;
                         appendTo.lines.add(later);
                     }
-                    if(later == null){
+                    if (later == null) {
 
                         //// ELLIPSIS FOR VISIBLE
 
@@ -3151,19 +3224,16 @@ public class Font implements Disposable {
                                     boolean curly = false;
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
-                                        if(curly){
+                                        if (curly) {
                                             glyphBuffer.add(curr);
-                                            if((char)curr == '{'){
+                                            if ((char) curr == '{') {
                                                 curly = false;
-                                            }
-                                            else if((char)curr == '}'){
+                                            } else if ((char) curr == '}') {
                                                 curly = false;
                                                 continue;
-                                            }
-                                            else continue;
+                                            } else continue;
                                         }
-                                        if((char)curr == '{')
-                                        {
+                                        if ((char) curr == '{') {
                                             glyphBuffer.add(curr);
                                             curly = true;
                                             continue;
@@ -3184,19 +3254,16 @@ public class Font implements Disposable {
                                     boolean curly = false;
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
-                                        if(curly){
+                                        if (curly) {
                                             glyphBuffer.add(curr);
-                                            if((char)curr == '{'){
+                                            if ((char) curr == '{') {
                                                 curly = false;
-                                            }
-                                            else if((char)curr == '}'){
+                                            } else if ((char) curr == '}') {
                                                 curly = false;
                                                 continue;
-                                            }
-                                            else continue;
+                                            } else continue;
                                         }
-                                        if((char)curr == '{')
-                                        {
+                                        if ((char) curr == '{') {
                                             glyphBuffer.add(curr);
                                             curly = true;
                                             continue;
@@ -3205,15 +3272,15 @@ public class Font implements Disposable {
                                         float adv = xAdvance(font, scaleX, curr);
                                         change += adv + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                         if (--leading < 0) {
-                                            k3 = k3 << 16 | (char)curr;
+                                            k3 = k3 << 16 | (char) curr;
                                             changeNext += adv + font.kerning.get(k3, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                             glyphBuffer.add(curr);
                                         }
                                     }
                                 }
-                                if(earlier.width - change > targetWidth)
+                                if (earlier.width - change > targetWidth)
                                     continue;
-                                earlier.glyphs.truncate(j+1);
+                                earlier.glyphs.truncate(j + 1);
                                 earlier.glyphs.add('\n');
                                 later.width = changeNext;
                                 earlier.width -= change;
@@ -3223,8 +3290,7 @@ public class Font implements Disposable {
                             }
                         }
                     }
-                }
-                else {
+                } else {
                     appendTo.peekLine().height = Math.max(appendTo.peekLine().height, font.cellHeight * (scale + 1) * 0.25f);
                 }
             }
@@ -3270,13 +3336,15 @@ public class Font implements Disposable {
      * <br>
      * This is equivalent to calling the static {@link #markupGlyph(char, String, ColorLookup)} and giving it this
      * Font's {@link #colorLookup} value.
-     * @param chr a single char to apply markup to
+     *
+     * @param chr    a single char to apply markup to
      * @param markup a String containing only markup syntax, like "[*][_][RED]" for bold underline in red
      * @return a long that encodes the given char with the specified markup
      */
     public long markupGlyph(char chr, String markup) {
         return markupGlyph(chr, markup, colorLookup, family);
     }
+
     /**
      * Reads markup from {@code markup}, processes it, and applies it to the given char {@code chr}; returns a long
      * in the format used for styled glyphs here. This parses an extension of libGDX markup and uses it to determine
@@ -3316,15 +3384,17 @@ public class Font implements Disposable {
      * This takes a ColorLookup so that it can look up colors given a name or description; if you don't know what to
      * use, then {@link ColorLookup.GdxColorLookup#INSTANCE} is often perfectly fine. Because this is static, it does
      * not need a Font to be involved.
-     * @param chr a single char to apply markup to
-     * @param markup a String containing only markup syntax, like "[*][_][RED]" for bold underline in red
+     *
+     * @param chr         a single char to apply markup to
+     * @param markup      a String containing only markup syntax, like "[*][_][RED]" for bold underline in red
      * @param colorLookup a ColorLookup (often a method reference or {@link ColorLookup.GdxColorLookup#INSTANCE}) to get
-     *                   colors from textual names or descriptions
+     *                    colors from textual names or descriptions
      * @return a long that encodes the given char with the specified markup
      */
     public static long markupGlyph(char chr, String markup, ColorLookup colorLookup) {
         return markupGlyph(chr, markup, colorLookup, null);
     }
+
     /**
      * Reads markup from {@code markup}, processes it, and applies it to the given char {@code chr}; returns a long
      * in the format used for styled glyphs here. This parses an extension of libGDX markup and uses it to determine
@@ -3364,10 +3434,11 @@ public class Font implements Disposable {
      * This takes a ColorLookup so that it can look up colors given a name or description; if you don't know what to
      * use, then {@link ColorLookup.GdxColorLookup#INSTANCE} is often perfectly fine. Because this is static, it does
      * not need a Font to be involved.
-     * @param chr a single char to apply markup to
-     * @param markup a String containing only markup syntax, like "[*][_][RED]" for bold underline in red
+     *
+     * @param chr         a single char to apply markup to
+     * @param markup      a String containing only markup syntax, like "[*][_][RED]" for bold underline in red
      * @param colorLookup a ColorLookup (often a method reference or {@link ColorLookup.GdxColorLookup#INSTANCE}) to get
-     *                   colors from textual names or descriptions
+     *                    colors from textual names or descriptions
      * @return a long that encodes the given char with the specified markup
      */
     public static long markupGlyph(char chr, String markup, ColorLookup colorLookup, FontFamily family) {
@@ -3388,7 +3459,7 @@ public class Font implements Disposable {
                         continue;
                     }
                     int len = markup.indexOf(']', i) - i;
-                    if(len < 0) break;
+                    if (len < 0) break;
                     switch (c) {
                         case '*':
                             current ^= BOLD;
@@ -3430,13 +3501,13 @@ public class Font implements Disposable {
                             capsLock = false;
                             break;
                         case '%':
-                            if(len >= 2)
+                            if (len >= 2)
                                 current = (current & 0xFFFFFFFFFF0FFFFFL) | ((((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
                             else
                                 current = (current & 0xFFFFFFFFFF0FFFFFL);
                             break;
                         case '@':
-                            if(family == null){
+                            if (family == null) {
                                 break;
                             }
                             int fontIndex = family.fontAliases.get(safeSubstring(markup, i + 1, i + len), 0);
@@ -3472,7 +3543,7 @@ public class Font implements Disposable {
     }
 
     public Layout regenerateLayout(Layout changing) {
-        if(changing.font == null || !changing.font.equals(this)) {
+        if (changing.font == null || !changing.font.equals(this)) {
             return changing;
         }
         Font font = null;
@@ -3510,7 +3581,7 @@ public class Font implements Disposable {
                     scale = (int) (glyph + 0x300000L >>> 20 & 15);
                     line.height = Math.max(line.height, font.cellHeight * (scale + 1) * 0.25f);
                     scaleX = font.scaleX * (scale + 1) * 0.25f;
-                    if((char) glyph == '\r') {
+                    if ((char) glyph == '\r') {
                         Line next;
                         next = changing.pushLine();
                         glyphs.pop();
@@ -3519,8 +3590,8 @@ public class Font implements Disposable {
                         }
                         next.height = Math.max(next.height, font.cellHeight * (scale + 1) * 0.25f);
 
-                        long[] arr = next.glyphs.setSize(glyphs.size - i-1);
-                        System.arraycopy(glyphs.items, i+1, arr, 0, glyphs.size - i-1);
+                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
+                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
                         glyphs.truncate(i);
                         glyphs.add('\n');
                         break;
@@ -3581,7 +3652,7 @@ public class Font implements Disposable {
                     scaleX = font.scaleX * (scale + 1) * 0.25f;
                     kern = kern << 16 | (int) (glyph & 0xFFFF);
                     amt = font.kerning.get(kern, 0) * scaleX;
-                    if((char) glyph == '\r') {
+                    if ((char) glyph == '\r') {
                         Line next;
                         next = changing.pushLine();
                         glyphs.pop();
@@ -3590,8 +3661,8 @@ public class Font implements Disposable {
                         }
                         next.height = Math.max(next.height, font.cellHeight * (scale + 1) * 0.25f);
 
-                        long[] arr = next.glyphs.setSize(glyphs.size - i-1);
-                        System.arraycopy(glyphs.items, i+1, arr, 0, glyphs.size - i-1);
+                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
+                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
                         glyphs.truncate(i);
                         glyphs.add('\n');
                         break;
@@ -3654,10 +3725,11 @@ public class Font implements Disposable {
     /**
      * Sets the FontFamily this can use to switch fonts using [@Name] syntax. If family is null, only the current Font
      * will be used.
+     *
      * @param family a {@link FontFamily} that may be null or shared with other Fonts.
      * @return this, for chaining
      */
-    public Font setFamily(FontFamily family){
+    public Font setFamily(FontFamily family) {
         this.family = family;
         return this;
     }
@@ -3668,11 +3740,12 @@ public class Font implements Disposable {
      * {@link #distanceFieldCrispness} as a multiplier applied after calculating the initial crispness.
      * This is a suggestion for what to call in your {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      * method for each SDF or MSDF font you have currently rendering.
-     * @param width the new window width; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
+     *
+     * @param width  the new window width; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      * @param height the new window height; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      */
     public void resizeDistanceField(int width, int height) {
-        if(distanceField == DistanceFieldType.SDF) {
+        if (distanceField == DistanceFieldType.SDF) {
             if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
                 actualCrispness = distanceFieldCrispness;
             } else {
@@ -3680,8 +3753,7 @@ public class Font implements Disposable {
                         Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
                                 (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 2f + cellHeight * 0.005f);
             }
-        }
-        else if(distanceField == DistanceFieldType.MSDF){
+        } else if (distanceField == DistanceFieldType.MSDF) {
             if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
                 actualCrispness = distanceFieldCrispness;
             } else {
@@ -3694,20 +3766,22 @@ public class Font implements Disposable {
 
     /**
      * Given a glyph as a long, this returns the RGBA8888 color it uses.
+     *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @return the int color used by the given glyph, as RGBA8888
      */
-    public static int extractColor(long glyph){
-        return (int) (glyph>>>32);
+    public static int extractColor(long glyph) {
+        return (int) (glyph >>> 32);
     }
 
     /**
      * Replaces the section of glyph that stores its color with the given RGBA8888 int color.
+     *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @param color the int color to use, as an RGBA8888 int
      * @return another long glyph that uses the specified color
      */
-    public static long applyColor(long glyph, int color){
+    public static long applyColor(long glyph, int color) {
         return (glyph & 0xFFFFFFFFL) | ((long) color << 32 & 0xFFFFFFFE00000000L);
     }
 
@@ -3715,10 +3789,11 @@ public class Font implements Disposable {
      * Given a glyph as a long, this returns the style bits it uses. You can cross-reference these with
      * {@link #BOLD}, {@link #OBLIQUE}, {@link #UNDERLINE}, {@link #STRIKETHROUGH}, {@link #SUBSCRIPT},
      * {@link #MIDSCRIPT}, and {@link #SUPERSCRIPT}.
+     *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @return the style bits used by the given glyph
      */
-    public static long extractStyle(long glyph){
+    public static long extractStyle(long glyph) {
         return glyph & 0x7E000000L;
     }
 
@@ -3727,41 +3802,45 @@ public class Font implements Disposable {
      * {@link #BOLD}, {@link #OBLIQUE}, {@link #UNDERLINE}, {@link #STRIKETHROUGH}, {@link #SUBSCRIPT},
      * {@link #MIDSCRIPT}, and {@link #SUPERSCRIPT}. Because only a small section is used from style, you can pass an
      * existing styled glyph as the second parameter to copy its style information into glyph.
+     *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @param style the long style bits to use, which should usually be bits from the aforementioned constants
      * @return another long glyph that uses the specified style
      */
-    public static long applyStyle(long glyph, long style){
+    public static long applyStyle(long glyph, long style) {
         return (glyph & 0xFFFFFFFF81FFFFFFL) | (style & 0x7E000000L);
     }
 
     /**
      * Given a glyph as a long, this returns the float multiplier it uses for scale.
+     *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @return the float scale used by the given glyph, from 0.0f to 3.75f
      */
-    public static float extractScale(long glyph){
+    public static float extractScale(long glyph) {
         return (glyph + 0x400000L >>> 20 & 15) * 0.25f;
     }
 
     /**
      * Replaces the section of glyph that stores its scale with the given float multiplier, rounded to a multiple of
      * 0.25 and wrapped to within 0.0 to 3.75, both inclusive.
+     *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @param scale the float scale to use, which should be between 0.0 and 3.75, both inclusive
      * @return another long glyph that uses the specified scale
      */
-    public static long applyScale(long glyph, float scale){
+    public static long applyScale(long glyph, float scale) {
         return (glyph & 0xFFFFFFFFFF0FFFFFL) | ((long) Math.floor(scale * 4.0 - 4.0) & 15L) << 20;
     }
 
     /**
      * Given a glyph as a long, this returns the char it displays. This automatically corrects the placeholder char
      * u0002 to the glyph it displays as, {@code '['}.
+     *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @return the char used by the given glyph
      */
-    public static char extractChar(long glyph){
+    public static char extractChar(long glyph) {
         final char c = (char) glyph;
         return c == 2 ? '[' : c;
     }
@@ -3769,11 +3848,12 @@ public class Font implements Disposable {
     /**
      * Replaces the section of glyph that stores its scale with the given float multiplier, rounded to a multiple of
      * 0.25 and wrapped to within 0.0 to 3.75, both inclusive.
+     *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
-     * @param c the char to use
+     * @param c     the char to use
      * @return another long glyph that uses the specified char
      */
-    public static long applyChar(long glyph, char c){
+    public static long applyChar(long glyph, char c) {
         return (glyph & 0xFFFFFFFFFFFF0000L) | c;
     }
 
@@ -3783,7 +3863,7 @@ public class Font implements Disposable {
     @Override
     public void dispose() {
         Layout.POOL.free(tempLayout);
-        if(shader != null)
+        if (shader != null)
             shader.dispose();
     }
 
