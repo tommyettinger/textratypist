@@ -51,6 +51,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 	Texture texture2;
 	TextraLabel fpsLabel;
 	TextraLabel passwordLabel;
+	TextraLabel minSizeLabel;
 	GLProfiler profiler;
 
 	@Override
@@ -79,7 +80,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		ImageTextButtonStyle style = new ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-		ImageTextraButton iconButton = new ImageTextraButton("\n[/]a e s t h e t i c", style, font);
+		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
 		Button buttonMulti = new TextraButton("Multi\n[%100]Line[%]\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
@@ -123,7 +124,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TextraLabel minSizeLabel = new TextraLabel("ginWidth cell", skin, "title"); // demos SplitPane respecting widget's minWidth
+		minSizeLabel = new TextraLabel("ginWidth cell", skin, "title"); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
@@ -203,6 +204,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "...[~]I think[]...");
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 		passwordLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
+		minSizeLabel.rotateBy(Gdx.graphics.getDeltaTime() * 35f);
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
@@ -243,8 +245,8 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		ShaderProgram.prependFragmentCode = "#version 110\n";
 //		config.enableGLDebugOutput(true, System.out);
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
-		config.useVsync(true);
-		config.setForegroundFPS(60);
+		config.useVsync(false);
+		config.setForegroundFPS(0);
 		new Lwjgl3Application(new TextraShadeUITest(), config);
 	}
 

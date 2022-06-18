@@ -121,7 +121,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TextraLabel minSizeLabel = new TextraLabel("[@Medieval]minWidth cell", font); // demos SplitPane respecting widget's minWidth
+		TextraLabel minSizeLabel = new TextraLabel("[@Medieval]ginWidth cell", font); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
