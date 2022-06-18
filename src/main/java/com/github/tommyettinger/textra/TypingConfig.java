@@ -22,13 +22,19 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.github.tommyettinger.textra.effects.*;
 
-/** Configuration class that easily allows the user to fine tune the library's functionality. */
+/**
+ * Configuration class that easily allows the user to fine tune the library's functionality.
+ */
 public class TypingConfig {
 
-    /** Default time in seconds that an empty {@code WAIT} token should wait for. Default value is {@code 0.250}. */
+    /**
+     * Default time in seconds that an empty {@code WAIT} token should wait for. Default value is {@code 0.250}.
+     */
     public static float DEFAULT_WAIT_VALUE = 0.250f;
 
-    /** Time in seconds that takes for each char to appear in the default speed. Default value is {@code 0.035}. */
+    /**
+     * Time in seconds that takes for each char to appear in the default speed. Default value is {@code 0.035}.
+     */
     public static float DEFAULT_SPEED_PER_CHAR = 0.035f;
 
     /**
@@ -49,7 +55,9 @@ public class TypingConfig {
      */
     public static int CHAR_LIMIT_PER_FRAME = -1;
 
-    /** Default color for the {@code CLEARCOLOR} token. Can be overriden by {@link TypingLabel#getClearColor()}. */
+    /**
+     * Default color for the {@code CLEARCOLOR} token. Can be overriden by {@link TypingLabel#getClearColor()}.
+     */
     public static Color DEFAULT_CLEAR_COLOR = new Color(Color.WHITE);
 
     /**
@@ -58,16 +66,24 @@ public class TypingConfig {
      */
     public static ObjectFloatMap<Character> INTERVAL_MULTIPLIERS_BY_CHAR = new ObjectFloatMap<Character>();
 
-    /** Map of global variables that affect all {@link TypingLabel} instances at once. */
+    /**
+     * Map of global variables that affect all {@link TypingLabel} instances at once.
+     */
     public static final ObjectMap<String, String> GLOBAL_VARS = new ObjectMap<>();
 
-    /** Map of start tokens and their effect classes. Internal use only. */
+    /**
+     * Map of start tokens and their effect classes. Internal use only.
+     */
     static final OrderedMap<String, Class<? extends Effect>> EFFECT_START_TOKENS = new OrderedMap<>();
 
-    /** Map of end tokens and their effect classes. Internal use only. */
+    /**
+     * Map of end tokens and their effect classes. Internal use only.
+     */
     static final OrderedMap<String, Class<? extends Effect>> EFFECT_END_TOKENS = new OrderedMap<>();
 
-    /** Whether or not effect tokens are dirty and need to be recalculated. */
+    /**
+     * Whether or not effect tokens are dirty and need to be recalculated.
+     */
     static boolean dirtyEffectMaps = true;
 
     /**

@@ -16,34 +16,35 @@
 
 package com.github.tommyettinger.textra.effects;
 
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
-/** Makes the text jumps and falls as if there was gravity. */
+/**
+ * Makes the text jumps and falls as if there was gravity.
+ */
 public class HeartbeatEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 1f;
-    private static final float DEFAULT_DISTANCE  = 0.5f;
+    private static final float DEFAULT_DISTANCE = 0.5f;
 
-    private float distance  = 1; // How much of their height they should move
+    private float distance = 1; // How much of their height they should move
     private float frequency = 1; // How frequently the wave pattern repeats
 
     public HeartbeatEffect(TypingLabel label, String[] params) {
         super(label);
 
         // Distance
-        if(params.length > 0) {
+        if (params.length > 0) {
             this.distance = paramAsFloat(params[0], 1);
         }
 
         // Frequency
-        if(params.length > 1) {
+        if (params.length > 1) {
             this.frequency = paramAsFloat(params[1], 1);
         }
 
         // Duration
-        if(params.length > 2) {
+        if (params.length > 2) {
             this.duration = paramAsFloat(params[2], -1);
         }
     }

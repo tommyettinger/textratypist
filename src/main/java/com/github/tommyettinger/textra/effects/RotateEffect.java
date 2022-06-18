@@ -19,7 +19,9 @@ package com.github.tommyettinger.textra.effects;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
-/** Permanently rotates text in-place for each cell. Doesn't change over time. */
+/**
+ * Permanently rotates text in-place for each cell. Doesn't change over time.
+ */
 public class RotateEffect extends Effect {
     private float rotation = 90; // how many degrees to rotate each glyph, counter-clockwise
 
@@ -27,7 +29,7 @@ public class RotateEffect extends Effect {
         super(label);
 
         // Size X (and Y)
-        if(params.length > 0) {
+        if (params.length > 0) {
             this.rotation = paramAsFloat(params[0], 90.0f);
         }
     }

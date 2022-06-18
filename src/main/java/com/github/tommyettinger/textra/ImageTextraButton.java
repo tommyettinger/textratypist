@@ -26,227 +26,240 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.Scaling;
 
-/** A button with a child {@link Image} and {@link TextraLabel}.
+/**
+ * A button with a child {@link Image} and {@link TextraLabel}.
+ *
+ * @author Nathan Sweet
  * @see ImageButton
  * @see TextraButton
  * @see Button
- * @author Nathan Sweet */
+ */
 public class ImageTextraButton extends Button {
-	private final Image image;
-	private TextraLabel label;
-	private ImageTextButtonStyle style;
+    private final Image image;
+    private TextraLabel label;
+    private ImageTextButtonStyle style;
 
-	public ImageTextraButton(@Null String text, Skin skin) {
-		this(text, skin.get(ImageTextButtonStyle.class));
-		setSkin(skin);
-	}
+    public ImageTextraButton(@Null String text, Skin skin) {
+        this(text, skin.get(ImageTextButtonStyle.class));
+        setSkin(skin);
+    }
 
-	public ImageTextraButton(@Null String text, Skin skin, String styleName) {
-		this(text, skin.get(styleName, ImageTextButtonStyle.class));
-		setSkin(skin);
-	}
+    public ImageTextraButton(@Null String text, Skin skin, String styleName) {
+        this(text, skin.get(styleName, ImageTextButtonStyle.class));
+        setSkin(skin);
+    }
 
-	public ImageTextraButton(@Null String text, ImageTextButtonStyle style) {
-		super(style);
-		this.style = style;
+    public ImageTextraButton(@Null String text, ImageTextButtonStyle style) {
+        super(style);
+        this.style = style;
 
-		defaults().space(3);
+        defaults().space(3);
 
-		image = newImage();
+        image = newImage();
 
-		label = newLabel(text, new LabelStyle(style.font, style.fontColor));
-		label.setAlignment(Align.center);
+        label = newLabel(text, new LabelStyle(style.font, style.fontColor));
+        label.setAlignment(Align.center);
 
-		add(image);
-		add(label);
+        add(image);
+        add(label);
 
-		setStyle(style);
+        setStyle(style);
 
-		setSize(getPrefWidth(), getPrefHeight());
-	}
+        setSize(getPrefWidth(), getPrefHeight());
+    }
 
-	public ImageTextraButton(@Null String text, Skin skin, Font replacementFont) {
-		this(text, skin.get(ImageTextButtonStyle.class), replacementFont);
-		setSkin(skin);
-	}
+    public ImageTextraButton(@Null String text, Skin skin, Font replacementFont) {
+        this(text, skin.get(ImageTextButtonStyle.class), replacementFont);
+        setSkin(skin);
+    }
 
-	public ImageTextraButton(@Null String text, Skin skin, String styleName, Font replacementFont) {
-		this(text, skin.get(styleName, ImageTextButtonStyle.class), replacementFont);
-		setSkin(skin);
-	}
+    public ImageTextraButton(@Null String text, Skin skin, String styleName, Font replacementFont) {
+        this(text, skin.get(styleName, ImageTextButtonStyle.class), replacementFont);
+        setSkin(skin);
+    }
 
-	public ImageTextraButton(@Null String text, ImageTextButtonStyle style, Font replacementFont) {
-		super(style);
-		this.style = style;
+    public ImageTextraButton(@Null String text, ImageTextButtonStyle style, Font replacementFont) {
+        super(style);
+        this.style = style;
 
-		defaults().space(3);
+        defaults().space(3);
 
-		image = newImage();
+        image = newImage();
 
-		label = newLabel(text, replacementFont, style.fontColor);
-		label.setAlignment(Align.center);
+        label = newLabel(text, replacementFont, style.fontColor);
+        label.setAlignment(Align.center);
 
-		add(image);
-		add(label);
+        add(image);
+        add(label);
 
-		setStyle(style, replacementFont);
+        setStyle(style, replacementFont);
 
-		setSize(getPrefWidth(), getPrefHeight());
-	}
+        setSize(getPrefWidth(), getPrefHeight());
+    }
 
-	protected Image newImage () {
-		return new Image(null, Scaling.fit);
-	}
+    protected Image newImage() {
+        return new Image(null, Scaling.fit);
+    }
 
-	protected TextraLabel newLabel (String text, LabelStyle style) {
-		return new TextraLabel(text, style);
-	}
+    protected TextraLabel newLabel(String text, LabelStyle style) {
+        return new TextraLabel(text, style);
+    }
 
-	protected TextraLabel newLabel (String text, Font font) {
-		return new TextraLabel(text, font);
-	}
-	protected TextraLabel newLabel (String text, Font font, Color color) {
-		return new TextraLabel(text, font, color);
-	}
+    protected TextraLabel newLabel(String text, Font font) {
+        return new TextraLabel(text, font);
+    }
 
-	public void setStyle (ButtonStyle style) {
-		if (!(style instanceof ImageTextButtonStyle)) throw new IllegalArgumentException("style must be a ImageTextButtonStyle.");
-		this.style = (ImageTextButtonStyle)style;
-		super.setStyle(style);
+    protected TextraLabel newLabel(String text, Font font, Color color) {
+        return new TextraLabel(text, font, color);
+    }
 
-		if (image != null) updateImage();
+    public void setStyle(ButtonStyle style) {
+        if (!(style instanceof ImageTextButtonStyle))
+            throw new IllegalArgumentException("style must be a ImageTextButtonStyle.");
+        this.style = (ImageTextButtonStyle) style;
+        super.setStyle(style);
 
-		if (label != null) {
-			ImageTextButtonStyle textButtonStyle = (ImageTextButtonStyle)style;
-			label.font = new Font(textButtonStyle.font);
-			label.setColor(getFontColor());
-		}
-	}
+        if (image != null) updateImage();
 
-	public void setStyle (ButtonStyle style, boolean makeGridGlyphs) {
-		if (!(style instanceof ImageTextButtonStyle)) throw new IllegalArgumentException("style must be a ImageTextButtonStyle.");
-		this.style = (ImageTextButtonStyle)style;
-		super.setStyle(style);
+        if (label != null) {
+            ImageTextButtonStyle textButtonStyle = (ImageTextButtonStyle) style;
+            label.font = new Font(textButtonStyle.font);
+            label.setColor(getFontColor());
+        }
+    }
 
-		if (image != null) updateImage();
+    public void setStyle(ButtonStyle style, boolean makeGridGlyphs) {
+        if (!(style instanceof ImageTextButtonStyle))
+            throw new IllegalArgumentException("style must be a ImageTextButtonStyle.");
+        this.style = (ImageTextButtonStyle) style;
+        super.setStyle(style);
 
-		if (label != null) {
-			ImageTextButtonStyle textButtonStyle = (ImageTextButtonStyle)style;
-			label.font = new Font(textButtonStyle.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
-			label.setColor(getFontColor());
-		}
-	}
+        if (image != null) updateImage();
 
-	public void setStyle (ButtonStyle style, Font font) {
-		if (!(style instanceof ImageTextButtonStyle)) throw new IllegalArgumentException("style must be a ImageTextButtonStyle.");
-		this.style = (ImageTextButtonStyle)style;
-		super.setStyle(style);
+        if (label != null) {
+            ImageTextButtonStyle textButtonStyle = (ImageTextButtonStyle) style;
+            label.font = new Font(textButtonStyle.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
+            label.setColor(getFontColor());
+        }
+    }
 
-		if (image != null) updateImage();
+    public void setStyle(ButtonStyle style, Font font) {
+        if (!(style instanceof ImageTextButtonStyle))
+            throw new IllegalArgumentException("style must be a ImageTextButtonStyle.");
+        this.style = (ImageTextButtonStyle) style;
+        super.setStyle(style);
 
-		if (label != null) {
-			label.font = font;
-			label.setColor(getFontColor());
-		}
-	}
+        if (image != null) updateImage();
 
-	public ImageTextButtonStyle getStyle () {
-		return style;
-	}
+        if (label != null) {
+            label.font = font;
+            label.setColor(getFontColor());
+        }
+    }
 
-	/** Returns the appropriate image drawable from the style based on the current button state. */
-	protected @Null Drawable getImageDrawable () {
-		if (isDisabled() && style.imageDisabled != null) return style.imageDisabled;
-		if (isPressed()) {
-			if (isChecked() && style.imageCheckedDown != null) return style.imageCheckedDown;
-			if (style.imageDown != null) return style.imageDown;
-		}
-		if (isOver()) {
-			if (isChecked()) {
-				if (style.imageCheckedOver != null) return style.imageCheckedOver;
-			} else {
-				if (style.imageOver != null) return style.imageOver;
-			}
-		}
-		if (isChecked()) {
-			if (style.imageChecked != null) return style.imageChecked;
-			if (isOver() && style.imageOver != null) return style.imageOver;
-		}
-		return style.imageUp;
-	}
+    public ImageTextButtonStyle getStyle() {
+        return style;
+    }
 
-	/** Sets the image drawable based on the current button state. The default implementation sets the image drawable using
-	 * {@link #getImageDrawable()}. */
-	protected void updateImage () {
-		image.setDrawable(getImageDrawable());
-	}
+    /**
+     * Returns the appropriate image drawable from the style based on the current button state.
+     */
+    protected @Null Drawable getImageDrawable() {
+        if (isDisabled() && style.imageDisabled != null) return style.imageDisabled;
+        if (isPressed()) {
+            if (isChecked() && style.imageCheckedDown != null) return style.imageCheckedDown;
+            if (style.imageDown != null) return style.imageDown;
+        }
+        if (isOver()) {
+            if (isChecked()) {
+                if (style.imageCheckedOver != null) return style.imageCheckedOver;
+            } else {
+                if (style.imageOver != null) return style.imageOver;
+            }
+        }
+        if (isChecked()) {
+            if (style.imageChecked != null) return style.imageChecked;
+            if (isOver() && style.imageOver != null) return style.imageOver;
+        }
+        return style.imageUp;
+    }
 
-	/** Returns the appropriate label font color from the style based on the current button state. */
-	protected @Null Color getFontColor () {
-		if (isDisabled() && style.disabledFontColor != null) return style.disabledFontColor;
-		if (isPressed()) {
-			if (isChecked() && style.checkedDownFontColor != null) return style.checkedDownFontColor;
-			if (style.downFontColor != null) return style.downFontColor;
-		}
-		if (isOver()) {
-			if (isChecked()) {
-				if (style.checkedOverFontColor != null) return style.checkedOverFontColor;
-			} else {
-				if (style.overFontColor != null) return style.overFontColor;
-			}
-		}
-		boolean focused = hasKeyboardFocus();
-		if (isChecked()) {
-			if (focused && style.checkedFocusedFontColor != null) return style.checkedFocusedFontColor;
-			if (style.checkedFontColor != null) return style.checkedFontColor;
-			if (isOver() && style.overFontColor != null) return style.overFontColor;
-		}
-		if (focused && style.focusedFontColor != null) return style.focusedFontColor;
-		return style.fontColor;
-	}
+    /**
+     * Sets the image drawable based on the current button state. The default implementation sets the image drawable using
+     * {@link #getImageDrawable()}.
+     */
+    protected void updateImage() {
+        image.setDrawable(getImageDrawable());
+    }
 
-	public void draw (Batch batch, float parentAlpha) {
-		updateImage();
-		label.setColor(getFontColor());
-		super.draw(batch, parentAlpha);
-	}
+    /**
+     * Returns the appropriate label font color from the style based on the current button state.
+     */
+    protected @Null Color getFontColor() {
+        if (isDisabled() && style.disabledFontColor != null) return style.disabledFontColor;
+        if (isPressed()) {
+            if (isChecked() && style.checkedDownFontColor != null) return style.checkedDownFontColor;
+            if (style.downFontColor != null) return style.downFontColor;
+        }
+        if (isOver()) {
+            if (isChecked()) {
+                if (style.checkedOverFontColor != null) return style.checkedOverFontColor;
+            } else {
+                if (style.overFontColor != null) return style.overFontColor;
+            }
+        }
+        boolean focused = hasKeyboardFocus();
+        if (isChecked()) {
+            if (focused && style.checkedFocusedFontColor != null) return style.checkedFocusedFontColor;
+            if (style.checkedFontColor != null) return style.checkedFontColor;
+            if (isOver() && style.overFontColor != null) return style.overFontColor;
+        }
+        if (focused && style.focusedFontColor != null) return style.focusedFontColor;
+        return style.fontColor;
+    }
 
-	public Image getImage () {
-		return image;
-	}
+    public void draw(Batch batch, float parentAlpha) {
+        updateImage();
+        label.setColor(getFontColor());
+        super.draw(batch, parentAlpha);
+    }
 
-	public Cell<?> getImageCell () {
-		return getCell(image);
-	}
+    public Image getImage() {
+        return image;
+    }
 
-	public void setLabel (TextraLabel label) {
-		getLabelCell().setActor(label);
-		this.label = label;
-	}
+    public Cell<?> getImageCell() {
+        return getCell(image);
+    }
 
-	public TextraLabel getLabel () {
-		return label;
-	}
+    public void setLabel(TextraLabel label) {
+        getLabelCell().setActor(label);
+        this.label = label;
+    }
 
-	public Cell<?> getLabelCell () {
-		return getCell(label);
-	}
+    public TextraLabel getLabel() {
+        return label;
+    }
 
-	public void setText (CharSequence text) {
-		label.setText(text.toString());
-	}
+    public Cell<?> getLabelCell() {
+        return getCell(label);
+    }
 
-	public String getText () {
-		return label.toString();
-	}
+    public void setText(CharSequence text) {
+        label.setText(text.toString());
+    }
 
-	public String toString () {
-		String name = getName();
-		if (name != null) return name;
-		String className = getClass().getName();
-		int dotIndex = className.lastIndexOf('.');
-		if (dotIndex != -1) className = className.substring(dotIndex + 1);
-		return (className.indexOf('$') != -1 ? "ImageTextraButton " : "") + className + ": " + image.getDrawable() + " "
-			+ label.toString();
-	}
+    public String getText() {
+        return label.toString();
+    }
+
+    public String toString() {
+        String name = getName();
+        if (name != null) return name;
+        String className = getClass().getName();
+        int dotIndex = className.lastIndexOf('.');
+        if (dotIndex != -1) className = className.substring(dotIndex + 1);
+        return (className.indexOf('$') != -1 ? "ImageTextraButton " : "") + className + ": " + image.getDrawable() + " "
+                + label.toString();
+    }
 }

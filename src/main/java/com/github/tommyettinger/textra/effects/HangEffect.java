@@ -22,26 +22,28 @@ import com.badlogic.gdx.utils.IntFloatMap;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
-/** Hangs the text in midair and suddenly drops it. Doesn't repeat itself. */
+/**
+ * Hangs the text in midair and suddenly drops it. Doesn't repeat itself.
+ */
 public class HangEffect extends Effect {
-    private static final float DEFAULT_DISTANCE  = 0.7f;
+    private static final float DEFAULT_DISTANCE = 0.7f;
     private static final float DEFAULT_INTENSITY = 1.5f;
 
-    private float distance  = 1; // How much of their height they should move
+    private float distance = 1; // How much of their height they should move
     private float intensity = 1; // How fast the glyphs should move
 
-    private IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
+    private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
 
     public HangEffect(TypingLabel label, String[] params) {
         super(label);
 
         // Distance
-        if(params.length > 0) {
+        if (params.length > 0) {
             this.distance = paramAsFloat(params[0], 1);
         }
 
         // Intensity
-        if(params.length > 1) {
+        if (params.length > 1) {
             this.intensity = paramAsFloat(params[1], 1);
         }
     }
@@ -58,7 +60,7 @@ public class HangEffect extends Effect {
         // Calculate offset
         float interpolation;
         float split = 0.7f;
-        if(progress < split) {
+        if (progress < split) {
             interpolation = Interpolation.pow3Out.apply(0, 1, progress / split);
         } else {
             interpolation = Interpolation.swing.apply(1, 0, (progress - split) / (1f - split));

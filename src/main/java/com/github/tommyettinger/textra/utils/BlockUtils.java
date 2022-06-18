@@ -39,10 +39,11 @@ public class BlockUtils {
     /**
      * Returns true if the given char can be handled by the box drawing and block element data here, or false if the
      * Font should try to handle that char itself.
+     *
      * @param c a char (or int in the char range, 0-65535) that could potentially be a box drawing/block element char
      * @return true if c is a box drawing/block element char that this can handle
      */
-    public static boolean isBlockGlyph(int c){
+    public static boolean isBlockGlyph(int c) {
         return (c >= '\u2500' && c <= '\u256C') || (c >= '\u2574' && c <= '\u2590') || (c >= '\u2594' && c <= '\u259F');
     }
 
@@ -60,10 +61,10 @@ public class BlockUtils {
             /* ┅ : u2505 */ {0, WIDE_START, 0.2f, WIDE_ACROSS, 0.4f, WIDE_START, 0.2f, WIDE_ACROSS, 0.8f, WIDE_START, 0.2f, WIDE_ACROSS},
             /* ┆ : u2506 */ {THIN_START, 0, THIN_ACROSS, 0.2f, THIN_START, 0.4f, THIN_ACROSS, 0.2f, THIN_START, 0.8f, THIN_ACROSS, 0.2f},
             /* ┇ : u2507 */ {WIDE_START, 0, WIDE_ACROSS, 0.2f, WIDE_START, 0.4f, WIDE_ACROSS, 0.2f, WIDE_START, 0.8f, WIDE_ACROSS, 0.2f},
-            /* ┈ : u2508 */ {0, THIN_START, 1/7f, THIN_ACROSS, 2/7f, THIN_START, 1/7f, THIN_ACROSS, 4/7f, THIN_START, 1/7f, THIN_ACROSS, 6/7f, THIN_START, 1/7f, THIN_ACROSS},
-            /* ┉ : u2509 */ {0, WIDE_START, 1/7f, WIDE_ACROSS, 2/7f, WIDE_START, 1/7f, WIDE_ACROSS, 4/7f, WIDE_START, 1/7f, WIDE_ACROSS, 6/7f, WIDE_START, 1/7f, WIDE_ACROSS},
-            /* ┊ : u250A */ {THIN_START, 0, THIN_ACROSS, 1/7f, THIN_START, 2/7f, THIN_ACROSS, 1/7f, THIN_START, 4/7f, THIN_ACROSS, 1/7f, THIN_START, 6/7f, THIN_ACROSS, 1/7f},
-            /* ┋ : u250B */ {WIDE_START, 0, WIDE_ACROSS, 1/7f, WIDE_START, 2/7f, WIDE_ACROSS, 1/7f, WIDE_START, 4/7f, WIDE_ACROSS, 1/7f, WIDE_START, 6/7f, WIDE_ACROSS, 1/7f},
+            /* ┈ : u2508 */ {0, THIN_START, 1 / 7f, THIN_ACROSS, 2 / 7f, THIN_START, 1 / 7f, THIN_ACROSS, 4 / 7f, THIN_START, 1 / 7f, THIN_ACROSS, 6 / 7f, THIN_START, 1 / 7f, THIN_ACROSS},
+            /* ┉ : u2509 */ {0, WIDE_START, 1 / 7f, WIDE_ACROSS, 2 / 7f, WIDE_START, 1 / 7f, WIDE_ACROSS, 4 / 7f, WIDE_START, 1 / 7f, WIDE_ACROSS, 6 / 7f, WIDE_START, 1 / 7f, WIDE_ACROSS},
+            /* ┊ : u250A */ {THIN_START, 0, THIN_ACROSS, 1 / 7f, THIN_START, 2 / 7f, THIN_ACROSS, 1 / 7f, THIN_START, 4 / 7f, THIN_ACROSS, 1 / 7f, THIN_START, 6 / 7f, THIN_ACROSS, 1 / 7f},
+            /* ┋ : u250B */ {WIDE_START, 0, WIDE_ACROSS, 1 / 7f, WIDE_START, 2 / 7f, WIDE_ACROSS, 1 / 7f, WIDE_START, 4 / 7f, WIDE_ACROSS, 1 / 7f, WIDE_START, 6 / 7f, WIDE_ACROSS, 1 / 7f},
             /* ┌ : u250C */ {THIN_START, THIN_START, THIN_OVER, THIN_ACROSS, THIN_START, 0, THIN_ACROSS, THIN_OVER},
             /* ┍ : u250D */ {THIN_START, WIDE_START, THIN_OVER, WIDE_ACROSS, THIN_START, 0, THIN_ACROSS, WIDE_OVER},
             /* ┎ : u250E */ {WIDE_START, THIN_START, WIDE_OVER, THIN_ACROSS, WIDE_START, 0, WIDE_ACROSS, THIN_OVER},

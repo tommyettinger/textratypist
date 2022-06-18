@@ -100,12 +100,15 @@ licenses for details.
 
 You can rotate individual glyphs (if you draw them individually) or rotate whole blocks of text as a Layout, using an
 optional overload of `Font.drawGlyph()` or `Font.drawGlyphs()`. Custom effects for `TypingLabel` can also individually
-change the rotation of any glyph, as well as its position and scale on x and/or y. You can also, for some fonts, have
+change the rotation of any glyph, as well as its position and scale on x and/or y. You can rotate a TextraLabel or
+TypingLabel by using their `setRotation()` methods, but these are currently only even remotely usable for Labels without
+background graphics. Any help with the rotation code would be appreciated! You can also, for some fonts, have
 box-drawing characters and block elements be automatically generated. This needs a solid white block character (of any
-size, typically 1x1) present in the font at id 0 (used here because most fonts don't use it) or 9608 (the Unicode full
-block index, `'\u2588'`). This also enables a better guarantee of underline and strikethrough characters connecting
-properly, and without smudging where two underscores or hyphens overlap each other. `Font` attempts to enable this by
-default, but if it fails then it falls back to using underscores for underline and hyphens for strikethrough. All the
+size, typically 1x1) present in the font at id 0 (used here because most fonts don't use it) or better, 9608 (the
+Unicode full block index, `'\u2588'`, which is preferred because BitmapFont treats id 0 differently). This also enables
+a better guarantee of underline and strikethrough characters connecting properly, and without smudging where two
+underscores or hyphens overlap each other. `Font` attempts to enable this in some cases, or it can be set with a
+parameter, but if it fails then it falls back to using underscores for underline and hyphens for strikethrough. All the
 fonts in `KnownFonts` either are configured to use a solid block or to specifically avoid it because that font renders
 better without it. Note that if you create a `Font` from a libGDX `BitmapFont`, this defaults to not even trying to make
 grid glyphs, because BitmapFonts rarely have a suitable solid block char.
@@ -129,7 +132,7 @@ for some usage. A counterpart to `TextArea` is planned.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.5.3"
+implementation "com.github.tommyettinger:textratypist:0.5.4"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
@@ -138,7 +141,7 @@ was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.5.3:sources"
+implementation "com.github.tommyettinger:textratypist:0.5.4:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
@@ -171,7 +174,7 @@ but I request that it only be used to refer to this project unless substantially
 
 Wow, raeleus has really helped a tremendous amount. Both by testing TextraTypist in his Skin Composer app (which found
 quite a lot of bugs, small and large), and advising on proper scene2d.ui layout practices (which were not easy to get
-100% right), the large 0.5.2 release would not be what it is today without his input. Thank you!
+100% right), the large 0.5.2 release (and those after it) would not be what it is today without his input. Thank you!
 
 Of course, I have to thank Rafa Skoberg for writing quite a lot of the code here! About 2/3 of the effects are almost
 purely by Rafa, much of the TypingLabel-related code is nearly unchanged from his work, and in general he showed what

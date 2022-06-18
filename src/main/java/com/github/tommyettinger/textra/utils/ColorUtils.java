@@ -30,18 +30,19 @@ public class ColorUtils {
      * Converts the four HSLA components, each in the 0.0 to 1.0 range, to an int in RGBA8888 format.
      * I brought this over from colorful-gdx's FloatColors class. I can't recall where I got the original HSL(A) code
      * from, but there's a strong chance it was written by cypherdare/cyphercove for their color space comparison.
+     *
      * @param h hue, from 0.0 to 1.0
      * @param s saturation, from 0.0 to 1.0
      * @param l lightness, from 0.0 to 1.0
      * @param a alpha, from 0.0 to 1.0
      * @return an RGBA8888-format int
      */
-    public static int hsl2rgb(final float h, final float s, final float l, final float a){
+    public static int hsl2rgb(final float h, final float s, final float l, final float a) {
         float x = Math.min(Math.max(Math.abs(h * 6f - 3f) - 1f, 0f), 1f);
         float y = h + (2f / 3f);
         float z = h + (1f / 3f);
-        y -= (int)y;
-        z -= (int)z;
+        y -= (int) y;
+        z -= (int) z;
         y = Math.min(Math.max(Math.abs(y * 6f - 3f) - 1f, 0f), 1f);
         z = Math.min(Math.max(Math.abs(z * 6f - 3f) - 1f, 0f), 1f);
         float v = (l + s * Math.min(l, 1f - l));
@@ -53,6 +54,7 @@ public class ColorUtils {
      * Converts the four RGBA components, each in the 0.0 to 1.0 range, to an int in HSLA format (hue,
      * saturation, lightness, alpha). This format is exactly like RGBA8888 but treats what would normally be red as hue,
      * green as saturation, and blue as lightness; alpha is the same.
+     *
      * @param r red, from 0.0 to 1.0
      * @param g green, from 0.0 to 1.0
      * @param b blue, from 0.0 to 1.0
@@ -61,23 +63,21 @@ public class ColorUtils {
      */
     public static int rgb2hsl(final float r, final float g, final float b, final float a) {
         float x, y, z, w;
-        if(g < b) {
+        if (g < b) {
             x = b;
             y = g;
             z = -1f;
             w = 2f / 3f;
-        }
-        else {
+        } else {
             x = g;
             y = b;
             z = 0f;
             w = -1f / 3f;
         }
-        if(r < x) {
+        if (r < x) {
             z = w;
             w = r;
-        }
-        else {
+        } else {
             w = x;
             x = r;
         }
@@ -91,18 +91,19 @@ public class ColorUtils {
      * I brought this over from colorful-gdx's FloatColors class. I can't recall where I got the original HSL(A) code
      * from, but there's a strong chance it was written by cypherdare/cyphercove for their color space comparison.
      * HSV and HSB are synonyms; it makes a little more sense to call the third channel brightness.
+     *
      * @param h hue, from 0.0 to 1.0
      * @param s saturation, from 0.0 to 1.0
      * @param b brightness, from 0.0 to 1.0
      * @param a alpha, from 0.0 to 1.0
      * @return an RGBA8888-format int
      */
-    public static int hsb2rgb(final float h, final float s, final float b, final float a){
+    public static int hsb2rgb(final float h, final float s, final float b, final float a) {
         float x = Math.min(Math.max(Math.abs(h * 6f - 3f) - 1f, 0f), 1f);
         float y = h + (2f / 3f);
         float z = h + (1f / 3f);
-        y -= (int)y;
-        z -= (int)z;
+        y -= (int) y;
+        z -= (int) z;
         y = Math.min(Math.max(Math.abs(y * 6f - 3f) - 1f, 0f), 1f);
         z = Math.min(Math.max(Math.abs(z * 6f - 3f) - 1f, 0f), 1f);
         return Color.rgba8888(b * MathUtils.lerp(1f, x, s), b * MathUtils.lerp(1f, y, s), b * MathUtils.lerp(1f, z, s), a);
@@ -113,6 +114,7 @@ public class ColorUtils {
      * saturation, brightness/value, alpha). This format is exactly like RGBA8888 but treats what would normally be red
      * as hue, green as saturation, and blue as brightness/value; alpha is the same. HSV and HSB are synonyms; it makes
      * a little more sense to call the third channel brightness.
+     *
      * @param r red, from 0.0 to 1.0
      * @param g green, from 0.0 to 1.0
      * @param b blue, from 0.0 to 1.0
@@ -124,10 +126,10 @@ public class ColorUtils {
         float n = Math.min(Math.min(r, g), b);
         float c = v - n;
         float h;
-        if(c == 0) h = 0f;
-        else if(v == r) h = ((g - b) / c) / 6f;
-        else if(v == g) h = ((b - r) / c + 2f) / 6f;
-        else            h = ((r - g) / c + 4f) / 6f;
+        if (c == 0) h = 0f;
+        else if (v == r) h = ((g - b) / c) / 6f;
+        else if (v == g) h = ((b - r) / c + 2f) / 6f;
+        else h = ((r - g) / c + 4f) / 6f;
         return Color.rgba8888(h, v == 0 ? 0f : c / v, v, a);
     }
 
@@ -135,7 +137,8 @@ public class ColorUtils {
      * Given a packed int color and a channel value from 0 to 3, gets the value of that channel as a float from 0.0f
      * to 1.0f . Channel 0 refers to R in RGBA8888 and H in {@link #rgb2hsl(float, float, float, float) HSLA} ints,
      * channel 1 refers to G or S, 2 refers to B or L, and 3 always refers to A.
-     * @param color a packed int color in any 32-bit, 4-channel format
+     *
+     * @param color   a packed int color in any 32-bit, 4-channel format
      * @param channel which channel to access, as an index from 0 to 3 inclusive
      * @return the non-packed float value of the requested channel, from 0.0f to 1.0f inclusive
      */
@@ -147,7 +150,8 @@ public class ColorUtils {
      * Given a packed int color and a channel value from 0 to 3, gets the value of that channel as an int from 0 to
      * 255 . Channel 0 refers to R in RGBA8888 and H in {@link #rgb2hsl(float, float, float, float) HSLA} ints,
      * channel 1 refers to G or S, 2 refers to B or L, and 3 always refers to A.
-     * @param color a packed int color in any 32-bit, 4-channel format
+     *
+     * @param color   a packed int color in any 32-bit, 4-channel format
      * @param channel which channel to access, as an index from 0 to 3 inclusive
      * @return the int value of the requested channel, from 0 to 255 inclusive
      */
@@ -179,23 +183,25 @@ public class ColorUtils {
      * Given an RGBA8888 or HSLA color as an int, this multiplies the alpha of that color by multiplier and returns
      * another int color of the same format passed in. This clamps the alpha if it would go below 0 or above 255, and
      * leaves the RGB or HSL channels alone.
-     * @param color an RGBA8888 or HSLA color
+     *
+     * @param color      an RGBA8888 or HSLA color
      * @param multiplier a multiplier to apply to color's alpha
      * @return another color of the same format as the one given, with alpha multiplied
      */
-    public static int multiplyAlpha(int color, float multiplier){
-        return (color & 0xFFFFFF00) | Math.min(Math.max((int)((color & 0xFF) * multiplier), 0), 255);
+    public static int multiplyAlpha(int color, float multiplier) {
+        return (color & 0xFFFFFF00) | Math.min(Math.max((int) ((color & 0xFF) * multiplier), 0), 255);
     }
 
     /**
      * Given any purely-non-null 2D int array representing RGBA or HSLA colors, this multiplies the alpha channel of
      * each color by multiplier, modifying the given array, and returns the changed array for chaining. This uses
      * {@link #multiplyAlpha(int, float)} internally, so its documentation applies.
-     * @param colors a 2D int array of RGBA or HSLA colors, none of which can include null arrays
+     *
+     * @param colors     a 2D int array of RGBA or HSLA colors, none of which can include null arrays
      * @param multiplier a multiplier to apply to each color's alpha
      * @return colors, after having each item's alpha multiplied
      */
-    public static int[][] multiplyAllAlpha(int[][] colors, float multiplier){
+    public static int[][] multiplyAllAlpha(int[][] colors, float multiplier) {
         for (int x = 0; x < colors.length; x++) {
             for (int y = 0; y < colors[x].length; y++) {
                 colors[x][y] = multiplyAlpha(colors[x][y], multiplier);

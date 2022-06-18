@@ -19,14 +19,16 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 
-/** Abstract text effect. */
+/**
+ * Abstract text effect.
+ */
 public abstract class Effect {
-    private static final float       FADEOUT_SPLIT = 0.25f;
-    protected final      TypingLabel label;
-    public               int         indexStart    = -1;
-    public               int         indexEnd      = -1;
-    public               float       duration      = Float.POSITIVE_INFINITY;
-    protected            float       totalTime;
+    private static final float FADEOUT_SPLIT = 0.25f;
+    protected final TypingLabel label;
+    public int indexStart = -1;
+    public int indexEnd = -1;
+    public float duration = Float.POSITIVE_INFINITY;
+    protected float totalTime;
 
     public Effect(TypingLabel label) {
         this.label = label;
@@ -36,29 +38,37 @@ public abstract class Effect {
         totalTime += delta;
     }
 
-    /** Applies the effect to the given glyph. */
+    /**
+     * Applies the effect to the given glyph.
+     */
     public final void apply(long glyph, int glyphIndex, float delta) {
         int localIndex = glyphIndex - indexStart;
         onApply(glyph, localIndex, glyphIndex, delta);
     }
 
-    /** Called when this effect should be applied to the given glyph. */
+    /**
+     * Called when this effect should be applied to the given glyph.
+     */
     protected abstract void onApply(long glyph, int localIndex, int globalIndex, float delta);
 
-    /** Returns whether or not this effect is finished and should be removed. Note that effects are infinite by default. */
+    /**
+     * Returns whether or not this effect is finished and should be removed. Note that effects are infinite by default.
+     */
     public boolean isFinished() {
         return totalTime > duration;
     }
 
-    /** Calculates the fadeout of this effect, if any. Only considers the second half of the duration. */
+    /**
+     * Calculates the fadeout of this effect, if any. Only considers the second half of the duration.
+     */
     protected float calculateFadeout() {
-        if(duration == Float.POSITIVE_INFINITY) return 1;
+        if (duration == Float.POSITIVE_INFINITY) return 1;
 
         // Calculate raw progress
         float progress = MathUtils.clamp(totalTime / duration, 0, 1);
 
         // If progress is before the split point, return a full factor
-        if(progress < FADEOUT_SPLIT) return 1;
+        if (progress < FADEOUT_SPLIT) return 1;
 
         // Otherwise calculate from the split point
         return Interpolation.smooth.apply(1, 0, (progress - FADEOUT_SPLIT) / (1f - FADEOUT_SPLIT));
@@ -80,15 +90,17 @@ public abstract class Effect {
         return calculateProgress(modifier, offset, true);
     }
 
-    /** Calculates a linear progress dividing the total time by the given modifier. Returns a value between 0 and 1. */
+    /**
+     * Calculates a linear progress dividing the total time by the given modifier. Returns a value between 0 and 1.
+     */
     protected float calculateProgress(float modifier, float offset, boolean pingpong) {
         float progress = totalTime / modifier + offset;
-        while(progress < 0.0f) {
+        while (progress < 0.0f) {
             progress += 2.0f;
         }
-        if(pingpong) {
+        if (pingpong) {
             progress %= 2f;
-            if(progress > 1.0f) progress = 1f - (progress - 1f);
+            if (progress > 1.0f) progress = 1f - (progress - 1f);
         } else {
             progress %= 1.0f;
         }
@@ -96,17 +108,23 @@ public abstract class Effect {
         return progress;
     }
 
-    /** Returns a float value parsed from the given String, or the default value if the string couldn't be parsed. */
+    /**
+     * Returns a float value parsed from the given String, or the default value if the string couldn't be parsed.
+     */
     protected float paramAsFloat(String str, float defaultValue) {
         return Parser.stringToFloat(str, defaultValue);
     }
 
-    /** Returns a boolean value parsed from the given String, or the default value if the string couldn't be parsed. */
+    /**
+     * Returns a boolean value parsed from the given String, or the default value if the string couldn't be parsed.
+     */
     protected boolean paramAsBoolean(String str) {
         return Parser.stringToBoolean(str);
     }
 
-    /** Parses a color from the given string. Returns null if the color couldn't be parsed. */
+    /**
+     * Parses a color from the given string. Returns null if the color couldn't be parsed.
+     */
     protected int paramAsColor(String str) {
         return Parser.stringToColor(label, str);
     }

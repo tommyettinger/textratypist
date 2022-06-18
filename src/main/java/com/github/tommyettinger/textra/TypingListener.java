@@ -16,7 +16,9 @@
 
 package com.github.tommyettinger.textra;
 
-/** Simple listener for label events. */
+/**
+ * Simple listener for label events.
+ */
 public interface TypingListener {
 
     /**
@@ -27,7 +29,9 @@ public interface TypingListener {
      */
     void event(String event);
 
-    /** Called when the char progression reaches the end. */
+    /**
+     * Called when the char progression reaches the end.
+     */
     void end();
 
     /**

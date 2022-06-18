@@ -22,14 +22,16 @@ import com.badlogic.gdx.utils.IntFloatMap;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
-/** Starts the text large and shrinks into the final position/size. Doesn't repeat itself. */
+/**
+ * Starts the text large and shrinks into the final position/size. Doesn't repeat itself.
+ */
 public class ShrinkEffect extends Effect {
-    private static final float DEFAULT_DISTANCE  = 3f;
+    private static final float DEFAULT_DISTANCE = 3f;
     private static final float DEFAULT_INTENSITY = 0.15f;
 
-    private float   distance  = 1; // How much of their height they should start expanded by
-    private float   intensity = 1; // How fast the glyphs should move
-    private boolean elastic   = false; // True if the glyphs have an elastic movement
+    private float distance = 1; // How much of their height they should start expanded by
+    private float intensity = 1; // How fast the glyphs should move
+    private boolean elastic = false; // True if the glyphs have an elastic movement
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
 
@@ -37,17 +39,17 @@ public class ShrinkEffect extends Effect {
         super(label);
 
         // Distance
-        if(params.length > 0) {
+        if (params.length > 0) {
             this.distance = paramAsFloat(params[0], 1.0f);
         }
 
         //Intensity
-        if(params.length > 1) {
+        if (params.length > 1) {
             this.intensity = paramAsFloat(params[1], 1.0f);
         }
 
         // Elastic
-        if(params.length > 2) {
+        if (params.length > 2) {
             this.elastic = paramAsBoolean(params[2]);
         }
     }

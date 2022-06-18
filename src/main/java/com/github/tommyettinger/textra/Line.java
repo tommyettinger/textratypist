@@ -70,7 +70,7 @@ public class Line implements Pool.Poolable {
         return sb;
     }
 
-    public String toString(){
+    public String toString() {
         return appendTo(new StringBuilder(glyphs.size + 20)).toString();
     }
 }

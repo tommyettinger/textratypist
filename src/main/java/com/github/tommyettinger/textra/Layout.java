@@ -55,12 +55,12 @@ public class Layout implements Pool.Poolable {
 
     /**
      * One of the ways to set the font on a Layout; this one returns this Layout for chaining.
+     *
      * @param font the font to use
      * @return this Layout, for chaining
      */
     public Layout font(Font font) {
-        if(this.font == null || !this.font.equals(font))
-        {
+        if (this.font == null || !this.font.equals(font)) {
             this.font = font;
             Line.POOL.freeAll(lines);
             lines.clear();
@@ -75,6 +75,7 @@ public class Layout implements Pool.Poolable {
 
     /**
      * One of the ways to set the font on a Layout; this is a traditional setter.
+     *
      * @param font the font to use
      */
     public void setFont(Font font) {
@@ -83,15 +84,15 @@ public class Layout implements Pool.Poolable {
 
     /**
      * Adds a {@code long} glyph as processed by {@link Font} to store color and style info with the char.
+     *
      * @param glyph usually produced by {@link Font} to store color and style info with the char
      * @return this Layout, for chaining
      */
-    public Layout add(long glyph){
-        if(!atLimit){
-            if((glyph & 0xFFFFL) == 10L) {
+    public Layout add(long glyph) {
+        if (!atLimit) {
+            if ((glyph & 0xFFFFL) == 10L) {
                 pushLine();
-            }
-            else {
+            } else {
                 lines.peek().glyphs.add(glyph);
             }
         }
@@ -128,11 +129,12 @@ public class Layout implements Pool.Poolable {
 
     /**
      * Gets a Line from this by its index.
+     *
      * @param i index for the Line to fetch; must be at least 0 and less than {@link #lines()}.
      * @return the Line at the given index
      */
     public Line getLine(int i) {
-        if(i >= lines.size) return null;
+        if (i >= lines.size) return null;
         return lines.get(i);
     }
 
@@ -141,7 +143,7 @@ public class Layout implements Pool.Poolable {
     }
 
     public Line pushLine() {
-        if(lines.size >= maxLines) {
+        if (lines.size >= maxLines) {
             atLimit = true;
             return null;
         }
@@ -154,11 +156,11 @@ public class Layout implements Pool.Poolable {
     }
 
     public Line insertLine(int index) {
-        if(lines.size >= maxLines) {
+        if (lines.size >= maxLines) {
             atLimit = true;
             return null;
         }
-        if(index < 0 || index >= maxLines) return null;
+        if (index < 0 || index >= maxLines) return null;
         Line line = Line.POOL.obtain(), prev = lines.get(index);
         prev.glyphs.add('\n');
         line.height = prev.height;
@@ -181,6 +183,7 @@ public class Layout implements Pool.Poolable {
      * will be used immediately after resetting formatting with {@code []}, as well as the initial color
      * used by text that hasn't been formatted. You can fill a Color object with this value using
      * {@link Color#abgr8888ToColor(Color, float)} (it modifies the Color you give it).
+     *
      * @return the base color of the Layout, as float bits
      */
     public float getBaseColor() {
@@ -192,6 +195,7 @@ public class Layout implements Pool.Poolable {
      * formatting with {@code []}, as well as the initial color used by text that hasn't been formatted.
      * This takes the color as a primitive float, which you can get from a Color object with
      * {@link Color#toFloatBits()}, or in some cases from existing data produced by {@link Font}.
+     *
      * @param baseColor the float bits of a Color, as obtainable via {@link Color#toFloatBits()}
      */
     public void setBaseColor(float baseColor) {
@@ -202,6 +206,7 @@ public class Layout implements Pool.Poolable {
      * Sets the base color of the Layout; this is what font color will be used immediately after resetting
      * formatting with {@code []}, as well as the initial color used by text that hasn't been formatted.
      * If the given Color is null, this treats it as white.
+     *
      * @param baseColor a Color to use for text that hasn't been formatted; if null, will be treated as white
      */
     public void setBaseColor(Color baseColor) {
@@ -210,6 +215,7 @@ public class Layout implements Pool.Poolable {
 
     /**
      * The maximum number of {@link Line}s this Layout can contain.
+     *
      * @return the maximum number of {@link Line} objects this Layout can contain
      */
     public int getMaxLines() {
@@ -218,6 +224,7 @@ public class Layout implements Pool.Poolable {
 
     /**
      * Sets the maximum number of {@link Line}s this Layout can contain; this is always at least 1.
+     *
      * @param maxLines the limit for how many Line objects this Layout can contain; always 1 or more
      */
     public void setMaxLines(int maxLines) {
@@ -227,6 +234,7 @@ public class Layout implements Pool.Poolable {
     /**
      * Gets the ellipsis, which may be null, or may be a String that can be placed at the end of the text if its
      * max lines are exceeded.
+     *
      * @return an ellipsis String or null
      */
     public String getEllipsis() {
@@ -238,6 +246,7 @@ public class Layout implements Pool.Poolable {
      * the {@link #getMaxLines()} of this Layout. For the ellipsis to appear, this has to be called with a
      * non-null String (often {@code "..."}, or {@code "…"} if the font supports it), and
      * {@link #setMaxLines(int)} needs to have been called with a small enough number, such as 1.
+     *
      * @param ellipsis a String for a Layout to end with if its max lines are exceeded, or null to avoid such truncation
      */
     public void setEllipsis(String ellipsis) {
@@ -265,16 +274,17 @@ public class Layout implements Pool.Poolable {
      * Can be useful if you want to append many Layouts into a StringBuilder. This does not treat character u0002 any
      * differently from other characters, which is where it differs from {@link #appendInto(StringBuilder)}.
      * This does not add or remove newlines from the Layout's contents, and can produce line breaks if they appear.
+     *
      * @param sb a non-null StringBuilder from the JDK
      * @return sb, for chaining
      */
-    public StringBuilder appendIntoDirect(StringBuilder sb){
+    public StringBuilder appendIntoDirect(StringBuilder sb) {
         long gl;
         for (int i = 0, n = lines.size; i < n; i++) {
             Line line = lines.get(i);
             for (int j = 0, ln = line.glyphs.size; j < ln; j++) {
                 gl = line.glyphs.get(j);
-                sb.append((char)gl);
+                sb.append((char) gl);
             }
         }
         return sb;
@@ -285,15 +295,16 @@ public class Layout implements Pool.Poolable {
      * This treats instances of the character u0002 as {@code '['}, as the library does internally, instead of
      * potentially printing a gibberish character.
      * This does not add or remove newlines from the Layout's contents, and can produce line breaks if they appear.
+     *
      * @param sb a non-null StringBuilder from the JDK
      * @return sb, for chaining
      */
-    public StringBuilder appendInto(StringBuilder sb){
+    public StringBuilder appendInto(StringBuilder sb) {
         char gl;
         for (int i = 0, n = lines.size; i < n; i++) {
             Line line = lines.get(i);
             for (int j = 0, ln = line.glyphs.size; j < ln; j++) {
-                gl = (char)line.glyphs.get(j);
+                gl = (char) line.glyphs.get(j);
                 sb.append(gl == 2 ? '[' : gl);
             }
         }

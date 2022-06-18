@@ -16,7 +16,6 @@
 
 package com.github.tommyettinger.textra;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
@@ -44,43 +43,43 @@ public class TypingLabel extends TextraLabel {
     ///////////////////////
 
     // Collections
-    private final   ObjectMap<String, String> variables    = new ObjectMap<String, String>();
-    protected final Array<TokenEntry>         tokenEntries = new Array<TokenEntry>();
+    private final ObjectMap<String, String> variables = new ObjectMap<String, String>();
+    protected final Array<TokenEntry> tokenEntries = new Array<TokenEntry>();
 
     // Config
-    private final Color    clearColor = new Color(TypingConfig.DEFAULT_CLEAR_COLOR);
-    private TypingListener listener   = null;
+    private final Color clearColor = new Color(TypingConfig.DEFAULT_CLEAR_COLOR);
+    private TypingListener listener = null;
 
     // Internal state
-    private final   StringBuilder    originalText          = new StringBuilder();
-    private final   StringBuilder    intermediateText      = new StringBuilder();
-    protected final Layout           workingLayout         = Layout.POOL.obtain();
+    private final StringBuilder originalText = new StringBuilder();
+    private final StringBuilder intermediateText = new StringBuilder();
+    protected final Layout workingLayout = Layout.POOL.obtain();
     /**
      * Contains two floats per glyph; even items are x offsets, odd items are y offsets.
      */
-    public final    FloatArray       offsets               = new FloatArray();
+    public final FloatArray offsets = new FloatArray();
     /**
      * Contains two floats per glyph, as size multipliers; even items apply to x, odd items apply to y.
      */
-    public final    FloatArray       sizing                = new FloatArray();
+    public final FloatArray sizing = new FloatArray();
     /**
      * Contains one float per glyph; each is a rotation in degrees to apply to that glyph (around its center).
      */
-    public final    FloatArray       rotations             = new FloatArray();
-    protected final Array<Effect>    activeEffects         = new Array<Effect>();
-    private         float            textSpeed             = TypingConfig.DEFAULT_SPEED_PER_CHAR;
-    private         float            charCooldown          = textSpeed;
-    private         int              rawCharIndex          = -2; // All chars, including color codes
-    private         int              glyphCharIndex        = -1; // Only renderable chars, excludes color codes
-    private         int              glyphCharCompensation = 0;
-    private         int              cachedGlyphCharIndex  = -1; // Last glyphCharIndex sent to the cache
-    private         boolean          parsed                = false;
-    private         boolean          paused                = false;
-    private         boolean          ended                 = false;
-    private         boolean          skipping              = false;
-    private         boolean          ignoringEvents        = false;
-    private         boolean          ignoringEffects       = false;
-    private         String           defaultToken          = "";
+    public final FloatArray rotations = new FloatArray();
+    protected final Array<Effect> activeEffects = new Array<Effect>();
+    private float textSpeed = TypingConfig.DEFAULT_SPEED_PER_CHAR;
+    private float charCooldown = textSpeed;
+    private int rawCharIndex = -2; // All chars, including color codes
+    private int glyphCharIndex = -1; // Only renderable chars, excludes color codes
+    private int glyphCharCompensation = 0;
+    private int cachedGlyphCharIndex = -1; // Last glyphCharIndex sent to the cache
+    private boolean parsed = false;
+    private boolean paused = false;
+    private boolean ended = false;
+    private boolean skipping = false;
+    private boolean ignoringEvents = false;
+    private boolean ignoringEffects = false;
+    private String defaultToken = "";
 
     ////////////////////////////
     /// --- Constructors --- ///
@@ -159,7 +158,7 @@ public class TypingLabel extends TextraLabel {
      * @see #restart(String)
      */
     protected void setText(String newText, boolean modifyOriginalText) {
-        if(modifyOriginalText) newText = Parser.preprocess(newText);
+        if (modifyOriginalText) newText = Parser.preprocess(newText);
         setText(newText, modifyOriginalText, true);
     }
 
@@ -182,18 +181,20 @@ public class TypingLabel extends TextraLabel {
         setWidth(actualWidth + (style != null && style.background != null ?
                 style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
 
-        if(modifyOriginalText) saveOriginalText(newText);
-        if(restart) {
+        if (modifyOriginalText) saveOriginalText(newText);
+        if (restart) {
 //            layout.setTargetWidth(Float.MAX_VALUE);
             this.restart();
 //            layout.setTargetWidth(actualWidth);
         }
-        if(hasEnded) {
+        if (hasEnded) {
             this.skipToTheEnd(true, false);
         }
     }
 
-    /** Similar to {@link Layout#toString()}, but returns the original text with all the tokens unchanged. */
+    /**
+     * Similar to {@link Layout#toString()}, but returns the original text with all the tokens unchanged.
+     */
     public StringBuilder getOriginalText() {
         return originalText;
     }
@@ -203,7 +204,7 @@ public class TypingLabel extends TextraLabel {
      * text with all tokens unchanged.
      */
     protected void saveOriginalText(CharSequence text) {
-        if(text != originalText) {
+        if (text != originalText) {
             originalText.setLength(0);
             originalText.append(text);
         }
@@ -226,12 +227,16 @@ public class TypingLabel extends TextraLabel {
     /// --- External API --- ///
     ////////////////////////////
 
-    /** Returns the {@link TypingListener} associated with this label. May be {@code null}. */
+    /**
+     * Returns the {@link TypingListener} associated with this label. May be {@code null}.
+     */
     public TypingListener getTypingListener() {
         return listener;
     }
 
-    /** Sets the {@link TypingListener} associated with this label, or {@code null} to remove the current one. */
+    /**
+     * Sets the {@link TypingListener} associated with this label, or {@code null} to remove the current one.
+     */
     public void setTypingListener(TypingListener listener) {
         this.listener = listener;
     }
@@ -246,7 +251,9 @@ public class TypingLabel extends TextraLabel {
         return clearColor;
     }
 
-    /** Returns the default token being used in this label. Defaults to empty string. */
+    /**
+     * Returns the default token being used in this label. Defaults to empty string.
+     */
     public String getDefaultToken() {
         return defaultToken;
     }
@@ -261,7 +268,9 @@ public class TypingLabel extends TextraLabel {
         this.parsed = false;
     }
 
-    /** Parses all tokens of this label. Use this after setting the text and any variables that should be replaced. */
+    /**
+     * Parses all tokens of this label. Use this after setting the text and any variables that should be replaced.
+     */
     public void parseTokens() {
         this.setText(Parser.preprocess(getDefaultToken() + originalText), false, false);
         Parser.parseTokens(this);
@@ -305,7 +314,7 @@ public class TypingLabel extends TextraLabel {
      * after skipping.
      */
     public void cancelSkipping() {
-        if(skipping) {
+        if (skipping) {
             skipping = false;
             ignoringEvents = false;
             ignoringEffects = false;
@@ -320,22 +329,30 @@ public class TypingLabel extends TextraLabel {
         return skipping;
     }
 
-    /** Returns whether or not this label is paused. */
+    /**
+     * Returns whether or not this label is paused.
+     */
     public boolean isPaused() {
         return paused;
     }
 
-    /** Pauses this label's character progression. */
+    /**
+     * Pauses this label's character progression.
+     */
     public void pause() {
         paused = true;
     }
 
-    /** Resumes this label's character progression. */
+    /**
+     * Resumes this label's character progression.
+     */
     public void resume() {
         paused = false;
     }
 
-    /** Returns whether or not this label's char progression has ended. */
+    /**
+     * Returns whether or not this label's char progression has ended.
+     */
     public boolean hasEnded() {
         return ended;
     }
@@ -390,33 +407,43 @@ public class TypingLabel extends TextraLabel {
         parseTokens();
     }
 
-    /** Returns an {@link ObjectMap} with all the variable names and their respective replacement values. */
+    /**
+     * Returns an {@link ObjectMap} with all the variable names and their respective replacement values.
+     */
     public ObjectMap<String, String> getVariables() {
         return variables;
     }
 
-    /** Registers a variable and its respective replacement value to this label. */
+    /**
+     * Registers a variable and its respective replacement value to this label.
+     */
     public void setVariable(String var, String value) {
         variables.put(var.toUpperCase(), value);
     }
 
-    /** Registers a set of variables and their respective replacement values to this label. */
+    /**
+     * Registers a set of variables and their respective replacement values to this label.
+     */
     public void setVariables(ObjectMap<String, String> variableMap) {
         this.variables.clear();
-        for(Entry<String, String> entry : variableMap.entries()) {
+        for (Entry<String, String> entry : variableMap.entries()) {
             this.variables.put(entry.key.toUpperCase(), entry.value);
         }
     }
 
-    /** Registers a set of variables and their respective replacement values to this label. */
+    /**
+     * Registers a set of variables and their respective replacement values to this label.
+     */
     public void setVariables(Map<String, String> variableMap) {
         this.variables.clear();
-        for(Map.Entry<String, String> entry : variableMap.entrySet()) {
+        for (Map.Entry<String, String> entry : variableMap.entrySet()) {
             this.variables.put(entry.getKey().toUpperCase(), entry.getValue());
         }
     }
 
-    /** Removes all variables from this label. */
+    /**
+     * Removes all variables from this label.
+     */
     public void clearVariables() {
         this.variables.clear();
     }
@@ -430,13 +457,13 @@ public class TypingLabel extends TextraLabel {
         super.act(delta);
 
         // Force token parsing
-        if(!parsed) {
+        if (!parsed) {
             parseTokens();
         }
 
         // Update cooldown and process char progression
-        if(skipping || (!ended && !paused)) {
-            if(skipping || (charCooldown -= delta) < 0.0f) {
+        if (skipping || (!ended && !paused)) {
+            if (skipping || (charCooldown -= delta) < 0.0f) {
                 processCharProgression();
             }
         }
@@ -449,41 +476,43 @@ public class TypingLabel extends TextraLabel {
         Arrays.fill(rotations.items, 0, glyphCount, 0f);
 
         // Apply effects
-        if(!ignoringEffects) {
+        if (!ignoringEffects) {
             int workingLayoutSize = getLayoutSize(workingLayout);
 
-            for(int i = activeEffects.size - 1; i >= 0; i--) {
+            for (int i = activeEffects.size - 1; i >= 0; i--) {
                 Effect effect = activeEffects.get(i);
                 effect.update(delta);
                 int start = effect.indexStart;
                 int end = effect.indexEnd >= 0 ? effect.indexEnd : glyphCharIndex;
 
                 // If effect is finished, remove it
-                if(effect.isFinished()) {
+                if (effect.isFinished()) {
                     activeEffects.removeIndex(i);
                     continue;
                 }
 
                 // Apply effect to glyph
-                for(int j = Math.max(0, start); j <= glyphCharIndex && j <= end && j < workingLayoutSize; j++) {
+                for (int j = Math.max(0, start); j <= glyphCharIndex && j <= end && j < workingLayoutSize; j++) {
                     long glyph = getInLayout(workingLayout, j);
-                    if(glyph == 0xFFFFFFL) break; // invalid char
+                    if (glyph == 0xFFFFFFL) break; // invalid char
                     effect.apply(glyph, j, delta);
                 }
             }
         }
     }
 
-    /** Proccess char progression according to current cooldown and process all tokens in the current index. */
+    /**
+     * Proccess char progression according to current cooldown and process all tokens in the current index.
+     */
     private void processCharProgression() {
         // Keep a counter of how many chars we're processing in this tick.
         int charCounter = 0;
 
         // Process chars while there's room for it
-        while(skipping || charCooldown < 0.0f) {
+        while (skipping || charCooldown < 0.0f) {
             // Apply compensation to glyph index, if any
-            if(glyphCharCompensation != 0) {
-                if(glyphCharCompensation > 0) {
+            if (glyphCharCompensation != 0) {
+                if (glyphCharCompensation > 0) {
                     glyphCharIndex++;
                     glyphCharCompensation--;
                 } else {
@@ -504,35 +533,35 @@ public class TypingLabel extends TextraLabel {
             int layoutSize = getLayoutSize(layout);
             int safeIndex = MathUtils.clamp(glyphCharIndex + 1, 0, layoutSize - 1);
             long baseChar; // Null character by default
-            if(layoutSize > 0) {
+            if (layoutSize > 0) {
                 baseChar = getInLayout(layout, safeIndex);
-                float intervalMultiplier = TypingConfig.INTERVAL_MULTIPLIERS_BY_CHAR.get((char)baseChar, 1);
+                float intervalMultiplier = TypingConfig.INTERVAL_MULTIPLIERS_BY_CHAR.get((char) baseChar, 1);
                 charCooldown += textSpeed * intervalMultiplier;
             }
 
             // If char progression is finished, or if text is empty, notify listener and abort routine
-            if(layoutSize == 0 || glyphCharIndex >= layoutSize) {
-                if(!ended) {
+            if (layoutSize == 0 || glyphCharIndex >= layoutSize) {
+                if (!ended) {
                     ended = true;
                     skipping = false;
-                    if(listener != null) listener.end();
+                    if (listener != null) listener.end();
                 }
                 break;
             }
 
             // Increase glyph char index for all characters
-            if(rawCharIndex >= 0) {
+            if (rawCharIndex >= 0) {
                 glyphCharIndex++;
             }
 
             // Process tokens according to the current index
-            while(tokenEntries.size > 0 && tokenEntries.peek().index == rawCharIndex) {
+            while (tokenEntries.size > 0 && tokenEntries.peek().index == rawCharIndex) {
                 TokenEntry entry = tokenEntries.pop();
                 String token = entry.token;
                 TokenCategory category = entry.category;
 
                 // Process tokens
-                switch(category) {
+                switch (category) {
                     case SPEED: {
                         textSpeed = entry.floatValue;
                         continue;
@@ -544,13 +573,13 @@ public class TypingLabel extends TextraLabel {
                         continue;
                     }
                     case SKIP: {
-                        if(entry.stringValue != null) {
+                        if (entry.stringValue != null) {
                             rawCharIndex += entry.stringValue.length();
                         }
                         continue;
                     }
                     case EVENT: {
-                        if(this.listener != null && !ignoringEvents) {
+                        if (this.listener != null && !ignoringEvents) {
                             listener.event(entry.stringValue);
                         }
                         continue;
@@ -562,17 +591,17 @@ public class TypingLabel extends TextraLabel {
                         Class<? extends Effect> effectClass = isStart ? TypingConfig.EFFECT_START_TOKENS.get(token) : TypingConfig.EFFECT_END_TOKENS.get(token);
 
                         // End all effects of the same type
-                        for(int i = 0; i < activeEffects.size; i++) {
+                        for (int i = 0; i < activeEffects.size; i++) {
                             Effect effect = activeEffects.get(i);
-                            if(effect.indexEnd < 0) {
-                                if(ClassReflection.isAssignableFrom(effectClass, effect.getClass())) {
+                            if (effect.indexEnd < 0) {
+                                if (ClassReflection.isAssignableFrom(effectClass, effect.getClass())) {
                                     effect.indexEnd = glyphCharIndex - 1;
                                 }
                             }
                         }
 
                         // Create new effect if necessary
-                        if(isStart) {
+                        if (isStart) {
                             entry.effect.indexStart = glyphCharIndex;
                             activeEffects.add(entry.effect);
                         }
@@ -583,7 +612,7 @@ public class TypingLabel extends TextraLabel {
             // Notify listener about char progression
             int nextIndex = glyphCharIndex == 0 ? 0 : MathUtils.clamp(glyphCharIndex, 0, layoutSize - 1);
             Long nextChar = nextIndex == 0 ? null : getInLayout(layout, nextIndex);
-            if(nextChar != null && listener != null) {
+            if (nextChar != null && listener != null) {
                 listener.onChar(nextChar);
             }
 
@@ -591,7 +620,7 @@ public class TypingLabel extends TextraLabel {
             charCounter++;
 
             // Break loop if this was our first glyph to prevent glyph issues.
-            if(glyphCharIndex == -1) {
+            if (glyphCharIndex == -1) {
                 charCooldown = textSpeed;
                 break;
             }
@@ -599,7 +628,7 @@ public class TypingLabel extends TextraLabel {
             // Break loop if enough chars were processed
             charCounter++;
             int charLimit = TypingConfig.CHAR_LIMIT_PER_FRAME;
-            if(!skipping && charLimit > 0 && charCounter > charLimit) {
+            if (!skipping && charLimit > 0 && charCounter > charLimit) {
                 charCooldown = Math.max(charCooldown, textSpeed);
                 break;
             }
@@ -609,8 +638,7 @@ public class TypingLabel extends TextraLabel {
 //            parseTokens();
             this.setText(intermediateText.toString(), false, false);
 
-        }
-        else {
+        } else {
             font.calculateSize(workingLayout);
         }
 
@@ -635,7 +663,7 @@ public class TypingLabel extends TextraLabel {
     @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);
-        if(wrap)
+        if (wrap)
             workingLayout.setTargetWidth(width);
     }
 
@@ -660,7 +688,9 @@ public class TypingLabel extends TextraLabel {
         }
     }
 
-    /** Adds glyphs from layout to workingLayout as the char index progresses. */
+    /**
+     * Adds glyphs from layout to workingLayout as the char index progresses.
+     */
     private void addMissingGlyphs() {
         // Add additional glyphs to layout array, if any
         int glyphLeft = glyphCharIndex - cachedGlyphCharIndex;
@@ -676,10 +706,9 @@ public class TypingLabel extends TextraLabel {
             // Advance glyph count
             glyphLeft--;
         }
-        if(wrap) {
+        if (wrap) {
             font.regenerateLayout(workingLayout);
-        }
-        else {
+        } else {
             font.calculateSize(workingLayout);
         }
         invalidateHierarchy();
@@ -692,13 +721,14 @@ public class TypingLabel extends TextraLabel {
      * If {@link Font#enableShader(Batch)} was called before rendering a group of TypingLabels, then they will try to
      * share one Batch; otherwise this will change the shader to render SDF or MSDF, then change it back at the end of
      * each draw() call.
+     *
      * @param batch
      * @param parentAlpha
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.validate();
-        if(layout.lines.isEmpty()) return;
+        if (layout.lines.isEmpty()) return;
         batch.setColor(1f, 1f, 1f, parentAlpha);
         final int lines = workingLayout.lines();
         float baseX = getX(align), baseY = getY(align);
@@ -706,11 +736,11 @@ public class TypingLabel extends TextraLabel {
             Drawable background = style.background;
             batch.setColor(getColor());
             background.draw(batch, getX(), getY(), getWidth(), getHeight());
-            if((align & Align.left) != 0) baseX += background.getLeftWidth();
-            else if((align & Align.right) != 0) baseX -= background.getRightWidth();
+            if ((align & Align.left) != 0) baseX += background.getLeftWidth();
+            else if ((align & Align.right) != 0) baseX -= background.getRightWidth();
             else baseX += (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
-            if((align & bottom) != 0) baseY += background.getBottomHeight();
-            else if((align & top) != 0) baseY -= background.getTopHeight();
+            if ((align & bottom) != 0) baseY += background.getBottomHeight();
+            else if ((align & top) != 0) baseY -= background.getTopHeight();
             else baseY += (background.getBottomHeight() - background.getTopHeight()) * 0.5f;
         }
         if (Align.isBottom(align))
@@ -725,7 +755,7 @@ public class TypingLabel extends TextraLabel {
         int o = 0, s = 0, r = 0, gi = 0;
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         float centerX = font.cellWidth * 0.5f, centerY = font.cellHeight * 0.5f;
-        if(resetShader)
+        if (resetShader)
             font.enableShader(batch);
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
@@ -770,7 +800,7 @@ public class TypingLabel extends TextraLabel {
         }
         invalidateHierarchy();
 //        addMissingGlyphs();
-        if(resetShader)
+        if (resetShader)
             batch.setShader(null);
     }
 
@@ -781,16 +811,16 @@ public class TypingLabel extends TextraLabel {
 
     public void setIntermediateText(CharSequence text, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
-        if(text != intermediateText) {
+        if (text != intermediateText) {
             intermediateText.setLength(0);
             intermediateText.append(text);
         }
         intermediateText.trimToSize();
-        if(modifyOriginalText) saveOriginalText(text);
-        if(restart) {
+        if (modifyOriginalText) saveOriginalText(text);
+        if (restart) {
             this.restart();
         }
-        if(hasEnded) {
+        if (hasEnded) {
             this.skipToTheEnd(true, false);
         }
     }
@@ -799,10 +829,10 @@ public class TypingLabel extends TextraLabel {
         return intermediateText;
     }
 
-    public long getInLayout(Layout layout, int index){
+    public long getInLayout(Layout layout, int index) {
         for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = layout.getLine(i).glyphs;
-            if(index < glyphs.size)
+            if (index < glyphs.size)
                 return glyphs.get(index);
             else
                 index -= glyphs.size;
@@ -810,10 +840,10 @@ public class TypingLabel extends TextraLabel {
         return 0xFFFFFFL;
     }
 
-    public Line getLineInLayout(Layout layout, int index){
+    public Line getLineInLayout(Layout layout, int index) {
         for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = layout.getLine(i).glyphs;
-            if(index < glyphs.size)
+            if (index < glyphs.size)
                 return layout.getLine(i);
             else
                 index -= glyphs.size;
@@ -821,10 +851,10 @@ public class TypingLabel extends TextraLabel {
         return null;
     }
 
-    public float getLineHeight(int index){
+    public float getLineHeight(int index) {
         for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = workingLayout.getLine(i).glyphs;
-            if(index < glyphs.size)
+            if (index < glyphs.size)
                 return workingLayout.getLine(i).height;
             else
                 index -= glyphs.size;
@@ -832,27 +862,26 @@ public class TypingLabel extends TextraLabel {
         return font.cellHeight;
     }
 
-    public long getFromIntermediate(int index){
-        if(index >= 0 && intermediateText.length() > index) return intermediateText.charAt(index);
+    public long getFromIntermediate(int index) {
+        if (index >= 0 && intermediateText.length() > index) return intermediateText.charAt(index);
         else return 0xFFFFFFL;
     }
 
-    public void setInLayout(Layout layout, int index, long newGlyph){
+    public void setInLayout(Layout layout, int index, long newGlyph) {
         for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = layout.getLine(i).glyphs;
-            if(index < glyphs.size) {
+            if (index < glyphs.size) {
                 glyphs.set(index, newGlyph);
                 return;
-            }
-            else
+            } else
                 index -= glyphs.size;
         }
     }
 
-    public void setInWorkingLayout(int index, long newGlyph){
+    public void setInWorkingLayout(int index, long newGlyph) {
         for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = workingLayout.getLine(i).glyphs;
-            if(i < workingLayout.lines() && index < glyphs.size) {
+            if (i < workingLayout.lines() && index < glyphs.size) {
                 glyphs.set(index, newGlyph);
                 return;
 //            LongArray glyphs = layout.getLine(i).glyphs;
@@ -866,8 +895,7 @@ public class TypingLabel extends TextraLabel {
 //                    workingLayout.getLine(i).glyphs.set(index, newGlyph);
 //                }
 //                return;
-            }
-            else
+            } else
                 index -= glyphs.size;
         }
     }

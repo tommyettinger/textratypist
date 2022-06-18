@@ -16,14 +16,16 @@
 
 package com.github.tommyettinger.textra;
 
-/** Container representing a token, parsed parameters and its position in text. */
+/**
+ * Container representing a token, parsed parameters and its position in text.
+ */
 class TokenEntry implements Comparable<TokenEntry> {
-    String        token;
+    String token;
     TokenCategory category;
-    int           index;
-    float         floatValue;
-    String        stringValue;
-    Effect        effect;
+    int index;
+    float floatValue;
+    String stringValue;
+    Effect effect;
 
     TokenEntry(String token, TokenCategory category, int index, float floatValue, String stringValue) {
         this.token = token;

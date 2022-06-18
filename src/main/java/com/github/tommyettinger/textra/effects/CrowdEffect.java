@@ -21,29 +21,31 @@ import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 import com.github.tommyettinger.textra.utils.NoiseUtils;
 
-/** Rotates each glyph slightly back and forth, each one independently. Distance is measured in degrees. */
+/**
+ * Rotates each glyph slightly back and forth, each one independently. Distance is measured in degrees.
+ */
 public class CrowdEffect extends Effect {
-    private static final float DEFAULT_DISTANCE  = 1f;
+    private static final float DEFAULT_DISTANCE = 1f;
     private static final float DEFAULT_INTENSITY = 0.001f;
 
-    private float distance  = 15; // How many degrees a glyph can rotate, clockwise or counterclockwise
+    private float distance = 15; // How many degrees a glyph can rotate, clockwise or counterclockwise
     private float intensity = 1; // How fast the glyphs should move
 
     public CrowdEffect(TypingLabel label, String[] params) {
         super(label);
 
         // Distance
-        if(params.length > 0) {
+        if (params.length > 0) {
             this.distance = paramAsFloat(params[0], 15);
         }
 
         // Intensity
-        if(params.length > 1) {
+        if (params.length > 1) {
             this.intensity = paramAsFloat(params[1], 1);
         }
 
         // Duration
-        if(params.length > 2) {
+        if (params.length > 2) {
             this.duration = paramAsFloat(params[2], -1);
         }
     }

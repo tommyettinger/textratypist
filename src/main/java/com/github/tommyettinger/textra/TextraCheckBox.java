@@ -26,113 +26,118 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.Scaling;
 
-/** A checkbox is a button that contains an image indicating the checked or unchecked state and a label.
- * @author Nathan Sweet */
+/**
+ * A checkbox is a button that contains an image indicating the checked or unchecked state and a label.
+ *
+ * @author Nathan Sweet
+ */
 public class TextraCheckBox extends TextraButton {
-	private Image image;
-	private Cell<?> imageCell;
-	private CheckBoxStyle style;
+    private final Image image;
+    private final Cell<?> imageCell;
+    private CheckBoxStyle style;
 
-	public TextraCheckBox(@Null String text, Skin skin) {
-		this(text, skin.get(CheckBoxStyle.class));
-	}
+    public TextraCheckBox(@Null String text, Skin skin) {
+        this(text, skin.get(CheckBoxStyle.class));
+    }
 
-	public TextraCheckBox(@Null String text, Skin skin, String styleName) {
-		this(text, skin.get(styleName, CheckBoxStyle.class));
-	}
+    public TextraCheckBox(@Null String text, Skin skin, String styleName) {
+        this(text, skin.get(styleName, CheckBoxStyle.class));
+    }
 
-	public TextraCheckBox(@Null String text, CheckBoxStyle style) {
-		super(text, style);
+    public TextraCheckBox(@Null String text, CheckBoxStyle style) {
+        super(text, style);
 
-		TextraLabel label = getTextraLabel();
-		label.setAlignment(Align.left);
+        TextraLabel label = getTextraLabel();
+        label.setAlignment(Align.left);
 
-		image = newImage();
-		image.setDrawable(style.checkboxOff);
+        image = newImage();
+        image.setDrawable(style.checkboxOff);
 
-		clearChildren();
-		imageCell = add(image);
-		add(label);
-		setSize(getPrefWidth(), getPrefHeight());
-	}
+        clearChildren();
+        imageCell = add(image);
+        add(label);
+        setSize(getPrefWidth(), getPrefHeight());
+    }
 
-	public TextraCheckBox(@Null String text, Skin skin, Font replacementFont) {
-		this(text, skin.get(CheckBoxStyle.class), replacementFont);
-	}
+    public TextraCheckBox(@Null String text, Skin skin, Font replacementFont) {
+        this(text, skin.get(CheckBoxStyle.class), replacementFont);
+    }
 
-	public TextraCheckBox(@Null String text, Skin skin, String styleName, Font replacementFont) {
-		this(text, skin.get(styleName, CheckBoxStyle.class), replacementFont);
-	}
+    public TextraCheckBox(@Null String text, Skin skin, String styleName, Font replacementFont) {
+        this(text, skin.get(styleName, CheckBoxStyle.class), replacementFont);
+    }
 
-	public TextraCheckBox(@Null String text, CheckBoxStyle style, Font replacementFont) {
-		super(text, style, replacementFont);
+    public TextraCheckBox(@Null String text, CheckBoxStyle style, Font replacementFont) {
+        super(text, style, replacementFont);
 
-		TextraLabel label = getTextraLabel();
-		label.setAlignment(Align.left);
+        TextraLabel label = getTextraLabel();
+        label.setAlignment(Align.left);
 
-		image = newImage();
-		image.setDrawable(style.checkboxOff);
+        image = newImage();
+        image.setDrawable(style.checkboxOff);
 
-		clearChildren();
-		imageCell = add(image);
-		add(label);
-		setSize(getPrefWidth(), getPrefHeight());
-	}
+        clearChildren();
+        imageCell = add(image);
+        add(label);
+        setSize(getPrefWidth(), getPrefHeight());
+    }
 
-	protected Image newImage () {
-		return new Image(null, Scaling.none);
-	}
+    protected Image newImage() {
+        return new Image(null, Scaling.none);
+    }
 
-	public void setStyle (ButtonStyle style) {
-		if (!(style instanceof CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
-		this.style = (CheckBoxStyle)style;
-		super.setStyle(style);
-	}
+    public void setStyle(ButtonStyle style) {
+        if (!(style instanceof CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
+        this.style = (CheckBoxStyle) style;
+        super.setStyle(style);
+    }
 
-	public void setStyle (ButtonStyle style, boolean makeGridGlyphs) {
-		if (!(style instanceof CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
-		this.style = (CheckBoxStyle)style;
-		super.setStyle(style, makeGridGlyphs);
-	}
+    public void setStyle(ButtonStyle style, boolean makeGridGlyphs) {
+        if (!(style instanceof CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
+        this.style = (CheckBoxStyle) style;
+        super.setStyle(style, makeGridGlyphs);
+    }
 
-	public void setStyle (ButtonStyle style, Font font) {
-		if (!(style instanceof CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
-		this.style = (CheckBoxStyle)style;
-		super.setStyle(style, font);
-	}
+    public void setStyle(ButtonStyle style, Font font) {
+        if (!(style instanceof CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
+        this.style = (CheckBoxStyle) style;
+        super.setStyle(style, font);
+    }
 
-	/** Returns the checkbox's style. Modifying the returned style may not have an effect until {@link #setStyle(ButtonStyle)} is
-	 * called. */
-	public CheckBoxStyle getStyle () {
-		return style;
-	}
+    /**
+     * Returns the checkbox's style. Modifying the returned style may not have an effect until {@link #setStyle(ButtonStyle)} is
+     * called.
+     */
+    public CheckBoxStyle getStyle() {
+        return style;
+    }
 
-	public void draw (Batch batch, float parentAlpha) {
-		Drawable checkbox = null;
-		if (isDisabled()) {
-			if (isChecked() && style.checkboxOnDisabled != null)
-				checkbox = style.checkboxOnDisabled;
-			else
-				checkbox = style.checkboxOffDisabled;
-		}
-		if (checkbox == null) {
-			boolean over = isOver() && !isDisabled();
-			if (isChecked() && style.checkboxOn != null)
-				checkbox = over && style.checkboxOnOver != null ? style.checkboxOnOver : style.checkboxOn;
-			else if (over && style.checkboxOver != null)
-				checkbox = style.checkboxOver;
-			else
-				checkbox = style.checkboxOff;
-		}
-		image.setDrawable(checkbox);
-		super.draw(batch, parentAlpha);
-	}
+    public void draw(Batch batch, float parentAlpha) {
+        Drawable checkbox = null;
+        if (isDisabled()) {
+            if (isChecked() && style.checkboxOnDisabled != null)
+                checkbox = style.checkboxOnDisabled;
+            else
+                checkbox = style.checkboxOffDisabled;
+        }
+        if (checkbox == null) {
+            boolean over = isOver() && !isDisabled();
+            if (isChecked() && style.checkboxOn != null)
+                checkbox = over && style.checkboxOnOver != null ? style.checkboxOnOver : style.checkboxOn;
+            else if (over && style.checkboxOver != null)
+                checkbox = style.checkboxOver;
+            else
+                checkbox = style.checkboxOff;
+        }
+        image.setDrawable(checkbox);
+        super.draw(batch, parentAlpha);
+    }
 
-	public Image getImage () {
-		return image;
-	}
+    public Image getImage() {
+        return image;
+    }
 
-	public Cell<?> getImageCell () {
-		return imageCell;
-	}
+    public Cell<?> getImageCell() {
+        return imageCell;
+    }
 }

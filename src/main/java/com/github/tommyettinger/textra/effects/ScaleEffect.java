@@ -19,21 +19,23 @@ package com.github.tommyettinger.textra.effects;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
-/** Permanently sets the size of text. Doesn't change over time. */
+/**
+ * Permanently sets the size of text. Doesn't change over time.
+ */
 public class ScaleEffect extends Effect {
-    private float sizeX  = 1; // How much of their width they should start expanded by on x
-    private float sizeY  = 1; // How much of their height they should start expanded by on y
+    private float sizeX = 1; // How much of their width they should start expanded by on x
+    private float sizeY = 1; // How much of their height they should start expanded by on y
 
     public ScaleEffect(TypingLabel label, String[] params) {
         super(label);
 
         // Size X (and Y)
-        if(params.length > 0) {
+        if (params.length > 0) {
             this.sizeX = paramAsFloat(params[0], 100.0f) * 0.01f;
             this.sizeY = paramAsFloat(params[0], 100.0f) * 0.01f;
         }
         // Size Y
-        if(params.length > 1) {
+        if (params.length > 1) {
             this.sizeY = paramAsFloat(params[1], 100.0f) * 0.01f;
         }
     }
