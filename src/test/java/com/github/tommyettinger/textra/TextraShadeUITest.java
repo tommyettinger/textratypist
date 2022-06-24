@@ -66,7 +66,8 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font("RaeleusScriptius-standard.fnt");
+		final Font font = KnownFonts.getYanoneKaffeesatz();
+//				new Font("RaeleusScriptius-standard.fnt");
 				//new Font(skin.get(LabelStyle.class).font)
 //				.adjustLineHeight(0.75f)
 //				.useIntegerPositions(true);
@@ -124,15 +125,15 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		minSizeLabel = new TextraLabel("ginWidth cell", skin, "title"); // demos SplitPane respecting widget's minWidth
+		minSizeLabel = new TextraLabel("ginWidth cell", skin.get("title", LabelStyle.class), font); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TextraLabel("fps:", skin, "title");
+		fpsLabel = new TextraLabel("fps:", skin.get("title", LabelStyle.class), font);
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
-		passwordLabel = new TextraLabel("Textfield in [~]secure[] password mode: ", skin, "title");
+		passwordLabel = new TextraLabel("Textfield in [~]secure[] password mode: ", skin.get("title", LabelStyle.class), font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
