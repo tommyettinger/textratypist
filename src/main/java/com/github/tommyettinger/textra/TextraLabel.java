@@ -247,8 +247,8 @@ public class TextraLabel extends Widget {
                 baseX -= cs * background.getRightWidth();
                 baseY -= sn * background.getRightWidth();
             } else {
-                baseX += cs * (background.getLeftWidth());// - background.getRightWidth()) * 0.5f;
-                baseY += sn * (background.getLeftWidth());// - background.getRightWidth()) * 0.5f;
+                baseX += cs * (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
+                baseY += sn * (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
             }
             if (Align.isBottom(align)) {
                 baseX -= sn * background.getBottomHeight();
@@ -257,10 +257,10 @@ public class TextraLabel extends Widget {
                 baseX += sn * background.getTopHeight();
                 baseY -= cs * background.getTopHeight();
             } else {
-                baseX -= sn * (background.getBottomHeight() * 0.5f);// - background.getTopHeight() * 0.5f);
-                baseY += cs * (background.getBottomHeight() * 0.5f);// - background.getTopHeight() * 0.5f);
+                baseX -= sn * (background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f);
+                baseY += cs * (background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f);
             }
-            ((TransformDrawable) background).draw(batch, getX(), getY(), baseX, baseY,
+            ((TransformDrawable) background).draw(batch, getX(), getY(), font.cellWidth * 0.25f, font.cellHeight * 0.25f,
 //                    (Align.isLeft(align) ? 0f : Align.isRight(align) ? getWidth() : getWidth() * 0.5f),
 //                    (Align.isBottom(align) ? 0f : Align.isTop(align) ? getHeight() : getHeight() * 0.5f),
                     getWidth(), getHeight(), 1f, 1f, getRotation());
@@ -274,11 +274,11 @@ public class TextraLabel extends Widget {
         font.drawGlyphs(batch, layout, getX() + baseX, getY() + baseY, align, getRotation());
 
         //TODO: re-enable this when we're debugging rotation again
-        if(getDebug()) {
-            float s = MathUtils.sinDeg(TimeUtils.millis() >>> 2 & 0xFFFFF) * 0.5f + 0.5f;
-            font.drawGlyph(batch, (MathUtils.random.nextInt() | 0x7FL) << 33 | font.solidBlock, getX(), getY(), 0, s, s);
-            font.drawGlyph(batch, (MathUtils.random.nextInt() | 0x7FL) << 33 | font.solidBlock, getX() + baseX, getY() + baseY, 0, s, s);
-        }
+//        if(getDebug()) {
+//            float s = MathUtils.sinDeg(TimeUtils.millis() >>> 2 & 0xFFFFF) * 0.5f + 0.5f;
+//            font.drawGlyph(batch, (MathUtils.random.nextInt() | 0x7FL) << 33 | font.solidBlock, getX(), getY(), 0, s, s);
+//            font.drawGlyph(batch, (MathUtils.random.nextInt() | 0x7FL) << 33 | font.solidBlock, getX() + baseX, getY() + baseY, 0, s, s);
+//        }
         if (resetShader)
             batch.setShader(null);
     }
