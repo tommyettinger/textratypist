@@ -26,7 +26,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.TimeUtils;
 
 import static com.badlogic.gdx.utils.Align.*;
 
@@ -257,19 +256,24 @@ public class TextraLabel extends Widget {
                 baseX += sn * background.getTopHeight();
                 baseY -= cs * background.getTopHeight();
             } else {
-                baseX -= sn * (background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f);
-                baseY += cs * (background.getBottomHeight() * 0.5f - background.getTopHeight() * 0.5f);
+                baseX -= sn * (background.getBottomHeight() - background.getTopHeight()) * 0.5f;
+                baseY += cs * (background.getBottomHeight() - background.getTopHeight()) * 0.5f;
             }
-            ((TransformDrawable) background).draw(batch, getX(), getY(), font.cellWidth * 0.25f, font.cellHeight * 0.25f,
-//                    (Align.isLeft(align) ? 0f : Align.isRight(align) ? getWidth() : getWidth() * 0.5f),
-//                    (Align.isBottom(align) ? 0f : Align.isTop(align) ? getHeight() : getHeight() * 0.5f),
-                    getWidth(), getHeight(), 1f, 1f, getRotation());
+            ((TransformDrawable) background).draw(batch,
+                    getX(), getY(),             // position
+                    0f, 0f,                     // origin
+                    getWidth(), getHeight(),    // size
+                    1f, 1f,                     // scale
+                    getRotation());             // rotation
         }
         if (layout.lines.isEmpty()) return;
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if (resetShader)
             font.enableShader(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
+
+        baseX -= 0.5f * font.cellWidth;
+        baseY -= 0.5f * font.cellHeight;
 
         font.drawGlyphs(batch, layout, getX() + baseX, getY() + baseY, align, getRotation());
 

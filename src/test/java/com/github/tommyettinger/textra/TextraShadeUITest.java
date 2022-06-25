@@ -24,6 +24,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
@@ -66,8 +67,10 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = KnownFonts.getYanoneKaffeesatz();
-//				new Font("RaeleusScriptius-standard.fnt");
+		final Font font =
+//				new Font(new BitmapFont()).useIntegerPositions(false);
+//				KnownFonts.getCozette();
+				new Font("RaeleusScriptius-standard.fnt");
 				//new Font(skin.get(LabelStyle.class).font)
 //				.adjustLineHeight(0.75f)
 //				.useIntegerPositions(true);
