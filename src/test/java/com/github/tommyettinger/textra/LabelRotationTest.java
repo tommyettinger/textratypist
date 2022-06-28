@@ -73,7 +73,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         textraLabel1.style.background = new TextureRegionDrawable(texture);
         textraLabel1.style.background.setTopHeight(5);
         textraLabel1.style.background.setBottomHeight(5);
-        textraLabel1.style.background.setLeftWidth(5);
+        textraLabel1.style.background.setLeftWidth(10);
         textraLabel1.style.background.setRightWidth(5);
         textraLabel1.pack();
         textraLabel2 = new TextraLabel();
@@ -89,7 +89,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         textraLabel2.pack();
         textraLabel3 = new TextraLabel();
         textraLabel3.useIntegerPositions(false);
-        textraLabel3.setText("Taller Test \n For science");
+        textraLabel3.setText("Taller Test \nFor science");
         textraLabel3.setPosition(600,300);
         textraLabel3.style = new Label.LabelStyle();
         textraLabel3.style.background = new TextureRegionDrawable(texture);
@@ -104,7 +104,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         label1Style.background = new TextureRegionDrawable(texture);
         label1Style.background.setTopHeight(5);
         label1Style.background.setBottomHeight(5);
-        label1Style.background.setLeftWidth(5);
+        label1Style.background.setLeftWidth(10);
         label1Style.background.setRightWidth(5);
         label1 = new Label("Test", label1Style);
         label1.setPosition(200,200);
@@ -126,7 +126,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         label3Style.background.setBottomHeight(50);
         label3Style.background.setLeftWidth(50);
         label3Style.background.setRightWidth(50);
-        label3 = new Label("Taller Test \n For science", label3Style);
+        label3 = new Label("Taller Test \nFor science", label3Style);
         label3.setPosition(600,300);
         label3.pack();
 

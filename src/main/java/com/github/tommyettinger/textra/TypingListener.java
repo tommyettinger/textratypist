@@ -54,6 +54,6 @@ public interface TypingListener {
      * configurations and text speed. Useful to do a certain action each time a character is displayed, like playing a
      * sound effect.
      */
-    void onChar(Long ch);
+    void onChar(long ch);
 
 }
