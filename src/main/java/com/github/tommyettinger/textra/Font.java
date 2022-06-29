@@ -2421,6 +2421,7 @@ public class Font implements Disposable {
         boolean curly = false;
         int kern = -1;
         float amt;
+        line.height = 0f;
         for (int i = 0, n = glyphs.size; i < n; i++) {
             long glyph = glyphs.get(i);
             char ch = (char) glyph;
