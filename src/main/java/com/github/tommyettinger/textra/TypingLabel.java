@@ -507,7 +507,7 @@ public class TypingLabel extends TextraLabel {
     private void processCharProgression() {
         // Keep a counter of how many chars we're processing in this tick.
         int charCounter = 0;
-
+        boolean firstGlyph = false;
         // Process chars while there's room for it
         while (skipping || charCooldown < 0.0f) {
             // Apply compensation to glyph index, if any
@@ -526,7 +526,7 @@ public class TypingLabel extends TextraLabel {
             }
 
             // Increase raw char index
-            rawCharIndex++;
+            firstGlyph = rawCharIndex++ < 0;
 
             // Get next character and calculate cooldown increment
 
@@ -607,25 +607,33 @@ public class TypingLabel extends TextraLabel {
                 break;
             }
 
+            // Increment char counter
+            charCounter++;
+
+            // Increase glyph char index for all characters
+            if (rawCharIndex > 0) {
+                glyphCharIndex++;
+            }
+
             // Notify listener about char progression
-            int nextIndex = glyphCharIndex + 1;
-            if (nextIndex < layoutSize) {
-                long nextChar = getInLayout(layout, nextIndex);
+            if (glyphCharIndex >= 0 && glyphCharIndex < layoutSize) {
+                long nextChar = getInLayout(layout, glyphCharIndex);
                 if (rawCharIndex >= 0 && listener != null) {
                     listener.onChar(nextChar);
                 }
             }
 
-            // Increase glyph char index for all characters
-            if (rawCharIndex >= 0) {
-                glyphCharIndex++;
-            }
-
-            // Increment char counter
-            charCounter++;
-
             // Break loop if this was our first glyph to prevent glyph issues.
-            if (glyphCharIndex == -1) {
+            if (glyphCharIndex == 0) {
+                glyphCharIndex++;
+                // Notify listener about char progression
+                if (glyphCharIndex >= 0 && glyphCharIndex < layoutSize) {
+                    long nextChar = getInLayout(layout, glyphCharIndex);
+                    if (rawCharIndex >= 0 && listener != null) {
+                        listener.onChar(nextChar);
+                    }
+                }
+
                 charCooldown = textSpeed;
                 break;
             }
