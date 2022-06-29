@@ -31,7 +31,7 @@ import regexodus.Replacer;
  * Utility class to parse tokens from a {@link TypingLabel}.
  */
 class Parser {
-    private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("(\\[[^\\[\\]]*(\\]|$))");
+    private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("((?<!\\[)\\[[^\\[\\]]*(\\]|$))");
     private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]]+)(\\]|$)"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{6,8}");
 
@@ -70,7 +70,7 @@ class Parser {
         parseRegularTokens(label);
 
         // Parse color markups and register SKIP tokens
-        parseColorMarkups(label);
+//        parseColorMarkups(label);
 
         label.setText(label.getIntermediateText().toString(), false, false);
 
@@ -178,8 +178,9 @@ class Parser {
      */
     private static void parseRegularTokens(TypingLabel label) {
         // Get text
-        CharSequence text = label.getIntermediateText();
-        CharSequence text2 = text.toString();
+        CharSequence text = PATTERN_MARKUP_STRIP.matcher(label.getIntermediateText()).replaceAll("");
+        CharSequence text2 = label.getIntermediateText();
+//        System.out.println(text2);
         // Create matcher and StringBuilder
         Matcher m = PATTERN_TOKEN_STRIP.matcher(text);
         Matcher m2 = PATTERN_TOKEN_STRIP.matcher(text2);
@@ -300,6 +301,7 @@ class Parser {
             text2 = m2.replaceFirst("");
         }
 
+//        System.out.println("Modified: "+text);
         // Update label text
         label.setIntermediateText(text2, false, false);
     }
@@ -310,7 +312,7 @@ class Parser {
     private static void parseColorMarkups(TypingLabel label) {
         // Get text
         final CharSequence text = label.getOriginalText();
-
+//        System.out.println("Original: "+text);
         // Iterate through matches and register skip tokens
         Matcher m = PATTERN_MARKUP_STRIP.matcher(text);
         while (m.find()) {
