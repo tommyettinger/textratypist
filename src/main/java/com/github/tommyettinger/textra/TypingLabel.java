@@ -531,13 +531,6 @@ public class TypingLabel extends TextraLabel {
             // Get next character and calculate cooldown increment
 
             int layoutSize = getLayoutSize(layout);
-            int safeIndex = MathUtils.clamp(glyphCharIndex + 1, 0, layoutSize - 1);
-            long baseChar; // Null character by default
-            if (layoutSize > 0) {
-                baseChar = getInLayout(layout, safeIndex);
-                float intervalMultiplier = TypingConfig.INTERVAL_MULTIPLIERS_BY_CHAR.get((char) baseChar, 1);
-                charCooldown += textSpeed * intervalMultiplier;
-            }
 
             // If char progression is finished, or if text is empty, notify listener and abort routine
             if (layoutSize == 0 || glyphCharIndex >= layoutSize) {
@@ -560,7 +553,7 @@ public class TypingLabel extends TextraLabel {
                 switch (category) {
                     case SPEED: {
                         textSpeed = entry.floatValue;
-                        break;
+                        continue;
                     }
                     case WAIT: {
 //                        glyphCharIndex--;
@@ -602,10 +595,19 @@ public class TypingLabel extends TextraLabel {
                             entry.effect.indexStart = glyphCharIndex;
                             activeEffects.add(entry.effect);
                         }
+                        continue;
                     }
                 }
                 break;
             }
+            int safeIndex = MathUtils.clamp(glyphCharIndex + 1, 0, layoutSize - 1);
+            long baseChar; // Null character by default
+            if (layoutSize > 0) {
+                baseChar = getInLayout(layout, safeIndex);
+                float intervalMultiplier = TypingConfig.INTERVAL_MULTIPLIERS_BY_CHAR.get((char) baseChar, 1);
+                charCooldown += textSpeed * intervalMultiplier;
+            }
+
 
             // Increment char counter
             charCounter++;
