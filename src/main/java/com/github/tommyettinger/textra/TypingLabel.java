@@ -167,7 +167,7 @@ public class TypingLabel extends TextraLabel {
      *
      * @param modifyOriginalText Flag determining if the original text should be modified as well. If {@code false},
      *                           only the display text is changed while the original text is untouched.
-     * @param restart            Whether or not this label should restart. Defaults to true.
+     * @param restart            Whether this label should restart. Defaults to true.
      * @see #restart(String)
      */
     protected void setText(String newText, boolean modifyOriginalText, boolean restart) {
@@ -509,7 +509,6 @@ public class TypingLabel extends TextraLabel {
         int charCounter = 0;
 
         // Process chars while there's room for it
-        OUTER:
         while (skipping || charCooldown < 0.0f) {
             // Apply compensation to glyph index, if any
             if (glyphCharCompensation != 0) {
@@ -551,36 +550,36 @@ public class TypingLabel extends TextraLabel {
             }
 
             // Process tokens according to the current index
-            while (tokenEntries.size > 0 && tokenEntries.peek().index == rawCharIndex) {
+            if (tokenEntries.size > 0 && tokenEntries.peek().index == rawCharIndex) {
                 TokenEntry entry = tokenEntries.pop();
                 String token = entry.token;
                 TokenCategory category = entry.category;
-                rawCharIndex = entry.endIndex-1;
+                rawCharIndex = entry.endIndex - 1;
 //                glyphCharIndex--;
                 // Process tokens
                 switch (category) {
                     case SPEED: {
                         textSpeed = entry.floatValue;
-                        continue;
+                        break;
                     }
                     case WAIT: {
 //                        glyphCharIndex--;
 //                        rawCharIndex--;
 //                        glyphCharCompensation++;
                         charCooldown += entry.floatValue;
-                        continue OUTER;
-                    }
-                    case SKIP: {
-                        if (entry.stringValue != null) {
-                            rawCharIndex += entry.stringValue.length();
-                        }
                         continue;
                     }
+//                    case SKIP: {
+//                        if (entry.stringValue != null) {
+//                            rawCharIndex += entry.stringValue.length();
+//                        }
+//                        break;
+//                    }
                     case EVENT: {
                         if (this.listener != null && !ignoringEvents) {
                             listener.event(entry.stringValue);
                         }
-                        continue OUTER;
+                        continue;
                     }
                     case EFFECT_START:
                     case EFFECT_END: {
@@ -605,11 +604,12 @@ public class TypingLabel extends TextraLabel {
                         }
                     }
                 }
+                break;
             }
 
             // Notify listener about char progression
-            int nextIndex = glyphCharIndex+1;
-            if(nextIndex < layoutSize) {
+            int nextIndex = glyphCharIndex + 1;
+            if (nextIndex < layoutSize) {
                 long nextChar = getInLayout(layout, nextIndex);
                 if (rawCharIndex >= 0 && listener != null) {
                     listener.onChar(nextChar);
