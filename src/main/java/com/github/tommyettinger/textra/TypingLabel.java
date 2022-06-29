@@ -467,6 +467,7 @@ public class TypingLabel extends TextraLabel {
                 processCharProgression();
             }
         }
+        font.calculateSize(workingLayout);
         int glyphCount = getLayoutSize(layout);
         offsets.setSize(glyphCount + glyphCount);
         Arrays.fill(offsets.items, 0, glyphCount + glyphCount, 0f);
