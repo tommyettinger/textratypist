@@ -509,6 +509,7 @@ public class TypingLabel extends TextraLabel {
         int charCounter = 0;
 
         // Process chars while there's room for it
+        OUTER:
         while (skipping || charCooldown < 0.0f) {
             // Apply compensation to glyph index, if any
             if (glyphCharCompensation != 0) {
@@ -549,17 +550,13 @@ public class TypingLabel extends TextraLabel {
                 break;
             }
 
-            // Increase glyph char index for all characters
-            if (rawCharIndex >= 0) {
-                glyphCharIndex++;
-            }
-
             // Process tokens according to the current index
             while (tokenEntries.size > 0 && tokenEntries.peek().index == rawCharIndex) {
                 TokenEntry entry = tokenEntries.pop();
                 String token = entry.token;
                 TokenCategory category = entry.category;
-
+                rawCharIndex = entry.endIndex-1;
+//                glyphCharIndex--;
                 // Process tokens
                 switch (category) {
                     case SPEED: {
@@ -567,10 +564,11 @@ public class TypingLabel extends TextraLabel {
                         continue;
                     }
                     case WAIT: {
-                        glyphCharIndex--;
-                        glyphCharCompensation++;
+//                        glyphCharIndex--;
+//                        rawCharIndex--;
+//                        glyphCharCompensation++;
                         charCooldown += entry.floatValue;
-                        continue;
+                        continue OUTER;
                     }
                     case SKIP: {
                         if (entry.stringValue != null) {
@@ -582,7 +580,7 @@ public class TypingLabel extends TextraLabel {
                         if (this.listener != null && !ignoringEvents) {
                             listener.event(entry.stringValue);
                         }
-                        continue;
+                        continue OUTER;
                     }
                     case EFFECT_START:
                     case EFFECT_END: {
@@ -610,10 +608,17 @@ public class TypingLabel extends TextraLabel {
             }
 
             // Notify listener about char progression
-            int nextIndex = glyphCharIndex == 0 ? 0 : MathUtils.clamp(glyphCharIndex, 0, layoutSize - 1);
-            Long nextChar = nextIndex == 0 ? null : getInLayout(layout, nextIndex);
-            if (nextChar != null && listener != null) {
-                listener.onChar(nextChar);
+            int nextIndex = glyphCharIndex+1;
+            if(nextIndex < layoutSize) {
+                long nextChar = getInLayout(layout, nextIndex);
+                if (rawCharIndex >= 0 && listener != null) {
+                    listener.onChar(nextChar);
+                }
+            }
+
+            // Increase glyph char index for all characters
+            if (rawCharIndex >= 0) {
+                glyphCharIndex++;
             }
 
             // Increment char counter

@@ -76,7 +76,7 @@ class Parser {
 
         // Sort token entries
         label.tokenEntries.sort();
-        label.tokenEntries.reverse();
+//        label.tokenEntries.reverse();
     }
 
     /**
@@ -179,21 +179,23 @@ class Parser {
     private static void parseRegularTokens(TypingLabel label) {
         // Get text
         CharSequence text = label.getIntermediateText();
+        CharSequence text2 = text.toString();
         // Create matcher and StringBuilder
         Matcher m = PATTERN_TOKEN_STRIP.matcher(text);
-        StringBuilder sb = new StringBuilder(text.length());
-        int matcherIndexOffset = 0;
+        Matcher m2 = PATTERN_TOKEN_STRIP.matcher(text2);
+        int matcherIndexOffset = 0, m2IndexOffset = 0;
 
         // Iterate through matches
         while (true) {
             // Reset matcher and StringBuilder
             m.setTarget(text);
-            sb.setLength(0);
+            m2.setTarget(text2);
+            m2.setPosition(m2IndexOffset);
             m.setPosition(matcherIndexOffset);
 
             // Make sure there's at least one regex match
             if (!m.find()) break;
-
+            m2.find();
             // Get token name and category
             String tokenName = m.group(INDEX_TOKEN).toUpperCase();
             TokenCategory tokenCategory = null;
@@ -230,11 +232,12 @@ class Parser {
             switch (tokenCategory) {
                 case WAIT: {
                     floatValue = stringToFloat(firstParam, TypingConfig.DEFAULT_WAIT_VALUE);
+//                    indexOffset = 1;
                     break;
                 }
                 case EVENT: {
                     stringValue = paramsString;
-                    indexOffset = -1;
+//                    indexOffset = -1;
                     break;
                 }
                 case SPEED: {
@@ -287,17 +290,18 @@ class Parser {
             }
 
             // Register token
-            TokenEntry entry = new TokenEntry(tokenName, tokenCategory, index + indexOffset, floatValue, stringValue);
+            TokenEntry entry = new TokenEntry(tokenName, tokenCategory, index + indexOffset, m.end(0), floatValue, stringValue);
             entry.effect = effect;
             label.tokenEntries.add(entry);
 
             // Set new text without tokens
-            m.setPosition(0);
-            text = m.replaceFirst("");
+            matcherIndexOffset = m.end();
+            m2.setPosition(0);
+            text2 = m2.replaceFirst("");
         }
 
         // Update label text
-        label.setIntermediateText(text, false, false);
+        label.setIntermediateText(text2, false, false);
     }
 
     /**
@@ -305,14 +309,14 @@ class Parser {
      */
     private static void parseColorMarkups(TypingLabel label) {
         // Get text
-        final CharSequence text = label.getIntermediateText();
+        final CharSequence text = label.getOriginalText();
 
         // Iterate through matches and register skip tokens
         Matcher m = PATTERN_MARKUP_STRIP.matcher(text);
         while (m.find()) {
             final String tag = m.group(0);
             final int index = m.start(0);
-            label.tokenEntries.add(new TokenEntry("SKIP", TokenCategory.SKIP, index, 0, tag));
+            label.tokenEntries.add(new TokenEntry("SKIP", TokenCategory.SKIP, index, m.end(0), 0, tag));
         }
     }
 
@@ -439,7 +443,7 @@ class Parser {
             sb.append(tokens.get(i));
             if ((i + 1) < tokens.size) sb.append('|');
         }
-        sb.append(")(?:=([^\\{\\}]+))?\\}");
+        sb.append(")(?:\\=([^\\{\\}]+))?\\}");
         return Pattern.compile(sb.toString(), REFlags.IGNORE_CASE);
     }
 
