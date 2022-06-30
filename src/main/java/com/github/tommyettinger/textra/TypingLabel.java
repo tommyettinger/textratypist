@@ -740,18 +740,18 @@ public class TypingLabel extends TextraLabel {
         }
         float width = getWidth();
         height = getHeight();
-        if ((align & right) != 0) {
+        if (Align.isRight(align)) {
             baseX += cs * width;
             baseY += sn * width;
-        } else if ((align & left) == 0) {
+        } else if (Align.isCenterHorizontal(align)) {
             baseX += cs * width * 0.5f;
             baseY += sn * width * 0.5f;
         }
 
-        if ((align & top) != 0) {
+        if (Align.isTop(align)) {
             baseX -= sn * height;
             baseY += cs * height;
-        } else if ((align & bottom) == 0) {
+        } else if (Align.isCenterVertical(align)) {
             baseX -= sn * height * 0.5f;
             baseY += cs * height * 0.5f;
         }
@@ -813,6 +813,14 @@ public class TypingLabel extends TextraLabel {
 
             float x = baseX, y = baseY, drawn = 0;
             float single, xChange = 0, yChange = 0;
+
+            if (Align.isCenterHorizontal(align)) {
+                x -= cs * (glyphs.width * 0.5f);
+                y -= sn * (glyphs.width * 0.5f);
+            } else if (Align.isRight(align)) {
+                x -= cs * glyphs.width;
+                y -= sn * glyphs.width;
+            }
 
             Font f = null;
             int kern = -1;
