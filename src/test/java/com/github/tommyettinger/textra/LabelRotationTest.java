@@ -33,8 +33,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import static com.badlogic.gdx.utils.Align.*;
 
 public class LabelRotationTest extends ApplicationAdapter {
     SpriteBatch batch;
@@ -57,6 +60,9 @@ public class LabelRotationTest extends ApplicationAdapter {
     float rot = 0;
     Table table;
     ShapeRenderer sr;
+
+    static final int[] aligns = {left, topLeft, top, topRight, right, bottomRight, bottom, bottomLeft, center};
+
     @Override
     public void create() {
         // Prepare your screen here.
@@ -170,6 +176,7 @@ public class LabelRotationTest extends ApplicationAdapter {
 
         table = new Table();
         table.setFillParent(true);
+        table.top();
         table.add(label1);
         table.add(textraLabel1);
         table.add(typingLabel1).row();
@@ -178,7 +185,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         table.add(typingLabel2).row();
         table.add(label3);
         table.add(textraLabel3);
-        table.add(typingLabel3);
+        table.add(typingLabel3).row();
         table.pack();
         stage.addActor(table);
     }
@@ -193,7 +200,20 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel1.setRotation(rot);
         typingLabel2.setRotation(rot);
         typingLabel3.setRotation(rot);
-        rot++;
+        rot += Gdx.graphics.getDeltaTime() * 80f;
+        int alignment = aligns[((int)rot / 360) % 9];
+        Gdx.graphics.setTitle(Align.toString(alignment));
+
+        label1.setAlignment(alignment);
+        label2.setAlignment(alignment);
+        label3.setAlignment(alignment);
+        textraLabel1.setAlignment(alignment);
+        textraLabel2.setAlignment(alignment);
+        textraLabel3.setAlignment(alignment);
+        typingLabel1.setAlignment(alignment);
+        typingLabel2.setAlignment(alignment);
+        typingLabel3.setAlignment(alignment);
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.PRINT_SCREEN)) {
             typingLabel1.restart();
             typingLabel2.restart();
