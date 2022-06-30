@@ -18,6 +18,7 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
@@ -43,6 +44,9 @@ public class LabelRotationTest extends ApplicationAdapter {
     TextraLabel textraLabel1;
     TextraLabel textraLabel2;
     TextraLabel textraLabel3;
+    TypingLabel typingLabel1;
+    TypingLabel typingLabel2;
+    TypingLabel typingLabel3;
     Label label1;
     Label label2;
     Label label3;
@@ -99,6 +103,40 @@ public class LabelRotationTest extends ApplicationAdapter {
         textraLabel3.style.background.setRightWidth(50);
         textraLabel3.pack();
 
+        typingLabel1 = new TypingLabel();
+        typingLabel1.useIntegerPositions(false);
+        typingLabel1.setText("Test");
+        typingLabel1.setPosition(200,200);
+        typingLabel1.style = new Label.LabelStyle();
+        typingLabel1.style.background = new TextureRegionDrawable(texture);
+        typingLabel1.style.background.setTopHeight(5);
+        typingLabel1.style.background.setBottomHeight(5);
+        typingLabel1.style.background.setLeftWidth(10);
+        typingLabel1.style.background.setRightWidth(5);
+        typingLabel1.pack();
+        typingLabel2 = new TypingLabel();
+        typingLabel2.useIntegerPositions(false);
+        typingLabel2.setText("Longer Test For science");
+        typingLabel2.setPosition(400,200);
+        typingLabel2.style = new Label.LabelStyle();
+        typingLabel2.style.background = new TextureRegionDrawable(texture);
+        typingLabel2.style.background.setTopHeight(15);
+        typingLabel2.style.background.setBottomHeight(15);
+        typingLabel2.style.background.setLeftWidth(15);
+        typingLabel2.style.background.setRightWidth(15);
+        typingLabel2.pack();
+        typingLabel3 = new TypingLabel();
+        typingLabel3.useIntegerPositions(false);
+        typingLabel3.setText("Taller Test \nFor science");
+        typingLabel3.setPosition(600,300);
+        typingLabel3.style = new Label.LabelStyle();
+        typingLabel3.style.background = new TextureRegionDrawable(texture);
+        typingLabel3.style.background.setTopHeight(50);
+        typingLabel3.style.background.setBottomHeight(50);
+        typingLabel3.style.background.setLeftWidth(50);
+        typingLabel3.style.background.setRightWidth(50);
+        typingLabel3.pack();
+
         label1Style = new Label.LabelStyle(font, Color.RED);
         label1Style.font.setUseIntegerPositions(false);
         label1Style.background = new TextureRegionDrawable(texture);
@@ -133,11 +171,14 @@ public class LabelRotationTest extends ApplicationAdapter {
         table = new Table();
         table.setFillParent(true);
         table.add(label1);
-        table.add(textraLabel1).row();
+        table.add(textraLabel1);
+        table.add(typingLabel1).row();
         table.add(label2);
-        table.add(textraLabel2).row();
+        table.add(textraLabel2);
+        table.add(typingLabel2).row();
         table.add(label3);
         table.add(textraLabel3);
+        table.add(typingLabel3);
         table.pack();
         stage.addActor(table);
     }
@@ -149,7 +190,16 @@ public class LabelRotationTest extends ApplicationAdapter {
         textraLabel1.setRotation(rot);
         textraLabel2.setRotation(rot);
         textraLabel3.setRotation(rot);
+        typingLabel1.setRotation(rot);
+        typingLabel2.setRotation(rot);
+        typingLabel3.setRotation(rot);
         rot++;
+        if(Gdx.input.isKeyJustPressed(Input.Keys.PRINT_SCREEN)) {
+            typingLabel1.restart();
+            typingLabel2.restart();
+            typingLabel3.restart();
+        }
+        stage.act();
         stage.draw();
 
         sr.begin(ShapeRenderer.ShapeType.Filled);
