@@ -289,14 +289,19 @@ public class TextraLabel extends Widget {
 
     @Override
     public float getPrefWidth() {
-        return wrap ? 0f : (layout.getWidth() + (style != null && style.background != null ?
-                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
+        if(wrap) return 0f;
+        float width = layout.getWidth();
+        if(style != null && style.background != null)
+            width = Math.max(width + style.background.getLeftWidth() + style.background.getRightWidth(), style.background.getMinWidth());
+        return width;
     }
 
     @Override
     public float getPrefHeight() {
-        return layout.getHeight() + (style != null && style.background != null ?
-                style.background.getBottomHeight() + style.background.getTopHeight() : 0.0f);
+        float height = layout.getHeight();
+        if(style != null && style.background != null)
+                height = Math.max(height + style.background.getBottomHeight() + style.background.getTopHeight(), style.background.getMinHeight());
+        return height;
     }
 
     public TextraLabel useIntegerPositions(boolean integer) {
