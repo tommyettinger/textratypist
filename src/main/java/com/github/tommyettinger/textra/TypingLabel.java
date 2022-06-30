@@ -22,7 +22,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.FloatArray;
+import com.badlogic.gdx.utils.LongArray;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
@@ -30,8 +35,7 @@ import java.lang.StringBuilder;
 import java.util.Arrays;
 import java.util.Map;
 
-import static com.badlogic.gdx.utils.Align.bottom;
-import static com.badlogic.gdx.utils.Align.top;
+import static com.badlogic.gdx.utils.Align.*;
 
 /**
  * An extension of {@link Label} that progressively shows the text as if it was being typed in real time, and allows the
@@ -705,33 +709,6 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * Adds glyphs from layout to workingLayout as the char index progresses.
-     */
-    private void addMissingGlyphs() {
-        // Add additional glyphs to layout array, if any
-        int glyphLeft = glyphCharIndex - cachedGlyphCharIndex;
-        if (glyphLeft < 1) return;
-        // Next glyphs go here
-        while (glyphLeft > 0) {
-
-            // Put new glyph to this run
-            cachedGlyphCharIndex++;
-            long glyph = getInLayout(layout, cachedGlyphCharIndex);
-            if (glyph != 0xFFFFFFL)
-                workingLayout.add(glyph);
-            // Advance glyph count
-            glyphLeft--;
-        }
-        if (wrap) {
-            font.regenerateLayout(workingLayout);
-        } else {
-            font.calculateSize(workingLayout);
-        }
-        invalidateHierarchy();
-
-    }
-
-    /**
      * If your font uses {@link com.github.tommyettinger.textra.Font.DistanceFieldType#SDF} or {@link com.github.tommyettinger.textra.Font.DistanceFieldType#MSDF},
      * then this has to do some extra work to use the appropriate shader.
      * If {@link Font#enableShader(Batch)} was called before rendering a group of TypingLabels, then they will try to
@@ -744,35 +721,89 @@ public class TypingLabel extends TextraLabel {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.validate();
-        if (layout.lines.isEmpty()) return;
-        batch.setColor(1f, 1f, 1f, parentAlpha);
-        final int lines = workingLayout.lines();
-        float baseX = getX(align), baseY = getY(align);
-        if (style != null && style.background != null) {
-            Drawable background = style.background;
-            batch.setColor(getColor());
-            background.draw(batch, getX(), getY(), getWidth(), getHeight());
-            if ((align & Align.left) != 0) baseX += background.getLeftWidth();
-            else if ((align & Align.right) != 0) baseX -= background.getRightWidth();
-            else baseX += (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
-            if ((align & bottom) != 0) baseY += background.getBottomHeight();
-            else if ((align & top) != 0) baseY -= background.getTopHeight();
-            else baseY += (background.getBottomHeight() - background.getTopHeight()) * 0.5f;
-        }
-        if (Align.isBottom(align))
-            baseY += workingLayout.getHeight();
-        else if (Align.isCenterVertical(align))
-            baseY += workingLayout.getHeight() * 0.5f;
-//        baseY += workingLayout.lines.first().height * 0.25f;
+
         final float rot = getRotation();
         final float sn = MathUtils.sinDeg(rot);
         final float cs = MathUtils.cosDeg(rot);
 
+        batch.setColor(1f, 1f, 1f, parentAlpha);
+        final int lines = workingLayout.lines();
+        float baseX = getX() + getOriginX(), baseY = getY() + getOriginY();
+
+        float height = workingLayout.getHeight();
+        if (Align.isBottom(align)) {
+            baseX -= sn * height;
+            baseY += cs * height;
+        } else if (Align.isCenterVertical(align)) {
+            baseX -= sn * height * 0.5f;
+            baseY += cs * height * 0.5f;
+        }
+        float width = getWidth();
+        height = getHeight();
+        if ((align & right) != 0) {
+            baseX += cs * width;
+            baseY += sn * width;
+        } else if ((align & left) == 0) {
+            baseX += cs * width * 0.5f;
+            baseY += sn * width * 0.5f;
+        }
+
+        if ((align & top) != 0) {
+            baseX -= sn * height;
+            baseY += cs * height;
+        } else if ((align & bottom) == 0) {
+            baseX -= sn * height * 0.5f;
+            baseY += cs * height * 0.5f;
+        }
+        if (style != null && style.background != null) {
+            Drawable background = style.background;
+            batch.setColor(getColor());
+            if (Align.isLeft(align)) {
+                baseX += cs * background.getLeftWidth();
+                baseY += sn * background.getLeftWidth();
+            } else if (Align.isRight(align)) {
+                baseX -= cs * background.getRightWidth();
+                baseY -= sn * background.getRightWidth();
+            } else {
+                baseX += cs * (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
+                baseY += sn * (background.getLeftWidth() - background.getRightWidth()) * 0.5f;
+            }
+            if (Align.isBottom(align)) {
+                baseX -= sn * background.getBottomHeight();
+                baseY += cs * background.getBottomHeight();
+            } else if (Align.isTop(align)) {
+                baseX += sn * background.getTopHeight();
+                baseY -= cs * background.getTopHeight();
+            } else {
+                baseX -= sn * (background.getBottomHeight() - background.getTopHeight()) * 0.5f;
+                baseY += cs * (background.getBottomHeight() - background.getTopHeight()) * 0.5f;
+            }
+            ((TransformDrawable) background).draw(batch,
+                    getX(), getY(),             // position
+                    getOriginX(), getOriginY(), // origin
+                    getWidth(), getHeight(),    // size
+                    1f, 1f,                     // scale
+                    rot);             // rotation
+        }
+        batch.setColor(1f, 1f, 1f, parentAlpha);
+
+        if (layout.lines.isEmpty()) return;
+
+//        baseY += workingLayout.lines.first().height * 0.25f;
+
         int o = 0, s = 0, r = 0, gi = 0;
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
-        float centerX = font.cellWidth * 0.5f, centerY = font.cellHeight * 0.5f;
         if (resetShader)
             font.enableShader(batch);
+
+        baseX -= 0.5f * font.cellWidth;
+        baseY -= 0.5f * font.cellHeight;
+
+        baseX += cs * 0.5f * font.cellWidth;
+        baseY += sn * 0.5f * font.cellWidth;
+        baseX -= sn * 0.5f * font.cellHeight;
+        baseY += cs * 0.5f * font.cellHeight;
+
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
@@ -783,13 +814,6 @@ public class TypingLabel extends TextraLabel {
             float x = baseX, y = baseY, drawn = 0;
             float single, xChange = 0, yChange = 0;
 
-            if (Align.isCenterHorizontal(align)) {
-                x -= cs * (glyphs.width * 0.5f);
-                y -= sn * (glyphs.width * 0.5f);
-            } else if (Align.isRight(align)) {
-                x -= cs * glyphs.width;
-                y -= sn * glyphs.width;
-            }
             Font f = null;
             int kern = -1;
             for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex,

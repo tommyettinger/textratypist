@@ -207,6 +207,9 @@ public class TextraLabel extends Widget {
         float sn = MathUtils.sinDeg(getRotation());
         float cs = MathUtils.cosDeg(getRotation());
 
+//        baseX -= sn * layout.lines.first().height * 0.25f;
+//        baseY += cs * layout.lines.first().height * 0.25f;
+
         float height = layout.getHeight();
         if (Align.isBottom(align)) {
             baseX -= sn * height;
@@ -215,9 +218,6 @@ public class TextraLabel extends Widget {
             baseX -= sn * height * 0.5f;
             baseY += cs * height * 0.5f;
         }
-
-//        baseX -= sn * layout.lines.first().height * 0.25f;
-//        baseY += cs * layout.lines.first().height * 0.25f;
 
         float width = getWidth();
         height = getHeight();
@@ -261,16 +261,16 @@ public class TextraLabel extends Widget {
             }
             ((TransformDrawable) background).draw(batch,
                     getX(), getY(),             // position
-                    0f, 0f,                     // origin
+                    getOriginX(), getOriginY(), // origin
                     getWidth(), getHeight(),    // size
                     1f, 1f,                     // scale
                     getRotation());             // rotation
         }
+        batch.setColor(1f, 1f, 1f, parentAlpha);
         if (layout.lines.isEmpty()) return;
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if (resetShader)
             font.enableShader(batch);
-        batch.setColor(1f, 1f, 1f, parentAlpha);
 
         baseX -= 0.5f * font.cellWidth;
         baseY -= 0.5f * font.cellHeight;
