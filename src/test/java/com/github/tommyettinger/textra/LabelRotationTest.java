@@ -123,6 +123,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel1.style.background.setLeftWidth(10);
         typingLabel1.style.background.setRightWidth(10);
         typingLabel1.pack();
+        typingLabel1.setOrigin(center);
         typingLabel2 = new TypingLabel();
         typingLabel2.useIntegerPositions(false);
         typingLabel2.setText("Check check, one two, one two...");
@@ -133,8 +134,8 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel2.style.background.setBottomHeight(15);
         typingLabel2.style.background.setLeftWidth(25);
         typingLabel2.style.background.setRightWidth(25);
-        typingLabel2.setOrigin(top);
         typingLabel2.pack();
+        typingLabel2.setOrigin(center);
         typingLabel3 = new TypingLabel();
         typingLabel3.useIntegerPositions(false);
         typingLabel3.setText("We're no strangers to love...\nYou know the rules,\nand so do I!");
@@ -146,6 +147,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel3.style.background.setLeftWidth(50);
         typingLabel3.style.background.setRightWidth(50);
         typingLabel3.pack();
+        typingLabel3.setOrigin(center);
 
         label1Style = new Label.LabelStyle(font, Color.RED);
         label1Style.font.setUseIntegerPositions(false);
@@ -205,7 +207,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel1.setRotation(rot);
         typingLabel2.setRotation(rot);
         typingLabel3.setRotation(rot);
-        rot += Gdx.graphics.getDeltaTime() * 80f;
+        rot = (rot + Gdx.graphics.getDeltaTime() * 80f) % 3240.0f;
         int alignment = aligns[((int)rot / 360) % 9];
         Gdx.graphics.setTitle(Align.toString(alignment));
 

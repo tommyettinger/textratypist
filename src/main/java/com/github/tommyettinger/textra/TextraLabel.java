@@ -203,9 +203,9 @@ public class TextraLabel extends Widget {
 
 //        baseX += getOriginX();
 //        baseY += getOriginY();
-
-        float sn = MathUtils.sinDeg(getRotation());
-        float cs = MathUtils.cosDeg(getRotation());
+        float rot = getRotation();
+        float sn = MathUtils.sinDeg(rot);
+        float cs = MathUtils.cosDeg(rot);
 
 //        baseX -= sn * layout.lines.first().height * 0.25f;
 //        baseY += cs * layout.lines.first().height * 0.25f;
@@ -221,18 +221,18 @@ public class TextraLabel extends Widget {
 
         float width = getWidth();
         height = getHeight();
-        if ((align & right) != 0) {
+        if (Align.isRight(align)) {
             baseX += cs * width;
             baseY += sn * width;
-        } else if ((align & left) == 0) {
+        } else if (Align.isCenterHorizontal(align)) {
             baseX += cs * width * 0.5f;
             baseY += sn * width * 0.5f;
         }
 
-        if ((align & top) != 0) {
+        if (Align.isTop(align)) {
             baseX -= sn * height;
             baseY += cs * height;
-        } else if ((align & bottom) == 0) {
+        } else if (Align.isCenterVertical(align)) {
             baseX -= sn * height * 0.5f;
             baseY += cs * height * 0.5f;
         }
@@ -261,11 +261,10 @@ public class TextraLabel extends Widget {
             }
             ((TransformDrawable) background).draw(batch,
                     getX(), getY(),             // position
-//                    0f, 0f,                     // origin
                     getOriginX(), getOriginY(), // origin
                     getWidth(), getHeight(),    // size
                     1f, 1f,                     // scale
-                    getRotation());             // rotation
+                    rot);                       // rotation
         }
         batch.setColor(1f, 1f, 1f, parentAlpha);
         if (layout.lines.isEmpty()) return;
@@ -276,7 +275,7 @@ public class TextraLabel extends Widget {
         baseX -= 0.5f * font.cellWidth;
         baseY -= 0.5f * font.cellHeight;
 
-        font.drawGlyphs(batch, layout, getX() + baseX, getY() + baseY, align, getRotation(), getOriginX(), getOriginY());
+        font.drawGlyphs(batch, layout, getX() + baseX, getY() + baseY, align, rot, getOriginX(), getOriginY());
 
         //TODO: re-enable this when we're debugging rotation again
 //        if(getDebug()) {
