@@ -2182,7 +2182,7 @@ public class Font implements Disposable {
      * @param rotation measured in degrees counterclockwise, typically 0-360, and applied to the whole Layout
      * @return the number of glyphs drawn
      */
-    public float drawGlyphs(Batch batch, Layout glyphs, float x, float y, int align, float rotation) {
+    public float drawGlyphs(Batch batch, Layout glyphs, float x, float y, int align, float rotation, float originX, float originY) {
         float drawn = 0;
         float sn = MathUtils.sinDeg(rotation);
         float cs = MathUtils.cosDeg(rotation);
@@ -2196,7 +2196,7 @@ public class Font implements Disposable {
             l = glyphs.getLine(ln);
             y -= cs * l.height;
             x += sn * l.height;
-            drawn += drawGlyphs(batch, l, x, y, align, rotation);
+            drawn += drawGlyphs(batch, l, x, y, align, rotation, originX, originY);
         }
         return drawn;
     }
@@ -2230,15 +2230,15 @@ public class Font implements Disposable {
      * @return the number of glyphs drawn
      */
     public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align) {
-        return drawGlyphs(batch, glyphs, x, y, align, 0f);
+        final float originX = Align.isRight(align) ? glyphs.width : Align.isCenterHorizontal(align) ? glyphs.width * 0.5f : 0f;
+        final float originY = Align.isTop(align) ? glyphs.height : Align.isCenterVertical(align) ? glyphs.height * 0.5f : 0f;
+        return drawGlyphs(batch, glyphs, x, y, align, 0f, originX, originY);
     }
 
     /**
-     * Draws the specified Line of glyphs with a Batch at a given x, y position, rotated using degrees, using
-     * {@code align} to determine how to position the text and where to pivot the rotation around. Typically, align is
-     * {@link Align#left}, {@link Align#center}, or {@link Align#right}, which make the given x,y point refer to the
-     * center-left edge point, center point, or center-right edge point, respectively, of the first Line. The rotation
-     * will pivot around the point as determined by the {@code align} value.
+     * Draws the specified Line of glyphs with a Batch at a given x, y position, rotated using degrees around the given
+     * origin point, using {@code align} to determine how to position the text. Typically, align is {@link Align#left},
+     * {@link Align#center}, or {@link Align#right}, but it can have a vertical component as well.
      *
      * @param batch    typically a SpriteBatch
      * @param glyphs   typically returned as part of {@link #markup(String, Layout)}
@@ -2248,12 +2248,26 @@ public class Font implements Disposable {
      * @param rotation measured in degrees counterclockwise and applied to the whole Line
      * @return the number of glyphs drawn
      */
-    public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align, float rotation) {
+    public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align, float rotation, float originX, float originY) {
         if (glyphs == null) return 0;
         float drawn = 0f, cs = MathUtils.cosDeg(rotation), sn = MathUtils.sinDeg(rotation);
-//        float centerX = cellWidth * 0.5f, centerY = cellHeight * 0.5f;
-//        x += centerX;
-//        y += centerY;
+
+        // bottom left and top right corner points relative to origin
+        final float worldOriginX = x + originX;
+        final float worldOriginY = y + originY;
+        float fx = -originX;
+        float fy = -originY;
+        float gx = glyphs.width - originX;
+        float gy = glyphs.height - originY;
+        // construct corner points, start from top left and go counter clockwise
+        x = cs * fx - sn * fy + worldOriginX;
+        y = sn * fx + cs * fy + worldOriginY;
+//        final float x2 = cs * fx - sn * gy + worldOriginX;
+//        final float y2 = sn * fx + cs * gy + worldOriginY;
+//        final float x3 = cs * gx - sn * gy + worldOriginX;
+//        final float y3 = sn * gx + cs * gy + worldOriginY;
+//        final float x4 = x1 + (x3 - x2);
+//        final float y4 = y3 - (y2 - y1);
         if (Align.isCenterHorizontal(align)) {
             x -= cs * (glyphs.width * 0.5f);
             y -= sn * (glyphs.width * 0.5f);
@@ -2265,7 +2279,7 @@ public class Font implements Disposable {
         int kern = -1;
         long glyph;
         float single, xChange = 0f, yChange = 0f;
-//        float single, xChange = -centerX, yChange = -centerY;
+
         boolean curly = false;
         for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
             glyph = glyphs.glyphs.get(i);
