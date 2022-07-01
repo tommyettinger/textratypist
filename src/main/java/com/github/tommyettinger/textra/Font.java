@@ -2717,7 +2717,7 @@ public class Font implements Disposable {
                 p0x = -tr.offsetX * scaleX - scaleX - centerX * scale;
                 p0y = cellHeight * -0.1f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
-                        x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y) * 0.6f + sizingY,
+                        x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         (changedW + scaleX * 8f), cellHeight * sizingY * 0.6f - centerY, rotation);
             } else {
                 dash = font.mapping.get('-');
