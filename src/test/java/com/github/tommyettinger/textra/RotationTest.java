@@ -115,6 +115,7 @@ public class RotationTest extends ApplicationAdapter {
 //                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][[citation needed][].", layout);
 //
         font.markup("Test [*]TEST [/]Test [*]TEST[][.]test [=]Test [^]TEST [][_]Test [~]test[_] Test[]"
+                        + "\n┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬"
                         + "\nThe [#800000]MAW[] of the [/][#66DDFF]wendigo[/] (wendigo)[] [*]appears[*]!"
                         + "\nThe [_][#666666]BLADE[] of [*][/][#FFFF44]DYNAST-KINGS[] strikes!"
                         + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[], [?]Unknown[]?"
@@ -153,26 +154,24 @@ public class RotationTest extends ApplicationAdapter {
                     (MathUtils.sinDeg(since * 0.01f + g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length, g,
                     since * 0.0625f);
         }
-        switch ((int)((since >>> 12) % 3)) {
-            case 0:
-                font.drawGlyphs(batch, layout,
-                    PIXEL_WIDTH * 0.5f, y, Align.left
-                    , since * 0.05f, 0f, 0f);
-            break;
-            case 1:
+//        switch ((int)((since >>> 12) % 3)) {
+//            case 0:
+//                font.drawGlyphs(batch, layout,
+//                    PIXEL_WIDTH * 0.5f, y, Align.left
+//                    , since * 0.05f, 0f, 0f);
+//            break;
+//            case 1:
                 font.drawGlyphs(batch, layout,
                         PIXEL_WIDTH * 0.5f, y, Align.center
                         , since * 0.05f, 0f, 0f
                 );
-            break;
-            default:
-                font.drawGlyphs(batch, layout,
-                        PIXEL_WIDTH * 0.5f, y, Align.right
-                        , since * 0.05f, 0f, 0f
-                );
-
-
-        }
+//            break;
+//            default:
+//                font.drawGlyphs(batch, layout,
+//                        PIXEL_WIDTH * 0.5f, y, Align.right
+//                        , since * 0.05f, 0f, 0f
+//                );
+//        }
         batch.end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }

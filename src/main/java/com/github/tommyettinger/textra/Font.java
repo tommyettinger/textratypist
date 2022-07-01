@@ -2002,15 +2002,19 @@ public class Font implements Disposable {
                 v = block.getV(),
                 u2 = u + ipw,
                 v2 = v - iph;
-        final float sin = MathUtils.sinDeg(rotation);
-        final float cos = MathUtils.cosDeg(rotation);
-        float centerX = cellWidth * 0.5f;
-        float centerY = cellHeight * 0.5f;
-        float xc = -centerX;
-        float yt = -centerY;
-
-        x += centerX;
-        y += centerY;
+        final float sn = MathUtils.sinDeg(rotation);
+        final float cs = MathUtils.cosDeg(rotation);
+        float originX = cellWidth * 0f;
+        float originY = cellHeight * 0f;
+        final float worldOriginX = x + originX;
+        final float worldOriginY = y + originY;
+        float fx = -originX;
+        float fy = -originY;
+        float xc = cs * fx - sn * fy;// + originX;
+        float yt = sn * fx + cs * fy;// + originY;
+//
+        x += originX;
+        y += originY;
 
         float startX, startY, sizeX, sizeY;
         for (int b = 0; b < sequence.length; b += 4) {
@@ -2026,8 +2030,8 @@ public class Font implements Disposable {
             float p2x = xc + startX + sizeX;
             float p2y = yt + startY;
 
-            vertices[15] = /* handleIntegerPosition */((vertices[0] = /* handleIntegerPosition */(x + cos * p0x - sin * p0y)) - (vertices[5] = /* handleIntegerPosition */(x + cos * p1x - sin * p1y)) + (vertices[10] = /* handleIntegerPosition */(x + cos * p2x - sin * p2y)));
-            vertices[16] = /* handleIntegerPosition */((vertices[1] = /* handleIntegerPosition */(y + sin * p0x + cos * p0y)) - (vertices[6] = /* handleIntegerPosition */(y + sin * p1x + cos * p1y)) + (vertices[11] = /* handleIntegerPosition */(y + sin * p2x + cos * p2y)));
+            vertices[15] = /* handleIntegerPosition */((vertices[0] = /* handleIntegerPosition */(x + cs * p0x - sn * p0y)) - (vertices[5] = /* handleIntegerPosition */(x + cs * p1x - sn * p1y)) + (vertices[10] = /* handleIntegerPosition */(x + cs * p2x - sn * p2y)));
+            vertices[16] = /* handleIntegerPosition */((vertices[1] = /* handleIntegerPosition */(y + sn * p0x + cs * p0y)) - (vertices[6] = /* handleIntegerPosition */(y + sn * p1x + cs * p1y)) + (vertices[11] = /* handleIntegerPosition */(y + sn * p2x + cs * p2y)));
 
 
 //            vertices[0] = startX;
@@ -2542,18 +2546,22 @@ public class Font implements Disposable {
         if (tr == null) return 0f;
         float color = NumberUtils.intBitsToFloat(((int) (batch.getColor().a * (glyph >>> 33 & 127)) << 25)
                 | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
-        // this indicates a box drawing character that we draw ourselves.
-        if (tr.offsetX != tr.offsetX) {
-            float[] boxes = BlockUtils.BOX_DRAWING[(char) glyph - 0x2500];
-            drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
-                    x - cellWidth * (sizingX - 1.0f), y - cellHeight * (sizingY - 1.0f),
-                    cellWidth * sizingX, cellHeight * sizingY, rotation);
-            return cellWidth;
-        }
 
         float scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
         float scaleX = font.scaleX * scale;
         float scaleY = font.scaleY * scale;
+        float centerX = font.cellWidth * scaleX * 0.5f;
+        float centerY = font.cellHeight * scaleY * 0.5f;
+
+        // this indicates a box drawing character that we draw ourselves.
+        if (tr.offsetX != tr.offsetX) {
+            float[] boxes = BlockUtils.BOX_DRAWING[(char) glyph - 0x2500];
+            drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
+                    x - cellWidth * (sizingX - 1.0f) + centerX, y - cellHeight * (sizingY - 1.0f) + centerY,
+                    cellWidth * sizingX, cellHeight * sizingY, rotation);
+            return cellWidth;
+        }
+
         Texture tex = tr.getTexture();
         float x0 = 0f;
         float x1 = 0f;
@@ -2570,8 +2578,6 @@ public class Font implements Disposable {
         float w = tr.getRegionWidth() * scaleX * sizingX;
         float changedW = tr.xAdvance * scaleX;
         float h = tr.getRegionHeight() * scaleY * sizingY;
-        float centerX = font.cellWidth * scaleX * 0.5f;
-        float centerY = font.cellHeight * scaleY * 0.5f;
         float xc = tr.offsetX * scaleX - centerX * sizingX;
         float yt = (font.cellHeight * scale) - centerY - (tr.getRegionHeight() + tr.offsetY) * scaleY;
 
