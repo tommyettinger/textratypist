@@ -2252,22 +2252,13 @@ public class Font implements Disposable {
         if (glyphs == null) return 0;
         float drawn = 0f, cs = MathUtils.cosDeg(rotation), sn = MathUtils.sinDeg(rotation);
 
-        // bottom left and top right corner points relative to origin
         final float worldOriginX = x + originX;
         final float worldOriginY = y + originY;
         float fx = -originX;
         float fy = -originY;
-        float gx = glyphs.width - originX;
-        float gy = glyphs.height - originY;
-        // construct corner points, start from top left and go counter clockwise
         x = cs * fx - sn * fy + worldOriginX;
         y = sn * fx + cs * fy + worldOriginY;
-//        final float x2 = cs * fx - sn * gy + worldOriginX;
-//        final float y2 = sn * fx + cs * gy + worldOriginY;
-//        final float x3 = cs * gx - sn * gy + worldOriginX;
-//        final float y3 = sn * gx + cs * gy + worldOriginY;
-//        final float x4 = x1 + (x3 - x2);
-//        final float y4 = y3 - (y2 - y1);
+
         if (Align.isCenterHorizontal(align)) {
             x -= cs * (glyphs.width * 0.5f);
             y -= sn * (glyphs.width * 0.5f);
@@ -2304,10 +2295,8 @@ public class Font implements Disposable {
                 float amt = font.kerning.get(kern, 0) * font.scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
                 xChange += cs * amt;
                 yChange += sn * amt;
-                single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation);
-            } else {
-                single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation);
             }
+            single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation);
             xChange += cs * single;
             yChange += sn * single;
             drawn += single;
