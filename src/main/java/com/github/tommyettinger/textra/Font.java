@@ -27,7 +27,19 @@ import com.badlogic.gdx.graphics.g2d.DistanceFieldFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.CharArray;
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.IntIntMap;
+import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.LongArray;
+import com.badlogic.gdx.utils.NumberUtils;
+import com.badlogic.gdx.utils.ObjectIntMap;
+import com.badlogic.gdx.utils.OrderedMap;
+import com.badlogic.gdx.utils.Pool;
 import com.github.tommyettinger.textra.utils.BlockUtils;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 import regexodus.Category;
@@ -64,6 +76,12 @@ import java.util.Arrays;
  * single curly braces is not rendered here, though it may be interpreted by TypingLabel if you use a Layout this
  * produces there. You should escape both square brackets with <code>[[</code> and curly braces with <code>{{</code> if
  * you intend them to appear.
+ * <br>
+ * Most things this can draw can be drawn with a rotation, and usually an origin can be specified (where it makes
+ * sense). The rotation can't be configured from markup, but the widgets that understand this class, like
+ * {@link TextraLabel} and {@link TypingLabel}, can have their rotation set using the standard scene2d.ui method
+ * {@link com.badlogic.gdx.scenes.scene2d.Actor#setRotation(float)}, and then they will request the correct rotation
+ * from this class. This is different from {@link com.badlogic.gdx.scenes.scene2d.ui.Label}, which ignores rotation!
  * <br>
  * There are some features here that cannot be used purely from markup, such as per-character rotation and smooth
  * scaling, but these can be used by TypingLabel and its Effect assortment.
@@ -1948,10 +1966,34 @@ public class Font implements Disposable {
         }
     }
 
+    /**
+     * An internal method that draws blocks in a sequence specified by a {@code float[]}, with the block usually
+     * {@link #solidBlock} (but not always). This is somewhat complicated; the sequence is typically drawn directly from
+     * {@link BlockUtils}. Draws {@code block} at its full width and height, in the given packed color.
+     * @param batch    typically a SpriteBatch
+     * @param sequence a sequence of instructions in groups of 4: starting x, starting y, width to draw, height to draw
+     * @param block    the TextureRegion to use as a block for drawing; usually {@link #solidBlock}
+     * @param color    the color as a packed float
+     * @param x        the x position to draw at
+     * @param y        the y position to draw at
+     */
     protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y) {
         drawBlockSequence(batch, sequence, block, color, x, y, cellWidth, cellHeight);
     }
 
+    /**
+     * An internal method that draws blocks in a sequence specified by a {@code float[]}, with the block usually
+     * {@link #solidBlock} (but not always). This is somewhat complicated; the sequence is typically drawn directly from
+     * {@link BlockUtils}. Draws {@code block} at the given width and height, in the given packed color.
+     * @param batch    typically a SpriteBatch
+     * @param sequence a sequence of instructions in groups of 4: starting x, starting y, width to draw, height to draw
+     * @param block    the TextureRegion to use as a block for drawing; usually {@link #solidBlock}
+     * @param color    the color as a packed float
+     * @param x        the x position to draw at
+     * @param y        the y position to draw at
+     * @param width    the width of one cell for the purposes of sequence instructions
+     * @param height   the height of one cell for the purposes of sequence instructions
+     */
     protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y, float width, float height) {
         final Texture parent = block.getTexture();
         final float ipw = 1f / parent.getWidth();
@@ -1993,6 +2035,21 @@ public class Font implements Disposable {
             batch.draw(parent, vertices, 0, 20);
         }
     }
+    /**
+     * An internal method that draws blocks in a sequence specified by a {@code float[]}, with the block usually
+     * {@link #solidBlock} (but not always). This is somewhat complicated; the sequence is typically drawn directly from
+     * {@link BlockUtils}. Draws {@code block} at the given width and height, in the given packed color, rotating by the
+     * specified amount in degrees.
+     * @param batch    typically a SpriteBatch
+     * @param sequence a sequence of instructions in groups of 4: starting x, starting y, width to draw, height to draw
+     * @param block    the TextureRegion to use as a block for drawing; usually {@link #solidBlock}
+     * @param color    the color as a packed float
+     * @param x        the x position to draw at
+     * @param y        the y position to draw at
+     * @param width    the width of one cell for the purposes of sequence instructions
+     * @param height   the height of one cell for the purposes of sequence instructions
+     * @param rotation the rotation in degrees to use for the cell of blocks, with the origin in the center of the cell
+     */
 
     protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y, float width, float height, float rotation) {
         final Texture parent = block.getTexture();
@@ -2131,7 +2188,7 @@ public class Font implements Disposable {
      * @param glyphs typically returned as part of {@link #markup(String, Layout)}
      * @param x      the x position in world space to start drawing the glyph at (lower left corner)
      * @param y      the y position in world space to start drawing the glyph at (lower left corner)
-     * @return the number of glyphs drawn
+     * @return the total distance in world units all drawn Lines use up from left to right
      */
     public float drawGlyphs(Batch batch, Layout glyphs, float x, float y) {
         return drawGlyphs(batch, glyphs, x, y, Align.left);
@@ -2148,7 +2205,7 @@ public class Font implements Disposable {
      * @param x      the x position in world space to start drawing the glyph at (where this is depends on align)
      * @param y      the y position in world space to start drawing the glyph at (where this is depends on align)
      * @param align  an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
-     * @return the number of glyphs drawn
+     * @return the total distance in world units all drawn Lines use up from left to right
      */
     public float drawGlyphs(Batch batch, Layout glyphs, float x, float y, int align) {
         float drawn = 0;
@@ -2163,11 +2220,9 @@ public class Font implements Disposable {
     }
 
     /**
-     * Draws the specified Layout of glyphs with a Batch at a given x, y position, rotated using degrees, using
-     * {@code align} to determine how to position the text and where to pivot the rotation around. Typically, align is
-     * {@link Align#left}, {@link Align#center}, or {@link Align#right}, which make the given x,y point refer to the
-     * center-left edge point, center point, or center-right edge point, respectively, of the first Line. The rotation
-     * will pivot around the point as determined by the {@code align} value.
+     * Draws the specified Layout of glyphs with a Batch at a given x, y position, rotated using dedegrees around the
+     * given origin point, using {@code align} to determine how to position the text. Typically, align is
+     * {@link Align#left}, {@link Align#center}, or {@link Align#right}, but it can have a vertical component as well.
      *
      * @param batch    typically a SpriteBatch
      * @param glyphs   typically returned by {@link #markup(String, Layout)}
@@ -2175,7 +2230,9 @@ public class Font implements Disposable {
      * @param y        the y position in world space to start drawing the glyph at (where this is depends on align)
      * @param align    an {@link Align} constant; if {@link Align#left}, x and y refer to the left edge of the first Line
      * @param rotation measured in degrees counterclockwise, typically 0-360, and applied to the whole Layout
-     * @return the number of glyphs drawn
+     * @param originX the x position in world space of the point to rotate around
+     * @param originY the y position in world space of the point to rotate around
+     * @return the total distance in world units all drawn Lines use up from lines along the given rotation
      */
     public float drawGlyphs(Batch batch, Layout glyphs, float x, float y, int align, float rotation, float originX, float originY) {
         float drawn = 0;
@@ -2204,7 +2261,7 @@ public class Font implements Disposable {
      * @param glyphs typically returned as part of {@link #markup(String, Layout)}
      * @param x      the x position in world space to start drawing the glyph at (lower left corner)
      * @param y      the y position in world space to start drawing the glyph at (lower left corner)
-     * @return the number of glyphs drawn
+     * @return the distance in world units the drawn Line uses, left to right
      */
     public float drawGlyphs(Batch batch, Line glyphs, float x, float y) {
         if (glyphs == null) return 0;
@@ -2222,7 +2279,7 @@ public class Font implements Disposable {
      * @param x      the x position in world space to start drawing the glyph at (where this is depends on align)
      * @param y      the y position in world space to start drawing the glyph at (where this is depends on align)
      * @param align  an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
-     * @return the number of glyphs drawn
+     * @return the distance in world units the drawn Line uses, left to right
      */
     public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align) {
         final float originX = Align.isRight(align) ? glyphs.width : Align.isCenterHorizontal(align) ? glyphs.width * 0.5f : 0f;
@@ -2241,7 +2298,9 @@ public class Font implements Disposable {
      * @param y        the y position in world space to start drawing the glyph at (where this is depends on align)
      * @param align    an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
      * @param rotation measured in degrees counterclockwise and applied to the whole Line
-     * @return the number of glyphs drawn
+     * @param originX the x position in world space of the point to rotate around
+     * @param originY the y position in world space of the point to rotate around
+     * @return the distance in world units the drawn Line uses up out of a line along the given rotation
      */
     public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align, float rotation, float originX, float originY) {
         if (glyphs == null) return 0;
@@ -2667,7 +2726,7 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -tr.offsetX * scaleX - scaleX - centerX * scale;
-                p0y = -cellHeight * 0.4f;
+                p0y = -cellHeight * 0.3f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         changedW + scaleX * 8f, cellHeight * sizingY * 0.6f - centerY, rotation);
@@ -2715,7 +2774,7 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = -tr.offsetX * scaleX - scaleX - centerX * scale;
-                p0y = cellHeight * -0.1f;
+                p0y = 0.0f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         (changedW + scaleX * 8f), cellHeight * sizingY * 0.6f - centerY, rotation);
