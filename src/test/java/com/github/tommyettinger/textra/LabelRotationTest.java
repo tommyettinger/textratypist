@@ -75,9 +75,8 @@ public class LabelRotationTest extends ApplicationAdapter {
         texture = new TextureRegion(new Texture(Gdx.files.internal("tilerb.png")));
         stage = new Stage(viewport);
         BitmapFont font = new BitmapFont();
-        textraLabel1 = new TextraLabel();
+        textraLabel1 = new TextraLabel("Test", KnownFonts.getInconsolata());
         textraLabel1.useIntegerPositions(false);
-        textraLabel1.setText("Test");
         textraLabel1.setPosition(200,200);
         textraLabel1.style = new Label.LabelStyle();
         textraLabel1.style.background = new TextureRegionDrawable(texture);
@@ -87,9 +86,8 @@ public class LabelRotationTest extends ApplicationAdapter {
         textraLabel1.style.background.setRightWidth(10);
         textraLabel1.pack();
         textraLabel1.setOrigin(center);
-        textraLabel2 = new TextraLabel();
+        textraLabel2 = new TextraLabel("Check check, [_]one two[_], [~]one two[~]...", KnownFonts.getInconsolata());
         textraLabel2.useIntegerPositions(false);
-        textraLabel2.setText("Check check, one two, one two...");
         textraLabel2.setPosition(400,200);
         textraLabel2.style = new Label.LabelStyle();
         textraLabel2.style.background = new TextureRegionDrawable(texture);
@@ -99,9 +97,8 @@ public class LabelRotationTest extends ApplicationAdapter {
         textraLabel2.style.background.setRightWidth(25);
         textraLabel2.pack();
         textraLabel2.setOrigin(center);
-        textraLabel3 = new TextraLabel();
+        textraLabel3 = new TextraLabel("We're no strangers to love...\nYou [_]know[_] the [_]rules[_],\nand [~]so do I[~]!", KnownFonts.getInconsolata());
         textraLabel3.useIntegerPositions(false);
-        textraLabel3.setText("We're no strangers to love...\nYou know the rules,\nand so do I!");
         textraLabel3.setPosition(600,300);
         textraLabel3.style = new Label.LabelStyle();
         textraLabel3.style.background = new TextureRegionDrawable(texture);
@@ -126,7 +123,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel1.setOrigin(center);
         typingLabel2 = new TypingLabel();
         typingLabel2.useIntegerPositions(false);
-        typingLabel2.setText("Check check, one two, one two...");
+        typingLabel2.setText("Check check, [_]one two[_], [~]one two[~]...");
         typingLabel2.setPosition(400,200);
         typingLabel2.style = new Label.LabelStyle();
         typingLabel2.style.background = new TextureRegionDrawable(texture);
@@ -138,7 +135,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel2.setOrigin(center);
         typingLabel3 = new TypingLabel();
         typingLabel3.useIntegerPositions(false);
-        typingLabel3.setText("We're no strangers to love...\nYou know the rules,\nand so do I!");
+        typingLabel3.setText("We're no strangers to love...\nYou [_]know[_] the [_]rules[_],\nand [~]so do I[~]!");
         typingLabel3.setPosition(600,300);
         typingLabel3.style = new Label.LabelStyle();
         typingLabel3.style.background = new TextureRegionDrawable(texture);
