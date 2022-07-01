@@ -2004,17 +2004,8 @@ public class Font implements Disposable {
                 v2 = v - iph;
         final float sn = MathUtils.sinDeg(rotation);
         final float cs = MathUtils.cosDeg(rotation);
-        float originX = cellWidth * 0f;
-        float originY = cellHeight * 0f;
-        final float worldOriginX = x + originX;
-        final float worldOriginY = y + originY;
-        float fx = -originX;
-        float fy = -originY;
-        float xc = cs * fx - sn * fy;// + originX;
-        float yt = sn * fx + cs * fy;// + originY;
-//
-        x += originX;
-        y += originY;
+        float xc = 0f;
+        float yt = 0f;
 
         float startX, startY, sizeX, sizeY;
         for (int b = 0; b < sequence.length; b += 4) {
@@ -2676,10 +2667,10 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -tr.offsetX * scaleX - scaleX - centerX * scale;
-                p0y = -cellHeight * 0.45f;
+                p0y = -cellHeight * 0.4f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
-                        x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y) * 0.6f - sizingY,
-                        (changedW + scaleX * 8f), cellHeight * sizingY * 0.6f - centerY, rotation);
+                        x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
+                        changedW + scaleX * 8f, cellHeight * sizingY * 0.6f - centerY, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
