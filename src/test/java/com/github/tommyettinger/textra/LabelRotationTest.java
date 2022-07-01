@@ -86,6 +86,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         textraLabel1.style.background.setLeftWidth(10);
         textraLabel1.style.background.setRightWidth(10);
         textraLabel1.pack();
+        textraLabel1.setOrigin(center);
         textraLabel2 = new TextraLabel();
         textraLabel2.useIntegerPositions(false);
         textraLabel2.setText("Check check, one two, one two...");
@@ -97,6 +98,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         textraLabel2.style.background.setLeftWidth(25);
         textraLabel2.style.background.setRightWidth(25);
         textraLabel2.pack();
+        textraLabel2.setOrigin(center);
         textraLabel3 = new TextraLabel();
         textraLabel3.useIntegerPositions(false);
         textraLabel3.setText("We're no strangers to love...\nYou know the rules,\nand so do I!");
@@ -108,6 +110,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         textraLabel3.style.background.setLeftWidth(50);
         textraLabel3.style.background.setRightWidth(50);
         textraLabel3.pack();
+        textraLabel3.setOrigin(center);
 
         typingLabel1 = new TypingLabel();
         typingLabel1.useIntegerPositions(false);
@@ -130,6 +133,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel2.style.background.setBottomHeight(15);
         typingLabel2.style.background.setLeftWidth(25);
         typingLabel2.style.background.setRightWidth(25);
+        typingLabel2.setOrigin(top);
         typingLabel2.pack();
         typingLabel3 = new TypingLabel();
         typingLabel3.useIntegerPositions(false);
@@ -162,6 +166,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         label2Style.background.setRightWidth(25);
         label2 = new Label("Check check, one two, one two...", label2Style);
         label2.setPosition(400,200);
+        label2.setOrigin(top);
         label2.pack();
         label3Style = new Label.LabelStyle(font, Color.RED);
         label3Style.font.setUseIntegerPositions(false);

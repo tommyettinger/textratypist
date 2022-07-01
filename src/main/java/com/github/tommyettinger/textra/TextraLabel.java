@@ -201,8 +201,8 @@ public class TextraLabel extends Widget {
 
         float baseX = 0, baseY = 0;
 
-        baseX += getOriginX();
-        baseY += getOriginY();
+//        baseX += getOriginX();
+//        baseY += getOriginY();
 
         float sn = MathUtils.sinDeg(getRotation());
         float cs = MathUtils.cosDeg(getRotation());
@@ -261,6 +261,7 @@ public class TextraLabel extends Widget {
             }
             ((TransformDrawable) background).draw(batch,
                     getX(), getY(),             // position
+//                    0f, 0f,                     // origin
                     getOriginX(), getOriginY(), // origin
                     getWidth(), getHeight(),    // size
                     1f, 1f,                     // scale
@@ -275,7 +276,7 @@ public class TextraLabel extends Widget {
         baseX -= 0.5f * font.cellWidth;
         baseY -= 0.5f * font.cellHeight;
 
-        font.drawGlyphs(batch, layout, getX() + baseX, getY() + baseY, align, getRotation());
+        font.drawGlyphs(batch, layout, getX() + baseX, getY() + baseY, align, getRotation(), getOriginX(), getOriginY());
 
         //TODO: re-enable this when we're debugging rotation again
 //        if(getDebug()) {

@@ -157,18 +157,18 @@ public class RotationTest extends ApplicationAdapter {
             case 0:
                 font.drawGlyphs(batch, layout,
                     PIXEL_WIDTH * 0.5f, y, Align.left
-                    , since * 0.05f);
+                    , since * 0.05f, 0f, 0f);
             break;
             case 1:
                 font.drawGlyphs(batch, layout,
                         PIXEL_WIDTH * 0.5f, y, Align.center
-                        , since * 0.05f
+                        , since * 0.05f, 0f, 0f
                 );
             break;
             default:
                 font.drawGlyphs(batch, layout,
                         PIXEL_WIDTH * 0.5f, y, Align.right
-                        , since * 0.05f
+                        , since * 0.05f, 0f, 0f
                 );
 
 
