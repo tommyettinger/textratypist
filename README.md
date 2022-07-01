@@ -30,8 +30,8 @@ between two colors, or go across a whole rainbow. Lots of options; lots of fun. 
 typing-label, but there have been some changes. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
 for more information.
 
-As of 0.5.2, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, and
-Scale are all new to TextraTypist (not in typing-label). You can see usage instructions and sample GIFs at
+As of 0.5.5, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
+and Rotate are all new to TextraTypist (not in typing-label). You can see usage instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
 make use of the smooth scaling and rotation options that effects can use starting in TextraTypist 0.5.1 .
 
@@ -101,8 +101,9 @@ licenses for details.
 You can rotate individual glyphs (if you draw them individually) or rotate whole blocks of text as a Layout, using an
 optional overload of `Font.drawGlyph()` or `Font.drawGlyphs()`. Custom effects for `TypingLabel` can also individually
 change the rotation of any glyph, as well as its position and scale on x and/or y. You can rotate a TextraLabel or
-TypingLabel by using their `setRotation()` methods, but these are currently only even remotely usable for Labels without
-background graphics. Any help with the rotation code would be appreciated! You can also, for some fonts, have
+TypingLabel by using their `setRotation()` methods, and the rotation will now act correctly for labels with backgrounds
+and/or with different alignment settings. The origin for rotations can be set in the label, and the whole label will
+rotate around that origin point. You can also, for some fonts, have
 box-drawing characters and block elements be automatically generated. This needs a solid white block character (of any
 size, typically 1x1) present in the font at id 0 (used here because most fonts don't use it) or better, 9608 (the
 Unicode full block index, `'\u2588'`, which is preferred because BitmapFont treats id 0 differently). This also enables
@@ -113,8 +114,7 @@ fonts in `KnownFonts` either are configured to use a solid block or to specifica
 better without it. Note that if you create a `Font` from a libGDX `BitmapFont`, this defaults to not even trying to make
 grid glyphs, because BitmapFonts rarely have a suitable solid block char.
 
-These two features are new in 0.3.0, and are expected to see more attention in future releases (such as more
-configuration for rotation origin).
+These two features are new in 0.3.0, and are expected to see more attention in future releases.
 
 ## Hold the phone, there's widgets!
 
@@ -132,7 +132,7 @@ for some usage. A counterpart to `TextArea` is planned.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.5.4"
+implementation "com.github.tommyettinger:textratypist:0.5.5"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
@@ -141,7 +141,7 @@ was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.5.4:sources"
+implementation "com.github.tommyettinger:textratypist:0.5.5:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
@@ -175,6 +175,10 @@ but I request that it only be used to refer to this project unless substantially
 Wow, raeleus has really helped a tremendous amount. Both by testing TextraTypist in his Skin Composer app (which found
 quite a lot of bugs, small and large), and advising on proper scene2d.ui layout practices (which were not easy to get
 100% right), the large 0.5.2 release (and those after it) would not be what it is today without his input. Thank you!
+
+Thanks to fraudo for helping me go step-by-step to figure out how badly I had screwed up rotation with backgrounds, and
+for writing most of `LabelRotationTest`. Release 0.5.5 would still probably be in development for months without that
+help, so thanks are in order.
 
 Of course, I have to thank Rafa Skoberg for writing quite a lot of the code here! About 2/3 of the effects are almost
 purely by Rafa, much of the TypingLabel-related code is nearly unchanged from his work, and in general he showed what
