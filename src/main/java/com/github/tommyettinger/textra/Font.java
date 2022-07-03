@@ -114,6 +114,32 @@ public class Font implements Disposable {
         public float xAdvance;
 
         /**
+         * Creates a GlyphRegion from a parent TextureRegion (typically from an atlas). The resulting GlyphRegion will
+         * have 0 offsetX, 0 offsetY, and xAdvance equal to {@link TextureRegion#getRegionWidth()}.
+         *
+         * @param textureRegion a TextureRegion to draw for this GlyphRegion, typically from a TextureAtlas
+         */
+        public GlyphRegion(TextureRegion textureRegion) {
+            this(textureRegion, 0f, 0f, textureRegion.getRegionWidth());
+        }
+
+        /**
+         * Creates a GlyphRegion from a parent TextureRegion (typically from an atlas), along with any offsets to use
+         * for its x and y coordinates, and the amount of horizontal space to move over when this is drawn.
+         *
+         * @param textureRegion a TextureRegion to draw for this GlyphRegion, typically from a TextureAtlas
+         * @param offsetX how many pixels to shift over the TextureRegion when drawn; positive is to the right
+         * @param offsetY how many pixels to shift over the TextureRegion when drawn; positive is upwards
+         * @param xAdvance how much horizontal space the GlyphRegion should use up when drawn
+         */
+        public GlyphRegion(TextureRegion textureRegion, float offsetX, float offsetY, float xAdvance) {
+            super(textureRegion);
+            this.offsetX = offsetX;
+            this.offsetY = offsetY;
+            this.xAdvance = xAdvance;
+        }
+
+        /**
          * Creates a GlyphRegion from a parent TextureRegion (typically from an atlas), along with the lower-left x and
          * y coordinates, the width, and the height of the GlyphRegion.
          *
@@ -125,6 +151,9 @@ public class Font implements Disposable {
          */
         public GlyphRegion(TextureRegion textureRegion, int x, int y, int width, int height) {
             super(textureRegion, x, y, width, height);
+            offsetX = 0f;
+            offsetY = 0f;
+            xAdvance = width;
         }
 
         /**
@@ -1796,6 +1825,37 @@ public class Font implements Disposable {
      */
     public Font multiplyCrispness(float multiplier) {
         distanceFieldCrispness *= multiplier;
+        return this;
+    }
+
+    /**
+     * Makes this Font "learn" a new mapping from a char (typically an emoji in a String for {@code character}) to a
+     * TextureRegion, allowing any offsets on x or y to be specified as well as the amount of horizontal space the
+     * resulting GlyphRegion should use.
+     * @param character a String containing at least one character; only the first codepoint will be truncated and used
+     * @param region the TextureRegion to associate with the given character
+     * @param offsetX the x offset to position the drawn TextureRegion at, with positive offset moving right
+     * @param offsetY the y offset to position the drawn TextureRegion at, with positive offset moving up
+     * @param xAdvance how much horizontal space the GlyphRegion should take up
+     * @return this Font, for chaining
+     */
+    public Font addImage(String character, TextureRegion region, float offsetX, float offsetY, float xAdvance) {
+        if(character != null && !character.isEmpty())
+            mapping.put((char)character.codePointAt(0), new GlyphRegion(region, offsetX, offsetY, xAdvance));
+        return this;
+    }
+
+    /**
+     * Makes this Font "learn" a new mapping from a char (typically an emoji in a String for {@code character}) to a
+     * TextureRegion. The GlyphRegion that will be placed into {@code mapping} will have 0 for its offsetX and offsetY,
+     * and its xAdvance will be the same as region's {@link TextureRegion#getRegionWidth()}.
+     * @param character a String containing at least one character; only the first codepoint will be truncated and used
+     * @param region the TextureRegion to associate with the given character
+     * @return this Font, for chaining
+     */
+    public Font addImage(String character, TextureRegion region) {
+        if(character != null && !character.isEmpty())
+            mapping.put((char)character.codePointAt(0), new GlyphRegion(region));
         return this;
     }
 
@@ -3910,8 +3970,7 @@ public class Font implements Disposable {
     }
 
     /**
-     * Replaces the section of glyph that stores its scale with the given float multiplier, rounded to a multiple of
-     * 0.25 and wrapped to within 0.0 to 3.75, both inclusive.
+     * Replaces the section of glyph that stores its char with the given other char.
      *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @param c     the char to use
