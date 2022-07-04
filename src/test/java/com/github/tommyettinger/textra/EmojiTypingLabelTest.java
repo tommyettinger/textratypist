@@ -114,6 +114,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("dawnlike/Dawnlike.atlas"), Gdx.files.internal("dawnlike"));
         Font font = new Font("dawnlike/PlainAndSimplePlus-standard.fnt", atlas.findRegion("PlainAndSimplePlus-standard"), 0, 0, 2, 2);
         font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
+        font.scale(2, 2);
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
         // Create label
@@ -189,7 +190,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
     public void render() {
         update(Gdx.graphics.getDeltaTime());
 
-        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
+        Gdx.gl.glClearColor(0.25f, 0.3f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.draw();

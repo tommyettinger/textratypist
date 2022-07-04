@@ -1831,8 +1831,11 @@ public class Font implements Disposable {
     /**
      * Makes this Font "learn" a new mapping from a char (typically an emoji in a String for {@code character}) to a
      * TextureRegion, allowing any offsets on x or y to be specified as well as the amount of horizontal space the
-     * resulting GlyphRegion should use.
-     * @param character a String containing at least one character; only the first codepoint will be truncated and used
+     * resulting GlyphRegion should use. The most common way to call this uses a String containing one emoji character,
+     * because those are relatively easy to enter with a clear result. Because most emoji are technically more than one
+     * Java {@code char}, we only use the last char in {@code character}, which usually is a value that only overlaps
+     * with a private-use area character (and most of those are unused).
+     * @param character a String containing at least one character; only the last char (not codepoint) will be used
      * @param region the TextureRegion to associate with the given character
      * @param offsetX the x offset to position the drawn TextureRegion at, with positive offset moving right
      * @param offsetY the y offset to position the drawn TextureRegion at, with positive offset moving up
@@ -1841,21 +1844,25 @@ public class Font implements Disposable {
      */
     public Font addImage(String character, TextureRegion region, float offsetX, float offsetY, float xAdvance) {
         if(character != null && !character.isEmpty())
-            mapping.put((char)character.codePointAt(0), new GlyphRegion(region, offsetX, offsetY, xAdvance));
+            mapping.put(character.charAt(character.length() - 1), new GlyphRegion(region, offsetX, offsetY, xAdvance));
         return this;
     }
 
     /**
      * Makes this Font "learn" a new mapping from a char (typically an emoji in a String for {@code character}) to a
      * TextureRegion. The GlyphRegion that will be placed into {@code mapping} will have 0 for its offsetX and offsetY,
-     * and its xAdvance will be the same as region's {@link TextureRegion#getRegionWidth()}.
-     * @param character a String containing at least one character; only the first codepoint will be truncated and used
+     * and its xAdvance will be the same as region's {@link TextureRegion#getRegionWidth()}. The most common way to call
+     * this uses a String containing one emoji character, because those are relatively easy to enter with a clear
+     * result. Because most emoji are technically more than one Java {@code char}, we only use the last char in
+     * {@code character}, which usually is a value that only overlaps with a private-use area character (and most of
+     * those are unused).
+     * @param character a String containing at least one character; only the last char (not codepoint) will be used
      * @param region the TextureRegion to associate with the given character
      * @return this Font, for chaining
      */
     public Font addImage(String character, TextureRegion region) {
         if(character != null && !character.isEmpty())
-            mapping.put((char)character.codePointAt(0), new GlyphRegion(region));
+            mapping.put(character.charAt(character.length() - 1), new GlyphRegion(region));
         return this;
     }
 
