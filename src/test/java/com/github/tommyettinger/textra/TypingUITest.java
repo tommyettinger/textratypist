@@ -37,6 +37,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.ray3k.stripe.FreeTypeSkin;
 
 public class TypingUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
@@ -56,7 +57,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.enable();
-		skin = new Skin(Gdx.files.internal("uiskin2.json"));
+		skin = new FreeTypeSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
 		TextureRegion image = new TextureRegion(texture1);
@@ -64,28 +65,31 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font =
-		KnownFonts.getStandardFamily()
+		final Font font = new Font(skin.getFont("outline-font"), 0f, 10f, 0f, 0f).adjustLineHeight(1.2f);
+//		KnownFonts.getStandardFamily()
 //				new Font(skin.get(Label.LabelStyle.class).font)
 //				.useIntegerPositions(true);
-;
+		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 //				KnownFonts.getYanoneKaffeesatz()
 				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
 				.scaleTo(30, 35)
 				.setName("Kingthings Foundation");
+		font.family.connected[0] = font;
 //		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
-//		stage.setDebugAll(true);
+		stage.setDebugAll(true);
 
 		ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
+		ImageTextraButton iconButton = new ImageTextraButton("jóÓetcjóÓetcjóÓetc", style, font);
+//		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
+		Button buttonMulti = new TextraButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "toggle", font);
+//		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle");
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
