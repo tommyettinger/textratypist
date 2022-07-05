@@ -728,7 +728,8 @@ public class TypingLabel extends TextraLabel {
         final float sn = MathUtils.sinDeg(rot);
         final float cs = MathUtils.cosDeg(rot);
 
-        batch.setColor(1f, 1f, 1f, parentAlpha);
+        batch.getColor().set(getColor()).a *= parentAlpha;
+        batch.setColor(batch.getColor());
         final int lines = workingLayout.lines();
         float baseX = getX(), baseY = getY();
 
@@ -759,7 +760,6 @@ public class TypingLabel extends TextraLabel {
         }
         if (style != null && style.background != null) {
             Drawable background = style.background;
-            batch.setColor(getColor());
             if (Align.isLeft(align)) {
                 baseX += cs * background.getLeftWidth();
                 baseY += sn * background.getLeftWidth();
@@ -787,7 +787,6 @@ public class TypingLabel extends TextraLabel {
                     1f, 1f,                     // scale
                     rot);                       // rotation
         }
-        batch.setColor(1f, 1f, 1f, parentAlpha);
 
         if (layout.lines.isEmpty()) return;
 

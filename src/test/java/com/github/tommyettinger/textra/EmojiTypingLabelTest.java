@@ -24,7 +24,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;
     SpriteBatch batch;
-    TextraLabel label;
+    TypingLabel label;
     TextButton  buttonPause;
     TextButton  buttonResume;
     TextButton  buttonRestart;
@@ -112,7 +112,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         TypingConfig.GLOBAL_VARS.put("ICE_WIND", "{FASTER}{GRADIENT=88ccff;eef8ff;-0.5;5}{SLOWER}{WIND=2;4;0.25;0.1}");
     }
 
-    public TextraLabel createTypingLabel() {
+    public TypingLabel createTypingLabel() {
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("dawnlike/Dawnlike.atlas"), Gdx.files.internal("dawnlike"));
         Font font = new Font("dawnlike/PlainAndSimplePlus-standard.fnt", atlas.findRegion("PlainAndSimplePlus-standard"), 0, 0, 2, 2);
         font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
@@ -126,8 +126,8 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         // text wraps across lines... Not totally sure what's happening.
         // OK, it is definitely not something that requires different fonts to trigger. Specific widths cause line
         // wrapping to somehow break the ENDWIND token (or RESET).
-        final TextraLabel label = new TextraLabel(
-//        final TypingLabel label = new TypingLabel(
+//        final TextraLabel label = new TextraLabel(
+        final TypingLabel label = new TypingLabel(
 //                "Behold, the [/Terror{RESET}-[*]Bunny[*]!",
 //                "{SHAKE=1,1,2}[@Medieval]Behold{RESET}, the [/]Terror{RESET}-{GRADIENT=WHITE;RED}Bunny!",
 //                "{BLINK=ff0000ff;00ff27ff;1.0;0.5}redtogreen", // used to check unclosed effects with incomplete parameters
