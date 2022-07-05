@@ -198,6 +198,8 @@ public class TextraLabel extends Widget {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+        batch.getColor().set(getColor()).a *= parentAlpha;
+        batch.setColor(batch.getColor());
 
         float baseX = 0, baseY = 0;
 
@@ -238,7 +240,6 @@ public class TextraLabel extends Widget {
         }
         if (style != null && style.background != null) {
             Drawable background = style.background;
-            batch.setColor(getColor());
             if (Align.isLeft(align)) {
                 baseX += cs * background.getLeftWidth();
                 baseY += sn * background.getLeftWidth();
@@ -266,8 +267,6 @@ public class TextraLabel extends Widget {
                     1f, 1f,                     // scale
                     rot);                       // rotation
         }
-        batch.getColor().set(getColor()).a *= parentAlpha;
-        batch.setColor(batch.getColor());
         if (layout.lines.isEmpty()) return;
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if (resetShader)
