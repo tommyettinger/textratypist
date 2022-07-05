@@ -3253,7 +3253,7 @@ public class Font implements Disposable {
                                             if (--leading < 0) {
                                                 appendTo.add(curr);
                                                 changeNext += adv;
-                                                if(appendTo.peekLine().glyphs.size == 0){
+                                                if(appendTo.peekLine().glyphs.size == 1){
                                                     float ox = font.mapping.get((char)curr, font.defaultValue).offsetX
                                                             * scaleX;
                                                     if(ox < 0) changeNext -= ox;
@@ -3272,7 +3272,7 @@ public class Font implements Disposable {
                                                 k3 = k3 << 16 | (char) curr;
                                                 changeNext += adv + font.kerning.get(k3, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                                 appendTo.add(curr);
-                                                if(appendTo.peekLine().glyphs.size == 0){
+                                                if(appendTo.peekLine().glyphs.size == 1){
                                                     float ox = font.mapping.get((char)curr, font.defaultValue).offsetX
                                                             * scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                                                     if(ox < 0) changeNext -= ox;
@@ -3332,7 +3332,10 @@ public class Font implements Disposable {
                     }
                 }
                 if (ch == '\n')
+                {
                     appendTo.peekLine().height = Math.max(appendTo.peekLine().height, font.cellHeight * (scale + 1) * 0.25f);
+                    initial = true;
+                }
                 appendTo.add(current | ch);
                 if ((targetWidth > 0 && w > targetWidth) || appendTo.atLimit) {
                     Line earlier = appendTo.peekLine();
@@ -3445,9 +3448,9 @@ public class Font implements Disposable {
                                         if (--leading < 0) {
                                             glyphBuffer.add(curr);
                                             changeNext += adv;
-                                            if(appendTo.peekLine().glyphs.size == 0){
+                                            if(appendTo.peekLine().glyphs.size == 1){
                                                 float ox = font.mapping.get((char)curr, font.defaultValue).offsetX
-                                                        * scaleX;
+                                                        * scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                                                 if(ox < 0) changeNext -= ox;
                                                 initial = false;
                                             }
@@ -3483,7 +3486,7 @@ public class Font implements Disposable {
                                             k3 = k3 << 16 | (char) curr;
                                             changeNext += adv + font.kerning.get(k3, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                             glyphBuffer.add(curr);
-                                            if(appendTo.peekLine().glyphs.size == 0){
+                                            if(appendTo.peekLine().glyphs.size == 1){
                                                 float ox = font.mapping.get((char)curr, font.defaultValue).offsetX
                                                         * scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                                                 if(ox < 0) changeNext -= ox;
