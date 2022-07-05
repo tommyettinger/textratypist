@@ -266,7 +266,8 @@ public class TextraLabel extends Widget {
                     1f, 1f,                     // scale
                     rot);                       // rotation
         }
-        batch.setColor(1f, 1f, 1f, parentAlpha);
+        batch.getColor().set(getColor()).a *= parentAlpha;
+        batch.setColor(batch.getColor());
         if (layout.lines.isEmpty()) return;
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if (resetShader)
@@ -277,12 +278,6 @@ public class TextraLabel extends Widget {
 
         font.drawGlyphs(batch, layout, getX() + baseX, getY() + baseY, align, rot, getOriginX(), getOriginY());
 
-        //TODO: re-enable this when we're debugging rotation again
-//        if(getDebug()) {
-//            float s = MathUtils.sinDeg(TimeUtils.millis() >>> 2 & 0xFFFFF) * 0.5f + 0.5f;
-//            font.drawGlyph(batch, (MathUtils.random.nextInt() | 0x7FL) << 33 | font.solidBlock, getX(), getY(), 0, s, s);
-//            font.drawGlyph(batch, (MathUtils.random.nextInt() | 0x7FL) << 33 | font.solidBlock, getX() + baseX, getY() + baseY, 0, s, s);
-//        }
         if (resetShader)
             batch.setShader(null);
     }

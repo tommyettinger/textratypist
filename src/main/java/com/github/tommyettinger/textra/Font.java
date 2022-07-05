@@ -2693,7 +2693,10 @@ public class Font implements Disposable {
         GlyphRegion tr = font.mapping.get((char) glyph);
         if (tr == null) return 0f;
         float color = NumberUtils.intBitsToFloat(((int) (batch.getColor().a * (glyph >>> 33 & 127)) << 25)
-                | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
+                | (int)(batch.getColor().r * (glyph >>> 56))
+                | (int)(batch.getColor().g * (glyph >>> 48 & 0xFF)) << 8
+                | (int)(batch.getColor().b * (glyph >>> 40 & 0xFF)) << 16);
+//                | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
 
         float scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
         float scaleX = font.scaleX * scale;
