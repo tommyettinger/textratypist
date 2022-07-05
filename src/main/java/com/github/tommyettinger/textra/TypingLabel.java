@@ -812,6 +812,8 @@ public class TypingLabel extends TextraLabel {
 
             baseX += sn * glyphs.height;
             baseY -= cs * glyphs.height;
+            if(glyphs.glyphs.size == 0)
+                continue;
 
             float x = baseX, y = baseY;
 
@@ -849,6 +851,14 @@ public class TypingLabel extends TextraLabel {
                     yChange += sn * amt;
                 } else {
                     kern = -1;
+                }
+                if(i == 0) {
+                    Font.GlyphRegion reg = font.mapping.get((char) glyph);
+                    if (reg != null && reg.offsetX < 0) {
+                        float ox = reg.offsetX * f.scaleX * ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                        xChange -= cs * ox;
+                        yChange -= sn * ox;
+                    }
                 }
                 single = f.drawGlyph(batch, glyph, x + xChange + offsets.get(o++), y + yChange + offsets.get(o++), rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++));
                 xChange += cs * single;
