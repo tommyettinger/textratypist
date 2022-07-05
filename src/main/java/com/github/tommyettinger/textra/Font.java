@@ -3813,9 +3813,10 @@ public class Font implements Disposable {
                     GlyphRegion tr = font.mapping.get((char) glyph);
                     if (tr == null) continue;
                     float changedW = tr.xAdvance * scaleX;
-//                    if (!font.isMono) {
-//                        changedW += tr.offsetX * scaleX;
-//                    }
+                    if(i == 0){
+                        float ox = tr.offsetX * scaleX;
+                        if(ox < 0) changedW -= ox;
+                    }
                     if (!font.isMono && (glyph & SUPERSCRIPT) != 0L)
                         changedW *= 0.5f;
                     if (glyph >>> 32 == 0L) {
@@ -3884,9 +3885,11 @@ public class Font implements Disposable {
                     GlyphRegion tr = font.mapping.get((char) glyph);
                     if (tr == null) continue;
                     float changedW = tr.xAdvance * scaleX;
-//                    if (!font.isMono) {
-//                        changedW += tr.offsetX * scaleX;
-//                    }
+                    if(i == 0){
+                        float ox = tr.offsetX * scaleX;
+                        if(ox < 0) changedW -= ox;
+                    }
+
                     if (!font.isMono && (glyph & SUPERSCRIPT) != 0L)
                         changedW *= 0.5f;
                     if (glyph >>> 32 == 0L) {
