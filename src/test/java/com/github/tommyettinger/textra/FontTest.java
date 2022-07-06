@@ -45,7 +45,7 @@ public class FontTest extends ApplicationAdapter {
         Gdx.files.local("out/").mkdirs();
         int index = 0;
         for (Font font : fonts) {
-//        Font font = fnt = fonts[21]; {
+//        Font font = fnt = fonts[0]; {
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 //        font = new Font(new BitmapFont(Gdx.files.internal("OpenSans-standard.fnt")), Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f)
 //                .scale(0.5f, 0.5f).setTextureFilter();
