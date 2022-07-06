@@ -50,6 +50,44 @@ public final class KnownFonts implements LifecycleListener {
     private Font astarry;
 
     /**
+     * Returns a very large fixed-width Font already configured to use a square font with 45-degree angled sections,
+     * based on the typeface used on the Atari ST console. This font only supports ASCII, but it supports all of it.
+     * Caches the result for later calls. The font is "a-starry", based on "Atari ST (low-res)" by Damien Guard; it is
+     * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
+     * Ettinger, because he made changes in a-starry) if you use it.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/Z1RYdeJ.png">Image link</a> (uses width=8, height=8)
+     * <br>
+     * This also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
+     * multiples of 8. Preview: <a href="https://i.imgur.com/fgGImSb.png">Image link</a> (uses width=8, height=16)
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.fnt">AStarry-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.png">AStarry-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-license.txt">AStarry-license.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font A Starry
+     */
+    public static Font getAStarry() {
+        initialize();
+        if (instance.astarry == null) {
+            try {
+                instance.astarry = new Font("AStarry-standard.fnt", "AStarry-standard.png", STANDARD, 0, 0, 0, 0, false)
+                        .scaleTo(8, 8).setTextureFilter().setName("A Starry");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.astarry != null)
+            return new Font(instance.astarry);
+        throw new RuntimeException("Assets for getAStarry() not found.");
+    }
+
+    private Font astarryMSDF;
+
+    /**
      * Returns a Font already configured to use a square font with 45-degree angled sections, based on the
      * typeface used on the Atari ST console, that should scale cleanly to many sizes. This font only supports ASCII,
      * but it supports all of it. Caches the result for later calls. The font is "a-starry", based on "Atari ST
@@ -69,19 +107,19 @@ public final class KnownFonts implements LifecycleListener {
      *
      * @return the Font object that can represent many sizes of the font A Starry using MSDF
      */
-    public static Font getAStarry() {
+    public static Font getAStarryMSDF() {
         initialize();
-        if (instance.astarry == null) {
+        if (instance.astarryMSDF == null) {
             try {
-                instance.astarry = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, 0, 0, 0, false)
+                instance.astarryMSDF = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, 0, 0, 0, false)
                         .scaleTo(10, 10).setCrispness(2f).setName("A Starry (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        if (instance.astarry != null)
-            return new Font(instance.astarry);
-        throw new RuntimeException("Assets for getAStarry() not found.");
+        if (instance.astarryMSDF != null)
+            return new Font(instance.astarryMSDF);
+        throw new RuntimeException("Assets for getAStarryMSDF() not found.");
     }
 
     private Font bitter;
@@ -958,7 +996,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all Font instances this knows
      */
     public static Font[] getAll() {
-        return new Font[]{getAStarry(), getBitter(), getCanada(), getCascadiaMono(), getCozette(), getDejaVuSansMono(), getGentium(),
+        return new Font[]{getAStarry(), getAStarryMSDF(), getBitter(), getCanada(), getCascadiaMono(), getCozette(), getDejaVuSansMono(), getGentium(),
                 getGentiumSDF(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(),
                 getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getLibertinusSerif(), getOpenSans(), getOxanium(), getRobotoCondensed(), getYanoneKaffeesatz()};
@@ -972,7 +1010,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all non-distance-field Font instances this knows
      */
     public static Font[] getAllStandard() {
-        return new Font[]{getBitter(), getCanada(), getCozette(), getGentium(), getIBM8x16(), getInconsolata(), getIosevka(),
+        return new Font[]{getAStarry(), getBitter(), getCanada(), getCozette(), getGentium(), getIBM8x16(), getInconsolata(), getIosevka(),
                 getIosevkaSlab(), getKingthingsFoundation(), getOpenSans(), getOxanium(), getRobotoCondensed(),
                 getYanoneKaffeesatz()};
     }
@@ -995,6 +1033,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li>Iosevka</li>
      *     <li>Medieval</li>
      *     <li>Future</li>
+     *     <li>Console</li>
      * </ul>
      * You can also always use the full name of one of these fonts, which can be obtained using {@link Font#getName()}.
      * This will only function at all if all the assets (for every known standard Font) are present and load-able.
@@ -1005,10 +1044,10 @@ public final class KnownFonts implements LifecycleListener {
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{"Serif", "Sans", "Mono", "Condensed", "Humanist",
                         "Retro", "Slab", "Bitter", "Canada", "Cozette", "Iosevka",
-                        "Medieval", "Future"},
+                        "Medieval", "Future", "Console"},
                 new Font[]{getGentium(), getOpenSans(), getInconsolata(), getRobotoCondensed(), getYanoneKaffeesatz(),
                         getIBM8x16(), getIosevkaSlab(), getBitter(), getCanada(), getCozette(), getIosevka(),
-                        getKingthingsFoundation(), getOxanium()});
+                        getKingthingsFoundation(), getOxanium(), getAStarry()});
         return family.connected[0].setFamily(family);
     }
 
@@ -1029,7 +1068,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all MSDF Font instances this knows
      */
     public static Font[] getAllMSDF() {
-        return new Font[]{getAStarry(), getCascadiaMono(), getDejaVuSansMono(), getInconsolataMSDF(), getIosevkaMSDF(),
+        return new Font[]{getAStarryMSDF(), getCascadiaMono(), getDejaVuSansMono(), getInconsolataMSDF(), getIosevkaMSDF(),
                 getIosevkaSlabMSDF(), getLibertinusSerif()};
     }
 
@@ -1039,6 +1078,10 @@ public final class KnownFonts implements LifecycleListener {
         if (astarry != null) {
             astarry.dispose();
             astarry = null;
+        }
+        if (astarryMSDF != null) {
+            astarryMSDF.dispose();
+            astarryMSDF = null;
         }
         if (bitter != null) {
             bitter.dispose();
