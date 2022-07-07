@@ -21,10 +21,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.DistanceFieldFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
@@ -121,6 +118,17 @@ public class Font implements Disposable {
          */
         public GlyphRegion(TextureRegion textureRegion) {
             this(textureRegion, 0f, 0f, textureRegion.getRegionWidth());
+        }
+
+        /**
+         * Creates a GlyphRegion from a parent TextureAtlas.AtlasRegion (almost always from an atlas). The resulting
+         * GlyphRegion will have the same offsetX and offsetY as atlasRegion, and xAdvance equal to
+         * {@link com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion#originalWidth}.
+         *
+         * @param atlasRegion a TextureAtlas.AtlasRegion to draw for this GlyphRegion, typically from a TextureAtlas
+         */
+        public GlyphRegion(TextureAtlas.AtlasRegion atlasRegion) {
+            this(atlasRegion, atlasRegion.offsetX, atlasRegion.offsetY, atlasRegion.originalWidth);
         }
 
         /**
@@ -364,6 +372,12 @@ public class Font implements Disposable {
      * {@link GlyphRegion#GlyphRegion(TextureRegion, int, int, int, int)}), though they must map to a char.
      */
     public IntMap<GlyphRegion> mapping;
+
+    /**
+     * Optional; maps the names of TextureRegions to the indices they use in {@link #mapping}, and usually assigned by
+     * {@link #addAtlas(TextureAtlas)}.
+     */
+    public ObjectIntMap<String> nameLookup;
     /**
      * Which GlyphRegion to display if a char isn't found in {@link #mapping}. May be null to show a space by default.
      */
@@ -1834,7 +1848,12 @@ public class Font implements Disposable {
      * resulting GlyphRegion should use. The most common way to call this uses a String containing one emoji character,
      * because those are relatively easy to enter with a clear result. Because most emoji are technically more than one
      * Java {@code char}, we only use the last char in {@code character}, which usually is a value that only overlaps
-     * with a private-use area character (and most of those are unused).
+     * with a private-use area character (and most of those are unused). Some emoji glyphs require more characters than
+     * normal, such as any with human skin tones. These won't be handled well... You may want to use the
+     * {@code [+scientist, dark skin tone]} or {@code [+🧑🏿‍🔬]} syntax for multipart emoji when you actually have an
+     * atlas full of emoji to draw from.
+     * <a href="https://github.com/tommyettinger/twemoji-atlas/tree/main/atlas-mid">Like this atlas.</a>
+     *
      * @param character a String containing at least one character; only the last char (not codepoint) will be used
      * @param region the TextureRegion to associate with the given character
      * @param offsetX the x offset to position the drawn TextureRegion at, with positive offset moving right
@@ -1855,7 +1874,10 @@ public class Font implements Disposable {
      * this uses a String containing one emoji character, because those are relatively easy to enter with a clear
      * result. Because most emoji are technically more than one Java {@code char}, we only use the last char in
      * {@code character}, which usually is a value that only overlaps with a private-use area character (and most of
-     * those are unused).
+     * those are unused). Some emoji glyphs require more characters than normal, such as any with human skin tones.
+     * These won't be handled well... You may want to use the {@code [+scientist, dark skin tone]} or {@code [+🧑🏿‍🔬]}
+     * syntax for multipart emoji when you actually have an atlas full of emoji to draw from.
+     * <a href="https://github.com/tommyettinger/twemoji-atlas/tree/main/atlas-mid">Like this atlas.</a>
      * @param character a String containing at least one character; only the last char (not codepoint) will be used
      * @param region the TextureRegion to associate with the given character
      * @return this Font, for chaining
@@ -1863,6 +1885,27 @@ public class Font implements Disposable {
     public Font addImage(String character, TextureRegion region) {
         if(character != null && !character.isEmpty())
             mapping.put(character.charAt(character.length() - 1), new GlyphRegion(region));
+        return this;
+    }
+
+    /**
+     * Adds all items in {@code atlas} to the private use area of {@link #mapping}, and stores their names, so they can
+     * be looked up with {@code [+saxophone]} syntax.
+     * <a href="https://github.com/tommyettinger/twemoji-atlas/tree/main/atlas-mid">Here's a possible atlas.</a>
+     * @param atlas a TextureAtlas that shouldn't have more than 6144 names; all of it will be used
+     * @return this Font, for chaining
+     */
+    public Font addAtlas(TextureAtlas atlas) {
+        Array<TextureAtlas.AtlasRegion> regions = atlas.getRegions();
+        if(nameLookup == null)
+            nameLookup = new ObjectIntMap<>(regions.size, 0.75f);
+        else
+            nameLookup.ensureCapacity(regions.size);
+        for (int i = 0xE000, a = 0; i < 0xF800 && a < regions.size; i++, a++) {
+            TextureAtlas.AtlasRegion region = regions.get(a);
+            mapping.put(i, new GlyphRegion(region));
+            nameLookup.put(region.name, i);
+        }
         return this;
     }
 
