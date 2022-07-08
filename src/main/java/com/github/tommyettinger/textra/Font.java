@@ -3244,13 +3244,19 @@ public class Font implements Disposable {
                             // here, the max lines have been reached, and an ellipsis may need to be added
                             // to the last line.
                             String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
-                            int j = earlier.glyphs.size - 1 - ellipsis.length();
-                            if (j >= 0) {
-                                long currE, curr;
-                                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
+                            for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
+                                long curr;
+                                // remove a full word or other group of non-space characters.
+                                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0)) {
+                                    --j;
+                                }
+                                // remove the remaining space characters.
+                                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
                                     --j;
                                 }
                                 float change = 0f, changeNext = 0f;
+                                long currE;
                                 if (font.kerning == null) {
                                     for (int k = j + 1, e = 0; e < ellipsis.length(); k++, e++) {
                                         if (k < earlier.glyphs.size) {
@@ -3290,7 +3296,6 @@ public class Font implements Disposable {
                             }
                         } else {
                             for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
-
                                 long curr;
                                 if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
                                         Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
@@ -3300,33 +3305,73 @@ public class Font implements Disposable {
                                         ++leading;
                                         --j;
                                     }
+                                    glyphBuffer.clear();
                                     float change = 0f, changeNext = 0f;
                                     if (font.kerning == null) {
+
+                                        // NO KERNING
+
+                                        boolean curly = false;
                                         for (int k = j + 1; k < earlier.glyphs.size; k++) {
-                                            float adv = xAdvance(font, scaleX, curr = earlier.glyphs.get(k));
+                                            curr = earlier.glyphs.get(k);
+                                            if (curly) {
+                                                glyphBuffer.add(curr);
+                                                if ((char) curr == '{') {
+                                                    curly = false;
+                                                } else if ((char) curr == '}') {
+                                                    curly = false;
+                                                    continue;
+                                                } else continue;
+                                            }
+                                            if ((char) curr == '{') {
+                                                glyphBuffer.add(curr);
+                                                curly = true;
+                                                continue;
+                                            }
+
+                                            float adv = xAdvance(font, scaleX, curr);
                                             change += adv;
                                             if (--leading < 0) {
-                                                appendTo.add(curr);
+                                                glyphBuffer.add(curr);
                                                 changeNext += adv;
                                                 if(appendTo.peekLine().glyphs.size == 1){
                                                     float ox = font.mapping.get((char)curr, font.defaultValue).offsetX
-                                                            * scaleX;
+                                                            * scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                                                     if(ox < 0) changeNext -= ox;
                                                     initial = false;
                                                 }
+
                                             }
                                         }
                                     } else {
-                                        int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF), k3 = -1;
+
+                                        // YES KERNING
+
+                                        int k2 = (char) earlier.glyphs.get(j), k3 = -1;
+                                        boolean curly = false;
                                         for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                             curr = earlier.glyphs.get(k);
+                                            if (curly) {
+                                                glyphBuffer.add(curr);
+                                                if ((char) curr == '{') {
+                                                    curly = false;
+                                                } else if ((char) curr == '}') {
+                                                    curly = false;
+                                                    continue;
+                                                } else continue;
+                                            }
+                                            if ((char) curr == '{') {
+                                                glyphBuffer.add(curr);
+                                                curly = true;
+                                                continue;
+                                            }
                                             k2 = k2 << 16 | (char) curr;
                                             float adv = xAdvance(font, scaleX, curr);
                                             change += adv + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                             if (--leading < 0) {
                                                 k3 = k3 << 16 | (char) curr;
                                                 changeNext += adv + font.kerning.get(k3, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
-                                                appendTo.add(curr);
+                                                glyphBuffer.add(curr);
                                                 if(appendTo.peekLine().glyphs.size == 1){
                                                     float ox = font.mapping.get((char)curr, font.defaultValue).offsetX
                                                             * scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
@@ -3336,10 +3381,13 @@ public class Font implements Disposable {
                                             }
                                         }
                                     }
-                                    earlier.glyphs.truncate(j + 2);
-                                    earlier.glyphs.set(j + 1, '\n');
+                                    if (earlier.width - change > targetWidth)
+                                        continue;
+                                    earlier.glyphs.truncate(j + 1);
+                                    earlier.glyphs.add('\n');
                                     later.width = changeNext;
                                     earlier.width -= change;
+                                    later.glyphs.addAll(glyphBuffer);
                                     later.height = Math.max(later.height, font.cellHeight * (scale + 1) * 0.25f);
                                     break;
                                 }
