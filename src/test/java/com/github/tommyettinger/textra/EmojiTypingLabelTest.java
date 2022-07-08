@@ -118,7 +118,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //        font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
 //        font.scale(2, 2);
         TextureAtlas emoji = new TextureAtlas(Gdx.files.internal("Twemoji.atlas"));
-        Font font = KnownFonts.getYanoneKaffeesatz().addAtlas(emoji).scaleTo(30, 35);
+        Font font = KnownFonts.getYanoneKaffeesatz().addAtlas(emoji);
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
         // Create label
@@ -137,8 +137,10 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 
 //                "[#8fc60cff][@OpenSans][%75]{spin}Lorem ipsum dolor sit amet, consectetur adipiscing elit.[]",
 
-                "I love TextraTypist! [+saxophone][+😍][+🎷]\n" +
-                "But U. Nitty doesn't. [+skull][+🤡]",
+                "I {HEARTBEAT}love{ENDHEARTBEAT} TextraTypist! [+saxophone][+😍][+🎷]\n"
+                + "But... U. Nitty doesn't."
+                + " [#BB1100][+skull][#55AA22][+🤡]"
+                ,
 //
 //                "I love TextraTypist! 😀\n" +
 //                "But U. Nitty doesn't. 💀",
