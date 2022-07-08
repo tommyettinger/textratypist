@@ -1903,7 +1903,8 @@ public class Font implements Disposable {
             nameLookup.ensureCapacity(regions.size);
         for (int i = 0xE000, a = 0; i < 0xF800 && a < regions.size; i++, a++) {
             TextureAtlas.AtlasRegion region = regions.get(a);
-            mapping.put(i, new GlyphRegion(region));
+            GlyphRegion gr = new GlyphRegion(region);
+            mapping.put(i, gr);
             nameLookup.put(region.name, i);
         }
         return this;
@@ -3211,6 +3212,7 @@ public class Font implements Disposable {
                         int len = text.indexOf(']', i) - i;
                         if (len >= 0) {
                             c = nameLookup.get(safeSubstring(text, i + 1, i + len), ' ');
+                            i += len;
                         }
                     }
                     if (font.kerning == null) {
