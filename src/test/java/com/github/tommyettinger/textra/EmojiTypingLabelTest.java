@@ -113,10 +113,12 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
     }
 
     public TypingLabel createTypingLabel() {
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("dawnlike/Dawnlike.atlas"), Gdx.files.internal("dawnlike"));
-        Font font = new Font("dawnlike/PlainAndSimplePlus-standard.fnt", atlas.findRegion("PlainAndSimplePlus-standard"), 0, 0, 2, 2);
-        font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
-        font.scale(2, 2);
+//        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("dawnlike/Dawnlike.atlas"), Gdx.files.internal("dawnlike"));
+//        Font font = new Font("dawnlike/PlainAndSimplePlus-standard.fnt", atlas.findRegion("PlainAndSimplePlus-standard"), 0, 0, 2, 2);
+//        font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
+//        font.scale(2, 2);
+        TextureAtlas emoji = new TextureAtlas(Gdx.files.internal("Twemoji.atlas"));
+        Font font = KnownFonts.getYanoneKaffeesatz().addAtlas(emoji).scaleTo(30, 35);
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
         // Create label
@@ -135,8 +137,11 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 
 //                "[#8fc60cff][@OpenSans][%75]{spin}Lorem ipsum dolor sit amet, consectetur adipiscing elit.[]",
 
-                "I love TextraTypist! 😀\n" +
-                "But U. Nitty doesn't. 💀",
+                "I love TextraTypist! [+😀]\n" +
+                "But U. Nitty doesn't. [+skull]",
+//
+//                "I love TextraTypist! 😀\n" +
+//                "But U. Nitty doesn't. 💀",
 
 //                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
 //                "she's {WIND=3;2;0.2;0.2}blowin' on down{ENDWIND}, " +
@@ -194,9 +199,9 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         Gdx.gl.glClearColor(0.25f, 0.3f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float now = (TimeUtils.millis() & 0xFFFFFFL) / 9f;
-        label.setColor(MathUtils.cosDeg(now) * 0.5f + 0.5f,
-                MathUtils.cosDeg(now + 120f) * 0.5f + 0.5f,
-                MathUtils.cosDeg(now + 240f) * 0.5f + 0.5f, MathUtils.cosDeg(now * 3f) * 0.5f + 0.5f);
+//        label.setColor(MathUtils.cosDeg(now) * 0.5f + 0.5f,
+//                MathUtils.cosDeg(now + 120f) * 0.5f + 0.5f,
+//                MathUtils.cosDeg(now + 240f) * 0.5f + 0.5f, MathUtils.cosDeg(now * 3f) * 0.5f + 0.5f);
         stage.draw();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
