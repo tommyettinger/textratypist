@@ -128,7 +128,7 @@ public class Font implements Disposable {
          * @param atlasRegion a TextureAtlas.AtlasRegion to draw for this GlyphRegion, typically from a TextureAtlas
          */
         public GlyphRegion(TextureAtlas.AtlasRegion atlasRegion) {
-            this(atlasRegion, atlasRegion.offsetX, atlasRegion.offsetY, atlasRegion.originalWidth);
+            this(atlasRegion, atlasRegion.offsetX, atlasRegion.offsetY, atlasRegion.originalHeight);
         }
 
         /**
@@ -2733,8 +2733,8 @@ public class Font implements Disposable {
         Font font = null;
         if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
         if (font == null) font = this;
-
-        GlyphRegion tr = font.mapping.get((char) glyph);
+        char c;
+        GlyphRegion tr = font.mapping.get(c = (char) glyph);
         if (tr == null) return 0f;
         float color = NumberUtils.intBitsToFloat(((int) (batch.getColor().a * (glyph >>> 33 & 127)) << 25)
                 | (int)(batch.getColor().r * (glyph >>> 56))
@@ -2743,14 +2743,21 @@ public class Font implements Disposable {
 //                | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
 
         float scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
-        float scaleX = font.scaleX * scale;
-        float scaleY = font.scaleY * scale;
+        float scaleX;
+        float scaleY;
+        if(c >= 0xE000 && c < 0xF800){
+            scaleX = scaleY = scale * font.cellHeight / (tr.xAdvance*1.25f);
+        }
+        else {
+            scaleX = font.scaleX * scale;
+            scaleY = font.scaleY * scale;
+        }
         float centerX = font.cellWidth * scaleX * 0.5f;
         float centerY = font.cellHeight * scaleY * 0.5f;
 
-        // this indicates a box drawing character that we draw ourselves.
+        // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
         if (tr.offsetX != tr.offsetX) {
-            float[] boxes = BlockUtils.BOX_DRAWING[(char) glyph - 0x2500];
+            float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
                     x - cellWidth * (sizingX - 1.0f) + centerX, y - cellHeight * (sizingY - 1.0f) + centerY,
                     cellWidth * sizingX, cellHeight * sizingY, rotation);

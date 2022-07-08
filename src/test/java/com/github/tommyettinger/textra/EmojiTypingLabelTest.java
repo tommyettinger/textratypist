@@ -137,7 +137,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 
 //                "[#8fc60cff][@OpenSans][%75]{spin}Lorem ipsum dolor sit amet, consectetur adipiscing elit.[]",
 
-                "I love TextraTypist! [+😀]\n" +
+                "I love TextraTypist! [+saxophone][+😍][+🎷]\n" +
                 "But U. Nitty doesn't. [+skull]",
 //
 //                "I love TextraTypist! 😀\n" +
