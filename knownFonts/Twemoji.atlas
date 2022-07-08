@@ -1,5 +1,6 @@
 Twemoji.png
 size:2048,2048
+filter:Linear,Linear
 repeat:none
 2nd place medal
 bounds:172,1946,32,32
