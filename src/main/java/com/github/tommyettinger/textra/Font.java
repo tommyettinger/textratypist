@@ -3098,8 +3098,8 @@ public class Font implements Disposable {
             } else if (text.charAt(i) == '[') {
 
                 //// SQUARE BRACKET MARKUP
-
-                if (++i < n && (c = text.charAt(i)) != '[') {
+                c = '[';
+                if (++i < n && (c = text.charAt(i)) != '[' && c != '+') {
                     if (c == ']') {
                         color = baseColor;
                         current = color & ~SUPERSCRIPT;
@@ -3207,27 +3207,36 @@ public class Font implements Disposable {
 
                 else {
                     float w;
+                    if(c == '+' && nameLookup != null) {
+                        int len = text.indexOf(']', i) - i;
+                        if (len >= 0) {
+                            c = nameLookup.get(safeSubstring(text, i + 1, i + len), ' ');
+                        }
+                    }
                     if (font.kerning == null) {
-                        w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | '['));
+                        w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | c));
                         if(initial){
-                            float ox = font.mapping.get('[', font.defaultValue).offsetX
+                            float ox = font.mapping.get(c, font.defaultValue).offsetX
                                     * scaleX;
                             if(ox < 0) w = (appendTo.peekLine().width -= ox);
                             initial = false;
                         }
 
                     } else {
-                        kern = kern << 16 | '[';
-                        w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | '[') + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63)));
+                        kern = kern << 16 | c;
+                        w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | c) + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63)));
                         if(initial){
-                            float ox = font.mapping.get('[', font.defaultValue).offsetX
+                            float ox = font.mapping.get(c, font.defaultValue).offsetX
                                     * scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                             if(ox < 0) w = (appendTo.peekLine().width -= ox);
                             initial = false;
                         }
                     }
+                    if(c == '[')
+                        appendTo.add(current | 2);
+                    else
+                        appendTo.add(current | c);
 
-                    appendTo.add(current | 2);
                     if (targetWidth > 0 && w > targetWidth) {
                         Line earlier = appendTo.peekLine();
                         Line later = appendTo.pushLine();
