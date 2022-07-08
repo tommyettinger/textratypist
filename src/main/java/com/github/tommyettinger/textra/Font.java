@@ -1901,11 +1901,19 @@ public class Font implements Disposable {
             nameLookup = new ObjectIntMap<>(regions.size, 0.75f);
         else
             nameLookup.ensureCapacity(regions.size);
-        for (int i = 0xE000, a = 0; i < 0xF800 && a < regions.size; i++, a++) {
+        TextureAtlas.AtlasRegion previous = regions.first();
+        mapping.put(0xE000, new GlyphRegion(previous));
+        for (int i = 0xE000, a = 1; i < 0xF800 && a < regions.size; a++) {
             TextureAtlas.AtlasRegion region = regions.get(a);
-            GlyphRegion gr = new GlyphRegion(region);
-            mapping.put(i, gr);
-            nameLookup.put(region.name, i);
+            if (previous.getRegionX() == region.getRegionX() && previous.getRegionY() == region.getRegionY()) {
+                nameLookup.put(region.name, i);
+            } else {
+                ++i;
+                previous = region;
+                GlyphRegion gr = new GlyphRegion(region);
+                mapping.put(i, gr);
+                nameLookup.put(region.name, i);
+            }
         }
         return this;
     }
