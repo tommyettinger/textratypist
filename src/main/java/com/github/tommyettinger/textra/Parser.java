@@ -32,7 +32,7 @@ import regexodus.Replacer;
  */
 class Parser {
     private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("((?<!\\[)\\[[^\\[\\]]*(\\]|$))");
-    private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]]+)(\\]|$)"), "{STYLE=$1}");
+    private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\]|$)"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{6,8}");
 
     private static final String[] BOOLEAN_TRUE = {"true", "yes", "t", "y", "on", "1"};
