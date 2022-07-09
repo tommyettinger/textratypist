@@ -70,10 +70,11 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		final Font font =
 //				new Font(new BitmapFont()).useIntegerPositions(false);
 //				KnownFonts.getCozette();
-				new Font("RaeleusScriptius-standard.fnt");
+				new Font("RaeleusScriptius-standard.fnt").adjustLineHeight(1.1f);
 				//new Font(skin.get(LabelStyle.class).font)
 //				.adjustLineHeight(0.75f)
 //				.useIntegerPositions(true);
+		KnownFonts.addEmoji(font);
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
@@ -86,7 +87,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
 		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-		Button buttonMulti = new TextraButton("Multi\n[%100]Line[%]\nToggle", skin, "toggle", font);
+		Button buttonMulti = new TextraButton("Multi\n[%100]Line[+🤯][+🤯][+🤯][+🤯][+🤯][+🤯][+🤯][%]\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
@@ -249,7 +250,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		ShaderProgram.prependFragmentCode = "#version 110\n";
 //		config.enableGLDebugOutput(true, System.out);
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
-		config.useVsync(false);
+		config.useVsync(true);
 		config.setForegroundFPS(0);
 		new Lwjgl3Application(new TextraShadeUITest(), config);
 	}
