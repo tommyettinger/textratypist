@@ -11,7 +11,7 @@ What does this look like? A little something like this...
 
 Or perhaps like this...
 
-![Animated preview](images/preview.gif)
+![Animated preview](https://i.imgur.com/c2BIAno.gif)
 
 ## It's got labels!
 
@@ -30,7 +30,7 @@ between two colors, or go across a whole rainbow. Lots of options; lots of fun. 
 typing-label, but there have been some changes. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
 for more information.
 
-As of 0.5.5, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
+As of 0.6.0, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
 and Rotate are all new to TextraTypist (not in typing-label). You can see usage instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
 make use of the smooth scaling and rotation options that effects can use starting in TextraTypist 0.5.1 .
@@ -70,6 +70,10 @@ square brackets like `[*]`, or you can use `{STYLE=BOLD}` to do the same thing. 
     `{COLOR=Lighter Orange-Red}` (which would need that color to be defined).
     - One way colors such as `Lighter Orange-Red` can be defined is done in [SquidSquad](https://github.com/yellowstonegames/SquidSquad),
       which defines its own `ColorLookup`.
+- `[+region name]`, where region name is the name of a TextureRegion from a registered TextureAtlas, won't change the 
+  style, but will produce that TextureRegion in-line with the text.
+  - This is commonly used with `KnownFonts.addEmoji()` to add the 3000+ Twemoji icons to a Font.
+    - If you use Twemoji, the phrasees `[+saxophone]` and `[+🎷]` will each show a saxophone icon.
 
 ## But wait, there's fonts!
 
@@ -91,6 +95,9 @@ types isn't amazing, but it should be a good starting point. One nice new thing 
 between any of those 13 fonts using the `[@Medieval]` syntax (where Medieval is one of the names it knows, in this case
 for "KingThings Foundation"). All of these fonts work without a distance field effect, so they won't look as good at
 very large sizes, but are compatible with each other.
+
+The Twemoji icons are also present in an atlas of over-3000 32x32 images; `KnownFonts.addEmoji()` can register them with
+a Font so the `[+name]` syntax mentioned above can draw emoji inline.
 
 The license files for each font are included in the same folder, in `knownFonts` here. All fonts provided here were
 checked to ensure their licenses permit commercial use without fees, and all do. Most require attribution; check the
@@ -132,7 +139,7 @@ for some usage. A counterpart to `TextArea` is planned.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.5.5"
+implementation "com.github.tommyettinger:textratypist:0.6.0"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
@@ -141,7 +148,7 @@ was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.5.5:sources"
+implementation "com.github.tommyettinger:textratypist:0.6.0:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
@@ -166,6 +173,9 @@ as-is, this Apache-licensed project is fully compliant with MIT. The full MIT li
 `typing-label.LICENSE`, and the Apache 2 license for this project is in the file `LICENSE`. Apache license headers are
 also present in all library source files here. The Apache license does not typically apply to non-code resources in the
 `src/test/resources` folder; individual fonts have their own licenses stored in that directory.
+
+Twemoji isn't a font, so it might be best to mention it separately. It's licensed under CC-BY 4.0, and requires
+attribution to Twitter if used.
 
 The logo was made by Raymond "raeleus" Buckley and contributed to this project. It can be used freely for any purpose,
 but I request that it only be used to refer to this project unless substantially modified.
