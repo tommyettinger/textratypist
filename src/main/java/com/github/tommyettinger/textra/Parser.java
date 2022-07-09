@@ -42,7 +42,6 @@ class Parser {
     private static Pattern PATTERN_TOKEN_STRIP;
     private static String RESET_REPLACEMENT;
 
-    static ColorLookup lookup = ColorLookup.GdxColorLookup.INSTANCE;
 
     static String preprocess(CharSequence text) {
         return MARKUP_TO_TAG.replace(text).replace("[]", "{RESET}");
