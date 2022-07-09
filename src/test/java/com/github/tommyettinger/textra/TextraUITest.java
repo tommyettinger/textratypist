@@ -69,6 +69,10 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 //				new Font(skin.get(LabelStyle.class).font)
 //				.adjustLineHeight(0.75f);//.useIntegerPositions(true);
 
+		for(Font f : font.family.connected) {
+			if(f != null)
+				KnownFonts.addEmoji(f);
+		}
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
@@ -92,7 +96,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 
 		t.layout();
 
-		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin, font);
+		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering[+saxophone][+clown face][+saxophone]", skin, font);
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
