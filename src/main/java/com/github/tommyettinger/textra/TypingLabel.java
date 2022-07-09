@@ -175,7 +175,6 @@ public class TypingLabel extends TextraLabel {
      * @see #restart(String)
      */
     protected void setText(String newText, boolean modifyOriginalText, boolean restart) {
-//        newText = Parser.preprocess(newText);
         final boolean hasEnded = this.hasEnded();
         float actualWidth = layout.getWidth();
         workingLayout.setTargetWidth(actualWidth);
@@ -187,9 +186,7 @@ public class TypingLabel extends TextraLabel {
 
         if (modifyOriginalText) saveOriginalText(newText);
         if (restart) {
-//            layout.setTargetWidth(Float.MAX_VALUE);
             this.restart();
-//            layout.setTargetWidth(actualWidth);
         }
         if (hasEnded) {
             this.skipToTheEnd(true, false);
@@ -676,8 +673,9 @@ public class TypingLabel extends TextraLabel {
     @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);
-        if (wrap)
+        if (wrap) {
             workingLayout.setTargetWidth(width);
+        }
     }
 
 //    @Override

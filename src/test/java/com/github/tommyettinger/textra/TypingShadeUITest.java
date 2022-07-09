@@ -65,6 +65,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		final Font font = new Font(skin.get(Label.LabelStyle.class).font)
 //				.adjustLineHeight(0.75f)
 				.useIntegerPositions(true);
+		KnownFonts.addEmoji(font);
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
@@ -77,7 +78,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
 		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
+		Button buttonMulti = new TextraButton("Multi\nLine[+🤯][+🤯][+🤯][+🤯][+🤯][+🤯][+🤯]\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
@@ -127,7 +128,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin, "title");
 		fpsLabel.setAlignment(Align.topLeft);
 		// configures an example of a TextField in password mode.
-		passwordLabel = new TypingLabel("Textfield in [~]secure[] password mode: ", skin, "title");
+		passwordLabel = new TypingLabel("Textfield in [~]secure[] password mode [+ninja][+ninja][+ninja]: ", skin, "title", font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
@@ -243,7 +244,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		config.setWindowedMode(640, 540);
 		config.disableAudio(true);
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
-		config.useVsync(false);
+		config.useVsync(true);
 		config.setForegroundFPS(0);
 		new Lwjgl3Application(new TypingShadeUITest(), config);
 	}

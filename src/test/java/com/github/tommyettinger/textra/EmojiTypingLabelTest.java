@@ -41,6 +41,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         float scale = 0.5f;
         skin.getFont("default-font").getData().setScale(scale);
         stage = new Stage(new ScreenViewport(), batch);
+        stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);
 
         final Table table = new Table();
@@ -136,6 +137,9 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 
 //                "[#8fc60cff][@OpenSans][%75]{spin}Lorem ipsum dolor sit amet, consectetur adipiscing elit.[]",
 
+//                "TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
+//                        + "But... {SICK}U. Nitty{ENDSICK} doesn't."
+//                        + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
                 "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
                 + "But... {SICK}U. Nitty{ENDSICK} doesn't."
                 + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
@@ -166,6 +170,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         // Make the label wrap to new lines, respecting the table's layout.
         label.wrap = true;
         label.layout.maxLines = 15;
+//        label.layout.setTargetWidth(label.layout.getWidth());
         label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth() - 100);
 
 //        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
