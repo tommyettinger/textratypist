@@ -53,7 +53,7 @@ public class GridTest extends ApplicationAdapter {
      * ints, and change can be between 0f (keep start) and 1f (only use end). This is a good way to reduce allocations
      * of temporary Colors.
      *
-     * @param s      the starting color as a packed intC
+     * @param s      the starting color as a packed int
      * @param e      the end/target color as a packed int
      * @param change how much to go from start toward end, as a float between 0 and 1; higher means closer to end
      * @return a packed RGBA8888 int that represents a color between start and end
