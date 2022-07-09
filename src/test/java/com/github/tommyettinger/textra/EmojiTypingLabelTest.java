@@ -117,8 +117,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //        Font font = new Font("dawnlike/PlainAndSimplePlus-standard.fnt", atlas.findRegion("PlainAndSimplePlus-standard"), 0, 0, 2, 2);
 //        font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
 //        font.scale(2, 2);
-        TextureAtlas emoji = new TextureAtlas(Gdx.files.internal("Twemoji.atlas"));
-        Font font = KnownFonts.getYanoneKaffeesatz().addAtlas(emoji);
+        Font font = KnownFonts.addEmoji(KnownFonts.getYanoneKaffeesatz());
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
         // Create label
