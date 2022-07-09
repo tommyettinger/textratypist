@@ -2239,8 +2239,11 @@ public class Font implements Disposable {
      * underline. Markup starts with {@code [}; the next non-letter character determines what that piece of markup
      * toggles. Markup this knows:
      * <ul>
-     *     <li>{@code [[} escapes a literal left bracket.</li>
      *     <li>{@code []} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code [[} escapes a literal left bracket, producing it without changing state.</li>
+     *     <li>{@code [+name]}, where name is the name of a TextureRegion from an atlas added to this Font with
+     *     {@link #addAtlas(TextureAtlas)}, produces the corresponding TextureRegion (scaled when drawn) without
+     *     changing state. If no atlas has been added, this emits a {@code +} character instead.</li>
      *     <li>{@code [*]} toggles bold mode.</li>
      *     <li>{@code [/]} toggles italic (technically, oblique) mode.</li>
      *     <li>{@code [^]} toggles superscript mode (and turns off subscript or midscript mode).</li>
@@ -2489,7 +2492,7 @@ public class Font implements Disposable {
     }
 
     /**
-     * Gets the distance to advance the cursor after drawing {@code glyph}, scaled by {@link #scaleX} as if drawing.
+     * Gets the distance to advance the cursor after drawing {@code glyph}, scaled by {@code scale} as if drawing.
      * This handles monospaced fonts correctly and ensures that for variable-width fonts, subscript, midscript, and
      * superscript halve the advance amount. This does not consider kerning, if the font has it. If the glyph is fully
      * transparent, this does not draw it at all, and treats its x advance as 0. This version of xAdvance does not
@@ -2507,7 +2510,6 @@ public class Font implements Disposable {
         if (tr == null) return 0f;
         float changedW = tr.xAdvance * scale;
         if (!font.isMono) {
-//            changedW += tr.offsetX * scale;
             if ((glyph & SUPERSCRIPT) != 0L) {
                 changedW *= 0.5f;
             }
@@ -2529,7 +2531,11 @@ public class Font implements Disposable {
         if (glyph >>> 32 == 0L) return 0;
         GlyphRegion tr = mapping.get((char) glyph);
         if (tr == null) return 0f;
-        float scale = scaleX * (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+        float scale;
+        if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
+            scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f * cellHeight / (tr.xAdvance*1.25f);
+        else
+            scale = scaleX * ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
         float changedW = tr.xAdvance * scale;
         if (!isMono) {
             changedW += tr.offsetX * scale;
@@ -2575,8 +2581,12 @@ public class Font implements Disposable {
             if (tr == null) continue;
             if (font.kerning != null) {
                 kern = kern << 16 | ch;
-                scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
-                scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
+                scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
+                    scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
+                }
+                else
+                    scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
                 amt = font.kerning.get(kern, 0) * scaleX;
                 float changedW = tr.xAdvance * scaleX;
                 if(initial){
@@ -2587,19 +2597,19 @@ public class Font implements Disposable {
                 }
                 drawn += changedW + amt;
             } else {
-                scale = (glyph + 0x400000L >>> 20 & 15) * 0.25f;
-                scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
-                float changedW = tr.xAdvance * scaleX;
-                if (font.isMono) {
-                    changedW += tr.offsetX * scaleX;
+                scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
+                    scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
                 }
+                else
+                    scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
+                float changedW = tr.xAdvance * scaleX;
                 if(initial){
                     float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
                             * scaleX;
                     if(ox < 0) changedW -= ox;
                     initial = false;
                 }
-
                 drawn += changedW;
             }
         }
@@ -2644,7 +2654,11 @@ public class Font implements Disposable {
             if (font.kerning != null) {
                 kern = kern << 16 | ch;
                 scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
-                scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
+                if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
+                    scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
+                }
+                else
+                    scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
                 line.height = Math.max(line.height, font.cellHeight * scale);
                 amt = font.kerning.get(kern, 0) * scaleX;
                 float changedW = tr.xAdvance * scaleX;
@@ -2658,7 +2672,11 @@ public class Font implements Disposable {
             } else {
                 scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
                 line.height = Math.max(line.height, font.cellHeight * scale);
-                scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
+                if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
+                    scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
+                }
+                else
+                    scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
                 float changedW = tr.xAdvance * scaleX;
                 if(initial){
                     float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
@@ -2995,8 +3013,11 @@ public class Font implements Disposable {
      * without bold, italic, superscript, subscript, strikethrough, or underline. Markup starts with {@code [}; the next
      * character determines what that piece of markup toggles. Markup this knows:
      * <ul>
-     *     <li>{@code [[} escapes a literal left bracket.</li>
      *     <li>{@code []} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code [[} escapes a literal left bracket, producing it without changing state.</li>
+     *     <li>{@code [+name]}, where name is the name of a TextureRegion from an atlas added to this Font with
+     *     {@link #addAtlas(TextureAtlas)}, produces the corresponding TextureRegion (scaled when drawn) without
+     *     changing state. If no atlas has been added, this emits a {@code +} character instead.</li>
      *     <li>{@code [*]} toggles bold mode.</li>
      *     <li>{@code [/]} toggles italic (technically, oblique) mode.</li>
      *     <li>{@code [^]} toggles superscript mode (and turns off subscript or midscript mode).</li>
@@ -3221,15 +3242,16 @@ public class Font implements Disposable {
                     i += len;
                 }
 
-                //// ESCAPED SQUARE BRACKET RENDERING
+                //// ESCAPED SQUARE BRACKET AND TEXTURE REGION RENDERING
 
                 else {
                     float w;
                     if(c == '+' && nameLookup != null) {
                         int len = text.indexOf(']', i) - i;
                         if (len >= 0) {
-                            c = nameLookup.get(safeSubstring(text, i + 1, i + len), ' ');
+                            c = nameLookup.get(safeSubstring(text, i + 1, i + len), '+');
                             i += len;
+                            scaleX = (scale + 1) * 0.25f * cellHeight / (font.mapping.get(c, font.defaultValue).xAdvance*1.25f);
                         }
                     }
                     if (font.kerning == null) {
@@ -3919,7 +3941,11 @@ public class Font implements Disposable {
 
                     scale = (int) (glyph + 0x300000L >>> 20 & 15);
                     line.height = Math.max(line.height, font.cellHeight * (scale + 1) * 0.25f);
-                    scaleX = font.scaleX * (scale + 1) * 0.25f;
+                    if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
+                        scaleX = scale * font.cellHeight / (font.mapping.get((char)glyph, font.defaultValue).xAdvance*1.25f);
+                    else
+                        scaleX = font.scaleX * (scale + 1) * 0.25f;
+
                     if ((char) glyph == '\r') {
                         Line next;
                         next = changing.pushLine();
@@ -3989,7 +4015,10 @@ public class Font implements Disposable {
 
                     scale = (int) (glyph + 0x300000L >>> 20 & 15);
                     line.height = Math.max(line.height, font.cellHeight * (scale + 1) * 0.25f);
-                    scaleX = font.scaleX * (scale + 1) * 0.25f;
+                    if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
+                        scaleX = scale * font.cellHeight / (font.mapping.get((char)glyph, font.defaultValue).xAdvance*1.25f);
+                    else
+                        scaleX = font.scaleX * (scale + 1) * 0.25f;
                     kern = kern << 16 | (int) (glyph & 0xFFFF);
                     amt = font.kerning.get(kern, 0) * scaleX;
                     if ((char) glyph == '\r') {
