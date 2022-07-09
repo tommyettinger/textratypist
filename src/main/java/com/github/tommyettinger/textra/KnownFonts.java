@@ -18,6 +18,8 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.LifecycleListener;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
 
@@ -979,6 +981,47 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getYanoneKaffeesatz() not found.");
     }
 
+    private TextureAtlas twemoji;
+
+    /**
+     * Takes a Font and adds the Twemoji icon set to it, making the glyphs available using {@code [+name]} syntax.
+     * You can use the name of an emoji, such as {@code [+clown face]}, or equivalently use the actual emoji, such as
+     * {@code [+🤡]}, with the latter preferred because the names can be unwieldy or hard to get right. This caches the
+     * Twemoji atlas for later calls. This tries to load the files "Twemoji.atlas" and "Twemoji.png" from the internal
+     * storage first, and if that fails, it tries to load them from local storage in the current working directory.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/Mw0fWA7.png">Image link</a> (uses the font {@link #getYanoneKaffeesatz()})
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Twemoji.atlas">Twemoji.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Twemoji.png">Twemoji.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Twemoji-License.txt">Twemoji-License.txt</a></li>
+     * </ul>
+     *
+     * @param changing a Font that will have over 3000 emoji added to it, with more aliases
+     * @return {@code changing}, after the emoji atlas has been added
+     */
+    public static Font addEmoji(Font changing) {
+        initialize();
+        if (instance.twemoji == null) {
+            try {
+                FileHandle atlas = Gdx.files.internal("Twemoji.atlas");
+                if (!atlas.exists() && Gdx.files.isLocalStorageAvailable()) atlas = Gdx.files.local("Twemoji.atlas");
+                if (Gdx.files.internal("Twemoji.png").exists())
+                    instance.twemoji = new TextureAtlas(atlas, Gdx.files.internal(""));
+                else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local("Twemoji.png").exists())
+                    instance.twemoji = new TextureAtlas(atlas, Gdx.files.local(""));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.twemoji != null) {
+            return changing.addAtlas(instance.twemoji);
+        }
+        throw new RuntimeException("Assets 'Twemoji.atlas' and 'Twemoji.png' not found.");
+    }
+
     @Override
     public void pause() {
 
@@ -1170,6 +1213,10 @@ public final class KnownFonts implements LifecycleListener {
         if (kaffeesatz != null) {
             kaffeesatz.dispose();
             kaffeesatz = null;
+        }
+        if(twemoji != null) {
+            twemoji.dispose();
+            twemoji = null;
         }
     }
 }

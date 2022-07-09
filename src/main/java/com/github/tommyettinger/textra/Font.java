@@ -913,6 +913,8 @@ public class Font implements Disposable {
             if (e.value == null) continue;
             mapping.put(e.key, new GlyphRegion(e.value));
         }
+        if(toCopy.nameLookup != null)
+            nameLookup = new ObjectIntMap<>(toCopy.nameLookup);
         defaultValue = toCopy.defaultValue;
         kerning = toCopy.kerning == null ? null : new IntIntMap(toCopy.kerning);
         solidBlock = toCopy.solidBlock;
