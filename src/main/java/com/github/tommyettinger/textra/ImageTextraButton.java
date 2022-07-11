@@ -105,10 +105,6 @@ public class ImageTextraButton extends Button {
         return new TextraLabel(text, style);
     }
 
-    protected TextraLabel newLabel(String text, Font font) {
-        return new TextraLabel(text, font);
-    }
-
     protected TextraLabel newLabel(String text, Font font, Color color) {
         return new TextraLabel(text, font, color);
     }

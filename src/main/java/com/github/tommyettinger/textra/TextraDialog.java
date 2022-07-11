@@ -96,6 +96,23 @@ public class TextraDialog extends TextraWindow {
         initialize();
     }
 
+    protected TextraLabel newLabel(String text, LabelStyle style) {
+        return new TextraLabel(text, style);
+    }
+
+    protected TextraLabel newLabel(String text, Font font, Color color) {
+        return new TextraLabel(text, font, color);
+    }
+
+    protected TypingLabel newTypingLabel(String text, LabelStyle style) {
+        return new TypingLabel(text, style);
+    }
+
+    protected TypingLabel newTypingLabel(String text, Font font, Color color) {
+        return new TypingLabel(text, font, color);
+    }
+
+
     private void initialize() {
         setModal(true);
 
@@ -157,7 +174,7 @@ public class TextraDialog extends TextraWindow {
     }
 
     /**
-     * Adds a label to the content table. The dialog must have been constructed with a skin to use this method.
+     * Adds a TextraLabel to the content table. The dialog must have been constructed with a skin to use this method.
      */
     public TextraDialog text(@Null String text) {
         if (skin == null)
@@ -166,30 +183,70 @@ public class TextraDialog extends TextraWindow {
     }
 
     /**
-     * Adds a label to the content table.
+     * Adds a TextraLabel to the content table.
      */
     public TextraDialog text(@Null String text, LabelStyle labelStyle) {
-        return text(new TextraLabel(text, labelStyle));
+        return text(newLabel(text, labelStyle));
     }
 
     /**
-     * Adds a label to the content table.
+     * Adds a TextraLabel to the content table.
      */
     public TextraDialog text(@Null String text, Font font) {
-        return text(new TextraLabel(text, font));
+        return text(newLabel(text, font, Color.WHITE));
     }
 
     /**
-     * Adds a label to the content table.
+     * Adds a TextraLabel to the content table.
      */
     public TextraDialog text(@Null String text, Font font, Color color) {
-        return color == null ? text(new TextraLabel(text, font)) : text(new TextraLabel(text, font, color));
+        return text(newLabel(text, font, color));
     }
 
     /**
-     * Adds the given Label to the content table
+     * Adds the given TextraLabel to the content table.
+     * @param label a non-null TextraLabel
      */
     public TextraDialog text(TextraLabel label) {
+        contentTable.add(label);
+        return this;
+    }
+
+    /**
+     * Adds a TypingLabel to the content table. The dialog must have been constructed with a skin to use this method.
+     */
+    public TextraDialog typing(@Null String text) {
+        if (skin == null)
+            throw new IllegalStateException("This method may only be used if the dialog was constructed with a Skin.");
+        return typing(text, skin.get(LabelStyle.class));
+    }
+
+    /**
+     * Adds a TypingLabel to the content table.
+     */
+    public TextraDialog typing(@Null String text, LabelStyle labelStyle) {
+        return typing(newTypingLabel(text, labelStyle));
+    }
+
+    /**
+     * Adds a TypingLabel to the content table.
+     */
+    public TextraDialog typing(@Null String text, Font font) {
+        return typing(newTypingLabel(text, font, Color.WHITE));
+    }
+
+    /**
+     * Adds a TypingLabel to the content table.
+     */
+    public TextraDialog typing(@Null String text, Font font, Color color) {
+        return typing(newTypingLabel(text, font, color));
+    }
+
+    /**
+     * Adds the given TypingLabel to the content table.
+     * @param label a non-null TypingLabel
+     */
+    public TextraDialog typing(TypingLabel label) {
         contentTable.add(label);
         return this;
     }
