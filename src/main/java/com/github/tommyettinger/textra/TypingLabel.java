@@ -176,9 +176,9 @@ public class TypingLabel extends TextraLabel {
      */
     protected void setText(String newText, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
+        font.markup(newText, layout.clear());
         float actualWidth = layout.getWidth();
         workingLayout.setTargetWidth(actualWidth);
-        font.markup(newText, layout.clear());
         font.markup(newText, workingLayout.clear());
 
         setWidth(actualWidth + (style != null && style.background != null ?
