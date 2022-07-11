@@ -39,8 +39,8 @@ public class FontTest extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
         colorNames = Colors.getColors().keys().toArray();
-//        Font[] fonts = {KnownFonts.getBitter()};
-        Font[] fonts = KnownFonts.getAll();
+        Font[] fonts = {KnownFonts.getHanazono()};
+//        Font[] fonts = KnownFonts.getAll();
         fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
         int index = 0;
