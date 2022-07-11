@@ -27,7 +27,7 @@ import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.Scaling;
 
 /**
- * A checkbox is a button that contains an image indicating the checked or unchecked state and a label.
+ * A checkbox is a button that contains an image indicating the checked or unchecked state and a {@link TextraLabel}.
  *
  * @author Nathan Sweet
  */

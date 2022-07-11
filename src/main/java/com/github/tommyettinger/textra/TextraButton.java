@@ -79,7 +79,7 @@ public class TextraButton extends Button {
     }
 
     protected TextraLabel newLabel(String text, Font font, Color color) {
-        return color == null ? new TextraLabel(text, font) : new TextraLabel(text, font, color);
+        return new TextraLabel(text, font, color);
     }
 
     public void setStyle(ButtonStyle style) {
@@ -170,7 +170,7 @@ public class TextraButton extends Button {
         label.setText(text);
     }
 
-    public CharSequence getText() {
+    public String getText() {
         return label.toString();
     }
 
