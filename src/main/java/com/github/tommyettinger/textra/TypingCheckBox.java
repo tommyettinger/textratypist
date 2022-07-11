@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+
 /**
  * A checkbox is a button that contains an image indicating the checked or unchecked state and a {@link TypingLabel}.
  *
@@ -52,12 +53,12 @@ public class TypingCheckBox extends TextraCheckBox {
     }
 
     @Override
-    protected TextraLabel newLabel(String text, Label.LabelStyle style) {
+    protected TypingLabel newLabel(String text, Label.LabelStyle style) {
         return new TypingLabel(text, style);
     }
 
     @Override
-    protected TextraLabel newLabel(String text, Font font, Color color) {
+    protected TypingLabel newLabel(String text, Font font, Color color) {
         return new TypingLabel(text, font, color);
     }
 }

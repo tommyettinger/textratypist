@@ -17,38 +17,40 @@
 package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+
 
 /**
- * A button with a child {@link TypingLabel} to display text.
+ * A button with a child {@link Image} and {@link TypingLabel}.
  *
  * @author Nathan Sweet
+ * @see ImageButton
+ * @see TypingButton
+ * @see Button
  */
-public class TypingButton extends TextraButton {
+public class ImageTypingButton extends ImageTextraButton {
 
-    public TypingButton(String text, Skin skin) {
+    public ImageTypingButton(String text, Skin skin) {
         super(text, skin);
     }
 
-    public TypingButton(String text, Skin skin, String styleName) {
+    public ImageTypingButton(String text, Skin skin, String styleName) {
         super(text, skin, styleName);
     }
 
-    public TypingButton(String text, TextButton.TextButtonStyle style) {
+    public ImageTypingButton(String text, ImageTextButton.ImageTextButtonStyle style) {
         super(text, style);
     }
 
-    public TypingButton(String text, Skin skin, Font replacementFont) {
+    public ImageTypingButton(String text, Skin skin, Font replacementFont) {
         super(text, skin, replacementFont);
     }
 
-    public TypingButton(String text, Skin skin, String styleName, Font replacementFont) {
+    public ImageTypingButton(String text, Skin skin, String styleName, Font replacementFont) {
         super(text, skin, styleName, replacementFont);
     }
 
-    public TypingButton(String text, TextButton.TextButtonStyle style, Font replacementFont) {
+    public ImageTypingButton(String text, ImageTextButton.ImageTextButtonStyle style, Font replacementFont) {
         super(text, style, replacementFont);
     }
 
