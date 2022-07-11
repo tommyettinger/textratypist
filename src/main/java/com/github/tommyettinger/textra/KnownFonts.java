@@ -1004,7 +1004,7 @@ public final class KnownFonts implements LifecycleListener {
      * scale as well as other standard bitmap fonts here.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="">Image link</a> (uses width=, height=)
+     * Preview: <a href="https://i.imgur.com/NSI3TlI.png">Image link</a> (uses width=17, height=21)
      * <br>
      * Needs files:
      * <ul>
@@ -1013,13 +1013,13 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-License.txt">Hanazono-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font YanoneKaffeesatz.ttf
+     * @return the Font object that can represent many sizes of the font HanMinA.ttf
      */
     public static Font getHanazono() {
         initialize();
         if (instance.hanazono == null) {
             try {
-                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 0, 0, 0, 0, true)
+                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 0, 1, 0, 0, false).scaleTo(17, 21)
                         .setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1088,10 +1088,11 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all Font instances this knows
      */
     public static Font[] getAll() {
-        return new Font[]{getAStarry(), getAStarryMSDF(), getBitter(), getCanada(), getCascadiaMono(), getCozette(), getDejaVuSansMono(), getGentium(),
-                getGentiumSDF(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(),
-                getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
-                getLibertinusSerif(), getOpenSans(), getOxanium(), getRobotoCondensed(), getYanoneKaffeesatz()};
+        return new Font[]{getAStarry(), getAStarryMSDF(), getBitter(), getCanada(), getCascadiaMono(), getCozette(),
+                getDejaVuSansMono(), getGentium(), getGentiumSDF(), getHanazono(), getIBM8x16(), getInconsolata(),
+                getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(), getIosevkaSlab(),
+                getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(), getLibertinusSerif(),
+                getOpenSans(), getOxanium(), getRobotoCondensed(), getYanoneKaffeesatz()};
     }
 
     /**
@@ -1102,9 +1103,9 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all non-distance-field Font instances this knows
      */
     public static Font[] getAllStandard() {
-        return new Font[]{getAStarry(), getBitter(), getCanada(), getCozette(), getGentium(), getIBM8x16(), getInconsolata(), getIosevka(),
-                getIosevkaSlab(), getKingthingsFoundation(), getOpenSans(), getOxanium(), getRobotoCondensed(),
-                getYanoneKaffeesatz()};
+        return new Font[]{getAStarry(), getBitter(), getCanada(), getCozette(), getGentium(), getHanazono(),
+                getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(), getKingthingsFoundation(),
+                getOpenSans(), getOxanium(), getRobotoCondensed(), getYanoneKaffeesatz()};
     }
 
     /**
@@ -1125,23 +1126,24 @@ public final class KnownFonts implements LifecycleListener {
      *     <li>{@code Iosevka}, which is {@link #getIosevka()},</li>
      *     <li>{@code Medieval}, which is {@link #getKingthingsFoundation()},</li>
      *     <li>{@code Future}, which is {@link #getOxanium()},</li>
-     *     <li>{@code Console}, which is {@link #getAStarry()}.</li>
+     *     <li>{@code Console}, which is {@link #getAStarry()}, and</li>
+     *     <li>{@code Hanazono}, which is {@link #getHanazono()}.</li>
      * </ul>
      * You can also always use the full name of one of these fonts, which can be obtained using {@link Font#getName()}.
      * {@code Serif}, which is {@link #getGentium()}, will always be the default font used after a reset.
      * <br>
      * This will only function at all if all the assets (for every known standard Font) are present and load-able.
      *
-     * @return a Font that can switch between 14 different Fonts in its FontFamily, to any non-distance-field Font this knows
+     * @return a Font that can switch between 15 different Fonts in its FontFamily, to any non-distance-field Font this knows
      */
     public static Font getStandardFamily() {
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{"Serif", "Sans", "Mono", "Condensed", "Humanist",
                         "Retro", "Slab", "Bitter", "Canada", "Cozette", "Iosevka",
-                        "Medieval", "Future", "Console"},
+                        "Medieval", "Future", "Console", "Hanazono"},
                 new Font[]{getGentium(), getOpenSans(), getInconsolata(), getRobotoCondensed(), getYanoneKaffeesatz(),
                         getIBM8x16(), getIosevkaSlab(), getBitter(), getCanada(), getCozette(), getIosevka(),
-                        getKingthingsFoundation(), getOxanium(), getAStarry()});
+                        getKingthingsFoundation(), getOxanium(), getAStarry(), getHanazono()});
         return family.connected[0].setFamily(family);
     }
 
@@ -1264,6 +1266,10 @@ public final class KnownFonts implements LifecycleListener {
         if (kaffeesatz != null) {
             kaffeesatz.dispose();
             kaffeesatz = null;
+        }
+        if(hanazono != null) {
+            hanazono.dispose();
+            hanazono = null;
         }
         if(twemoji != null) {
             twemoji.dispose();
