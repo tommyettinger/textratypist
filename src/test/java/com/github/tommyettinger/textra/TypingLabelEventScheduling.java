@@ -31,10 +31,11 @@ public class TypingLabelEventScheduling extends ApplicationAdapter {
 
         final Table table = new Table();
         stage.addActor(table);
+        stage.setDebugAll(true);
         table.setFillParent(true);
 
         long timeBase = System.currentTimeMillis();
-        label = new TypingLabel("{RAINBOW}Heww{ENDRAINBOW}o{WAIT=2}{EVENT=on}{WAIT=5}{EVENT=off}bai", KnownFonts.getGentiumSDF());
+        label = new TypingLabel("{RAINBOW}Heww{ENDRAINBOW}o, {VAR=name}...{WAIT=1}{EVENT=on}{WAIT=2}{EVENT=off}bai!", KnownFonts.getGentiumSDF());
         label.setTypingListener(new TypingAdapter(){
             @Override
             public void onChar(long ch) {
@@ -51,8 +52,9 @@ public class TypingLabelEventScheduling extends ApplicationAdapter {
                 label.restart();
             }
         });
+        label.setVariable("name", "waeweus, fwend of uwu intewwfacies");
         table.pad(50f);
-        table.add(label).colspan(5).growX();
+        table.add(label);//.colspan(5).growX();
 
         table.pack();
     }
