@@ -34,7 +34,7 @@ public class TypingLabelEventScheduling extends ApplicationAdapter {
         table.setFillParent(true);
 
         long timeBase = System.currentTimeMillis();
-        label = new TypingLabel("Hello{WAIT=2}{EVENT=on}{WAIT=5}{EVENT=off}bye", KnownFonts.getGentiumSDF());
+        label = new TypingLabel("{RAINBOW}Heww{ENDRAINBOW}o{WAIT=2}{EVENT=on}{WAIT=5}{EVENT=off}bai", KnownFonts.getGentiumSDF());
         label.setTypingListener(new TypingAdapter(){
             @Override
             public void onChar(long ch) {

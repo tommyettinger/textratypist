@@ -586,14 +586,14 @@ public class TypingLabel extends TextraLabel {
                             Effect effect = activeEffects.get(i);
                             if (effect.indexEnd < 0) {
                                 if (ClassReflection.isAssignableFrom(effectClass, effect.getClass())) {
-                                    effect.indexEnd = glyphCharIndex - 1;
+                                    effect.indexEnd = glyphCharIndex;
                                 }
                             }
                         }
 
                         // Create new effect if necessary
                         if (isStart) {
-                            entry.effect.indexStart = glyphCharIndex;
+                            entry.effect.indexStart = glyphCharIndex + 1;
                             activeEffects.add(entry.effect);
                         }
                         continue;
@@ -619,17 +619,17 @@ public class TypingLabel extends TextraLabel {
             }
 
             // Notify listener about char progression
-            if (glyphCharIndex > 0 && glyphCharIndex < layoutSize && rawCharIndex >= 0 && listener != null) {
+            if (glyphCharIndex >= 0 && glyphCharIndex < layoutSize && rawCharIndex >= 0 && listener != null) {
                 listener.onChar(getInLayout(layout, glyphCharIndex));
             }
 
             // Break loop if this was our first glyph to prevent glyph issues.
             if (glyphCharIndex == 0) {
-                glyphCharIndex++;
-                // Notify listener about char progression
-                if (glyphCharIndex < layoutSize && rawCharIndex >= 0 && listener != null) {
-                    listener.onChar(getInLayout(layout, glyphCharIndex));
-                }
+//                // Notify listener about char progression
+//                if (glyphCharIndex < layoutSize && rawCharIndex >= 0 && listener != null) {
+//                    listener.onChar(getInLayout(layout, glyphCharIndex));
+//                }
+//                glyphCharIndex++;
 
                 charCooldown = textSpeed;
                 break;
