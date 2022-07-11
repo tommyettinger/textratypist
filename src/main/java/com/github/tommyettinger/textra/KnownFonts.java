@@ -34,6 +34,19 @@ import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
  * present in a game -- only the files mentioned in the documentation for a method are needed, and only if you call that
  * method. It's likely that many games would only use one Font, and so would generally only need a .fnt file, a
  * .png file, and some kind of license file. They could ignore all other assets required by other fonts.
+ * <br>
+ * There's some documentation for every known Font, including a link to a preview image and a listing of all required
+ * files to use a Font. The required files include any license you need to abide by; this doesn't necessarily belong in
+ * the {@code assets} folder like the rest of the files! Most of these fonts are either licensed under the OFL
+ * or some Creative Commons license; the CC ones typically require attribution, but none of the fonts restrict usage to
+ * noncommercial projects, and all are free as in beer as well.
+ * <br>
+ * There are some special features in Font that are easier to use with parts of this class. {@link #getStandardFamily()}
+ * pre-populates a FontFamily so you can switch between different fonts with the {@code [@Sans]} syntax.
+ * {@link #addEmoji(Font)} adds all of Twitter's emoji from the <a href="https://github.com/twitter/twemoji">Twemoji</a>
+ * project to a given font, which lets you enter emoji with the {@code [+man scientist, dark skin tone]} syntax or the
+ * generally-easier {@code [+👨🏿‍🔬]} syntax. If you want to use names for emoji, you may want to consult "Twemoji.atlas"
+ * for the exact names used; some names changed from the standard because of technical restrictions.
  */
 public final class KnownFonts implements LifecycleListener {
     private static KnownFonts instance;
@@ -981,6 +994,42 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getYanoneKaffeesatz() not found.");
     }
 
+    private Font hanazono;
+
+    /**
+     * Returns a Font already configured to use a variable-width, narrow font with nearly-complete CJK character
+     * coverage, plus Latin, Greek, and Cyrillic, that shouldm scale pretty well down, but not up.
+     * Caches the result for later calls. The font used is Hanazono (HanMinA, specifically), a free (OFL) typeface.
+     * This uses a somewhat-small standard bitmap font because of how many glyphs are present (over 34000); it might not
+     * scale as well as other standard bitmap fonts here.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * Preview: <a href="">Image link</a> (uses width=, height=)
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-standard.fnt">Hanazono-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-standard.png">Hanazono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-License.txt">Hanazono-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font YanoneKaffeesatz.ttf
+     */
+    public static Font getHanazono() {
+        initialize();
+        if (instance.hanazono == null) {
+            try {
+                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 0, 0, 0, 0, true)
+                        .setTextureFilter().setName("Hanazono");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.hanazono != null)
+            return new Font(instance.hanazono);
+        throw new RuntimeException("Assets for getHanazono() not found.");
+    }
+
     private TextureAtlas twemoji;
 
     /**
@@ -1063,25 +1112,27 @@ public final class KnownFonts implements LifecycleListener {
      * used with syntax like {@code [@Sans]}. The names this supports can be accessed with code using
      * {@code getStandardFamily().family.fontAliases.keys()}. These names so far are:
      * <ul>
-     *     <li>Serif</li>
-     *     <li>Sans</li>
-     *     <li>Mono</li>
-     *     <li>Condensed</li>
-     *     <li>Humanist</li>
-     *     <li>Retro</li>
-     *     <li>Slab</li>
-     *     <li>Bitter</li>
-     *     <li>Canada</li>
-     *     <li>Cozette</li>
-     *     <li>Iosevka</li>
-     *     <li>Medieval</li>
-     *     <li>Future</li>
-     *     <li>Console</li>
+     *     <li>{@code Serif}, which is {@link #getGentium()},</li>
+     *     <li>{@code Sans}, which is {@link #getOpenSans()},</li>
+     *     <li>{@code Mono}, which is {@link #getInconsolata()},</li>
+     *     <li>{@code Condensed}, which is {@link #getRobotoCondensed()},</li>
+     *     <li>{@code Humanist}, which is {@link #getYanoneKaffeesatz()},</li>
+     *     <li>{@code Retro}, which is {@link #getIBM8x16()},</li>
+     *     <li>{@code Slab}, which is {@link #getIosevkaSlab()},</li>
+     *     <li>{@code Bitter}, which is {@link #getBitter()},</li>
+     *     <li>{@code Canada}, which is {@link #getCanada()},</li>
+     *     <li>{@code Cozette}, which is {@link #getCozette()},</li>
+     *     <li>{@code Iosevka}, which is {@link #getIosevka()},</li>
+     *     <li>{@code Medieval}, which is {@link #getKingthingsFoundation()},</li>
+     *     <li>{@code Future}, which is {@link #getOxanium()},</li>
+     *     <li>{@code Console}, which is {@link #getAStarry()}.</li>
      * </ul>
      * You can also always use the full name of one of these fonts, which can be obtained using {@link Font#getName()}.
+     * {@code Serif}, which is {@link #getGentium()}, will always be the default font used after a reset.
+     * <br>
      * This will only function at all if all the assets (for every known standard Font) are present and load-able.
      *
-     * @return a Font that can switch between 13 different Fonts in its FontFamily, to any non-distance-field Font this knows
+     * @return a Font that can switch between 14 different Fonts in its FontFamily, to any non-distance-field Font this knows
      */
     public static Font getStandardFamily() {
         Font.FontFamily family = new Font.FontFamily(
