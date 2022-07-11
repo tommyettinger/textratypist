@@ -203,14 +203,9 @@ public class TextraLabel extends Widget {
 
         float baseX = 0, baseY = 0;
 
-//        baseX += getOriginX();
-//        baseY += getOriginY();
         float rot = getRotation();
         float sn = MathUtils.sinDeg(rot);
         float cs = MathUtils.cosDeg(rot);
-
-//        baseX -= sn * layout.lines.first().height * 0.25f;
-//        baseY += cs * layout.lines.first().height * 0.25f;
 
         float height = layout.getHeight();
         if (Align.isBottom(align)) {
