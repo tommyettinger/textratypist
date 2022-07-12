@@ -2958,10 +2958,10 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = -centerX;
-                p0y = -0.25f * cellHeight;
+                p0y = centerY - font.cellHeight * 0.45f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        (tr.xAdvance) * scaleX + 7, cellHeight, rotation);
+                        (tr.xAdvance) * scaleX + 7, cellHeight + 2, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {

@@ -323,7 +323,7 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.dejaVuSansMono == null) {
             try {
-                instance.dejaVuSansMono = new Font("DejaVuSansMono-msdf.fnt", "DejaVuSansMono-msdf.png", MSDF, 1f, 4f, 0f, 0f, true)
+                instance.dejaVuSansMono = new Font("DejaVuSansMono-msdf.fnt", "DejaVuSansMono-msdf.png", MSDF, 1f, 0f, 0f, 0f, true)
                         .scaleTo(9, 20).setName("DejaVu Sans Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -399,7 +399,7 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.gentiumSDF == null) {
             try {
-                instance.gentiumSDF = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 4f, 6f, 0f, 0f, true)
+                instance.gentiumSDF = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 4f, 0f, 0f, 0f, true)
                         .scaleTo(50, 45).adjustLineHeight(0.8f).setCrispness(1.5f).setName("Gentium (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -435,8 +435,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.hanazono == null) {
             try {
-                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 5, -1, 0, 0, true).scaleTo(17, 21)
-                        .adjustLineHeight(1.3f)
+                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 5, -12, 0, 0, true).scaleTo(17, 21)
+                        .adjustLineHeight(0.85f)
                         .setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -630,8 +630,9 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This should be OK now that this uses the box-drawing underline.
-                instance.iosevkaMSDF = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 0f, 2f, 0f, 0f, true)
-                        .setCrispness(0.75f).scaleTo(12, 25).fitCell(9, 25, false).setName("Iosevka (MSDF)");
+                instance.iosevkaMSDF = new Font("Iosevka-msdf.fnt", "Iosevka-msdf.png", MSDF, 0f, -12f, 0f, 0f, true)
+                        .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false).adjustLineHeight(0.85f)
+                        .setName("Iosevka (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -674,8 +675,9 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This should be OK now that this uses the box-drawing underline.
-                instance.iosevkaSDF = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", SDF, 2f, 0f, -2f, 0f, true)
-                        .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 26, false).setName("Iosevka (SDF)");
+                instance.iosevkaSDF = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", SDF, 2f, -12f, -2f, 0f, true)
+                        .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false).adjustLineHeight(0.85f)
+                        .setName("Iosevka (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -755,8 +757,9 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevkaSlabMSDF = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 0f, 2f, 0f, 0f, true)
-                        .setCrispness(0.75f).scaleTo(12, 25).fitCell(9, 25, false).setName("Iosevka Slab (MSDF)");
+                instance.iosevkaSlabMSDF = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 0f, -12f, 0f, 0f, true)
+                        .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false).adjustLineHeight(0.85f)
+                        .setName("Iosevka Slab (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -798,8 +801,9 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
-                instance.iosevkaSlabSDF = new Font("Iosevka-Slab-sdf.fnt", "Iosevka-Slab-sdf.png", SDF, 2f, 0f, -2f, 0f, true)
-                        .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 26, false).setName("Iosevka Slab (SDF)");
+                instance.iosevkaSlabSDF = new Font("Iosevka-Slab-sdf.fnt", "Iosevka-Slab-sdf.png", SDF, 2f, -12f, -2f, 0f, true)
+                        .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false).adjustLineHeight(0.85f)
+                        .setName("Iosevka Slab (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -877,8 +881,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.libertinusSerif == null) {
             try {
-                instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, -2, -10, -2, 0, true)
-                        .scaleTo(132, 28).setName("Libertinus Serif (MSDF)");
+                instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, -2, -18, 0, 0, true)
+                        .scaleTo(132, 32).adjustLineHeight(0.8f).setName("Libertinus Serif (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
