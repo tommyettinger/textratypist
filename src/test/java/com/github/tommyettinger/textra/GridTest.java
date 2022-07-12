@@ -112,7 +112,11 @@ public class GridTest extends ApplicationAdapter {
                 backgrounds[x][y] = lerpColors(s, e, y / (float) backgrounds[0].length);
             }
         }
-
+        for (int x = 0; x < backgrounds.length; x++) {
+            for (int y = 0; y < backgrounds[0].length; y++) {
+                backgrounds[x][y] ^= (x + y & 1) << 7;
+            }
+        }
 //        font.markup("[#00FF00FF]Hello, [~]World[~]Universe[.]$[=]$[^]$[^]!", glyphs[0] = new LongList());
 //        font.markup("The [dark richer red]MAW[] of the [/][|lighter blue mint]wendigo[] [*]appears[*]!", glyphs[1] = new LongList());
 //        font.markup("The [_][dark dull blue purple]BLADE[] of [*][/][|dark richest yellow]KINGS[] strikes!", glyphs[2] = new LongList());
@@ -159,6 +163,7 @@ public class GridTest extends ApplicationAdapter {
         float x = 0, y = PIXEL_HEIGHT * 0.5f;
         long since = TimeUtils.timeSinceMillis(startTime);
         font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];
+//        font = fonts[5];
         marquee.act(Gdx.graphics.getDeltaTime());
         batch.begin();
         font.enableShader(batch);

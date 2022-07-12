@@ -435,7 +435,7 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.hanazono == null) {
             try {
-                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 5, 0, 0, 0, true).scaleTo(17, 21).adjustLineHeight(1.3f)
+                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 5, -1, 0, 0, true).scaleTo(17, 21).adjustLineHeight(1.3f)
                         .setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -876,7 +876,7 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.libertinusSerif == null) {
             try {
-                instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, -2, 0, -2, 0, true)
+                instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, -2, -10, -2, 0, true)
                         .scaleTo(132, 28).setCrispness(1f).setName("Libertinus Serif (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -983,7 +983,7 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.robotoCondensed == null) {
             try {
-                instance.robotoCondensed = new Font("RobotoCondensed-standard.fnt", STANDARD, 0, 4, 0, 0, true)
+                instance.robotoCondensed = new Font("RobotoCondensed-standard.fnt", STANDARD, 0, 0, 0, 0, true)
                         .scaleTo(25, 30).adjustLineHeight(0.9f).setTextureFilter().setName("Roboto Condensed");
             } catch (Exception e) {
                 e.printStackTrace();
