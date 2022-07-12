@@ -2909,11 +2909,11 @@ public class Font implements Disposable {
         if ((glyph & UNDERLINE) != 0L) {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
-                p0x = -tr.offsetX * scaleX - scaleX - centerX * scale;
-                p0y = -cellHeight * 0.3f;
+                p0x = -tr.offsetX * scaleX;// - scaleX - centerX * scale;
+                p0y = -cellHeight * 0.55f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        changedW + scaleX * 8f, cellHeight * sizingY * 0.6f - centerY, rotation);
+                        (changedW + scaleX * (tr.offsetX + 2)), cellHeight, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -2957,11 +2957,11 @@ public class Font implements Disposable {
         if ((glyph & STRIKETHROUGH) != 0L) {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
-                p0x = -tr.offsetX * scaleX - scaleX - centerX * scale;
-                p0y = 0.0f;
+                p0x = -tr.offsetX * scaleX;// - scaleX - centerX * scale;
+                p0y = -0.25f * cellHeight;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        (changedW + scaleX * 8f), cellHeight * sizingY * 0.6f - centerY, rotation);
+                        (changedW + scaleX * (tr.offsetX + 2)), cellHeight, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {

@@ -89,7 +89,7 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.astarry == null) {
             try {
-                instance.astarry = new Font("AStarry-standard.fnt", "AStarry-standard.png", STANDARD, 0, 0, 0, 0, false)
+                instance.astarry = new Font("AStarry-standard.fnt", "AStarry-standard.png", STANDARD, 0, 0, 0, 0, true)
                         .scaleTo(8, 8).setTextureFilter().setName("A Starry");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -168,7 +168,7 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.bitter == null) {
             try {
-                instance.bitter = new Font("Bitter-standard.fnt", STANDARD, 0, 0, 0, 0, false)
+                instance.bitter = new Font("Bitter-standard.fnt", STANDARD, 0, 0, 0, 0, true)
                         .scaleTo(33, 30).adjustLineHeight(1.225f).setTextureFilter().setName("Bitter");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -408,6 +408,42 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentiumSDF != null)
             return new Font(instance.gentiumSDF);
         throw new RuntimeException("Assets for getGentiumSDF() not found.");
+    }
+
+    private Font hanazono;
+
+    /**
+     * Returns a Font already configured to use a variable-width, narrow font with nearly-complete CJK character
+     * coverage, plus Latin, Greek, and Cyrillic, that shouldm scale pretty well down, but not up.
+     * Caches the result for later calls. The font used is Hanazono (HanMinA, specifically), a free (OFL) typeface.
+     * This uses a somewhat-small standard bitmap font because of how many glyphs are present (over 34000); it might not
+     * scale as well as other standard bitmap fonts here.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/NSI3TlI.png">Image link</a> (uses width=17, height=21)
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-standard.fnt">Hanazono-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-standard.png">Hanazono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-License.txt">Hanazono-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font HanMinA.ttf
+     */
+    public static Font getHanazono() {
+        initialize();
+        if (instance.hanazono == null) {
+            try {
+                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 5, 0, 0, 0, true).scaleTo(17, 21).adjustLineHeight(1.3f)
+                        .setTextureFilter().setName("Hanazono");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.hanazono != null)
+            return new Font(instance.hanazono);
+        throw new RuntimeException("Assets for getHanazono() not found.");
     }
 
     private Font ibm8x16;
@@ -992,42 +1028,6 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.kaffeesatz != null)
             return new Font(instance.kaffeesatz);
         throw new RuntimeException("Assets for getYanoneKaffeesatz() not found.");
-    }
-
-    private Font hanazono;
-
-    /**
-     * Returns a Font already configured to use a variable-width, narrow font with nearly-complete CJK character
-     * coverage, plus Latin, Greek, and Cyrillic, that shouldm scale pretty well down, but not up.
-     * Caches the result for later calls. The font used is Hanazono (HanMinA, specifically), a free (OFL) typeface.
-     * This uses a somewhat-small standard bitmap font because of how many glyphs are present (over 34000); it might not
-     * scale as well as other standard bitmap fonts here.
-     * This may work well in a font family with other fonts that do not use a distance field effect.
-     * <br>
-     * Preview: <a href="https://i.imgur.com/NSI3TlI.png">Image link</a> (uses width=17, height=21)
-     * <br>
-     * Needs files:
-     * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-standard.fnt">Hanazono-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-standard.png">Hanazono-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-License.txt">Hanazono-License.txt</a></li>
-     * </ul>
-     *
-     * @return the Font object that can represent many sizes of the font HanMinA.ttf
-     */
-    public static Font getHanazono() {
-        initialize();
-        if (instance.hanazono == null) {
-            try {
-                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 0, 1, 0, 0, false).scaleTo(17, 21)
-                        .setTextureFilter().setName("Hanazono");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.hanazono != null)
-            return new Font(instance.hanazono);
-        throw new RuntimeException("Assets for getHanazono() not found.");
     }
 
     private TextureAtlas twemoji;
