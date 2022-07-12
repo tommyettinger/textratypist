@@ -18,6 +18,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+/**
+ * <a href="https://i.imgur.com/X6jGO8F.gif">Animated Preview</a>.
+ */
 public class TypingLabelEffectShowcase extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;
@@ -124,13 +127,15 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
 //                        KnownFonts.getYanoneKaffeesatz().scaleTo(36, 39).adjustLineHeight(0.85f)
 //                });
 //        Font font = family.connected[0].setFamily(family);
-        Font font = KnownFonts.getStandardFamily();
+        Font font =
+//                KnownFonts.getStandardFamily();
+                KnownFonts.getGentiumSDF().scale(1.1f, 1.1f).multiplyCrispness(1.3f);
         StringBuilder sb = new StringBuilder(256);
 //        sb.append("{VAR=Rival} tests me, the fool... ");
         Array<String> starts = TypingConfig.EFFECT_START_TOKENS.orderedKeys();
+        starts.sort();
         Array<String> ends = TypingConfig.EFFECT_END_TOKENS.orderedKeys();
-        starts.reverse();
-        ends.reverse();
+        ends.sort();
         for (int i = 0, n = starts.size; i < n; i++) {
             sb.append('{').append(starts.get(i)).append('}').append(starts.get(i)).append(' ')
                     .append(starts.get(i).toLowerCase()).append('{').append(ends.get(i)).append("} {WAIT=1}");
