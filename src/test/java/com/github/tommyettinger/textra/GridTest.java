@@ -38,7 +38,7 @@ public class GridTest extends ApplicationAdapter {
     long startTime;
     RandomXS128 random;
 
-    static final int PIXEL_WIDTH = 800, PIXEL_HEIGHT = 640;
+    static final int PIXEL_WIDTH = 950, PIXEL_HEIGHT = 650;
 
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -84,10 +84,10 @@ public class GridTest extends ApplicationAdapter {
 
         batch = new SpriteBatch();
 
-        fonts = KnownFonts.getAll();
+        fonts = KnownFonts.getAllStandard();
         for(Font f : fonts)
-            f.scaleTo(25f * f.cellWidth / f.cellHeight, 25).fitCell(25, 25, true);
-        font = fonts[0];
+            f.scaleTo(20f, 25).fitCell(25, 25, true);
+        font = fonts[7];
 
 //        font = KnownFonts.getInconsolata();//.scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
@@ -149,13 +149,13 @@ public class GridTest extends ApplicationAdapter {
                         + "\nPchnąć[] w tę łódź [#775522]jeża[] lub ośm skrzyń [#CC00CC]fig[]."
                 , layout);
 
-        marquee = new TypingLabel("{BLINK}{ROTATE=90}EAT AT JOE'S", font);
+        marquee = new TypingLabel("{BLINK}{ROTATE=100}{JOLT}[/]EAT AT JOE'S", font);
         marquee.wrap = false;
         marquee.parseTokens();
         marquee.setWidth(Gdx.graphics.getWidth());
-        marquee.setPosition(32, 400);
+        marquee.setPosition(64, 350);
         marquee.skipToTheEnd();
-        marquee.setRotation(-90f);
+        marquee.setRotation(-100f);
 //        font.markup("\"You are ever more the [/]fool[/] than the pitiable cutpurse who [*]dares waylay[*] my castle road!\" the [dark rich gold]King[] admonished."
 //                +" \"Forsooth! Had [_]I[_] my right mind, I would have [dark red]both of [_]your heads[] by morning. But alas, I am stricken with" +
 //                " unreasonable mercy for your [~]wretched[~] souls. To [darker grey][*]the Trappists[] ye shall go; I am in need of" +
@@ -173,7 +173,7 @@ public class GridTest extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.9f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        float x = 0, y = layout.getHeight();
+        float x = 0, y = PIXEL_HEIGHT * 0.5f;
         long since = TimeUtils.timeSinceMillis(startTime);
         font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];
         marquee.act(Gdx.graphics.getDeltaTime());
@@ -197,7 +197,7 @@ public class GridTest extends ApplicationAdapter {
 //        }
         font.drawGlyphs(batch, layout,
 //0f, y, Align.left
-                PIXEL_WIDTH * 0.5f, y, Align.center
+                PIXEL_WIDTH * 0.5f, y - font.cellHeight * 2, Align.center
         );
         font.drawGlyph(batch, Font.markupGlyph(font.solidBlock, "[RED]", ColorLookup.INSTANCE), 0, Gdx.graphics.getHeight() - font.cellHeight);
         marquee.draw(batch, 1f);

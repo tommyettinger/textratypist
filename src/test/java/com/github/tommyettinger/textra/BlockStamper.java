@@ -49,8 +49,8 @@ public class BlockStamper  extends ApplicationAdapter {
         PixmapIO.PNG png = new PixmapIO.PNG();
         png.setFlipY(false);
         FileHandle fontsHandle = Gdx.files.local("knownFonts");
-        FileHandle[] children = fontsHandle.list("png");
-//        FileHandle[] children = fontsHandle.list("Bitter-standard.png");
+//        FileHandle[] children = fontsHandle.list("png");
+        FileHandle[] children = fontsHandle.list("AStarry-standard.png");
         PER_CHILD:
         for(FileHandle fh : children){
             System.out.println("Operating on " + fh.name());
