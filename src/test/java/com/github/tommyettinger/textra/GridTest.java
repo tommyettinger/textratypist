@@ -27,6 +27,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.github.tommyettinger.textra.utils.BlockUtils;
 
+import static com.github.tommyettinger.textra.utils.ColorUtils.lerpColors;
+
 public class GridTest extends ApplicationAdapter {
     Font font;
     Font[] fonts;
@@ -47,25 +49,6 @@ public class GridTest extends ApplicationAdapter {
         config.disableAudio(true);
         config.useVsync(true);
         new Lwjgl3Application(new GridTest(), config);
-    }
-    /**
-     * Interpolates from the packed int color start towards end by change. Both start and end should be packed RGBA8888
-     * ints, and change can be between 0f (keep start) and 1f (only use end). This is a good way to reduce allocations
-     * of temporary Colors.
-     *
-     * @param s      the starting color as a packed int
-     * @param e      the end/target color as a packed int
-     * @param change how much to go from start toward end, as a float between 0 and 1; higher means closer to end
-     * @return a packed RGBA8888 int that represents a color between start and end
-     */
-    public static int lerpColors(final int s, final int e, final float change) {
-        final int
-                sR = (s & 0xFF), sA = (s >>> 8) & 0xFF, sB = (s >>> 16) & 0xFF, sAlpha = s >>> 24 & 0xFF,
-                eR = (e & 0xFF), eA = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eAlpha = e >>> 24 & 0xFF;
-        return (((int) (sR + change * (eR - sR)) & 0xFF)
-                | (((int) (sA + change * (eA - sA)) & 0xFF) << 8)
-                | (((int) (sB + change * (eB - sB)) & 0xFF) << 16)
-                | (((int) (sAlpha + change * (eAlpha - sAlpha)) & 0xFF) << 24));
     }
 
     @Override
@@ -110,7 +93,7 @@ public class GridTest extends ApplicationAdapter {
 
 //        font.fitCell(font.cellWidth, font.cellHeight, true);
 //        font.fitCell(font.cellHeight, font.cellHeight, true);
-        font.scaleTo(font.cellWidth * 25f / font.cellHeight, 25f).fitCell(25f, 25f, true);
+//        font.scaleTo(font.cellWidth * 25f / font.cellHeight, 25f).fitCell(25f, 25f, true);
 
         layout = new Layout(font).setTargetWidth(Gdx.graphics.getWidth());
         backgrounds = new int[(int) Math.ceil(PIXEL_WIDTH / font.cellWidth)][(int) Math.ceil(PIXEL_HEIGHT / font.cellHeight)];
