@@ -71,10 +71,10 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
      * <br>
-     * Preview: <a href="https://i.imgur.com/Z1RYdeJ.png">Image link</a> (uses width=8, height=8)
+     * Preview: <a href="https://i.imgur.com/9P1Zpfr.png">Image link</a> (uses width=8, height=8)
      * <br>
      * This also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
-     * multiples of 8. Preview: <a href="https://i.imgur.com/fgGImSb.png">Image link</a> (uses width=8, height=16)
+     * multiples of 8. Preview: <a href="https://i.imgur.com/a7ZUIDX.png">Image link</a> (uses width=8, height=16)
      * <br>
      * Needs files:
      * <ul>
@@ -111,7 +111,7 @@ public final class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/T8MgsRY.png">Image link</a> (uses width=10, height=10)
+     * Preview: <a href="https://i.imgur.com/x2RQU34.png">Image link</a> (uses width=10, height=10)
      * <br>
      * Needs files:
      * <ul>
@@ -153,7 +153,7 @@ public final class KnownFonts implements LifecycleListener {
      * other strokes in the font. This does mean that strikethrough starts too far to the left, and extends too far to
      * the right, unfortunately, but its weight matches.
      * <br>
-     * Preview: <a href="https://i.imgur.com/1c3ymlL.png">Image link</a> (uses width=33, height=30, adjustLineHeight(1.225f))
+     * Preview: <a href="https://i.imgur.com/kuMpRJy.png">Image link</a> (uses width=33, height=30, adjustLineHeight(1.225f))
      * <br>
      * Needs files:
      * <ul>
@@ -192,7 +192,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/av2WJha.png">Image link</a> (uses width=30, height=35)
+     * Preview: <a href="https://i.imgur.com/4o8y4pA.png">Image link</a> (uses width=30, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -230,7 +230,7 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/5lFkTXJ.png">Image link</a> (uses width=9, height=16)
+     * Preview: <a href="https://i.imgur.com/zOXbBEJ.png">Image link</a> (uses width=9, height=16)
      * <br>
      * Needs files:
      * <ul>
@@ -267,7 +267,7 @@ public final class KnownFonts implements LifecycleListener {
      * cause major visual issues if 1 world unit corresponds to much more than 1 pixel.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/gIS7ysd.png">Image link</a> (uses width=7, height=13; this is small enough
+     * Preview: <a href="https://i.imgur.com/z0UCjaU.png">Image link</a> (uses width=7, height=13; this is small enough
      * to make the scaled text look bad in some places)
      * <br>
      * Needs files:
@@ -308,7 +308,7 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ngqXFG2.png">Image link</a> (uses width=9, height=20)
+     * Preview: <a href="https://i.imgur.com/dLv1VVy.png">Image link</a> (uses width=9, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -345,7 +345,7 @@ public final class KnownFonts implements LifecycleListener {
      * real languages. This does not use a distance field effect, as opposed to {@link #getGentiumSDF()}. You may want
      * to stick using just fonts that avoid distance fields if you have a family of fonts.
      * <br>
-     * Preview: <a href="https://i.imgur.com/nnRMpxQ.png">Image link</a> (uses width=31, height=35)
+     * Preview: <a href="https://i.imgur.com/ovp08uR.png">Image link</a> (uses width=31, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -384,7 +384,7 @@ public final class KnownFonts implements LifecycleListener {
      * uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but should be
      * crisp enough when zoomed out.
      * <br>
-     * Preview: <a href="https://i.imgur.com/lnQTIRM.png">Image link</a> (uses width=50, height=45, adjustLineHeight(0.8f))
+     * Preview: <a href="https://i.imgur.com/Mgxytp3.png">Image link</a> (uses width=50, height=45, adjustLineHeight(0.8f))
      * <br>
      * Needs files:
      * <ul>
@@ -420,7 +420,7 @@ public final class KnownFonts implements LifecycleListener {
      * scale as well as other standard bitmap fonts here.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/NSI3TlI.png">Image link</a> (uses width=17, height=21)
+     * Preview: <a href="https://i.imgur.com/6frmNrt.png">Image link</a> (uses width=17, height=21, adjustLineHeight(1.3f))
      * <br>
      * Needs files:
      * <ul>
@@ -435,7 +435,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.hanazono == null) {
             try {
-                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 5, -1, 0, 0, true).scaleTo(17, 21).adjustLineHeight(1.3f)
+                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 5, -1, 0, 0, true).scaleTo(17, 21)
+                        .adjustLineHeight(1.3f)
                         .setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -462,7 +463,7 @@ public final class KnownFonts implements LifecycleListener {
      * of their signature font throughout the 1980s, but if the legality is concerning, you
      * can use {@link #getCozette()} for a different bitmap font.
      * <br>
-     * Preview: <a href="https://i.imgur.com/HSPyGOZ.png">Image link</a> (uses width=8, height=16)
+     * Preview: <a href="https://i.imgur.com/jbacFxO.png">Image link</a> (uses width=8, height=16)
      * <br>
      * Needs files:
      * <ul>
@@ -496,7 +497,7 @@ public final class KnownFonts implements LifecycleListener {
      * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/O2Sf7WO.png">Image link</a> (uses width=10, height=26)
+     * Preview: <a href="https://i.imgur.com/tIeZgyd.png">Image link</a> (uses width=10, height=26)
      * <br>
      * Needs files:
      * <ul>
@@ -531,7 +532,7 @@ public final class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/UHl77sB.png">Image link</a> (uses width=10, height=26)
+     * Preview: <a href="https://i.imgur.com/6p2nvxZ.png">Image link</a> (uses width=10, height=26)
      * <br>
      * Needs files:
      * <ul>
