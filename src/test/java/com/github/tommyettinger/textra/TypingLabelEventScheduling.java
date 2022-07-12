@@ -35,7 +35,7 @@ public class TypingLabelEventScheduling extends ApplicationAdapter {
         table.setFillParent(true);
 
         long timeBase = System.currentTimeMillis();
-        label = new TypingLabel("{RAINBOW}Heww{ENDRAINBOW}o, {VAR=name}...{WAIT=1}{EVENT=on}{WAIT=2}{EVENT=off}bai!", KnownFonts.getGentiumSDF());
+        label = new TypingLabel("{RAINBOW}Heww{ENDRAINBOW}o, {VAR=name}...{WAIT=1}{EVENT=on}{WAIT=2}{EVENT=off}bai!{WAIT=3}", KnownFonts.getGentiumSDF());
         label.setTypingListener(new TypingAdapter(){
             @Override
             public void onChar(long ch) {
@@ -53,6 +53,7 @@ public class TypingLabelEventScheduling extends ApplicationAdapter {
             }
         });
         label.setVariable("name", "waeweus, fwend of uwu intewwfacies");
+        label.layout.setTargetWidth(180);
         table.pad(50f);
         table.add(label);//.colspan(5).growX();
 

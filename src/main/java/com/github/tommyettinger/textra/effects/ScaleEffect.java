@@ -24,7 +24,7 @@ import com.github.tommyettinger.textra.TypingLabel;
  */
 public class ScaleEffect extends Effect {
     private float sizeX = 1; // How much of their width they should start expanded by on x
-    private float sizeY = 1; // How much of their height they should start expanded by on y
+    private float sizeY = 2; // How much of their height they should start expanded by on y
 
     public ScaleEffect(TypingLabel label, String[] params) {
         super(label);
