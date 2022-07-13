@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.CharArray;
@@ -35,6 +36,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.LongArray;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectIntMap;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.badlogic.gdx.utils.Pool;
 import com.github.tommyettinger.textra.utils.BlockUtils;
@@ -305,6 +307,21 @@ public class Font implements Disposable {
             for (int i = 0; i < map.size && i < 16; i++) {
                 String name = ks.get(i);
                 if ((connected[i] = map.get(name)) == null) continue;
+                fontAliases.put(name, i);
+                fontAliases.put(connected[i].name, i);
+                fontAliases.put(String.valueOf(i), i);
+            }
+        }
+        
+        public FontFamily(Skin skin) {
+            ObjectMap<String, BitmapFont> map = skin.getAll(BitmapFont.class);
+            Array<String> keys = map.keys().toArray();
+            for (int i = 0; i < map.size && i < 16; i++) {
+                String name = keys.get(i);
+                Font font = new Font(map.get(name));
+                font.name = name;
+                font.family = this;
+                connected[i] = font;
                 fontAliases.put(name, i);
                 fontAliases.put(connected[i].name, i);
                 fontAliases.put(String.valueOf(i), i);
