@@ -242,12 +242,13 @@ class Parser {
                 }
                 case SPEED: {
                     switch (tokenName) {
-                        case "SPEED":
+                        case "SPEED": {
                             float minModifier = TypingConfig.MIN_SPEED_MODIFIER;
                             float maxModifier = TypingConfig.MAX_SPEED_MODIFIER;
                             float modifier = MathUtils.clamp(stringToFloat(firstParam, 1), minModifier, maxModifier);
                             floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / modifier;
                             break;
+                        }
                         case "SLOWER":
                             floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / 0.500f;
                             break;
@@ -263,6 +264,13 @@ class Parser {
                         case "FASTER":
                             floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / 4.000f;
                             break;
+                        case "NATURAL": {
+                            float minModifier = TypingConfig.MIN_SPEED_MODIFIER;
+                            float maxModifier = TypingConfig.MAX_SPEED_MODIFIER;
+                            float modifier = MathUtils.clamp(stringToFloat(firstParam, 1), minModifier, maxModifier);
+                            floatValue = -TypingConfig.DEFAULT_SPEED_PER_CHAR / modifier;
+                            break;
+                        }
                     }
                     break;
                 }

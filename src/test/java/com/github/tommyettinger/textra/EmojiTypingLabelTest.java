@@ -141,8 +141,9 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //                        + "But... {SICK}U. Nitty{ENDSICK} doesn't."
 //                        + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
                 "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
-                + "But... {SICK}U. Nitty{ENDSICK} doesn't. {CROWD}[#BB1100][+skull][#55AA22][+🤡][]\n"
-                + "Scale testing: [_][~][%25]gr[%50]oo[%75]oo[%100]oo[%125]oo[%150]oo[%175]oo[%200]oow!"
+                + "But... {SICK}U. Nitty{ENDSICK} doesn't. {CROWD}[#BB1100][+skull][#55AA22][+🤡]{ENDCROWD}{CLEARCOLOR}\n"
+                + "Scale testing: [_][~][%25]gr[%50]oo[%75]oo[%100]oo[%125]oo[%150]oo[%175]oo[%200]oow![]\n"
+                + "{NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
                 ,
 //
 //                "I love TextraTypist! 😀\n" +
