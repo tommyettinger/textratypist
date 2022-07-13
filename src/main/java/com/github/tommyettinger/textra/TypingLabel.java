@@ -23,19 +23,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.FloatArray;
-import com.badlogic.gdx.utils.LongArray;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 import java.lang.StringBuilder;
 import java.util.Arrays;
 import java.util.Map;
-
-import static com.badlogic.gdx.utils.Align.*;
 
 /**
  * An extension of {@link Label} that progressively shows the text as if it was being typed in real time, and allows the
@@ -504,6 +498,18 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
+     * Returns a seeded random float between -2.4f and -0.4f. This is meant to be used to randomize the typing
+     * speed-ups and slow-downs for natural typing, when the NATURAL tag is used. It returns a negative value because
+     * when textSpeed is negative, that indicates natural typing should be used, and so we multiply negative textSpeed
+     * by a negative random value to get a normal positive textSpeed.
+     * @param seed any int; should be the same if a value should be replicable
+     * @return a random float between -2.4f and -0.4f
+     */
+    private float randomize(int seed) {
+        return NumberUtils.intBitsToFloat((int) ((seed ^ 0x9E3779B97F4A7C15L) * 0xD1B54A32D192ED03L >>> 41) | 0x40000000) - 4.4f;
+    }
+
+    /**
      * Proccess char progression according to current cooldown and process all tokens in the current index.
      */
     private void processCharProgression() {
@@ -522,7 +528,11 @@ public class TypingLabel extends TextraLabel {
                 }
 
                 // Increment cooldown and wait for it
-                charCooldown += textSpeed;
+                if(textSpeed < 0f) {
+                    charCooldown += textSpeed * randomize(glyphCharIndex);
+                }
+                else
+                    charCooldown += textSpeed;
                 continue;
             }
 
@@ -606,7 +616,12 @@ public class TypingLabel extends TextraLabel {
             if (layoutSize > 0) {
                 baseChar = getInLayout(layout, safeIndex);
                 float intervalMultiplier = TypingConfig.INTERVAL_MULTIPLIERS_BY_CHAR.get((char) baseChar, 1);
-                charCooldown += textSpeed * intervalMultiplier;
+                if(textSpeed < 0f) {
+                    charCooldown += textSpeed * randomize(glyphCharIndex) * intervalMultiplier;
+                }
+                else
+                    charCooldown += textSpeed * intervalMultiplier;
+//                charCooldown += textSpeed * intervalMultiplier;
             }
 
 
@@ -631,7 +646,7 @@ public class TypingLabel extends TextraLabel {
 //                }
 //                glyphCharIndex++;
 
-                charCooldown = textSpeed;
+                charCooldown = Math.abs(textSpeed);
                 break;
             }
 
@@ -639,7 +654,7 @@ public class TypingLabel extends TextraLabel {
             charCounter++;
             int charLimit = TypingConfig.CHAR_LIMIT_PER_FRAME;
             if (!skipping && charLimit > 0 && charCounter > charLimit) {
-                charCooldown = Math.max(charCooldown, textSpeed);
+                charCooldown = Math.max(charCooldown, Math.abs(textSpeed));
                 break;
             }
         }

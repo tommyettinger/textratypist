@@ -26,6 +26,7 @@ enum InternalToken {
     NORMAL("NORMAL", TokenCategory.SPEED),
     FAST("FAST", TokenCategory.SPEED),
     FASTER("FASTER", TokenCategory.SPEED),
+    NATURAL("NATURAL", TokenCategory.SPEED),
     COLOR("COLOR", TokenCategory.COLOR),
     STYLE("STYLE", TokenCategory.COLOR),
     SIZE("SIZE", TokenCategory.COLOR),

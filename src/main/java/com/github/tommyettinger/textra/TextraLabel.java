@@ -27,8 +27,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.Align;
 
-import static com.badlogic.gdx.utils.Align.*;
-
 /**
  * A scene2d.ui Widget that displays text using a {@link Font} rather than a libGDX BitmapFont. This supports being
  * laid out in a Table just like the typical Label.
