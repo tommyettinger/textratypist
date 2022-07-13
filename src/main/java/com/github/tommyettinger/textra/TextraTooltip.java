@@ -58,10 +58,11 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
         final TextraLabel label = newLabel(text, style.label);
         label.setAlignment(Align.center);
         label.setWrap(true);
+        label.layout.setTargetWidth(style.wrapWidth);
         getContainer().setActor(label);
-        getContainer().width(label.layout.getWidth());
-
+        getContainer().width(style.wrapWidth);
         setStyle(style);
+        label.setText(text);
     }
 
     public TextraTooltip(@Null String text, Skin skin, Font replacementFont) {
@@ -90,9 +91,11 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
         final TextraLabel label = newLabel(text, replacementFont, style.label.fontColor);
         label.setAlignment(Align.center);
         label.setWrap(true);
+        label.layout.setTargetWidth(style.wrapWidth);
         getContainer().setActor(label);
-        getContainer().width(label.layout.getWidth());
+        getContainer().width(style.wrapWidth);
         setStyle(style, replacementFont);
+        label.setText(text);
     }
 
     protected TextraLabel newLabel(String text, LabelStyle style) {
