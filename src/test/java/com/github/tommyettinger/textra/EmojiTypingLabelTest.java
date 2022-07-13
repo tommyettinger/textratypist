@@ -41,7 +41,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         float scale = 0.5f;
         skin.getFont("default-font").getData().setScale(scale);
         stage = new Stage(new ScreenViewport(), batch);
-        stage.setDebugAll(true);
+//        stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);
 
         final Table table = new Table();

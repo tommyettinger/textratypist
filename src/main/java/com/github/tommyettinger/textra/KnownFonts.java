@@ -126,7 +126,7 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.astarryMSDF == null) {
             try {
-                instance.astarryMSDF = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, 0, 0, 0, 0, false)
+                instance.astarryMSDF = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, -12, -12, 0, 0, false)
                         .scaleTo(10, 10).setCrispness(2f).setName("A Starry (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();

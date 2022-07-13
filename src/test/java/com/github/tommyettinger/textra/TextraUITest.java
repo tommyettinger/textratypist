@@ -77,7 +77,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
-		 stage.setDebugAll(true);
+//		 stage.setDebugAll(true);
 
 		ImageTextButtonStyle style = new ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);

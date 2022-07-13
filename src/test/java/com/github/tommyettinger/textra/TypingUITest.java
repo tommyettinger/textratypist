@@ -71,16 +71,16 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //				.useIntegerPositions(true);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
-//				KnownFonts.getYanoneKaffeesatz()
-				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
-				.scaleTo(30, 35)
-				.setName("Kingthings Foundation");
+				KnownFonts.getYanoneKaffeesatz()
+//				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
+				.scaleTo(30, 35);
+//				.setName("Yanone Kaffeesatz");
 		font.family.connected[0] = font;
 //		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
-		stage.setDebugAll(true);
+//		stage.setDebugAll(true);
 
 		ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
