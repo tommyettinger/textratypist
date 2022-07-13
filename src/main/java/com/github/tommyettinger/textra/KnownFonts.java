@@ -420,7 +420,7 @@ public final class KnownFonts implements LifecycleListener {
      * scale as well as other standard bitmap fonts here.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/6frmNrt.png">Image link</a> (uses width=17, height=21, adjustLineHeight(1.3f))
+     * Preview: <a href="https://i.imgur.com/pc36Sum.png">Image link</a> (uses width=16, height=20, adjustLineHeight(1.25f))
      * <br>
      * Needs files:
      * <ul>
@@ -435,8 +435,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.hanazono == null) {
             try {
-                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 5, -12, 0, 0, true).scaleTo(17, 21)
-                        .adjustLineHeight(0.85f)
+                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 0, -5, 0, 0, true).scaleTo(16, 20)
+                        .adjustLineHeight(1.25f)
                         .setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
                 e.printStackTrace();

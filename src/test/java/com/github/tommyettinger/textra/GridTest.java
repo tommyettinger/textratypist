@@ -185,7 +185,8 @@ public class GridTest extends ApplicationAdapter {
 //        }
         font.drawGlyphs(batch, layout,
 //0f, y, Align.left
-                PIXEL_WIDTH * 0.5f, y - font.cellHeight * 2, Align.center
+//                PIXEL_WIDTH * 0.5f
+                0, y - font.cellHeight * 2, Align.left
         );
         font.drawGlyph(batch, Font.markupGlyph(font.solidBlock, "[RED]", ColorLookup.INSTANCE), 0, Gdx.graphics.getHeight() - font.cellHeight);
         marquee.draw(batch, 1f);
