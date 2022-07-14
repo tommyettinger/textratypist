@@ -23,7 +23,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.FloatArray;
+import com.badlogic.gdx.utils.LongArray;
+import com.badlogic.gdx.utils.NumberUtils;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
@@ -621,7 +626,6 @@ public class TypingLabel extends TextraLabel {
                 }
                 else
                     charCooldown += textSpeed * intervalMultiplier;
-//                charCooldown += textSpeed * intervalMultiplier;
             }
 
 

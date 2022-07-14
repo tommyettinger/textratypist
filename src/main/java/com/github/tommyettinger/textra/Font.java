@@ -35,7 +35,6 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.LongArray;
 import com.badlogic.gdx.utils.NumberUtils;
-import com.badlogic.gdx.utils.ObjectIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.badlogic.gdx.utils.Pool;
@@ -1920,7 +1919,7 @@ public class Font implements Disposable {
     public Font addAtlas(TextureAtlas atlas) {
         Array<TextureAtlas.AtlasRegion> regions = atlas.getRegions();
         if(nameLookup == null)
-            nameLookup = new CaseInsensitiveIntMap(regions.size, 0.75f);
+            nameLookup = new CaseInsensitiveIntMap(regions.size, 0.6f);
         else
             nameLookup.ensureCapacity(regions.size);
         TextureAtlas.AtlasRegion previous = regions.first();
