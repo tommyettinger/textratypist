@@ -97,13 +97,13 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 
 	/** Creates a new map with an initial capacity of 51 and a load factor of 0.8. */
 	public CaseInsensitiveIntMap() {
-		this(51, 0.8f);
+		this(51, 0.6f);
 	}
 
 	/** Creates a new map with a load factor of 0.8.
 	 * @param initialCapacity The backing array size is initialCapacity / loadFactor, increased to the next power of two. */
 	public CaseInsensitiveIntMap(int initialCapacity) {
-		this(initialCapacity, 0.8f);
+		this(initialCapacity, 0.6f);
 	}
 
 	/** Creates a new map with the specified initial capacity and load factor. This map will hold initialCapacity items before
@@ -132,24 +132,13 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 	}
 
 	/** Returns an index >= 0 and <= {@link #mask} for the specified {@code item}.
-	 * <p>
-	 * The default implementation uses Fibonacci hashing on the item's {@link Object#hashCode()}: the hashcode is multiplied by a
-	 * long constant (2 to the 64th, divided by the golden ratio) then the uppermost bits are shifted into the lowest positions to
-	 * obtain an index in the desired range. Multiplication by a long may be slower than int (eg on GWT) but greatly improves
-	 * rehashing, allowing even very poor hashcodes, such as those that only differ in their upper bits, to be used without high
-	 * collision rates. Fibonacci hashing has increased collision rates when all or most hashcodes are multiples of larger
-	 * Fibonacci numbers (see <a href=
-	 * "https://probablydance.com/2018/06/16/fibonacci-hashing-the-optimization-that-the-world-forgot-or-a-better-alternative-to-integer-modulo/">Malte
-	 * Skarupke's blog post</a>).
-	 * <p>
-	 * This method can be overriden to customizing hashing. This may be useful eg in the unlikely event that most hashcodes are
-	 * Fibonacci numbers, if keys provide poor or incorrect hashcodes, or to simplify hashing if keys provide high quality
-	 * hashcodes and don't need Fibonacci hashing: {@code return item.hashCode() & mask;} */
+	 */
 	protected int place (String item) {
-		int n = item.length();
+		final int n = item.length();
+		final long hm = hashMultiplier;
 		long h = n;
 		for (int i = 0; i < n; i++) {
-			h = h * hashMultiplier + Category.caseFold(item.charAt(i));
+			h = h * hm + Category.caseFold(item.charAt(i));
 		}
 		return (int)(h >>> shift);
 	}

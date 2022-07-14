@@ -17,7 +17,7 @@
 package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.utils.ObjectFloatMap;
+import com.badlogic.gdx.utils.IntFloatMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.github.tommyettinger.textra.effects.*;
@@ -62,9 +62,9 @@ public class TypingConfig {
 
     /**
      * Returns a map of characters and their respective interval multipliers, of which the interval to the next char
-     * should be multiplied for.
+     * should be multiplied for. The keys are technically primitive ints, but only a char is used for each key.
      */
-    public static ObjectFloatMap<Character> INTERVAL_MULTIPLIERS_BY_CHAR = new ObjectFloatMap<Character>();
+    public static IntFloatMap INTERVAL_MULTIPLIERS_BY_CHAR = new IntFloatMap();
 
     /**
      * Map of global variables that affect all {@link TypingLabel} instances at once.
