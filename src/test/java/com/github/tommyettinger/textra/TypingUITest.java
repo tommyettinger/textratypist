@@ -137,7 +137,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		passwordTextField.setPasswordCharacter('*');
 		passwordTextField.setPasswordMode(true);
 
-		buttonMulti.addListener(new TextraTooltip(
+		buttonMulti.addListener(new TypingTooltip(
 			"This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip!",
 			skin));
 		Table tooltipTable = new Table(skin);

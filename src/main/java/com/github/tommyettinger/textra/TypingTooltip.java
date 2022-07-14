@@ -60,10 +60,11 @@ public class TypingTooltip extends Tooltip<TypingLabel> {
         final TypingLabel label = newLabel(text, style.label);
         label.setAlignment(Align.center);
         label.setWrap(true);
+        label.layout.setTargetWidth(style.wrapWidth);
         getContainer().setActor(label);
-        getContainer().width(label.layout.getWidth());
-
+        getContainer().width(style.wrapWidth);
         setStyle(style);
+        label.setText(text);
     }
 
     public TypingTooltip(@Null String text, Skin skin, Font replacementFont) {
@@ -92,9 +93,11 @@ public class TypingTooltip extends Tooltip<TypingLabel> {
         final TypingLabel label = newLabel(text, replacementFont, style.label.fontColor);
         label.setAlignment(Align.center);
         label.setWrap(true);
+        label.layout.setTargetWidth(style.wrapWidth);
         getContainer().setActor(label);
-        getContainer().width(label.layout.getWidth());
+        getContainer().width(style.wrapWidth);
         setStyle(style, replacementFont);
+        label.setText(text);
     }
 
     protected TypingLabel newLabel(String text, LabelStyle style) {
