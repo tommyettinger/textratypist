@@ -135,12 +135,11 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 	 */
 	protected int place (String item) {
 		final int n = item.length();
-		final long hm = hashMultiplier;
-		long h = n;
+		int h = n;
 		for (int i = 0; i < n; i++) {
-			h = h * hm + Category.caseFold(item.charAt(i));
+			h = 1003 * h ^ Category.caseFold(item.charAt(i));
 		}
-		return (int)(h >>> shift);
+		return (int)(h * hashMultiplier >>> shift);
 	}
 
 	/** Returns the index of the key if already present, else -(index + 1) for the next empty index. This can be overridden in this
@@ -150,7 +149,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		String[] keyTable = this.keyTable;
 		for (int i = place(key);; i = i + 1 & mask) {
 			String other = keyTable[i];
-			if (other == null) return -(i + 1); // Empty space is available.
+			if (other == null) return ~i; // Empty space is available.
 			if (other.equalsIgnoreCase(key)) return i; // Same key was found.
 		}
 	}
@@ -161,7 +160,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 			valueTable[i] = value;
 			return;
 		}
-		i = -(i + 1); // Empty space was found.
+		i = ~i; // Empty space was found.
 		keyTable[i] = key;
 		valueTable[i] = value;
 		if (++size >= threshold) resize(keyTable.length << 1);
@@ -175,7 +174,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 			valueTable[i] = value;
 			return oldValue;
 		}
-		i = -(i + 1); // Empty space was found.
+		i = ~i; // Empty space was found.
 		keyTable[i] = key;
 		valueTable[i] = value;
 		if (++size >= threshold) resize(keyTable.length << 1);
@@ -220,7 +219,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 			valueTable[i] += increment;
 			return oldValue;
 		}
-		i = -(i + 1); // Empty space was found.
+		i = ~i; // Empty space was found.
 		keyTable[i] = key;
 		valueTable[i] = defaultValue + increment;
 		if (++size >= threshold) resize(keyTable.length << 1);
