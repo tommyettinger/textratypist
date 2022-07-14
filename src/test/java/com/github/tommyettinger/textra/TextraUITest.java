@@ -36,6 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.stripe.FreeTypeSkin;
 
@@ -64,15 +65,18 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-
+//		long nanos = TimeUtils.nanoTime();
 		final Font font = KnownFonts.getStandardFamily();
-//				new Font(skin.get(LabelStyle.class).font)
-//				.adjustLineHeight(0.75f);//.useIntegerPositions(true);
+//		System.out.println("Loading the standard family took " + TimeUtils.timeSinceNanos(nanos) + " ns.");
+
+//		KnownFonts.addEmoji(font);
 
 		for(Font f : font.family.connected) {
 			if(f != null)
 				KnownFonts.addEmoji(f);
 		}
+//		System.out.println("Loading the family with all emoji took " + TimeUtils.timeSinceNanos(nanos) + " ns.");
+
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);

@@ -1130,9 +1130,8 @@ public final class KnownFonts implements LifecycleListener {
      *     <li>{@code Cozette}, which is {@link #getCozette()},</li>
      *     <li>{@code Iosevka}, which is {@link #getIosevka()},</li>
      *     <li>{@code Medieval}, which is {@link #getKingthingsFoundation()},</li>
-     *     <li>{@code Future}, which is {@link #getOxanium()},</li>
-     *     <li>{@code Console}, which is {@link #getAStarry()}, and</li>
-     *     <li>{@code Hanazono}, which is {@link #getHanazono()}.</li>
+     *     <li>{@code Future}, which is {@link #getOxanium()}, and</li>
+     *     <li>{@code Console}, which is {@link #getAStarry()}.</li>
      * </ul>
      * You can also always use the full name of one of these fonts, which can be obtained using {@link Font#getName()}.
      * {@code Serif}, which is {@link #getGentium()}, will always be the default font used after a reset.
@@ -1145,10 +1144,10 @@ public final class KnownFonts implements LifecycleListener {
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{"Serif", "Sans", "Mono", "Condensed", "Humanist",
                         "Retro", "Slab", "Bitter", "Canada", "Cozette", "Iosevka",
-                        "Medieval", "Future", "Console", "Hanazono"},
+                        "Medieval", "Future", "Console"},
                 new Font[]{getGentium(), getOpenSans(), getInconsolata(), getRobotoCondensed(), getYanoneKaffeesatz(),
                         getIBM8x16(), getIosevkaSlab(), getBitter(), getCanada(), getCozette(), getIosevka(),
-                        getKingthingsFoundation(), getOxanium(), getAStarry(), getHanazono()});
+                        getKingthingsFoundation(), getOxanium(), getAStarry()});
         return family.connected[0].setFamily(family);
     }
 
