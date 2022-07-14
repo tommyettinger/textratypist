@@ -40,6 +40,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.badlogic.gdx.utils.Pool;
 import com.github.tommyettinger.textra.utils.BlockUtils;
+import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 import regexodus.Category;
 
@@ -211,8 +212,9 @@ public class Font implements Disposable {
         /**
          * Stores the names of Fonts (or aliases for those Fonts) as keys, mapped to ints between 0 and 15 inclusive.
          * The int values that this map keeps are stored in long glyphs and looked up as indices in {@link #connected}.
+         * This map is case-insensitive when comparing keys or getting their values.
          */
-        public final ObjectIntMap<String> fontAliases = new ObjectIntMap<>(48);
+        public final CaseInsensitiveIntMap fontAliases = new CaseInsensitiveIntMap(48);
 
         /**
          * Creates a FontFamily that only allows staying on the same font, unless later configured otherwise.
@@ -392,9 +394,9 @@ public class Font implements Disposable {
 
     /**
      * Optional; maps the names of TextureRegions to the indices they use in {@link #mapping}, and usually assigned by
-     * {@link #addAtlas(TextureAtlas)}.
+     * {@link #addAtlas(TextureAtlas)}. The keys in this map are case-insensitive.
      */
-    public ObjectIntMap<String> nameLookup;
+    public CaseInsensitiveIntMap nameLookup;
     /**
      * Which GlyphRegion to display if a char isn't found in {@link #mapping}. May be null to show a space by default.
      */
@@ -931,7 +933,7 @@ public class Font implements Disposable {
             mapping.put(e.key, new GlyphRegion(e.value));
         }
         if(toCopy.nameLookup != null)
-            nameLookup = new ObjectIntMap<>(toCopy.nameLookup);
+            nameLookup = new CaseInsensitiveIntMap(toCopy.nameLookup);
         defaultValue = toCopy.defaultValue;
         kerning = toCopy.kerning == null ? null : new IntIntMap(toCopy.kerning);
         solidBlock = toCopy.solidBlock;
@@ -1871,7 +1873,7 @@ public class Font implements Disposable {
      * normal, such as any with human skin tones. These won't be handled well... You may want to use the
      * {@code [+scientist, dark skin tone]} or {@code [+🧑🏿‍🔬]} syntax for multipart emoji when you actually have an
      * atlas full of emoji to draw from.
-     * <a href="https://github.com/tommyettinger/twemoji-atlas/tree/main/atlas-mid">Like this atlas.</a>
+     * <a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Twemoji.atlas">Like this atlas.</a>
      *
      * @param character a String containing at least one character; only the last char (not codepoint) will be used
      * @param region the TextureRegion to associate with the given character
@@ -1896,7 +1898,7 @@ public class Font implements Disposable {
      * those are unused). Some emoji glyphs require more characters than normal, such as any with human skin tones.
      * These won't be handled well... You may want to use the {@code [+scientist, dark skin tone]} or {@code [+🧑🏿‍🔬]}
      * syntax for multipart emoji when you actually have an atlas full of emoji to draw from.
-     * <a href="https://github.com/tommyettinger/twemoji-atlas/tree/main/atlas-mid">Like this atlas.</a>
+     * <a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Twemoji.atlas">Like this atlas.</a>
      * @param character a String containing at least one character; only the last char (not codepoint) will be used
      * @param region the TextureRegion to associate with the given character
      * @return this Font, for chaining
@@ -1909,15 +1911,16 @@ public class Font implements Disposable {
 
     /**
      * Adds all items in {@code atlas} to the private use area of {@link #mapping}, and stores their names, so they can
-     * be looked up with {@code [+saxophone]} syntax.
-     * <a href="https://github.com/tommyettinger/twemoji-atlas/tree/main/atlas-mid">Here's a possible atlas.</a>
+     * be looked up with {@code [+saxophone]} syntax (which is often the same as the {@code [+🎷]} syntax). The names
+     * of TextureRegions in the atlas are treated as case-insensitive, like some file systems.
+     * <a href="https://github.com/tommyettinger/twemoji-atlas/">There are possible emoji atlases here.</a>
      * @param atlas a TextureAtlas that shouldn't have more than 6144 names; all of it will be used
      * @return this Font, for chaining
      */
     public Font addAtlas(TextureAtlas atlas) {
         Array<TextureAtlas.AtlasRegion> regions = atlas.getRegions();
         if(nameLookup == null)
-            nameLookup = new ObjectIntMap<>(regions.size, 0.75f);
+            nameLookup = new CaseInsensitiveIntMap(regions.size, 0.75f);
         else
             nameLookup.ensureCapacity(regions.size);
         TextureAtlas.AtlasRegion previous = regions.first();
