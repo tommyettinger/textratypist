@@ -17,11 +17,14 @@
 package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -29,20 +32,28 @@ import com.badlogic.gdx.utils.ScreenUtils;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class EmojiAlignmentTest extends ApplicationAdapter {
     public Stage stage;
-    public Font font;
+    public Font font, font2;
 
     @Override
     public void create() {
         stage = new Stage();
         font = KnownFonts.getOxanium().scaleTo(16f, 18f);
+        // without the adjustments to y position or width in KnownFonts, this doesn't display emoji as well.
+        font2 = new Font(new BitmapFont(Gdx.files.internal("Oxanium-standard.fnt"))).scaleTo(16f, 18f);
         KnownFonts.addEmoji(font);
-        TypingLabel typingLabel = new TypingLabel("Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
+        KnownFonts.addEmoji(font2);
+        TypingLabel typingLabel = new TypingLabel("[#cc99aa]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
         typingLabel.layout.setTargetWidth(400);
         typingLabel.setAlignment(Align.center);
         typingLabel.setWrap(true);
+        TypingLabel typingLabel2 = new TypingLabel("Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font2);
+        typingLabel2.layout.setTargetWidth(400);
+        typingLabel2.setAlignment(Align.center);
+        typingLabel2.setWrap(true);
+        Stack stack = new Stack(typingLabel, typingLabel2);
         Table root = new Table();
         root.setFillParent(true);
-        root.add(typingLabel);
+        root.add(stack);
         stage.addActor(root);
     }
 
