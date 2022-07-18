@@ -258,9 +258,9 @@ public class LabelRotationTest extends ApplicationAdapter {
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
 //		config.enableGLDebugOutput(true, System.out);
-//		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
+		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
-        config.setForegroundFPS(60);
+//        config.setForegroundFPS(60);
         new Lwjgl3Application(new LabelRotationTest(), config);
     }
 
