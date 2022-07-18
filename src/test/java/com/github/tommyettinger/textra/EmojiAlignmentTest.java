@@ -37,7 +37,8 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
-        font = KnownFonts.getOxanium().scaleTo(16f, 18f);
+//        font = KnownFonts.getOxanium().scaleTo(16f, 18f);
+        font = new Font("Oxanium-standard.fnt").scaleTo(16f, 18f);
         // without the adjustments to y position or width in KnownFonts, this doesn't display emoji as well.
         font2 = new Font(new BitmapFont(Gdx.files.internal("Oxanium-standard.fnt"))).scaleTo(16f, 18f);
         KnownFonts.addEmoji(font);
@@ -50,7 +51,7 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         typingLabel2.layout.setTargetWidth(400);
         typingLabel2.setAlignment(Align.center);
         typingLabel2.setWrap(true);
-        Stack stack = new Stack(typingLabel2);
+        Stack stack = new Stack(typingLabel2, typingLabel);
         Table root = new Table();
         root.setFillParent(true);
         root.add(stack);
