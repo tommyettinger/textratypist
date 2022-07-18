@@ -143,7 +143,8 @@ public class TextraButton extends Button {
     }
 
     public void draw(Batch batch, float parentAlpha) {
-        label.setColor(getFontColor());
+        Color c = getFontColor();
+        if(c != null) label.setColor(c);
         super.draw(batch, parentAlpha);
     }
 
