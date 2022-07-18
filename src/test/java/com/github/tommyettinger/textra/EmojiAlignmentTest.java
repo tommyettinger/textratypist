@@ -50,7 +50,7 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         typingLabel2.layout.setTargetWidth(400);
         typingLabel2.setAlignment(Align.center);
         typingLabel2.setWrap(true);
-        Stack stack = new Stack(typingLabel, typingLabel2);
+        Stack stack = new Stack(typingLabel2);
         Table root = new Table();
         root.setFillParent(true);
         root.add(stack);

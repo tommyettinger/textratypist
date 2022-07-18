@@ -1281,17 +1281,18 @@ public class Font implements Disposable {
 
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
-     * without a distance field effect or any adjustments to position.
+     * without a distance field effect or any adjustments to position except for a y offset equal to
+     * {@link BitmapFont#getDescent()}.
      *
      * @param bmFont an existing BitmapFont that will be copied in almost every way this can
      */
     public Font(BitmapFont bmFont) {
-        this(bmFont, DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f);
+        this(bmFont, DistanceFieldType.STANDARD, 0f, 0, 0f, 0f, false);
     }
 
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
-     * without a distance field effect.
+     * without a distance field effect. Adds a value to {@code yAdjust} equal to {@link BitmapFont#getDescent()}.
      *
      * @param bmFont       an existing BitmapFont that will be copied in almost every way this can
      * @param xAdjust      how many pixels to offset each character's x-position by, moving to the right
@@ -1301,12 +1302,13 @@ public class Font implements Disposable {
      */
     public Font(BitmapFont bmFont,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust) {
-        this(bmFont, DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust);
+        this(bmFont, DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, false);
     }
 
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
-     * with the specified distance field effect.
+     * with the specified distance field effect. Adds a value to {@code yAdjust} equal to
+     * {@link BitmapFont#getDescent()}.
      *
      * @param bmFont        an existing BitmapFont that will be copied in almost every way this can
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
@@ -1322,7 +1324,8 @@ public class Font implements Disposable {
 
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
-     * with the specified distance field effect.
+     * with the specified distance field effect. Adds a value to {@code yAdjust} equal to
+     * {@link BitmapFont#getDescent()}.
      *
      * @param bmFont         an existing BitmapFont that will be copied in almost every way this can
      * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
@@ -1353,6 +1356,10 @@ public class Font implements Disposable {
         BitmapFont.BitmapFontData data = bmFont.getData();
         mapping = new IntMap<>(128);
         int minWidth = Integer.MAX_VALUE;
+
+        // Needed to make emoji and other texture regions appear at a reasonable height on the line.
+        yAdjust += bmFont.getDescent();
+
         for (BitmapFont.Glyph[] page : data.glyphs) {
             if (page == null) continue;
             for (BitmapFont.Glyph glyph : page) {
