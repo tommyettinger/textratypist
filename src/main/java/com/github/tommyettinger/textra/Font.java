@@ -2730,8 +2730,76 @@ public class Font implements Disposable {
 
     public float calculateSize(Layout layout) {
         float w = 0f;
-        for (int i = 0; i < layout.lines(); i++) {
-            w = Math.max(w, calculateSize(layout.getLine(i)));
+        float currentHeight = 0f;
+        for (int ln = 0; ln < layout.lines(); ln++) {
+            float drawn = 0f;
+            float scaleX;
+            float scale;
+            Line line = layout.getLine(ln);
+            LongArray glyphs = line.glyphs;
+            boolean curly = false, initial = true;
+            int kern = -1;
+            float amt;
+            line.height = currentHeight;
+            for (int i = 0, n = glyphs.size; i < n; i++) {
+                long glyph = glyphs.get(i);
+                char ch = (char) glyph;
+                if (curly) {
+                    if (ch == '}') {
+                        curly = false;
+                        continue;
+                    } else if (ch == '{')
+                        curly = false;
+                    else continue;
+                } else if (ch == '{') {
+                    curly = true;
+                    continue;
+                }
+                Font font = null;
+                if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
+                if (font == null) font = this;
+                GlyphRegion tr = font.mapping.get(ch);
+                if (tr == null) continue;
+                if (font.kerning != null) {
+                    kern = kern << 16 | ch;
+                    scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                    if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
+                        scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
+                    }
+                    else
+                        scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
+                    line.height = Math.max(line.height, currentHeight = font.cellHeight * scale);
+                    amt = font.kerning.get(kern, 0) * scaleX;
+                    float changedW = tr.xAdvance * scaleX;
+                    if(initial){
+                        float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
+                                * scaleX;
+                        if(ox < 0) changedW -= ox;
+                        initial = false;
+                    }
+                    drawn += changedW + amt;
+                } else {
+                    scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                    line.height = Math.max(line.height, currentHeight = font.cellHeight * scale);
+                    if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
+                        scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
+                    }
+                    else
+                        scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
+                    float changedW = tr.xAdvance * scaleX;
+                    if (font.isMono)
+                        changedW += tr.offsetX * scaleX;
+                    else if(initial){
+                        float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
+                                * scaleX;
+                        if(ox < 0) changedW -= ox;
+                        initial = false;
+                    }
+                    drawn += changedW;
+                }
+            }
+            line.width = drawn;
+            w = Math.max(w, drawn);
         }
         return w;
     }
