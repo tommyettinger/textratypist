@@ -330,7 +330,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		String[] oldKeyTable = keyTable;
 		int[] oldValueTable = valueTable;
 
-		keyTable = (String[])new Object[newSize];
+		keyTable = new String[newSize];
 		valueTable = new int[newSize];
 
 		if (size > 0) {
