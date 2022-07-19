@@ -1488,10 +1488,11 @@ public class Font implements Disposable {
         int idx = indexAfter(fnt, "lineHeight=", 0);
         int rawLineHeight = intFromDec(fnt, idx, idx = indexAfter(fnt, "base=", idx));
         int baseline = intFromDec(fnt, idx, idx = indexAfter(fnt, "pages=", idx));
+        int descent = baseline - rawLineHeight;
         // The SDF and MSDF fonts have essentially garbage for baseline, since Glamer can't accurately guess it.
         // For standard fonts, we incorporate the descender into yAdjust, which seems to be reliable.
         if(distanceField == DistanceFieldType.STANDARD)
-            yAdjust += baseline - rawLineHeight;
+            yAdjust += descent;
         int pages = intFromDec(fnt, idx, idx = indexAfter(fnt, "\npage id=", idx));
         if (parents == null || parents.size < pages) {
             if (parents == null) parents = new Array<>(true, pages, TextureRegion.class);

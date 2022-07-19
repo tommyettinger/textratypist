@@ -14,14 +14,40 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import java.nio.ByteBuffer;
 
-public class FontTest extends ApplicationAdapter {
+public class PreviewGenerator extends ApplicationAdapter {
 
     Font fnt;
     SpriteBatch batch;
     Layout layout = new Layout().setTargetWidth(800);
     Array<String> colorNames;
     long startTime;
+/*
+AStarry-standard.fnt has descent: -12
+AStarry-msdf.fnt has descent: -94
+Bitter-standard.fnt has descent: -38
+Canada1500-standard.fnt has descent: -15
+CascadiaMono-msdf.fnt has descent: -10
+Cozette-standard.fnt has descent: -3
+DejaVuSansMono-msdf.fnt has descent: 3
+Gentium-standard.fnt has descent: -31
+Gentium-sdf.fnt has descent: -18
+Hanazono-standard.fnt has descent: -5
+Inconsolata-LGC-Custom-standard.fnt has descent: -18
+Inconsolata-LGC-Custom-msdf.fnt has descent: -10
+Iosevka-standard.fnt has descent: -17
+Iosevka-msdf.fnt has descent: 5
+Iosevka-sdf.fnt has descent: 0
+Iosevka-Slab-standard.fnt has descent: -17
+Iosevka-Slab-msdf.fnt has descent: 5
+Iosevka-Slab-sdf.fnt has descent: 0
+KingthingsFoundation-standard.fnt has descent: -40
+LibertinusSerif-Regular-msdf.fnt has descent: 17
+OpenSans-standard.fnt has descent: -11
+Oxanium-standard.fnt has descent: -20
+RobotoCondensed-standard.fnt has descent: -13
+YanoneKaffeesatz-standard.fnt has descent: -19
 
+*/
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Font Preview Generator");
@@ -32,7 +58,7 @@ public class FontTest extends ApplicationAdapter {
         config.enableGLDebugOutput(true, System.out);
         config.setForegroundFPS(1);
         config.useVsync(true);
-        new Lwjgl3Application(new FontTest(), config);
+        new Lwjgl3Application(new PreviewGenerator(), config);
     }
 
     @Override
