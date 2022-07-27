@@ -472,6 +472,11 @@ public class Font implements Disposable {
     public float scaleY = 1f;
 
     /**
+     * How far the unscaled font descends below the baseline, typically as a negative number (not always).
+     */
+    public float descent = 0f;
+
+    /**
      * A char that will be used to draw solid blocks with {@link #drawBlocks(Batch, int[][], float, float)}, and to draw
      * box-drawing/block-element characters if {@code makeGridGlyphs} is true in the constructor. The glyph
      * that corresponds to this char should be a 1x1 pixel block of solid white pixels in most cases. Because Glamer
@@ -926,6 +931,7 @@ public class Font implements Disposable {
         scaleY = toCopy.scaleY;
         originalCellWidth = toCopy.originalCellWidth;
         originalCellHeight = toCopy.originalCellHeight;
+        descent = toCopy.descent;
         mapping = new IntMap<>(toCopy.mapping.size);
         for (IntMap.Entry<GlyphRegion> e : toCopy.mapping) {
             if (e.value == null) continue;
@@ -1457,12 +1463,13 @@ public class Font implements Disposable {
      * first, then a local handle) and loading any images specified in that file. This never uses a distance field
      * effect, and always tries to load one image by the path specified in the .font file.
      *
+     * @param prefix                a String to prepend to any filenames looked up for this Font (typically a .font file and a .png file)
      * @param fntName               the path and filename of a .font file this will load; may be internal or local
      * @param ignoredSadConsoleFlag the value is ignored here; the presence of this parameter says to load a SadConsole .font file
      */
-    public Font(String fntName, boolean ignoredSadConsoleFlag) {
+    public Font(String prefix, String fntName, boolean ignoredSadConsoleFlag) {
         this.distanceField = DistanceFieldType.STANDARD;
-        loadSad(fntName);
+        loadSad(prefix == null ? "" : prefix, fntName);
     }
 
     /**
@@ -1488,7 +1495,8 @@ public class Font implements Disposable {
         int idx = indexAfter(fnt, "lineHeight=", 0);
         int rawLineHeight = intFromDec(fnt, idx, idx = indexAfter(fnt, "base=", idx));
         int baseline = intFromDec(fnt, idx, idx = indexAfter(fnt, "pages=", idx));
-        int descent = baseline - rawLineHeight;
+        descent = baseline - rawLineHeight;
+
         // The SDF and MSDF fonts have essentially garbage for baseline, since Glamer can't accurately guess it.
         // For standard fonts, we incorporate the descender into yAdjust, which seems to be reliable.
         if(distanceField == DistanceFieldType.STANDARD)
@@ -1604,15 +1612,15 @@ public class Font implements Disposable {
      *
      * @param fntName the name of a font file this will load from an internal or local file handle (tried in that order)
      */
-    protected void loadSad(String fntName) {
+    protected void loadSad(String prefix, String fntName) {
         FileHandle fntHandle;
         JsonValue fnt;
         JsonReader reader = new JsonReader();
-        if ((fntHandle = Gdx.files.internal(fntName)).exists()
-                || (fntHandle = Gdx.files.local(fntName)).exists()) {
+        if ((fntHandle = Gdx.files.internal(prefix + fntName)).exists()
+                || (fntHandle = Gdx.files.local(prefix + fntName)).exists()) {
             fnt = reader.parse(fntHandle);
         } else {
-            throw new RuntimeException("Missing font file: " + fntName);
+            throw new RuntimeException("Missing font file: " + prefix + fntName);
         }
         int pages = 1;
         TextureRegion parent;
@@ -1620,11 +1628,11 @@ public class Font implements Disposable {
             if (parents == null) parents = new Array<>(true, pages, TextureRegion.class);
             FileHandle textureHandle;
             String textureName = fnt.getString("FilePath");
-            if ((textureHandle = Gdx.files.internal(textureName)).exists()
-                    || (textureHandle = Gdx.files.local(textureName)).exists()) {
+            if ((textureHandle = Gdx.files.internal(prefix + textureName)).exists()
+                    || (textureHandle = Gdx.files.local(prefix + textureName)).exists()) {
                 parents.add(parent = new TextureRegion(new Texture(textureHandle)));
             } else {
-                throw new RuntimeException("Missing texture file: " + textureName);
+                throw new RuntimeException("Missing texture file: " + prefix + textureName);
             }
         } else parent = parents.first();
 
