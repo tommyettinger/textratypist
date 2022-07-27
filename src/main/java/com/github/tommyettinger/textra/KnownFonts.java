@@ -354,7 +354,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.dejaVuSansMono == null) {
             try {
-                instance.dejaVuSansMono = new Font("DejaVuSansMono-msdf.fnt", "DejaVuSansMono-msdf.png", MSDF, 1f, 0f, 0f, 0f, true)
+                instance.dejaVuSansMono = new Font(instance.prefix + "DejaVuSansMono-msdf.fnt",
+                        instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 1f, 0f, 0f, 0f, true)
                         .scaleTo(9, 20).setName("DejaVu Sans Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -391,7 +392,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.gentium == null) {
             try {
-                instance.gentium = new Font("Gentium-standard.fnt", Font.DistanceFieldType.STANDARD, 0f, 21f, 0f, 0f, true)
+                instance.gentium = new Font(instance.prefix + "Gentium-standard.fnt",
+                        instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, 21f, 0f, 0f, true)
                         .scaleTo(31, 35).setTextureFilter().setName("Gentium");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -430,7 +432,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.gentiumSDF == null) {
             try {
-                instance.gentiumSDF = new Font("Gentium-sdf.fnt", "Gentium-sdf.png", SDF, 4f, 0f, 0f, 0f, true)
+                instance.gentiumSDF = new Font(instance.prefix + "Gentium-sdf.fnt",
+                        instance.prefix + "Gentium-sdf.png", SDF, 4f, 0f, 0f, 0f, true)
                         .scaleTo(50, 45).adjustLineHeight(0.8f).setCrispness(1.5f).setName("Gentium (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -466,7 +469,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.hanazono == null) {
             try {
-                instance.hanazono = new Font("Hanazono-standard.fnt", STANDARD, 0, -5, 0, 0, true).scaleTo(16, 20)
+                instance.hanazono = new Font(instance.prefix + "Hanazono-standard.fnt",
+                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, -5, 0, 0, true).scaleTo(16, 20)
 //                        .adjustLineHeight(1.25f)
                         .setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
@@ -508,7 +512,7 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.ibm8x16 == null) {
             try {
-                instance.ibm8x16 = new Font("IBM-8x16-standard.font", true)
+                instance.ibm8x16 = new Font(instance.prefix, "IBM-8x16-standard.font", true)
                         .fitCell(8, 16, false).setName("IBM 8x16");
             } catch (Exception e) {
                 e.printStackTrace();
