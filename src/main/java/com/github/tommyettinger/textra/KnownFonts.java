@@ -41,7 +41,9 @@ import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
  * particular Font. This knows a fair amount of fonts, but it doesn't require the image assets for all of those to be
  * present in a game -- only the files mentioned in the documentation for a method are needed, and only if you call that
  * method. It's likely that many games would only use one Font, and so would generally only need a .fnt file, a
- * .png file, and some kind of license file. They could ignore all other assets required by other fonts.
+ * .png file, and some kind of license file. They could ignore all other assets required by other fonts. The files this
+ * class needs are looked for in the assets root folder by default, but you can change the names or locations of asset
+ * files with {@link #setAssetPrefix(String)}.
  * <br>
  * There's some documentation for every known Font, including a link to a preview image and a listing of all required
  * files to use a Font. The required files include any license you need to abide by; this doesn't necessarily belong in
@@ -68,6 +70,20 @@ public final class KnownFonts implements LifecycleListener {
     private static void initialize() {
         if (instance == null)
             instance = new KnownFonts();
+    }
+
+    private String prefix = "";
+
+    /**
+     * Changes the String prepended to each filename this looks up. This should end in "/" if the files have the same
+     * name but are in a subdirectory (don't use backslashes for paths; they aren't cross-platform compatible). It can
+     * end without a "/" to prepend a String to the name of each file this looks up. The default prefix is "".
+     * @param prefix the new prefix to use before each filename, such as a subdirectory ending in "/"
+     */
+    public static void setAssetPrefix(String prefix) {
+        initialize();
+        if(prefix != null)
+            instance.prefix = prefix;
     }
 
     private Font astarry;
@@ -97,7 +113,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.astarry == null) {
             try {
-                instance.astarry = new Font("AStarry-standard.fnt", "AStarry-standard.png", STANDARD, 0, 24, 0, 0, true)
+                instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
+                        instance.prefix + "AStarry-standard.png", STANDARD, 0, 24, 0, 0, true)
                         .scaleTo(8, 8).setTextureFilter().setName("A Starry");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -134,7 +151,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.astarryMSDF == null) {
             try {
-                instance.astarryMSDF = new Font("AStarry-msdf.fnt", "AStarry-msdf.png", MSDF, -12, -12, 0, 0, false)
+                instance.astarryMSDF = new Font(instance.prefix + "AStarry-msdf.fnt",
+                        instance.prefix + "AStarry-msdf.png", MSDF, -12, -12, 0, 0, false)
                         .scaleTo(10, 10).setCrispness(2f).setName("A Starry (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -176,7 +194,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.bitter == null) {
             try {
-                instance.bitter = new Font("Bitter-standard.fnt", STANDARD, 0, 38, 0, 0, true)
+                instance.bitter = new Font(instance.prefix + "Bitter-standard.fnt",
+                        instance.prefix + "Bitter-standard.png", STANDARD, 0, 38, 0, 0, true)
                         .scaleTo(33, 30).adjustLineHeight(1.225f).setTextureFilter().setName("Bitter");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -215,7 +234,9 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.canada == null) {
             try {
-                instance.canada = new Font("Canada1500-standard.fnt", STANDARD, 0, 15, 0, 0, true)
+                instance.canada = new Font(instance.prefix + "Canada1500-standard.fnt",
+                        instance.prefix + "Canada1500-standard.png",
+                        STANDARD, 0, 15, 0, 0, true)
                         .scaleTo(30, 35).setTextureFilter().setName("Canada1500");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -253,7 +274,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.cascadiaMono == null) {
             try {
-                instance.cascadiaMono = new Font("CascadiaMono-msdf.fnt", "CascadiaMono-msdf.png", MSDF, 2f, 1f, 0f, 0f, true)
+                instance.cascadiaMono = new Font(instance.prefix + "CascadiaMono-msdf.fnt",
+                        instance.prefix + "CascadiaMono-msdf.png", MSDF, 2f, 1f, 0f, 0f, true)
                         .scaleTo(9, 16).setName("Cascadia Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -291,7 +313,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.cozette == null) {
             try {
-                instance.cozette = new Font("Cozette-standard.fnt", "Cozette-standard.png", STANDARD, 0, 0, 0, 0, false)
+                instance.cozette = new Font(instance.prefix + "Cozette-standard.fnt",
+                        instance.prefix + "Cozette-standard.png", STANDARD, 0, 0, 0, 0, false)
                         .useIntegerPositions(true)
                         .setName("Cozette");
             } catch (Exception e) {
