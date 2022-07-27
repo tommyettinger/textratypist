@@ -925,7 +925,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.libertinusSerif == null) {
             try {
-                instance.libertinusSerif = new Font("LibertinusSerif-Regular-msdf.fnt", "LibertinusSerif-Regular-msdf.png", MSDF, -2, -17, 0, 0, true)
+                instance.libertinusSerif = new Font(instance.prefix + "LibertinusSerif-Regular-msdf.fnt",
+                        instance.prefix + "LibertinusSerif-Regular-msdf.png", MSDF, -2, -17, 0, 0, true)
                         .scaleTo(132, 32).adjustLineHeight(0.75f).setName("Libertinus Serif (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -959,7 +960,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.openSans == null) {
             try {
-                instance.openSans = new Font("OpenSans-standard.fnt", "OpenSans-standard.png", STANDARD, 4, 6, 0, 0, true)
+                instance.openSans = new Font(instance.prefix + "OpenSans-standard.fnt",
+                        instance.prefix + "OpenSans-standard.png", STANDARD, 4, 6, 0, 0, true)
                         .scaleTo(20, 28).adjustLineHeight(0.8f).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -995,7 +997,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.oxanium == null) {
             try {
-                instance.oxanium = new Font("Oxanium-standard.fnt", STANDARD, 0, 12, -4, 0, true)
+                instance.oxanium = new Font(instance.prefix + "Oxanium-standard.fnt",
+                        instance.prefix + "Oxanium-standard.png", STANDARD, 0, 12, -4, 0, true)
                         .scaleTo(31, 35).setTextureFilter().setName("Oxanium");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1032,7 +1035,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.robotoCondensed == null) {
             try {
-                instance.robotoCondensed = new Font("RobotoCondensed-standard.fnt", STANDARD, 0, 10, 0, 0, true)
+                instance.robotoCondensed = new Font(instance.prefix + "RobotoCondensed-standard.fnt",
+                        instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 10, 0, 0, true)
                         .scaleTo(25, 30).adjustLineHeight(0.9f).setTextureFilter().setName("Roboto Condensed");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1068,7 +1072,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.kaffeesatz == null) {
             try {
-                instance.kaffeesatz = new Font("YanoneKaffeesatz-standard.fnt", STANDARD, 2f, 7f, 0f, 0, true)
+                instance.kaffeesatz = new Font(instance.prefix + "YanoneKaffeesatz-standard.fnt",
+                        instance.prefix + "YanoneKaffeesatz-standard.png", STANDARD, 2f, 7f, 0f, 0, true)
                         .scaleTo(30, 35).setTextureFilter().setName("Yanone Kaffeesatz");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1326,12 +1331,18 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.twemoji == null) {
             try {
-                FileHandle atlas = Gdx.files.internal("Twemoji.atlas");
-                if (!atlas.exists() && Gdx.files.isLocalStorageAvailable()) atlas = Gdx.files.local("Twemoji.atlas");
-                if (Gdx.files.internal("Twemoji.png").exists())
-                    instance.twemoji = loadUnicodeAtlas(atlas, Gdx.files.internal(""), false);
-                else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local("Twemoji.png").exists())
-                    instance.twemoji = loadUnicodeAtlas(atlas, Gdx.files.local(""), false);
+                FileHandle atlas = Gdx.files.internal(instance.prefix + "Twemoji.atlas");
+                if (!atlas.exists() && Gdx.files.isLocalStorageAvailable()) atlas = Gdx.files.local(instance.prefix + "Twemoji.atlas");
+                if (Gdx.files.internal(instance.prefix + "Twemoji.png").exists())
+                    instance.twemoji = loadUnicodeAtlas(atlas, Gdx.files.internal(
+                            instance.prefix).isDirectory()
+                            ? Gdx.files.internal(instance.prefix)
+                            : Gdx.files.internal(instance.prefix).parent(), false);
+                else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + "Twemoji.png").exists())
+                    instance.twemoji = loadUnicodeAtlas(atlas, Gdx.files.local(
+                            instance.prefix).isDirectory()
+                            ? Gdx.files.local(instance.prefix)
+                            : Gdx.files.local(instance.prefix).parent(), false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
