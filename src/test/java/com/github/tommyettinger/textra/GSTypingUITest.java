@@ -24,22 +24,18 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.ray3k.stripe.FreeTypeSkin;
 
-public class TypingUITest extends InputAdapter implements ApplicationListener {
+public class GSTypingUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
 		"And another one3", "The meaning of life3", "Is hard to come by3", "This is a list entry4", "And another one4",
@@ -57,7 +53,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.enable();
-		skin = new FreeTypeSkin(Gdx.files.internal("uiskin2.json"));
+		skin = new Skin(Gdx.files.internal("gs/skin.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
 		TextureRegion image = new TextureRegion(texture1);
@@ -65,16 +61,21 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 21f, 0f, 0f).adjustLineHeight(1.2f);
+//		final Font font = new Font("gs/PixPrompt.fnt", "gs" +
+//				"/PixPrompt.png", Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, false)
+//				.scale(2, 2).useIntegerPositions(false);
+		final Font font =
+//				KnownFonts.getCozette();
+				new Font(skin.getFont("Cozette-standard"), 0f, 0f, 0f, 0f).useIntegerPositions(true);
 //		KnownFonts.getStandardFamily()
 //				new Font(skin.get(Label.LabelStyle.class).font)
 //				.useIntegerPositions(true);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
-//				font;
-				KnownFonts.getYanoneKaffeesatz()
+				font;
+//				KnownFonts.getYanoneKaffeesatz()
 //				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
-				.scaleTo(30, 35);
+//				.scaleTo(30, 35);
 //				.setName("Yanone Kaffeesatz");
 		font.family.connected[0] = font;
 //		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
@@ -87,12 +88,14 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
 		ImageTypingButton iconButton = new ImageTypingButton("jóÓetcjóÓetcjóÓetc", style, font);
+		iconButton.getLabel().useIntegerPositions(true);
 //		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-		TypingButton buttonMulti = new TypingButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "toggle", font);
+		TypingButton buttonMulti = new TypingButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "default", font);
+		buttonMulti.useIntegerPositions(true);
 //		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle");
 		Button imgButton = new Button(new Image(image), skin);
-		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
+		Button imgToggleButton = new Button(new Image(image), skin, "default");
 
 		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin);
 		checkBox.setChecked(true);
@@ -142,7 +145,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 			"This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip!",
 			skin));
 		Table tooltipTable = new Table(skin);
-		tooltipTable.pad(10).background("default-round");
+		tooltipTable.pad(10);
 		tooltipTable.add(new TextraButton("Fancy tooltip!", skin, font));
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
@@ -259,7 +262,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
 		config.useVsync(true);
 		config.setForegroundFPS(0);
-		new Lwjgl3Application(new TypingUITest(), config);
+		new Lwjgl3Application(new GSTypingUITest(), config);
 	}
 
 }
