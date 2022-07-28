@@ -51,3 +51,5 @@ Thumbs.db
 *#*#
 
 *.symbolMap
+
+/src/test/resources/gs/
