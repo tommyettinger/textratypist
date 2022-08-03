@@ -191,19 +191,31 @@ public class TypingLabelTest extends ApplicationAdapter {
 //        text.append("Imagine the possibilities! =D");
 
         final StringBuilder text = new StringBuilder();
-//        text.append("just trying this out... jóÓetcjóÓetcjóÓetc\n");
         text.append("{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}{SHRINK=2;5}[%125][@Medieval]Welcome,[%]{ENDSHRINK}[@] {WAIT}{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}{VAR=title}{STYLE=;}{STYLE=/}{ENDSPIRAL}![] [+🤔]{ENDEASE}{WAIT=0.8}");
         text.append("{FAST}\n\n");
         text.append("{RESET}{HANG=0.7}[@Sans]This is a [*][YELLOW]simple[WHITE][*] test[@]{ENDHANG} to {SPIN}show you{ENDSPIN}");
         text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {CROWD}how to make dialogues{ENDCROWD} {JUMP}{SLOW}[*][/]fun[/][*] again! {ENDGRADIENT}[+🥳]{ENDJUMP}{WAIT}\n");
-        text.append("{NORMAL}{CLEARCOLOR}{JOLT=1;0.8;inf;0.25;dddddd;fff0cc}With this library{ENDJOLT} you can {SQUASH}{SIZE=150%}[_]control[_]{ENDSQUASH} {SIZE=%75}the{SIZE=150%} flow[^][SKY] [[citation needed][] of the text with");
+        text.append("{NORMAL}{CLEARCOLOR}{JOLT=1;0.8;inf;0.25;dddddd;fff0cc}With this library{ENDJOLT} [LIGHTER RICH gold]you[WHITE] can {SQUASH}{SIZE=150%}[_]control[_]{ENDSQUASH} {SIZE=%75}the{SIZE=150%} flow[^][SKY] [[citation needed][] of the text with");
         text.append(" {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
-        text.append("{SPEED=2.50}{COLOR=#84DD60} making the text go {SHAKE=1;1;3}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5} ");
-        text.append("{SPEED=0.25}{COLOR=#A6E22D}{WAVE=0.66}[@Mono] or extremely slow.[@]{ENDWAVE}");
-        text.append("{RESET} You {HEARTBEAT}[#AA0000]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}second{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
+        text.append("{SPEED=2.50}{COLOR=lighter dull GREEN} making the text go {SHAKE=1;1;3}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5} ");
+        text.append("{SPEED=0.25}{COLOR=jade fern}{WAVE=0.66}[@Mono] or extremely slow.[@]{ENDWAVE}");
+        text.append("{RESET} You {HEARTBEAT}[darker red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}second{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
         text.append("{RAINBOW=1;1;0.7} just to catch an event in code{EVENT=example}!{WAIT} {ENDRAINBOW}");
         text.append("{NORMAL}\n\n");
         text.append("{VAR=FIRE_WIND}Imagine the {STYLE=STRIKE}bugs{STYLE=STRIKE} possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");
+
+//        text.append("{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}{SHRINK=2;5}[%125][@Medieval]Welcome,[%]{ENDSHRINK}[@] {WAIT}{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}{VAR=title}{STYLE=;}{STYLE=/}{ENDSPIRAL}![] [+🤔]{ENDEASE}{WAIT=0.8}");
+//        text.append("{FAST}\n\n");
+//        text.append("{RESET}{HANG=0.7}[@Sans]This is a [*][YELLOW]simple[WHITE][*] test[@]{ENDHANG} to {SPIN}show you{ENDSPIN}");
+//        text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {CROWD}how to make dialogues{ENDCROWD} {JUMP}{SLOW}[*][/]fun[/][*] again! {ENDGRADIENT}[+🥳]{ENDJUMP}{WAIT}\n");
+//        text.append("{NORMAL}{CLEARCOLOR}{JOLT=1;0.8;inf;0.25;dddddd;fff0cc}With this library{ENDJOLT} you can {SQUASH}{SIZE=150%}[_]control[_]{ENDSQUASH} {SIZE=%75}the{SIZE=150%} flow[^][SKY] [[citation needed][] of the text with");
+//        text.append(" {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
+//        text.append("{SPEED=2.50}{COLOR=#84DD60} making the text go {SHAKE=1;1;3}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5} ");
+//        text.append("{SPEED=0.25}{COLOR=#A6E22D}{WAVE=0.66}[@Mono] or extremely slow.[@]{ENDWAVE}");
+//        text.append("{RESET} You {HEARTBEAT}[#AA0000]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}second{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
+//        text.append("{RAINBOW=1;1;0.7} just to catch an event in code{EVENT=example}!{WAIT} {ENDRAINBOW}");
+//        text.append("{NORMAL}\n\n");
+//        text.append("{VAR=FIRE_WIND}Imagine the {STYLE=STRIKE}bugs{STYLE=STRIKE} possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");
 
 //        Array<String> names = KnownFonts.getStandardFamily().family.fontAliases.keys().toArray();
 //        names.sort();
