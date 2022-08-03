@@ -492,9 +492,9 @@ public class Font implements Disposable {
     public FontFamily family;
 
     /**
-     * Determines how colors are looked up by name; defaults to using {@link Colors}.
+     * Determines how colors are looked up by name; defaults to using {@link ColorUtils#describe(String)}.
      */
-    public ColorLookup colorLookup = ColorLookup.INSTANCE;
+    public ColorLookup colorLookup = ColorLookup.DESCRIPTIVE;
 
     /**
      * If true, this will always use integers for x and y position (rounding), which can help some fonts look more
