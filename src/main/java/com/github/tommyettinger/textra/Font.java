@@ -3131,7 +3131,7 @@ public class Font implements Disposable {
      *     <li>{@code [[} escapes a literal left bracket, producing it without changing state.</li>
      *     <li>{@code [+name]}, where name is the name of a TextureRegion from an atlas added to this Font with
      *     {@link #addAtlas(TextureAtlas)}, produces the corresponding TextureRegion (scaled when drawn) without
-     *     changing state. If no atlas has been added, this emits a {@code +} character instead.</li>
+     *     changing state. If no atlas has been added, this emits undefined character(s) instead.</li>
      *     <li>{@code [*]} toggles bold mode.</li>
      *     <li>{@code [/]} toggles italic (technically, oblique) mode.</li>
      *     <li>{@code [^]} toggles superscript mode (and turns off subscript or midscript mode).</li>
@@ -3150,9 +3150,13 @@ public class Font implements Disposable {
      *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
      *     if family is non-null).</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
-     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
-     *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
-     *     looking up colors with names that contain punctuation.</li>
+     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a color name or description that will be looked up in
+     *     {@link #getColorLookup()}, changes the color. By default this can receive ALL_CAPS names from {@link Colors}
+     *     in libGDX, any names from {@link com.github.tommyettinger.textra.utils.Palette}, or mixes of one or
+     *     more color names with adjectives like "dark". The name can optionally be preceded by {@code |}, which allows
+     *     looking up colors with names that contain punctuation. This doesn't do much if using the default ColorLookup,
+     *     {@link ColorLookup#DESCRIPTIVE}, because it only evaluates ASCII letters, and treats everything else as a
+     *     separator.</li>
      * </ul>
      * You can render {@code appendTo} using {@link #drawGlyphs(Batch, Layout, float, float)}.
      *

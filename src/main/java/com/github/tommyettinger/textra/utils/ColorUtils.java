@@ -323,27 +323,28 @@ public class ColorUtils {
 
     /**
      * Parses a color description and returns the approximate color it describes, as an RGBA8888 int color.
-     * Color descriptions consist of one or more lower-case words, separated by non-alphabetical characters (typically
-     * spaces and/or hyphens). Any word that is the name of a color in {@link Palette} will be looked up in
-     * {@link Palette#NAMED} and tracked; if there is more than one of these color name words, the colors will be mixed
-     * using {@link #mix(int[], int, int)}, or if there is just one color name word, then the corresponding color
-     * will be used. The special adjectives "light" and "dark" change the lightness of the described color; likewise,
-     * "rich" and "dull" change the saturation (how different the color is from grayscale). All of these
-     * adjectives can have "-er" or "-est" appended to make their effect twice or three times as strong. Technically,
-     * the chars appended to an adjective don't matter, only their count, so "lightaa" is the same as "lighter" and
-     * "richcat" is the same as "richest". There's an unofficial fourth level as well, used when any 4 characters are
-     * appended to an adjective (as in "darkmost"); it has four times the effect of the original adjective. If a color
-     * name or adjective is invalid, it is not considered; if the description is empty or fully invalid, this returns
-     * the RGBA8888 int value 256 (used as a placeholder by {@link com.github.tommyettinger.textra.ColorLookup}).
+     * Color descriptions consist of one or more alphabetical words, separated by non-alphabetical characters (typically
+     * spaces and/or hyphens, though the underscore is treated as a letter). Any word that is the name of a color in
+     * {@link Palette} will be looked up in {@link Palette#NAMED} and tracked; if there is more than one of these color
+     * name words, the colors will be mixed using {@link #mix(int[], int, int)}, or if there is just one color name
+     * word, then the corresponding color will be used. The special adjectives "light" and "dark" change the lightness
+     * of the described color; likewise, "rich" and "dull" change the saturation (how different the color is from
+     * grayscale). All of these adjectives can have "-er" or "-est" appended to make their effect twice or three times
+     * as strong. Technically, the chars appended to an adjective don't matter, only their count, so "lightaa" is the
+     * same as "lighter" and "richcat" is the same as "richest". There's an unofficial fourth level as well, used when
+     * any 4 characters are appended to an adjective (as in "darkmost"); it has four times the effect of the original
+     * adjective. If a color name or adjective is invalid, it is not considered; if the description is empty or fully
+     * invalid, this returns the RGBA8888 int value 256 (used as a placeholder by
+     * {@link com.github.tommyettinger.textra.ColorLookup}).
      * <br>
-     * Examples of valid descriptions include "blue", "dark green", "duller red", "peach pink", "indigo purple mauve",
-     * and "lightest, richer apricot-olive".
+     * Examples of valid descriptions include "blue", "dark green", "DULLER RED", "peach pink", "indigo purple mauve",
+     * "lightest, richer apricot-olive", and "LIGHTMOST rich MAROON indigo".
      * @param description a color description, as a lower-case String matching the above format
      * @return an RGBA8888 int color as described
      */
     public static int describe(final String description) {
         float lightness = 0f, saturation = 0f;
-        final String[] terms = description.split("[^a-zA-Z]+");
+        final String[] terms = description.split("[^a-zA-Z_]+");
         mixing.clear();
         for(String term : terms) {
             if (term == null || term.isEmpty()) continue;
