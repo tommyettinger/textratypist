@@ -123,7 +123,7 @@ public abstract class Effect {
     }
 
     /**
-     * Parses a color from the given string. Returns null if the color couldn't be parsed.
+     * Parses a color from the given string. Returns 256 if the color couldn't be parsed.
      */
     protected int paramAsColor(String str) {
         return Parser.stringToColor(label, str);

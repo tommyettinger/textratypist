@@ -3020,10 +3020,10 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -centerX;
-                p0y = -cellHeight * 0.625f;
+                p0y = -cellHeight * 0.375f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        (tr.xAdvance) * scaleX + 7, cellHeight, rotation);
+                        (tr.xAdvance) * scaleX + 2, cellHeight * 0.5f, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -3068,10 +3068,10 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = -centerX;
-                p0y = centerY - font.cellHeight * 0.45f;
+                p0y = centerY - font.cellHeight * 0.125f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        (tr.xAdvance) * scaleX + 7, cellHeight + 2, rotation);
+                        (tr.xAdvance) * scaleX + 2, cellHeight * 0.5f, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
