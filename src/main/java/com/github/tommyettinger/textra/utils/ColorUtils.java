@@ -219,6 +219,49 @@ public class ColorUtils {
                 ((int) (b * ch) & 0xFF) << 8 |
                 a;
     }
+
+    /**
+     * Brings the chromatic components of {@code start} closer to grayscale by {@code change} (desaturating them). While
+     * change should be between 0f (return start as-is) and 1f (return fully gray), start should be an RGBA8888 int
+     * color. This leaves alpha alone.
+     * <br>
+     * <a href="http://www.graficaobscura.com/matrix/index.html">The algorithm used is from here</a>.
+     * @see #enrich(int, float) the counterpart method that makes an int color more saturated
+     * @param start the starting color as an RGBA8888 int
+     * @param change how much to change start to a desaturated color, as a float between 0 and 1; higher means a less saturated result
+     * @return an RGBA8888 int that represents a color between start and a desaturated color
+     */
+    public static int dullen(final int start, final float change) {
+        final float rc = 0.32627f, gc = 0.3678f, bc = 0.30593001f;
+        final int r = start >>> 24, g = start >>> 16 & 0xFF, b = start >>> 8 & 0xFF,
+                a = start & 0x000000FE;
+        final float ch = 1f - change, rw = change * rc, gw = change * gc, bw = change * bc;
+        return  (int) Math.min(Math.max(r * (rw+ch) + g * rw + b * rw, 0), 255) << 24 |
+                (int) Math.min(Math.max(r * gw + g * (gw+ch) + b * gw, 0), 255) << 16 |
+                (int) Math.min(Math.max(r * bw + g * bw + b * (bw+ch), 0), 255) << 8  |
+                a;
+    }
+
+    /**
+     * Pushes the chromatic components of {@code start} away from grayscale by change (saturating them). While change
+     * should be between 0f (return start as-is) and 1f (return maximally saturated), start should be an RGBA8888 int
+     * color.
+     * <br>
+     * <a href="http://www.graficaobscura.com/matrix/index.html">The algorithm used is from here</a>.
+     * @see #dullen(int, float) the counterpart method that makes an int color less saturated
+     * @param start the starting color as an RGBA8888 int
+     * @param change how much to change start to a saturated color, as a float between 0 and 1; higher means a more saturated result
+     * @return an RGBA8888 int that represents a color between start and a saturated color
+     */
+    public static int enrich(final int start, final float change) {
+        final float rc = -0.32627f, gc = -0.3678f, bc = -0.30593001f;
+        final int r = start >>> 24, g = start >>> 16 & 0xFF, b = start >>> 8 & 0xFF,
+                a = start & 0x000000FE;
+        final float ch = 1f + change, rw = change * rc, gw = change * gc, bw = change * bc;
+        return  (int) Math.min(Math.max(r * (rw+ch) + g * rw + b * rw, 0), 255) << 24 |
+                (int) Math.min(Math.max(r * gw + g * (gw+ch) + b * gw, 0), 255) << 16 |
+                (int) Math.min(Math.max(r * bw + g * bw + b * (bw+ch), 0), 255) << 8  |
+                a;
     }
 
     /**
