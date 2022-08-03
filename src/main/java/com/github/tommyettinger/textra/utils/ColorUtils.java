@@ -171,12 +171,54 @@ public class ColorUtils {
      */
     public static int lerpColors(final int s, final int e, final float change) {
         final int
-                sR = (s & 0xFF), sG = (s >>> 8) & 0xFF, sB = (s >>> 16) & 0xFF, sA = s >>> 24 & 0xFF,
-                eR = (e & 0xFF), eG = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eA = e >>> 24 & 0xFF;
+                sR = (s & 0xFF), sG = (s >>> 8) & 0xFF, sB = (s >>> 16) & 0xFF, sA = s >>> 25 & 0x7F,
+                eR = (e & 0xFF), eG = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eA = e >>> 25 & 0x7F;
         return (((int) (sR + change * (eR - sR)) & 0xFF)
                 | (((int) (sG + change * (eG - sG)) & 0xFF) << 8)
                 | (((int) (sB + change * (eB - sB)) & 0xFF) << 16)
-                | (((int) (sA + change * (eA - sA)) & 0xFF) << 24));
+                | (((int) (sA + change * (eA - sA)) & 0x7F) << 25));
+    }
+
+    /**
+     * Interpolates from the int color start towards white by change. While change should be between 0f (return
+     * start as-is) and 1f (return white), start should be an RGBA8888 color.
+     * This is a good way to reduce allocations of temporary Colors, and is a little more efficient and clear than
+     * using {@link #lerpColors(int, int, float)} to lerp towards
+     * white. Unlike {@link #lerpColors(int, int, float)}, this keeps the alpha of start as-is.
+     * @see #darken(int, float) the counterpart method that darkens an int color
+     * @param start the starting color as an RGBA8888 int
+     * @param change how much to go from start toward white, as a float between 0 and 1; higher means closer to white
+     * @return an RGBA8888 int that represents a color between start and white
+     */
+    public static int lighten(final int start, final float change) {
+        final int r = start >>> 24, g = start >>> 16 & 0xFF, b = start >>> 8 & 0xFF,
+                a = start & 0x000000FE;
+        return  ((int) (r + (0xFF - r) * change) & 0xFF) << 24 |
+                ((int) (g + (0xFF - g) * change) & 0xFF) << 16 |
+                ((int) (b + (0xFF - b) * change) & 0xFF) << 8 |
+                a;
+    }
+
+    /**
+     * Interpolates from the int color start towards black by change. While change should be between 0f (return
+     * start as-is) and 1f (return black), start should be an RGBA8888 color.
+     * This is a good way to reduce allocations of temporary Colors, and is a little more efficient and clear than
+     * using {@link #lerpColors(int, int, float)} to lerp towards
+     * black. Unlike {@link #lerpColors(int, int, float)}, this keeps the alpha of start as-is.
+     * @see #lighten(int, float) the counterpart method that lightens an int color
+     * @param start the starting color as an RGBA8888 int
+     * @param change how much to go from start toward black, as a float between 0 and 1; higher means closer to black
+     * @return an RGBA8888 int that represents a color between start and black
+     */
+    public static int darken(final int start, final float change) {
+        final int r = start >>> 24, g = start >>> 16 & 0xFF, b = start >>> 8 & 0xFF,
+                a = start & 0x000000FE;
+        final float ch = 1f - change;
+        return  ((int) (r * ch) & 0xFF) << 24 |
+                ((int) (g * ch) & 0xFF) << 16 |
+                ((int) (b * ch) & 0xFF) << 8 |
+                a;
+    }
     }
 
     /**
