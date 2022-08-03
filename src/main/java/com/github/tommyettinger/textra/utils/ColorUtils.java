@@ -18,6 +18,9 @@ package com.github.tommyettinger.textra.utils;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.IntArray;
+
+import static com.github.tommyettinger.textra.utils.Palette.NAMED;
 
 /**
  * A few static methods for commonly-used color handling tasks.
@@ -180,6 +183,27 @@ public class ColorUtils {
     }
 
     /**
+     * Given several colors, this gets an even mix of all colors in equal measure.
+     * If {@code colors} is null or has no items, this returns 256 (a transparent placeholder used by
+     * {@link com.github.tommyettinger.textra.ColorLookup} for "no color found").
+     * This is mostly useful in conjunction with {@link com.badlogic.gdx.utils.IntArray}, using its {@code items}
+     * for colors, typically 0 for offset, and its {@code size} for size.
+     * @param colors an array of RGBA8888 int colors; all should use the same color space
+     * @param offset the index of the first item in {@code colors} to use
+     * @param size how many items from {@code colors} to use
+     * @return an even mix of all colors given, as an RGBA8888 int color
+     */
+    public static int mix(int[] colors, int offset, int size) {
+        if(colors == null || colors.length < offset + size || offset < 0 || size <= 0)
+            return 256; // transparent super-dark-blue, used to indicate "not found"
+        int result = colors[offset];
+        for (int i = offset + 1, o = offset + size, denom = 2; i < o; i++, denom++) {
+            result = lerpColors(result, colors[i], 1f / denom);
+        }
+        return result;
+    }
+
+    /**
      * Interpolates from the int color start towards white by change. While change should be between 0f (return
      * start as-is) and 1f (return white), start should be an RGBA8888 color.
      * This is a good way to reduce allocations of temporary Colors, and is a little more efficient and clear than
@@ -295,4 +319,117 @@ public class ColorUtils {
         return colors;
     }
 
+    private static final IntArray mixing = new IntArray(4);
+
+    /**
+     * Parses a color description and returns the approximate color it describes, as an RGBA8888 int color.
+     * Color descriptions consist of one or more lower-case words, separated by non-alphabetical characters (typically
+     * spaces and/or hyphens). Any word that is the name of a color in {@link Palette} will be looked up in
+     * {@link Palette#NAMED} and tracked; if there is more than one of these color name words, the colors will be mixed
+     * using {@link #mix(int[], int, int)}, or if there is just one color name word, then the corresponding color
+     * will be used. The special adjectives "light" and "dark" change the lightness of the described color; likewise,
+     * "rich" and "dull" change the saturation (how different the color is from grayscale). All of these
+     * adjectives can have "-er" or "-est" appended to make their effect twice or three times as strong. Technically,
+     * the chars appended to an adjective don't matter, only their count, so "lightaa" is the same as "lighter" and
+     * "richcat" is the same as "richest". There's an unofficial fourth level as well, used when any 4 characters are
+     * appended to an adjective (as in "darkmost"); it has four times the effect of the original adjective. If a color
+     * name or adjective is invalid, it is not considered; if the description is empty or fully invalid, this returns
+     * the RGBA8888 int value 256 (used as a placeholder by {@link com.github.tommyettinger.textra.ColorLookup}).
+     * <br>
+     * Examples of valid descriptions include "blue", "dark green", "duller red", "peach pink", "indigo purple mauve",
+     * and "lightest, richer apricot-olive".
+     * @param description a color description, as a lower-case String matching the above format
+     * @return an RGBA8888 int color as described
+     */
+    public static int describe(final String description) {
+        float lightness = 0f, saturation = 0f;
+        final String[] terms = description.split("[^a-zA-Z]+");
+        mixing.clear();
+        for(String term : terms) {
+            if (term == null || term.isEmpty()) continue;
+            final int len = term.length();
+            switch (term.charAt(0)) {
+                case 'L':
+                case 'l':
+                    if (len > 2 && (term.charAt(2) == 'g' || term.charAt(2) == 'G')) {
+                        switch (len) {
+                            case 9:
+                                lightness += 0.20f;
+                            case 8:
+                                lightness += 0.20f;
+                            case 7:
+                                lightness += 0.20f;
+                            case 5:
+                                lightness += 0.20f;
+                                break;
+                        }
+                    } else {
+                        mixing.add(NAMED.get(term, 256));
+                    }
+                    break;
+                case 'R':
+                case 'r':
+                    if (len > 1 && (term.charAt(1) == 'i' || term.charAt(1) == 'I')) {
+                        switch (len) {
+                            case 8:
+                                saturation += 0.200f;
+                            case 7:
+                                saturation += 0.200f;
+                            case 6:
+                                saturation += 0.200f;
+                            case 4:
+                                saturation += 0.200f;
+                                break;
+                        }
+                    } else {
+                        mixing.add(NAMED.get(term, 256));
+                    }
+                    break;
+                case 'D':
+                case 'd':
+                    if (len > 1 && (term.charAt(1) == 'a' || term.charAt(1) == 'A')) {
+                        switch (len) {
+                            case 8:
+                                lightness -= 0.20f;
+                            case 7:
+                                lightness -= 0.20f;
+                            case 6:
+                                lightness -= 0.20f;
+                            case 4:
+                                lightness -= 0.20f;
+                                break;
+                        }
+                    } else if (len > 1 && (term.charAt(1) == 'u' || term.charAt(1) == 'U')) {
+                        switch (len) {
+                            case 8:
+                                saturation -= 0.200f;
+                            case 7:
+                                saturation -= 0.200f;
+                            case 6:
+                                saturation -= 0.200f;
+                            case 4:
+                                saturation -= 0.200f;
+                                break;
+                        }
+                    } else {
+                        mixing.add(NAMED.get(term, 256));
+                    }
+                    break;
+                default:
+                    mixing.add(NAMED.get(term, 256));
+                    break;
+            }
+        }
+
+        int result = mix(mixing.items, 0, mixing.size);
+        if(result == 256) return result;
+
+        if(lightness > 0) result = lighten(result, lightness);
+        else if(lightness < 0) result = darken(result, -lightness);
+
+        if(saturation > 0) result = enrich(result, saturation);
+        else if(saturation < 0) result = dullen(result, -saturation);
+
+        return result;
+    }
 }

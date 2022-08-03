@@ -19,6 +19,7 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
+import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /**
  * Allows looking up an RGBA8888 int color given a String key, returning either the color or 256 if none was found.
@@ -37,6 +38,17 @@ public interface ColorLookup {
      * This can also be accessed with {@link GdxColorLookup#INSTANCE}.
      */
     GdxColorLookup INSTANCE = GdxColorLookup.INSTANCE;
+
+    /**
+     * An alternative ColorLookup, this parses a description such as "peach red" or "DARK DULLEST GREEN" using
+     * {@link ColorUtils#describe(String)} (See its docs for more information). The colors available are in
+     * {@link com.github.tommyettinger.textra.utils.Palette}; the adjectives this can use are "light", "dark", "rich",
+     * "dull", and all versions of those with the suffixes "-er", "-est", or "-most". Case is effectively ignored for
+     * adjectives, but in some cases it can matter for color names -- ALL_CAPS names are ones from the libGDX class
+     * {@link Colors}, while lowercase ones are defined by this library.
+     */
+    ColorLookup DESCRIPTIVE = ColorUtils::describe;
+
     /**
      * Uses {@code key} to look up an RGBA8888 color, and returns that color as an int if one was found, or returns
      * 256 if none was found. 256 is used because it is different from the more commonly-used 0 for fully-transparent,
