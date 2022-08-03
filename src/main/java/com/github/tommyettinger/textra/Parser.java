@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Constructor;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.github.tommyettinger.textra.utils.Palette;
 import regexodus.Matcher;
 import regexodus.Pattern;
 import regexodus.REFlags;
@@ -388,7 +389,7 @@ class Parser {
     private static String stringToColorMarkup(String str) {
         if (str != null) {
             // If color isn't registered by name, try to parse it as a hex code.
-            if (!Colors.getColors().containsKey(str) && str.length() >= 6 && PATTERN_COLOR_HEX_NO_HASH.matches(str)) {
+            if (str.length() >= 6 && !Palette.NAMED.containsKey(str) && PATTERN_COLOR_HEX_NO_HASH.matches(str)) {
                 return "[#" + str + "]";
             }
         }
@@ -428,7 +429,7 @@ class Parser {
                 return "[%" + str.substring(0, str.length() - 1) + "]";
             if (str.startsWith("%"))
                 return "[%" + str.substring(1) + "]";
-            if (!Colors.getColors().containsKey(str) && str.length() >= 6 && PATTERN_COLOR_HEX_NO_HASH.matches(str))
+            if (str.length() >= 6 && !Colors.getColors().containsKey(str) && PATTERN_COLOR_HEX_NO_HASH.matches(str))
                 return "[#" + str + "]";
         }
         // Return unaltered code, enclosed
