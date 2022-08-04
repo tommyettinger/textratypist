@@ -927,7 +927,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.kingthingsFoundation == null) {
             try {
                 instance.kingthingsFoundation = new Font(instance.prefix + "KingthingsFoundation-standard.fnt",
-                        instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 80, 0, 0, true)
+                        instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 40, 0, 0, true)
                         .scaleTo(23, 30).adjustLineHeight(1.125f).setTextureFilter().setName("KingThings Foundation");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -942,18 +942,22 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width serif font with good Unicode support, that should
-     * scale cleanly to even very large sizes (using an MSDF technique).
+     * scale cleanly to fairly large sizes or down to about 20 pixels.
      * Caches the result for later calls. The font used is Libertinus Serif, an open-source (SIL Open Font
      * License) typeface. It supports a lot of glyphs, including quite a bit of extended Latin, Greek, and Cyrillic.
-     * This uses the Multi-channel Signed Distance Field (MSDF) technique, which should be very sharp. This probably
-     * needs to be scaled so that it has much larger width than height; the default is 150x32.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect. Earlier versions of
+     * this font used an MSDF effect, but that doesn't work well with kerning, so the spacing between letters was odd,
+     * and in general the font just didn't look as good as the similar {@link #getGentiumSDF()} or even
+     * {@link #getGentium()}. The MSDF files are still present in the same directory where they were, but they are no
+     * longer used by TextraTypist.
      * <br>
-     * Preview: <a href="https://i.imgur.com/Npfrzuu.png">Image link</a> (uses width=132, height=28)
+     * Preview: <a href="https://i.imgur.com/Npfrzuu.png">Image link</a> (uses width=40, height=34)
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-Regular-msdf.fnt">LibertinusSerif-Regular-msdf.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-Regular-msdf.png">LibertinusSerif-Regular-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-standard.fnt">LibertinusSerif-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-standard.png">LibertinusSerif-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-License.txt">LibertinusSerif-License.txt</a></li>
      * </ul>
      *
@@ -963,9 +967,9 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.libertinusSerif == null) {
             try {
-                instance.libertinusSerif = new Font(instance.prefix + "LibertinusSerif-Regular-msdf.fnt",
-                        instance.prefix + "LibertinusSerif-Regular-msdf.png", MSDF, -2, -17, 0, 0, true)
-                        .scaleTo(132, 32).adjustLineHeight(0.75f).setName("Libertinus Serif (MSDF)");
+                instance.libertinusSerif = new Font(instance.prefix + "LibertinusSerif-standard.fnt",
+                        instance.prefix + "LibertinusSerif-standard.png", STANDARD, 0, 0, 0, 0, true)
+                        .scaleTo(40, 34).setTextureFilter().setName("Libertinus Serif");
             } catch (Exception e) {
                 e.printStackTrace();
             }
