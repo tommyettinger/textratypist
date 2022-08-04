@@ -50,7 +50,7 @@ public class BlockStamper  extends ApplicationAdapter {
         png.setFlipY(false);
         FileHandle fontsHandle = Gdx.files.local("knownFonts");
 //        FileHandle[] children = fontsHandle.list("png");
-        FileHandle[] children = fontsHandle.list("CascadiaMono-standard.png");
+        FileHandle[] children = fontsHandle.list("LibertinusSerif-standard.png");
         PER_CHILD:
         for(FileHandle fh : children){
             System.out.println("Operating on " + fh.name());
