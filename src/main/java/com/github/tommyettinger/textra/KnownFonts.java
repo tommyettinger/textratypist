@@ -415,7 +415,7 @@ public final class KnownFonts implements LifecycleListener {
      * real languages. This does not use a distance field effect, as opposed to {@link #getGentiumSDF()}. You may want
      * to stick using just fonts that avoid distance fields if you have a family of fonts.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ovp08uR.png">Image link</a> (uses width=31, height=35)
+     * Preview: <a href="https://i.imgur.com/37nsNYx.png">Image link</a> (uses width=31, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -455,7 +455,7 @@ public final class KnownFonts implements LifecycleListener {
      * uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but should be
      * crisp enough when zoomed out.
      * <br>
-     * Preview: <a href="https://i.imgur.com/Mgxytp3.png">Image link</a> (uses width=50, height=45, adjustLineHeight(0.8f))
+     * Preview: <a href="https://i.imgur.com/5LzYLnL.png">Image link</a> (uses width=50, height=45, adjustLineHeight(0.625f))
      * <br>
      * Needs files:
      * <ul>
@@ -492,7 +492,7 @@ public final class KnownFonts implements LifecycleListener {
      * scale as well as other standard bitmap fonts here.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/pc36Sum.png">Image link</a> (uses width=16, height=20, adjustLineHeight(1.25f))
+     * Preview: <a href="https://i.imgur.com/yRrUXSv.png">Image link</a> (uses width=16, height=20, adjustLineHeight(0.9f))
      * <br>
      * Needs files:
      * <ul>
@@ -536,7 +536,7 @@ public final class KnownFonts implements LifecycleListener {
      * of their signature font throughout the 1980s, but if the legality is concerning, you
      * can use {@link #getCozette()} for a different bitmap font.
      * <br>
-     * Preview: <a href="https://i.imgur.com/jbacFxO.png">Image link</a> (uses width=8, height=16)
+     * Preview: <a href="https://i.imgur.com/y8kdZg3.png">Image link</a> (uses width=8, height=16)
      * <br>
      * Needs files:
      * <ul>
@@ -570,7 +570,7 @@ public final class KnownFonts implements LifecycleListener {
      * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/tIeZgyd.png">Image link</a> (uses width=10, height=26)
+     * Preview: <a href="https://i.imgur.com/3ux69Aj.png">Image link</a> (uses width=10, height=26)
      * <br>
      * Needs files:
      * <ul>
@@ -606,7 +606,7 @@ public final class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/6p2nvxZ.png">Image link</a> (uses width=10, height=26)
+     * Preview: <a href="https://i.imgur.com/ryqVFSZ.png">Image link</a> (uses width=10, height=26)
      * <br>
      * Needs files:
      * <ul>
@@ -646,7 +646,7 @@ public final class KnownFonts implements LifecycleListener {
      * have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/nzr6ZU4.png">Image link</a> (uses .scaleTo(12, 26).fitCell(10, 26, false).adjustLineHeight(0.9f))
+     * Preview: <a href="https://i.imgur.com/TC7Ki6d.png">Image link</a> (uses .scaleTo(10, 24).fitCell(10, 24, false))
      * <br>
      * Needs files:
      * <ul>
@@ -689,7 +689,7 @@ public final class KnownFonts implements LifecycleListener {
      * However, using a distance field makes it effectively impossible to mix fonts using a FontFamily (any variation in
      * distance field settings would make some fonts in the family blurry and others too sharp).
      * <br>
-     * Preview: <a href="https://i.imgur.com/HS8kdna.png">Image link</a> (uses .scaleTo(12, 25).fitCell(9, 25, false))
+     * Preview: <a href="https://i.imgur.com/wZ4zjAN.png">Image link</a> (uses .scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
      * <ul>
@@ -735,7 +735,7 @@ public final class KnownFonts implements LifecycleListener {
      * at small sizes. However, using a distance field makes it effectively impossible to mix fonts using a FontFamily
      * (any variation in distance field settings would make some fonts in the family blurry and others too sharp).
      * <br>
-     * Preview: <a href="https://i.imgur.com/shaPl7F.png">Image link</a> (uses .scaleTo(12, 26).fitCell(10, 26, false))
+     * Preview: <a href="https://i.imgur.com/9oSRApg.png">Image link</a> (uses .scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
      * <ul>
@@ -778,7 +778,7 @@ public final class KnownFonts implements LifecycleListener {
      * have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/47tODT0.png">Image link</a> (uses .scaleTo(12, 26).fitCell(10, 26, false).adjustLineHeight(0.9f))
+     * Preview: <a href="https://i.imgur.com/guqaRHj.png">Image link</a> (uses .scaleTo(10, 24).fitCell(10, 24, false))
      * <br>
      * Needs files:
      * <ul>
@@ -819,7 +819,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/O5iVUYb.png">Image link</a> (uses .scaleTo(12, 25).fitCell(9, 25, false))
+     * Preview: <a href="https://i.imgur.com/NHqlI6w.png">Image link</a> (uses .scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
      * <ul>
@@ -864,7 +864,7 @@ public final class KnownFonts implements LifecycleListener {
      * technique that {@link #getIosevkaSlabMSDF()} uses, which isn't as sharp at large sizes but can look a little
      * better at small sizes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/D0gXlaf.png">Image link</a> (uses scaleTo(12, 26).fitCell(10, 26, false))
+     * Preview: <a href="https://i.imgur.com/88Jgx7m.png">Image link</a> (uses scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
      * <ul>
@@ -905,7 +905,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/35UXplI.png">Image link</a> (uses width=23, height=30)
+     * Preview: <a href="https://i.imgur.com/t5EGMXa.png">Image link</a> (uses scaleTo(23, 30).adjustLineHeight(1.125f))
      * <br>
      * Needs files:
      * <ul>
@@ -952,7 +952,7 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #getGentium()}. The MSDF files are still present in the same directory where they were, but they are no
      * longer used by TextraTypist.
      * <br>
-     * Preview: <a href="https://i.imgur.com/Npfrzuu.png">Image link</a> (uses width=40, height=34)
+     * Preview: <a href="https://i.imgur.com/wOKsbkW.png">Image link</a> (uses width=40, height=34)
      * <br>
      * Needs files:
      * <ul>
@@ -961,7 +961,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-License.txt">LibertinusSerif-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font LibertinusSerif.ttf using MSDF
+     * @return the Font object that can represent many sizes of the font LibertinusSerif.ttf
      */
     public static Font getLibertinusSerif() {
         initialize();
