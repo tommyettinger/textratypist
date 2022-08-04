@@ -21,6 +21,17 @@ public class PreviewGenerator extends ApplicationAdapter {
     Layout layout = new Layout().setTargetWidth(800);
     Array<String> colorNames;
     long startTime;
+    static final String text = "Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
+            + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
+            + "\n[dark purple blue]...use color names or descriptions, like [/]darker purple blue[/]...[]"
+            + "\n[_]...and use [!]effects[!][_]!"
+            + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
+            + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
+            + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
+            + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[],"
+            + "\nUnicode support: Pchnąć w tę łódź [BROWN]jeża[] lub ośm skrzyń [PURPLE]fig[].",
+    distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[]!",
+    emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
 /*
 AStarry-standard.fnt has descent: -12
 AStarry-msdf.fnt has descent: -94
@@ -67,11 +78,12 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         colorNames = Colors.getColors().keys().toArray();
 //        Font[] fonts = {KnownFonts.getHanazono()};
         Font[] fonts = KnownFonts.getAll();
-        fnt = fonts[fonts.length - 1];
+        fnt = fonts[4];
         Gdx.files.local("out/").mkdirs();
         int index = 0;
         for (Font font : fonts) {
 //        Font font = fnt = fonts[0]; {
+            KnownFonts.addEmoji(font);
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 //        font = new Font(new BitmapFont(Gdx.files.internal("OpenSans-standard.fnt")), Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f)
 //                .scale(0.5f, 0.5f).setTextureFilter();
@@ -107,17 +119,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
             layout.setEllipsis(" and so on and so forth...");
 //            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
 //                    , layout);
-            font.markup("Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
-                            + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
-                            + "\n[FOREST]...use named colors from the Colors class, like [/]FOREST[/]...[]"
-                            + "\n[_]...and use [!]effects[!][_]!"
-                            + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
-                            + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
-                            + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
-                            + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[],"
-                            + "\nUnicode support: Pchnąć w tę łódź [BROWN]jeża[] lub ośm skrzyń [PURPLE]fig[]."
-                            + "\nWelcome to the [_][*][TEAL]Textra Zone[]!"
-                    , layout);
+            font.markup(text + (font.distanceField == Font.DistanceFieldType.STANDARD ? emojiSupport : distanceField), layout);
 //        font.markup("I wanna thank you all for coming here tonight..."
 //                + "\n[#22BB22FF]Hello, [~]World[~]Universe[.]$[=]$[^]$[^]!"
 //                + "\nThe [RED]MAW[] of the [/][CYAN]wendigo[/] (wendigo)[] [*]appears[*]!"
@@ -132,7 +134,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //                + "\n[*]Водяно́й[] — в славянской мифологии дух, обитающий в воде, хозяин вод[^][BLUE][[2][]."
 //                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][].", layout);
 
-            ScreenUtils.clear(0.8f, 0.8f, 0.8f, 1f);
+            ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
 //            ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
 //        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
             float x = 400, y = layout.getHeight() - font.descent * font.scaleY;
@@ -154,11 +156,12 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         }
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
+        fnt.markup(text + (fnt.distanceField == Font.DistanceFieldType.STANDARD ? emojiSupport : distanceField), layout);
     }
 
     @Override
     public void render() {
-        ScreenUtils.clear(0.8f, 0.8f, 0.8f, 1f);
+        ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
 //        ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
 //        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
         float x = 400, y = layout.getHeight() - fnt.descent * fnt.scaleY;

@@ -195,8 +195,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.bitter == null) {
             try {
                 instance.bitter = new Font(instance.prefix + "Bitter-standard.fnt",
-                        instance.prefix + "Bitter-standard.png", STANDARD, 0, 38, 0, 0, true)
-                        .scaleTo(33, 30).adjustLineHeight(1.225f).setTextureFilter().setName("Bitter");
+                        instance.prefix + "Bitter-standard.png", STANDARD, 0, 0, 0, 0, true)
+                        .scaleTo(33, 30).adjustLineHeight(1f).setTextureFilter().setName("Bitter");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -236,7 +236,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.canada = new Font(instance.prefix + "Canada1500-standard.fnt",
                         instance.prefix + "Canada1500-standard.png",
-                        STANDARD, 0, 15, 0, 0, true)
+                        STANDARD, 0, 0, 0, 0, true)
                         .scaleTo(30, 35).setTextureFilter().setName("Canada1500");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -248,6 +248,44 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     private Font cascadiaMono;
+
+    /**
+     * Returns a Font already configured to use a quirky fixed-width font with good Unicode support
+     * and a humanist style, that should scale well from a height of about 60 pixels to about 15 pixels.
+     * Caches the result for later calls. The font used is Cascadia Code Mono, an open-source (SIL Open Font
+     * License) typeface by Microsoft (see <a href="https://github.com/microsoft/cascadia-code">Microsoft's page</a>).
+     * It supports a lot of glyphs, including most extended Latin, Greek, Braille, and Cyrillic.
+     * This uses a fairly-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/zOXbBEJ.png">Image link</a> (uses width=10, height=20)
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-standard.fnt">CascadiaMono-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-standard.png">CascadiaMono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-license.txt">Cascadia-license.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Cascadia Code Mono
+     */
+    public static Font getCascadiaMono() {
+        initialize();
+        if (instance.cascadiaMono == null) {
+            try {
+                instance.cascadiaMono = new Font(instance.prefix + "CascadiaMono-standard.fnt",
+                        instance.prefix + "CascadiaMono-standard.png", STANDARD, 0f, 0f, 0f, 0f, true)
+                        .setTextureFilter().scaleTo(10, 20).setName("Cascadia Mono");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.cascadiaMono != null)
+            return new Font(instance.cascadiaMono);
+        throw new RuntimeException("Assets for getCascadiaMono() not found.");
+    }
+
+    private Font cascadiaMonoMSDF;
 
     /**
      * Returns a Font already configured to use a quirky fixed-width font with good Unicode support
@@ -270,20 +308,20 @@ public final class KnownFonts implements LifecycleListener {
      *
      * @return the Font object that can represent many sizes of the font Cascadia Code Mono using MSDF
      */
-    public static Font getCascadiaMono() {
+    public static Font getCascadiaMonoMSDF() {
         initialize();
-        if (instance.cascadiaMono == null) {
+        if (instance.cascadiaMonoMSDF == null) {
             try {
-                instance.cascadiaMono = new Font(instance.prefix + "CascadiaMono-msdf.fnt",
+                instance.cascadiaMonoMSDF = new Font(instance.prefix + "CascadiaMono-msdf.fnt",
                         instance.prefix + "CascadiaMono-msdf.png", MSDF, 2f, 1f, 0f, 0f, true)
                         .scaleTo(9, 16).setName("Cascadia Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        if (instance.cascadiaMono != null)
-            return new Font(instance.cascadiaMono);
-        throw new RuntimeException("Assets for getCascadiaMono() not found.");
+        if (instance.cascadiaMonoMSDF != null)
+            return new Font(instance.cascadiaMonoMSDF);
+        throw new RuntimeException("Assets for getCascadiaMonoMSDF() not found.");
     }
 
     private Font cozette;
@@ -1370,11 +1408,11 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all Font instances this knows
      */
     public static Font[] getAll() {
-        return new Font[]{getAStarry(), getAStarryMSDF(), getBitter(), getCanada(), getCascadiaMono(), getCozette(),
-                getDejaVuSansMono(), getGentium(), getGentiumSDF(), getHanazono(), getIBM8x16(), getInconsolata(),
-                getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(), getIosevkaSlab(),
-                getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(), getLibertinusSerif(),
-                getOpenSans(), getOxanium(), getRobotoCondensed(), getYanoneKaffeesatz()};
+        return new Font[]{getAStarry(), getAStarryMSDF(), getBitter(), getCanada(), getCascadiaMono(),
+                getCascadiaMonoMSDF(), getCozette(), getDejaVuSansMono(), getGentium(), getGentiumSDF(), getHanazono(),
+                getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
+                getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
+                getLibertinusSerif(), getOpenSans(), getOxanium(), getRobotoCondensed(), getYanoneKaffeesatz()};
     }
 
     /**
@@ -1385,7 +1423,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all non-distance-field Font instances this knows
      */
     public static Font[] getAllStandard() {
-        return new Font[]{getAStarry(), getBitter(), getCanada(), getCozette(), getGentium(), getHanazono(),
+        return new Font[]{getAStarry(), getBitter(), getCanada(), getCascadiaMono(), getCozette(), getGentium(), getHanazono(),
                 getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(), getKingthingsFoundation(),
                 getOpenSans(), getOxanium(), getRobotoCondensed(), getYanoneKaffeesatz()};
     }
@@ -1407,8 +1445,9 @@ public final class KnownFonts implements LifecycleListener {
      *     <li>{@code Cozette}, which is {@link #getCozette()},</li>
      *     <li>{@code Iosevka}, which is {@link #getIosevka()},</li>
      *     <li>{@code Medieval}, which is {@link #getKingthingsFoundation()},</li>
-     *     <li>{@code Future}, which is {@link #getOxanium()}, and</li>
-     *     <li>{@code Console}, which is {@link #getAStarry()}.</li>
+     *     <li>{@code Future}, which is {@link #getOxanium()},</li>
+     *     <li>{@code Console}, which is {@link #getAStarry()}, and</li>
+     *     <li>{@code Code}, which is {@link #getCascadiaMono()}.</li>
      * </ul>
      * You can also always use the full name of one of these fonts, which can be obtained using {@link Font#getName()}.
      * {@code Serif}, which is {@link #getGentium()}, will always be the default font used after a reset.
@@ -1421,10 +1460,10 @@ public final class KnownFonts implements LifecycleListener {
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{"Serif", "Sans", "Mono", "Condensed", "Humanist",
                         "Retro", "Slab", "Bitter", "Canada", "Cozette", "Iosevka",
-                        "Medieval", "Future", "Console"},
+                        "Medieval", "Future", "Console", "Code"},
                 new Font[]{getGentium(), getOpenSans(), getInconsolata(), getRobotoCondensed(), getYanoneKaffeesatz(),
                         getIBM8x16(), getIosevkaSlab(), getBitter(), getCanada(), getCozette(), getIosevka(),
-                        getKingthingsFoundation(), getOxanium(), getAStarry()});
+                        getKingthingsFoundation(), getOxanium(), getAStarry(), getCascadiaMono()});
         return family.connected[0].setFamily(family);
     }
 
@@ -1445,7 +1484,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all MSDF Font instances this knows
      */
     public static Font[] getAllMSDF() {
-        return new Font[]{getAStarryMSDF(), getCascadiaMono(), getDejaVuSansMono(), getInconsolataMSDF(), getIosevkaMSDF(),
+        return new Font[]{getAStarryMSDF(), getCascadiaMonoMSDF(), getDejaVuSansMono(), getInconsolataMSDF(), getIosevkaMSDF(),
                 getIosevkaSlabMSDF(), getLibertinusSerif()};
     }
 
@@ -1471,6 +1510,10 @@ public final class KnownFonts implements LifecycleListener {
         if (cascadiaMono != null) {
             cascadiaMono.dispose();
             cascadiaMono = null;
+        }
+        if (cascadiaMonoMSDF != null) {
+            cascadiaMonoMSDF.dispose();
+            cascadiaMonoMSDF = null;
         }
         if (cozette != null) {
             cozette.dispose();
