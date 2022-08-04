@@ -987,7 +987,7 @@ public final class KnownFonts implements LifecycleListener {
      * scaled down nicely.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/F9tv884.png">Image link</a> (uses width=20, height=28, adjustLineHeight(0.8f))
+     * Preview: <a href="https://i.imgur.com/kFzf3id.png">Image link</a> (uses width=20, height=28, adjustLineHeight(0.8f))
      * <br>
      * Needs files:
      * <ul>
@@ -1024,7 +1024,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/rXUuB0x.png">Image link</a> (uses width=31, height=35)
+     * Preview: <a href="https://i.imgur.com/zc1SGh4.png">Image link</a> (uses width=31, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -1062,7 +1062,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/90ODH7T.png">Image link</a> (uses width=25, height=35, adjustLineHeight(0.9f))
+     * Preview: <a href="https://i.imgur.com/UZd90SI.png">Image link</a> (uses width=25, height=30, adjustLineHeight(0.9f))
      * <br>
      * Needs files:
      * <ul>
@@ -1099,7 +1099,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/G2bspGv.png">Image link</a> (uses width=30, height=35)
+     * Preview: <a href="https://i.imgur.com/oILY62F.png">Image link</a> (uses width=30, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -1128,6 +1128,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Horribly duplicated because this is private in TextureAtlas.
+     * This can be entirely replaced by Consumer from JDK 8 once RoboVM supports it.
      * @param <T> the type that this can parse
      */
     private interface Field<T> {
@@ -1427,9 +1428,10 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all non-distance-field Font instances this knows
      */
     public static Font[] getAllStandard() {
-        return new Font[]{getAStarry(), getBitter(), getCanada(), getCascadiaMono(), getCozette(), getGentium(), getHanazono(),
-                getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(), getKingthingsFoundation(),
-                getOpenSans(), getOxanium(), getRobotoCondensed(), getYanoneKaffeesatz()};
+        return new Font[]{getAStarry(), getBitter(), getCanada(), getCascadiaMono(), getCozette(), getGentium(),
+                getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
+                getKingthingsFoundation(), getLibertinusSerif(), getOpenSans(), getOxanium(), getRobotoCondensed(),
+                getYanoneKaffeesatz()};
     }
 
     /**
@@ -1489,7 +1491,7 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font[] getAllMSDF() {
         return new Font[]{getAStarryMSDF(), getCascadiaMonoMSDF(), getDejaVuSansMono(), getInconsolataMSDF(), getIosevkaMSDF(),
-                getIosevkaSlabMSDF(), getLibertinusSerif()};
+                getIosevkaSlabMSDF()};
     }
 
     @Override
