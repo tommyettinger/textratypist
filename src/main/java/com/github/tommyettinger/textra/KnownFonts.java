@@ -313,7 +313,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.cascadiaMonoMSDF == null) {
             try {
                 instance.cascadiaMonoMSDF = new Font(instance.prefix + "CascadiaMono-msdf.fnt",
-                        instance.prefix + "CascadiaMono-msdf.png", MSDF, 2f, 1f, 0f, 0f, true)
+                        instance.prefix + "CascadiaMono-msdf.png", MSDF, 0f, 0f, 0f, 0f, true)
                         .scaleTo(9, 16).setName("Cascadia Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -393,7 +393,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.dejaVuSansMono == null) {
             try {
                 instance.dejaVuSansMono = new Font(instance.prefix + "DejaVuSansMono-msdf.fnt",
-                        instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 1f, 0f, 0f, 0f, true)
+                        instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 0f, -8f, 0f, 0f, true)
                         .scaleTo(9, 20).setName("DejaVu Sans Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -431,7 +431,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentium == null) {
             try {
                 instance.gentium = new Font(instance.prefix + "Gentium-standard.fnt",
-                        instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, 21f, 0f, 0f, true)
+                        instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, 6f, 0f, 0f, true)
                         .scaleTo(31, 35).setTextureFilter().setName("Gentium");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -471,8 +471,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentiumSDF == null) {
             try {
                 instance.gentiumSDF = new Font(instance.prefix + "Gentium-sdf.fnt",
-                        instance.prefix + "Gentium-sdf.png", SDF, 4f, 0f, 0f, 0f, true)
-                        .scaleTo(50, 45).adjustLineHeight(0.8f).setCrispness(1.5f).setName("Gentium (SDF)");
+                        instance.prefix + "Gentium-sdf.png", SDF, 4f, -20f, 0f, 0f, true)
+                        .scaleTo(50, 45).adjustLineHeight(0.625f).setCrispness(1.5f).setName("Gentium (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -508,8 +508,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.hanazono == null) {
             try {
                 instance.hanazono = new Font(instance.prefix + "Hanazono-standard.fnt",
-                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, -5, 0, 0, true).scaleTo(16, 20)
-//                        .adjustLineHeight(1.25f)
+                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, -10, 0, 0, true).scaleTo(16, 20)
+                        .adjustLineHeight(0.9f)
                         .setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -586,8 +586,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.inconsolata == null) {
             try {
                 instance.inconsolata = new Font(instance.prefix + "Inconsolata-LGC-Custom-standard.fnt",
-                        instance.prefix + "Inconsolata-LGC-Custom-standard.png", STANDARD, 0f, 32f, -4f, 0f, true)
-                        .scaleTo(10, 26).adjustLineHeight(1.125f).setTextureFilter().setName("Inconsolata LGC");
+                        instance.prefix + "Inconsolata-LGC-Custom-standard.png", STANDARD, 0f, 6f, -4f, 0f, true)
+                        .scaleTo(10, 26).setTextureFilter().setName("Inconsolata LGC");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -622,7 +622,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.inconsolataMSDF == null) {
             try {
                 instance.inconsolataMSDF = new Font(instance.prefix + "Inconsolata-LGC-Custom-msdf.fnt",
-                        instance.prefix + "Inconsolata-LGC-Custom-msdf.png", MSDF, 0f, 1f, -12f, -8f, true)
+                        instance.prefix + "Inconsolata-LGC-Custom-msdf.png", MSDF, 0f, -5f, -12f, 0f, true)
                         .scaleTo(10, 26).setName("Inconsolata LGC (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
