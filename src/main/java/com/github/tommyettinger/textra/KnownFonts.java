@@ -1003,7 +1003,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.openSans == null) {
             try {
                 instance.openSans = new Font(instance.prefix + "OpenSans-standard.fnt",
-                        instance.prefix + "OpenSans-standard.png", STANDARD, 4, 6, 0, 0, true)
+                        instance.prefix + "OpenSans-standard.png", STANDARD, 4, 0, 0, 0, true)
                         .scaleTo(20, 28).adjustLineHeight(0.8f).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1040,7 +1040,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.oxanium == null) {
             try {
                 instance.oxanium = new Font(instance.prefix + "Oxanium-standard.fnt",
-                        instance.prefix + "Oxanium-standard.png", STANDARD, 0, 12, -4, 0, true)
+                        instance.prefix + "Oxanium-standard.png", STANDARD, 0, -2, -4, 0, true)
                         .scaleTo(31, 35).setTextureFilter().setName("Oxanium");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1078,7 +1078,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.robotoCondensed == null) {
             try {
                 instance.robotoCondensed = new Font(instance.prefix + "RobotoCondensed-standard.fnt",
-                        instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 10, 0, 0, true)
+                        instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 0, 0, 0, true)
                         .scaleTo(25, 30).adjustLineHeight(0.9f).setTextureFilter().setName("Roboto Condensed");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1115,7 +1115,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.kaffeesatz == null) {
             try {
                 instance.kaffeesatz = new Font(instance.prefix + "YanoneKaffeesatz-standard.fnt",
-                        instance.prefix + "YanoneKaffeesatz-standard.png", STANDARD, 2f, 7f, 0f, 0, true)
+                        instance.prefix + "YanoneKaffeesatz-standard.png", STANDARD, 2f, -2f, 0f, 0, true)
                         .scaleTo(30, 35).setTextureFilter().setName("Yanone Kaffeesatz");
             } catch (Exception e) {
                 e.printStackTrace();
