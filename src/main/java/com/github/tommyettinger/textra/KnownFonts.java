@@ -95,10 +95,10 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
      * <br>
-     * Preview: <a href="https://i.imgur.com/9P1Zpfr.png">Image link</a> (uses width=8, height=8)
+     * Preview: <a href="https://i.imgur.com/3j1Fxxh.png">Image link</a> (uses width=8, height=8)
      * <br>
      * This also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
-     * multiples of 8. Preview: <a href="https://i.imgur.com/a7ZUIDX.png">Image link</a> (uses width=8, height=16)
+     * multiples of 8. Preview: <a href="https://i.imgur.com/uIerflA.png">Image link</a> (uses width=8, height=16)
      * <br>
      * Needs files:
      * <ul>
@@ -114,7 +114,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.astarry == null) {
             try {
                 instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
-                        instance.prefix + "AStarry-standard.png", STANDARD, 0, 24, 0, 0, true)
+                        instance.prefix + "AStarry-standard.png", STANDARD, 0, 16, 0, 0, true)
                         .scaleTo(8, 8).setTextureFilter().setName("A Starry");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -136,7 +136,7 @@ public final class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/x2RQU34.png">Image link</a> (uses width=10, height=10)
+     * Preview: <a href="https://i.imgur.com/i2s8Tv6.png">Image link</a> (uses width=10, height=10)
      * <br>
      * Needs files:
      * <ul>
@@ -179,7 +179,7 @@ public final class KnownFonts implements LifecycleListener {
      * other strokes in the font. This does mean that strikethrough starts too far to the left, and extends too far to
      * the right, unfortunately, but its weight matches.
      * <br>
-     * Preview: <a href="https://i.imgur.com/kuMpRJy.png">Image link</a> (uses width=33, height=30, adjustLineHeight(1.225f))
+     * Preview: <a href="https://i.imgur.com/aTJD5ON.png">Image link</a> (uses width=33, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -196,7 +196,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.bitter = new Font(instance.prefix + "Bitter-standard.fnt",
                         instance.prefix + "Bitter-standard.png", STANDARD, 0, 0, 0, 0, true)
-                        .scaleTo(33, 30).adjustLineHeight(1f).setTextureFilter().setName("Bitter");
+                        .scaleTo(33, 30).setTextureFilter().setName("Bitter");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -219,7 +219,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/4o8y4pA.png">Image link</a> (uses width=30, height=35)
+     * Preview: <a href="https://i.imgur.com/lmUPbMp.png">Image link</a> (uses width=30, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -258,7 +258,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a fairly-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/zOXbBEJ.png">Image link</a> (uses width=10, height=20)
+     * Preview: <a href="https://i.imgur.com/9Dvp4jo.png">Image link</a> (uses width=10, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -297,7 +297,7 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/zOXbBEJ.png">Image link</a> (uses width=9, height=16)
+     * Preview: <a href="https://i.imgur.com/zFBUDjG.png">Image link</a> (uses width=9, height=16)
      * <br>
      * Needs files:
      * <ul>
@@ -335,8 +335,8 @@ public final class KnownFonts implements LifecycleListener {
      * cause major visual issues if 1 world unit corresponds to much more than 1 pixel.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/z0UCjaU.png">Image link</a> (uses width=7, height=13; this is small enough
-     * to make the scaled text look bad in some places)
+     * Preview: <a href="https://i.imgur.com/0P8pAXE.png">Image link</a> (uses width=7, height=13,
+     * useIntegerPositions(true); this size is small enough to make the scaled text unreadable in some places)
      * <br>
      * Needs files:
      * <ul>
@@ -377,7 +377,7 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/dLv1VVy.png">Image link</a> (uses width=9, height=20)
+     * Preview: <a href="https://i.imgur.com/ycMeAW2.png">Image link</a> (uses width=9, height=20)
      * <br>
      * Needs files:
      * <ul>

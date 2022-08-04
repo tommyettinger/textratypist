@@ -23,7 +23,7 @@ public class PreviewGenerator extends ApplicationAdapter {
     long startTime;
     static final String text = "Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
             + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
-            + "\n[dark purple blue]...use color names or descriptions, like [/]darker purple blue[/]...[]"
+            + "\n[darker purple blue]...use color names or descriptions, like [/]darker purple blue[/]...[]"
             + "\n[_]...and use [!]effects[!][_]!"
             + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
             + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
@@ -157,6 +157,8 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
         fnt.markup(text + (fnt.distanceField == Font.DistanceFieldType.STANDARD ? emojiSupport : distanceField), layout);
+
+        Gdx.app.exit();
     }
 
     @Override
