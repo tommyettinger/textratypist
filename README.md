@@ -59,21 +59,26 @@ square brackets like `[*]`, or you can use `{STYLE=BOLD}` to do the same thing. 
 - `[@Name]`, where Name is a key/name in this Font's `family` variable, switches the current typeface to the named one.
 - `[@]` on its own resets the typeface to this Font, ignoring its family.
 - `[#HHHHHHHH]`, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color. This is a normal `{COLOR=#HHHHHHHH}` tag.
-- `[COLORNAME]`, where COLORNAME is a typically-upper-case color name that will be looked up externally, changes the color.
-  - By default, this looks up COLORNAME in libGDX's `Colors` class, but it can be configured to create colors differently.
-    - You can use `Font`'s `setColorLookup()` method with your own `ColorLookup` implementation to do what you want here.
-    - `TypingLabel` does still try to look up color names in `Colors`, but will fall back to using whatever `ColorLookup`
-       a `Font` uses. You can clear the known names with `Colors.getColors().clear()`, which will force a `ColorLookup` to be used.
+- `[COLORNAME]`, where COLORNAME is a color name or description that will be looked up externally, changes the color.
+  - By default, this looks up COLORNAME with `ColorUtils.describe()`, which tries to find any colors from `Palette` by
+    name, and also allows describing mixes of colors or simple changes like "light" or "dull".
+    - Palette contains all the UPPER_CASE names from libGDX's `Colors` class, and also about 50 additional lowercase
+      color names (from [colorful-gdx](https://github.com/tommyettinger/colorful-gdx)).
+      - You can preview `Palette` [by hue](https://tommyettinger.github.io/textratypist/ColorTableHue.html), [by lightness](https://tommyettinger.github.io/textratypist/ColorTableLightness.html), or [by name](https://tommyettinger.github.io/textratypist/ColorTableAlphabetical.html).
+    - Adjectives can be "light", "dark", "rich", "dull", or stronger versions of those suffixed with "-er", "-est", or
+      "-most". You can use any combination of adjectives, and can also combine multiple colors, such as "red orange". 
+    - Some examples: `[RED]`, `[green yellow]`, `[light blue]`, `[duller orange]`, or `[darker rich BLUE lavender]`.
+  - You can use `Font`'s `setColorLookup()` method with your own `ColorLookup` implementation to do what you want here.
   - The name can optionally be preceded by `|`, which allows looking up colors with names that contain punctuation.
     For example, `[|;_;]` would look up a color called `;_;`, "the color of sadness," and would not act like `[;]`.
+    - Non-alphabetical characters are ignored by default, but a custom `ColorLookup` might not, nor does
+      `ColorLookup.INSTANCE`, which looks up String names in the libGDX Colors class verbatim.
   - This also can be used with a color tag, such as `{COLOR=SKY}` (which Colors can handle right away) or
-    `{COLOR=Lighter Orange-Red}` (which would need that color to be defined).
-    - One way colors such as `Lighter Orange-Red` can be defined is done in [SquidSquad](https://github.com/yellowstonegames/SquidSquad),
-      which defines its own `ColorLookup`.
-- `[+region name]`, where region name is the name of a TextureRegion from a registered TextureAtlas, won't change the 
+    with a description, such as `{COLOR=lighter orange-red}`, even inside a tag like `{GRADIENT}`.
+- `[+region name]`, where region name is the name of a TextureRegion from a registered TextureAtlas, won't change the
   style, but will produce that TextureRegion in-line with the text.
   - This is commonly used with `KnownFonts.addEmoji()` to add the 3000+ Twemoji icons to a Font.
-    - If you use Twemoji, the phrasees `[+saxophone]` and `[+🎷]` will each show a saxophone icon.
+    - If you use Twemoji, the phrases `[+saxophone]` and `[+🎷]` will each show a saxophone icon.
     - This also works with multipart emoji, such as `[+call me hand, medium-dark skin tone]` and `[+🤙🏾]`.
 
 ## But wait, there's fonts!
