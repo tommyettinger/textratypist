@@ -42,14 +42,15 @@ public class RotationTest extends ApplicationAdapter {
         config.setTitle("Font test");
         config.setWindowedMode(PIXEL_WIDTH, PIXEL_HEIGHT);
         config.disableAudio(true);
-        config.useVsync(true);
+        config.useVsync(false);
+        config.setForegroundFPS(0);
         new Lwjgl3Application(new RotationTest(), config);
     }
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        font = KnownFonts.getInconsolataMSDF().scaleTo(16, 32);
+        font = KnownFonts.getInconsolata().scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
 //        font = KnownFonts.getIosevka();
 //        font = KnownFonts.getIosevkaSlab().scale(0.75f, 0.75f);
@@ -155,8 +156,9 @@ public class RotationTest extends ApplicationAdapter {
 //                        , since * 0.05f, 0f, 0f
 //                );
 //        }
+        font.drawText(batch, Gdx.graphics.getFramesPerSecond() + " FPS",
+                font.cellWidth, Gdx.graphics.getHeight() - font.cellHeight * 2, 0x227711FE);
         batch.end();
-        Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
 
     @Override
