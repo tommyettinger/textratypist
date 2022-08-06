@@ -2018,8 +2018,9 @@ public class Font implements Disposable {
         batch.setPackedColor(NumberUtils.intToFloatColor(Integer.reverseBytes(color)));
         GlyphRegion current;
         for (int i = 0, n = text.length(); i < n; i++) {
-            batch.draw(current = mapping.get(text.charAt(i)), x + current.offsetX, y + current.offsetY, current.getRegionWidth(), current.getRegionHeight());
-            x += current.getRegionWidth();
+            batch.draw(current = mapping.get(text.charAt(i)), x + current.offsetX * scaleX, y + current.offsetY * scaleY,
+                    current.getRegionWidth() * scaleX, current.getRegionHeight() * scaleY);
+            x += current.getRegionWidth() * scaleX;
         }
     }
 
