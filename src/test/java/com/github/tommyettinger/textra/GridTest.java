@@ -127,16 +127,18 @@ public class GridTest extends ApplicationAdapter {
 //        font.markup("\n[*]Водяной[] — в славянской мифологии дух, обитающий в воде, хозяин вод[^][BLUE][[2][]."
 //                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][[citation needed][].", layout);
 //
-        font.markup("Test [*]TEST [/]Test [*]TEST[][.]test [=]Test [^]TEST [][_]Test [~]test[_] Test[]"
-                        + "\nThe [#800000]MAW[] of the [/][#66DDFF]wendigo[/] (wendigo)[] [*]appears[*]!"
-                        + "\nThe [_][#666666]BLADE[] of [*][/][#FFFF44]DYNAST-KINGS[] strikes!"
-                        + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[], [?]Unknown[]?"
-                        + "\n[#BBAA44]φ[] = (1 + 5[^]0.5[^]) * 0.5"
-                        + "\n[#FF8822]¿Qué son estos? ¡Arribate, mijo![]"
-                        + "\nPchnąć[] w tę łódź [#775522]jeża[] lub ośm skrzyń [#CC00CC]fig[]."
+        font.markup(
+                "Test"
+//                "Test [*]TEST [/]Test [*]TEST[][.]test [=]Test [^]TEST [][_]Test [~]test[_] Test[]"
+//                        + "\nThe [#800000]MAW[] of the [/][#66DDFF]wendigo[/] (wendigo)[] [*]appears[*]!"
+//                        + "\nThe [_][#666666]BLADE[] of [*][/][#FFFF44]DYNAST-KINGS[] strikes!"
+//                        + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[], [?]Unknown[]?"
+//                        + "\n[#BBAA44]φ[] = (1 + 5[^]0.5[^]) * 0.5"
+//                        + "\n[#FF8822]¿Qué son estos? ¡Arribate, mijo![]"
+//                        + "\nPchnąć[] w tę łódź [#775522]jeża[] lub ośm skrzyń [#CC00CC]fig[]."
                 , layout);
 
-        marquee = new TypingLabel("{BLINK}{ROTATE=100}{JOLT}[/]EAT AT JOE'S", font);
+        marquee = new TypingLabel("{BLINK}{ROTATE=100}{JOLT=1;1;inf;0.07;lightest magenta;dark dull magenta gray}[/]EAT AT JOE'S", font);
         marquee.wrap = false;
         marquee.parseTokens();
         marquee.setWidth(Gdx.graphics.getWidth());
