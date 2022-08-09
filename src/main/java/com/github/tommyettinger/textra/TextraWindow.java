@@ -410,4 +410,12 @@ public class TextraWindow extends Table {
     public TextraLabel getTitleLabel() {
         return titleLabel;
     }
+
+    /**
+     * Does nothing unless the titleLabel used here is a TypingLabel; then, this will skip text progression ahead.
+     */
+    public void skipToTheEnd() {
+        titleLabel.skipToTheEnd();
+    }
+
 }

@@ -372,4 +372,11 @@ public class TextraLabel extends Widget {
         setWidth(layout.getWidth() + (style != null && style.background != null ?
                 style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
     }
+
+    /**
+     * By default, does nothing; this is overridden in TypingLabel to skip its text progression ahead.
+     */
+    public void skipToTheEnd() {
+    }
+
 }

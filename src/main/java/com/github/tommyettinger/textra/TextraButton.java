@@ -183,4 +183,12 @@ public class TextraButton extends Button {
         if (dotIndex != -1) className = className.substring(dotIndex + 1);
         return (className.indexOf('$') != -1 ? "TextraButton " : "") + className + ": " + label.toString();
     }
+
+    /**
+     * Does nothing unless the label used here is a TypingLabel; then, this will skip text progression ahead.
+     */
+    public void skipToTheEnd() {
+        label.skipToTheEnd();
+    }
+
 }
