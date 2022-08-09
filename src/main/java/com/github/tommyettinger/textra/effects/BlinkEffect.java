@@ -19,6 +19,7 @@ package com.github.tommyettinger.textra.effects;
 import com.badlogic.gdx.math.MathUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
+import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /**
  * Blinks the entire text in two different colors at once, without interpolation.
@@ -26,24 +27,30 @@ import com.github.tommyettinger.textra.TypingLabel;
 public class BlinkEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 1f;
 
-    private int color1 = 0xFFFFFFFF; // First color of the effect, RGBA8888.
-    private int color2 = 0x00000000; // Second color of the effect, RGBA8888.
+    private int color1 = 256; // First color of the effect.
+    private int color2 = 256; // Second color of the effect.
+    private float alpha1 = 1f; // First alpha of the effect, in case a color isn't provided.
+    private float alpha2 = 0f; // Second alpha of the effect, in case a color isn't provided.
     private float frequency = 1; // How frequently the color pattern should move through the text.
     private float threshold = 0.5f; // Point to switch colors.
 
     public BlinkEffect(TypingLabel label, String[] params) {
         super(label);
 
-        // Color 1
+        // Color 1 or Alpha 1
         if (params.length > 0) {
-            int c = paramAsColor(params[0]);
-            if (c != 256) this.color1 = c;
+            this.color1 = paramAsColor(params[0]);
+            if (this.color1 == 256) {
+                alpha1 = paramAsFloat(params[0], 0);
+            }
         }
 
-        // Color 2
+        // Color 2 or Alpha 2
         if (params.length > 1) {
-            int c = paramAsColor(params[1]);
-            if (c != 256) this.color2 = c;
+            this.color2 = paramAsColor(params[1]);
+            if (this.color2 == 256) {
+                alpha2 = paramAsFloat(params[1], 1);
+            }
         }
 
         // Frequency
@@ -67,7 +74,18 @@ public class BlinkEffect extends Effect {
         float progress = calculateProgress(frequencyMod);
 
         // Calculate and assign color
-        label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) (progress <= threshold ? color1 : color2) << 32);
+        if(progress <= threshold){
+            if(color1 == 256)
+                label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long)ColorUtils.multiplyAlpha((int)(glyph >>> 32), alpha1) << 32);
+            else
+                label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) color1 << 32);
+        }
+        else {
+            if(color1 == 256)
+                label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long)ColorUtils.multiplyAlpha((int)(glyph >>> 32), alpha2) << 32);
+            else
+                label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) color2 << 32);
+        }
     }
 
 }
