@@ -281,6 +281,7 @@ public class TypingLabel extends TextraLabel {
      * Skips the char progression to the end, showing the entire label. Useful for when users don't want to wait for too
      * long. Ignores all subsequent events by default.
      */
+    @Override
     public void skipToTheEnd() {
         skipToTheEnd(true);
     }

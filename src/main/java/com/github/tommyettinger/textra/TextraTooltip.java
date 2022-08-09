@@ -139,4 +139,12 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
         container.setBackground(style.background);
         container.maxWidth(style.wrapWidth);
     }
+
+    /**
+     * Does nothing unless the label used here is a TypingLabel; then, this will skip text progression ahead.
+     */
+    public void skipToTheEnd() {
+        getContainer().getActor().skipToTheEnd();
+    }
+
 }
