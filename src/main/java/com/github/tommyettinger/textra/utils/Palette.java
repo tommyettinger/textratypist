@@ -51,7 +51,7 @@ public final class Palette {
      */
     public static final ObjectIntMap<String> ALIASES = new ObjectIntMap<>(20);
 
-    public static final ObjectIntMap<String> NAMED = new ObjectIntMap<String>(84);
+    public static final ObjectIntMap<String> NAMED = new ObjectIntMap<>(84);
     public static final IntArray LIST = new IntArray(84);
 
     /**
