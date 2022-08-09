@@ -289,6 +289,18 @@ public class ColorUtils {
     }
 
     /**
+     * Gets an "offset color" for the original {@code color} where high red, green, or blue channels become low values
+     * in that same channel, and vice versa, then blends the original with that offset, using more of the offset if
+     * {@code power} is higher (closer to 1.0f). It is usually fine for {@code power} to be 0.5f .
+     * @param color the original color as an RGBA8888 int
+     * @param power between 0.0f and 1.0f, this is how heavily the offset color should factor in to the result
+     * @return a mix between {@code color} and its offset, with higher {@code power} using more of the offset
+     */
+    public static int offset(final int color, float power) {
+        return lerpColors(color, color ^ 0x80808000, power);
+    }
+
+    /**
      * Given an RGBA8888 or HSLA color as an int, this multiplies the alpha of that color by multiplier and returns
      * another int color of the same format passed in. This clamps the alpha if it would go below 0 or above 255, and
      * leaves the RGB or HSL channels alone.
