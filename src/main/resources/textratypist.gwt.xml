@@ -26,5 +26,6 @@
     <source path="com/github/tommyettinger/textra" />
     <inherits name="com.badlogic.gdx.backends.gdx_backends_gwt" />
     <inherits name="regexodus" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.github.tommyettinger.textra.Effect"/>
     <extend-configuration-property name="gdx.reflect.include" value="com.github.tommyettinger.textra.effects"/>
 </module>

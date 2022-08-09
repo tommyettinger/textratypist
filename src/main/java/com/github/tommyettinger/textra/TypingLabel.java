@@ -46,8 +46,8 @@ public class TypingLabel extends TextraLabel {
     ///////////////////////
 
     // Collections
-    private final ObjectMap<String, String> variables = new ObjectMap<String, String>();
-    protected final Array<TokenEntry> tokenEntries = new Array<TokenEntry>();
+    private final ObjectMap<String, String> variables = new ObjectMap<>();
+    protected final Array<TokenEntry> tokenEntries = new Array<>();
 
     // Config
     private final Color clearColor = new Color(TypingConfig.DEFAULT_CLEAR_COLOR);
@@ -69,13 +69,12 @@ public class TypingLabel extends TextraLabel {
      * Contains one float per glyph; each is a rotation in degrees to apply to that glyph (around its center).
      */
     public final FloatArray rotations = new FloatArray();
-    protected final Array<Effect> activeEffects = new Array<Effect>();
+    protected final Array<Effect> activeEffects = new Array<>(Effect.class);
     private float textSpeed = TypingConfig.DEFAULT_SPEED_PER_CHAR;
     private float charCooldown = textSpeed;
     private int rawCharIndex = -2; // All chars, including color codes
     private int glyphCharIndex = -1; // Only renderable chars, excludes color codes
     private int glyphCharCompensation = 0;
-    private int cachedGlyphCharIndex = -1; // Last glyphCharIndex sent to the cache
     private boolean parsed = false;
     private boolean paused = false;
     private boolean ended = false;
@@ -322,7 +321,7 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * Returns whether or not this label is currently skipping its typing progression all the way to the end. This is
+     * Returns whether this label is currently skipping its typing progression all the way to the end. This is
      * only true if skipToTheEnd is called.
      */
     public boolean isSkipping() {
@@ -330,7 +329,7 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * Returns whether or not this label is paused.
+     * Returns whether this label is paused.
      */
     public boolean isPaused() {
         return paused;
@@ -351,7 +350,7 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * Returns whether or not this label's char progression has ended.
+     * Returns whether this label's char progression has ended.
      */
     public boolean hasEnded() {
         return ended;
@@ -390,7 +389,6 @@ public class TypingLabel extends TextraLabel {
         rawCharIndex = -2;
         glyphCharIndex = -1;
         glyphCharCompensation = 0;
-        cachedGlyphCharIndex = -1;
         parsed = false;
         paused = false;
         ended = false;
