@@ -36,7 +36,7 @@ public class GridTest extends ApplicationAdapter {
     int[][] backgrounds;
     char[][] lines;
     Layout layout;
-    TypingLabel marquee;
+    TypingLabel marquee, link;
     long startTime;
     RandomXS128 random;
 
@@ -142,10 +142,15 @@ public class GridTest extends ApplicationAdapter {
 //        marquee = new TypingLabel("{BLINK}{ROTATE=100}{JOLT=1;1;inf;0.07;lightest magenta;dark dull magenta gray}[/]EAT AT JOE'S", font);
         marquee.wrap = false;
         marquee.parseTokens();
-        marquee.setWidth(Gdx.graphics.getWidth());
+        marquee.setWidth(Gdx.graphics.getBackBufferWidth());
         marquee.setPosition(64, 350);
         marquee.skipToTheEnd();
         marquee.setRotation(-100f);
+        link = new TypingLabel("Welcome to [sky][_]{LINK=https://github.com/tommyettinger/textratypist}TextraTypist[], for text stuff.", font);
+        link.parseTokens();
+        link.setWidth(Gdx.graphics.getBackBufferWidth());
+        link.setPosition(0f, PIXEL_HEIGHT * 0.5f - font.cellHeight * 2);
+        link.skipToTheEnd();
 //        font.markup("\"You are ever more the [/]fool[/] than the pitiable cutpurse who [*]dares waylay[*] my castle road!\" the [dark rich gold]King[] admonished."
 //                +" \"Forsooth! Had [_]I[_] my right mind, I would have [dark red]both of [_]your heads[] by morning. But alas, I am stricken with" +
 //                " unreasonable mercy for your [~]wretched[~] souls. To [darker grey][*]the Trappists[] ye shall go; I am in need of" +
@@ -168,6 +173,7 @@ public class GridTest extends ApplicationAdapter {
         font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];
 //        font = fonts[5];
         marquee.act(Gdx.graphics.getDeltaTime());
+        link.act(Gdx.graphics.getDeltaTime());
         batch.begin();
         font.enableShader(batch);
 
@@ -186,13 +192,14 @@ public class GridTest extends ApplicationAdapter {
 //        for (int i = 0, n = glyphs[0].size(); i < n; i++) {
 //            glyphs[0].set(i, glyphs[0].get(i) & 0xFFFFFFFFL | color);
 //        }
-        font.drawGlyphs(batch, layout,
-//0f, y, Align.left
-//                PIXEL_WIDTH * 0.5f
-                0, y - font.cellHeight * 2, Align.left
-        );
+//        font.drawGlyphs(batch, layout,
+////0f, y, Align.left
+////                PIXEL_WIDTH * 0.5f
+//                0, y - font.cellHeight * 2, Align.left
+//        );
         font.drawGlyph(batch, Font.markupGlyph(font.solidBlock, "[RED]", ColorLookup.INSTANCE), 0, Gdx.graphics.getHeight() - font.cellHeight);
         marquee.draw(batch, 1f);
+        link.draw(batch, 1f);
         batch.end();
         Gdx.graphics.setTitle(font.name + " at " + Gdx.graphics.getFramesPerSecond() + " FPS");
     }
