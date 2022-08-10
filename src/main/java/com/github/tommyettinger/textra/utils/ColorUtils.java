@@ -345,12 +345,16 @@ public class ColorUtils {
      * as strong. Technically, the chars appended to an adjective don't matter, only their count, so "lightaa" is the
      * same as "lighter" and "richcat" is the same as "richest". There's an unofficial fourth level as well, used when
      * any 4 characters are appended to an adjective (as in "darkmost"); it has four times the effect of the original
-     * adjective. If a color name or adjective is invalid, it is not considered; if the description is empty or fully
+     * adjective. There are also the adjectives "bright" (equivalent to "light rich"), "pale" ("light dull"), "deep"
+     * ("dark rich"), and "weak" ("dark dull"). These can be amplified like the other four, except that "pale" goes to
+     * "paler", "palest", and then to (equivalently) "palemax" or "palemost", where only the word length is checked.
+     * <br>
+     * If part of a color name or adjective is invalid, it is not considered; if the description is empty or fully
      * invalid, this returns the RGBA8888 int value 256 (used as a placeholder by
      * {@link com.github.tommyettinger.textra.ColorLookup}).
      * <br>
      * Examples of valid descriptions include "blue", "dark green", "DULLER RED", "peach pink", "indigo purple mauve",
-     * "lightest, richer apricot-olive", and "LIGHTMOST rich MAROON indigo".
+     * "BRIGHT GOLD", "lightest, richer apricot-olive", and "LIGHTMOST rich MAROON indigo".
      * @param description a color description, as a lower-case String matching the above format
      * @return an RGBA8888 int color as described
      */
@@ -364,7 +368,7 @@ public class ColorUtils {
             switch (term.charAt(0)) {
                 case 'L':
                 case 'l':
-                    if (len > 2 && (term.charAt(2) == 'g' || term.charAt(2) == 'G')) {
+                    if (len > 2 && (term.charAt(2) == 'g' || term.charAt(2) == 'G')) { // light
                         switch (len) {
                             case 9:
                                 lightness += 0.20f;
@@ -380,9 +384,76 @@ public class ColorUtils {
                         mixing.add(NAMED.get(term, 256));
                     }
                     break;
+                case 'B':
+                case 'b':
+                    if (len > 3 && (term.charAt(3) == 'g' || term.charAt(3) == 'G')) { // bright
+                        switch (len) {
+                            case 10:
+                                lightness += 0.20f;
+                                saturation += 0.200f;
+                            case 9:
+                                lightness += 0.20f;
+                                saturation += 0.200f;
+                            case 8:
+                                lightness += 0.20f;
+                                saturation += 0.200f;
+                            case 6:
+                                lightness += 0.20f;
+                                saturation += 0.200f;
+                                break;
+                        }
+                    } else {
+                        mixing.add(NAMED.get(term, 256));
+                    }
+                    break;
+                case 'P':
+                case 'p':
+                    if (len > 2 && (term.charAt(2) == 'l' || term.charAt(2) == 'L')) { // pale
+                        switch (len) {
+                            case 8: // palemost
+                            case 7: // palerer
+                                lightness += 0.20f;
+                                saturation -= 0.200f;
+                            case 6: // palest
+                                lightness += 0.20f;
+                                saturation -= 0.200f;
+                            case 5: // paler
+                                lightness += 0.20f;
+                                saturation -= 0.200f;
+                            case 4: // pale
+                                lightness += 0.20f;
+                                saturation -= 0.200f;
+                                break;
+                        }
+                    } else {
+                        mixing.add(NAMED.get(term, 256));
+                    }
+                    break;
+                case 'W':
+                case 'w':
+                    if (len > 3 && (term.charAt(3) == 'k' || term.charAt(3) == 'K')) { // weak
+                        switch (len) {
+                            case 8:
+                                lightness -= 0.20f;
+                                saturation -= 0.200f;
+                            case 7:
+                                lightness -= 0.20f;
+                                saturation -= 0.200f;
+                            case 6:
+                                lightness -= 0.20f;
+                                saturation -= 0.200f;
+                            case 4:
+                                lightness -= 0.20f;
+                                saturation -= 0.200f;
+                                break;
+                        }
+                    } else {
+                        mixing.add(NAMED.get(term, 256));
+                    }
+                    break;
                 case 'R':
                 case 'r':
-                    if (len > 1 && (term.charAt(1) == 'i' || term.charAt(1) == 'I')) {
+                    if (len > 1 && (term.charAt(1) == 'i' || term.charAt(1) == 'I')) { // rich
                         switch (len) {
                             case 8:
                                 saturation += 0.200f;
@@ -400,7 +471,7 @@ public class ColorUtils {
                     break;
                 case 'D':
                 case 'd':
-                    if (len > 1 && (term.charAt(1) == 'a' || term.charAt(1) == 'A')) {
+                    if (len > 1 && (term.charAt(1) == 'a' || term.charAt(1) == 'A')) { // dark
                         switch (len) {
                             case 8:
                                 lightness -= 0.20f;
@@ -412,7 +483,7 @@ public class ColorUtils {
                                 lightness -= 0.20f;
                                 break;
                         }
-                    } else if (len > 1 && (term.charAt(1) == 'u' || term.charAt(1) == 'U')) {
+                    } else if (len > 1 && (term.charAt(1) == 'u' || term.charAt(1) == 'U')) { // dull
                         switch (len) {
                             case 8:
                                 saturation -= 0.200f;
@@ -422,6 +493,22 @@ public class ColorUtils {
                                 saturation -= 0.200f;
                             case 4:
                                 saturation -= 0.200f;
+                                break;
+                        }
+                    } else if (len > 3 && (term.charAt(3) == 'p' || term.charAt(3) == 'P')) { // deep
+                        switch (len) {
+                            case 8:
+                                lightness -= 0.20f;
+                                saturation += 0.200f;
+                            case 7:
+                                lightness -= 0.20f;
+                                saturation += 0.200f;
+                            case 6:
+                                lightness -= 0.20f;
+                                saturation += 0.200f;
+                            case 4:
+                                lightness -= 0.20f;
+                                saturation += 0.200f;
                                 break;
                         }
                     } else {
