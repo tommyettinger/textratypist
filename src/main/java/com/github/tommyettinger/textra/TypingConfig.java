@@ -147,5 +147,6 @@ public class TypingConfig {
         registerEffect("ROTATE", "ENDROTATE", RotateEffect.class);
         registerEffect("HIGHLIGHT", "ENDHIGHLIGHT", HighlightEffect.class);
         registerEffect("LINK", "ENDLINK", LinkEffect.class);
+        registerEffect("TRIGGER", "ENDTRIGGER", TriggerEffect.class);
     }
 }
