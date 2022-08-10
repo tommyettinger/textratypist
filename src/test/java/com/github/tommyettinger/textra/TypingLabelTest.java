@@ -17,7 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.github.tommyettinger.textra.utils.ColorUtils;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
@@ -35,6 +37,7 @@ public class TypingLabelTest extends ApplicationAdapter {
     TextButton  buttonRestart;
     TextButton  buttonRebuild;
     TextButton  buttonSkip;
+    Color flashColor = new Color(1, 1, 0.6f, 1f);
 
     @Override
     public void create() {
@@ -191,7 +194,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 //        text.append("Imagine the possibilities! =D");
 
         final StringBuilder text = new StringBuilder();
-        text.append("{SLOWER}{GRADIENT=FF70F1;light pink orange;-0.5;5}{EASE=-8;2;1}{SHRINK=2;5}[%125][@Medieval]Welcome,[%]{ENDSHRINK}[@] {WAIT}{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}{VAR=title}{STYLE=;}{STYLE=/}{ENDSPIRAL}![] [+🤔]{ENDEASE}{WAIT=0.8}");
+        text.append("{SLOWER}{GRADIENT=FF70F1;light pink orange;-0.5;5}{EASE=-8;2;1}{SHRINK=2;5}[%125][@Medieval]Welcome,[%]{ENDSHRINK}[@] {WAIT}{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}{VAR=title}{STYLE=;}{STYLE=/}{ENDSPIRAL}![] {TRIGGER=lightest violet}[lightest violet][_][+🤔][]{WAIT=0.8}");
         text.append("{FAST}\n\n");
         text.append("{RESET}{HANG=0.7}[@Sans]This is a [*][YELLOW]simple[WHITE][*] test[@]{ENDHANG} to {SPIN}show you{ENDSPIN}");
         text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {CROWD}how to make dialogues{ENDCROWD} {JUMP}{SLOW}[*][/]fun[/][*] again! {ENDGRADIENT}[+🥳]{ENDJUMP}{WAIT}\n");
@@ -254,22 +257,29 @@ public class TypingLabelTest extends ApplicationAdapter {
             public void event(String event) {
                 System.out.println("Event: " + event);
 
-                labelEvent.restart("{FADE}{SLIDE=2;1;1}{FASTER}{COLOR=GRAY}Event:{WAIT=0.1}{COLOR=LIME} " + event);
-                labelEvent.clearActions();
-                labelEvent.addAction(
-                    sequence(
-                        visible(true),
-                        alpha(0),
-                        alpha(1, 0.25f, Interpolation.pow2In),
-                        delay(0.5f),
-                        alpha(0, 2f, Interpolation.pow2)
-                    )
-                );
+                if("example".equals(event)) {
+                    labelEvent.restart("{FADE}{SLIDE=2;1;1}{FASTER}{COLOR=GRAY}Event:{WAIT=0.1}{COLOR=LIME} " + event);
+                    labelEvent.clearActions();
+                    labelEvent.addAction(
+                            sequence(
+                                    visible(true),
+                                    alpha(0),
+                                    alpha(1, 0.25f, Interpolation.pow2In),
+                                    delay(0.5f),
+                                    alpha(0, 2f, Interpolation.pow2)
+                            )
+                    );
+                }
+                else {
+                    Color.rgba8888ToColor(flashColor, ColorUtils.describe(event));
+                    ScreenUtils.clear(flashColor);
+                }
             }
 
             @Override
             public void end() {
                 System.out.println("End");
+                label.skipToTheEnd(false, false);
             }
         });
 
@@ -287,10 +297,10 @@ public class TypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void render() {
-        update(Gdx.graphics.getDeltaTime());
-
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        update(Gdx.graphics.getDeltaTime());
 
         stage.draw();
     }
