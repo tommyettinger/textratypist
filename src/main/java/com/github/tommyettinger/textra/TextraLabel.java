@@ -74,7 +74,7 @@ public class TextraLabel extends Widget {
      * Skin.
      *
      * @param text      the text to use; may be multi-line, but will default to not wrapping
-     * @param skin      the default Label.LabelStyle will be obtained from this and used
+     * @param skin      the named Label.LabelStyle will be obtained from this and used
      * @param styleName the name of a Label.LabelStyle to use from the Skin
      */
     public TextraLabel(String text, Skin skin, String styleName) {
@@ -86,7 +86,7 @@ public class TextraLabel extends Widget {
      * Skin.
      *
      * @param text           the text to use; may be multi-line, but will default to not wrapping
-     * @param skin           the default Label.LabelStyle will be obtained from this and used
+     * @param skin           the named Label.LabelStyle will be obtained from this and used
      * @param styleName      the name of a Label.LabelStyle to use from the Skin
      * @param makeGridGlyphs if true, the font should have a solid block glyph available, and underline/strikethrough
      *                       may be drawn more clearly; if false, underline/strikethrough will use underscore/dash
@@ -100,12 +100,13 @@ public class TextraLabel extends Widget {
      * Skin, with the default Color overridden by the given one.
      *
      * @param text      the text to use; may be multi-line, but will default to not wrapping
-     * @param skin      the default Label.LabelStyle will be obtained from this and used
+     * @param skin      the named Label.LabelStyle will be obtained from this and used
      * @param styleName the name of a Label.LabelStyle to use from the Skin
      * @param color     the color to use for the font when unspecified (at the start and when reset)
      */
     public TextraLabel(String text, Skin skin, String styleName, Color color) {
-        this(text, new Font(skin.get(styleName, Label.LabelStyle.class).font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0), color);
+        this(text, skin.get(styleName, Label.LabelStyle.class));
+        if(color != null) layout.setBaseColor(color);
     }
 
     /**
@@ -113,12 +114,14 @@ public class TextraLabel extends Widget {
      * Skin, with the default Color overridden by the color with the given name in the skin.
      *
      * @param text      the text to use; may be multi-line, but will default to not wrapping
-     * @param skin      the default Label.LabelStyle will be obtained from this and used
+     * @param skin      the named Label.LabelStyle will be obtained from this and used
      * @param styleName the name of a Label.LabelStyle to use from the Skin
      * @param colorName the name in the skin of the color to use for the font when unspecified (at the start and when reset)
      */
     public TextraLabel(String text, Skin skin, String styleName, String colorName) {
-        this(text, new Font(skin.get(styleName, Label.LabelStyle.class).font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0), skin.get(colorName, Color.class));
+        this(text, skin.get(styleName, Label.LabelStyle.class));
+        Color color = skin.get(colorName, Color.class);
+        if(color != null) layout.setBaseColor(color);
     }
 
     /**
@@ -146,6 +149,46 @@ public class TextraLabel extends Widget {
         this.style = style;
         storedText = text;
         font.markup(text, layout);
+    }
+
+    /**
+     * Creates a TextraLabel with the given text (which may be multi-line) and using the default style from
+     * a Skin, replacing any font that would be drawn from the style with {@code replacementFont}.
+     *
+     * @param text            the text to use; may be multi-line, but will default to not wrapping
+     * @param skin            the default Label.LabelStyle will be obtained from this and used
+     * @param replacementFont a Font that will be used in place of the one in style
+     */
+    public TextraLabel(String text, Skin skin, Font replacementFont) {
+        this(text, skin.get(Label.LabelStyle.class), replacementFont);
+    }
+
+    /**
+     * Creates a TextraLabel with the given text (which may be multi-line) and using the given style taken by name from
+     * a Skin, replacing any font that would be drawn from the style with {@code replacementFont}.
+     *
+     * @param text            the text to use; may be multi-line, but will default to not wrapping
+     * @param skin            the named Label.LabelStyle will be obtained from this and used
+     * @param styleName       the name of a Label.LabelStyle to use from the Skin
+     * @param replacementFont a Font that will be used in place of the one in style
+     */
+    public TextraLabel(String text, Skin skin, String styleName, Font replacementFont) {
+        this(text, skin.get(styleName, Label.LabelStyle.class), replacementFont);
+    }
+
+    /**
+     * Creates a TextraLabel with the given text (which may be multi-line) and using the given style taken by name from
+     * a Skin, replacing any font that would be drawn from the style with {@code replacementFont}.
+     *
+     * @param text            the text to use; may be multi-line, but will default to not wrapping
+     * @param skin            the named Label.LabelStyle will be obtained from this and used
+     * @param styleName       the name of a Label.LabelStyle to use from the Skin
+     * @param replacementFont a Font that will be used in place of the one in style
+     * @param color           the base color to use for the label, used when reset
+     */
+    public TextraLabel(String text, Skin skin, String styleName, Font replacementFont, Color color) {
+        this(text, skin.get(styleName, Label.LabelStyle.class), replacementFont);
+        if (color != null) layout.setBaseColor(color);
     }
 
     /**
