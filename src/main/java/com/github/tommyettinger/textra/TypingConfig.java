@@ -148,5 +148,6 @@ public class TypingConfig {
         registerEffect("HIGHLIGHT", "ENDHIGHLIGHT", HighlightEffect.class);
         registerEffect("LINK", "ENDLINK", LinkEffect.class);
         registerEffect("TRIGGER", "ENDTRIGGER", TriggerEffect.class);
+        registerEffect("ATTENTION", "ENDATTENTION", AttentionEffect.class);
     }
 }
