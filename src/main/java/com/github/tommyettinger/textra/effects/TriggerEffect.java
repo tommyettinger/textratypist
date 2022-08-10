@@ -19,23 +19,22 @@ package com.github.tommyettinger.textra.effects;
 import com.badlogic.gdx.Gdx;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
-import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /**
- * Allows clicking the affected text to open a URL in the browser. You may want to use other markup with this, such as
- * underlining or especially a color change. Doesn't change over time. This doesn't validate the URL or sanity-check it
- * in any way, so try not to allow users to write arbitrary URLS and send them to other users.
+ * Allows clicking the affected text to trigger an event. You may want to use other markup with this, such as
+ * underlining or especially a color change. Doesn't change over time. This is fully dependent on what the TypingLabel's
+ * TypingListener/TypingAdapter does with the event by name.
  */
-public class LinkEffect extends Effect {
-    private String link = "https://libgdx.com";
+public class TriggerEffect extends Effect {
+    private String event = "start";
 
-    public LinkEffect(TypingLabel label, String[] params) {
+    public TriggerEffect(TypingLabel label, String[] params) {
         super(label);
         label.trackingInput = true;
 
         // URL
         if (params.length > 0) {
-            this.link = String.join(";", params);
+            this.event = String.join(";", params);
         }
     }
 
@@ -43,7 +42,7 @@ public class LinkEffect extends Effect {
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         if(label.lastTouchedIndex == globalIndex){
             label.lastTouchedIndex = -1;
-            Gdx.net.openURI(link);
+            label.triggerEvent(event, true);
         }
     }
 

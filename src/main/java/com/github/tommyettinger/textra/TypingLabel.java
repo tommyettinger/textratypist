@@ -603,9 +603,7 @@ public class TypingLabel extends TextraLabel {
 //                        break;
 //                    }
                     case EVENT: {
-                        if (this.listener != null && !ignoringEvents) {
-                            listener.event(entry.stringValue);
-                        }
+                        triggerEvent(entry.stringValue, false);
                         continue;
                     }
                     case EFFECT_START:
@@ -1007,6 +1005,18 @@ public class TypingLabel extends TextraLabel {
 //                return;
             } else
                 index -= glyphs.size;
+        }
+    }
+
+    /**
+     * Triggers an event with the given String name. If {@code always} is true, this will trigger the event even if the
+     * typing animation has already ended. This requires a {@link TypingListener} to be set.
+     * @param event the event name to trigger
+     * @param always if true, the event will be triggered even if the animation has finished.
+     */
+    public void triggerEvent(String event, boolean always) {
+        if (this.listener != null && (always || !ignoringEvents)) {
+            listener.event(event);
         }
     }
 }
