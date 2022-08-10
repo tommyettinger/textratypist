@@ -262,7 +262,7 @@ public class ImageTextraButton extends Button {
         return (className.indexOf('$') != -1 ? "ImageTextraButton " : "") + className + ": " + image.getDrawable() + " "
                 + label.toString();
     }
-    
+
     /**
      * Does nothing unless the label used here is a TypingLabel; then, this will skip text progression ahead.
      */

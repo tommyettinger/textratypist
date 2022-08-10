@@ -16,6 +16,7 @@
 
 package com.github.tommyettinger.textra;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
@@ -69,6 +70,16 @@ public class TypingLabel extends TextraLabel {
      * Contains one float per glyph; each is a rotation in degrees to apply to that glyph (around its center).
      */
     public final FloatArray rotations = new FloatArray();
+    /**
+     * If true, this will attempt to track which glyph was last touched/clicked (see {@link #lastTouchedIndex}).
+     */
+    public boolean trackingInput = false;
+    /**
+     * The global glyph index (as used by {@link #setInWorkingLayout(int, long)}) of the last glyph touched by the user.
+     * If nothing in this TypingLabel was touched during the last call to {@link #draw(Batch, float)}, then this will be
+     * -1 .
+     */
+    public int lastTouchedIndex = -1;
     protected final Array<Effect> activeEffects = new Array<>(Effect.class);
     private float textSpeed = TypingConfig.DEFAULT_SPEED_PER_CHAR;
     private float charCooldown = textSpeed;
@@ -814,6 +825,9 @@ public class TypingLabel extends TextraLabel {
         baseX -= sn * 0.5f * font.cellHeight;
         baseY += cs * 0.5f * font.cellHeight;
 
+        int globalIndex = -1;
+        lastTouchedIndex = -1;
+
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
@@ -868,7 +882,15 @@ public class TypingLabel extends TextraLabel {
                         yChange -= sn * ox;
                     }
                 }
+                ++globalIndex;
                 single = f.drawGlyph(batch, glyph, x + xChange + offsets.get(o++), y + yChange + offsets.get(o++), rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++));
+                if(trackingInput && Gdx.input.justTouched()){
+                    int inX = Gdx.input.getX();
+                    int inY = Gdx.graphics.getBackBufferHeight() - Gdx.input.getY();
+                    if(xChange <= inX && inX <= xChange + cs * single && yChange <= inY && inY <= yChange + sn * single + cs * glyphs.height){
+                        lastTouchedIndex = globalIndex;
+                    }
+                }
                 xChange += cs * single;
                 yChange += sn * single;
             }
