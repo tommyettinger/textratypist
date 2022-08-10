@@ -146,5 +146,6 @@ public class TypingConfig {
         registerEffect("SCALE", "ENDSCALE", ScaleEffect.class);
         registerEffect("ROTATE", "ENDROTATE", RotateEffect.class);
         registerEffect("HIGHLIGHT", "ENDHIGHLIGHT", HighlightEffect.class);
+        registerEffect("LINK", "ENDLINK", LinkEffect.class);
     }
 }
