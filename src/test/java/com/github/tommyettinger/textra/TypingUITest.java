@@ -129,7 +129,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin);
+		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin, font);
 		fpsLabel.setAlignment(Align.center);
 		// configures an example of a TextField in password mode.
 		final TypingLabel passwordLabel = new TypingLabel("[@Medieval]Textfield in [~]secure[] password mode: ", skin, font);
