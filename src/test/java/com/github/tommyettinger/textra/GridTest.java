@@ -138,7 +138,8 @@ public class GridTest extends ApplicationAdapter {
 //                        + "\nPchnąć[] w tę łódź [#775522]jeża[] lub ośm skrzyń [#CC00CC]fig[]."
                 , layout);
 
-        marquee = new TypingLabel("{BLINK}{ROTATE=100}{JOLT=1;1;inf;0.07;lightest magenta;dark dull magenta gray}[/]EAT AT JOE'S", font);
+        marquee = new TypingLabel("{ROTATE=100}{HIGHLIGHT=lightest magenta}[/]EAT AT JOE'S", font);
+//        marquee = new TypingLabel("{BLINK}{ROTATE=100}{JOLT=1;1;inf;0.07;lightest magenta;dark dull magenta gray}[/]EAT AT JOE'S", font);
         marquee.wrap = false;
         marquee.parseTokens();
         marquee.setWidth(Gdx.graphics.getWidth());
