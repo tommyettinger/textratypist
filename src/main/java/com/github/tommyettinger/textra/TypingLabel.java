@@ -71,15 +71,23 @@ public class TypingLabel extends TextraLabel {
      */
     public final FloatArray rotations = new FloatArray();
     /**
-     * If true, this will attempt to track which glyph was last touched/clicked (see {@link #lastTouchedIndex}).
+     * If true, this will attempt to track which glyph the user's mouse or other pointer is over (see {@link #overIndex}
+     * and {@link #lastTouchedIndex}).
      */
     public boolean trackingInput = false;
     /**
      * The global glyph index (as used by {@link #setInWorkingLayout(int, long)}) of the last glyph touched by the user.
      * If nothing in this TypingLabel was touched during the last call to {@link #draw(Batch, float)}, then this will be
-     * -1 .
+     * -1 . This only changes when a click, tap, or other touch was just issued.
      */
     public int lastTouchedIndex = -1;
+    /**
+     * The global glyph index (as used by {@link #setInWorkingLayout(int, long)}) of the last glyph hovered or dragged
+     * over by the user (including a click and mouse movement without a click). If nothing in this TypingLabel was moved
+     * over during the last call to {@link #draw(Batch, float)}, then this will be -1 . This changes whenever the mouse
+     * or a pointer is over a glyph in this.
+     */
+    public int overIndex = -1;
     protected final Array<Effect> activeEffects = new Array<>(Effect.class);
     private float textSpeed = TypingConfig.DEFAULT_SPEED_PER_CHAR;
     private float charCooldown = textSpeed;
@@ -884,11 +892,13 @@ public class TypingLabel extends TextraLabel {
                 }
                 ++globalIndex;
                 single = f.drawGlyph(batch, glyph, x + xChange + offsets.get(o++), y + yChange + offsets.get(o++), rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++));
-                if(trackingInput && Gdx.input.justTouched()){
+                if(trackingInput){
                     int inX = Gdx.input.getX();
                     int inY = Gdx.graphics.getBackBufferHeight() - Gdx.input.getY();
                     if(xChange <= inX && inX <= xChange + cs * single && yChange <= inY && inY <= yChange + sn * single + cs * glyphs.height){
-                        lastTouchedIndex = globalIndex;
+                        overIndex = globalIndex;
+                        if(Gdx.input.justTouched() && isTouchable())
+                            lastTouchedIndex = globalIndex;
                     }
                 }
                 xChange += cs * single;
