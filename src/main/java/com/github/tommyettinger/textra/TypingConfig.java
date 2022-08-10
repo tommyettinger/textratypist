@@ -145,5 +145,6 @@ public class TypingConfig {
         registerEffect("SQUASH", "ENDSQUASH", SquashEffect.class);
         registerEffect("SCALE", "ENDSCALE", ScaleEffect.class);
         registerEffect("ROTATE", "ENDROTATE", RotateEffect.class);
+        registerEffect("HIGHLIGHT", "ENDHIGHLIGHT", HighlightEffect.class);
     }
 }
