@@ -194,11 +194,20 @@ public class ColorUtils {
      * @return an even mix of all colors given, as an RGBA8888 int color
      */
     public static int mix(int[] colors, int offset, int size) {
-        if(colors == null || colors.length < offset + size || offset < 0 || size <= 0)
+        int end = offset + size;
+        if(colors == null || colors.length < end || offset < 0 || size <= 0)
             return 256; // transparent super-dark-blue, used to indicate "not found"
-        int result = colors[offset];
-        for (int i = offset + 1, o = offset + size, denom = 2; i < o; i++, denom++) {
-            result = lerpColors(result, colors[i], 1f / denom);
+        int result = 256;
+        while(colors[offset] == 256)
+        {
+            offset++;
+        }
+        if(offset < end)
+            result = colors[offset];
+        for (int i = offset + 1, o = end, denom = 2; i < o; i++, denom++) {
+            if(colors[i] != 256)
+                result = lerpColors(result, colors[i], 1f / denom);
+            else --denom;
         }
         return result;
     }
