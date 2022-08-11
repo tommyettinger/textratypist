@@ -1051,6 +1051,47 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getOxanium() not found.");
     }
 
+    private Font quanPixel;
+
+    /**
+     * Returns a Font configured to use a small variable-width bitmap font with extensive coverage of Asian scripts,
+     * <a href="https://diaowinner.itch.io/galmuri-extended">QuanPixel</a>. QuanPixel has good coverage of Unicode,
+     * including all of Greek, at least most of Cyrillic, a good amount of extended Latin, all of Katakana and Hiragana,
+     * many Hangul syllables, and literally thousands of CJK ideograms. This does not scale well except to integer
+     * multiples, but it should look very crisp at its default size of about 8 pixels tall with variable width. This
+     * defaults to having {@link Font#integerPosition} set to true, which helps keep it pixel-perfect if 1 world unit is
+     * 1 pixel, but can cause major visual issues if 1 world unit corresponds to much more than 1 pixel.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * Preview: <a href="">Image link</a> (uses width=7, height=8,
+     * useIntegerPositions(true); this size is small enough to make the scaled text unreadable in some places)
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/QuanPixel-standard.fnt">QuanPixel-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/QuanPixel-standard.png">QuanPixel-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/QuanPixel-license.txt">QuanPixel-license.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that represents the 8px tall font QuanPixel
+     */
+    public static Font getQuanPixel() {
+        initialize();
+        if (instance.quanPixel == null) {
+            try {
+                instance.quanPixel = new Font(instance.prefix + "QuanPixel-standard.fnt",
+                        instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 0, 0, 0, false)
+                        .useIntegerPositions(true)
+                        .setName("QuanPixel");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.quanPixel != null)
+            return new Font(instance.quanPixel);
+        throw new RuntimeException("Assets for getQuanPixel() not found.");
+    }
+
     private Font robotoCondensed;
 
     /**
@@ -1588,6 +1629,10 @@ public final class KnownFonts implements LifecycleListener {
         if (oxanium != null) {
             oxanium.dispose();
             oxanium = null;
+        }
+        if (quanPixel != null) {
+            quanPixel.dispose();
+            quanPixel = null;
         }
         if (robotoCondensed != null) {
             robotoCondensed.dispose();
