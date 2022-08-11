@@ -1063,7 +1063,7 @@ public final class KnownFonts implements LifecycleListener {
      * 1 pixel, but can cause major visual issues if 1 world unit corresponds to much more than 1 pixel.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="">Image link</a> (uses width=7, height=8,
+     * Preview: <a href="https://i.imgur.com/FtqSxe7.png">Image link</a> (uses width=(not set), height=8,
      * useIntegerPositions(true); this size is small enough to make the scaled text unreadable in some places)
      * <br>
      * Needs files:
@@ -1079,6 +1079,8 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.quanPixel == null) {
             try {
+                // Manual adjustment: id 95 ('_') had yoffset changed from 5, to 6.
+                // This makes underlines use a different row than the bottom of letters.
                 instance.quanPixel = new Font(instance.prefix + "QuanPixel-standard.fnt",
                         instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 0, 0, 0, false)
                         .useIntegerPositions(true)
@@ -1458,7 +1460,8 @@ public final class KnownFonts implements LifecycleListener {
                 getCascadiaMonoMSDF(), getCozette(), getDejaVuSansMono(), getGentium(), getGentiumSDF(), getHanazono(),
                 getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
-                getLibertinusSerif(), getOpenSans(), getOxanium(), getRobotoCondensed(), getYanoneKaffeesatz()};
+                getLibertinusSerif(), getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(),
+                getYanoneKaffeesatz()};
     }
 
     /**
@@ -1471,8 +1474,8 @@ public final class KnownFonts implements LifecycleListener {
     public static Font[] getAllStandard() {
         return new Font[]{getAStarry(), getBitter(), getCanada(), getCascadiaMono(), getCozette(), getGentium(),
                 getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
-                getKingthingsFoundation(), getLibertinusSerif(), getOpenSans(), getOxanium(), getRobotoCondensed(),
-                getYanoneKaffeesatz()};
+                getKingthingsFoundation(), getLibertinusSerif(), getOpenSans(), getOxanium(), getQuanPixel(),
+                getRobotoCondensed(), getYanoneKaffeesatz()};
     }
 
     /**
