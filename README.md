@@ -170,6 +170,31 @@ than libGDX itself, RegExodus is the only dependency this project has.
 There is at least one release in the [Releases](https://github.com/tommyettinger/textratypist/releases) section of this
 repo, but you're still encouraged to use Gradle to handle this library and its dependencies.
 
+## Why doesn't something work?
+
+Some parts of TextraTypist act differently from their counterparts in scene2d.ui and Rafa Skoberg's typing-label.
+
+A main issue is that `Font` and `BitmapFont` have some core disagreements about how to parse a `.fnt` file, and the
+results of creating a `Font` with `new Font("MyFont.fnt")` can be different from
+`new Font(new BitmapFont(Gdx.files.internal("MyFont.fnt")))`. `BitmapFont` reads in padding information ([and does so
+incorrectly according to the BMFont spec](https://github.com/libgdx/libgdx/pull/4297)), where `Font` ignores padding
+information entirely. Some `.fnt` files have been made so they look right in libGDX by using padding, but they will look
+wrong in other frameworks/engines without that padding. `Font` compromises by allowing manual adjustment of x and y
+position for all glyphs (y often needs to be adjusted, either to a positive or negative value), as well as the width and
+height of glyphs (these are useful less frequently).
+
+If you load text from a file and display it, you can sometimes get different results from creating that text in code, or
+loading it on a different machine. This should only happen if the file actually is different -- that is, the files' line
+endings use `\r\n` when checked out with Git on a Windows machine, or `\n` on MacOS or Linux machines. TextraTypist uses
+`\r` to mark some kinds of "soft" line breaks that can be re-wrapped, and `\n` for "hard" line breaks that must always
+create a new line. Having `\r\n` present generally shows up as two lines for every line break. A simple solution that
+works for many projects is to include a `.gitattributes` file in your project root, [like the one here](.gitattributes).
+This can be used to force all text files or all text files with a certain file extension to use `LF` mode, where only a
+single `\n` is used for line breaks. It's still recommended to keep `.bat` files using `CRLF` mode, with `\r\n` used,
+for compatibility. Using `.gitattributes` from the start is a good idea, and should keep files exactly the same on all
+current OSes. Older Windows programs (like Notepad from Windows 7) aren't able to read `\n` line endings, but the
+versions distributed with recent Windows can use `\n` easily, as can almost all code-oriented text editors.
+
 ## License
 
 This is based very closely on [typing-label](https://github.com/rafaskb/typing-label), by Rafa Skoberg.
