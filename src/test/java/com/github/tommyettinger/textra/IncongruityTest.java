@@ -1,0 +1,141 @@
+/*
+ * Copyright (c) 2022 See AUTHORS file.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.github.tommyettinger.textra;
+
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.ray3k.stripe.FreeTypeSkin;
+
+public class IncongruityTest extends ApplicationAdapter {
+    Stage stage;
+
+    @Override
+    public void create() {
+        stage = new Stage();
+        Skin skin = new FreeTypeSkin(Gdx.files.internal("uiskin2.json"));
+        Table root = new Table(skin);
+
+        Font[] fonts = KnownFonts.getAllStandard();
+        BitmapFont[] bitmapFonts = getFonts();
+        Table labels = new Table();
+        labels.defaults().pad(5);
+        for (int i = 0; i < fonts.length; i++) {
+            Font font = fonts[i];
+            labels.add(new Label(font.name, skin)).left();
+            TypingLabel label = new TypingLabel("Dummy Text 123", skin, font);
+            labels.add(label).expandX().left();
+            label.validate();
+
+            BitmapFont bf = bitmapFonts[i];
+            if (bf != null) {
+                Label.LabelStyle style = new Label.LabelStyle();
+                style.font = bf;
+                style.fontColor = Color.WHITE;
+                Label bmLabel = new Label("Dummy Text 123", style);
+                bmLabel.validate();
+                float scale = label.getPrefHeight()/bmLabel.getPrefHeight();
+                Gdx.app.log("Font", font.name + ", " + label.getPrefHeight() + ", " + bmLabel.getPrefHeight() + ", " + scale);
+                bmLabel.setFontScale(scale);
+                labels.add(bmLabel).expandX().left();
+            } else {
+                labels.add(new Label("MISSING!", skin)).expandX().left();
+            }
+            labels.row();
+        }
+        root.setFillParent(true);
+        root.add(labels);
+        labels.debugAll();
+        stage.addActor(root);
+    }
+
+    @Override
+    public void render() {
+        ScreenUtils.clear(Color.BLACK);
+
+        stage.act();
+        stage.draw();
+    }
+
+    private BitmapFont[] getFonts () {
+        return new BitmapFont[] {
+                getFont("AStarry"),
+                getFont("Bitter"),
+                getFont("Canada1500"),
+                getFont("CascadiaMono"),
+                getFont("Cozette"),
+                getFont("Gentium"),
+                getFont("Hanazono"),
+                // cant load this one, wrong format
+//			getFont("IBM-8x16"),
+                null,
+                getFont("Inconsolata-LGC-Custom"),
+                getFont("Iosevka"),
+                getFont("Iosevka-Slab"),
+                getFont("KingthingsFoundation"),
+                getFont("LibertinusSerif"),
+                getFont("OpenSans"),
+                getFont("Oxanium"),
+                getFont("QuanPixel"),
+                getFont("RobotoCondensed"),
+                getFont("YanoneKaffeesatz")
+        };
+    }
+
+    private BitmapFont getFont (String name) {
+        BitmapFont bf = new BitmapFont(Gdx.files.internal(name + "-standard.fnt"));
+        bf.setUseIntegerPositions(false);
+        return bf;
+    }
+    @Override
+    public void resize(int width, int height) {
+    }
+
+    @Override
+    public void pause() {
+        // Invoked when your application is paused.
+    }
+
+    @Override
+    public void resume() {
+        // Invoked when your application is resumed after pause.
+    }
+
+    @Override
+    public void dispose() {
+        // Destroy screen's assets here.
+    }
+    public static void main(String[] args){
+        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+        config.setTitle("TextraLabel Incongruity test");
+        config.setWindowedMode(800, 800);
+        config.disableAudio(true);
+		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
+        config.useVsync(true);
+        new Lwjgl3Application(new IncongruityTest(), config);
+    }
+
+}
