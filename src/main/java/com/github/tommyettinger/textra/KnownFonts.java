@@ -352,7 +352,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.cozette == null) {
             try {
                 instance.cozette = new Font(instance.prefix + "Cozette-standard.fnt",
-                        instance.prefix + "Cozette-standard.png", STANDARD, 0, 0, 0, 0, false)
+                        instance.prefix + "Cozette-standard.png", STANDARD, 0, 2, 0, 0, false)
                         .useIntegerPositions(true)
                         .setName("Cozette");
             } catch (Exception e) {
@@ -508,7 +508,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.hanazono == null) {
             try {
                 instance.hanazono = new Font(instance.prefix + "Hanazono-standard.fnt",
-                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, -10, 0, 0, true).scaleTo(16, 20)
+                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, 0, 0, 0, true).scaleTo(16, 20)
                         .adjustLineHeight(0.9f)
                         .setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
@@ -1003,7 +1003,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.openSans == null) {
             try {
                 instance.openSans = new Font(instance.prefix + "OpenSans-standard.fnt",
-                        instance.prefix + "OpenSans-standard.png", STANDARD, 4, 0, 0, 0, true)
+                        instance.prefix + "OpenSans-standard.png", STANDARD, 0, 4, 0, 0, true)
                         .scaleTo(20, 28).adjustLineHeight(0.8f).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1082,7 +1082,7 @@ public final class KnownFonts implements LifecycleListener {
                 // Manual adjustment: id 95 ('_') had yoffset changed from 5, to 6.
                 // This makes underlines use a different row than the bottom of letters.
                 instance.quanPixel = new Font(instance.prefix + "QuanPixel-standard.fnt",
-                        instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 0, 0, 0, false)
+                        instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 2, 0, 0, false)
                         .useIntegerPositions(true)
                         .setName("QuanPixel");
             } catch (Exception e) {
