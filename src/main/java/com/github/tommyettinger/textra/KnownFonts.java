@@ -492,7 +492,7 @@ public final class KnownFonts implements LifecycleListener {
      * scale as well as other standard bitmap fonts here.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/yRrUXSv.png">Image link</a> (uses width=16, height=20, adjustLineHeight(0.9f))
+     * Preview: <a href="https://i.imgur.com/yRrUXSv.png">Image link</a> (uses width=16, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -508,8 +508,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.hanazono == null) {
             try {
                 instance.hanazono = new Font(instance.prefix + "Hanazono-standard.fnt",
-                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, 0, 0, 0, true).scaleTo(16, 20)
-                        .adjustLineHeight(0.9f)
+                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, 0, 0, 0, false).scaleTo(16, 20)
                         .setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -987,7 +986,7 @@ public final class KnownFonts implements LifecycleListener {
      * scaled down nicely.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/kFzf3id.png">Image link</a> (uses width=20, height=28, adjustLineHeight(0.8f))
+     * Preview: <a href="https://i.imgur.com/kFzf3id.png">Image link</a> (uses width=20, height=28, adjustLineHeight(0.9f))
      * <br>
      * Needs files:
      * <ul>
@@ -1004,7 +1003,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.openSans = new Font(instance.prefix + "OpenSans-standard.fnt",
                         instance.prefix + "OpenSans-standard.png", STANDARD, 0, 4, 0, 0, true)
-                        .scaleTo(20, 28).adjustLineHeight(0.8f).setTextureFilter().setName("OpenSans");
+                        .scaleTo(20, 28).adjustLineHeight(0.9f).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
             }
