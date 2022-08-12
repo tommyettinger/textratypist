@@ -41,11 +41,8 @@ import static com.badlogic.gdx.utils.Align.*;
 
 public class Issue6933Test extends ApplicationAdapter {
     FitViewport viewport;
-    OrthographicCamera camera;
     Stage stage;
     Label label;
-    Label.LabelStyle labelStyle;
-    Table table;
 
     @Override
     public void create() {
