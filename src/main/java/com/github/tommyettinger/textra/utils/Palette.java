@@ -1011,4 +1011,20 @@ public final class Palette {
             Colors.put(ent.key, editing);
         }
     }
+
+    /**
+     * Modifies the Palette by adding a color with its name.
+     * @param name the name of the color to add; should not be already present in {@link #NAMED}
+     * @param rgba8888 an int color as RGBA8888 to associate with the given name
+     * @return true if this entered a new color, or false if name was already present (so nothing was added).
+     */
+    public static boolean addColor(String name, int rgba8888) {
+        if(NAMED.containsKey(name))
+            return false;
+        NAMED.put(name, rgba8888);
+        LIST.add(rgba8888);
+        NAMES.add(name);
+        NAMES.sort();
+        return true;
+    }
 }

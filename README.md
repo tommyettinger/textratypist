@@ -13,6 +13,10 @@ Or perhaps like this...
 
 ![Animated preview](https://i.imgur.com/c2BIAno.gif)
 
+If you'd rather watch a video than read this text,
+[Raymond "raeleus" Buckley made a video covering most of TextraTypist](https://www.youtube.com/watch?v=4rLoa_jycN8)!
+It covers some things this file doesn't, such as usage of Skin Composer, so it's a good watch regardless.
+
 ## It's got labels!
 
 There's a "normal" label here in the form of TextraLabel, which acts almost exactly like Label in scene2d.ui, but
@@ -31,9 +35,15 @@ typing-label, but there have been some changes. You can check [the TextraTypist 
 for more information.
 
 As of 0.6.3, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
-and Rotate are all new to TextraTypist (not in typing-label). You can see usage instructions and sample GIFs at
+Rotate, Attention, Highlight, Link, and Trigger are all new to TextraTypist (not in typing-label). You can see usage
+instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
-make use of the smooth scaling and rotation options that effects can use starting in TextraTypist 0.5.1 .
+make use of the smooth scaling and rotation options that effects can use starting in TextraTypist 0.5.1 . Some make use
+of mouse tracking, new in 0.7.0, such as how Link only responds to a click on a range of text.
+
+You may want to create `TypingLabel`s even where you don't need the typing effect, because `TextraLabel` doesn't handle
+any effects. You can call `skipToTheEnd()` on a TypingLabel or (in 0.7.0 and up) some other classes to allow a
+TypingLabel to be used for still text with effects.
 
 ## And now, it's got style!
 
@@ -195,6 +205,33 @@ for compatibility. Using `.gitattributes` from the start is a good idea, and sho
 current OSes. Older Windows programs (like Notepad from Windows 7) aren't able to read `\n` line endings, but the
 versions distributed with recent Windows can use `\n` easily, as can almost all code-oriented text editors.
 
+Colors can be written out as hex strings, like `#FF7700` or `#9783EDFF`, given by name, or described using a simple
+syntax. The full list of (case-sensitive!) names can be seen ordered
+[by hue](https://tommyettinger.github.io/textratypist/ColorTableHue.html),
+[by lightness](https://tommyettinger.github.io/textratypist/ColorTableLightness.html),
+or [by name](https://tommyettinger.github.io/textratypist/ColorTableAlphabetical.html). You can take one or more of
+these color names, optionally add adjectives like "light" or "dull", and get a color that mixes the named colors and
+applies changes from the adjectives. There are some tricky things here:
+
+  - The only adjectives this understands are "light", "dark", "rich", "dull", "bright", "pale", "deep", and "weak", plus
+    the stronger versions of those such as "darker", "palest", and "dullmost". Any adjectives this doesn't know, this
+    ignores entirely.
+    - "light" and "dark" change lightness.
+    - "rich" and "dull" change saturation.
+    - "bright" raises lightness and raises saturation.
+    - "pale" raises lightness and lowers saturation.
+    - "deep" lowers lightness and raises saturation.
+    - "weak" lowers lightness and lowers saturation.
+  - Color names are case-sensitive. Some names are from the libGDX `Colors` class, and are `ALL_CAPS`, sometimes with
+    underscores. Other names are from colorful-gdx, and are `lowercased` single words. In a few cases, the same word
+    refers to a different color value if you use ALL_CAPS or use lowercase (`ORANGE` and `orange` are a good example).
+  - If there isn't a color name present in a description, the result is the int 256 (`0x00000100`), or fully transparent
+    very dark blue, which is used as a placeholder because visually it is the same as transparent black. If a color does
+    wind up as 256 at the time it is finally rendered, it will probably be ignored.
+  - You can add colors to `Palette` with its static `addColor()` method. This makes another color name usable, but won't
+    retroactively make that color name parse correctly. You may have to call methods like `Font.markup()` again, so it's
+    best if you can change colors before using them.
+
 ## License
 
 This is based very closely on [typing-label](https://github.com/rafaskb/typing-label), by Rafa Skoberg.
@@ -220,6 +257,9 @@ quite a lot of bugs, small and large), and advising on proper scene2d.ui layout 
 Thanks to fraudo for helping me go step-by-step to figure out how badly I had screwed up rotation with backgrounds, and
 for writing most of `LabelRotationTest`. Release 0.5.5 would still probably be in development for months without that
 help, so thanks are in order.
+
+Thanks to piotr-j for really thoroughly testing TextraTypist. `IncongruityTest` was originally his work and it helped
+me figure out which fonts in KnownFonts had incorrect bounds information.
 
 Of course, I have to thank Rafa Skoberg for writing quite a lot of the code here! About 2/3 of the effects are almost
 purely by Rafa, much of the TypingLabel-related code is nearly unchanged from his work, and in general he showed what
