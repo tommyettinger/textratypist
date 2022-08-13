@@ -835,6 +835,12 @@ public class TypingLabel extends TextraLabel {
         lastTouchedIndex = -1;
         overIndex = -1;
 
+        int inX = 0, inY = 0;
+        if(trackingInput) {
+            inX = Gdx.input.getX();
+            inY = Gdx.graphics.getBackBufferHeight() - Gdx.input.getY();
+        }
+
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
@@ -892,8 +898,6 @@ public class TypingLabel extends TextraLabel {
                 ++globalIndex;
                 single = f.drawGlyph(batch, glyph, x + xChange + offsets.get(o++), y + yChange + offsets.get(o++), rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++));
                 if(trackingInput){
-                    int inX = Gdx.input.getX();
-                    int inY = Gdx.graphics.getBackBufferHeight() - Gdx.input.getY();//
                     float xx = x + xChange + offsets.get(o-2), yy = y + yChange + offsets.get(o-1);
                     if(xx <= inX && inX <= xx + single && yy <= inY && inY <= yy + glyphs.height){
                         overIndex = globalIndex;
