@@ -63,6 +63,8 @@ public class AntiAliasingTest extends ApplicationAdapter {
 
         Table table = new Table();
         table.setFillParent(true);
+        // trying to figure out what offsets might cause AA
+//        table.padTop(0.35f).padLeft(0.35f);
 
         table.add(textra).width(Gdx.graphics.getWidth() - 40).top().padBottom(20).row();
         table.add(label).width(Gdx.graphics.getWidth() - 40).top().padBottom(20).row();
@@ -72,7 +74,7 @@ public class AntiAliasingTest extends ApplicationAdapter {
 
     @Override
     public void render() {
-        ScreenUtils.clear(Color.DARK_GRAY);
+        ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1f);
 
         stage.act();
         stage.draw();
@@ -100,7 +102,7 @@ public class AntiAliasingTest extends ApplicationAdapter {
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel vs. Label test");
-        config.setWindowedMode(500, 600);
+        config.setWindowedMode(501, 497);
         config.disableAudio(true);
 		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
