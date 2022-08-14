@@ -36,9 +36,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import studio.whitlock.capicola.AutoLog;
+import studio.whitlock.capicola.AutoLogScan;
 
 import static com.badlogic.gdx.utils.Align.*;
 
+@AutoLogScan(include = "com.github.tommyettinger.textra")
 public class LabelRotationTest extends ApplicationAdapter {
     SpriteBatch batch;
     FitViewport viewport;
