@@ -53,3 +53,4 @@ Thumbs.db
 *.symbolMap
 
 /src/test/resources/gs/
+/src/test/resources/mo/
