@@ -158,7 +158,7 @@ public class ColorUtils {
      * @param channel which channel to access, as an index from 0 to 3 inclusive
      * @return the int value of the requested channel, from 0 to 255 inclusive
      */
-    public static float channelInt(int color, int channel) {
+    public static int channelInt(int color, int channel) {
         return (color >>> 24 - ((channel & 3) << 3) & 255);
     }
 
