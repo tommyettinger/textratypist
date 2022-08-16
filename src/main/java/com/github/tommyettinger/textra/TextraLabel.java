@@ -357,9 +357,10 @@ public class TextraLabel extends Widget {
      *
      * @param wrap whether to wrap or not
      */
-    public void setWrap(boolean wrap) {
+    public TextraLabel setWrap(boolean wrap) {
         if (this.wrap != (this.wrap = wrap))
             invalidateHierarchy();
+        return this;
     }
 
     @Override
