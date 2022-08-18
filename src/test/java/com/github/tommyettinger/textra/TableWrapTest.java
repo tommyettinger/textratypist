@@ -21,9 +21,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -44,15 +42,15 @@ public class TableWrapTest extends ApplicationAdapter {
         labels.defaults().pad(5);
         labels.defaults().width(140);
         boolean wr = true;
-        labels.add(new TextraLabel("Company", skin, font).setWrap(wr)).left();
-        labels.add(new TextraLabel("Contact", skin, font).setWrap(wr)).left();
-        labels.add(new TextraLabel("Country", skin, font).setWrap(wr)).left().row();
-        labels.add(new TextraLabel("Hapsburg Wursthaus", skin, font).setWrap(wr)).left();
-        labels.add(new TextraLabel("Johannes Durst", skin, font).setWrap(wr)).left();
-        labels.add(new TextraLabel("Germany", skin, font).setWrap(wr)).left().row();
-        labels.add(new TextraLabel("Centro Comercial Liberdad", skin, font).setWrap(wr)).left();
-        labels.add(new TextraLabel("Guadalupe Vasquez", skin, font).setWrap(wr)).left();
-        labels.add(new TextraLabel("Mexico", skin, font).setWrap(wr)).left().row();
+        labels.add(new TypingLabel("Company", skin, font).setWrap(wr)).left();
+        labels.add(new TypingLabel("Contact", skin, font).setWrap(wr)).left();
+        labels.add(new TypingLabel("Country", skin, font).setWrap(wr)).left().row();
+        labels.add(new TypingLabel("Hapsburg Wursthaus", skin, font).setWrap(wr)).left();
+        labels.add(new TypingLabel("Johannes Durst", skin, font).setWrap(wr)).left();
+        labels.add(new TypingLabel("Germany", skin, font).setWrap(wr)).left().row();
+        labels.add(new TypingLabel("Centro Comercial Liberdad", skin, font).setWrap(wr)).left();
+        labels.add(new TypingLabel("Guadalupe Vasquez", skin, font).setWrap(wr)).left();
+        labels.add(new TypingLabel("Mexico", skin, font).setWrap(wr)).left().row();
         root.setFillParent(true);
         root.add(labels);
         labels.debugAll();
@@ -67,36 +65,6 @@ public class TableWrapTest extends ApplicationAdapter {
         stage.draw();
     }
 
-    private BitmapFont[] getFonts () {
-        return new BitmapFont[] {
-                getFont("AStarry"),
-                getFont("Bitter"),
-                getFont("Canada1500"),
-                getFont("CascadiaMono"),
-                getFont("Cozette"),
-                getFont("Gentium"),
-                getFont("Hanazono"),
-                // cant load this one, wrong format
-//			getFont("IBM-8x16"),
-                null,
-                getFont("Inconsolata-LGC-Custom"),
-                getFont("Iosevka"),
-                getFont("Iosevka-Slab"),
-                getFont("KingthingsFoundation"),
-                getFont("LibertinusSerif"),
-                getFont("OpenSans"),
-                getFont("Oxanium"),
-                getFont("QuanPixel"),
-                getFont("RobotoCondensed"),
-                getFont("YanoneKaffeesatz")
-        };
-    }
-
-    private BitmapFont getFont (String name) {
-        BitmapFont bf = new BitmapFont(Gdx.files.internal(name + "-standard.fnt"));
-        bf.setUseIntegerPositions(false);
-        return bf;
-    }
     @Override
     public void resize(int width, int height) {
     }

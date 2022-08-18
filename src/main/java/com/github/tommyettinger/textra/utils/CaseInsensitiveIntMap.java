@@ -131,7 +131,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		size = map.size;
 	}
 
-	/** Returns an index >= 0 and <= {@link #mask} for the specified {@code item}.
+	/** Returns an index &gt;= 0 and &lt;= {@link #mask} for the specified {@code item}.
 	 */
 	protected int place (String item) {
 		final int n = item.length();
@@ -620,7 +620,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 
 		/** Returns a new array containing the remaining keys. */
 		public Array<String> toArray () {
-			return toArray(new Array<>(true, map.size, String.class));
+			return toArray(new Array<String>(true, map.size, String.class));
 		}
 
 		/** Adds the remaining keys to the array. */

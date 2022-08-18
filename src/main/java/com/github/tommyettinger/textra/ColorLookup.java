@@ -26,10 +26,9 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
  * This is an extension point for games and libraries that may want their own way of looking up colors. This can be
  * treated as a functional interface in Java 8 and higher.
  * <br>
- * You can see how this is used in <a href="https://github.com/yellowstonegames/SquidSquad">SquidSquad</a>, which uses
- * it in its squidglyph module to look up colors by potentially complex descriptive terms.
+ * The default here is typically {@link #DESCRIPTIVE}, which allows using multiple color names, plus adjectives. There
+ * is also {@link #INSTANCE}, which is older and only looks up one color name at a time from {@link Colors} in libGDX.
  */
-@FunctionalInterface
 public interface ColorLookup {
     /**
      * The default ColorLookup, this simply looks up {@code key} in {@link Colors}. It returns 256 (fully transparent,
@@ -47,7 +46,12 @@ public interface ColorLookup {
      * adjectives, but in some cases it can matter for color names -- ALL_CAPS names are ones from the libGDX class
      * {@link Colors}, while lowercase ones are defined by this library.
      */
-    ColorLookup DESCRIPTIVE = ColorUtils::describe;
+    ColorLookup DESCRIPTIVE = new ColorLookup() {
+        @Override
+        public int getRgba(String description) {
+            return ColorUtils.describe(description);
+        }
+    };
 
     /**
      * Uses {@code key} to look up an RGBA8888 color, and returns that color as an int if one was found, or returns
