@@ -252,7 +252,7 @@ public class StandardShadeUITest extends InputAdapter implements ApplicationList
 		TextTooltip.TextTooltipStyle style = skin.get(TextTooltip.TextTooltipStyle.class);
 
 		// this calls setStyle() as its last line, but we need to run some code before that.
-		TextTooltip tooltip = new TextTooltip(text, TooltipManager.getInstance(), style);
+		final TextTooltip tooltip = new TextTooltip(text, TooltipManager.getInstance(), style);
 
 		// in 1.10.0, tooltips were centered, but in 1.11.0... it doesn't seem like it.
 		tooltip.getActor().setAlignment(Align.center);

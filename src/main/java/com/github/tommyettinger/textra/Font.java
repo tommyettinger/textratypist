@@ -4046,7 +4046,7 @@ public class Font implements Disposable {
             int cutoff, breakPoint = -2, spacingPoint = -2, spacingSpan = 0;
             int scale;
             LongArray glyphs = line.glyphs;
-            boolean hasMultipleGaps = false;
+//            boolean hasMultipleGaps = false;
             int kern = -1;
             float amt;
             for (int i = 0, n = glyphs.size; i < n; i++) {
@@ -4093,14 +4093,14 @@ public class Font implements Disposable {
                     if (!font.isMono && (glyph & SUPERSCRIPT) != 0L)
                         changedW *= 0.5f;
                     if (glyph >>> 32 == 0L) {
-                        hasMultipleGaps = breakPoint >= 0;
+//                        hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
                         if (spacingPoint + 1 < i) {
                             spacingSpan = 0;
                         } else spacingSpan++;
                         spacingPoint = i;
                     } else if (Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0) {
-                        hasMultipleGaps = breakPoint >= 0;
+//                        hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
                         if (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0) {
                             if (spacingPoint + 1 < i) {
@@ -4170,7 +4170,7 @@ public class Font implements Disposable {
                     if (!font.isMono && (glyph & SUPERSCRIPT) != 0L)
                         changedW *= 0.5f;
                     if (glyph >>> 32 == 0L) {
-                        hasMultipleGaps = breakPoint >= 0;
+//                        hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
                         if (spacingPoint + 1 < i) {
                             spacingSpan = 0;
@@ -4178,7 +4178,7 @@ public class Font implements Disposable {
                         spacingPoint = i;
                     }
                     if (Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0) {
-                        hasMultipleGaps = breakPoint >= 0;
+//                        hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
                         if (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0) {
                             if (spacingPoint + 1 < i) {
