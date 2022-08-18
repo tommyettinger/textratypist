@@ -78,6 +78,7 @@ square brackets like `[*]`, or you can use `{STYLE=BOLD}` to do the same thing. 
     - Adjectives can be "light", "dark", "rich", "dull", or stronger versions of those suffixed with "-er", "-est", or
       "-most". You can use any combination of adjectives, and can also combine multiple colors, such as "red orange". 
     - Some examples: `[RED]`, `[green yellow]`, `[light blue]`, `[duller orange]`, or `[darker rich BLUE lavender]`.
+    - There's a section at the bottom of this README.md that covers some tricky parts of color descriptions.
   - You can use `Font`'s `setColorLookup()` method with your own `ColorLookup` implementation to do what you want here.
   - The name can optionally be preceded by `|`, which allows looking up colors with names that contain punctuation.
     For example, `[|;_;]` would look up a color called `;_;`, "the color of sadness," and would not act like `[;]`.
@@ -155,7 +156,7 @@ for some usage. A counterpart to `TextArea` is planned.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.7.0"
+implementation "com.github.tommyettinger:textratypist:0.7.1"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
@@ -164,7 +165,7 @@ was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.7.0:sources"
+implementation "com.github.tommyettinger:textratypist:0.7.1:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
