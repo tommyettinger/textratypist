@@ -232,6 +232,17 @@ applies changes from the adjectives. There are some tricky things here:
     retroactively make that color name parse correctly. You may have to call methods like `Font.markup()` again, so it's
     best if you can change colors before using them.
 
+If you encounter issues with TypingLabel tokens, and you use ProGuard, the configuration for that tool needs a small
+addition:
+```
+-keep class com.github.tommyettinger.textra.** { *; }
+```
+There may be more strict versions of this ProGuard instruction possible, but at the very least, the
+`com.github.tommyettinger.textra.effects` package needs to be kept as-is, for reflection reasons. You may also need to
+ensure the `com.github.tommyettinger.textra.Effect` class is kept. Keeping all of TextraTypist should be perfectly fine
+for obfuscation purposes because this is an open-source library, but it does add a small amount to the size of the final
+JAR or APK. Right now, that appears to be 202 KB if you don't include any assets, so I wouldn't worry about it.
+
 ## License
 
 This is based very closely on [typing-label](https://github.com/rafaskb/typing-label), by Rafa Skoberg.
