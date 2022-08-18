@@ -191,7 +191,7 @@ incorrectly according to the BMFont spec](https://github.com/libgdx/libgdx/pull/
 information entirely. Some `.fnt` files have been made so they look right in libGDX by using padding, but they will look
 wrong in other frameworks/engines without that padding. `Font` compromises by allowing manual adjustment of x and y
 position for all glyphs (y often needs to be adjusted, either to a positive or negative value), as well as the width and
-height of glyphs (these are useful less frequently).
+height of glyphs (these are useful less frequently, and are mostly used by distance field fonts).
 
 If you load text from a file and display it, you can sometimes get different results from creating that text in code, or
 loading it on a different machine. This should only happen if the file actually is different -- that is, the files' line
@@ -243,6 +243,27 @@ ensure the `com.github.tommyettinger.textra.Effect` class is kept. Keeping all o
 for obfuscation purposes because this is an open-source library, but it does add a small amount to the size of the final
 JAR or APK. Right now, that appears to be 202 KB if you don't include any assets, so I wouldn't worry about it.
 
+Distance field fonts generally seem more useful than they actually are, as implemented here. Both SDF and MSDF fonts use
+a shader to handle size changes, but the way things are now, the shader only changes when the scale of a `Font` is
+changed, not when it has its size changed inline using (for example) the `[%200]` tag, or changed with an effect like
+`{SQUASH}`. In these cases, the enlarged text just looks blurry, though it is worse with MSDF. Using a standard font
+actually looks a lot better for these small-to-moderate size adjustments, and because it doesn't need a different
+shader, the standard fonts are much more compatible with things like emoji, and can be used in the same batch as
+graphics that use the default SpriteBatch shader. SDF fonts support kerning, and `Gentium-sdf.fnt` uses both an SDF
+effect and kerning, but MSDF fonts have to be created through a cumbersome process that does not support kerning. This
+makes MSDF fonts only work their best for fixed-width typefaces.
+
+If you happen to use both tommyettinger's TextraTypist library and tommyettinger's
+[colorful-gdx](https://github.com/tommyettinger/colorful-gdx) library, you may encounter various issues. `ColorfulBatch`
+and `ColorfulSprite` both are incompatible with how TextraTypist sends vertex information to a Batch, though it would be
+possible to extend Font and override any of its code that handles vertices. Color description can be done by both
+colorful-gdx's `SimplePalette` and `ColorUtils.describe()` here, but descriptions would really need to use the RGBA
+color space to work as expected. Alternative shaders from colorful-gdx's `Shaders` class generally won't work correctly
+with the known fonts here and the defaults for neutral colors (here, white is the neutral color, but in most shaders
+that allow lightening, 50% gray is the neutral color). The easiest solution for all this is to use a normal, vanilla
+`SpriteBatch` for TextraTypist rendering, and whatever `ShaderProgram` or `ColorfulBatch` you want for colorful-gdx
+rendering.
+
 ## License
 
 This is based very closely on [typing-label](https://github.com/rafaskb/typing-label), by Rafa Skoberg.
@@ -254,7 +275,8 @@ also present in all library source files here. The Apache license does not typic
 `src/test/resources` folder; individual fonts have their own licenses stored in that directory.
 
 Twemoji isn't a font, so it might be best to mention it separately. It's licensed under CC-BY 4.0, and requires
-attribution to Twitter if used.
+attribution to Twitter if used. 
+[Twemoji's guidelines for attribution are here](https://github.com/twitter/twemoji#attribution-requirements).
 
 The logo was made by Raymond "raeleus" Buckley and contributed to this project. It can be used freely for any purpose,
 but I request that it only be used to refer to this project unless substantially modified.
@@ -269,8 +291,10 @@ Thanks to fraudo for helping me go step-by-step to figure out how badly I had sc
 for writing most of `LabelRotationTest`. Release 0.5.5 would still probably be in development for months without that
 help, so thanks are in order.
 
-Thanks to piotr-j for really thoroughly testing TextraTypist. `IncongruityTest` was originally his work and it helped
-me figure out which fonts in KnownFonts had incorrect bounds information.
+Thanks to piotr-j (evilentity), mas omenos, and DMC from the libGDX Discord, for really thoroughly testing TextraTypist.
+`IncongruityTest` was originally piotr-j's work and it helped me figure out which fonts in KnownFonts had incorrect
+bounds information. `TableWrapTest` was based closely on mas omenos' work, and was useful to locate a wrapping bug. DMC
+managed to track down a very elusive ProGuard issue, which is now documented in this README.md .
 
 Of course, I have to thank Rafa Skoberg for writing quite a lot of the code here! About 2/3 of the effects are almost
 purely by Rafa, much of the TypingLabel-related code is nearly unchanged from his work, and in general he showed what
@@ -278,3 +302,6 @@ libGDX UIs could be just by making the initial code.
 
 Thanks to all the font designers who made fonts we use here; by making your fonts freely available, you perform a great
 service to the people who depend on them.
+
+Thanks to Twitter for generously contributing Twemoji to the world of open source; having broadly available emoji makes
+them much more usable.
