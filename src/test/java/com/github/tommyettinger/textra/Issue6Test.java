@@ -42,16 +42,17 @@ public class Issue6Test extends ApplicationAdapter {
 
         Font gentium = KnownFonts.getGentium();
 
-        label = new TextraLabel(
-                "[*]Локус контроля[*] - свойство\n" +
-                "личности приписывать\n" +
-                "свои неудачи и успехи\n" +
-                "либо внешним факторам\n" +
-                "(погода, везение, другие\n" +
-                "люди, судьба-злодейка),\n" +
-                "либо внутренним (я сам,\n" +
-                "моё отношение, мои\n" +
+        label = new TypingLabel(
+                "[*]Локус контроля[*] - свойство " +
+                "личности приписывать " +
+                "свои неудачи и успехи " +
+                "либо внешним факторам " +
+                "(погода, везение, другие " +
+                "люди, судьба-злодейка), " +
+                "либо внутренним (я сам, " +
+                "моё отношение, мои" +
                 "действия)", new Label.LabelStyle(), gentium);
+        label.setWrap(true);
         label.skipToTheEnd();
         label.setAlignment(center);
         label.setFillParent(true);
