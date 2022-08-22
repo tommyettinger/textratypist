@@ -21,28 +21,31 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import static com.badlogic.gdx.utils.Align.center;
 
 public class Issue6Test extends ApplicationAdapter {
-    FitViewport viewport;
+    ScreenViewport viewport;
     Stage stage;
-    TextraLabel label;
+    TextraLabel textraLabel;
+    TypingLabel typingLabel;
 
     @Override
     public void create() {
-        viewport = new FitViewport(600,480);
+        viewport = new ScreenViewport();
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
         stage = new Stage(viewport);
+        stage.setDebugAll(true);
 
         Font gentium = KnownFonts.getGentium();
 
-        label = new TypingLabel(
+        String text =
                 "[*]Локус контроля[*] - свойство " +
                 "личности приписывать " +
                 "свои неудачи и успехи " +
@@ -51,12 +54,21 @@ public class Issue6Test extends ApplicationAdapter {
                 "люди, судьба-злодейка), " +
                 "либо внутренним (я сам, " +
                 "моё отношение, мои" +
-                "действия)", new Label.LabelStyle(), gentium);
-        label.setWrap(true);
-        label.skipToTheEnd();
-        label.setAlignment(center);
-        label.setFillParent(true);
-        stage.addActor(label);
+                "действия)";
+        typingLabel = new TypingLabel(
+                text, new Label.LabelStyle(), gentium);
+        typingLabel.setWrap(true);
+        typingLabel.skipToTheEnd();
+        typingLabel.setAlignment(center);
+        textraLabel = new TextraLabel(
+                "[RED]" + text, new Label.LabelStyle(), gentium);
+        textraLabel.setWrap(true);
+        textraLabel.skipToTheEnd();
+        textraLabel.setAlignment(center);
+
+        Stack stack = new Stack(textraLabel, typingLabel);
+        stack.setFillParent(true);
+        stage.addActor(stack);
     }
 
     @Override
