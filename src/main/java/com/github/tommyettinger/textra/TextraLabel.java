@@ -372,7 +372,7 @@ public class TextraLabel extends Widget {
     public void layout() {
         float width = getWidth();
         if (style != null && style.background != null) {
-            layout.targetWidth = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
+            width = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
         }
         if (wrap && layout.getTargetWidth() != width) {
             layout.setTargetWidth(width);
@@ -411,7 +411,7 @@ public class TextraLabel extends Widget {
      */
     public void setText(String markupText) {
         storedText = markupText;
-        layout.setTargetWidth(this.getMaxWidth());
+        layout.setTargetWidth(this.getWidth());
         font.markup(markupText, layout.clear());
         setWidth(layout.getWidth() + (style != null && style.background != null ?
                 style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
