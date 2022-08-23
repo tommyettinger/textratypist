@@ -88,7 +88,6 @@ public class TypingLabelTest extends ApplicationAdapter {
         buttonRestart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Cell<TypingLabel> labelCell = table.getCell(label);
                 label.restart();
                 labelEvent.setVisible(false);
                 labelEvent.restart();
@@ -246,7 +245,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
         // Make the label wrap to new lines, respecting the table's layout.
         label.layout.maxLines = 15;
-        label.layout.setTargetWidth(620);
+//        label.layout.setTargetWidth(620);
 
         // Set variable replacements for the {VAR} token
         label.setVariable("title", "curious human");
