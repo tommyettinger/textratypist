@@ -65,6 +65,8 @@ public class BlinkEffect extends Effect {
 
         // Validate parameters
         this.threshold = MathUtils.clamp(this.threshold, 0, 1);
+        this.alpha1 = MathUtils.clamp(this.alpha1, 0f, 1f);
+        this.alpha2 = MathUtils.clamp(this.alpha2, 0f, 1f);
     }
 
     @Override
@@ -76,13 +78,15 @@ public class BlinkEffect extends Effect {
         // Calculate and assign color
         if(progress <= threshold){
             if(color1 == 256)
-                label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long)ColorUtils.multiplyAlpha((int)(glyph >>> 32), alpha1) << 32);
+                label.setInWorkingLayout(globalIndex,
+                        (glyph & 0xFFFFFF00FFFFFFFFL) | (long) (alpha1 * 255) << 32);
             else
                 label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) color1 << 32);
         }
         else {
             if(color1 == 256)
-                label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long)ColorUtils.multiplyAlpha((int)(glyph >>> 32), alpha2) << 32);
+                label.setInWorkingLayout(globalIndex,
+                        (glyph & 0xFFFFFF00FFFFFFFFL) | (long) (alpha2 * 255) << 32);
             else
                 label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) color2 << 32);
         }
