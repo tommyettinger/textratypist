@@ -76,9 +76,9 @@ YanoneKaffeesatz-standard.fnt has descent: -19
     public void create() {
         batch = new SpriteBatch();
         colorNames = Colors.getColors().keys().toArray();
-//        Font[] fonts = {KnownFonts.getHanazono()};
-        Font[] fonts = KnownFonts.getAll();
-        fnt = fonts[4];
+        Font[] fonts = {KnownFonts.getTangerine()};
+//        Font[] fonts = KnownFonts.getAll();
+        fnt = fonts[0];
         Gdx.files.local("out/").mkdirs();
         int index = 0;
         for (Font font : fonts) {
@@ -156,9 +156,9 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         }
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
-        fnt.markup(text + (fnt.distanceField == Font.DistanceFieldType.STANDARD ? emojiSupport : distanceField), layout);
+        fnt.markup(text + (fnt.distanceField == Font.DistanceFieldType.STANDARD ? emojiSupport : distanceField), layout.clear());
 
-        Gdx.app.exit();
+//        Gdx.app.exit();
     }
 
     @Override

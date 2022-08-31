@@ -1131,6 +1131,43 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getRobotoCondensed() not found.");
     }
 
+    private Font tangerine;
+
+    /**
+     * Returns a Font already configured to use a variable-width, narrow, humanist font, that should
+     * scale pretty well down, but not up.
+     * Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
+     * of Latin, Cyrillic, and some extended Latin, but not Greek.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/oILY62F.png">Image link</a> (uses width=30, height=35)
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-standard.fnt">Tangerine-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-standard.png">Tangerine-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Tangerine.ttf
+     */
+    public static Font getTangerine() {
+        initialize();
+        if (instance.tangerine == null) {
+            try {
+                instance.tangerine = new Font(instance.prefix + "Tangerine-standard.fnt",
+                        instance.prefix + "Tangerine-standard.png", STANDARD, 0f, 0f, 0f, 0, false)
+                        .scaleTo(48, 32).setTextureFilter().setName("Tangerine");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.tangerine != null)
+            return new Font(instance.tangerine);
+        throw new RuntimeException("Assets for getTangerine() not found.");
+    }
+
     private Font kaffeesatz;
 
     /**
