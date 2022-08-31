@@ -70,7 +70,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		final Font font =
 //				new Font(new BitmapFont()).useIntegerPositions(false);
 //				KnownFonts.getCozette();
-				new Font("RaeleusScriptius-standard.fnt").adjustLineHeight(1.1f);
+				new Font("RaeleusScriptius-standard.fnt");
 				//new Font(skin.get(LabelStyle.class).font)
 //				.adjustLineHeight(0.75f)
 //				.useIntegerPositions(true);
@@ -134,7 +134,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TextraLabel("fps:", skin.get("title", LabelStyle.class), font);
+		fpsLabel = new TextraLabel("fps: 60...[~]I think[]...", skin.get("title", LabelStyle.class), font);
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
 		passwordLabel = new TextraLabel("Textfield in [~]secure[] password mode: ", skin.get("title", LabelStyle.class), font);
@@ -208,6 +208,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "...[~]I think[]...");
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
+		fpsLabel.pack();
 		passwordLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 		minSizeLabel.rotateBy(Gdx.graphics.getDeltaTime() * 35f);
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
