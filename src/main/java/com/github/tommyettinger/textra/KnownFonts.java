@@ -1134,14 +1134,16 @@ public final class KnownFonts implements LifecycleListener {
     private Font tangerine;
 
     /**
-     * Returns a Font already configured to use a variable-width, narrow, humanist font, that should
+     * Returns a Font already configured to use a variable-width script font, that should
      * scale pretty well down, but not up.
-     * Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
-     * of Latin, Cyrillic, and some extended Latin, but not Greek.
-     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * Caches the result for later calls. The font used is Tangerine, a free (OFL) typeface. It supports Latin only,
+     * with a little support for Western European languages, but not really anything else. It looks elegant, though.
+     * This uses a very-large standard bitmap font, which lets it be scaled down OK but not scaled up very well.
+     * Some sizes may look very sharply-aliased with this version of Tangerine, but {@link #getTangerineSDF()} doesn't
+     * seem to have that problem.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/oILY62F.png">Image link</a> (uses width=30, height=35)
+     * Preview: <a href="https://i.imgur.com/BJ7DK3z.png">Image link</a> (uses width=48, height=32)
      * <br>
      * Needs files:
      * <ul>
@@ -1166,6 +1168,44 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.tangerine != null)
             return new Font(instance.tangerine);
         throw new RuntimeException("Assets for getTangerine() not found.");
+    }
+
+    private Font tangerineSDF;
+
+    /**
+     * Returns a Font already configured to use a variable-width script font, that should
+     * scale pretty well down, but not up.
+     * Caches the result for later calls. The font used is Tangerine, a free (OFL) typeface. It supports Latin only,
+     * with a little support for Western European languages, but not really anything else. It looks elegant, though.
+     * This uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but
+     * should be crisp enough when zoomed out. If you need to mix in images such as with {@link #addEmoji(Font)}, you
+     * may be better off with {@link #getTangerine()}, the standard-bitmap-font version.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/K13L4IB.png">Image link</a> (uses width=48, height=32, setCrispness(0.375f))
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-sdf.fnt">Tangerine-sdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-sdf.png">Tangerine-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Tangerine.ttf
+     */
+    public static Font getTangerineSDF() {
+        initialize();
+        if (instance.tangerineSDF == null) {
+            try {
+                instance.tangerineSDF = new Font(instance.prefix + "Tangerine-sdf.fnt",
+                        instance.prefix + "Tangerine-sdf.png", SDF, 0f, 0f, 0f, 0, false)
+                        .scaleTo(48, 32).setCrispness(0.375f).setName("Tangerine (SDF)");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.tangerineSDF != null)
+            return new Font(instance.tangerineSDF);
+        throw new RuntimeException("Assets for getTangerineSDF() not found.");
     }
 
     private Font kaffeesatz;
@@ -1497,7 +1537,7 @@ public final class KnownFonts implements LifecycleListener {
                 getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getLibertinusSerif(), getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(),
-                getYanoneKaffeesatz()};
+                getTangerine(), getTangerineSDF(), getYanoneKaffeesatz()};
     }
 
     /**
@@ -1511,7 +1551,7 @@ public final class KnownFonts implements LifecycleListener {
         return new Font[]{getAStarry(), getBitter(), getCanada(), getCascadiaMono(), getCozette(), getGentium(),
                 getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
                 getKingthingsFoundation(), getLibertinusSerif(), getOpenSans(), getOxanium(), getQuanPixel(),
-                getRobotoCondensed(), getYanoneKaffeesatz()};
+                getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()};
     }
 
     /**
@@ -1560,7 +1600,8 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all SDF Font instances this knows
      */
     public static Font[] getAllSDF() {
-        return new Font[]{getGentiumSDF(), getIosevkaSDF(), getIosevkaSlabSDF()};
+        return new Font[]{getGentiumSDF(), getIosevkaSDF(), getIosevkaSlabSDF(),
+        getTangerineSDF()};
     }
 
     /**
@@ -1616,6 +1657,10 @@ public final class KnownFonts implements LifecycleListener {
         if (gentiumSDF != null) {
             gentiumSDF.dispose();
             gentiumSDF = null;
+        }
+        if(hanazono != null) {
+            hanazono.dispose();
+            hanazono = null;
         }
         if (ibm8x16 != null) {
             ibm8x16.dispose();
@@ -1677,13 +1722,17 @@ public final class KnownFonts implements LifecycleListener {
             robotoCondensed.dispose();
             robotoCondensed = null;
         }
+        if(tangerine != null) {
+            tangerine.dispose();
+            tangerine = null;
+        }
+        if(tangerineSDF != null) {
+            tangerineSDF.dispose();
+            tangerineSDF = null;
+        }
         if (kaffeesatz != null) {
             kaffeesatz.dispose();
             kaffeesatz = null;
-        }
-        if(hanazono != null) {
-            hanazono.dispose();
-            hanazono = null;
         }
         if(twemoji != null) {
             twemoji.dispose();
