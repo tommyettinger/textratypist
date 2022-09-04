@@ -21,9 +21,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.ray3k.stripe.FreeTypeSkin;
 
@@ -35,26 +41,49 @@ public class TableWrapTest extends ApplicationAdapter {
         stage = new Stage();
         Skin skin = new FreeTypeSkin(Gdx.files.internal("uiskin2.json"));
         Table root = new Table(skin);
-        root.setSize(480, 600);
+        root.setSize(780, 600);
 
-        Font font = KnownFonts.getRobotoCondensed();
-        Table labels = new Table();
+        final Font font = KnownFonts.getRobotoCondensed();
+        final Table labels = new Table();
         labels.defaults().pad(5);
-        labels.defaults().width(140);
+        labels.defaults().width(540).growY();
         boolean wr = true;
-        labels.add(new TextraLabel("Company", skin, font).setWrap(wr)).left();
-        labels.add(new TextraLabel("Contact", skin, font).setWrap(wr)).left();
-        labels.add(new TextraLabel("Country", skin, font).setWrap(wr)).left().row();
-        labels.add(new TextraLabel("Hapsburg Wursthaus", skin, font).setWrap(wr)).left();
-        labels.add(new TextraLabel("Johannes Durst", skin, font).setWrap(wr)).left();
-        labels.add(new TextraLabel("Germany", skin, font).setWrap(wr)).left().row();
-        labels.add(new TextraLabel("Centro Comercial Liberdad", skin, font).setWrap(wr)).left();
-        labels.add(new TextraLabel("Guadalupe Vasquez", skin, font).setWrap(wr)).left();
-        labels.add(new TextraLabel("Mexico", skin, font).setWrap(wr)).left().row();
+        final TextraButton button = new TextraButton("Text Size", skin, font);
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                final float change = 0.7f + MathUtils.random(0.65f);
+                // Changing the Font's scale doesn't automatically resize widgets.
+                font.scale(change, change);
+                // So we can resize any widgets that are children of "labels" here.
+                for(Actor a : labels.getChildren()) {
+                    // Note that Button and TextraButton don't extend Widget, but they do implement Layout.
+                    if(a instanceof Layout) {
+                        // ...Yeah, I guess pack() is the one we need.
+                        ((Layout)a).pack();
+                    }
+                }
+                button.pack();
+            }
+        });
+        labels.add(button).height(50).colspan(3).top().row();
+
+        labels.add(new TextraLabel("lib[RED]GDX[] is a free and open-source game-development application framework " +
+                "written in the Java programming language", skin, font).setWrap(wr)).left().height(400).row();
+//        labels.add(new TextraLabel("Company", skin, font).setWrap(wr)).left();
+//        labels.add(new TextraLabel("Contact", skin, font).setWrap(wr)).left();
+//        labels.add(new TextraLabel("Country", skin, font).setWrap(wr)).left().row();
+//        labels.add(new TextraLabel("Hapsburg Wursthaus", skin, font).setWrap(wr)).left();
+//        labels.add(new TextraLabel("Johannes Durst", skin, font).setWrap(wr)).left();
+//        labels.add(new TextraLabel("Germany", skin, font).setWrap(wr)).left().row();
+//        labels.add(new TextraLabel("Centro Comercial Liberdad", skin, font).setWrap(wr)).left();
+//        labels.add(new TextraLabel("Guadalupe Vasquez", skin, font).setWrap(wr)).left();
+//        labels.add(new TextraLabel("Mexico", skin, font).setWrap(wr)).left().row();
         root.setFillParent(true);
         root.add(labels);
         labels.debugAll();
         stage.addActor(root);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -86,7 +115,7 @@ public class TableWrapTest extends ApplicationAdapter {
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel Table Wrap test");
-        config.setWindowedMode(480, 600);
+        config.setWindowedMode(780, 600);
         config.disableAudio(true);
 		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
