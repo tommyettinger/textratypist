@@ -4022,8 +4022,11 @@ public class Font implements Disposable {
     }
 
     public Layout regenerateLayout(Layout changing) {
-        if (changing.font == null || !changing.font.equals(this)) {
+        if (changing.font == null) {
             return changing;
+        }
+        if(!changing.font.equals(this)){
+            changing.font = this;
         }
         Font font = null;
         float scaleX;
