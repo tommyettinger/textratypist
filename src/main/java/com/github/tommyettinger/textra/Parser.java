@@ -364,7 +364,7 @@ class Parser {
         if (str != null) {
 
             // Try to parse named color
-            int namedColor = label.font.getColorLookup().getRgba(str);
+            int namedColor = label.getFont().getColorLookup().getRgba(str);
             if (namedColor != 256) {
                 return namedColor;
             }

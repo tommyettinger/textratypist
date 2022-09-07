@@ -75,7 +75,7 @@ public class TextraWindow extends Table {
         setClip(true);
 
         titleLabel = newLabel(title, new LabelStyle(style.titleFont, style.titleFontColor));
-        font = titleLabel.font;
+        font = titleLabel.getFont();
         titleLabel.layout.ellipsis = "...";
 
         titleTable = new Table() {
@@ -115,7 +115,7 @@ public class TextraWindow extends Table {
         setClip(true);
 
         titleLabel = newLabel(title, replacementFont, style.titleFontColor);
-        font = titleLabel.font;
+        font = titleLabel.getFont();
         titleLabel.layout.ellipsis = "...";
 
         titleTable = new Table() {

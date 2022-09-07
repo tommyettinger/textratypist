@@ -163,6 +163,6 @@ public class RotationTest extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        font.resizeDistanceField(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        font.resizeDistanceField(width, height);
     }
 }

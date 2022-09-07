@@ -163,7 +163,7 @@ public class TextraButton extends Button {
     }
 
     public TextraButton useIntegerPositions(boolean integer) {
-        label.font.integerPosition = integer;
+        label.getFont().integerPosition = integer;
         return this;
     }
 

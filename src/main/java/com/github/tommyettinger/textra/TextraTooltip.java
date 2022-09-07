@@ -123,7 +123,7 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
         container.getActor().layout.targetWidth = style.wrapWidth;
         if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
         // and then we can regenerate the layout.
-        container.getActor().font.regenerateLayout(container.getActor().layout);
+        container.getActor().getFont().regenerateLayout(container.getActor().layout);
         container.getActor().setWidth(container.getActor().layout.getWidth());
         container.setBackground(style.background);
         container.maxWidth(style.wrapWidth);
