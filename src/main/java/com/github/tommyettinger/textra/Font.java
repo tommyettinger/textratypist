@@ -4207,9 +4207,10 @@ public class Font implements Disposable {
                     drawn += changedW + amt;
                 }
             }
-            calculateSize(line);
+//            calculateSize(line);
 //            line.width = drawn;
         }
+        calculateSize(changing);
         return changing;
     }
 

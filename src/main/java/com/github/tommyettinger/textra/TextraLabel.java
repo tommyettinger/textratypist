@@ -33,7 +33,7 @@ import com.badlogic.gdx.utils.Align;
  */
 public class TextraLabel extends Widget {
     public Layout layout;
-    public Font font;
+    protected Font font;
     public int align = Align.left;
     public boolean wrap = false;
     public String storedText;
@@ -402,6 +402,33 @@ public class TextraLabel extends Widget {
      */
     public void setAlignment(int alignment) {
         align = alignment;
+    }
+
+    public Font getFont() {
+        return font;
+    }
+
+    /**
+     * Sets the font to the specified Font and then regenerates the layout using {@link Font#regenerateLayout(Layout)}.
+     * This is equivalent to calling {@link #setFont(Font, boolean)} with true for regenerate.
+     * This won't regenerate the layout if the given font is equal to the current font for this TextraLabel.
+     * @param font the non-null font to use for this TextraLabel
+     */
+    public void setFont(Font font) {
+        if(!this.font.equals(this.font = font))
+            font.regenerateLayout(layout);
+    }
+
+    /**
+     * Just like {@link #setFont(Font)}, except this only regenerates the layout if {@code regenerate} is true.
+     * (To contrast, {@link #setFont(Font)} always regenerates the layout.)
+     * This won't regenerate the layout if the given font is equal to the current font for this TextraLabel.
+     * @param font the non-null font to use for this TextraLabel
+     * @param regenerate if true, the layout will be re-wrapped and its size re-calculated for the new font
+     */
+    public void setFont(Font font, boolean regenerate) {
+        if(!this.font.equals(this.font = font) && regenerate)
+            font.regenerateLayout(layout);
     }
 
     /**

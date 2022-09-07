@@ -94,7 +94,7 @@ public class TextraButton extends Button {
 
         if (label != null) {
             TextButtonStyle textButtonStyle = (TextButtonStyle) style;
-            label.font = new Font(textButtonStyle.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
+            label.setFont(new Font(textButtonStyle.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs));
             if (textButtonStyle.fontColor != null) label.setColor(textButtonStyle.fontColor);
         }
     }
@@ -107,7 +107,7 @@ public class TextraButton extends Button {
 
         if (label != null) {
             TextButtonStyle textButtonStyle = (TextButtonStyle) style;
-            label.font = font;
+            label.setFont(font);
             if (textButtonStyle.fontColor != null) label.setColor(textButtonStyle.fontColor);
         }
     }

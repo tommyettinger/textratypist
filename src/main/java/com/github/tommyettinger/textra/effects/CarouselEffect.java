@@ -18,6 +18,7 @@ package com.github.tommyettinger.textra.effects;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.github.tommyettinger.textra.Effect;
+import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /**
@@ -53,9 +54,11 @@ public class CarouselEffect extends Effect {
         float fadeout = calculateFadeout();
         s *= fadeout;
 
+        Font font = label.getFont();
+
         // Apply changes
         label.sizing.incr(globalIndex << 1, s - 1.0f);
-        label.offsets.incr(globalIndex << 1, label.font.mapping.get((char) glyph, label.font.defaultValue).xAdvance * (0.125f * s));
+        label.offsets.incr(globalIndex << 1, font.mapping.get((char) glyph, font.defaultValue).xAdvance * (0.125f * s));
     }
 
 }

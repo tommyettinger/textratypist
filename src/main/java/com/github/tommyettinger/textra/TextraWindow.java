@@ -261,7 +261,7 @@ public class TextraWindow extends Table {
         this.style = style;
 
         setBackground(style.background);
-        font = titleLabel.font = new Font(style.titleFont, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
+        titleLabel.setFont(font = new Font(style.titleFont, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs));
         if (style.titleFontColor != null) titleLabel.setColor(style.titleFontColor);
         invalidateHierarchy();
     }
@@ -271,7 +271,7 @@ public class TextraWindow extends Table {
         this.style = style;
 
         setBackground(style.background);
-        this.font = titleLabel.font = font;
+        titleLabel.setFont(this.font = font);
         if (style.titleFontColor != null) titleLabel.setColor(style.titleFontColor);
         invalidateHierarchy();
     }
