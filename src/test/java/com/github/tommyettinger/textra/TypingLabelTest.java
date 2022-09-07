@@ -306,7 +306,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        label.font.resizeDistanceField(width, height);
+        label.getFont().resizeDistanceField(width, height);
         stage.getViewport().update(width, height, true);
     }
 

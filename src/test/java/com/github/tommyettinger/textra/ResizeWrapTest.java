@@ -106,7 +106,7 @@ public class ResizeWrapTest extends ApplicationAdapter {
         if(up)
             textraLabelScaleFont.getFont().scale(1.25f, 1.25f);
         else
-            textraLabelScaleFont.font.scale(0.8f, 0.8f);
+            textraLabelScaleFont.getFont().scale(0.8f, 0.8f);
         System.out.println("changeFontScale to " + textraLabelScaleFont.getFont().scaleY);
         textraLabelScaleFont.pack();
     }

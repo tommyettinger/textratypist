@@ -54,8 +54,8 @@ public class AntiAliasingTest extends ApplicationAdapter {
         TextraLabel textra = new TextraLabel(content, lightRoboto);
         textra.setWrap(true);
         textra.setAlignment(topLeft);
-        textra.font.adjustLineHeight(1.3f);
-        textra.font.useIntegerPositions(true);
+        textra.getFont().adjustLineHeight(1.3f);
+        textra.getFont().useIntegerPositions(true);
 
         Label label = new Label(content, lightRoboto);
         label.setAlignment(topLeft);

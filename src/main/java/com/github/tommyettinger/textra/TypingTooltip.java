@@ -122,7 +122,7 @@ public class TypingTooltip extends Tooltip<TypingLabel> {
         container.getActor().setFont(new Font(style.label.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs), false);
         container.getActor().layout.targetWidth = style.wrapWidth;
         if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
-        container.getActor().font.regenerateLayout(container.getActor().layout);
+        container.getActor().getFont().regenerateLayout(container.getActor().layout);
         container.getActor().setWidth(container.getActor().layout.getWidth());
         container.setBackground(style.background);
         container.maxWidth(style.wrapWidth);

@@ -216,7 +216,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		profiler.reset();
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		fpsLabel.font.markup("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]", fpsLabel.layout.clear());
+		fpsLabel.getFont().markup("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]", fpsLabel.layout.clear());
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
