@@ -119,7 +119,7 @@ public class ImageTextraButton extends Button {
 
         if (label != null) {
             ImageTextButtonStyle textButtonStyle = (ImageTextButtonStyle) style;
-            label.font = new Font(textButtonStyle.font);
+            label.setFont(new Font(textButtonStyle.font));
             Color c = getFontColor();
             if(c != null) label.setColor(c);
         }
@@ -135,7 +135,7 @@ public class ImageTextraButton extends Button {
 
         if (label != null) {
             ImageTextButtonStyle textButtonStyle = (ImageTextButtonStyle) style;
-            label.font = new Font(textButtonStyle.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
+            label.setFont(new Font(textButtonStyle.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs));
             Color c = getFontColor();
             if(c != null) label.setColor(c);
         }
@@ -150,7 +150,7 @@ public class ImageTextraButton extends Button {
         if (image != null) updateImage();
 
         if (label != null) {
-            label.font = font;
+            label.setFont(font);
             Color c = getFontColor();
             if(c != null) label.setColor(c);
         }

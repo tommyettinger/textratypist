@@ -35,7 +35,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 /**
  * Thanks to Discord user mas omenos for contributing this test. It shows a challenging issue that should be mostly
- * fixed now: Changing the Font on a TextraLabel doesn't automatically update the sizing, wrapping, and layout.
+ * fixed now: Changing the Font on a TextraLabel didn't automatically update the sizing, wrapping, and layout.
  */
 public class ResizeWrapTest extends ApplicationAdapter {
 
@@ -66,7 +66,6 @@ public class ResizeWrapTest extends ApplicationAdapter {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
-                System.out.println(button);
                 changeFontScale(button == Input.Buttons.LEFT);
                 return true;
             }
@@ -105,21 +104,17 @@ public class ResizeWrapTest extends ApplicationAdapter {
 
     public void changeFontScale(boolean up){
         if(up)
-            textraLabelScaleFont.font.scale(1.25f, 1.25f);
+            textraLabelScaleFont.getFont().scale(1.25f, 1.25f);
         else
             textraLabelScaleFont.font.scale(0.8f, 0.8f);
+        System.out.println("changeFontScale to " + textraLabelScaleFont.getFont().scaleY);
         textraLabelScaleFont.pack();
     }
 
     public void changeFont(){
         System.out.println("changeFont");
         Font font = new Font(font28);
-        textraLabelChangeFont.font = font;
-
-        // this is only needed if the changes to Font on September 6 aren't yet available.
-//        textraLabelChangeFont.layout.font = font;
-
-        font.regenerateLayout(textraLabelChangeFont.layout);
+        textraLabelChangeFont.setFont(font);
         textraLabelChangeFont.pack();
 
         // debugging info.
