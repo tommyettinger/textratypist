@@ -71,6 +71,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 //				new Font(new BitmapFont()).useIntegerPositions(false);
 //				KnownFonts.getCozette();
 				new Font("RaeleusScriptius-standard.fnt");
+//				new Font(new BitmapFont(Gdx.files.internal("RaeleusScriptius-standard.fnt")));
 				//new Font(skin.get(LabelStyle.class).font)
 //				.adjustLineHeight(0.75f)
 //				.useIntegerPositions(true);
