@@ -206,7 +206,6 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getBitter() not found.");
     }
 
-
     private Font canada;
 
     /**
@@ -322,6 +321,43 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.cascadiaMonoMSDF != null)
             return new Font(instance.cascadiaMonoMSDF);
         throw new RuntimeException("Assets for getCascadiaMonoMSDF() not found.");
+    }
+
+    private Font caveat;
+
+    /**
+     * Returns a Font already configured to use a variable-width handwriting font with support for extended Latin and
+     * Cyrillic, that should scale pretty well from a height of about 160 down to a height of maybe 20.
+     * Caches the result for later calls. The font used is Caveat, a free (OFL) typeface designed by Pablo Impallari.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/Xys4GD3.png">Image link</a> (uses width=32, height=32)
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-standard.fnt">Caveat-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-standard.png">Caveat-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-License.txt">Caveat-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Caveat.ttf
+     */
+    public static Font getCaveat() {
+        initialize();
+        if (instance.caveat == null) {
+            try {
+                instance.caveat = new Font(instance.prefix + "Caveat-standard.fnt",
+                        instance.prefix + "Caveat-standard.png",
+                        STANDARD, 0, 16, 0, 0, true)
+                        .scaleTo(32, 32).setTextureFilter().setName("Caveat");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.caveat != null)
+            return new Font(instance.caveat);
+        throw new RuntimeException("Assets for getCaveat() not found.");
     }
 
     private Font cozette;
@@ -1533,9 +1569,9 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font[] getAll() {
         return new Font[]{getAStarry(), getAStarryMSDF(), getBitter(), getCanada(), getCascadiaMono(),
-                getCascadiaMonoMSDF(), getCozette(), getDejaVuSansMono(), getGentium(), getGentiumSDF(), getHanazono(),
-                getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
-                getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
+                getCascadiaMonoMSDF(), getCaveat(), getCozette(), getDejaVuSansMono(), getGentium(), getGentiumSDF(),
+                getHanazono(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(),
+                getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getLibertinusSerif(), getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(),
                 getTangerine(), getTangerineSDF(), getYanoneKaffeesatz()};
     }
@@ -1548,8 +1584,8 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all non-distance-field Font instances this knows
      */
     public static Font[] getAllStandard() {
-        return new Font[]{getAStarry(), getBitter(), getCanada(), getCascadiaMono(), getCozette(), getGentium(),
-                getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
+        return new Font[]{getAStarry(), getBitter(), getCanada(), getCascadiaMono(), getCaveat(), getCozette(),
+                getGentium(), getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
                 getKingthingsFoundation(), getLibertinusSerif(), getOpenSans(), getOxanium(), getQuanPixel(),
                 getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()};
     }
@@ -1566,7 +1602,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li>{@code Humanist}, which is {@link #getYanoneKaffeesatz()},</li>
      *     <li>{@code Retro}, which is {@link #getIBM8x16()},</li>
      *     <li>{@code Slab}, which is {@link #getIosevkaSlab()},</li>
-     *     <li>{@code Bitter}, which is {@link #getBitter()},</li>
+     *     <li>{@code Handwriting}, which is {@link #getCaveat()},</li>
      *     <li>{@code Canada}, which is {@link #getCanada()},</li>
      *     <li>{@code Cozette}, which is {@link #getCozette()},</li>
      *     <li>{@code Iosevka}, which is {@link #getIosevka()},</li>
@@ -1576,7 +1612,10 @@ public final class KnownFonts implements LifecycleListener {
      *     <li>{@code Code}, which is {@link #getCascadiaMono()}.</li>
      * </ul>
      * You can also always use the full name of one of these fonts, which can be obtained using {@link Font#getName()}.
-     * {@code Serif}, which is {@link #getGentium()}, will always be the default font used after a reset.
+     * {@code Serif}, which is {@link #getGentium()}, will always be the default font used after a reset. For
+     * backwards compatibility, {@code Bitter} is an alias for {@link #getGentium()} (not {@link #getBitter()}), because
+     * Bitter and Gentium look very similar and because a slot was needed for {@code Handwriting}, which seemed useful
+     * in more situations.
      * <br>
      * This will only function at all if all the assets (for every known standard Font) are present and load-able.
      *
@@ -1585,11 +1624,12 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getStandardFamily() {
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{"Serif", "Sans", "Mono", "Condensed", "Humanist",
-                        "Retro", "Slab", "Bitter", "Canada", "Cozette", "Iosevka",
+                        "Retro", "Slab", "Handwriting", "Canada", "Cozette", "Iosevka",
                         "Medieval", "Future", "Console", "Code"},
                 new Font[]{getGentium(), getOpenSans(), getInconsolata(), getRobotoCondensed(), getYanoneKaffeesatz(),
-                        getIBM8x16(), getIosevkaSlab(), getBitter(), getCanada(), getCozette(), getIosevka(),
+                        getIBM8x16(), getIosevkaSlab(), getCaveat(), getCanada(), getCozette(), getIosevka(),
                         getKingthingsFoundation(), getOxanium(), getAStarry(), getCascadiaMono()});
+        family.fontAliases.put("Bitter", 0); // for compatibility; Bitter and Gentium look nearly identical anyway...
         return family.connected[0].setFamily(family);
     }
 
@@ -1641,6 +1681,10 @@ public final class KnownFonts implements LifecycleListener {
         if (cascadiaMonoMSDF != null) {
             cascadiaMonoMSDF.dispose();
             cascadiaMonoMSDF = null;
+        }
+        if (caveat != null) {
+            caveat.dispose();
+            caveat = null;
         }
         if (cozette != null) {
             cozette.dispose();
