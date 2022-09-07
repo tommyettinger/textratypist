@@ -76,8 +76,8 @@ YanoneKaffeesatz-standard.fnt has descent: -19
     public void create() {
         batch = new SpriteBatch();
         colorNames = Colors.getColors().keys().toArray();
-        Font[] fonts = {KnownFonts.getCaveat()};
-//        Font[] fonts = KnownFonts.getAll();
+//        Font[] fonts = {KnownFonts.getCaveat()};
+        Font[] fonts = KnownFonts.getAll();
         fnt = fonts[0];
         Gdx.files.local("out/").mkdirs();
         int index = 0;

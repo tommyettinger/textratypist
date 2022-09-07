@@ -1364,8 +1364,9 @@ public class Font implements Disposable {
         int minWidth = Integer.MAX_VALUE;
 
         // Needed to make emoji and other texture regions appear at a reasonable height on the line.
+        // Also moves the descender so that it isn't below the baseline, which causes issues.
         yAdjust += bmFont.getDescent();
-
+        descent = bmFont.getDescent();
         for (BitmapFont.Glyph[] page : data.glyphs) {
             if (page == null) continue;
             for (BitmapFont.Glyph glyph : page) {
@@ -1499,8 +1500,8 @@ public class Font implements Disposable {
 
         // The SDF and MSDF fonts have essentially garbage for baseline, since Glamer can't accurately guess it.
         // For standard fonts, we incorporate the descender into yAdjust, which seems to be reliable.
-        if(distanceField == DistanceFieldType.STANDARD)
-            yAdjust += descent;
+//        if(distanceField == DistanceFieldType.STANDARD)
+//            yAdjust += descent;
         int pages = intFromDec(fnt, idx, idx = indexAfter(fnt, "\npage id=", idx));
         if (parents == null || parents.size < pages) {
             if (parents == null) parents = new Array<>(true, pages, TextureRegion.class);
@@ -3021,10 +3022,10 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -centerX;
-                p0y = -cellHeight * 0.375f;
+                p0y = (descent* scaleY - font.cellHeight) * 0.625f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        (tr.xAdvance) * scaleX + 2, cellHeight * 0.75f, rotation);
+                        (tr.xAdvance) * scaleX + 2, font.cellHeight, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -3069,10 +3070,10 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = -centerX;
-                p0y = centerY - font.cellHeight * 0.125f;
+                p0y = descent * scaleY - cellHeight * 0.125f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        (tr.xAdvance) * scaleX + 2, cellHeight * 0.75f, rotation);
+                        (tr.xAdvance) * scaleX + 2, font.cellHeight, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
