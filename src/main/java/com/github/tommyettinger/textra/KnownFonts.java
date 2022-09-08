@@ -1568,7 +1568,8 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all Font instances this knows
      */
     public static Font[] getAll() {
-        return new Font[]{getAStarry(), getAStarryMSDF(), getBitter(), getCanada(), getCascadiaMono(),
+        return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getAStarryMSDF(),
+                getBitter(), getCanada(), getCascadiaMono(),
                 getCascadiaMonoMSDF(), getCaveat(), getCozette(), getDejaVuSansMono(), getGentium(), getGentiumSDF(),
                 getHanazono(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(),
                 getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
@@ -1584,7 +1585,8 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all non-distance-field Font instances this knows
      */
     public static Font[] getAllStandard() {
-        return new Font[]{getAStarry(), getBitter(), getCanada(), getCascadiaMono(), getCaveat(), getCozette(),
+        return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getBitter(), getCanada(),
+                getCascadiaMono(), getCaveat(), getCozette(),
                 getGentium(), getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
                 getKingthingsFoundation(), getLibertinusSerif(), getOpenSans(), getOxanium(), getQuanPixel(),
                 getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()};

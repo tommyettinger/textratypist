@@ -130,7 +130,7 @@ public class Font implements Disposable {
          * @param atlasRegion a TextureAtlas.AtlasRegion to draw for this GlyphRegion, typically from a TextureAtlas
          */
         public GlyphRegion(TextureAtlas.AtlasRegion atlasRegion) {
-            this(atlasRegion, atlasRegion.offsetX, atlasRegion.offsetY, atlasRegion.originalHeight);
+            this(atlasRegion, atlasRegion.offsetX, atlasRegion.offsetY, atlasRegion.originalWidth);
         }
 
         /**
@@ -1500,8 +1500,8 @@ public class Font implements Disposable {
 
         // The SDF and MSDF fonts have essentially garbage for baseline, since Glamer can't accurately guess it.
         // For standard fonts, we incorporate the descender into yAdjust, which seems to be reliable.
-//        if(distanceField == DistanceFieldType.STANDARD)
-//            yAdjust += descent;
+        if(distanceField == DistanceFieldType.STANDARD)
+            yAdjust += descent;
         int pages = intFromDec(fnt, idx, idx = indexAfter(fnt, "\npage id=", idx));
         if (parents == null || parents.size < pages) {
             if (parents == null) parents = new Array<>(true, pages, TextureRegion.class);
@@ -1946,7 +1946,9 @@ public class Font implements Disposable {
         else
             nameLookup.ensureCapacity(regions.size);
         TextureAtlas.AtlasRegion previous = regions.first();
-        mapping.put(0xE000, new GlyphRegion(previous));
+        GlyphRegion gr = new GlyphRegion(previous);
+//        gr.offsetY -= descent;
+        mapping.put(0xE000, gr);
         nameLookup.put(previous.name, 0xE000);
         for (int i = 0xE000, a = 1; i < 0xF800 && a < regions.size; a++) {
             TextureAtlas.AtlasRegion region = regions.get(a);
@@ -1955,7 +1957,8 @@ public class Font implements Disposable {
             } else {
                 ++i;
                 previous = region;
-                GlyphRegion gr = new GlyphRegion(region);
+                gr = new GlyphRegion(region);
+//                gr.offsetY -= descent;
                 mapping.put(i, gr);
                 nameLookup.put(region.name, i);
             }
@@ -3022,7 +3025,7 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -centerX;
-                p0y = (descent* scaleY - font.cellHeight) * 0.625f;
+                p0y = font.cellHeight * -0.625f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         (tr.xAdvance) * scaleX + 2, font.cellHeight, rotation);
@@ -3070,7 +3073,7 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = -centerX;
-                p0y = descent * scaleY - cellHeight * 0.125f;
+                p0y = cellHeight * -0.125f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         (tr.xAdvance) * scaleX + 2, font.cellHeight, rotation);
