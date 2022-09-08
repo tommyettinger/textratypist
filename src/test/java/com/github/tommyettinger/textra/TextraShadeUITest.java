@@ -70,8 +70,11 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		final Font font =
 //				new Font(new BitmapFont()).useIntegerPositions(false);
 //				KnownFonts.getCozette();
-//				new Font("RaeleusScriptius-standard.fnt");
-				new Font(new BitmapFont(Gdx.files.internal("RaeleusScriptius-standard.fnt")));
+
+				// below, 4 is -bmpFont.getDescent(); it is used because this particular font gets moved too high.
+				// the y adjustment can be seen as moving the lines rather than moving the text (Planet-Express-style).
+				new Font("RaeleusScriptius-standard.fnt", 0, 4, 0, 0);
+//				new Font(new BitmapFont(Gdx.files.internal("RaeleusScriptius-standard.fnt")), 0, 4, 0, 0);
 				//new Font(skin.get(LabelStyle.class).font)
 //				.adjustLineHeight(0.75f)
 //				.useIntegerPositions(true);
