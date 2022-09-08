@@ -95,10 +95,11 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
      * <br>
-     * Preview: <a href="https://i.imgur.com/3j1Fxxh.png">Image link</a> (uses width=8, height=8)
+     * Preview: <a href="https://i.imgur.com/Q3Tm7zi.png">Image link</a> (uses width=8, height=8)
      * <br>
      * This also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
-     * multiples of 8. Preview: <a href="https://i.imgur.com/uIerflA.png">Image link</a> (uses width=8, height=16)
+     * multiples of 8. This "A Starry Tall" version is present in {@link #getAll()} and {@link #getAllStandard()}.
+     * Preview: <a href="https://i.imgur.com/WWOz6Ej.png">Image link</a> (uses width=8, height=16)
      * <br>
      * Needs files:
      * <ul>
@@ -136,7 +137,10 @@ public final class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/i2s8Tv6.png">Image link</a> (uses width=10, height=10)
+     * If you only need sizes in small integer multiples of 8 pixels, you might get sharper-looking results from
+     * {@link #getAStarry()}.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/NmSpNZI.png">Image link</a> (uses width=10, height=10)
      * <br>
      * Needs files:
      * <ul>
@@ -179,7 +183,7 @@ public final class KnownFonts implements LifecycleListener {
      * other strokes in the font. This does mean that strikethrough starts too far to the left, and extends too far to
      * the right, unfortunately, but its weight matches.
      * <br>
-     * Preview: <a href="https://i.imgur.com/aTJD5ON.png">Image link</a> (uses width=33, height=30)
+     * Preview: <a href="https://i.imgur.com/VxOqDHm.png">Image link</a> (uses width=33, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -218,7 +222,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/lmUPbMp.png">Image link</a> (uses width=30, height=35)
+     * Preview: <a href="https://i.imgur.com/OYQO48z.png">Image link</a> (uses width=30, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -257,7 +261,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a fairly-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/9Dvp4jo.png">Image link</a> (uses width=10, height=20)
+     * Preview: <a href="https://i.imgur.com/dtnNvEF.png">Image link</a> (uses width=10, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -296,7 +300,7 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/zFBUDjG.png">Image link</a> (uses width=9, height=16)
+     * Preview: <a href="https://i.imgur.com/PrqWyPN.png">Image link</a> (uses width=9, height=16)
      * <br>
      * Needs files:
      * <ul>
@@ -327,12 +331,14 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width handwriting font with support for extended Latin and
-     * Cyrillic, that should scale pretty well from a height of about 160 down to a height of maybe 20.
+     * Cyrillic, that should scale pretty well from a height of about 160 down to a height of maybe 20. It will look
+     * sharper and more aliased at smaller sizes, but should be relatively smooth at a height of 32 or so. This is a
+     * sort of natural handwriting, as opposed to the formal script in {@link #getTangerine()}.
      * Caches the result for later calls. The font used is Caveat, a free (OFL) typeface designed by Pablo Impallari.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/Xys4GD3.png">Image link</a> (uses width=32, height=32)
+     * Preview: <a href="https://i.imgur.com/tmjXEca.png">Image link</a> (uses width=32, height=32)
      * <br>
      * Needs files:
      * <ul>
@@ -1564,7 +1570,7 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any Font.
      * This will only function at all if all the assets (for every known Font) are present and load-able.
-     *
+     * You should store the result of this method, rather than calling it often, because each call copies many Fonts.
      * @return a new array containing all Font instances this knows
      */
     public static Font[] getAll() {
@@ -1581,7 +1587,7 @@ public final class KnownFonts implements LifecycleListener {
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any
      * non-distance-field Font.
      * This will only function at all if all the assets (for every known standard Font) are present and load-able.
-     *
+     * You should store the result of this method, rather than calling it often, because each call copies many Fonts.
      * @return a new array containing all non-distance-field Font instances this knows
      */
     public static Font[] getAllStandard() {
@@ -1620,7 +1626,7 @@ public final class KnownFonts implements LifecycleListener {
      * in more situations.
      * <br>
      * This will only function at all if all the assets (for every known standard Font) are present and load-able.
-     *
+     * You should store the result of this method, rather than calling it often, because each call copies many Fonts.
      * @return a Font that can switch between 15 different Fonts in its FontFamily, to any non-distance-field Font this knows
      */
     public static Font getStandardFamily() {
@@ -1638,18 +1644,17 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any SDF Font.
      * This will only function at all if all the assets (for every known SDF Font) are present and load-able.
-     *
+     * You should store the result of this method, rather than calling it often, because each call copies 4 Fonts.
      * @return a new array containing all SDF Font instances this knows
      */
     public static Font[] getAllSDF() {
-        return new Font[]{getGentiumSDF(), getIosevkaSDF(), getIosevkaSlabSDF(),
-        getTangerineSDF()};
+        return new Font[]{getGentiumSDF(), getIosevkaSDF(), getIosevkaSlabSDF(), getTangerineSDF()};
     }
 
     /**
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any MSDF Font.
      * This will only function at all if all the assets (for every known MSDF Font) are present and load-able.
-     *
+     * You should store the result of this method, rather than calling it often, because each call copies 6 Fonts.
      * @return a new array containing all MSDF Font instances this knows
      */
     public static Font[] getAllMSDF() {
