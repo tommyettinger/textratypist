@@ -40,7 +40,7 @@ public class GridTest extends ApplicationAdapter {
     long startTime;
     RandomXS128 random;
 
-    static final int PIXEL_WIDTH = 950, PIXEL_HEIGHT = 650;
+    static final int PIXEL_WIDTH = 1000, PIXEL_HEIGHT = 650;
 
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -70,7 +70,7 @@ public class GridTest extends ApplicationAdapter {
         fonts = KnownFonts.getAllStandard();
         for(Font f : fonts)
             f.scaleTo(20f, 25).fitCell(25, 25, true);
-        font = fonts[7];
+        font = fonts[1];
 
 //        font = KnownFonts.getInconsolata();//.scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
@@ -128,14 +128,14 @@ public class GridTest extends ApplicationAdapter {
 //                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][[citation needed][].", layout);
 //
         font.markup(
-                "Test"
-//                "Test [*]TEST [/]Test [*]TEST[][.]test [=]Test [^]TEST [][_]Test [~]test[_] Test[]"
-//                        + "\nThe [#800000]MAW[] of the [/][#66DDFF]wendigo[/] (wendigo)[] [*]appears[*]!"
-//                        + "\nThe [_][#666666]BLADE[] of [*][/][#FFFF44]DYNAST-KINGS[] strikes!"
-//                        + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[], [?]Unknown[]?"
-//                        + "\n[#BBAA44]φ[] = (1 + 5[^]0.5[^]) * 0.5"
-//                        + "\n[#FF8822]¿Qué son estos? ¡Arribate, mijo![]"
-//                        + "\nPchnąć[] w tę łódź [#775522]jeża[] lub ośm skrzyń [#CC00CC]fig[]."
+//                "Test"
+                "Test [*]TEST [/]Test [*]TEST[][.]test [=]Test [^]TEST [][_]Test [~]test[_] Test[]"
+                        + "\nThe [#800000]MAW[] of the [/][#66DDFF]wendigo[/] (wendigo)[] [*]appears[*]!"
+                        + "\nThe [_][#666666]BLADE[] of [*][/][#FFFF44]DYNAST-KINGS[] strikes!"
+                        + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[], [?]Unknown[]?"
+                        + "\n[#BBAA44]φ[] = (1 + 5[^]0.5[^]) * 0.5"
+                        + "\n[#FF8822]¿Qué son estos? ¡Arribate, mijo![]"
+                        + "\nPchnąć[] w tę łódź [#775522]jeża[] lub ośm skrzyń [#CC00CC]fig[]."
                 , layout);
 
         marquee = new TypingLabel("{ROTATE=100}{HIGHLIGHT=lightest magenta}[/]EAT AT JOE'S", font);

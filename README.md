@@ -156,7 +156,7 @@ for some usage. A counterpart to `TextArea` is planned.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.7.1"
+implementation "com.github.tommyettinger:textratypist:0.7.2"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
@@ -165,7 +165,7 @@ was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.7.1:sources"
+implementation "com.github.tommyettinger:textratypist:0.7.2:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
