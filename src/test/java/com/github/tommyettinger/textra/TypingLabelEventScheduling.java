@@ -52,12 +52,16 @@ public class TypingLabelEventScheduling extends ApplicationAdapter {
                 label.restart();
             }
         });
-        label.setVariable("name", "waeweus, fwend of uwu intewwfacies");
         label.layout.setTargetWidth(180);
+        label.setVariable("name", "waeweus, fwend of uwu intewwfacies");
+
+        // Must be called so variables are replaced.
+        label.parseTokens();
         table.pad(50f);
         table.add(label);//.colspan(5).growX();
-
         table.pack();
+        // After label has been given its appropriate bounds by calling label.pack() or table.pack(), we must restart().
+        label.restart();
     }
 
     public void adjustTypingConfigs() {
