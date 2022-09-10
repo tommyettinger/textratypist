@@ -82,7 +82,7 @@ public class TypingConfig {
     static final OrderedMap<String, Class<? extends Effect>> EFFECT_END_TOKENS = new OrderedMap<>();
 
     /**
-     * Whether or not effect tokens are dirty and need to be recalculated.
+     * Whether effect tokens are dirty and need to be recalculated.
      */
     static boolean dirtyEffectMaps = true;
 
