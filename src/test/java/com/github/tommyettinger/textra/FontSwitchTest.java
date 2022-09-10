@@ -17,7 +17,7 @@ public class FontSwitchTest extends ApplicationAdapter {
 
     Font font;
     SpriteBatch batch;
-    Layout layout = new Layout().setTargetWidth(750);
+    Layout layout = new Layout().setTargetWidth(780);
     Array<String> colorNames;
     long startTime;
 
