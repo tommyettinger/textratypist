@@ -199,7 +199,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.bitter == null) {
             try {
                 instance.bitter = new Font(instance.prefix + "Bitter-standard.fnt",
-                        instance.prefix + "Bitter-standard.png", STANDARD, 0, 0, 0, 0, true)
+                        instance.prefix + "Bitter-standard.png", STANDARD, 0, -19, 0, 0, true)
                         .scaleTo(33, 30).setTextureFilter().setName("Bitter");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -969,7 +969,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.kingthingsFoundation == null) {
             try {
                 instance.kingthingsFoundation = new Font(instance.prefix + "KingthingsFoundation-standard.fnt",
-                        instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 40, 0, 0, true)
+                        instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 20, 0, 0, true)
                         .scaleTo(23, 30).adjustLineHeight(1.125f).setTextureFilter().setName("KingThings Foundation");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1202,7 +1202,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.tangerine == null) {
             try {
                 instance.tangerine = new Font(instance.prefix + "Tangerine-standard.fnt",
-                        instance.prefix + "Tangerine-standard.png", STANDARD, 0f, 0f, 0f, 0, false)
+                        instance.prefix + "Tangerine-standard.png", STANDARD, 0f, 9f, 0f, 0, false)
                         .scaleTo(48, 32).setTextureFilter().setName("Tangerine");
             } catch (Exception e) {
                 e.printStackTrace();
