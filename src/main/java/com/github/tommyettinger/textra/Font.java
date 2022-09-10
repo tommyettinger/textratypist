@@ -2411,10 +2411,12 @@ public class Font implements Disposable {
         float cs = MathUtils.cosDeg(rotation);
         final int lines = glyphs.lines();
         Line l;
-        x -= sn * 0.5f * cellHeight;
-        y += cs * 0.5f * cellHeight;
+        x -= sn * 0.5f * (cellHeight + descent * scaleY);
+        y += cs * 0.5f * (cellHeight + descent * scaleY);
         x += cs * 0.5f * cellWidth;
         y += sn * 0.5f * cellWidth;
+
+
         for (int ln = 0; ln < lines; ln++) {
             l = glyphs.getLine(ln);
             y -= cs * l.height;

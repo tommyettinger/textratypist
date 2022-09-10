@@ -831,8 +831,8 @@ public class TypingLabel extends TextraLabel {
 
         baseX += cs * 0.5f * font.cellWidth;
         baseY += sn * 0.5f * font.cellWidth;
-        baseX -= sn * 0.5f * font.cellHeight;
-        baseY += cs * 0.5f * font.cellHeight;
+        baseX -= sn * 0.5f * (font.cellHeight + font.descent * font.scaleY);
+        baseY += cs * 0.5f * (font.cellHeight + font.descent * font.scaleY);
 
         int globalIndex = -1;
         lastTouchedIndex = -1;
