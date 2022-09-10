@@ -65,7 +65,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 21f, 0f, 0f).adjustLineHeight(1.2f);
+		final Font font = new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);//.adjustLineHeight(1.2f);
 //		KnownFonts.getStandardFamily()
 //				new Font(skin.get(Label.LabelStyle.class).font)
 //				.useIntegerPositions(true);
