@@ -3831,6 +3831,270 @@ public class Font implements Disposable {
     }
 
     /**
+     * Reads markup from {@code markup} and processes it until it has a single complete glyph; returns that glyph as a
+     * long in the format used for styled glyphs here. This parses an extension of libGDX markup and uses it to
+     * determine color, size, position, shape, strikethrough, underline, case, and scale of the given char.
+     * This overload works even if the glyph is from an atlas (see {@link #addAtlas(TextureAtlas)}, as long as the atlas
+     * was added to this Font. As such, this can be useful to get an emoji or similar character with markup, using the
+     * {@code [+👸🏽]} syntax to produce the one char.
+     * <br>
+     * The char drawn will start in white, with the normal size as determined by the font's metrics and scale
+     * ({@link #scaleX} and {@link #scaleY}), normal case, and without bold, italic, superscript, subscript,
+     * strikethrough, or underline. Markup starts with {@code [}; the next character determines what that piece of
+     * markup toggles. Markup this knows:
+     * <ul>
+     *     <li>{@code []} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code [*]} toggles bold mode.</li>
+     *     <li>{@code [/]} toggles italic (technically, oblique) mode.</li>
+     *     <li>{@code [^]} toggles superscript mode (and turns off subscript or midscript mode).</li>
+     *     <li>{@code [=]} toggles midscript mode (and turns off superscript or subscript mode).</li>
+     *     <li>{@code [.]} toggles subscript mode (and turns off superscript or midscript mode).</li>
+     *     <li>{@code [_]} toggles underline mode.</li>
+     *     <li>{@code [~]} toggles strikethrough mode.</li>
+     *     <li>{@code [!]} toggles all upper case mode.</li>
+     *     <li>{@code [,]} toggles all lower case mode.</li>
+     *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
+     *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
+     *     the nearest 25% mark).</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100% (this usually has no effect here).</li>
+     *     <li>{@code [@Name]} is ignored.</li>
+     *     <li>{@code [@]} is also ignored.</li>
+     *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
+     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
+     *     {@link ColorLookup#DESCRIPTIVE}, changes the color. The name can optionally be preceded by {@code |}, which
+     *     allows looking up colors with names that contain punctuation.</li>
+     * </ul>
+     * You can render the result using {@link #drawGlyph(Batch, long, float, float)}. It is recommended that you avoid
+     * calling this method every frame, because the color lookups usually allocate some memory, and because this can
+     * usually be stored for later without needing repeated computation.
+     * <br>
+     * Because this is static, it does not need a Font instance to be involved.
+     *
+     * @param markup      a String containing markup syntax and one char, like "[*][RED]G" for a bold, red 'G'
+     * @return a long that encodes the given char with the specified markup
+     */
+    public long markupGlyph(String markup) {
+        boolean capitalize = false, previousWasLetter = false,
+                capsLock = false, lowerCase = false, initial = true;
+        int c, scale = 3, fontIndex = -1;
+        Font font = this;
+        final long COLOR_MASK = 0xFFFFFFFF00000000L;
+        long baseColor = 0xFFFFFFFE00000000L;
+        long color = baseColor;
+        long current = color;
+        for (int i = 0, n = markup.length(); i <= n; i++) {
+            if(i == n) return current | ' ';
+            //// CURLY BRACKETS
+            if (markup.charAt(i) == '{' && i + 1 < n && markup.charAt(i + 1) != '{') {
+                int start = i;
+                int sizeChange = -1, fontChange = -1;
+                int end = markup.indexOf('}', i);
+                if (end == -1) end = markup.length();
+                int eq = end;
+                for (; i < n && i <= end; i++) {
+                    c = markup.charAt(i);
+                    if (c == '@') fontChange = i;
+                    else if (c == '%') sizeChange = i;
+                    else if (c == '=') eq = Math.min(eq, i);
+                }
+                char after = eq + 1 >= end ? '\u0000' : markup.charAt(eq + 1);
+                if (start + 1 == end || "RESET".equalsIgnoreCase(safeSubstring(markup, start + 1, end))) {
+                    scale = 3;
+                    font = this;
+                    fontIndex = 0;
+                    current &= ~SUPERSCRIPT;
+                } else if (after == '^' || after == '=' || after == '.') {
+                    switch (after) {
+                        case '^':
+                            if ((current & SUPERSCRIPT) == SUPERSCRIPT)
+                                current &= ~SUPERSCRIPT;
+                            else
+                                current |= SUPERSCRIPT;
+                            break;
+                        case '.':
+                            if ((current & SUPERSCRIPT) == SUBSCRIPT)
+                                current &= ~SUBSCRIPT;
+                            else
+                                current = (current & ~SUPERSCRIPT) | SUBSCRIPT;
+                            break;
+                        case '=':
+                            if ((current & SUPERSCRIPT) == MIDSCRIPT)
+                                current &= ~MIDSCRIPT;
+                            else
+                                current = (current & ~SUPERSCRIPT) | MIDSCRIPT;
+                            break;
+                    }
+                } else if (fontChange >= 0 && family != null) {
+                    fontIndex = family.fontAliases.get(safeSubstring(markup, fontChange + 1, end), -1);
+                    if (fontIndex == -1) {
+                        font = this;
+                        fontIndex = 0;
+                    } else {
+                        font = family.connected[fontIndex];
+                        if (font == null) {
+                            font = this;
+                            fontIndex = 0;
+                        }
+                    }
+                } else if (sizeChange >= 0) {
+                    if (sizeChange + 1 == end) {
+                        if (eq + 1 == sizeChange) {
+                            scale = 3;
+                        } else {
+                            scale = ((intFromDec(markup, eq + 1, sizeChange) - 24) / 25) & 15;
+                        }
+                    } else {
+                        scale = ((intFromDec(markup, sizeChange + 1, end) - 24) / 25) & 15;
+                    }
+                }
+                current = (current & 0xFFFFFFFFFF00FFFFL) | (scale - 3 & 15) << 20 | (fontIndex & 15) << 16;
+                i--;
+            } else if (markup.charAt(i) == '[') {
+
+                //// SQUARE BRACKET MARKUP
+                c = '[';
+                if (++i < n && (c = markup.charAt(i)) != '[' && c != '+') {
+                    if (c == ']') {
+                        color = baseColor;
+                        current = color & ~SUPERSCRIPT;
+                        scale = 3;
+                        font = this;
+                        capitalize = false;
+                        capsLock = false;
+                        lowerCase = false;
+                        continue;
+                    }
+                    int len = markup.indexOf(']', i) - i;
+                    if (len < 0) break;
+                    switch (c) {
+                        case '*':
+                            current ^= BOLD;
+                            break;
+                        case '/':
+                            current ^= OBLIQUE;
+                            break;
+                        case '^':
+                            if ((current & SUPERSCRIPT) == SUPERSCRIPT)
+                                current &= ~SUPERSCRIPT;
+                            else
+                                current |= SUPERSCRIPT;
+                            break;
+                        case '.':
+                            if ((current & SUPERSCRIPT) == SUBSCRIPT)
+                                current &= ~SUBSCRIPT;
+                            else
+                                current = (current & ~SUPERSCRIPT) | SUBSCRIPT;
+                            break;
+                        case '=':
+                            if ((current & SUPERSCRIPT) == MIDSCRIPT)
+                                current &= ~MIDSCRIPT;
+                            else
+                                current = (current & ~SUPERSCRIPT) | MIDSCRIPT;
+                            break;
+                        case '_':
+                            current ^= UNDERLINE;
+                            break;
+                        case '~':
+                            current ^= STRIKETHROUGH;
+                            break;
+                        case ';':
+                            capitalize = !capitalize;
+                            capsLock = false;
+                            lowerCase = false;
+                            break;
+                        case '!':
+                            capsLock = !capsLock;
+                            capitalize = false;
+                            lowerCase = false;
+                            break;
+                        case ',':
+                            lowerCase = !lowerCase;
+                            capitalize = false;
+                            capsLock = false;
+                            break;
+                        case '%':
+                            if (len >= 2)
+                                current = (current & 0xFFFFFFFFFF0FFFFFL) | ((scale = ((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                            else {
+                                current = (current & 0xFFFFFFFFFF0FFFFFL);
+                                scale = 3;
+                            }
+                            break;
+                        case '#':
+                            if (len >= 7 && len < 9)
+                                color = longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FE00000000L;
+                            else if (len >= 9)
+                                color = longFromHex(markup, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
+                            else
+                                color = baseColor;
+                            current = (current & ~COLOR_MASK) | color;
+                            break;
+                        case '@':
+                            if (family == null) {
+                                font = this;
+                                fontIndex = 0;
+                                break;
+                            }
+                            fontIndex = family.fontAliases.get(safeSubstring(markup, i + 1, i + len), 0);
+                            current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
+                            font = family.connected[fontIndex & 15];
+                            if (font == null) font = this;
+                            break;
+                        case '|':
+                            // attempt to look up a known Color name with a ColorLookup
+                            int lookupColor = colorLookup.getRgba(safeSubstring(markup, i + 1, i + len)) & 0xFFFFFFFE;
+                            if (lookupColor == 256) color = baseColor;
+                            else color = (long) lookupColor << 32;
+                            current = (current & ~COLOR_MASK) | color;
+                            break;
+                        default:
+                            // attempt to look up a known Color name with a ColorLookup
+                            int gdxColor = colorLookup.getRgba(safeSubstring(markup, i, i + len)) & 0xFFFFFFFE;
+                            if (gdxColor == 256) color = baseColor;
+                            else color = (long) gdxColor << 32;
+                            current = (current & ~COLOR_MASK) | color;
+                    }
+                    i += len;
+                }
+
+                //// ESCAPED SQUARE BRACKET AND TEXTURE REGION RENDERING
+
+                else {
+                    float w;
+                    if(c == '+' && nameLookup != null) {
+                        int len = markup.indexOf(']', i) - i;
+                        if (len >= 0) {
+                            c = nameLookup.get(safeSubstring(markup, i + 1, i + len), '+');
+                            i += len;
+                            scaleX = (scale + 1) * 0.25f * cellHeight / (font.mapping.get(c, font.defaultValue).xAdvance*1.25f);
+                        }
+                    }
+                    if(c == '[')
+                        return (current | 2);
+                    else
+                        return (current | c);
+                }
+            } else {
+
+                //// VISIBLE CHAR RENDERING
+
+                char ch = markup.charAt(i);
+                if (isLowerCase(ch)) {
+                    if ((capitalize) || capsLock) {
+                        ch = Category.caseUp(ch);
+                    }
+                } else if (isUpperCase(ch)) {
+                    if (lowerCase) {
+                        ch = Category.caseDown(ch);
+                    }
+                }
+                return (current | ch);
+            }
+        }
+        return current | ' ';
+    }
+
+    /**
      * Reads markup from {@code markup}, processes it, and applies it to the given char {@code chr}; returns a long
      * in the format used for styled glyphs here. This parses an extension of libGDX markup and uses it to determine
      * color, size, position, shape, strikethrough, underline, case, and scale of the given char.
@@ -3872,7 +4136,7 @@ public class Font implements Disposable {
      *
      * @param chr         a single char to apply markup to
      * @param markup      a String containing only markup syntax, like "[*][_][RED]" for bold underline in red
-     * @param colorLookup a ColorLookup (often a method reference or {@link ColorLookup#INSTANCE}) to get
+     * @param colorLookup a ColorLookup (often a method reference or {@link ColorLookup#DESCRIPTIVE}) to get
      *                    colors from textual names or descriptions
      * @return a long that encodes the given char with the specified markup
      */
