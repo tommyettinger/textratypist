@@ -21,7 +21,7 @@ import com.github.tommyettinger.textra.TypingLabel;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /**
- * Tints the single glyph underneath the pointer/mouse in a rainbow pattern.
+ * Tints the single glyph (or affected text, if all is true) underneath the pointer/mouse in a rainbow pattern.
  */
 public class HighlightEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.975f;
