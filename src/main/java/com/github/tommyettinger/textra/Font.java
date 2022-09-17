@@ -1894,8 +1894,7 @@ public class Font implements Disposable {
      * with a private-use area character (and most of those are unused). Some emoji glyphs require more characters than
      * normal, such as any with human skin tones. These won't be handled well... You may want to use the
      * {@code [+scientist, dark skin tone]} or {@code [+🧑🏿‍🔬]} syntax for multipart emoji when you actually have an
-     * atlas full of emoji to draw from.
-     * <a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Twemoji.atlas">Like this atlas.</a>
+     * atlas full of emoji to draw from, such as the one used by {@link KnownFonts#addEmoji(Font)}.
      *
      * @param character a String containing at least one character; only the last char (not codepoint) will be used
      * @param region the TextureRegion to associate with the given character
@@ -1919,8 +1918,8 @@ public class Font implements Disposable {
      * {@code character}, which usually is a value that only overlaps with a private-use area character (and most of
      * those are unused). Some emoji glyphs require more characters than normal, such as any with human skin tones.
      * These won't be handled well... You may want to use the {@code [+scientist, dark skin tone]} or {@code [+🧑🏿‍🔬]}
-     * syntax for multipart emoji when you actually have an atlas full of emoji to draw from.
-     * <a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Twemoji.atlas">Like this atlas.</a>
+     * syntax for multipart emoji when you actually have an atlas full of emoji to draw from, such as the one used by
+     * {@link KnownFonts#addEmoji(Font)}.
      * @param character a String containing at least one character; only the last char (not codepoint) will be used
      * @param region the TextureRegion to associate with the given character
      * @return this Font, for chaining
@@ -1964,6 +1963,19 @@ public class Font implements Disposable {
             }
         }
         return this;
+    }
+
+    /**
+     * Gets the char that might be associated with {@code name} in at Atlas added to this (see
+     * {@link #addAtlas(TextureAtlas)}, or returns the int -1 if the name could not be found. This will only return a
+     * negative result if the name was not found. This can be useful to look up complex names, such as emoji entered by
+     * a user, and get the char that can be used to render such an emoji. The name is treated as case-insensitive.
+     * @param name a name from a TextureAtlas added to this Font, looked up as case-insensitive
+     * @return the char that the given name is associated with, as an int in the char range if found, or -1 otherwise
+     */
+    public int atlasLookup(String name) {
+        if(nameLookup == null) return -1;
+        return nameLookup.get(name, -1);
     }
 
     /**
