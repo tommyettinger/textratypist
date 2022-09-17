@@ -70,7 +70,7 @@ public class StylistEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         if(all) {
-            if(label.overIndex < indexStart || label.overIndex >= indexEnd) {
+            if(label.overIndex < indexStart || label.overIndex > indexEnd) {
                 label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFF01FFFFFFL));
                 return;
             }

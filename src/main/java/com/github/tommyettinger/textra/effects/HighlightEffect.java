@@ -74,7 +74,7 @@ public class HighlightEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         if(all) {
-            if(label.overIndex < indexStart || label.overIndex >= indexEnd) {
+            if(label.overIndex < indexStart || label.overIndex > indexEnd) {
                 label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) baseColor << 32);
                 return;
             }
