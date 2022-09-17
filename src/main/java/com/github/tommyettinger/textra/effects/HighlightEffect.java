@@ -33,12 +33,13 @@ public class HighlightEffect extends Effect {
     private float frequency = 1; // How frequently the color pattern should move through the text.
     private float saturation = 1; // Color saturation
     private float brightness = 0.5f; // Color brightness
+    private boolean all = false; // Whether this should rainbow-highlight the whole responsive area.
 
     public HighlightEffect(TypingLabel label, String[] params) {
         super(label);
         label.trackingInput = true;
 
-        // Distance
+        // Base color
         if (params.length > 0) {
             this.baseColor = paramAsColor(params[0]);
             if(this.baseColor == 256) this.baseColor = DEFAULT_COLOR;
@@ -63,13 +64,26 @@ public class HighlightEffect extends Effect {
         if (params.length > 4) {
             this.brightness = paramAsFloat(params[4], 0.5f);
         }
+
+        // All
+        if (params.length > 5) {
+            this.all = paramAsBoolean(params[5]);
+        }
     }
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
-        if(label.overIndex != globalIndex) {
-            label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) baseColor << 32);
-            return;
+        if(all) {
+            if(label.overIndex < indexStart || label.overIndex >= indexEnd) {
+                label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) baseColor << 32);
+                return;
+            }
+        }
+        else {
+            if(label.overIndex != globalIndex) {
+                label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) baseColor << 32);
+                return;
+            }
         }
         // Calculate progress
         float distanceMod = (1f / distance) * (1f - DEFAULT_DISTANCE);
