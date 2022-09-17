@@ -20,6 +20,7 @@ import com.badlogic.gdx.Gdx;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 import com.github.tommyettinger.textra.utils.ColorUtils;
+import com.github.tommyettinger.textra.utils.StringUtils;
 
 /**
  * Allows clicking the affected text to open a URL in the browser. You may want to use other markup with this, such as
@@ -35,7 +36,7 @@ public class LinkEffect extends Effect {
 
         // URL
         if (params.length > 0) {
-            this.link = String.join(";", params);
+            this.link = StringUtils.join(";", params);
         }
     }
 

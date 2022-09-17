@@ -19,6 +19,7 @@ package com.github.tommyettinger.textra.effects;
 import com.badlogic.gdx.Gdx;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
+import com.github.tommyettinger.textra.utils.StringUtils;
 
 /**
  * Allows clicking the affected text to trigger an event. You may want to use other markup with this, such as
@@ -34,7 +35,7 @@ public class TriggerEffect extends Effect {
 
         // URL
         if (params.length > 0) {
-            this.event = String.join(";", params);
+            this.event = StringUtils.join(";", params);
         }
     }
 
