@@ -102,7 +102,7 @@ public class TextraField extends Widget implements Disableable {
 	private StringBuilder passwordBuffer;
 	private char passwordCharacter = BULLET;
 
-	protected float fontOffset, textHeight, textOffset;
+	protected float fontOffset, textOffset;
 	float renderOffset;
 	protected int visibleTextStart, visibleTextEnd;
 	private int maxLength;
@@ -365,7 +365,7 @@ public class TextraField extends Widget implements Disableable {
 
 	protected float getTextY (Font font, @Null Drawable background) {
 		float height = getHeight();
-		float textY = textHeight / 2 + font.descent;
+		float textY = font.cellHeight / 2f + font.descent;
 		if (background != null) {
 			float bottom = background.getBottomHeight();
 			textY = textY + (height - background.getTopHeight() - bottom) / 2 + bottom;
@@ -378,15 +378,15 @@ public class TextraField extends Widget implements Disableable {
 
 	/** Draws selection rectangle **/
 	protected void drawSelection (Drawable selection, Batch batch, Font font, float x, float y) {
-		selection.draw(batch, x + textOffset + selectionX + fontOffset, y - textHeight - font.descent, selectionWidth,
-			textHeight);
+		selection.draw(batch, x + textOffset + selectionX + fontOffset, y - font.cellHeight - font.descent, selectionWidth,
+			font.cellHeight);
 	}
 
 
 	protected void drawCursor (Drawable cursorPatch, Batch batch, Font font, float x, float y) {
 		cursorPatch.draw(batch,
 			x + textOffset + glyphPositions.get(cursor) - glyphPositions.get(visibleTextStart) + fontOffset,
-			y - textHeight - font.descent, cursorPatch.getMinWidth(), textHeight);
+			y - font.cellHeight - font.descent, cursorPatch.getMinWidth(), font.cellHeight);
 	}
 
 	void updateDisplayText () {
@@ -714,7 +714,7 @@ public class TextraField extends Widget implements Disableable {
 				style.disabledBackground.getBottomHeight() + style.disabledBackground.getTopHeight());
 			minHeight = Math.max(minHeight, style.disabledBackground.getMinHeight());
 		}
-		return Math.max(topAndBottom + textHeight, minHeight);
+		return Math.max(topAndBottom + label.font.cellHeight, minHeight);
 	}
 
 	/** Sets text horizontal alignment (left, center or right).

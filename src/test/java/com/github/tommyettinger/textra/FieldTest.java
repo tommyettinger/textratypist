@@ -50,7 +50,7 @@ public class FieldTest extends ApplicationAdapter {
         bmp.getData().setScale(0.5f);
         bmp.setUseIntegerPositions(false);
         bmp.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        Font gentium = new Font(bmp);
+        Font gentium = new Font(bmp, 0f, 10f, 0f, 0f);
 
         String text =
                 "[*]Локус контроля[*] - свойство " +
@@ -62,8 +62,11 @@ public class FieldTest extends ApplicationAdapter {
                 "либо внутренним (я сам, " +
                 "моё отношение, мои" +
                 "действия)";
-        field = new TextraField(text, new TextField.TextFieldStyle(bmp, Color.WHITE.cpy(), new TextureRegionDrawable(gentium.mapping.get('|')),
-                new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)), null), gentium);
+        Font.GlyphRegion solid = gentium.mapping.get(gentium.solidBlock);
+        Font.GlyphRegion pipe = new Font.GlyphRegion(solid);
+        pipe.setRegionWidth(2);
+        field = new TextraField(text, new TextField.TextFieldStyle(bmp, Color.WHITE.cpy(), new TextureRegionDrawable(pipe),
+                new TextureRegionDrawable(solid).tint(Color.GRAY), null), gentium);
         field.setWidth(300);
         field.setHeight(gentium.cellHeight);
         field.setAlignment(center);
