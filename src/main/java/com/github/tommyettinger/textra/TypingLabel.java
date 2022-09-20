@@ -966,6 +966,23 @@ public class TypingLabel extends TextraLabel {
         return 0xFFFFFFL;
     }
 
+    public String substring(int start, int end) {
+        int index = start;
+        for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
+            LongArray glyphs = workingLayout.getLine(i).glyphs;
+            if (index < glyphs.size) {
+                StringBuilder sb = new StringBuilder(end - start);
+                for (int fin = index - start + end; index < fin; index++) {
+                    sb.append((char) glyphs.get(index));
+                }
+                return sb.toString();
+            }
+            else
+                index -= glyphs.size;
+        }
+        return "";
+    }
+
     public Line getLineInLayout(Layout layout, int index) {
         for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = layout.getLine(i).glyphs;

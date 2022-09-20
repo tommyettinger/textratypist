@@ -174,8 +174,8 @@ public class TextraField extends Widget implements Disableable {
 
 	protected long wordUnderCursor () {
 		TypingLabel text = this.label;
-		int start = label.overIndex, right = text.length(), left = 0, index = start;
-		if (label.overIndex >= text.length()) {
+		int start = Math.max(0, label.overIndex), right = text.length(), left = 0, index = start;
+		if (start >= text.length()) {
 			left = text.length();
 			right = 0;
 		} else {
@@ -233,8 +233,6 @@ public class TextraField extends Widget implements Disableable {
 		Drawable background = getBackgroundDrawable();
 		if (background != null) visibleWidth -= background.getLeftWidth() + background.getRightWidth();
 
-		label.setWidth(visibleWidth);
-		// TODO: Figure this out later.
 		int glyphCount = this.glyphPositions.size;
 		float[] glyphPositions = this.glyphPositions.items;
 
@@ -273,7 +271,7 @@ public class TextraField extends Widget implements Disableable {
 		// calculate last visible char based on visible width and render offset
 		int end = visibleTextStart + 1;
 		float endX = visibleWidth - renderOffset;
-		for (int n = Math.min(displayText.length(), glyphCount); end <= n; end++)
+		for (int n = Math.min(label.length(), glyphCount); end <= n; end++)
 			if (glyphPositions[end] > endX) break;
 		visibleTextEnd = Math.max(0, end - 1);
 
@@ -415,7 +413,8 @@ public class TextraField extends Widget implements Disableable {
 		} else
 			displayText = newDisplayText;
 
-		label.setText(displayText.replace('\r', ' ').replace('\n', ' '));
+		label.restart(displayText.replace('\r', ' ').replace('\n', ' '));
+		label.skipToTheEnd(true, true);
 
 		float end = 0f;
 		if(!label.workingLayout.lines.isEmpty()) {
@@ -431,7 +430,7 @@ public class TextraField extends Widget implements Disableable {
 	/** Copies the contents of this TextraField to the {@link Clipboard} implementation set on this TextraField. */
 	public void copy () {
 		if (hasSelection && !passwordMode) {
-			clipboard.setContents(text.substring(Math.min(cursor, selectionStart), Math.max(cursor, selectionStart)));
+			clipboard.setContents(label.substring(Math.min(cursor, selectionStart), Math.max(cursor, selectionStart)));
 		}
 	}
 
@@ -835,6 +834,7 @@ public class TextraField extends Widget implements Disableable {
 			if (count == 0) clearSelection();
 			if (count == 2) {
 				long pair = wordUnderCursor();
+				System.out.printf("%016X\n", pair);
 				setSelection((int) (pair >> 32), (int)pair);
 			}
 			if (count == 3) selectAll();
@@ -846,6 +846,7 @@ public class TextraField extends Widget implements Disableable {
 			if (disabled) return true;
 			setCursorPosition(x, y);
 			selectionStart = cursor;
+			System.out.println("In touchDown, cursor is " + cursor);
 			Stage stage = getStage();
 			if (stage != null) stage.setKeyboardFocus(TextraField.this);
 			keyboard.show(true);
@@ -864,7 +865,7 @@ public class TextraField extends Widget implements Disableable {
 		}
 
 		protected void setCursorPosition (float x, float y) {
-			cursor = label.overIndex;
+			cursor = Math.max(label.overIndex, 0);
 
 			cursorOn = focused;
 			blinkTask.cancel();
