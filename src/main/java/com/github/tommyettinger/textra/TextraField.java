@@ -134,8 +134,10 @@ public class TextraField extends Widget implements Disableable {
 
 	public TextraField(@Null String text, TextFieldStyle style) {
 		setStyle(style);
-		label = new TypingLabel(text, new Label.LabelStyle(style.font, style.fontColor));
-		label.workingLayout.setEllipsis("");
+		label = new TypingLabel("", new Label.LabelStyle(style.font, style.fontColor));
+		label.layout.setEllipsis("");
+		label.layout.setMaxLines(1);
+		label.wrap = false;
 		label.trackingInput = true;
 		clipboard = Gdx.app.getClipboard();
 		initialize();
@@ -146,8 +148,10 @@ public class TextraField extends Widget implements Disableable {
 
 	public TextraField(@Null String text, TextFieldStyle style, Font replacementFont) {
 		setStyle(style);
-		label = new TypingLabel(text, new Label.LabelStyle(style.font, style.fontColor), replacementFont);
-		label.workingLayout.setEllipsis("");
+		label = new TypingLabel("", new Label.LabelStyle(style.font, style.fontColor), replacementFont);
+		label.layout.setEllipsis("");
+		label.layout.setMaxLines(1);
+		label.wrap = false;
 		label.trackingInput = true;
 		clipboard = Gdx.app.getClipboard();
 		initialize();
@@ -417,7 +421,7 @@ public class TextraField extends Widget implements Disableable {
 		label.skipToTheEnd(true, true);
 
 		float end = 0f;
-		if(!label.workingLayout.lines.isEmpty()) {
+		if(label.workingLayout.lines.notEmpty()) {
 			end = font.calculateXAdvances(label.workingLayout.lines.first(), glyphPositions);
 		} else
 			fontOffset = 0;
@@ -734,6 +738,12 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	@Override
+	protected void sizeChanged() {
+		super.sizeChanged();
+		label.layout.setTargetWidth(getWidth());
+	}
+
+	@Override
 	public void act(float delta) {
 		super.act(delta);
 		label.act(delta);
@@ -834,7 +844,6 @@ public class TextraField extends Widget implements Disableable {
 			if (count == 0) clearSelection();
 			if (count == 2) {
 				long pair = wordUnderCursor();
-				System.out.printf("%016X\n", pair);
 				setSelection((int) (pair >> 32), (int)pair);
 			}
 			if (count == 3) selectAll();
@@ -846,7 +855,6 @@ public class TextraField extends Widget implements Disableable {
 			if (disabled) return true;
 			setCursorPosition(x, y);
 			selectionStart = cursor;
-			System.out.println("In touchDown, cursor is " + cursor);
 			Stage stage = getStage();
 			if (stage != null) stage.setKeyboardFocus(TextraField.this);
 			keyboard.show(true);
@@ -1070,7 +1078,6 @@ public class TextraField extends Widget implements Disableable {
 						String insertion = enter ? "\n" : String.valueOf(character);
 						text = insert(cursor++, insertion, text);
 					}
-					String tempUndoText = undoText;
 					if (changeText(oldText, text)) {
 						long time = System.currentTimeMillis();
 						if (time - 750 > lastChangeTime) undoText = oldText;
