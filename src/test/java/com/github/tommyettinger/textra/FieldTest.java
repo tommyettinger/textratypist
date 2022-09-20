@@ -70,6 +70,7 @@ public class FieldTest extends ApplicationAdapter {
 
         field.setFillParent(true);
         stage.addActor(field);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
