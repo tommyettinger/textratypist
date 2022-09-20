@@ -349,15 +349,15 @@ public class TextraField extends Widget implements Disableable {
 						style.messageFontColor.a * color.a);
 				} else
 					label.setColor(0.7f, 0.7f, 0.7f, color.a);
-				label.setText(messageText, false, true);
-//				label.setBounds(x + bgLeftWidth, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
+				label.setText(messageText, false, false);
+				label.setBounds(x + bgLeftWidth, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
 				label.draw(batch, parentAlpha);
 			}
 		} else {
 			if(fontColor != null)
 				label.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * color.a);
-			label.setText(displayText, false, true);
-//			label.setPosition(x + bgLeftWidth, y + textY + yOffset);
+			label.setText(displayText, false, false);
+			label.setPosition(x + bgLeftWidth, y + textY + yOffset);
 			label.draw(batch, parentAlpha);
 		}
 		if (!disabled && cursorOn && cursorPatch != null) {
@@ -726,6 +726,18 @@ public class TextraField extends Widget implements Disableable {
 
 	public int getAlignment () {
 		return textHAlign;
+	}
+
+	@Override
+	protected void positionChanged() {
+		super.positionChanged();
+		label.setPosition(getX(), getY());
+	}
+
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		label.act(delta);
 	}
 
 	/** If true, the text in this text field will be shown as bullet characters.

@@ -21,10 +21,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -42,7 +46,11 @@ public class FieldTest extends ApplicationAdapter {
         stage = new Stage(viewport);
         stage.setDebugAll(true);
 
-        Font gentium = KnownFonts.getGentium();
+        BitmapFont bmp = new BitmapFont(Gdx.files.internal("knownFonts/Gentium-standard.fnt"));
+        bmp.getData().setScale(0.5f);
+        bmp.setUseIntegerPositions(false);
+        bmp.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        Font gentium = new Font(bmp);
 
         String text =
                 "[*]Локус контроля[*] - свойство " +
@@ -54,14 +62,14 @@ public class FieldTest extends ApplicationAdapter {
                 "либо внутренним (я сам, " +
                 "моё отношение, мои" +
                 "действия)";
-        field = new TextraField(text, new TextField.TextFieldStyle(), gentium);
+        field = new TextraField(text, new TextField.TextFieldStyle(bmp, Color.WHITE.cpy(), new TextureRegionDrawable(gentium.mapping.get('|')),
+                new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)), null), gentium);
         field.setWidth(300);
         field.setHeight(gentium.cellHeight);
         field.setAlignment(center);
 
-        Stack stack = new Stack(field);
-        stack.setFillParent(true);
-        stage.addActor(stack);
+        field.setFillParent(true);
+        stage.addActor(field);
     }
 
     @Override
