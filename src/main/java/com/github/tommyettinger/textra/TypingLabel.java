@@ -955,6 +955,17 @@ public class TypingLabel extends TextraLabel {
         return 0xFFFFFFL;
     }
 
+    public long getInWorkingLayout(int index) {
+        for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
+            LongArray glyphs = workingLayout.getLine(i).glyphs;
+            if (index < glyphs.size)
+                return glyphs.get(index);
+            else
+                index -= glyphs.size;
+        }
+        return 0xFFFFFFL;
+    }
+
     public Line getLineInLayout(Layout layout, int index) {
         for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = layout.getLine(i).glyphs;
@@ -994,25 +1005,27 @@ public class TypingLabel extends TextraLabel {
     }
 
     public void setInWorkingLayout(int index, long newGlyph) {
-        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
+        // TODO: verify that `n = workingLayout.lines()` is correct, not `n = layout.lines()`
+        for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = workingLayout.getLine(i).glyphs;
             if (i < workingLayout.lines() && index < glyphs.size) {
                 glyphs.set(index, newGlyph);
                 return;
-//            LongArray glyphs = layout.getLine(i).glyphs;
-//            if(index < glyphs.size) {
-//                char old = (char) glyphs.get(index);
-//                glyphs.set(index, newGlyph);
-//                if(i < workingLayout.lines() && index < workingLayout.getLine(i).glyphs.size) {
-//                    char work;
-//                    if((work = (char)workingLayout.getLine(i).glyphs.get(index)) != old)
-//                        System.out.println("Different: " + old + " ! => " + work + " at index " + index);
-//                    workingLayout.getLine(i).glyphs.set(index, newGlyph);
-//                }
-//                return;
             } else
                 index -= glyphs.size;
         }
+    }
+
+    /**
+     * Gets the length in glyphs of the working layout (what is displayed).
+     * @return the length in glyphs of the working layout (what is displayed)
+     */
+    public int length() {
+        int len = 0;
+        for (int i = 0, n = workingLayout.lines(); i < n; i++) {
+            len += workingLayout.getLine(i).glyphs.size;
+        }
+        return len;
     }
 
     /**
