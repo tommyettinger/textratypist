@@ -200,11 +200,13 @@ public class GridTest extends ApplicationAdapter {
 //                0, y - font.cellHeight * 2, Align.left
 //        );
 
-
-        // This seems to be causing some side effects when it renders Cozette, at least.
+        // This seemed to be causing some side effects when it rendered Cozette; should be fixed now.
         font.drawGlyph(batch, font.markupGlyph("[RED][+🔜]"), 0, Gdx.graphics.getHeight() - font.cellHeight);
         // This seems fine.
 //        font.drawGlyph(batch, font.markupGlyph("[RED]T"), 0, Gdx.graphics.getHeight() - font.cellHeight);
+        // This also seems fine.
+//        font.drawGlyph(batch, Font.markupGlyph((char) font.atlasLookup("🔜"), "[RED]", ColorLookup.INSTANCE), 0, Gdx.graphics.getHeight() - font.cellHeight);
+
         marquee.draw(batch, 1f);
         link.draw(batch, 1f);
         batch.end();

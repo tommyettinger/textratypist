@@ -4079,8 +4079,6 @@ public class Font implements Disposable {
                         int len = markup.indexOf(']', i) - i;
                         if (len >= 0) {
                             c = nameLookup.get(safeSubstring(markup, i + 1, i + len), '+');
-                            i += len;
-                            scaleX = (scale + 1) * 0.25f * cellHeight / (font.mapping.get(c, font.defaultValue).xAdvance*1.25f);
                         }
                     }
                     if(c == '[')
