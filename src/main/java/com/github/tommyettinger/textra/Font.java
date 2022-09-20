@@ -1969,7 +1969,8 @@ public class Font implements Disposable {
      * Gets the char that might be associated with {@code name} in at Atlas added to this (see
      * {@link #addAtlas(TextureAtlas)}, or returns the int -1 if the name could not be found. This will only return a
      * negative result if the name was not found. This can be useful to look up complex names, such as emoji entered by
-     * a user, and get the char that can be used to render such an emoji. The name is treated as case-insensitive.
+     * a user, and get the char that can be used to render such an emoji. The name is treated as case-insensitive. If
+     * you are certain a name is present, you can cast the result immediately to a char to use it normally.
      * @param name a name from a TextureAtlas added to this Font, looked up as case-insensitive
      * @return the char that the given name is associated with, as an int in the char range if found, or -1 otherwise
      */
