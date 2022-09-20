@@ -3711,56 +3711,97 @@ public class Font implements Disposable {
                         // here, the max lines have been reached, and an ellipsis may need to be added
                         // to the last line.
                         String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
-                        for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
+                        for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
                             long curr;
-                            // remove a full word or other group of non-space characters.
-                            while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0)) {
-                                --j;
-                            }
-                            // remove the remaining space characters.
-                            while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                    Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
-                                --j;
-                            }
-                            float change = 0f, changeNext = 0f;
-                            long currE;
-                            if (font.kerning == null) {
-                                for (int k = j + 1, e = 0; e < ellipsis.length(); k++, e++) {
-                                    if (k < earlier.glyphs.size) {
-                                        change += xAdvance(font, scaleX, earlier.glyphs.get(k));
-                                    }
-                                    changeNext += xAdvance(font, scaleX, current | ellipsis.charAt(e));
+                            if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                    Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
+                                int leading = 0;
+                                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
+                                    ++leading;
+                                    --j;
                                 }
-                            } else {
-                                int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
-                                int k2e = 0xFFFF;
-                                for (int k = j + 1, e = 0; e < ellipsis.length(); k++, e++) {
-                                    if (k < earlier.glyphs.size) {
+                                glyphBuffer.clear();
+                                float change = 0f;
+                                if (font.kerning == null) {
+
+                                    // NO KERNING
+
+                                    boolean curly = false;
+                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
-                                        k2 = k2 << 16 | (char) curr;
-                                        change += xAdvance(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
+                                        if (curly) {
+                                            glyphBuffer.add(curr);
+                                            if ((char) curr == '{') {
+                                                curly = false;
+                                            } else if ((char) curr == '}') {
+                                                curly = false;
+                                                continue;
+                                            } else continue;
+                                        }
+                                        if ((char) curr == '{') {
+                                            glyphBuffer.add(curr);
+                                            curly = true;
+                                            continue;
+                                        }
+
+                                        float adv = xAdvance(font, scaleX, curr);
+                                        change += adv;
+                                        if (--leading < 0) {
+                                            if (glyphBuffer.size == 1) {
+                                                initial = false;
+                                            }
+
+                                        }
                                     }
-                                    currE = current | ellipsis.charAt(e);
-                                    k2e = k2e << 16 | (char) currE;
-                                    changeNext += xAdvance(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
+                                    for (int e = 0; e < ellipsis.length(); e++) {
+                                        curr = current | ellipsis.charAt(e);
+                                        float adv = xAdvance(font, scaleX, curr);
+                                        change -= adv;
+                                    }
+                                } else {
+
+                                    // YES KERNING
+
+                                    int k2 = (char) earlier.glyphs.get(j);
+                                    kern = -1;
+                                    boolean curly = false;
+                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
+                                        curr = earlier.glyphs.get(k);
+                                        if (curly) {
+                                            if ((char) curr == '{') {
+                                                curly = false;
+                                            } else if ((char) curr == '}') {
+                                                curly = false;
+                                                continue;
+                                            } else continue;
+                                        }
+                                        if ((char) curr == '{') {
+                                            curly = true;
+                                            continue;
+                                        }
+                                        k2 = k2 << 16 | (char) curr;
+                                        float adv = xAdvance(font, scaleX, curr);
+                                        change += adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+                                    }
+                                    for (int e = 0; e < ellipsis.length(); e++) {
+                                        curr = current | ellipsis.charAt(e);
+                                        k2 = k2 << 16 | (char) curr;
+                                        float adv = xAdvance(font, scaleX, curr);
+                                        change -= adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+                                    }
                                 }
-                            }
-                            if (earlier.width + changeNext < appendTo.getTargetWidth()) {
-                                for (int e = 0; e < ellipsis.length(); e++) {
-                                    earlier.glyphs.add(current | ellipsis.charAt(e));
-                                }
-                                earlier.width = earlier.width + changeNext;
-                                return appendTo;
-                            }
-                            if (earlier.width - change + changeNext < appendTo.getTargetWidth()) {
+                                if (earlier.width - change > targetWidth)
+                                    continue;
                                 earlier.glyphs.truncate(j + 1);
                                 for (int e = 0; e < ellipsis.length(); e++) {
                                     earlier.glyphs.add(current | ellipsis.charAt(e));
                                 }
-                                earlier.width = earlier.width - change + changeNext;
+                                earlier.width -= change;
                                 return appendTo;
                             }
                         }
+
                     } else {
 
                         //// WRAP VISIBLE

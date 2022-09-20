@@ -33,6 +33,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import static com.badlogic.gdx.utils.Align.center;
+import static com.badlogic.gdx.utils.Align.left;
 
 public class FieldTest extends ApplicationAdapter {
     ScreenViewport viewport;
@@ -69,7 +70,7 @@ public class FieldTest extends ApplicationAdapter {
                 new TextureRegionDrawable(solid).tint(Color.GRAY), null), gentium);
         field.setWidth(300);
         field.setHeight(gentium.cellHeight);
-        field.setAlignment(center);
+        field.setAlignment(left);
 
         field.setFillParent(true);
         stage.addActor(field);
