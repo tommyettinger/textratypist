@@ -3869,8 +3869,10 @@ public class Font implements Disposable {
      *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
      *     the nearest 25% mark).</li>
      *     <li>{@code [%]}, with no number just after it, resets scale to 100% (this usually has no effect here).</li>
-     *     <li>{@code [@Name]} is ignored.</li>
-     *     <li>{@code [@]} is also ignored.</li>
+     *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
+     *     in this.family by that name. This is ignored if family is null.</li>
+     *     <li>{@code [@]}, with no text just after the @, resets the font to this one (which should be item 0 in
+     *     family, if family is non-null).</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
      *     {@link ColorLookup#DESCRIPTIVE}, changes the color. The name can optionally be preceded by {@code |}, which
@@ -3880,14 +3882,14 @@ public class Font implements Disposable {
      * calling this method every frame, because the color lookups usually allocate some memory, and because this can
      * usually be stored for later without needing repeated computation.
      * <br>
-     * Because this is static, it does not need a Font instance to be involved.
+     * This is not static; it can depend on the current Font's FontFamily, ColorLookup, and any atlases added to it.
      *
      * @param markup      a String containing markup syntax and one char, like "[*][RED]G" for a bold, red 'G'
      * @return a long that encodes the given char with the specified markup
      */
     public long markupGlyph(String markup) {
-        boolean capitalize = false, previousWasLetter = false,
-                capsLock = false, lowerCase = false, initial = true;
+        boolean capitalize = false,
+                capsLock = false, lowerCase = false;
         int c, scale = 3, fontIndex = -1;
         Font font = this;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
