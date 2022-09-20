@@ -91,7 +91,7 @@ public class TextraField extends Widget implements Disableable {
 
 	TextFieldStyle style;
 	private String messageText;
-	protected CharSequence displayText;
+	protected String displayText;
 	Clipboard clipboard;
 	InputListener inputListener;
 	@Null TextFieldListener listener;
@@ -331,7 +331,7 @@ public class TextraField extends Widget implements Disableable {
 		} else if (!focused) //
 			cursorOn = false;
 
-		final BitmapFont font = style.font;
+		final Font font = label.font;
 		final Color fontColor = (disabled && style.disabledFontColor != null) ? style.disabledFontColor
 			: ((focused && style.focusedFontColor != null) ? style.focusedFontColor : style.fontColor);
 		final Drawable selection = style.selection;
@@ -359,73 +359,68 @@ public class TextraField extends Widget implements Disableable {
 			drawSelection(selection, batch, font, x + bgLeftWidth, y + textY);
 		}
 
-		float yOffset = font.isFlipped() ? -textHeight : 0;
+		float yOffset = 0;
 		if (displayText.length() == 0) {
 			if ((!focused || disabled) && messageText != null) {
-				BitmapFont messageFont = style.messageFont != null ? style.messageFont : font;
 				if (style.messageFontColor != null) {
-					messageFont.setColor(style.messageFontColor.r, style.messageFontColor.g, style.messageFontColor.b,
-						style.messageFontColor.a * color.a * parentAlpha);
+					label.setColor(style.messageFontColor.r, style.messageFontColor.g, style.messageFontColor.b,
+						style.messageFontColor.a * color.a);
 				} else
-					messageFont.setColor(0.7f, 0.7f, 0.7f, color.a * parentAlpha);
-				drawMessageText(batch, messageFont, x + bgLeftWidth, y + textY + yOffset, width - bgLeftWidth - bgRightWidth);
+					label.setColor(0.7f, 0.7f, 0.7f, color.a);
+				label.setText(messageText, false, true);
+				label.setBounds(x + bgLeftWidth, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
+				label.draw(batch, parentAlpha);
 			}
 		} else {
-			font.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * color.a * parentAlpha);
-			drawText(batch, font, x + bgLeftWidth, y + textY + yOffset);
+			label.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * color.a);
+			label.setText(displayText, false, true);
+			label.setPosition(x + bgLeftWidth, y + textY + yOffset);
+			label.draw(batch, parentAlpha);
 		}
 		if (!disabled && cursorOn && cursorPatch != null) {
 			drawCursor(cursorPatch, batch, font, x + bgLeftWidth, y + textY);
 		}
 	}
 
-	protected float getTextY (BitmapFont font, @Null Drawable background) {
+	protected float getTextY (Font font, @Null Drawable background) {
 		float height = getHeight();
-		float textY = textHeight / 2 + font.getDescent();
+		float textY = textHeight / 2 + font.descent);
 		if (background != null) {
 			float bottom = background.getBottomHeight();
 			textY = textY + (height - background.getTopHeight() - bottom) / 2 + bottom;
 		} else {
 			textY = textY + height / 2;
 		}
-		if (font.usesIntegerPositions()) textY = (int)textY;
+		if (font.integerPosition) textY = (int)textY;
 		return textY;
 	}
 
 	/** Draws selection rectangle **/
-	protected void drawSelection (Drawable selection, Batch batch, BitmapFont font, float x, float y) {
-		selection.draw(batch, x + textOffset + selectionX + fontOffset, y - textHeight - font.getDescent(), selectionWidth,
+	protected void drawSelection (Drawable selection, Batch batch, Font font, float x, float y) {
+		selection.draw(batch, x + textOffset + selectionX + fontOffset, y - textHeight - font.descent, selectionWidth,
 			textHeight);
 	}
 
-	protected void drawText (Batch batch, BitmapFont font, float x, float y) {
-		font.draw(batch, displayText, x + textOffset, y, visibleTextStart, visibleTextEnd, 0, Align.left, false);
-	}
 
-	protected void drawMessageText (Batch batch, BitmapFont font, float x, float y, float maxWidth) {
-		font.draw(batch, messageText, x, y, 0, messageText.length(), maxWidth, textHAlign, false, "...");
-	}
-
-	protected void drawCursor (Drawable cursorPatch, Batch batch, BitmapFont font, float x, float y) {
+	protected void drawCursor (Drawable cursorPatch, Batch batch, Font font, float x, float y) {
 		cursorPatch.draw(batch,
-			x + textOffset + glyphPositions.get(cursor) - glyphPositions.get(visibleTextStart) + fontOffset + font.getData().cursorX,
-			y - textHeight - font.getDescent(), cursorPatch.getMinWidth(), textHeight);
+			x + textOffset + glyphPositions.get(cursor) - glyphPositions.get(visibleTextStart) + fontOffset,
+			y - textHeight - font.descent, cursorPatch.getMinWidth(), textHeight);
 	}
 
 	void updateDisplayText () {
-		BitmapFont font = style.font;
-		BitmapFontData data = font.getData();
+		Font font = label.font;
 		String text = this.text;
 		int textLength = text.length();
 
 		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < textLength; i++) {
 			char c = text.charAt(i);
-			buffer.append(data.hasGlyph(c) ? c : ' ');
+			buffer.append(font.mapping.containsKey(c) ? c : ' ');
 		}
 		String newDisplayText = buffer.toString();
 
-		if (passwordMode && data.hasGlyph(passwordCharacter)) {
+		if (passwordMode && font.mapping.containsKey(passwordCharacter)) {
 			if (passwordBuffer == null) passwordBuffer = new StringBuilder(newDisplayText.length());
 			if (passwordBuffer.length() > textLength)
 				passwordBuffer.setLength(textLength);
@@ -433,27 +428,15 @@ public class TextraField extends Widget implements Disableable {
 				for (int i = passwordBuffer.length(); i < textLength; i++)
 					passwordBuffer.append(passwordCharacter);
 			}
-			displayText = passwordBuffer;
+			displayText = passwordBuffer.toString();
 		} else
 			displayText = newDisplayText;
 
-		label.setText(font, displayText.toString().replace('\r', ' ').replace('\n', ' '));
+		label.setText(displayText.replace('\r', ' ').replace('\n', ' '));
 		glyphPositions.clear();
-		float x = 0;
-		if (label.runs.size > 0) {
-			GlyphRun run = label.runs.first();
-			FloatArray xAdvances = run.xAdvances;
-			fontOffset = xAdvances.first();
-			for (int i = 1, n = xAdvances.size; i < n; i++) {
-				glyphPositions.add(x);
-				x += xAdvances.get(i);
-			}
-		} else
-			fontOffset = 0;
-		glyphPositions.add(x);
-
-		visibleTextStart = Math.min(visibleTextStart, glyphPositions.size - 1);
-		visibleTextEnd = MathUtils.clamp(visibleTextEnd, visibleTextStart, glyphPositions.size - 1);
+		int len = label.length() - 1;
+		visibleTextStart = Math.min(visibleTextStart, len);
+		visibleTextEnd = MathUtils.clamp(visibleTextEnd, visibleTextStart, len);
 
 		if (selectionStart > newDisplayText.length()) selectionStart = textLength;
 	}
