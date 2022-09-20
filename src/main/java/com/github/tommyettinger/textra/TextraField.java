@@ -37,13 +37,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Clipboard;
-import com.badlogic.gdx.utils.FloatArray;
-import com.badlogic.gdx.utils.Null;
-import com.badlogic.gdx.utils.Pools;
-import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.Timer.Task;
 import regexodus.Category;
 
@@ -141,6 +135,7 @@ public class TextraField extends Widget implements Disableable {
 	public TextraField(@Null String text, TextFieldStyle style) {
 		setStyle(style);
 		label = new TypingLabel(text, new Label.LabelStyle(style.font, style.fontColor));
+		label.workingLayout.setEllipsis("");
 		label.trackingInput = true;
 		clipboard = Gdx.app.getClipboard();
 		initialize();
@@ -152,6 +147,7 @@ public class TextraField extends Widget implements Disableable {
 	public TextraField(@Null String text, TextFieldStyle style, Font replacementFont) {
 		setStyle(style);
 		label = new TypingLabel(text, new Label.LabelStyle(style.font, style.fontColor), replacementFont);
+		label.workingLayout.setEllipsis("");
 		label.trackingInput = true;
 		clipboard = Gdx.app.getClipboard();
 		initialize();
@@ -166,21 +162,6 @@ public class TextraField extends Widget implements Disableable {
 
 	protected InputListener createInputListener () {
 		return new TextFieldClickListener();
-	}
-
-	protected int letterUnderCursor (float x) {
-		x -= textOffset + fontOffset - style.font.getData().cursorX - glyphPositions.get(visibleTextStart);
-		Drawable background = getBackgroundDrawable();
-		if (background != null) x -= style.background.getLeftWidth();
-		int n = this.glyphPositions.size;
-		float[] glyphPositions = this.glyphPositions.items;
-		for (int i = 1; i < n; i++) {
-			if (glyphPositions[i] > x) {
-				if (glyphPositions[i] - x <= x - glyphPositions[i - 1]) return i;
-				return i - 1;
-			}
-		}
-		return n - 1;
 	}
 
 	protected boolean isWordCharacter (char c) {
@@ -237,7 +218,6 @@ public class TextraField extends Widget implements Disableable {
 		if (style == null) throw new IllegalArgumentException("style cannot be null.");
 		this.style = style;
 
-		textHeight = style.font.getCapHeight() - style.font.getDescent() * 2;
 		if (text != null) updateDisplayText();
 		invalidateHierarchy();
 	}
@@ -253,7 +233,9 @@ public class TextraField extends Widget implements Disableable {
 		Drawable background = getBackgroundDrawable();
 		if (background != null) visibleWidth -= background.getLeftWidth() + background.getRightWidth();
 
-		int glyphCount = glyphPositions.size;
+		label.setWidth(visibleWidth);
+		// TODO: Figure this out later.
+		int glyphCount = this.glyphPositions.size;
 		float[] glyphPositions = this.glyphPositions.items;
 
 		// Check if the cursor has gone out the left or right side of the visible area and adjust renderOffset.
@@ -308,7 +290,7 @@ public class TextraField extends Widget implements Disableable {
 			float minX = Math.max(glyphPositions[minIndex] - glyphPositions[visibleTextStart], -textOffset);
 			float maxX = Math.min(glyphPositions[maxIndex] - glyphPositions[visibleTextStart], visibleWidth - textOffset);
 			selectionX = minX;
-			selectionWidth = maxX - minX - style.font.getData().cursorX;
+			selectionWidth = maxX - minX;
 		}
 	}
 
@@ -368,13 +350,14 @@ public class TextraField extends Widget implements Disableable {
 				} else
 					label.setColor(0.7f, 0.7f, 0.7f, color.a);
 				label.setText(messageText, false, true);
-				label.setBounds(x + bgLeftWidth, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
+//				label.setBounds(x + bgLeftWidth, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
 				label.draw(batch, parentAlpha);
 			}
 		} else {
-			label.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * color.a);
+			if(fontColor != null)
+				label.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * color.a);
 			label.setText(displayText, false, true);
-			label.setPosition(x + bgLeftWidth, y + textY + yOffset);
+//			label.setPosition(x + bgLeftWidth, y + textY + yOffset);
 			label.draw(batch, parentAlpha);
 		}
 		if (!disabled && cursorOn && cursorPatch != null) {
@@ -384,7 +367,7 @@ public class TextraField extends Widget implements Disableable {
 
 	protected float getTextY (Font font, @Null Drawable background) {
 		float height = getHeight();
-		float textY = textHeight / 2 + font.descent);
+		float textY = textHeight / 2 + font.descent;
 		if (background != null) {
 			float bottom = background.getBottomHeight();
 			textY = textY + (height - background.getTopHeight() - bottom) / 2 + bottom;
@@ -433,13 +416,17 @@ public class TextraField extends Widget implements Disableable {
 			displayText = newDisplayText;
 
 		label.setText(displayText.replace('\r', ' ').replace('\n', ' '));
-		glyphPositions.clear();
-		int len = label.length() - 1;
-		visibleTextStart = Math.min(visibleTextStart, len);
-		visibleTextEnd = MathUtils.clamp(visibleTextEnd, visibleTextStart, len);
 
-		if (selectionStart > newDisplayText.length()) selectionStart = textLength;
-	}
+		float end = 0f;
+		if(!label.workingLayout.lines.isEmpty()) {
+			end = font.calculateXAdvances(label.workingLayout.lines.first(), glyphPositions);
+		} else
+			fontOffset = 0;
+		glyphPositions.add(end);
+		visibleTextStart = Math.min(visibleTextStart, glyphPositions.size - 1);
+		visibleTextEnd = MathUtils.clamp(visibleTextEnd, visibleTextStart, glyphPositions.size - 1);
+
+		if (selectionStart > newDisplayText.length()) selectionStart = textLength;	}
 
 	/** Copies the contents of this TextraField to the {@link Clipboard} implementation set on this TextraField. */
 	public void copy () {
@@ -467,13 +454,13 @@ public class TextraField extends Widget implements Disableable {
 		StringBuilder buffer = new StringBuilder();
 		int textLength = text.length();
 		if (hasSelection) textLength -= Math.abs(cursor - selectionStart);
-		BitmapFontData data = style.font.getData();
+		IntMap<Font.GlyphRegion> mapping = label.font.mapping;
 		for (int i = 0, n = content.length(); i < n; i++) {
 			if (!withinMaxLength(textLength + buffer.length())) break;
 			char c = content.charAt(i);
 			if (!(writeEnters && (c == NEWLINE || c == CARRIAGE_RETURN))) {
 				if (c == '\r' || c == '\n') continue;
-				if (onlyFontChars && !data.hasGlyph(c)) continue;
+				if (onlyFontChars && !mapping.containsKey(c)) continue;
 				if (filter != null && !filter.acceptChar(this, c)) continue;
 			}
 			buffer.append(c);
@@ -752,7 +739,7 @@ public class TextraField extends Widget implements Disableable {
 		return passwordMode;
 	}
 
-	/** Sets the password character for the text field. The character must be present in the {@link BitmapFont}. Default is 149
+	/** Sets the password character for the text field. The character must be present in the {@link Font}. Default is 149
 	 * (bullet). */
 	public void setPasswordCharacter (char passwordCharacter) {
 		this.passwordCharacter = passwordCharacter;
@@ -1044,7 +1031,7 @@ public class TextraField extends Widget implements Disableable {
 				boolean enter = character == CARRIAGE_RETURN || character == NEWLINE;
 				boolean delete = character == DELETE;
 				boolean backspace = character == BACKSPACE;
-				boolean add = enter ? writeEnters : (!onlyFontChars || style.font.getData().hasGlyph(character));
+				boolean add = enter ? writeEnters : (!onlyFontChars || label.font.mapping.containsKey(character));
 				boolean remove = backspace || delete;
 				if (add || remove) {
 					String oldText = text;
