@@ -39,6 +39,7 @@ public class GridTest extends ApplicationAdapter {
     TypingLabel marquee, link;
     long startTime;
     RandomXS128 random;
+    long glyph;
 
     static final int PIXEL_WIDTH = 1000, PIXEL_HEIGHT = 650;
 
@@ -69,8 +70,8 @@ public class GridTest extends ApplicationAdapter {
 
         fonts = KnownFonts.getAllStandard();
         for(Font f : fonts)
-            f.scaleTo(20f, 25).fitCell(25, 25, true);
-        font = fonts[1];
+            KnownFonts.addEmoji(f.scaleTo(20f, 25).fitCell(25, 25, true));
+        font = fonts[7];
 
 //        font = KnownFonts.getInconsolata();//.scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
@@ -150,7 +151,7 @@ public class GridTest extends ApplicationAdapter {
 //        link = new TypingLabel("Welcome to [sky][_]{LINK=https://github.com/tommyettinger/textratypist}TextraTypist[], for text stuff.", font);
         link.parseTokens();
         link.setWidth(Gdx.graphics.getBackBufferWidth());
-        link.setPosition(0f, PIXEL_HEIGHT * 0.5f - font.cellHeight * 2);
+        link.setPosition(0f, PIXEL_HEIGHT * 0.5f - 62.5f);
         link.skipToTheEnd();
 //        font.markup("\"You are ever more the [/]fool[/] than the pitiable cutpurse who [*]dares waylay[*] my castle road!\" the [dark rich gold]King[] admonished."
 //                +" \"Forsooth! Had [_]I[_] my right mind, I would have [dark red]both of [_]your heads[] by morning. But alas, I am stricken with" +
@@ -198,7 +199,12 @@ public class GridTest extends ApplicationAdapter {
 ////                PIXEL_WIDTH * 0.5f
 //                0, y - font.cellHeight * 2, Align.left
 //        );
-        font.drawGlyph(batch, Font.markupGlyph(font.solidBlock, "[RED]", ColorLookup.INSTANCE), 0, Gdx.graphics.getHeight() - font.cellHeight);
+
+
+        // This seems to be causing some side effects when it renders Cozette, at least.
+        font.drawGlyph(batch, font.markupGlyph("[RED][+🔜]"), 0, Gdx.graphics.getHeight() - font.cellHeight);
+        // This seems fine.
+//        font.drawGlyph(batch, font.markupGlyph("[RED]T"), 0, Gdx.graphics.getHeight() - font.cellHeight);
         marquee.draw(batch, 1f);
         link.draw(batch, 1f);
         batch.end();
