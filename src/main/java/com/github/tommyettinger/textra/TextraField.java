@@ -495,6 +495,12 @@ public class TextraField extends Widget implements Disableable {
 		cursor += content.length();
 	}
 
+	boolean insert(int position, CharSequence inserting) {
+		if(inserting.length() == 0) return false;
+		label.insertInLayout(label.layout, position, inserting);
+		return true;
+	}
+
 	String insert (int position, CharSequence text, String to) {
 		if (to.length() == 0) return text.toString();
 		return to.substring(0, position) + text + to.substring(position, to.length());
