@@ -53,6 +53,19 @@ public class Layout implements Pool.Poolable {
         lines.add(Line.POOL.obtain());
     }
 
+    public Layout(Layout other) {
+        this.font = other.font;
+        this.maxLines = other.maxLines;
+        this.atLimit = other.atLimit;
+        this.ellipsis = other.ellipsis;
+        this.targetWidth = other.targetWidth;
+        this.baseColor = other.baseColor;
+        for (int i = 0; i < other.lines(); i++) {
+            Line ln = Line.POOL.obtain(), o = other.lines.get(i);
+            ln.glyphs.addAll(o.glyphs);
+            lines.add(ln.size(o.width, o.height));
+        }
+    }
     /**
      * One of the ways to set the font on a Layout; this one returns this Layout for chaining.
      *

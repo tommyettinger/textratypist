@@ -181,20 +181,20 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	protected long wordUnderCursor () {
-		TypingLabel text = this.label;
-		int start = Math.max(0, label.overIndex), right = text.length(), left = 0, index = start;
-		if (start >= text.length()) {
-			left = text.length();
+		TypingLabel lb = this.label;
+		int start = Math.max(0, label.overIndex), right = lb.length(), left = 0, index = start;
+		if (start >= lb.length()) {
+			left = lb.length();
 			right = 0;
 		} else {
 			for (; index < right; index++) {
-				if (!isWordCharacter(text.getInWorkingLayout(index))) {
+				if (!isWordCharacter(lb.getInWorkingLayout(index))) {
 					right = index;
 					break;
 				}
 			}
 			for (index = start - 1; index > -1; index--) {
-				if (!isWordCharacter(text.getInWorkingLayout(index))) {
+				if (!isWordCharacter(lb.getInWorkingLayout(index))) {
 					left = index + 1;
 					break;
 				}
@@ -471,7 +471,7 @@ public class TextraField extends Widget implements Disableable {
 	void paste (@Null String content, boolean fireChangeEvent) {
 		if (content == null) return;
 		StringBuilder buffer = new StringBuilder();
-		int textLength = text.length();
+		int textLength = label.length(); // was text.length()
 		if (hasSelection) textLength -= Math.abs(cursor - selectionStart);
 		IntMap<Font.GlyphRegion> mapping = label.font.mapping;
 		for (int i = 0, n = content.length(); i < n; i++) {
@@ -484,15 +484,17 @@ public class TextraField extends Widget implements Disableable {
 			}
 			buffer.append(c);
 		}
-		content = buffer.toString();
 
 		if (hasSelection) cursor = delete(fireChangeEvent);
 		if (fireChangeEvent)
-			changeText(text, insert(cursor, content, text));
+			changeText(cursor, buffer);
 		else
-			text = insert(cursor, content, text);
+			insert(cursor, buffer);
+		text = label.layout.toString();
 		updateDisplayText();
-		cursor += content.length();
+		cursor += buffer.length();
+
+		System.out.println("End of paste(): " + label.layout + "\n text: " + text);
 	}
 
 	boolean insert(int position, CharSequence inserting) {
@@ -629,7 +631,8 @@ public class TextraField extends Widget implements Disableable {
 		String oldText = text;
 		text = "";
 		paste(str, false);
-		if (programmaticChangeEvents) changeText(oldText, text);
+		if (programmaticChangeEvents)
+			changeText(oldText, text);
 		cursor = 0;
 	}
 
@@ -645,6 +648,19 @@ public class TextraField extends Widget implements Disableable {
 		ChangeEvent changeEvent = Pools.obtain(ChangeEvent.class);
 		boolean cancelled = fire(changeEvent);
 		if (cancelled) text = oldText;
+		Pools.free(changeEvent);
+		return !cancelled;
+	}
+
+	/** @return True if the text was changed. */
+	boolean changeText (int position, CharSequence inserting) {
+		Layout oldText = new Layout(label.layout);
+		if (insert(position, inserting)) return false;
+		ChangeEvent changeEvent = Pools.obtain(ChangeEvent.class);
+		boolean cancelled = fire(changeEvent);
+		if (cancelled) {
+			label.layout = oldText;
+		}
 		Pools.free(changeEvent);
 		return !cancelled;
 	}
