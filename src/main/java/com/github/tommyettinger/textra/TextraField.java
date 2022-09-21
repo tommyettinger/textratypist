@@ -67,7 +67,7 @@ public class TextraField extends Widget implements Disableable {
 	static protected final char NEWLINE = '\n';
 	static protected final char TAB = '\t';
 	static protected final char DELETE = 127;
-	static protected final char BULLET = 149;
+	static protected final char BULLET = 8226;
 
 	static private final Vector2 tmp1 = new Vector2();
 	static private final Vector2 tmp2 = new Vector2();
@@ -99,7 +99,6 @@ public class TextraField extends Widget implements Disableable {
 	long lastChangeTime;
 
 	boolean passwordMode;
-	private StringBuilder passwordBuffer;
 	private char passwordCharacter = BULLET;
 
 	protected float fontOffset, textOffset;
@@ -358,7 +357,8 @@ public class TextraField extends Widget implements Disableable {
 		} else {
 			if(fontColor != null)
 				label.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * color.a);
-			label.setText(displayText, false, false);
+//			label.setText(text, false, false);
+//			label.font.regenerateLayout(label.layout);
 			label.setPosition(x + bgLeftWidth, y + textY + yOffset);
 			label.draw(batch, parentAlpha);
 		}
@@ -407,6 +407,10 @@ public class TextraField extends Widget implements Disableable {
 
 		label.font.defaultValue = label.font.mapping.get(' ');
 
+		label.restart(text
+				.replace('\r', ' ').replace('\n', ' ')
+		);
+
 		if (passwordMode && font.mapping.containsKey(passwordCharacter)) {
 //			if (passwordBuffer == null) passwordBuffer = new StringBuilder(newDisplayText.length());
 //			if (passwordBuffer.length() > textLength)
@@ -416,16 +420,13 @@ public class TextraField extends Widget implements Disableable {
 //					passwordBuffer.append(passwordCharacter);
 //			}
 //			displayText = passwordBuffer.toString();
-			for (int ln = 0; ln < label.layout.lines(); ln++) {
-				Line line = label.layout.getLine(ln);
+			for (int ln = 0; ln < label.workingLayout.lines(); ln++) {
+				Line line = label.workingLayout.getLine(ln);
 				for (int g = 0; g < line.glyphs.size; g++) {
 					line.glyphs.set(g, 0xFFFFFFFE00000000L | passwordCharacter);
 				}
 			}
 		}
-		label.restart(text
-				.replace('\r', ' ').replace('\n', ' ')
-		);
 		displayText = label.toString();
 		label.skipToTheEnd(true, true);
 
