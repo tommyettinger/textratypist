@@ -68,7 +68,7 @@ public class FieldTest extends ApplicationAdapter {
         pipe.setRegionWidth(2);
         field = new TextraField(text, new TextField.TextFieldStyle(bmp, Color.WHITE.cpy(), new TextureRegionDrawable(pipe),
                 new TextureRegionDrawable(solid).tint(Color.GRAY), null), gentium);
-        field.setWidth(300);
+        field.setWidth(200);
         field.setHeight(gentium.cellHeight);
         field.setAlignment(left);
 

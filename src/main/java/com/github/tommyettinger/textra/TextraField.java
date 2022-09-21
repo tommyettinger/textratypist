@@ -344,7 +344,7 @@ public class TextraField extends Widget implements Disableable {
 		}
 
 		float yOffset = 0;
-		if (displayText.length() == 0) {
+		if (label.length() == 0) {
 			if ((!focused || disabled) && messageText != null) {
 				if (style.messageFontColor != null) {
 					label.setColor(style.messageFontColor.r, style.messageFontColor.g, style.messageFontColor.b,
@@ -395,29 +395,36 @@ public class TextraField extends Widget implements Disableable {
 
 	void updateDisplayText () {
 		Font font = label.font;
-		String text = this.text;
-		int textLength = text.length();
+//		String text = this.text;
+//		int textLength = text.length();
 
-		StringBuilder buffer = new StringBuilder();
-		for (int i = 0; i < textLength; i++) {
-			char c = text.charAt(i);
-			buffer.append(font.mapping.containsKey(c) ? c : ' ');
-		}
-		String newDisplayText = buffer.toString();
+//		StringBuilder buffer = new StringBuilder();
+//		for (int i = 0; i < textLength; i++) {
+//			char c = text.charAt(i);
+//			buffer.append(font.mapping.containsKey(c) ? c : ' ');
+//		}
+//		String newDisplayText = buffer.toString();
+
+		label.font.defaultValue = label.font.mapping.get(' ');
 
 		if (passwordMode && font.mapping.containsKey(passwordCharacter)) {
-			if (passwordBuffer == null) passwordBuffer = new StringBuilder(newDisplayText.length());
-			if (passwordBuffer.length() > textLength)
-				passwordBuffer.setLength(textLength);
-			else {
-				for (int i = passwordBuffer.length(); i < textLength; i++)
-					passwordBuffer.append(passwordCharacter);
+//			if (passwordBuffer == null) passwordBuffer = new StringBuilder(newDisplayText.length());
+//			if (passwordBuffer.length() > textLength)
+//				passwordBuffer.setLength(textLength);
+//			else {
+//				for (int i = passwordBuffer.length(); i < textLength; i++)
+//					passwordBuffer.append(passwordCharacter);
+//			}
+//			displayText = passwordBuffer.toString();
+			for (int ln = 0; ln < label.layout.lines(); ln++) {
+				Line line = label.layout.getLine(ln);
+				for (int g = 0; g < line.glyphs.size; g++) {
+					line.glyphs.set(g, 0xFFFFFFFE00000000L | passwordCharacter);
+				}
 			}
-			displayText = passwordBuffer.toString();
-		} else
-			displayText = newDisplayText;
-
-		label.restart(displayText.replace('\r', ' ').replace('\n', ' '));
+		}
+		label.restart(text.replace('\r', ' ').replace('\n', ' '));
+		displayText = label.toString();
 		label.skipToTheEnd(true, true);
 
 		float end = 0f;
@@ -429,7 +436,8 @@ public class TextraField extends Widget implements Disableable {
 		visibleTextStart = Math.min(visibleTextStart, glyphPositions.size - 1);
 		visibleTextEnd = MathUtils.clamp(visibleTextEnd, visibleTextStart, glyphPositions.size - 1);
 
-		if (selectionStart > newDisplayText.length()) selectionStart = textLength;	}
+		selectionStart = Math.min(selectionStart, label.length());
+	}
 
 	/** Copies the contents of this TextraField to the {@link Clipboard} implementation set on this TextraField. */
 	public void copy () {
