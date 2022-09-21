@@ -423,7 +423,9 @@ public class TextraField extends Widget implements Disableable {
 				}
 			}
 		}
-		label.restart(text.replace('\r', ' ').replace('\n', ' '));
+		label.restart(text
+				.replace('\r', ' ').replace('\n', ' ')
+		);
 		displayText = label.toString();
 		label.skipToTheEnd(true, true);
 
@@ -650,7 +652,7 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	public String getSelection () {
-		return hasSelection ? text.substring(Math.min(selectionStart, cursor), Math.max(selectionStart, cursor)) : "";
+		return hasSelection ? label.substring(Math.min(selectionStart, cursor), Math.max(selectionStart, cursor)) : "";
 	}
 
 	/** Sets the selected text. */
