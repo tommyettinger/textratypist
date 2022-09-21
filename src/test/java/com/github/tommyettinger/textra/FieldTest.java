@@ -69,6 +69,7 @@ public class FieldTest extends ApplicationAdapter {
         field = new TextraField(text, new TextField.TextFieldStyle(bmp, Color.WHITE.cpy(), new TextureRegionDrawable(pipe),
                 new TextureRegionDrawable(solid).tint(Color.GRAY), null), gentium);
         field.setWidth(200);
+        field.setPasswordMode(true);
         field.setHeight(gentium.cellHeight);
         field.setAlignment(left);
 
