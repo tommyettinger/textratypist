@@ -3715,13 +3715,10 @@ public class Font implements Disposable {
                             long curr;
                             if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
                                     Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
-                                int leading = 0;
                                 while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
                                         Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
-                                    ++leading;
                                     --j;
                                 }
-                                glyphBuffer.clear();
                                 float change = 0f;
                                 if (font.kerning == null) {
 
@@ -3731,7 +3728,6 @@ public class Font implements Disposable {
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
                                         if (curly) {
-                                            glyphBuffer.add(curr);
                                             if ((char) curr == '{') {
                                                 curly = false;
                                             } else if ((char) curr == '}') {
@@ -3740,19 +3736,12 @@ public class Font implements Disposable {
                                             } else continue;
                                         }
                                         if ((char) curr == '{') {
-                                            glyphBuffer.add(curr);
                                             curly = true;
                                             continue;
                                         }
 
                                         float adv = xAdvance(font, scaleX, curr);
                                         change += adv;
-                                        if (--leading < 0) {
-                                            if (glyphBuffer.size == 1) {
-                                                initial = false;
-                                            }
-
-                                        }
                                     }
                                     for (int e = 0; e < ellipsis.length(); e++) {
                                         curr = current | ellipsis.charAt(e);
@@ -3801,7 +3790,6 @@ public class Font implements Disposable {
                                 return appendTo;
                             }
                         }
-
                     } else {
 
                         //// WRAP VISIBLE
