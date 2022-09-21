@@ -67,7 +67,10 @@ public class TextraField extends Widget implements Disableable {
 	static protected final char NEWLINE = '\n';
 	static protected final char TAB = '\t';
 	static protected final char DELETE = 127;
-	static protected final char BULLET = 8226;
+	/**
+	 * Used as the default char to replace content when {@link #isPasswordMode() passwordMode} is on.
+	 */
+	public static final char BULLET = 8226;
 
 	static private final Vector2 tmp1 = new Vector2();
 	static private final Vector2 tmp2 = new Vector2();
@@ -143,6 +146,7 @@ public class TextraField extends Widget implements Disableable {
 		setText(text);
 		setSize(getPrefWidth(), getPrefHeight());
 		label.skipToTheEnd(true, true);
+		updateDisplayText();
 	}
 
 	public TextraField(@Null String text, TextFieldStyle style, Font replacementFont) {
@@ -157,6 +161,7 @@ public class TextraField extends Widget implements Disableable {
 		setText(text);
 		setSize(getPrefWidth(), getPrefHeight());
 		label.skipToTheEnd(true, true);
+		updateDisplayText();
 	}
 
 	protected void initialize () {
@@ -763,19 +768,20 @@ public class TextraField extends Widget implements Disableable {
 	/** If true, the text in this text field will be shown as bullet characters.
 	 * @see #setPasswordCharacter(char) */
 	public void setPasswordMode (boolean passwordMode) {
-		this.passwordMode = passwordMode;
-		updateDisplayText();
+		if(this.passwordMode != (this.passwordMode = passwordMode))
+			updateDisplayText();
 	}
 
 	public boolean isPasswordMode () {
 		return passwordMode;
 	}
 
-	/** Sets the password character for the text field. The character must be present in the {@link Font}. Default is 149
-	 * (bullet). */
+	/** Sets the password character for the text field. If the character is not present in the {@link Font}, this does
+	 * nothing. Default is 8226 (the bullet char {@code •} , Unicode 0x2022). */
 	public void setPasswordCharacter (char passwordCharacter) {
-		this.passwordCharacter = passwordCharacter;
-		if (passwordMode) updateDisplayText();
+		if (label.font.mapping.containsKey(passwordCharacter) &&
+				this.passwordCharacter != (this.passwordCharacter = passwordCharacter) && passwordMode)
+			updateDisplayText();
 	}
 
 	public void setBlinkTime (float blinkTime) {
