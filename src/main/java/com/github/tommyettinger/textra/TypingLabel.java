@@ -1021,6 +1021,40 @@ public class TypingLabel extends TextraLabel {
         }
     }
 
+    public void insertInLayout(Layout layout, int index, long newGlyph) {
+        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
+            LongArray glyphs = layout.getLine(i).glyphs;
+            if (index <= glyphs.size) {
+                glyphs.insert(index, newGlyph);
+                return;
+            } else
+                index -= glyphs.size;
+        }
+    }
+
+    public void insertInLayout(Layout layout, int index, CharSequence text) {
+        long current = 0xFFFFFFFE00000000L;
+        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
+            LongArray glyphs = layout.getLine(i).glyphs;
+            if (index < glyphs.size) { // inserting mid-line
+                current = glyphs.get(index) & 0xFFFFFFFFFFFF0000L;
+                for (int j = 0; j < text.length(); j++) {
+                    glyphs.insert(index + j, current | text.charAt(j));
+                }
+                return;
+            } else if (index == glyphs.size) { // appending to a line
+                if(index != 0)
+                    current = glyphs.get(index - 1) & 0xFFFFFFFFFFFF0000L;
+                for (int j = 0; j < text.length(); j++) {
+                    glyphs.insert(index + j, current | text.charAt(j));
+                }
+                return;
+            } else {
+                index -= glyphs.size;
+            }
+        }
+    }
+
     public void setInWorkingLayout(int index, long newGlyph) {
         // TODO: verify that `n = workingLayout.lines()` is correct, not `n = layout.lines()`
         for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
