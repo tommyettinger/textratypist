@@ -50,22 +50,7 @@ public class ImageTextraButton extends Button {
     }
 
     public ImageTextraButton(@Null String text, ImageTextButtonStyle style) {
-        super(style);
-        this.style = style;
-
-        defaults().space(3);
-
-        image = newImage();
-
-        label = newLabel(text, new LabelStyle(style.font, style.fontColor));
-        label.setAlignment(Align.center);
-
-        add(image);
-        add(label);
-
-        setStyle(style);
-
-        setSize(getPrefWidth(), getPrefHeight());
+        this(text, style, new Font(style.font));
     }
 
     public ImageTextraButton(@Null String text, Skin skin, Font replacementFont) {
