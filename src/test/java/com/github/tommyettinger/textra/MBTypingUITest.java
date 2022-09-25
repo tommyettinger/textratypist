@@ -35,7 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class GSTypingUITest extends InputAdapter implements ApplicationListener {
+public class MBTypingUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
 		"And another one3", "The meaning of life3", "Is hard to come by3", "This is a list entry4", "And another one4",
@@ -53,7 +53,7 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.enable();
-		skin = new Skin(Gdx.files.internal("gs/skin.json"));
+		skin = new Skin(Gdx.files.internal("mb/eight.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
 		TextureRegion image = new TextureRegion(texture1);
@@ -66,7 +66,7 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 //				.scale(2, 2).useIntegerPositions(false);
 		final Font font =
 //				KnownFonts.getCozette();
-				new Font(skin.getFont("Cozette-standard"), 0f, 0f, 0f, 0f).useIntegerPositions(true);
+				new Font(skin.getFont("font"));
 //		KnownFonts.getStandardFamily()
 //				new Font(skin.get(Label.LabelStyle.class).font)
 //				.useIntegerPositions(true);
@@ -87,15 +87,19 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 		ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-//		ImageTypingButton iconButton = new ImageTypingButton("jóÓetcjóÓetcjóÓetc", style, font);
-		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
-		iconButton.getLabel().useIntegerPositions(true);
+//		ImageTextraButton iconButton = new ImageTextraButton("jóÓetcjóÓetcjóÓetc", style);
+		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style);
 
-		TypingButton buttonMulti = new TypingButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "default", font);
-		buttonMulti.useIntegerPositions(true);
-//		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle");
-		Button imgButton = new Button(new Image(image), skin);
-		Button imgToggleButton = new Button(new Image(image), skin, "default");
+//		TextraButton buttonMulti = new TextraButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "default");
+		TextraButton buttonMulti = new TextraButton("Multiline\nTextra\nToggle", skin, "default");
+
+		ImageTextButton basicIconButton = new ImageTextButton("[/]d i a b e t i c ?", style);
+
+//		TextraButton buttonMulti = new TextraButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "default");
+		TextButton basicButtonMulti = new TextButton("Multiline\nText\nToggle", skin, "default");
+
+//		Button imgButton = new Button(new Image(image), skin);
+//		Button imgToggleButton = new Button(new Image(image), skin, "default");
 
 		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin);
 		checkBox.setChecked(true);
@@ -127,7 +131,7 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TypingLabel minSizeLabel = new TypingLabel("[@Medieval]minWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
+		TypingLabel minSizeLabel = new TypingLabel("[@Medieval]minWidth cell", skin); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
@@ -135,7 +139,7 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin);
 		fpsLabel.setAlignment(Align.center);
 		// configures an example of a TextField in password mode.
-		final TypingLabel passwordLabel = new TypingLabel("[@Medieval]Textfield in [~]secure[] password mode: ", skin, font);
+		final TypingLabel passwordLabel = new TypingLabel("[@Medieval]Textfield in [~]secure[] password mode: ", skin);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
@@ -146,8 +150,8 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 			skin));
 		Table tooltipTable = new Table(skin);
 		tooltipTable.pad(10);
-		tooltipTable.add(new TextraButton("Fancy tooltip!", skin, font));
-		imgButton.addListener(new Tooltip<>(tooltipTable));
+		tooltipTable.add(new TextraButton("Fancy tooltip!", skin));
+		basicIconButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
 		TextraWindow window = new TextraWindow("TextraDialog", skin);
@@ -158,8 +162,8 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 		window.row().fill().expandX();
 		window.add(iconButton);
 		window.add(buttonMulti);
-		window.add(imgButton);
-		window.add(imgToggleButton);
+		window.add(basicButtonMulti);
+		window.add(basicIconButton);
 		window.row();
 		window.add(checkBox);
 		window.add(slider).minWidth(100).fillX().colspan(3);
@@ -192,7 +196,7 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 
 		iconButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				new TextraDialog("Some TextraDialog", skin, "dialog", font) {
+				new TextraDialog("Some TextraDialog", skin, "startup", font) {
 					protected void result (Object object) {
 						System.out.println("Chosen: " + object);
 					}
@@ -262,7 +266,7 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
 		config.useVsync(true);
 		config.setForegroundFPS(0);
-		new Lwjgl3Application(new GSTypingUITest(), config);
+		new Lwjgl3Application(new MBTypingUITest(), config);
 	}
 
 }
