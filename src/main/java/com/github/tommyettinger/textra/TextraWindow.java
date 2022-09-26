@@ -70,33 +70,7 @@ public class TextraWindow extends Table {
     }
 
     public TextraWindow(String title, WindowStyle style, boolean makeGridGlyphs) {
-        if (title == null) throw new IllegalArgumentException("title cannot be null.");
-        setTouchable(Touchable.enabled);
-        setClip(true);
-
-        titleLabel = newLabel(title, new LabelStyle(style.titleFont, style.titleFontColor));
-        font = titleLabel.getFont();
-        titleLabel.layout.ellipsis = "...";
-
-        titleTable = new Table() {
-            public void draw(Batch batch, float parentAlpha) {
-                if (drawTitleTable) super.draw(batch, parentAlpha);
-            }
-        };
-        titleTable.add(titleLabel).expandX().fillX().minWidth(0);
-        addActor(titleTable);
-
-        setStyle(style, makeGridGlyphs);
-        setWidth(150);
-        setHeight(150);
-
-        addCaptureListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                toFront();
-                return false;
-            }
-        });
-        addListener(new InternalListener());
+        this(title, style, new Font(style.titleFont, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs));
     }
 
     public TextraWindow(String title, Skin skin, Font replacementFont) {

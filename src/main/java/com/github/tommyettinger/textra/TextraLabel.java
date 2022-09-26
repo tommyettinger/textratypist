@@ -143,12 +143,7 @@ public class TextraLabel extends Widget {
      *                       may be drawn more clearly; if false, underline/strikethrough will use underscore/dash
      */
     public TextraLabel(String text, Label.LabelStyle style, boolean makeGridGlyphs) {
-        font = new Font(style.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs);
-        layout = Layout.POOL.obtain();
-        if (style.fontColor != null) layout.setBaseColor(style.fontColor);
-        this.style = style;
-        storedText = text;
-        font.markup(text, layout);
+        this(text, style, new Font(style.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs));
     }
 
     /**
