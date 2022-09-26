@@ -45,18 +45,7 @@ public class TextraCheckBox extends TextraButton {
     }
 
     public TextraCheckBox(@Null String text, CheckBoxStyle style) {
-        super(text, style);
-
-        TextraLabel label = getTextraLabel();
-        label.setAlignment(Align.left);
-
-        image = newImage();
-        image.setDrawable(style.checkboxOff);
-
-        clearChildren();
-        imageCell = add(image);
-        add(label);
-        setSize(getPrefWidth(), getPrefHeight());
+        this(text, style, new Font(style.font));
     }
 
     public TextraCheckBox(@Null String text, Skin skin, Font replacementFont) {

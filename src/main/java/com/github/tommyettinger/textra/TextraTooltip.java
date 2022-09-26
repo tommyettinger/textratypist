@@ -53,16 +53,7 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
     }
 
     public TextraTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style) {
-        super(null, manager);
-
-        final TextraLabel label = newLabel(text, style.label);
-        label.setAlignment(Align.center);
-        label.setWrap(true);
-        label.layout.setTargetWidth(style.wrapWidth);
-        getContainer().setActor(label);
-        getContainer().width(style.wrapWidth);
-        setStyle(style);
-        label.setText(text);
+        this(text, manager, style, new Font(style.label.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, false));
     }
 
     public TextraTooltip(@Null String text, Skin skin, Font replacementFont) {

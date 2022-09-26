@@ -46,12 +46,7 @@ public class TextraButton extends Button {
     }
 
     public TextraButton(@Null String text, TextButtonStyle style) {
-        super();
-        setStyle(style);
-        label = newLabel(text, new LabelStyle(style.font, style.fontColor));
-        label.setAlignment(Align.center);
-        add(label).expand().fill();
-        setSize(getPrefWidth(), getPrefHeight());
+        this(text, style, new Font(style.font));
     }
 
 
