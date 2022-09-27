@@ -3003,11 +3003,18 @@ public class Font implements Disposable {
         }
 
         // The shifts here represent how far the position was moved by handling the integer position, if that was done.
-        float xShift = (x + centerX) - (x = font.handleIntegerPosition(x + centerX));
-        float yShift = (y + centerY) - (y = font.handleIntegerPosition(y + centerY));
+        float xShift = (x) - (x = font.handleIntegerPosition(x));
+        float yShift = (y) - (y = font.handleIntegerPosition(y));
         // This moves the center to match the movement from integer position.
-        centerX -= xShift;
-        centerY -= yShift;
+        x += (centerX -= xShift);
+        y += (centerY -= yShift);
+//
+//        // The shifts here represent how far the position was moved by handling the integer position, if that was done.
+//        float xShift = (x + centerX) - (x = font.handleIntegerPosition(x + centerX));
+//        float yShift = (y + centerY) - (y = font.handleIntegerPosition(y + centerY));
+//        // This moves the center to match the movement from integer position.
+//        centerX -= xShift;
+//        centerY -= yShift;
 
         Texture tex = tr.getTexture();
         float x0 = 0f;
