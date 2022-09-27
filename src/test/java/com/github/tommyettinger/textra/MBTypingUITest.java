@@ -66,7 +66,7 @@ public class MBTypingUITest extends InputAdapter implements ApplicationListener 
 //				.scale(2, 2).useIntegerPositions(false);
 		final Font font =
 //				KnownFonts.getCozette();
-				new Font(skin.getFont("font"));
+				new Font(skin.getFont("font")).useIntegerPositions(false);
 //		KnownFonts.getStandardFamily()
 //				new Font(skin.get(Label.LabelStyle.class).font)
 //				.useIntegerPositions(true);
@@ -88,10 +88,10 @@ public class MBTypingUITest extends InputAdapter implements ApplicationListener 
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
 //		ImageTextraButton iconButton = new ImageTextraButton("jóÓetcjóÓetcjóÓetc", style);
-		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style);
+		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
 //		TextraButton buttonMulti = new TextraButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "default");
-		TextraButton buttonMulti = new TextraButton("Multiline\nTextra\nToggle", skin, "default");
+		TextraButton buttonMulti = new TextraButton("Multiline\nTextra\nToggle", skin, "default", font);
 
 		ImageTextButton basicIconButton = new ImageTextButton("[/]d i a b e t i c ?", style);
 
@@ -101,7 +101,7 @@ public class MBTypingUITest extends InputAdapter implements ApplicationListener 
 //		Button imgButton = new Button(new Image(image), skin);
 //		Button imgToggleButton = new Button(new Image(image), skin, "default");
 
-		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin);
+		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin, font);
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
@@ -131,15 +131,15 @@ public class MBTypingUITest extends InputAdapter implements ApplicationListener 
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TypingLabel minSizeLabel = new TypingLabel("[@Medieval]minWidth cell", skin); // demos SplitPane respecting widget's minWidth
+		TypingLabel minSizeLabel = new TypingLabel("[@Medieval]minWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin);
+		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin, font);
 		fpsLabel.setAlignment(Align.center);
 		// configures an example of a TextField in password mode.
-		final TypingLabel passwordLabel = new TypingLabel("[@Medieval]Textfield in [~]secure[] password mode: ", skin);
+		final TypingLabel passwordLabel = new TypingLabel("[@Medieval]Textfield in [~]secure[] password mode: ", skin, font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
