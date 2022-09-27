@@ -77,11 +77,11 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         batch = new SpriteBatch();
         colorNames = Colors.getColors().keys().toArray();
 
-        // investigating a GPU-related bug...
+        // investigating a GPU-related bug... seems fixed now, sometimes?
         // with useIntegerPositions(true), on some discrete GPUs this looks "wobbly," with an uneven baseline.
         // with useIntegerPositions(false), it seems fine?
-        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
-//        Font[] fonts = KnownFonts.getAll();
+//        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
+        Font[] fonts = KnownFonts.getAll();
         fnt = fonts[0];
         Gdx.files.local("out/").mkdirs();
         int index = 0;

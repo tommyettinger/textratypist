@@ -3002,6 +3002,13 @@ public class Font implements Disposable {
             return cellWidth;
         }
 
+        // The shifts here represent how far the position was moved by handling the integer position, if that was done.
+        float xShift = (x + centerX) - (x = font.handleIntegerPosition(x + centerX));
+        float yShift = (y + centerY) - (y = font.handleIntegerPosition(y + centerY));
+        // This moves the center to match the movement from integer position.
+        centerX -= xShift;
+        centerY -= yShift;
+
         Texture tex = tr.getTexture();
         float x0 = 0f;
         float x1 = 0f;
@@ -3021,8 +3028,6 @@ public class Font implements Disposable {
         float xc = tr.offsetX * scaleX - centerX * sizingX;
         float yt = (font.cellHeight * scale) - centerY - (tr.getRegionHeight() + tr.offsetY) * scaleY;
 
-        x = font.handleIntegerPosition(x + centerX);
-        y = font.handleIntegerPosition(y + centerY);
         if ((glyph & OBLIQUE) != 0L) {
             x0 += h * 0.2f;
             x1 -= h * 0.2f;
