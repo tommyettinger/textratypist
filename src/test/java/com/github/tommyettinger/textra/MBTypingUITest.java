@@ -65,8 +65,8 @@ public class MBTypingUITest extends InputAdapter implements ApplicationListener 
 //				"/PixPrompt.png", Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, false)
 //				.scale(2, 2).useIntegerPositions(false);
 		final Font font =
-				KnownFonts.getCozette().useIntegerPositions(true);
-//				new Font(skin.getFont("font")).useIntegerPositions(true);
+//				KnownFonts.getCozette().useIntegerPositions(true);
+				new Font(skin.getFont("font")).useIntegerPositions(true);
 //		KnownFonts.getStandardFamily()
 //				new Font(skin.get(Label.LabelStyle.class).font)
 //				.useIntegerPositions(true);

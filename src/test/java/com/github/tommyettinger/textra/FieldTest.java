@@ -27,6 +27,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -67,14 +68,16 @@ public class FieldTest extends ApplicationAdapter {
         Font.GlyphRegion pipe = new Font.GlyphRegion(solid);
         pipe.setRegionWidth(2);
         field = new TextraField(text, new TextField.TextFieldStyle(bmp, Color.WHITE.cpy(), new TextureRegionDrawable(pipe),
-                new TextureRegionDrawable(solid).tint(Color.GRAY), null), gentium);
-        field.setWidth(200);
+                new TextureRegionDrawable(solid).tint(Color.GRAY), new TextureRegionDrawable(solid).tint(Color.NAVY)), gentium);
+        field.setWidth(500);
         field.setPasswordMode(false);
         field.setHeight(gentium.cellHeight);
         field.setAlignment(left);
 
-        field.setFillParent(true);
-        stage.addActor(field);
+        Table table = new Table();
+        table.setFillParent(true);
+        table.add(field).width(500);
+        stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
 
