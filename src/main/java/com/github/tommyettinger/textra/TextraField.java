@@ -450,7 +450,9 @@ public class TextraField extends Widget implements Disableable {
 	/** Copies the contents of this TextraField to the {@link Clipboard} implementation set on this TextraField. */
 	public void copy () {
 		if (hasSelection && !passwordMode) {
-			clipboard.setContents(label.substring(Math.min(cursor, selectionStart), Math.max(cursor, selectionStart)));
+			String toCopy = label.substring(Math.min(cursor, selectionStart), Math.max(cursor, selectionStart));
+			System.out.println("Copying: " + toCopy);
+			clipboard.setContents(toCopy);
 		}
 	}
 
@@ -485,7 +487,10 @@ public class TextraField extends Widget implements Disableable {
 			buffer.append(c);
 		}
 
-		if (hasSelection) cursor = delete(fireChangeEvent);
+		if (hasSelection) {
+			System.out.println("cursor before: " + cursor);
+			System.out.println("cursor after: " + (cursor = delete(fireChangeEvent)));
+		}
 		if (fireChangeEvent)
 			changeText(cursor, buffer);
 		else
@@ -505,20 +510,22 @@ public class TextraField extends Widget implements Disableable {
 
 	String insert (int position, CharSequence text, String to) {
 		if (to.length() == 0) return text.toString();
-		return to.substring(0, position) + text + to.substring(position, to.length());
+		return to.substring(0, position) + text + to.substring(position);
 	}
 
 	int delete (boolean fireChangeEvent) {
 		int from = selectionStart;
 		int to = cursor;
 		int minIndex = Math.min(from, to);
-		int maxIndex = Math.max(from, to);
-		String newText = (minIndex > 0 ? text.substring(0, minIndex) : "")
-			+ (maxIndex < text.length() ? text.substring(maxIndex, text.length()) : "");
+		int maxIndex = Math.max(from, to) - 1;
+		if(minIndex < maxIndex)
+			label.layout.getLine(0).glyphs.removeRange(minIndex, maxIndex);
+//		String newText = (minIndex > 0 ? text.substring(0, minIndex) : "")
+//			+ (maxIndex < text.length() ? text.substring(maxIndex) : "");
 		if (fireChangeEvent)
-			changeText(text, newText);
+			changeText(text, label.toString());
 		else
-			text = newText;
+			text = label.toString();
 		clearSelection();
 		return minIndex;
 	}
