@@ -521,12 +521,10 @@ public class TextraField extends Widget implements Disableable {
 		LongArray glyphs = label.layout.getLine(0).glyphs;
 		if(glyphs.size > 0 && minIndex < maxIndex - 1)
 			glyphs.removeRange(minIndex, Math.max(Math.min(glyphs.size - 1, maxIndex), 0));
-//		String newText = (minIndex > 0 ? text.substring(0, minIndex) : "")
-//			+ (maxIndex < text.length() ? text.substring(maxIndex) : "");
 		if (fireChangeEvent)
-			changeText(text, label.toString());
+			changeText(text, label.layout.toString());
 		else
-			text = label.toString();
+			text = label.layout.toString();
 		clearSelection();
 		return minIndex;
 	}
