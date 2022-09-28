@@ -636,6 +636,9 @@ public class TextraField extends Widget implements Disableable {
 		clearSelection();
 		String oldText = text;
 		text = "";
+		label.layout.getLine(0).glyphs.clear();
+		cursor = 0;
+		hasSelection = false;
 		paste(str, false);
 		if (programmaticChangeEvents)
 			changeText(oldText, text);
@@ -1124,7 +1127,8 @@ public class TextraField extends Widget implements Disableable {
 						if (!withinMaxLength(text.length() - (hasSelection ? Math.abs(cursor - selectionStart) : 0))) return true;
 						if (hasSelection) cursor = delete(false);
 						String insertion = enter ? "\n" : String.valueOf(character);
-						text = insert(cursor++, insertion, text);
+						insert(cursor++, insertion);
+						text = label.layout.toString();
 					}
 					if (changeText(oldText, text)) {
 						long time = System.currentTimeMillis();
