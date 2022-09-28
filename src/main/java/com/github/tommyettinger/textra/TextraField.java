@@ -518,8 +518,9 @@ public class TextraField extends Widget implements Disableable {
 		int to = cursor;
 		int minIndex = Math.min(from, to);
 		int maxIndex = Math.max(from, to) - 1;
-		if(minIndex < maxIndex)
-			label.layout.getLine(0).glyphs.removeRange(minIndex, maxIndex);
+		LongArray glyphs = label.layout.getLine(0).glyphs;
+		if(glyphs.size > 0 && minIndex < maxIndex - 1)
+			glyphs.removeRange(minIndex, Math.max(Math.min(glyphs.size - 1, maxIndex), 0));
 //		String newText = (minIndex > 0 ? text.substring(0, minIndex) : "")
 //			+ (maxIndex < text.length() ? text.substring(maxIndex) : "");
 		if (fireChangeEvent)
@@ -1098,6 +1099,9 @@ public class TextraField extends Widget implements Disableable {
 				boolean enter = character == CARRIAGE_RETURN || character == NEWLINE;
 				boolean delete = character == DELETE;
 				boolean backspace = character == BACKSPACE;
+				if(character == '['){
+					character = UIUtils.shift() ? '{' : '\u0002';
+				}
 				boolean add = enter ? writeEnters : (!onlyFontChars || label.font.mapping.containsKey(character));
 				boolean remove = backspace || delete;
 				if (add || remove) {
