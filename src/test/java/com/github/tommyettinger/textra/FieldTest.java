@@ -54,16 +54,16 @@ public class FieldTest extends ApplicationAdapter {
         bmp.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         Font gentium = new Font(bmp, 0f, 10f, 0f, 0f);
 
-        String text =
-                "[*]Локус контроля[*] - свойство " +
-                "личности приписывать " +
-                "свои неудачи и успехи " +
-                "либо внешним факторам " +
-                "(погода, везение, другие " +
-                "люди, судьба-злодейка), " +
-                "либо внутренним (я сам, " +
-                "моё отношение, мои" +
-                "действия)";
+        String text = "22";
+//                "[*]Локус контроля[*] - свойство " +
+//                "личности приписывать " +
+//                "свои неудачи и успехи " +
+//                "либо внешним факторам " +
+//                "(погода, везение, другие " +
+//                "люди, судьба-злодейка), " +
+//                "либо внутренним (я сам, " +
+//                "моё отношение, мои" +
+//                "действия)";
         Font.GlyphRegion solid = gentium.mapping.get(gentium.solidBlock);
         Font.GlyphRegion pipe = new Font.GlyphRegion(solid);
         pipe.setRegionWidth(2);

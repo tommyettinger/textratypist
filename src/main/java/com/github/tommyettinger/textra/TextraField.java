@@ -519,7 +519,7 @@ public class TextraField extends Widget implements Disableable {
 		int minIndex = Math.min(from, to);
 		int maxIndex = Math.max(from, to) - 1;
 		LongArray glyphs = label.layout.getLine(0).glyphs;
-		if(glyphs.size > 0 && minIndex < maxIndex - 1)
+		if(glyphs.size > 0 && minIndex <= maxIndex)
 			glyphs.removeRange(minIndex, Math.max(Math.min(glyphs.size - 1, maxIndex), 0));
 		if (fireChangeEvent)
 			changeText(text, label.layout.toString());
@@ -1125,7 +1125,8 @@ public class TextraField extends Widget implements Disableable {
 						// Character may be added to the text.
 						if (!enter && filter != null && !filter.acceptChar(TextraField.this, character)) return true;
 						if (!withinMaxLength(text.length() - (hasSelection ? Math.abs(cursor - selectionStart) : 0))) return true;
-						if (hasSelection) cursor = delete(false);
+						if (hasSelection)
+							cursor = delete(false);
 						String insertion = enter ? "\n" : String.valueOf(character);
 						insert(cursor++, insertion);
 						text = label.layout.toString();
@@ -1135,7 +1136,7 @@ public class TextraField extends Widget implements Disableable {
 						if (time - 750 > lastChangeTime) undoText = oldText;
 						lastChangeTime = time;
 						updateDisplayText();
-					} else
+					} else if(!text.equals(oldText))
 						cursor = oldCursor;
 				}
 			}
