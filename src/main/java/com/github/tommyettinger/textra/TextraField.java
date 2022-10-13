@@ -374,12 +374,12 @@ public class TextraField extends Widget implements Disableable {
 
 	protected float getTextY (Font font, @Null Drawable background) {
 		float height = getHeight();
-		float textY = font.descent * font.scaleY;
+		float textY = 0;//font.descent * font.scaleY;
 		if (background != null) {
 			float bottom = background.getBottomHeight();
-			textY = textY + (height - background.getTopHeight() - bottom) / 2 + bottom;
+			textY = textY + (height - background.getTopHeight() - bottom) * 0.5f + bottom;
 		} else {
-			textY = textY + height / 2;
+			textY = textY + height * 0.5f;
 		}
 		if (font.integerPosition) textY = (int)textY;
 		return textY;
@@ -387,7 +387,7 @@ public class TextraField extends Widget implements Disableable {
 
 	/** Draws selection rectangle **/
 	protected void drawSelection (Drawable selection, Batch batch, Font font, float x, float y) {
-		selection.draw(batch, x + textOffset + selectionX + fontOffset, y - font.cellHeight - font.descent * font.scaleY, selectionWidth,
+		selection.draw(batch, x + textOffset + selectionX + fontOffset, y - font.cellHeight * 0.5f, selectionWidth,
 			font.cellHeight);
 	}
 
@@ -395,7 +395,7 @@ public class TextraField extends Widget implements Disableable {
 	protected void drawCursor (Drawable cursorPatch, Batch batch, Font font, float x, float y) {
 		cursorPatch.draw(batch,
 			x + textOffset + glyphPositions.get(cursor) - glyphPositions.get(visibleTextStart) + fontOffset,
-			y - font.cellHeight - font.descent * font.scaleY, cursorPatch.getMinWidth(), font.cellHeight);
+			y - font.cellHeight * 0.5f, cursorPatch.getMinWidth(), font.cellHeight);
 	}
 
 	void updateDisplayText () {
