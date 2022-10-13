@@ -48,12 +48,14 @@ public class FieldTest extends ApplicationAdapter {
         stage = new Stage(viewport);
         stage.setDebugAll(true);
 
-        BitmapFont bmp = new BitmapFont(Gdx.files.internal("knownFonts/Gentium-standard.fnt"));
-        bmp.getData().setScale(0.5f);
-        bmp.setUseIntegerPositions(false);
-        bmp.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        Font gentium = new Font(bmp, 0f, 10f, 0f, 0f);
+//        BitmapFont bmp = new BitmapFont(Gdx.files.internal("knownFonts/Gentium-standard.fnt"));
+//        bmp.getData().setScale(0.5f);
+//        bmp.setUseIntegerPositions(false);
+//        bmp.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+//        Font font = new Font(bmp, 0f, 10f, 0f, 0f);
 
+        Font font = KnownFonts.getQuanPixel().scale(2, 2);
+//        Font font = KnownFonts.getAStarry().scale(1, 2).fitCell(8, 16, false);
         String text = "22";
 //                "[*]Локус контроля[*] - свойство " +
 //                "личности приписывать " +
@@ -64,14 +66,14 @@ public class FieldTest extends ApplicationAdapter {
 //                "либо внутренним (я сам, " +
 //                "моё отношение, мои" +
 //                "действия)";
-        Font.GlyphRegion solid = gentium.mapping.get(gentium.solidBlock);
+        Font.GlyphRegion solid = font.mapping.get(font.solidBlock);
         Font.GlyphRegion pipe = new Font.GlyphRegion(solid);
         pipe.setRegionWidth(2);
-        field = new TextraField(text, new TextField.TextFieldStyle(bmp, Color.WHITE.cpy(), new TextureRegionDrawable(pipe),
-                new TextureRegionDrawable(solid).tint(Color.GRAY), new TextureRegionDrawable(solid).tint(Color.NAVY)), gentium);
+        field = new TextraField(text, new TextField.TextFieldStyle(null, Color.WHITE.cpy(), new TextureRegionDrawable(pipe),
+                new TextureRegionDrawable(solid).tint(Color.GRAY), new TextureRegionDrawable(solid).tint(Color.NAVY)), font);
         field.setWidth(500);
         field.setPasswordMode(false);
-        field.setHeight(gentium.cellHeight);
+        field.setHeight(font.cellHeight);
         field.setAlignment(left);
 
         Table table = new Table();
