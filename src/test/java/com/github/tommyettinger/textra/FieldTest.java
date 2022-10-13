@@ -54,8 +54,9 @@ public class FieldTest extends ApplicationAdapter {
 //        bmp.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 //        Font font = new Font(bmp, 0f, 10f, 0f, 0f);
 
-        Font font = KnownFonts.getQuanPixel().scale(2, 2);
-//        Font font = KnownFonts.getAStarry().scale(1, 2).fitCell(8, 16, false);
+//        Font font = KnownFonts.getQuanPixel().scale(2, 2);
+        Font font = KnownFonts.getAStarry().scale(2, 3).useIntegerPositions(true);
+        System.out.println("descent: "+font.descent + ", lineHeight: " + font.cellHeight);
         String text = "22";
 //                "[*]Локус контроля[*] - свойство " +
 //                "личности приписывать " +
