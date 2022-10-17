@@ -29,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -54,8 +55,8 @@ public class FieldTest extends ApplicationAdapter {
 //        bmp.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 //        Font font = new Font(bmp, 0f, 10f, 0f, 0f);
 
-//        Font font = KnownFonts.getQuanPixel().scale(2, 2);
-        Font font = KnownFonts.getAStarry().scale(2, 3).useIntegerPositions(true);
+        Font font = new Font("RaeleusScriptius-standard.fnt", Font.DistanceFieldType.STANDARD);
+//        Font font = KnownFonts.getAStarry().scale(2, 3).useIntegerPositions(true);
         System.out.println("descent: "+font.descent + ", lineHeight: " + font.cellHeight);
         String text = "22";
 //                "[*]Локус контроля[*] - свойство " +
@@ -68,10 +69,17 @@ public class FieldTest extends ApplicationAdapter {
 //                "моё отношение, мои" +
 //                "действия)";
         Font.GlyphRegion solid = font.mapping.get(font.solidBlock);
-        Font.GlyphRegion pipe = new Font.GlyphRegion(solid);
-        pipe.setRegionWidth(2);
-        field = new TextraField(text, new TextField.TextFieldStyle(null, Color.WHITE.cpy(), new TextureRegionDrawable(pipe),
-                new TextureRegionDrawable(solid).tint(Color.GRAY), new TextureRegionDrawable(solid).tint(Color.NAVY)), font);
+        Drawable pipe = new TextureRegionDrawable(solid),
+                selection = new TextureRegionDrawable(solid).tint(Color.GRAY),
+                background = new TextureRegionDrawable(solid).tint(Color.NAVY);
+        pipe.setMinWidth(2);
+        pipe.setMinHeight(font.cellHeight);
+        selection.setMinWidth(font.cellWidth);
+        selection.setMinHeight(font.cellHeight);
+        background.setMinHeight(1);
+        background.setMinWidth(1);
+        field = new TextraField(text, new TextField.TextFieldStyle(null, Color.WHITE.cpy(), pipe,
+                selection, background), font);
         field.setWidth(500);
         field.setPasswordMode(false);
         field.setHeight(font.cellHeight);
