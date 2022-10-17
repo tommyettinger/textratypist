@@ -20,6 +20,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -468,11 +469,12 @@ public class Font implements Disposable {
      * A char that will be used to draw solid blocks with {@link #drawBlocks(Batch, int[][], float, float)}, and to draw
      * box-drawing/block-element characters if {@code makeGridGlyphs} is true in the constructor. The glyph
      * that corresponds to this char should be a 1x1 pixel block of solid white pixels in most cases. Because Glamer
-     * (which generated many of the knownFonts here) places a solid block at character 0, this defaults to u0000 . There
-     * is also a test in TextraTypist, BlockStamper, that can place a tiny solid block in the lower-right corner and use
-     * that for this purpose.
+     * (which generated many of the knownFonts here) places a solid block at where there is one in Unicode, this
+     * defaults to that Unicode glyph, at u2588 . There is also a test in TextraTypist, BlockStamper, that can place a
+     * tiny solid block in the lower-right corner and use that for this purpose. You can check if a .fnt file has a
+     * solid block present by searching for {@code char id=9608} (9608 is the decimal way to write 0x2588).
      */
-    public char solidBlock = '\u0000';
+    public char solidBlock = '\u2588'; // in decimal, this is 9608
 
     /**
      * If non-null, may contain connected Font values and names/aliases to look them up with using [@Name] syntax.
@@ -497,6 +499,13 @@ public class Font implements Disposable {
      * particular {@link FontFamily}.
      */
     public String name = "Unnamed Font";
+
+    /**
+     * A white square Texture, typically 3x3, that can be used as a backup in case a Font doesn't have a solid block
+     * character available to it already (such as for many Fonts created from BitmapFonts). This will be null unless it
+     * becomes needed, and will be disposed if this Font is.
+     */
+    public Texture whiteBlock = null;
 
     /**
      * Bit flag for bold mode, as a long.
@@ -1426,18 +1435,35 @@ public class Font implements Disposable {
         if (mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
         }
-        solidBlock = mapping.containsKey(0) ? 0 : mapping.containsKey(0x2588) ? '\u2588' : '\uFFFF';
+        solidBlock = mapping.containsKey(0x2588) ? '\u2588' : mapping.containsKey(0) ? '\u0000' : '\uFFFF';
         if (makeGridGlyphs) {
             GlyphRegion block = mapping.get(solidBlock, null);
-            if (block != null) {
-                for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
-                    GlyphRegion gr = new GlyphRegion(block);
-                    gr.offsetX = Float.NaN;
-                    gr.xAdvance = cellWidth;
-                    gr.offsetY = cellHeight;
-                    mapping.put(i, gr);
-                }
+            if(block == null) {
+                Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
+                temp.setColor(Color.WHITE);
+                temp.fill();
+                whiteBlock = new Texture(3, 3, Pixmap.Format.RGBA8888);
+                whiteBlock.draw(temp, 0, 0);
+                solidBlock = '\u2588';
+                mapping.put(solidBlock, block = new GlyphRegion(new TextureRegion(whiteBlock, 1, 1, 1, 1)));
+                temp.dispose();
             }
+            for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
+                GlyphRegion gr = new GlyphRegion(block);
+                gr.offsetX = Float.NaN;
+                gr.xAdvance = cellWidth;
+                gr.offsetY = cellHeight;
+                mapping.put(i, gr);
+            }
+        } else if (!mapping.containsKey(solidBlock)) {
+            Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
+            temp.setColor(Color.WHITE);
+            temp.fill();
+            whiteBlock = new Texture(3, 3, Pixmap.Format.RGBA8888);
+            whiteBlock.draw(temp, 0, 0);
+            solidBlock = '\u2588';
+            mapping.put(solidBlock, new GlyphRegion(new TextureRegion(whiteBlock, 1, 1, 1, 1)));
+            temp.dispose();
         }
         defaultValue = mapping.get(data.missingGlyph == null ? ' ' : data.missingGlyph.id, mapping.get(' ', mapping.values().next()));
         originalCellWidth = cellWidth;
@@ -1575,19 +1601,35 @@ public class Font implements Disposable {
             mapping.put('\r', mapping.get(' '));
         }
         solidBlock =
-//                mapping.containsKey(0) ? 0 :
-                mapping.containsKey(9608) ? '\u2588' : '\uFFFF';
+                mapping.containsKey(9608) ? '\u2588' : mapping.containsKey(0) ? '\u0000' : '\uFFFF';
         if (makeGridGlyphs) {
             GlyphRegion block = mapping.get(solidBlock, null);
-            if (block != null) {
-                for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
-                    GlyphRegion gr = new GlyphRegion(block);
-                    gr.offsetX = Float.NaN;
-                    gr.xAdvance = cellWidth;
-                    gr.offsetY = cellHeight;
-                    mapping.put(i, gr);
-                }
+            if(block == null) {
+                Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
+                temp.setColor(Color.WHITE);
+                temp.fill();
+                whiteBlock = new Texture(3, 3, Pixmap.Format.RGBA8888);
+                whiteBlock.draw(temp, 0, 0);
+                solidBlock = '\u2588';
+                mapping.put(solidBlock, block = new GlyphRegion(new TextureRegion(whiteBlock, 1, 1, 1, 1)));
+                temp.dispose();
             }
+            for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
+                GlyphRegion gr = new GlyphRegion(block);
+                gr.offsetX = Float.NaN;
+                gr.xAdvance = cellWidth;
+                gr.offsetY = cellHeight;
+                mapping.put(i, gr);
+            }
+        } else if (!mapping.containsKey(solidBlock)) {
+            Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
+            temp.setColor(Color.WHITE);
+            temp.fill();
+            whiteBlock = new Texture(3, 3, Pixmap.Format.RGBA8888);
+            whiteBlock.draw(temp, 0, 0);
+            solidBlock = '\u2588';
+            mapping.put(solidBlock, new GlyphRegion(new TextureRegion(whiteBlock, 1, 1, 1, 1)));
+            temp.dispose();
         }
         defaultValue = mapping.get(' ', mapping.get(0));
         originalCellWidth = cellWidth;
@@ -4758,6 +4800,8 @@ public class Font implements Disposable {
         Layout.POOL.free(tempLayout);
         if (shader != null)
             shader.dispose();
+        if(whiteBlock != null)
+            whiteBlock.dispose();
     }
 
     /**
