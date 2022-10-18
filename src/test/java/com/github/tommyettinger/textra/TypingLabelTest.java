@@ -272,7 +272,6 @@ public class TypingLabelTest extends ApplicationAdapter {
                             )
                     );
                 } else if("COPY".equals(event)) {
-                    System.out.println("Copied text from " + label.selectionStart + " to " + label.selectionEnd);
                     System.out.println(label.substring(label.selectionStart, label.selectionEnd));
                 } else {
                     Color.rgba8888ToColor(flashColor, ColorUtils.describe(event));
