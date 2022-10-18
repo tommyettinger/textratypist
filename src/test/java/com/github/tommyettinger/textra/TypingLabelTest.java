@@ -272,7 +272,8 @@ public class TypingLabelTest extends ApplicationAdapter {
                             )
                     );
                 } else if("COPY".equals(event)) {
-                    System.out.println(label.substring(label.selectionStart, label.selectionEnd));
+                    System.out.println("Selection start: " + label.selectionStart + " Selection end: " + label.selectionEnd);
+                    System.out.println(label.substring(label.selectionStart, label.selectionEnd+1));
                 } else {
                     Color.rgba8888ToColor(flashColor, ColorUtils.describe(event));
                     ScreenUtils.clear(flashColor);
