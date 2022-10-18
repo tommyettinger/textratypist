@@ -174,12 +174,12 @@ public class ColorUtils {
      */
     public static int lerpColors(final int s, final int e, final float change) {
         final int
-                sR = (s & 0xFF), sG = (s >>> 8) & 0xFF, sB = (s >>> 16) & 0xFF, sA = s >>> 25 & 0x7F,
-                eR = (e & 0xFF), eG = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eA = e >>> 25 & 0x7F;
-        return (((int) (sR + change * (eR - sR)) & 0xFF)
-                | (((int) (sG + change * (eG - sG)) & 0xFF) << 8)
-                | (((int) (sB + change * (eB - sB)) & 0xFF) << 16)
-                | (((int) (sA + change * (eA - sA)) & 0x7F) << 25));
+                sA = (s & 0xFE), sB = (s >>> 8) & 0xFF, sG = (s >>> 16) & 0xFF, sR = (s >>> 24) & 0xFF,
+                eA = (e & 0xFE), eB = (e >>> 8) & 0xFF, eG = (e >>> 16) & 0xFF, eR = (e >>> 24) & 0xFF;
+        return   ((((int) (sR + change * (eR - sR)) & 0xFF) << 24)
+                | (((int) (sG + change * (eG - sG)) & 0xFF) << 16)
+                | (((int) (sB + change * (eB - sB)) & 0xFF) << 8)
+                | (((int) (sA + change * (eA - sA)) & 0xFE)     ));
     }
 
     /**
