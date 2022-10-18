@@ -32,6 +32,7 @@ import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.github.tommyettinger.textra.utils.ColorUtils;
 
 import java.lang.StringBuilder;
 import java.util.Arrays;
@@ -779,6 +780,7 @@ public class TypingLabel extends TextraLabel {
 
         batch.getColor().set(getColor()).a *= parentAlpha;
         batch.setColor(batch.getColor());
+        int bgc = 0;
         final int lines = workingLayout.lines();
         float baseX = getX(), baseY = getY();
 
@@ -924,7 +926,11 @@ public class TypingLabel extends TextraLabel {
                     }
                 }
                 ++globalIndex;
-                single = f.drawGlyph(batch, glyph, x + xChange + offsets.get(o++), y + yChange + offsets.get(o++), rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++));
+                if(selectable && selectionStart <= globalIndex && selectionEnd >= globalIndex)
+                    bgc = ColorUtils.offset((int)(glyph >>> 32), 1f);
+                else
+                    bgc = 0;
+                single = f.drawGlyph(batch, glyph, x + xChange + offsets.get(o++), y + yChange + offsets.get(o++), rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++), bgc);
                 if(trackingInput){
                     float xx = x + xChange + offsets.get(o-2), yy = y + yChange + offsets.get(o-1);
                     if(xx <= inX && inX <= xx + single && yy <= inY && inY <= yy + glyphs.height) {

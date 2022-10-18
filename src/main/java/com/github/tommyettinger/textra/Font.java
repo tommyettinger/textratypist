@@ -2969,7 +2969,7 @@ public class Font implements Disposable {
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text
      */
     public float drawGlyph(Batch batch, long glyph, float x, float y) {
-        return drawGlyph(batch, glyph, x, y, 0f, 1f, 1f);
+        return drawGlyph(batch, glyph, x, y, 0f, 1f, 1f, 0);
     }
 
     /**
@@ -2987,7 +2987,7 @@ public class Font implements Disposable {
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text along the given rotation
      */
     public float drawGlyph(Batch batch, long glyph, float x, float y, float rotation) {
-        return drawGlyph(batch, glyph, x, y, rotation, 1f, 1f);
+        return drawGlyph(batch, glyph, x, y, rotation, 1f, 1f, 0);
     }
 
     /**
@@ -3009,6 +3009,28 @@ public class Font implements Disposable {
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text along the given rotation
      */
     public float drawGlyph(Batch batch, long glyph, float x, float y, float rotation, float sizingX, float sizingY) {
+        return drawGlyph(batch, glyph, x, y, rotation, sizingX, sizingY, 0);
+    }
+    /**
+     * Draws the specified glyph with a Batch at the given x, y position, with the specified counterclockwise
+     * rotation, measured in degrees, and with the specified x and y sizing/scaling, which are meant to be treated
+     * independently of the incremental scales in a glyph, and can be smooth. The glyph contains multiple types of data
+     * all packed into one {@code long}: the bottom 16 bits store a {@code char}, the roughly 16 bits above that store
+     * formatting (bold, underline, superscript, etc.), and the remaining upper 32 bits store color as RGBA. Rotation is
+     * not stored in the long glyph; it may change frequently or as part of an animation. Sizing isn't part of the glyph
+     * either, and is meant to be handled by Effects in TypingLabel, and does not affect the text metrics.
+     *
+     * @param batch    typically a SpriteBatch
+     * @param glyph    a long storing a char, format, and color; typically part of a longer formatted text as a LongList
+     * @param x        the x position in world space to start drawing the glyph at (lower left corner)
+     * @param y        the y position in world space to start drawing the glyph at (lower left corner)
+     * @param rotation what angle to rotate the glyph, measured in degrees counterclockwise
+     * @param sizingX  the multiple for the glyph to be stretched on x, where 1 is "no change"; does not affect metrics
+     * @param sizingY  the multiple for the glyph to be stretched on y, where 1 is "no change"; does not affect metrics
+     * @param backgroundColor an RGBA8888 color to use for a block background behind the glyph; won't be drawn if 0
+     * @return the distance in world units the drawn glyph uses up for width, as in a line of text along the given rotation
+     */
+    public float drawGlyph(Batch batch, long glyph, float x, float y, float rotation, float sizingX, float sizingY, int backgroundColor) {
         final float sin = MathUtils.sinDeg(rotation);
         final float cos = MathUtils.cosDeg(rotation);
 
@@ -3018,12 +3040,11 @@ public class Font implements Disposable {
         char c;
         GlyphRegion tr = font.mapping.get(c = (char) glyph);
         if (tr == null) return 0f;
-        float color = NumberUtils.intBitsToFloat(((int) (batch.getColor().a * (glyph >>> 33 & 127)) << 25)
+        float color = NumberUtils.intBitsToFloat(
+                  (int) (batch.getColor().a * (glyph >>> 33 & 127)) << 25
                 | (int)(batch.getColor().r * (glyph >>> 56))
                 | (int)(batch.getColor().g * (glyph >>> 48 & 0xFF)) << 8
                 | (int)(batch.getColor().b * (glyph >>> 40 & 0xFF)) << 16);
-//                | (0xFFFFFF & Integer.reverseBytes((int) (glyph >>> 32))));
-
         float scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
         float scaleX;
         float scaleY;
@@ -3037,8 +3058,21 @@ public class Font implements Disposable {
         float centerX = font.cellWidth * scaleX * 0.5f;
         float centerY = font.cellHeight * scaleY * 0.5f;
 
+        // The shifts here represent how far the position was moved by handling the integer position, if that was done.
+        float xShift = (x) - (x = font.handleIntegerPosition(x));
+        float yShift = (y) - (y = font.handleIntegerPosition(y));
+        // This moves the center to match the movement from integer position.
+        x += (centerX -= xShift);
+        y += (centerY -= yShift);
+
         // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
         if (tr.offsetX != tr.offsetX) {
+            if(backgroundColor != 0) {
+                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(solidBlock, tr),
+                        NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
+                        x - cellWidth * (sizingX - 1.0f) + centerX, y - cellHeight * (sizingY - 1.0f) + centerY,
+                        cellWidth * sizingX, cellHeight * sizingY, rotation);
+            }
             float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
                     x - cellWidth * (sizingX - 1.0f) + centerX, y - cellHeight * (sizingY - 1.0f) + centerY,
@@ -3046,13 +3080,6 @@ public class Font implements Disposable {
             return cellWidth;
         }
 
-        // The shifts here represent how far the position was moved by handling the integer position, if that was done.
-        float xShift = (x) - (x = font.handleIntegerPosition(x));
-        float yShift = (y) - (y = font.handleIntegerPosition(y));
-        // This moves the center to match the movement from integer position.
-        x += (centerX -= xShift);
-        y += (centerY -= yShift);
-//
 //        // The shifts here represent how far the position was moved by handling the integer position, if that was done.
 //        float xShift = (x + centerX) - (x = font.handleIntegerPosition(x + centerX));
 //        float yShift = (y + centerY) - (y = font.handleIntegerPosition(y + centerY));
@@ -3115,6 +3142,15 @@ public class Font implements Disposable {
                 changedW *= 0.5f;
         }
 
+        if(backgroundColor != 0) {
+            drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(solidBlock, tr),
+                    NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
+                    x - cellWidth * (sizingX - 1.0f) + centerX, y - cellHeight * (sizingY - 1.0f) + centerY,
+                    changedW * sizingX, cellHeight * sizingY, rotation);
+        }
+
+
+        // actually draw the glyph
         vertices[2] = color;
         vertices[3] = u;
         vertices[4] = v;
