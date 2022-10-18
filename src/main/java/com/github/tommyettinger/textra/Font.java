@@ -3058,6 +3058,12 @@ public class Font implements Disposable {
         float centerX = font.cellWidth * scaleX * 0.5f;
         float centerY = font.cellHeight * scaleY * 0.5f;
 
+        float atlasOffX = 0f, atlasOffY = 0f;
+        if(c >= 0xE000 && c < 0xF800){
+            atlasOffX = -font.cellWidth * 0.25f;
+            atlasOffY = -font.cellHeight * 0.25f;
+        }
+
         // The shifts here represent how far the position was moved by handling the integer position, if that was done.
         float xShift = (x) - (x = font.handleIntegerPosition(x));
         float yShift = (y) - (y = font.handleIntegerPosition(y));
@@ -3145,7 +3151,8 @@ public class Font implements Disposable {
         if(backgroundColor != 0) {
             drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(solidBlock, tr),
                     NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
-                    x - cellWidth * (sizingX - 1.0f) + centerX, y - cellHeight * (sizingY - 1.0f) + centerY,
+                    x - cellWidth * (sizingX - 1.0f) + atlasOffX - tr.offsetX * scaleX,
+                    y - cellHeight * (sizingY - 1.0f) + atlasOffY,
                     changedW * sizingX, cellHeight * sizingY, rotation);
         }
 
