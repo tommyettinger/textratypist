@@ -76,6 +76,12 @@ public class TypingLabel extends TextraLabel {
      */
     public boolean trackingInput = false;
     /**
+     * If true, this label will allow clicking and dragging to select a range of text. Labels can be configured to copy
+     * the selected text automatically when the touch or mouse is released, or to only copy when a key is pressed. This
+     * does not allow the text to be edited unless so implemented by another class.
+     */
+    public boolean selectable = false;
+    /**
      * The global glyph index (as used by {@link #setInWorkingLayout(int, long)}) of the last glyph touched by the user.
      * If nothing in this TypingLabel was touched during the last call to {@link #draw(Batch, float)}, then this will be
      * -1 . This only changes when a click, tap, or other touch was just issued.
@@ -88,6 +94,18 @@ public class TypingLabel extends TextraLabel {
      * or a pointer is over a glyph in this.
      */
     public int overIndex = -1;
+    /**
+     * The inclusive start index for the selected text, if there is a selection. This should be -1 if there is no
+     * selection.
+     */
+    public int selectionStart = -1;
+    /**
+     * The exclusive end index for the selected text, if there is a selection. This should be -1 if there is no
+     * selection.
+     */
+    public int selectionEnd = -1;
+
+    protected boolean dragging = false;
     protected final Array<Effect> activeEffects = new Array<>(Effect.class);
     private float textSpeed = TypingConfig.DEFAULT_SPEED_PER_CHAR;
     private float charCooldown = textSpeed;
@@ -905,10 +923,27 @@ public class TypingLabel extends TextraLabel {
                 single = f.drawGlyph(batch, glyph, x + xChange + offsets.get(o++), y + yChange + offsets.get(o++), rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++));
                 if(trackingInput){
                     float xx = x + xChange + offsets.get(o-2), yy = y + yChange + offsets.get(o-1);
-                    if(xx <= inX && inX <= xx + single && yy <= inY && inY <= yy + glyphs.height){
+                    if(xx <= inX && inX <= xx + single && yy <= inY && inY <= yy + glyphs.height) {
                         overIndex = globalIndex;
-                        if(Gdx.input.justTouched() && isTouchable())
-                            lastTouchedIndex = globalIndex;
+                        if (isTouchable()) {
+                            if (Gdx.input.justTouched()) {
+                                lastTouchedIndex = globalIndex;
+                                selectionStart = -1;
+                                selectionEnd = -1;
+                            }
+                            else if(selectable) {
+                                if (Gdx.input.isTouched()) {
+                                    selectionStart = Math.min(lastTouchedIndex, globalIndex);
+                                    selectionEnd = Math.max(lastTouchedIndex, globalIndex);
+                                    dragging = true;
+                                } else if(dragging){
+                                    dragging = false;
+                                    if(selectionStart != selectionEnd){
+                                        Gdx.app.getClipboard().setContents(substring(selectionStart, selectionEnd));
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 xChange += cs * single;
