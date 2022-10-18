@@ -85,7 +85,8 @@ public class TypingLabel extends TextraLabel {
     /**
      * The global glyph index (as used by {@link #setInWorkingLayout(int, long)}) of the last glyph touched by the user.
      * If nothing in this TypingLabel was touched during the last call to {@link #draw(Batch, float)}, then this will be
-     * -1 . This only changes when a click, tap, or other touch was just issued.
+     * either -1 (if the last touch was, roughly, before the first glyph) or -2 (if the last touch was after the last
+     * glyph). This only changes when a click, tap, or other touch was just issued.
      */
     public int lastTouchedIndex = -1;
     /**
@@ -863,7 +864,8 @@ public class TypingLabel extends TextraLabel {
             inX = Gdx.input.getX();
             inY = Gdx.graphics.getBackBufferHeight() - Gdx.input.getY();
             if(!Gdx.input.isTouched())
-                lastTouchedIndex = -1;
+                lastTouchedIndex = inY < getY() ? -2 : inY > getY() + getHeight() ? -1 :
+                        inX < getX() ? -1 : inX > getX() + getWidth() ? -2 : -1;
             overIndex = -1;
         }
 
@@ -935,15 +937,16 @@ public class TypingLabel extends TextraLabel {
                             }
                             else if(selectable) {
                                 if (Gdx.input.isTouched()) {
-                                    selectionStart = Math.min(lastTouchedIndex, globalIndex);
-                                    selectionEnd = Math.max(lastTouchedIndex, globalIndex);
+                                    int adjustedIndex = (lastTouchedIndex == -2) ? getLayoutSize(workingLayout) : lastTouchedIndex;
+                                    selectionStart = Math.min(adjustedIndex, globalIndex);
+                                    selectionEnd = Math.max(adjustedIndex, globalIndex);
                                     dragging = true;
                                 } else if(dragging){
                                     dragging = false;
                                     if(selectionStart != selectionEnd){
                                         triggerEvent("COPY", true);
                                         // TODO: make this configurable so a key can trigger it
-                                        Gdx.app.getClipboard().setContents(substring(selectionStart, selectionEnd));
+                                        Gdx.app.getClipboard().setContents(substring(selectionStart, selectionEnd+1));
                                     }
                                 }
                             }
@@ -1008,9 +1011,16 @@ public class TypingLabel extends TextraLabel {
         return 0xFFFFFFL;
     }
 
+    /**
+     * Gets a String from the working layout of this label, made of only the char portions of the glyphs from start
+     * (inclusive) to end (exclusive). This can retrieve text from across multiple lines.
+     * @param start inclusive start index
+     * @param end exclusive end index
+     * @return a String made of only the char portions of the glyphs from start to end
+     */
     public String substring(int start, int end) {
         start = Math.max(0, start);
-        end = Math.min(getLayoutSize(workingLayout), end+1);
+        end = Math.min(getLayoutSize(workingLayout), end);
         int index = start;
         StringBuilder sb = new StringBuilder(end - start);
         for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
