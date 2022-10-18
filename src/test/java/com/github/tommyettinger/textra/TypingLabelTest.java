@@ -250,6 +250,9 @@ public class TypingLabelTest extends ApplicationAdapter {
         // Set variable replacements for the {VAR} token
         label.setVariable("title", "curious human");
 
+        label.selectable = true;
+        label.trackingInput = true;
+
         // Set an event listener for when the {EVENT} token is reached and for the char progression ends.
         label.setTypingListener(new TypingAdapter() {
             @Override
@@ -268,8 +271,10 @@ public class TypingLabelTest extends ApplicationAdapter {
                                     alpha(0, 2f, Interpolation.pow2)
                             )
                     );
-                }
-                else {
+                } else if("COPY".equals(event)) {
+                    System.out.println("Copied text from " + label.selectionStart + " to " + label.selectionEnd);
+                    System.out.println(label.substring(label.selectionStart, label.selectionEnd));
+                } else {
                     Color.rgba8888ToColor(flashColor, ColorUtils.describe(event));
                     ScreenUtils.clear(flashColor);
                 }

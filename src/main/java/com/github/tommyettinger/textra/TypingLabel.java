@@ -76,9 +76,10 @@ public class TypingLabel extends TextraLabel {
      */
     public boolean trackingInput = false;
     /**
-     * If true, this label will allow clicking and dragging to select a range of text. Labels can be configured to copy
-     * the selected text automatically when the touch or mouse is released, or to only copy when a key is pressed. This
-     * does not allow the text to be edited unless so implemented by another class.
+     * If true, this label will allow clicking and dragging to select a range of text, if {@link #trackingInput} is also
+     * true.
+     * Labels can be configured to copy the selected text automatically when the touch or mouse is released, or to only
+     * copy when a key is pressed. This does not allow the text to be edited unless so implemented by another class.
      */
     public boolean selectable = false;
     /**
@@ -856,13 +857,14 @@ public class TypingLabel extends TextraLabel {
         baseY += cs * 0.5f * (font.cellHeight);
 
         int globalIndex = -1;
-        lastTouchedIndex = -1;
-        overIndex = -1;
 
         int inX = 0, inY = 0;
         if(trackingInput) {
             inX = Gdx.input.getX();
             inY = Gdx.graphics.getBackBufferHeight() - Gdx.input.getY();
+            if(!Gdx.input.isTouched())
+                lastTouchedIndex = -1;
+            overIndex = -1;
         }
 
         EACH_LINE:
@@ -939,6 +941,8 @@ public class TypingLabel extends TextraLabel {
                                 } else if(dragging){
                                     dragging = false;
                                     if(selectionStart != selectionEnd){
+                                        triggerEvent("COPY", true);
+                                        // TODO: make this configurable so a key can trigger it
                                         Gdx.app.getClipboard().setContents(substring(selectionStart, selectionEnd));
                                     }
                                 }
@@ -1005,15 +1009,23 @@ public class TypingLabel extends TextraLabel {
     }
 
     public String substring(int start, int end) {
+        start = Math.max(0, start);
+        end = Math.min(getLayoutSize(workingLayout), end);
         int index = start;
+        StringBuilder sb = new StringBuilder(end - start);
         for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = workingLayout.getLine(i).glyphs;
             if (index < glyphs.size) {
-                StringBuilder sb = new StringBuilder(end - start);
-                for (int fin = index - start + end; index < fin; index++) {
-                    sb.append((char) glyphs.get(index));
+                int oldIndex = index;
+                for (int fin = index - start + end; index < fin && index < glyphs.size; index++) {
+                    char c = (char) glyphs.get(index);
+                    if(c == 2) c = '[';
+                    sb.append(c);
                 }
-                return sb.toString();
+                if(sb.length() == end - start)
+                    return sb.toString();
+                else
+                    index = oldIndex - glyphs.size;
             }
             else
                 index -= glyphs.size;
