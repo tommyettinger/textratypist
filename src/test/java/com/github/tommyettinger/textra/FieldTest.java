@@ -55,7 +55,7 @@ public class FieldTest extends ApplicationAdapter {
 //        bmp.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 //        Font font = new Font(bmp, 0f, 10f, 0f, 0f);
 
-        Font font = new Font("RaeleusScriptius-standard.fnt", Font.DistanceFieldType.STANDARD);
+        Font font = new Font("RaeleusScriptius-standard.fnt", Font.DistanceFieldType.STANDARD, 0, 8, 0, 0);
 //        Font font = KnownFonts.getAStarry().scale(2, 3).useIntegerPositions(true);
         System.out.println("descent: "+font.descent + ", lineHeight: " + font.cellHeight);
         String text = "22";
