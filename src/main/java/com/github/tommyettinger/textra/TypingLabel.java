@@ -1010,22 +1010,20 @@ public class TypingLabel extends TextraLabel {
 
     public String substring(int start, int end) {
         start = Math.max(0, start);
-        end = Math.min(getLayoutSize(workingLayout), end);
+        end = Math.min(getLayoutSize(workingLayout), end+1);
         int index = start;
         StringBuilder sb = new StringBuilder(end - start);
         for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = workingLayout.getLine(i).glyphs;
             if (index < glyphs.size) {
-                int oldIndex = index;
-                for (int fin = index - start + end; index < fin && index < glyphs.size; index++) {
+                for (int fin = index - start - sb.length() + end; index < fin && index < glyphs.size; index++) {
                     char c = (char) glyphs.get(index);
                     if(c == 2) c = '[';
                     sb.append(c);
                 }
                 if(sb.length() == end - start)
                     return sb.toString();
-                else
-                    index = oldIndex - glyphs.size;
+                index = 0;
             }
             else
                 index -= glyphs.size;
