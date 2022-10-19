@@ -385,6 +385,15 @@ public class Font implements Disposable {
      * {@link #addAtlas(TextureAtlas)}. The keys in this map are case-insensitive.
      */
     public CaseInsensitiveIntMap nameLookup;
+
+    /**
+     * Optional; a reversed form of {@link #nameLookup} that allows you to get the printable name for a given char code.
+     * This is usually assigned by {@link #addAtlas(TextureAtlas)}.
+     * <br>
+     * If multiple names are registered for the same char, typically the last one registered takes priority. In the
+     * common use case of {@link KnownFonts#addEmoji(Font)}, this means the printable names are all emoji.
+     */
+    public IntMap<String> namesByCharCode;
     /**
      * Which GlyphRegion to display if a char isn't found in {@link #mapping}. May be null to show a space by default.
      */
@@ -936,6 +945,8 @@ public class Font implements Disposable {
         }
         if(toCopy.nameLookup != null)
             nameLookup = new CaseInsensitiveIntMap(toCopy.nameLookup);
+        if(toCopy.namesByCharCode != null)
+            namesByCharCode = new IntMap<>(toCopy.namesByCharCode);
         defaultValue = toCopy.defaultValue;
         kerning = toCopy.kerning == null ? null : new IntIntMap(toCopy.kerning);
         solidBlock = toCopy.solidBlock;
@@ -1971,18 +1982,24 @@ public class Font implements Disposable {
     public Font addAtlas(TextureAtlas atlas) {
         Array<TextureAtlas.AtlasRegion> regions = atlas.getRegions();
         if(nameLookup == null)
-            nameLookup = new CaseInsensitiveIntMap(regions.size, 0.6f);
+            nameLookup = new CaseInsensitiveIntMap(regions.size, 0.5f);
         else
             nameLookup.ensureCapacity(regions.size);
+        if(namesByCharCode == null)
+            namesByCharCode = new IntMap<>(regions.size >> 1, 0.5f);
+        else
+            namesByCharCode.ensureCapacity(regions.size >> 1);
         TextureAtlas.AtlasRegion previous = regions.first();
         GlyphRegion gr = new GlyphRegion(previous);
 //        gr.offsetY -= descent;
         mapping.put(0xE000, gr);
         nameLookup.put(previous.name, 0xE000);
+        namesByCharCode.put(0xE000, previous.name);
         for (int i = 0xE000, a = 1; i < 0xF800 && a < regions.size; a++) {
             TextureAtlas.AtlasRegion region = regions.get(a);
             if (previous.getRegionX() == region.getRegionX() && previous.getRegionY() == region.getRegionY()) {
                 nameLookup.put(region.name, i);
+                namesByCharCode.put(i, region.name);
             } else {
                 ++i;
                 previous = region;
@@ -1990,6 +2007,7 @@ public class Font implements Disposable {
 //                gr.offsetY -= descent;
                 mapping.put(i, gr);
                 nameLookup.put(region.name, i);
+                namesByCharCode.put(i, region.name);
             }
         }
         return this;
