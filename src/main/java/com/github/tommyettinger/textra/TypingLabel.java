@@ -975,6 +975,27 @@ public class TypingLabel extends TextraLabel {
         return workingLayout.toString();
     }
 
+    /**
+     * If this label is {@link #selectable} and there is a selected range of text, this returns that range of text;
+     * otherwise, it returns the empty string.
+     * @return the currently selected text, or the empty string if none is or can be selected
+     */
+    public String getSelectedText() {
+        if(!selectable || (selectionStart == selectionEnd && selectionStart < 0)) return "";
+        return substring(selectionStart, selectionEnd+1);
+    }
+
+    /**
+     * If this label is {@link #selectable} and there is a selected range of text, this copies that range of text to the
+     * clipboard and returns true; otherwise, it does returns false.
+     * @return true if text was copied, or false if the clipboard hasn't received any text
+     */
+    public boolean copySelectedText() {
+        if(!selectable || (selectionStart == selectionEnd && selectionStart < 0)) return false;
+        Gdx.app.getClipboard().setContents(substring(selectionStart, selectionEnd+1));
+        return true;
+    }
+
     public void setIntermediateText(CharSequence text, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
         if (text != intermediateText) {
