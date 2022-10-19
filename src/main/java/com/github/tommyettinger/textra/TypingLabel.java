@@ -980,7 +980,7 @@ public class TypingLabel extends TextraLabel {
 
     @Override
     public String toString() {
-        return workingLayout.toString();
+        return substring(0, Integer.MAX_VALUE);
     }
 
     /**
@@ -1058,15 +1058,23 @@ public class TypingLabel extends TextraLabel {
         end = Math.min(getLayoutSize(workingLayout), end);
         int index = start;
         StringBuilder sb = new StringBuilder(end - start);
+        int glyphCount = 0;
         for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = workingLayout.getLine(i).glyphs;
             if (index < glyphs.size) {
-                for (int fin = index - start - sb.length() + end; index < fin && index < glyphs.size; index++) {
+                for (int fin = index - start - glyphCount + end; index < fin && index < glyphs.size; index++) {
                     char c = (char) glyphs.get(index);
-                    if(c == 2) c = '[';
-                    sb.append(c);
+                    if (c >= 0xE000 && c <= 0xF800) {
+                        String name = font.namesByCharCode.get(c);
+                        if (name != null) sb.append(name);
+                        else sb.append(c);
+                    } else {
+                        if (c == 2) c = '[';
+                        sb.append(c);
+                    }
+                    glyphCount++;
                 }
-                if(sb.length() == end - start)
+                if(glyphCount == end - start)
                     return sb.toString();
                 index = 0;
             }
