@@ -390,7 +390,8 @@ public class Font implements Disposable {
      * Optional; a reversed form of {@link #nameLookup} that allows you to get the printable name for a given char code.
      * This is usually assigned by {@link #addAtlas(TextureAtlas)}.
      * <br>
-     * If multiple names are registered for the same char, typically the last one registered takes priority. In the
+     * If multiple names are registered for the same char, the first one registered takes priority, unless the second
+     * name starts with an "astral plane" char such as an emoji. In the
      * common use case of {@link KnownFonts#addEmoji(Font)}, this means the printable names are all emoji.
      */
     public IntMap<String> namesByCharCode;
@@ -1976,6 +1977,8 @@ public class Font implements Disposable {
      * be looked up with {@code [+saxophone]} syntax (which is often the same as the {@code [+🎷]} syntax). The names
      * of TextureRegions in the atlas are treated as case-insensitive, like some file systems.
      * <a href="https://github.com/tommyettinger/twemoji-atlas/">There are possible emoji atlases here.</a>
+     * This may be useful if you have your own atlas, but for Twemoji in particular, you can use
+     * {@link KnownFonts#addEmoji(Font)} and the Twemoji files in the knownFonts folder.
      * @param atlas a TextureAtlas that shouldn't have more than 6144 names; all of it will be used
      * @return this Font, for chaining
      */
@@ -1999,7 +2002,9 @@ public class Font implements Disposable {
             TextureAtlas.AtlasRegion region = regions.get(a);
             if (previous.getRegionX() == region.getRegionX() && previous.getRegionY() == region.getRegionY()) {
                 nameLookup.put(region.name, i);
-                namesByCharCode.put(i, region.name);
+                char f = previous.name.charAt(0);
+                if(f < 0xD800 || f >= 0xE000) // if the previous name didn't start with an emoji char, use this name
+                    namesByCharCode.put(i, region.name);
             } else {
                 ++i;
                 previous = region;
