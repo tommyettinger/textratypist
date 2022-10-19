@@ -271,9 +271,12 @@ public class TypingLabelTest extends ApplicationAdapter {
                                     alpha(0, 2f, Interpolation.pow2)
                             )
                     );
-                } else if("COPY".equals(event)) {
+                } else if("*COPY".equals(event)) {
                     System.out.println("Selection start: " + label.selectionStart + " Selection end: " + label.selectionEnd);
-                    System.out.println(label.substring(label.selectionStart, label.selectionEnd+1));
+                    if(label.copySelectedText())
+                        System.out.println(label.getSelectedText());
+                    else
+                        System.out.println("Nothing was copied.");
                 } else {
                     Color.rgba8888ToColor(flashColor, ColorUtils.describe(event));
                     ScreenUtils.clear(flashColor);

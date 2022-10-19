@@ -78,9 +78,11 @@ public class TypingLabel extends TextraLabel {
     public boolean trackingInput = false;
     /**
      * If true, this label will allow clicking and dragging to select a range of text, if {@link #trackingInput} is also
-     * true.
-     * Labels can be configured to copy the selected text automatically when the touch or mouse is released, or to only
-     * copy when a key is pressed. This does not allow the text to be edited unless so implemented by another class.
+     * true. This does not allow the text to be edited unless so implemented by another class. If text can be selected,
+     * then you can use {@link #getSelectedText()} to get the selected String, or {@link #copySelectedText()} to copy
+     * that text directly. To copy automatically, use a listener that checks {@link TypingListener#event(String)}, and
+     * when the event String is {@code "*COPY"}, that means a click-and-drag selected a range of text in this label, and
+     * you can do what you want with the selected text (such as call {@link #copySelectedText()}).
      */
     public boolean selectable = false;
     /**
@@ -99,12 +101,14 @@ public class TypingLabel extends TextraLabel {
     public int overIndex = -1;
     /**
      * The inclusive start index for the selected text, if there is a selection. This should be -1 if there is no
-     * selection.
+     * selection, or sometimes -2 if the selection went past the end of the text. This is essentially interchangeable
+     * with {@link #selectionEnd}; as long as they are different, it doesn't matter which is higher or lower.
      */
     public int selectionStart = -1;
     /**
      * The exclusive end index for the selected text, if there is a selection. This should be -1 if there is no
-     * selection.
+     * selection, or sometimes -2 if the selection went past the end of the text. This is essentially interchangeable
+     * with {@link #selectionStart}; as long as they are different, it doesn't matter which is higher or lower.
      */
     public int selectionEnd = -1;
 
@@ -780,7 +784,7 @@ public class TypingLabel extends TextraLabel {
 
         batch.getColor().set(getColor()).a *= parentAlpha;
         batch.setColor(batch.getColor());
-        int bgc = 0;
+        int bgc;
         final int lines = workingLayout.lines();
         float baseX = getX(), baseY = getY();
 
@@ -871,6 +875,8 @@ public class TypingLabel extends TextraLabel {
             overIndex = -1;
         }
 
+        float single = 0;
+
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
@@ -890,7 +896,7 @@ public class TypingLabel extends TextraLabel {
             y = sn * fx + cs * fy + worldOriginY;
 
 
-            float single, xChange = 0, yChange = 0;
+            float xChange = 0, yChange = 0;
 
             if (Align.isCenterHorizontal(align)) {
                 x -= cs * (glyphs.width * 0.5f);
@@ -926,7 +932,7 @@ public class TypingLabel extends TextraLabel {
                     }
                 }
                 ++globalIndex;
-                if(selectable && selectionStart <= globalIndex && selectionEnd >= globalIndex)
+                if(selectable && selectionStart <= globalIndex && selectionEnd > globalIndex)
                     bgc = ColorUtils.offset((int)(glyph >>> 32), 1f);
                 else
                     bgc = 0;
@@ -950,9 +956,10 @@ public class TypingLabel extends TextraLabel {
                                 } else if(dragging){
                                     dragging = false;
                                     if(selectionStart != selectionEnd){
-                                        triggerEvent("COPY", true);
-                                        // TODO: make this configurable so a key can trigger it
-                                        Gdx.app.getClipboard().setContents(substring(selectionStart, selectionEnd+1));
+                                        triggerEvent("*COPY", true);
+                                    }
+                                    else {
+                                        selectionStart = selectionEnd = -1;
                                     }
                                 }
                             }
@@ -982,17 +989,17 @@ public class TypingLabel extends TextraLabel {
      */
     public String getSelectedText() {
         if(!selectable || (selectionStart == selectionEnd && selectionStart < 0)) return "";
-        return substring(selectionStart, selectionEnd+1);
+        return substring(selectionStart, selectionEnd);
     }
 
     /**
      * If this label is {@link #selectable} and there is a selected range of text, this copies that range of text to the
-     * clipboard and returns true; otherwise, it does returns false.
+     * clipboard and returns true; otherwise, it returns false.
      * @return true if text was copied, or false if the clipboard hasn't received any text
      */
     public boolean copySelectedText() {
         if(!selectable || (selectionStart == selectionEnd && selectionStart < 0)) return false;
-        Gdx.app.getClipboard().setContents(substring(selectionStart, selectionEnd+1));
+        Gdx.app.getClipboard().setContents(substring(selectionStart, selectionEnd));
         return true;
     }
 
