@@ -933,7 +933,7 @@ public class TypingLabel extends TextraLabel {
                 }
                 ++globalIndex;
                 if(selectable && selectionStart <= globalIndex && selectionEnd > globalIndex)
-                    bgc = ColorUtils.offset((int)(glyph >>> 32), 1f);
+                    bgc = ColorUtils.offsetLightness((int)(glyph >>> 32), 0.5f);
                 else
                     bgc = 0;
                 float xx = x + xChange + offsets.get(o++), yy = y + yChange + offsets.get(o++), oldSingle = single;
