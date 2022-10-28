@@ -300,13 +300,32 @@ public class ColorUtils {
     /**
      * Gets an "offset color" for the original {@code color} where high red, green, or blue channels become low values
      * in that same channel, and vice versa, then blends the original with that offset, using more of the offset if
-     * {@code power} is higher (closer to 1.0f). It is usually fine for {@code power} to be 0.5f .
+     * {@code power} is higher (closer to 1.0f). It is usually fine for {@code power} to be 0.5f . This can look...
+     * pretty strange for some input colors, and you may want {@link #offsetLightness(int, float)} instead.
      * @param color the original color as an RGBA8888 int
      * @param power between 0.0f and 1.0f, this is how heavily the offset color should factor in to the result
      * @return a mix between {@code color} and its offset, with higher {@code power} using more of the offset
      */
     public static int offset(final int color, float power) {
         return lerpColors(color, color ^ 0x80808000, power);
+    }
+
+    /**
+     * Gets an "offset color" for the original {@code color}, lightening it if it is perceptually dark (under 40% luma
+     * by a simplistic measurement) or darkening it if it is perceptually light. This essentially uses the lightness to
+     * determine whether to call {@link #lighten(int, float) lighten(color, power)} or
+     * {@link #darken(int, float) darken(color, power)}. It is usually fine for {@code power} to be 0.5f . This leaves
+     * hue alone, and doesn't change saturation much. The lightness measurement is effectively
+     * {@code red * 3/8 + green * 1/2 + blue * 1/8}.
+     * @param color the original color as an RGBA8888 int
+     * @param power between 0.0f and 1.0f, this is how much this should either lighten or darken the result
+     * @return a variant on {@code color}, either lighter or darker depending on its original lightness
+     */
+    public static int offsetLightness(final int color, float power) {
+        int light = (color >>> 24) * 3 + (color >>> 14 & 0x3FC) + (color >>> 8 & 0xFF); // ranges from 0 to 2020
+        if(light < 808) // under 40% luma
+            return lighten(color, power);
+        return darken(color, power);
     }
 
     /**
