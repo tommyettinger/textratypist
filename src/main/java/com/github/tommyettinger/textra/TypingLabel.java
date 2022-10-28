@@ -936,11 +936,11 @@ public class TypingLabel extends TextraLabel {
                     bgc = ColorUtils.offset((int)(glyph >>> 32), 1f);
                 else
                     bgc = 0;
-                float xx = x + xChange + offsets.get(o++), yy = y + yChange + offsets.get(o++);
+                float xx = x + xChange + offsets.get(o++), yy = y + yChange + offsets.get(o++), oldSingle = single;
                 single = f.drawGlyph(batch, glyph, xx, yy, rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++), bgc);
                 if(trackingInput){
 //                    float xx = x + xChange + offsets.get(o-2), yy = y + yChange + offsets.get(o-1);
-                    if(xx <= inX && inX <= xx + single && yy <= inY && inY <= yy + glyphs.height) {
+                    if(xx <= inX + oldSingle * 0.5f && inX <= xx + single * 0.5f && yy <= inY && inY <= yy + glyphs.height) {
                         overIndex = globalIndex;
                         if (isTouchable()) {
                             if (Gdx.input.justTouched()) {
@@ -1069,8 +1069,8 @@ public class TypingLabel extends TextraLabel {
                         if (name != null) sb.append(name);
                         else sb.append(c);
                     } else {
-                        if (c == 2) c = '[';
-                        sb.append(c);
+                        if (c == 2) sb.append('[');
+                        else sb.append(c);
                     }
                     glyphCount++;
                 }
