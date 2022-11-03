@@ -1191,4 +1191,24 @@ public class TypingLabel extends TextraLabel {
             listener.event(event);
         }
     }
+
+    /**
+     * Returns true if and only if {@link #selectable} is true and {@link #trackingInput} is true; otherwise false.
+     * @return whether the text of this label is selectable
+     */
+    public boolean isSelectable() {
+        return selectable && trackingInput;
+    }
+
+    /**
+     * If given {@code true}, this makes the text of this label {@link #selectable} and ensures {@link #trackingInput}
+     * is true. Otherwise, this makes the label not-selectable and doesn't change {@link #trackingInput}. The
+     * application should usually be set to copy the selected text using {@link #copySelectedText()} when the user
+     * expects it to be copied. Often, a {@link TypingListener} that checks for the event {@code "*SELECTED"} works.
+     * @param selectable true if the text of this label should be selectable
+     */
+    public void setSelectable(boolean selectable) {
+        this.selectable = selectable;
+        this.trackingInput |= selectable;
+    }
 }
