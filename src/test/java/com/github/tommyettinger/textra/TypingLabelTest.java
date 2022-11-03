@@ -271,7 +271,7 @@ public class TypingLabelTest extends ApplicationAdapter {
                                     alpha(0, 2f, Interpolation.pow2)
                             )
                     );
-                } else if("*COPY".equals(event)) {
+                } else if("*SELECTED".equals(event)) {
                     System.out.println("Selection start: " + label.selectionStart + " Selection end: " + label.selectionEnd);
                     if(label.copySelectedText())
                         System.out.println(label.getSelectedText());

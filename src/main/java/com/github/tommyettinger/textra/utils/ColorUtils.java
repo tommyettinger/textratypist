@@ -367,15 +367,17 @@ public class ColorUtils {
      * spaces and/or hyphens, though the underscore is treated as a letter). Any word that is the name of a color in
      * {@link Palette} will be looked up in {@link Palette#NAMED} and tracked; if there is more than one of these color
      * name words, the colors will be mixed using {@link #mix(int[], int, int)}, or if there is just one color name
-     * word, then the corresponding color will be used. The special adjectives "light" and "dark" change the lightness
-     * of the described color; likewise, "rich" and "dull" change the saturation (how different the color is from
-     * grayscale). All of these adjectives can have "-er" or "-est" appended to make their effect twice or three times
-     * as strong. Technically, the chars appended to an adjective don't matter, only their count, so "lightaa" is the
-     * same as "lighter" and "richcat" is the same as "richest". There's an unofficial fourth level as well, used when
-     * any 4 characters are appended to an adjective (as in "darkmost"); it has four times the effect of the original
-     * adjective. There are also the adjectives "bright" (equivalent to "light rich"), "pale" ("light dull"), "deep"
-     * ("dark rich"), and "weak" ("dark dull"). These can be amplified like the other four, except that "pale" goes to
-     * "paler", "palest", and then to (equivalently) "palemax" or "palemost", where only the word length is checked.
+     * word, then the corresponding color will be used.
+     * <br>
+     * The special adjectives "light" and "dark" change the lightness of the described color; likewise, "rich" and
+     * "dull" change the saturation (how different the color is from grayscale). All of these adjectives can have "-er"
+     * or "-est" appended to make their effect twice or three times as strong. Technically, the chars appended to an
+     * adjective don't matter, only their count, so "lightaa" is the same as "lighter" and "richcat" is the same as
+     * "richest". There's an unofficial fourth level as well, used when any 4 characters are appended to an adjective
+     * (as in "darkmost"); it has four times the effect of the original adjective. There are also the adjectives
+     * "bright" (equivalent to "light rich"), "pale" ("light dull"), "deep" ("dark rich"), and "weak" ("dark dull").
+     * These can be amplified like the other four, except that "pale" goes to "paler", "palest", and then to
+     * "palemax" or (its equivalent) "palemost", where only the word length is checked.
      * <br>
      * If part of a color name or adjective is invalid, it is not considered; if the description is empty or fully
      * invalid, this returns the RGBA8888 int value 256 (used as a placeholder by

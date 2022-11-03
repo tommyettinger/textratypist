@@ -81,8 +81,8 @@ public class TypingLabel extends TextraLabel {
      * true. This does not allow the text to be edited unless so implemented by another class. If text can be selected,
      * then you can use {@link #getSelectedText()} to get the selected String, or {@link #copySelectedText()} to copy
      * that text directly. To copy automatically, use a listener that checks {@link TypingListener#event(String)}, and
-     * when the event String is {@code "*COPY"}, that means a click-and-drag selected a range of text in this label, and
-     * you can do what you want with the selected text (such as call {@link #copySelectedText()}).
+     * when the event String is {@code "*SELECTED"}, that means a click-and-drag selected a range of text in this label,
+     * and you can do what you want with the selected text (such as call {@link #copySelectedText()}).
      */
     public boolean selectable = false;
     /**
@@ -957,7 +957,7 @@ public class TypingLabel extends TextraLabel {
                                 } else if(dragging){
                                     dragging = false;
                                     if(selectionStart != selectionEnd){
-                                        triggerEvent("*COPY", true);
+                                        triggerEvent("*SELECTED", true);
                                     }
                                     else {
                                         selectionStart = selectionEnd = -1;
