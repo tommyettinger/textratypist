@@ -23,11 +23,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
@@ -44,6 +40,15 @@ import regexodus.Category;
 import java.lang.StringBuilder;
 
 /** A single-line text input field.
+ * <br>
+ * This class is alpha-quality at best right now! When you want text entry,
+ * you should use a {@link com.badlogic.gdx.scenes.scene2d.ui.TextField} with a
+ * {@link com.badlogic.gdx.graphics.g2d.BitmapFont} that has its
+ * {@link com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData#markupEnabled} set to false.
+ * <br>
+ * If you just want a span of read-only text that can be selected and copied, then use a {@link TypingLabel} with
+ * {@link TypingLabel#setSelectable(boolean) selectable} set to true, use a {@link TypingListener} that checks for the
+ * event {@code "*SELECTED"}, and call {@link TypingLabel#copySelectedText()} when the user requests.
  * <br>
  * NONE OF THE REST OF THIS IS ACCURATE YET.
  * <br>
