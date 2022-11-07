@@ -25,7 +25,8 @@ import com.badlogic.gdx.utils.ObjectIntMap;
 /**
  * Combines 50 colors chosen to be generally distinct with the 34 colors libGDX defines in {@link Colors}. Some colors
  * here are duplicates, and there are also aliases to part of the group of 50 for convenience. All colors are defined as
- * RGBA8888 ints with extensive JavaDocs.
+ * RGBA8888 ints with extensive JavaDocs. The colors from libGDX are in {@code ALL_CAPS}, while the colors defined here
+ * first are in {@code lowercase}.
  */
 public final class Palette {
     /**

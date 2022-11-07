@@ -23,7 +23,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
@@ -33,7 +37,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Clipboard;
+import com.badlogic.gdx.utils.FloatArray;
+import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.LongArray;
+import com.badlogic.gdx.utils.Null;
+import com.badlogic.gdx.utils.Pools;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import regexodus.Category;
 
@@ -41,8 +53,9 @@ import java.lang.StringBuilder;
 
 /** A single-line text input field.
  * <br>
- * This class is alpha-quality at best right now! When you want text entry,
- * you should use a {@link com.badlogic.gdx.scenes.scene2d.ui.TextField} with a
+ * This class is alpha-quality at best right now! You should try alternatives instead of using TextraField:
+ * <br>
+ * When you want text entry, you should use a {@link com.badlogic.gdx.scenes.scene2d.ui.TextField} with a
  * {@link com.badlogic.gdx.graphics.g2d.BitmapFont} that has its
  * {@link com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData#markupEnabled} set to false.
  * <br>

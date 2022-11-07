@@ -42,7 +42,7 @@ make use of the smooth scaling and rotation options that effects can use startin
 of mouse tracking, new in 0.7.0, such as how Link only responds to a click on a range of text.
 
 You may want to create `TypingLabel`s even where you don't need the typing effect, because `TextraLabel` doesn't handle
-any effects. You can call `skipToTheEnd()` on a TypingLabel or (in 0.7.0 and up) some other classes to allow a
+any effects. You can call `skipToTheEnd()` on a TypingLabel or (in 0.7.0 and up) on some other classes to allow a
 TypingLabel to be used for still text with effects.
 
 ## And now, it's got style!
@@ -52,7 +52,8 @@ underline, oblique, superscript, etc. Related to styles are scale changes, which
 changing your font, and the "font family" feature. A font can be assigned a "family" of other fonts and names to use to
 refer to them; this acts like a normal style, but actually changes what Font is used to draw. The full list of styles is
 long, but isn't as detailed as the effect tokens. You can enable styles with something like libGDX color markup, in
-square brackets like `[*]`, or you can use `{STYLE=BOLD}` to do the same thing. The full list of styles:
+square brackets like `[*]`, or you can use `{STYLE=BOLD}` to do the same thing. Tags and style names are both
+case-insensitive, but color names are case-sensitive. The full list of styles:
 
 - `[*]` toggles bold mode. Can use style names `*`, `B`, `BOLD`, `STRONG`.
 - `[/]` toggles oblique mode (like italics). Can use style names `/`, `I`, `OBLIQUE`, `ITALIC`.
@@ -64,10 +65,10 @@ square brackets like `[*]`, or you can use `{STYLE=BOLD}` to do the same thing. 
 - `[!]` toggles all upper case mode (replacing any other case mode). Can use style names `!`, `UP`, `UPPER`.
 - `[,]` toggles all lower case mode (replacing any other case mode). Can use style names `,`, `LOW`, `LOWER`.
 - `[;]` toggles capitalize each word mode (replacing any other case mode). Can use style names `;`, `EACH`, `TITLE`.
-- `[%DDD]`, where DDD is a percentage from 0 to 375, scales text to that multiple. Can be used with `{SIZE=150%}`, `{SIZE=%25}`, or similarly `{STYLE=200%}`.
-- `[%]` on its own sets text to the default 100% scale.
-- `[@Name]`, where Name is a key/name in this Font's `family` variable, switches the current typeface to the named one.
-- `[@]` on its own resets the typeface to this Font, ignoring its family.
+- `[%DDD]`, where DDD is a percentage from 0 to 375, scales text to that multiple. Can be used with `{SIZE=150%}`, `{SIZE=%25}`, or similarly, `{STYLE=200%}` or `{STYLE=%125}`.
+- `[%]` on its own sets text to the default 100% scale. Can be used with `{STYLE=%}`.
+- `[@Name]`, where Name is a key/name in this Font's `family` variable, switches the current typeface to the named one. Can be used with `{STYLE=@Name}`.
+- `[@]` on its own resets the typeface to this Font, ignoring its family. Can be used with `{STYLE=@}`.
 - `[#HHHHHHHH]`, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color. This is a normal `{COLOR=#HHHHHHHH}` tag.
 - `[COLORNAME]`, where COLORNAME is a color name or description that will be looked up externally, changes the color.
   - By default, this looks up COLORNAME with `ColorUtils.describe()`, which tries to find any colors from `Palette` by
@@ -77,9 +78,15 @@ square brackets like `[*]`, or you can use `{STYLE=BOLD}` to do the same thing. 
       - You can preview `Palette` [by hue](https://tommyettinger.github.io/textratypist/ColorTableHue.html), [by lightness](https://tommyettinger.github.io/textratypist/ColorTableLightness.html), or [by name](https://tommyettinger.github.io/textratypist/ColorTableAlphabetical.html).
     - Adjectives can be "light", "dark", "rich", "dull", or stronger versions of those suffixed with "-er", "-est", or
       "-most". You can use any combination of adjectives, and can also combine multiple colors, such as "red orange". 
-    - Some examples: `[RED]`, `[green yellow]`, `[light blue]`, `[duller orange]`, or `[darker rich BLUE lavender]`.
+      - There are some more adjectives that act like pairs of the above four adjectives, for convenience:
+        - Combining "light" and "rich" is the same as "bright".
+        - Combining "light" and "dull" is the same as "pale".
+        - Combining "dark" and "rich" is the same as "deep".
+        - Combining "dark" and "dull" is the same as "weak".
+    - Some examples: `[RED]`, `[green yellow]`, `[light blue]`, `[duller orange]`, `[darker rich BLUE lavender]`, `[pale pink orange]`, and `[deeper green navy]`.
     - There's a section at the bottom of this README.md that covers some tricky parts of color descriptions.
   - You can use `Font`'s `setColorLookup()` method with your own `ColorLookup` implementation to do what you want here.
+    - This isn't a commonly-used feature, but could be handy for some more elaborate color handling.
   - The name can optionally be preceded by `|`, which allows looking up colors with names that contain punctuation.
     For example, `[|;_;]` would look up a color called `;_;`, "the color of sadness," and would not act like `[;]`.
     - Non-alphabetical characters are ignored by default, but a custom `ColorLookup` might not, nor does
@@ -129,8 +136,7 @@ TypingLabel by using their `setRotation()` methods, and the rotation will now ac
 and/or with different alignment settings. The origin for rotations can be set in the label, and the whole label will
 rotate around that origin point. You can also, for some fonts, have
 box-drawing characters and block elements be automatically generated. This needs a solid white block character (of any
-size, typically 1x1) present in the font at id 0 (used here because most fonts don't use it) or better, 9608 (the
-Unicode full block index, `'\u2588'`, which is preferred because BitmapFont treats id 0 differently). This also enables
+size, typically 1x1) present in the font at id 9608 (the Unicode full block index, `'\u2588'`). This also enables
 a better guarantee of underline and strikethrough characters connecting properly, and without smudging where two
 underscores or hyphens overlap each other. `Font` attempts to enable this in some cases, or it can be set with a
 parameter, but if it fails then it falls back to using underscores for underline and hyphens for strikethrough. All the
@@ -150,6 +156,19 @@ and `TextraWindow`, at least, so far.
 Future additions to these widgets should permit setting the `TextraLabel` to a `TypingLabel` of your choice.
 While `TextArea` is not yet supported, `TextraLabel` defaults to supporting multiple lines, and may be able to stand-in
 for some usage. A counterpart to `TextArea` is planned.
+
+## What about my input?
+
+Input tracking has been an option for `TypingLabel` and code that uses it since 0.7.0 . This expanded in 0.7.4 to allow
+the text in a `TypingLabel` to be made selectable with `label.setSelectable(true)`. You can access the
+currently-selected text with `label.getSelectedText()` or copy it directly with `label.copySelectedText()`. When the
+user completes a click and drag gesture over the TypingLabel (and it is selectable), an event is triggered as well; you
+can listen for `"*SELECTED"` in a `TypingListener` and copy text as soon as it is selected, or only copy when some key
+is pressed. Other useful features that use input tracking include the `{LINK}` tag, which makes a span of text a
+clickable link to an Internet address, `{TRIGGER}`, which triggers an event on-click, and a few other tags that respond
+to mouse hovering (`{ATTENTION}`, `{HIGHLIGHT}`, and `{STYLIST}`). These only work for `TypingLabel`, not `TextraLabel`,
+so you may want to use a `TypingLabel` and call `skipToTheEnd()` to treat it like still text that happens to respond to
+user input and can use animated styles like `{RAINBOW}`.
 
 ## How do I get it?
 

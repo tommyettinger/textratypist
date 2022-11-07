@@ -1206,9 +1206,11 @@ public class TypingLabel extends TextraLabel {
      * application should usually be set to copy the selected text using {@link #copySelectedText()} when the user
      * expects it to be copied. Often, a {@link TypingListener} that checks for the event {@code "*SELECTED"} works.
      * @param selectable true if the text of this label should be selectable
+     * @return this, for chaining
      */
-    public void setSelectable(boolean selectable) {
+    public TypingLabel setSelectable(boolean selectable) {
         this.selectable = selectable;
         this.trackingInput |= selectable;
+        return this;
     }
 }
