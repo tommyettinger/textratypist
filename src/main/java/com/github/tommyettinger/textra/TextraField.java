@@ -70,7 +70,7 @@ import java.lang.StringBuilder;
  * <p>
  * The text field will copy the currently selected text when ctrl+c is pressed, and paste any text in the clipboard when ctrl+v is
  * pressed. Clipboard functionality is provided via the {@link Clipboard} interface. Currently there are two standard
- * implementations, one for the desktop and one for Android. The Android clipboard is a stub, as copy & pasting on Android is not
+ * implementations, one for the desktop and one for Android. The Android clipboard is a stub, as copy-and-pasting on Android is not
  * supported yet.
  * <p>
  * The text field allows you to specify an {@link OnscreenKeyboard} for displaying a softkeyboard and piping all key events

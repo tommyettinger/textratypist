@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.github.tommyettinger.textra"},{"l":"com.github.tommyettinger.textra.effects"},{"l":"com.github.tommyettinger.textra.utils"}];updateSearchResults();
