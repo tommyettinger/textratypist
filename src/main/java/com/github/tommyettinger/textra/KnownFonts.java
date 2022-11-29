@@ -99,6 +99,7 @@ public final class KnownFonts implements LifecycleListener {
      * <br>
      * This also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
      * multiples of 8. This "A Starry Tall" version is present in {@link #getAll()} and {@link #getAllStandard()}.
+     * <br>
      * Preview: <a href="https://i.imgur.com/WWOz6Ej.png">Image link</a> (uses width=8, height=16)
      * <br>
      * Needs files:
@@ -575,7 +576,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not include a license because the source, <a href="https://github.com/Thraka/SadConsole/tree/master/Fonts">SadConsole's fonts</a>,
      * did not include one. It is doubtful that IBM would have any issues with respectful use
      * of their signature font throughout the 1980s, but if the legality is concerning, you
-     * can use {@link #getCozette()} or {@link #quanPixel} for a different bitmap font. There
+     * can use {@link #getCozette()} or {@link #getQuanPixel()} for a different bitmap font. There
      * is also {@link #getAStarry()} for a non-pixel font styled after a font from the same era.
      * <br>
      * Preview: <a href="https://i.imgur.com/o1BN44s.png">Image link</a> (uses width=8, height=16)
