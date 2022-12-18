@@ -21,45 +21,51 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.github.tommyettinger.textra.utils.StringUtils;
 
 import static com.badlogic.gdx.utils.Align.center;
 
-public class Issue6Test extends ApplicationAdapter {
+public class SetTextTest extends ApplicationAdapter {
     ScreenViewport viewport;
     Stage stage;
+    String text;
     TextraLabel textraLabel;
     TypingLabel typingLabel;
-
+    RandomXS128 random;
+    long ctr = 1;
     @Override
     public void create() {
         viewport = new ScreenViewport();
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
         stage = new Stage(viewport);
         stage.setDebugAll(true);
+        random = new RandomXS128(ctr);
 
         Font gentium = KnownFonts.getGentium();
 
-        String text =
-                "[*]Локус контроля[*] - свойство " +
-                        "личности приписывать " +
-                        "свои неудачи и успехи " +
-                        "либо внешним факторам " +
-                        "(погода, везение, другие " +
-                        "люди, судьба-злодейка), " +
-                        "либо внутренним (я сам, " +
-                        "моё отношение, мои" +
-                        "действия)";
+        text =
+                "[*]Локус[*] [*]контроля[*] - свойство " +
+                "личности приписывать " +
+                "свои неудачи и успехи " +
+                "либо внешним факторам " +
+                "(погода, везение, другие " +
+                "люди, судьба-злодейка), " +
+                "либо внутренним (я сам, " +
+                "моё отношение, мои" +
+                "действия)";
         typingLabel = new TypingLabel(
                 text, new Label.LabelStyle(), gentium);
         typingLabel.setWrap(true);
         typingLabel.skipToTheEnd();
         typingLabel.setAlignment(center);
+        typingLabel.setMaxLines(3);
+        typingLabel.setEllipsis("...");
         textraLabel = new TextraLabel(
                 "[RED]" + text, new Label.LabelStyle(), gentium);
         textraLabel.setWrap(true);
@@ -77,6 +83,15 @@ public class Issue6Test extends ApplicationAdapter {
 
         stage.act();
         stage.draw();
+
+        random.setSeed(++ctr);
+        if ((ctr & 3) == 0) {
+            System.out.println("typingLabel has " + typingLabel.getMaxLines() + " max lines and " + typingLabel.getEllipsis() + " ellipsis.");
+            text = StringUtils.shuffleWords(text, random);
+            typingLabel.setText(text);
+            typingLabel.skipToTheEnd();
+            textraLabel.setText("[RED]" + text);
+        }
     }
 
     @Override
@@ -102,9 +117,10 @@ public class Issue6Test extends ApplicationAdapter {
         config.setTitle("TextraLabel UI test");
         config.setWindowedMode(600, 480);
         config.disableAudio(true);
-        config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
+		config.setForegroundFPS(2);
+//		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
-        new Lwjgl3Application(new Issue6Test(), config);
+        new Lwjgl3Application(new SetTextTest(), config);
     }
 
 }
