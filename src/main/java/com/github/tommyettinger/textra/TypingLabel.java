@@ -1049,6 +1049,59 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
+     * Returns the meant-for-internal-use-only Layout that is frequently changed as this label is displayed. The working
+     * layout may be useful to have, even if treated as read-only, so it is exposed here. Still, be very careful with
+     * this method and the Layout it returns. The working layout is the one that gets shown, where {@link #layout} is
+     * used as the ideal text before wrapping or other requirements edit it.
+     *
+     * @return the mostly-internal working layout, which is the layout that gets displayed.
+     */
+    public Layout getWorkingLayout() {
+        return workingLayout;
+    }
+
+    /**
+     * The maximum number of {@link Line}s this label can display.
+     *
+     * @return the maximum number of {@link Line} objects this label can display
+     */
+    public int getMaxLines() {
+        return workingLayout.maxLines;
+    }
+
+    /**
+     * Sets the maximum number of {@link Line}s this Layout can display; this is always at least 1.
+     * For effectively unlimited lines, pass {@link Integer#MAX_VALUE} to this.
+     *
+     * @param maxLines the limit for how many Line objects this Layout can display; always 1 or more
+     */
+    public void setMaxLines(int maxLines) {
+        workingLayout.setMaxLines(maxLines);
+    }
+
+    /**
+     * Gets the ellipsis, which may be null, or may be a String that can be placed at the end of the text if its
+     * max lines are exceeded.
+     *
+     * @return an ellipsis String or null
+     */
+    public String getEllipsis() {
+        return workingLayout.ellipsis;
+    }
+
+    /**
+     * Sets the ellipsis text, which replaces the last few glyphs if non-null and the text added would exceed the
+     * {@link #getMaxLines()} of this label's working layout. For the ellipsis to appear, this has to be called with a
+     * non-null String (often {@code "..."}, or {@code "…"} if the font supports it), and
+     * {@link #setMaxLines(int)} needs to have been called with a small enough number, such as 1.
+     *
+     * @param ellipsis a String for a Layout to end with if its max lines are exceeded, or null to avoid such truncation
+     */
+    public void setEllipsis(String ellipsis) {
+        workingLayout.setEllipsis(ellipsis);
+    }
+
+    /**
      * Gets a String from the working layout of this label, made of only the char portions of the glyphs from start
      * (inclusive) to end (exclusive). This can retrieve text from across multiple lines.
      * @param start inclusive start index
