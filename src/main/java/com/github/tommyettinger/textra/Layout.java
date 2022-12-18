@@ -117,6 +117,7 @@ public class Layout implements Pool.Poolable {
         Line.POOL.freeAll(lines);
         lines.clear();
         lines.add(Line.POOL.obtain());
+        atLimit = false;
         return this;
     }
 

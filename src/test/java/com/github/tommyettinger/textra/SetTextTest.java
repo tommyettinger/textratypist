@@ -53,19 +53,19 @@ public class SetTextTest extends ApplicationAdapter {
                 "[*]Локус[*] [*]контроля[*] - свойство " +
                 "личности приписывать " +
                 "свои неудачи и успехи " +
-                "либо внешним факторам " +
-                "(погода, везение, другие " +
-                "люди, судьба-злодейка), " +
-                "либо внутренним (я сам, " +
-                "моё отношение, мои" +
-                "действия)";
+                "либо внешним факторам " + "";
+//                "(погода, везение, другие " +
+//                "люди, судьба-злодейка), " +
+//                "либо внутренним (я сам, " +
+//                "моё отношение, мои" +
+//                "действия)";
         typingLabel = new TypingLabel(
                 text, new Label.LabelStyle(), gentium);
         typingLabel.setWrap(true);
         typingLabel.skipToTheEnd();
         typingLabel.setAlignment(center);
-        typingLabel.setMaxLines(3);
-        typingLabel.setEllipsis("...");
+        typingLabel.layout.setMaxLines(2);
+        typingLabel.layout.setEllipsis("...");
         textraLabel = new TextraLabel(
                 "[RED]" + text, new Label.LabelStyle(), gentium);
         textraLabel.setWrap(true);
@@ -83,10 +83,13 @@ public class SetTextTest extends ApplicationAdapter {
 
         stage.act();
         stage.draw();
+        System.out.println("!!!  On frame #" + ctr);
+        System.out.println(typingLabel.layout.toString());
+        System.out.println(typingLabel);
 
         random.setSeed(++ctr);
         if ((ctr & 3) == 0) {
-            System.out.println("typingLabel has " + typingLabel.getMaxLines() + " max lines and " + typingLabel.getEllipsis() + " ellipsis.");
+            System.out.println("typingLabel has " + typingLabel.layout.getMaxLines() + " max lines and " + typingLabel.layout.getEllipsis() + " ellipsis.");
             text = StringUtils.shuffleWords(text, random);
             typingLabel.setText(text);
             typingLabel.skipToTheEnd();
