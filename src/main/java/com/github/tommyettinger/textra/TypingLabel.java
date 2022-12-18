@@ -416,9 +416,9 @@ public class TypingLabel extends TextraLabel {
     public void restart(String newText) {
         // Reset cache collections
         workingLayout.baseColor = Color.WHITE_FLOAT_BITS;
-        workingLayout.maxLines = Integer.MAX_VALUE;
         workingLayout.atLimit = false;
-        workingLayout.ellipsis = null;
+//        workingLayout.maxLines = Integer.MAX_VALUE;
+//        workingLayout.ellipsis = null;
         Line.POOL.freeAll(workingLayout.lines);
         workingLayout.lines.clear();
         workingLayout.lines.add(Line.POOL.obtain());
@@ -1012,7 +1012,6 @@ public class TypingLabel extends TextraLabel {
             intermediateText.setLength(0);
             intermediateText.append(text);
         }
-        intermediateText.trimToSize();
         if (modifyOriginalText) saveOriginalText(text);
         if (restart) {
             this.restart();
