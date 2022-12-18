@@ -64,7 +64,7 @@ public class WindEffect extends Effect {
 
         // Duration
         if (params.length > 4) {
-            this.duration = paramAsFloat(params[4], -1);
+            this.duration = paramAsFloat(params[4], Float.POSITIVE_INFINITY);
         }
     }
 

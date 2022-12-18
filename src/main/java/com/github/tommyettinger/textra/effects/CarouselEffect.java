@@ -39,7 +39,7 @@ public class CarouselEffect extends Effect {
 
         // Duration
         if (params.length > 1) {
-            this.duration = paramAsFloat(params[1], -1);
+            this.duration = paramAsFloat(params[1], Float.POSITIVE_INFINITY);
         }
     }
 
