@@ -33,7 +33,7 @@ public class TriggerEffect extends Effect {
         super(label);
         label.trackingInput = true;
 
-        // URL
+        // Event name
         if (params.length > 0) {
             this.event = StringUtils.join(";", params);
         }

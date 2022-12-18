@@ -46,7 +46,7 @@ public class CrowdEffect extends Effect {
 
         // Duration
         if (params.length > 2) {
-            this.duration = paramAsFloat(params[2], -1);
+            this.duration = paramAsFloat(params[2], Float.POSITIVE_INFINITY);
         }
     }
 

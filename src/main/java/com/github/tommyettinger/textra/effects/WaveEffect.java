@@ -52,7 +52,7 @@ public class WaveEffect extends Effect {
 
         // Duration
         if (params.length > 3) {
-            this.duration = paramAsFloat(params[3], -1);
+            this.duration = paramAsFloat(params[3], Float.POSITIVE_INFINITY);
         }
     }
 

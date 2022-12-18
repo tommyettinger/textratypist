@@ -52,17 +52,17 @@ public abstract class Effect {
     protected abstract void onApply(long glyph, int localIndex, int globalIndex, float delta);
 
     /**
-     * Returns whether or not this effect is finished and should be removed. Note that effects are infinite by default.
+     * Returns whether this effect is finished and should be removed. Note that effects are infinite by default.
      */
     public boolean isFinished() {
-        return totalTime > duration;
+        return duration < 0 || totalTime > duration;
     }
 
     /**
      * Calculates the fadeout of this effect, if any. Only considers the second half of the duration.
      */
     protected float calculateFadeout() {
-        if (duration == Float.POSITIVE_INFINITY) return 1;
+        if (duration < 0 || duration == Float.POSITIVE_INFINITY) return 1;
 
         // Calculate raw progress
         float progress = MathUtils.clamp(totalTime / duration, 0, 1);
