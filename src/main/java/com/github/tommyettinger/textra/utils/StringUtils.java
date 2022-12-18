@@ -16,6 +16,10 @@
 
 package com.github.tommyettinger.textra.utils;
 
+import com.badlogic.gdx.math.MathUtils;
+
+import java.util.Random;
+
 public final class StringUtils {
     private StringUtils() {}
 
@@ -28,5 +32,32 @@ public final class StringUtils {
             sb.append(delimiter).append(items[i]);
         }
         return sb.toString();
+    }
+
+    /**
+     * Shuffles the words in {@code text} using {@link MathUtils#random}, joins them with a space as the delimiter, and
+     * returns that String.
+     * @param text a String containing typically many whitespace-separated words
+     * @return text with its words shuffled randomly
+     */
+    public static String shuffleWords(String text) {
+        return shuffleWords(text, MathUtils.random);
+    }
+    /**
+     * Shuffles the words in {@code text} using the given Random generator, joins them with a space as the delimiter,
+     * and returns that String. The generator can be seeded to get replicable results.
+     * @param text a String containing typically many whitespace-separated words
+     * @return text with its words shuffled randomly
+     */
+    public static String shuffleWords(String text, Random generator) {
+        String[] items = text.split("\\s+");
+        int length = items.length;
+        for (int i = length - 1; i > 0; i--) {
+            int ii = generator.nextInt(i + 1);
+            String temp = items[i];
+            items[i] = items[ii];
+            items[ii] = temp;
+        }
+        return join(" ", items);
     }
 }
