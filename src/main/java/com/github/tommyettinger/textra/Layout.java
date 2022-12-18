@@ -237,6 +237,7 @@ public class Layout implements Pool.Poolable {
 
     /**
      * Sets the maximum number of {@link Line}s this Layout can contain; this is always at least 1.
+     * For effectively unlimited lines, pass {@link Integer#MAX_VALUE} to this.
      *
      * @param maxLines the limit for how many Line objects this Layout can contain; always 1 or more
      */

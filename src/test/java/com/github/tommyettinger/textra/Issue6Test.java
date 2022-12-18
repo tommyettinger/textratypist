@@ -65,6 +65,8 @@ public class Issue6Test extends ApplicationAdapter {
         typingLabel.setWrap(true);
         typingLabel.skipToTheEnd();
         typingLabel.setAlignment(center);
+        typingLabel.setMaxLines(3);
+        typingLabel.setEllipsis("...");
         textraLabel = new TextraLabel(
                 "[RED]" + text, new Label.LabelStyle(), gentium);
         textraLabel.setWrap(true);
@@ -85,6 +87,7 @@ public class Issue6Test extends ApplicationAdapter {
 
         random.setSeed(++ctr);
         if ((ctr & 3) == 0) {
+            System.out.println("typingLabel has " + typingLabel.getMaxLines() + " max lines and " + typingLabel.getEllipsis() + " ellipsis.");
             text = StringUtils.shuffleWords(text, random);
             typingLabel.setText(text);
             typingLabel.skipToTheEnd();
