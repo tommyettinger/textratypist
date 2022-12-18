@@ -577,6 +577,7 @@ public class TypingLabel extends TextraLabel {
 
                 // Increment cooldown and wait for it
                 if(textSpeed < 0f) {
+                    // "natural" text speed
                     charCooldown += textSpeed * randomize(glyphCharIndex);
                 }
                 else
@@ -704,8 +705,8 @@ public class TypingLabel extends TextraLabel {
             }
         }
         if (wrap) {
-            float actualWidth = getWidth();
-            workingLayout.setTargetWidth(actualWidth);
+//            float actualWidth = getWidth();
+//            workingLayout.setTargetWidth(actualWidth);
             font.regenerateLayout(workingLayout);
 //            parseTokens();
             // Used previously; calls markup() too much.
@@ -758,6 +759,7 @@ public class TypingLabel extends TextraLabel {
         super.layout();
 
         if (wrap && (workingLayout.getTargetWidth() != getWidth())) {
+            workingLayout.setTargetWidth(getWidth());
             font.regenerateLayout(workingLayout);
         }
     }
