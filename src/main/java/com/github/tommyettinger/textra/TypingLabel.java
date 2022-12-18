@@ -684,7 +684,7 @@ public class TypingLabel extends TextraLabel {
             }
 
             // Break loop if this was our first glyph to prevent glyph issues.
-            if (glyphCharIndex == 0) {
+            if (glyphCharIndex == 0 && !skipping) {
 //                // Notify listener about char progression
 //                if (glyphCharIndex < layoutSize && rawCharIndex >= 0 && listener != null) {
 //                    listener.onChar(getInLayout(layout, glyphCharIndex));
