@@ -3827,91 +3827,91 @@ public class Font implements Disposable {
                         initial = true;
                     }
                     if (later == null) {
-
-                        //// ELLIPSIS FOR VISIBLE
-
-                        // here, the max lines have been reached, and an ellipsis may need to be added
-                        // to the last line.
-                        String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
-                        for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
-                            long curr;
-                            if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                    Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
-                                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
-                                    --j;
-                                }
-                                float change = 0f;
-                                if (font.kerning == null) {
-
-                                    // NO KERNING
-
-                                    boolean curly = false;
-                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
-                                        curr = earlier.glyphs.get(k);
-                                        if (curly) {
-                                            if ((char) curr == '{') {
-                                                curly = false;
-                                            } else if ((char) curr == '}') {
-                                                curly = false;
-                                                continue;
-                                            } else continue;
-                                        }
-                                        if ((char) curr == '{') {
-                                            curly = true;
-                                            continue;
-                                        }
-
-                                        float adv = xAdvance(font, scaleX, curr);
-                                        change += adv;
-                                    }
-                                    for (int e = 0; e < ellipsis.length(); e++) {
-                                        curr = current | ellipsis.charAt(e);
-                                        float adv = xAdvance(font, scaleX, curr);
-                                        change -= adv;
-                                    }
-                                } else {
-
-                                    // YES KERNING
-
-                                    int k2 = (char) earlier.glyphs.get(j);
-                                    kern = -1;
-                                    boolean curly = false;
-                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
-                                        curr = earlier.glyphs.get(k);
-                                        if (curly) {
-                                            if ((char) curr == '{') {
-                                                curly = false;
-                                            } else if ((char) curr == '}') {
-                                                curly = false;
-                                                continue;
-                                            } else continue;
-                                        }
-                                        if ((char) curr == '{') {
-                                            curly = true;
-                                            continue;
-                                        }
-                                        k2 = k2 << 16 | (char) curr;
-                                        float adv = xAdvance(font, scaleX, curr);
-                                        change += adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
-                                    }
-                                    for (int e = 0; e < ellipsis.length(); e++) {
-                                        curr = current | ellipsis.charAt(e);
-                                        k2 = k2 << 16 | (char) curr;
-                                        float adv = xAdvance(font, scaleX, curr);
-                                        change -= adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
-                                    }
-                                }
-                                if (earlier.width - change > targetWidth)
-                                    continue;
-                                earlier.glyphs.truncate(j + 1);
-                                for (int e = 0; e < ellipsis.length(); e++) {
-                                    earlier.glyphs.add(current | ellipsis.charAt(e));
-                                }
-                                earlier.width -= change;
-                                return appendTo;
-                            }
-                        }
+                        if(handleEllipsis(appendTo)) return appendTo;
+//                        //// ELLIPSIS FOR VISIBLE
+//
+//                        // here, the max lines have been reached, and an ellipsis may need to be added
+//                        // to the last line.
+//                        String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
+//                        for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
+//                            long curr;
+//                            if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+//                                    Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
+//                                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+//                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
+//                                    --j;
+//                                }
+//                                float change = 0f;
+//                                if (font.kerning == null) {
+//
+//                                    // NO KERNING
+//
+//                                    boolean curly = false;
+//                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
+//                                        curr = earlier.glyphs.get(k);
+//                                        if (curly) {
+//                                            if ((char) curr == '{') {
+//                                                curly = false;
+//                                            } else if ((char) curr == '}') {
+//                                                curly = false;
+//                                                continue;
+//                                            } else continue;
+//                                        }
+//                                        if ((char) curr == '{') {
+//                                            curly = true;
+//                                            continue;
+//                                        }
+//
+//                                        float adv = xAdvance(font, scaleX, curr);
+//                                        change += adv;
+//                                    }
+//                                    for (int e = 0; e < ellipsis.length(); e++) {
+//                                        curr = current | ellipsis.charAt(e);
+//                                        float adv = xAdvance(font, scaleX, curr);
+//                                        change -= adv;
+//                                    }
+//                                } else {
+//
+//                                    // YES KERNING
+//
+//                                    int k2 = (char) earlier.glyphs.get(j);
+//                                    kern = -1;
+//                                    boolean curly = false;
+//                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
+//                                        curr = earlier.glyphs.get(k);
+//                                        if (curly) {
+//                                            if ((char) curr == '{') {
+//                                                curly = false;
+//                                            } else if ((char) curr == '}') {
+//                                                curly = false;
+//                                                continue;
+//                                            } else continue;
+//                                        }
+//                                        if ((char) curr == '{') {
+//                                            curly = true;
+//                                            continue;
+//                                        }
+//                                        k2 = k2 << 16 | (char) curr;
+//                                        float adv = xAdvance(font, scaleX, curr);
+//                                        change += adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+//                                    }
+//                                    for (int e = 0; e < ellipsis.length(); e++) {
+//                                        curr = current | ellipsis.charAt(e);
+//                                        k2 = k2 << 16 | (char) curr;
+//                                        float adv = xAdvance(font, scaleX, curr);
+//                                        change -= adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+//                                    }
+//                                }
+//                                if (earlier.width - change > targetWidth)
+//                                    continue;
+//                                earlier.glyphs.truncate(j + 1);
+//                                for (int e = 0; e < ellipsis.length(); e++) {
+//                                    earlier.glyphs.add(current | ellipsis.charAt(e));
+//                                }
+//                                earlier.width -= change;
+//                                return appendTo;
+//                            }
+//                        }
                     } else {
 
                         //// WRAP VISIBLE
@@ -4021,6 +4021,104 @@ public class Font implements Disposable {
             }
         }
         return appendTo;
+    }
+
+    protected boolean handleEllipsis(Layout appendTo) {
+        Font font = null;
+        Line earlier = appendTo.peekLine();
+        //// ELLIPSIS FOR VISIBLE
+
+        // here, the max lines have been reached, and an ellipsis may need to be added
+        // to the last line.
+        String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
+        for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
+            long curr;
+            if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                    Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
+                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
+                    --j;
+                }
+                if (family != null) font = family.connected[(int) (curr >>> 16 & 15)];
+                if (font == null) font = this;
+
+                float change = 0f;
+                if (font.kerning == null) {
+
+                    // NO KERNING
+
+                    boolean curly = false;
+                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
+                        curr = earlier.glyphs.get(k);
+                        if (family != null) font = family.connected[(int) (curr >>> 16 & 15)];
+                        if (font == null) font = this;
+
+                        if (curly) {
+                            if ((char) curr == '{') {
+                                curly = false;
+                            } else if ((char) curr == '}') {
+                                curly = false;
+                                continue;
+                            } else continue;
+                        }
+                        if ((char) curr == '{') {
+                            curly = true;
+                            continue;
+                        }
+
+                        float adv = xAdvance(font, scaleX, curr);
+                        change += adv;
+                    }
+                    for (int e = 0; e < ellipsis.length(); e++) {
+                        curr = (curr & 0xFFFFFFFFFFFF0000L) | ellipsis.charAt(e);
+                        float adv = xAdvance(font, scaleX, curr);
+                        change -= adv;
+                    }
+                } else {
+
+                    // YES KERNING
+
+                    int k2 = (char) earlier.glyphs.get(j);
+                    int kern = -1;
+                    boolean curly = false;
+                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
+                        curr = earlier.glyphs.get(k);
+                        if (family != null) font = family.connected[(int) (curr >>> 16 & 15)];
+                        if (font == null) font = this;
+                        if (curly) {
+                            if ((char) curr == '{') {
+                                curly = false;
+                            } else if ((char) curr == '}') {
+                                curly = false;
+                                continue;
+                            } else continue;
+                        }
+                        if ((char) curr == '{') {
+                            curly = true;
+                            continue;
+                        }
+                        k2 = k2 << 16 | (char) curr;
+                        float adv = xAdvance(font, scaleX, curr);
+                        change += adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+                    }
+                    for (int e = 0; e < ellipsis.length(); e++) {
+                        curr = (curr & 0xFFFFFFFFFFFF0000L) | ellipsis.charAt(e);
+                        k2 = k2 << 16 | (char) curr;
+                        float adv = xAdvance(font, scaleX, curr);
+                        change -= adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+                    }
+                }
+                if (earlier.width - change > appendTo.targetWidth)
+                    continue;
+                earlier.glyphs.truncate(j + 1);
+                for (int e = 0; e < ellipsis.length(); e++) {
+                    earlier.glyphs.add((curr & 0xFFFFFFFFFFFF0000L) | ellipsis.charAt(e));
+                }
+                earlier.width -= change;
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -4555,7 +4653,6 @@ public class Font implements Disposable {
             int cutoff, breakPoint = -2, spacingPoint = -2, spacingSpan = 0;
             int scale;
             LongArray glyphs = line.glyphs;
-//            boolean hasMultipleGaps = false;
             int kern = -1;
             float amt;
             for (int i = 0, n = glyphs.size; i < n; i++) {
@@ -4582,6 +4679,10 @@ public class Font implements Disposable {
                         next = changing.pushLine();
                         glyphs.pop();
                         if (next == null) {
+                            if(handleEllipsis(changing)) {
+                                calculateSize(changing);
+                                return changing;
+                            }
                             break;
                         }
                         next.height = Math.max(next.height, font.cellHeight * (scale + 1) * 0.25f);
@@ -4600,7 +4701,6 @@ public class Font implements Disposable {
                         if(ox < 0) changedW -= ox;
                     }
                     if (breakPoint >= 0 && drawn + changedW > targetWidth) {
-//                    if (hasMultipleGaps && drawn + changedW > targetWidth) {
                         cutoff = breakPoint - spacingSpan + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
@@ -4610,6 +4710,10 @@ public class Font implements Disposable {
                             next = changing.getLine(ln + 1);
                         if (next == null) {
                             glyphs.truncate(cutoff);
+                            if(handleEllipsis(changing)) {
+                                calculateSize(changing);
+                                return changing;
+                            }
                             break;
                         }
                         next.height = Math.max(next.height, font.cellHeight * (scale + 1) * 0.25f);
@@ -4619,6 +4723,10 @@ public class Font implements Disposable {
                         System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
                         System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
                         glyphs.truncate(cutoff);
+                        if(handleEllipsis(changing)) {
+                            calculateSize(changing);
+                            return changing;
+                        }
                         break;
                     }
                     if (glyph >>> 32 == 0L) {
@@ -4656,6 +4764,10 @@ public class Font implements Disposable {
                         next = changing.pushLine();
                         glyphs.pop();
                         if (next == null) {
+                            if(handleEllipsis(changing)) {
+                                calculateSize(changing);
+                                return changing;
+                            }
                             break;
                         }
                         next.height = Math.max(next.height, font.cellHeight * (scale + 1) * 0.25f);
@@ -4685,6 +4797,10 @@ public class Font implements Disposable {
                             next = changing.getLine(ln + 1);
                         if (next == null) {
                             glyphs.truncate(cutoff);
+                            if(handleEllipsis(changing)) {
+                                calculateSize(changing);
+                                return changing;
+                            }
                             break;
                         }
                         next.height = Math.max(next.height, font.cellHeight * (scale + 1) * 0.25f);
