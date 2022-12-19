@@ -1083,7 +1083,6 @@ public class TypingLabel extends TextraLabel {
      * @param ellipsis a String for a Layout to end with if its max lines are exceeded, or null to avoid such truncation
      */
     public void setEllipsis(String ellipsis) {
-        layout.setEllipsis(ellipsis);
         workingLayout.setEllipsis(ellipsis);
     }
 
