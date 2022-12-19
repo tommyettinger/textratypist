@@ -49,7 +49,7 @@ public class SetTextTest extends ApplicationAdapter {
 
         Font gentium = KnownFonts.getGentium();
 
-        text = "Satchmo is a cat, who is extremely fat; when he sits down, throughout the town, we all think, 'What was that?'";
+        text = "Satchmo is a cat, who is extremely fat; when he sits down, throughout the town, we all think, 'What was that? Did it happen again (that thunderous din)? What could ever make, such a powerful quake, but a cat with a double chin?'";
 //                "[*]Локус[*] [*]контроля[*] - свойство " +
 //                "личности приписывать " +
 //                "свои неудачи и успехи " +
@@ -60,11 +60,12 @@ public class SetTextTest extends ApplicationAdapter {
 //                "моё отношение, мои" +
 //                "действия)";
         typingLabel = new TypingLabel(
-                text, new Label.LabelStyle(), gentium);
+                "", new Label.LabelStyle(), gentium);
         typingLabel.setWrap(true);
         typingLabel.setAlignment(center);
         typingLabel.setMaxLines(2);
         typingLabel.setEllipsis("...");
+        typingLabel.setText(text);
         typingLabel.skipToTheEnd();
         textraLabel = new TextraLabel(
                 "[RED]" + text, new Label.LabelStyle(), gentium);
@@ -91,7 +92,7 @@ public class SetTextTest extends ApplicationAdapter {
 
         random.setSeed(++ctr);
         if ((ctr & 3) == 0) {
-            System.out.println("typingLabel has " + typingLabel.layout.getMaxLines() + " max lines and " + typingLabel.layout.getEllipsis() + " ellipsis.");
+            System.out.println("typingLabel has " + typingLabel.getMaxLines() + " max lines and " + typingLabel.getEllipsis() + " ellipsis.");
             text = StringUtils.shuffleWords(text, random);
             typingLabel.setText(text);
             typingLabel.skipToTheEnd();
