@@ -49,11 +49,11 @@ public class SetTextTest extends ApplicationAdapter {
 
         Font gentium = KnownFonts.getGentium();
 
-        text =
-                "[*]Локус[*] [*]контроля[*] - свойство " +
-                "личности приписывать " +
-                "свои неудачи и успехи " +
-                "либо внешним факторам " + "";
+        text = "Satchmo is a cat, who is extremely fat; when he sits down, throughout the town, we all think, 'What was that?'";
+//                "[*]Локус[*] [*]контроля[*] - свойство " +
+//                "личности приписывать " +
+//                "свои неудачи и успехи " +
+//                "либо внешним факторам " +
 //                "(погода, везение, другие " +
 //                "люди, судьба-злодейка), " +
 //                "либо внутренним (я сам, " +
@@ -62,18 +62,20 @@ public class SetTextTest extends ApplicationAdapter {
         typingLabel = new TypingLabel(
                 text, new Label.LabelStyle(), gentium);
         typingLabel.setWrap(true);
-        typingLabel.skipToTheEnd();
         typingLabel.setAlignment(center);
-        typingLabel.layout.setMaxLines(2);
-        typingLabel.layout.setEllipsis("...");
+        typingLabel.setMaxLines(2);
+        typingLabel.setEllipsis("...");
+        typingLabel.skipToTheEnd();
         textraLabel = new TextraLabel(
                 "[RED]" + text, new Label.LabelStyle(), gentium);
         textraLabel.setWrap(true);
-        textraLabel.skipToTheEnd();
         textraLabel.setAlignment(center);
-
+        textraLabel.layout.setMaxLines(2);
+        textraLabel.layout.setEllipsis("...");
+        textraLabel.skipToTheEnd();
         Stack stack = new Stack(textraLabel, typingLabel);
         stack.setFillParent(true);
+        stack.pack();
         stage.addActor(stack);
     }
 
