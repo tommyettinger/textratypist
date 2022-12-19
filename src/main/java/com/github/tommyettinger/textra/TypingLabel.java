@@ -608,7 +608,6 @@ public class TypingLabel extends TextraLabel {
                 String token = entry.token;
                 TokenCategory category = entry.category;
                 rawCharIndex = entry.endIndex - 1;
-//                glyphCharIndex--;
                 // Process tokens
                 switch (category) {
                     case SPEED: {
@@ -616,18 +615,9 @@ public class TypingLabel extends TextraLabel {
                         continue;
                     }
                     case WAIT: {
-//                        glyphCharIndex--;
-//                        rawCharIndex--;
-//                        glyphCharCompensation++;
                         charCooldown += entry.floatValue;
                         continue;
                     }
-//                    case SKIP: {
-//                        if (entry.stringValue != null) {
-//                            rawCharIndex += entry.stringValue.length();
-//                        }
-//                        break;
-//                    }
                     case EVENT: {
                         triggerEvent(entry.stringValue, false);
                         continue;
@@ -705,13 +695,7 @@ public class TypingLabel extends TextraLabel {
             }
         }
         if (wrap) {
-//            float actualWidth = getWidth();
-//            workingLayout.setTargetWidth(actualWidth);
-            font.regenerateLayout(workingLayout);
-//            parseTokens();
-            // Used previously; calls markup() too much.
-//            this.setText(intermediateText.toString(), false, false);
-
+//            font.regenerateLayout(workingLayout);
         } else {
             font.calculateSize(workingLayout);
         }
@@ -738,7 +722,9 @@ public class TypingLabel extends TextraLabel {
     public void setSize(float width, float height) {
         super.setSize(width, height);
         if (wrap) {
-            workingLayout.setTargetWidth(width);
+            if((workingLayout.getTargetWidth() != getWidth()))
+                workingLayout.setTargetWidth(width);
+            font.regenerateLayout(workingLayout);
         }
     }
 
@@ -1097,6 +1083,7 @@ public class TypingLabel extends TextraLabel {
      * @param ellipsis a String for a Layout to end with if its max lines are exceeded, or null to avoid such truncation
      */
     public void setEllipsis(String ellipsis) {
+        layout.setEllipsis(ellipsis);
         workingLayout.setEllipsis(ellipsis);
     }
 
