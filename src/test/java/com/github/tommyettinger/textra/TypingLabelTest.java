@@ -21,10 +21,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.visible;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class TypingLabelTest extends ApplicationAdapter {
     Skin        skin;
@@ -89,12 +86,16 @@ public class TypingLabelTest extends ApplicationAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 label.restart();
-
-//                label.skipToTheEnd();
-
+                Cell<TypingLabel> labelCell = table.getCell(label);
+//                label.skipToTheEnd(false, false);
                 labelEvent.setVisible(false);
                 labelEvent.restart();
                 labelEvent.pause();
+                table.pack();
+//                System.out.println("Label height: " + labelCell.getActorHeight()
+//                        + ", cell max height: " + labelCell.getMaxHeight()
+//                        + ", cell pref height: " + labelCell.getPrefHeight());
+
             }
         });
 
@@ -106,12 +107,14 @@ public class TypingLabelTest extends ApplicationAdapter {
                 Cell<TypingLabel> labelCell = table.getCell(label);
                 label = createTypingLabel();
                 labelCell.setActor(label);
-
-//                label.skipToTheEnd();
-
+//                label.skipToTheEnd(false, false);
                 labelEvent.setVisible(false);
                 labelEvent.restart();
                 labelEvent.pause();
+                table.pack();
+//                System.out.println("Label height: " + labelCell.getActorHeight()
+//                        + ", cell max height: " + labelCell.getMaxHeight()
+//                        + ", cell pref height: " + labelCell.getPrefHeight());
             }
         });
 
@@ -291,15 +294,14 @@ public class TypingLabelTest extends ApplicationAdapter {
 
             @Override
             public void end() {
-                System.out.println("End");
-                label.skipToTheEnd(false, false);
+                System.out.println(label);
             }
         });
 
         label.setWrap(true);
 
         // Finally parse tokens in the label text.
-        label.parseTokens();
+//        label.parseTokens();
 
         return label;
     }

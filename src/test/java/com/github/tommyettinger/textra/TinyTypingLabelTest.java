@@ -68,11 +68,12 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 label.restart();
-                label.skipToTheEnd();
+//                label.skipToTheEnd();
                 Cell<TypingLabel> labelCell = table.getCell(label);
-                System.out.println("Label height: " + labelCell.getActorHeight()
-                        + ", cell max height: " + labelCell.getMaxHeight()
-                        + ", cell pref height: " + labelCell.getPrefHeight());
+                table.pack();
+//                System.out.println("Label height: " + labelCell.getActorHeight()
+//                        + ", cell max height: " + labelCell.getMaxHeight()
+//                        + ", cell pref height: " + labelCell.getPrefHeight());
 
             }
         });
@@ -85,10 +86,11 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 Cell<TypingLabel> labelCell = table.getCell(label);
                 label = createTypingLabel();
                 labelCell.setActor(label);
-                label.skipToTheEnd();
-                System.out.println("Label height: " + labelCell.getActorHeight()
-                        + ", cell max height: " + labelCell.getMaxHeight()
-                        + ", cell pref height: " + labelCell.getPrefHeight());
+//                label.skipToTheEnd();
+                table.pack();
+//                System.out.println("Label height: " + labelCell.getActorHeight()
+//                        + ", cell max height: " + labelCell.getMaxHeight()
+//                        + ", cell pref height: " + labelCell.getPrefHeight());
             }
         });
 
@@ -195,12 +197,12 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 
             @Override
             public void end() {
-                System.out.println(label.getIntermediateText());
+                System.out.println(label);
             }
         });
 
         // Finally parse tokens in the label text.
-        label.parseTokens();
+//        label.parseTokens();
 
         return label;
     }
