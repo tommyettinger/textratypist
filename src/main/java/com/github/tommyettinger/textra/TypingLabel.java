@@ -168,7 +168,9 @@ public class TypingLabel extends TextraLabel {
     }
 
     public TypingLabel(String text, Font font) {
-        super(text = Parser.preprocess(text), font);
+        this.font = font;
+        layout = Layout.POOL.obtain();
+        storedText = (text = Parser.preprocess(text));
         workingLayout.font(font);
         saveOriginalText(text);
     }

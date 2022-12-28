@@ -89,6 +89,9 @@ public class TypingLabelTest extends ApplicationAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 label.restart();
+
+//                label.skipToTheEnd();
+
                 labelEvent.setVisible(false);
                 labelEvent.restart();
                 labelEvent.pause();
@@ -103,6 +106,9 @@ public class TypingLabelTest extends ApplicationAdapter {
                 Cell<TypingLabel> labelCell = table.getCell(label);
                 label = createTypingLabel();
                 labelCell.setActor(label);
+
+//                label.skipToTheEnd();
+
                 labelEvent.setVisible(false);
                 labelEvent.restart();
                 labelEvent.pause();

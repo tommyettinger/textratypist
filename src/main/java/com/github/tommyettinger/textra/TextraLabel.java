@@ -35,7 +35,13 @@ public class TextraLabel extends Widget {
     public Layout layout;
     protected Font font;
     public int align = Align.left;
-    public boolean wrap = false;
+    /**
+     * If true; allows text to wrap when it would go past the layout's {@link Layout#getTargetWidth() targetWidth} and
+     * continue on the next line; if false, breaks everything for some reason. This is being refactored to always act
+     * like this did with wrap on in versions 0.7.4 and earlier, and instead use a very long target width when it is set
+     * to false.
+     */
+    public boolean wrap = true; // changed from default false in 0.7.5
     public String storedText;
     public Label.LabelStyle style;
 
