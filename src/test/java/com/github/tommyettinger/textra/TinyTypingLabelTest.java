@@ -68,6 +68,12 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 label.restart();
+                label.skipToTheEnd();
+                Cell<TypingLabel> labelCell = table.getCell(label);
+                System.out.println("Label height: " + labelCell.getActorHeight()
+                        + ", cell max height: " + labelCell.getMaxHeight()
+                        + ", cell pref height: " + labelCell.getPrefHeight());
+
             }
         });
 
@@ -79,6 +85,10 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 Cell<TypingLabel> labelCell = table.getCell(label);
                 label = createTypingLabel();
                 labelCell.setActor(label);
+                label.skipToTheEnd();
+                System.out.println("Label height: " + labelCell.getActorHeight()
+                        + ", cell max height: " + labelCell.getMaxHeight()
+                        + ", cell pref height: " + labelCell.getPrefHeight());
             }
         });
 
@@ -169,9 +179,9 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         label.align = Align.topLeft;
 
         // Make the label wrap to new lines, respecting the table's layout.
-        label.wrap = true;
+        label.setWrap(true);
         label.layout.maxLines = 15;
-        label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth() - 100);
+//        label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth() - 100);
 
         // Set variable replacements for the {VAR} token
         label.setVariable("title", "curious human");
