@@ -313,7 +313,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0.6f, 0.5f, 0.7f, 1);
+        Gdx.gl.glClearColor(0.6f, 0.6f, 0.66f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(Gdx.graphics.getDeltaTime());

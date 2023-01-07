@@ -22,7 +22,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.DistanceFieldFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -3113,7 +3117,7 @@ public class Font implements Disposable {
         if (tr == null) return 0f;
 
         if(squashed) {
-            sizingY *= 0.625f;
+            sizingY *= 0.7f;
         }
 
         float color = NumberUtils.intBitsToFloat(
@@ -3121,7 +3125,7 @@ public class Font implements Disposable {
                 | (int)(batch.getColor().r * (glyph >>> 56))
                 | (int)(batch.getColor().g * (glyph >>> 48 & 0xFF)) << 8
                 | (int)(batch.getColor().b * (glyph >>> 40 & 0xFF)) << 16);
-        float scale = ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+        float scale = ((glyph & ALTERNATE) == ALTERNATE) ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
         float scaleX;
         float scaleY;
         if(c >= 0xE000 && c < 0xF800){
@@ -3486,6 +3490,7 @@ public class Font implements Disposable {
                     appendTo.add(current | c);
                     if (c == '@') fontChange = i;
                     else if (c == '%') sizeChange = i;
+                    else if (c == '?') sizeChange = -1;
                     else if (c == '=') eq = Math.min(eq, i);
                 }
                 char after = eq + 1 >= end ? '\u0000' : text.charAt(eq + 1);
@@ -3611,6 +3616,7 @@ public class Font implements Disposable {
                                         current = ((current & 0xFFFFFFFFFE0FFFFFL) | ALTERNATE) ^ (intFromDec(text, i+2, i + len) & 15) << 20;
                                     else
                                         current = (current & 0xFFFFFFFFFE0FFFFFL); // clear alternate modes and scaling
+                                    scale = 3;
                                 } else {
                                     current = (current & 0xFFFFFFFFFE0FFFFFL) | ((scale = ((intFromDec(text, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
                                 }
@@ -4313,7 +4319,7 @@ public class Font implements Disposable {
                     c = markup.charAt(i);
                     if (c == '@') fontChange = i;
                     else if (c == '%') sizeChange = i;
-                    else if (c == '?') sizeChange = i;
+                    else if (c == '?') sizeChange = -1;
                     else if (c == '=') eq = Math.min(eq, i);
                 }
                 char after = eq + 1 >= end ? '\u0000' : markup.charAt(eq + 1);
@@ -4434,6 +4440,7 @@ public class Font implements Disposable {
                                         current = ((current & 0xFFFFFFFFFE0FFFFFL) | ALTERNATE) ^ (intFromDec(markup, i+2, i + len) & 15);
                                     else
                                         current = (current & 0xFFFFFFFFFE0FFFFFL); // clear alternate modes and scaling
+                                    scale = 3;
                                 } else {
                                     current = (current & 0xFFFFFFFFFE0FFFFFL) | ((scale = ((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
                                 }
