@@ -553,6 +553,19 @@ public class Font implements Disposable {
      */
     public static final long ALTERNATE = 1L << 24;
     /**
+     * Bit flag for matching alternate modes, as a long.
+     * If a glyph is masked with this ({@code (glyph & ALTERNATE_MODES_MASK)}), and that equals one of the alternate
+     * mode bit flags exactly ({@link #BLACK_OUTLINE}, {@link #WHITE_OUTLINE}, {@link #DROP_SHADOW}, and so on), then
+     * that mode is enabled. This does not match {@link #SMALL_CAPS}, because small caps mode can be enabled separately
+     * from the outline/shadow/etc. modes.
+     * <br>
+     * You should generally check both this mask and SMALL_CAPS because as modes are added, there could be a mode that
+     * requires {@link #SMALL_CAPS} to be disabled and, when a glyph is masked with this field, that mask to be exactly
+     * equal to {@link #ALTERNATE}. In other words, that is a case where the alternate bit flag is enabled, but all the
+     * bits that normally affect it are disabled.
+     */
+    public static final long ALTERNATE_MODES_MASK = 30L << 20;
+    /**
      * Bit flag for small caps mode, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with other alternate modes, but cannot be used at the same time as scaling.
@@ -3222,30 +3235,44 @@ public class Font implements Disposable {
                     tr.xAdvance * scaleX * sizingX, cellHeight * sizingY, rotation);
         }
 
-
-        // actually draw the glyph
-        vertices[2] = color;
-        vertices[3] = u;
-        vertices[4] = v;
-
-        vertices[7] = color;
-        vertices[8] = u;
-        vertices[9] = v2;
-
-        vertices[12] = color;
-        vertices[13] = u2;
-        vertices[14] = v2;
-
-        vertices[17] = color;
-        vertices[18] = u2;
-        vertices[19] = v;
-
         float p0x = xc + x0;
         float p0y = yt + y0 + h;
         float p1x = xc + x1;
         float p1y = yt + y1;
         float p2x = xc + x2 + w;
         float p2y = yt + y2;
+
+        vertices[3] = u;
+        vertices[4] = v;
+
+        vertices[8] = u;
+        vertices[9] = v2;
+
+        vertices[13] = u2;
+        vertices[14] = v2;
+
+        vertices[18] = u2;
+        vertices[19] = v;
+
+        if((glyph & ALTERNATE_MODES_MASK) == DROP_SHADOW) {
+            float shadow = -0X1.999998P-128f;//equal to NumberUtils.intBitsToFloat(0x80333333); (dark transparent gray)
+            vertices[2] = shadow;
+            vertices[7] = shadow;
+            vertices[12] = shadow;
+            vertices[17] = shadow;
+
+            vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + 1)) - (vertices[5] = (x + cos * p1x - sin * p1y + 1)) + (vertices[10] = (x + cos * p2x - sin * p2y + 1)));
+            vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y - 2)) - (vertices[6] = (y + sin * p1x + cos * p1y - 2)) + (vertices[11] = (y + sin * p2x + cos * p2y - 2)));
+
+            batch.draw(tex, vertices, 0, 20);
+
+        }
+
+        // actually draw the main glyph
+        vertices[2] = color;
+        vertices[7] = color;
+        vertices[12] = color;
+        vertices[17] = color;
 
         vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
         vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
