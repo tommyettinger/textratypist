@@ -557,25 +557,25 @@ public class Font implements Disposable {
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with other alternate modes, but cannot be used at the same time as scaling.
      */
-    public static final long SMALL_CAPS = 1L << 20;
+    public static final long SMALL_CAPS = 1L << 20 | ALTERNATE;
     /**
      * Bit flag for black outline mode, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      */
-    public static final long BLACK_OUTLINE = 1L << 21;
+    public static final long BLACK_OUTLINE = 2L << 20 | ALTERNATE;
     /**
      * Bit flag for white outline mode, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      */
-    public static final long WHITE_OUTLINE = 2L << 21;
+    public static final long WHITE_OUTLINE = 4L << 20 | ALTERNATE;
     /**
      * Bit flag for drop shadow mode, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      */
-    public static final long DROP_SHADOW = 3L << 21;
+    public static final long DROP_SHADOW = 6L << 20 | ALTERNATE;
 
     private final float[] vertices = new float[20];
     private final Layout tempLayout = Layout.POOL.obtain();
@@ -3089,9 +3089,20 @@ public class Font implements Disposable {
         Font font = null;
         if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
         if (font == null) font = this;
-        char c;
-        GlyphRegion tr = font.mapping.get(c = (char) glyph);
+        char c = (char) glyph;
+        boolean squashed = false;
+        if((glyph & SMALL_CAPS) == SMALL_CAPS) {
+            squashed = (c != (c = Category.caseUp(c)));
+            glyph = (glyph & 0xFFFFFFFFFFFF0000L) | c;
+        }
+
+        GlyphRegion tr = font.mapping.get(c);
         if (tr == null) return 0f;
+
+        if(squashed) {
+            sizingY *= 0.625f;
+        }
+
         float color = NumberUtils.intBitsToFloat(
                   (int) (batch.getColor().a * (glyph >>> 33 & 127)) << 25
                 | (int)(batch.getColor().r * (glyph >>> 56))
@@ -3570,7 +3581,7 @@ public class Font implements Disposable {
                                 // alternate mode, currently just takes a number for what mode to use
                                 if (text.charAt(i + 1) == '?') {
                                     if(len >= 3)
-                                        current = ((current & 0xFFFFFFFFFE0FFFFFL) | ALTERNATE) ^ (intFromDec(text, i+2, i + len) & 15);
+                                        current = ((current & 0xFFFFFFFFFE0FFFFFL) | ALTERNATE) ^ (intFromDec(text, i+2, i + len) & 15) << 20;
                                     else
                                         current = (current & 0xFFFFFFFFFE0FFFFFL); // clear alternate modes and scaling
                                 } else {
