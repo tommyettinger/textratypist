@@ -547,6 +547,35 @@ public class Font implements Disposable {
      * {@link #SUBSCRIPT}, {@link #MIDSCRIPT}, or SUPERSCRIPT are enabled.
      */
     public static final long SUPERSCRIPT = 3L << 25;
+    /**
+     * Bit flag for alternate mode, as a long.
+     * The behavior of the scale bits changes if alternate mode is enabled.
+     */
+    public static final long ALTERNATE = 1L << 24;
+    /**
+     * Bit flag for small caps mode, as a long.
+     * This only has its intended effect if alternate mode is enabled.
+     * This can overlap with other alternate modes, but cannot be used at the same time as scaling.
+     */
+    public static final long SMALL_CAPS = 1L << 20;
+    /**
+     * Bit flag for black outline mode, as a long.
+     * This only has its intended effect if alternate mode is enabled.
+     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     */
+    public static final long BLACK_OUTLINE = 1L << 21;
+    /**
+     * Bit flag for white outline mode, as a long.
+     * This only has its intended effect if alternate mode is enabled.
+     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     */
+    public static final long WHITE_OUTLINE = 2L << 21;
+    /**
+     * Bit flag for drop shadow mode, as a long.
+     * This only has its intended effect if alternate mode is enabled.
+     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     */
+    public static final long DROP_SHADOW = 3L << 21;
 
     private final float[] vertices = new float[20];
     private final Layout tempLayout = Layout.POOL.obtain();
@@ -3537,10 +3566,19 @@ public class Font implements Disposable {
                             capsLock = false;
                             break;
                         case '%':
-                            if (len >= 2)
-                                current = (current & 0xFFFFFFFFFF0FFFFFL) | ((scale = ((intFromDec(text, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                            if (len >= 2) {
+                                // alternate mode, currently just takes a number for what mode to use
+                                if (text.charAt(i + 1) == '?') {
+                                    if(len >= 3)
+                                        current = ((current & 0xFFFFFFFFFE0FFFFFL) | ALTERNATE) ^ (intFromDec(text, i+2, i + len) & 15);
+                                    else
+                                        current = (current & 0xFFFFFFFFFE0FFFFFL); // clear alternate modes and scaling
+                                } else {
+                                    current = (current & 0xFFFFFFFFFE0FFFFFL) | ((scale = ((intFromDec(text, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                                }
+                            }
                             else {
-                                current = (current & 0xFFFFFFFFFF0FFFFFL);
+                                current = (current & 0xFFFFFFFFFE0FFFFFL);
                                 scale = 3;
                             }
                             break;
@@ -4220,7 +4258,6 @@ public class Font implements Disposable {
         boolean capitalize = false,
                 capsLock = false, lowerCase = false;
         int c, scale = 3, fontIndex = -1;
-        Font font = this;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
         long baseColor = 0xFFFFFFFE00000000L;
         long color = baseColor;
@@ -4238,12 +4275,12 @@ public class Font implements Disposable {
                     c = markup.charAt(i);
                     if (c == '@') fontChange = i;
                     else if (c == '%') sizeChange = i;
+                    else if (c == '?') sizeChange = i;
                     else if (c == '=') eq = Math.min(eq, i);
                 }
                 char after = eq + 1 >= end ? '\u0000' : markup.charAt(eq + 1);
                 if (start + 1 == end || "RESET".equalsIgnoreCase(safeSubstring(markup, start + 1, end))) {
                     scale = 3;
-                    font = this;
                     fontIndex = 0;
                     current &= ~SUPERSCRIPT;
                 } else if (after == '^' || after == '=' || after == '.') {
@@ -4270,12 +4307,9 @@ public class Font implements Disposable {
                 } else if (fontChange >= 0 && family != null) {
                     fontIndex = family.fontAliases.get(safeSubstring(markup, fontChange + 1, end), -1);
                     if (fontIndex == -1) {
-                        font = this;
                         fontIndex = 0;
                     } else {
-                        font = family.connected[fontIndex];
-                        if (font == null) {
-                            font = this;
+                        if (family.connected[fontIndex] == null) {
                             fontIndex = 0;
                         }
                     }
@@ -4301,7 +4335,6 @@ public class Font implements Disposable {
                         color = baseColor;
                         current = color & ~SUPERSCRIPT;
                         scale = 3;
-                        font = this;
                         capitalize = false;
                         capsLock = false;
                         lowerCase = false;
@@ -4356,10 +4389,19 @@ public class Font implements Disposable {
                             capsLock = false;
                             break;
                         case '%':
-                            if (len >= 2)
-                                current = (current & 0xFFFFFFFFFF0FFFFFL) | ((scale = ((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                            if (len >= 2) {
+                                // alternate mode, currently just takes a number for what mode to use
+                                if (markup.charAt(i + 1) == '?') {
+                                    if(len >= 3)
+                                        current = ((current & 0xFFFFFFFFFE0FFFFFL) | ALTERNATE) ^ (intFromDec(markup, i+2, i + len) & 15);
+                                    else
+                                        current = (current & 0xFFFFFFFFFE0FFFFFL); // clear alternate modes and scaling
+                                } else {
+                                    current = (current & 0xFFFFFFFFFE0FFFFFL) | ((scale = ((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                                }
+                            }
                             else {
-                                current = (current & 0xFFFFFFFFFF0FFFFFL);
+                                current = (current & 0xFFFFFFFFFE0FFFFFL);
                                 scale = 3;
                             }
                             break;
@@ -4374,14 +4416,11 @@ public class Font implements Disposable {
                             break;
                         case '@':
                             if (family == null) {
-                                font = this;
                                 fontIndex = 0;
                                 break;
                             }
                             fontIndex = family.fontAliases.get(safeSubstring(markup, i + 1, i + len), 0);
                             current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
-                            font = family.connected[fontIndex & 15];
-                            if (font == null) font = this;
                             break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
@@ -4591,10 +4630,20 @@ public class Font implements Disposable {
                             capsLock = false;
                             break;
                         case '%':
-                            if (len >= 2)
-                                current = (current & 0xFFFFFFFFFF0FFFFFL) | ((((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
-                            else
-                                current = (current & 0xFFFFFFFFFF0FFFFFL);
+                            if (len >= 2) {
+                                // alternate mode, currently just takes a number for what mode to use
+                                if (markup.charAt(i + 1) == '?') {
+                                    if(len >= 3)
+                                        current = ((current & 0xFFFFFFFFFE0FFFFFL) | ALTERNATE) ^ (intFromDec(markup, i+2, i + len) & 15);
+                                    else
+                                        current = (current & 0xFFFFFFFFFE0FFFFFL); // clear alternate modes and scaling
+                                } else {
+                                    current = (current & 0xFFFFFFFFFE0FFFFFL) | ((((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                                }
+                            }
+                            else {
+                                current = (current & 0xFFFFFFFFFE0FFFFFL);
+                            }
                             break;
                         case '@':
                             if (family == null) {
@@ -4940,14 +4989,14 @@ public class Font implements Disposable {
 
     /**
      * Replaces the section of glyph that stores its scale with the given float multiplier, rounded to a multiple of
-     * 0.25 and wrapped to within 0.0 to 3.75, both inclusive.
+     * 0.25 and wrapped to within 0.0 to 3.75, both inclusive. This also disables alternate mode, enabling scaling.
      *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @param scale the float scale to use, which should be between 0.0 and 3.75, both inclusive
      * @return another long glyph that uses the specified scale
      */
     public static long applyScale(long glyph, float scale) {
-        return (glyph & 0xFFFFFFFFFF0FFFFFL) | ((long) Math.floor(scale * 4.0 - 4.0) & 15L) << 20;
+        return (glyph & 0xFFFFFFFFFE0FFFFFL) | ((long) Math.floor(scale * 4.0 - 4.0) & 15L) << 20;
     }
 
     /**
