@@ -3166,13 +3166,6 @@ public class Font implements Disposable {
             return cellWidth;
         }
 
-//        // The shifts here represent how far the position was moved by handling the integer position, if that was done.
-//        float xShift = (x + centerX) - (x = font.handleIntegerPosition(x + centerX));
-//        float yShift = (y + centerY) - (y = font.handleIntegerPosition(y + centerY));
-//        // This moves the center to match the movement from integer position.
-//        centerX -= xShift;
-//        centerY -= yShift;
-
         Texture tex = tr.getTexture();
         float x0 = 0f;
         float x1 = 0f;
@@ -3269,7 +3262,31 @@ public class Font implements Disposable {
             vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y - 2)) - (vertices[6] = (y + sin * p1x + cos * p1y - 2)) + (vertices[11] = (y + sin * p2x + cos * p2y - 2)));
 
             batch.draw(tex, vertices, 0, 20);
+        }
 
+        if((glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE || (glyph & ALTERNATE_MODES_MASK) == WHITE_OUTLINE) {
+            float outline = (glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE
+                    ? -0X1.0P125f // black
+                    : -0X1.FFFFFEP126f; // white
+            vertices[2] = outline;
+            vertices[7] = outline;
+            vertices[12] = outline;
+            vertices[17] = outline;
+            float xp = 2f / (Gdx.graphics.getBackBufferWidth()  * batch.getProjectionMatrix().val[0]);
+            float yp = 2f / (Gdx.graphics.getBackBufferHeight() * batch.getProjectionMatrix().val[5]);
+            int widthAdj = ((glyph & BOLD) != 0L) ? 2 : 1;
+            for (int xi = -widthAdj; xi <= widthAdj; xi++) {
+                float xa = xi*xp;
+                for (int yi = -1; yi <= 1; yi++) {
+                    if(xi == 0 && yi == 0) continue;
+                    float ya = yi*yp;
+                    vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
+                    vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
+
+                    batch.draw(tex, vertices, 0, 20);
+
+                }
+            }
         }
 
         // actually draw the main glyph
