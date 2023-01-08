@@ -22,11 +22,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.DistanceFieldFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -573,8 +569,17 @@ public class Font implements Disposable {
      * Bit flag for small caps mode, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with other alternate modes, but cannot be used at the same time as scaling.
+     * If {@link #ALTERNATE} is set, and bits 20 (small caps), 21, 22, and 23 are all not set, then a special mode is
+     * enabled, {@link #BLEEP}, which replaces all letter chars with effectively random symbols using blocks.
      */
     public static final long SMALL_CAPS = 1L << 20 | ALTERNATE;
+    /**
+     * Bit flag for "bleep" mode, as a long. This replaces letter chars with effectively random symbols using blocks.
+     * This only has its intended effect if alternate mode is enabled <i>and</i> {@link #SMALL_CAPS} is disabled.
+     * This cannot be used at the same time as scaling, and cannot overlap with other alternate modes.
+     * This requires {@link #ALTERNATE} to be set, but bits 20 (small caps), 21, 22, and 23 to all be not set.
+     */
+    public static final long BLEEP = ALTERNATE;
     /**
      * Bit flag for black outline mode, as a long.
      * This only has its intended effect if alternate mode is enabled.
@@ -600,19 +605,19 @@ public class Font implements Disposable {
      */
     public static final long SHINY = 8L << 20 | ALTERNATE;
     /**
-     * Bit flag for error mode, shown as a wiggly red dashed-underline, as a long.
+     * Bit flag for error mode, shown as a red wiggly-underline, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      */
     public static final long ERROR = 10L << 20 | ALTERNATE;
     /**
-     * Bit flag for warning mode, shown as a barred yellow dashed-underline, as a long.
+     * Bit flag for warning mode, shown as a yellow barred-underline, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      */
     public static final long WARN = 12L << 20 | ALTERNATE;
     /**
-     * Bit flag for note mode, shown as a sparse cyan dashed-underline, as a long.
+     * Bit flag for note mode, shown as a cyan wavy-underline, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      */
@@ -2429,10 +2434,12 @@ public class Font implements Disposable {
                 v2 = v - iph;
         final float sn = MathUtils.sinDeg(rotation);
         final float cs = MathUtils.cosDeg(rotation);
-        float color = -0x1.0001fep125F; // red for error
-        if(mode == WARN)
+        float color;// = -0X1.0P125f; // black
+        if(mode == ERROR)
+            color = -0x1.0001fep125F; // red for error
+        else if(mode == WARN)
             color = -0x1.21abfep125F; // gold/saffron/yellow
-        else if(mode == NOTE)
+        else// if(mode == NOTE)
             color = -0x1.71106p126F; // cyan/denim
         int index = 0;
         for (float startX = 0f, shiftY = 0f; startX <= width; startX += xPx, index++) {
@@ -2442,14 +2449,45 @@ public class Font implements Disposable {
             float p1y;
             float p2x;
             float p2y;
-            // error mode
-            shiftY = (index & 1) * yPx;
-            p0x = startX;
-            p0y = shiftY + yPx;
-            p1x = startX;
-            p1y = shiftY;
-            p2x = startX + xPx;
-            p2y = shiftY;
+            float shiftX = startX;
+            if(mode == ERROR) {
+                shiftY = (index & 1) * yPx;
+                p0x = shiftX;
+                p0y = shiftY + yPx;
+                p1x = shiftX;
+                p1y = shiftY;
+                p2x = shiftX + xPx;
+                p2y = shiftY;
+            } else if(mode == WARN) {
+                shiftX += (~index & 1) * xPx;
+                shiftY = (~index & 1) * yPx;
+                p0x = shiftX;
+                p0y = shiftY + yPx;
+                p1x = shiftX;
+                p1y = shiftY;
+                p2x = shiftX + xPx;
+                p2y = shiftY;
+            } else {
+                shiftY = (index >>> 1 & 1) * yPx;
+                p0x = shiftX;
+                p0y = shiftY + yPx;
+                p1x = shiftX;
+                p1y = shiftY;
+                p2x = shiftX + xPx;
+                p2y = shiftY;
+            }
+//            else {
+//                long time = TimeUtils.millis() >>> 5 & 0x7FFFFFL;
+//                shiftX = NoiseUtils.octaveNoise1D(time * 0x1p-4f, index);
+//                shiftY = NoiseUtils.octaveNoise1D((time + 0x9E3779 & 0x7FFFFFL) * 0x1p-4f, ~index);
+//                p0x = shiftX;
+//                p0y = shiftY + yPx;
+//                p1x = shiftX;
+//                p1y = shiftY;
+//                p2x = shiftX + xPx;
+//                p2y = shiftY;
+//            }
+
 
             vertices[15] = /* handleIntegerPosition */((vertices[0] = /* handleIntegerPosition */(x + cs * p0x - sn * p0y)) - (vertices[5] = /* handleIntegerPosition */(x + cs * p1x - sn * p1y)) + (vertices[10] = /* handleIntegerPosition */(x + cs * p2x - sn * p2y)));
             vertices[16] = /* handleIntegerPosition */((vertices[1] = /* handleIntegerPosition */(y + sn * p0x + cs * p0y)) - (vertices[6] = /* handleIntegerPosition */(y + sn * p1x + cs * p1y)) + (vertices[11] = /* handleIntegerPosition */(y + sn * p2x + cs * p2y)));
