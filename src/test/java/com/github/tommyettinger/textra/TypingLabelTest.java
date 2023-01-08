@@ -212,7 +212,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         text.append("{SPEED=2.50}{COLOR=lighter dull GREEN} making the text go {SHAKE=1.1;0.6;inf}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5} ");
         text.append("{SPEED=0.25}{COLOR=jade fern}{WAVE=0.66;1;0.5;∞}[@Mono] or extremely slow.[@]{ENDWAVE}");
         text.append("{RESET} You {HEARTBEAT}[darker red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}second{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
-        text.append("{RAINBOW=1;1;0.7} [%?10]jussst[%?] to [%?12]catching[%?] an [%?14]event[%?] in [%?0]code[%?]{EVENT=example}!{WAIT} {ENDRAINBOW}");
+        text.append("{RAINBOW=1;1;0.7} [%?10]jussst[%?] to [%?12]catching[%?] an [%?0]event in [%?14]code[%?]{EVENT=example}!{WAIT} {ENDRAINBOW}");
         text.append("{NORMAL}\n\n");
         text.append("{VAR=FIRE_WIND}Imagine the [~]bugs[~]! I mean, possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");
 //        text.append("{VAR=FIRE_WIND}Imagine the {STYLE=STRIKE}bugs{STYLE=STRIKE} possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");
