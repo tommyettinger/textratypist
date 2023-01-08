@@ -593,6 +593,12 @@ public class Font implements Disposable {
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      */
     public static final long DROP_SHADOW = 6L << 20 | ALTERNATE;
+    /**
+     * Bit flag for shiny mode, as a long.
+     * This only has its intended effect if alternate mode is enabled.
+     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     */
+    public static final long SHINY = 8L << 20 | ALTERNATE;
 
     private final float[] vertices = new float[20];
     private final Layout tempLayout = Layout.POOL.obtain();
@@ -3184,6 +3190,12 @@ public class Font implements Disposable {
         float h = tr.getRegionHeight() * scaleY * sizingY;
         float xc = tr.offsetX * scaleX - centerX * sizingX;
         float yt = (font.cellHeight * scale) - centerY - (tr.getRegionHeight() + tr.offsetY) * scaleY;
+        // These may need to be changed to use some other way of getting a screen pixel's size in world units.
+        // They might actually be 1.5 or 2 pixels; it's hard to tell when a texture with alpha is drawn over an area.
+        float xPx = 1.5f / (Gdx.graphics.getBackBufferWidth()  * batch.getProjectionMatrix().val[0]);
+        float yPx = 1.5f / (Gdx.graphics.getBackBufferHeight() * batch.getProjectionMatrix().val[5]);
+
+
         if (c < 0xE000 || c >= 0xF800) {
             yt -= scale * sizingY * centerY;
         }
@@ -3263,8 +3275,7 @@ public class Font implements Disposable {
 
             batch.draw(tex, vertices, 0, 20);
         }
-
-        if((glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE || (glyph & ALTERNATE_MODES_MASK) == WHITE_OUTLINE) {
+        else if((glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE || (glyph & ALTERNATE_MODES_MASK) == WHITE_OUTLINE) {
             float outline = (glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE
                     ? -0X1.0P125f // black
                     : -0X1.FFFFFEP126f; // white
@@ -3272,20 +3283,33 @@ public class Font implements Disposable {
             vertices[7] = outline;
             vertices[12] = outline;
             vertices[17] = outline;
-            float xp = 2f / (Gdx.graphics.getBackBufferWidth()  * batch.getProjectionMatrix().val[0]);
-            float yp = 2f / (Gdx.graphics.getBackBufferHeight() * batch.getProjectionMatrix().val[5]);
             int widthAdj = ((glyph & BOLD) != 0L) ? 2 : 1;
             for (int xi = -widthAdj; xi <= widthAdj; xi++) {
-                float xa = xi*xp;
+                float xa = xi*xPx;
                 for (int yi = -1; yi <= 1; yi++) {
                     if(xi == 0 && yi == 0) continue;
-                    float ya = yi*yp;
+                    float ya = yi*yPx;
                     vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
                     vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
 
                     batch.draw(tex, vertices, 0, 20);
-
                 }
+            }
+        }
+        else if((glyph & ALTERNATE_MODES_MASK) == SHINY) {
+            float shine = -0X1.FFFFFEP126f; // white
+            vertices[2] = shine;
+            vertices[7] = shine;
+            vertices[12] = shine;
+            vertices[17] = shine;
+            int widthAdj = ((glyph & BOLD) != 0L) ? 1 : 0;
+            for (int xi = -widthAdj; xi <= widthAdj; xi++) {
+                float xa = xi * xPx;
+                float ya = 1.5f * yPx;
+                vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
+                vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
+
+                batch.draw(tex, vertices, 0, 20);
             }
         }
 
