@@ -574,7 +574,8 @@ public class Font implements Disposable {
      */
     public static final long SMALL_CAPS = 1L << 20 | ALTERNATE;
     /**
-     * Bit flag for "bleep" mode, as a long. This replaces letter chars with effectively random symbols using blocks.
+     * Bit flag for "bleep" mode, as a long. This replaces letter chars with effectively-randomly-moved asterisks, but
+     * keeps their existing metrics (width and height).
      * This only has its intended effect if alternate mode is enabled <i>and</i> {@link #SMALL_CAPS} is disabled.
      * This cannot be used at the same time as scaling, and cannot overlap with other alternate modes.
      * This requires {@link #ALTERNATE} to be set, but bits 20 (small caps), 21, 22, and 23 to all be not set.
@@ -3230,10 +3231,14 @@ public class Font implements Disposable {
         if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
         if (font == null) font = this;
         char c = (char) glyph;
-        boolean squashed = false;
+        boolean squashed = false, bleeped = false;
+        float cellWidth = font.cellWidth;
+        float cellHeight = font.cellHeight;
         if((glyph & SMALL_CAPS) == SMALL_CAPS) {
             squashed = (c != (c = Category.caseUp(c)));
             glyph = (glyph & 0xFFFFFFFFFFFF0000L) | c;
+        } else if((glyph & ALTERNATE_MODES_MASK) == BLEEP) {
+            bleeped = Category.L.contains(c);
         }
 
         GlyphRegion tr = font.mapping.get(c);
@@ -3252,19 +3257,19 @@ public class Font implements Disposable {
         float scaleX;
         float scaleY;
         if(c >= 0xE000 && c < 0xF800){
-            scaleX = scaleY = scale * font.cellHeight / (tr.xAdvance*1.25f);
+            scaleX = scaleY = scale * cellHeight / (tr.xAdvance*1.25f);
         }
         else {
             scaleX = font.scaleX * scale;
             scaleY = font.scaleY * scale;
         }
-        float centerX = font.cellWidth * scaleX * 0.5f;
-        float centerY = font.cellHeight * scaleY * 0.5f;
+        float centerX = cellWidth * scaleX * 0.5f;
+        float centerY = cellHeight * scaleY * 0.5f;
 
         float atlasOffX = 0f, atlasOffY = 0f;
         if(c >= 0xE000 && c < 0xF800){
-            atlasOffX = -font.cellWidth * 0.25f;
-            atlasOffY = -font.cellHeight * 0.25f;
+            atlasOffX = -cellWidth * 0.25f;
+            atlasOffY = -cellHeight * 0.25f;
         }
 
         // The shifts here represent how far the position was moved by handling the integer position, if that was done.
@@ -3274,18 +3279,34 @@ public class Font implements Disposable {
         x += (centerX -= xShift);
         y += (centerY -= yShift);
 
+//        // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
+//        if (tr.offsetX != tr.offsetX) {
+//            if(backgroundColor != 0) {
+//                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(solidBlock, tr),
+//                        NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
+//                        x - cellWidth * (sizingX - 1.0f) + centerX, y - cellHeight * (sizingY - 1.0f) + centerY,
+//                        cellWidth * sizingX, cellHeight * sizingY, rotation);
+//            }
+//            float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
+//            drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
+//                    x - cellWidth * (sizingX - 1.0f) + centerX, y - cellHeight * (sizingY - 1.0f) + centerY,
+//                    cellWidth * sizingX, cellHeight * sizingY, rotation);
+//            return cellWidth;
+//        }
         // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
         if (tr.offsetX != tr.offsetX) {
             if(backgroundColor != 0) {
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(solidBlock, tr),
                         NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
-                        x - cellWidth * (sizingX - 1.0f) + centerX, y - cellHeight * (sizingY - 1.0f) + centerY,
-                        cellWidth * sizingX, cellHeight * sizingY, rotation);
+                        x,
+                        y,
+                        cellWidth * sizingX, (cellHeight * scale) * sizingY, rotation);
             }
             float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
-                    x - cellWidth * (sizingX - 1.0f) + centerX, y - cellHeight * (sizingY - 1.0f) + centerY,
-                    cellWidth * sizingX, cellHeight * sizingY, rotation);
+                    x,
+                    y,
+                    cellWidth * sizingX, (cellHeight * scale) * sizingY, rotation);
             return cellWidth;
         }
 
@@ -3297,21 +3318,23 @@ public class Font implements Disposable {
         float y1 = 0f;
         float y2 = 0f;
         final float iw = 1f / tex.getWidth();
-        float u, v, u2, v2;
-        u = tr.getU();
-        v = tr.getV();
-        u2 = tr.getU2();
-        v2 = tr.getV2();
         float w = tr.getRegionWidth() * scaleX * sizingX;
-        float changedW = tr.xAdvance * scaleX;
+        float xAdvance = tr.xAdvance;
+        float changedW = xAdvance * scaleX;
+        if(bleeped) tr = font.mapping.get('*', tr);
         float h = tr.getRegionHeight() * scaleY * sizingY;
         float xc = tr.offsetX * scaleX - centerX * sizingX;
-        float yt = (font.cellHeight * scale) - centerY - (tr.getRegionHeight() + tr.offsetY) * scaleY;
+        float yt = (cellHeight * scale) - centerY - (tr.getRegionHeight() + tr.offsetY) * scaleY;
         // These may need to be changed to use some other way of getting a screen pixel's size in world units.
         // They might actually be 1.5 or 2 pixels; it's hard to tell when a texture with alpha is drawn over an area.
         float xPx = 2f / (Gdx.graphics.getBackBufferWidth()  * batch.getProjectionMatrix().val[0]);
         float yPx = 2f / (Gdx.graphics.getBackBufferHeight() * batch.getProjectionMatrix().val[5]);
 
+        float u, v, u2, v2;
+        u = tr.getU();
+        v = tr.getV();
+        u2 = tr.getU2();
+        v2 = tr.getV2();
 
         if (c < 0xE000 || c >= 0xF800) {
             yt -= scale * sizingY * centerY;
@@ -3323,7 +3346,7 @@ public class Font implements Disposable {
             x2 -= h * 0.2f;
         }
         final long script = (glyph & SUPERSCRIPT);
-        float scaledHeight = font.cellHeight * scale * sizingY;
+        float scaledHeight = cellHeight * scale * sizingY;
         if (script == SUPERSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
@@ -3356,9 +3379,28 @@ public class Font implements Disposable {
         if(backgroundColor != 0) {
             drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(solidBlock, tr),
                     NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
-                    x - tr.xAdvance * scaleX * (sizingX - 1.0f) + atlasOffX - tr.offsetX * scaleX - 1f,
-                    y - cellHeight * (sizingY - 1.0f) + atlasOffY,
-                    tr.xAdvance * scaleX * sizingX, cellHeight * sizingY, rotation);
+                    x - xAdvance * scaleX * (sizingX - 1.0f) + atlasOffX - tr.offsetX * scaleX - 1f,
+                    y + font.descent * scaleY * sizingY + atlasOffY,
+                    xAdvance * scaleX * sizingX, (cellHeight * scale - font.descent * scaleY) * sizingY, rotation);
+        }
+        if (bleeped) {
+            int code = (NumberUtils.floatToIntBits(x + y) >>> 16 ^ c) * 0x61B5 >>> 8;
+            xc += (code & 3) - 1.5f;
+            yt += (code >>> 6 & 3) - 1.5f;
+//            int code = (NumberUtils.floatToIntBits(x + y) >>> 16 ^ c);
+//            drawBlockSequence(batch, BlockUtils.BOX_DRAWING[(code % 0x6D)],
+//                    font.mapping.get(solidBlock, tr), color,
+//                    x - xAdvance * scaleX * (sizingX - 1.0f) + atlasOffX - tr.offsetX * scaleX + (code & 7) - 4.5f,
+//                    y + font.descent * scaleY * sizingY + atlasOffY + (code >>> 3 & 7) - 3.5f,
+//                    xAdvance * scaleX * sizingX, (cellHeight * scale - font.descent * scaleY) * sizingY, rotation);
+//            code ^= code * code | 1;
+//            code ^= code >> 16;
+//            drawBlockSequence(batch, BlockUtils.BOX_DRAWING[(code % 0x6D)],
+//                    font.mapping.get(solidBlock, tr), color,
+//                    x - xAdvance * scaleX * (sizingX - 1.0f) + atlasOffX - tr.offsetX * scaleX + (code & 3) - 3f,
+//                    y + font.descent * scaleY * sizingY + atlasOffY + (code >>> 2 & 15) - 8f,
+//                    xAdvance * scaleX * sizingX, (cellHeight * scale - font.descent * scaleY) * sizingY, rotation);
+//            return changedW;
         }
 
         float p0x = xc + x0;
@@ -3470,10 +3512,10 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -centerX;
-                p0y = font.cellHeight * -0.5625f;
+                p0y = cellHeight * -0.5625f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        (tr.xAdvance) * scaleX + 2, font.cellHeight, rotation);
+                        (xAdvance) * scaleX + 2, cellHeight, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -3482,7 +3524,7 @@ public class Font implements Disposable {
                             underU2 = underU + iw,
                             underV2 = under.getV2(),
                             hu = under.getRegionHeight() * scaleY,
-                            yu = font.cellHeight * scale - hu - under.offsetY * scaleY - centerY;
+                            yu = cellHeight * scale - hu - under.offsetY * scaleY - centerY;
                     xc = under.offsetX * scaleX - centerX * scale;
                     x0 = -scaleX * under.offsetX - scale;
                     vertices[2] = color;
@@ -3521,7 +3563,7 @@ public class Font implements Disposable {
                 p0y = cellHeight * -0.125f;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        (tr.xAdvance) * scaleX + 2, font.cellHeight, rotation);
+                        (xAdvance) * scaleX + 2, cellHeight, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
@@ -3530,7 +3572,7 @@ public class Font implements Disposable {
                             dashU2 = dashU + iw,
                             dashV2 = dash.getV2(),
                             hd = dash.getRegionHeight() * scaleY,
-                            yd = font.cellHeight * scale - hd - dash.offsetY * scaleY - centerY;
+                            yd = cellHeight * scale - hd - dash.offsetY * scaleY - centerY;
                     xc = dash.offsetX * scaleX - centerX * scale;
                     x0 = -scaleX * dash.offsetX - scale;
                     vertices[2] = color;
@@ -3565,9 +3607,9 @@ public class Font implements Disposable {
         // checks for error, warn, and note modes
         if((glyph & ALTERNATE_MODES_MASK) >= ERROR) {
             p0x = -centerX;
-            p0y = font.cellHeight * -0.25f;
+            p0y = cellHeight * -0.25f;
             drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
-                    x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y), tr.xAdvance * scaleX, xPx, yPx, rotation);
+                    x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y), xAdvance * scaleX, xPx, yPx, rotation);
         }
         return changedW;
     }
