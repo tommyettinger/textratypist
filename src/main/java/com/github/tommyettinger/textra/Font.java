@@ -599,6 +599,24 @@ public class Font implements Disposable {
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      */
     public static final long SHINY = 8L << 20 | ALTERNATE;
+    /**
+     * Bit flag for error mode, shown as a wiggly red dashed-underline, as a long.
+     * This only has its intended effect if alternate mode is enabled.
+     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     */
+    public static final long ERROR = 10L << 20 | ALTERNATE;
+    /**
+     * Bit flag for warning mode, shown as a barred yellow dashed-underline, as a long.
+     * This only has its intended effect if alternate mode is enabled.
+     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     */
+    public static final long WARN = 12L << 20 | ALTERNATE;
+    /**
+     * Bit flag for note mode, shown as a sparse cyan dashed-underline, as a long.
+     * This only has its intended effect if alternate mode is enabled.
+     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     */
+    public static final long NOTE = 14L << 20 | ALTERNATE;
 
     private final float[] vertices = new float[20];
     private final Layout tempLayout = Layout.POOL.obtain();
@@ -2336,7 +2354,6 @@ public class Font implements Disposable {
      * @param height   the height of one cell for the purposes of sequence instructions
      * @param rotation the rotation in degrees to use for the cell of blocks, with the origin in the center of the cell
      */
-
     protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y, float width, float height, float rotation) {
         final Texture parent = block.getTexture();
         final float ipw = 1f / parent.getWidth();
@@ -2347,8 +2364,6 @@ public class Font implements Disposable {
                 v2 = v - iph;
         final float sn = MathUtils.sinDeg(rotation);
         final float cs = MathUtils.cosDeg(rotation);
-        float xc = 0f;
-        float yt = 0f;
 
         float startX, startY, sizeX, sizeY;
         for (int b = 0; b < sequence.length; b += 4) {
@@ -2357,37 +2372,101 @@ public class Font implements Disposable {
             sizeX = (sequence[b + 2] * width);
             sizeY = (sequence[b + 3] * height);
 
-            float p0x = xc + startX;
-            float p0y = yt + startY + sizeY;
-            float p1x = xc + startX;
-            float p1y = yt + startY;
-            float p2x = xc + startX + sizeX;
-            float p2y = yt + startY;
+            float p0x = startX;
+            float p0y = startY + sizeY;
+            float p1x = startX;
+            float p1y = startY;
+            float p2x = startX + sizeX;
+            float p2y = startY;
 
             vertices[15] = /* handleIntegerPosition */((vertices[0] = /* handleIntegerPosition */(x + cs * p0x - sn * p0y)) - (vertices[5] = /* handleIntegerPosition */(x + cs * p1x - sn * p1y)) + (vertices[10] = /* handleIntegerPosition */(x + cs * p2x - sn * p2y)));
             vertices[16] = /* handleIntegerPosition */((vertices[1] = /* handleIntegerPosition */(y + sn * p0x + cs * p0y)) - (vertices[6] = /* handleIntegerPosition */(y + sn * p1x + cs * p1y)) + (vertices[11] = /* handleIntegerPosition */(y + sn * p2x + cs * p2y)));
 
 
-//            vertices[0] = startX;
-//            vertices[1] = startY;
             vertices[2] = color;
             vertices[3] = u;
             vertices[4] = v;
 
-//            vertices[5] = startX;
-//            vertices[6] = startY + sizeY;
             vertices[7] = color;
             vertices[8] = u;
             vertices[9] = v2;
 
-//            vertices[10] = startX + sizeX;
-//            vertices[11] = startY + sizeY;
             vertices[12] = color;
             vertices[13] = u2;
             vertices[14] = v2;
 
-//            vertices[15] = startX + sizeX;
-//            vertices[16] = startY;
+            vertices[17] = color;
+            vertices[18] = u2;
+            vertices[19] = v;
+
+            batch.draw(parent, vertices, 0, 20);
+        }
+    }
+
+    /**
+     * An internal method that draws blocks in a sequence specified by a {@code mode}, with the block always
+     * {@link #solidBlock}. Draws the solidBlock at a very small size (determined by {@code xPx} and {@code yPx}, which
+     * are usually sized to one pixel each), repeating in a pattern to fill the given width and part of the given
+     * height, in the given packed color, rotating by the specified amount in degrees.
+     * @param batch    typically a SpriteBatch
+     * @param mode     currently must be {@link #ERROR}, {@link #WARN}, or {@link #NOTE}, determining the pattern
+     * @param x        the x position to draw at
+     * @param y        the y position to draw at
+     * @param width    the width of one cell in world units
+     * @param xPx      the width of one pixel, approximately, in world units
+     * @param yPx      the height of one pixel, approximately, in world units
+     * @param rotation the rotation in degrees to use for the cell of blocks, with the origin in the center of the cell
+     */
+    protected void drawFancyLine(Batch batch, long mode, float x, float y, float width,
+                                 float xPx, float yPx, float rotation) {
+        final TextureRegion block = mapping.get(solidBlock);
+        final Texture parent = block.getTexture();
+        final float ipw = 1f / parent.getWidth();
+        final float iph = 1f / parent.getHeight();
+        final float u = block.getU(),
+                v = block.getV(),
+                u2 = u + ipw,
+                v2 = v - iph;
+        final float sn = MathUtils.sinDeg(rotation);
+        final float cs = MathUtils.cosDeg(rotation);
+        float color = -0x1.0001fep125F; // red for error
+        if(mode == WARN)
+            color = -0x1.21abfep125F; // gold/saffron/yellow
+        else if(mode == NOTE)
+            color = -0x1.71106p126F; // cyan/denim
+        int index = 0;
+        for (float startX = 0f, shiftY = 0f; startX <= width; startX += xPx, index++) {
+            float p0x;
+            float p0y;
+            float p1x;
+            float p1y;
+            float p2x;
+            float p2y;
+            // error mode
+            shiftY = (index & 1) * yPx;
+            p0x = startX;
+            p0y = shiftY + yPx;
+            p1x = startX;
+            p1y = shiftY;
+            p2x = startX + xPx;
+            p2y = shiftY;
+
+            vertices[15] = /* handleIntegerPosition */((vertices[0] = /* handleIntegerPosition */(x + cs * p0x - sn * p0y)) - (vertices[5] = /* handleIntegerPosition */(x + cs * p1x - sn * p1y)) + (vertices[10] = /* handleIntegerPosition */(x + cs * p2x - sn * p2y)));
+            vertices[16] = /* handleIntegerPosition */((vertices[1] = /* handleIntegerPosition */(y + sn * p0x + cs * p0y)) - (vertices[6] = /* handleIntegerPosition */(y + sn * p1x + cs * p1y)) + (vertices[11] = /* handleIntegerPosition */(y + sn * p2x + cs * p2y)));
+
+
+            vertices[2] = color;
+            vertices[3] = u;
+            vertices[4] = v;
+
+            vertices[7] = color;
+            vertices[8] = u;
+            vertices[9] = v2;
+
+            vertices[12] = color;
+            vertices[13] = u2;
+            vertices[14] = v2;
+
             vertices[17] = color;
             vertices[18] = u2;
             vertices[19] = v;
@@ -3192,8 +3271,8 @@ public class Font implements Disposable {
         float yt = (font.cellHeight * scale) - centerY - (tr.getRegionHeight() + tr.offsetY) * scaleY;
         // These may need to be changed to use some other way of getting a screen pixel's size in world units.
         // They might actually be 1.5 or 2 pixels; it's hard to tell when a texture with alpha is drawn over an area.
-        float xPx = 1.5f / (Gdx.graphics.getBackBufferWidth()  * batch.getProjectionMatrix().val[0]);
-        float yPx = 1.5f / (Gdx.graphics.getBackBufferHeight() * batch.getProjectionMatrix().val[5]);
+        float xPx = 2f / (Gdx.graphics.getBackBufferWidth()  * batch.getProjectionMatrix().val[0]);
+        float yPx = 2f / (Gdx.graphics.getBackBufferHeight() * batch.getProjectionMatrix().val[5]);
 
 
         if (c < 0xE000 || c >= 0xF800) {
@@ -3444,6 +3523,13 @@ public class Font implements Disposable {
                     batch.draw(dash.getTexture(), vertices, 0, 20);
                 }
             }
+        }
+        // checks for error, warn, and note modes
+        if((glyph & ALTERNATE_MODES_MASK) >= ERROR) {
+            p0x = -centerX;
+            p0y = font.cellHeight * -0.25f;
+            drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
+                    x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y), tr.xAdvance * scaleX, xPx, yPx, rotation);
         }
         return changedW;
     }
