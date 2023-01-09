@@ -150,6 +150,5 @@ public class TypingConfig {
         registerEffect("TRIGGER", "ENDTRIGGER", TriggerEffect.class);
         registerEffect("ATTENTION", "ENDATTENTION", AttentionEffect.class);
         registerEffect("STYLIST", "ENDSTYLIST", StylistEffect.class);
-        registerEffect("SMALLCAPS", "ENDSMALLCAPS", SmallCapsEffect.class);
     }
 }
