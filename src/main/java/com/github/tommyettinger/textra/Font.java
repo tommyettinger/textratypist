@@ -570,17 +570,17 @@ public class Font implements Disposable {
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with other alternate modes, but cannot be used at the same time as scaling.
      * If {@link #ALTERNATE} is set, and bits 20 (small caps), 21, 22, and 23 are all not set, then a special mode is
-     * enabled, {@link #BLEEP}, which replaces all letter chars with effectively random symbols using blocks.
+     * enabled, {@link #JOSTLE}, which moves affected characters around in a stationary random pattern.
      */
     public static final long SMALL_CAPS = 1L << 20 | ALTERNATE;
     /**
-     * Bit flag for "bleep" mode, as a long. This replaces letter chars with effectively-randomly-moved asterisks, but
-     * keeps their existing metrics (width and height).
+     * Bit flag for "jostle" mode, as a long. This moves characters around in a stationary random pattern, but keeps
+     * their existing metrics (width and height).
      * This only has its intended effect if alternate mode is enabled <i>and</i> {@link #SMALL_CAPS} is disabled.
      * This cannot be used at the same time as scaling, and cannot overlap with other alternate modes.
      * This requires {@link #ALTERNATE} to be set, but bits 20 (small caps), 21, 22, and 23 to all be not set.
      */
-    public static final long BLEEP = ALTERNATE;
+    public static final long JOSTLE = ALTERNATE;
     /**
      * Bit flag for black outline mode, as a long.
      * This only has its intended effect if alternate mode is enabled.
@@ -3231,14 +3231,14 @@ public class Font implements Disposable {
         if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
         if (font == null) font = this;
         char c = (char) glyph;
-        boolean squashed = false, bleeped = false;
+        boolean squashed = false, jostled = false;
         float cellWidth = font.cellWidth;
         float cellHeight = font.cellHeight;
         if((glyph & SMALL_CAPS) == SMALL_CAPS) {
             squashed = (c != (c = Category.caseUp(c)));
             glyph = (glyph & 0xFFFFFFFFFFFF0000L) | c;
-        } else if((glyph & ALTERNATE_MODES_MASK) == BLEEP) {
-            bleeped = Category.L.contains(c);
+        } else {
+            jostled = (glyph & ALTERNATE_MODES_MASK) == JOSTLE;
         }
 
         GlyphRegion tr = font.mapping.get(c);
@@ -3321,7 +3321,6 @@ public class Font implements Disposable {
         float w = tr.getRegionWidth() * scaleX * sizingX;
         float xAdvance = tr.xAdvance;
         float changedW = xAdvance * scaleX;
-        if(bleeped) tr = font.mapping.get('*', tr);
         float h = tr.getRegionHeight() * scaleY * sizingY;
         float xc = tr.offsetX * scaleX - centerX * sizingX;
         float yt = (cellHeight * scale) - centerY - (tr.getRegionHeight() + tr.offsetY) * scaleY;
@@ -3383,10 +3382,10 @@ public class Font implements Disposable {
                     y + font.descent * scaleY * sizingY + atlasOffY,
                     xAdvance * scaleX * sizingX, (cellHeight * scale - font.descent * scaleY) * sizingY, rotation);
         }
-        if (bleeped) {
+        if (jostled) {
             int code = (NumberUtils.floatToIntBits(x + y) >>> 16 ^ c) * 0x61B5 >>> 8;
-            xc += (code & 3) - 1.5f;
-            yt += (code >>> 6 & 3) - 1.5f;
+            xc += code % 5 - 2f;
+            yt += (code >>> 6) % 5 - 2f;
 //            int code = (NumberUtils.floatToIntBits(x + y) >>> 16 ^ c);
 //            drawBlockSequence(batch, BlockUtils.BOX_DRAWING[(code % 0x6D)],
 //                    font.mapping.get(solidBlock, tr), color,
