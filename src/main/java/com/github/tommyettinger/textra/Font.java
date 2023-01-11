@@ -618,7 +618,7 @@ public class Font implements Disposable {
      */
     public static final long WARN = 12L << 20 | ALTERNATE;
     /**
-     * Bit flag for note mode, shown as a cyan wavy-underline, as a long.
+     * Bit flag for note mode, shown as a blue wavy-underline, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      */
@@ -3383,7 +3383,7 @@ public class Font implements Disposable {
                     xAdvance * scaleX * sizingX, (cellHeight * scale - font.descent * scaleY) * sizingY, rotation);
         }
         if (jostled) {
-            int code = (NumberUtils.floatToIntBits(x + y) >>> 16 ^ c) * 0x61B5 >>> 8;
+            int code = NumberUtils.floatToIntBits(x * 1.8191725133961645f + y * 1.6710436067037893f + c * 1.5497004779019703f) >>> 8;
             xc += code % 5 - 2f;
             yt += (code >>> 6) % 5 - 2f;
 //            int code = (NumberUtils.floatToIntBits(x + y) >>> 16 ^ c);
@@ -3641,8 +3641,15 @@ public class Font implements Disposable {
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode.</li>
      *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
-     *     the nearest 25% mark).</li>
-     *     <li>{@code [%]}, with no number just after it, resets scale to 100%.</li>
+     *     the nearest 25% mark). This also disables any alternate mode.</li>
+     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
+     *     "drop shadow"/"shadow", "error", "warn", "note", or "jostle", will disable scaling and enable that alternate
+     *     mode. If MODE is empty or not recognized, this considers it equivalent to "jostle".</li>
+     *     <li>{@code [%^MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
+     *     "drop shadow"/"shadow", "error", "warn", "note", or "small caps", will disable scaling and enable that
+     *     alternate mode along with small caps mode at the same time. If MODE is empty or not recognized, this
+     *     considers it equivalent to "small caps" (without another mode).</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100% and disables any alternate mode.</li>
      *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
      *     in this.family by that name. This is ignored if family is null.</li>
      *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
@@ -3816,15 +3823,45 @@ public class Font implements Disposable {
                             break;
                         case '%':
                             if (len >= 2) {
-                                // alternate mode, currently just takes a number for what mode to use
-                                if (text.charAt(i + 1) == '?') {
-                                    if(len >= 3)
-                                        current = ((current & 0xFFFFFFFFFE0FFFFFL) | ALTERNATE) ^ (intFromDec(text, i+2, i + len) & 15) << 20;
-                                    else
-                                        current = (current & 0xFFFFFFFFFE0FFFFFL); // clear alternate modes and scaling
+                                // alternate mode, takes [%?] to enable JOSTLE mode, [%^] to enable just SMALL_CAPS, or
+                                // a question mark followed by the name of the mode, like [%?Black Outline], to enable
+                                // BLACK_OUTLINE mode, OR a caret followed by the name of a mode, like [%^shadow], to
+                                // enable SMALL_CAPS and DROP_SHADOW modes.
+                                if (text.charAt(i + 1) == '?' || text.charAt(i + 1) == '^') {
+                                    long modes = (text.charAt(i + 1) == '^' ? SMALL_CAPS : ALTERNATE);
+                                    if(len >= 5) {
+                                        char ch = Category.caseUp(text.charAt(i+2));
+                                        if(ch == 'B') {
+                                            modes |= BLACK_OUTLINE;
+                                        } else if(ch == 'W') {
+                                            if(Category.caseUp(text.charAt(i+3)) == 'H') {
+                                                modes |= WHITE_OUTLINE;
+                                            }
+                                            else {
+                                                modes |= WARN;
+                                            }
+                                        } else if(ch == 'S') {
+                                            if(Category.caseUp(text.charAt(i+4)) == 'I') {
+                                                modes |= SHINY;
+                                            }
+                                            else if(Category.caseUp(text.charAt(i+3)) == 'H'){
+                                                modes |= DROP_SHADOW;
+                                            }
+                                            // unrecognized falls back to small caps or jostle
+                                        } else if(ch == 'D'){
+                                            modes |= DROP_SHADOW;
+                                        } else if(ch == 'E'){
+                                            modes |= ERROR;
+                                        } else if(ch == 'N'){
+                                            modes |= NOTE;
+                                        }
+                                    }
+                                    // unrecognized falls back to small caps or jostle
+                                    current = ((current & 0xFFFFFFFFFE0FFFFFL) | modes);
                                     scale = 3;
                                 } else {
-                                    current = (current & 0xFFFFFFFFFE0FFFFFL) | ((scale = ((intFromDec(text, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                                    current = (current & 0xFFFFFFFFFE0FFFFFL) |
+                                            ((scale = ((intFromDec(text, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
                                 }
                             }
                             else {
