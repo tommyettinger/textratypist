@@ -188,14 +188,22 @@ implementation "com.github.tommyettinger:textratypist:0.7.4:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
-GWT also needs this in the GdxDefinition.gwt.xml file:
+GWT also needs this in the GdxDefinition.gwt.xml file (as of version 0.7.5-SNAPSHOT):
+```xml
+<inherits name="regexodus" />
+<inherits name="com.github.tommyettinger.textratypist" />
+```
+
+(In version 0.7.4 and earlier, you would use these GWT inherits instead:
 ```xml
 <inherits name="regexodus" />
 <inherits name="textratypist" />
 ```
 
 RegExodus is the GWT-compatible regular-expression library this uses to match some complex patterns internally. Other
-than libGDX itself, RegExodus is the only dependency this project has.
+than libGDX itself, RegExodus is the only dependency this project has. The GWT inherits changed for TextraTypist because
+it turns out using the default package can cause real problems -- RegExodus still uses it for a little longer, at least,
+but if problems show up there, it will change, too.
 
 There is at least one release in the [Releases](https://github.com/tommyettinger/textratypist/releases) section of this
 repo, but you're still encouraged to use Gradle to handle this library and its dependencies.
@@ -267,11 +275,12 @@ Distance field fonts generally seem more useful than they actually are, as imple
 a shader to handle size changes, but the way things are now, the shader only changes when the scale of a `Font` is
 changed, not when it has its size changed inline using (for example) the `[%200]` tag, or changed with an effect like
 `{SQUASH}`. In these cases, the enlarged text just looks blurry, though it is worse with MSDF. Using a standard font
-actually looks a lot better for these small-to-moderate size adjustments, and because it doesn't need a different
+actually looks a lot better for these small-to-moderate size adjustments. Because it doesn't need a different
 shader, the standard fonts are much more compatible with things like emoji, and can be used in the same batch as
 graphics that use the default SpriteBatch shader. SDF fonts support kerning, and `Gentium-sdf.fnt` uses both an SDF
 effect and kerning, but MSDF fonts have to be created through a cumbersome process that does not support kerning. This
-makes MSDF fonts only work their best for fixed-width typefaces.
+makes MSDF fonts only work their best for fixed-width typefaces. The best approach most of the time seems to be to use a
+large standard font texture, without SDF or MSDF, and scale it down as needed.
 
 If you happen to use both tommyettinger's TextraTypist library and tommyettinger's
 [colorful-gdx](https://github.com/tommyettinger/colorful-gdx) library, you may encounter various issues. `ColorfulBatch`
@@ -282,7 +291,8 @@ color space to work as expected. Alternative shaders from colorful-gdx's `Shader
 with the known fonts here and the defaults for neutral colors (here, white is the neutral color, but in most shaders
 that allow lightening, 50% gray is the neutral color). The easiest solution for all this is to use a normal, vanilla
 `SpriteBatch` for TextraTypist rendering, and whatever `ShaderProgram` or `ColorfulBatch` you want for colorful-gdx
-rendering.
+rendering. (Some changes here are planned that could resolve this issue, and also make things easier for games that use
+custom Batches with different attributes.)
 
 ## License
 
@@ -324,4 +334,4 @@ Thanks to all the font designers who made fonts we use here; by making your font
 service to the people who depend on them.
 
 Thanks to Twitter for generously contributing Twemoji to the world of open source; having broadly available emoji makes
-them much more usable.
+them much more usable. Note that because this was a generous action by Twitter, it happened before its acquisition.
