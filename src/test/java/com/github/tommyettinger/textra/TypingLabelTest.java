@@ -202,7 +202,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 //        text.append("Imagine the possibilities! =D");
 
         final StringBuilder text = new StringBuilder();
-        text.append("{SLOWER}{GRADIENT=FF70F1;light exciting pink orange of justice;-0.5;5}{EASE=-8;2;1}{SHRINK=2;5}[%125][@Medieval]Welcome,[%]{ENDSHRINK}[@] {WAIT}" +
+        text.append("{SLOWER}{GRADIENT=FF70F1;light exciting pink orange of justice;-0.5;5}{EASE=-8;2;1}{SHRINK=2;5}[@Medieval]Welcome,{ENDSHRINK} [@]{WAIT}" +
                 "{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}[%^SHADOW]{VAR=title}[%]{STYLE=;}{STYLE=/}{ENDSPIRAL}![] {TRIGGER=lightest violet}[lightest violet][_][+🤔][]{WAIT=0.8}");
         text.append("{FAST}\n\n");
         text.append("{RESET}[@Sans]{ATTENTION}This is a [*][MAROON][%?SHINY]simple[%][WHITE][*] test[@]{ENDATTENTION} to {SPIN}show you{ENDSPIN}");
@@ -212,7 +212,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         text.append("{SPEED=2.50}{COLOR=lighter dull GREEN} making the text go {SHAKE=1.1;0.6;inf}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5} ");
         text.append("{SPEED=0.25}{COLOR=jade fern}{WAVE=0.66;1;0.5;∞}[@Mono] or extremely slow.[@]{ENDWAVE}");
         text.append("{RESET} You {HEARTBEAT}[darker red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}second{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
-        text.append("{RAINBOW=1;1;0.7} [%?Error]jussst[%] to [%?WARN]catching[%] an [@Console][;][%^white]event[%][;][@] in [%?note]code[%]{EVENT=example}!{WAIT} {ENDRAINBOW}");
+        text.append("{RAINBOW=1;1;0.7} [%?Error]jussst[%] to [%?WARN]catching[%] an [@Console][;]{STYLE=%^white}event[%][;][@] in [%?note]code[%]{EVENT=example}!{WAIT} {ENDRAINBOW}");
         text.append("{NORMAL}\n\n");
         text.append("{VAR=FIRE_WIND}Imagine the [~]bugs[~]! I mean, possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");
 //        text.append("{VAR=FIRE_WIND}Imagine the {STYLE=STRIKE}bugs{STYLE=STRIKE} possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");

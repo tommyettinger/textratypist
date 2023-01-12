@@ -364,11 +364,13 @@ class Parser {
         if (str != null) {
 
             // Try to parse named color
-            int namedColor = label.getFont().getColorLookup().getRgba(str);
-            if (namedColor != 256) {
-                return namedColor;
+            ColorLookup lookup = label.getFont().getColorLookup();
+            if(lookup != null) {
+                int namedColor = lookup.getRgba(str);
+                if (namedColor != 256) {
+                    return namedColor;
+                }
             }
-
             // Try to parse hex
             if (str.length() >= 6) {
                 try {
@@ -403,6 +405,8 @@ class Parser {
      */
     private static String stringToStyleMarkup(String str) {
         if (str != null) {
+            if(str.isEmpty())
+                return "[]";
             if (str.equals("*") || str.equalsIgnoreCase("B") || str.equalsIgnoreCase("BOLD") || str.equalsIgnoreCase("STRONG"))
                 return "[*]";
             if (str.equals("/") || str.equalsIgnoreCase("I") || str.equalsIgnoreCase("OBLIQUE") || str.equalsIgnoreCase("ITALIC"))
@@ -423,6 +427,11 @@ class Parser {
                 return "[,]";
             if (str.equals(";") || str.equalsIgnoreCase("EACH") || str.equalsIgnoreCase("TITLE"))
                 return "[;]";
+            if (str.equals("@") || str.equalsIgnoreCase("NOFONT") || str.equalsIgnoreCase("ENDFONT"))
+                return "[@]";
+            if (str.equals("%") || str.equalsIgnoreCase("NOSCALE") || str.equalsIgnoreCase("ENDSCALE")
+                    || str.equalsIgnoreCase("NOMODE") || str.equalsIgnoreCase("ENDMODE"))
+                return "[%]";
             if (str.startsWith("@"))
                 return "[@" + str.substring(1) + "]";
             if (str.endsWith("%"))
