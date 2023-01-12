@@ -2794,7 +2794,9 @@ public class Font implements Disposable {
      */
     public static float xAdvance(Font font, float scale, long glyph) {
         if (glyph >>> 32 == 0L) return 0;
-        GlyphRegion tr = font.mapping.get((char) glyph);
+        char ch = (char) glyph;
+        if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
+        GlyphRegion tr = font.mapping.get(ch);
         if (tr == null) return 0f;
         float changedW = tr.xAdvance * scale;
         if (!font.isMono) {
@@ -2817,10 +2819,12 @@ public class Font implements Disposable {
      */
     public float xAdvance(long glyph) {
         if (glyph >>> 32 == 0L) return 0;
-        GlyphRegion tr = mapping.get((char) glyph);
+        char ch = (char) glyph;
+        if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
+        GlyphRegion tr = mapping.get(ch);
         if (tr == null) return 0f;
         float scale;
-        if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
+        if(ch >= 0xE000 && ch < 0xF800)
             scale = ((glyph & ALTERNATE) != 0L ? 4f : (glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f * cellHeight / (tr.xAdvance*1.25f);
         else
             scale = scaleX * ((glyph & ALTERNATE) != 0L ? 4f : (glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
@@ -2851,6 +2855,7 @@ public class Font implements Disposable {
         for (int i = 0, n = glyphs.size; i < n; i++) {
             long glyph = glyphs.get(i);
             char ch = (char) glyph;
+            if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
             if (curly) {
                 if (ch == '}') {
                     curly = false;
@@ -2925,6 +2930,7 @@ public class Font implements Disposable {
         for (int i = 0, n = glyphs.size; i < n; i++) {
             long glyph = glyphs.get(i);
             char ch = (char) glyph;
+            if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
             if (curly) {
                 if (ch == '}') {
                     curly = false;
@@ -2944,7 +2950,7 @@ public class Font implements Disposable {
             if (font.kerning != null) {
                 kern = kern << 16 | ch;
                 scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
-                if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
+                if(ch >= 0xE000 && ch < 0xF800){
                     scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
                 }
                 else
@@ -2999,6 +3005,7 @@ public class Font implements Disposable {
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
+                if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
                 if (curly) {
                     if (ch == '}') {
                         curly = false;
@@ -3018,7 +3025,7 @@ public class Font implements Disposable {
                 scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
                 if (font.kerning != null) {
                     kern = kern << 16 | ch;
-                    if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
+                    if(ch >= 0xE000 && ch < 0xF800){
                         scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
                     }
                     else
@@ -3035,7 +3042,7 @@ public class Font implements Disposable {
                     drawn += changedW + amt;
                 } else {
                     line.height = Math.max(line.height, currentHeight = font.cellHeight * scale);
-                    if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
+                    if(ch >= 0xE000 && ch < 0xF800){
                         scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
                     }
                     else
@@ -3946,59 +3953,7 @@ public class Font implements Disposable {
                         Line earlier = appendTo.peekLine();
                         Line later = appendTo.pushLine();
                         if (later == null) {
-                            // here, the max lines have been reached, and an ellipsis may need to be added
-                            // to the last line.
-                            String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
-                            for (int j = earlier.glyphs.size - 1; j >= 0; j--) {
-                                long curr;
-                                // remove a full word or other group of non-space characters.
-                                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L || Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) < 0)) {
-                                    --j;
-                                }
-                                // remove the remaining space characters.
-                                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
-                                    --j;
-                                }
-                                float change = 0f, changeNext = 0f;
-                                long currE;
-                                if (font.kerning == null) {
-                                    for (int k = j + 1, e = 0; e < ellipsis.length(); k++, e++) {
-                                        if (k < earlier.glyphs.size) {
-                                            change += xAdvance(font, scaleX, earlier.glyphs.get(k));
-                                        }
-                                        changeNext += xAdvance(font, scaleX, current | ellipsis.charAt(e));
-                                    }
-                                } else {
-                                    int k2 = ((int) earlier.glyphs.get(j) & 0xFFFF);
-                                    int k2e = 0xFFFF;
-                                    for (int k = j + 1, e = 0; e < ellipsis.length(); k++, e++) {
-                                        if (k < earlier.glyphs.size) {
-                                            curr = earlier.glyphs.get(k);
-                                            k2 = k2 << 16 | (char) curr;
-                                            change += xAdvance(font, scaleX, curr) + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
-                                        }
-                                        currE = current | ellipsis.charAt(e);
-                                        k2e = k2e << 16 | (char) currE;
-                                        changeNext += xAdvance(font, scaleX, currE) + font.kerning.get(k2e, 0) * scaleX * (1f + 0.5f * (-(currE & SUPERSCRIPT) >> 63));
-                                    }
-                                }
-                                if (earlier.width + changeNext < appendTo.getTargetWidth()) {
-                                    for (int e = 0; e < ellipsis.length(); e++) {
-                                        earlier.glyphs.add(current | ellipsis.charAt(e));
-                                    }
-                                    earlier.width = earlier.width + changeNext;
-                                    return appendTo;
-                                }
-                                if (earlier.width - change + changeNext < appendTo.getTargetWidth()) {
-                                    earlier.glyphs.truncate(j + 1);
-                                    for (int e = 0; e < ellipsis.length(); e++) {
-                                        earlier.glyphs.add(current | ellipsis.charAt(e));
-                                    }
-                                    earlier.width = earlier.width - change + changeNext;
-                                    return appendTo;
-                                }
-                            }
+                            if(handleEllipsis(appendTo)) return appendTo;
                         } else {
                             for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
                                 long curr;
@@ -4106,7 +4061,7 @@ public class Font implements Disposable {
 
                 //// VISIBLE CHAR RENDERING
 
-                char ch = text.charAt(i);
+                char ch = text.charAt(i), showCh;
                 if (isLowerCase(ch)) {
                     if ((capitalize && !previousWasLetter) || capsLock) {
                         ch = Category.caseUp(ch);
@@ -4120,18 +4075,19 @@ public class Font implements Disposable {
                 } else {
                     previousWasLetter = false;
                 }
+                showCh = (current & SMALL_CAPS) == SMALL_CAPS ? Category.caseUp(ch) : ch;
                 if(ch >= 0xE000 && ch < 0xF800){
                     scaleX = (scale + 1) * 0.25f * cellHeight / (font.mapping.get(ch, font.defaultValue).xAdvance*1.25f);
                 }
                 float w;
                 if (font.kerning == null) {
-                    w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | ch));
+                    w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | showCh));
                 } else {
-                    kern = kern << 16 | ch;
-                    w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | ch) + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-((current | ch) & SUPERSCRIPT) >> 63)));
+                    kern = kern << 16 | showCh;
+                    w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | showCh) + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-((current | showCh) & SUPERSCRIPT) >> 63)));
                 }
                 if(initial){
-                    float ox = font.mapping.get(ch, font.defaultValue).offsetX
+                    float ox = font.mapping.get(showCh, font.defaultValue).offsetX
                             * scaleX;
                     if(!isMono) ox *= (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                     if(ox < 0) w = (appendTo.peekLine().width -= ox);
@@ -4263,6 +4219,7 @@ public class Font implements Disposable {
                                     boolean curly = false;
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
+                                        showCh = (curr & SMALL_CAPS) == SMALL_CAPS ? Category.caseUp((char)curr) : (char)curr;
                                         if (curly) {
                                             glyphBuffer.add(curr);
                                             if ((char) curr == '{') {
@@ -4272,7 +4229,7 @@ public class Font implements Disposable {
                                                 continue;
                                             } else continue;
                                         }
-                                        if ((char) curr == '{') {
+                                        if (showCh == '{') {
                                             glyphBuffer.add(curr);
                                             curly = true;
                                             continue;
@@ -4284,7 +4241,7 @@ public class Font implements Disposable {
                                             glyphBuffer.add(curr);
                                             changeNext += adv;
                                             if(glyphBuffer.size == 1){
-                                                float ox = font.mapping.get(ch, font.defaultValue).offsetX
+                                                float ox = font.mapping.get(showCh, font.defaultValue).offsetX
                                                         * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
                                                 if(ox < 0) changeNext -= ox;
                                                 initial = false;
@@ -4301,6 +4258,7 @@ public class Font implements Disposable {
                                     boolean curly = false;
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
+                                        showCh = (curr & SMALL_CAPS) == SMALL_CAPS ? Category.caseUp((char)curr) : (char)curr;
                                         if (curly) {
                                             glyphBuffer.add(curr);
                                             if ((char) curr == '{') {
@@ -4310,20 +4268,20 @@ public class Font implements Disposable {
                                                 continue;
                                             } else continue;
                                         }
-                                        if ((char) curr == '{') {
+                                        if (showCh == '{') {
                                             glyphBuffer.add(curr);
                                             curly = true;
                                             continue;
                                         }
-                                        k2 = k2 << 16 | (char) curr;
+                                        k2 = k2 << 16 | showCh;
                                         float adv = xAdvance(font, scaleX, curr);
                                         change += adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
                                         if (--leading < 0) {
-                                            kern = kern << 16 | (char) curr;
+                                            kern = kern << 16 | showCh;
                                             changeNext += adv + font.kerning.get(kern, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
                                             glyphBuffer.add(curr);
                                             if(glyphBuffer.size == 1){
-                                                float ox = font.mapping.get(ch, font.defaultValue).offsetX
+                                                float ox = font.mapping.get(showCh, font.defaultValue).offsetX
                                                         * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
                                                 if(ox < 0) changeNext -= ox;
                                                 initial = false;
