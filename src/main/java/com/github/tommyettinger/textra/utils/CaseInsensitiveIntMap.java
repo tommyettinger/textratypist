@@ -69,7 +69,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 	 * This only needs to be serialized if the full key and value tables are serialized, or if the iteration order should be
 	 * the same before and after serialization.
 	 */
-	protected long hashMultiplier = 0x9E3779B97F4A7C15L;
+	protected long hashMultiplier = 0xD1B54A32D192ED03L;
 
 	protected transient Entries entries1, entries2;
 	protected transient Values values1, values2;
@@ -95,12 +95,12 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		return tableSize;
 	}
 
-	/** Creates a new map with an initial capacity of 51 and a load factor of 0.8. */
+	/** Creates a new map with an initial capacity of 51 and a load factor of 0.6. */
 	public CaseInsensitiveIntMap() {
 		this(51, 0.6f);
 	}
 
-	/** Creates a new map with a load factor of 0.8.
+	/** Creates a new map with a load factor of 0.6 .
 	 * @param initialCapacity The backing array size is initialCapacity / loadFactor, increased to the next power of two. */
 	public CaseInsensitiveIntMap(int initialCapacity) {
 		this(initialCapacity, 0.6f);
@@ -123,9 +123,32 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		valueTable = new int[tableSize];
 	}
 
+	/** Creates a new map and puts key-value pairs sequentially from the two given arrays until either array is
+	 * exhausted. The initial capacity will be the length of the shorter of the two arrays, and the load factor will be
+	 * 0.6 . */
+	public CaseInsensitiveIntMap(String[] keys, int[] values) {
+		this.loadFactor = 0.6f;
+		final int len = Math.min(keys.length, values.length);
+
+		int tableSize = tableSize(len, loadFactor);
+		threshold = (int)(tableSize * loadFactor);
+		mask = tableSize - 1;
+		shift = Long.numberOfLeadingZeros(mask);
+
+		keyTable = new String[tableSize];
+		valueTable = new int[tableSize];
+
+		String key;
+		for (int i = 0; i < len; i++) {
+			key = keys[i];
+			if (key != null) put(key, values[i]);
+		}
+	}
+
 	/** Creates a new map identical to the specified map. */
 	public CaseInsensitiveIntMap(CaseInsensitiveIntMap map) {
 		this((int)(map.keyTable.length * map.loadFactor), map.loadFactor);
+		hashMultiplier = map.hashMultiplier;
 		System.arraycopy(map.keyTable, 0, keyTable, 0, map.keyTable.length);
 		System.arraycopy(map.valueTable, 0, valueTable, 0, map.valueTable.length);
 		size = map.size;
@@ -179,6 +202,17 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		valueTable[i] = value;
 		if (++size >= threshold) resize(keyTable.length << 1);
 		return defaultValue;
+	}
+
+	/** Puts keys with values in sequential pairs from the two arrays given, until either array is exhausted. */
+	public void putAll (String[] keys, int[] values) {
+		final int len = Math.min(keys.length, values.length);
+		ensureCapacity(len);
+		String key;
+		for (int i = 0; i < len; i++) {
+			key = keys[i];
+			if (key != null) put(key, values[i]);
+		}
 	}
 
 	public void putAll (CaseInsensitiveIntMap map) {

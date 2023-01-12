@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Constructor;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
 import com.github.tommyettinger.textra.utils.Palette;
 import regexodus.Matcher;
 import regexodus.Pattern;
@@ -36,7 +37,7 @@ class Parser {
     private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\]|$)"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{6,8}");
 
-    private static final String[] BOOLEAN_TRUE = {"true", "yes", "t", "y", "on", "1"};
+    private static final CaseInsensitiveIntMap BOOLEAN_TRUE = new CaseInsensitiveIntMap(new String[]{"true", "yes", "t", "y", "on", "1"}, new int[6]);
     private static final int INDEX_TOKEN = 1;
     private static final int INDEX_PARAM = 2;
 
@@ -348,11 +349,7 @@ class Parser {
      */
     static boolean stringToBoolean(String str) {
         if (str != null) {
-            for (String booleanTrue : BOOLEAN_TRUE) {
-                if (booleanTrue.equalsIgnoreCase(str)) {
-                    return true;
-                }
-            }
+            return BOOLEAN_TRUE.containsKey(str);
         }
         return false;
     }
