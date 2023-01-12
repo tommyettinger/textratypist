@@ -116,7 +116,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.astarry == null) {
             try {
                 instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
-                        instance.prefix + "AStarry-standard.png", STANDARD, 0, 16, 0, 0, true)
+                        instance.prefix + "AStarry-standard.png", STANDARD, 0, -32, 0, 0, true)
                         .scaleTo(8, 8).setTextureFilter().setName("A Starry");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1639,7 +1639,7 @@ public final class KnownFonts implements LifecycleListener {
                         "Medieval", "Future", "Console", "Code"},
                 new Font[]{getGentium(), getOpenSans(), getInconsolata(), getRobotoCondensed(), getYanoneKaffeesatz(),
                         getIBM8x16(), getIosevkaSlab(), getCaveat(), getCanada(), getCozette(), getIosevka(),
-                        getKingthingsFoundation(), getOxanium(), getAStarry(), getCascadiaMono()});
+                        getKingthingsFoundation(), getOxanium(), getAStarry().scale(2, 2), getCascadiaMono()});
         family.fontAliases.put("Bitter", 0); // for compatibility; Bitter and Gentium look nearly identical anyway...
         return family.connected[0].setFamily(family);
     }

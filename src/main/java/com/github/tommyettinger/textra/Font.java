@@ -3711,6 +3711,7 @@ public class Font implements Disposable {
                     if (c == '@') fontChange = i;
                     else if (c == '%') sizeChange = i;
                     else if (c == '?') sizeChange = -1;
+                    else if (c == '^') sizeChange = -1;
                     else if (c == '=') eq = Math.min(eq, i);
                 }
                 char after = eq + 1 >= end ? '\u0000' : text.charAt(eq + 1);
@@ -3953,7 +3954,8 @@ public class Font implements Disposable {
                         Line earlier = appendTo.peekLine();
                         Line later = appendTo.pushLine();
                         if (later == null) {
-                            if(handleEllipsis(appendTo)) return appendTo;
+                            if(handleEllipsis(appendTo))
+                                return appendTo;
                         } else {
                             for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
                                 long curr;
@@ -4111,7 +4113,8 @@ public class Font implements Disposable {
                         initial = true;
                     }
                     if (later == null) {
-                        if(handleEllipsis(appendTo)) return appendTo;
+                        if(handleEllipsis(appendTo))
+                            return appendTo;
 //                        //// ELLIPSIS FOR VISIBLE
 //
 //                        // here, the max lines have been reached, and an ellipsis may need to be added
@@ -4521,6 +4524,7 @@ public class Font implements Disposable {
                     if (c == '@') fontChange = i;
                     else if (c == '%') sizeChange = i;
                     else if (c == '?') sizeChange = -1;
+                    else if (c == '^') sizeChange = -1;
                     else if (c == '=') eq = Math.min(eq, i);
                 }
                 char after = eq + 1 >= end ? '\u0000' : markup.charAt(eq + 1);

@@ -212,7 +212,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         text.append("{SPEED=2.50}{COLOR=lighter dull GREEN} making the text go {SHAKE=1.1;0.6;inf}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5} ");
         text.append("{SPEED=0.25}{COLOR=jade fern}{WAVE=0.66;1;0.5;∞}[@Mono] or extremely slow.[@]{ENDWAVE}");
         text.append("{RESET} You {HEARTBEAT}[darker red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}second{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
-        text.append("{RAINBOW=1;1;0.7} [%?Error]jussst[%] to [%?WARN]catching[%] an [;][%^black]event[%][;] in [%?note]code[%]{EVENT=example}!{WAIT} {ENDRAINBOW}");
+        text.append("{RAINBOW=1;1;0.7} [%?Error]jussst[%] to [%?WARN]catching[%] an [@Console][;][%^white]event[%][;][@] in [%?note]code[%]{EVENT=example}!{WAIT} {ENDRAINBOW}");
         text.append("{NORMAL}\n\n");
         text.append("{VAR=FIRE_WIND}Imagine the [~]bugs[~]! I mean, possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");
 //        text.append("{VAR=FIRE_WIND}Imagine the {STYLE=STRIKE}bugs{STYLE=STRIKE} possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");
@@ -242,14 +242,15 @@ public class TypingLabelTest extends ApplicationAdapter {
                         "Serif", "Sans", "Mono", "Medieval", "Future", "Cozette"
                 },
                 new Font[]{
-                        KnownFonts.addEmoji(KnownFonts.getGentium()).scaleTo(32, 35).scale(0.75f, 0.75f),
-                        KnownFonts.addEmoji(KnownFonts.getOpenSans()).scaleTo(23, 35).scale(0.75f, 0.75f).adjustLineHeight(0.85f),
-                        KnownFonts.addEmoji(KnownFonts.getInconsolata()).scaleTo(15, 35).scale(0.75f, 0.75f).adjustLineHeight(0.9375f),
-                        KnownFonts.addEmoji(KnownFonts.getKingthingsFoundation()).scaleTo(35, 35).scale(0.75f, 0.75f).adjustLineHeight(0.9f),
-                        KnownFonts.addEmoji(KnownFonts.getOxanium()).scaleTo(32, 35).scale(0.75f, 0.75f).adjustLineHeight(1.05f),
+                        KnownFonts.addEmoji(KnownFonts.getGentium()).scaleTo(24, 26),
+                        KnownFonts.addEmoji(KnownFonts.getOpenSans()).scaleTo(17, 26).adjustLineHeight(0.85f),
+                        KnownFonts.addEmoji(KnownFonts.getInconsolata()).scaleTo(11, 26).adjustLineHeight(0.9375f),
+                        KnownFonts.addEmoji(KnownFonts.getKingthingsFoundation()).scaleTo(26, 26).adjustLineHeight(0.9f),
+                        KnownFonts.addEmoji(KnownFonts.getOxanium()).scaleTo(24, 26).adjustLineHeight(1.05f),
                         KnownFonts.addEmoji(KnownFonts.getCozette())
                 });
-        Font font = family.connected[0].setFamily(family);
+//        Font font = family.connected[0].setFamily(family);
+        Font font = KnownFonts.addEmoji(KnownFonts.getStandardFamily()).scale(0.8f, 0.8f);
         final TypingLabel label = new TypingLabel(text.toString(), font);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
@@ -314,7 +315,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0.6f, 0.6f, 0.66f, 1);
+        Gdx.gl.glClearColor(0.7f, 0.3f, 0.13f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(Gdx.graphics.getDeltaTime());
