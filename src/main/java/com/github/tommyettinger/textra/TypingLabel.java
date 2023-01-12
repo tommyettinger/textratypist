@@ -38,6 +38,8 @@ import java.lang.StringBuilder;
 import java.util.Arrays;
 import java.util.Map;
 
+import static com.github.tommyettinger.textra.Font.ALTERNATE;
+
 /**
  * An extension of {@link Label} that progressively shows the text as if it was being typed in real time, and allows the
  * use of tokens in the following format: <tt>{TOKEN=PARAMETER}</tt>.
@@ -906,7 +908,7 @@ public class TypingLabel extends TextraLabel {
                 if (f == null) f = font;
                 if (f.kerning != null) {
                     kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
-                    float amt = f.kerning.get(kern, 0) * f.scaleX * ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                    float amt = f.kerning.get(kern, 0) * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
                     xChange += cs * amt;
                     yChange += sn * amt;
                 } else {
@@ -915,7 +917,7 @@ public class TypingLabel extends TextraLabel {
                 if(i == 0) {
                     Font.GlyphRegion reg = font.mapping.get((char) glyph);
                     if (reg != null && reg.offsetX < 0) {
-                        float ox = reg.offsetX * f.scaleX * ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                        float ox = reg.offsetX * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
                         xChange -= cs * ox;
                         yChange -= sn * ox;
                     }
