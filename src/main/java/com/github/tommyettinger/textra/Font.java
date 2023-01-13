@@ -3331,7 +3331,7 @@ public class Font implements Disposable {
         float changedW = xAdvance * scaleX;
         float h = tr.getRegionHeight() * scaleY * sizingY;
         float xc = tr.offsetX * scaleX - centerX * sizingX;
-        float yt = (originalCellHeight * 0.5f - descent - tr.getRegionHeight() - tr.offsetY) * scaleY * sizingY;
+        float yt = (this.originalCellHeight * 0.5f - descent - tr.getRegionHeight() - tr.offsetY) * scaleY * sizingY;
 //        float yt = cellHeight * font.scaleY * 0.5f - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
 //        float yt = centerY * sizingY - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
 
@@ -3526,7 +3526,7 @@ public class Font implements Disposable {
                 p0y = centerY * -2.75f * sizingY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        (xAdvance) * scaleX * sizingX + 2, cellHeight * scaleY * sizingY, rotation);
+                        xAdvance * scaleX * sizingX + 2, cellHeight * scaleY * sizingY, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -3571,10 +3571,10 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = -centerX;
-                p0y = cellHeight * -0.125f;
+                p0y = 0.5f * centerY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        (xAdvance) * scaleX + 2, cellHeight, rotation);
+                        xAdvance * scaleX * sizingX + 2, cellHeight * scaleY * sizingY, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
