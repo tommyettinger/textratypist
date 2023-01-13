@@ -3429,7 +3429,7 @@ public class Font implements Disposable {
         vertices[19] = v;
 
         if((glyph & ALTERNATE_MODES_MASK) == DROP_SHADOW) {
-            float shadow = -0X1.999998P-128f;//equal to NumberUtils.intBitsToFloat(0x80333333); (dark transparent gray)
+            float shadow = -0x0.444444p-126f;//equal to NumberUtils.intBitsToFloat(0x80222222); (dark transparent gray)
             vertices[2] = shadow;
             vertices[7] = shadow;
             vertices[12] = shadow;
