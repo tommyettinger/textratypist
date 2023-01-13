@@ -3397,7 +3397,7 @@ public class Font implements Disposable {
         if (jostled) {
             int code = NumberUtils.floatToIntBits(x * 1.8191725133961645f + y * 1.6710436067037893f + c * 1.5497004779019703f) >>> 8;
             xc += code % 5 - 2f;
-            yt += (code >>> 6) % 5 - 2f;
+            y += (code >>> 6) % 5 - 2f;
 //            int code = (NumberUtils.floatToIntBits(x + y) >>> 16 ^ c);
 //            drawBlockSequence(batch, BlockUtils.BOX_DRAWING[(code % 0x6D)],
 //                    font.mapping.get(solidBlock, tr), color,
@@ -3523,10 +3523,10 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -centerX;
-                p0y = centerY * -4.25f * sizingY;
+                p0y = centerY * -2.75f * sizingY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        (xAdvance) * scaleX * sizingX + 2, cellHeight * scale * sizingY, rotation);
+                        (xAdvance) * scaleX * sizingX + 2, cellHeight * scaleY * sizingY, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
