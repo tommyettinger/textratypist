@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class EmojiTypingLabelTest extends ApplicationAdapter {
     Skin        skin;
@@ -41,7 +42,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         float scale = 0.5f;
         skin.getFont("default-font").getData().setScale(scale);
-        stage = new Stage(new ScreenViewport(), batch);
+        stage = new Stage(new StretchViewport(720, 405), batch);
 //        stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);
 
@@ -141,9 +142,10 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //                "TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
 //                        + "But... {SICK}U. Nitty{ENDSICK} doesn't."
 //                        + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
+                /*
                 "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
                 + "But... {SICK}U. Nitty{ENDSICK} doesn't. {CROWD}[#BB1100][+skull][#55AA22][+🤡]{ENDCROWD}{CLEARCOLOR}\n"
-                + "Scale testing: [_][~][%25]gr[%50]oo[%75]oo[%100]oo[%125]oo[%150]oo[%175]oo[%200]oow![]\n"
+                + */ "Scale testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go![]\n"
                 + "{NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
                 ,
 //
@@ -206,10 +208,6 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 
         ScreenUtils.clear(0.25f, 0.3f, 0.3f, 1);
         
-        float now = (TimeUtils.millis() & 0xFFFFFFL) / 9f;
-//        label.setColor(MathUtils.cosDeg(now) * 0.5f + 0.5f,
-//                MathUtils.cosDeg(now + 120f) * 0.5f + 0.5f,
-//                MathUtils.cosDeg(now + 240f) * 0.5f + 0.5f, MathUtils.cosDeg(now * 3f) * 0.5f + 0.5f);
         stage.draw();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
@@ -229,7 +227,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TypingLabel Test");
         config.setWindowedMode(720, 405);
-        config.setResizable(false);
+        config.setResizable(true);
         config.setForegroundFPS(60);
         config.useVsync(true);
         config.disableAudio(true);
