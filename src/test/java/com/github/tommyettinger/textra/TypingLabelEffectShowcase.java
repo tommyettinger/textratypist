@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
@@ -38,7 +39,6 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
 
         batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("uiskin.json"));
-//        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         float scale = 0.5f;
         skin.getFont("default-font").getData().setScale(scale);
         stage = new Stage(new ScreenViewport(), batch);
@@ -166,9 +166,6 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
             }
         });
 
-        // Finally parse tokens in the label text.
-        label.parseTokens();
-
         return label;
     }
 
@@ -180,8 +177,8 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
     public void render() {
         update(Gdx.graphics.getDeltaTime());
 
-        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1);
+        
 
         stage.draw();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");

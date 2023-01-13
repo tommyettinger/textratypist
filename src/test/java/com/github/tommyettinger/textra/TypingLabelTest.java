@@ -303,9 +303,6 @@ public class TypingLabelTest extends ApplicationAdapter {
 
         label.setWrap(true);
 
-        // Finally parse tokens in the label text.
-//        label.parseTokens();
-
         return label;
     }
 
@@ -315,8 +312,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0.7f, 0.3f, 0.13f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        ScreenUtils.clear(0.45f, 0.45f, 0.45f, 1);
 
         update(Gdx.graphics.getDeltaTime());
 

@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class TypingLabelEventScheduling extends ApplicationAdapter {
@@ -53,10 +55,9 @@ public class TypingLabelEventScheduling extends ApplicationAdapter {
             }
         });
         label.layout.setTargetWidth(180);
+        label.setAlignment(Align.center);
         label.setVariable("name", "waeweus, fwend of uwu intewwfacies");
 
-        // Must be called so variables are replaced.
-        label.parseTokens();
         table.pad(50f);
         table.add(label);//.colspan(5).growX();
         table.pack();
@@ -65,7 +66,7 @@ public class TypingLabelEventScheduling extends ApplicationAdapter {
     }
 
     public void adjustTypingConfigs() {
-        // Only allow two chars per frame
+        // Only allow one char per frame
         TypingConfig.CHAR_LIMIT_PER_FRAME = 1;
 
         // Change color used by CLEARCOLOR token
@@ -81,10 +82,8 @@ public class TypingLabelEventScheduling extends ApplicationAdapter {
 
     @Override
     public void render() {
+        ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1);
         update(Gdx.graphics.getDeltaTime());
-
-        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.draw();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
