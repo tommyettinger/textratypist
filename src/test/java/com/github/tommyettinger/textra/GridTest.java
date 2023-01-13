@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.github.tommyettinger.textra.utils.BlockUtils;
 
@@ -142,14 +143,14 @@ public class GridTest extends ApplicationAdapter {
         marquee = new TypingLabel("{ROTATE=100}[/][lightest magenta]EAT AT {HIGHLIGHT=lightest magenta;1;1;1;0.5;true}JOE'S{ENDHIGHLIGHT}", font);
 //        marquee = new TypingLabel("{BLINK}{ROTATE=100}{JOLT=1;1;inf;0.07;lightest magenta;dark dull magenta gray}[/]EAT AT JOE'S", font);
         marquee.wrap = false;
-        marquee.parseTokens();
+//        marquee.parseTokens();
         marquee.setWidth(Gdx.graphics.getBackBufferWidth());
         marquee.setPosition(64, 350);
         marquee.skipToTheEnd();
         marquee.setRotation(-100f);
         link = new TypingLabel("Welcome to [sky]{STYLIST=0;1;1;0;0;1}TextraTypist[], for text stuff.", font);
 //        link = new TypingLabel("Welcome to [sky][_]{LINK=https://github.com/tommyettinger/textratypist}TextraTypist[], for text stuff.", font);
-        link.parseTokens();
+//        link.parseTokens();
         link.setWidth(Gdx.graphics.getBackBufferWidth());
         link.setPosition(0f, PIXEL_HEIGHT * 0.5f - 62.5f);
         link.skipToTheEnd();
@@ -168,8 +169,8 @@ public class GridTest extends ApplicationAdapter {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0.4f, 0.5f, 0.9f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        ScreenUtils.clear(0.4f, 0.5f, 0.9f, 1);
+        
         float x = 0, y = PIXEL_HEIGHT * 0.5f;
         long since = TimeUtils.timeSinceMillis(startTime);
         font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];

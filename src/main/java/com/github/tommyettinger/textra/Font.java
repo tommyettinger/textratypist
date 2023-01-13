@@ -114,7 +114,7 @@ public class Font implements Disposable {
         /**
          * Creates a GlyphRegion from a parent TextureAtlas.AtlasRegion (almost always from an atlas). The resulting
          * GlyphRegion will have the same offsetX and offsetY as atlasRegion, and xAdvance equal to
-         * {@link com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion#originalWidth}.
+         * {@link TextureAtlas.AtlasRegion#originalWidth}.
          *
          * @param atlasRegion a TextureAtlas.AtlasRegion to draw for this GlyphRegion, typically from a TextureAtlas
          */

@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import static com.github.tommyettinger.textra.utils.ColorUtils.lerpColors;
@@ -123,8 +124,8 @@ public class RotationTest extends ApplicationAdapter {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0.4f, 0.5f, 0.9f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        ScreenUtils.clear(0.4f, 0.5f, 0.9f, 1);
+        
         float x = 0, y = layout.getHeight() + font.cellHeight * 2;
         batch.begin();
         font.enableShader(batch);

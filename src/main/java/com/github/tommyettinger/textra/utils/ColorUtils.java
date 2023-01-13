@@ -186,7 +186,7 @@ public class ColorUtils {
      * Given several colors, this gets an even mix of all colors in equal measure.
      * If {@code colors} is null or has no items, this returns 256 (a transparent placeholder used by
      * {@link com.github.tommyettinger.textra.ColorLookup} for "no color found").
-     * This is mostly useful in conjunction with {@link com.badlogic.gdx.utils.IntArray}, using its {@code items}
+     * This is mostly useful in conjunction with {@link IntArray}, using its {@code items}
      * for colors, typically 0 for offset, and its {@code size} for size.
      * @param colors an array of RGBA8888 int colors; all should use the same color space
      * @param offset the index of the first item in {@code colors} to use

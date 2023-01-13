@@ -33,6 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class GSTypingUITest extends InputAdapter implements ApplicationListener {
@@ -211,8 +212,8 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 	@Override
 	public void render () {
 		profiler.reset();
-		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
+		
 		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
 		int i;
 		for (i = 0; i < s.length() && i < 5; i++) {

@@ -754,14 +754,14 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * If your font uses {@link com.github.tommyettinger.textra.Font.DistanceFieldType#SDF} or {@link com.github.tommyettinger.textra.Font.DistanceFieldType#MSDF},
+     * If your font uses {@link Font.DistanceFieldType#SDF} or {@link Font.DistanceFieldType#MSDF},
      * then this has to do some extra work to use the appropriate shader.
      * If {@link Font#enableShader(Batch)} was called before rendering a group of TypingLabels, then they will try to
      * share one Batch; otherwise this will change the shader to render SDF or MSDF, then change it back at the end of
      * each draw() call.
      *
-     * @param batch
-     * @param parentAlpha
+     * @param batch probably should be a SpriteBatch
+     * @param parentAlpha the alpha of the parent container, or 1.0f if there is none
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
