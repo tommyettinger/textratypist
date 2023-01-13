@@ -3331,7 +3331,7 @@ public class Font implements Disposable {
         float changedW = xAdvance * scaleX;
         float h = tr.getRegionHeight() * scaleY * sizingY;
         float xc = tr.offsetX * scaleX - centerX * sizingX;
-        float yt = (originalCellHeight * 0.5f - descent) * scaleY - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
+        float yt = (originalCellHeight * 0.5f - descent - tr.getRegionHeight() - tr.offsetY) * scaleY * sizingY;
 //        float yt = cellHeight * font.scaleY * 0.5f - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
 //        float yt = centerY * sizingY - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
 
@@ -3348,6 +3348,8 @@ public class Font implements Disposable {
 
         if (c < 0xE000 || c >= 0xF800) {
             yt -= scale * sizingY * centerY;
+        } else {
+            yt = -centerY;
         }
 
         if ((glyph & OBLIQUE) != 0L) {
