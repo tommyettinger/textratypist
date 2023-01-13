@@ -3318,6 +3318,7 @@ public class Font implements Disposable {
         }
 
         Texture tex = tr.getTexture();
+        float scaledHeight = cellHeight * sizingY;
         float x0 = 0f;
         float x1 = 0f;
         float x2 = 0f;
@@ -3330,7 +3331,10 @@ public class Font implements Disposable {
         float changedW = xAdvance * scaleX;
         float h = tr.getRegionHeight() * scaleY * sizingY;
         float xc = tr.offsetX * scaleX - centerX * sizingX;
-        float yt = (cellHeight * scale) - centerY - (tr.getRegionHeight() + tr.offsetY) * scaleY;
+        float yt = (originalCellHeight * 0.5f - descent) * scaleY - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
+//        float yt = cellHeight * font.scaleY * 0.5f - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
+//        float yt = centerY * sizingY - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
+
         // These may need to be changed to use some other way of getting a screen pixel's size in world units.
         // They might actually be 1.5 or 2 pixels; it's hard to tell when a texture with alpha is drawn over an area.
         float xPx = 2f / (Gdx.graphics.getBackBufferWidth()  * batch.getProjectionMatrix().val[0]);
@@ -3352,7 +3356,6 @@ public class Font implements Disposable {
             x2 -= h * 0.2f;
         }
         final long script = (glyph & SUPERSCRIPT);
-        float scaledHeight = cellHeight * scale * sizingY;
         if (script == SUPERSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
@@ -3518,10 +3521,10 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -centerX;
-                p0y = cellHeight * -0.5625f;
+                p0y = centerY * -4.25f * sizingY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        (xAdvance) * scaleX + 2, cellHeight, rotation);
+                        (xAdvance) * scaleX * sizingX + 2, cellHeight * scale * sizingY, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
