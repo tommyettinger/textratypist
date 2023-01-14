@@ -3318,7 +3318,7 @@ public class Font implements Disposable {
         }
 
         Texture tex = tr.getTexture();
-        float scaledHeight = cellHeight * sizingY;
+        float scaledHeight = originalCellHeight * scaleY * sizingY;
         float x0 = 0f;
         float x1 = 0f;
         float x2 = 0f;
@@ -3329,9 +3329,10 @@ public class Font implements Disposable {
         float w = tr.getRegionWidth() * scaleX * sizingX;
         float xAdvance = tr.xAdvance;
         float changedW = xAdvance * scaleX;
-        float h = tr.getRegionHeight() * scaleY * sizingY;
+        float trrh = tr.getRegionHeight();
+        float h = trrh * scaleY * sizingY;
         float xc = tr.offsetX * scaleX - centerX * sizingX;
-        float yt = (this.originalCellHeight * 0.5f - descent - tr.getRegionHeight() - tr.offsetY) * scaleY * sizingY;
+        float yt = (originalCellHeight * 0.5f - descent - trrh - tr.offsetY) * scaleY * sizingY;
 //        float yt = cellHeight * font.scaleY * 0.5f - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
 //        float yt = centerY * sizingY - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
 
@@ -3347,7 +3348,7 @@ public class Font implements Disposable {
         v2 = tr.getV2();
 
         if (c < 0xE000 || c >= 0xF800) {
-            yt -= scale * sizingY * centerY;
+            yt -= sizingY * centerY;
         } else {
             yt = -centerY;
         }
@@ -3526,7 +3527,7 @@ public class Font implements Disposable {
                 p0y = centerY * -2.75f * sizingY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        xAdvance * scaleX * sizingX + 2, cellHeight * scaleY * sizingY, rotation);
+                        xAdvance * scaleX * sizingX + 2, cellHeight * scale * sizingY * 0.5f, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -3571,10 +3572,10 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = -centerX;
-                p0y = 0.5f * centerY;
+                p0y = -0.5f * centerY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        xAdvance * scaleX * sizingX + 2, cellHeight * scaleY * sizingY, rotation);
+                        xAdvance * scaleX * sizingX + 2, cellHeight * scale * sizingY * 0.5f, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
