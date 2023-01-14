@@ -3264,7 +3264,7 @@ public class Font implements Disposable {
         float scaleX;
         float scaleY;
         if(c >= 0xE000 && c < 0xF800){
-            scaleX = scaleY = scale * cellHeight / (tr.xAdvance*1.25f);
+            scaleX = scaleY = font.scaleY * scale * font.originalCellHeight / (tr.xAdvance*1.25f);
         }
         else {
             scaleX = font.scaleX * scale;
@@ -3357,7 +3357,7 @@ public class Font implements Disposable {
         if (c < 0xE000 || c >= 0xF800) {
             yt -= sizingY * centerY;
         } else {
-            yt = -centerY;
+            yt = handleIntegerPosition(-1.5f * centerY);
         }
 
         if ((glyph & OBLIQUE) != 0L) {
@@ -3626,7 +3626,7 @@ public class Font implements Disposable {
         // checks for error, warn, and note modes
         if((glyph & ALTERNATE_MODES_MASK) >= ERROR) {
             p0x = -centerX;
-            p0y = cellHeight * -0.25f;
+            p0y = -4f * centerY;
             drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
                     x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y), xAdvance * scaleX, xPx, yPx, rotation);
         }
