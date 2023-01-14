@@ -3278,15 +3278,20 @@ public class Font implements Disposable {
             atlasOffX = -cellWidth * 0.25f;
             atlasOffY = -cellHeight * 0.25f;
         }
-
-//        // The shifts here represent how far the position was moved by handling the integer position, if that was done.
-//        float xShift = (x) - (x = font.handleIntegerPosition(x));
-//        float yShift = (y) - (y = font.handleIntegerPosition(y));
-//        // This moves the center to match the movement from integer position.
+        float ix = font.handleIntegerPosition(x + centerX);
+        float iy = font.handleIntegerPosition(y + centerY);
+        // The shifts here represent how far the position was moved by handling the integer position, if that was done.
+        float xShift = (x + centerX) - (x = ix);
+        float yShift = (y + centerY) - (y = iy);
+        // This moves the center to match the movement from integer position.
 //        x += (centerX -= xShift);
 //        y += (centerY -= yShift);
-        x += centerX;
-        y += centerY;
+//        x += centerX - xShift;
+//        y += centerY - yShift;
+//        x += centerX;
+//        y += centerY;
+        centerX -= xShift * 0.5f;
+        centerY -= yShift * 0.5f;
 
 //        // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
 //        if (tr.offsetX != tr.offsetX) {
