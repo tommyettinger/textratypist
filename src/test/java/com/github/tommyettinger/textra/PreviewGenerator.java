@@ -142,7 +142,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
             ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
 //            ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
 //        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
-            float x = 400, y = layout.getHeight() - font.descent * font.scaleY;
+            float x = 400, y = layout.getHeight() + font.handleIntegerPosition(font.cellHeight * 0.5f);// - font.descent * font.scaleY;
             batch.begin();
             font.enableShader(batch);
             font.drawGlyphs(batch, layout, x, y, Align.center);
