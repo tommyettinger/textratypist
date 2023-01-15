@@ -3336,9 +3336,9 @@ public class Font implements Disposable {
         float w = tr.getRegionWidth() * scaleX * sizingX;
         float xAdvance = tr.xAdvance;
         float changedW = xAdvance * scaleX;
+        float xc = tr.offsetX * scaleX - centerX * sizingX;
         float trrh = tr.getRegionHeight();
         float h = trrh * scaleY * sizingY;
-        float xc = tr.offsetX * scaleX - centerX * sizingX;
         float yt = (originalCellHeight * 0.5f - trrh - tr.offsetY) * scaleY * sizingY;
 //        float yt = cellHeight * font.scaleY * 0.5f - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
 //        float yt = centerY * sizingY - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
@@ -3538,12 +3538,21 @@ public class Font implements Disposable {
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
+                    trrh = under.getRegionHeight();
+                    h = trrh * scaleY * sizingY;
+                    yt = (originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY * sizingY;
+                    if (c < 0xE000 || c >= 0xF800) {
+                        yt -= sizingY * centerY;
+                    } else {
+                        yt = handleIntegerPosition(-1.5f * centerY);
+                    }
+
                     final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.5f,
                             underV = under.getV(),
                             underU2 = underU + iw,
-                            underV2 = under.getV2(),
-                            hu = under.getRegionHeight() * scaleY,
-                            yu = cellHeight * scale - hu - under.offsetY * scaleY - centerY;
+                            underV2 = under.getV2();
+//                            hu = under.getRegionHeight() * scaleY,
+//                            yu = -0.625f * (hu + under.offsetY * scaleY);//-0.55f * cellHeight * scale;//cellHeight * scale - hu - under.offsetY * scaleY - centerY;
                     xc = under.offsetX * scaleX - centerX * scale;
                     x0 = -scaleX * under.offsetX - scale;
                     vertices[2] = color;
@@ -3563,11 +3572,11 @@ public class Font implements Disposable {
                     vertices[19] = underV;
 
                     p0x = xc + x0 - scale;
-                    p0y = yu + hu;
+                    p0y = yt + y0 + h;//yu + hu;
                     p1x = xc + x0 - scale;
-                    p1y = yu;
+                    p1y = yt + y1;//yu;
                     p2x = xc + x0 + changedW + scale;
-                    p2y = yu;
+                    p2y = yt + y2;//yu;
                     vertices[15] = (vertices[0] = x + cos * p0x - sin * p0y) - (vertices[5] = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
                     vertices[16] = (vertices[1] = y + sin * p0x + cos * p0y) - (vertices[6] = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
 
@@ -3586,12 +3595,22 @@ public class Font implements Disposable {
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
+                    trrh = dash.getRegionHeight();
+                    h = trrh * scaleY * sizingY;
+                    yt = (originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY * sizingY;
+                    if (c < 0xE000 || c >= 0xF800) {
+                        yt -= sizingY * centerY;
+                    } else {
+                        yt = handleIntegerPosition(-1.5f * centerY);
+                    }
+
+
                     final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.5f,
                             dashV = dash.getV(),
                             dashU2 = dashU + iw,
-                            dashV2 = dash.getV2(),
-                            hd = dash.getRegionHeight() * scaleY,
-                            yd = cellHeight * scale - hd - dash.offsetY * scaleY - centerY;
+                            dashV2 = dash.getV2();
+//                            hd = dash.getRegionHeight() * scaleY,
+//                            yd = -0.5f * cellHeight * scale;//cellHeight * scale - hd - dash.offsetY * scaleY - centerY;
                     xc = dash.offsetX * scaleX - centerX * scale;
                     x0 = -scaleX * dash.offsetX - scale;
                     vertices[2] = color;
@@ -3611,11 +3630,11 @@ public class Font implements Disposable {
                     vertices[19] = dashV;
 
                     p0x = xc + x0 - scale;
-                    p0y = yd + hd;
+                    p0y = yt + y0 + h;//yd + hd;
                     p1x = xc + x0 - scale;
-                    p1y = yd;
+                    p1y = yt + y1;//yd;
                     p2x = xc + x0 + changedW + scale;
-                    p2y = yd;
+                    p2y = yt + y2;//yd;
                     vertices[15] = (vertices[0] = x + cos * p0x - sin * p0y) - (vertices[5] = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
                     vertices[16] = (vertices[1] = y + sin * p0x + cos * p0y) - (vertices[6] = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
 
