@@ -67,7 +67,12 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 //		long nanos = TimeUtils.nanoTime();
-		final Font font = KnownFonts.getStandardFamily();
+		final Font font = new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);
+		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
+		font.family.connected[11] =
+				KnownFonts.getYanoneKaffeesatz()
+						.scaleTo(30, 35);
+		font.family.connected[0] = font;
 //		System.out.println("Loading the standard family took " + TimeUtils.timeSinceNanos(nanos) + " ns.");
 
 //		KnownFonts.addEmoji(font);
@@ -89,6 +94,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
 		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
+//		Button buttonMulti = new TextraButton("jóÓetc Ójóetc cjóÓet", skin, "toggle", font);
 		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");

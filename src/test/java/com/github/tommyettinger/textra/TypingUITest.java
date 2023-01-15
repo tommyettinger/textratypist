@@ -66,19 +66,12 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);//.adjustLineHeight(1.2f);
-//		KnownFonts.getStandardFamily()
-//				new Font(skin.get(Label.LabelStyle.class).font)
-//				.useIntegerPositions(true);
+		final Font font = new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
-//				font;
 				KnownFonts.getYanoneKaffeesatz()
-//				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
 				.scaleTo(30, 35);
-//				.setName("Yanone Kaffeesatz");
 		font.family.connected[0] = font;
-//		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
@@ -90,8 +83,9 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		ImageTypingButton iconButton = new ImageTypingButton("jóÓetcjóÓetcjóÓetc", style, font);
 //		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-		TypingButton buttonMulti = new TypingButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "toggle", font);
-//		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle");
+//		TypingButton buttonMulti = new TypingButton("jóÓetc Ójóetc cjóÓet", skin, "toggle", font);
+		TypingButton buttonMulti = new TypingButton("Multi\nLine\nToggle", skin, "toggle", font);
+//		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
