@@ -3369,7 +3369,10 @@ public class Font implements Disposable {
         if (script == SUPERSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
+            yt = yt * 0.625f; //scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
+
+            //(originalCellHeight * 0.5f - trrh - tr.offsetY) * scaleY * sizingY;
+
             y1 += scaledHeight * 0.375f;
             y2 += scaledHeight * 0.375f;
             y0 += scaledHeight * 0.375f;
@@ -3378,7 +3381,7 @@ public class Font implements Disposable {
         } else if (script == SUBSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
+            yt = yt * 0.625f; //scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
             y1 -= scaledHeight * 0.125f;
             y2 -= scaledHeight * 0.125f;
             y0 -= scaledHeight * 0.125f;
@@ -3387,7 +3390,7 @@ public class Font implements Disposable {
         } else if (script == MIDSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
+            yt = yt * 0.625f; //scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
             y0 += scaledHeight * 0.125f;
             y1 += scaledHeight * 0.125f;
             y2 += scaledHeight * 0.125f;
