@@ -146,6 +146,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		// window.debug();
 		TypingWindow window = new TypingWindow("TypingWindow", skin);
 		window.font.adjustLineHeight(0.75f);
+		window.getTitleTable().add(new TextraButton("X", skin)).height(window.getPadTop());
+		window.getTitleTable().add(new TypingButton("X", skin)).height(window.getPadTop());
 		window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
