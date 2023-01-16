@@ -22,21 +22,23 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.stripe.FreeTypeSkin;
 
-public class TypingUITest extends InputAdapter implements ApplicationListener {
+public class NewTextraUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
 		"And another one3", "The meaning of life3", "Is hard to come by3", "This is a list entry4", "And another one4",
@@ -47,7 +49,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	Stage stage;
 	Texture texture1;
 	Texture texture2;
-	TypingLabel fpsLabel;
+	TextraLabel fpsLabel;
 	GLProfiler profiler;
 
 	@Override
@@ -61,37 +63,49 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);//.adjustLineHeight(1.2f);
-//		KnownFonts.getStandardFamily()
-//				new Font(skin.get(Label.LabelStyle.class).font)
-//				.useIntegerPositions(true);
+//		long nanos = TimeUtils.nanoTime();
+		final Font font = new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);//KnownFonts.getRobotoCondensed();//
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
-//				font;
 				KnownFonts.getYanoneKaffeesatz()
-//				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
-				.scaleTo(30, 35);
-//				.setName("Yanone Kaffeesatz");
+						.scaleTo(30, 35);
 		font.family.connected[0] = font;
-//		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
+//		System.out.println("Loading the standard family took " + TimeUtils.timeSinceNanos(nanos) + " ns.");
+
+//		KnownFonts.addEmoji(font);
+
+		for(Font f : font.family.connected) {
+			if(f != null)
+				KnownFonts.addEmoji(f);
+		}
+//		System.out.println("Loading the family with all emoji took " + TimeUtils.timeSinceNanos(nanos) + " ns.");
+
+		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
-//		stage.setDebugAll(true);
+//		 stage.setDebugAll(true);
 
-		ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
+		ImageTextButtonStyle style = new ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-		ImageTypingButton iconButton = new ImageTypingButton("jóÓetcjóÓetcjóÓetc", style, font);
+		ImageTextraButton iconButton = new ImageTextraButton("jóÓetc[_]Ójóetc[_]cjóÓet", style, font);
 //		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-		TypingButton buttonMulti = new TypingButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "toggle", font);
-//		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle");
+		Button buttonMulti = new TextraButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "toggle", font);
+//		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
-		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin);
+		TextraLabel myLabel = new TextraLabel("This is some text.", font);
+
+		Table t = new Table();
+		t.row();
+		t.add(myLabel);
+
+		t.layout();
+
+		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering[+saxophone][+clown face][+saxophone]", skin, font);
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
@@ -121,32 +135,32 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TypingLabel minSizeLabel = new TypingLabel("[@Medieval]minWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
+		TextraLabel minSizeLabel = new TextraLabel("[@Medieval]ginWidth cell", font); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin, font);
-		fpsLabel.setAlignment(Align.center);
+		fpsLabel = new TextraLabel("fps:", font);
+		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
-		final TypingLabel passwordLabel = new TypingLabel("[@Medieval]Textfield in [~]secure[] password mode: ", skin, font);
+		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[] password mode: ", font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
 		passwordTextField.setPasswordMode(true);
 
-		buttonMulti.addListener(new TypingTooltip(
-			"This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip!",
-			skin));
+		buttonMulti.addListener(new TextraTooltip(
+			"This is a tooltip! [~]This is a tooltip! [_]This is a tooltip! [/]This is a tooltip![~] This is a tooltip![_] This is a tooltip!",
+//			skin)); // this doesn't wrap or show a BG
+			skin, font)); // this wraps correctly but still doesn't show a BG
 		Table tooltipTable = new Table(skin);
 		tooltipTable.pad(10).background("default-round");
 		tooltipTable.add(new TextraButton("Fancy tooltip!", skin, font));
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		TypingWindow window = new TypingWindow("TypingWindow", skin);
-		window.font.adjustLineHeight(0.75f);
-		window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
+		TextraWindow window = new TextraWindow("TextraWindow", skin, font);
+		window.getTitleTable().add(new TextraButton("X", skin, font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
 		window.row().fill().expandX();
@@ -163,10 +177,10 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		window.row();
 		window.add(splitPane).fill().expand().colspan(4).maxHeight(200);
 		window.row();
-		window.add(passwordLabel).align(Align.topLeft).colspan(2);
+		window.add(passwordLabel).left().colspan(2);
 		window.add(passwordTextField).minWidth(100).expandX().fillX().colspan(2);
 		window.row();
-		window.add(fpsLabel).align(Align.topLeft).colspan(4);
+		window.add(fpsLabel).left().colspan(4);
 		window.pack();
 
 		// stage.addActor(new Button("Behind Window", skin));
@@ -205,24 +219,17 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	@Override
 	public void render () {
 		profiler.reset();
-		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
-		int i;
-		for (i = 0; i < s.length() && i < 5; i++) {
-			fpsLabel.setInWorkingLayout(5+i, s.charAt(i) | 0xFFFFFFFF00000000L);
-		}
-		for (; i < 5; i++) {
-			fpsLabel.setInWorkingLayout(5+i, 0L);
-		}
+		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
+		
+		fpsLabel.getFont().markup("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]", fpsLabel.layout.clear());
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
+
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
 			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
 					profiler.getCalls(), profiler.getDrawCalls(),
 					profiler.getShaderSwitches(), profiler.getTextureBindings());
-
 	}
 
 	@Override
@@ -250,13 +257,16 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 
 	public static void main(String[] args){
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setTitle("TypingLabel UI test");
-		config.setWindowedMode(760, 600);
+		config.setTitle("TextraLabel UI test");
+		config.setWindowedMode(640, 480);
 		config.disableAudio(true);
+		ShaderProgram.prependVertexCode = "#version 110\n";
+		ShaderProgram.prependFragmentCode = "#version 110\n";
+//		config.enableGLDebugOutput(true, System.out);
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
-		config.useVsync(true);
+		config.useVsync(false);
 		config.setForegroundFPS(0);
-		new Lwjgl3Application(new TypingUITest(), config);
+		new Lwjgl3Application(new NewTextraUITest(), config);
 	}
 
 }

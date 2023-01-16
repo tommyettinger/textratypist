@@ -31,13 +31,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.stripe.FreeTypeSkin;
 
@@ -67,12 +64,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 //		long nanos = TimeUtils.nanoTime();
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);//KnownFonts.getRobotoCondensed();//
-		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
-		font.family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz()
-						.scaleTo(30, 35);
-		font.family.connected[0] = font;
+		final Font font = KnownFonts.getStandardFamily();
 //		System.out.println("Loading the standard family took " + TimeUtils.timeSinceNanos(nanos) + " ns.");
 
 //		KnownFonts.addEmoji(font);
@@ -92,11 +84,9 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		ImageTextButtonStyle style = new ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-		ImageTextraButton iconButton = new ImageTextraButton("jóÓetc[_]Ójóetc[_]cjóÓet", style, font);
-//		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
+		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-		Button buttonMulti = new TextraButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "toggle", font);
-//		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
+		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
@@ -162,7 +152,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		TextraWindow window = new TextraWindow("TextraWindow", skin, font);
+		TextraWindow window = new TextraWindow("TextraWindow", skin);
 		window.getTitleTable().add(new TextraButton("X", skin, font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
@@ -222,8 +212,8 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 	@Override
 	public void render () {
 		profiler.reset();
-		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
-		
+		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		fpsLabel.getFont().markup("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]", fpsLabel.layout.clear());
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 
@@ -261,7 +251,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 	public static void main(String[] args){
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("TextraLabel UI test");
-		config.setWindowedMode(640, 480);
+		config.setWindowedMode(760, 600);
 		config.disableAudio(true);
 		ShaderProgram.prependVertexCode = "#version 110\n";
 		ShaderProgram.prependFragmentCode = "#version 110\n";
