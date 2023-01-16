@@ -701,12 +701,14 @@ public class TypingLabel extends TextraLabel {
             }
         }
 
-        if (!wrap) {
-            font.calculateSize(workingLayout);
+        if (wrap) {
+            float actualWidth = getWidth();
+            workingLayout.setTargetWidth(actualWidth);
+//            font.regenerateLayout(workingLayout);
         }
-//        else {
-////            font.regenerateLayout(workingLayout);
-//        }
+        font.calculateSize(workingLayout);
+
+
         invalidateHierarchy();
     }
 
