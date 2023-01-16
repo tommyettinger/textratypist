@@ -66,7 +66,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = KnownFonts.getRobotoCondensed();//new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);
+		final Font font = new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);//KnownFonts.getRobotoCondensed();//
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz()
@@ -80,16 +80,16 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-		ImageTypingButton iconButton = new ImageTypingButton("[/]a e s t h e t i c", style, font);
-//		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
+		ImageTypingButton iconButton = new ImageTypingButton("jóÓetc[_]Ójóetc[_]cjóÓet", style, font);
+//		ImageTypingButton iconButton = new ImageTypingButton("[/]a e s t h e t i c", style, font);
 
-//		TypingButton buttonMulti = new TypingButton("jóÓetc Ójóetc cjóÓet", skin, "toggle", font);
-		TypingButton buttonMulti = new TypingButton("Multi\nLine\nToggle", skin, "toggle", font);
+		TypingButton buttonMulti = new TypingButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "toggle", font);
+//		TypingButton buttonMulti = new TypingButton("Multi\nLine\nToggle", skin, "toggle", font);
 //		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
-		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin);
+		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering[+saxophone][+clown face][+saxophone]", skin, font);
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
@@ -142,7 +142,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		TextraWindow window = new TextraWindow("TextraDialog", skin);
+		TypingWindow window = new TypingWindow("TypingWindow", skin, font);
 		window.font.adjustLineHeight(0.75f);
 		window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
 		window.setPosition(0, 0);
