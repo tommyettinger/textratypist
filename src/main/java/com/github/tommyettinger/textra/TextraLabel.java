@@ -309,8 +309,14 @@ public class TextraLabel extends Widget {
         if (resetShader)
             font.enableShader(batch);
 
-        baseX -= 0.5f * font.cellWidth;
-        baseY -= 0.5f * font.cellHeight;
+//        baseX -= 0.5f * font.cellWidth;
+//        baseY -= 0.5f * font.cellHeight;
+
+//        baseX += cs * 0.5f * font.cellWidth;
+//        baseY += sn * 0.5f * font.cellWidth;
+//
+//        baseX -= sn * 0.5f * (font.cellHeight);
+//        baseY += cs * 0.5f * (font.cellHeight);
 
         font.drawGlyphs(batch, layout, getX() + baseX, getY() + baseY, align, rot, getOriginX(), getOriginY());
 
