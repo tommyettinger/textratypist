@@ -67,7 +67,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 //		long nanos = TimeUtils.nanoTime();
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);
+		final Font font = KnownFonts.getRobotoCondensed();//new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz()
