@@ -37,9 +37,8 @@ public class TextraLabel extends Widget {
     public int align = Align.left;
     /**
      * If true; allows text to wrap when it would go past the layout's {@link Layout#getTargetWidth() targetWidth} and
-     * continue on the next line; if false, breaks everything for some reason. This is being refactored to always act
-     * like this did with wrap on in versions 0.7.4 and earlier, and instead use a very long target width when it is set
-     * to false.
+     * continue on the next line; if false, uses a very long target width and only adds newlines when they are in the
+     * label's text.
      */
     public boolean wrap = true; // changed from default false in 0.7.5
     public String storedText;
@@ -368,6 +367,12 @@ public class TextraLabel extends Widget {
     @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);
+        if (wrap) {
+            if ((layout.getTargetWidth() != getWidth()))
+                layout.setTargetWidth(width);
+            font.regenerateLayout(layout);
+        }
+
     }
 
     @Override
