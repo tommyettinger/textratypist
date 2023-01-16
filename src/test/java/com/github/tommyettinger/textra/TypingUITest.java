@@ -66,7 +66,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);
+		final Font font = KnownFonts.getRobotoCondensed();//new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz()
@@ -80,7 +80,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-		ImageTypingButton iconButton = new ImageTypingButton("jóÓetcjóÓetcjóÓetc", style, font);
+		ImageTypingButton iconButton = new ImageTypingButton("[/]a e s t h e t i c", style, font);
 //		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
 //		TypingButton buttonMulti = new TypingButton("jóÓetc Ójóetc cjóÓet", skin, "toggle", font);
@@ -119,7 +119,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TypingLabel minSizeLabel = new TypingLabel("[@Medieval]minWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
+		TypingLabel minSizeLabel = new TypingLabel("[@Medieval]ginWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
