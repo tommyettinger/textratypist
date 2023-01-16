@@ -70,6 +70,11 @@ public class TableWrapTest extends ApplicationAdapter {
 
         labels.add(new TextraLabel("lib[RED]GDX[] is a free and open-source game-development application framework " +
                 "written in the Java programming language", skin, font).setWrap(wr)).left().height(400).row();
+
+//        labels.add(new TypingLabel("lib[RED]GDX[] is a free and open-source game-development application framework " +
+//                "written in the Java programming language", skin, font).setWrap(wr)).left().height(400).row();
+
+
 //        labels.add(new TextraLabel("Company", skin, font).setWrap(wr)).left();
 //        labels.add(new TextraLabel("Contact", skin, font).setWrap(wr)).left();
 //        labels.add(new TextraLabel("Country", skin, font).setWrap(wr)).left().row();
