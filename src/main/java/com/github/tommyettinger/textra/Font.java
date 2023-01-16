@@ -2647,12 +2647,10 @@ public class Font implements Disposable {
         float cs = MathUtils.cosDeg(rotation);
         final int lines = glyphs.lines();
         Line l;
-        x -= sn * 0.5f * (cellHeight);
-        y += cs * 0.5f * (cellHeight);
-//        x -= sn * 0.5f * (cellHeight + descent * scaleY);
-//        y += cs * 0.5f * (cellHeight + descent * scaleY);
-        x += cs * 0.5f * cellWidth;
-        y += sn * 0.5f * cellWidth;
+//        x -= sn * 0.5f * cellHeight;
+//        y += cs * 0.5f * cellHeight;
+//        x += cs * 0.5f * cellWidth;
+//        y += sn * 0.5f * cellWidth;
 
 
         for (int ln = 0; ln < lines; ln++) {
@@ -2754,6 +2752,10 @@ public class Font implements Disposable {
             Font font = null;
             if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
             if (font == null) font = this;
+//            float xx = x + 0.25f * (-(sn * font.cellHeight) + (cs * font.cellWidth));
+            float yy = y + 0.25f * (+(cs * font.cellHeight) + (sn * font.cellWidth));
+
+
 
             if (font.kerning != null) {
                 kern = kern << 16 | (int) (glyph & 0xFFFF);
@@ -2771,7 +2773,7 @@ public class Font implements Disposable {
                 }
                 initial = false;
             }
-            single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation);
+            single = drawGlyph(batch, glyph, x + xChange, yy + yChange, rotation);
             xChange += cs * single;
             yChange += sn * single;
             drawn += single;
@@ -3290,8 +3292,8 @@ public class Font implements Disposable {
 //        y += centerY - yShift;
 //        x += centerX;
 //        y += centerY;
-        centerX -= xShift * 0.5f;
-        centerY -= yShift * 0.5f;
+        centerX -= xShift;// * 0.5f;
+        centerY -= yShift;// * 0.5f;
 
 //        // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
 //        if (tr.offsetX != tr.offsetX) {
@@ -3325,7 +3327,7 @@ public class Font implements Disposable {
         }
 
         Texture tex = tr.getTexture();
-        float scaledHeight = originalCellHeight * scaleY * sizingY;
+        float scaledHeight = font.originalCellHeight * scaleY * sizingY;
         float x0 = 0f;
         float x1 = 0f;
         float x2 = 0f;
@@ -3339,7 +3341,7 @@ public class Font implements Disposable {
         float xc = tr.offsetX * scaleX - centerX * sizingX;
         float trrh = tr.getRegionHeight();
         float h = trrh * scaleY * sizingY;
-        float yt = (originalCellHeight * 0.5f - trrh - tr.offsetY) * scaleY * sizingY;
+        float yt = (font.originalCellHeight * 0.5f - trrh - tr.offsetY) * scaleY * sizingY;
 //        float yt = cellHeight * font.scaleY * 0.5f - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
 //        float yt = centerY * sizingY - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
 
@@ -3541,7 +3543,7 @@ public class Font implements Disposable {
                 if (under != null) {
                     trrh = under.getRegionHeight();
                     h = trrh * scaleY * sizingY;
-                    yt = (originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY * sizingY;
+                    yt = (font.originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY * sizingY;
                     if (c >= 0xE000 && c < 0xF800) {
                         yt = handleIntegerPosition(-centerY * scale * sizingY);
                     }
@@ -3596,7 +3598,7 @@ public class Font implements Disposable {
                 if (dash != null) {
                     trrh = dash.getRegionHeight();
                     h = trrh * scaleY * sizingY;
-                    yt = (originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY * sizingY;
+                    yt = (font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY * sizingY;
                     if (c >= 0xE000 && c < 0xF800) {
                         yt = handleIntegerPosition(-centerY * scale * sizingY);
                     }
