@@ -421,10 +421,10 @@ public class TypingLabel extends TextraLabel {
         // Reset cache collections
         workingLayout.baseColor = Color.WHITE_FLOAT_BITS;
         workingLayout.atLimit = false;
-        if(!wrap) {
-            workingLayout.maxLines = Integer.MAX_VALUE;
-            workingLayout.ellipsis = null;
-        }
+
+        workingLayout.maxLines = Integer.MAX_VALUE;
+        workingLayout.ellipsis = null;
+
         Line.POOL.freeAll(workingLayout.lines);
         workingLayout.lines.clear();
         workingLayout.lines.add(Line.POOL.obtain());
@@ -701,8 +701,12 @@ public class TypingLabel extends TextraLabel {
             }
         }
 
-//        font.calculateSize(workingLayout);
-
+        if (!wrap) {
+            font.calculateSize(workingLayout);
+        }
+//        else {
+////            font.regenerateLayout(workingLayout);
+//        }
         invalidateHierarchy();
     }
 
@@ -754,7 +758,7 @@ public class TypingLabel extends TextraLabel {
     public void layout() {
         super.layout();
 
-        if ((workingLayout.getTargetWidth() != getWidth())) {
+        if (wrap && (workingLayout.getTargetWidth() != getWidth())) {
             workingLayout.setTargetWidth(getWidth());
             font.regenerateLayout(workingLayout);
         }

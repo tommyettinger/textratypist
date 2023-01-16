@@ -319,12 +319,11 @@ public class TextraLabel extends Widget {
 
     @Override
     public float getPrefWidth() {
-        return 0f;
-//        if(wrap) return 0f;
-//        float width = layout.getWidth();
-//        if(style != null && style.background != null)
-//            width = Math.max(width + style.background.getLeftWidth() + style.background.getRightWidth(), style.background.getMinWidth());
-//        return width;
+        if(wrap) return 0f;
+        float width = layout.getWidth();
+        if(style != null && style.background != null)
+            width = Math.max(width + style.background.getLeftWidth() + style.background.getRightWidth(), style.background.getMinWidth());
+        return width;
     }
 
     @Override
@@ -381,7 +380,7 @@ public class TextraLabel extends Widget {
         if (style != null && style.background != null) {
             width = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
         }
-        if (layout.getTargetWidth() != width) {
+        if (wrap && layout.getTargetWidth() != width) {
             layout.setTargetWidth(width);
             font.regenerateLayout(layout);
             // This was used earlier, but regenerateLayout() seems to work better in its place.
