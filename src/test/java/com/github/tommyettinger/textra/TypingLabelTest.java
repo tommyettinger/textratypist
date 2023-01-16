@@ -46,7 +46,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         BitmapFont bmf = skin.getFont("default-font");
         bmf.getData().setScale(0.5f);
         bmf.setUseIntegerPositions(false);
-        stage = new Stage(new StretchViewport(720, 405), batch);
+        stage = new Stage(new StretchViewport(720, 480), batch);
         Gdx.input.setInputProcessor(stage);
 
         final Table table = new Table();
@@ -334,7 +334,7 @@ public class TypingLabelTest extends ApplicationAdapter {
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TypingLabel Test");
-        config.setWindowedMode(720, 405);
+        config.setWindowedMode(720, 480);
         config.setResizable(true);
         config.setForegroundFPS(60);
         config.useVsync(true);
