@@ -67,7 +67,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 //		long nanos = TimeUtils.nanoTime();
-		final Font font = KnownFonts.getRobotoCondensed();//new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);
+		final Font font = new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);//KnownFonts.getRobotoCondensed();//
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz()
@@ -92,10 +92,11 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		ImageTextButtonStyle style = new ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
+		ImageTextraButton iconButton = new ImageTextraButton("jóÓetc[_]Ójóetc[_]cjóÓet", style, font);
+//		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-//		Button buttonMulti = new TextraButton("jóÓetc Ójóetc cjóÓet", skin, "toggle", font);
-		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
+		Button buttonMulti = new TextraButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "toggle", font);
+//		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
@@ -161,7 +162,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		TextraWindow window = new TextraWindow("TextraDialog", skin, font);
+		TextraWindow window = new TextraWindow("TextraWindow", skin, font);
 		window.getTitleTable().add(new TextraButton("X", skin, font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
