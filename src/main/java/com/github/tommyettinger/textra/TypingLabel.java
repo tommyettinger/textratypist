@@ -723,7 +723,14 @@ public class TypingLabel extends TextraLabel {
 
     @Override
     public void setSize(float width, float height) {
-        super.setSize(width, height);
+        // unfortunately, we can't call super.setSize(width, height) because
+        // it changes layout, where we only want to change workingLayout.
+        if (this.getWidth() != width) {
+            this.setWidth(width);
+        }
+        if(this.getHeight() != height) {
+            this.setHeight(height);
+        }
         if (wrap) {
             if ((workingLayout.getTargetWidth() != getWidth()))
                 workingLayout.setTargetWidth(width);
