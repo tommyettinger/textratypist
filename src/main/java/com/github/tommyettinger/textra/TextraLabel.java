@@ -38,9 +38,10 @@ public class TextraLabel extends Widget {
     /**
      * If true; allows text to wrap when it would go past the layout's {@link Layout#getTargetWidth() targetWidth} and
      * continue on the next line; if false, uses a very long target width and only adds newlines when they are in the
-     * label's text.
+     * label's text. This should typically be false for widgets that use scene2d.ui layout, but should be true for
+     * any widget that dynamically adjusts to fill an area with wrapped text.
      */
-    public boolean wrap = true; // changed from default false in 0.7.5
+    public boolean wrap = false;
     public String storedText;
     public Label.LabelStyle style;
 

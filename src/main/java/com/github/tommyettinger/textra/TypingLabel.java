@@ -738,9 +738,10 @@ public class TypingLabel extends TextraLabel {
             this.setHeight(height);
         }
         if (wrap) {
-            if ((workingLayout.getTargetWidth() != getWidth()))
-                workingLayout.setTargetWidth(width);
-            font.regenerateLayout(workingLayout);
+            workingLayout.setTargetWidth(width);
+//            if ((workingLayout.getTargetWidth() != getWidth()))
+//                workingLayout.setTargetWidth(width);
+//            font.regenerateLayout(workingLayout);
         }
     }
 
