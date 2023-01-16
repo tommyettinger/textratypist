@@ -29,7 +29,7 @@ import com.badlogic.gdx.utils.Align;
 
 /**
  * A scene2d.ui Widget that displays text using a {@link Font} rather than a libGDX BitmapFont. This supports being
- * laid out in a Table just like the typical Label.
+ * laid out in a Table just like the typical Label (when {@link #isWrap() wrap} is false, which is the default).
  */
 public class TextraLabel extends Widget {
     public Layout layout;
@@ -56,7 +56,7 @@ public class TextraLabel extends Widget {
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the specified Skin's LabelStyle.
      *
-     * @param text the text to use; may be multi-line, and will default to wrapping
+     * @param text the text to use; may be multi-line, but will default to not wrapping
      * @param skin the default Label.LabelStyle will be obtained from this and used
      */
     public TextraLabel(String text, Skin skin) {
@@ -66,7 +66,7 @@ public class TextraLabel extends Widget {
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the specified Skin's LabelStyle.
      *
-     * @param text           the text to use; may be multi-line, and will default to wrapping
+     * @param text           the text to use; may be multi-line, but will default to not wrapping
      * @param skin           the default Label.LabelStyle will be obtained from this and used
      * @param makeGridGlyphs if true, the font should have a solid block glyph available, and underline/strikethrough
      *                       may be drawn more clearly; if false, underline/strikethrough will use underscore/dash
@@ -79,7 +79,7 @@ public class TextraLabel extends Widget {
      * Creates a TextraLabel with the given text (which may be multi-line) and using the specified style from the given
      * Skin.
      *
-     * @param text      the text to use; may be multi-line, and will default to wrapping
+     * @param text      the text to use; may be multi-line, but will default to not wrapping
      * @param skin      the named Label.LabelStyle will be obtained from this and used
      * @param styleName the name of a Label.LabelStyle to use from the Skin
      */
@@ -91,7 +91,7 @@ public class TextraLabel extends Widget {
      * Creates a TextraLabel with the given text (which may be multi-line) and using the specified style from the given
      * Skin.
      *
-     * @param text           the text to use; may be multi-line, and will default to wrapping
+     * @param text           the text to use; may be multi-line, but will default to not wrapping
      * @param skin           the named Label.LabelStyle will be obtained from this and used
      * @param styleName      the name of a Label.LabelStyle to use from the Skin
      * @param makeGridGlyphs if true, the font should have a solid block glyph available, and underline/strikethrough
@@ -105,7 +105,7 @@ public class TextraLabel extends Widget {
      * Creates a TextraLabel with the given text (which may be multi-line), using the specified style from the given
      * Skin, with the default Color overridden by the given one.
      *
-     * @param text      the text to use; may be multi-line, and will default to wrapping
+     * @param text      the text to use; may be multi-line, but will default to not wrapping
      * @param skin      the named Label.LabelStyle will be obtained from this and used
      * @param styleName the name of a Label.LabelStyle to use from the Skin
      * @param color     the color to use for the font when unspecified (at the start and when reset)
@@ -119,7 +119,7 @@ public class TextraLabel extends Widget {
      * Creates a TextraLabel with the given text (which may be multi-line), using the specified style from the given
      * Skin, with the default Color overridden by the color with the given name in the skin.
      *
-     * @param text      the text to use; may be multi-line, and will default to wrapping
+     * @param text      the text to use; may be multi-line, but will default to not wrapping
      * @param skin      the named Label.LabelStyle will be obtained from this and used
      * @param styleName the name of a Label.LabelStyle to use from the Skin
      * @param colorName the name in the skin of the color to use for the font when unspecified (at the start and when reset)
@@ -133,7 +133,7 @@ public class TextraLabel extends Widget {
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the given style.
      *
-     * @param text  the text to use; may be multi-line, and will default to wrapping
+     * @param text  the text to use; may be multi-line, but will default to not wrapping
      * @param style the Label.LabelStyle to use
      */
     public TextraLabel(String text, Label.LabelStyle style) {
@@ -143,7 +143,7 @@ public class TextraLabel extends Widget {
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the given style.
      *
-     * @param text           the text to use; may be multi-line, and will default to wrapping
+     * @param text           the text to use; may be multi-line, but will default to not wrapping
      * @param style          the Label.LabelStyle to use
      * @param makeGridGlyphs if true, the font should have a solid block glyph available, and underline/strikethrough
      *                       may be drawn more clearly; if false, underline/strikethrough will use underscore/dash
@@ -156,7 +156,7 @@ public class TextraLabel extends Widget {
      * Creates a TextraLabel with the given text (which may be multi-line) and using the default style from
      * a Skin, replacing any font that would be drawn from the style with {@code replacementFont}.
      *
-     * @param text            the text to use; may be multi-line, and will default to wrapping
+     * @param text            the text to use; may be multi-line, but will default to not wrapping
      * @param skin            the default Label.LabelStyle will be obtained from this and used
      * @param replacementFont a Font that will be used in place of the one in style
      */
@@ -168,7 +168,7 @@ public class TextraLabel extends Widget {
      * Creates a TextraLabel with the given text (which may be multi-line) and using the given style taken by name from
      * a Skin, replacing any font that would be drawn from the style with {@code replacementFont}.
      *
-     * @param text            the text to use; may be multi-line, and will default to wrapping
+     * @param text            the text to use; may be multi-line, but will default to not wrapping
      * @param skin            the named Label.LabelStyle will be obtained from this and used
      * @param styleName       the name of a Label.LabelStyle to use from the Skin
      * @param replacementFont a Font that will be used in place of the one in style
@@ -181,7 +181,7 @@ public class TextraLabel extends Widget {
      * Creates a TextraLabel with the given text (which may be multi-line) and using the given style taken by name from
      * a Skin, replacing any font that would be drawn from the style with {@code replacementFont}.
      *
-     * @param text            the text to use; may be multi-line, and will default to wrapping
+     * @param text            the text to use; may be multi-line, but will default to not wrapping
      * @param skin            the named Label.LabelStyle will be obtained from this and used
      * @param styleName       the name of a Label.LabelStyle to use from the Skin
      * @param replacementFont a Font that will be used in place of the one in style
@@ -195,7 +195,7 @@ public class TextraLabel extends Widget {
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the given style.
      *
-     * @param text            the text to use; may be multi-line, and will default to wrapping
+     * @param text            the text to use; may be multi-line, but will default to not wrapping
      * @param style           the Label.LabelStyle to use, except for its font
      * @param replacementFont a Font that will be used in place of the one in style
      */
@@ -211,7 +211,7 @@ public class TextraLabel extends Widget {
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the given Font.
      *
-     * @param text the text to use; may be multi-line, and will default to wrapping
+     * @param text the text to use; may be multi-line, but will default to not wrapping
      * @param font a Font from this library, such as one obtained from {@link KnownFonts}
      */
     public TextraLabel(String text, Font font) {
@@ -225,7 +225,7 @@ public class TextraLabel extends Widget {
      * Creates a TextraLabel with the given text (which may be multi-line), using the given Font, and using the given
      * default color.
      *
-     * @param text  the text to use; may be multi-line, and will default to wrapping
+     * @param text  the text to use; may be multi-line, but will default to not wrapping
      * @param font  a Font from this library, such as one obtained from {@link KnownFonts}
      * @param color the color to use for the font when unspecified (at the start and when reset)
      */
@@ -368,9 +368,12 @@ public class TextraLabel extends Widget {
     public void setSize(float width, float height) {
         super.setSize(width, height);
         if (wrap) {
-            if ((layout.getTargetWidth() != getWidth()))
-                layout.setTargetWidth(width);
-            font.regenerateLayout(layout);
+            layout.setTargetWidth(width);
+            float actualWidth = getWidth();
+            layout.setTargetWidth(actualWidth);
+            font.calculateSize(layout);
+            invalidateHierarchy();
+
         }
 
     }
