@@ -62,7 +62,9 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);//.adjustLineHeight(1.2f);
+		final Font font =
+				//KnownFonts.getYanoneKaffeesatz();
+				new Font(skin.getFont("outline-font"), 0f, 12f, 0f, 0f);//.adjustLineHeight(1.2f);
 //		KnownFonts.getStandardFamily()
 //				new Font(skin.get(Label.LabelStyle.class).font)
 //				.useIntegerPositions(true);
@@ -91,7 +93,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
-		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin);
+		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering", skin, font);
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
@@ -121,7 +123,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TypingLabel minSizeLabel = new TypingLabel("[@Medieval]minWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
+		TypingLabel minSizeLabel = new TypingLabel("[@Medieval]ginWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
@@ -136,8 +138,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		passwordTextField.setPasswordMode(true);
 
 		buttonMulti.addListener(new TypingTooltip(
-			"This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip!",
-			skin));
+			"This is a tooltip! [_]This is a tooltip! [~]This is a tooltip! [/]This is a tooltip! [_]This is a tooltip! [~]This is a tooltip!",
+			skin, font));
 		Table tooltipTable = new Table(skin);
 		tooltipTable.pad(10).background("default-round");
 		tooltipTable.add(new TextraButton("Fancy tooltip!", skin, font));
@@ -253,7 +255,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	public static void main(String[] args){
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("TypingLabel UI test");
-		config.setWindowedMode(760, 600);
+		config.setWindowedMode(760, 640);
 		config.disableAudio(true);
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
 		config.useVsync(true);
