@@ -3293,8 +3293,10 @@ public class Font implements Disposable {
 //        y += centerY - yShift;
 //        x += centerX;
 //        y += centerY;
-        centerX -= xShift;// * 0.5f;
-        centerY -= yShift;// * 0.5f;
+        x -= xShift;
+        y -= yShift;
+        centerX -= xShift * 0.5f;
+        centerY -= yShift * 0.5f;
 
 //        // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
 //        if (tr.offsetX != tr.offsetX) {
