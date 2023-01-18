@@ -27,6 +27,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.Align;
 
+import static com.github.tommyettinger.textra.Font.ALTERNATE;
+
 /**
  * A scene2d.ui Widget that displays text using a {@link Font} rather than a libGDX BitmapFont. This supports being
  * laid out in a Table just like the typical Label (when {@link #isWrap() wrap} is false, which is the default).
@@ -239,15 +241,19 @@ public class TextraLabel extends Widget {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
+        super.validate();
+
+        final float rot = getRotation();
+        final float originX = getOriginX();
+        final float originY = getOriginY();
+        final float sn = MathUtils.sinDeg(rot);
+        final float cs = MathUtils.cosDeg(rot);
+
         batch.getColor().set(getColor()).a *= parentAlpha;
         batch.setColor(batch.getColor());
-
-        float baseX = 0, baseY = 0;
-
-        float rot = getRotation();
-        float sn = MathUtils.sinDeg(rot);
-        float cs = MathUtils.cosDeg(rot);
+        int bgc;
+        final int lines = layout.lines();
+        float baseX = getX(), baseY = getY();
 
         float height = layout.getHeight();
         if (Align.isBottom(align)) {
@@ -257,7 +263,6 @@ public class TextraLabel extends Widget {
             baseX -= sn * height * 0.5f;
             baseY += cs * height * 0.5f;
         }
-
         float width = getWidth();
         height = getHeight();
         if (Align.isRight(align)) {
@@ -299,26 +304,90 @@ public class TextraLabel extends Widget {
             }
             ((TransformDrawable) background).draw(batch,
                     getX(), getY(),             // position
-                    getOriginX(), getOriginY(), // origin
+                    originX, originY,           // origin
                     getWidth(), getHeight(),    // size
                     1f, 1f,                     // scale
                     rot);                       // rotation
         }
+
         if (layout.lines.isEmpty()) return;
+
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if (resetShader)
             font.enableShader(batch);
 
-//        baseX -= 0.5f * font.cellWidth;
-//        baseY -= 0.5f * font.cellHeight;
+        baseX -= 0.5f * font.cellWidth;
+        baseY -= 0.5f * font.cellHeight;
 
-//        baseX += cs * 0.5f * font.cellWidth;
-//        baseY += sn * 0.5f * font.cellWidth;
-//
-//        baseX -= sn * 0.5f * (font.cellHeight);
-//        baseY += cs * 0.5f * (font.cellHeight);
+        baseX += cs * 0.5f * font.cellWidth;
+        baseY += sn * 0.5f * font.cellWidth;
+        baseX -= sn * 0.5f * (font.cellHeight);
+        baseY += cs * 0.5f * (font.cellHeight);
 
-        font.drawGlyphs(batch, layout, getX() + baseX, getY() + baseY, align, rot, getOriginX(), getOriginY());
+        int globalIndex = -1;
+
+        float single = 0;
+
+        EACH_LINE:
+        for (int ln = 0; ln < lines; ln++) {
+            Line glyphs = layout.getLine(ln);
+
+            baseX += sn * glyphs.height;
+            baseY -= cs * glyphs.height;
+            if(glyphs.glyphs.size == 0)
+                continue;
+
+            float x = baseX, y = baseY;
+
+            final float worldOriginX = x + originX;
+            final float worldOriginY = y + originY;
+            float fx = -originX;
+            float fy = -originY;
+            x = cs * fx - sn * fy + worldOriginX;
+            y = sn * fx + cs * fy + worldOriginY;
+
+
+            float xChange = 0, yChange = 0;
+
+            if (Align.isCenterHorizontal(align)) {
+                x -= cs * (glyphs.width * 0.5f);
+                y -= sn * (glyphs.width * 0.5f);
+            } else if (Align.isRight(align)) {
+                x -= cs * glyphs.width;
+                y -= sn * glyphs.width;
+            }
+
+            Font f = null;
+            int kern = -1;
+            for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
+                long glyph = glyphs.glyphs.get(i);
+                if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
+                if (f == null) f = font;
+                if (f.kerning != null) {
+                    kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
+                    float amt = f.kerning.get(kern, 0) * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
+                    xChange += cs * amt;
+                    yChange += sn * amt;
+                } else {
+                    kern = -1;
+                }
+                if(i == 0) {
+                    Font.GlyphRegion reg = font.mapping.get((char) glyph);
+                    if (reg != null && reg.offsetX < 0) {
+                        float ox = reg.offsetX * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
+                        xChange -= cs * ox;
+                        yChange -= sn * ox;
+                    }
+                }
+                ++globalIndex;
+                bgc = 0;
+                float xx = x + xChange;
+                float yy = y + yChange;
+                single = f.drawGlyph(batch, glyph, xx, yy, rot, 1f, 1f, bgc);
+                xChange += cs * single;
+                yChange += sn * single;
+            }
+        }
 
         if (resetShader)
             batch.setShader(null);
