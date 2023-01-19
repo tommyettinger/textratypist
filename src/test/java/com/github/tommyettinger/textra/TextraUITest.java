@@ -90,7 +90,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
-		TextraLabel myLabel = new TextraLabel("This is some text.", font);
+		TextraLabel myLabel = new TextraLabel("This is some text.", skin, font);
 
 		Table t = new Table();
 		t.row();
@@ -128,7 +128,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TextraLabel minSizeLabel = new TextraLabel("[@Medieval]ginWidth cell", font); // demos SplitPane respecting widget's minWidth
+		TextraLabel minSizeLabel = new TextraLabel("[@Medieval]ginWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
@@ -136,7 +136,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		fpsLabel = new TextraLabel("fps:", font);
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
-		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[] password mode: ", font);
+		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[] password mode: ", skin, font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
