@@ -971,7 +971,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.kingthingsFoundation = new Font(instance.prefix + "KingthingsFoundation-standard.fnt",
                         instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 40, 0, 0, true)
-                        .scaleTo(20, 26).adjustLineHeight(1.125f).setTextureFilter().setName("KingThings Foundation");
+                        .scaleTo(23, 30).adjustLineHeight(1.5f).setTextureFilter().setName("KingThings Foundation");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1279,7 +1279,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.kaffeesatz = new Font(instance.prefix + "YanoneKaffeesatz-standard.fnt",
                         instance.prefix + "YanoneKaffeesatz-standard.png", STANDARD, 2f, -2f, 0f, 0, true)
-                        .scaleTo(30, 35).setTextureFilter().setName("Yanone Kaffeesatz");
+                        .scaleTo(26, 30).adjustLineHeight(0.8f).setTextureFilter().setName("Yanone Kaffeesatz");
             } catch (Exception e) {
                 e.printStackTrace();
             }
