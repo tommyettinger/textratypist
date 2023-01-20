@@ -3263,24 +3263,29 @@ public class Font implements Disposable {
                 | (int)(batch.getColor().g * (glyph >>> 48 & 0xFF)) << 8
                 | (int)(batch.getColor().b * (glyph >>> 40 & 0xFF)) << 16);
         float scale = ((glyph & ALTERNATE) != 0L) ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
-        float scaleX;
-        float scaleY;
+        float scaleX, fsx;
+        float scaleY, fsy;
         if(c >= 0xE000 && c < 0xF800){
-            scaleX = scaleY = font.scaleY * scale * font.originalCellHeight / (tr.xAdvance*1.25f);
+            fsx = fsy = 0.75f * font.cellHeight / tr.getRegionHeight();
+                    //scale * font.cellHeight * 0.8f / tr.xAdvance;//font.cellHeight / (tr.xAdvance * 1.25f);
+            scaleX = scaleY = scale * fsx;
         }
         else {
-            scaleX = font.scaleX * scale;
-            scaleY = font.scaleY * scale;
+            scaleX = (fsx = font.scaleX) * scale;
+            scaleY = (fsy = font.scaleY) * scale;
         }
         float centerX = cellWidth * scaleX * 0.5f;
         float centerY = cellHeight * scaleY * 0.5f;
 
         float atlasOffX = 0f, atlasOffY = 0f;
+
         if(c >= 0xE000 && c < 0xF800){
             atlasOffX = -cellWidth * 0.25f;
             atlasOffY = -cellHeight * 0.25f;
         }
-//        y -= descent * scaleY;
+        else {
+            y -= descent * scaleY;
+        }
         float ix = font.handleIntegerPosition(x + centerX);
         float iy = font.handleIntegerPosition(y + centerY);
         // The shifts here represent how far the position was moved by handling the integer position, if that was done.
@@ -3330,7 +3335,7 @@ public class Font implements Disposable {
         }
 
         Texture tex = tr.getTexture();
-        float scaledHeight = font.originalCellHeight * scaleY * sizingY;
+        float scaledHeight = font.cellHeight * scale * sizingY;
         float x0 = 0f;
         float x1 = 0f;
         float x2 = 0f;
@@ -3344,7 +3349,8 @@ public class Font implements Disposable {
         float xc = tr.offsetX * scaleX - centerX * sizingX;
         float trrh = tr.getRegionHeight();
         float h = trrh * scaleY * sizingY;
-        float yt = (font.originalCellHeight * 0.5f - trrh - tr.offsetY) * scaleY * sizingY;
+        float yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
+//        float yt = (font.originalCellHeight * 0.5f - trrh - tr.offsetY) * scaleY * sizingY;
 //        float yt = cellHeight * font.scaleY * 0.5f - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
 //        float yt = centerY * sizingY - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
 
@@ -3359,9 +3365,10 @@ public class Font implements Disposable {
         u2 = tr.getU2();
         v2 = tr.getV2();
 
-        if (c >= 0xE000 && c < 0xF800) {
-            yt = handleIntegerPosition(-centerY * scale * sizingY);
-        }
+//        if (c >= 0xE000 && c < 0xF800) {
+//            yt = handleIntegerPosition(font.originalCellHeight * 0.5f - tr.xAdvance - tr.offsetX) * scaleY * sizingY;
+//                    //(-cellHeight * scale * sizingY + centerY);
+//        }
 
         if ((glyph & OBLIQUE) != 0L) {
             x0 += h * 0.2f;
