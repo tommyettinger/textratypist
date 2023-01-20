@@ -63,17 +63,12 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-//		long nanos = TimeUtils.nanoTime();
+
 		final Font font = KnownFonts.getStandardFamily();
-//		System.out.println("Loading the standard family took " + TimeUtils.timeSinceNanos(nanos) + " ns.");
-
-//		KnownFonts.addEmoji(font);
-
 		for(Font f : font.family.connected) {
 			if(f != null)
 				KnownFonts.addEmoji(f);
 		}
-//		System.out.println("Loading the family with all emoji took " + TimeUtils.timeSinceNanos(nanos) + " ns.");
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
