@@ -317,7 +317,7 @@ public class TextraLabel extends Widget {
             font.enableShader(batch);
 
         baseX -= 0.5f * font.cellWidth;
-        baseY -= 0.5f * font.cellHeight;
+//        baseY -= 0.5f * font.cellHeight;
 
         baseX += cs * 0.5f * font.cellWidth;
         baseY += sn * 0.5f * font.cellWidth;
