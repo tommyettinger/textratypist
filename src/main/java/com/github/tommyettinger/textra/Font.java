@@ -3266,11 +3266,14 @@ public class Font implements Disposable {
         float scaleX, fsx;
         float scaleY, fsy;
         if(c >= 0xE000 && c < 0xF800){
-            fsx = fsy = 0.75f * font.cellHeight / tr.getRegionHeight();
+            fsx = font.cellHeight * 0.8f / tr.xAdvance;
+                    //1.25f * tr.xAdvance / tr.getRegionWidth();
+            fsy = fsx;//0.75f * font.originalCellHeight / tr.getRegionHeight();
                     //scale * font.cellHeight * 0.8f / tr.xAdvance;//font.cellHeight / (tr.xAdvance * 1.25f);
             scaleX = scaleY = scale * fsx;
         }
-        else {
+        else
+        {
             scaleX = (fsx = font.scaleX) * scale;
             scaleY = (fsy = font.scaleY) * scale;
         }
@@ -3283,9 +3286,9 @@ public class Font implements Disposable {
             atlasOffX = -cellWidth * 0.25f;
             atlasOffY = -cellHeight * 0.25f;
         }
-        else {
-            y -= descent * scaleY;
-        }
+//        else {
+            y += descent * scale * font.scaleY;
+//        }
         float ix = font.handleIntegerPosition(x + centerX);
         float iy = font.handleIntegerPosition(y + centerY);
         // The shifts here represent how far the position was moved by handling the integer position, if that was done.
