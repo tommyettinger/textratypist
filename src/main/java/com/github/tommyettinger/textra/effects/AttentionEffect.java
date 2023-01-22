@@ -30,6 +30,7 @@ public class AttentionEffect extends Effect {
 
     public AttentionEffect(TypingLabel label, String[] params) {
         super(label);
+        label.trackingInput = true;
 
         // Spread
         if (params.length > 0) {
