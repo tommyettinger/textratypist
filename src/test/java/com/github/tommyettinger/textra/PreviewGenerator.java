@@ -62,7 +62,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Font Preview Generator");
-        config.setWindowedMode(800, 400);
+        config.setWindowedMode(800, 500);
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
