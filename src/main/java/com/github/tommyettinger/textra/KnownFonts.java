@@ -1125,7 +1125,7 @@ public final class KnownFonts implements LifecycleListener {
                 // Manual adjustment: id 95 ('_') had yoffset changed from 5, to 6.
                 // This makes underlines use a different row than the bottom of letters.
                 instance.quanPixel = new Font(instance.prefix + "QuanPixel-standard.fnt",
-                        instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 2, 0, 0, false)
+                        instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 2, 0, 2, false)
                         .useIntegerPositions(true)
                         .setName("QuanPixel");
             } catch (Exception e) {
