@@ -20,6 +20,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -113,6 +114,8 @@ public class TypingLabel extends TextraLabel {
      * with {@link #selectionStart}; as long as they are different, it doesn't matter which is higher or lower.
      */
     public int selectionEnd = -1;
+
+    private final Vector2 temp = new Vector2(0f, 0f);
 
     protected boolean dragging = false;
     protected final Array<Effect> activeEffects = new Array<>(Effect.class);
@@ -867,10 +870,12 @@ public class TypingLabel extends TextraLabel {
 
         int globalIndex = -1;
 
-        int inX = 0, inY = 0;
+        float inX = 0, inY = 0;
         if(trackingInput) {
-            inX = Gdx.input.getX();
-            inY = Gdx.graphics.getBackBufferHeight() - Gdx.input.getY();
+            getParent().stageToLocalCoordinates(getStage().screenToStageCoordinates(temp.set(Gdx.input.getX(), Gdx.input.getY())));
+            inX = temp.x;
+            inY = temp.y;
+
             if(!Gdx.input.isTouched())
                 lastTouchedIndex = inY < getY() ? -2 : inY > getY() + getHeight() ? -1 :
                         inX < getX() ? -1 : inX > getX() + getWidth() ? -2 : -1;
@@ -938,13 +943,10 @@ public class TypingLabel extends TextraLabel {
                     bgc = ColorUtils.offsetLightness((int)(glyph >>> 32), 0.5f);
                 else
                     bgc = 0;
-                float xx = x + xChange + offsets.get(o++), yy = y + yChange + offsets.get(o++), oldSingle = single;
+                float xx = x + xChange + offsets.get(o++), yy = y + yChange + offsets.get(o++);
                 single = f.drawGlyph(batch, glyph, xx, yy, rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++), bgc);
                 if(trackingInput){
-//                    float xx = x + xChange + offsets.get(o-2), yy = y + yChange + offsets.get(o-1);
                     if(xx <= inX && inX <= xx + single && yy - glyphs.height * 0.5f <= inY && inY <= yy + glyphs.height * 0.5f) {
-//                    if(xx <= inX + oldSingle * 0.5f && inX <= xx + single * 0.5f && yy <= inY && inY <= yy + glyphs.height) {
-//                    if(xx <= inX && inX <= xx && yy <= inY + glyphs.height * 0.5f && inY <= yy + glyphs.height * 1.5f) {
                         overIndex = globalIndex;
                         if (isTouchable()) {
                             if (Gdx.input.justTouched()) {
