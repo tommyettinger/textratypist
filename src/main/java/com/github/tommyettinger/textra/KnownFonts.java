@@ -474,7 +474,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentium == null) {
             try {
                 instance.gentium = new Font(instance.prefix + "Gentium-standard.fnt",
-                        instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, -20f, 0f, 0f, true)
+                        instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f, true)
                         .scaleTo(31, 35).setTextureFilter().setName("Gentium");
             } catch (Exception e) {
                 e.printStackTrace();
