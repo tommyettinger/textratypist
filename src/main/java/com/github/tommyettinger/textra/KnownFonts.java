@@ -474,7 +474,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentium == null) {
             try {
                 instance.gentium = new Font(instance.prefix + "Gentium-standard.fnt",
-                        instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, 6f, 0f, 0f, true)
+                        instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, -20f, 0f, 0f, true)
                         .scaleTo(31, 35).setTextureFilter().setName("Gentium");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -970,8 +970,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.kingthingsFoundation == null) {
             try {
                 instance.kingthingsFoundation = new Font(instance.prefix + "KingthingsFoundation-standard.fnt",
-                        instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 50, 0, 0, true)
-                        .scaleTo(23, 30).setTextureFilter().setName("KingThings Foundation");
+                        instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 25, 0, 0, true)
+                        .scaleTo(23, 31).setTextureFilter().setName("KingThings Foundation");
             } catch (Exception e) {
                 e.printStackTrace();
             }
