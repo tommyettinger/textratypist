@@ -3415,9 +3415,9 @@ public class Font implements Disposable {
         if(backgroundColor != 0) {
             drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(solidBlock, tr),
                     NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
-                    x - xAdvance * scaleX * (sizingX - 1.0f) + atlasOffX - tr.offsetX * scaleX - 1f,
+                    x - xAdvance * scaleX * (sizingX - 0.5f) + atlasOffX + tr.offsetX * scaleX * 0.5f,
                     y + font.descent * scaleY * sizingY + atlasOffY,
-                    xAdvance * scaleX * sizingX, (cellHeight * scale - font.descent * scaleY) * sizingY, rotation);
+                    xAdvance * scaleX * sizingX + 5f, (cellHeight * scale - font.descent * scaleY) * sizingY, rotation);
         }
         if (jostled) {
             int code = NumberUtils.floatToIntBits(x * 1.8191725133961645f + y * 1.6710436067037893f + c * 1.5497004779019703f) >>> 8;
