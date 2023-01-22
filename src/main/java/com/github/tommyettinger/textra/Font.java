@@ -1759,6 +1759,7 @@ public class Font implements Disposable {
         int padding = fnt.getInt("GlyphPadding");
         cellHeight = fnt.getInt("GlyphHeight");
         cellWidth = fnt.getInt("GlyphWidth");
+        descent = Math.round(cellHeight * -0.25f);
         int rows = (parent.getRegionHeight() - padding) / ((int) cellHeight + padding);
         int size = rows * columns;
         mapping = new IntMap<>(size + 1);
@@ -1766,7 +1767,7 @@ public class Font implements Disposable {
             for (int x = 0; x < columns; x++, c++) {
                 GlyphRegion gr = new GlyphRegion(parent, x * ((int) cellWidth + padding) + padding, y * ((int) cellHeight + padding) + padding, (int) cellWidth, (int) cellHeight);
                 gr.offsetX = 0;
-                gr.offsetY = 0;
+                gr.offsetY = -descent;
                 if (c == 10) {
                     gr.xAdvance = 0;
                 } else {
