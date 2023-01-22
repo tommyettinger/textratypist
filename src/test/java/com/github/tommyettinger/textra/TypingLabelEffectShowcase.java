@@ -128,8 +128,9 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
 //                });
 //        Font font = family.connected[0].setFamily(family);
         Font font =
+                KnownFonts.getGentium().scale(1.1f, 1.1f);
 //                KnownFonts.getStandardFamily();
-                KnownFonts.getGentiumSDF().scale(1.1f, 1.1f).multiplyCrispness(1.3f);
+//                KnownFonts.getGentiumSDF().scale(1.1f, 1.1f).multiplyCrispness(1.3f);
         StringBuilder sb = new StringBuilder(256);
 //        sb.append("{VAR=Rival} tests me, the fool... ");
         Array<String> starts = TypingConfig.EFFECT_START_TOKENS.orderedKeys();
@@ -146,6 +147,8 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
                 font);
         label.setVariable("Rival", "[%150][#AA0000]Undot the Unreal[WHITE][%]");
 //        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
+
+        label.selectable = true;
         label.align = Align.topLeft;
 
         // Make the label wrap to new lines, respecting the table's layout.
@@ -198,7 +201,7 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TypingLabel Test");
-        config.setWindowedMode(720, 405);
+        config.setWindowedMode(720, 600);
         config.setResizable(false);
         config.setForegroundFPS(60);
         config.useVsync(true);

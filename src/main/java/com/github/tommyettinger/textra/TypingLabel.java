@@ -942,7 +942,9 @@ public class TypingLabel extends TextraLabel {
                 single = f.drawGlyph(batch, glyph, xx, yy, rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++), bgc);
                 if(trackingInput){
 //                    float xx = x + xChange + offsets.get(o-2), yy = y + yChange + offsets.get(o-1);
-                    if(xx <= inX + oldSingle * 0.5f && inX <= xx + single * 0.5f && yy <= inY && inY <= yy + glyphs.height) {
+                    if(xx <= inX && inX <= xx + single && yy - glyphs.height * 0.5f <= inY && inY <= yy + glyphs.height * 0.5f) {
+//                    if(xx <= inX + oldSingle * 0.5f && inX <= xx + single * 0.5f && yy <= inY && inY <= yy + glyphs.height) {
+//                    if(xx <= inX && inX <= xx && yy <= inY + glyphs.height * 0.5f && inY <= yy + glyphs.height * 1.5f) {
                         overIndex = globalIndex;
                         if (isTouchable()) {
                             if (Gdx.input.justTouched()) {
