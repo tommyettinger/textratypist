@@ -3302,8 +3302,8 @@ public class Font implements Disposable {
 //        y += centerY - yShift;
 //        x += centerX;
 //        y += centerY;
-        x -= xShift;
-        y -= yShift;
+        x = handleIntegerPosition(x - xShift);
+        y = handleIntegerPosition(y - yShift);
         centerX -= xShift * 0.5f;
         centerY -= yShift * 0.5f;
 
@@ -3420,7 +3420,7 @@ public class Font implements Disposable {
                     xAdvance * scaleX * sizingX + 5f, (cellHeight * scale - font.descent * scaleY) * sizingY, rotation);
         }
         if (jostled) {
-            int code = NumberUtils.floatToIntBits(x * 1.8191725133961645f + y * 1.6710436067037893f + c * 1.5497004779019703f) >>> 8;
+            int code = NumberUtils.floatToIntBits(x * 1.8191725133961645f + y * 1.6710436067037893f + c * 1.5497004779019703f) & 0xFFFFFF;
             xc += code % 5 - 2f;
             y += (code >>> 6) % 5 - 2f;
 //            int code = (NumberUtils.floatToIntBits(x + y) >>> 16 ^ c);
@@ -3603,7 +3603,7 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = -centerX;
-                p0y = -0.375f * cellHeight * scale;
+                p0y = -0.45f * cellHeight * scale;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX * sizingX + 2, cellHeight * scale * sizingY, rotation);

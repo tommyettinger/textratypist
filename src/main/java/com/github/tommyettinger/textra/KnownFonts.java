@@ -141,7 +141,7 @@ public final class KnownFonts implements LifecycleListener {
      * If you only need sizes in small integer multiples of 8 pixels, you might get sharper-looking results from
      * {@link #getAStarry()}.
      * <br>
-     * Preview: <a href="https://i.imgur.com/NmSpNZI.png">Image link</a> (uses width=9, height=9)
+     * Preview: <a href="https://i.imgur.com/NmSpNZI.png">Image link</a> (uses width=10, height=10, crispness 2.5)
      * <br>
      * Needs files:
      * <ul>
@@ -157,8 +157,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.astarryMSDF == null) {
             try {
                 instance.astarryMSDF = new Font(instance.prefix + "AStarry-msdf.fnt",
-                        instance.prefix + "AStarry-msdf.png", MSDF, 0, -12, 0, 0, false)
-                        .scaleTo(9, 9).setCrispness(2.5f).setName("A Starry (MSDF)");
+                        instance.prefix + "AStarry-msdf.png", MSDF, 0, -12, 0, 0, true)
+                        .scaleTo(10, 10).setCrispness(2.5f).setName("A Starry (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
