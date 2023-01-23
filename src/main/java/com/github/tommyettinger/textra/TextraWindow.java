@@ -85,12 +85,12 @@ public class TextraWindow extends Table {
 
     public TextraWindow(String title, WindowStyle style, Font replacementFont) {
         if (title == null) throw new IllegalArgumentException("title cannot be null.");
+        if (replacementFont == null) throw new IllegalArgumentException("replacementFont cannot be null.");
         setTouchable(Touchable.enabled);
         setClip(true);
 
         titleLabel = newLabel(title, replacementFont, style.titleFontColor);
         font = titleLabel.getFont();
-        titleLabel.layout.ellipsis = "...";
 
         titleTable = new Table() {
             public void draw(Batch batch, float parentAlpha) {
@@ -98,6 +98,8 @@ public class TextraWindow extends Table {
             }
         };
         titleTable.add(titleLabel).expandX().fillX().minWidth(0);
+        titleLabel.layout.ellipsis = "...";
+
         addActor(titleTable);
 
         setStyle(style, replacementFont);
@@ -245,7 +247,11 @@ public class TextraWindow extends Table {
         this.style = style;
 
         setBackground(style.background);
-        titleLabel.setFont(this.font = font);
+        titleLabel.setFont(new Font(this.font = font));
+        titleLabel.setAlignment(Align.bottomLeft);
+        float ratio = getPadTop() / titleLabel.font.cellHeight;
+        titleLabel.font.scale(ratio, ratio);
+
         if (style.titleFontColor != null) titleLabel.setColor(style.titleFontColor);
         invalidateHierarchy();
     }

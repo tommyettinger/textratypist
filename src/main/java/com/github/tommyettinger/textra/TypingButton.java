@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
 
 /**
  * A button with a child {@link TypingLabel} to display text.
@@ -54,11 +55,13 @@ public class TypingButton extends TextraButton {
 
     @Override
     protected TypingLabel newLabel(String text, Label.LabelStyle style) {
-        return new TypingLabel(text, style);
+        TypingLabel label = new TypingLabel(text, style);
+        return label;
     }
 
     @Override
     protected TypingLabel newLabel(String text, Font font, Color color) {
-        return new TypingLabel(text, font, color);
+        TypingLabel label = new TypingLabel(text, font, color);
+        return label;
     }
 }
