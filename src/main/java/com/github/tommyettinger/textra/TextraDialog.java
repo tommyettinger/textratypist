@@ -146,7 +146,7 @@ public class TextraDialog extends TextraWindow {
 
             private void focusChanged(FocusEvent event) {
                 Stage stage = getStage();
-                if (isModal && stage != null && stage.getRoot().getChildren().size > 0
+                if (isModal() && stage != null && stage.getRoot().getChildren().size > 0
                         && stage.getRoot().getChildren().peek() == TextraDialog.this) { // TextraDialog is top most actor.
                     Actor newFocusedActor = event.getRelatedActor();
                     if (newFocusedActor != null && !newFocusedActor.isDescendantOf(TextraDialog.this)

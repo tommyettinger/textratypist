@@ -43,12 +43,12 @@ public class TextraWindow extends Table {
     static private final int MOVE = 1 << 5;
 
     private WindowStyle style;
-    boolean isMovable = true, isModal, isResizable;
-    int resizeBorder = 8;
-    boolean keepWithinStage = true;
-    TextraLabel titleLabel;
-    Table titleTable;
-    boolean drawTitleTable;
+    private boolean isMovable = true, isModal, isResizable;
+    private int resizeBorder = 8;
+    private boolean keepWithinStage = true;
+    protected TextraLabel titleLabel;
+    protected Table titleTable;
+    protected boolean drawTitleTable;
 
     protected int edge;
     protected boolean dragging;
@@ -90,19 +90,24 @@ public class TextraWindow extends Table {
         setClip(true);
 
         titleLabel = newLabel(title, replacementFont, style.titleFontColor);
-        font = titleLabel.getFont();
+        setStyle(style, replacementFont);
+
+        font = new Font(replacementFont).setName("Altered " + replacementFont.getName());
+        float ratio = getBackground().getTopHeight() / replacementFont.cellHeight;
+        font.scale(ratio, ratio);
+
+        titleLabel.setFont(font);
 
         titleTable = new Table() {
             public void draw(Batch batch, float parentAlpha) {
                 if (drawTitleTable) super.draw(batch, parentAlpha);
             }
         };
-        titleTable.add(titleLabel).expandX().fillX().minWidth(0);
+        titleTable.add(titleLabel).expand().fillX().minWidth(0);
         titleLabel.layout.ellipsis = "...";
 
-        addActor(titleTable);
+        add(titleTable);
 
-        setStyle(style, replacementFont);
         setWidth(150);
         setHeight(150);
 
@@ -247,11 +252,7 @@ public class TextraWindow extends Table {
         this.style = style;
 
         setBackground(style.background);
-        titleLabel.setFont(new Font(this.font = font));
-        titleLabel.setAlignment(Align.bottomLeft);
-        float ratio = getPadTop() / titleLabel.font.cellHeight;
-        titleLabel.font.scale(ratio, ratio);
-
+        titleLabel.setFont(this.font = font);
         if (style.titleFontColor != null) titleLabel.setColor(style.titleFontColor);
         invalidateHierarchy();
     }
@@ -369,6 +370,10 @@ public class TextraWindow extends Table {
 
     public void setResizable(boolean isResizable) {
         this.isResizable = isResizable;
+    }
+
+    public int getResizeBorder() {
+        return resizeBorder;
     }
 
     public void setResizeBorder(int resizeBorder) {

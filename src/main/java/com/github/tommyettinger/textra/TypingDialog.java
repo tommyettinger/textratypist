@@ -142,7 +142,7 @@ public class TypingDialog extends TypingWindow {
 
             private void focusChanged(FocusEvent event) {
                 Stage stage = getStage();
-                if (isModal && stage != null && stage.getRoot().getChildren().size > 0
+                if (isModal() && stage != null && stage.getRoot().getChildren().size > 0
                         && stage.getRoot().getChildren().peek() == TypingDialog.this) { // TypingDialog is top most actor.
                     Actor newFocusedActor = event.getRelatedActor();
                     if (newFocusedActor != null && !newFocusedActor.isDescendantOf(TypingDialog.this)
