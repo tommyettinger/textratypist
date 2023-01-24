@@ -317,24 +317,20 @@ public class TextraLabel extends Widget {
             font.enableShader(batch);
 
         baseX -= 0.5f * font.cellWidth;
-//        baseY -= 0.5f * font.cellHeight;
 
         baseX += cs * 0.5f * font.cellWidth;
         baseY += sn * 0.5f * font.cellWidth;
         baseX -= sn * 0.5f * (font.cellHeight);
         baseY += cs * 0.5f * (font.cellHeight);
 
-        int globalIndex = -1;
+        float single;
 
-        float single = 0;
-
-        EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = layout.getLine(ln);
 
             baseX += sn * glyphs.height;
             baseY -= cs * glyphs.height;
-            if(glyphs.glyphs.size == 0)
+            if (glyphs.glyphs.size == 0)
                 continue;
 
             float x = baseX, y = baseY;
@@ -371,7 +367,7 @@ public class TextraLabel extends Widget {
                 } else {
                     kern = -1;
                 }
-                if(i == 0) {
+                if (i == 0) {
                     Font.GlyphRegion reg = font.mapping.get((char) glyph);
                     if (reg != null && reg.offsetX < 0) {
                         float ox = reg.offsetX * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
@@ -379,7 +375,6 @@ public class TextraLabel extends Widget {
                         yChange -= sn * ox;
                     }
                 }
-                ++globalIndex;
                 bgc = 0;
                 float xx = x + xChange;
                 float yy = y + yChange;
