@@ -1030,8 +1030,21 @@ public class Font implements Disposable {
         name = toCopy.name;
         integerPosition = toCopy.integerPosition;
 
-        if (toCopy.family != null)
+        if (toCopy.family != null) {
             family = new FontFamily(toCopy.family);
+            Font[] connected = family.connected;
+            for (int i = 0; i < connected.length; i++) {
+                Font f = connected[i];
+                if (f == toCopy) {
+                    connected[i] = this;
+                    break;
+                }
+            }
+            if (toCopy.name != null) {
+                int connect = family.fontAliases.remove(toCopy.name, -1);
+                if(connect != -1 && name != null) family.fontAliases.put(name, connect);
+            }
+        }
 
         // shader and colorLookup are not copied, because there isn't much point in having different copies of
         // a ShaderProgram or stateless ColorLookup. They are referenced directly.
