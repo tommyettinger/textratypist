@@ -28,7 +28,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
             + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
             + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
-            + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[],"
+            + "\n\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[],"
             + "\nUnicode support: Pchnąć w tę łódź [BROWN]jeża[] lub ośm skrzyń [PURPLE]fig[].",
     distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[]!",
     emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
@@ -62,7 +62,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Font Preview Generator");
-        config.setWindowedMode(800, 500);
+        config.setWindowedMode(800, 450);
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
@@ -83,8 +83,8 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
         Font[] fonts = KnownFonts.getAll();
-        fnt = fonts[2];
-//        fnt = fonts[fonts.length - 1];
+//        fnt = fonts[2];
+        fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
         int index = 0;
         for (Font font : fonts) {
@@ -143,7 +143,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
             ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
 //            ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
 //        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
-            float x = 400, y = layout.getHeight();// - font.descent * font.scaleY;
+            float x = 400, y = layout.getHeight() - font.descent * font.scaleY * 2f;
             batch.begin();
             font.enableShader(batch);
             font.drawGlyphs(batch, layout, x, y, Align.center);
@@ -172,7 +172,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
 //        ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
 //        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
-        float x = 400, y = layout.getHeight();
+        float x = 400, y = layout.getHeight() - fnt.descent * fnt.scaleY * 2f;
         batch.begin();
         fnt.enableShader(batch);
         fnt.drawGlyphs(batch, layout, x, y, Align.center);

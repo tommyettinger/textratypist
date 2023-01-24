@@ -1279,7 +1279,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.kaffeesatz = new Font(instance.prefix + "YanoneKaffeesatz-standard.fnt",
                         instance.prefix + "YanoneKaffeesatz-standard.png", STANDARD, 2f, -2f, 0f, 0, true)
-                        .scaleTo(26, 30).adjustLineHeight(0.8f).setTextureFilter().setName("Yanone Kaffeesatz");
+                        .scaleTo(26, 30).setTextureFilter().setName("Yanone Kaffeesatz");
             } catch (Exception e) {
                 e.printStackTrace();
             }
