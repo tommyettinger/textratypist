@@ -955,6 +955,18 @@ public class Font implements Disposable {
     //// constructor section
 
     /**
+     * Constructs a Font from a newly-created default BitmapFont, as by {@link BitmapFont#BitmapFont()}, passing it to
+     * {@link #Font(BitmapFont, float, float, float, float)}. This means this constructor will always produce a Font
+     * based on 15-point Liberation Sans, with a shadow effect applied to all chars. The shadow may cause some effects,
+     * such as bold and strikethrough, to look incorrect, so this is mostly useful for testing. Note, you can add a
+     * shadow effect to any of the fonts in {@link KnownFonts} by using the {@code [%?shadow]} mode, so you don't
+     * typically need or want the shadow to be applied to the font beforehand.
+     */
+    public Font() {
+        this(new BitmapFont(), 0f, 0f, 0f, 0f);
+    }
+
+    /**
      * Constructs a Font by reading in the given .fnt file and loading any images it specifies. Tries an internal handle
      * first, then a local handle. Does not use a distance field effect.
      *
@@ -1464,7 +1476,7 @@ public class Font implements Disposable {
         descent = bmFont.getDescent();
         // Needed to make emoji and other texture regions appear at a reasonable height on the line.
         // Also moves the descender so that it isn't below the baseline, which causes issues.
-        yAdjust += descent;
+        yAdjust += descent;// + bmFont.getLineHeight() * 0.5f;
         for (BitmapFont.Glyph[] page : data.glyphs) {
             if (page == null) continue;
             for (BitmapFont.Glyph glyph : page) {
@@ -1568,7 +1580,7 @@ public class Font implements Disposable {
         }
         defaultValue = mapping.get(data.missingGlyph == null ? ' ' : data.missingGlyph.id, mapping.get(' ', mapping.values().next()));
         originalCellWidth = cellWidth;
-        originalCellHeight = cellHeight;
+        originalCellHeight = cellHeight;// += descent;
         isMono = minWidth == cellWidth && kerning == null;
         integerPosition = bmFont.usesIntegerPositions();
         scale(bmFont.getScaleX(), bmFont.getScaleY());

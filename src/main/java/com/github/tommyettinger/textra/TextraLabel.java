@@ -52,7 +52,7 @@ public class TextraLabel extends Widget {
      */
     public TextraLabel() {
         layout = Layout.POOL.obtain();
-        font = new Font(new BitmapFont(), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, false);
+        font = new Font();
     }
 
     /**
