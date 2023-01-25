@@ -55,8 +55,16 @@ public class TypingWindow extends TextraWindow {
         super(title, skin, styleName, replacementFont);
     }
 
+    public TypingWindow(String title, Skin skin, String styleName, Font replacementFont, boolean scaleTitleFont) {
+        super(title, skin, styleName, replacementFont, scaleTitleFont);
+    }
+
     public TypingWindow(String title, Window.WindowStyle style, Font replacementFont) {
         super(title, style, replacementFont);
+    }
+
+    public TypingWindow(String title, Window.WindowStyle style, Font replacementFont, boolean scaleTitleFont) {
+        super(title, style, replacementFont, scaleTitleFont);
     }
 
     @Override

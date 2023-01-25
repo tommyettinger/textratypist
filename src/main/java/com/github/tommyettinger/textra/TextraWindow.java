@@ -83,7 +83,24 @@ public class TextraWindow extends Table {
         setSkin(skin);
     }
 
-    public TextraWindow(String title, WindowStyle style, Font replacementFont) {
+
+    public TextraWindow(String title, Skin skin, String styleName, Font replacementFont, boolean scaleTitleFont) {
+        this(title, skin.get(styleName, WindowStyle.class), replacementFont, scaleTitleFont);
+        setSkin(skin);
+    }
+
+    public TextraWindow(String title, WindowStyle style, Font replacementFont){
+        this(title, style, replacementFont, false);
+    }
+
+    /**
+     *
+     * @param title the text that will go in the title bar
+     * @param style a WindowStyle typically pulled from a Skin
+     * @param replacementFont a Font that will be used for at least the title text, in place of the style's font
+     * @param scaleTitleFont if true, this will attempt to change replacementFont to fit the title bar; you may want to copy replacementFont if you need it unscaled elsewhere
+     */
+    public TextraWindow(String title, WindowStyle style, Font replacementFont, boolean scaleTitleFont) {
         if (title == null) throw new IllegalArgumentException("title cannot be null.");
         if (replacementFont == null) throw new IllegalArgumentException("replacementFont cannot be null.");
         setTouchable(Touchable.enabled);
@@ -92,10 +109,11 @@ public class TextraWindow extends Table {
         titleLabel = newLabel(title, replacementFont, style.titleFontColor);
         setStyle(style, replacementFont);
 
-        font = new Font(replacementFont).setName("Altered " + replacementFont.getName());
-        float ratio = getBackground().getTopHeight() / replacementFont.cellHeight;
-        font.scale(ratio, ratio);
-
+        font = replacementFont;
+        if(scaleTitleFont) {
+            float ratio = getBackground().getTopHeight() / replacementFont.cellHeight;
+            font.scale(ratio, ratio);
+        }
         titleLabel.setFont(font);
 
         titleTable = new Table() {
