@@ -4503,8 +4503,15 @@ public class Font implements Disposable {
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
      *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
-     *     the nearest 25% mark).</li>
-     *     <li>{@code [%]}, with no number just after it, resets scale to 100% (this usually has no effect here).</li>
+     *     the nearest 25% mark). This also disables any alternate mode.</li>
+     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
+     *     "drop shadow"/"shadow", "error", "warn", "note", or "jostle", will disable scaling and enable that alternate
+     *     mode. If MODE is empty or not recognized, this considers it equivalent to "jostle".</li>
+     *     <li>{@code [%^MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
+     *     "drop shadow"/"shadow", "error", "warn", "note", or "small caps", will disable scaling and enable that
+     *     alternate mode along with small caps mode at the same time. If MODE is empty or not recognized, this
+     *     considers it equivalent to "small caps" (without another mode).</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100% and disables any alternate mode.</li>
      *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
      *     in this.family by that name. This is ignored if family is null.</li>
      *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
@@ -4554,8 +4561,15 @@ public class Font implements Disposable {
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
      *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
-     *     the nearest 25% mark).</li>
-     *     <li>{@code [%]}, with no number just after it, resets scale to 100% (this usually has no effect here).</li>
+     *     the nearest 25% mark). This also disables any alternate mode.</li>
+     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
+     *     "drop shadow"/"shadow", "error", "warn", "note", or "jostle", will disable scaling and enable that alternate
+     *     mode. If MODE is empty or not recognized, this considers it equivalent to "jostle".</li>
+     *     <li>{@code [%^MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
+     *     "drop shadow"/"shadow", "error", "warn", "note", or "small caps", will disable scaling and enable that
+     *     alternate mode along with small caps mode at the same time. If MODE is empty or not recognized, this
+     *     considers it equivalent to "small caps" (without another mode).</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100% and disables any alternate mode.</li>
      *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
      *     in this.family by that name. This is ignored if family is null.</li>
      *     <li>{@code [@]}, with no text just after the @, resets the font to this one (which should be item 0 in
@@ -4849,8 +4863,15 @@ public class Font implements Disposable {
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
      *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
-     *     the nearest 25% mark).</li>
-     *     <li>{@code [%]}, with no number just after it, resets scale to 100% (this usually has no effect here).</li>
+     *     the nearest 25% mark). This also disables any alternate mode.</li>
+     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
+     *     "drop shadow"/"shadow", "error", "warn", "note", or "jostle", will disable scaling and enable that alternate
+     *     mode. If MODE is empty or not recognized, this considers it equivalent to "jostle".</li>
+     *     <li>{@code [%^MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
+     *     "drop shadow"/"shadow", "error", "warn", "note", or "small caps", will disable scaling and enable that
+     *     alternate mode along with small caps mode at the same time. If MODE is empty or not recognized, this
+     *     considers it equivalent to "small caps" (without another mode).</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100% and disables any alternate mode.</li>
      *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
      *     in this.family by that name. This is ignored if family is null.</li>
      *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
@@ -4899,8 +4920,15 @@ public class Font implements Disposable {
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
      *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
-     *     the nearest 25% mark).</li>
-     *     <li>{@code [%]}, with no number just after it, resets scale to 100% (this usually has no effect here).</li>
+     *     the nearest 25% mark). This also disables any alternate mode.</li>
+     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
+     *     "drop shadow"/"shadow", "error", "warn", "note", or "jostle", will disable scaling and enable that alternate
+     *     mode. If MODE is empty or not recognized, this considers it equivalent to "jostle".</li>
+     *     <li>{@code [%^MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
+     *     "drop shadow"/"shadow", "error", "warn", "note", or "small caps", will disable scaling and enable that
+     *     alternate mode along with small caps mode at the same time. If MODE is empty or not recognized, this
+     *     considers it equivalent to "small caps" (without another mode).</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100% and disables any alternate mode.</li>
      *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
      *     in this.family by that name. This is ignored if family is null.</li>
      *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
@@ -5066,6 +5094,13 @@ public class Font implements Disposable {
         return current;
     }
 
+    /**
+     * When the {@link Layout#getTargetWidth() targetWidth} of a Layout changes, you can use this to cause the text to
+     * be placed according to the new width, and wrap if needed. This doesn't allocate as much as
+     * {@link #markup(String, Layout)}, if at all, but may eat up newlines if called repeatedly.
+     * @param changing a Layout that will be modified in-place
+     * @return {@code changing}, after modifications
+     */
     public Layout regenerateLayout(Layout changing) {
         if (changing.font == null) {
             return changing;
