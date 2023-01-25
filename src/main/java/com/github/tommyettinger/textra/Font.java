@@ -2463,11 +2463,11 @@ public class Font implements Disposable {
         final float cs = MathUtils.cosDeg(rotation);
         float color;// = -0X1.0P125f; // black
         if(mode == ERROR)
-            color = -0x1.0001fep125F; // red for error
+            color = -0x1.0001fep125F; // red for error, 0xFF0000FF
         else if(mode == WARN)
-            color = -0x1.21abfep125F; // gold/saffron/yellow
+            color = -0x1.21abfep125F; // gold/saffron/yellow, 0xFFD510FF
         else// if(mode == NOTE)
-            color = -0x1.71106p126F; // cyan/denim
+            color = -0x1.71106p126F; // cyan/denim, 0x3088B8FF
         int index = 0;
         for (float startX = 0f, shiftY = 0f; startX <= width; startX += xPx, index++) {
             float p0x;
@@ -3683,7 +3683,7 @@ public class Font implements Disposable {
         // checks for error, warn, and note modes
         if((glyph & ALTERNATE_MODES_MASK) >= ERROR) {
             p0x = -centerX;
-            p0y = -4f * centerY;
+            p0y = -3f * centerY;
             drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
                     x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y), xAdvance * scaleX, xPx, yPx, rotation);
         }

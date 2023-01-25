@@ -1152,7 +1152,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/OoXUCip.png">Image link</a> (uses width=25, height=30, adjustLineHeight(0.9f))
+     * Preview: <a href="https://i.imgur.com/8VHfFYj.png">Image link</a> (uses width=25, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -1168,8 +1168,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.robotoCondensed == null) {
             try {
                 instance.robotoCondensed = new Font(instance.prefix + "RobotoCondensed-standard.fnt",
-                        instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 0, 0, 0, true)
-                        .scaleTo(25, 30).adjustLineHeight(0.9f).setTextureFilter().setName("Roboto Condensed");
+                        instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 4, 0, 0, true)
+                        .scaleTo(25, 30).setTextureFilter().setName("Roboto Condensed");
             } catch (Exception e) {
                 e.printStackTrace();
             }

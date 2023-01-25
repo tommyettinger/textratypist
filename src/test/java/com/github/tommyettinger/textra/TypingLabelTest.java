@@ -211,8 +211,8 @@ public class TypingLabelTest extends ApplicationAdapter {
         text.append(" {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
         text.append("{SPEED=2.50}{COLOR=lighter dull GREEN} making the text go {SHAKE=1.1;0.6;inf}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5} ");
         text.append("{SPEED=0.25}{COLOR=jade fern}{WAVE=0.66;1;0.5;∞}[@Mono] or extremely slow.[@]{ENDWAVE}");
-        text.append("{RESET} You {HEARTBEAT}[darker red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}second{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2},");
-        text.append("{RAINBOW=1;1;0.7} [%?Error]jussst[%] to [%?WARN]catching[%] an [@Console][;]{STYLE=%?jostle}event[%][;][@] in [%?note]code[%]{EVENT=example}!{WAIT} {ENDRAINBOW}");
+        text.append("{RESET} You {HEARTBEAT}[darker red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}second{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2}, ");
+        text.append("[%?Error]jussst[%][.][red][@Condensed]spelling[] to [%?WARN]catching[%][.][#FFD510FF][@Condensed]grammar[] an {RAINBOW=1;1;0.7}[@Console][;]{STYLE=%?jostle}event[%][;][@]{ENDRAINBOW} in [%?note]code[%][.][#3088B8FF][@Condensed]cool[]{EVENT=example}!{WAIT} ");
         text.append("{NORMAL}\n\n");
         text.append("{VAR=FIRE_WIND}Imagine the [~]bugs[~]! I mean, possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");
 //        text.append("{VAR=FIRE_WIND}Imagine the {STYLE=STRIKE}bugs{STYLE=STRIKE} possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");
@@ -312,7 +312,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void render() {
-        ScreenUtils.clear(0.45f, 0.45f, 0.45f, 1);
+        ScreenUtils.clear(0.4f, 0.4f, 0.4f, 1);
 
         update(Gdx.graphics.getDeltaTime());
 
