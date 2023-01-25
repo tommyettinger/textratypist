@@ -155,8 +155,8 @@ public class MBTypingUITest extends InputAdapter implements ApplicationListener 
 		basicIconButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		TextraWindow window = new TextraWindow("TextraDialog", skin);
-		window.font.adjustLineHeight(0.75f);
+		TextraWindow window = new TextraWindow("TextraDialog", skin, font);
+//		window.font.adjustLineHeight(0.75f);
 		window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
