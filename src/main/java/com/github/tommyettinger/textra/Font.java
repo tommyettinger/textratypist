@@ -5387,6 +5387,45 @@ public class Font implements Disposable {
         return (glyph & 0xFFFFFFFFFE0FFFFFL) | ((long) Math.floor(scale * 4.0 - 4.0) & 15L) << 20;
     }
 
+
+    /**
+     * Given a glyph as a long, this returns the bit flags for the current mode, if alternate mode is enabled. The flags
+     * may include {@link #SMALL_CAPS} separately from any other flags except for {@link #JOSTLE} (SMALL_CAPS and JOSTLE
+     * cannot overlap). To check whether a given mode is present, use one of:
+     * <ul>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == BLACK_OUTLINE}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == WHITE_OUTLINE}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == DROP_SHADOW}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == SHINY}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == ERROR}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == WARN}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == NOTE}</li>
+     *     <li>{@code (extractMode(glyph) & SMALL_CAPS) == SMALL_CAPS}</li>
+     *     <li>{@code (extractMode(glyph) & (ALTERNATE_MODES_MASK | SMALL_CAPS)) == JOSTLE}</li>
+     * </ul>
+     * The last constant of each line is the mode that line checks for. Each constant is defined in Font.
+     * If alternate mode is not enabled, this always returns 0.
+     *
+     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @return the bit flags for the current alternate mode, if enabled; see docs
+     */
+    public static long extractMode(long glyph) {
+        return (glyph & ALTERNATE) == 0L ? 0L : (glyph & (ALTERNATE_MODES_MASK | SMALL_CAPS));
+    }
+
+    /**
+     * Replaces the section of glyph that stores its alternate mode (which is the same section that stores its scale)
+     * with the given bit flags representing a mode (or lack of one). These bit flags are generally obtained using
+     * {@link #extractMode(long)}, though you could acquire or create them in any number of ways.
+     *
+     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param modeFlags bit flags typically obtained from {@link #extractMode(long)}
+     * @return another long glyph that uses the specified mode
+     */
+    public static long applyMode(long glyph, long modeFlags) {
+        return (glyph & 0xFFFFFFFFFE0FFFFFL) | (0x1F00000L & modeFlags);
+    }
+
     /**
      * Given a glyph as a long, this returns the char it displays. This automatically corrects the placeholder char
      * u0002 to the glyph it displays as, {@code '['}.
@@ -5400,7 +5439,9 @@ public class Font implements Disposable {
     }
 
     /**
-     * Replaces the section of glyph that stores its char with the given other char.
+     * Replaces the section of glyph that stores its char with the given other char. You can enter the character
+     * {@code '['} by using the char {@code (char)2}, or possibly by using an actual {@code '['} char. This last option
+     * is untested and unrecommended, but may have uses if you are willing to dig deep into the internals here.
      *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @param c     the char to use
