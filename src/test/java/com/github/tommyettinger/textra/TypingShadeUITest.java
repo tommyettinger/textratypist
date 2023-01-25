@@ -65,11 +65,11 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		TextureRegion image2 = new TextureRegion(texture2);
 		final Font font = new Font(skin.get(Label.LabelStyle.class).font)
 				.adjustLineHeight(1.25f)
-				.useIntegerPositions(false);
+				.useIntegerPositions(true);
 		KnownFonts.addEmoji(font);
 		final Font title = new Font(skin.get("title", Label.LabelStyle.class).font, 0, 2, 0, 0)
 				.adjustLineHeight(1.5f)
-				.useIntegerPositions(false);
+				.useIntegerPositions(true);
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());

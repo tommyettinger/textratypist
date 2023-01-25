@@ -73,13 +73,17 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 //				KnownFonts.getCozette();
 
 				// below, 4 is -bmpFont.getDescent(); it is used because this particular font gets moved too high.
-				// the y adjustment can be seen as moving the lines rather than moving the text (Planet-Express-style).
-				new Font("RaeleusScriptius-standard.fnt", 0, 4, 0, 0);
+				// the y adjustment can be seen as, rather than moving the text, moving the lines (a la Planet Express).
+				new Font("RaeleusScriptius-standard.fnt", 0, 14, 0, 0);
 //				new Font(new BitmapFont(Gdx.files.internal("RaeleusScriptius-standard.fnt")), 0, 4, 0, 0);
 				//new Font(skin.get(LabelStyle.class).font)
 //				.adjustLineHeight(0.75f)
 //				.useIntegerPositions(true);
 		KnownFonts.addEmoji(font);
+		final Font title = new Font(skin.get("title", Label.LabelStyle.class).font, 0, 2, 0, 0)
+				.adjustLineHeight(1.5f)
+				.useIntegerPositions(true);
+
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
@@ -96,7 +100,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
-		TextraLabel myLabel = new TextraLabel("This is some text.", skin, "title");
+		TextraLabel myLabel = new TextraLabel("This is some text.", skin, "title", title);
 
 		Table t = new Table();
 		t.row();
@@ -149,8 +153,8 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		passwordTextField.setPasswordMode(true);
 
 		// window.debug();
-		TextraWindow window = new TextraWindow("TextraDialog", skin);
-		window.getTitleTable().add(new TextraButton("X", skin, font)).height(window.getPadTop());
+		TextraWindow window = new TextraWindow("TextraDialog", skin, title);
+		window.getTitleTable().add(new TextraButton("X", skin, window.titleLabel.font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
 		window.row().fill().expandX();
