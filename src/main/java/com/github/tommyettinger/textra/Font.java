@@ -3935,7 +3935,9 @@ public class Font implements Disposable {
                                         }
                                     }
                                     // unrecognized falls back to small caps or jostle
-                                    current = ((current & 0xFFFFFFFFFE0FFFFFL) | modes);
+                                    // small caps can be enabled or disabled separately from the other modes, except
+                                    // for jostle, which requires no other modes to be used
+                                    current = ((current & (0xFFFFFFFFFE0FFFFFL ^ (current & 0x1000000L) >>> 4)) ^ modes);
                                     scale = 3;
                                 } else {
                                     current = (current & 0xFFFFFFFFFE0FFFFFL) |
@@ -4709,15 +4711,47 @@ public class Font implements Disposable {
                             break;
                         case '%':
                             if (len >= 2) {
-                                // alternate mode, currently just takes a number for what mode to use
-                                if (markup.charAt(i + 1) == '?') {
-                                    if(len >= 3)
-                                        current = ((current & 0xFFFFFFFFFE0FFFFFL) | ALTERNATE) ^ (intFromDec(markup, i+2, i + len) & 15);
-                                    else
-                                        current = (current & 0xFFFFFFFFFE0FFFFFL); // clear alternate modes and scaling
+                                // alternate mode, takes [%?] to enable JOSTLE mode, [%^] to enable just SMALL_CAPS, or
+                                // a question mark followed by the name of the mode, like [%?Black Outline], to enable
+                                // BLACK_OUTLINE mode, OR a caret followed by the name of a mode, like [%^shadow], to
+                                // enable SMALL_CAPS and DROP_SHADOW modes.
+                                if (markup.charAt(i + 1) == '?' || markup.charAt(i + 1) == '^') {
+                                    long modes = (markup.charAt(i + 1) == '^' ? SMALL_CAPS : ALTERNATE);
+                                    if(len >= 5) {
+                                        char ch = Category.caseUp(markup.charAt(i+2));
+                                        if(ch == 'B') {
+                                            modes |= BLACK_OUTLINE;
+                                        } else if(ch == 'W') {
+                                            if(Category.caseUp(markup.charAt(i+3)) == 'H') {
+                                                modes |= WHITE_OUTLINE;
+                                            }
+                                            else {
+                                                modes |= WARN;
+                                            }
+                                        } else if(ch == 'S') {
+                                            if(Category.caseUp(markup.charAt(i+4)) == 'I') {
+                                                modes |= SHINY;
+                                            }
+                                            else if(Category.caseUp(markup.charAt(i+3)) == 'H'){
+                                                modes |= DROP_SHADOW;
+                                            }
+                                            // unrecognized falls back to small caps or jostle
+                                        } else if(ch == 'D'){
+                                            modes |= DROP_SHADOW;
+                                        } else if(ch == 'E'){
+                                            modes |= ERROR;
+                                        } else if(ch == 'N'){
+                                            modes |= NOTE;
+                                        }
+                                    }
+                                    // unrecognized falls back to small caps or jostle
+                                    // small caps can be enabled or disabled separately from the other modes, except
+                                    // for jostle, which requires no other modes to be used
+                                    current = ((current & (0xFFFFFFFFFE0FFFFFL ^ (current & 0x1000000L) >>> 4)) ^ modes);
                                     scale = 3;
                                 } else {
-                                    current = (current & 0xFFFFFFFFFE0FFFFFL) | ((scale = ((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                                    current = (current & 0xFFFFFFFFFE0FFFFFL) |
+                                            ((scale = ((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
                                 }
                             }
                             else {
@@ -4951,12 +4985,43 @@ public class Font implements Disposable {
                             break;
                         case '%':
                             if (len >= 2) {
-                                // alternate mode, currently just takes a number for what mode to use
-                                if (markup.charAt(i + 1) == '?') {
-                                    if(len >= 3)
-                                        current = ((current & 0xFFFFFFFFFE0FFFFFL) | ALTERNATE) ^ (intFromDec(markup, i+2, i + len) & 15);
-                                    else
-                                        current = (current & 0xFFFFFFFFFE0FFFFFL); // clear alternate modes and scaling
+                                // alternate mode, takes [%?] to enable JOSTLE mode, [%^] to enable just SMALL_CAPS, or
+                                // a question mark followed by the name of the mode, like [%?Black Outline], to enable
+                                // BLACK_OUTLINE mode, OR a caret followed by the name of a mode, like [%^shadow], to
+                                // enable SMALL_CAPS and DROP_SHADOW modes.
+                                if (markup.charAt(i + 1) == '?' || markup.charAt(i + 1) == '^') {
+                                    long modes = (markup.charAt(i + 1) == '^' ? SMALL_CAPS : ALTERNATE);
+                                    if(len >= 5) {
+                                        char ch = Category.caseUp(markup.charAt(i+2));
+                                        if(ch == 'B') {
+                                            modes |= BLACK_OUTLINE;
+                                        } else if(ch == 'W') {
+                                            if(Category.caseUp(markup.charAt(i+3)) == 'H') {
+                                                modes |= WHITE_OUTLINE;
+                                            }
+                                            else {
+                                                modes |= WARN;
+                                            }
+                                        } else if(ch == 'S') {
+                                            if(Category.caseUp(markup.charAt(i+4)) == 'I') {
+                                                modes |= SHINY;
+                                            }
+                                            else if(Category.caseUp(markup.charAt(i+3)) == 'H'){
+                                                modes |= DROP_SHADOW;
+                                            }
+                                            // unrecognized falls back to small caps or jostle
+                                        } else if(ch == 'D'){
+                                            modes |= DROP_SHADOW;
+                                        } else if(ch == 'E'){
+                                            modes |= ERROR;
+                                        } else if(ch == 'N'){
+                                            modes |= NOTE;
+                                        }
+                                    }
+                                    // unrecognized falls back to small caps or jostle
+                                    // small caps can be enabled or disabled separately from the other modes, except
+                                    // for jostle, which requires no other modes to be used
+                                    current = ((current & (0xFFFFFFFFFE0FFFFFL ^ (current & 0x1000000L) >>> 4)) ^ modes);
                                 } else {
                                     current = (current & 0xFFFFFFFFFE0FFFFFL) | ((((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
                                 }

@@ -426,6 +426,24 @@ class Parser {
                 return "[;]";
             if (str.equals("@") || str.equalsIgnoreCase("NOFONT") || str.equalsIgnoreCase("ENDFONT"))
                 return "[@]";
+            if (str.equalsIgnoreCase("JOSTLE") || str.equalsIgnoreCase("WOBBLE") || str.equalsIgnoreCase("SCATTER"))
+                return "[%?]";
+            if (str.equalsIgnoreCase("BLACK OUTLINE") || str.equalsIgnoreCase("BLACKEN"))
+                return "[%?black outline]";
+            if (str.equalsIgnoreCase("WHITE OUTLINE") || str.equalsIgnoreCase("WHITEN"))
+                return "[%?white outline]";
+            if (str.equalsIgnoreCase("SHINY") || str.equalsIgnoreCase("SHINE") || str.equalsIgnoreCase("GLOSSY"))
+                return "[%?shiny]";
+            if (str.equalsIgnoreCase("SHADOW") || str.equalsIgnoreCase("DROPSHADOW") || str.equalsIgnoreCase("DROP SHADOW"))
+                return "[%?shadow]";
+            if (str.equalsIgnoreCase("ERROR") || str.equalsIgnoreCase("REDLINE") || str.equalsIgnoreCase("RED LINE"))
+                return "[%?error]";
+            if (str.equalsIgnoreCase("WARN") || str.equalsIgnoreCase("YELLOWLINE") || str.equalsIgnoreCase("YELLOW LINE"))
+                return "[%?warn]";
+            if (str.equalsIgnoreCase("NOTE") || str.equalsIgnoreCase("INFO") || str.equalsIgnoreCase("BLUELINE") || str.equalsIgnoreCase("BLUE LINE"))
+                return "[%?note]";
+            if (str.equalsIgnoreCase("SMALLCAPS") || str.equalsIgnoreCase("SMALL CAPS"))
+                return "[%^]";
             if (str.equals("%") || str.equalsIgnoreCase("NOSCALE") || str.equalsIgnoreCase("ENDSCALE")
                     || str.equalsIgnoreCase("NOMODE") || str.equalsIgnoreCase("ENDMODE"))
                 return "[%]";
