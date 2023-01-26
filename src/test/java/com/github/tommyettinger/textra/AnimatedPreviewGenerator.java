@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,6 +25,8 @@ import com.github.tommyettinger.anim8.AnimatedGif;
 import com.github.tommyettinger.anim8.Dithered;
 import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.textra.utils.ColorUtils;
+
+import java.nio.ByteBuffer;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
@@ -164,8 +167,15 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
         update(Gdx.graphics.getDeltaTime());
 
         stage.draw();
+        // Modified Pixmap.createFromFrameBuffer() code that uses RGB instead of RGBA
+        Gdx.gl.glPixelStorei(GL20.GL_PACK_ALIGNMENT, 1);
+        final Pixmap pm = new Pixmap(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGB888);
+        ByteBuffer pixels = pm.getPixels();
+        Gdx.gl.glReadPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), GL20.GL_RGB, GL20.GL_UNSIGNED_BYTE, pixels);
+        // End Pixmap.createFromFrameBuffer() modified code
 
-        pms.add(Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        pms.add(pm);
+//        pms.add(Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
     }
 
     @Override
