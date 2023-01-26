@@ -17,6 +17,7 @@
 package com.github.tommyettinger.textra.effects;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.IntFloatMap;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.TypingLabel;
@@ -27,7 +28,8 @@ import com.github.tommyettinger.textra.TypingLabel;
 public class CarouselEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 0.5f;
 
-    private float frequency = 1; // How frequently the wave pattern repeats
+    private float frequency = 1; // How frequently the spin repeats per 2 seconds
+    private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
 
     public CarouselEffect(TypingLabel label, String[] params) {
         super(label);
@@ -45,14 +47,16 @@ public class CarouselEffect extends Effect {
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
+        float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta) - delta;
+        if(timePassed >= duration) timePassed = 0f;
         // Calculate progress
-        float progress = totalTime * frequency * 360.0f * DEFAULT_FREQUENCY;
+        float progress = timePassed * 360.0f * frequency * DEFAULT_FREQUENCY;
 
         float s = MathUtils.sinDeg(progress);
 
         // Calculate fadeout
-        float fadeout = calculateFadeout();
-        s *= fadeout;
+//        float fadeout = calculateFadeout();
+//        s *= fadeout;
 
         Font font = label.getFont();
 
