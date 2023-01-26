@@ -202,7 +202,7 @@ If you use GWT, this should be compatible. It needs these dependencies in the ht
 
 ```groovy
 implementation "com.github.tommyettinger:textratypist:0.7.5:sources"
-implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
+implementation "com.github.tommyettinger:regexodus:0.1.14:sources"
 ```
 
 GWT also needs this in the GdxDefinition.gwt.xml file (as of version 0.7.5):
