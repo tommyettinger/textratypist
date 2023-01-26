@@ -11,7 +11,7 @@ What does this look like? A little something like this...
 
 Or perhaps like this...
 
-![Animated preview](https://i.imgur.com/c2BIAno.gif)
+![Animated preview](images/preview.gif)
 
 If you'd rather watch a video than read this text,
 [Raymond "raeleus" Buckley made a video covering most of TextraTypist](https://www.youtube.com/watch?v=4rLoa_jycN8)!
@@ -207,20 +207,27 @@ implementation "com.github.tommyettinger:regexodus:0.1.14:sources"
 
 GWT also needs this in the GdxDefinition.gwt.xml file (as of version 0.7.5):
 ```xml
-<inherits name="regexodus" />
+<inherits name="regexodus.regexodus" />
 <inherits name="com.github.tommyettinger.textratypist" />
 ```
 
-(In version 0.7.4 and earlier, you would use these GWT inherits instead:
+In version 0.7.4 and earlier, you would an earlier version of both dependencies:
+
+
+```groovy
+implementation "com.github.tommyettinger:textratypist:0.7.4:sources"
+implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
+```
+
+use these GWT inherits instead:
 ```xml
 <inherits name="regexodus" />
 <inherits name="textratypist" />
 ```
 
 RegExodus is the GWT-compatible regular-expression library this uses to match some complex patterns internally. Other
-than libGDX itself, RegExodus is the only dependency this project has. The GWT inherits changed for TextraTypist because
-it turns out using the default package can cause real problems -- RegExodus still uses it for a little longer, at least,
-but if problems show up there, it will change, too.
+than libGDX itself, RegExodus is the only dependency this project has. The GWT inherits changed for TextraTypist and for
+RegExodus because it turns out using the default package can cause real problems.
 
 There is at least one release in the [Releases](https://github.com/tommyettinger/textratypist/releases) section of this
 repo, but you're still encouraged to use Gradle to handle this library and its dependencies.
