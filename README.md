@@ -34,7 +34,7 @@ between two colors, or go across a whole rainbow. Lots of options; lots of fun. 
 typing-label, but there have been some changes. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
 for more information.
 
-As of 0.7.4, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
+As of 0.7.5, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
 Rotate, Attention, Highlight, Link, Trigger, and Stylist are all new to TextraTypist (not in typing-label). You can see
 usage instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
@@ -67,6 +67,8 @@ case-insensitive, but color names are case-sensitive. The full list of styles:
 - `[;]` toggles capitalize each word mode (replacing any other case mode). Can use style names `;`, `EACH`, `TITLE`.
 - `[%DDD]`, where DDD is a percentage from 0 to 375, scales text to that multiple. Can be used with `{SIZE=150%}`, `{SIZE=%25}`, or similarly, `{STYLE=200%}` or `{STYLE=%125}`.
 - `[%]` on its own sets text to the default 100% scale. Can be used with `{STYLE=%}`.
+- `[%?MODE]` removes the scale and sets a special mode; modes are listed below.
+- `[%^MODE]` removes the scale and sets a special mode at the same time as small-caps mode; modes are listed below.
 - `[@Name]`, where Name is a key/name in this Font's `family` variable, switches the current typeface to the named one. Can be used with `{STYLE=@Name}`.
 - `[@]` on its own resets the typeface to this Font, ignoring its family. Can be used with `{STYLE=@}`.
 - `[#HHHHHHHH]`, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color. This is a normal `{COLOR=#HHHHHHHH}` tag.
@@ -98,6 +100,21 @@ case-insensitive, but color names are case-sensitive. The full list of styles:
   - This is commonly used with `KnownFonts.addEmoji()` to add the 3000+ Twemoji icons to a Font.
     - If you use Twemoji, the phrases `[+saxophone]` and `[+🎷]` will each show a saxophone icon.
     - This also works with multipart emoji, such as `[+call me hand, medium-dark skin tone]` and `[+🤙🏾]`.
+
+The special modes that can be used in place of scaling are:
+
+- `black outline`, which can be used with the style names `BLACK OUTLINE` or `BLACKEN`.
+- `white outline`, which can be used with the style names `WHITE OUTLINE` or `WHITEN`.
+- `shiny`, which can be used with the style names `SHINY`, `SHINE`, or `GLOSSY`.
+- `drop shadow` or `shadow`, which can be used with the style names `SHADOW`, `DROPSHADOW`, or `DROP SHADOW`.
+- `error`, which can be used with the style names `ERROR`, `REDLINE`, or `RED LINE`.
+- `warn`, which can be used with the style names `WARN`, `YELLOWLINE`, or `YELLOW LINE`.
+- `note`, which can be used with the style names `NOTE`, `INFO`, `BLUELINE`, or `BLUE LINE`.
+- `jostle`, which can be used with the style names `JOSTLE`, `WOBBLE`, or `SCATTER`.
+- `small caps`, which can be used with the style names `SMALLCAPS` or `SMALL CAPS`.
+
+The small caps mode can be used with any of the other modes except for jostle. Other than that, no two modes can be
+active at the same time, and no modes can be used at the same time as scaling.
 
 ## But wait, there's fonts!
 
@@ -175,7 +192,7 @@ user input and can use animated styles like `{RAINBOW}`.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.7.4"
+implementation "com.github.tommyettinger:textratypist:0.7.5"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
@@ -184,11 +201,11 @@ was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.7.4:sources"
+implementation "com.github.tommyettinger:textratypist:0.7.5:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
-GWT also needs this in the GdxDefinition.gwt.xml file (as of version 0.7.5-SNAPSHOT):
+GWT also needs this in the GdxDefinition.gwt.xml file (as of version 0.7.5):
 ```xml
 <inherits name="regexodus" />
 <inherits name="com.github.tommyettinger.textratypist" />
@@ -293,6 +310,11 @@ that allow lightening, 50% gray is the neutral color). The easiest solution for 
 `SpriteBatch` for TextraTypist rendering, and whatever `ShaderProgram` or `ColorfulBatch` you want for colorful-gdx
 rendering. (Some changes here are planned that could resolve this issue, and also make things easier for games that use
 custom Batches with different attributes.)
+
+There are some known issues with scaling, rotation, and integer-positioning in 0.7.5. You may notice labels slide
+relatively to their backgrounds when rotated smoothly, and some (typically very small) fonts may need integer positions
+enabled to keep a stable baseline. Font debug lines may be quite incorrect in this version, also, even if the text
+displays correctly to users.
 
 ## License
 
