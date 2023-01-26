@@ -111,7 +111,9 @@ The special modes that can be used in place of scaling are:
 - `warn`, which can be used with the style names `WARN`, `YELLOWLINE`, or `YELLOW LINE`.
 - `note`, which can be used with the style names `NOTE`, `INFO`, `BLUELINE`, or `BLUE LINE`.
 - `jostle`, which can be used with the style names `JOSTLE`, `WOBBLE`, or `SCATTER`.
+    - The jostle mode can also be used with `[%?]`.
 - `small caps`, which can be used with the style names `SMALLCAPS` or `SMALL CAPS`.
+  - The small caps mode can also be used with `[%^]`. It cannot be used with the `[%?small caps]` syntax; it needs a caret.
 
 The small caps mode can be used with any of the other modes except for jostle. Other than that, no two modes can be
 active at the same time, and no modes can be used at the same time as scaling.
