@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2022 See AUTHORS file.
+ * Copyright (c) 2021-2023 See AUTHORS file.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -3353,13 +3353,13 @@ public class Font implements Disposable {
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(solidBlock, tr),
                         NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
                         x,
-                        y,
+                        y - font.descent * scaleY - cellHeight * scale * sizingY * 0.5f,
                         cellWidth * sizingX, (cellHeight * scale) * sizingY, rotation);
             }
             float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
                     x,
-                    y,
+                    y - font.descent * scaleY - cellHeight * scale * sizingY * 0.5f,
                     cellWidth * sizingX, (cellHeight * scale) * sizingY, rotation);
             return cellWidth;
         }
