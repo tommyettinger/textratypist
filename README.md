@@ -320,6 +320,21 @@ that allow lightening, 50% gray is the neutral color). The easiest solution for 
 rendering. (Some changes here are planned that could resolve this issue, and also make things easier for games that use
 custom Batches with different attributes.)
 
+Sometimes, you may need to enable or disable integer positioning for certain fonts to avoid a strange GPU-related visual
+artifact that seems to only happen on some Nvidia GPUs. When this happens, glyphs may appear a half-pixel or so away
+from where they should be, in seemingly randomly-picked directions. It looks awful, and the integer position code at
+least should resolve it most of the time. Integer positions don't work well if you use world units that span multiple
+pixels in length, but this bug is an absolute mystery, and also doesn't happen at all on integrated GPUs, and may not
+happen on AMD GPUs. How it behaves on Apple Silicon graphics, I also do not know. The Issues tab is always available for
+anyone who wants to try to debug this!
+
+The gdx-freetype extension produces BitmapFont outputs, and you can create a Font from a BitmapFont without any issues.
+However, FreeType's "Auto" hinting settings both look worse than they normally should with Font, and can trigger the GPU
+artifact covered immediately above. Instead of "AutoSlight", "AutoMedium", or "AutoFull" hinting, you can choose
+"Slight", "Medium", or "Full", which makes the font look more legible and avoids the GPU half-pixel-offset issue. I
+don't have any idea why this happens, but because hinting can be set either in the FreeType generator parameters or (if
+you use [Stripe](https://github.com/raeleus/stripe)) set in a Skin file with `"hinting": "Full"`, it isn't hard to fix.
+
 There are some known issues with scaling, rotation, and integer-positioning in 0.7.5. You may notice labels slide
 relatively to their backgrounds when rotated smoothly, and some (typically very small) fonts may need integer positions
 enabled to keep a stable baseline. Font debug lines may be quite incorrect in this version, also, even if the text
