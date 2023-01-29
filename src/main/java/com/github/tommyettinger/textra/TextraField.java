@@ -182,6 +182,18 @@ public class TextraField extends Widget implements Disableable {
 		updateDisplayText();
 	}
 
+	@Override
+	protected void setStage(Stage stage) {
+		super.setStage(stage);
+		label.setStage(stage);
+	}
+
+	@Override
+	protected void setParent(Group parent) {
+		super.setParent(parent);
+		label.setParent(parent);
+	}
+
 	protected void initialize () {
 		addListener(inputListener = createInputListener());
 	}
@@ -365,7 +377,7 @@ public class TextraField extends Widget implements Disableable {
 			drawSelection(selection, batch, font, x + bgLeftWidth, y + textY);
 		}
 
-		float yOffset = 0;
+		float yOffset = font.descent;
 		if (label.length() == 0) {
 			if ((!focused || disabled) && messageText != null) {
 				if (style.messageFontColor != null) {

@@ -20,6 +20,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
@@ -530,4 +532,25 @@ public class TextraLabel extends Widget {
     public void skipToTheEnd() {
     }
 
+    /**
+     * Called by the framework when this actor or any ascendant is added to a group that is in the stage.
+     * This is overridden as public instead of protected because most of its usage in scene2d.ui code is not actually
+     * in inheriting classes, but in other classes in the same package. That's a problem here, so we make it public.
+     * @param stage May be null if the actor or any ascendant is no longer in a stage.
+     */
+    @Override
+    public void setStage(Stage stage) {
+        super.setStage(stage);
+    }
+
+    /**
+     * Called by the framework when an actor is added to or removed from a group.
+     * This is overridden as public instead of protected because most of its usage in scene2d.ui code is not actually
+     * in inheriting classes, but in other classes in the same package. That's a problem here, so we make it public.
+     * @param parent May be null if the actor has been removed from the parent.
+     */
+    @Override
+    protected void setParent(Group parent) {
+        super.setParent(parent);
+    }
 }
