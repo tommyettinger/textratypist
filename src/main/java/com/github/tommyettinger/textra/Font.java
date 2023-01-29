@@ -1792,7 +1792,7 @@ public class Font implements Disposable {
             for (int x = 0; x < columns; x++, c++) {
                 GlyphRegion gr = new GlyphRegion(parent, x * ((int) cellWidth + padding) + padding, y * ((int) cellHeight + padding) + padding, (int) cellWidth, (int) cellHeight);
                 gr.offsetX = 0;
-                gr.offsetY = -descent;
+                gr.offsetY = cellHeight * 0.5f;
                 if (c == 10) {
                     gr.xAdvance = 0;
                 } else {
@@ -2096,7 +2096,7 @@ public class Font implements Disposable {
             namesByCharCode.ensureCapacity(regions.size >> 1);
         TextureAtlas.AtlasRegion previous = regions.first();
         GlyphRegion gr = new GlyphRegion(previous);
-//        gr.offsetY -= descent;
+//        gr.offsetY += originalCellHeight * 0.125f;
         mapping.put(0xE000, gr);
         nameLookup.put(previous.name, 0xE000);
         namesByCharCode.put(0xE000, previous.name);
@@ -2111,7 +2111,7 @@ public class Font implements Disposable {
                 ++i;
                 previous = region;
                 gr = new GlyphRegion(region);
-//                gr.offsetY -= descent;
+//                gr.offsetY += originalCellHeight * 0.125f;
                 mapping.put(i, gr);
                 nameLookup.put(region.name, i);
                 namesByCharCode.put(i, region.name);
@@ -3292,8 +3292,8 @@ public class Font implements Disposable {
         float scaleX, fsx;
         float scaleY, fsy;
         if(c >= 0xE000 && c < 0xF800){
+//            fsx = font.cellWidth / tr.xAdvance;
             fsx = font.cellHeight * 0.8f / tr.xAdvance;
-                    //1.25f * tr.xAdvance / tr.getRegionWidth();
             fsy = fsx;//0.75f * font.originalCellHeight / tr.getRegionHeight();
                     //scale * font.cellHeight * 0.8f / tr.xAdvance;//font.cellHeight / (tr.xAdvance * 1.25f);
             scaleX = scaleY = scale * fsx;
@@ -3388,10 +3388,9 @@ public class Font implements Disposable {
         u2 = tr.getU2();
         v2 = tr.getV2();
 
-//        if (c >= 0xE000 && c < 0xF800) {
-//            yt = handleIntegerPosition(font.originalCellHeight * 0.5f - tr.xAdvance - tr.offsetX) * scaleY * sizingY;
-//                    //(-cellHeight * scale * sizingY + centerY);
-//        }
+        if (c >= 0xE000 && c < 0xF800) {
+            yt = handleIntegerPosition((font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy + font.descent * font.scaleY) * scale * sizingY);
+        }
 
         if ((glyph & OBLIQUE) != 0L) {
             x0 += h * 0.2f;
