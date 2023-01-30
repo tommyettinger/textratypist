@@ -13,14 +13,20 @@ buildscript {
 apply plugin: 'java-library'
 apply plugin: 'com.vanniktech.maven.publish'
 
-java {
+compileJava {
     sourceCompatibility = 7
     targetCompatibility = 7
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.release.set(7)
+    }
 }
 
 compileTestJava {
     sourceCompatibility = 8
     targetCompatibility = 8
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.release.set(8)
+    }
 }
 
 def projectName = 'textratypist'
@@ -39,14 +45,6 @@ if (JavaVersion.current().isJava8Compatible()) {
             // The -quiet is because of some sort of weird JDK JavaCompiler bug:
             // https://discuss.gradle.org/t/passing-arguments-to-compiler-and-javadoc/1661
             options.addStringOption('Xdoclint:none,-missing', '-quiet')
-        }
-    }
-}
-
-if (JavaVersion.current().isJava9Compatible()) {
-    allprojects {
-        tasks.withType(JavaCompile) {
-            options.release.set(8) // needed because LWJGL3 with libGDX 1.11.0 needs it
         }
     }
 }
