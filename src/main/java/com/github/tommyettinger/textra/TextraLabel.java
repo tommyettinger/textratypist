@@ -532,6 +532,13 @@ public class TextraLabel extends Widget {
     public void skipToTheEnd() {
     }
 
+    @Override
+    public boolean remove() {
+        Layout.POOL.free(layout);
+        return super.remove();
+
+    }
+
     /**
      * Called by the framework when this actor or any ascendant is added to a group that is in the stage.
      * This is overridden as public instead of protected because most of its usage in scene2d.ui code is not actually

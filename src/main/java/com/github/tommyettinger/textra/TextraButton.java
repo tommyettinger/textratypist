@@ -145,6 +145,8 @@ public class TextraButton extends Button {
 
     public void setTextraLabel(TextraLabel label) {
         if (label == null) throw new IllegalArgumentException("label cannot be null.");
+        if(this.label == label) return;
+        Layout.POOL.free(this.label.layout);
         getTextraLabelCell().setActor(label);
         this.label = label;
     }

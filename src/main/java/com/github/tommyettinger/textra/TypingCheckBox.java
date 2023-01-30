@@ -17,48 +17,117 @@
 package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Null;
+import com.badlogic.gdx.utils.Scaling;
 
 /**
  * A checkbox is a button that contains an image indicating the checked or unchecked state and a {@link TypingLabel}.
  *
  * @author Nathan Sweet
  */
-public class TypingCheckBox extends TextraCheckBox {
+public class TypingCheckBox extends TypingButton {
+    private final Image image;
+    private final Cell<?> imageCell;
+    private CheckBox.CheckBoxStyle style;
 
-    public TypingCheckBox(String text, Skin skin) {
-        super(text, skin);
+    public TypingCheckBox(@Null String text, Skin skin) {
+        this(text, skin.get(CheckBox.CheckBoxStyle.class));
     }
 
-    public TypingCheckBox(String text, Skin skin, String styleName) {
-        super(text, skin, styleName);
+    public TypingCheckBox(@Null String text, Skin skin, String styleName) {
+        this(text, skin.get(styleName, CheckBox.CheckBoxStyle.class));
     }
 
-    public TypingCheckBox(String text, CheckBox.CheckBoxStyle style) {
-        super(text, style);
+    public TypingCheckBox(@Null String text, CheckBox.CheckBoxStyle style) {
+        this(text, style, new Font(style.font));
     }
 
-    public TypingCheckBox(String text, Skin skin, Font replacementFont) {
-        super(text, skin, replacementFont);
+    public TypingCheckBox(@Null String text, Skin skin, Font replacementFont) {
+        this(text, skin.get(CheckBox.CheckBoxStyle.class), replacementFont);
     }
 
-    public TypingCheckBox(String text, Skin skin, String styleName, Font replacementFont) {
-        super(text, skin, styleName, replacementFont);
+    public TypingCheckBox(@Null String text, Skin skin, String styleName, Font replacementFont) {
+        this(text, skin.get(styleName, CheckBox.CheckBoxStyle.class), replacementFont);
     }
 
-    public TypingCheckBox(String text, CheckBox.CheckBoxStyle style, Font replacementFont) {
+    public TypingCheckBox(@Null String text, CheckBox.CheckBoxStyle style, Font replacementFont) {
         super(text, style, replacementFont);
+
+        TypingLabel label = (TypingLabel) getTextraLabel();
+        label.setAlignment(Align.left);
+
+        image = newImage();
+        image.setDrawable(style.checkboxOff);
+
+        addActorBefore(image, label);
+        imageCell = getCell(image);
+        pack();
+        setSize(getPrefWidth(), getPrefHeight());
     }
 
-    @Override
-    protected TypingLabel newLabel(String text, Label.LabelStyle style) {
-        return new TypingLabel(text, style);
+    protected Image newImage() {
+        return new Image(null, Scaling.none);
     }
 
-    @Override
-    protected TypingLabel newLabel(String text, Font font, Color color) {
-        return new TypingLabel(text, font, color);
+    public void setStyle(ButtonStyle style) {
+        if (!(style instanceof CheckBox.CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
+        this.style = (CheckBox.CheckBoxStyle) style;
+        super.setStyle(style);
+    }
+
+    public void setStyle(ButtonStyle style, boolean makeGridGlyphs) {
+        if (!(style instanceof CheckBox.CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
+        this.style = (CheckBox.CheckBoxStyle) style;
+        super.setStyle(style, makeGridGlyphs);
+    }
+
+    public void setStyle(ButtonStyle style, Font font) {
+        if (!(style instanceof CheckBox.CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
+        this.style = (CheckBox.CheckBoxStyle) style;
+        super.setStyle(style, font);
+    }
+
+    /**
+     * Returns the checkbox's style. Modifying the returned style may not have an effect until {@link #setStyle(ButtonStyle)} is
+     * called.
+     */
+    public CheckBox.CheckBoxStyle getStyle() {
+        return style;
+    }
+
+    public void draw(Batch batch, float parentAlpha) {
+        Drawable checkbox = null;
+        if (isDisabled()) {
+            if (isChecked() && style.checkboxOnDisabled != null)
+                checkbox = style.checkboxOnDisabled;
+            else
+                checkbox = style.checkboxOffDisabled;
+        }
+        if (checkbox == null) {
+            boolean over = isOver() && !isDisabled();
+            if (isChecked() && style.checkboxOn != null)
+                checkbox = over && style.checkboxOnOver != null ? style.checkboxOnOver : style.checkboxOn;
+            else if (over && style.checkboxOver != null)
+                checkbox = style.checkboxOver;
+            else
+                checkbox = style.checkboxOff;
+        }
+        image.setDrawable(checkbox);
+        super.draw(batch, parentAlpha);
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public Cell<?> getImageCell() {
+        return imageCell;
     }
 }
