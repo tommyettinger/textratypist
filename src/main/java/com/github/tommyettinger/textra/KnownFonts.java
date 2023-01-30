@@ -665,7 +665,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.inconsolataMSDF == null) {
             try {
                 instance.inconsolataMSDF = new Font(instance.prefix + "Inconsolata-LGC-Custom-msdf.fnt",
-                        instance.prefix + "Inconsolata-LGC-Custom-msdf.png", MSDF, 0f, -5f, -12f, 0f, true)
+                        instance.prefix + "Inconsolata-LGC-Custom-msdf.png", MSDF, -6f, -5f, -12f, 0f, true)
                         .scaleTo(10, 26).setName("Inconsolata LGC (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();

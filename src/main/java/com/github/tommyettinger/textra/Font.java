@@ -1488,7 +1488,7 @@ public class Font implements Disposable {
 //                    a += widthAdjust;
 //                    h += heightAdjust;
                     minWidth = Math.min(minWidth, a);
-                    cellWidth = Math.max(a + widthAdjust, cellWidth);
+                    cellWidth = Math.max(a, cellWidth);
                     cellHeight = Math.max(h + heightAdjust, cellHeight);
                     GlyphRegion gr = new GlyphRegion(bmFont.getRegion(glyph.page), x, y, w, h);
                     if (glyph.id == 10) {
@@ -1500,7 +1500,7 @@ public class Font implements Disposable {
                         gr.offsetX = glyph.xoffset + xAdjust;
                     }
                     gr.offsetY = (-h - glyph.yoffset) + yAdjust;
-                    gr.xAdvance = a;
+                    gr.xAdvance = a + widthAdjust;
                     mapping.put(glyph.id & 0xFFFF, gr);
                     if (glyph.kerning != null) {
                         if (kerning == null) kerning = new IntIntMap(128);
@@ -1666,8 +1666,9 @@ public class Font implements Disposable {
 
 //            x += xAdjust;
 //            y += yAdjust;
-            a += widthAdjust;
-            h += heightAdjust;
+
+//            a += widthAdjust;
+//            h += heightAdjust;
             if (c != 9608) // full block
                 minWidth = Math.min(minWidth, a);
             GlyphRegion gr = new GlyphRegion(parents.get(p), x, y, w, h);
@@ -1679,9 +1680,9 @@ public class Font implements Disposable {
             } else
                 gr.offsetX = xo + xAdjust;
             gr.offsetY = yo + yAdjust;
-            gr.xAdvance = a;
+            gr.xAdvance = a + widthAdjust;
             cellWidth = Math.max(a, cellWidth);
-            cellHeight = Math.max(h, cellHeight);
+            cellHeight = Math.max(h + heightAdjust, cellHeight);
             mapping.put(c, gr);
             if (c == '[') {
                 mapping.put(2, gr);
