@@ -62,7 +62,7 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = KnownFonts.addEmoji(new Font(skin.getFont("outline-font"), 0f, 15f, 0f, 30f));//KnownFonts.getRobotoCondensed();//
+		final Font font = new Font(skin.getFont("outline-font"), 0f, 15f, 0f, 30f);//KnownFonts.getRobotoCondensed();//
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz();
@@ -71,6 +71,12 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 		font.family.connected[11].scale(2, 2);
 //		font.family.connected[11].adjustLineHeight(0.75f);
 		font.family.connected[0] = font;
+
+		for(Font f : font.family.connected) {
+			if(f != null)
+				KnownFonts.addEmoji(f);
+		}
+
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
@@ -248,7 +254,7 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 	public static void main(String[] args){
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("TypingLabel UI test");
-		config.setWindowedMode(640, 480);
+		config.setWindowedMode(900, 700);
 		config.disableAudio(true);
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
 		config.useVsync(true);

@@ -64,15 +64,16 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 //		long nanos = TimeUtils.nanoTime();
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 8f, 0f, 0f);//KnownFonts.getRobotoCondensed();//
+		final Font font = new Font(skin.getFont("outline-font"), 0f, 15f, 0f, 30f);//KnownFonts.getRobotoCondensed();//
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz()
-						.scaleTo(30, 35);
+				KnownFonts.getYanoneKaffeesatz();
+//				.scaleTo(30, 35);
+//		font.family.connected[11].scale(font.cellHeight / font.family.connected[11].cellHeight, font.cellHeight / font.family.connected[11].cellHeight);
+		font.family.connected[11].scale(2, 2);
+//		font.family.connected[11].adjustLineHeight(0.75f);
 		font.family.connected[0] = font;
 //		System.out.println("Loading the standard family took " + TimeUtils.timeSinceNanos(nanos) + " ns.");
-
-//		KnownFonts.addEmoji(font);
 
 		for(Font f : font.family.connected) {
 			if(f != null)
@@ -96,14 +97,6 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 //		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
-
-		TextraLabel myLabel = new TextraLabel("This is some text.", font);
-
-		Table t = new Table();
-		t.row();
-		t.add(myLabel);
-
-		t.layout();
 
 		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering[+saxophone][+clown face][+saxophone]", skin, font);
 		checkBox.setChecked(true);
@@ -135,12 +128,12 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TextraLabel minSizeLabel = new TextraLabel("[@Medieval]ginWidth cell", font); // demos SplitPane respecting widget's minWidth
+		TextraLabel minSizeLabel = new TextraLabel("[@Medieval]ginWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TextraLabel("fps:", font);
+		fpsLabel = new TextraLabel("fps:", skin, font);
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
 		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[] password mode: ", font);
@@ -258,7 +251,7 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 	public static void main(String[] args){
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("TextraLabel UI test");
-		config.setWindowedMode(640, 480);
+		config.setWindowedMode(900, 700);
 		config.disableAudio(true);
 		ShaderProgram.prependVertexCode = "#version 110\n";
 		ShaderProgram.prependFragmentCode = "#version 110\n";
