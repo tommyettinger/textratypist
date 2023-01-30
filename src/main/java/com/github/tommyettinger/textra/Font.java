@@ -1484,11 +1484,12 @@ public class Font implements Disposable {
                     int x = glyph.srcX, y = glyph.srcY, w = glyph.width, h = glyph.height, a = glyph.xadvance;
 //                    x += xAdjust;
 //                    y += yAdjust;
-                    a += widthAdjust;
-                    h += heightAdjust;
+
+//                    a += widthAdjust;
+//                    h += heightAdjust;
                     minWidth = Math.min(minWidth, a);
-                    cellWidth = Math.max(a, cellWidth);
-                    cellHeight = Math.max(h, cellHeight);
+                    cellWidth = Math.max(a + widthAdjust, cellWidth);
+                    cellHeight = Math.max(h + heightAdjust, cellHeight);
                     GlyphRegion gr = new GlyphRegion(bmFont.getRegion(glyph.page), x, y, w, h);
                     if (glyph.id == 10) {
                         a = 0;

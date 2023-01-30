@@ -215,6 +215,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         text.append("[%?Error]jussst[%][.][red][@Condensed]spelling[] to [%?WARN]catching[%][.][#FFD510FF][@Condensed]grammar[] an {RAINBOW=1;1;0.7}[@Console][;]{STYLE=%?jostle}event[%][;][@]{ENDRAINBOW} in [%?note]code[%][.][#3088B8FF][@Condensed]cool[]{EVENT=example}!{WAIT} ");
         text.append("{NORMAL}\n\n");
         text.append("{VAR=FIRE_WIND}Imagine the [~]bugs[~]! I mean, possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");
+
 //        text.append("{VAR=FIRE_WIND}Imagine the {STYLE=STRIKE}bugs{STYLE=STRIKE} possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");
 
 //        text.append("{SLOWER}{GRADIENT=FF70F1;FFC300;-0.5;5}{EASE=-8;2;1}{SHRINK=2;5}[%125][@Medieval]Welcome,[%]{ENDSHRINK}[@] {WAIT}{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}{VAR=title}{STYLE=;}{STYLE=/}{ENDSPIRAL}![] [+🤔]{ENDEASE}{WAIT=0.8}");
@@ -236,21 +237,11 @@ public class TypingLabelTest extends ApplicationAdapter {
 //            System.out.println(name);
 
         // Create label
-//        Font font = KnownFonts.getGentiumSDF().scaleTo(36, 36).adjustLineHeight(0.8125f);
-        Font.FontFamily family = new Font.FontFamily(
-                new String[]{
-                        "Serif", "Sans", "Mono", "Medieval", "Future", "Cozette"
-                },
-                new Font[]{
-                        KnownFonts.addEmoji(KnownFonts.getGentium()).scaleTo(24, 26),
-                        KnownFonts.addEmoji(KnownFonts.getOpenSans()).scaleTo(17, 26).adjustLineHeight(0.85f),
-                        KnownFonts.addEmoji(KnownFonts.getInconsolata()).scaleTo(11, 26).adjustLineHeight(0.9375f),
-                        KnownFonts.addEmoji(KnownFonts.getKingthingsFoundation()).scaleTo(26, 26).adjustLineHeight(0.9f),
-                        KnownFonts.addEmoji(KnownFonts.getOxanium()).scaleTo(24, 26).adjustLineHeight(1.05f),
-                        KnownFonts.addEmoji(KnownFonts.getCozette())
-                });
-//        Font font = family.connected[0].setFamily(family);
-        Font font = KnownFonts.addEmoji(KnownFonts.getStandardFamily()).scale(0.8f, 0.8f);
+        Font font = KnownFonts.getStandardFamily();
+        for(Font f : font.family.connected) {
+            if(f != null)
+                KnownFonts.addEmoji(f).scale(0.8f, 0.8f);
+        }
         final TypingLabel label = new TypingLabel(text.toString(), font);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
