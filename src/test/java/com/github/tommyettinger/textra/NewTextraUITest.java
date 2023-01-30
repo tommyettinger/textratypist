@@ -63,23 +63,17 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-//		long nanos = TimeUtils.nanoTime();
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 15f, 0f, 30f);//KnownFonts.getRobotoCondensed();//
+		final Font font = new Font(skin.getFont("outline-font"), 0f, 15f, 0f, 10f);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz();
-//				.scaleTo(30, 35);
-//		font.family.connected[11].scale(font.cellHeight / font.family.connected[11].cellHeight, font.cellHeight / font.family.connected[11].cellHeight);
 		font.family.connected[11].scale(2, 2);
-//		font.family.connected[11].adjustLineHeight(0.75f);
 		font.family.connected[0] = font;
-//		System.out.println("Loading the standard family took " + TimeUtils.timeSinceNanos(nanos) + " ns.");
 
 		for(Font f : font.family.connected) {
 			if(f != null)
 				KnownFonts.addEmoji(f);
 		}
-//		System.out.println("Loading the family with all emoji took " + TimeUtils.timeSinceNanos(nanos) + " ns.");
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
@@ -152,8 +146,8 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		TextraWindow window = new TextraWindow("TextraWindow", skin, font);
-		window.getTitleTable().add(new TextraButton("X", skin, font)).height(window.getPadTop());
+		TextraWindow window = new TextraWindow("TextraWindow", skin, "default", new Font(font), true);
+		window.getTitleTable().add(new TextraButton("X", skin, window.font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
 		window.row().fill().expandX();

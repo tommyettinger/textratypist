@@ -13,8 +13,15 @@ buildscript {
 apply plugin: 'java-library'
 apply plugin: 'com.vanniktech.maven.publish'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.8
+java {
+    sourceCompatibility = 7
+    targetCompatibility = 7
+}
+
+compileTestJava {
+    sourceCompatibility = 8
+    targetCompatibility = 8
+}
 
 def projectName = 'textratypist'
 version "$VERSION_NAME"

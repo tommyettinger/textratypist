@@ -62,14 +62,11 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 15f, 0f, 10f);//KnownFonts.getRobotoCondensed();//
+		final Font font = new Font(skin.getFont("outline-font"), 0f, 15f, 0f, 10f);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz();
-//				.scaleTo(30, 35);
-//		font.family.connected[11].scale(font.cellHeight / font.family.connected[11].cellHeight, font.cellHeight / font.family.connected[11].cellHeight);
 		font.family.connected[11].scale(2, 2);
-//		font.family.connected[11].adjustLineHeight(0.75f);
 		font.family.connected[0] = font;
 
 		for(Font f : font.family.connected) {
