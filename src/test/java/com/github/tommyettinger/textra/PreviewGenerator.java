@@ -31,7 +31,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             + "\n\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[],"
             + "\nUnicode support: Pchnąć w tę łódź [BROWN]jeża[] lub ośm skrzyń [PURPLE]fig[].",
     distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[]!",
-    emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
+    emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[] and more! [_][~][WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
 /*
 AStarry-standard.fnt has descent: -12
 AStarry-msdf.fnt has descent: -94
@@ -83,8 +83,8 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
         Font[] fonts = KnownFonts.getAll();
-//        fnt = fonts[2];
-        fnt = fonts[fonts.length - 1];
+        fnt = fonts[27];
+//        fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
         int index = 0;
         for (Font font : fonts) {

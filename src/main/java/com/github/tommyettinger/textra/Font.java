@@ -3419,18 +3419,18 @@ public class Font implements Disposable {
             w *= 0.5f;
             h *= 0.5f;
             yt = yt * 0.625f; //scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
-            y1 -= scaledHeight * 0.125f;
-            y2 -= scaledHeight * 0.125f;
-            y0 -= scaledHeight * 0.125f;
+            y1 -= scaledHeight * 0.375f;
+            y2 -= scaledHeight * 0.375f;
+            y0 -= scaledHeight * 0.375f;
             if (!font.isMono)
                 changedW *= 0.5f;
         } else if (script == MIDSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
             yt = yt * 0.625f; //scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
-            y0 += scaledHeight * 0.125f;
-            y1 += scaledHeight * 0.125f;
-            y2 += scaledHeight * 0.125f;
+//            y0 += scaledHeight * 0.125f;
+//            y1 += scaledHeight * 0.125f;
+//            y2 += scaledHeight * 0.125f;
             if (!font.isMono)
                 changedW *= 0.5f;
         }
