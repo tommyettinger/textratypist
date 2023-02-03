@@ -242,6 +242,8 @@ public class TypingLabelTest extends ApplicationAdapter {
             if(f != null)
                 KnownFonts.addEmoji(f).scale(0.8f, 0.8f);
         }
+//        Font condensed = font.family.connected[font.family.fontAliases.get("Condensed", 0)];
+//        condensed.scaleTo(font.cellWidth, font.cellHeight);
         final TypingLabel label = new TypingLabel(text.toString(), font);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
