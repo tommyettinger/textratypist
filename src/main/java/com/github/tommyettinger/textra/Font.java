@@ -3602,9 +3602,9 @@ public class Font implements Disposable {
 //                        yt = handleIntegerPosition(-centerY * scale * sizingY);
 //                    }
 //                    if (c >= 0xE000 && c < 0xF800)
-                        System.out.println("With font " + name + ", UNDERLINE: yt=" + yt + ", y0=" + y0 + ", y1=" + y1 + ", y2=" + y2 + ", x0=" + x0);
-
-                    final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.625f,
+//                        System.out.println("With font " + name + ", UNDERLINE: yt=" + yt + ", y0=" + y0 + ", y1=" + y1 + ", y2=" + y2 + ", x0=" + x0);
+                    //underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.625f,
+                    final float underU = (under.getU() + under.getU2()) * 0.5f - iw,
                             underV = under.getV(),
                             underU2 = underU + iw,
                             underV2 = under.getV2();
@@ -3671,9 +3671,10 @@ public class Font implements Disposable {
                             //((font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY) * sizingY;
 
 //                    if (c >= 0xE000 && c < 0xF800)
-                        System.out.println("With font " + name + ", STRIKETHROUGH: yt=" + yt);
+//                        System.out.println("With font " + name + ", STRIKETHROUGH: yt=" + yt);
 
-                    final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.625f,
+                            //dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.625f,
+                    final float dashU = (dash.getU() + dash.getU2()) * 0.5f - iw,
                             dashV = dash.getV(),
                             dashU2 = dashU + iw,
                             dashV2 = dash.getV2();
@@ -3705,6 +3706,10 @@ public class Font implements Disposable {
                     p2y = yt + y2;//yd;
                     vertices[15] = (vertices[0] = x + cos * p0x - sin * p0y) - (vertices[5] = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
                     vertices[16] = (vertices[1] = y + sin * p0x + cos * p0y) - (vertices[6] = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
+//                    vertices[15] = (vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5] = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y));
+//                    vertices[16] = (vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6] = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y));
+
+
 
                     batch.draw(dash.getTexture(), vertices, 0, 20);
                 }
