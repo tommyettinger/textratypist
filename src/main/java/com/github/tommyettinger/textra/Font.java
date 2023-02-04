@@ -3575,25 +3575,25 @@ public class Font implements Disposable {
             batch.draw(tex, vertices, 0, 20);
         }
         if ((glyph & UNDERLINE) != 0L) {
+            ix = font.handleIntegerPosition(ox + oCenterX);
+            iy = font.handleIntegerPosition(oy + oCenterY);
+            xShift = (ox + oCenterX) - (ix);
+            yShift = (oy + oCenterY) - (iy);
+            x = handleIntegerPosition(ix - xShift);
+            y = handleIntegerPosition(iy - yShift);
+            centerX = oCenterX - xShift * 0.5f;
+            centerY = oCenterY - yShift * 0.5f;
+
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -centerX;
-                p0y = (-0.8125f * cellHeight + imageAdjust) * scale * sizingY;
+                p0y = (-0.8125f * cellHeight) * scale * sizingY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 2, cellHeight * scale * sizingY, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
-                    ix = font.handleIntegerPosition(ox + oCenterX);
-                    iy = font.handleIntegerPosition(oy + oCenterY);
-                    xShift = (ox + oCenterX) - (ix);
-                    yShift = (oy + oCenterY) - (iy);
-                    x = handleIntegerPosition(ix - xShift);
-                    y = handleIntegerPosition(iy - yShift);
-                    centerX = oCenterX - xShift * 0.5f;
-                    centerY = oCenterY - yShift * 0.5f;
-
                     trrh = under.getRegionHeight();
                     h = trrh * osy * sizingY;
                     yt = (font.cellHeight * 0.5f - (trrh + under.offsetY) * font.scaleY) * scale * sizingY;
