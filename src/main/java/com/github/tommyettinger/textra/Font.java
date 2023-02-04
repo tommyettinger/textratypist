@@ -3642,25 +3642,25 @@ public class Font implements Disposable {
             }
         }
         if ((glyph & STRIKETHROUGH) != 0L) {
+            ix = font.handleIntegerPosition(ox + oCenterX);
+            iy = font.handleIntegerPosition(oy + oCenterY);
+            xShift = (ox + oCenterX) - (ix);
+            yShift = (oy + oCenterY) - (iy);
+            x = handleIntegerPosition(ix - xShift);
+            y = handleIntegerPosition(iy - yShift);
+            centerX = oCenterX - xShift * 0.5f;
+            centerY = oCenterY - yShift * 0.5f;
+
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = -centerX;
-                p0y = (-0.45f * cellHeight + imageAdjust * 0.5f) * scale;
+                p0y = (-0.45f * cellHeight) * scale;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 2, cellHeight * scale * sizingY, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
-                    ix = font.handleIntegerPosition(ox + oCenterX);
-                    iy = font.handleIntegerPosition(oy + oCenterY);
-                    xShift = (ox + oCenterX) - (ix);
-                    yShift = (oy + oCenterY) - (iy);
-                    x = handleIntegerPosition(ix - xShift);
-                    y = handleIntegerPosition(iy - yShift);
-                    centerX = oCenterX - xShift * 0.5f;
-                    centerY = oCenterY - yShift * 0.5f;
-
                     trrh = dash.getRegionHeight();
                     h = trrh * osy * sizingY;
 
