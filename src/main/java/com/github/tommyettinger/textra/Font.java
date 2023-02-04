@@ -3291,8 +3291,8 @@ public class Font implements Disposable {
                 | (int)(batch.getColor().g * (glyph >>> 48 & 0xFF)) << 8
                 | (int)(batch.getColor().b * (glyph >>> 40 & 0xFF)) << 16);
         float scale = ((glyph & ALTERNATE) != 0L) ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
-        float scaleX, fsx;
-        float scaleY, fsy;
+        float scaleX, fsx, osx;
+        float scaleY, fsy, osy;
         if(c >= 0xE000 && c < 0xF800){
 //            fsx = font.cellWidth / tr.xAdvance;
             fsx = font.cellHeight * 0.8f / tr.xAdvance;
@@ -3306,16 +3306,23 @@ public class Font implements Disposable {
             scaleY = (fsy = font.scaleY) * scale;
 //            y -= descent * scaleY;
         }
+        osx = font.scaleX * scale;
+        osy = font.scaleY * scale;
         float centerX = cellWidth * scaleX * 0.5f;
         float centerY = cellHeight * scaleY * 0.5f;
 
-        y += descent * scale * font.scaleY;
+        float oCenterX = cellWidth * osx * 0.5f;
+        float oCenterY = cellHeight * osy * 0.5f;
+
+        y += descent * osy;
+
+        float ox = x, oy = y;
 
         float ix = font.handleIntegerPosition(x + centerX);
         float iy = font.handleIntegerPosition(y + centerY);
         // The shifts here represent how far the position was moved by handling the integer position, if that was done.
-        float xShift = (x + centerX) - (x = ix);
-        float yShift = (y + centerY) - (y = iy);
+        float xShift = (x + centerX) - (ix);
+        float yShift = (y + centerY) - (iy);
         // This moves the center to match the movement from integer position.
 //        x += (centerX -= xShift);
 //        y += (centerY -= yShift);
@@ -3323,8 +3330,8 @@ public class Font implements Disposable {
 //        y += centerY - yShift;
 //        x += centerX;
 //        y += centerY;
-        x = handleIntegerPosition(x - xShift);
-        y = handleIntegerPosition(y - yShift);
+        x = handleIntegerPosition(ix - xShift);
+        y = handleIntegerPosition(iy - yShift);
         centerX -= xShift * 0.5f;
         centerY -= yShift * 0.5f;
 
@@ -3578,21 +3585,33 @@ public class Font implements Disposable {
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
-                    trrh = under.getRegionHeight();
-                    h = trrh * scaleY * sizingY;
-                    yt = ((font.originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY + imageAdjust * scale) * sizingY;
-                    if (c >= 0xE000 && c < 0xF800) {
-                        yt = handleIntegerPosition(-centerY * scale * sizingY);
-                    }
+                    ix = font.handleIntegerPosition(ox + oCenterX);
+                    iy = font.handleIntegerPosition(oy + oCenterY);
+                    xShift = (ox + oCenterX) - (ix);
+                    yShift = (oy + oCenterY) - (iy);
+                    x = handleIntegerPosition(ix - xShift);
+                    y = handleIntegerPosition(iy - yShift);
+                    centerX = oCenterX - xShift * 0.5f;
+                    centerY = oCenterY - yShift * 0.5f;
 
-                    final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.5f,
+                    trrh = under.getRegionHeight();
+                    h = trrh * osy * sizingY;
+                    yt = (font.cellHeight * 0.5f - (trrh + under.offsetY) * font.scaleY) * scale * sizingY;
+                    //((font.originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY - 0.5f * imageAdjust * scale) * sizingY;
+//                    if (c >= 0xE000 && c < 0xF800) {
+//                        yt = handleIntegerPosition(-centerY * scale * sizingY);
+//                    }
+//                    if (c >= 0xE000 && c < 0xF800)
+                        System.out.println("With font " + name + ", UNDERLINE: yt=" + yt + ", y0=" + y0 + ", y1=" + y1 + ", y2=" + y2 + ", x0=" + x0);
+
+                    final float underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.625f,
                             underV = under.getV(),
                             underU2 = underU + iw,
                             underV2 = under.getV2();
 //                            hu = under.getRegionHeight() * scaleY,
 //                            yu = -0.625f * (hu + under.offsetY * scaleY);//-0.55f * cellHeight * scale;//cellHeight * scale - hu - under.offsetY * scaleY - centerY;
-                    xc = under.offsetX * scaleX - centerX * scale;
-                    x0 = -scaleX * under.offsetX - scale;
+                    xc = under.offsetX * osx - centerX * scale;
+                    x0 = -osx * under.offsetX - scale;
                     vertices[2] = color;
                     vertices[3] = underU;
                     vertices[4] = underV;
@@ -3633,21 +3652,35 @@ public class Font implements Disposable {
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
-                    trrh = dash.getRegionHeight();
-                    h = trrh * scaleY * sizingY;
-                    yt = ((font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY + imageAdjust * 0.5f) * sizingY;
-                    if (c >= 0xE000 && c < 0xF800) {
-                        yt = handleIntegerPosition(-centerY * scale * sizingY);
-                    }
+                    ix = font.handleIntegerPosition(ox + oCenterX);
+                    iy = font.handleIntegerPosition(oy + oCenterY);
+                    xShift = (ox + oCenterX) - (ix);
+                    yShift = (oy + oCenterY) - (iy);
+                    x = handleIntegerPosition(ix - xShift);
+                    y = handleIntegerPosition(iy - yShift);
+                    centerX = oCenterX - xShift * 0.5f;
+                    centerY = oCenterY - yShift * 0.5f;
 
-                    final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.5f,
+                    trrh = dash.getRegionHeight();
+                    h = trrh * osy * sizingY;
+
+//                    if (c >= 0xE000 && c < 0xF800)
+//                        yt = handleIntegerPosition((-centerY + imageAdjust) * scale * 0.5f * sizingY);
+
+                    yt = (font.cellHeight * 0.5f - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY;
+                            //((font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY) * sizingY;
+
+//                    if (c >= 0xE000 && c < 0xF800)
+                        System.out.println("With font " + name + ", STRIKETHROUGH: yt=" + yt);
+
+                    final float dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.625f,
                             dashV = dash.getV(),
                             dashU2 = dashU + iw,
                             dashV2 = dash.getV2();
 //                            hd = dash.getRegionHeight() * scaleY,
 //                            yd = -0.5f * cellHeight * scale;//cellHeight * scale - hd - dash.offsetY * scaleY - centerY;
-                    xc = dash.offsetX * scaleX - centerX * scale;
-                    x0 = -scaleX * dash.offsetX - scale;
+                    xc = dash.offsetX * osx - centerX * scale;
+                    x0 = -osx * dash.offsetX - scale;
                     vertices[2] = color;
                     vertices[3] = dashU;
                     vertices[4] = dashV;

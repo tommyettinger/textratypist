@@ -83,11 +83,12 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
         Font[] fonts = KnownFonts.getAll();
-        fnt = fonts[27];
+        fnt = fonts[12];
 //        fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
         int index = 0;
-        for (Font font : fonts) {
+        for (int i = 12; i < fonts.length; i++) {
+            Font font = fonts[i];
 //        Font font = fnt = fonts[0]; {
             KnownFonts.addEmoji(font);
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
@@ -157,8 +158,8 @@ YanoneKaffeesatz-standard.fnt has descent: -19
             // End Pixmap.createFromFrameBuffer() modified code
 
 //            Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-            PixmapIO.writePNG(Gdx.files.local("out/image"+(index++) + ".png"), pm, 6, true);
-
+            PixmapIO.writePNG(Gdx.files.local("out/image" + (index++) + ".png"), pm, 6, true);
+            System.exit(0);
         }
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
