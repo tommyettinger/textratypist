@@ -301,7 +301,7 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/a8wDhJl.png">Image link</a> (uses width=9, height=16)
+     * Preview: <a href="https://i.imgur.com/a8wDhJl.png">Image link</a> (uses width=10, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -317,8 +317,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.cascadiaMonoMSDF == null) {
             try {
                 instance.cascadiaMonoMSDF = new Font(instance.prefix + "CascadiaMono-msdf.fnt",
-                        instance.prefix + "CascadiaMono-msdf.png", MSDF, 0f, 0f, 0f, 0f, true)
-                        .scaleTo(9, 16).setName("Cascadia Mono (MSDF)");
+                        instance.prefix + "CascadiaMono-msdf.png", MSDF, 0f, 0f, -8f, 14f, true)
+                        .scaleTo(10, 20).setName("Cascadia Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -436,7 +436,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.dejaVuSansMono == null) {
             try {
                 instance.dejaVuSansMono = new Font(instance.prefix + "DejaVuSansMono-msdf.fnt",
-                        instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 0f, -8f, 0f, 0f, true)
+                        instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 0f, -4f, 0f, 0f, true)
                         .scaleTo(9, 20).setName("DejaVu Sans Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -498,7 +498,8 @@ public final class KnownFonts implements LifecycleListener {
      * uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but should be
      * crisp enough when zoomed out.
      * <br>
-     * Preview: <a href="https://i.imgur.com/VFNrbi1.png">Image link</a> (uses width=50, height=45, adjustLineHeight(0.625f))
+     * Preview: <a href="https://i.imgur.com/VFNrbi1.png">Image link</a> (uses width=50, height=45,
+     * adjustLineHeight(0.625f), setCrispness(1.5f))
      * <br>
      * Needs files:
      * <ul>
@@ -579,7 +580,8 @@ public final class KnownFonts implements LifecycleListener {
      * can use {@link #getCozette()} or {@link #getQuanPixel()} for a different bitmap font. There
      * is also {@link #getAStarry()} for a non-pixel font styled after a font from the same era.
      * <br>
-     * Preview: <a href="https://i.imgur.com/BgJ7o5e.png">Image link</a> (uses width=8, height=16)
+     * Preview: <a href="https://i.imgur.com/BgJ7o5e.png">Image link</a> (uses width=8, height=16, done with
+     * fitCell(8, 16, false))
      * <br>
      * Needs files:
      * <ul>
@@ -1152,7 +1154,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/8VHfFYj.png">Image link</a> (uses width=25, height=30)
+     * Preview: <a href="https://i.imgur.com/8VHfFYj.png">Image link</a> (uses width=21, height=30)
      * <br>
      * Needs files:
      * <ul>
