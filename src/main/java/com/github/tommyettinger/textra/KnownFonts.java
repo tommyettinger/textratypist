@@ -1240,7 +1240,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Tangerine.ttf
+     * @return the Font object that can represent many sizes of the font Tangerine.ttf using SDF
      */
     public static Font getTangerineSDF() {
         initialize();
