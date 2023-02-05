@@ -34,7 +34,7 @@ between two colors, or go across a whole rainbow. Lots of options; lots of fun. 
 typing-label, but there have been some changes. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
 for more information.
 
-As of 0.7.5, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
+As of 0.7.6, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
 Rotate, Attention, Highlight, Link, Trigger, and Stylist are all new to TextraTypist (not in typing-label). You can see
 usage instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
@@ -131,8 +131,10 @@ behavior by manually calling the `Font.enableShader(Batch)` method on your Font,
 other ShaderProgram of choice with its `Batch.setShader()` method (often, you just pass null here to reset the shader).
 
 There are several preconfigured font settings in `KnownFonts`; the documentation for each font getter says what files
-are needed to use that font. This is meant to save some hassle getting the xAdjust, yAdjust, widthAdjust, 
-and heightAdjust parameters just right, though you're still free to change them however you wish. The variety of font
+are needed to use that font.
+[You can see previews and descriptions of all known fonts here.](https://tommyettinger.github.io/textratypist/)
+Having KnownFonts in code is meant to save some hassle getting the xAdjust, yAdjust, widthAdjust, and heightAdjust
+parameters just right, though you're still free to change them however you wish. The variety of font
 types isn't amazing, but it should be a good starting point. One nice new thing to note is the
 `KnownFonts.getStandardFamily()` method, which requires having 13 fonts in your assets, but naturally lets you switch
 between any of those 13 fonts using the `[@Medieval]` syntax (where Medieval is one of the names it knows, in this case
@@ -194,7 +196,7 @@ user input and can use animated styles like `{RAINBOW}`.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.7.5"
+implementation "com.github.tommyettinger:textratypist:0.7.6"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
@@ -203,11 +205,11 @@ was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.7.5:sources"
-implementation "com.github.tommyettinger:regexodus:0.1.14:sources"
+implementation "com.github.tommyettinger:textratypist:0.7.6:sources"
+implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 ```
 
-GWT also needs this in the GdxDefinition.gwt.xml file (as of version 0.7.5):
+GWT also needs this in the GdxDefinition.gwt.xml file (as of version 0.7.6):
 ```xml
 <inherits name="regexodus.regexodus" />
 <inherits name="com.github.tommyettinger.textratypist" />
@@ -335,10 +337,10 @@ artifact covered immediately above. Instead of "AutoSlight", "AutoMedium", or "A
 don't have any idea why this happens, but because hinting can be set either in the FreeType generator parameters or (if
 you use [Stripe](https://github.com/raeleus/stripe)) set in a Skin file with `"hinting": "Full"`, it isn't hard to fix.
 
-There are some known issues with scaling, rotation, and integer-positioning in 0.7.5. You may notice labels slide
-relatively to their backgrounds when rotated smoothly, and some (typically very small) fonts may need integer positions
-enabled to keep a stable baseline. Font debug lines may be quite incorrect in this version, also, even if the text
-displays correctly to users.
+There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 and 0.7.6. You may notice labels
+slide a little relatively to their backgrounds when rotated smoothly, and some (typically very small) fonts may need
+integer positions enabled to keep a stable baseline. Font debug lines may be quite incorrect in these versions, also,
+even if the text displays correctly to users.
 
 ## License
 
