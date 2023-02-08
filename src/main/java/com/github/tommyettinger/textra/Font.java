@@ -696,21 +696,50 @@ public class Font implements Disposable {
     /**
      * Fragment shader source meant for MSDF fonts. This is automatically used when {@link #enableShader(Batch)} is
      * called and the {@link #distanceField} is {@link DistanceFieldType#MSDF}.
+     * <br>
+     * This is mostly derived from
+     * <a href="https://github.com/maltaisn/msdf-gdx/blob/v0.2.1/lib/src/main/resources/font.frag">msdf-gdx</a>, which
+     * is Apache 2.0-licensed.
      */
-    public static final String msdfFragmentShader = "#ifdef GL_ES\n"
-            + "	precision mediump float;\n"
-            + "	precision mediump int;\n"
-            + "#endif\n"
-            + "\n"
-            + "uniform sampler2D u_texture;\n"
-            + "uniform float u_smoothing;\n"
-            + "varying vec4 v_color;\n"
-            + "varying vec2 v_texCoords;\n"
-            + "\n"
-            + "void main() {\n"
-            + "  vec3 sdf = texture2D(u_texture, v_texCoords).rgb;\n"
-            + "  gl_FragColor = vec4(v_color.rgb, clamp((max(min(sdf.r, sdf.g), min(max(sdf.r, sdf.g), sdf.b)) - 0.5) * u_smoothing + 0.5, 0.0, 1.0) * v_color.a);\n"
-            + "}\n";
+    public static final String msdfFragmentShader =
+            "#ifdef GL_ES\n" +
+                    "precision mediump float;\n" +
+                    "#endif\n" +
+                    "#if __VERSION__ >= 130\n" +
+                    "#define TEXTURE texture\n" +
+                    "#else\n" +
+                    "#define TEXTURE texture2D\n" +
+                    "#endif\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "varying vec4 v_color;\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "uniform float u_smoothing;\n" +
+                    "uniform float u_weight;\n" +
+                    "float median(float r, float g, float b) {\n" +
+                    "    return max(min(r, g), min(max(r, g), b));\n" +
+                    "}\n" +
+                    "float linearstep(float a, float b, float x) {\n" +
+                    "    return clamp((x - a) / (b - a), 0.0, 1.0);\n" +
+                    "}\n" +
+                    "void main() {\n" +
+                    "    vec4 msdf = TEXTURE(u_texture, v_texCoords);\n" +
+                    "    float distance = u_smoothing * (median(msdf.r, msdf.g, msdf.b) + u_weight - 0.5);\n" +
+                    "    float glyphAlpha = clamp(distance + 0.5, 0.0, 1.0);\n" +
+                    "    gl_FragColor = vec4(v_color.rgb, glyphAlpha * v_color.a);\n" +
+                    "}";
+//            "#ifdef GL_ES\n"
+//            + "	precision mediump float;\n"
+//            + "#endif\n"
+//            + "\n"
+//            + "uniform sampler2D u_texture;\n"
+//            + "uniform float u_smoothing;\n"
+//            + "varying vec4 v_color;\n"
+//            + "varying vec2 v_texCoords;\n"
+//            + "\n"
+//            + "void main() {\n"
+//            + "  vec3 sdf = texture2D(u_texture, v_texCoords).rgb;\n"
+//            + "  gl_FragColor = vec4(v_color.rgb, clamp((max(min(sdf.r, sdf.g), min(max(sdf.r, sdf.g), sdf.b)) - 0.5) * u_smoothing + 0.5, 0.0, 1.0) * v_color.a);\n"
+//            + "}\n";
 
     /**
      * The ShaderProgram used to render this font, as used by {@link #enableShader(Batch)}.
@@ -2153,7 +2182,9 @@ public class Font implements Disposable {
         if (distanceField == DistanceFieldType.MSDF) {
             if (batch.getShader() != shader) {
                 batch.setShader(shader);
-                shader.setUniformf("u_smoothing", 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth));
+                shader.setUniformf("u_weight", 0f);
+                shader.setUniformf("u_smoothing", 2f * distanceFieldCrispness);
+//                shader.setUniformf("u_smoothing", 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth));
             }
         } else if (distanceField == DistanceFieldType.SDF) {
             if (batch.getShader() != shader) {

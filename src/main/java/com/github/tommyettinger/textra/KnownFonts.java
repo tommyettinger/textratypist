@@ -437,7 +437,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.dejaVuSansMono = new Font(instance.prefix + "DejaVuSansMono-msdf.fnt",
                         instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 0f, -4f, 0f, 0f, true)
-                        .scaleTo(9, 20).setName("DejaVu Sans Mono (MSDF)");
+                        .scaleTo(9, 20).setCrispness(2f).setName("DejaVu Sans Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -668,7 +668,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.inconsolataMSDF = new Font(instance.prefix + "Inconsolata-LGC-Custom-msdf.fnt",
                         instance.prefix + "Inconsolata-LGC-Custom-msdf.png", MSDF, -6f, -5f, -12f, 0f, true)
-                        .scaleTo(10, 26).setName("Inconsolata LGC (MSDF)");
+                        .scaleTo(12, 26).setCrispness(1.2f).setName("Inconsolata LGC (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
