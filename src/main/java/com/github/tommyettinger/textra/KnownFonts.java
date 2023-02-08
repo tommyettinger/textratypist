@@ -754,7 +754,7 @@ public final class KnownFonts implements LifecycleListener {
                 // This should be OK now that this uses the box-drawing underline.
                 instance.iosevkaMSDF = new Font(instance.prefix + "Iosevka-msdf.fnt",
                         instance.prefix + "Iosevka-msdf.png", MSDF, 0f, -5f, 0f, 0f, true)
-                        .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false)
+                        .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -886,7 +886,7 @@ public final class KnownFonts implements LifecycleListener {
                 // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSlabMSDF = new Font(instance.prefix + "Iosevka-Slab-msdf.fnt",
                         instance.prefix + "Iosevka-Slab-msdf.png", MSDF, 0f, -5f, 0f, 0f, true)
-                        .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false)
+                        .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka Slab (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
