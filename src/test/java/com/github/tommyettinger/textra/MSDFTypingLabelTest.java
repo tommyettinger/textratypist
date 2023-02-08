@@ -15,9 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-public class MSDFATypingLabelTest extends ApplicationAdapter {
+public class MSDFTypingLabelTest extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;
     SpriteBatch batch;
@@ -37,7 +37,7 @@ public class MSDFATypingLabelTest extends ApplicationAdapter {
 //        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         float scale = 0.5f;
         skin.getFont("default-font").getData().setScale(scale);
-        stage = new Stage(new ScreenViewport(), batch);
+        stage = new Stage(new StretchViewport(720, 405), batch);
         Gdx.input.setInputProcessor(stage);
 
         final Table table = new Table();
@@ -122,20 +122,13 @@ public class MSDFATypingLabelTest extends ApplicationAdapter {
     }
 
     public TypingLabel createTypingLabel() {
-        Font font = new Font("YanoneKaffeesatz-msdfa.fnt", "YanoneKaffeesatz-msdfa.png", Font.DistanceFieldType.MSDF, 0f, 0f, 0f, 0f)
+        Font font = new Font("YanoneKaffeesatz-msdf.fnt", "YanoneKaffeesatz-msdf.png",
+                Font.DistanceFieldType.MSDF, 0f, 0f, 0f, 0f)
                 .scaleTo(26, 30).setCrispness(2.5f);
 
-//        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
-        // Create label
-//        final TypingLabel label = new TypingLabel("WELCOME {STYLE=OBLIQUE}TO THE {STYLE=bold}{COLOR=11bb00}JUNGLE{RESET}, WE'VE GOT A MAN, A PLAN, A CANAL: PANAMA!",
-
-        // There's a strange bug that can happen with the WIND effect, but it only seems to happen when the affected
-        // text wraps across lines... Not totally sure what's happening.
-        // OK, it is definitely not something that requires different fonts to trigger. Specific widths cause line
-        // wrapping to somehow break the ENDWIND token (or RESET).
         final TypingLabel label = new TypingLabel(
-                "[darkest gray]Testing MSDFA text, with [%?shadow]drop shadow[%],\n" +
-                "[%75]small, [%125]medium, [%]and [%175]large [%] sizes of font!",
+                "[darkest gray]Testing [/]MSDF[/] text, with [%?shadow]drop shadow[%],\n" +
+                "[%75]small, [%125]medium, [%]and [%175]large [%] sizes of [*]font!",
                 font);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
         label.align = Align.topLeft;
@@ -198,6 +191,6 @@ public class MSDFATypingLabelTest extends ApplicationAdapter {
         config.setForegroundFPS(60);
         config.useVsync(true);
         config.disableAudio(true);
-        new Lwjgl3Application(new MSDFATypingLabelTest(), config);
+        new Lwjgl3Application(new MSDFTypingLabelTest(), config);
     }
 }

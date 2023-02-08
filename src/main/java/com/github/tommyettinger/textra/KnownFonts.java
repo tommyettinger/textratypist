@@ -1295,6 +1295,42 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getYanoneKaffeesatz() not found.");
     }
 
+    private Font kaffeesatzMSDF;
+
+    /**
+     * Returns a Font already configured to use a variable-width, narrow, humanist font, that should
+     * scale very well up or down, but isn't compatible with inline images such as {@link #addEmoji(Font) emoji}.
+     * Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
+     * of Latin, Cyrillic, and some extended Latin, but not Greek.
+     * MSDF MSDF MSDF
+     * <br>
+     * Preview: <a href="">Image link</a> (uses width=26, height=30)
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-msdf.fnt">YanoneKaffeesatz-msdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-msdf.png">YanoneKaffeesatz-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-License.txt">YanoneKaffeesatz-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font YanoneKaffeesatz.ttf using MSDF
+     */
+    public static Font getYanoneKaffeesatzMSDF() {
+        initialize();
+        if (instance.kaffeesatzMSDF == null) {
+            try {
+                instance.kaffeesatzMSDF = new Font(instance.prefix + "YanoneKaffeesatz-msdf.fnt",
+                        instance.prefix + "YanoneKaffeesatz-msdf.png", MSDF, 0f, 0f, 0f, 0, true)
+                        .scaleTo(26, 30).setCrispness(2.5f).setName("Yanone Kaffeesatz (MSDF)");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.kaffeesatzMSDF != null)
+            return new Font(instance.kaffeesatzMSDF);
+        throw new RuntimeException("Assets for getYanoneKaffeesatzMSDF() not found.");
+    }
+
     /**
      * Horribly duplicated because this is private in TextureAtlas.
      * This can be entirely replaced by Consumer from JDK 8 once RoboVM supports it.
@@ -1589,7 +1625,7 @@ public final class KnownFonts implements LifecycleListener {
                 getHanazono(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(),
                 getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getLibertinusSerif(), getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(),
-                getTangerine(), getTangerineSDF(), getYanoneKaffeesatz()};
+                getTangerine(), getTangerineSDF(), getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF()};
     }
 
     /**
@@ -1663,12 +1699,12 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any MSDF Font.
      * This will only function at all if all the assets (for every known MSDF Font) are present and load-able.
-     * You should store the result of this method, rather than calling it often, because each call copies 6 Fonts.
+     * You should store the result of this method, rather than calling it often, because each call copies 7 Fonts.
      * @return a new array containing all MSDF Font instances this knows
      */
     public static Font[] getAllMSDF() {
         return new Font[]{getAStarryMSDF(), getCascadiaMonoMSDF(), getDejaVuSansMono(), getInconsolataMSDF(), getIosevkaMSDF(),
-                getIosevkaSlabMSDF()};
+                getIosevkaSlabMSDF(), getYanoneKaffeesatzMSDF()};
     }
 
     @Override
@@ -1793,6 +1829,10 @@ public final class KnownFonts implements LifecycleListener {
         if (kaffeesatz != null) {
             kaffeesatz.dispose();
             kaffeesatz = null;
+        }
+        if (kaffeesatzMSDF != null) {
+            kaffeesatzMSDF.dispose();
+            kaffeesatzMSDF = null;
         }
         if(twemoji != null) {
             twemoji.dispose();

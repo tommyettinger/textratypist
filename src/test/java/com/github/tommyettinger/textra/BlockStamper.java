@@ -51,18 +51,28 @@ public class BlockStamper  extends ApplicationAdapter {
         FileHandle fontsHandle = Gdx.files.local("knownFonts");
 //        FileHandle[] children = fontsHandle.list("png");
 //        FileHandle[] children = {Gdx.files.local("Tangerine-sdf.png"), Gdx.files.local("Tangerine-standard.png"), };
-        FileHandle[] children = fontsHandle.list("Cozette-standard.png");
+        FileHandle[] children = fontsHandle.list("YanoneKaffeesatz-msdf.png");
         PER_CHILD:
         for(FileHandle fh : children){
             System.out.println("Operating on " + fh.name());
             Pixmap pm = new Pixmap(fh);
             int w = pm.getWidth(), h = pm.getHeight();
+            OUTER:
             for (int x = w - 3; x < w; x++) {
                 for (int y = h - 3; y < h; y++) {
                     int color = pm.getPixel(x, y);
                     if(!((color & 0xFF) == 0 || (color >>> 8) == 0)) {
-                        System.out.println("Had a transparency problem with " + fh.name());
-                        continue PER_CHILD;
+                        for (x = w - 3; x < w; x++) {
+                            for (y = 0; y < 3; y++) {
+                                color = pm.getPixel(x, y);
+                                if(!((color & 0xFF) == 0 || (color >>> 8) == 0)) {
+                                    System.out.println("Had a transparency problem with " + fh.name());
+                                    continue PER_CHILD;
+                                }
+                            }
+                        }
+                        h = 3;
+                        break OUTER;
                     }
                 }
             }
