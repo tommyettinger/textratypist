@@ -485,12 +485,53 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getGentium() not found.");
     }
 
+    private Font gentiumMSDF;
+
+    /**
+     * Returns a Font already configured to use a variable-width serif font with excellent Unicode support, that should
+     * scale cleanly to even very large sizes (using an MSDF technique). You usually will want to reduce the line height
+     * of this Font after you scale it; using {@code KnownFonts.getGentium().scaleTo(50, 45).adjustLineHeight(0.625f)}
+     * usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
+     * License) typeface by SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It
+     * supports a lot of glyphs, including quite a
+     * bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. This
+     * uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
+     * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
+     * <br>
+     * Preview: <a href="">Image link</a> (uses width=50, height=45,
+     * adjustLineHeight(0.625f), setCrispness(1.5f))
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-msdf.fnt">Gentium-msdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-msdf.png">Gentium-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-license.txt">Gentium-license.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Gentium.ttf using MSDF
+     */
+    public static Font getGentiumMSDF() {
+        initialize();
+        if (instance.gentiumMSDF == null) {
+            try {
+                instance.gentiumMSDF = new Font(instance.prefix + "Gentium-msdf.fnt",
+                        instance.prefix + "Gentium-msdf.png", MSDF, 0f, -6f, 0f, 0f, true)
+                        .scaleTo(50, 45).adjustLineHeight(0.625f).setCrispness(5f).setName("Gentium (MSDF)");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.gentiumMSDF != null)
+            return new Font(instance.gentiumMSDF);
+        throw new RuntimeException("Assets for getGentiumMSDF() not found.");
+    }
+
     private Font gentiumSDF;
 
     /**
      * Returns a Font already configured to use a variable-width serif font with excellent Unicode support, that should
      * scale cleanly to even very large sizes (using an SDF technique). You usually will want to reduce the line height
-     * of this Font after you scale it; using {@code KnownFonts.getGentium().scaleTo(55, 45).adjustLineHeight(0.8f)}
+     * of this Font after you scale it; using {@code KnownFonts.getGentium().scaleTo(50, 45).adjustLineHeight(0.625f)}
      * usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
      * License) typeface by SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It
      * supports a lot of glyphs, including quite a
@@ -1661,8 +1702,8 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font[] getAll() {
         return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getAStarryMSDF(),
-                getBitter(), getCanada(), getCascadiaMono(),
-                getCascadiaMonoMSDF(), getCaveat(), getCozette(), getDejaVuSansMono(), getGentium(), getGentiumSDF(),
+                getBitter(), getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getCozette(),
+                getDejaVuSansMono(), getGentium(), getGentiumMSDF(), getGentiumSDF(),
                 getHanazono(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(),
                 getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getLibertinusSerif(), getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(),
@@ -1740,11 +1781,12 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any MSDF Font.
      * This will only function at all if all the assets (for every known MSDF Font) are present and load-able.
-     * You should store the result of this method, rather than calling it often, because each call copies 8 Fonts.
+     * You should store the result of this method, rather than calling it often, because each call copies 9 Fonts.
      * @return a new array containing all MSDF Font instances this knows
      */
     public static Font[] getAllMSDF() {
-        return new Font[]{getAStarryMSDF(), getCascadiaMonoMSDF(), getDejaVuSansMono(), getInconsolataMSDF(), getIosevkaMSDF(),
+        return new Font[]{getAStarryMSDF(), getCascadiaMonoMSDF(), getDejaVuSansMono(),
+                getGentiumMSDF(), getInconsolataMSDF(), getIosevkaMSDF(),
                 getIosevkaSlabMSDF(), getYanoneKaffeesatzMSDF(), getYataghanMSDF()};
     }
 
@@ -1790,6 +1832,10 @@ public final class KnownFonts implements LifecycleListener {
         if (gentium != null) {
             gentium.dispose();
             gentium = null;
+        }
+        if (gentiumMSDF != null) {
+            gentiumMSDF.dispose();
+            gentiumMSDF = null;
         }
         if (gentiumSDF != null) {
             gentiumSDF.dispose();
