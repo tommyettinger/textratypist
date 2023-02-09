@@ -1302,9 +1302,10 @@ public final class KnownFonts implements LifecycleListener {
      * scale very well up or down, but isn't compatible with inline images such as {@link #addEmoji(Font) emoji}.
      * Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
      * of Latin, Cyrillic, and some extended Latin, but not Greek.
-     * MSDF MSDF MSDF
+     * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
+     * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="">Image link</a> (uses width=26, height=30)
+     * Preview: <a href="https://i.imgur.com/8Q51aXN.png">Image link</a> (uses width=26, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -1329,6 +1330,46 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.kaffeesatzMSDF != null)
             return new Font(instance.kaffeesatzMSDF);
         throw new RuntimeException("Assets for getYanoneKaffeesatzMSDF() not found.");
+    }
+
+    private Font yataghanMSDF;
+
+    /**
+     * Returns a Font already configured to use a variable-width, narrow, "dark fantasy" font, that should
+     * scale very well up or down, but isn't compatible with inline images such as {@link #addEmoji(Font) emoji}.
+     * Caches the result for later calls. The font used is Yataghan, a widely-distributed typeface. It supports ASCII
+     * and some extended Latin, but not much else.
+     * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
+     * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
+     * <br>
+     * I don't know who the original author of Yataghan was; if you are the original author and want attribution or want
+     * this font removed, please post an issue on GitHub or email tommyettinger.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/xM1AtmY.png">Image link</a> (uses width=20, height=32)
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-msdf.fnt">Yataghan-msdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-msdf.png">Yataghan-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Yataghan.ttf using MSDF
+     */
+    public static Font getYataghanMSDF() {
+        initialize();
+        if (instance.yataghanMSDF == null) {
+            try {
+                instance.yataghanMSDF = new Font(instance.prefix + "Yataghan-msdf.fnt",
+                        instance.prefix + "Yataghan-msdf.png", MSDF, 0f, -20f, 0f, 0, true)
+                        .scaleTo(20, 32).setName("Yataghan (MSDF)");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.yataghanMSDF != null)
+            return new Font(instance.yataghanMSDF);
+        throw new RuntimeException("Assets for getYataghanMSDF() not found.");
     }
 
     /**
@@ -1625,7 +1666,7 @@ public final class KnownFonts implements LifecycleListener {
                 getHanazono(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(),
                 getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getLibertinusSerif(), getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(),
-                getTangerine(), getTangerineSDF(), getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF()};
+                getTangerine(), getTangerineSDF(), getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghanMSDF()};
     }
 
     /**
@@ -1699,12 +1740,12 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any MSDF Font.
      * This will only function at all if all the assets (for every known MSDF Font) are present and load-able.
-     * You should store the result of this method, rather than calling it often, because each call copies 7 Fonts.
+     * You should store the result of this method, rather than calling it often, because each call copies 8 Fonts.
      * @return a new array containing all MSDF Font instances this knows
      */
     public static Font[] getAllMSDF() {
         return new Font[]{getAStarryMSDF(), getCascadiaMonoMSDF(), getDejaVuSansMono(), getInconsolataMSDF(), getIosevkaMSDF(),
-                getIosevkaSlabMSDF(), getYanoneKaffeesatzMSDF()};
+                getIosevkaSlabMSDF(), getYanoneKaffeesatzMSDF(), getYataghanMSDF()};
     }
 
     @Override
@@ -1833,6 +1874,10 @@ public final class KnownFonts implements LifecycleListener {
         if (kaffeesatzMSDF != null) {
             kaffeesatzMSDF.dispose();
             kaffeesatzMSDF = null;
+        }
+        if (yataghanMSDF != null) {
+            yataghanMSDF.dispose();
+            yataghanMSDF = null;
         }
         if(twemoji != null) {
             twemoji.dispose();
