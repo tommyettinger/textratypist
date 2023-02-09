@@ -515,8 +515,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentiumMSDF == null) {
             try {
                 instance.gentiumMSDF = new Font(instance.prefix + "Gentium-msdf.fnt",
-                        instance.prefix + "Gentium-msdf.png", MSDF, 0f, -6f, 0f, 0f, true)
-                        .scaleTo(50, 45).adjustLineHeight(0.625f).setCrispness(5f).setName("Gentium (MSDF)");
+                        instance.prefix + "Gentium-msdf.png", MSDF, 0f, -18f, 0f, 0f, true)
+                        .scaleTo(50, 45).adjustLineHeight(0.625f).setCrispness(3f).setName("Gentium (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
