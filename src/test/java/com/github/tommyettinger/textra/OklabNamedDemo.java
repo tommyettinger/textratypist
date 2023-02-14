@@ -1,0 +1,156 @@
+/*
+ * Copyright (c) 2023 See AUTHORS file.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.github.tommyettinger.textra;
+
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.colorful.oklab.ColorTools;
+import com.github.tommyettinger.colorful.oklab.ColorfulBatch;
+import com.github.tommyettinger.colorful.oklab.Palette;
+
+import static com.badlogic.gdx.Gdx.input;
+
+public class OklabNamedDemo extends ApplicationAdapter {
+    public static final int SCREEN_WIDTH = 808;
+    public static final int SCREEN_HEIGHT = 51 * 15;
+    private ColorfulBatch batch;
+    private Viewport screenView;
+    private BitmapFont font;
+    private Texture blank;
+    private long lastProcessedTime = 0L;
+    private int selectedIndex;
+    private String selectedName;
+    private float selected;
+
+    public static void main(String[] arg) {
+        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+        config.setTitle("Named Color Demo");
+        config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
+        config.useVsync(true);
+        config.disableAudio(true);
+
+        final OklabNamedDemo app = new OklabNamedDemo();
+        new Lwjgl3Application(app, config);
+    }
+
+    @Override
+    public void create() {
+        Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        b.drawPixel(0, 0, 0x808080FF);
+        blank = new Texture(b);
+        font = new BitmapFont(Gdx.files.internal("Cozette-standard.fnt"));
+        font.setColor(1f, 0.5f, 0.5f, 1f);
+        batch = new ColorfulBatch(1000);
+        screenView = new ScreenViewport();
+        screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
+        screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.enableBlending();
+
+        for (int i = 0; i < Palette.NAMES_BY_HUE.size; i++) {
+            String name = Palette.NAMES_BY_HUE.get(i);
+            float color = Palette.NAMED.get(name, Palette.WHITE);
+            if (ColorTools.alphaInt(color) == 0)
+                Palette.NAMES_BY_HUE.removeIndex(i--);
+        }
+        selectedName = "Gray";
+        selectedIndex = Palette.NAMES_BY_HUE.indexOf("Gray", false);
+        selected = Palette.GRAY;
+//        selectedName = Palette.NAMES_BY_HUE.first();
+//        selectedIndex = 0;
+//        selected = Palette.NAMED.get(selectedName, Palette.GRAY);
+    }
+
+
+    @Override
+    public void render() {
+        Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        handleInput();
+        batch.setProjectionMatrix(screenView.getCamera().combined);
+        batch.setPackedColor(selected);
+        batch.begin();
+        batch.setTweak(ColorfulBatch.TWEAK_RESET);
+        int i = -1;
+        final float width = Gdx.graphics.getWidth() / 5f, height = Gdx.graphics.getHeight() / 51f;
+        for (int y = 0; y < 51; y++) {
+            for (int x = 0; x < 5; x++) {
+                String name = Palette.NAMES_BY_HUE.get(++i);
+                float color = Palette.NAMED.get(name, Palette.WHITE);
+                batch.setPackedColor(color);
+                batch.draw(blank, width * x, height * (50 - y), width, height);
+            }
+        }
+        i = -1;
+        for (int y = 0; y < 51; y++) {
+            for (int x = 0; x < 5; x++) {
+                if (++i == selectedIndex) {
+                    font.setColor(0.5f, 0.5f, 0.5f, 1f);
+                    font.draw(batch, Palette.NAMES_BY_HUE.get(i), width * x + 1f, height * (51 - y) - 5f);
+                }
+            }
+        }
+        batch.end();
+
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        screenView.update(width, height);
+        screenView.getCamera().position.set(width * 0.5f, height * 0.5f, 0f);
+        screenView.getCamera().update();
+    }
+
+    public void handleInput() {
+        if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
+            Gdx.app.exit();
+        else if (TimeUtils.timeSinceMillis(lastProcessedTime) > 180) {
+            lastProcessedTime = TimeUtils.millis();
+            if (input.isKeyPressed(Input.Keys.RIGHT) || input.isKeyPressed(Input.Keys.DOWN)) {
+                selectedIndex = (selectedIndex + 1) % Palette.NAMES_BY_HUE.size;
+                selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
+                selected = Palette.NAMED.get(selectedName, Palette.GRAY);
+            } else if (input.isKeyPressed(Input.Keys.LEFT) || input.isKeyPressed(Input.Keys.UP)) {
+                selectedIndex = (selectedIndex + Palette.NAMES_BY_HUE.size - 1) % Palette.NAMES_BY_HUE.size;
+                selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
+                selected = Palette.NAMED.get(selectedName, Palette.GRAY);
+            } else if (input.isKeyJustPressed(Input.Keys.C)) // CHAOS!
+            {
+                selectedIndex = MathUtils.random(Palette.NAMES_BY_HUE.size);
+                selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
+                selected = Palette.NAMED.get(selectedName, Palette.GRAY);
+            } else if (input.isKeyJustPressed(Input.Keys.P)) // print
+            {
+                System.out.println("Using color " + selectedName
+                        + " with L=" + ColorTools.channelL(selected) + ",A=" + ColorTools.channelA(selected)
+                        + ",B=" + ColorTools.channelB(selected) + ",alpha=1.0 ."
+                );
+            }
+        }
+    }
+}

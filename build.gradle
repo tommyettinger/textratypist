@@ -84,5 +84,6 @@ dependencies {
     testImplementation "com.github.raeleus.stripe:freetype:1.4.1"
     testImplementation "com.github.raeleus.TenPatch:tenpatch:5.2.3"
     testImplementation "com.github.tommyettinger:anim8-gdx:$anim8Version"
+    testImplementation 'com.github.tommyettinger:colorful:0.8.4'
 
 }
