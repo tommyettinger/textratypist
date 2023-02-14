@@ -68,6 +68,7 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
                 "Cozette-standard.png", STANDARD, 0, 2, 0, 0, false)
                 .useIntegerPositions(true)
                 .setName("Cozette");
+        font.PACKED_BLACK = Palette.BLACK;
 //        font.setColor(1f, 0.5f, 0.5f, 1f);
         batch = new ColorfulBatch(1000);
         screenView = new ScreenViewport();
@@ -113,8 +114,9 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
         for (int y = 0; y < 51; y++) {
             for (int x = 0; x < 5; x++) {
                 if (++i == selectedIndex) {
-                    batch.setTweakedColor(0.5f, 0.5f, 0.5f, 1f, 0.5f, 0f, 0f, 0.5f);
-                    font.drawMarkupText(batch, "[%?blacken]" + Palette.NAMES_BY_HUE.get(i), width * x + 1f, height * (51 - y) - 5f);
+//                    batch.setTweakedColor(0.5f, 0.5f, 0.5f, 1f, 0.5f, 0.5f, 0.5f, 0.5f);
+                    batch.setTweakedColor(Palette.GRAY, ColorfulBatch.TWEAK_RESET);
+                    font.drawMarkupText(batch, "[%?blacken]" + Palette.NAMES_BY_HUE.get(i), width * x + 1f, height * (51 - y) - 17f);
                 }
             }
         }

@@ -585,12 +585,14 @@ public class Font implements Disposable {
      * Bit flag for black outline mode, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     * This can be configured to use a different color in place of black by changing {@link #PACKED_BLACK}.
      */
     public static final long BLACK_OUTLINE = 2L << 20 | ALTERNATE;
     /**
      * Bit flag for white outline mode, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     * This can be configured to use a different color in place of white by changing {@link #PACKED_WHITE}.
      */
     public static final long WHITE_OUTLINE = 4L << 20 | ALTERNATE;
     /**
@@ -609,18 +611,21 @@ public class Font implements Disposable {
      * Bit flag for error mode, shown as a red wiggly-underline, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     * This can be configured to use a different color in place of red by changing {@link #PACKED_ERROR_COLOR}.
      */
     public static final long ERROR = 10L << 20 | ALTERNATE;
     /**
      * Bit flag for warning mode, shown as a yellow barred-underline, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     * This can be configured to use a different color in place of yellow by changing {@link #PACKED_WARN_COLOR}.
      */
     public static final long WARN = 12L << 20 | ALTERNATE;
     /**
      * Bit flag for note mode, shown as a blue wavy-underline, as a long.
      * This only has its intended effect if alternate mode is enabled.
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     * This can be configured to use a different color in place of blue by changing {@link #PACKED_NOTE_COLOR}.
      */
     public static final long NOTE = 14L << 20 | ALTERNATE;
 
@@ -2496,11 +2501,11 @@ public class Font implements Disposable {
         final float cs = MathUtils.cosDeg(rotation);
         float color;// = -0X1.0P125f; // black
         if(mode == ERROR)
-            color = -0x1.0001fep125F; // red for error, 0xFF0000FF
+            color = PACKED_ERROR_COLOR; // red for error, 0xFF0000FF
         else if(mode == WARN)
-            color = -0x1.21abfep125F; // gold/saffron/yellow, 0xFFD510FF
+            color = PACKED_WARN_COLOR; // gold/saffron/yellow, 0xFFD510FF
         else// if(mode == NOTE)
-            color = -0x1.71106p126F; // cyan/denim, 0x3088B8FF
+            color = PACKED_NOTE_COLOR; // cyan/denim, 0x3088B8FF
         int index = 0;
         for (float startX = 0f, shiftY = 0f; startX <= width; startX += xPx, index++) {
             float p0x;
@@ -3533,8 +3538,8 @@ public class Font implements Disposable {
         }
         else if((glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE || (glyph & ALTERNATE_MODES_MASK) == WHITE_OUTLINE) {
             float outline = (glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE
-                    ? -0X1.0P125f // black
-                    : -0X1.FFFFFEP126f; // white
+                    ? PACKED_BLACK // black
+                    : PACKED_WHITE; // white
             vertices[2] = outline;
             vertices[7] = outline;
             vertices[12] = outline;
@@ -3553,7 +3558,7 @@ public class Font implements Disposable {
             }
         }
         else if((glyph & ALTERNATE_MODES_MASK) == SHINY) {
-            float shine = -0X1.FFFFFEP126f; // white
+            float shine = PACKED_WHITE;
             vertices[2] = shine;
             vertices[7] = shine;
             vertices[12] = shine;
@@ -5579,6 +5584,40 @@ public class Font implements Disposable {
     public String toString() {
         return "Font '" + name + "' at scale " + scaleX + " by " + scaleY;
     }
+
+    /**
+     * The color black, as a packed float using the default RGBA color space.
+     * This can be overridden by subclasses that either use a different color space,
+     * or want to use a different color in place of black for effects like {@link #BLACK_OUTLINE}.
+     */
+    public float PACKED_BLACK = NumberUtils.intToFloatColor(0xFE000000);
+    /**
+     * The color white, as a packed float using the default RGBA color space.
+     * This can be overridden by subclasses that either use a different color space,
+     * or want to use a different color in place of white for effects like {@link #WHITE_OUTLINE} and {@link #SHINY}.
+     */
+    public float PACKED_WHITE = NumberUtils.intToFloatColor(0xFEFFFFFF);
+    /**
+     * The color to use for {@link #ERROR}'s underline, as a packed float using the default RGBA color space.
+     * This can be overridden by subclasses that either use a different color space,
+     * or want to use a different color in place of red for {@link #ERROR}.
+     * In RGBA8888 format, this is the color {@code 0xFF0000FF}.
+     */
+    public float PACKED_ERROR_COLOR = -0x1.0001fep125F; // red
+    /**
+     * The color to use for {@link #WARN}'s underline, as a packed float using the default RGBA color space.
+     * This can be overridden by subclasses that either use a different color space,
+     * or want to use a different color in place of yellow for {@link #WARN}.
+     * In RGBA8888 format, this is the color {@code 0xFFD510FF}.
+     */
+    public float PACKED_WARN_COLOR = -0x1.0001fep125F; // red
+    /**
+     * The color to use for {@link #NOTE}'s underline, as a packed float using the default RGBA color space.
+     * This can be overridden by subclasses that either use a different color space,
+     * or want to use a different color in place of blue for {@link #NOTE}.
+     * In RGBA8888 format, this is the color {@code 0x3088B8FF}.
+     */
+    public float PACKED_NOTE_COLOR = -0x1.0001fep125F; // red
 
     /**
      * Given a 20-item float array (almost always {@link #vertices} in this class) and a Texture to draw (part of), this
