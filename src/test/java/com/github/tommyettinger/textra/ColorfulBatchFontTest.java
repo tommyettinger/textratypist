@@ -24,7 +24,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -114,8 +113,13 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
         for (int y = 0; y < 51; y++) {
             for (int x = 0; x < 5; x++) {
                 if (++i == selectedIndex) {
-//                    batch.setTweakedColor(0.5f, 0.5f, 0.5f, 1f, 0.5f, 0.5f, 0.5f, 0.5f);
-                    batch.setTweakedColor(Palette.GRAY, ColorfulBatch.TWEAK_RESET);
+                    // This is a total hack. The tweak multiplies L by 0.25 (since the values we give here are half of
+                    // what actually gets used), and maximizes contrast. L has 0.5 added to it in the batch color. This
+                    // together seems to make black, black, and white, white, at least for text. This is only needed
+                    // because Oklab's ColorfulBatch can only raise or lower L by 0.5 at most, so white can only go down
+                    // to 50% gray. I think if the font were 50% gray instead of white, this might work without hacks.
+                    batch.setTweakedColor(1f, 0.5f, 0.5f, 1f, 0.125f, 0.5f, 0.5f, 1f);
+//                    batch.setTweakedColor(Palette.GRAY, ColorfulBatch.TWEAK_RESET);
                     font.drawMarkupText(batch, "[%?blacken]" + Palette.NAMES_BY_HUE.get(i), width * x + 1f, height * (51 - y) - 17f);
                 }
             }

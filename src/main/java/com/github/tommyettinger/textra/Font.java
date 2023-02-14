@@ -3550,8 +3550,10 @@ public class Font implements Disposable {
                 for (int yi = -1; yi <= 1; yi++) {
                     if(xi == 0 && yi == 0) continue;
                     float ya = yi*yPx;
-                    vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
-                    vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
+//                    vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
+//                    vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
+                    vertices[15] = (vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y + xa)) - (vertices[5] = handleIntegerPosition(x + cos * p1x - sin * p1y + xa)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y + xa));
+                    vertices[16] = (vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y + ya)) - (vertices[6] = handleIntegerPosition(y + sin * p1x + cos * p1y + ya)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y + ya));
 
                     drawVertices(batch, tex, vertices);
                 }
