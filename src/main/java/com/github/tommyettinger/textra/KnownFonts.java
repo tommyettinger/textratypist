@@ -498,8 +498,8 @@ public final class KnownFonts implements LifecycleListener {
      * uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="">Image link</a> (uses width=50, height=45,
-     * adjustLineHeight(0.625f), setCrispness(1.5f))
+     * Preview: <a href="https://i.imgur.com/xGuO6sH.png">Image link</a> (uses width=50, height=45,
+     * adjustLineHeight(0.625f), setCrispness(3f))
      * <br>
      * Needs files:
      * <ul>
@@ -1384,7 +1384,7 @@ public final class KnownFonts implements LifecycleListener {
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
      * I don't know who the original author of Yataghan was; if you are the original author and want attribution or want
-     * this font removed, please post an issue on GitHub or email tommyettinger.
+     * this font removed, please post an issue on the tommyettinger/textratypist GitHub repo, or email tommyettinger.
      * <br>
      * Preview: <a href="https://i.imgur.com/xM1AtmY.png">Image link</a> (uses width=20, height=32)
      * <br>

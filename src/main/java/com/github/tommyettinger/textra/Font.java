@@ -2238,10 +2238,10 @@ public class Font implements Disposable {
      * then nothing will be drawn there. The 2D array is treated as [x][y] indexed here. This is usually called before
      * other methods that draw foreground text.
      * <br>
-     * Internally, this uses {@link Batch#draw(Texture, float[], int, int)} to draw each rectangle with minimal
-     * overhead, and this also means it is unaffected by the batch color. If you want to alter the colors using a
-     * shader, the shader will receive each color in {@code colors} as its {@code a_color} attribute, the same as if it
-     * was passed via the batch color.
+     * Internally, this uses {@link #drawVertices(Batch, Texture, float[])} to draw each rectangle with minimal
+     * overhead, and this also means it is unaffected by the batch color unless drawVertices was overridden. If you want
+     * to alter the colors using a shader, the shader will receive each color in {@code colors} as its {@code a_color}
+     * attribute, the same as if it was passed via the batch color.
      * <br>
      * If you want to change the alpha of the colors array, you can use
      * {@link ColorUtils#multiplyAllAlpha(int[][], float)}.
@@ -2264,10 +2264,10 @@ public class Font implements Disposable {
      * then nothing will be drawn there. The 2D array is treated as [x][y] indexed here. This is usually called before
      * other methods that draw foreground text.
      * <br>
-     * Internally, this uses {@link Batch#draw(Texture, float[], int, int)} to draw each rectangle with minimal
-     * overhead, and this also means it is unaffected by the batch color. If you want to alter the colors using a
-     * shader, the shader will receive each color in {@code colors} as its {@code a_color} attribute, the same as if it
-     * was passed via the batch color.
+     * Internally, this uses {@link #drawVertices(Batch, Texture, float[])} to draw each rectangle with minimal
+     * overhead, and this also means it is unaffected by the batch color unless drawVertices was overridden. If you want
+     * to alter the colors using a shader, the shader will receive each color in {@code colors} as its {@code a_color}
+     * attribute, the same as if it was passed via the batch color.
      * <br>
      * If you want to change the alpha of the colors array, you can use
      * {@link ColorUtils#multiplyAllAlpha(int[][], float)}.
@@ -2323,7 +2323,7 @@ public class Font implements Disposable {
                 if ((colors[xi][yi] & 254) != 0) {
                     vertices[2] = vertices[7] = vertices[12] = vertices[17] =
                             NumberUtils.intBitsToFloat(Integer.reverseBytes(colors[xi][yi] & -2));
-                    batch.draw(parent, vertices, 0, 20);
+                    drawVertices(batch, parent, vertices);
                 }
                 vertices[1] = vertices[16] += cellHeight;
                 vertices[6] = vertices[11] += cellHeight;
@@ -2401,7 +2401,7 @@ public class Font implements Disposable {
             vertices[18] = u2;
             vertices[19] = v;
 
-            batch.draw(parent, vertices, 0, 20);
+            drawVertices(batch, parent, vertices);
         }
     }
     /**
@@ -2464,7 +2464,7 @@ public class Font implements Disposable {
             vertices[18] = u2;
             vertices[19] = v;
 
-            batch.draw(parent, vertices, 0, 20);
+            drawVertices(batch, parent, vertices);
         }
     }
 
@@ -2569,7 +2569,7 @@ public class Font implements Disposable {
             vertices[18] = u2;
             vertices[19] = v;
 
-            batch.draw(parent, vertices, 0, 20);
+            drawVertices(batch, parent, vertices);
         }
     }
 
@@ -3529,7 +3529,7 @@ public class Font implements Disposable {
             vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + 1)) - (vertices[5] = (x + cos * p1x - sin * p1y + 1)) + (vertices[10] = (x + cos * p2x - sin * p2y + 1)));
             vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y - 2)) - (vertices[6] = (y + sin * p1x + cos * p1y - 2)) + (vertices[11] = (y + sin * p2x + cos * p2y - 2)));
 
-            batch.draw(tex, vertices, 0, 20);
+            drawVertices(batch, tex, vertices);
         }
         else if((glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE || (glyph & ALTERNATE_MODES_MASK) == WHITE_OUTLINE) {
             float outline = (glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE
@@ -3548,7 +3548,7 @@ public class Font implements Disposable {
                     vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
                     vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
 
-                    batch.draw(tex, vertices, 0, 20);
+                    drawVertices(batch, tex, vertices);
                 }
             }
         }
@@ -3565,7 +3565,7 @@ public class Font implements Disposable {
                 vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
                 vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
 
-                batch.draw(tex, vertices, 0, 20);
+                drawVertices(batch, tex, vertices);
             }
         }
 
@@ -3578,32 +3578,32 @@ public class Font implements Disposable {
         vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
         vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
 
-        batch.draw(tex, vertices, 0, 20);
+        drawVertices(batch, tex, vertices);
         if ((glyph & BOLD) != 0L) {
             p0x += 1f;
             p1x += 1f;
             p2x += 1f;
             vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
             vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
-            batch.draw(tex, vertices, 0, 20);
+            drawVertices(batch, tex, vertices);
             p0x -= 2f;
             p1x -= 2f;
             p2x -= 2f;
             vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
             vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
-            batch.draw(tex, vertices, 0, 20);
+            drawVertices(batch, tex, vertices);
             p0x += 0.5f;
             p1x += 0.5f;
             p2x += 0.5f;
             vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
             vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
-            batch.draw(tex, vertices, 0, 20);
+            drawVertices(batch, tex, vertices);
             p0x += 1f;
             p1x += 1f;
             p2x += 1f;
             vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
             vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
-            batch.draw(tex, vertices, 0, 20);
+            drawVertices(batch, tex, vertices);
         }
         if ((glyph & UNDERLINE) != 0L) {
             ix = font.handleIntegerPosition(ox + oCenterX);
@@ -3668,7 +3668,7 @@ public class Font implements Disposable {
                     vertices[15] = (vertices[0] = x + cos * p0x - sin * p0y) - (vertices[5] = x + cos * p1x - sin * p1y) + (vertices[10] = x + cos * p2x - sin * p2y);
                     vertices[16] = (vertices[1] = y + sin * p0x + cos * p0y) - (vertices[6] = y + sin * p1x + cos * p1y) + (vertices[11] = y + sin * p2x + cos * p2y);
 
-                    batch.draw(under.getTexture(), vertices, 0, 20);
+                    drawVertices(batch, under.getTexture(), vertices);
                 }
             }
         }
@@ -3740,9 +3740,7 @@ public class Font implements Disposable {
 //                    vertices[15] = (vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y)) - (vertices[5] = handleIntegerPosition(x + cos * p1x - sin * p1y)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y));
 //                    vertices[16] = (vertices[1] = handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6] = handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = handleIntegerPosition(y + sin * p2x + cos * p2y));
 
-
-
-                    batch.draw(dash.getTexture(), vertices, 0, 20);
+                    drawVertices(batch, dash.getTexture(), vertices);
                 }
             }
         }
@@ -5580,5 +5578,57 @@ public class Font implements Disposable {
     @Override
     public String toString() {
         return "Font '" + name + "' at scale " + scaleX + " by " + scaleY;
+    }
+
+    /**
+     * Given a 20-item float array (almost always {@link #vertices} in this class) and a Texture to draw (part of), this
+     * draws some part of the Texture using the given Batch. This is used internally to wrap around calls to
+     * {@link Batch#draw(Texture, float[], int, int)}.
+     * <br>
+     * This is an extension point so Batch implementations that use more attributes than SpriteBatch can still make use
+     * of Font. If not overridden, this will act exactly like calling {@code batch.draw(texture, vertices, 0, 20);}.
+     * <br>
+     * The format this should generally expect for {@code vertices} is the same as what a single Sprite would draw with
+     * SpriteBatch. There are 4 sections in each array, each with 5 floats corresponding to one vertex on a quad. Font
+     * only ever assigns one color (as a packed float, such as from {@link Color#toFloatBits()}) to all four vertices,
+     * but overriding classes don't necessarily need to do this. Where x and y define the lower-left vertex position,
+     * width and height are the axis-aligned dimensions of the quad, color is a packed float, and u/v/u2/v2 are the UV
+     * coordinates to use from {@code texture}, the format looks like:
+     * <pre>
+     *         vertices[0] = x;
+     *         vertices[1] = y;
+     *         vertices[2] = color;
+     *         vertices[3] = u;
+     *         vertices[4] = v;
+     *
+     *         vertices[5] = x;
+     *         vertices[6] = y + height;
+     *         vertices[7] = color;
+     *         vertices[8] = u;
+     *         vertices[9] = v2;
+     *
+     *         vertices[10] = x + width;
+     *         vertices[11] = y + height;
+     *         vertices[12] = color;
+     *         vertices[13] = u2;
+     *         vertices[14] = v2;
+     *
+     *         vertices[15] = x + width;
+     *         vertices[16] = y;
+     *         vertices[17] = color;
+     *         vertices[18] = u2;
+     *         vertices[19] = v;
+     * </pre>
+     * <br>
+     * When a custom Font overrides this to handle a Batch with one extra attribute per-vertex, the custom Font should
+     * have a 24-item float array and copy data from {@code vertices} to its own 24-item float array, then pass that
+     * larger array to {@link Batch#draw(Texture, float[], int, int)}.
+     * 
+     * @param batch a Batch, which should be a SpriteBatch (or a compatible Batch) unless this was overridden
+     * @param texture a Texture to draw (part of)
+     * @param vertices a 20-item float array organized into 5-float sections per-vertex
+     */
+    protected void drawVertices(Batch batch, Texture texture, float[] vertices) {
+        batch.draw(texture, vertices, 0, 20);
     }
 }
