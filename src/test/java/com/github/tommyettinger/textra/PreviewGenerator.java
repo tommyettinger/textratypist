@@ -83,8 +83,8 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
         Font[] fonts = KnownFonts.getAll();
-//        fnt = fonts[2];
-        fnt = fonts[fonts.length - 1];
+        fnt = fonts[25];
+//        fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
         int index = 0;
         for (int i = 0; i < fonts.length; i++) {

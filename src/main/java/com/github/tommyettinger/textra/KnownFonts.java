@@ -1077,7 +1077,8 @@ public final class KnownFonts implements LifecycleListener {
      * scaled down nicely.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/WNm6igY.png">Image link</a> (uses width=20, height=28)
+     * Preview: <a href="https://i.imgur.com/hlkUoco.png">Image link</a> (uses
+     * .scaleTo(20, 32).adjustLineHeight(0.875f))
      * <br>
      * Needs files:
      * <ul>
@@ -1094,7 +1095,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.openSans = new Font(instance.prefix + "OpenSans-standard.fnt",
                         instance.prefix + "OpenSans-standard.png", STANDARD, 0, 10, 0, 0, true)
-                        .scaleTo(20, 28).setTextureFilter().setName("OpenSans");
+                        .scaleTo(20, 32).adjustLineHeight(0.875f).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
             }

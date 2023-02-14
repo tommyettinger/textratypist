@@ -126,7 +126,7 @@ public class TypingLabelTest extends ApplicationAdapter {
             }
         });
 
-        table.pad(50f);
+        table.pad(30f);
         table.add(label).colspan(5).growX();
         table.row();
         table.add(labelEvent).colspan(5).align(Align.center);
@@ -212,7 +212,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         text.append("{SPEED=2.50}{COLOR=lighter dull GREEN} making the text go {SHAKE=1.1;0.6;inf}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5} ");
         text.append("{SPEED=0.25}{COLOR=jade fern}{WAVE=0.66;1;0.5;∞}[@Mono] or extremely slow.[@]{ENDWAVE}");
         text.append("{RESET} You {HEARTBEAT}[darker red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}second{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2}, ");
-        text.append("[%?Error]jussst[%][.][red][@Condensed]spelling[] to [%?WARN]catching[%][.][#FFD510FF][@Condensed]grammar[] an {RAINBOW=1;1;0.7}[@Console][;]{STYLE=%?jostle}event[%][;][@]{ENDRAINBOW} in [%?note]code[%][.][#3088B8FF][@Condensed]cool[]{EVENT=example}!{WAIT} ");
+        text.append("[%?Error]jussst[%][.][red][@Canada]spelling[] to [%?WARN]catching[%][.][#FFD510FF][@Canada]grammar[] an {RAINBOW=1;1;0.7}[@Console][;]{STYLE=%?jostle}event[%][;][@]{ENDRAINBOW} in [%?note]code[%][.][#3088B8FF][@Canada]cool[]{EVENT=example}!{WAIT} ");
         text.append("{NORMAL}\n\n");
         text.append("{VAR=FIRE_WIND}Imagine the [~]bugs[~]! I mean, possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");
 
@@ -238,9 +238,14 @@ public class TypingLabelTest extends ApplicationAdapter {
 
         // Create label
         Font font = KnownFonts.getStandardFamily();
+//        Font fam = KnownFonts.getStandardFamily();
+//        Font font = KnownFonts.getRobotoCondensed();
+//        fam.family.connected[0] = font;
+//        font.setFamily(fam.family);
+
         for(Font f : font.family.connected) {
             if(f != null)
-                KnownFonts.addEmoji(f).scale(0.8f, 0.8f);
+                KnownFonts.addEmoji(f).scale(0.875f, 0.875f);
         }
 //        Font condensed = font.family.connected[font.family.fontAliases.get("Condensed", 0)];
 //        condensed.scaleTo(font.cellWidth, font.cellHeight);
