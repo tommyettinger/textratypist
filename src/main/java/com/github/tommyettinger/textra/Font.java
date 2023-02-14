@@ -3345,7 +3345,7 @@ public class Font implements Disposable {
         float oCenterX = cellWidth * osx * 0.5f;
         float oCenterY = cellHeight * osy * 0.5f;
 
-        y += descent * osy;
+        y += font.descent * osy;
 
         float ox = x, oy = y;
 
@@ -3428,11 +3428,11 @@ public class Font implements Disposable {
         u2 = tr.getU2();
         v2 = tr.getV2();
 
-        float imageAdjust = 0f;
+//        float imageAdjust = 0f;
 
         if (c >= 0xE000 && c < 0xF800) {
             yt = handleIntegerPosition((font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy + font.descent * font.scaleY) * scale * sizingY);
-            imageAdjust = font.cellHeight * -0.25f;
+//            imageAdjust = font.cellHeight * -0.25f;
         }
 
         if ((glyph & OBLIQUE) != 0L) {
@@ -3474,7 +3474,7 @@ public class Font implements Disposable {
         }
 
         if(backgroundColor != 0) {
-            drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(solidBlock, tr),
+            drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(font.solidBlock, tr),
                     NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
                     x - xAdvance * scaleX * (sizingX - 0.5f) + tr.offsetX * scaleX * 0.5f,
                     y - cellHeight * scale * sizingY * 0.5f,
@@ -3619,7 +3619,7 @@ public class Font implements Disposable {
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -centerX;
                 p0y = (-0.8125f * cellHeight) * scale * sizingY;
-                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
+                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 2, cellHeight * scale * sizingY, rotation);
             } else {
@@ -3686,7 +3686,7 @@ public class Font implements Disposable {
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = -centerX;
                 p0y = (-0.45f * cellHeight) * scale;
-                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr), color,
+                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 2, cellHeight * scale * sizingY, rotation);
             } else {
