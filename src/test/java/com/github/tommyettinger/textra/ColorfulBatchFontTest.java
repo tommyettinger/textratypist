@@ -24,7 +24,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -34,13 +34,14 @@ import com.github.tommyettinger.colorful.oklab.ColorfulBatch;
 import com.github.tommyettinger.colorful.oklab.Palette;
 
 import static com.badlogic.gdx.Gdx.input;
+import static com.github.tommyettinger.textra.Font.DistanceFieldType.STANDARD;
 
-public class OklabNamedDemo extends ApplicationAdapter {
+public class ColorfulBatchFontTest extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 808;
     public static final int SCREEN_HEIGHT = 51 * 15;
     private ColorfulBatch batch;
     private Viewport screenView;
-    private BitmapFont font;
+    private Font font;
     private Texture blank;
     private long lastProcessedTime = 0L;
     private int selectedIndex;
@@ -54,7 +55,7 @@ public class OklabNamedDemo extends ApplicationAdapter {
         config.useVsync(true);
         config.disableAudio(true);
 
-        final OklabNamedDemo app = new OklabNamedDemo();
+        final ColorfulBatchFontTest app = new ColorfulBatchFontTest();
         new Lwjgl3Application(app, config);
     }
 
@@ -63,8 +64,11 @@ public class OklabNamedDemo extends ApplicationAdapter {
         Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         b.drawPixel(0, 0, 0x808080FF);
         blank = new Texture(b);
-        font = new BitmapFont(Gdx.files.internal("Cozette-standard.fnt"));
-        font.setColor(1f, 0.5f, 0.5f, 1f);
+        font = new Font("Cozette-standard.fnt",
+                "Cozette-standard.png", STANDARD, 0, 2, 0, 0, false)
+                .useIntegerPositions(true)
+                .setName("Cozette");
+//        font.setColor(1f, 0.5f, 0.5f, 1f);
         batch = new ColorfulBatch(1000);
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
@@ -109,8 +113,8 @@ public class OklabNamedDemo extends ApplicationAdapter {
         for (int y = 0; y < 51; y++) {
             for (int x = 0; x < 5; x++) {
                 if (++i == selectedIndex) {
-                    font.setColor(0.5f, 0.5f, 0.5f, 1f);
-                    font.draw(batch, Palette.NAMES_BY_HUE.get(i), width * x + 1f, height * (51 - y) - 5f);
+                    batch.setTweakedColor(0.5f, 0.5f, 0.5f, 1f, 0.5f, 0f, 0f, 0.5f);
+                    font.drawMarkupText(batch, "[%?blacken]" + Palette.NAMES_BY_HUE.get(i), width * x + 1f, height * (51 - y) - 5f);
                 }
             }
         }
@@ -153,4 +157,25 @@ public class OklabNamedDemo extends ApplicationAdapter {
             }
         }
     }
+//
+//    public static class ColorfulFont extends Font {
+//        private final float[] vertices = new float[24];
+//
+//        public ColorfulFont(String fntName, String textureName, DistanceFieldType distanceField, float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
+//            super(fntName, textureName, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+//        }
+//
+//        @Override
+//        protected void drawVertices(Batch batch, Texture texture, float[] spriteVertices) {
+//            for (int s = 0, v = 0; v < 24; ) {
+//                vertices[v++] = spriteVertices[s++];
+//                vertices[v++] = spriteVertices[s++];
+//                vertices[v++] = spriteVertices[s++];
+//                vertices[v++] = spriteVertices[s++];
+//                vertices[v++] = spriteVertices[s++];
+//                vertices[v++] = ColorfulBatch.TWEAK_RESET;
+//            }
+//            batch.draw(texture, vertices, 0, 24);
+//        }
+//    }
 }
