@@ -24,6 +24,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -63,7 +64,7 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
         Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         b.drawPixel(0, 0, 0x808080FF);
         blank = new Texture(b);
-        font = new Font("Cozette-standard.fnt",
+        font = new ColorfulFont("Cozette-standard.fnt",
                 "Cozette-standard.png", STANDARD, 0, 2, 0, 0, false)
                 .useIntegerPositions(true)
                 .setName("Cozette");
@@ -120,7 +121,7 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
                     // to 50% gray. I think if the font were 50% gray instead of white, this might work without hacks.
                     batch.setTweakedColor(1f, 0.5f, 0.5f, 1f, 0.125f, 0.5f, 0.5f, 1f);
 //                    batch.setTweakedColor(Palette.GRAY, ColorfulBatch.TWEAK_RESET);
-                    font.drawMarkupText(batch, "[%?blacken]" + Palette.NAMES_BY_HUE.get(i), width * x + 1f, height * (51 - y) - 17f);
+                    font.drawMarkupText(batch, "[%?blacken]" + Palette.NAMES_BY_HUE.get(i), width * x + 1f, height * (50 - y) - 3f);
                 }
             }
         }
@@ -163,25 +164,31 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
             }
         }
     }
-//
-//    public static class ColorfulFont extends Font {
-//        private final float[] vertices = new float[24];
-//
-//        public ColorfulFont(String fntName, String textureName, DistanceFieldType distanceField, float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
-//            super(fntName, textureName, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
-//        }
+
+    public static class ColorfulFont extends Font {
+        private final float[] vertices = new float[24];
+
+        public ColorfulFont(String fntName, String textureName, DistanceFieldType distanceField, float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
+            super(fntName, textureName, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        }
 //
 //        @Override
 //        protected void drawVertices(Batch batch, Texture texture, float[] spriteVertices) {
-//            for (int s = 0, v = 0; v < 24; ) {
-//                vertices[v++] = spriteVertices[s++];
-//                vertices[v++] = spriteVertices[s++];
-//                vertices[v++] = spriteVertices[s++];
-//                vertices[v++] = spriteVertices[s++];
-//                vertices[v++] = spriteVertices[s++];
-//                vertices[v++] = ColorfulBatch.TWEAK_RESET;
-//            }
-//            batch.draw(texture, vertices, 0, 24);
+//            batch.draw(texture, spriteVertices, 0, 20);
 //        }
-//    }
+
+        @Override
+        protected void drawVertices(Batch batch, Texture texture, float[] spriteVertices) {
+            ColorfulBatch cb = ((ColorfulBatch)batch);
+            for (int s = 0, v = 0; v < 24; ) {
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = cb.getTweak();
+            }
+            cb.drawExactly(texture, vertices, 0, 24);
+        }
+    }
 }
