@@ -146,8 +146,8 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		tooltipTable.add(new TextraButton("Fancy tooltip!", skin, font));
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
-		// window.debug();
 		TextraWindow window = new TextraWindow("TextraWindow", skin, "default", new Font(font).scale(0.75f, 0.75f), false);
+		window.getTitleTable().debug();
 		window.getTitleTable().add(new TextraButton("X", skin, window.font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);

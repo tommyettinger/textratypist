@@ -112,10 +112,14 @@ public class TextraWindow extends Table {
         font = replacementFont;
         if(scaleTitleFont) {
             float ratio = getBackground().getTopHeight() / replacementFont.cellHeight;
-            font.scale(ratio, ratio);
+            Font labelFont = new Font(replacementFont);
+            labelFont.scale(ratio, ratio);
+//            labelFont.descent = 0f;
+            titleLabel.setFont(labelFont);
         }
-        titleLabel.setFont(font);
-
+        else {
+            titleLabel.setFont(font);
+        }
         titleTable = new Table() {
             public void draw(Batch batch, float parentAlpha) {
                 if (drawTitleTable) super.draw(batch, parentAlpha);

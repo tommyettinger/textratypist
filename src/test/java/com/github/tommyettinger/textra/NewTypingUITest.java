@@ -62,7 +62,7 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 15f, 0f, 10f);
+		final Font font = new Font(skin.getFont("outline-font"), 0f, -10f, 0f, 15f);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz();
@@ -143,9 +143,9 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 		tooltipTable.add(new TextraButton("Fancy tooltip!", skin, font));
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
-		// window.debug();
-		TypingWindow window = new TypingWindow("TypingWindow", skin, "default", new Font(font), true);
-		window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
+		TypingWindow window = new TypingWindow("TypingWindow", skin, "default", font, true);
+		window.getTitleTable().debug();
+		window.getTitleTable().add(new TextraButton("X", skin, window.titleLabel.font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
 		window.row().fill().expandX();
