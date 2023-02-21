@@ -227,7 +227,10 @@ public class TypingLabel extends TextraLabel {
         final boolean hasEnded = this.hasEnded();
         font.markup(newText, layout.clear());
         float actualWidth = getWidth();
-        workingLayout.setTargetWidth(actualWidth);
+        if(wrap)
+            workingLayout.setTargetWidth(actualWidth);
+        else
+            workingLayout.setTargetWidth(0f);
         font.markup(newText, workingLayout.clear());
 
         setWidth(actualWidth + (style != null && style.background != null ?

@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -45,30 +46,34 @@ public class Issue6Test extends ApplicationAdapter {
 
         Font gentium = KnownFonts.getGentium();
 
-        String text =
-                "[*]Локус контроля[*] - свойство " +
-                        "личности приписывать " +
-                        "свои неудачи и успехи " +
-                        "либо внешним факторам " +
-                        "(погода, везение, другие " +
-                        "люди, судьба-злодейка), " +
-                        "либо внутренним (я сам, " +
-                        "моё отношение, мои" +
-                        "действия)";
+        String text = "Effluvium Spattering Towards Congressmen";
+//                "[*]Локус контроля[*] - свойство " +
+//                        "личности приписывать " +
+//                        "свои неудачи и успехи " +
+//                        "либо внешним факторам " +
+//                        "(погода, везение, другие " +
+//                        "люди, судьба-злодейка), " +
+//                        "либо внутренним (я сам, " +
+//                        "моё отношение, мои" +
+//                        "действия)";
         typingLabel = new TypingLabel(
                 text, new Label.LabelStyle(), gentium);
-        typingLabel.setWrap(true);
+        typingLabel.setWrap(false);
+        typingLabel.setWidth(25f);
         typingLabel.skipToTheEnd();
         typingLabel.setAlignment(center);
         textraLabel = new TextraLabel(
                 "[RED]" + text, new Label.LabelStyle(), gentium);
-        textraLabel.setWrap(true);
+        textraLabel.setWrap(false);
+        textraLabel.setWidth(25f);
         textraLabel.skipToTheEnd();
         textraLabel.setAlignment(center);
 
         Stack stack = new Stack(textraLabel, typingLabel);
-        stack.setFillParent(true);
-        stage.addActor(stack);
+        Table table = new Table();
+        table.add(stack);
+        table.setFillParent(true);
+        stage.addActor(table);
     }
 
     @Override
