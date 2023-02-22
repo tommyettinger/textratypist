@@ -42,7 +42,7 @@ public class Issue6Test extends ApplicationAdapter {
         viewport = new ScreenViewport();
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
         stage = new Stage(viewport);
-        stage.setDebugAll(true);
+//        stage.setDebugAll(true);
 
         Font gentium = KnownFonts.getGentium();
 
@@ -58,20 +58,21 @@ public class Issue6Test extends ApplicationAdapter {
 //                        "действия)";
         typingLabel = new TypingLabel(
                 text, new Label.LabelStyle(), gentium);
-        typingLabel.setWrap(false);
-        typingLabel.setWidth(25f);
+        typingLabel.setWrap(true);
+//        typingLabel.setWidth(25f);
         typingLabel.skipToTheEnd();
         typingLabel.setAlignment(center);
+        typingLabel.debug();
         textraLabel = new TextraLabel(
                 "[RED]" + text, new Label.LabelStyle(), gentium);
-        textraLabel.setWrap(false);
-        textraLabel.setWidth(25f);
+        textraLabel.setWrap(true);
+//        textraLabel.setWidth(25f);
         textraLabel.skipToTheEnd();
         textraLabel.setAlignment(center);
 
         Stack stack = new Stack(textraLabel, typingLabel);
         Table table = new Table();
-        table.add(stack);
+        table.add(stack).width(25f);
         table.setFillParent(true);
         stage.addActor(table);
     }
