@@ -777,6 +777,7 @@ public class TypingLabel extends TextraLabel {
         if (wrap && (workingLayout.getTargetWidth() != width)) {
             workingLayout.setTargetWidth(width);
             font.regenerateLayout(workingLayout);
+            invalidateHierarchy();
         }
     }
 

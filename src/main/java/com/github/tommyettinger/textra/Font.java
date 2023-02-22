@@ -4199,6 +4199,10 @@ public class Font implements Disposable {
                                     break;
                                 }
                             }
+                            if(later.glyphs.isEmpty()){
+                                appendTo.lines.pop();
+                                Line.POOL.free(later);
+                            }
                         }
                     } else {
                         appendTo.peekLine().height = Math.max(appendTo.peekLine().height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
@@ -4447,6 +4451,10 @@ public class Font implements Disposable {
                                 later.height = Math.max(later.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
                                 break;
                             }
+                        }
+                        if(later.glyphs.isEmpty()){
+                            appendTo.lines.pop();
+                            Line.POOL.free(later);
                         }
                     }
                 } else {
@@ -5276,7 +5284,6 @@ public class Font implements Disposable {
                         break;
                     }
                     if (glyph >>> 32 == 0L) {
-//                        hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
                         if (spacingPoint + 1 < i) {
                             spacingSpan = 0;
@@ -5332,11 +5339,7 @@ public class Font implements Disposable {
                         if(ox < 0)
                             changedW -= ox;
                     }
-                    if(breakPoint >= 0)
-                        System.out.println("drawn + changedW + amt: " + (drawn + changedW + amt) + "; targetWidth: " + targetWidth +
-                                "; changing: " + changing.toString().replace('\r', '\n') + "; line: " + line.toString().replace('\r', '\n'));
                     if (breakPoint >= 0 && drawn + changedW + amt > targetWidth) {
-//                    if (hasMultipleGaps && drawn + changedW + amt > targetWidth) {
                         cutoff = breakPoint - spacingSpan + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
@@ -5362,7 +5365,6 @@ public class Font implements Disposable {
                         break;
                     }
                     if (glyph >>> 32 == 0L) {
-//                        hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
                         if (spacingPoint + 1 < i) {
                             spacingSpan = 0;
@@ -5370,7 +5372,6 @@ public class Font implements Disposable {
                         spacingPoint = i;
                     }
                     else if (Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0) {
-//                        hasMultipleGaps = breakPoint >= 0;
                         breakPoint = i;
                         if (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0) {
                             if (spacingPoint + 1 < i) {
@@ -5382,8 +5383,6 @@ public class Font implements Disposable {
                     drawn += changedW + amt;
                 }
             }
-//            calculateSize(line);
-//            line.width = drawn;
         }
         calculateSize(changing);
         return changing;

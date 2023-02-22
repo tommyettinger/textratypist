@@ -65,14 +65,15 @@ public class Issue6Test extends ApplicationAdapter {
         typingLabel.skipToTheEnd();
         typingLabel.setAlignment(center);
         typingLabel.debug();
+
         textraLabel = new TextraLabel(
                 "[RED]" + text, new Label.LabelStyle(), gentium);
         textraLabel.setWrap(true);
         textraLabel.setWidth(25f);
         textraLabel.skipToTheEnd();
         textraLabel.setAlignment(center);
-
         Stack stack = new Stack(textraLabel, typingLabel);
+//        Stack stack = new Stack(typingLabel);
         Table table = new Table();
         Cell<Actor> stackCell = table.add(stack);
         stackCell.width(25f);
