@@ -226,14 +226,13 @@ public class TypingLabel extends TextraLabel {
     protected void setText(String newText, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
         font.markup(newText, layout.clear());
-        float actualWidth = getWidth();
         if(wrap)
-            workingLayout.setTargetWidth(actualWidth);
+            workingLayout.setTargetWidth(getWidth());
         else
             workingLayout.setTargetWidth(0f);
         font.markup(newText, workingLayout.clear());
 
-        setWidth(actualWidth + (style != null && style.background != null ?
+        setWidth(workingLayout.getWidth() + (style != null && style.background != null ?
                 style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
 
         if (modifyOriginalText) saveOriginalText(newText);
@@ -737,11 +736,17 @@ public class TypingLabel extends TextraLabel {
     public void setSize(float width, float height) {
         // unfortunately, we can't call super.setSize(width, height) because
         // it changes layout, where we only want to change workingLayout.
+        boolean changed = false;
         if (this.getWidth() != width) {
             this.setWidth(width);
+            changed = true;
         }
         if(this.getHeight() != height) {
             this.setHeight(height);
+            changed = true;
+        }
+        if(changed) {
+            sizeChanged();
         }
         if (wrap) {
             workingLayout.setTargetWidth(width);
@@ -765,10 +770,12 @@ public class TypingLabel extends TextraLabel {
 
     @Override
     public void layout() {
-        super.layout();
-
-        if (wrap && (workingLayout.getTargetWidth() != getWidth())) {
-            workingLayout.setTargetWidth(getWidth());
+        float width = getWidth();
+        if (style != null && style.background != null) {
+            width = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
+        }
+        if (wrap && (workingLayout.getTargetWidth() != width)) {
+            workingLayout.setTargetWidth(width);
             font.regenerateLayout(workingLayout);
         }
     }

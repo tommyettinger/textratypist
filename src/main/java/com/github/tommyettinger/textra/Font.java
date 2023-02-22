@@ -5207,8 +5207,11 @@ public class Font implements Disposable {
                 if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
                 if (font == null) font = this;
 
+                // if ch is a newline, this sets glyph's char section to '\r', which is used later to
+                // distinguish manually-placed newlines, which must be preserved, from auto-wrap ones.
                 if (ch == '\n') {
                     glyphs.set(i, glyph ^= 7L);
+                    //ch = '\r'; // This was removed for a good reason! Infinite loop!
                 }
                 if (font.kerning == null) {
 
@@ -5329,6 +5332,9 @@ public class Font implements Disposable {
                         if(ox < 0)
                             changedW -= ox;
                     }
+                    if(breakPoint >= 0)
+                        System.out.println("drawn + changedW + amt: " + (drawn + changedW + amt) + "; targetWidth: " + targetWidth +
+                                "; changing: " + changing.toString().replace('\r', '\n') + "; line: " + line.toString().replace('\r', '\n'));
                     if (breakPoint >= 0 && drawn + changedW + amt > targetWidth) {
 //                    if (hasMultipleGaps && drawn + changedW + amt > targetWidth) {
                         cutoff = breakPoint - spacingSpan + 1;

@@ -21,7 +21,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -59,20 +61,21 @@ public class Issue6Test extends ApplicationAdapter {
         typingLabel = new TypingLabel(
                 text, new Label.LabelStyle(), gentium);
         typingLabel.setWrap(true);
-//        typingLabel.setWidth(25f);
+        typingLabel.setWidth(25f);
         typingLabel.skipToTheEnd();
         typingLabel.setAlignment(center);
         typingLabel.debug();
         textraLabel = new TextraLabel(
                 "[RED]" + text, new Label.LabelStyle(), gentium);
         textraLabel.setWrap(true);
-//        textraLabel.setWidth(25f);
+        textraLabel.setWidth(25f);
         textraLabel.skipToTheEnd();
         textraLabel.setAlignment(center);
 
         Stack stack = new Stack(textraLabel, typingLabel);
         Table table = new Table();
-        table.add(stack).width(25f);
+        Cell<Actor> stackCell = table.add(stack);
+        stackCell.width(25f);
         table.setFillParent(true);
         stage.addActor(table);
     }
@@ -83,6 +86,7 @@ public class Issue6Test extends ApplicationAdapter {
 
         stage.act();
         stage.draw();
+//        System.out.println(typingLabel.workingLayout.lines());
     }
 
     @Override
