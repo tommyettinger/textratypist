@@ -158,8 +158,11 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 "she's{WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
                 "whippin' her way through the [*]{FONT=Sans}whole dang[@][*] town! " +
                 "Sure as [/]I reckon[], if we [@Mono]meet our {HANG}fate{RESET}, " +
-                "this [light grey black][%150]storm[] will be there on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%200]eight[%]{ENDSPIN}!\n" +
-                "{SCALE=60.0}Uh-[_]huh[_].{ENDSCALE}{SCALE=120.0} All [~]right[~].{ENDSCALE}",
+                "this [light grey black][%125]storm[] will be there on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%150]eight[%]{ENDSPIN}! " +
+//                "Should a young 'un go out, in the wind and the thunder, " +
+//                "if they make it back, it will be a [%^]true wonder[%]!",
+                "Should a young {IF=gender;m=lad;f=lass;t='un} go out, in the wind and the thunder, " +
+                "if {IF=gender;m=he makes;f=she makes;t=they make} it back, it will be a [%^]true wonder[%]!",
 
 //                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
 //                "she's {WIND=3;2;0.2;0.2}blowin' on down{ENDWIND}, " +
@@ -186,8 +189,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         label.layout.maxLines = 15;
 //        label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth() - 100);
 
-        // Set variable replacements for the {VAR} token
-        label.setVariable("title", "curious human");
+        // Set variable replacements for the {VAR} and {IF} tokens
+        label.setVariable("gender", "t");
 
         // Set an event listener for when the {EVENT} token is reached and for the char progression ends.
         label.setTypingListener(new TypingAdapter() {
