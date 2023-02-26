@@ -756,17 +756,23 @@ public class TypingLabel extends TextraLabel {
         }
     }
 
-//    @Override
-//    public float getPrefWidth() {
-//        return wrap ? 0f : (workingLayout.getWidth() + (style != null && style.background != null ?
-//                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
-//    }
-//
-//    @Override
-//    public float getPrefHeight() {
-//        return workingLayout.getHeight() + (style != null && style.background != null ?
-//                style.background.getBottomHeight() + style.background.getTopHeight() : 0.0f);
-//    }
+    @Override
+    public float getPrefWidth() {
+        if(wrap) return 0f;
+        float width = workingLayout.getWidth();
+        if(style != null && style.background != null)
+            width = Math.max(width + style.background.getLeftWidth() + style.background.getRightWidth(), style.background.getMinWidth());
+        return width;
+    }
+
+    @Override
+    public float getPrefHeight() {
+        float height = workingLayout.getHeight();
+        if(style != null && style.background != null)
+            height = Math.max(height + style.background.getBottomHeight() + style.background.getTopHeight(), style.background.getMinHeight());
+        return height;
+    }
+
 
     @Override
     public void layout() {

@@ -88,14 +88,12 @@ class Parser {
         CharSequence text = label.layout.appendIntoDirect(new StringBuilder());
 
         // Create string builder
-        StringBuilder sb = new StringBuilder(text.length());
         Matcher m = PATTERN_TOKEN_STRIP.matcher(text);
         int matcherIndexOffset = 0;
 
         // Iterate through matches
         while (true) {
             // Reset StringBuilder and matcher
-            sb.setLength(0);
             m.setTarget(text);
             m.setPosition(matcherIndexOffset);
 
