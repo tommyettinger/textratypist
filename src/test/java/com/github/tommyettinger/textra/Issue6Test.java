@@ -48,7 +48,7 @@ public class Issue6Test extends ApplicationAdapter {
 
         Font gentium = KnownFonts.getGentium();
 
-        String text = "Effluvium Spattering Towards Congressmen";
+        String text = "Effluvium Spattering Towards Congressmen:\n\nBeginnings...";
 //                "[*]Локус контроля[*] - свойство " +
 //                        "личности приписывать " +
 //                        "свои неудачи и успехи " +

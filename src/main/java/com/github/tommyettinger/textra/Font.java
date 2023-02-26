@@ -5215,12 +5215,6 @@ public class Font implements Disposable {
                 if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
                 if (font == null) font = this;
 
-                // if ch is a newline, this sets glyph's char section to '\r', which is used later to
-                // distinguish manually-placed newlines, which must be preserved, from auto-wrap ones.
-                if (ch == '\n') {
-                    glyphs.set(i, glyph ^= 7L);
-                    //ch = '\r'; // This was removed for a good reason! Infinite loop!
-                }
                 if (font.kerning == null) {
 
                     //// no kerning
@@ -5232,7 +5226,7 @@ public class Font implements Disposable {
                     else
                         scaleX = font.scaleX * (scale + 1) * 0.25f;
 
-                    if (ch == '\r') {
+                    if (ch == '\n') {
                         Line next;
                         next = changing.pushLine();
                         glyphs.pop();
@@ -5312,7 +5306,7 @@ public class Font implements Disposable {
                         scaleX = font.scaleX * (scale + 1) * 0.25f;
                     kern = kern << 16 | ch;
                     amt = font.kerning.get(kern, 0) * scaleX;
-                    if (ch == '\r') {
+                    if (ch == '\n') {
                         Line next;
                         next = changing.pushLine();
                         glyphs.pop();
