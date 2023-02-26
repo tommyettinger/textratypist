@@ -161,8 +161,10 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 "this [light grey black][%125]storm[] will be there on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%150]eight[%]{ENDSPIN}! " +
 //                "Should a young 'un go out, in the wind and the thunder, " +
 //                "if they make it back, it will be a [%^]true wonder[%]!",
-                "Should a young {IF=gender;m=lad;f=lass;t='un} go out, in the wind and the thunder, " +
-                "if {IF=gender;m=he makes;f=she makes;t=they make} it back, it will be a [%^]true wonder[%]!",
+//                "Should a young {IF=gender;m=lad;f=lass;t='un} go out, in the wind and the thunder, " +
+//                "if {IF=gender;m=he makes;f=she makes;t=they make} it back, it will be a [%^]true wonder[%]!",
+                "Should a young {VAR=lad} go out, in the wind and the thunder, " +
+                "if {VAR=he makes} it back, it will be a [%^]true wonder[%]!",
 
 //                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
 //                "she's {WIND=3;2;0.2;0.2}blowin' on down{ENDWIND}, " +
@@ -191,6 +193,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 
         // Set variable replacements for the {VAR} and {IF} tokens
         label.setVariable("gender", "t");
+        label.setVariable("lad", "'un");
+        label.setVariable("he makes", "they make");
 
         // Set an event listener for when the {EVENT} token is reached and for the char progression ends.
         label.setTypingListener(new TypingAdapter() {

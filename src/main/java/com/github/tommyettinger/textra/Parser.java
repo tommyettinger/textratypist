@@ -85,7 +85,7 @@ class Parser {
      */
     private static void parseReplacements(TypingLabel label) {
         // Get text
-        CharSequence text = label.workingLayout.appendIntoDirect(new StringBuilder());
+        CharSequence text = label.layout.appendIntoDirect(new StringBuilder());
 
         // Create string builder
         StringBuilder sb = new StringBuilder(text.length());
