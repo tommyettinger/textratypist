@@ -3833,7 +3833,6 @@ public class Font implements Disposable {
             appendTo.clear();
             appendTo.font(this);
         }
-//        appendTo.pushLine();
         appendTo.peekLine().height = 0;
         float targetWidth = appendTo.getTargetWidth();
         int kern = -1;
@@ -3844,13 +3843,26 @@ public class Font implements Disposable {
 
             if (text.charAt(i) == '{' && i + 1 < n && text.charAt(i + 1) != '{') {
                 int start = i;
-                int sizeChange = -1, fontChange = -1;
+                int sizeChange = -1, fontChange = -1, innerSquareStart = -1, innerSquareEnd = -1;
                 int end = text.indexOf('}', i);
                 if (end == -1) end = text.length();
                 int eq = end;
                 for (; i < n && i <= end; i++) {
                     c = text.charAt(i);
-                    appendTo.add(current | c);
+                    if (c == '[' && i < end && text.charAt(i+1) == '+') innerSquareStart = i;
+                    else if(innerSquareStart == -1) appendTo.add(current | c);
+                    if (c == ']') {
+                        innerSquareEnd = i;
+                        if(innerSquareStart != -1 && nameLookup != null) {
+                            int len = innerSquareEnd - innerSquareStart;
+                            if (len >= 2) {
+                                c = nameLookup.get(safeSubstring(text, innerSquareStart + 2, innerSquareEnd), '+');
+                                innerSquareStart = -1;
+                                appendTo.add(current | c);
+                            }
+                        }
+                    }
+
                     if (c == '@') fontChange = i;
                     else if (c == '%') sizeChange = i;
                     else if (c == '?') sizeChange = -1;

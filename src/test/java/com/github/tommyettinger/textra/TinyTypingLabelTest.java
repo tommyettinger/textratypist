@@ -137,6 +137,10 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                         KnownFonts.getYanoneKaffeesatz().scaleTo(32, 35)/*.scale(1.15f, 1.15f)*/.adjustLineHeight(0.85f)
                 });
         Font font = family.connected[0].setFamily(family);
+        for(Font f : font.family.connected) {
+            if(f != null)
+                KnownFonts.addEmoji(f);
+        }
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
         // Create label
@@ -161,10 +165,10 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 "this [light grey black][%125]storm[] will be there on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%150]eight[%]{ENDSPIN}! " +
 //                "Should a young 'un go out, in the wind and the thunder, " +
 //                "if they make it back, it will be a [%^]true wonder[%]!",
-//                "Should a young {IF=gender;m=lad;f=lass;t='un} go out, in the wind and the thunder, " +
-//                "if {IF=gender;m=he makes;f=she makes;t=they make} it back, it will be a [%^]true wonder[%]!",
-                "Should a young {VAR=lad} go out, in the wind and the thunder, " +
-                "if {VAR=he makes} it back, it will be a [%^]true wonder[%]!",
+                "Should a young {IF=gender;m=lad;f=lass;t='un;e=[+🧒]} go out, in the wind and the {SHAKE=;;2}thunder{ENDSHAKE}, " +
+                "if {IF=gender;m=he makes;f=she makes;t=they make;e=[+🧒] makes} it back, it will be a [;][%^]true wonder[%][;]!",
+//                "Should a young {VAR=lad} go out, in the wind and the thunder, " +
+//                "if {VAR=he makes} it back, it will be a [%^]true wonder[%]!",
 
 //                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
 //                "she's {WIND=3;2;0.2;0.2}blowin' on down{ENDWIND}, " +
@@ -183,7 +187,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 font);
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!", skin);
 //        final TypingLabel label = new TypingLabel("{WAIT=1}{SLOWER}Welcome, {VAR=title}!", skin);
-        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
+        label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOW}");
         label.align = Align.topLeft;
 
         // Make the label wrap to new lines, respecting the table's layout.
@@ -192,7 +196,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //        label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth() - 100);
 
         // Set variable replacements for the {VAR} and {IF} tokens
-        label.setVariable("gender", "t");
+        label.setVariable("gender", "e");
         label.setVariable("lad", "'un");
         label.setVariable("he makes", "they make");
 
