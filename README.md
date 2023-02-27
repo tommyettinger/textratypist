@@ -45,6 +45,36 @@ You may want to create `TypingLabel`s even where you don't need the typing effec
 any effects. You can call `skipToTheEnd()` on a TypingLabel or (in 0.7.0 and up) on some other classes to allow a
 TypingLabel to be used for still text with effects.
 
+Various standard tokens are also present, and these can manipulate the typing effect, variable replacement, and other
+useful things:
+
+- `{WAIT=f}` causes the typing effect to pause and wait for `f` seconds, as a float.
+- `{SPEED=f}` changes the time it takes to type a typical glyph, from a default of `0.035` to `f`.
+- `{SLOWER}` makes all glyphs take 2x as long to type.
+- `{SLOW}` makes all glyphs take 1.5x as long to type.
+- `{NORMAL}` makes all glyphs take the normal 1x as long to type.
+- `{FAST}` makes all glyphs take 0.5x as long to type.
+- `{FASTER}` makes all glyphs take 0.25x as long to type.
+- `{NATURAL=f}` makes glyphs take randomly more or less time to type, but otherwise is the same as `{SPEED=f}`.
+- `{COLOR=s}` changes the color of text; this has lots of options, so you can have e.g. "dark grey pink".
+- `{STYLE=s}` changes the style of text (see below); this has a LOT of options.
+- `{SIZE=f}` changes the size of text (coarsely, in 25% increments); this takes f as a percentage from 0 to 375.
+- `{FONT=name}` changes the font, if there is a FontFamily available, by looking up `name`.
+- `{CLEARCOLOR}` sets the text color to the default color, which is usually white.
+- `{CLEARSIZE}` sets the size to 100%.
+- `{CLEARFONT}` sets the font to the original font (not using the FontFamily).
+- `{ENDCOLOR}` sets the text color to the default color, which is usually white. This is the same as `{CLEARCOLOR}`.
+- `{VAR=name}` gets replaced by whatever String was associated with the variable `name`.
+- `{IF=name;choice0=a;choice1=b;=default}` checks the variable name, and compares it to each choice in the token.
+  - If `name` is equal to a choice, the token is replaced the matching value, such as `a` or `b`.
+  - If no choice is equivalent and there is an empty String for a choice, the value associated with the empty String is
+    used as a `default` value.
+- `{EVENT=name}` triggers an event, sending `name` to the TypingListener, when the typing reaches this point.
+- `{RESET}` Sets all formatting and speed changes to their initial values.
+  - `label.setDefaultToken()` can be used to change the initial values, so text defaults to some different settings. 
+- `{SKIP=n}` skips ahead in the typing effect, instantly displaying `n` characters.
+
+
 ## And now, it's got style!
 
 This library extends what the original typing-label can do -- it allows styles to be applied to text, such as bold,
@@ -370,9 +400,11 @@ for writing most of `LabelRotationTest`. Release 0.5.5 would still probably be i
 help, so thanks are in order.
 
 Thanks to piotr-j (evilentity), mas omenos, and DMC from the libGDX Discord, for really thoroughly testing TextraTypist.
-`IncongruityTest` was originally piotr-j's work and it helped me figure out which fonts in KnownFonts had incorrect
+`IncongruityTest` was originally piotr-j's work, and it helped me figure out which fonts in KnownFonts had incorrect
 bounds information. `TableWrapTest` was based closely on mas omenos' work, and was useful to locate a wrapping bug. DMC
-managed to track down a very elusive ProGuard issue, which is now documented in this README.md .
+managed to track down a very elusive ProGuard issue, which is now documented in this README.md . Sanda Moen, fourlastor,
+and Siavash Ranbar helped track down some maddening bugs affecting word wrap; thanks to everyone who's put up with those
+kinds of bug!
 
 Of course, I have to thank Rafa Skoberg for writing quite a lot of the code here! About 2/3 of the effects are almost
 purely by Rafa, much of the TypingLabel-related code is nearly unchanged from his work, and in general he showed what

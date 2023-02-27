@@ -17,8 +17,6 @@
 package com.github.tommyettinger.textra;
 
 enum InternalToken {
-    // @formatter:off
-    // Public
     WAIT("WAIT", TokenCategory.WAIT),
     SPEED("SPEED", TokenCategory.SPEED),
     SLOWER("SLOWER", TokenCategory.SPEED),
@@ -40,7 +38,6 @@ enum InternalToken {
     EVENT("EVENT", TokenCategory.EVENT),
     RESET("RESET", TokenCategory.RESET),
     SKIP("SKIP", TokenCategory.SKIP);
-    // @formatter:on
 
     final String name;
     final TokenCategory category;

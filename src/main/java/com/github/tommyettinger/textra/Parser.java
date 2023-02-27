@@ -322,19 +322,19 @@ class Parser {
                             break;
                         }
                         case "SLOWER":
-                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / 0.500f;
+                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR * 2f;
                             break;
                         case "SLOW":
-                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / 0.667f;
+                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR * 1.5f;
                             break;
                         case "NORMAL":
                             floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR;
                             break;
                         case "FAST":
-                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / 2.000f;
+                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR * 0.5f;
                             break;
                         case "FASTER":
-                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / 4.000f;
+                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR * 0.25f;
                             break;
                         case "NATURAL": {
                             float minModifier = TypingConfig.MIN_SPEED_MODIFIER;
