@@ -33,7 +33,7 @@ def projectName = 'textratypist'
 version "$VERSION_NAME"
 group 'com.github.tommyettinger'
 
-//api "com.github.tommyettinger:textratypist:0.7.6"
+//api "com.github.tommyettinger:textratypist:0.7.7"
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
@@ -85,5 +85,4 @@ dependencies {
     testImplementation "com.github.raeleus.TenPatch:tenpatch:5.2.3"
     testImplementation "com.github.tommyettinger:anim8-gdx:$anim8Version"
     testImplementation 'com.github.tommyettinger:colorful:0.8.4'
-
 }
