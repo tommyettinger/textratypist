@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.github.tommyettinger.anim8.AnimatedGif;
 import com.github.tommyettinger.anim8.Dithered;
+import com.github.tommyettinger.anim8.FastPalette;
 import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 
@@ -94,7 +95,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
         text.append("{SPEED=2.50}{COLOR=lighter dull GREEN} making the text go {SHAKE=1.1;0.6;inf}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5} ");
         text.append("{SPEED=0.25}{COLOR=jade fern}{WAVE=0.66;1;0.5;∞}[@Mono] or extremely slow.[@]{ENDWAVE}");
         text.append("{RESET} You {HEARTBEAT}[darker red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}second{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2}, ");
-        text.append("{FAST}[%?Error]jussst[%][.][red][@Condensed]spelling[] to [%?WARN]catching[%][.][#FFD510FF][@Condensed]grammar[] an {RAINBOW=1;1;0.7}[@Console][;]{STYLE=%?jostle}event[%][;][@]{ENDRAINBOW} in [%?note]code[%][.][#3088B8FF][@Condensed]cool[]{EVENT=example}!{WAIT} ");
+        text.append("{FAST}[%?Error]jussst[%][.][red][@Canada]spelling[] to [%?WARN]catching[%][.][#FFD510FF][@Canada]grammar[] an {RAINBOW=1;1;0.7}[@Console][;]{STYLE=%?jostle}event[%][;][@]{ENDRAINBOW} in [%?note]code[%][.][#3088B8FF][@Canada]cool[]{EVENT=example}!{WAIT} ");
         text.append("{NORMAL}\n\n");
         text.append("{VAR=FIRE_WIND}Imagine the [~]bugs[~]! I mean, possibilities! {ENDGRADIENT}[+🔥][+😁][+👏]{WAIT=0.25}   {RESET}");
 
@@ -143,7 +144,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
             @Override
             public void end() {
 //                System.out.println(label);
-                gif.setPalette(new PaletteReducer(pms));
+                gif.setPalette(new FastPalette(pms));
                 gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE);
                 gif.setDitherStrength(0.25f);
                 gif.write(Gdx.files.local("preview.gif"), pms, 12);
