@@ -257,6 +257,30 @@ Needs files:
 </ul>
 <br>
 <br>
+<h2>Gentium using MSDF</h2>
+<br>
+<img src="https://i.imgur.com/xGuO6sH.png" alt="Gentium using MSDF"/>
+<br>
+(uses width=50, height=45, crispness=3, adjustLineHeight(0.625f))
+<br>
+A Font already configured to use a variable-width serif font with excellent Unicode support, that should
+scale cleanly to even very large sizes (using an MSDF technique). You usually will want to reduce the line height
+of this Font after you scale it; using <pre>KnownFonts.getGentium().scaleTo(55, 45).adjustLineHeight(0.8f)</pre>
+usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
+License) typeface by SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It
+supports a lot of glyphs, including quite a
+bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. This
+uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
+technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
+<br>
+Needs files:
+<ul>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-msdf.fnt">Gentium-msdf.fnt</a></li>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-msdf.png">Gentium-msdf.png</a></li>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-license.txt">Gentium-license.txt</a></li>
+</ul>
+<br>
+<br>
 <h2>Gentium using SDF</h2>
 <br>
 <img src="https://i.imgur.com/zbCr019.png" alt="Gentium using SDF"/>
@@ -724,6 +748,70 @@ Needs files:
     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-License.txt">YanoneKaffeesatz-License.txt</a></li>
 </ul>
 <br>
+<br>
+<h2>YanoneKaffeesatz using MSDF</h2>
+<br>
+<img src="https://i.imgur.com/8Q51aXN.png" alt="YanoneKaffeesatz"/>
+<br>
+(uses width=26, height=30, crispness=2.5)
+<br>
+A Font already configured to use a variable-width, narrow, humanist font, that should
+scale very well up or down, but isn't compatible with inline images such as addEmoji().
+Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
+of Latin, Cyrillic, and some extended Latin, but not Greek.
+This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
+technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
+<br>
+Needs files:
+<ul>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-msdf.fnt">YanoneKaffeesatz-msdf.fnt</a></li>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-msdf.png">YanoneKaffeesatz-msdf.png</a></li>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-License.txt">YanoneKaffeesatz-License.txt</a></li>
+</ul>
+<br>
+<br>
+<h2>Yataghan using MSDF</h2>
+<br>
+<img src="https://i.imgur.com/xM1AtmY.png" alt="Yataghan"/>
+<br>
+(uses width=20, height=32)
+<br>
+A Font already configured to use a variable-width, narrow, "dark fantasy" font, that should
+scale very well up or down, but isn't compatible with inline images such as addEmoji().
+Caches the result for later calls. The font used is Yataghan, a widely-distributed typeface. It supports ASCII
+and some extended Latin, but not much else.
+This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
+technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
+<br>
+I don't know who the original author of Yataghan was; if you are the original author and want attribution or want
+this font removed, please post an issue on the tommyettinger/textratypist GitHub repo, or email tommyettinger.
+<br>
+Needs files:
+<ul>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-msdf.fnt">Yataghan-msdf.fnt</a></li>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-msdf.png">Yataghan-msdf.png</a></li>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li>
+</ul>
+<br>
+<br>
+<h2>Emoji for fonts (using Twemoji)</h2>
+<br>
+<img src="https://i.imgur.com/Mw0fWA7.png" alt="Emoji"/>
+<br>
+You can add emoji to a font as inline images with KnownFonts.addEmoji(Font).
+Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as intended
+with "standard" fonts (without a distance field effect). They can scale reasonably well down, and less-reasonably well
+up, but at typical text sizes (12-30 pixels in height) they tend to be legible. There are over 3000 emoji in the Twemoji
+set, and they are accessible both by name, using the syntax <code>[+clown face]</code>, and by entering the actual
+emoji, using the syntax <code>[+🤡]</code>. You can search for names in Twemoji.atlas, or use the emoji picker in
+<a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category.
+<br>
+Needs files:
+<ul>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Twemoji.atlas">Twemoji.atlas</a></li>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Twemoji.png">Twemoji.png</a></li>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Twemoji-License.txt">Twemoji-License.txt</a></li>
+</ul>
 <br>
 </body>
 <html>

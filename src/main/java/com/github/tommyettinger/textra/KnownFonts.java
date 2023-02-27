@@ -1347,7 +1347,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/8Q51aXN.png">Image link</a> (uses width=26, height=30)
+     * Preview: <a href="https://i.imgur.com/8Q51aXN.png">Image link</a> (uses width=26, height=30, setCrispness(2.5f))
      * <br>
      * Needs files:
      * <ul>
