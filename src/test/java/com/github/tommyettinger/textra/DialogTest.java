@@ -52,24 +52,29 @@ public class DialogTest extends ApplicationAdapter {
         dialog.getContentTable().clear();
         dialog.clearListeners();
         TextraButton ok = new TextraButton("OK", new TextButton.TextButtonStyle(), gentium);
-        ok.addListener(new ChangeListener() {
+        ok.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
+            public void clicked(InputEvent event, float x, float y) {
                 dialog.hide();
             }
         });
+//        TextraLabel L = new TextraLabel(
+//                "{GRADIENT=CYAN;WHITE;1;1}Come on... The Magical Mystery Tour!{ENDGRADIENT}\n" +
+//                        "The magical mystery tour:\nIs coming\nTo take you away\nDying to take you away!\nTake you,\nToday...",
+//                gentium);
+
         ok.setVisible(false);
         TypingLabel L = new TypingLabel(
                 "{GRADIENT=CYAN;WHITE;1;1}Come on... The Magical Mystery Tour!{ENDGRADIENT}\n" +
                         "The magical mystery tour:\nIs coming\nTo take you away\nDying to take you away!\nTake you,\nToday...",
                 gentium);
-        L.setWrap(true);
         L.setTypingListener(new TypingAdapter() {
             @Override
             public void end() {
                 ok.setVisible(true);
             }
         });
+        L.setWrap(true);
         dialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

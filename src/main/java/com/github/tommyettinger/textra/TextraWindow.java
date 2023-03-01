@@ -125,10 +125,10 @@ public class TextraWindow extends Table {
                 if (drawTitleTable) super.draw(batch, parentAlpha);
             }
         };
-        titleTable.add(titleLabel).expand().fillX().minWidth(0);
+        titleTable.add(titleLabel).expandX().fillX().minWidth(0);
         titleLabel.layout.ellipsis = "...";
 
-        add(titleTable);
+        addActor(titleTable);
 
         setWidth(150);
         setHeight(150);

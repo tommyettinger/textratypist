@@ -441,7 +441,6 @@ public class TextraLabel extends Widget {
         super.setSize(width, height);
         if (wrap) {
             layout.setTargetWidth(width);
-//            layout.setTargetWidth(getWidth());
             font.calculateSize(layout);
             invalidateHierarchy();
         }

@@ -748,11 +748,10 @@ public class TypingLabel extends TextraLabel {
         if(changed) {
             sizeChanged();
         }
-        if (wrap) {
+        if (wrap && changed) {
             workingLayout.setTargetWidth(width);
-//            if ((workingLayout.getTargetWidth() != getWidth()))
-//                workingLayout.setTargetWidth(width);
-//            font.regenerateLayout(workingLayout);
+            font.calculateSize(workingLayout);
+            invalidateHierarchy();
         }
     }
 
