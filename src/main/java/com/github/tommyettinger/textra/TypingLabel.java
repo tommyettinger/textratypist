@@ -61,7 +61,7 @@ public class TypingLabel extends TextraLabel {
     // Internal state
     private final StringBuilder originalText = new StringBuilder();
     private final StringBuilder intermediateText = new StringBuilder();
-    protected final Layout workingLayout = Layout.POOL.obtain();
+    protected final Layout workingLayout = new Layout();
     /**
      * Contains two floats per glyph; even items are x offsets, odd items are y offsets.
      */
@@ -174,7 +174,7 @@ public class TypingLabel extends TextraLabel {
 
     public TypingLabel(String text, Font font) {
         this.font = font;
-        layout = Layout.POOL.obtain();
+        layout = new Layout();
         storedText = (text = Parser.preprocess(text));
         workingLayout.font(font);
         saveOriginalText(text);
@@ -430,9 +430,8 @@ public class TypingLabel extends TextraLabel {
         workingLayout.maxLines = Integer.MAX_VALUE;
         workingLayout.ellipsis = null;
 
-        Line.POOL.freeAll(workingLayout.lines);
         workingLayout.lines.clear();
-        workingLayout.lines.add(Line.POOL.obtain());
+        workingLayout.lines.add(new Line());
 
         offsets.clear();
         sizing.clear();
@@ -727,8 +726,6 @@ public class TypingLabel extends TextraLabel {
 
     @Override
     public boolean remove() {
-        Layout.POOL.free(workingLayout);
-        Layout.POOL.free(layout);
         return super.remove();
     }
 

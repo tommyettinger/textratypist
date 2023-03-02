@@ -53,7 +53,7 @@ public class TextraLabel extends Widget {
      * Creates a TextraLabel that uses the default libGDX font (lsans-15 in the current version) with white color.
      */
     public TextraLabel() {
-        layout = Layout.POOL.obtain();
+        layout = new Layout();
         font = new Font();
     }
 
@@ -205,7 +205,7 @@ public class TextraLabel extends Widget {
      */
     public TextraLabel(String text, Label.LabelStyle style, Font replacementFont) {
         font = replacementFont;
-        layout = Layout.POOL.obtain();
+        layout = new Layout();
         if (style.fontColor != null) layout.setBaseColor(style.fontColor);
         this.style = style;
         storedText = text;
@@ -220,7 +220,7 @@ public class TextraLabel extends Widget {
      */
     public TextraLabel(String text, Font font) {
         this.font = font;
-        layout = Layout.POOL.obtain();
+        layout = new Layout();
         storedText = text;
         font.markup(text, layout);
     }
@@ -235,7 +235,7 @@ public class TextraLabel extends Widget {
      */
     public TextraLabel(String text, Font font, Color color) {
         this.font = font;
-        layout = Layout.POOL.obtain();
+        layout = new Layout();
         if (color != null) layout.setBaseColor(color);
         storedText = text;
         font.markup(text, layout);
@@ -534,7 +534,6 @@ public class TextraLabel extends Widget {
 
     @Override
     public boolean remove() {
-        Layout.POOL.free(layout);
         return super.remove();
 
     }

@@ -19,22 +19,14 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
 
 /**
  * A replacement for libGDX's GlyphLayout, more or less; stores one or more (possibly empty) {@link Line}s of text,
  * which can use color and style markup from {@link Font}, and can be drawn with
  * {@link Font#drawGlyphs(Batch, Layout, float, float, int)}. This is a Poolable class, and you can obtain a Layout with
- * {@code Layout.POOL.obtain()} followed by setting the font, or just using a constructor.
+ * {@code new Layout()} followed by setting the font, or just using a constructor.
  */
-public class Layout implements Pool.Poolable {
-
-    public static final Pool<Layout> POOL = new Pool<Layout>() {
-        @Override
-        protected Layout newObject() {
-            return new Layout();
-        }
-    };
+public class Layout {
 
     protected Font font;
     protected final Array<Line> lines = new Array<>(true, 8);
@@ -45,12 +37,12 @@ public class Layout implements Pool.Poolable {
     protected float baseColor = Color.WHITE_FLOAT_BITS;
 
     public Layout() {
-        lines.add(Line.POOL.obtain());
+        lines.add(new Line());
     }
 
     public Layout(Font font) {
         this.font = font;
-        lines.add(Line.POOL.obtain());
+        lines.add(new Line());
     }
 
     public Layout(Layout other) {
@@ -61,7 +53,7 @@ public class Layout implements Pool.Poolable {
         this.targetWidth = other.targetWidth;
         this.baseColor = other.baseColor;
         for (int i = 0; i < other.lines(); i++) {
-            Line ln = Line.POOL.obtain(), o = other.lines.get(i);
+            Line ln = new Line(), o = other.lines.get(i);
             ln.glyphs.addAll(o.glyphs);
             lines.add(ln.size(o.width, o.height));
         }
@@ -75,9 +67,8 @@ public class Layout implements Pool.Poolable {
     public Layout font(Font font) {
         if (this.font == null || !this.font.equals(font)) {
             this.font = font;
-            Line.POOL.freeAll(lines);
             lines.clear();
-            lines.add(Line.POOL.obtain());
+            lines.add(new Line());
         }
         return this;
     }
@@ -114,9 +105,8 @@ public class Layout implements Pool.Poolable {
     }
 
     public Layout clear() {
-        Line.POOL.freeAll(lines);
         lines.clear();
-        lines.add(Line.POOL.obtain());
+        lines.add(new Line());
         atLimit = false;
         return this;
     }
@@ -162,7 +152,7 @@ public class Layout implements Pool.Poolable {
             return null;
         }
 
-        Line line = Line.POOL.obtain(), prev = lines.peek();
+        Line line = new Line(), prev = lines.peek();
         prev.glyphs.add('\n');
         line.height = 0;
         lines.add(line);
@@ -175,7 +165,7 @@ public class Layout implements Pool.Poolable {
             return null;
         }
         if (index < 0 || index >= maxLines) return null;
-        Line line = Line.POOL.obtain(), prev = lines.get(index);
+        Line line = new Line(), prev = lines.get(index);
         prev.glyphs.add('\n');
         line.height = prev.height;
         lines.insert(index + 1, line);
@@ -272,7 +262,6 @@ public class Layout implements Pool.Poolable {
      * Resets the object for reuse. The font is nulled, but the lines are freed, cleared, and then one blank line is
      * re-added to lines so it can be used normally later.
      */
-    @Override
     public void reset() {
         targetWidth = 0f;
         baseColor = Color.WHITE_FLOAT_BITS;
@@ -280,9 +269,6 @@ public class Layout implements Pool.Poolable {
         atLimit = false;
         ellipsis = null;
         font = null;
-        Line.POOL.freeAll(lines);
-        lines.clear();
-        lines.add(Line.POOL.obtain());
     }
 
     /**

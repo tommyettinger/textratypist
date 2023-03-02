@@ -630,7 +630,7 @@ public class Font implements Disposable {
     public static final long NOTE = 14L << 20 | ALTERNATE;
 
     private final float[] vertices = new float[20];
-    private final Layout tempLayout = Layout.POOL.obtain();
+    private final Layout tempLayout = new Layout();
     private final LongArray glyphBuffer = new LongArray(128);
     /**
      * Must be in lexicographic order because we use {@link Arrays#binarySearch(char[], int, int, char)} to
@@ -3765,11 +3765,11 @@ public class Font implements Disposable {
 
     /**
      * Reads markup from text, along with the chars to receive markup, processes it, and appends into appendTo, which is
-     * a {@link Layout} holding one or more {@link Line}s. A common way of getting a Layout is with
-     * {@code Layout.POOL.obtain()}; you can free the Layout when you are done using it with {@link Pool#free(Object)}
-     * on {@link Layout#POOL}. This parses an extension of libGDX markup and uses it to determine color, size, position,
-     * shape, strikethrough, underline, case, and scale of the given CharSequence. It also reads typing markup, for
-     * effects, but passes it through without changing it and without considering it for line wrapping or text position.
+     * a {@link Layout} holding one or more {@link Line}s. This parses an extension of libGDX markup and uses it to
+     * determine color, size, position, shape, strikethrough, underline, case, and scale of the given CharSequence.
+     * It also reads typing markup, for effects, but passes it through without changing it and without considering it
+     * for line wrapping or text position.
+     * <br>
      * The text drawn will start in {@code appendTo}'s {@link Layout#baseColor}, which is usually white, with the normal
      * size as determined by the font's metrics and scale ({@link #scaleX} and {@link #scaleY}), normal case, and
      * without bold, italic, superscript, subscript, strikethrough, or underline. Markup starts with {@code [}; the next
@@ -4213,7 +4213,6 @@ public class Font implements Disposable {
                             }
                             if(later.glyphs.isEmpty()){
                                 appendTo.lines.pop();
-                                Line.POOL.free(later);
                             }
                         }
                     } else {
@@ -4268,7 +4267,7 @@ public class Font implements Disposable {
                     if (appendTo.lines.size >= appendTo.maxLines) {
                         later = null;
                     } else {
-                        later = Line.POOL.obtain();
+                        later = new Line();
                         later.height = 0;
                         appendTo.lines.add(later);
                         initial = true;
@@ -4466,7 +4465,6 @@ public class Font implements Disposable {
                         }
                         if(later.glyphs.isEmpty()){
                             appendTo.lines.pop();
-                            Line.POOL.free(later);
                         }
                     }
                 } else {
@@ -5208,7 +5206,6 @@ public class Font implements Disposable {
         Line firstLine = changing.getLine(0);
         for (int i = 1; i < oldLength; i++) {
             firstLine.glyphs.addAll(changing.getLine(i).glyphs);
-            Line.POOL.free(changing.getLine(i));
         }
         changing.lines.truncate(1);
         for (int ln = 0; ln < changing.lines(); ln++) {
@@ -5575,7 +5572,6 @@ public class Font implements Disposable {
      */
     @Override
     public void dispose() {
-        Layout.POOL.free(tempLayout);
         if (shader != null)
             shader.dispose();
         if(whiteBlock != null)
@@ -5583,15 +5579,12 @@ public class Font implements Disposable {
     }
 
     /**
-     * Frees all {@link Line} and {@link Layout} objects stored in static pools, and also clears
-     * {@link TypingConfig#GLOBAL_VARS}. This can be useful if you target Android and you use
+     * Clears {@link TypingConfig#GLOBAL_VARS}. This can be useful if you target Android and you use
      * Activity.finish(), or some other way of ending an app that does not clear static values.
      * Consider calling this if you encounter different (buggy) behavior on the second launch
      * of an Android app vs. the first launch. It is not needed on desktop JVMs or GWT.
      */
     public static void clearStatic() {
-        Line.POOL.clear();
-        Layout.POOL.clear();
         TypingConfig.GLOBAL_VARS.clear();
     }
 
