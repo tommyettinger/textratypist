@@ -260,7 +260,7 @@ public class TypingLabel extends TextraLabel {
             originalText.setLength(0);
             originalText.append(text);
         }
-        originalText.trimToSize();
+//        originalText.trimToSize();
     }
 
     /**
@@ -327,7 +327,7 @@ public class TypingLabel extends TextraLabel {
         this.setText(Parser.preprocess("{NORMAL}" + getDefaultToken() + originalText), false, false);
         Parser.parseTokens(this);
         parsed = true;
-//        setSize(actualWidth, workingLayout.getHeight());
+//        setSize(workingLayout.getWidth(), workingLayout.getHeight());
     }
 
     /**
@@ -757,6 +757,9 @@ public class TypingLabel extends TextraLabel {
 
     @Override
     public float getPrefWidth() {
+        if (!parsed) {
+            parseTokens();
+        }
         if(wrap) return 0f;
         float width = workingLayout.getWidth();
         if(style != null && style.background != null)
@@ -766,6 +769,9 @@ public class TypingLabel extends TextraLabel {
 
     @Override
     public float getPrefHeight() {
+        if (!parsed) {
+            parseTokens();
+        }
         float height = workingLayout.getHeight();
         if(style != null && style.background != null)
             height = Math.max(height + style.background.getBottomHeight() + style.background.getTopHeight(), style.background.getMinHeight());

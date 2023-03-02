@@ -75,6 +75,12 @@ public class DialogTest extends ApplicationAdapter {
             }
         });
         L.setWrap(true);
+
+        // This was necessary so the Dialog knew what height the TypingLabel actually was.
+        // It should be automatically called by any getPrefHeight() or getPrefWidth() calls if not parsed already; that
+        // is, it will be automatically called when its size must actually be known.
+//        L.parseTokens();
+
         dialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -82,6 +88,10 @@ public class DialogTest extends ApplicationAdapter {
                 super.clicked(event, x, y);
             }
         });
+
+        // This was necessary in versions 7.5 through 7.7, and shouldn't be needed later. It can't hurt, though.
+        dialog.getContentTable().clear();
+
         dialog.getButtonTable().add(ok).width(240f);
         dialog.getContentTable().add(L).width(250f);
         dialog.setKeepWithinStage(true);
@@ -90,6 +100,7 @@ public class DialogTest extends ApplicationAdapter {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
