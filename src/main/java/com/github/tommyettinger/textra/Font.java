@@ -2121,6 +2121,24 @@ public class Font implements Disposable {
      * @return this Font, for chaining
      */
     public Font addAtlas(TextureAtlas atlas) {
+        return addAtlas(atlas, 0, 0, 0);
+    }
+    /**
+     * Adds all items in {@code atlas} to the private use area of {@link #mapping}, and stores their names, so they can
+     * be looked up with {@code [+saxophone]} syntax (which is often the same as the {@code [+🎷]} syntax). The names
+     * of TextureRegions in the atlas are treated as case-insensitive, like some file systems.
+     * <a href="https://github.com/tommyettinger/twemoji-atlas/">There are possible emoji atlases here.</a>
+     * This may be useful if you have your own atlas, but for Twemoji in particular, you can use
+     * {@link KnownFonts#addEmoji(Font)} and the Twemoji files in the knownFonts folder. This overload allows specifying
+     * adjustments to the font-like properties of each GlyphRegion added, which may be useful if images from a
+     * particular atlas show up with an incorrect position or have the wrong spacing.
+     * @param atlas a TextureAtlas that shouldn't have more than 6144 names; all of it will be used
+     * @param offsetXChange will be added to the {@link GlyphRegion#offsetX} of each added glyph
+     * @param offsetYChange will be added to the {@link GlyphRegion#offsetY} of each added glyph
+     * @param xAdvanceChange will be added to the {@link GlyphRegion#xAdvance} of each added glyph
+     * @return this Font, for chaining
+     */
+    public Font addAtlas(TextureAtlas atlas, float offsetXChange, float offsetYChange, float xAdvanceChange) {
         Array<TextureAtlas.AtlasRegion> regions = atlas.getRegions();
         if(nameLookup == null)
             nameLookup = new CaseInsensitiveIntMap(regions.size, 0.5f);
@@ -2131,7 +2149,8 @@ public class Font implements Disposable {
         else
             namesByCharCode.ensureCapacity(regions.size >> 1);
         TextureAtlas.AtlasRegion previous = regions.first();
-        GlyphRegion gr = new GlyphRegion(previous);
+        GlyphRegion gr = new GlyphRegion(previous,
+                previous.offsetX + offsetXChange, previous.offsetY + offsetYChange, previous.originalWidth + xAdvanceChange);
 //        gr.offsetY += originalCellHeight * 0.125f;
         mapping.put(0xE000, gr);
         nameLookup.put(previous.name, 0xE000);
@@ -2146,7 +2165,8 @@ public class Font implements Disposable {
             } else {
                 ++i;
                 previous = region;
-                gr = new GlyphRegion(region);
+                gr = new GlyphRegion(region,
+                        region.offsetX + offsetXChange, region.offsetY + offsetYChange, region.originalWidth + xAdvanceChange);
 //                gr.offsetY += originalCellHeight * 0.125f;
                 mapping.put(i, gr);
                 nameLookup.put(region.name, i);
