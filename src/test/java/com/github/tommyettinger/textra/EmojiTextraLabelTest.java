@@ -32,10 +32,20 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         stage.addActor(table);
         table.setFillParent(true);
 
-        label = createTextraLabel();
-
+        label =
+//                createTextraLabel();
+                new TextraLabel("", KnownFonts.getNowAlt()) {
+                    @Override
+                    public void act(float delta) {
+                        setText("Wheeee! " + Gdx.graphics.getFramesPerSecond() + " FPS!"); // , false, false);
+                        super.act(delta);
+                    }
+                };
+        label.debug();
+        label.setAlignment(Align.center);
         table.pad(50f);
         table.add(label).colspan(5).growX();
+//        table.add(label).grow().center();
         table.row();
         table.row().uniform().expand().growX().space(40).center();
 
@@ -111,7 +121,8 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         update(Gdx.graphics.getDeltaTime());
 
         ScreenUtils.clear(0.25f, 0.3f, 0.3f, 1);
-        
+
+        stage.act();
         stage.draw();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }

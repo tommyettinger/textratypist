@@ -404,6 +404,7 @@ public class TextraLabel extends Widget {
         float height = layout.getHeight();
         if(style != null && style.background != null)
                 height = Math.max(height + style.background.getBottomHeight() + style.background.getTopHeight(), style.background.getMinHeight());
+//        System.out.println("Calculated PrefHeight to be " + height);
         return height;
     }
 
@@ -441,10 +442,9 @@ public class TextraLabel extends Widget {
         super.setSize(width, height);
         if (wrap) {
             layout.setTargetWidth(width);
-            font.calculateSize(layout);
-            invalidateHierarchy();
         }
-
+        font.calculateSize(layout);
+        invalidateHierarchy();
     }
 
     @Override
@@ -517,13 +517,13 @@ public class TextraLabel extends Widget {
      */
     public void setText(String markupText) {
         storedText = markupText;
-        if(wrap)
-            layout.setTargetWidth(getWidth());
-        else
-            layout.setTargetWidth(0f);
+//        if(wrap)
+//            layout.setTargetWidth(getWidth());
+//        else
+//            layout.setTargetWidth(0f);
         font.markup(markupText, layout.clear());
-        setWidth(layout.getWidth() + (style != null && style.background != null ?
-                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
+//        setWidth(layout.getWidth() + (style != null && style.background != null ?
+//                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
     }
 
     /**
