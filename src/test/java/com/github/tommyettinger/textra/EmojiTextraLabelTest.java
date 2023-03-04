@@ -5,43 +5,25 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-public class EmojiTypingLabelTest extends ApplicationAdapter {
-    Skin        skin;
+public class EmojiTextraLabelTest extends ApplicationAdapter {
     Stage       stage;
     SpriteBatch batch;
-    TypingLabel label;
-    TextButton  buttonPause;
-    TextButton  buttonResume;
-    TextButton  buttonRestart;
-    TextButton  buttonRebuild;
-    TextButton  buttonSkip;
+    TextraLabel label;
 
     @Override
     public void create() {
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
-//        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         float scale = 0.5f;
-        skin.getFont("default-font").getData().setScale(scale);
         stage = new Stage(new StretchViewport(720, 405), batch);
 //        stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);
@@ -50,56 +32,12 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         stage.addActor(table);
         table.setFillParent(true);
 
-        label = createTypingLabel();
-
-//        buttonPause = new TextButton("Pause", skin);
-//        buttonPause.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                label.pause();
-//            }
-//        });
-//
-//        buttonResume = new TextButton("Resume", skin);
-//        buttonResume.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                label.resume();
-//            }
-//        });
-//
-//        buttonRestart = new TextButton("Restart", skin);
-//        buttonRestart.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                label.restart();
-//            }
-//        });
-//
-//        buttonRebuild = new TextButton("Rebuild", skin);
-//        buttonRebuild.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                adjustTypingConfigs();
-//                Cell<TypingLabel> labelCell = table.getCell(label);
-//                label = createTypingLabel();
-//                labelCell.setActor(label);
-//            }
-//        });
-//
-//        buttonSkip = new TextButton("Skip", skin);
-//        buttonSkip.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                label.skipToTheEnd();
-//            }
-//        });
+        label = createTextraLabel();
 
         table.pad(50f);
         table.add(label).colspan(5).growX();
         table.row();
         table.row().uniform().expand().growX().space(40).center();
-//        table.add(buttonPause, buttonResume, buttonRestart, buttonSkip, buttonRebuild);
 
         table.pack();
     }
@@ -115,7 +53,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         TypingConfig.GLOBAL_VARS.put("ICE_WIND", "{FASTER}{GRADIENT=88ccff;eef8ff;-0.5;5}{SLOWER}{WIND=2;4;0.25;0.1}");
     }
 
-    public TypingLabel createTypingLabel() {
+    public TextraLabel createTextraLabel() {
 //        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("dawnlike/Dawnlike.atlas"), Gdx.files.internal("dawnlike"));
 //        Font font = new Font("dawnlike/PlainAndSimplePlus-standard.fnt", atlas.findRegion("PlainAndSimplePlus-standard"), 0, 0, 2, 2);
 //        font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
@@ -131,22 +69,9 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         // OK, it is definitely not something that requires different fonts to trigger. Specific widths cause line
         // wrapping to somehow break the ENDWIND token (or RESET).
 //        final TextraLabel label = new TextraLabel(
-        final TypingLabel label = new TypingLabel(
-//                "Behold, the [/Terror{RESET}-[*]Bunny[*]!",
-//                "{SHAKE=1,1,2}[@Medieval]Behold{RESET}, the [/]Terror{RESET}-{GRADIENT=WHITE;RED}Bunny!",
-//                "{BLINK=ff0000ff;00ff27ff;1.0;0.5}redtogreen", // used to check unclosed effects with incomplete parameters
-//                "A {Bunny!", // used to check unclosed curly braces
-
-//                "[#8fc60cff][@OpenSans][%75]{spin}Lorem ipsum dolor sit amet, consectetur adipiscing elit.[]",
-
-//                "TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
-//                        + "But... {SICK}U. Nitty{ENDSICK} doesn't."
-//                        + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
-
-                "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
-                + "But... {SICK}U. Nitty{ENDSICK} doesn't. {CROWD}[#BB1100][+skull][#55AA22][+🤡]{ENDCROWD}{CLEARCOLOR}\n"
-                + "Scale testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go![]\n"
-                + "{NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
+        final TextraLabel label = new TextraLabel(
+//                "Yay! [+saxophone][+😍][+🎷] "
+                "[+⚖] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![]"
                 ,
 //
 //                "I love TextraTypist! 😀\n" +
@@ -169,30 +94,10 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
                 font);
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!", skin);
 //        final TypingLabel label = new TypingLabel("{WAIT=1}{SLOWER}Welcome, {VAR=title}!", skin);
-        label.align = Align.topLeft;
+        label.setAlignment(Align.center);
         label.debug();
         // Make the label wrap to new lines, respecting the table's layout.
         label.wrap = true;
-//        label.layout.setTargetWidth(label.layout.getWidth());
-        label.setWidth(Gdx.graphics.getBackBufferWidth() - 100);
-
-//        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
-//
-//        // Set an event listener for when the {EVENT} token is reached and for the char progression ends.
-//        label.setTypingListener(new TypingAdapter() {
-//            @Override
-//            public void event(String event) {
-//                System.out.println("Event: " + event);
-//            }
-//
-//            @Override
-//            public void end() {
-//                System.out.println(label.getIntermediateText());
-//            }
-//        });
-//
-//        // Finally parse tokens in the label text.
-//        label.parseTokens();
 
         return label;
     }
@@ -219,7 +124,6 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
     }
 
     public static void main(String[] arg) {
@@ -230,6 +134,6 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         config.setForegroundFPS(60);
         config.useVsync(true);
         config.disableAudio(true);
-        new Lwjgl3Application(new EmojiTypingLabelTest(), config);
+        new Lwjgl3Application(new EmojiTextraLabelTest(), config);
     }
 }

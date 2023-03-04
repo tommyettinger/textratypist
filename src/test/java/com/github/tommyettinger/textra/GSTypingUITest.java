@@ -62,9 +62,10 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font("gs/PixPrompt.fnt", "gs" +
-				"/PixPrompt.png", Font.DistanceFieldType.STANDARD, 0, 5, 0, 0, false)
-				.useIntegerPositions(false);
+//		final Font font = new Font("gs/PixPrompt.fnt", "gs" +
+//				"/PixPrompt.png", Font.DistanceFieldType.STANDARD, 0, 5, 0, 0, false)
+//				.useIntegerPositions(false);
+		final Font font = KnownFonts.getNowAlt();
 //		final Font font =
 //				KnownFonts.getCozette();
 //				new Font(skin.getFont("Cozette-standard"), 0f, 0f, 0f, 0f).useIntegerPositions(true);

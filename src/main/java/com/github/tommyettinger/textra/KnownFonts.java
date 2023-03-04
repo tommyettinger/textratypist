@@ -1095,7 +1095,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.nowAlt == null) {
             try {
                 instance.nowAlt = new Font(instance.prefix + "Now-Alt-standard.fnt",
-                        instance.prefix + "Now-Alt-standard.png", STANDARD, 0, 15, 0, 0, true)
+                        instance.prefix + "Now-Alt-standard.png", STANDARD, 0, 22, 0, 0, true)
                         .scaleTo(28, 30).setTextureFilter().setName("Now Alt");
             } catch (Exception e) {
                 e.printStackTrace();
