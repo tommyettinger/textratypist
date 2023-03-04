@@ -33,23 +33,17 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         table.setFillParent(true);
 
         label =
-//                createTextraLabel();
-                new TextraLabel("", KnownFonts.getNowAlt()) {
-                    @Override
-                    public void act(float delta) {
-//                        setText("Wheeee! " + Gdx.graphics.getFramesPerSecond() + " FPS!"); // , false, false);
-                        setText(
-                                "[_][~][%100]gO[]"
-//                                "[_][~][%100]gO[][_][~][%125]gO"
-//                                "[_][~][%100]gO[][_][~][%125]gO[][_][~][%150]gO[][_][~][%175]gO"
-//                                "[_][~][%100]gO[][_][~][%125]gO[][_][~][%150]gO[][_][~][%175]gO[][_][~][%200]gO"
-//                                "[_][~][%100]gO[][_][~][%125]gO[][_][~][%150]gO[][_][~][%175]gO[][_][~][%200]gO[][_][~][%225]gO"
+                createTextraLabel();
+//                new TextraLabel("", KnownFonts.getNowAlt()) {
+//                    @Override
+//                    public void act(float delta) {
+//                        setText(
 //                                "[_][~][%100]gO[][_][~][%125]gO[][_][~][%150]gO[][_][~][%175]gO[][_][~][%200]gO[][_][~][%225]gO[][_][~][%250]gO"
-//                                .substring(94 - 16 * (Gdx.graphics.getFramesPerSecond() & 3))
-                        );
-                        super.act(delta);
-                    }
-                };
+//                                .substring(0, 16 + 16 * (Gdx.graphics.getFramesPerSecond() % 6))
+//                        );
+//                        super.act(delta);
+//                    }
+//                };
         label.debug();
         label.setAlignment(Align.center);
         table.pad(50f);
@@ -151,8 +145,8 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         config.setTitle("TypingLabel Test");
         config.setWindowedMode(720, 405);
         config.setResizable(true);
-        config.setForegroundFPS(60);
-        config.useVsync(true);
+        config.setForegroundFPS(0);
+        config.useVsync(false);
         config.disableAudio(true);
         new Lwjgl3Application(new EmojiTextraLabelTest(), config);
     }

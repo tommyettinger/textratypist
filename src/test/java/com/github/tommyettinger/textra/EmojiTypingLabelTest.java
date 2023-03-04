@@ -27,11 +27,6 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
     Stage       stage;
     SpriteBatch batch;
     TypingLabel label;
-    TextButton  buttonPause;
-    TextButton  buttonResume;
-    TextButton  buttonRestart;
-    TextButton  buttonRebuild;
-    TextButton  buttonSkip;
 
     @Override
     public void create() {
@@ -52,54 +47,10 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 
         label = createTypingLabel();
 
-//        buttonPause = new TextButton("Pause", skin);
-//        buttonPause.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                label.pause();
-//            }
-//        });
-//
-//        buttonResume = new TextButton("Resume", skin);
-//        buttonResume.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                label.resume();
-//            }
-//        });
-//
-//        buttonRestart = new TextButton("Restart", skin);
-//        buttonRestart.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                label.restart();
-//            }
-//        });
-//
-//        buttonRebuild = new TextButton("Rebuild", skin);
-//        buttonRebuild.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                adjustTypingConfigs();
-//                Cell<TypingLabel> labelCell = table.getCell(label);
-//                label = createTypingLabel();
-//                labelCell.setActor(label);
-//            }
-//        });
-//
-//        buttonSkip = new TextButton("Skip", skin);
-//        buttonSkip.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                label.skipToTheEnd();
-//            }
-//        });
-
         table.pad(50f);
         table.add(label).colspan(5).growX();
         table.row();
         table.row().uniform().expand().growX().space(40).center();
-//        table.add(buttonPause, buttonResume, buttonRestart, buttonSkip, buttonRebuild);
 
         table.pack();
     }
