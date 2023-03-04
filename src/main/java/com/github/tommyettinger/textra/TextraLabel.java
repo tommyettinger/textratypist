@@ -524,6 +524,7 @@ public class TextraLabel extends Widget {
         font.markup(markupText, layout.clear());
 //        setWidth(layout.getWidth() + (style != null && style.background != null ?
 //                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
+        invalidateHierarchy();
     }
 
     /**
