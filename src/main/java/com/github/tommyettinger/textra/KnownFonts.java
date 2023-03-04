@@ -1069,6 +1069,43 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getLibertinusSerif() not found.");
     }
 
+    private Font nowAlt;
+
+    /**
+     * Returns a Font already configured to use a variable-width geometric sans-serif font, that should
+     * scale cleanly to fairly large sizes or down to about 20 pixels.
+     * Caches the result for later calls. The font used is Now Alt, an open-source (SIL Open Font License) typeface by
+     * Hanken Design Co. It has decent glyph coverage for most European languages, but doesn't fully support Greek or
+     * Cyrillic. This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
+     * well. This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/gRHa1Jo.png">Image link</a> (uses width=28, height=30)
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-standard.fnt">Now-Alt-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-standard.png">Now-Alt-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-License.txt">Now-Alt-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font NowAlt.otf
+     */
+    public static Font getNowAlt() {
+        initialize();
+        if (instance.nowAlt == null) {
+            try {
+                instance.nowAlt = new Font(instance.prefix + "Now-Alt-standard.fnt",
+                        instance.prefix + "Now-Alt-standard.png", STANDARD, 0, 15, 0, 0, true)
+                        .scaleTo(28, 30).setTextureFilter().setName("Now Alt");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.nowAlt != null)
+            return new Font(instance.nowAlt);
+        throw new RuntimeException("Assets for getNowAlt() not found.");
+    }
+
     private Font openSans;
 
     /**
@@ -1704,10 +1741,10 @@ public final class KnownFonts implements LifecycleListener {
     public static Font[] getAll() {
         return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getAStarryMSDF(),
                 getBitter(), getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getCozette(),
-                getDejaVuSansMono(), getGentium(), getGentiumMSDF(), getGentiumSDF(),
-                getHanazono(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(),
-                getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
-                getLibertinusSerif(), getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(),
+                getDejaVuSansMono(), getGentium(), getGentiumMSDF(), getGentiumSDF(), getHanazono(), getIBM8x16(),
+                getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
+                getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
+                getLibertinusSerif(), getNowAlt(), getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(),
                 getTangerine(), getTangerineSDF(), getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghanMSDF()};
     }
 
@@ -1720,9 +1757,9 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font[] getAllStandard() {
         return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getBitter(), getCanada(),
-                getCascadiaMono(), getCaveat(), getCozette(),
-                getGentium(), getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
-                getKingthingsFoundation(), getLibertinusSerif(), getOpenSans(), getOxanium(), getQuanPixel(),
+                getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getHanazono(), getIBM8x16(),
+                getInconsolata(), getIosevka(), getIosevkaSlab(), getKingthingsFoundation(), getLibertinusSerif(),
+                getNowAlt(), getOpenSans(), getOxanium(), getQuanPixel(),
                 getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()};
     }
 
@@ -1889,6 +1926,10 @@ public final class KnownFonts implements LifecycleListener {
         if (libertinusSerif != null) {
             libertinusSerif.dispose();
             libertinusSerif = null;
+        }
+        if (nowAlt != null) {
+            nowAlt.dispose();
+            nowAlt = null;
         }
         if (openSans != null) {
             openSans.dispose();
