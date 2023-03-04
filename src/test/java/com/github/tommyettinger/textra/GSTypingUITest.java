@@ -62,12 +62,12 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-//		final Font font = new Font("gs/PixPrompt.fnt", "gs" +
-//				"/PixPrompt.png", Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, false)
-//				.scale(2, 2).useIntegerPositions(false);
-		final Font font =
+		final Font font = new Font("gs/PixPrompt.fnt", "gs" +
+				"/PixPrompt.png", Font.DistanceFieldType.STANDARD, 0, 5, 0, 0, false)
+				.useIntegerPositions(false);
+//		final Font font =
 //				KnownFonts.getCozette();
-				new Font(skin.getFont("Cozette-standard"), 0f, 0f, 0f, 0f).useIntegerPositions(true);
+//				new Font(skin.getFont("Cozette-standard"), 0f, 0f, 0f, 0f).useIntegerPositions(true);
 //		KnownFonts.getStandardFamily()
 //				new Font(skin.get(Label.LabelStyle.class).font)
 //				.useIntegerPositions(true);
@@ -193,7 +193,7 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 
 		iconButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				new TextraDialog("Some TextraDialog", skin, "dialog", font) {
+				new TextraDialog("Some TextraDialog", skin, "default", font) {
 					protected void result (Object object) {
 						System.out.println("Chosen: " + object);
 					}
