@@ -37,7 +37,16 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
                 new TextraLabel("", KnownFonts.getNowAlt()) {
                     @Override
                     public void act(float delta) {
-                        setText("Wheeee! " + Gdx.graphics.getFramesPerSecond() + " FPS!"); // , false, false);
+//                        setText("Wheeee! " + Gdx.graphics.getFramesPerSecond() + " FPS!"); // , false, false);
+                        setText(
+                                "[_][~][%100]gO[]"
+//                                "[_][~][%100]gO[][_][~][%125]gO"
+//                                "[_][~][%100]gO[][_][~][%125]gO[][_][~][%150]gO[][_][~][%175]gO"
+//                                "[_][~][%100]gO[][_][~][%125]gO[][_][~][%150]gO[][_][~][%175]gO[][_][~][%200]gO"
+//                                "[_][~][%100]gO[][_][~][%125]gO[][_][~][%150]gO[][_][~][%175]gO[][_][~][%200]gO[][_][~][%225]gO"
+//                                "[_][~][%100]gO[][_][~][%125]gO[][_][~][%150]gO[][_][~][%175]gO[][_][~][%200]gO[][_][~][%225]gO[][_][~][%250]gO"
+//                                .substring(94 - 16 * (Gdx.graphics.getFramesPerSecond() & 3))
+                        );
                         super.act(delta);
                     }
                 };
