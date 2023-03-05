@@ -150,7 +150,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		TypingWindow window = new TypingWindow("TypingWindow", skin, "default", new Font(font), true);
+		TypingWindow window = new TypingWindow("TypingWindow", skin, "default", font, true);
 //		window.font.adjustLineHeight(0.75f);
 //		float ratio = window.getPadTop() / font.cellHeight;
 //		Font baby = new Font(font).scaleTo(font.cellWidth * ratio, window.getPadTop());//.scale(ratio, ratio);

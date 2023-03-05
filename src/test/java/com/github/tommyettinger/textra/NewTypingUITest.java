@@ -23,6 +23,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -62,7 +63,7 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font(skin.getFont("outline-font"), 0f, -10f, 0f, 15f);
+		final Font font = new Font(skin.getFont("outline-font"), 0f, 0f, 0f, 15f);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz();
@@ -71,7 +72,7 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 
 		for(Font f : font.family.connected) {
 			if(f != null)
-				KnownFonts.addEmoji(f);
+				KnownFonts.addEmoji(f, 0f, 15f, 0f);
 		}
 
 		stage = new Stage(new ScreenViewport());
@@ -121,7 +122,32 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TypingLabel minSizeLabel = new TypingLabel("[@Medieval]ginWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
+		TypingLabel minSizeLabel = new TypingLabel("[@Medieval]ginWidth cell", skin, font){
+			/**
+			 * Parses all tokens of this label. Use this after setting the text and any variables that should be replaced.
+			 */
+			@Override
+			public void parseTokens() {
+				super.parseTokens();
+				System.out.println(workingLayout + "; height=" + workingLayout.getHeight());
+			}
+
+			/**
+			 * If your font uses {@link Font.DistanceFieldType#SDF} or {@link Font.DistanceFieldType#MSDF},
+			 * then this has to do some extra work to use the appropriate shader.
+			 * If {@link Font#enableShader(Batch)} was called before rendering a group of TypingLabels, then they will try to
+			 * share one Batch; otherwise this will change the shader to render SDF or MSDF, then change it back at the end of
+			 * each draw() call.
+			 *
+			 * @param batch       probably should be a SpriteBatch
+			 * @param parentAlpha the alpha of the parent container, or 1.0f if there is none
+			 */
+			@Override
+			public void draw(Batch batch, float parentAlpha) {
+				super.draw(batch, parentAlpha);
+			}
+		};
+		minSizeLabel.debug();
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();

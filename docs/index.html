@@ -827,6 +827,8 @@ set, and they are accessible both by name, using the syntax <code>[+clown face]<
 emoji, using the syntax <code>[+🤡]</code>. You can search for names in Twemoji.atlas, or use the emoji picker in
 <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category. You can also use the
 emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
+Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
+name or emoji, and {@link Font#namesByCharCode} to go from such an internal code to an emoji (as UTF-8).
 <br>
 Needs files:
 <ul>

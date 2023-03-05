@@ -1925,6 +1925,7 @@ public class Font implements Disposable {
     public Font adjustLineHeight(float multiplier) {
         cellHeight *= multiplier;
         originalCellHeight *= multiplier;
+//        descent *= multiplier; // I'm not sure if this would help or not.
         return this;
     }
 
@@ -3325,8 +3326,6 @@ public class Font implements Disposable {
         if (font == null) font = this;
         char c = (char) glyph;
         boolean squashed = false, jostled = false;
-        float cellWidth = font.cellWidth;
-        float cellHeight = font.cellHeight;
         if((glyph & SMALL_CAPS) == SMALL_CAPS) {
             squashed = (c != (c = Category.caseUp(c)));
             glyph = (glyph & 0xFFFFFFFFFFFF0000L) | c;
@@ -3364,11 +3363,11 @@ public class Font implements Disposable {
         }
         osx = font.scaleX * scale;
         osy = font.scaleY * scale;
-        float centerX = cellWidth * scaleX * 0.5f;
-        float centerY = cellHeight * scaleY * 0.5f;
+        float centerX = font.cellWidth * scaleX * 0.5f;
+        float centerY = font.cellHeight * scaleY * 0.5f;
 
-        float oCenterX = cellWidth * osx * 0.5f;
-        float oCenterY = cellHeight * osy * 0.5f;
+        float oCenterX = font.cellWidth * osx * 0.5f;
+        float oCenterY = font.cellHeight * osy * 0.5f;
 
         y -= font.descent * osy - font.descent * font.scaleY * 2f;
 
@@ -3411,15 +3410,15 @@ public class Font implements Disposable {
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(solidBlock, tr),
                         NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
                         x,
-                        y - font.descent * scaleY - cellHeight * scale * sizingY * 0.5f,
-                        cellWidth * sizingX, (cellHeight * scale) * sizingY, rotation);
+                        y - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
+                        font.cellWidth * sizingX, (font.cellHeight * scale) * sizingY, rotation);
             }
             float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
                     x,
-                    y - font.descent * scaleY - cellHeight * scale * sizingY * 0.5f,
-                    cellWidth * sizingX, (cellHeight * scale) * sizingY, rotation);
-            return cellWidth;
+                    y - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
+                    font.cellWidth * sizingX, (font.cellHeight * scale) * sizingY, rotation);
+            return font.cellWidth;
         }
 
         Texture tex = tr.getTexture();
@@ -3502,8 +3501,8 @@ public class Font implements Disposable {
             drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(font.solidBlock, tr),
                     NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
                     x - xAdvance * scaleX * (sizingX - 0.5f) + tr.offsetX * scaleX * 0.5f,
-                    y - cellHeight * scale * sizingY * 0.5f,
-                    xAdvance * scaleX * sizingX + 5f, (cellHeight * scale - font.descent * scaleY) * sizingY, rotation);
+                    y - font.cellHeight * scale * sizingY * 0.5f,
+                    xAdvance * scaleX * sizingX + 5f, (font.cellHeight * scale - font.descent * scaleY) * sizingY, rotation);
         }
         if (jostled) {
             int code = NumberUtils.floatToIntBits(x * 1.8191725133961645f + y * 1.6710436067037893f + c * 1.5497004779019703f) & 0xFFFFFF;
@@ -3647,10 +3646,10 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -centerX;
-                p0y = (-0.8125f * cellHeight) * scale * sizingY;
+                p0y = (-0.8125f * font.cellHeight) * scale * sizingY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        xAdvance * scaleX + 2, cellHeight * scale * sizingY, rotation);
+                        xAdvance * scaleX + 2, font.cellHeight * scale * sizingY, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -3714,10 +3713,10 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = -centerX;
-                p0y = (-0.45f * cellHeight) * scale;
+                p0y = (-0.45f * font.cellHeight) * scale;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        xAdvance * scaleX + 2, cellHeight * scale * sizingY, rotation);
+                        xAdvance * scaleX + 2, font.cellHeight * scale * sizingY, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
@@ -4100,7 +4099,7 @@ public class Font implements Disposable {
                         if (len >= 0) {
                             c = nameLookup.get(safeSubstring(text, i + 1, i + len), '+');
                             i += len;
-                            scaleX = (scale + 1) * 0.25f * cellHeight / (font.mapping.get(c, font.defaultValue).xAdvance*1.25f);
+                            scaleX = (scale + 1) * 0.25f * font.cellHeight / (font.mapping.get(c, font.defaultValue).xAdvance*1.25f);
                         }
                     }
                     if (font.kerning == null) {
@@ -4259,7 +4258,7 @@ public class Font implements Disposable {
                 }
                 showCh = (current & SMALL_CAPS) == SMALL_CAPS ? Category.caseUp(ch) : ch;
                 if(ch >= 0xE000 && ch < 0xF800){
-                    scaleX = (scale + 1) * 0.25f * cellHeight / (font.mapping.get(ch, font.defaultValue).xAdvance*1.25f);
+                    scaleX = (scale + 1) * 0.25f * font.cellHeight / (font.mapping.get(ch, font.defaultValue).xAdvance*1.25f);
                 }
                 float w;
                 if (font.kerning == null) {

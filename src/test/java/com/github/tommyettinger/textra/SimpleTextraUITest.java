@@ -55,7 +55,7 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 		TextureRegion image = new TextureRegion(texture1);
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 15f, 0f, 10f);
+		final Font font = new Font(skin.getFont("outline-font"), 0f, 0f, 0f, 15f);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz();
@@ -64,7 +64,7 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 
 		for(Font f : font.family.connected) {
 			if(f != null)
-				KnownFonts.addEmoji(f);
+				KnownFonts.addEmoji(f, 0, 15, 0);
 		}
 
 		stage = new Stage(new ScreenViewport());

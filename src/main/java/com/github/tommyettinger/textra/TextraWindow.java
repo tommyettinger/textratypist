@@ -114,7 +114,7 @@ public class TextraWindow extends Table {
             float ratio = getBackground().getTopHeight() / replacementFont.cellHeight;
             Font labelFont = new Font(replacementFont);
             labelFont.scale(ratio, ratio);
-//            labelFont.descent = 0f;
+            labelFont.descent *= ratio;
             titleLabel.setFont(labelFont);
         }
         else {
