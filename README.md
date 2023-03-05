@@ -34,7 +34,7 @@ between two colors, or go across a whole rainbow. Lots of options; lots of fun. 
 typing-label, but there have been some changes. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
 for more information.
 
-As of 0.7.7, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
+As of 0.7.8, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
 Rotate, Attention, Highlight, Link, Trigger, and Stylist are all new to TextraTypist (not in typing-label). You can see
 usage instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
@@ -226,7 +226,7 @@ user input and can use animated styles like `{RAINBOW}`.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.7.7"
+implementation "com.github.tommyettinger:textratypist:0.7.8"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
@@ -235,18 +235,17 @@ was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.7.7:sources"
+implementation "com.github.tommyettinger:textratypist:0.7.8:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 ```
 
-GWT also needs this in the GdxDefinition.gwt.xml file (as of version 0.7.7):
+GWT also needs this in the GdxDefinition.gwt.xml file (since version 0.7.7):
 ```xml
 <inherits name="regexodus.regexodus" />
 <inherits name="com.github.tommyettinger.textratypist" />
 ```
 
-In version 0.7.4 and earlier, you would an earlier version of both dependencies:
-
+In version 0.7.4 and earlier, you would an earlier version of both dependencies (note, **this is an old version**):
 
 ```groovy
 implementation "com.github.tommyettinger:textratypist:0.7.4:sources"
@@ -367,10 +366,11 @@ artifact covered immediately above. Instead of "AutoSlight", "AutoMedium", or "A
 don't have any idea why this happens, but because hinting can be set either in the FreeType generator parameters or (if
 you use [Stripe](https://github.com/raeleus/stripe)) set in a Skin file with `"hinting": "Full"`, it isn't hard to fix.
 
-There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 through 0.7.7. You may see labels
+There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 through 0.7.8. You may see labels
 slide a little relatively to their backgrounds when rotated smoothly, and some (typically very small) fonts may need
-integer positions enabled to keep a stable baseline. Font debug lines may be quite incorrect in these versions, also,
-even if the text displays correctly to users.
+integer positions enabled to keep a stable baseline. Font debug lines may be quite incorrect in some of these versions,
+also, even if the text displays correctly to users. Scaling has improved significantly in 0.7.8, as has the handling of
+debug lines, but rotation still has some subtle bugs.
 
 ## License
 
@@ -402,9 +402,10 @@ help, so thanks are in order.
 Thanks to piotr-j (evilentity), mas omenos, and DMC from the libGDX Discord, for really thoroughly testing TextraTypist.
 `IncongruityTest` was originally piotr-j's work, and it helped me figure out which fonts in KnownFonts had incorrect
 bounds information. `TableWrapTest` was based closely on mas omenos' work, and was useful to locate a wrapping bug. DMC
-managed to track down a very elusive ProGuard issue, which is now documented in this README.md . Sanda Moen, fourlastor,
-and Siavash Ranbar helped track down some maddening bugs affecting word wrap; thanks to everyone who's put up with those
-kinds of bug!
+managed to track down a very elusive ProGuard issue, which is now documented in this README.md , as well as noticing and
+helping debug a variety of issues with code that I had no idea people were already using. Sanda Moen, fourlastor,
+tecksup, and Siavash Ranbar helped track down some maddening bugs affecting word wrap; thanks to everyone who's put up
+with those kinds of bug!
 
 Of course, I have to thank Rafa Skoberg for writing quite a lot of the code here! About 2/3 of the effects are almost
 purely by Rafa, much of the TypingLabel-related code is nearly unchanged from his work, and in general he showed what
