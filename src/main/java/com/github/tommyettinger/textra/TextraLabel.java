@@ -318,12 +318,12 @@ public class TextraLabel extends Widget {
         if (resetShader)
             font.enableShader(batch);
 
-        baseX -= 0.5f * font.cellWidth;
-
-        baseX += cs * 0.5f * font.cellWidth;
-        baseY += sn * 0.5f * font.cellWidth;
-        baseX -= sn * 0.5f * (font.cellHeight);
-        baseY += cs * 0.5f * (font.cellHeight);
+//        baseX -= 0.5f * font.cellWidth;
+//
+//        baseX += cs * 0.5f * font.cellWidth;
+//        baseY += sn * 0.5f * font.cellWidth;
+//        baseX -= sn * 0.5f * (font.cellHeight);
+//        baseY += cs * 0.5f * (font.cellHeight);
 
         float single;
 
@@ -361,6 +361,15 @@ public class TextraLabel extends Widget {
                 long glyph = glyphs.glyphs.get(i);
                 if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                 if (f == null) f = font;
+                if(i == 0){
+                    x -= 0.5f * f.cellWidth;
+
+                    x += cs * 0.5f * f.cellWidth;
+                    y += sn * 0.5f * f.cellWidth;
+                    x -= sn * 0.5f * f.cellHeight;
+                    y += cs * 0.5f * f.cellHeight;
+                }
+
                 if (f.kerning != null) {
                     kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
                     float amt = f.kerning.get(kern, 0) * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);

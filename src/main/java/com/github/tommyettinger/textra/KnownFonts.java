@@ -995,7 +995,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/wkBOCW4.png">Image link</a> (uses scaleTo(23, 31))
+     * Preview: <a href="https://i.imgur.com/JxkqDZK.png">Image link</a> (uses scaleTo(23, 31))
      * <br>
      * Needs files:
      * <ul>
@@ -1017,7 +1017,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.kingthingsFoundation == null) {
             try {
                 instance.kingthingsFoundation = new Font(instance.prefix + "KingthingsFoundation-standard.fnt",
-                        instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 35, 0, 0, true)
+                        instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 40, 0, 25, true)
                         .scaleTo(23, 31).setTextureFilter().setName("KingThings Foundation");
             } catch (Exception e) {
                 e.printStackTrace();
