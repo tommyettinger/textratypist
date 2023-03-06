@@ -95,8 +95,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
 		TypingButton buttonMulti = new TypingButton("", skin, "toggle", font);
-		buttonMulti.setTextraLabel(new TypingLabel("", font){
-			int selectedCache = 0;
+		TypingLabel fancyLabel = new TypingLabel("", font){
 			@Override
 			public void act(float delta) {
 				if(System.currentTimeMillis() % 5000 > 4940) {
@@ -104,7 +103,9 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 				}
 				super.act(delta);
 			}
-		});
+		};
+//		fancyLabel.debug();
+		buttonMulti.setTextraLabel(fancyLabel);
 //		buttonMulti.setTextraLabel(new TypingLabel("jó Óe tc Ó j ó e t c c jóÓet", font){
 //			protected void setText(String newText, boolean modifyOriginalText, boolean restart) {
 //				final boolean hasEnded = this.hasEnded();
@@ -128,9 +129,9 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //			}
 //		});
 //		buttonMulti.getTextraLabel().setText("jó Óe tc Ó j ó e t c c jóÓet");
-		buttonMulti.getTextraLabel().setWrap(true);
+		fancyLabel.setWrap(true);
 //		((TypingLabel)buttonMulti.getTextraLabel()).getWorkingLayout().getTargetWidth();
-		buttonMulti.getTextraLabelCell().width(325);
+		buttonMulti.getTextraLabelCell().width(403);
 //		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle");
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
@@ -199,7 +200,10 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		window.defaults().spaceBottom(10);
 		window.row().fill().expandX();
 		window.add(iconButton);
+
 		window.add(buttonMulti);
+//		window.add(fancyLabel).width(403);
+
 		window.add(imgButton);
 		window.add(imgToggleButton);
 		window.row();

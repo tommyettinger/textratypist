@@ -227,13 +227,17 @@ public class TypingLabel extends TextraLabel {
         final boolean hasEnded = this.hasEnded();
         font.markup(newText, layout.clear());
         if(wrap)
+        {
             workingLayout.setTargetWidth(getWidth());
+            font.markup(newText, workingLayout.clear());
+        }
         else
+        {
             workingLayout.setTargetWidth(0f);
-        font.markup(newText, workingLayout.clear());
-
-        setWidth(workingLayout.getWidth() + (style != null && style.background != null ?
-                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
+            font.markup(newText, workingLayout.clear());
+            setWidth(workingLayout.getWidth() + (style != null && style.background != null ?
+                    style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
+        }
 
         if (modifyOriginalText) saveOriginalText(newText);
         if (restart) {
