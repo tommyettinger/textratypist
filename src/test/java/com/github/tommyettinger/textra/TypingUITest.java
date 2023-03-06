@@ -61,7 +61,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-		final Font font = KnownFonts.getStandardFamily();
+		final Font.FontFamily family = KnownFonts.getStandardFamily().family;
 //		final Font font =
 //				//KnownFonts.getYanoneKaffeesatz();
 //				new Font(skin.getFont("outline-font"), 0f, 12f, 0f, 0f);//.adjustLineHeight(1.2f);
@@ -69,13 +69,15 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //				new Font(skin.get(Label.LabelStyle.class).font)
 //				.useIntegerPositions(true);
 //		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
-		font.family.connected[11] =
+		family.connected[11] =
 //				font;
 				KnownFonts.getYanoneKaffeesatz()
 //				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
 				.scaleTo(30, 35);
 //				.setName("Yanone Kaffeesatz");
-		font.family.connected[0] = font;
+		family.connected[0] = KnownFonts.getNowAlt();
+		Font font = family.connected[0];
+		font.family = family;
 //		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
 		for(Font f : font.family.connected) {
 			if(f != null)
@@ -92,7 +94,43 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		ImageTypingButton iconButton = new ImageTypingButton("jóÓetcjóÓetcjóÓetc", style, font);
 //		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-		TypingButton buttonMulti = new TypingButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "toggle", font);
+		TypingButton buttonMulti = new TypingButton("", skin, "toggle", font);
+		buttonMulti.setTextraLabel(new TypingLabel("", font){
+			int selectedCache = 0;
+			@Override
+			public void act(float delta) {
+				if(System.currentTimeMillis() % 5000 > 4940) {
+					restart("[DARK-bright-raspberry-magenta-rose-red-ember]So juicy and red! You could probably collect them on a mountain..");
+				}
+				super.act(delta);
+			}
+		});
+//		buttonMulti.setTextraLabel(new TypingLabel("jó Óe tc Ó j ó e t c c jóÓet", font){
+//			protected void setText(String newText, boolean modifyOriginalText, boolean restart) {
+//				final boolean hasEnded = this.hasEnded();
+//				font.markup(newText, layout.clear());
+//				if(wrap)
+//					workingLayout.setTargetWidth(getWidth());
+//				else
+//					workingLayout.setTargetWidth(0f);
+//				font.markup(newText, workingLayout.clear());
+//
+////				setWidth(workingLayout.getWidth() + (style != null && style.background != null ?
+////						style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
+//
+//				if (modifyOriginalText) saveOriginalText(newText);
+//				if (restart) {
+//					this.restart();
+//				}
+//				if (hasEnded) {
+//					this.skipToTheEnd(true, false);
+//				}
+//			}
+//		});
+//		buttonMulti.getTextraLabel().setText("jó Óe tc Ó j ó e t c c jóÓet");
+		buttonMulti.getTextraLabel().setWrap(true);
+//		((TypingLabel)buttonMulti.getTextraLabel()).getWorkingLayout().getTargetWidth();
+		buttonMulti.getTextraLabelCell().width(325);
 //		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle");
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
