@@ -144,6 +144,7 @@ public class ResizeTestApplication extends ApplicationAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
             System.out.println("" + itemDesc.getWidth());
             itemDesc.setText("[LIGHT-GRAY]" + "So juicy and red! You could probably collect them on a mountain..");
+            System.out.println(itemDesc.layout);
         }
         ui.draw();
     }

@@ -4222,7 +4222,8 @@ public class Font implements Disposable {
                                     if (earlier.width - change > targetWidth)
                                         continue;
                                     earlier.glyphs.truncate(j + 1);
-                                    earlier.glyphs.add('\n');
+                                    earlier.glyphs.add(' ');
+//                                    earlier.glyphs.add('\n');
                                     later.width = changeNext;
                                     earlier.width -= change;
                                     later.glyphs.addAll(glyphBuffer);
@@ -4474,7 +4475,8 @@ public class Font implements Disposable {
                                 if (earlier.width - change > targetWidth)
                                     continue;
                                 earlier.glyphs.truncate(j + 1);
-                                earlier.glyphs.add('\n');
+                                earlier.glyphs.add(' ');
+//                                earlier.glyphs.add('\n');
                                 later.width = changeNext;
                                 earlier.width -= change;
                                 later.glyphs.addAll(glyphBuffer);
@@ -5270,7 +5272,7 @@ public class Font implements Disposable {
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
                         glyphs.truncate(i);
-                        glyphs.add('\n');
+                        glyphs.add(' ');
                         break;
                     }
                     GlyphRegion tr = font.mapping.get(ch);
@@ -5350,7 +5352,7 @@ public class Font implements Disposable {
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
                         glyphs.truncate(i);
-                        glyphs.add('\n');
+                        glyphs.add(' ');
                         break;
                     }
                     GlyphRegion tr = font.mapping.get(ch);
