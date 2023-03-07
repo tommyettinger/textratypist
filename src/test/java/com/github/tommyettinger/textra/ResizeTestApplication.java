@@ -28,7 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class ResizeTestApplication extends ApplicationAdapter {
@@ -39,6 +38,7 @@ public class ResizeTestApplication extends ApplicationAdapter {
     private Stage ui;
     private Table background;
 
+    /*Typing*/TextraLabel itemDesc;
     Font nowAlt;
 
     public static void main(String[] args) {
@@ -75,32 +75,18 @@ public class ResizeTestApplication extends ApplicationAdapter {
         background.setFillParent(true);
         ui.addActor(background);
 
-        TextraLabel instructions = new TextraLabel("Try with/without maximizing the window.\n\nPress [*]G[*] to refresh TypingLabel's text ", nowAlt);
+        TextraLabel instructions = new TextraLabel("Try with/without maximizing the window.\n\nPress [*]G[*] to refresh /*Typing*/TextraLabel's text ", nowAlt);
         background.add(instructions).top().left().row();
 
         Table description = new Table();
 
-        TypingLabel itemDesc = new TypingLabel("", nowAlt) {
-            @Override
-            public void act(float delta) {
-                if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
-                    System.out.println("" + getWidth());
-                    restart("[LIGHT-GRAY]" + "So juicy and red! You could probably collect them on a mountain..");
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && Gdx.input.isKeyJustPressed(Input.Keys.G)) {
-                    System.out.println("" + getWidth());
-                    restart("[LIGHT-GRAY]" + "So juicy and red! You could probably collect them on a mountain..");
-                }
-
-                super.act(delta);
-            }
-        };
+        itemDesc = new /*Typing*/TextraLabel("", nowAlt);
         itemDesc.setWrap(true);
         itemDesc.setDebug(true);
         description.add(itemDesc).padTop(20).growX().left().row();
         description.add(new Table()).expandY().row();
 
-        background.add(new TypingLabel("|", nowAlt) {
+        background.add(new /*Typing*/TextraLabel("|", nowAlt) {
 
             boolean first = false;
 
@@ -155,6 +141,10 @@ public class ResizeTestApplication extends ApplicationAdapter {
         batch.end();
 
         ui.act();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
+            System.out.println("" + itemDesc.getWidth());
+            itemDesc.setText("[LIGHT-GRAY]" + "So juicy and red! You could probably collect them on a mountain..");
+        }
         ui.draw();
     }
 
