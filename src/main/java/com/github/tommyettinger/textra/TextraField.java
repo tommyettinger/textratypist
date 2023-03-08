@@ -481,7 +481,7 @@ public class TextraField extends Widget implements Disableable {
 	public void copy () {
 		if (hasSelection && !passwordMode) {
 			String toCopy = label.substring(Math.min(cursor, selectionStart), Math.max(cursor, selectionStart));
-			System.out.println("Copying: " + toCopy);
+//			System.out.println("Copying: " + toCopy);
 			clipboard.setContents(toCopy);
 		}
 	}
@@ -518,8 +518,9 @@ public class TextraField extends Widget implements Disableable {
 		}
 
 		if (hasSelection) {
-			System.out.println("cursor before: " + cursor);
-			System.out.println("cursor after: " + (cursor = delete(fireChangeEvent)));
+//			System.out.println("cursor before: " + cursor);
+			cursor = delete(fireChangeEvent);
+//			System.out.println("cursor after: " + cursor);
 		}
 		if (fireChangeEvent)
 			changeText(cursor, buffer);
@@ -529,7 +530,7 @@ public class TextraField extends Widget implements Disableable {
 		updateDisplayText();
 		cursor += buffer.length();
 
-		System.out.println("End of paste(): " + label.layout + "\n text: " + text);
+//		System.out.println("End of paste(): " + label.layout + "\n text: " + text);
 	}
 
 	boolean insert(int position, CharSequence inserting) {

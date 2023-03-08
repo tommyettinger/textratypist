@@ -1247,7 +1247,6 @@ public class TypingLabel extends TextraLabel {
     }
 
     public void setInWorkingLayout(int index, long newGlyph) {
-        // TODO: verify that `n = workingLayout.lines()` is correct, not `n = layout.lines()`
         for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = workingLayout.getLine(i).glyphs;
             if (i < workingLayout.lines() && index < glyphs.size) {

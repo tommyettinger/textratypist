@@ -335,21 +335,29 @@ changed, not when it has its size changed inline using (for example) the `[%200]
 actually looks a lot better for these small-to-moderate size adjustments. Because it doesn't need a different
 shader, the standard fonts are much more compatible with things like emoji, and can be used in the same batch as
 graphics that use the default SpriteBatch shader. SDF fonts support kerning, and `Gentium-sdf.fnt` uses both an SDF
-effect and kerning, but MSDF fonts have to be created through a cumbersome process that does not support kerning. This
-makes MSDF fonts only work their best for fixed-width typefaces. The best approach most of the time seems to be to use a
-large standard font texture, without SDF or MSDF, and scale it down as needed.
+effect and kerning. MSDF fonts created with [msdf-gdx-gen](https://github.com/maltaisn/msdf-gdx-gen) do support kerning,
+and as long as the generated texture is fairly large, the fonts seem to work well. The best approach most of the time
+seems to be to use a large standard font texture, without SDF or MSDF, and scale it down as needed.
 
 If you happen to use both tommyettinger's TextraTypist library and tommyettinger's
 [colorful-gdx](https://github.com/tommyettinger/colorful-gdx) library, you may encounter various issues. `ColorfulBatch`
-and `ColorfulSprite` both are incompatible with how TextraTypist sends vertex information to a Batch, though it would be
-possible to extend Font and override any of its code that handles vertices. Color description can be done by both
+appeared to be incompatible because it uses an extra attribute per-vertex (compared to SpriteBatch), but an adjustment
+it already does seems to make it compatible without changes. Color description can be done by both
 colorful-gdx's `SimplePalette` and `ColorUtils.describe()` here, but descriptions would really need to use the RGBA
 color space to work as expected. Alternative shaders from colorful-gdx's `Shaders` class generally won't work correctly
 with the known fonts here and the defaults for neutral colors (here, white is the neutral color, but in most shaders
 that allow lightening, 50% gray is the neutral color). The easiest solution for all this is to use a normal, vanilla
 `SpriteBatch` for TextraTypist rendering, and whatever `ShaderProgram` or `ColorfulBatch` you want for colorful-gdx
-rendering. (Some changes here are planned that could resolve this issue, and also make things easier for games that use
-custom Batches with different attributes.)
+rendering.
+
+Games that use custom `Batch` classes with additional attributes don't work out-of-the-box with `Font`, but it provides
+an extension point to allow subclasses to function with whatever attributes the `Batch` needs. Overriding
+`Font.drawVertices()` allows quite a lot of flexibility to handle unusual batches, and you can generally leave the
+custom Font unchanged other than the `drawVertices()` override. If you implement `Font`'s copy constructor just by
+calling `super(font);`, and still allow it to take a Font argument, then you can quickly take Fonts from KnownFonts and
+make copies using your subclass. The JavaDocs for `Font.drawVertices()` detail what each of the 20 floats passed in via
+an array to drawVertices are expected to do; custom Batches could have 24 or more floats and so would need to put the 20
+existing floats in the positions their Batch expects.
 
 Sometimes, you may need to enable or disable integer positioning for certain fonts to avoid a strange GPU-related visual
 artifact that seems to only happen on some Nvidia GPUs. When this happens, glyphs may appear a half-pixel or so away
@@ -357,7 +365,8 @@ from where they should be, in seemingly randomly-picked directions. It looks awf
 least should resolve it most of the time. Integer positions don't work well if you use world units that span multiple
 pixels in length, but this bug is an absolute mystery, and also doesn't happen at all on integrated GPUs, and may not
 happen on AMD GPUs. How it behaves on Apple Silicon graphics, I also do not know. The Issues tab is always available for
-anyone who wants to try to debug this!
+anyone who wants to try to debug this! It is possible that some fixes introduced in the 0.7.x releases may have already
+eliminated this bug, but I'm not especially optimistic that it is always gone.
 
 The gdx-freetype extension produces BitmapFont outputs, and you can create a Font from a BitmapFont without any issues.
 However, FreeType's "Auto" hinting settings both look worse than they normally should with Font, and can trigger the GPU
