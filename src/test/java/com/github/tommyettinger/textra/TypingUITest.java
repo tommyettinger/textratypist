@@ -94,44 +94,21 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		ImageTypingButton iconButton = new ImageTypingButton("jóÓetcjóÓetcjóÓetc", style, font);
 //		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-		TypingButton buttonMulti = new TypingButton("", skin, "toggle", font);
-		TypingLabel fancyLabel = new TypingLabel("", font){
-			@Override
-			public void act(float delta) {
-				if(System.currentTimeMillis() % 5000 > 4940) {
-					restart("[DARK-bright-raspberry-magenta-rose-red-ember]So juicy and red! You could probably collect them on a mountain..");
-				}
-				super.act(delta);
-			}
-		};
-//		fancyLabel.debug();
-		buttonMulti.setTextraLabel(fancyLabel);
-//		buttonMulti.setTextraLabel(new TypingLabel("jó Óe tc Ó j ó e t c c jóÓet", font){
-//			protected void setText(String newText, boolean modifyOriginalText, boolean restart) {
-//				final boolean hasEnded = this.hasEnded();
-//				font.markup(newText, layout.clear());
-//				if(wrap)
-//					workingLayout.setTargetWidth(getWidth());
-//				else
-//					workingLayout.setTargetWidth(0f);
-//				font.markup(newText, workingLayout.clear());
-//
-////				setWidth(workingLayout.getWidth() + (style != null && style.background != null ?
-////						style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
-//
-//				if (modifyOriginalText) saveOriginalText(newText);
-//				if (restart) {
-//					this.restart();
+//		TypingButton buttonMulti = new TypingButton("", skin, "toggle", font);
+//		TypingLabel fancyLabel = new TypingLabel("", font){
+//			@Override
+//			public void act(float delta) {
+//				if(System.currentTimeMillis() % 5000 > 4940) {
+//					restart("[DARK-bright-raspberry-magenta-rose-red-ember]So juicy and red! You could probably collect them on a mountain..");
 //				}
-//				if (hasEnded) {
-//					this.skipToTheEnd(true, false);
-//				}
+//				super.act(delta);
 //			}
-//		});
-//		buttonMulti.getTextraLabel().setText("jó Óe tc Ó j ó e t c c jóÓet");
-		fancyLabel.setWrap(true);
-//		((TypingLabel)buttonMulti.getTextraLabel()).getWorkingLayout().getTargetWidth();
-		buttonMulti.getTextraLabelCell().width(403);
+//		};
+//		fancyLabel.debug();
+//		buttonMulti.setTextraLabel(fancyLabel);
+//		fancyLabel.setWrap(true);
+//		buttonMulti.getTextraLabelCell().width(403);
+		TypingButton buttonMulti = new TypingButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "toggle", font);
 //		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle");
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");

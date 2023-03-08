@@ -484,7 +484,7 @@ public class Font implements Disposable {
      * tiny solid block in the lower-right corner and use that for this purpose. You can check if a .fnt file has a
      * solid block present by searching for {@code char id=9608} (9608 is the decimal way to write 0x2588).
      */
-    public char solidBlock = '\u2588'; // in decimal, this is 9608
+    public char solidBlock = '█'; // in decimal, this is 9608, in hex, u2588
 
     /**
      * If non-null, may contain connected Font values and names/aliases to look them up with using [@Name] syntax.
@@ -628,6 +628,46 @@ public class Font implements Disposable {
      * This can be configured to use a different color in place of blue by changing {@link #PACKED_NOTE_COLOR}.
      */
     public static final long NOTE = 14L << 20 | ALTERNATE;
+
+    /**
+     * The color black, as a packed float using the default RGBA color space.
+     * This can be overridden by subclasses that either use a different color space,
+     * or want to use a different color in place of black for effects like {@link #BLACK_OUTLINE}.
+     */
+    public float PACKED_BLACK = NumberUtils.intBitsToFloat(0xFE000000);
+    /**
+     * The color white, as a packed float using the default RGBA color space.
+     * This can be overridden by subclasses that either use a different color space,
+     * or want to use a different color in place of white for effects like {@link #WHITE_OUTLINE} and {@link #SHINY}.
+     */
+    public float PACKED_WHITE = NumberUtils.intBitsToFloat(0xFEFFFFFF);
+    /**
+     * The color to use for {@link #ERROR}'s underline, as a packed float using the default RGBA color space.
+     * This can be overridden by subclasses that either use a different color space,
+     * or want to use a different color in place of red for {@link #ERROR}.
+     * In RGBA8888 format, this is the color {@code 0xFF0000FF}.
+     * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
+     * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
+     */
+    public float PACKED_ERROR_COLOR = -0x1.0001fep125F; // red
+    /**
+     * The color to use for {@link #WARN}'s underline, as a packed float using the default RGBA color space.
+     * This can be overridden by subclasses that either use a different color space,
+     * or want to use a different color in place of yellow for {@link #WARN}.
+     * In RGBA8888 format, this is the color {@code 0xFFD510FF}.
+     * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
+     * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
+     */
+    public float PACKED_WARN_COLOR = -0x1.21abfep125F; // red
+    /**
+     * The color to use for {@link #NOTE}'s underline, as a packed float using the default RGBA color space.
+     * This can be overridden by subclasses that either use a different color space,
+     * or want to use a different color in place of blue for {@link #NOTE}.
+     * In RGBA8888 format, this is the color {@code 0x3088B8FF}.
+     * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
+     * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
+     */
+    public float PACKED_NOTE_COLOR = -0x1.71106p126F; // red
 
     private final float[] vertices = new float[20];
     private final Layout tempLayout = new Layout();
@@ -1092,12 +1132,19 @@ public class Font implements Disposable {
             }
         }
 
-        // shader and colorLookup are not copied, because there isn't much point in having different copies of
-        // a ShaderProgram or stateless ColorLookup. They are referenced directly.
+        PACKED_BLACK = toCopy.PACKED_BLACK;
+        PACKED_WHITE = toCopy.PACKED_WHITE;
+        PACKED_ERROR_COLOR = toCopy.PACKED_ERROR_COLOR;
+        PACKED_WARN_COLOR = toCopy.PACKED_WARN_COLOR;
+        PACKED_NOTE_COLOR = toCopy.PACKED_NOTE_COLOR;
+
+        // shader, colorLookup, and whiteBlock are not copied, because there isn't much point in having different copies
+        // of a ShaderProgram, stateless ColorLookup, or always-identical Texture. They are referenced directly.
         if (toCopy.shader != null)
             shader = toCopy.shader;
         if (toCopy.colorLookup != null)
             colorLookup = toCopy.colorLookup;
+        whiteBlock = toCopy.whiteBlock;
     }
 
     /**
@@ -5613,40 +5660,6 @@ public class Font implements Disposable {
     public String toString() {
         return "Font '" + name + "' at scale " + scaleX + " by " + scaleY;
     }
-
-    /**
-     * The color black, as a packed float using the default RGBA color space.
-     * This can be overridden by subclasses that either use a different color space,
-     * or want to use a different color in place of black for effects like {@link #BLACK_OUTLINE}.
-     */
-    public float PACKED_BLACK = NumberUtils.intToFloatColor(0xFE000000);
-    /**
-     * The color white, as a packed float using the default RGBA color space.
-     * This can be overridden by subclasses that either use a different color space,
-     * or want to use a different color in place of white for effects like {@link #WHITE_OUTLINE} and {@link #SHINY}.
-     */
-    public float PACKED_WHITE = NumberUtils.intToFloatColor(0xFEFFFFFF);
-    /**
-     * The color to use for {@link #ERROR}'s underline, as a packed float using the default RGBA color space.
-     * This can be overridden by subclasses that either use a different color space,
-     * or want to use a different color in place of red for {@link #ERROR}.
-     * In RGBA8888 format, this is the color {@code 0xFF0000FF}.
-     */
-    public float PACKED_ERROR_COLOR = -0x1.0001fep125F; // red
-    /**
-     * The color to use for {@link #WARN}'s underline, as a packed float using the default RGBA color space.
-     * This can be overridden by subclasses that either use a different color space,
-     * or want to use a different color in place of yellow for {@link #WARN}.
-     * In RGBA8888 format, this is the color {@code 0xFFD510FF}.
-     */
-    public float PACKED_WARN_COLOR = -0x1.0001fep125F; // red
-    /**
-     * The color to use for {@link #NOTE}'s underline, as a packed float using the default RGBA color space.
-     * This can be overridden by subclasses that either use a different color space,
-     * or want to use a different color in place of blue for {@link #NOTE}.
-     * In RGBA8888 format, this is the color {@code 0x3088B8FF}.
-     */
-    public float PACKED_NOTE_COLOR = -0x1.0001fep125F; // red
 
     /**
      * Given a 20-item float array (almost always {@link #vertices} in this class) and a Texture to draw (part of), this
