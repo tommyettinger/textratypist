@@ -1675,6 +1675,7 @@ public final class KnownFonts implements LifecycleListener {
             }
         });
     }
+    
     private TextureAtlas twemoji;
 
     /**
@@ -1810,6 +1811,138 @@ public final class KnownFonts implements LifecycleListener {
             return changing.addAtlas(instance.twemoji, prepend, append, offsetXChange, offsetYChange, xAdvanceChange);
         }
         throw new RuntimeException("Assets 'Twemoji.atlas' and 'Twemoji.png' not found.");
+    }
+
+    private TextureAtlas gameIcons;
+
+    /**
+     * Takes a Font and adds the <a href="https://game-icons.net/">Game-Icons.net</a> icon set to it, making the glyphs
+     * available using {@code [+name]} syntax. Unlike the emoji used by {@link #addEmoji(Font)}, icons here are always.
+     * retrieved by name, and names are always all-lower-case, separated by dashes ({@code '-'}). This caches the
+     * Game-Icons.net atlas for later calls. This tries to load the files "Game-Icons.atlas" and "Game-Icons.png" from
+     * the internal storage first, and if that fails, it tries to load them from local storage in the current working
+     * directory. There are 4131 images in this edition of the Game-Icons.net icons (from December 20, 2022), and
+     * <a href="https://game-icons.net/faq.html">it requires attribution to use</a>.
+     * <br>
+     * Although these icons might work with MSDF fonts, they should work with standard and SDF fonts. They can
+     * scale reasonably well down, and less-reasonably well up, but at typical text sizes (12-30 pixels in height) they
+     * tend to be legible. All icons use only the color white with various levels of transparency, so they can be
+     * colored like normal text glyphs. You can search for names in {@code Game-Icons.atlas}.
+     * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
+     * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.
+     * <br>
+     * Preview: <a href="">(Broken) Image link</a>
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.atlas">Game-Icons.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.png">Game-Icons.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons-License.txt">Game-Icons-License.txt</a></li>
+     * </ul>
+     *
+     * @param changing a Font that will have over 4000 icons added to it
+     * @return {@code changing}, after the icon atlas has been added
+     */
+    public static Font addGameIcons(Font changing) {
+        return addGameIcons(changing, 0f, 0f, 0f);
+    }
+    /**
+     * Takes a Font and adds the <a href="https://game-icons.net/">Game-Icons.net</a> icon set to it, making the glyphs
+     * available using {@code [+name]} syntax. Unlike the emoji used by {@link #addEmoji(Font)}, icons here are always.
+     * retrieved by name, and names are always all-lower-case, separated by dashes ({@code '-'}). This caches the
+     * Game-Icons.net atlas for later calls. This tries to load the files "Game-Icons.atlas" and "Game-Icons.png" from
+     * the internal storage first, and if that fails, it tries to load them from local storage in the current working
+     * directory. There are 4131 images in this edition of the Game-Icons.net icons (from December 20, 2022), and
+     * <a href="https://game-icons.net/faq.html">it requires attribution to use</a>.
+     * <br>
+     * Although these icons might work with MSDF fonts, they should work with standard and SDF fonts. They can
+     * scale reasonably well down, and less-reasonably well up, but at typical text sizes (12-30 pixels in height) they
+     * tend to be legible. All icons use only the color white with various levels of transparency, so they can be
+     * colored like normal text glyphs. You can search for names in {@code Game-Icons.atlas}.
+     * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
+     * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.
+     * <br>
+     * This overload allows customizing the x/y offsets and x-advance for every icon this puts in a Font.
+     * <br>
+     * Preview: <a href="">(Broken) Image link</a>
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.atlas">Game-Icons.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.png">Game-Icons.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons-License.txt">Game-Icons-License.txt</a></li>
+     * </ul>
+     *
+     * @param changing a Font that will have over 4000 icons added to it
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph
+     * @return {@code changing}, after the icon atlas has been added
+     */
+    public static Font addGameIcons(Font changing, float offsetXChange, float offsetYChange, float xAdvanceChange) {
+        return addGameIcons(changing, "", "", offsetXChange, offsetYChange, xAdvanceChange);
+    }
+
+    /**
+     * Takes a Font and adds the <a href="https://game-icons.net/">Game-Icons.net</a> icon set to it, making the glyphs
+     * available using {@code [+name]} syntax. Unlike the emoji used by {@link #addEmoji(Font)}, icons here are always.
+     * retrieved by name, and names are always all-lower-case, separated by dashes ({@code '-'}). This caches the
+     * Game-Icons.net atlas for later calls. This tries to load the files "Game-Icons.atlas" and "Game-Icons.png" from
+     * the internal storage first, and if that fails, it tries to load them from local storage in the current working
+     * directory. There are 4131 images in this edition of the Game-Icons.net icons (from December 20, 2022), and
+     * <a href="https://game-icons.net/faq.html">it requires attribution to use</a>.
+     * <br>
+     * Although these icons might work with MSDF fonts, they should work with standard and SDF fonts. They can
+     * scale reasonably well down, and less-reasonably well up, but at typical text sizes (12-30 pixels in height) they
+     * tend to be legible. All icons use only the color white with various levels of transparency, so they can be
+     * colored like normal text glyphs. You can search for names in {@code Game-Icons.atlas}.
+     * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
+     * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.
+     * <br>
+     * This overload allows customizing the x/y offsets and x-advance for every icon this puts in a Font. It also
+     * allows specifying Strings to prepend before and append after each name in the font.
+     * <br>
+     * Preview: <a href="">(Broken) Image link</a>
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.atlas">Game-Icons.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.png">Game-Icons.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons-License.txt">Game-Icons-License.txt</a></li>
+     * </ul>
+     *
+     * @param changing a Font that will have over 4000 icons added to it
+     * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
+     * @param append will be appended after each name in the atlas; if null, will be treated as ""
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph
+     * @return {@code changing}, after the icon atlas has been added
+     */
+    public static Font addGameIcons(Font changing, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
+        initialize();
+        if (instance.gameIcons == null) {
+            try {
+                FileHandle atlas = Gdx.files.internal(instance.prefix + "Game-Icons.atlas");
+                if (!atlas.exists() && Gdx.files.isLocalStorageAvailable()) atlas = Gdx.files.local(instance.prefix + "Game-Icons.atlas");
+                if (Gdx.files.internal(instance.prefix + "Game-Icons.png").exists())
+                    instance.gameIcons = new TextureAtlas(atlas, Gdx.files.internal(
+                            instance.prefix).isDirectory()
+                            ? Gdx.files.internal(instance.prefix)
+                            : Gdx.files.internal(instance.prefix).parent(), false);
+                else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + "Game-Icons.png").exists())
+                    instance.gameIcons = new TextureAtlas(atlas, Gdx.files.local(
+                            instance.prefix).isDirectory()
+                            ? Gdx.files.local(instance.prefix)
+                            : Gdx.files.local(instance.prefix).parent(), false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.gameIcons != null) {
+            return changing.addAtlas(instance.gameIcons, prepend, append, offsetXChange, offsetYChange, xAdvanceChange);
+        }
+        throw new RuntimeException("Assets 'Game-Icons.atlas' and 'Game-Icons.png' not found.");
     }
 
     @Override
@@ -2060,6 +2193,10 @@ public final class KnownFonts implements LifecycleListener {
         if(twemoji != null) {
             twemoji.dispose();
             twemoji = null;
+        }
+        if(gameIcons != null) {
+            gameIcons.dispose();
+            gameIcons = null;
         }
     }
 }
