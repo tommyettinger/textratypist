@@ -38,20 +38,25 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
     public void create() {
         stage = new Stage();
 //        font = KnownFonts.getOxanium().scaleTo(16f, 18f);
-        font = new Font("Oxanium-standard.fnt").scaleTo(16f, 18f);
-        // without the adjustments to y position or width in KnownFonts, this doesn't display emoji as well.
-        font2 = new Font(new BitmapFont(Gdx.files.internal("Oxanium-standard.fnt"))).scaleTo(16f, 18f);
-        KnownFonts.addEmoji(font);
-        KnownFonts.addEmoji(font2);
+        font = new Font("QuanPixel-standard.fnt", 0, 2, 0, 2).useIntegerPositions(true);
+        font2 = new Font(new BitmapFont(Gdx.files.internal("QuanPixel-standard.fnt")), 0, -2, 0, 2).useIntegerPositions(true);
+        // the offsets applied to emoji change in position if the font is scaled after the emoji are added...
+        KnownFonts.addEmoji(font, -4, -6, 0);
+        KnownFonts.addEmoji(font2, -4, -12, 0);
+//        font.scale(2, 2);
+//        font2.scale(2, 2);
+//        font = new Font("Oxanium-standard.fnt", 0, 2, -4, 0).scaleTo(16f, 18f);
+//        font2 = new Font(new BitmapFont(Gdx.files.internal("Oxanium-standard.fnt")), 0, -48, -4, 0).scaleTo(16f, 18f);
+//        KnownFonts.addEmoji(font, 0, -10, 0);
+//        KnownFonts.addEmoji(font2, 0, -10, 0);
         TypingLabel typingLabel = new TypingLabel("Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
         typingLabel.layout.setTargetWidth(400);
         typingLabel.setAlignment(Align.center);
-//        typingLabel.setWrap(true);
-//        TypingLabel typingLabel2 = new TypingLabel("[#cc99aa]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font2);
-//        typingLabel2.layout.setTargetWidth(400);
-//        typingLabel2.setAlignment(Align.center);
-//        typingLabel2.setWrap(true);
-        Stack stack = new Stack(typingLabel);
+
+        TypingLabel typingLabel2 = new TypingLabel("[#ff99aa77]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font2);
+        typingLabel2.layout.setTargetWidth(400);
+        typingLabel2.setAlignment(Align.center);
+        Stack stack = new Stack(typingLabel, typingLabel2);
         Table root = new Table();
         root.setFillParent(true);
         root.add(stack);
