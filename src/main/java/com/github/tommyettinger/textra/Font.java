@@ -2169,7 +2169,7 @@ public class Font implements Disposable {
      * @return this Font, for chaining
      */
     public Font addAtlas(TextureAtlas atlas) {
-        return addAtlas(atlas, 0, 0, 0);
+        return addAtlas(atlas, "", "", 0, 0, 0);
     }
     /**
      * Adds all items in {@code atlas} to the private use area of {@link #mapping}, and stores their names, so they can
@@ -2187,6 +2187,28 @@ public class Font implements Disposable {
      * @return this Font, for chaining
      */
     public Font addAtlas(TextureAtlas atlas, float offsetXChange, float offsetYChange, float xAdvanceChange) {
+        return addAtlas(atlas, "", "", offsetXChange, offsetYChange, xAdvanceChange);
+    }
+    /**
+     * Adds all items in {@code atlas} to the private use area of {@link #mapping}, and stores their names, so they can
+     * be looked up with {@code [+saxophone]} syntax (which is often the same as the {@code [+🎷]} syntax). The names
+     * of TextureRegions in the atlas are treated as case-insensitive, like some file systems.
+     * <a href="https://github.com/tommyettinger/twemoji-atlas/">There are possible emoji atlases here.</a>
+     * This may be useful if you have your own atlas, but for Twemoji in particular, you can use
+     * {@link KnownFonts#addEmoji(Font)} and the Twemoji files in the knownFonts folder. This overload allows specifying
+     * adjustments to the font-like properties of each GlyphRegion added, which may be useful if images from a
+     * particular atlas show up with an incorrect position or have the wrong spacing. It also allows specifying a String
+     * to prepend and to append that will be prepended and appended to each name, respectively. Either or both of the
+     * Strings to prepend and append may be empty (or equivalently here, null).
+     * @param atlas a TextureAtlas that shouldn't have more than 6144 names; all of it will be used
+     * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
+     * @param append will be appended after each name in the atlas; if null, will be treated as ""
+     * @param offsetXChange will be added to the {@link GlyphRegion#offsetX} of each added glyph
+     * @param offsetYChange will be added to the {@link GlyphRegion#offsetY} of each added glyph
+     * @param xAdvanceChange will be added to the {@link GlyphRegion#xAdvance} of each added glyph
+     * @return this Font, for chaining
+     */
+    public Font addAtlas(TextureAtlas atlas, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
         Array<TextureAtlas.AtlasRegion> regions = atlas.getRegions();
         if(nameLookup == null)
             nameLookup = new CaseInsensitiveIntMap(regions.size, 0.5f);
@@ -2196,20 +2218,25 @@ public class Font implements Disposable {
             namesByCharCode = new IntMap<>(regions.size >> 1, 0.5f);
         else
             namesByCharCode.ensureCapacity(regions.size >> 1);
+        if(prepend == null) prepend = "";
+        if(append == null) append = "";
+
         TextureAtlas.AtlasRegion previous = regions.first();
         GlyphRegion gr = new GlyphRegion(previous,
                 previous.offsetX + offsetXChange, previous.offsetY + offsetYChange, previous.originalWidth + xAdvanceChange);
 //        gr.offsetY += originalCellHeight * 0.125f;
         mapping.put(0xE000, gr);
-        nameLookup.put(previous.name, 0xE000);
-        namesByCharCode.put(0xE000, previous.name);
+        String name = prepend + previous.name + append;
+        nameLookup.put(name, 0xE000);
+        namesByCharCode.put(0xE000, name);
         for (int i = 0xE000, a = 1; i < 0xF800 && a < regions.size; a++) {
             TextureAtlas.AtlasRegion region = regions.get(a);
             if (previous.getRegionX() == region.getRegionX() && previous.getRegionY() == region.getRegionY()) {
-                nameLookup.put(region.name, i);
+                name = prepend + region.name + append;
+                nameLookup.put(name, i);
                 char f = previous.name.charAt(0);
                 if(f < 0xD800 || f >= 0xE000) // if the previous name didn't start with an emoji char, use this name
-                    namesByCharCode.put(i, region.name);
+                    namesByCharCode.put(i, name);
             } else {
                 ++i;
                 previous = region;
@@ -2217,8 +2244,9 @@ public class Font implements Disposable {
                         region.offsetX + offsetXChange, region.offsetY + offsetYChange, region.originalWidth + xAdvanceChange);
 //                gr.offsetY += originalCellHeight * 0.125f;
                 mapping.put(i, gr);
-                nameLookup.put(region.name, i);
-                namesByCharCode.put(i, region.name);
+                name = prepend + region.name + append;
+                nameLookup.put(name, i);
+                namesByCharCode.put(i, name);
             }
         }
         return this;
