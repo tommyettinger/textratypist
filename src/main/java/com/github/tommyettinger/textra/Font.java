@@ -3527,11 +3527,8 @@ public class Font implements Disposable {
         u2 = tr.getU2();
         v2 = tr.getV2();
 
-//        float imageAdjust = 0f;
-
         if (c >= 0xE000 && c < 0xF800) {
             yt = handleIntegerPosition((font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy + font.descent * font.scaleY) * scale * sizingY);
-//            imageAdjust = font.cellHeight * -0.25f;
         }
 
         if ((glyph & OBLIQUE) != 0L) {

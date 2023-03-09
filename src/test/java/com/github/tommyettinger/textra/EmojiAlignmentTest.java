@@ -28,27 +28,34 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class EmojiAlignmentTest extends ApplicationAdapter {
     public Stage stage;
     public Font font, font2;
-
+    public float cw = 1, ch = 1;
+    long startTime;
     @Override
     public void create() {
+        startTime = TimeUtils.millis();
         stage = new Stage();
 //        font = KnownFonts.getOxanium().scaleTo(16f, 18f);
-        font = new Font("QuanPixel-standard.fnt", 0, 2, 0, 2).useIntegerPositions(true);
-        font2 = new Font(new BitmapFont(Gdx.files.internal("QuanPixel-standard.fnt")), 0, -2, 0, 2).useIntegerPositions(true);
+//        font = new Font("QuanPixel-standard.fnt", 0, 2, 0, 2).useIntegerPositions(true);
+//        font2 = new Font(new BitmapFont(Gdx.files.internal("QuanPixel-standard.fnt")), 0, -2, 0, 2).useIntegerPositions(true);
         // the offsets applied to emoji change in position if the font is scaled after the emoji are added...
-        KnownFonts.addEmoji(font, -4, -6, 0);
-        KnownFonts.addEmoji(font2, -4, -12, 0);
 //        font.scale(2, 2);
 //        font2.scale(2, 2);
-//        font = new Font("Oxanium-standard.fnt", 0, 2, -4, 0).scaleTo(16f, 18f);
-//        font2 = new Font(new BitmapFont(Gdx.files.internal("Oxanium-standard.fnt")), 0, -48, -4, 0).scaleTo(16f, 18f);
-//        KnownFonts.addEmoji(font, 0, -10, 0);
-//        KnownFonts.addEmoji(font2, 0, -10, 0);
+//        KnownFonts.addEmoji(font, -4, -7, 0);
+//        KnownFonts.addEmoji(font2, -4, -12, 0);
+        font = new Font("Oxanium-standard.fnt", 0, 2, -4, 0).scaleTo(16f, 18f);
+        font2 = new Font(new BitmapFont(Gdx.files.internal("Oxanium-standard.fnt")), 0, -48, -4, 0).scaleTo(16f, 18f);
+        font.useIntegerPositions(false);
+        font2.useIntegerPositions(false);
+        KnownFonts.addEmoji(font, 0, 0, 0);
+        KnownFonts.addEmoji(font2, 0, 0, 0);
+        cw = font.cellWidth;
+        ch = font.cellHeight;
         TypingLabel typingLabel = new TypingLabel("Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
         typingLabel.layout.setTargetWidth(400);
         typingLabel.setAlignment(Align.center);
@@ -66,6 +73,9 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
     @Override
     public void render() {
         ScreenUtils.clear(Color.BLACK);
+        float factor = (TimeUtils.timeSinceMillis(startTime) & 0x1FFF) * 0x1p-12f + 1f;
+        font.scaleTo(cw * factor, ch * factor);
+        font2.scaleTo(cw * factor, ch * factor);
         stage.act();
         stage.draw();
     }
