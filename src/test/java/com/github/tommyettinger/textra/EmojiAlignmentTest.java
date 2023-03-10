@@ -59,10 +59,12 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         TypingLabel typingLabel = new TypingLabel("Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
         typingLabel.layout.setTargetWidth(400);
         typingLabel.setAlignment(Align.center);
+        typingLabel.debug();
 
         TypingLabel typingLabel2 = new TypingLabel("[#ff99aa77]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font2);
         typingLabel2.layout.setTargetWidth(400);
         typingLabel2.setAlignment(Align.center);
+        typingLabel2.debug();
         Stack stack = new Stack(typingLabel, typingLabel2);
         Table root = new Table();
         root.setFillParent(true);
