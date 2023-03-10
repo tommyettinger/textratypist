@@ -3512,8 +3512,7 @@ public class Font implements Disposable {
         float xc = tr.offsetX * scaleX - centerX * sizingX;
         float trrh = tr.getRegionHeight();
         float h = trrh * scaleY * sizingY;
-        float
-                yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
+        float yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
 //                yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
 
 //        float yt = (font.originalCellHeight * 0.5f - trrh - tr.offsetY) * scaleY * sizingY;
@@ -3531,7 +3530,7 @@ public class Font implements Disposable {
         u2 = tr.getU2();
         v2 = tr.getV2();
 
-        if (c >= 0xE000 && c < 0xF800) {
+//        if (c >= 0xE000 && c < 0xF800) {
 //            yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
 
 //            yt = (font.cellHeight) * scale * sizingY * -0.5f;
@@ -3542,7 +3541,7 @@ public class Font implements Disposable {
 //            yt = -font.descent * scale * font.scaleY - font.cellHeight * scale * sizingY * 0.5f;
 //            h = (font.cellHeight * scale) * sizingY;
 //            yt = handleIntegerPosition((font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy + font.descent * font.scaleY) * scale * sizingY);
-        }
+//        }
         if(c == 57863) // floppy disk
         {
             System.out.println("floppy disk: " + yt + ", font.cellHeight: " + font.cellHeight + ", trrh: " + trrh + ", tr.offsetY: " + tr.offsetY + ", fsy: "+ fsy + ", scale: " + scale + ", sizingY: " + sizingY + ", descent: " + font.descent);

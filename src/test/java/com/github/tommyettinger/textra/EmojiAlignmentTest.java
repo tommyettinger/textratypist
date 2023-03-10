@@ -70,6 +70,37 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         root.setFillParent(true);
         root.add(stack);
         stage.addActor(root);
+        stage.getBatch().setShader(new ShaderProgram(
+                "attribute vec4 a_position;\n" +
+                        "attribute vec4 a_color;\n" +
+                        "attribute vec2 a_texCoord0;\n" +
+                        "uniform mat4 u_projTrans;\n" +
+                        "varying vec4 v_color;\n" +
+                        "varying vec2 v_texCoords;\n" +
+                        "\n" +
+                        "void main()\n" +
+                        "{\n" +
+                        "   v_color = a_color;\n" +
+                        "   v_color.a = v_color.a * (255.0/254.0);\n" +
+                        "   v_texCoords = a_texCoord0;\n" +
+                        "   gl_Position =  u_projTrans * a_position;\n" +
+                        "}\n",
+                "#ifdef GL_ES\n" +
+                        "#define LOWP lowp\n" +
+                        "precision mediump float;\n" +
+                        "#else\n" +
+                        "#define LOWP \n" +
+                        "#endif\n" +
+                        "varying vec2 v_texCoords;\n" +
+                        "varying LOWP vec4 v_color;\n" +
+                        "uniform sampler2D u_texture;\n" +
+                        "void main()\n" +
+                        "{\n" +
+                        "   vec4 tgt = texture2D(u_texture, v_texCoords);\n" +
+                        "   gl_FragColor.rgb = clamp(tgt.rgb * v_color.rgb * 0.5 + 1.0 - tgt.a, 0.0, 1.0);\n" +
+                        "   gl_FragColor.a = clamp(v_color.a * tgt.a, 0.5, 1.0);\n" +
+                        "}"
+        ));
     }
 
     @Override
