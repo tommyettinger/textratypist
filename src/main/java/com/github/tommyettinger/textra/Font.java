@@ -3429,6 +3429,7 @@ public class Font implements Disposable {
             fsy = fsx;//0.75f * font.originalCellHeight / tr.getRegionHeight();
                     //scale * font.cellHeight * 0.8f / tr.xAdvance;//font.cellHeight / (tr.xAdvance * 1.25f);
             scaleX = scaleY = scale * fsx;
+//            System.out.println(c & 0xFFFF);//57863
         }
         else
         {
@@ -3527,8 +3528,16 @@ public class Font implements Disposable {
         u2 = tr.getU2();
         v2 = tr.getV2();
 
-        if (c >= 0xE000 && c < 0xF800) {
-            yt = handleIntegerPosition((font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy + font.descent * font.scaleY) * scale * sizingY);
+//        if (c >= 0xE000 && c < 0xF800) {
+//            yt = handleIntegerPosition((font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy + font.descent * font.scaleY) * scale * sizingY);
+//        }
+        if(c == 57863) // floppy disk
+        {
+            System.out.println("floppy disk: " + yt + ", font.cellHeight: " + font.cellHeight + ", trrh: " + trrh + ", tr.offsetY: " + tr.offsetY + ", fsy: "+ fsy + ", scale: " + scale + ", sizingY: " + sizingY);
+        }
+        if(c == '!') // !
+        {
+            System.out.println("exclamation: " + yt + ", font.cellHeight: " + font.cellHeight + ", trrh: " + trrh + ", tr.offsetY: " + tr.offsetY + ", fsy: "+ fsy + ", scale: " + scale + ", sizingY: " + sizingY);
         }
 
         if ((glyph & OBLIQUE) != 0L) {
