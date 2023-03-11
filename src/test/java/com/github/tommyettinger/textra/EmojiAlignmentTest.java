@@ -40,6 +40,7 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
     public void create() {
         startTime = TimeUtils.millis();
         stage = new Stage();
+        font = KnownFonts.getAStarry().scaleTo(8f, 16f);
 //        font = KnownFonts.getOxanium().scaleTo(16f, 18f);
 //        font = new Font("QuanPixel-standard.fnt", 0, 2, 0, 2).useIntegerPositions(true);
 //        font2 = new Font(new BitmapFont(Gdx.files.internal("QuanPixel-standard.fnt")), 0, -2, 0, 2).useIntegerPositions(true);
@@ -48,8 +49,8 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        font2.scale(2, 2);
 //        KnownFonts.addEmoji(font, -4, -7, 0);
 //        KnownFonts.addEmoji(font2, -4, -12, 0);
-        font = new Font("Oxanium-standard.fnt", 0, 2, -4, 0).scaleTo(16f, 18f);
-        font2 = new Font(new BitmapFont(Gdx.files.internal("Oxanium-standard.fnt")), 0, -48, -4, 0).scaleTo(16f, 18f);
+//        font = new Font("Oxanium-standard.fnt", 0, 2, -4, 0).scaleTo(16f, 18f);
+        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, -32, 0, 0).scaleTo(8f, 16f);
         font.useIntegerPositions(false);
         font2.useIntegerPositions(false);
         KnownFonts.addEmoji(font, 0, 0, 0);
