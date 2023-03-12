@@ -3439,21 +3439,21 @@ public class Font implements Disposable {
         }
         osx = font.scaleX * scale;
         osy = font.scaleY * scale;
-        float centerX = font.cellWidth * scaleX * 0.5f;
+        float centerX = tr.xAdvance * scaleX * 0.5f;
         float centerY = font.cellHeight * scaleY * 0.5f;
 
-        float oCenterX = font.cellWidth * osx * 0.5f;
+        float oCenterX = tr.xAdvance * fsx * 0.5f;
         float oCenterY = font.cellHeight * osy * 0.5f;
 
-        y -= font.descent * osy - font.descent * font.scaleY * 2f;
+        y += font.descent * font.scaleY * 2f - font.descent * osy;
 
         float ox = x, oy = y;
 
-        float ix = font.handleIntegerPosition(x + centerX);
-        float iy = font.handleIntegerPosition(y + centerY);
+        float ix = font.handleIntegerPosition(x + oCenterX);
+        float iy = font.handleIntegerPosition(y + oCenterY);
         // The shifts here represent how far the position was moved by handling the integer position, if that was done.
-        float xShift = (x + centerX) - (ix);
-        float yShift = (y + centerY) - (iy);
+        float xShift = (x + oCenterX) - (ix);
+        float yShift = (y + oCenterY) - (iy);
         // This moves the center to match the movement from integer position.
 //        x += (centerX -= xShift);
 //        y += (centerY -= yShift);
