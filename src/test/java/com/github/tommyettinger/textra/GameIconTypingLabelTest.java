@@ -62,7 +62,7 @@ public class GameIconTypingLabelTest extends ApplicationAdapter {
 //        Font font = new Font("dawnlike/PlainAndSimplePlus-standard.fnt", atlas.findRegion("PlainAndSimplePlus-standard"), 0, 0, 2, 2);
 //        font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
 //        font.scale(2, 2);
-        Font font = KnownFonts.getNowAlt();
+        Font font = KnownFonts.addEmoji(KnownFonts.getNowAlt());
         Font holder = KnownFonts.addGameIcons(KnownFonts.getAStarry().scaleTo(font.cellHeight, font.cellHeight).setName("Icons"));
         font.setFamily(new Font.FontFamily(new Font[]{font, holder}));
 
@@ -87,8 +87,8 @@ public class GameIconTypingLabelTest extends ApplicationAdapter {
 //                        + "But... {SICK}U. Nitty{ENDSICK} doesn't."
 //                        + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
 
-                "I love TextraTypist! [@Icons][gold][+saxophone]{HEARTBEAT}[deep pink][+heart-wings]{ENDHEARTBEAT}[rich apricot][+party-popper][white][@]\n"
-                + "But... {SICK}U. Nitty{ENDSICK} doesn't. [@Icons]{CROWD}[#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}[@]\n"
+                "I love TextraTypist! [+⌨] [@Icons][gold][+saxophone]{HEARTBEAT}[deep pink][+heart-wings]{ENDHEARTBEAT}[rich apricot][+party-popper][white][@]\n"
+                + "But... {SICK}U. Nitty{ENDSICK} doesn't. [+🤮] [@Icons]{CROWD}[#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}[@]\n"
                 + "Scale testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go![]\n"
                 ,
 //
