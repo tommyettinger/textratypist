@@ -34,6 +34,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class EmojiAlignmentTest extends ApplicationAdapter {
     public Stage stage;
     public Font font, font2;
+    TextraLabel typingLabel, typingLabel2;
     public float cw = 1, ch = 1;
     long startTime;
     @Override
@@ -57,12 +58,12 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         KnownFonts.addEmoji(font2, 0, 0, 0);
         cw = font.cellWidth;
         ch = font.cellHeight;
-        TextraLabel typingLabel = new TextraLabel("Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
+        typingLabel = new TextraLabel("Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
 //        typingLabel.layout.setTargetWidth(400);
         typingLabel.setAlignment(Align.center);
         typingLabel.debug();
 
-        TextraLabel typingLabel2 = new TextraLabel("[#ff99aa77]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font2);
+        typingLabel2 = new TextraLabel("[#ff99aa77]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font2);
 //        typingLabel2.layout.setTargetWidth(400);
         typingLabel2.setAlignment(Align.center);
         typingLabel2.debug();
@@ -110,6 +111,8 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         float factor = (TimeUtils.timeSinceMillis(startTime) & 0x1FFF) * 0x1p-12f + 1f;
         font.scaleTo(cw * factor, ch * factor);
         font2.scaleTo(cw * factor, ch * factor);
+        typingLabel.invalidate();
+        typingLabel2.invalidate();
         stage.act();
         stage.draw();
     }

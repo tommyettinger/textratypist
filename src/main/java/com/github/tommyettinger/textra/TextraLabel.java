@@ -246,8 +246,13 @@ public class TextraLabel extends Widget {
         super.validate();
 
         //TODO: Figure out how expensive this is to call frequently; see if we can limit how many calls we make.
+        float oldWidth = layout.getWidth();
+        float oldHeight = layout.getHeight();
         font.calculateSize(layout);
-
+        float height = layout.getHeight();
+        float width = layout.getWidth();
+        if(oldWidth != width || oldHeight != height)
+            invalidateHierarchy();
         final float rot = getRotation();
         final float originX = getOriginX();
         final float originY = getOriginY();
@@ -260,7 +265,6 @@ public class TextraLabel extends Widget {
         final int lines = layout.lines();
         float baseX = getX(), baseY = getY();
 
-        float height = layout.getHeight();
         if (Align.isBottom(align)) {
             baseX -= sn * height;
             baseY += cs * height;
@@ -268,7 +272,7 @@ public class TextraLabel extends Widget {
             baseX -= sn * height * 0.5f;
             baseY += cs * height * 0.5f;
         }
-        float width = getWidth();
+        width = getWidth();
         height = getHeight();
         if (Align.isRight(align)) {
             baseX += cs * width;
