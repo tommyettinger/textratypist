@@ -245,6 +245,9 @@ public class TextraLabel extends Widget {
     public void draw(Batch batch, float parentAlpha) {
         super.validate();
 
+        //TODO: Figure out how expensive this is to call frequently; see if we can limit how many calls we make.
+        font.calculateSize(layout);
+
         final float rot = getRotation();
         final float originX = getOriginX();
         final float originY = getOriginY();
