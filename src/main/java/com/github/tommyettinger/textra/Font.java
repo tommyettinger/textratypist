@@ -3960,10 +3960,10 @@ public class Font implements Disposable {
                     else if(innerSquareStart == -1) appendTo.add(current | c);
                     if (c == ']') {
                         innerSquareEnd = i;
-                        if(innerSquareStart != -1 && nameLookup != null) {
+                        if(innerSquareStart != -1 && font.nameLookup != null) {
                             int len = innerSquareEnd - innerSquareStart;
                             if (len >= 2) {
-                                c = nameLookup.get(safeSubstring(text, innerSquareStart + 2, innerSquareEnd), '+');
+                                c = font.nameLookup.get(safeSubstring(text, innerSquareStart + 2, innerSquareEnd), '+');
                                 innerSquareStart = -1;
                                 appendTo.add(current | c);
                             }
@@ -4182,10 +4182,10 @@ public class Font implements Disposable {
 
                 else {
                     float w;
-                    if(c == '+' && nameLookup != null) {
+                    if(c == '+' && font.nameLookup != null) {
                         int len = text.indexOf(']', i) - i;
                         if (len >= 0) {
-                            c = nameLookup.get(safeSubstring(text, i + 1, i + len), '+');
+                            c = font.nameLookup.get(safeSubstring(text, i + 1, i + len), '+');
                             i += len;
                             scaleX = (scale + 1) * 0.25f * font.cellHeight / (font.mapping.get(c, font.defaultValue).xAdvance*1.25f);
                         }
@@ -4796,17 +4796,33 @@ public class Font implements Disposable {
         long baseColor = 0xFFFFFFFE00000000L;
         long color = baseColor;
         long current = color;
+        Font font = this;
         for (int i = 0, n = markup.length(); i <= n; i++) {
             if(i == n) return current | ' ';
             //// CURLY BRACKETS
             if (markup.charAt(i) == '{' && i + 1 < n && markup.charAt(i + 1) != '{') {
                 int start = i;
-                int sizeChange = -1, fontChange = -1;
+                int sizeChange = -1, fontChange = -1, innerSquareStart = -1, innerSquareEnd = -1;
                 int end = markup.indexOf('}', i);
                 if (end == -1) end = markup.length();
                 int eq = end;
                 for (; i < n && i <= end; i++) {
                     c = markup.charAt(i);
+
+                    if (c == '[' && i < end && markup.charAt(i+1) == '+') innerSquareStart = i;
+                    else if(innerSquareStart == -1) current = (current | c);
+                    if (c == ']') {
+                        innerSquareEnd = i;
+                        if(innerSquareStart != -1 && font.nameLookup != null) {
+                            int len = innerSquareEnd - innerSquareStart;
+                            if (len >= 2) {
+                                c = font.nameLookup.get(safeSubstring(markup, innerSquareStart + 2, innerSquareEnd), '+');
+                                innerSquareStart = -1;
+                                current = (current | c);
+                            }
+                        }
+                    }
+
                     if (c == '@') fontChange = i;
                     else if (c == '%') sizeChange = i;
                     else if (c == '?') sizeChange = -1;
@@ -4846,6 +4862,8 @@ public class Font implements Disposable {
                     } else {
                         if (family.connected[fontIndex] == null) {
                             fontIndex = 0;
+                        } else {
+                            font = family.connected[fontIndex];
                         }
                     }
                 } else if (sizeChange >= 0) {
@@ -4988,6 +5006,7 @@ public class Font implements Disposable {
                                 break;
                             }
                             fontIndex = family.fontAliases.get(safeSubstring(markup, i + 1, i + len), 0);
+                            font = family.connected[fontIndex];
                             current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
                             break;
                         case '|':
@@ -5011,10 +5030,10 @@ public class Font implements Disposable {
 
                 else {
                     float w;
-                    if(c == '+' && nameLookup != null) {
+                    if(c == '+' && font.nameLookup != null) {
                         int len = markup.indexOf(']', i) - i;
                         if (len >= 0) {
-                            c = nameLookup.get(safeSubstring(markup, i + 1, i + len), '+');
+                            c = font.nameLookup.get(safeSubstring(markup, i + 1, i + len), '+');
                         }
                     }
                     if(c == '[')
