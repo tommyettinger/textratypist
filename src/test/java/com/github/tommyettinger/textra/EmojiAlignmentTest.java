@@ -30,7 +30,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class EmojiAlignmentTest extends ApplicationAdapter {
     public Stage stage;
     public Font font, font2;
@@ -41,7 +40,7 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
     public void create() {
         startTime = TimeUtils.millis();
         stage = new Stage();
-        font = KnownFonts.getAStarry().scaleTo(8f, 16f);
+//        font = KnownFonts.getAStarry().scaleTo(8f, 16f);
 //        font = KnownFonts.getOxanium().scaleTo(16f, 18f);
 //        font = new Font("QuanPixel-standard.fnt", 0, 2, 0, 2).useIntegerPositions(true);
 //        font2 = new Font(new BitmapFont(Gdx.files.internal("QuanPixel-standard.fnt")), 0, -2, 0, 2).useIntegerPositions(true);
@@ -51,6 +50,7 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        KnownFonts.addEmoji(font, -4, -7, 0);
 //        KnownFonts.addEmoji(font2, -4, -12, 0);
 //        font = new Font("Oxanium-standard.fnt", 0, 2, -4, 0).scaleTo(16f, 18f);
+        font = new Font("AStarry-standard.fnt", 0, 16, 0, 0).scaleTo(8f, 16f);
         font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, -32, 0, 0).scaleTo(8f, 16f);
         font.useIntegerPositions(false);
         font2.useIntegerPositions(false);
@@ -108,7 +108,7 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
     @Override
     public void render() {
         ScreenUtils.clear(Color.BLACK);
-        float factor = (TimeUtils.timeSinceMillis(startTime) & 0x1FFF) * 0x1p-12f + 1f;
+        float factor = (TimeUtils.timeSinceMillis(startTime) & 0x1FFF) * 0x3p-13f + 1f;
         font.scaleTo(cw * factor, ch * factor);
         font2.scaleTo(cw * factor, ch * factor);
         typingLabel.invalidate();
@@ -120,7 +120,7 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel Emoji Alignment test");
-        config.setWindowedMode(640, 480);
+        config.setWindowedMode(1300, 480);
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
