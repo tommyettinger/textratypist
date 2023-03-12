@@ -3542,14 +3542,10 @@ public class Font implements Disposable {
 //            h = (font.cellHeight * scale) * sizingY;
 //            yt = handleIntegerPosition((font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy + font.descent * font.scaleY) * scale * sizingY);
 //        }
-        if(c == 57863) // floppy disk
-        {
-            System.out.println("floppy disk: " + yt + ", font.cellHeight: " + font.cellHeight + ", trrh: " + trrh + ", tr.offsetY: " + tr.offsetY + ", fsy: "+ fsy + ", scale: " + scale + ", sizingY: " + sizingY + ", descent: " + font.descent);
-        }
-        if(c == '!') // !
-        {
-            System.out.println("exclamation: " + yt + ", font.cellHeight: " + font.cellHeight + ", trrh: " + trrh + ", tr.offsetY: " + tr.offsetY + ", fsy: "+ fsy + ", scale: " + scale + ", sizingY: " + sizingY + ", descent: " + font.descent);
-        }
+
+        // leaving this in commented because it can be useful to quickly get info on a particular char
+//        if(c == 57863) // floppy disk
+//            System.out.println("floppy disk: " + yt + ", font.cellHeight: " + font.cellHeight + ", trrh: " + trrh + ", tr.offsetY: " + tr.offsetY + ", fsy: "+ fsy + ", scale: " + scale + ", sizingY: " + sizingY + ", descent: " + font.descent);
 
         if ((glyph & OBLIQUE) != 0L) {
             x0 += h * 0.2f;

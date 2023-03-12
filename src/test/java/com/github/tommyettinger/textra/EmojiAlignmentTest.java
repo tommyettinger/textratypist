@@ -51,11 +51,11 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        KnownFonts.addEmoji(font2, -4, -12, 0);
 //        font = new Font("Oxanium-standard.fnt", 0, 2, -4, 0).scaleTo(16f, 18f);
         font = new Font("AStarry-standard.fnt", 0, 16, 0, 0).scaleTo(8f, 16f);
-        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, -32, 0, 0).scaleTo(8f, 16f);
+        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 16, -32, 0, 0).scaleTo(8f, 16f);
         font.useIntegerPositions(false);
         font2.useIntegerPositions(false);
         KnownFonts.addEmoji(font, 0, 0, 0);
-        KnownFonts.addEmoji(font2, 0, 0, 0);
+        KnownFonts.addEmoji(font2, 2, 0, 0);
         cw = font.cellWidth;
         ch = font.cellHeight;
         typingLabel = new TextraLabel("Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
@@ -72,37 +72,37 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         root.setFillParent(true);
         root.add(stack);
         stage.addActor(root);
-        stage.getBatch().setShader(new ShaderProgram(
-                "attribute vec4 a_position;\n" +
-                        "attribute vec4 a_color;\n" +
-                        "attribute vec2 a_texCoord0;\n" +
-                        "uniform mat4 u_projTrans;\n" +
-                        "varying vec4 v_color;\n" +
-                        "varying vec2 v_texCoords;\n" +
-                        "\n" +
-                        "void main()\n" +
-                        "{\n" +
-                        "   v_color = a_color;\n" +
-                        "   v_color.a = v_color.a * (255.0/254.0);\n" +
-                        "   v_texCoords = a_texCoord0;\n" +
-                        "   gl_Position =  u_projTrans * a_position;\n" +
-                        "}\n",
-                "#ifdef GL_ES\n" +
-                        "#define LOWP lowp\n" +
-                        "precision mediump float;\n" +
-                        "#else\n" +
-                        "#define LOWP \n" +
-                        "#endif\n" +
-                        "varying vec2 v_texCoords;\n" +
-                        "varying LOWP vec4 v_color;\n" +
-                        "uniform sampler2D u_texture;\n" +
-                        "void main()\n" +
-                        "{\n" +
-                        "   vec4 tgt = texture2D(u_texture, v_texCoords);\n" +
-                        "   gl_FragColor.rgb = clamp(tgt.rgb * v_color.rgb * 0.5 + 1.0 - tgt.a, 0.0, 1.0);\n" +
-                        "   gl_FragColor.a = clamp(v_color.a * tgt.a, 0.5, 1.0);\n" +
-                        "}"
-        ));
+//        stage.getBatch().setShader(new ShaderProgram(
+//                "attribute vec4 a_position;\n" +
+//                        "attribute vec4 a_color;\n" +
+//                        "attribute vec2 a_texCoord0;\n" +
+//                        "uniform mat4 u_projTrans;\n" +
+//                        "varying vec4 v_color;\n" +
+//                        "varying vec2 v_texCoords;\n" +
+//                        "\n" +
+//                        "void main()\n" +
+//                        "{\n" +
+//                        "   v_color = a_color;\n" +
+//                        "   v_color.a = v_color.a * (255.0/254.0);\n" +
+//                        "   v_texCoords = a_texCoord0;\n" +
+//                        "   gl_Position =  u_projTrans * a_position;\n" +
+//                        "}\n",
+//                "#ifdef GL_ES\n" +
+//                        "#define LOWP lowp\n" +
+//                        "precision mediump float;\n" +
+//                        "#else\n" +
+//                        "#define LOWP \n" +
+//                        "#endif\n" +
+//                        "varying vec2 v_texCoords;\n" +
+//                        "varying LOWP vec4 v_color;\n" +
+//                        "uniform sampler2D u_texture;\n" +
+//                        "void main()\n" +
+//                        "{\n" +
+//                        "   vec4 tgt = texture2D(u_texture, v_texCoords);\n" +
+//                        "   gl_FragColor.rgb = clamp(tgt.rgb * v_color.rgb * 0.5 + 1.0 - tgt.a, 0.0, 1.0);\n" +
+//                        "   gl_FragColor.a = clamp(v_color.a * tgt.a, 0.5, 1.0);\n" +
+//                        "}"
+//        ));
     }
 
     @Override
