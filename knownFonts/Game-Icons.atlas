@@ -658,7 +658,7 @@ bandage-roll
 bounds:4032,2668,60,60
 bandaged
 bounds:1862,1614,60,60
-bandana
+bandanna
 bounds:2110,4032,60,60
 bandit
 bounds:374,2792,60,60
@@ -1368,7 +1368,7 @@ candy-canes
 bounds:188,1304,60,60
 canned-fish
 bounds:2792,2792,60,60
-cannister
+canister
 bounds:2110,2358,60,60
 cannon
 bounds:746,4032,60,60
@@ -5802,7 +5802,7 @@ radar-dish
 bounds:3722,1986,60,60
 radar-sweep
 bounds:2792,1304,60,60
-raddish
+radish
 bounds:3970,3970,60,60
 radial-balance
 bounds:2048,64,60,60
@@ -5952,7 +5952,7 @@ riot-shield
 bounds:250,1304,60,60
 riposte
 bounds:126,3908,60,60
-risng-sun
+rising-sun
 bounds:1924,2730,60,60
 river
 bounds:1366,1366,60,60

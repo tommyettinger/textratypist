@@ -29,7 +29,7 @@ public class GameIconTypingLabelTest extends ApplicationAdapter {
         float scale = 0.5f;
         skin.getFont("default-font").getData().setScale(scale);
         stage = new Stage(new StretchViewport(720, 405), batch);
-        stage.setDebugAll(true);
+//        stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);
 
         final Table table = new Table();
@@ -87,9 +87,10 @@ public class GameIconTypingLabelTest extends ApplicationAdapter {
 //                        + "But... {SICK}U. Nitty{ENDSICK} doesn't."
 //                        + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
 
-                "I love TextraTypist! [+⌨] [@Icons][gold][+saxophone]{HEARTBEAT}[deep pink][+heart-wings]{ENDHEARTBEAT}[rich apricot][+party-popper][white][@]\n"
-                + "But... {SICK}U. Nitty{ENDSICK} doesn't. [+🤮] [@Icons]{CROWD}[#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}[@]\n"
-                + "Scale testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go![]\n"
+                "[%?blacken]I love TextraTypist! [+⌨] [@Icons][gold][+saxophone]{HEARTBEAT}[deep pink][+heart-wings]{ENDHEARTBEAT}[rich apricot][+party-popper][white][@]\n"
+                + "But... {SICK}U. Nitty{ENDSICK} doesn't. [+🤮] [@Icons]{CROWD}[#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}\n"
+                + "{RAINBOW}[+pineapple][+raccoon-head][+pterodactylus][+raised-fist][+wolf-howl][+western-hat][@][%]\n"
+//                + "Scale testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go![]\n"
                 ,
 //
 //                "I love TextraTypist! 😀\n" +
@@ -113,7 +114,7 @@ public class GameIconTypingLabelTest extends ApplicationAdapter {
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!", skin);
 //        final TypingLabel label = new TypingLabel("{WAIT=1}{SLOWER}Welcome, {VAR=title}!", skin);
         label.align = Align.topLeft;
-        label.debug();
+//        label.debug();
         // Make the label wrap to new lines, respecting the table's layout.
         label.wrap = true;
 //        label.layout.setTargetWidth(label.layout.getWidth());

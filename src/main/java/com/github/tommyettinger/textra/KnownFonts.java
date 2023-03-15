@@ -1831,7 +1831,7 @@ public final class KnownFonts implements LifecycleListener {
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
      * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.
      * <br>
-     * Preview: <a href="">(Broken) Image link</a>
+     * Preview: <a href="https://i.imgur.com/s47OVEU.gif">Animated Image link</a> (uses {@link #getNowAlt()})
      * <br>
      * Needs files:
      * <ul>
@@ -1864,7 +1864,7 @@ public final class KnownFonts implements LifecycleListener {
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every icon this puts in a Font.
      * <br>
-     * Preview: <a href="">(Broken) Image link</a>
+     * Preview: <a href="https://i.imgur.com/s47OVEU.gif">Animated Image link</a> (uses {@link #getNowAlt()})
      * <br>
      * Needs files:
      * <ul>
@@ -1902,7 +1902,7 @@ public final class KnownFonts implements LifecycleListener {
      * This overload allows customizing the x/y offsets and x-advance for every icon this puts in a Font. It also
      * allows specifying Strings to prepend before and append after each name in the font.
      * <br>
-     * Preview: <a href="">(Broken) Image link</a>
+     * Preview: <a href="https://i.imgur.com/s47OVEU.gif">Animated Image link</a> (uses {@link #getNowAlt()})
      * <br>
      * Needs files:
      * <ul>
@@ -1943,6 +1943,46 @@ public final class KnownFonts implements LifecycleListener {
             return changing.addAtlas(instance.gameIcons, prepend, append, offsetXChange, offsetYChange, xAdvanceChange);
         }
         throw new RuntimeException("Assets 'Game-Icons.atlas' and 'Game-Icons.png' not found.");
+    }
+
+    private Font gameIconsFont;
+
+    /**
+     * Gets a typically-square Font that is meant to be used in a FontFamily, allowing switching to a Font with the many
+     * game-icons.net icons. The base Font this uses is {@link #getAStarry()}, because it is perfectly square by
+     * default, and this needs all of AStarry's assets. It also needs the assets for {@link #addGameIcons(Font)} to be
+     * present, since those will be available with this Font. The name this will use in a FontFamily is "Icons". You can
+     * specify the width and height you want for the icons; typically they are the same, because the icons here are
+     * square, and you probably want the height to match the line height for your main font. It isn't expected that
+     * many users would want to use the non-icon glyphs in the font. The reason this is needed is that you can't fit
+     * both the emoji from {@link #addEmoji(Font)} and the icons from {@link #addGameIcons(Font)} in one Font, but you
+     * can swap between two different Fonts in a FontFamily, one with emoji and one with icons.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.fnt">AStarry-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.png">AStarry-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-license.txt">AStarry-license.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.atlas">Game-Icons.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.png">Game-Icons.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons-License.txt">Game-Icons-License.txt</a></li>
+     * </ul>
+     * @param width the width of a single glyph in the returned Font; usually matches the line-height of other text
+     * @param height the height of a single glyph in the returned Font; usually matches the line-height of other text
+     * @return a preconfigured Font using {@link #getAStarry()} and {@link #addGameIcons(Font)}, with name "Icons"
+     */
+    public static Font getGameIconsFont(float width, float height) {
+        initialize();
+        if (instance.gameIconsFont == null) {
+            try {
+                instance.gameIconsFont = KnownFonts.addGameIcons(KnownFonts.getAStarry().scaleTo(width, height).setName("Icons"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.gameIconsFont != null)
+            return new Font(instance.gameIconsFont);
+        throw new RuntimeException("Assets for getGameIconsFont() not found.");
     }
 
     @Override
