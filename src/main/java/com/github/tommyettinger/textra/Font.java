@@ -591,6 +591,10 @@ public class Font implements Disposable {
     /**
      * Bit flag for white outline mode, as a long.
      * This only has its intended effect if alternate mode is enabled.
+     * If the Font being outlined uses some other color in its texture, this will draw the outline in the color used by
+     * the outer edge of each glyph drawn. For images in an atlas, like {@link KnownFonts#addEmoji(Font)}, this will
+     * typically color the outline in the same color used by the edge of the image. This can be avoided by tinting the
+     * glyph with a darker color and still using this white outline.
      * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      * This can be configured to use a different color in place of white by changing {@link #PACKED_WHITE}.
      */
@@ -640,7 +644,7 @@ public class Font implements Disposable {
      * This can be overridden by subclasses that either use a different color space,
      * or want to use a different color in place of white for effects like {@link #WHITE_OUTLINE} and {@link #SHINY}.
      */
-    public float PACKED_WHITE = NumberUtils.intBitsToFloat(0xFEFFFFFF);
+    public float PACKED_WHITE = Color.WHITE_FLOAT_BITS;
     /**
      * The color to use for {@link #ERROR}'s underline, as a packed float using the default RGBA color space.
      * This can be overridden by subclasses that either use a different color space,
@@ -658,7 +662,7 @@ public class Font implements Disposable {
      * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
      * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
      */
-    public float PACKED_WARN_COLOR = -0x1.21abfep125F; // red
+    public float PACKED_WARN_COLOR = -0x1.21abfep125F; // yellow
     /**
      * The color to use for {@link #NOTE}'s underline, as a packed float using the default RGBA color space.
      * This can be overridden by subclasses that either use a different color space,
@@ -667,7 +671,7 @@ public class Font implements Disposable {
      * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
      * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
      */
-    public float PACKED_NOTE_COLOR = -0x1.71106p126F; // red
+    public float PACKED_NOTE_COLOR = -0x1.71106p126F; // blue
 
     private final float[] vertices = new float[20];
     private final Layout tempLayout = new Layout();

@@ -1958,6 +1958,8 @@ public final class KnownFonts implements LifecycleListener {
      * both the emoji from {@link #addEmoji(Font)} and the icons from {@link #addGameIcons(Font)} in one Font, but you
      * can swap between two different Fonts in a FontFamily, one with emoji and one with icons.
      * <br>
+     * Preview: <a href="https://i.imgur.com/s47OVEU.gif">Animated Image link</a> (uses {@link #getNowAlt()})
+     * <br>
      * Needs files:
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.fnt">AStarry-standard.fnt</a></li>
