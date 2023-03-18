@@ -741,6 +741,27 @@ public class Font implements Disposable {
             + "	v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
             + "	gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
             + "}\n";
+    public static final String sdfFragmentShader =
+            "#ifdef GL_ES\n"
+            + "	precision mediump float;\n"
+            + "	precision mediump int;\n"
+            + "#endif\n"
+            + "\n"
+            + "uniform sampler2D u_texture;\n"
+            + "uniform float u_smoothing;\n"
+            + "varying vec4 v_color;\n"
+            + "varying vec2 v_texCoords;\n"
+            + "\n"
+            + "void main() {\n"
+            + "	if (u_smoothing > 0.0) {\n"
+            + "		float smoothing = 0.25 / u_smoothing;\n"
+            + "		vec4 color = texture2D(u_texture, v_texCoords);\n"
+            + "		float alpha = smoothstep(0.5 - smoothing, 0.5 + smoothing, color.a);\n"
+            + "		gl_FragColor = vec4(v_color.rgb * color.rgb, alpha * v_color.a);\n"
+            + "	} else {\n"
+            + "		gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n"
+            + "	}\n"
+            + "}\n";
 
     /**
      * Fragment shader source meant for MSDF fonts. This is automatically used when {@link #enableShader(Batch)} is
@@ -793,9 +814,8 @@ public class Font implements Disposable {
     /**
      * The ShaderProgram used to render this font, as used by {@link #enableShader(Batch)}.
      * If this is null, the font will be rendered with the Batch's default shader.
-     * It may be set to a custom ShaderProgram if {@link #distanceField} is set to {@link DistanceFieldType#MSDF},
-     * or to one created by {@link DistanceFieldFont#createDistanceFieldShader()} if distanceField is set to
-     * {@link DistanceFieldType#SDF}. It can be set to a user-defined ShaderProgram; if it is meant to render
+     * It may be set to a custom ShaderProgram if {@link #distanceField} is set to {@link DistanceFieldType#MSDF}
+     * or {@link DistanceFieldType#SDF}. It can be set to a user-defined ShaderProgram; if it is meant to render
      * MSDF or SDF fonts, then the ShaderProgram should have a {@code uniform float u_smoothing;} that will be
      * set by {@link #enableShader(Batch)}. Values passed to u_smoothing can vary a lot, depending on how the
      * font was initially created, its current scale, and its {@link #actualCrispness} field. You can
@@ -1220,7 +1240,7 @@ public class Font implements Disposable {
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
         } else if (distanceField == DistanceFieldType.SDF) {
-            shader = DistanceFieldFont.createDistanceFieldShader();
+            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
@@ -1299,7 +1319,7 @@ public class Font implements Disposable {
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
         } else if (distanceField == DistanceFieldType.SDF) {
-            shader = DistanceFieldFont.createDistanceFieldShader();
+            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
@@ -1387,7 +1407,7 @@ public class Font implements Disposable {
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
         } else if (distanceField == DistanceFieldType.SDF) {
-            shader = DistanceFieldFont.createDistanceFieldShader();
+            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
@@ -1467,7 +1487,7 @@ public class Font implements Disposable {
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
         } else if (distanceField == DistanceFieldType.SDF) {
-            shader = DistanceFieldFont.createDistanceFieldShader();
+            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }
@@ -1544,7 +1564,7 @@ public class Font implements Disposable {
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
         } else if (distanceField == DistanceFieldType.SDF) {
-            shader = DistanceFieldFont.createDistanceFieldShader();
+            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         }

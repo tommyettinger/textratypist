@@ -126,7 +126,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
             layout.setEllipsis(" and so on and so forth...");
 //            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
 //                    , layout);
-            font.markup(text + (font.distanceField == Font.DistanceFieldType.STANDARD ? emojiSupport : distanceField), layout);
+            font.markup(text + (font.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout);
 //        font.markup("I wanna thank you all for coming here tonight..."
 //                + "\n[#22BB22FF]Hello, [~]World[~]Universe[.]$[=]$[^]$[^]!"
 //                + "\nThe [RED]MAW[] of the [/][CYAN]wendigo[/] (wendigo)[] [*]appears[*]!"
@@ -162,7 +162,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         }
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
-        fnt.markup(text + (fnt.distanceField == Font.DistanceFieldType.STANDARD ? emojiSupport : distanceField), layout.clear());
+        fnt.markup(text + (fnt.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout.clear());
 
 //        Gdx.app.exit();
     }
