@@ -2225,15 +2225,17 @@ public class Font implements Disposable {
         if(prepend == null) prepend = "";
         if(append == null) append = "";
 
+        int start = 0xE000 + namesByCharCode.size;
+
         TextureAtlas.AtlasRegion previous = regions.first();
         GlyphRegion gr = new GlyphRegion(previous,
                 previous.offsetX + offsetXChange, previous.offsetY + offsetYChange, previous.originalWidth + xAdvanceChange);
 //        gr.offsetY += originalCellHeight * 0.125f;
-        mapping.put(0xE000, gr);
+        mapping.put(start, gr);
         String name = prepend + previous.name + append;
-        nameLookup.put(name, 0xE000);
-        namesByCharCode.put(0xE000, name);
-        for (int i = 0xE000, a = 1; i < 0xF800 && a < regions.size; a++) {
+        nameLookup.put(name, start);
+        namesByCharCode.put(start, name);
+        for (int i = start, a = 1; i < 0xF800 && a < regions.size; a++) {
             TextureAtlas.AtlasRegion region = regions.get(a);
             if (previous.getRegionX() == region.getRegionX() && previous.getRegionY() == region.getRegionY()) {
                 name = prepend + region.name + append;
