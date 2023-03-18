@@ -34,7 +34,7 @@ between two colors, or go across a whole rainbow. Lots of options; lots of fun. 
 typing-label, but there have been some changes. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
 for more information.
 
-As of 0.7.9, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
+As of 0.8.0, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
 Rotate, Attention, Highlight, Link, Trigger, and Stylist are all new to TextraTypist (not in typing-label). You can see
 usage instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
@@ -233,7 +233,7 @@ user input and can use animated styles like `{RAINBOW}`.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.7.9"
+implementation "com.github.tommyettinger:textratypist:0.8.0"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
@@ -242,7 +242,7 @@ was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.7.9:sources"
+implementation "com.github.tommyettinger:textratypist:0.8.0:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 ```
 

@@ -33,7 +33,7 @@ def projectName = 'textratypist'
 version "$VERSION_NAME"
 group 'com.github.tommyettinger'
 
-//api "com.github.tommyettinger:textratypist:0.7.9"
+//api "com.github.tommyettinger:textratypist:0.8.0"
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
@@ -72,7 +72,7 @@ repositories {
 dependencies {
     api "com.github.tommyettinger:regexodus:$regexodusVersion"
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
-    // don't require audio if the game doesn't need it; we don't use audio here.
+    // don't require audio if a test doesn't need it; we don't use audio here.
     testImplementation ("com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"){
         exclude group: "org.jcraft", module: "jorbis"
         exclude group: "org.lwjgl", module: "lwjgl-openal"
