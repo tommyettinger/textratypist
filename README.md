@@ -171,8 +171,15 @@ between any of those 13 fonts using the `[@Medieval]` syntax (where Medieval is 
 for "KingThings Foundation"). All of these fonts work without a distance field effect, so they won't look as good at
 very large sizes, but are compatible with each other.
 
-The Twemoji icons are also present in an atlas of over-3000 32x32 images; `KnownFonts.addEmoji()` can register them with
-a Font so the `[+name]` syntax mentioned above can draw emoji inline.
+The [Twemoji](https://github.com/twitter/twemoji) icons are also present in an atlas of over-3000 32x32 images;
+`KnownFonts.addEmoji()` can register them with
+a Font so the `[+name]` syntax mentioned above can draw emoji inline.  Similarly, an atlas of over-4000 60x60 icons is
+present from [Game-Icons.net](https://game-icons.net/), and `KnownFonts.addGameIcons()` can register them with a Font.
+Both Twemoji and Game-Icons.net atlases cannot be registered in one Font at the same time; there isn't enough free space
+in the portion of Unicode they can safely use. A way around this is to use the FontFamily feature, and add a font just
+for icons or just for emoji to the family. There's an existing method for this; `KnownFonts.getGameIconsFont()` lets you
+obtain a Font that is intended just to display Game-Icons, with some ceremony around its usage. `[@Icons][+rooster][@]`
+is a quick example of how you could switch to the Font produced by `getGameIconsFont()`, draw an icon, and switch back.
 
 The license files for each font are included in the same folder, in `knownFonts` here. All fonts provided here were
 checked to ensure their licenses permit commercial use without fees, and all do. Most require attribution; check the
@@ -276,7 +283,10 @@ incorrectly according to the BMFont spec](https://github.com/libgdx/libgdx/pull/
 information entirely. Some `.fnt` files have been made so they look right in libGDX by using padding, but they will look
 wrong in other frameworks/engines without that padding. `Font` compromises by allowing manual adjustment of x and y
 position for all glyphs (y often needs to be adjusted, either to a positive or negative value), as well as the width and
-height of glyphs (these are useful less frequently, and are mostly used by distance field fonts).
+height of glyphs (these are useful less frequently, but can be helpful to stretch or squash a font). It may take some
+tweaking to get a Font made from a BitmapFont to line up correctly with other widgets. You also may need to adjust the
+offsetX, offsetY, and maybe xAdvance parameters if you load an atlas (such as with `addEmoji()` or `addGameIcons()`),
+and the adjustments may be quite different for a Font made from a BitmapFont vs. a Font made directly from a .fnt file.
 
 If you load text from a file and display it, you can sometimes get different results from creating that text in code, or
 loading it on a different machine. This should only happen if the file actually is different -- that is, the files' line
@@ -375,11 +385,13 @@ artifact covered immediately above. Instead of "AutoSlight", "AutoMedium", or "A
 don't have any idea why this happens, but because hinting can be set either in the FreeType generator parameters or (if
 you use [Stripe](https://github.com/raeleus/stripe)) set in a Skin file with `"hinting": "Full"`, it isn't hard to fix.
 
-There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 through 0.7.9. You may see labels
+There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 through 0.8.0. You may see labels
 slide a little relatively to their backgrounds when rotated smoothly, and some (typically very small) fonts may need
 integer positions enabled to keep a stable baseline. Font debug lines may be quite incorrect in some of these versions,
 also, even if the text displays correctly to users. Scaling has improved significantly in 0.7.8, as has the handling of
-debug lines, but rotation still has some subtle bugs.
+debug lines, but rotation still has some subtle bugs. A bug was fixed starting in 0.8.0 that made extra images in a Font
+(such as emoji) scale differently and drift when the Font they were mixed with scaled. That same bug also made an
+ordinary Font drift slightly as its scale changed; this is also fixed.
 
 ## License
 
@@ -394,6 +406,10 @@ also present in all library source files here. The Apache license does not typic
 Twemoji isn't a font, so it might be best to mention it separately. It's licensed under CC-BY 4.0, and requires
 attribution to Twitter if used. 
 [Twemoji's guidelines for attribution are here](https://github.com/twitter/twemoji#attribution-requirements).
+
+Like Twemoji, Game-Icons.png isn't a font, and it has quite a few contributors to the project. Because all icons in the
+project are on one PNG file, you must credit all the contributors who licensed their art under CC-BY, and it may be
+ideal just to credit all the contributors, period. The list is [in the license](knownFonts%2FGame-Icons-License.txt).
 
 The logo was made by Raymond "raeleus" Buckley and contributed to this project. It can be used freely for any purpose,
 but I request that it only be used to refer to this project unless substantially modified.
@@ -425,3 +441,43 @@ service to the people who depend on them.
 
 Thanks to Twitter for generously contributing Twemoji to the world of open source; having broadly available emoji makes
 them much more usable. Note that because this was a generous action by Twitter, it happened before its acquisition.
+
+Thanks to the many contributors to game-icons.net for producing high-quality free icons to game developers everywhere.
+The icons in Game-Icons.png were made by:
+
+- Lorc, http://lorcblog.blogspot.com
+- Delapouite, https://delapouite.com
+- John Colburn, http://ninmunanmu.com
+- Felbrigg, http://blackdogofdoom.blogspot.co.uk
+- John Redman, http://www.uniquedicetowers.com
+- Carl Olsen, https://twitter.com/unstoppableCarl
+- Sbed, http://opengameart.org/content/95-game-icons
+- PriorBlue
+- Willdabeast, http://wjbstories.blogspot.com
+- Viscious Speed, http://viscious-speed.deviantart.com
+- Lord Berandas, http://berandas.deviantart.com
+- Irongamer, http://ecesisllc.wix.com/home
+- HeavenlyDog, http://www.gnomosygoblins.blogspot.com
+- Lucas
+- Faithtoken, http://fungustoken.deviantart.com
+- Skoll
+- Andy Meneely, http://www.se.rit.edu/~andy/
+- Cathelineau
+- Kier Heyl
+- Aussiesim
+- Sparker, http://citizenparker.com
+- Zeromancer
+- Rihlsul
+- Quoting
+- Guard13007, https://guard13007.com
+- DarkZaitzev, http://darkzaitzev.deviantart.com
+- SpencerDub
+- GeneralAce135
+- Zajkonur
+- Catsu
+- Starseeker
+- Pepijn Poolman
+- Pierre Leducq
+- Caro Asercion
+
+(Projects that use TextraTypist can copy the above list of Game-Icons.png contributors to comply with its license.)
