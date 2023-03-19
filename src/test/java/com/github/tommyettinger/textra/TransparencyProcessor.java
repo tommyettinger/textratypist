@@ -85,7 +85,7 @@ public class TransparencyProcessor extends ApplicationAdapter {
     @Override
     public void create() {
         if(parameters == null) {
-            FileHandle[] files = {Gdx.files.local("knownFonts/Game-Icons.png")};
+            FileHandle[] files = {Gdx.files.local("knownFonts/GoNotoCurrent-sdf.png")};
 //            FileHandle[] files = Gdx.files.local("knownFonts").list((dir, name) -> name.endsWith(".png") && !name.endsWith("-msdf.png"));
             for (FileHandle file : files)
                 rewrite(file);
@@ -162,8 +162,11 @@ public class TransparencyProcessor extends ApplicationAdapter {
                     int py = flipY ? (h - y - 1) : y;
                     for (int px = 0; px < w; px++) {
                         color = pixmap.getPixel(px, py);
+                        // this block may need to be commented out if a font uses non-white grayscale colors.
                         if((color & 255) != 0 && (color & 0xFFFFFF00) != 0xFFFFFF00) {
                             System.out.println("PROBLEM WITH " + file);
+                            System.out.println("Problem color: 0x" + Integer.toUnsignedString(color, 16));
+                            System.out.println("Position: " + px + "," + py);
                             return;
                         }
                         curLine[px] = (byte) (color & 255);
