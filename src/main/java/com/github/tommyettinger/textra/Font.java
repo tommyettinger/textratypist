@@ -5417,7 +5417,8 @@ public class Font implements Disposable {
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
                         glyphs.truncate(i);
-                        glyphs.add(' ');
+//                        glyphs.add(' ');
+                        glyphs.add('\n');
                         break;
                     }
                     GlyphRegion tr = font.mapping.get(ch);
@@ -5498,7 +5499,8 @@ public class Font implements Disposable {
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
                         glyphs.truncate(i);
-                        glyphs.add(' ');
+//                        glyphs.add(' ');
+                        glyphs.add('\n');
                         break;
                     }
                     GlyphRegion tr = font.mapping.get(ch);
