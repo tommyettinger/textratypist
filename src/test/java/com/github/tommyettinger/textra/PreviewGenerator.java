@@ -11,6 +11,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.nio.ByteBuffer;
 
@@ -18,6 +21,7 @@ public class PreviewGenerator extends ApplicationAdapter {
 
     Font fnt;
     SpriteBatch batch;
+    Viewport viewport;
     Layout layout = new Layout().setTargetWidth(800);
     Array<String> colorNames;
     long startTime;
@@ -75,6 +79,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
     @Override
     public void create() {
         batch = new SpriteBatch();
+        viewport = new StretchViewport(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
         colorNames = Colors.getColors().keys().toArray();
 
         // investigating a GPU-related bug... seems fixed now, sometimes?
@@ -83,7 +88,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
         Font[] fonts = KnownFonts.getAll();
-        fnt = fonts[25];
+        fnt = fonts[13];
 //        fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
         int index = 0;
@@ -172,8 +177,10 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
 //        ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
 //        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
-        float x = 400, y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f - fnt.descent * fnt.scaleY;
+        float x = 400, y = (450 + layout.getHeight()) * 0.5f - fnt.descent * fnt.scaleY;
+        viewport.apply();
         batch.begin();
+        batch.setProjectionMatrix(viewport.getCamera().combined);
         fnt.enableShader(batch);
         fnt.drawGlyphs(batch, layout, x, y, Align.center);
         batch.end();
@@ -182,6 +189,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 
     @Override
     public void resize(int width, int height) {
+        viewport.update(width, height, true);
         fnt.resizeDistanceField(width, height);
     }
 }

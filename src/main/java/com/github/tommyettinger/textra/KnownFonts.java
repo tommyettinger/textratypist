@@ -567,6 +567,52 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getGentiumSDF() not found.");
     }
 
+    private Font goNotoUniversalSDF;
+
+    /**
+     * Returns a Font already configured to use a variable-width sans-serif font with extreme Unicode support, that
+     * should scale cleanly to even very large sizes (using an SDF technique). Caches the result for later calls. The
+     * font used is Go Noto Universal, an open-source (SIL Open Font License) typeface that modifies Noto Sans by Google
+     * (see <a href="https://github.com/satbyy/go-noto-universal">Go Noto Universal's page is here</a>, and
+     * <a href="https://notofonts.github.io/">Noto Fonts have a page here</a>). It supports... most glyphs, from all
+     * languages, including essentially all extended Latin, Greek, Cyrillic, Chinese, Japanese, Korean, Armenian,
+     * Ethiopic, Canadian Aboriginal scripts, Yi, Javanese... Pretty much every script is here, plus symbols for math,
+     * music, and other usage. This uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when
+     * zoomed in heavily, but should be crisp enough when zoomed out.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/lkZGRcn.png">Image link</a> (uses width=120, height=33,
+     * adjustLineHeight(0.75f), setCrispness(1.25f))
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-sdf.fnt">GoNotoUniversal-sdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-sdf.png">GoNotoUniversal-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-license.txt">GoNotoUniversal-license.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font GoNotoCurrent.ttf using SDF
+     */
+    public static Font getGoNotoUniversalSDF() {
+        initialize();
+        if (instance.goNotoUniversalSDF == null) {
+            try {
+                instance.goNotoUniversalSDF = new Font(instance.prefix + "GoNotoUniversal-sdf.fnt",
+                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, -4f, 0f, -4f, true)
+                        .scaleTo(120, 33)
+                        .adjustLineHeight(0.75f)
+                        .setCrispness(1.25f)
+                        .setName("Go Noto Universal (SDF)");
+//                System.out.println(instance.goNotoUniversalSDF.cellHeight);
+//                System.out.println(instance.goNotoUniversalSDF.cellWidth);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.goNotoUniversalSDF != null)
+            return new Font(instance.goNotoUniversalSDF);
+        throw new RuntimeException("Assets for getGoNotoUniversalSDF() not found.");
+    }
+
     private Font hanazono;
 
     /**
@@ -2006,11 +2052,13 @@ public final class KnownFonts implements LifecycleListener {
     public static Font[] getAll() {
         return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getAStarryMSDF(),
                 getBitter(), getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getCozette(),
-                getDejaVuSansMono(), getGentium(), getGentiumMSDF(), getGentiumSDF(), getHanazono(), getIBM8x16(),
-                getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
-                getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
-                getLibertinusSerif(), getNowAlt(), getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(),
-                getTangerine(), getTangerineSDF(), getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghanMSDF()};
+                getDejaVuSansMono(), getGentium(), getGentiumMSDF(), getGentiumSDF(), getGoNotoUniversalSDF(),
+                getHanazono(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(),
+                getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
+                getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(),
+                getKingthingsFoundation(), getLibertinusSerif(), getNowAlt(), getOpenSans(), getOxanium(),
+                getQuanPixel(), getRobotoCondensed(), getTangerine(), getTangerineSDF(),
+                getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghanMSDF()};
     }
 
     /**
@@ -2078,7 +2126,8 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all SDF Font instances this knows
      */
     public static Font[] getAllSDF() {
-        return new Font[]{getGentiumSDF(), getIosevkaSDF(), getIosevkaSlabSDF(), getTangerineSDF()};
+        return new Font[]{getGentiumSDF(), getGoNotoUniversalSDF(), getIosevkaSDF(), getIosevkaSlabSDF(),
+                getTangerineSDF()};
     }
 
     /**
@@ -2143,6 +2192,10 @@ public final class KnownFonts implements LifecycleListener {
         if (gentiumSDF != null) {
             gentiumSDF.dispose();
             gentiumSDF = null;
+        }
+        if (goNotoUniversalSDF != null) {
+            goNotoUniversalSDF.dispose();
+            goNotoUniversalSDF = null;
         }
         if(hanazono != null) {
             hanazono.dispose();
