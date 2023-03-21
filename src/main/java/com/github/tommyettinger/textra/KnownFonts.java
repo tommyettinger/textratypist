@@ -597,13 +597,13 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.goNotoUniversalSDF == null) {
             try {
                 instance.goNotoUniversalSDF = new Font(instance.prefix + "GoNotoUniversal-sdf.fnt",
-                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, -4f, 0f, -4f, true)
-                        .scaleTo(120, 33)
+                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, -4f, 0f, 0f, true)
+                        .scaleTo(51, 33)
                         .adjustLineHeight(0.75f)
-                        .setCrispness(1.25f)
+                        .setCrispness(0.2f)
                         .setName("Go Noto Universal (SDF)");
-//                System.out.println(instance.goNotoUniversalSDF.cellHeight);
 //                System.out.println(instance.goNotoUniversalSDF.cellWidth);
+//                System.out.println(instance.goNotoUniversalSDF.cellHeight);
             } catch (Exception e) {
                 e.printStackTrace();
             }
