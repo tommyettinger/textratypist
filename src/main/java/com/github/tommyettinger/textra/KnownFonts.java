@@ -106,7 +106,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.fnt">AStarry-standard.fnt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.png">AStarry-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-license.txt">AStarry-license.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-License.txt">AStarry-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font A Starry
@@ -147,7 +147,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-msdf.fnt">AStarry-msdf.fnt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-msdf.png">AStarry-msdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-license.txt">AStarry-license.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-License.txt">AStarry-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font A Starry using MSDF
@@ -268,7 +268,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-standard.fnt">CascadiaMono-standard.fnt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-standard.png">CascadiaMono-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-license.txt">Cascadia-license.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font Cascadia Code Mono
@@ -307,7 +307,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-msdf.fnt">CascadiaMono-msdf.fnt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-msdf.png">CascadiaMono-msdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-license.txt">Cascadia-license.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font Cascadia Code Mono using MSDF
@@ -385,7 +385,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-standard.fnt">Cozette-standard.fnt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-standard.png">Cozette-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-license.txt">Cozette-license.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-License.txt">Cozette-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that represents the 7x13px font Cozette
@@ -464,7 +464,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-standard.fnt">Gentium-standard.fnt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-standard.png">Gentium-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-license.txt">Gentium-license.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font Gentium.ttf
@@ -505,7 +505,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-msdf.fnt">Gentium-msdf.fnt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-msdf.png">Gentium-msdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-license.txt">Gentium-license.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font Gentium.ttf using MSDF
@@ -546,7 +546,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.fnt">Gentium-sdf.fnt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.png">Gentium-sdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-license.txt">Gentium-license.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font Gentium.ttf using SDF
@@ -570,24 +570,28 @@ public final class KnownFonts implements LifecycleListener {
     private Font goNotoUniversalSDF;
 
     /**
-     * Returns a Font already configured to use a variable-width sans-serif font with extreme Unicode support, that
+     * Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support, that
      * should scale cleanly to even very large sizes (using an SDF technique). Caches the result for later calls. The
      * font used is Go Noto Universal, an open-source (SIL Open Font License) typeface that modifies Noto Sans by Google
      * (see <a href="https://github.com/satbyy/go-noto-universal">Go Noto Universal's page is here</a>, and
      * <a href="https://notofonts.github.io/">Noto Fonts have a page here</a>). It supports... most glyphs, from all
      * languages, including essentially all extended Latin, Greek, Cyrillic, Chinese, Japanese, Korean, Armenian,
      * Ethiopic, Canadian Aboriginal scripts, Yi, Javanese... Pretty much every script is here, plus symbols for math,
-     * music, and other usage. This uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when
-     * zoomed in heavily, but should be crisp enough when zoomed out.
+     * music, and other usage. The baseline may be slightly uneven at larger sizes, but should even out when height is
+     * less than 40 or so. This uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed
+     * in heavily, but should be crisp enough when zoomed out. The texture this uses is larger than many of the others
+     * here, at 4096x4096 pixels, but the file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and
+     * Twemoji.png are each larger than GoNotoUniversal-sdf.png . The .fnt has 24350 glyphs plus kerning, though, so it
+     * is quite large.
      * <br>
-     * Preview: <a href="https://i.imgur.com/lkZGRcn.png">Image link</a> (uses width=120, height=33,
-     * adjustLineHeight(0.75f), setCrispness(1.25f))
+     * Preview: <a href="https://i.imgur.com/H2d3Jga.png">Image link</a> (uses width=66, height=52,
+     * adjustLineHeight(0.625f), setCrispness(1.5f))
      * <br>
      * Needs files:
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-sdf.fnt">GoNotoUniversal-sdf.fnt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-sdf.png">GoNotoUniversal-sdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-license.txt">GoNotoUniversal-license.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-License.txt">GoNotoUniversal-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font GoNotoCurrent.ttf using SDF
@@ -598,9 +602,9 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.goNotoUniversalSDF = new Font(instance.prefix + "GoNotoUniversal-sdf.fnt",
                         instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, -4f, 0f, 0f, true)
-                        .scaleTo(44, 35)
+                        .scaleTo(66, 52)
                         .adjustLineHeight(0.625f)
-                        .setCrispness(1.125f)
+                        .setCrispness(1.5f)
                         .setName("Go Noto Universal (SDF)");
 //                System.out.println(instance.goNotoUniversalSDF.cellWidth);
 //                System.out.println(instance.goNotoUniversalSDF.cellHeight);
@@ -1244,7 +1248,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/QuanPixel-standard.fnt">QuanPixel-standard.fnt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/QuanPixel-standard.png">QuanPixel-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/QuanPixel-license.txt">QuanPixel-license.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/QuanPixel-License.txt">QuanPixel-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that represents the 8px tall font QuanPixel
@@ -2010,7 +2014,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.fnt">AStarry-standard.fnt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.png">AStarry-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-license.txt">AStarry-license.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-License.txt">AStarry-License.txt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.atlas">Game-Icons.atlas</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.png">Game-Icons.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons-License.txt">Game-Icons-License.txt</a></li>
