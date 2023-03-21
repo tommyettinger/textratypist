@@ -148,8 +148,8 @@ public class Font implements Disposable {
          * @param width         the width of the GlyphRegion, in pixels
          * @param height        the height of the GlyphRegion, in pixels
          */
-        public GlyphRegion(TextureRegion textureRegion, int x, int y, int width, int height) {
-            super(textureRegion, x, y, width, height);
+        public GlyphRegion(TextureRegion textureRegion, float x, float y, float width, float height) {
+            super(textureRegion, Math.round(x), Math.round(y), Math.round(width), Math.round(height));
             offsetX = 0f;
             offsetY = 0f;
             xAdvance = width;
@@ -376,7 +376,7 @@ public class Font implements Disposable {
     /**
      * Maps char keys (stored as ints) to their corresponding {@link GlyphRegion} values. You can add arbitrary images
      * to this mapping if you create appropriate GlyphRegion values (as with
-     * {@link GlyphRegion#GlyphRegion(TextureRegion, int, int, int, int)}), though they must map to a char.
+     * {@link GlyphRegion#GlyphRegion(TextureRegion, float, float, float, float)}), though they must map to a char.
      */
     public IntMap<GlyphRegion> mapping;
 
@@ -421,10 +421,10 @@ public class Font implements Disposable {
      * Unlikely to be used externally, this is one way of storing the kerning information that some fonts have. Kerning
      * can improve the appearance of variable-width fonts, and is always null for monospace fonts. This uses a
      * combination of two chars as a key (the earlier char is in the upper 16 bits, and the later char is in the lower
-     * 16 bits). Each such combination that has a special kerning value (not the default 0) has an int associated with
+     * 16 bits). Each such combination that has a special kerning value (not the default 0) has a float associated with
      * it, which applies to the x-position of the later char.
      */
-    public IntIntMap kerning;
+    public IntFloatMap kerning;
     /**
      * When {@link #distanceField} is {@link DistanceFieldType#SDF} or {@link DistanceFieldType#MSDF}, this determines
      * how much the edges of the glyphs should be aliased sharply (higher values) or anti-aliased softly (lower values).
@@ -985,6 +985,43 @@ public class Font implements Disposable {
         }
         return data * len;
     }
+    public static float floatFromDec(final CharSequence cs, final int start, int end) {
+        int len, h, lim = 10;
+        float decimal = 1f;
+        boolean foundPoint = false;
+        if (cs == null || start < 0 || end <= 0 || end - start <= 0
+                || (len = cs.length()) - start <= 0 || end > len)
+            return 0;
+        char c = cs.charAt(start);
+        if (c == '-') {
+            len = -1;
+            lim = 11;
+            h = 0;
+        } else if (c == '+') {
+            len = 1;
+            lim = 11;
+            h = 0;
+        } else if (c > 102 || (h = hexCodes[c]) < 0 || h > 9)
+            return 0;
+        else {
+            len = 1;
+        }
+        int data = h;
+        for (int i = start + 1; i < end && i < start + lim; i++) {
+            c = cs.charAt(i);
+            if(c == '.') {
+                foundPoint = true;
+                continue;
+            }
+            if (c > 102 || (h = hexCodes[c]) < 0 || h > 9)
+                return data * len / decimal;
+            if(foundPoint){
+                decimal *= 10f;
+            }
+            data = data * 10 + h;
+        }
+        return data * len / decimal;
+    }
 
     private static int indexAfter(String text, String search, int from) {
         return ((from = text.indexOf(search, from)) < 0 ? text.length() : from + search.length());
@@ -1135,7 +1172,7 @@ public class Font implements Disposable {
         if(toCopy.namesByCharCode != null)
             namesByCharCode = new IntMap<>(toCopy.namesByCharCode);
         defaultValue = toCopy.defaultValue;
-        kerning = toCopy.kerning == null ? null : new IntIntMap(toCopy.kerning);
+        kerning = toCopy.kerning == null ? null : new IntFloatMap(toCopy.kerning);
         solidBlock = toCopy.solidBlock;
         name = toCopy.name;
         integerPosition = toCopy.integerPosition;
@@ -1608,7 +1645,7 @@ public class Font implements Disposable {
                     gr.xAdvance = a + widthAdjust;
                     mapping.put(glyph.id & 0xFFFF, gr);
                     if (glyph.kerning != null) {
-                        if (kerning == null) kerning = new IntIntMap(128);
+                        if (kerning == null) kerning = new IntFloatMap(128);
                         for (int b = 0; b < glyph.kerning.length; b++) {
                             byte[] kern = glyph.kerning[b];
                             if (kern != null) {
@@ -1727,8 +1764,8 @@ public class Font implements Disposable {
             throw new RuntimeException("Missing font file: " + fntName);
         }
         int idx = indexAfter(fnt, "lineHeight=", 0);
-        int rawLineHeight = intFromDec(fnt, idx, idx = indexAfter(fnt, "base=", idx));
-        int baseline = intFromDec(fnt, idx, idx = indexAfter(fnt, "pages=", idx));
+        float rawLineHeight = floatFromDec(fnt, idx, idx = indexAfter(fnt, "base=", idx));
+        float baseline = floatFromDec(fnt, idx, idx = indexAfter(fnt, "pages=", idx));
         descent = baseline - rawLineHeight;
 
         // The SDF and MSDF fonts have essentially garbage for baseline, since Glamer can't accurately guess it.
@@ -1755,19 +1792,19 @@ public class Font implements Disposable {
         }
         int size = intFromDec(fnt, idx = indexAfter(fnt, "\nchars count=", idx), idx = indexAfter(fnt, "\nchar id=", idx));
         mapping = new IntMap<>(size);
-        int minWidth = Integer.MAX_VALUE;
+        float minWidth = Integer.MAX_VALUE;
         for (int i = 0; i < size; i++) {
             if (idx == fnt.length())
                 break;
-            int c = intFromDec(fnt, idx, idx = indexAfter(fnt, " x=", idx));
-            int x = intFromDec(fnt, idx, idx = indexAfter(fnt, " y=", idx));
-            int y = intFromDec(fnt, idx, idx = indexAfter(fnt, " width=", idx));
-            int w = intFromDec(fnt, idx, idx = indexAfter(fnt, " height=", idx));
-            int h = intFromDec(fnt, idx, idx = indexAfter(fnt, " xoffset=", idx));
-            int xo = intFromDec(fnt, idx, idx = indexAfter(fnt, " yoffset=", idx));
-            int yo = intFromDec(fnt, idx, idx = indexAfter(fnt, " xadvance=", idx));
-            int a = intFromDec(fnt, idx, idx = indexAfter(fnt, " page=", idx));
-            int p = intFromDec(fnt, idx, idx = indexAfter(fnt, "\nchar id=", idx));
+            int c =    intFromDec(fnt, idx, idx = indexAfter(fnt, " x=", idx));
+            float x =  floatFromDec(fnt, idx, idx = indexAfter(fnt, " y=", idx));
+            float y =  floatFromDec(fnt, idx, idx = indexAfter(fnt, " width=", idx));
+            float w =  floatFromDec(fnt, idx, idx = indexAfter(fnt, " height=", idx));
+            float h =  floatFromDec(fnt, idx, idx = indexAfter(fnt, " xoffset=", idx));
+            float xo = floatFromDec(fnt, idx, idx = indexAfter(fnt, " yoffset=", idx));
+            float yo = floatFromDec(fnt, idx, idx = indexAfter(fnt, " xadvance=", idx));
+            float a =  floatFromDec(fnt, idx, idx = indexAfter(fnt, " page=", idx));
+            int p =    intFromDec(fnt, idx, idx = indexAfter(fnt, "\nchar id=", idx));
 
 //            x += xAdjust;
 //            y += yAdjust;
@@ -1796,11 +1833,11 @@ public class Font implements Disposable {
         idx = indexAfter(fnt, "\nkernings count=", 0);
         if (idx < fnt.length()) {
             int kernings = intFromDec(fnt, idx, idx = indexAfter(fnt, "\nkerning first=", idx));
-            kerning = new IntIntMap(kernings);
+            kerning = new IntFloatMap(kernings);
             for (int i = 0; i < kernings; i++) {
                 int first = intFromDec(fnt, idx, idx = indexAfter(fnt, " second=", idx));
                 int second = intFromDec(fnt, idx, idx = indexAfter(fnt, " amount=", idx));
-                int amount = intFromDec(fnt, idx, idx = indexAfter(fnt, "\nkerning first=", idx));
+                float amount = floatFromDec(fnt, idx, idx = indexAfter(fnt, "\nkerning first=", idx));
                 kerning.put(first << 16 | second, amount);
                 if (first == '[') {
                     kerning.put(2 << 16 | second, amount);
@@ -1945,7 +1982,7 @@ public class Font implements Disposable {
     /**
      * Assembles two chars into a kerning pair that can be looked up as a key in {@link #kerning}. This is unlikely to
      * be used by most user code, but can be useful for anything that's digging deeply into the internals here.
-     * If you give such a pair to {@code kerning}'s {@link IntIntMap#get(int, int)} method, you'll get the amount of
+     * If you give such a pair to {@code kerning}'s {@link IntFloatMap#get(int, float)} method, you'll get the amount of
      * extra space (in the same unit the font uses) this will insert between {@code first} and {@code second}.
      *
      * @param first  the first char
@@ -2757,7 +2794,8 @@ public class Font implements Disposable {
             int n = line.glyphs.size;
             drawn += n;
             if (kerning != null) {
-                int kern = -1, amt;
+                int kern = -1;
+                float amt;
                 long glyph;
                 for (int i = 0; i < n; i++) {
                     kern = kern << 16 | (int) ((glyph = line.glyphs.get(i)) & 0xFFFF);
