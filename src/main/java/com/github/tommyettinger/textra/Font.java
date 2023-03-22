@@ -955,7 +955,7 @@ public class Font implements Disposable {
      *
      * @param cs    a CharSequence, such as a String, containing only digits 0-9 with an optional sign
      * @param start the (inclusive) first character position in cs to read
-     * @param end   the (exclusive) last character position in cs to read (this stops after 10 or 11 characters if end is too large, depending on sign)
+     * @param end   the (exclusive) last character position in cs to read (this will stop early if it encounters any invalid char, or 10 digits have been read, not including sign)
      * @return the int that cs represents
      */
     public static int intFromDec(final CharSequence cs, final int start, int end) {
@@ -985,8 +985,27 @@ public class Font implements Disposable {
         }
         return data * len;
     }
+
+    /**
+     * Reads in a CharSequence containing only decimal digits (0-9) with an optional sign at the start and an optional
+     * decimal point anywhere in the CharSequence, and returns the float they represent, reading until it encounters the
+     * end of the sequence or any invalid char, then returning the result if valid, or 0 if nothing could be read.
+     * The leading sign can be '+' or '-' if present.
+     * <br>
+     * This is somewhat similar to the JDK's {@link Float#parseFloat(String)} method, but this also supports
+     * CharSequence data instead of just String data, and allows specifying a start and end, but doesn't support
+     * scientific notation or hexadecimal float notation. This doesn't throw on invalid input, either, instead returning
+     * 0 if the first char is not a decimal digit, or stopping the parse process early if a non-decimal-digit char is
+     * read before end is reached. If the parse is stopped early, this behaves as you would expect for a number with
+     * fewer digits, and simply doesn't fill the larger places.
+     *
+     * @param cs    a CharSequence, such as a String, containing digits 0-9 with an optional sign and decimal point
+     * @param start the (inclusive) first character position in cs to read
+     * @param end   the (exclusive) last character position in cs to read (this will stop early if it encounters any invalid char)
+     * @return the float that cs represents
+     */
     public static float floatFromDec(final CharSequence cs, final int start, int end) {
-        int len, h, lim = 10;
+        int len, h;
         float decimal = 1f;
         boolean foundPoint = false;
         if (cs == null || start < 0 || end <= 0 || end - start <= 0
@@ -995,11 +1014,9 @@ public class Font implements Disposable {
         char c = cs.charAt(start);
         if (c == '-') {
             len = -1;
-            lim = 11;
             h = 0;
         } else if (c == '+') {
             len = 1;
-            lim = 11;
             h = 0;
         } else if (c > 102 || (h = hexCodes[c]) < 0 || h > 9)
             return 0;
@@ -1007,7 +1024,7 @@ public class Font implements Disposable {
             len = 1;
         }
         int data = h;
-        for (int i = start + 1; i < end && i < start + lim; i++) {
+        for (int i = start + 1; i < end; i++) {
             c = cs.charAt(i);
             if(c == '.') {
                 foundPoint = true;

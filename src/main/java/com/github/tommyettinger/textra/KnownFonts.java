@@ -581,11 +581,17 @@ public final class KnownFonts implements LifecycleListener {
      * less than 40 or so. This uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed
      * in heavily, but should be crisp enough when zoomed out. The texture this uses is larger than many of the others
      * here, at 4096x4096 pixels, but the file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and
-     * Twemoji.png are each larger than GoNotoUniversal-sdf.png . The .fnt has 24350 glyphs plus kerning, though, so it
-     * is quite large.
+     * Twemoji.png are each larger than GoNotoUniversal-sdf.png . The .fnt has 24350 glyphs plus extensive kerning info,
+     * though, so it is quite large.
      * <br>
-     * Preview: <a href="https://i.imgur.com/H2d3Jga.png">Image link</a> (uses width=66, height=52,
-     * adjustLineHeight(0.625f), setCrispness(1.5f))
+     * A quirk of this particular .fnt file is that it uses features specific to TextraTypist; as far as I know, it
+     * cannot be read by the libGDX BitmapFont class. These features are simply how it stores metric values -- as float,
+     * rather than only as int. You should probably not try to load GoNotoUniversal-sdf.fnt with BitmapFont or
+     * DistanceFieldFont in libGDX. Using floats is very helpful for the distance field effect; without them, most
+     * glyphs would render slightly off from the intended position, due to rounding to an int instead of using a float.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/0ISwnrP.png">Image link</a> (uses width=65.25, height=51,
+     * adjustLineHeight(0.625f), setCrispness(1.8f))
      * <br>
      * Needs files:
      * <ul>
@@ -606,8 +612,11 @@ public final class KnownFonts implements LifecycleListener {
                         .adjustLineHeight(0.625f)
                         .setCrispness(1.8f)
                         .setName("Go Noto Universal (SDF)");
+
 //                System.out.println(instance.goNotoUniversalSDF.cellWidth);
 //                System.out.println(instance.goNotoUniversalSDF.cellHeight);
+
+                // Above are used to see how big the font actually is, since due to scaling we don't know.
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -624,8 +633,9 @@ public final class KnownFonts implements LifecycleListener {
      * coverage, plus Latin, Greek, and Cyrillic, that shouldm scale pretty well down, but not up.
      * Caches the result for later calls. The font used is Hanazono (HanMinA, specifically), a free (OFL) typeface.
      * This uses a somewhat-small standard bitmap font because of how many glyphs are present (over 34000); it might not
-     * scale as well as other standard bitmap fonts here.
-     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * scale as well as other standard bitmap fonts here. You may want to consider {@link #getGoNotoUniversalSDF()} if
+     * you can use an SDF font, since it scales up with higher quality.
+     * Otherwise, this may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
      * Preview: <a href="https://i.imgur.com/3MfINWq.png">Image link</a> (uses width=16, height=20)
      * <br>
