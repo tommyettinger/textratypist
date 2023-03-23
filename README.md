@@ -35,8 +35,8 @@ typing-label, but there have been some changes. You can check [the TextraTypist 
 for more information.
 
 As of 0.8.0, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
-Rotate, Attention, Highlight, Link, Trigger, and Stylist are all new to TextraTypist (not in typing-label). You can see
-usage instructions and sample GIFs at
+Rotate, Attention, Highlight, Link, Trigger, Stylist, and Cannon are all new to TextraTypist (not in typing-label). You
+can see usage instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
 make use of the smooth scaling and rotation options that effects can use starting in TextraTypist 0.5.1 . Some make use
 of mouse tracking, new in 0.7.0, such as how Link only responds to a click on a range of text.
