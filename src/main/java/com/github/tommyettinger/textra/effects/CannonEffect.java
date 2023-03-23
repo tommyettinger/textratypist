@@ -18,6 +18,7 @@ package com.github.tommyettinger.textra.effects;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.IntFloatMap;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
@@ -30,10 +31,15 @@ public class CannonEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 3f;
     private static final float DEFAULT_INTENSITY = 0.9f;
     private static final float DEFAULT_HEIGHT = 2.5f;
+    private static final float DEFAULT_POWER = 0.8f;
 
     private float distance = 1; // How much of their height they should start expanded by
     private float intensity = 1; // How fast the glyphs should move
     private float height = 1; // How high the glyphs should move above their starting position
+    private float shakeDuration = 0; // How long the glyph should shake after it stops moving in
+    private float shakePower = 1; // How strong the shake effect should be
+
+    private final FloatArray lastOffsets = new FloatArray();
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
 
@@ -54,6 +60,17 @@ public class CannonEffect extends Effect {
         if (params.length > 2) {
             this.height = paramAsFloat(params[2], 1.0f);
         }
+
+        // Shake duration
+        if (params.length > 3) {
+            this.shakeDuration = paramAsFloat(params[3], 0.0f);
+        }
+
+        // Shake power
+        if (params.length > 4) {
+            this.shakePower = paramAsFloat(params[4], 1.0f);
+        }
+
     }
 
     @Override
@@ -64,21 +81,58 @@ public class CannonEffect extends Effect {
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
         float progress = MathUtils.clamp(timePassed / realIntensity, 0, 1);
+        progress = (float) Math.sqrt(progress);
+        float shakeProgress = progress >= 0.9f && shakeDuration != 0f ? MathUtils.clamp((timePassed / realIntensity - 1f) / shakeDuration, 0f, 1f) : 0f;
 
-        progress = 1f - (1f - progress) * (1f - progress);
+        if(shakeProgress == 0f) {
 
-        // Calculate offset
-        Interpolation interpolation = Interpolation.sine;
-        float interpolatedValue = interpolation.apply(distance * DEFAULT_DISTANCE,
-                0f, progress);
-        float arcHeight = MathUtils.sin(MathUtils.PI * progress) * label.getLineHeight(globalIndex) * height * DEFAULT_HEIGHT;
+            // Calculate offset
+            Interpolation interpolation = Interpolation.sine;
+            float interpolatedValue = interpolation.apply(distance * DEFAULT_DISTANCE,
+                    0f, progress);
+            float arcHeight = MathUtils.sin(MathUtils.PI * progress) * label.getLineHeight(globalIndex) * height * DEFAULT_HEIGHT;
 
-        label.sizing.incr(globalIndex << 1, interpolatedValue);
-        label.sizing.incr(globalIndex << 1 | 1, interpolatedValue);
+            label.sizing.incr(globalIndex << 1, interpolatedValue);
+            label.sizing.incr(globalIndex << 1 | 1, interpolatedValue);
 
-        // Apply changes
-        label.offsets.incr(globalIndex << 1 | 1, arcHeight);
+            // Apply changes
+            label.offsets.incr(globalIndex << 1 | 1, arcHeight);
+        }
+        else {
+            // Make sure we can hold enough entries for the current index
+            if (localIndex >= lastOffsets.size / 2) {
+                lastOffsets.setSize(lastOffsets.size + 16);
+            }
 
+            // Get last offsets
+            float lastX = lastOffsets.get(localIndex * 2);
+            float lastY = lastOffsets.get(localIndex * 2 + 1);
+
+            // Calculate new offsets
+            float x = label.getLineHeight(globalIndex) * distance * MathUtils.random(-0.125f, 0.125f);
+            float y = label.getLineHeight(globalIndex) * distance * MathUtils.random(-0.125f, 0.125f);
+
+            // Apply intensity
+            float normalIntensity = MathUtils.clamp(shakePower * DEFAULT_POWER, 0, 1);
+            x = Interpolation.linear.apply(lastX, x, normalIntensity);
+            y = Interpolation.linear.apply(lastY, y, normalIntensity);
+
+            // Apply fadeout
+            float fadeout = 1f - Interpolation.sineOut.apply(shakeProgress);
+            x *= fadeout;
+            y *= fadeout;
+            x = MathUtils.round(x);
+            y = MathUtils.round(y);
+
+            // Store offsets for the next tick
+            lastOffsets.set(localIndex * 2, x);
+            lastOffsets.set(localIndex * 2 + 1, y);
+
+            // Apply changes
+            label.offsets.incr(globalIndex << 1, x);
+            label.offsets.incr(globalIndex << 1 | 1, y);
+
+        }
     }
 
 }
