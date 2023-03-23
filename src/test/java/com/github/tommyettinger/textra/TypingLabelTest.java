@@ -214,7 +214,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         text.append("{RESET} You {HEARTBEAT}[darker red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}[black][%?whiten]second[]{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2}, ");
         text.append("[%?Error]jussst[%][.][red][@Canada]spelling[] to [%?WARN]catching[%][.][#FFD510FF][@Canada]grammar[] an {RAINBOW=1;1;0.7}[@Console][;]{STYLE=%?jostle}event[%][;][@]{ENDRAINBOW} in [%?note]code[%][.][#3088B8FF][@Canada]cool[]{EVENT=example}!{WAIT} ");
         text.append("{NORMAL}\n\n");
-        text.append("{VAR=FIRE_WIND}Imagine the [~]bugs[~]! I mean, possibilities! {ENDGRADIENT}{SLOWER}{CANNON=1;1;1.5;2}[+🔥][+😁][+👏] {RESET}");
+        text.append("{VAR=FIRE_WIND}Imagine the [~]bugs[~]! I mean, possibilities! {ENDGRADIENT}{SPEED=0.1}{CANNON}[+🔥][+😁][+👏] {RESET}");
 
 //        text.append("{VAR=FIRE_WIND}Imagine the {STYLE=STRIKE}bugs{STYLE=STRIKE} possibilities! {ENDGRADIENT}[+🔥][+😁][+👏] {RESET}");
 

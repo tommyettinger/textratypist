@@ -31,12 +31,12 @@ public class CannonEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 3f;
     private static final float DEFAULT_INTENSITY = 0.9f;
     private static final float DEFAULT_HEIGHT = 2.5f;
-    private static final float DEFAULT_POWER = 0.8f;
+    private static final float DEFAULT_POWER = 1f;
 
     private float distance = 1; // How much of their height they should start expanded by
     private float intensity = 1; // How fast the glyphs should move
     private float height = 1; // How high the glyphs should move above their starting position
-    private float shakeDuration = 0; // How long the glyph should shake after it stops moving in
+    private float shakeDuration = 2; // How long the glyph should shake after it stops moving in, in seconds
     private float shakePower = 1; // How strong the shake effect should be
 
     private final FloatArray lastOffsets = new FloatArray();
@@ -63,7 +63,7 @@ public class CannonEffect extends Effect {
 
         // Shake duration
         if (params.length > 3) {
-            this.shakeDuration = paramAsFloat(params[3], 0.0f);
+            this.shakeDuration = paramAsFloat(params[3], 2.0f);
         }
 
         // Shake power

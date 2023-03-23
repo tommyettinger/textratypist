@@ -34,7 +34,7 @@ between two colors, or go across a whole rainbow. Lots of options; lots of fun. 
 typing-label, but there have been some changes. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
 for more information.
 
-As of 0.8.0, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
+As of 0.8.1, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
 Rotate, Attention, Highlight, Link, Trigger, Stylist, and Cannon are all new to TextraTypist (not in typing-label). You
 can see usage instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
@@ -233,7 +233,7 @@ user input and can use animated styles like `{RAINBOW}`.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.8.0"
+implementation "com.github.tommyettinger:textratypist:0.8.1"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
@@ -242,7 +242,7 @@ was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.8.0:sources"
+implementation "com.github.tommyettinger:textratypist:0.8.1:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 ```
 
@@ -287,6 +287,10 @@ height of glyphs (these are useful less frequently, but can be helpful to stretc
 tweaking to get a Font made from a BitmapFont to line up correctly with other widgets. You also may need to adjust the
 offsetX, offsetY, and maybe xAdvance parameters if you load an atlas (such as with `addEmoji()` or `addGameIcons()`),
 and the adjustments may be quite different for a Font made from a BitmapFont vs. a Font made directly from a .fnt file.
+Since 0.8.1, `Font` can parse an extended version of the .fnt format that permits floats for any spatial metrics, and
+not just ints. The only file that uses this is `GoNotoUniversal-sdf.fnt`, currently, and it is mainly expected to be
+useful for fonts that have been scaled down from some larger size. Because only TextraTypist permits floats (that I know
+of), you can't load `GoNotoUniversal-sdf.fnt` as a `BitmapFont` successfully.
 
 If you load text from a file and display it, you can sometimes get different results from creating that text in code, or
 loading it on a different machine. This should only happen if the file actually is different -- that is, the files' line
@@ -343,11 +347,15 @@ a shader to handle size changes, but the way things are now, the shader only cha
 changed, not when it has its size changed inline using (for example) the `[%200]` tag, or changed with an effect like
 `{SQUASH}`. In these cases, the enlarged text just looks blurry, though it is worse with MSDF. Using a standard font
 actually looks a lot better for these small-to-moderate size adjustments. Because it doesn't need a different
-shader, the standard fonts are much more compatible with things like emoji, and can be used in the same batch as
+shader, the standard fonts are more compatible with things like emoji, and can be used in the same batch as
 graphics that use the default SpriteBatch shader. SDF fonts support kerning, and `Gentium-sdf.fnt` uses both an SDF
-effect and kerning. MSDF fonts created with [msdf-gdx-gen](https://github.com/maltaisn/msdf-gdx-gen) do support kerning,
+effect and kerning. The newer Go Noto Universal font uses SDF and has an incredibly large amount of kerning data in its
+.fnt file. MSDF fonts created with [msdf-gdx-gen](https://github.com/maltaisn/msdf-gdx-gen) do support kerning,
 and as long as the generated texture is fairly large, the fonts seem to work well. The best approach most of the time
-seems to be to use a large standard font texture, without SDF or MSDF, and scale it down as needed.
+seems to be to use a large standard font texture, without SDF or MSDF, and scale it down as needed. Since 0.8.1, SDF
+fonts support emoji (just without smooth, anti-aliased edges) in full color, but MSDF fonts probably never will. MSDF
+uses color information to represent distance information, so colorful emoji appear to the MSDF shader as very
+complicated shapes, without any of their intended coloring.
 
 If you happen to use both tommyettinger's TextraTypist library and tommyettinger's
 [colorful-gdx](https://github.com/tommyettinger/colorful-gdx) library, you may encounter various issues. `ColorfulBatch`
@@ -385,13 +393,16 @@ artifact covered immediately above. Instead of "AutoSlight", "AutoMedium", or "A
 don't have any idea why this happens, but because hinting can be set either in the FreeType generator parameters or (if
 you use [Stripe](https://github.com/raeleus/stripe)) set in a Skin file with `"hinting": "Full"`, it isn't hard to fix.
 
-There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 through 0.8.0. You may see labels
+There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 through 0.8.1. You may see labels
 slide a little relatively to their backgrounds when rotated smoothly, and some (typically very small) fonts may need
 integer positions enabled to keep a stable baseline. Font debug lines may be quite incorrect in some of these versions,
 also, even if the text displays correctly to users. Scaling has improved significantly in 0.7.8, as has the handling of
 debug lines, but rotation still has some subtle bugs. A bug was fixed starting in 0.8.0 that made extra images in a Font
 (such as emoji) scale differently and drift when the Font they were mixed with scaled. That same bug also made an
 ordinary Font drift slightly as its scale changed; this is also fixed.
+
+Word wrap periodically seems to break and need fixing across different releases. The most recent time this happened was
+in 0.7.9, which also affected 0.8.0 and was fixed (I hope) in 0.8.1.
 
 ## License
 
