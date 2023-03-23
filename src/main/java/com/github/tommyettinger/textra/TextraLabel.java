@@ -259,8 +259,6 @@ public class TextraLabel extends Widget {
         final float sn = MathUtils.sinDeg(rot);
         final float cs = MathUtils.cosDeg(rot);
 
-        batch.getColor().set(getColor()).a *= parentAlpha;
-        batch.setColor(batch.getColor());
         int bgc;
         final int lines = layout.lines();
         float baseX = getX(), baseY = getY();
@@ -319,11 +317,14 @@ public class TextraLabel extends Widget {
                     rot);                       // rotation
         }
 
-        if (layout.lines.isEmpty()) return;
+        if (layout.lines.isEmpty() || parentAlpha <= 0f) return;
 
+        // we only change the shader or batch color if we actually are drawing something.
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if (resetShader)
             font.enableShader(batch);
+        batch.getColor().set(getColor()).a *= parentAlpha;
+        batch.setColor(batch.getColor());
 
 //        baseX -= 0.5f * font.cellWidth;
 //

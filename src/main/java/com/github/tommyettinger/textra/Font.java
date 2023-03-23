@@ -2376,7 +2376,7 @@ public class Font implements Disposable {
         } else {
             batch.setShader(null);
         }
-        batch.setPackedColor(Color.WHITE_FLOAT_BITS);
+//        batch.setPackedColor(Color.WHITE_FLOAT_BITS); // not sure why this was here, or if it is useful...
     }
 
     /**

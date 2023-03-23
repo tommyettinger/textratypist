@@ -813,8 +813,6 @@ public class TypingLabel extends TextraLabel {
         final float sn = MathUtils.sinDeg(rot);
         final float cs = MathUtils.cosDeg(rot);
 
-        batch.getColor().set(getColor()).a *= parentAlpha;
-        batch.setColor(batch.getColor());
         int bgc;
         final int lines = workingLayout.lines();
         float baseX = getX(), baseY = getY();
@@ -874,7 +872,7 @@ public class TypingLabel extends TextraLabel {
                     rot);                       // rotation
         }
 
-        if (layout.lines.isEmpty()) return;
+        if (layout.lines.isEmpty() || parentAlpha <= 0f) return;
 
 //        baseY += workingLayout.lines.first().height * 0.25f;
 
@@ -882,6 +880,8 @@ public class TypingLabel extends TextraLabel {
         boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if (resetShader)
             font.enableShader(batch);
+        batch.getColor().set(getColor()).a *= parentAlpha;
+        batch.setColor(batch.getColor());
 
 //        baseX -= 0.5f * font.cellWidth;
 //
