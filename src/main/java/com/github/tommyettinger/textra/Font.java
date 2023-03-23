@@ -3619,6 +3619,9 @@ public class Font implements Disposable {
         v = tr.getV();
         u2 = tr.getU2();
         v2 = tr.getV2();
+        if (c >= 0xE000 && c < 0xF800) {
+            yt = handleIntegerPosition(yt - font.descent * osy * 0.5f);
+        }
 
 //        if (c >= 0xE000 && c < 0xF800) {
 //            yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
@@ -3678,9 +3681,9 @@ public class Font implements Disposable {
         if(backgroundColor != 0) {
             drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(font.solidBlock, tr),
                     NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
-                    x - xAdvance * scaleX * (sizingX - 0.5f) + tr.offsetX * scaleX * 0.5f,
-                    y - font.cellHeight * scale * sizingY * 0.5f,
-                    xAdvance * scaleX * sizingX + 5f, (font.cellHeight * scale - font.descent * scaleY) * sizingY, rotation);
+                    x - (xAdvance * scaleX * (sizingX - 0.5f) + tr.offsetX * scaleX) * 0.5f,
+                    y - (font.cellHeight * scale + font.descent * osy) * 0.5f * sizingY,
+                    xAdvance * scaleX * sizingX + 5f, (font.cellHeight * scale) * sizingY, rotation);
         }
         if (jostled) {
             int code = NumberUtils.floatToIntBits(x * 1.8191725133961645f + y * 1.6710436067037893f + c * 1.5497004779019703f) & 0xFFFFFF;
@@ -3835,9 +3838,9 @@ public class Font implements Disposable {
                     h = trrh * osy * sizingY;
                     yt = (font.cellHeight * 0.5f - (trrh + under.offsetY) * font.scaleY) * scale * sizingY;
                     //((font.originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY - 0.5f * imageAdjust * scale) * sizingY;
-//                    if (c >= 0xE000 && c < 0xF800) {
-//                        yt = handleIntegerPosition(-centerY * scale * sizingY);
-//                    }
+                    if (c >= 0xE000 && c < 0xF800) {
+                        yt = handleIntegerPosition(yt - font.descent * osy * 0.5f);
+                    }
 //                    if (c >= 0xE000 && c < 0xF800)
 //                        System.out.println("With font " + name + ", UNDERLINE: yt=" + yt + ", y0=" + y0 + ", y1=" + y1 + ", y2=" + y2 + ", x0=" + x0);
                     //underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.625f,
@@ -3906,6 +3909,9 @@ public class Font implements Disposable {
 
                     yt = (font.cellHeight * 0.5f - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY;
                             //((font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY) * sizingY;
+                    if (c >= 0xE000 && c < 0xF800) {
+                        yt = handleIntegerPosition(yt - font.descent * osy * 0.5f);
+                    }
 
 //                    if (c >= 0xE000 && c < 0xF800)
 //                        System.out.println("With font " + name + ", STRIKETHROUGH: yt=" + yt);
