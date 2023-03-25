@@ -2315,7 +2315,10 @@ public class Font implements Disposable {
                 name = prepend + region.name + append;
                 nameLookup.put(name, i);
                 char f = previous.name.charAt(0);
-                if(f < 0xD800 || f >= 0xE000) // if the previous name didn't start with an emoji char, use this name
+                // If the previous name didn't start with an emoji char, use this name. This means if there is only one
+                // name that refers to a region, that name will be used in namesByCharCode, but if there is more than
+                // one sequential name, then names that start with emoji take priority.
+                if(f < 0xD800 || f >= 0xE000)
                     namesByCharCode.put(i, name);
             } else {
                 ++i;
