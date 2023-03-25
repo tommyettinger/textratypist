@@ -3530,8 +3530,8 @@ public class Font implements Disposable {
             scaleY = (fsy = font.scaleY) * scale;
 //            y -= descent * scaleY;
         }
-        osx = font.scaleX * scale;
-        osy = font.scaleY * scale;
+        osx = font.scaleX * (scale + 1f) * 0.5f;
+        osy = font.scaleY * (scale + 1f) * 0.5f;
         float centerX = tr.xAdvance * font.scaleX * scaleX * 0.5f;
         float centerY = font.cellHeight * scaleY * 0.5f;
 
