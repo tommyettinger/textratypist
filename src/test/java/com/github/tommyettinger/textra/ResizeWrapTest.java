@@ -41,8 +41,8 @@ public class ResizeWrapTest extends ApplicationAdapter {
 
     private Label labScale;
     private Label labFont;
-    private TextraLabel textraLabelScaleFont;
-    private TextraLabel textraLabelChangeFont;
+    private TypingLabel typingLabelScaleFont;
+    private TypingLabel typingLabelChangeFont;
     private BitmapFont font28;
     private BitmapFont font20;
     private Label.LabelStyle style28;
@@ -80,19 +80,23 @@ public class ResizeWrapTest extends ApplicationAdapter {
                 changeFont();
             }
         });
-
-        textraLabelScaleFont = new TextraLabel("libGDX is a free and open-source game-development application framework written in the Java programming language.\n\ntextraLabelScale.font.scale(1.5f, 1.5f);\n" +
+        typingLabelScaleFont = new TypingLabel("libGDX is a free and open-source game-development application framework written in the Java programming language.\n\ntextraLabelScale.font.scale(1.5f, 1.5f);\n" +
                 "textraLabelScale.pack();", style20);
-        textraLabelScaleFont.setWrap(true);
+//        textraLabelScaleFont = new TypingLabel("Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone"
+//                "{SHAKE}libGDX is a free and open-source game-development application framework written in the Java programming language."
+//                +"\n\ntextraLabelScale.font.scale(1.5f, 1.5f);\n" +
+//                "textraLabelScale.pack();"
+//                , style20);
+        typingLabelScaleFont.setWrap(true);
 
-        textraLabelChangeFont = new TextraLabel("libGDX is a free and open-source game-development application framework written in the Java programming language.\n\nFont font = new Font(font28);\n" +
+        typingLabelChangeFont = new TypingLabel("libGDX is a free and open-source game-development application framework written in the Java programming language.\n\nFont font = new Font(font28);\n" +
                 "textraLabelFont.font = font;\ntextraLabelFont.pack();", style20);
-        textraLabelChangeFont.setWrap(true);
+        typingLabelChangeFont.setWrap(true);
 
         outer.add(labScale).right().width(getWidth() - 40).padBottom(20).row();
-        outer.add(textraLabelScaleFont).width(getWidth() - 40).padBottom(80).row();
+        outer.add(typingLabelScaleFont).width(getWidth() - 40).padBottom(80).row();
         outer.add(labFont).right().width(getWidth() - 40).padBottom(20).row();
-        outer.add(textraLabelChangeFont).width(getWidth() - 40).padBottom(20).row();
+        outer.add(typingLabelChangeFont).width(getWidth() - 40).padBottom(20).row();
 
         outer.padTop(20);
         outer.top();
@@ -104,18 +108,20 @@ public class ResizeWrapTest extends ApplicationAdapter {
 
     public void changeFontScale(boolean up){
         if(up)
-            textraLabelScaleFont.getFont().scale(1.25f, 1.25f);
+            typingLabelScaleFont.getFont().scale(1.25f, 1.25f);
         else
-            textraLabelScaleFont.getFont().scale(0.8f, 0.8f);
-        System.out.println("changeFontScale to " + textraLabelScaleFont.getFont().scaleY);
-        textraLabelScaleFont.pack();
+            typingLabelScaleFont.getFont().scale(0.8f, 0.8f);
+        // used to reproduce a word-wrap and line-break bug with TypingLabel.offsets , which is used by effects.
+        typingLabelScaleFont.setText("{SICK}Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone");
+        System.out.println("changeFontScale to " + typingLabelScaleFont.getFont().scaleY);
+        typingLabelScaleFont.pack();
     }
 
     public void changeFont(){
         System.out.println("changeFont");
         Font font = new Font(font28);
-        textraLabelChangeFont.setFont(font);
-        textraLabelChangeFont.pack();
+        typingLabelChangeFont.setFont(font);
+        typingLabelChangeFont.pack();
 
         // debugging info.
 //        float widest = textraLabelChangeFont.layout.getWidth();

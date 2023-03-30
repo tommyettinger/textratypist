@@ -525,7 +525,7 @@ public class TypingLabel extends TextraLabel {
             }
         }
         font.calculateSize(workingLayout);
-        int glyphCount = getLayoutSize(layout);
+        int glyphCount = getLayoutSize(workingLayout);
         offsets.setSize(glyphCount + glyphCount);
         Arrays.fill(offsets.items, 0, glyphCount + glyphCount, 0f);
         sizing.setSize(glyphCount + glyphCount);
@@ -535,7 +535,6 @@ public class TypingLabel extends TextraLabel {
 
         // Apply effects
         if (!ignoringEffects) {
-            int workingLayoutSize = getLayoutSize(workingLayout);
 
             for (int i = activeEffects.size - 1; i >= 0; i--) {
                 Effect effect = activeEffects.get(i);
@@ -550,7 +549,7 @@ public class TypingLabel extends TextraLabel {
                 }
 
                 // Apply effect to glyph
-                for (int j = Math.max(0, start); j <= glyphCharIndex && j <= end && j < workingLayoutSize; j++) {
+                for (int j = Math.max(0, start); j <= glyphCharIndex && j <= end && j < glyphCount; j++) {
                     long glyph = getInLayout(workingLayout, j);
                     if (glyph == 0xFFFFFFL) break; // invalid char
                     effect.apply(glyph, j, delta);
