@@ -1051,7 +1051,9 @@ public final class KnownFonts implements LifecycleListener {
      * scale pretty well from a height of about 90 down to a height of maybe 30.
      * Caches the result for later calls. The font used is Kingthings Foundation, a free (custom permissive license)
      * typeface; this has faux-bold applied already in order to make some ornamental curls visible at more sizes. You
-     * can still apply bold again using markup. It supports only ASCII.
+     * can still apply bold again using markup. It supports only ASCII. You may want to also look at
+     * {@link #getKingthingsPetrock() Kingthings Petrock}; where Petrock is less-ornamented, Foundation is heavily
+     * ornamented, and Foundation may make sense for text associated with writers of high social status.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
@@ -1095,7 +1097,9 @@ public final class KnownFonts implements LifecycleListener {
      * scale pretty well from a height of about 90 down to a height of maybe 30.
      * Caches the result for later calls. The font used is Kingthings Petrock, a free (custom permissive license)
      * typeface; it has a visual style similar to one used by some popular classic rock bands. It supports only ASCII
-     * and a small amount of extended Latin.
+     * and a small amount of extended Latin. Kingthings Petrock is similar to
+     * {@link #getKingthingsFoundation() Kingthings Foundation}, but Petrock isn't as heavily-ornamented, and looks more
+     * like "every-day usable" medieval or maybe Renaissance text.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
