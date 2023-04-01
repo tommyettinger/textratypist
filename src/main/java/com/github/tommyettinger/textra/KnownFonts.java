@@ -200,7 +200,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.bitter == null) {
             try {
                 instance.bitter = new Font(instance.prefix + "Bitter-standard.fnt",
-                        instance.prefix + "Bitter-standard.png", STANDARD, 0, -36, 0, 0, true)
+                        instance.prefix + "Bitter-standard.png", STANDARD, 0, -24, 0, 0, true)
                         .scaleTo(33, 30).setTextureFilter().setName("Bitter");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -240,7 +240,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.canada = new Font(instance.prefix + "Canada1500-standard.fnt",
                         instance.prefix + "Canada1500-standard.png",
-                        STANDARD, 0, 0, 0, 0, true)
+                        STANDARD, 0, 20, 0, 0, true)
                         .scaleTo(30, 35).setTextureFilter().setName("Canada1500");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -732,7 +732,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.inconsolata == null) {
             try {
                 instance.inconsolata = new Font(instance.prefix + "Inconsolata-LGC-Custom-standard.fnt",
-                        instance.prefix + "Inconsolata-LGC-Custom-standard.png", STANDARD, 0f, 6f, -4f, 0f, true)
+                        instance.prefix + "Inconsolata-LGC-Custom-standard.png", STANDARD, 1f, 6f, -4f, 0f, true)
                         .scaleTo(10, 26).setTextureFilter().setName("Inconsolata LGC");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1118,7 +1118,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.libertinusSerif == null) {
             try {
                 instance.libertinusSerif = new Font(instance.prefix + "LibertinusSerif-standard.fnt",
-                        instance.prefix + "LibertinusSerif-standard.png", STANDARD, 0, 0, 0, 0, true)
+                        instance.prefix + "LibertinusSerif-standard.png", STANDARD, 0, 15, 0, 0, true)
                         .scaleTo(40, 34).setTextureFilter().setName("Libertinus Serif");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1191,8 +1191,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.openSans == null) {
             try {
                 instance.openSans = new Font(instance.prefix + "OpenSans-standard.fnt",
-                        instance.prefix + "OpenSans-standard.png", STANDARD, 0, 10, 0, 0, true)
-                        .scaleTo(20, 32).adjustLineHeight(0.875f).setTextureFilter().setName("OpenSans");
+                        instance.prefix + "OpenSans-standard.png", STANDARD, 0, 14, 0, 0, true)
+                        .scaleTo(20, 28).adjustLineHeight(0.875f).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1309,8 +1309,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.robotoCondensed == null) {
             try {
                 instance.robotoCondensed = new Font(instance.prefix + "RobotoCondensed-standard.fnt",
-                        instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 18, 0, 20, true)
-                        .scaleTo(21, 30).setTextureFilter().setName("Roboto Condensed");
+                        instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 25, 0, 20, true)
+                        .scaleTo(20, 32).setTextureFilter().setName("Roboto Condensed");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1348,7 +1348,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.tangerine == null) {
             try {
                 instance.tangerine = new Font(instance.prefix + "Tangerine-standard.fnt",
-                        instance.prefix + "Tangerine-standard.png", STANDARD, 0f, 19f, 0f, 0f, true)
+                        instance.prefix + "Tangerine-standard.png", STANDARD, 0f, 16f, 0f, 4f, true)
                         .scaleTo(48, 32).setTextureFilter().setName("Tangerine");
             } catch (Exception e) {
                 e.printStackTrace();
