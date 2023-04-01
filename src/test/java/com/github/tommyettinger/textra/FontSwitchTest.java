@@ -40,7 +40,7 @@ public class FontSwitchTest extends ApplicationAdapter {
         colorNames = Colors.getColors().keys().toArray();
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{
-                        "Gentium", "OpenSans", "Cozette", "KingThings",
+                        "Gentium", "OpenSans", "Cozette", "Kingthings",
                 },
                 new Font[]{
                         KnownFonts.getGentium().scaleTo(32, 35),
@@ -55,7 +55,7 @@ public class FontSwitchTest extends ApplicationAdapter {
         font.markup("@ Fonts can be rendered normally, but using [@Cozette][[tags][@], you can..."
                 + "\n[#E74200]...use [@OpenSans]CSS-style[@] hex colors like [*]#E74200[*]..."
                 + "\n[FOREST]...use [@OpenSans]named[@] colors from the Colors class, like [/]FOREST[/]...[]"
-                + "\n...[_]and[_] use [@KingThings]effects[@]!"
+                + "\n...[_]and[_] use [@Kingthings]effects[@]!"
                 + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
                 + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
                 + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"

@@ -1078,7 +1078,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.kingthingsFoundation = new Font(instance.prefix + "KingthingsFoundation-standard.fnt",
                         instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 40, 0, 25, true)
-                        .scaleTo(23, 31).setTextureFilter().setName("KingThings Foundation");
+                        .scaleTo(23, 31).setTextureFilter().setName("Kingthings Foundation");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1086,6 +1086,44 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.kingthingsFoundation != null)
             return new Font(instance.kingthingsFoundation);
         throw new RuntimeException("Assets for getKingthingsFoundation() not found.");
+    }
+
+    private Font kingthingsPetrock;
+
+    /**
+     * Returns a Font already configured to use a clearly-legible variable-width medieval font, that should
+     * scale pretty well from a height of about 90 down to a height of maybe 30.
+     * Caches the result for later calls. The font used is Kingthings Petrock, a free (custom permissive license)
+     * typeface; it has a visual style similar to one used by some popular classic rock bands. It supports only ASCII
+     * and a small amount of extended Latin.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/dTW6ste.png">Image link</a> (uses scaleTo(25, 32))
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsPetrock-standard.fnt">KingthingsPetrock-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsPetrock-standard.png">KingthingsPetrock-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font KingthingsPetrock.ttf
+     */
+    public static Font getKingthingsPetrock() {
+        initialize();
+        if (instance.kingthingsPetrock == null) {
+            try {
+                instance.kingthingsPetrock = new Font(instance.prefix + "KingthingsPetrock-standard.fnt",
+                        instance.prefix + "KingthingsPetrock-standard.png", STANDARD, 0, 8, 2, 0, true)
+                        .scaleTo(25, 32).setTextureFilter().setName("Kingthings Petrock");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.kingthingsPetrock != null)
+            return new Font(instance.kingthingsPetrock);
+        throw new RuntimeException("Assets for getKingthingsPetrock() not found.");
     }
 
     private Font libertinusSerif;
@@ -2070,8 +2108,8 @@ public final class KnownFonts implements LifecycleListener {
                 getHanazono(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(),
                 getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(),
-                getKingthingsFoundation(), getLibertinusSerif(), getNowAlt(), getOpenSans(), getOxanium(),
-                getQuanPixel(), getRobotoCondensed(), getTangerine(), getTangerineSDF(),
+                getKingthingsFoundation(), getKingthingsPetrock(), getLibertinusSerif(), getNowAlt(), getOpenSans(),
+                getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(), getTangerineSDF(),
                 getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghanMSDF()};
     }
 
@@ -2085,8 +2123,8 @@ public final class KnownFonts implements LifecycleListener {
     public static Font[] getAllStandard() {
         return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getBitter(), getCanada(),
                 getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getHanazono(), getIBM8x16(),
-                getInconsolata(), getIosevka(), getIosevkaSlab(), getKingthingsFoundation(), getLibertinusSerif(),
-                getNowAlt(), getOpenSans(), getOxanium(), getQuanPixel(),
+                getInconsolata(), getIosevka(), getIosevkaSlab(), getKingthingsFoundation(), getKingthingsPetrock(),
+                getLibertinusSerif(), getNowAlt(), getOpenSans(), getOxanium(), getQuanPixel(),
                 getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()};
     }
 
@@ -2136,7 +2174,7 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any SDF Font.
      * This will only function at all if all the assets (for every known SDF Font) are present and load-able.
-     * You should store the result of this method, rather than calling it often, because each call copies 4 Fonts.
+     * You should store the result of this method, rather than calling it often, because each call copies 5 Fonts.
      * @return a new array containing all SDF Font instances this knows
      */
     public static Font[] getAllSDF() {
@@ -2254,6 +2292,10 @@ public final class KnownFonts implements LifecycleListener {
         if (kingthingsFoundation != null) {
             kingthingsFoundation.dispose();
             kingthingsFoundation = null;
+        }
+        if (kingthingsPetrock != null) {
+            kingthingsPetrock.dispose();
+            kingthingsPetrock = null;
         }
         if (libertinusSerif != null) {
             libertinusSerif.dispose();
