@@ -893,7 +893,15 @@ public class TypingLabel extends TextraLabel {
 
         float inX = 0, inY = 0;
         if(trackingInput) {
-            getParent().stageToLocalCoordinates(getStage().screenToStageCoordinates(temp.set(Gdx.input.getX(), Gdx.input.getY())));
+            if(hasParent())
+                getParent().screenToLocalCoordinates(temp.set(Gdx.input.getX(), Gdx.input.getY()));
+            else {
+                // I have no idea why the y has to be flipped here, but not above.
+                screenToLocalCoordinates(temp.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()));
+            }
+            // this is what we had before, but it crashes if the TypingLabel isn't in a Stage.
+//            getParent().stageToLocalCoordinates(getStage().screenToStageCoordinates(temp.set(Gdx.input.getX(), Gdx.input.getY())));
+
             inX = temp.x;
             inY = temp.y;
 
