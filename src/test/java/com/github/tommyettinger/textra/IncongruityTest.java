@@ -82,6 +82,11 @@ public class IncongruityTest extends ApplicationAdapter {
     private BitmapFont[] getFonts () {
         BitmapFont tall = getFont("AStarry");
         tall.getData().setScale(1, 2);
+        //                getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getBitter(), getCanada(),
+        //                getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getHanazono(), getIBM8x16(),
+        //                getInconsolata(), getIosevka(), getIosevkaSlab(), getKingthingsFoundation(), getLibertinusSerif(),
+        //                getNowAlt(), getOpenSans(), getOxanium(), getQuanPixel(),
+        //                getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()
         return new BitmapFont[] {
                 getFont("AStarry"),
                 tall,
@@ -100,6 +105,7 @@ public class IncongruityTest extends ApplicationAdapter {
                 getFont("Iosevka-Slab"),
                 getFont("KingthingsFoundation"),
                 getFont("LibertinusSerif"),
+                getFont("Now-Alt"),
                 getFont("OpenSans"),
                 getFont("Oxanium"),
                 getFont("QuanPixel"),

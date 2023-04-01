@@ -1953,7 +1953,7 @@ public class Font implements Disposable {
             for (int x = 0; x < columns; x++, c++) {
                 GlyphRegion gr = new GlyphRegion(parent, x * ((int) cellWidth + padding) + padding, y * ((int) cellHeight + padding) + padding, (int) cellWidth, (int) cellHeight);
                 gr.offsetX = 0;
-                gr.offsetY = cellHeight * 0.5f;
+                gr.offsetY = cellHeight * 0.5f + descent;
                 if (c == 10) {
                     gr.xAdvance = 0;
                 } else {
