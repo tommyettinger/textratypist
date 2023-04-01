@@ -157,7 +157,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.astarryMSDF == null) {
             try {
                 instance.astarryMSDF = new Font(instance.prefix + "AStarry-msdf.fnt",
-                        instance.prefix + "AStarry-msdf.png", MSDF, 0, -12, 0, 0, true)
+                        instance.prefix + "AStarry-msdf.png", MSDF, 0, 0, 0, 0, true)
                         .scaleTo(10, 10).setCrispness(2.5f).setName("A Starry (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -436,7 +436,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.dejaVuSansMono == null) {
             try {
                 instance.dejaVuSansMono = new Font(instance.prefix + "DejaVuSansMono-msdf.fnt",
-                        instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 0f, -4f, 0f, 0f, true)
+                        instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 0f, 12f, 0f, 0f, true)
                         .scaleTo(9, 20).setCrispness(2f).setName("DejaVu Sans Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -607,7 +607,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.goNotoUniversalSDF == null) {
             try {
                 instance.goNotoUniversalSDF = new Font(instance.prefix + "GoNotoUniversal-sdf.fnt",
-                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, -4f, 0f, 0f, true)
+                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, 10f, 0f, 0f, true)
                         .scaleTo(65.25f, 51)
                         .adjustLineHeight(0.625f)
                         .setCrispness(1.8f)
@@ -630,7 +630,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width, narrow font with nearly-complete CJK character
-     * coverage, plus Latin, Greek, and Cyrillic, that shouldm scale pretty well down, but not up.
+     * coverage, plus Latin, Greek, and Cyrillic, that should scale pretty well down, but not up.
      * Caches the result for later calls. The font used is Hanazono (HanMinA, specifically), a free (OFL) typeface.
      * This uses a somewhat-small standard bitmap font because of how many glyphs are present (over 34000); it might not
      * scale as well as other standard bitmap fonts here. You may want to consider {@link #getGoNotoUniversalSDF()} if
@@ -768,7 +768,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.inconsolataMSDF == null) {
             try {
                 instance.inconsolataMSDF = new Font(instance.prefix + "Inconsolata-LGC-Custom-msdf.fnt",
-                        instance.prefix + "Inconsolata-LGC-Custom-msdf.png", MSDF, -6f, -5f, -12f, 0f, true)
+                        instance.prefix + "Inconsolata-LGC-Custom-msdf.png", MSDF, 1f, -5f, -12f, 0f, true)
                         .scaleTo(12, 26).setCrispness(1.2f).setName("Inconsolata LGC (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -854,7 +854,7 @@ public final class KnownFonts implements LifecycleListener {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This should be OK now that this uses the box-drawing underline.
                 instance.iosevkaMSDF = new Font(instance.prefix + "Iosevka-msdf.fnt",
-                        instance.prefix + "Iosevka-msdf.png", MSDF, 0f, -5f, 0f, 0f, true)
+                        instance.prefix + "Iosevka-msdf.png", MSDF, 1f, 13f, 0f, 0f, true)
                         .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka (MSDF)");
             } catch (Exception e) {
@@ -901,7 +901,7 @@ public final class KnownFonts implements LifecycleListener {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This should be OK now that this uses the box-drawing underline.
                 instance.iosevkaSDF = new Font(instance.prefix + "Iosevka-sdf.fnt",
-                        instance.prefix + "Iosevka-sdf.png", SDF, 2f, -8f, -2f, 0f, true)
+                        instance.prefix + "Iosevka-sdf.png", SDF, 2f, 5f, -2f, 0f, true)
                         .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka (SDF)");
             } catch (Exception e) {
@@ -986,7 +986,7 @@ public final class KnownFonts implements LifecycleListener {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSlabMSDF = new Font(instance.prefix + "Iosevka-Slab-msdf.fnt",
-                        instance.prefix + "Iosevka-Slab-msdf.png", MSDF, 0f, -5f, 0f, 0f, true)
+                        instance.prefix + "Iosevka-Slab-msdf.png", MSDF, 1f, 13f, 0f, 0f, true)
                         .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka Slab (MSDF)");
             } catch (Exception e) {
@@ -1032,7 +1032,7 @@ public final class KnownFonts implements LifecycleListener {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSlabSDF = new Font(instance.prefix + "Iosevka-Slab-sdf.fnt",
-                        instance.prefix + "Iosevka-Slab-sdf.png", SDF, 2f, -8f, -2f, 0f, true)
+                        instance.prefix + "Iosevka-Slab-sdf.png", SDF, 2f, 5f, -2f, 0f, true)
                         .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka Slab (SDF)");
             } catch (Exception e) {
@@ -1460,7 +1460,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.kaffeesatzMSDF == null) {
             try {
                 instance.kaffeesatzMSDF = new Font(instance.prefix + "YanoneKaffeesatz-msdf.fnt",
-                        instance.prefix + "YanoneKaffeesatz-msdf.png", MSDF, 0f, 0f, 0f, 0, true)
+                        instance.prefix + "YanoneKaffeesatz-msdf.png", MSDF, 0f, 8f, 0f, 0, true)
                         .scaleTo(26, 30).setCrispness(2.5f).setName("Yanone Kaffeesatz (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1500,7 +1500,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.yataghanMSDF == null) {
             try {
                 instance.yataghanMSDF = new Font(instance.prefix + "Yataghan-msdf.fnt",
-                        instance.prefix + "Yataghan-msdf.png", MSDF, 0f, -20f, 0f, 0, true)
+                        instance.prefix + "Yataghan-msdf.png", MSDF, 0f, -32f, 0f, 0, true)
                         .scaleTo(20, 32).setName("Yataghan (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
