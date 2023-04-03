@@ -34,7 +34,7 @@ between two colors, or go across a whole rainbow. Lots of options; lots of fun. 
 typing-label, but there have been some changes. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
 for more information.
 
-As of 0.8.2, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
+As of 0.8.3, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
 Rotate, Attention, Highlight, Link, Trigger, Stylist, and Cannon are all new to TextraTypist (not in typing-label). You
 can see usage instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
@@ -233,7 +233,7 @@ user input and can use animated styles like `{RAINBOW}`.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.8.2"
+implementation "com.github.tommyettinger:textratypist:0.8.3"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
@@ -242,7 +242,7 @@ was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.8.2:sources"
+implementation "com.github.tommyettinger:textratypist:0.8.3:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 ```
 
@@ -393,7 +393,7 @@ artifact covered immediately above. Instead of "AutoSlight", "AutoMedium", or "A
 don't have any idea why this happens, but because hinting can be set either in the FreeType generator parameters or (if
 you use [Stripe](https://github.com/raeleus/stripe)) set in a Skin file with `"hinting": "Full"`, it isn't hard to fix.
 
-There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 through 0.8.2. You may see labels
+There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 through 0.8.3. You may see labels
 slide a little relatively to their backgrounds when rotated smoothly, and some (typically very small) fonts may need
 integer positions enabled to keep a stable baseline. Font debug lines may be quite incorrect in some of these versions,
 also, even if the text displays correctly to users. Scaling has improved significantly in 0.7.8, as has the handling of
@@ -401,10 +401,13 @@ debug lines, but rotation still has some subtle bugs. A bug was fixed starting i
 (such as emoji) scale differently and drift when the Font they were mixed with scaled. That same bug also made an
 ordinary Font drift slightly as its scale changed; this is also fixed. Positions and sizes for background color and for
 images from an atlas have improved in 0.8.2, so selecting text shouldn't cover up text as badly with the background, and
-emoji should be fully surrounded by their selection background.
+emoji should be fully surrounded by their selection background. Positions along the line vertically, while the text is
+scaled, improved in 0.8.3 so that the scaling is relative to the center of the line, rather than the bottom of the line.
+Some other code already expected scaling to be centered like that, so this change makes scaling look better, usually.
 
 Word wrap periodically seems to break and need fixing across different releases. The most recent time this happened was
-in 0.7.9, which also affected 0.8.0 and was fixed (I hope) in 0.8.1.
+in 0.7.9, which also affected 0.8.0 and was fixed (I hope) in 0.8.1. A different wrapping-related bug was fixed more
+recently, in 0.8.3 ; this was rare, and only affected TypingLabel when some effects were present.
 
 ## License
 
