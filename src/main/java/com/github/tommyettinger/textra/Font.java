@@ -505,6 +505,14 @@ public class Font implements Disposable {
     public boolean integerPosition = false;
 
     /**
+     * A multiplier that applies to the horizontal movement associated with oblique text (which is similar to italic).
+     * The default is 1.0f, which is fairly strong for some fonts, and some styles look better with a smaller value.
+     * A value of 0.0f will make oblique text look like regular text. A negative value will tip the angle backwards, so
+     * the top will be to the left of the bottom.
+     */
+    public float obliqueStrength = 1f;
+
+    /**
      * The name of the Font, for display purposes. This is not necessarily the same as the name of the font used in any
      * particular {@link FontFamily}.
      */
@@ -3658,9 +3666,10 @@ public class Font implements Disposable {
 //            System.out.println("floppy disk: " + yt + ", font.cellHeight: " + font.cellHeight + ", trrh: " + trrh + ", tr.offsetY: " + tr.offsetY + ", fsy: "+ fsy + ", scale: " + scale + ", sizingY: " + sizingY + ", descent: " + font.descent);
 
         if ((glyph & OBLIQUE) != 0L) {
-            x0 += h * 0.2f;
-            x1 -= h * 0.2f;
-            x2 -= h * 0.2f;
+            final float amount = h * obliqueStrength * 0.2f;
+            x0 += amount;
+            x1 -= amount;
+            x2 -= amount;
         }
         final long script = (glyph & SUPERSCRIPT);
         if (script == SUPERSCRIPT) {
