@@ -20,6 +20,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -129,6 +130,7 @@ public class RotationTest extends ApplicationAdapter {
         float x = 0, y = layout.getHeight() + font.cellHeight * 2;
         batch.begin();
         font.enableShader(batch);
+        batch.setPackedColor(Color.WHITE_FLOAT_BITS);
 
         font.drawBlocks(batch, backgrounds, 0f, 0f);
         long since = TimeUtils.timeSinceMillis(startTime);
