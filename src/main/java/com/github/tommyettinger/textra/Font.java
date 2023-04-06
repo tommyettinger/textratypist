@@ -3240,6 +3240,14 @@ public class Font implements Disposable {
         return drawn;
     }
 
+    /**
+     * Given a Layout that uses this Font, this will recalculate the width and height of each Line in layout, changing
+     * the values in layout if they are incorrect. This returns the total width of the measured Layout. Most usage will
+     * not necessarily need the return value; either this is called to fix incorrect size information on a Layout, or
+     * the Layout this modifies will be queried for its {@link Layout#getWidth()} and/or {@link Layout#getHeight()}.
+     * @param layout a Layout object that may have the width and height of its lines modified (its content won't change)
+     * @return the total width of the measured Layout, as a float
+     */
     public float calculateSize(Layout layout) {
         float w = 0f;
         float currentHeight = 0f;
@@ -3408,6 +3416,12 @@ public class Font implements Disposable {
     }
 
 
+    /**
+     * If {@link #integerPosition} is true, this returns {@code p} rounded to the nearest int; otherwise this just
+     * returns p unchanged.
+     * @param p a float that could be rounded
+     * @return either p rounded to the nearest int or p unchanged, depending on {@link #integerPosition}
+     */
     protected float handleIntegerPosition(float p) {
         return integerPosition ? MathUtils.round(p) : p;
     }

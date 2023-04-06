@@ -65,7 +65,7 @@ public class GSTransparencyTest  extends ApplicationAdapter {
                 new TextureAtlas(Gdx.files.internal("gs/alphaSkin.atlas"), Gdx.files.internal("gs/")));
         stage = new Stage(viewport);
         Font tFont = KnownFonts.getNowAlt();
-        textraLabel1 = new TextraLabel("[%150][*]Quests!\nGardens!\n\nHarvest Some Turnips!", skin, tFont);
+        textraLabel1 = new TextraLabel("[%150][*][#ECF0DC]Quests!\nGardens!\n\nHarvest Some Turnips!", skin, tFont);
         textraLabel1.setAlignment(center);
         textraLabel1.useIntegerPositions(false);
         textraLabel1.setPosition(200,200);
