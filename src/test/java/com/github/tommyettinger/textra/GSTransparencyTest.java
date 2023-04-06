@@ -65,7 +65,7 @@ public class GSTransparencyTest  extends ApplicationAdapter {
                 new TextureAtlas(Gdx.files.internal("gs/alphaSkin.atlas"), Gdx.files.internal("gs/")));
         stage = new Stage(viewport);
         Font tFont = KnownFonts.getGentium();
-        textraLabel1 = new TextraLabel("[/][#ECF0DC]Quests!\nGardens!\n\nHarvest Some Turnips!", skin, tFont);
+        textraLabel1 = new TextraLabel("[*][#ECF0DC]Quests!\nGardens!\n\nHarvest Some Turnips!", skin, tFont);
         textraLabel1.setAlignment(center);
         textraLabel1.useIntegerPositions(false);
         textraLabel1.setPosition(200,200);
@@ -84,7 +84,7 @@ public class GSTransparencyTest  extends ApplicationAdapter {
 
     @Override
     public void render() {
-        textraLabel1.font.obliqueStrength = (float) Math.tanh(Gdx.input.getX() / (Gdx.graphics.getWidth() * 0.2) - 2.5);
+        textraLabel1.font.boldStrength = 1f + (float) Math.tanh(Gdx.input.getX() / (Gdx.graphics.getWidth() * 0.2) - 2.5);
         ScreenUtils.clear(Color.DARK_GRAY);
         batch.setProjectionMatrix(camera.combined);
 

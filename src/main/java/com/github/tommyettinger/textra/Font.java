@@ -513,6 +513,14 @@ public class Font implements Disposable {
     public float obliqueStrength = 1f;
 
     /**
+     * A multiplier that applies to the distance bold text will stretch away from the original glyph outline. The bold
+     * effect is achieved here by drawing the same GlyphRegion multiple times, separated to the left and right by a
+     * small distance. By reducing boldStrength to between 0.0 and 1.0, you can reduce the weight of bold text, but
+     * increasing boldStrength does not usually work well.
+     */
+    public float boldStrength = 1f;
+
+    /**
      * The name of the Font, for display purposes. This is not necessarily the same as the name of the font used in any
      * particular {@link FontFamily}.
      */
@@ -3772,10 +3780,10 @@ public class Font implements Disposable {
             vertices[17] = outline;
             int widthAdj = ((glyph & BOLD) != 0L) ? 2 : 1;
             for (int xi = -widthAdj; xi <= widthAdj; xi++) {
-                float xa = xi*xPx;
+                float xa = xi * xPx * boldStrength;
                 for (int yi = -1; yi <= 1; yi++) {
                     if(xi == 0 && yi == 0) continue;
-                    float ya = yi*yPx;
+                    float ya = yi * yPx;
 //                    vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
 //                    vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
                     vertices[15] = (vertices[0] = handleIntegerPosition(x + cos * p0x - sin * p0y + xa)) - (vertices[5] = handleIntegerPosition(x + cos * p1x - sin * p1y + xa)) + (vertices[10] = handleIntegerPosition(x + cos * p2x - sin * p2y + xa));
@@ -3793,7 +3801,7 @@ public class Font implements Disposable {
             vertices[17] = shine;
             int widthAdj = ((glyph & BOLD) != 0L) ? 1 : 0;
             for (int xi = -widthAdj; xi <= widthAdj; xi++) {
-                float xa = xi * xPx;
+                float xa = xi * xPx * boldStrength;
                 float ya = 1.5f * yPx;
                 vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
                 vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
@@ -3815,27 +3823,30 @@ public class Font implements Disposable {
 
         drawVertices(batch, tex, vertices);
         if ((glyph & BOLD) != 0L) {
-            p0x += 1f;
-            p1x += 1f;
-            p2x += 1f;
+            final float old0 = p0x;
+            final float old1 = p1x;
+            final float old2 = p2x;
+            p0x = old0 + boldStrength;
+            p1x = old1 + boldStrength;
+            p2x = old2 + boldStrength;
             vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
             vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
             drawVertices(batch, tex, vertices);
-            p0x -= 2f;
-            p1x -= 2f;
-            p2x -= 2f;
+            p0x = old0 - boldStrength;
+            p1x = old1 - boldStrength;
+            p2x = old2 - boldStrength;
             vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
             vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
             drawVertices(batch, tex, vertices);
-            p0x += 0.5f;
-            p1x += 0.5f;
-            p2x += 0.5f;
+            p0x = old0 - boldStrength * 0.5f;
+            p1x = old1 - boldStrength * 0.5f;
+            p2x = old2 - boldStrength * 0.5f;
             vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
             vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
             drawVertices(batch, tex, vertices);
-            p0x += 1f;
-            p1x += 1f;
-            p2x += 1f;
+            p0x = old0 + boldStrength * 0.5f;
+            p1x = old1 + boldStrength * 0.5f;
+            p2x = old2 + boldStrength * 0.5f;
             vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
             vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
             drawVertices(batch, tex, vertices);
