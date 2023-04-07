@@ -2703,6 +2703,7 @@ public class Font implements Disposable {
             color = PACKED_WARN_COLOR; // gold/saffron/yellow, 0xFFD510FF
         else// if(mode == NOTE)
             color = PACKED_NOTE_COLOR; // cyan/denim, 0x3088B8FF
+        color = ColorUtils.multiplyAlpha(color, batch.getColor().a);
         int index = 0;
         for (float startX = 0f, shiftY = 0f; startX <= width; startX += xPx, index++) {
             float p0x;
@@ -3761,7 +3762,8 @@ public class Font implements Disposable {
         vertices[19] = v;
 
         if((glyph & ALTERNATE_MODES_MASK) == DROP_SHADOW) {
-            float shadow = -0x0.444444p-126f;//equal to NumberUtils.intBitsToFloat(0x80222222); (dark transparent gray)
+//            float shadow = Color.toFloatBits(0.1333f, 0.1333f, 0.1333f, 0.5f);// (dark transparent gray, as batch alpha is lowered, this gets more transparent)
+            float shadow = Color.toFloatBits(0.1333f, 0.1333f, 0.1333f, batch.getColor().a * 0.5f);// (dark transparent gray, as batch alpha is lowered, this gets more transparent)
             vertices[2] = shadow;
             vertices[7] = shadow;
             vertices[12] = shadow;
@@ -3773,9 +3775,9 @@ public class Font implements Disposable {
             drawVertices(batch, tex, vertices);
         }
         else if((glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE || (glyph & ALTERNATE_MODES_MASK) == WHITE_OUTLINE) {
-            float outline = (glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE
+            float outline = ColorUtils.multiplyAlpha((glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE
                     ? PACKED_BLACK // black
-                    : PACKED_WHITE; // white
+                    : PACKED_WHITE, batch.getColor().a); // white
             vertices[2] = outline;
             vertices[7] = outline;
             vertices[12] = outline;
@@ -3796,7 +3798,7 @@ public class Font implements Disposable {
             }
         }
         else if((glyph & ALTERNATE_MODES_MASK) == SHINY) {
-            float shine = PACKED_WHITE;
+            float shine = ColorUtils.multiplyAlpha(PACKED_WHITE, batch.getColor().a);
             vertices[2] = shine;
             vertices[7] = shine;
             vertices[12] = shine;

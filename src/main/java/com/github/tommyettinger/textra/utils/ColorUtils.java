@@ -19,6 +19,7 @@ package com.github.tommyettinger.textra.utils;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.IntArray;
+import com.badlogic.gdx.utils.NumberUtils;
 
 import static com.github.tommyettinger.textra.utils.Palette.NAMED;
 
@@ -339,6 +340,20 @@ public class ColorUtils {
      */
     public static int multiplyAlpha(int color, float multiplier) {
         return (color & 0xFFFFFF00) | Math.min(Math.max((int) ((color & 0xFF) * multiplier), 0), 255);
+    }
+
+    /**
+     * Given a packed ABGR float color, this multiplies the alpha of that color by multiplier and returns
+     * another float color of the same format passed in. This clamps the alpha if it would go below 0 or above 255, and
+     * leaves the RGB channels alone.
+     *
+     * @param color      an RGBA8888 or HSLA color
+     * @param multiplier a multiplier to apply to color's alpha
+     * @return another color of the same format as the one given, with alpha multiplied
+     */
+    public static float multiplyAlpha(float color, float multiplier) {
+        int bits = NumberUtils.floatToIntColor(color);
+        return NumberUtils.intBitsToFloat((bits & 0x00FFFFFF) | Math.min(Math.max((int) ((bits >>> 25) * multiplier), 0), 127) << 25);
     }
 
     /**
