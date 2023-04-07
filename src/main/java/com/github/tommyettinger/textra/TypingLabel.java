@@ -525,7 +525,7 @@ public class TypingLabel extends TextraLabel {
             }
         }
         font.calculateSize(workingLayout);
-        int glyphCount = getLayoutSize(workingLayout);
+        int glyphCount = workingLayout.countGlyphs();
         offsets.setSize(glyphCount + glyphCount);
         Arrays.fill(offsets.items, 0, glyphCount + glyphCount, 0f);
         sizing.setSize(glyphCount + glyphCount);
@@ -603,7 +603,7 @@ public class TypingLabel extends TextraLabel {
 
             // Get next character and calculate cooldown increment
 
-            int layoutSize = getLayoutSize(layout);
+            int layoutSize = layout.countGlyphs();
 
             // If char progression is finished, or if text is empty, notify listener and abort routine
             if (layoutSize == 0 || glyphCharIndex >= layoutSize) {
@@ -717,14 +717,6 @@ public class TypingLabel extends TextraLabel {
 
 
         invalidateHierarchy();
-    }
-
-    private int getLayoutSize(Layout layout) {
-        int layoutSize = 0;
-        for (int i = 0, n = layout.lines(); i < n; i++) {
-            layoutSize += layout.getLine(i).glyphs.size;
-        }
-        return layoutSize;
     }
 
     @Override
@@ -995,7 +987,7 @@ public class TypingLabel extends TextraLabel {
                             }
                             else if(selectable) {
                                 if (Gdx.input.isTouched()) {
-                                    int adjustedIndex = (lastTouchedIndex == -2) ? getLayoutSize(workingLayout) : lastTouchedIndex;
+                                    int adjustedIndex = (lastTouchedIndex == -2) ? workingLayout.countGlyphs() : lastTouchedIndex;
                                     selectionStart = Math.min(adjustedIndex, globalIndex);
                                     selectionEnd = Math.max(adjustedIndex, globalIndex);
                                     dragging = true;
@@ -1152,7 +1144,7 @@ public class TypingLabel extends TextraLabel {
      */
     public String substring(int start, int end) {
         start = Math.max(0, start);
-        end = Math.min(getLayoutSize(workingLayout), end);
+        end = Math.min(workingLayout.countGlyphs(), end);
         int index = start;
         StringBuilder sb = new StringBuilder(end - start);
         int glyphCount = 0;
@@ -1191,7 +1183,12 @@ public class TypingLabel extends TextraLabel {
         }
         return null;
     }
-
+    /**
+     * Gets the height of the Line containing the glyph at the given index, in the working layout. If the index is out
+     * of bounds, this just returns {@link Font#cellHeight}.
+     * @param index the 0-based index of the glyph to measure
+     * @return the height of the Line containing the specified glyph
+     */
     public float getLineHeight(int index) {
         for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = workingLayout.getLine(i).glyphs;
@@ -1269,11 +1266,7 @@ public class TypingLabel extends TextraLabel {
      * @return the length in glyphs of the working layout (what is displayed)
      */
     public int length() {
-        int len = 0;
-        for (int i = 0, n = workingLayout.lines(); i < n; i++) {
-            len += workingLayout.getLine(i).glyphs.size;
-        }
-        return len;
+        return workingLayout.countGlyphs();
     }
 
     /**

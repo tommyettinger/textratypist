@@ -259,6 +259,18 @@ public class Layout {
     }
 
     /**
+     * Calculates how many {@code long} glyphs are currently in this layout, and returns that count. This takes time
+     * proportional to the value of {@link #lines()}, not the number of glyphs.
+     * @return how many {@code long} glyphs are in this Layout
+     */
+    public int countGlyphs(){
+        int layoutSize = 0;
+        for (int i = 0, n = lines.size; i < n; i++) {
+            layoutSize += lines.get(i).glyphs.size;
+        }
+        return layoutSize;
+    }
+    /**
      * Resets the object for reuse. The font is nulled, but the lines are freed, cleared, and then one blank line is
      * re-added to lines so it can be used normally later.
      */

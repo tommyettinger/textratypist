@@ -16,6 +16,7 @@
 
 package com.github.tommyettinger.textra;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -28,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.LongArray;
 
 import static com.github.tommyettinger.textra.Font.ALTERNATE;
 
@@ -577,4 +579,124 @@ public class TextraLabel extends Widget {
     protected void setParent(Group parent) {
         super.setParent(parent);
     }
+
+    @Override
+    public String toString() {
+        return substring(0, Integer.MAX_VALUE);
+    }
+
+    /**
+     * Gets a glyph from this label's {@link #layout}, where a glyph is a {@code long} encoded how {@link Font} uses it.
+     * In a TextraLabel, this is effectively equivalent to {@link TypingLabel#getInWorkingLayout(int)}, but it may be
+     * different from that method in a TypingLabel, depending on word wrap.
+     * @param index the 0-based index of the glyph to retrieve
+     * @return the glyph, if it was found, or 16777215 (0xFFFFFF in hexadecimal) if the index was out of bounds
+     */
+    public long getGlyph(int index) {
+        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
+            LongArray glyphs = layout.getLine(i).glyphs;
+            if (index < glyphs.size)
+                return glyphs.get(index);
+            else
+                index -= glyphs.size;
+        }
+        return 0xFFFFFFL;
+    }
+
+    /**
+     * The maximum number of {@link Line}s this label can display.
+     *
+     * @return the maximum number of {@link Line} objects this label can display
+     */
+    public int getMaxLines() {
+        return layout.maxLines;
+    }
+
+    /**
+     * Sets the maximum number of {@link Line}s this Layout can display; this is always at least 1.
+     * For effectively unlimited lines, pass {@link Integer#MAX_VALUE} to this.
+     *
+     * @param maxLines the limit for how many Line objects this Layout can display; always 1 or more
+     */
+    public void setMaxLines(int maxLines) {
+        layout.setMaxLines(maxLines);
+    }
+
+    /**
+     * Gets the ellipsis, which may be null, or may be a String that can be placed at the end of the text if its
+     * max lines are exceeded.
+     *
+     * @return an ellipsis String or null
+     */
+    public String getEllipsis() {
+        return layout.ellipsis;
+    }
+
+    /**
+     * Sets the ellipsis text, which replaces the last few glyphs if non-null and the text added would exceed the
+     * {@link #getMaxLines()} of this label's layout. For the ellipsis to appear, this has to be called with a
+     * non-null String (often {@code "..."}, or {@code "…"} if the font supports it), and
+     * {@link #setMaxLines(int)} needs to have been called with a small enough number, such as 1.
+     *
+     * @param ellipsis a String for a Layout to end with if its max lines are exceeded, or null to avoid such truncation
+     */
+    public void setEllipsis(String ellipsis) {
+        layout.setEllipsis(ellipsis);
+    }
+
+    /**
+     * Gets a String from the layout of this label, made of only the char portions of the glyphs from start
+     * (inclusive) to end (exclusive). This can retrieve text from across multiple lines.
+     * @param start inclusive start index
+     * @param end exclusive end index
+     * @return a String made of only the char portions of the glyphs from start to end
+     */
+    public String substring(int start, int end) {
+        start = Math.max(0, start);
+        end = Math.min(layout.countGlyphs(), end);
+        int index = start;
+        StringBuilder sb = new StringBuilder(end - start);
+        int glyphCount = 0;
+        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
+            LongArray glyphs = layout.getLine(i).glyphs;
+            if (index < glyphs.size) {
+                for (int fin = index - start - glyphCount + end; index < fin && index < glyphs.size; index++) {
+                    char c = (char) glyphs.get(index);
+                    if (c >= 0xE000 && c <= 0xF800) {
+                        String name = font.namesByCharCode.get(c);
+                        if (name != null) sb.append(name);
+                        else sb.append(c);
+                    } else {
+                        if (c == 2) sb.append('[');
+                        else sb.append(c);
+                    }
+                    glyphCount++;
+                }
+                if(glyphCount == end - start)
+                    return sb.toString();
+                index = 0;
+            }
+            else
+                index -= glyphs.size;
+        }
+        return "";
+    }
+
+    /**
+     * Gets the height of the Line containing the glyph at the given index. If the index is out of bounds, this just
+     * returns {@link Font#cellHeight}.
+     * @param index the 0-based index of the glyph to measure
+     * @return the height of the Line containing the specified glyph
+     */
+    public float getLineHeight(int index) {
+        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
+            LongArray glyphs = layout.getLine(i).glyphs;
+            if (index < glyphs.size)
+                return layout.getLine(i).height;
+            else
+                index -= glyphs.size;
+        }
+        return font.cellHeight;
+    }
+
 }
