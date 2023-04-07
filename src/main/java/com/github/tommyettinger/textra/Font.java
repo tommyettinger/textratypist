@@ -2393,7 +2393,9 @@ public class Font implements Disposable {
                 shader.setUniformf("u_smoothing", (actualCrispness / (scale)));
             }
         } else {
-            batch.setShader(null);
+            if(batch.getShader() != shader) {
+                batch.setShader(null);
+            }
         }
 //        batch.setPackedColor(Color.WHITE_FLOAT_BITS); // not sure why this was here, or if it is useful...
     }
