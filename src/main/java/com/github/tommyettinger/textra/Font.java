@@ -3607,16 +3607,6 @@ public class Font implements Disposable {
 //            return cellWidth;
 //        }
 
-        //        float xc = ((tr.getRegionWidth() + tr.offsetX) * fsx - font.cellWidth) * scale * sizingX;
-        //// This rotates around the center, but fails with box drawing. Underlines are also off, unless adjusted.
-        float xc = (font.cellWidth * 0.5f - (tr.getRegionWidth() + tr.offsetX) * fsx) * scale * sizingX;
-        //// This works(*) with box-drawing chars, but rotates around halfway up the left edge, not the center.
-        //// It does have the same sliding issue as the other methods so far.
-//        float xc = tr.offsetX * scaleX - centerX * sizingX;
-//        float xc = tr.offsetX * scaleX - 2f * centerX * sizingX;
-        float trrh = tr.getRegionHeight();
-        float yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
-
 
         // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
         if (tr.offsetX != tr.offsetX) {
@@ -3647,6 +3637,19 @@ public class Font implements Disposable {
         float w = tr.getRegionWidth() * scaleX * sizingX;
         float xAdvance = tr.xAdvance;
         float changedW = xAdvance * scaleX;
+
+        //        float xc = ((tr.getRegionWidth() + tr.offsetX) * fsx - font.cellWidth) * scale * sizingX;
+        //// This rotates around the center, but fails with box drawing. Underlines are also off, unless adjusted.
+//        float xc = (font.cellWidth * 0.5f - (tr.getRegionWidth() + tr.offsetX) * fsx) * scale * sizingX;
+        //// This works(*) with box-drawing chars, but rotates around halfway up the left edge, not the center.
+        //// It does have the same sliding issue as the other methods so far.
+        float xc = tr.offsetX * scaleX - centerX * sizingX;
+        //// ???
+//        float xc = (centerX - (tr.getRegionWidth() + tr.offsetX) * fsx) * scale * sizingX;
+
+        float trrh = tr.getRegionHeight();
+        float yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
+
         float h = trrh * scaleY * sizingY;
 //                yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
 
@@ -3876,7 +3879,7 @@ public class Font implements Disposable {
 
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
-                p0x = -0.5f * xAdvance * scaleX;
+                p0x = -centerX;
                 p0y = (-0.8125f * font.cellHeight) * scale * sizingY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
@@ -3900,7 +3903,7 @@ public class Font implements Disposable {
                             underV2 = under.getV2();
 //                            hu = under.getRegionHeight() * scaleY,
 //                            yu = -0.625f * (hu + under.offsetY * scaleY);//-0.55f * cellHeight * scale;//cellHeight * scale - hu - under.offsetY * scaleY - centerY;
-                    xc = under.offsetX * osx - 0.5f * xAdvance * scaleX;
+                    xc = under.offsetX * osx - centerX * scale;
                     x0 = -osx * under.offsetX - scale;
                     vertices[2] = color;
                     vertices[3] = underU;
@@ -3943,7 +3946,7 @@ public class Font implements Disposable {
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
-                p0x = -0.5f * xAdvance * scaleX;
+                p0x = -centerX;
                 p0y = (-0.45f * font.cellHeight) * scale;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
@@ -3973,7 +3976,7 @@ public class Font implements Disposable {
                             dashV2 = dash.getV2();
 //                            hd = dash.getRegionHeight() * scaleY,
 //                            yd = -0.5f * cellHeight * scale;//cellHeight * scale - hd - dash.offsetY * scaleY - centerY;
-                    xc = dash.offsetX * osx - 0.5f * xAdvance * scaleX;
+                    xc = dash.offsetX * osx - centerX * scale;
                     x0 = -osx * dash.offsetX - scale;
                     vertices[2] = color;
                     vertices[3] = dashU;
