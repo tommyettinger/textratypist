@@ -52,7 +52,8 @@ public class RotationTest extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        font = KnownFonts.getInconsolata().scaleTo(16, 32);
+        font = KnownFonts.getAStarry().scaleTo(16, 32);
+//        font = KnownFonts.getInconsolata().scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
 //        font = KnownFonts.getIosevka();
 //        font = KnownFonts.getIosevkaSlab().scale(0.75f, 0.75f);
@@ -102,7 +103,7 @@ public class RotationTest extends ApplicationAdapter {
 //
         font.markup("Test [*]TEST [/]Test [*]TEST[][.]test [=]Test [^]TEST [][_]Test [~]test[_] Test[]"
                         + "\n┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬"
-                        + "\nThe [#800000]MAW[] of the [/][#66DDFF]wendigo[/] (wendigo)[] [*]appears[*]!"
+                        + "\nThe [#800000]MAW[] of the [/][#66DDFF]wendigo[/][] ([~]wendigo[]) [*]appears[*]!"
                         + "\nThe [_][#666666]BLADE[] of [*][/][#FFFF44]DYNAST-KINGS[] strikes!"
                         + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[], [?]Unknown[]?"
                         + "\n[#BBAA44]φ[] = (1 + 5[^]0.5[^]) * 0.5 ┼┌─┤"
@@ -134,11 +135,12 @@ public class RotationTest extends ApplicationAdapter {
 
         font.drawBlocks(batch, backgrounds, 0f, 0f);
         long since = TimeUtils.timeSinceMillis(startTime);
-        for (float g = y; g < PIXEL_HEIGHT; g+= font.cellHeight) {
+        for (float g = 0; g < PIXEL_HEIGHT; g+= font.cellHeight) {
 
-            font.drawGlyph(batch, 0xBB0011FE00200000L | '&',
+            font.drawGlyph(batch, 0xBB0011FE00000000L | '&',//0xBB0011FE00200000L
 //                    2f * font.cellWidth,
-                    (MathUtils.sinDeg(since * 0.01f + g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length, g,
+                    (MathUtils.sinDeg(10f * g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length, g,
+//                    (MathUtils.sinDeg(since * 0.01f + g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length, g,
                     since * 0.0625f);
         }
 //        switch ((int)((since >>> 12) % 3)) {
