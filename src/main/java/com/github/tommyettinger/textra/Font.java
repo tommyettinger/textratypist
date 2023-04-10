@@ -3673,6 +3673,7 @@ public class Font implements Disposable {
         u2 = tr.getU2();
         v2 = tr.getV2();
         if (c >= 0xE000 && c < 0xF800) {
+            xc += (changedW * 0.5f);
             yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f);
         }
 
