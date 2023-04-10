@@ -3565,11 +3565,11 @@ public class Font implements Disposable {
         }
         osx = font.scaleX * (scale + 1f) * 0.5f;
         osy = font.scaleY * (scale + 1f) * 0.5f;
-        float centerX = tr.xAdvance * font.scaleX * scaleX * 0.5f;
-        float centerY = font.cellHeight * scaleY * 0.5f;
+        float centerX = tr.xAdvance * scaleX * 0.5f;
+        float centerY = font.originalCellHeight * scaleY * 0.5f;
 
-        float oCenterX = tr.xAdvance * font.scaleX * osx * 0.5f;
-        float oCenterY = font.cellHeight * osy * 0.5f;
+        float oCenterX = tr.xAdvance * osx * 0.5f;
+        float oCenterY = font.originalCellHeight * osy * 0.5f;
 
         y += font.descent * font.scaleY * 2f - font.descent * osy;
 
@@ -3618,9 +3618,12 @@ public class Font implements Disposable {
                         font.cellWidth * sizingX, (font.cellHeight * scale) * sizingY, rotation);
             }
             float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
+            float x0 = 0f;
+            float y0 = -centerY * sizingY;
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
-                    x,
-                    y - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
+                    x + (cos * x0 - sin * y0), y + (sin * x0 + cos * y0),
+//                    x,
+//                    y,// - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
                     font.cellWidth * sizingX, (font.cellHeight * scale) * sizingY, rotation);
             return font.cellWidth;
         }
@@ -3882,7 +3885,7 @@ public class Font implements Disposable {
                 p0x = -centerX;
                 p0y = (-0.8125f * font.cellHeight) * scale * sizingY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
-                        x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
+                        x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 2, font.cellHeight * scale * sizingY, rotation);
             } else {
                 under = font.mapping.get('_');
