@@ -3571,7 +3571,9 @@ public class Font implements Disposable {
         float oCenterX = tr.xAdvance * osx * 0.5f;
         float oCenterY = font.originalCellHeight * osy * 0.5f;
 
-        y += font.descent * font.scaleY * 2f - font.descent * osy;
+        // if offsetX is NaN, then it is a box drawing character, otherwise we can use the descent as an offset
+//        if (tr.offsetX == tr.offsetX)
+            y += font.descent * font.scaleY * 2f - font.descent * osy;
 
         float ox = x, oy = y;
 
@@ -3618,7 +3620,7 @@ public class Font implements Disposable {
                         font.cellWidth * sizingX, (font.cellHeight * scale) * sizingY, rotation);
             }
             float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
-            float x0 = 0f;
+            float x0 = -centerX * sizingY;
             float y0 = -centerY * sizingY;
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
                     x + (cos * x0 - sin * y0), y + (sin * x0 + cos * y0),
