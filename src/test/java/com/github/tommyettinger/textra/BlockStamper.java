@@ -51,7 +51,7 @@ public class BlockStamper  extends ApplicationAdapter {
         FileHandle fontsHandle = Gdx.files.local("knownFonts");
 //        FileHandle[] children = fontsHandle.list("png");
 //        FileHandle[] children = {Gdx.files.local("Tangerine-sdf.png"), Gdx.files.local("Tangerine-standard.png"), };
-        FileHandle[] children = fontsHandle.list("KingthingsPetrock-standard.png");
+        FileHandle[] children = fontsHandle.list("GentiumUnItalic-standard.png");
         PER_CHILD:
         for(FileHandle fh : children){
             System.out.println("Operating on " + fh.name());
