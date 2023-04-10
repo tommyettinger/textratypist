@@ -566,6 +566,46 @@ public final class KnownFonts implements LifecycleListener {
             return new Font(instance.gentiumSDF);
         throw new RuntimeException("Assets for getGentiumSDF() not found.");
     }
+    private Font gentiumUnItalic;
+
+    /**
+     * Returns a Font already configured to use a variable-width "italic-like" serif font with excellent Unicode
+     * support, that should scale well from a height of about 97 down to a height of 30.
+     * Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font License) typeface by
+     * SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>), but this took Gentim Italic
+     * and removed the 8-degree slant it had, so it looks like a regular face but with the different serif style and
+     * "flow" of an italic font. It supports a lot of glyphs,
+     * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
+     * real languages. This does not use a distance field effect. You may want
+     * to stick using just fonts that avoid distance fields if you have a family of fonts.
+     * <br>
+     * Preview: <a href="">Image link</a> (uses width=31, height=35)
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GentiumUnItalic-standard.fnt">GentiumUnItalic-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GentiumUnItalic-standard.png">GentiumUnItalic-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Gentium-Un-Italic.ttf
+     */
+    public static Font getGentiumUnItalic() {
+        initialize();
+        if (instance.gentiumUnItalic == null) {
+            try {
+                instance.gentiumUnItalic = new Font(instance.prefix + "GentiumUnItalic-standard.fnt",
+                        instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, 10f, 0f, 0f, true)
+                        .scaleTo(48, 36).setTextureFilter().setName("Gentium Un-Italic");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.gentiumUnItalic != null)
+            return new Font(instance.gentiumUnItalic);
+        throw new RuntimeException("Assets for getGentiumUnItalic() not found.");
+    }
+
 
     private Font goNotoUniversalSDF;
 
@@ -2108,8 +2148,8 @@ public final class KnownFonts implements LifecycleListener {
     public static Font[] getAll() {
         return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getAStarryMSDF(),
                 getBitter(), getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getCozette(),
-                getDejaVuSansMono(), getGentium(), getGentiumMSDF(), getGentiumSDF(), getGoNotoUniversalSDF(),
-                getHanazono(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(),
+                getDejaVuSansMono(), getGentium(), getGentiumMSDF(), getGentiumSDF(), getGentiumUnItalic(),
+                getGoNotoUniversalSDF(), getHanazono(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(),
                 getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(),
                 getKingthingsFoundation(), getKingthingsPetrock(), getLibertinusSerif(), getNowAlt(), getOpenSans(),
@@ -2126,9 +2166,9 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font[] getAllStandard() {
         return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getBitter(), getCanada(),
-                getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getHanazono(), getIBM8x16(),
-                getInconsolata(), getIosevka(), getIosevkaSlab(), getKingthingsFoundation(), getKingthingsPetrock(),
-                getLibertinusSerif(), getNowAlt(), getOpenSans(), getOxanium(), getQuanPixel(),
+                getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getGentiumUnItalic(), getHanazono(),
+                getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(), getKingthingsFoundation(),
+                getKingthingsPetrock(), getLibertinusSerif(), getNowAlt(), getOpenSans(), getOxanium(), getQuanPixel(),
                 getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()};
     }
 
@@ -2248,6 +2288,10 @@ public final class KnownFonts implements LifecycleListener {
         if (gentiumSDF != null) {
             gentiumSDF.dispose();
             gentiumSDF = null;
+        }
+        if (gentiumUnItalic != null) {
+            gentiumUnItalic.dispose();
+            gentiumUnItalic = null;
         }
         if (goNotoUniversalSDF != null) {
             goNotoUniversalSDF.dispose();
