@@ -2634,8 +2634,8 @@ public class Font implements Disposable {
 
         float startX, startY, sizeX, sizeY;
         for (int b = 0; b < sequence.length; b += 4) {
-            startX = (sequence[b] * width);
-            startY = (sequence[b + 1] * height);
+            startX = (sequence[b] * width)      - width  * 0.5f;
+            startY = (sequence[b + 1] * height) - height * 0.5f;
             sizeX =  (sequence[b + 2] * width);
             sizeY =  (sequence[b + 3] * height);
 
@@ -3623,8 +3623,8 @@ public class Font implements Disposable {
             }
             float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
-                    x,
-                    y,// - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
+                    x + centerX * cos,
+                    y + centerX * sin,// - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
                     font.cellWidth * sizingX, (font.cellHeight * scale) * sizingY, rotation);
             return font.cellWidth;
         }
@@ -3648,14 +3648,14 @@ public class Font implements Disposable {
         //// This works(*) with box-drawing chars, but rotates around halfway up the left edge, not the center.
         //// It does have the same sliding issue as the other methods so far.
 //        float xc = (font.cellWidth * -0.5f) * sizingX;// + (tr.offsetX * scaleX * sizingX);
-        float xc = 0;//(-centerX) * sizingX;// + (tr.offsetX * scaleX * sizingX);
+        float xc = -centerX;// + (tr.offsetX * scaleX * sizingX);
 //        float xc = tr.offsetX * scaleX - centerX * sizingX;
 //        float xc = (cos * tr.offsetX - sin * tr.offsetY) * scaleX - centerX * sizingX;
         //// ???
 //        float xc = (centerX - (tr.getRegionWidth() + tr.offsetX) * fsx) * scale * sizingX;
 
         float trrh = tr.getRegionHeight();
-        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY;
+        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - centerY;
 
         float h = trrh * scaleY * sizingY;
 //                yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
@@ -3889,11 +3889,11 @@ public class Font implements Disposable {
 
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
-                p0x = 0;
+                p0x = -1f;
                 p0y = centerY + (-0.8125f * font.cellHeight) * scale * sizingY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
-                        xAdvance * scaleX + 2, font.cellHeight * scale * sizingY, rotation);
+                        xAdvance * scaleX + 3f, font.cellHeight * scale * sizingY, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -3913,7 +3913,7 @@ public class Font implements Disposable {
                             underV2 = under.getV2();
 //                            hu = under.getRegionHeight() * scaleY,
 //                            yu = -0.625f * (hu + under.offsetY * scaleY);//-0.55f * cellHeight * scale;//cellHeight * scale - hu - under.offsetY * scaleY - centerY;
-                    xc = under.offsetX * osx - centerX * scale + centerX; // TODO: centerX * scale is suspect
+                    xc = under.offsetX * osx - centerX * scale; // TODO: centerX * scale is suspect
                     x0 = -osx * under.offsetX - scale;
                     vertices[2] = color;
                     vertices[3] = underU;
@@ -3958,11 +3958,11 @@ public class Font implements Disposable {
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
-                p0x = 0;
+                p0x = -1f;
                 p0y = centerY + (-0.45f * font.cellHeight) * scale;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        xAdvance * scaleX + 2, font.cellHeight * scale * sizingY, rotation);
+                        xAdvance * scaleX + 3f, font.cellHeight * scale * sizingY, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
@@ -3972,7 +3972,7 @@ public class Font implements Disposable {
 //                    if (c >= 0xE000 && c < 0xF800)
 //                        yt = handleIntegerPosition((-centerY + imageAdjust) * scale * 0.5f * sizingY);
 
-                    yt = centerY + (font.cellHeight * 0.5f - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY;
+                    yt = (font.cellHeight * 0.5f - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY;
                             //((font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY) * sizingY;
                     if (c >= 0xE000 && c < 0xF800) {
                         yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f);
@@ -3988,7 +3988,7 @@ public class Font implements Disposable {
                             dashV2 = dash.getV2();
 //                            hd = dash.getRegionHeight() * scaleY,
 //                            yd = -0.5f * cellHeight * scale;//cellHeight * scale - hd - dash.offsetY * scaleY - centerY;
-                    xc = dash.offsetX * osx - centerX * scale + centerX; // TODO: centerX * scale is suspect
+                    xc = dash.offsetX * osx - centerX * scale; // TODO: centerX * scale is suspect
                     x0 = -osx * dash.offsetX - scale;
                     vertices[2] = color;
                     vertices[3] = dashU;
