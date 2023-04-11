@@ -3648,7 +3648,7 @@ public class Font implements Disposable {
         //// This works(*) with box-drawing chars, but rotates around halfway up the left edge, not the center.
         //// It does have the same sliding issue as the other methods so far.
 //        float xc = (font.cellWidth * -0.5f) * sizingX;// + (tr.offsetX * scaleX * sizingX);
-        float xc = -centerX;// + (tr.offsetX * scaleX * sizingX);
+        float xc = 0f;//-centerX;// + (tr.offsetX * scaleX * sizingX);
 //        float xc = tr.offsetX * scaleX - centerX * sizingX;
 //        float xc = (cos * tr.offsetX - sin * tr.offsetY) * scaleX - centerX * sizingX;
         //// ???
@@ -3889,7 +3889,7 @@ public class Font implements Disposable {
 
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
-                p0x = -1f;
+                p0x = centerX -1f;
                 p0y = centerY + (-0.8125f * font.cellHeight) * scale * sizingY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
@@ -3958,7 +3958,7 @@ public class Font implements Disposable {
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
-                p0x = -1f;
+                p0x = centerX -1f;
                 p0y = centerY + (-0.45f * font.cellHeight) * scale;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
