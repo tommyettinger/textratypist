@@ -3570,7 +3570,10 @@ public class Font implements Disposable {
         float oCenterX = tr.xAdvance * osx * 0.5f;
         float oCenterY = font.originalCellHeight * osy * 0.5f;
 
-        y += font.descent * font.scaleY * 2f - font.descent * osy;
+        float scaleCorrection = font.descent * font.scaleY * 2f - font.descent * osy;
+        y += scaleCorrection;
+//        y += cos * scaleCorrection;
+//        x += sin * scaleCorrection;
 
         float ox = x, oy = y;
 
