@@ -3594,7 +3594,7 @@ public class Font implements Disposable {
         centerX -= xShift * 0.5f;
         centerY -= yShift * 0.5f;
         x -= centerX;
-        y -= centerY;
+//        y -= centerY;
 
 //        // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
 //        if (tr.offsetX != tr.offsetX) {
@@ -3885,7 +3885,7 @@ public class Font implements Disposable {
             centerX = oCenterX - xShift * 0.5f;
             centerY = oCenterY - yShift * 0.5f;
             x -= centerX;
-            y -= centerY;
+//            y -= centerY;
 
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
@@ -3954,7 +3954,7 @@ public class Font implements Disposable {
             centerX = oCenterX - xShift * 0.5f;
             centerY = oCenterY - yShift * 0.5f;
             x -= centerX;
-            y -= centerY;
+//            y -= centerY;
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
