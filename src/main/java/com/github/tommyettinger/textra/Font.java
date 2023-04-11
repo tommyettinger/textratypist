@@ -3916,8 +3916,8 @@ public class Font implements Disposable {
                             underV2 = under.getV2();
 //                            hu = under.getRegionHeight() * scaleY,
 //                            yu = -0.625f * (hu + under.offsetY * scaleY);//-0.55f * cellHeight * scale;//cellHeight * scale - hu - under.offsetY * scaleY - centerY;
-                    xc = centerX + under.offsetX * osx - centerX * scale;
-                    x0 = centerY - osx * under.offsetX - scale;
+                    xc = under.offsetX * osx - centerX * scale + centerX; // TODO: centerX * scale is suspect
+                    x0 = -osx * under.offsetX - scale;
                     vertices[2] = color;
                     vertices[3] = underU;
                     vertices[4] = underV;
