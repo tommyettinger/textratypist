@@ -74,7 +74,7 @@ public class RotationTest extends ApplicationAdapter {
 //        font.fitCell(font.cellWidth, font.cellHeight, true);
 //        font.fitCell(24, 24, true);
 
-        font.kerning = null;
+//        font.kerning = null; // for debugging
 
         layout = new Layout(font).setTargetWidth(Gdx.graphics.getWidth());
         backgrounds = new int[(int) Math.ceil(PIXEL_WIDTH / font.cellWidth)][(int) Math.ceil(PIXEL_HEIGHT / font.cellHeight)];

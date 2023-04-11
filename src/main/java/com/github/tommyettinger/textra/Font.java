@@ -2632,12 +2632,16 @@ public class Font implements Disposable {
         final float sn = MathUtils.sinDeg(rotation);
         final float cs = MathUtils.cosDeg(rotation);
 
+        final float halfX = width * 0.5f, halfY = height * 0.5f;
+        x -= halfX;
+        y -= halfY;
+
         float startX, startY, sizeX, sizeY;
         for (int b = 0; b < sequence.length; b += 4) {
-            startX = (sequence[b] * width);
-            startY = (sequence[b + 1] * height);
-            sizeX = (sequence[b + 2] * width);
-            sizeY = (sequence[b + 3] * height);
+            startX = halfX + (sequence[b] * width);
+            startY = halfY + (sequence[b + 1] * height);
+            sizeX =          (sequence[b + 2] * width);
+            sizeY =          (sequence[b + 3] * height);
 
             float p0x = startX;
             float p0y = startY + sizeY;
@@ -3648,6 +3652,7 @@ public class Font implements Disposable {
 //        float xc = (font.cellWidth * 0.5f - (tr.getRegionWidth() + tr.offsetX) * fsx) * scale * sizingX;
         //// This works(*) with box-drawing chars, but rotates around halfway up the left edge, not the center.
         //// It does have the same sliding issue as the other methods so far.
+//        float xc = (font.cellWidth * -0.5f) * sizingX;// + (tr.offsetX * scaleX * sizingX);
         float xc = (-centerX) * sizingX;// + (tr.offsetX * scaleX * sizingX);
 //        float xc = tr.offsetX * scaleX - centerX * sizingX;
 //        float xc = (cos * tr.offsetX - sin * tr.offsetY) * scaleX - centerX * sizingX;
