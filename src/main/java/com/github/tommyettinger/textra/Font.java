@@ -3015,10 +3015,9 @@ public class Font implements Disposable {
             Font font = null;
             if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
             if (font == null) font = this;
+            // These affect each glyph by the same amount; unrelated to per-glyph wobble.
 //            float xx = x + 0.25f * (-(sn * font.cellHeight) + (cs * font.cellWidth));
             float yy = y + 0.25f * (+(cs * font.cellHeight) + (sn * font.cellWidth));
-
-
 
             if (font.kerning != null) {
                 kern = kern << 16 | (int) (glyph & 0xFFFF);
@@ -3571,9 +3570,7 @@ public class Font implements Disposable {
         float oCenterX = tr.xAdvance * osx * 0.5f;
         float oCenterY = font.originalCellHeight * osy * 0.5f;
 
-        // if offsetX is NaN, then it is a box drawing character, otherwise we can use the descent as an offset
-//        if (tr.offsetX == tr.offsetX)
-            y += font.descent * font.scaleY * 2f - font.descent * osy;
+        y += font.descent * font.scaleY * 2f - font.descent * osy;
 
         float ox = x, oy = y;
 
@@ -3648,7 +3645,9 @@ public class Font implements Disposable {
 //        float xc = (font.cellWidth * 0.5f - (tr.getRegionWidth() + tr.offsetX) * fsx) * scale * sizingX;
         //// This works(*) with box-drawing chars, but rotates around halfway up the left edge, not the center.
         //// It does have the same sliding issue as the other methods so far.
-        float xc = tr.offsetX * scaleX - centerX * sizingX;
+        float xc = (-centerX) * sizingX;// + (tr.offsetX * scaleX * sizingX);
+//        float xc = tr.offsetX * scaleX - centerX * sizingX;
+//        float xc = (cos * tr.offsetX - sin * tr.offsetY) * scaleX - centerX * sizingX;
         //// ???
 //        float xc = (centerX - (tr.getRegionWidth() + tr.offsetX) * fsx) * scale * sizingX;
 

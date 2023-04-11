@@ -52,7 +52,8 @@ public class RotationTest extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        font = KnownFonts.getAStarry().scaleTo(16, 32);
+        font = KnownFonts.getGentiumUnItalic().scaleTo(42, 32);
+//        font = KnownFonts.getAStarry().scaleTo(16, 32);
 //        font = KnownFonts.getInconsolata().scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
 //        font = KnownFonts.getIosevka();
@@ -70,7 +71,7 @@ public class RotationTest extends ApplicationAdapter {
 //        font = KnownFonts.getCanada().scaleTo(40, 58);
 //        font = KnownFonts.getRobotoCondensed().scaleTo(37, 53);
 
-        font.fitCell(font.cellWidth, font.cellHeight, true);
+//        font.fitCell(font.cellWidth, font.cellHeight, true);
 //        font.fitCell(24, 24, true);
 
         layout = new Layout(font).setTargetWidth(Gdx.graphics.getWidth());
