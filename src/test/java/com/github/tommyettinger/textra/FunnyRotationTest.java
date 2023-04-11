@@ -39,7 +39,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import static com.badlogic.gdx.utils.Align.*;
 
-public class LabelRotationTest extends ApplicationAdapter {
+public class FunnyRotationTest extends ApplicationAdapter {
     SpriteBatch batch;
     FitViewport viewport;
     OrthographicCamera camera;
@@ -50,12 +50,6 @@ public class LabelRotationTest extends ApplicationAdapter {
     TypingLabel typingLabel1;
     TypingLabel typingLabel2;
     TypingLabel typingLabel3;
-    Label label1;
-    Label label2;
-    Label label3;
-    Label.LabelStyle label1Style;
-    Label.LabelStyle label2Style;
-    Label.LabelStyle label3Style;
     TextureRegion texture;
     float rot = 0;
     Table table;
@@ -74,8 +68,9 @@ public class LabelRotationTest extends ApplicationAdapter {
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
         texture = new TextureRegion(new Texture(Gdx.files.internal("tilerb.png")));
         stage = new Stage(viewport);
-        BitmapFont font = new BitmapFont();
-        Font tFont = new Font(font);
+        Font tFont = new Font("RaeleusScriptius-standard.fnt", 0, 14, 0, 0);
+//        BitmapFont font = new BitmapFont();
+//        Font tFont = new Font(font);
         textraLabel1 = new TextraLabel("Test", tFont);
         textraLabel1.useIntegerPositions(false);
         textraLabel1.setPosition(200,200);
@@ -147,48 +142,13 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel3.pack();
         typingLabel3.setOrigin(center);
 
-        label1Style = new Label.LabelStyle(font, Color.WHITE);
-        label1Style.font.setUseIntegerPositions(false);
-        label1Style.background = new TextureRegionDrawable(texture);
-        label1Style.background.setTopHeight(20);
-        label1Style.background.setBottomHeight(20);
-        label1Style.background.setLeftWidth(10);
-        label1Style.background.setRightWidth(10);
-        label1 = new Label("Test", label1Style);
-        label1.setPosition(200,200);
-        label1.pack();
-        label2Style = new Label.LabelStyle(font, Color.WHITE);
-        label2Style.font.setUseIntegerPositions(false);
-        label2Style.background = new TextureRegionDrawable(texture);
-        label2Style.background.setTopHeight(15);
-        label2Style.background.setBottomHeight(15);
-        label2Style.background.setLeftWidth(25);
-        label2Style.background.setRightWidth(25);
-        label2 = new Label("Check check, one two, one two...", label2Style);
-        label2.setPosition(400,200);
-        label2.setOrigin(top);
-        label2.pack();
-        label3Style = new Label.LabelStyle(font, Color.WHITE);
-        label3Style.font.setUseIntegerPositions(false);
-        label3Style.background = new TextureRegionDrawable(texture);
-        label3Style.background.setTopHeight(50);
-        label3Style.background.setBottomHeight(50);
-        label3Style.background.setLeftWidth(50);
-        label3Style.background.setRightWidth(50);
-        label3 = new Label("We're no strangers to love...\nYou know the rules,\nand so do I!", label3Style);
-        label3.setPosition(600,300);
-        label3.pack();
-
         table = new Table();
         table.setFillParent(true);
         table.top();
-        table.add(label1);
         table.add(textraLabel1);
         table.add(typingLabel1).row();
-        table.add(label2);
         table.add(textraLabel2);
         table.add(typingLabel2).row();
-        table.add(label3);
         table.add(textraLabel3);
         table.add(typingLabel3).row();
         table.pack();
@@ -205,13 +165,10 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel1.setRotation(rot);
         typingLabel2.setRotation(rot);
         typingLabel3.setRotation(rot);
-        rot = (rot + Gdx.graphics.getDeltaTime() * 20f) % 3240.0f;
-        int alignment = center;//aligns[((int)rot / 360) % 9];
+        rot = (rot + Gdx.graphics.getDeltaTime() * 25f) % 3240.0f;
+        int alignment = center;
         Gdx.graphics.setTitle(Align.toString(alignment));
 
-        label1.setAlignment(alignment);
-        label2.setAlignment(alignment);
-        label3.setAlignment(alignment);
         textraLabel1.setAlignment(alignment);
         textraLabel2.setAlignment(alignment);
         textraLabel3.setAlignment(alignment);
@@ -262,7 +219,7 @@ public class LabelRotationTest extends ApplicationAdapter {
 		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
 //        config.setForegroundFPS(60);
-        new Lwjgl3Application(new LabelRotationTest(), config);
+        new Lwjgl3Application(new FunnyRotationTest(), config);
     }
 
 }
