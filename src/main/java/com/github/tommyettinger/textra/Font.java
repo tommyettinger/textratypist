@@ -3593,9 +3593,9 @@ public class Font implements Disposable {
         y = font.handleIntegerPosition(iy - yShift);
         centerX -= xShift * 0.5f;
         centerY -= yShift * 0.5f;
-        x -= centerX - font.cellWidth * scale;
+        x -= centerX;//
 //        y -= centerY;
-
+        //x += centerX * cos; y += centerX * sin;
 //        // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
 //        if (tr.offsetX != tr.offsetX) {
 //            if(backgroundColor != 0) {
@@ -3623,9 +3623,9 @@ public class Font implements Disposable {
             }
             float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
-                    x + centerX * cos,
-                    y + centerX * sin,
-//                    x, y,// - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
+//                    x + centerX * cos,
+//                    y + centerX * sin,
+                    x, y,// - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
                     font.cellWidth * sizingX, (font.cellHeight * scale) * sizingY, rotation);
             return font.cellWidth;
         }
@@ -3885,8 +3885,9 @@ public class Font implements Disposable {
             y = font.handleIntegerPosition(iy - yShift);
             centerX = oCenterX - xShift * 0.5f;
             centerY = oCenterY - yShift * 0.5f;
-            x -= centerX - font.cellWidth * scale;
+            x -= centerX;//
 //            y -= centerY;
+            //x += centerX * cos; y += centerX * sin;
 
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
@@ -3954,8 +3955,9 @@ public class Font implements Disposable {
             y = font.handleIntegerPosition(iy - yShift);
             centerX = oCenterX - xShift * 0.5f;
             centerY = oCenterY - yShift * 0.5f;
-            x -= centerX - font.cellWidth * scale;
+            x -= centerX;//
 //            y -= centerY;
+            //x += centerX * cos; y += centerX * sin;
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {

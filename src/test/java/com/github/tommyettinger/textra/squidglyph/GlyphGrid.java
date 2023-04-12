@@ -236,6 +236,7 @@ public class GlyphGrid extends Group {
         if (backgrounds != null)
             font.drawBlocks(batch, backgrounds, x, y);
         y -= font.descent * font.scaleY;
+        x += font.cellWidth * 0.5f;
         for(ObjectLongMap.Entry<GridPoint2> e : map.entries()) {
             font.drawGlyph(batch, e.value, x + e.key.x, y + e.key.y);
         }
@@ -258,6 +259,7 @@ public class GlyphGrid extends Group {
             font.drawBlocks(batch, backgrounds, x, y);
         float xPos, yPos, boundsWidth = 2f, boundsHeight = 2f;
         y -= font.descent * font.scaleY;
+        x += font.cellWidth * 0.5f;
         for(ObjectLongMap.Entry<GridPoint2> e : map.entries()) {
             xPos = x + e.key.x;
             yPos = y + e.key.y;
@@ -292,6 +294,7 @@ public class GlyphGrid extends Group {
         GridPoint2 pos = query;
         long glyph;
         y -= font.descent * font.scaleY;
+        x += font.cellWidth * 0.5f;
         for (int xx = startCellX; xx < endCellX; xx++) {
             for (int yy = startCellY; yy < endCellY; yy++) {
                 pos.set(xx, yy);
