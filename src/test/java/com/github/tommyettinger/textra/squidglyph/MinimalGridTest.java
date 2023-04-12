@@ -44,7 +44,7 @@ public class MinimalGridTest extends ApplicationAdapter {
         Font font = KnownFonts.getInconsolata().scaleTo(15f, 25f);
         gg = new GlyphGrid(font, GRID_WIDTH, GRID_HEIGHT, true);
         //use Ă to test glyph height
-        playerGlyph = new GlyphActor('@', "[red orange]", gg.font);
+        playerGlyph = new GlyphActor('@', "[red orange][~][_]", gg.font);
         gg.addActor(playerGlyph);
 
         input.setInputProcessor(new InputAdapter(){
@@ -83,7 +83,6 @@ public class MinimalGridTest extends ApplicationAdapter {
     }
 
     public void move(int x, int y){
-
         // this prevents movements from restarting while a slide is already in progress.
         if(playerGlyph.hasActions()) return;
 
