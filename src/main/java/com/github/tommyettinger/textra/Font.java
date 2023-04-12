@@ -3015,9 +3015,14 @@ public class Font implements Disposable {
             Font font = null;
             if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
             if (font == null) font = this;
+
             // These affect each glyph by the same amount; unrelated to per-glyph wobble.
 //            float xx = x + 0.25f * (-(sn * font.cellHeight) + (cs * font.cellWidth));
             float yy = y + 0.25f * (+(cs * font.cellHeight) + (sn * font.cellWidth));
+
+//            GlyphRegion gr = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue);
+//            float xx = x + 0.5f * ((cs * gr.xAdvance) + (sn * font.cellHeight));
+//            float yy = y + 0.5f * (-(sn * gr.xAdvance)+ (cs * font.cellHeight));
 
             if (font.kerning != null) {
                 kern = kern << 16 | (int) (glyph & 0xFFFF);
@@ -3593,7 +3598,7 @@ public class Font implements Disposable {
         y = font.handleIntegerPosition(iy - yShift);
         centerX -= xShift * 0.5f;
         centerY -= yShift * 0.5f;
-        x -= centerX;//
+//        x -= centerX;//
 //        y -= centerY;
         //x += centerX * cos; y += centerX * sin;
 //        // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
@@ -3885,14 +3890,14 @@ public class Font implements Disposable {
             y = font.handleIntegerPosition(iy - yShift);
             centerX = oCenterX - xShift * 0.5f;
             centerY = oCenterY - yShift * 0.5f;
-            x -= centerX;//
+//            x -= centerX;
 //            y -= centerY;
             //x += centerX * cos; y += centerX * sin;
 
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = -0.0625f * centerX;
-                p0y = (-0.8125f * font.cellHeight) * scale * sizingY - centerY;
+                p0y = (-0.8125f * font.cellHeight) * scale * sizingY + centerY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 3f * 0.0625f * centerX, font.cellHeight * scale * sizingY, rotation);
@@ -3956,7 +3961,7 @@ public class Font implements Disposable {
             y = font.handleIntegerPosition(iy - yShift);
             centerX = oCenterX - xShift * 0.5f;
             centerY = oCenterY - yShift * 0.5f;
-            x -= centerX;//
+//            x -= centerX;
 //            y -= centerY;
             //x += centerX * cos; y += centerX * sin;
 

@@ -59,7 +59,8 @@ public class RotationTest extends ApplicationAdapter {
         profiler.enable();
 
         batch = new SpriteBatch();
-        font = KnownFonts.getGentiumUnItalic().scaleTo(42, 32);
+        font = new Font("RaeleusScriptius-standard.fnt", 0, 14, 0, 0).scale(0.75f, 0.75f);
+//        font = KnownFonts.getGentiumUnItalic().scaleTo(42, 32);
 //        font = KnownFonts.getAStarry().scaleTo(16, 32);
 //        font = KnownFonts.getInconsolata().scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
