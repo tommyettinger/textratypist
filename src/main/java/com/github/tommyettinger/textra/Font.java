@@ -3598,6 +3598,7 @@ public class Font implements Disposable {
         y = font.handleIntegerPosition(iy - yShift);
         centerX -= xShift * 0.5f;
         centerY -= yShift * 0.5f;
+        x += cellWidth * 0.5f;
 //        x += centerX;
 //        x -= centerX;//
 //        y -= centerY;
@@ -3656,7 +3657,7 @@ public class Font implements Disposable {
         //// This works(*) with box-drawing chars, but rotates around halfway up the left edge, not the center.
         //// It does have the same sliding issue as the other methods so far.
 //        float xc = (font.cellWidth * -0.5f) * sizingX;// + (tr.offsetX * scaleX * sizingX);
-        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX;//0f;//-centerX;
+        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - cellWidth * 0.5f;//0f;//-centerX;
 //        float xc = tr.offsetX * scaleX - centerX * sizingX;
 //        float xc = (cos * tr.offsetX - sin * tr.offsetY) * scaleX - centerX * sizingX;
         //// ???
@@ -3892,6 +3893,7 @@ public class Font implements Disposable {
             y = font.handleIntegerPosition(iy - yShift);
             centerX = oCenterX - xShift * 0.5f;
             centerY = oCenterY - yShift * 0.5f;
+            x += cellWidth * 0.5f;
 //            x += centerX;
 //            x -= centerX;
 //            y -= centerY;
@@ -3899,8 +3901,9 @@ public class Font implements Disposable {
 
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
-                p0x = -0.0625f * centerX;
-                p0y = (-0.8125f * font.cellHeight) * scale * sizingY + centerY;
+                p0x = centerX - cos * centerX - cellWidth * 0.5f;
+//                p0x = -0.0625f * centerX - cos * centerX - cellWidth * 0.5f;
+                p0y = (-0.8125f * font.cellHeight) * scale * sizingY + centerY + sin * centerX;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 3f * 0.0625f * centerX, font.cellHeight * scale * sizingY, rotation);
@@ -3909,7 +3912,7 @@ public class Font implements Disposable {
                 if (under != null) {
                     trrh = under.getRegionHeight();
                     h = trrh * osy * sizingY;
-                    yt = (centerY - (trrh + under.offsetY) * font.scaleY) * scale * sizingY;
+                    yt = (centerY - (trrh + under.offsetY) * font.scaleY) * scale * sizingY + sin * centerX;
                     //((font.originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY - 0.5f * imageAdjust * scale) * sizingY;
                     if (c >= 0xE000 && c < 0xF800) {
                         yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f);
@@ -3923,7 +3926,7 @@ public class Font implements Disposable {
                             underV2 = under.getV2();
 //                            hu = under.getRegionHeight() * scaleY,
 //                            yu = -0.625f * (hu + under.offsetY * scaleY);//-0.55f * cellHeight * scale;//cellHeight * scale - hu - under.offsetY * scaleY - centerY;
-                    xc = (tr.offsetX * scaleX * sizingX) + under.offsetX * osx - centerX * scale; // TODO: centerX * scale is suspect
+                    xc = (tr.offsetX * scaleX * sizingX) + under.offsetX * osx - cos * centerX - cellWidth * 0.5f;;
                     x0 = -osx * under.offsetX - scale;
                     float addW = 0.25f * centerX;
                     vertices[2] = color;
@@ -3964,15 +3967,15 @@ public class Font implements Disposable {
             y = font.handleIntegerPosition(iy - yShift);
             centerX = oCenterX - xShift * 0.5f;
             centerY = oCenterY - yShift * 0.5f;
-            x += centerX;
+            x += cellWidth * 0.5f;
 //            x -= centerX;
 //            y -= centerY;
             //x += centerX * cos; y += centerX * sin;
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
-                p0x = -0.0625f * centerX;
-                p0y = centerY + (-0.45f * font.cellHeight) * scale;
+                p0x = centerX - cos * centerX - cellWidth * 0.5f;
+                p0y = centerY + (-0.45f * font.cellHeight) * scale + sin * centerX;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 3f * 0.0625f * centerX, font.cellHeight * scale * sizingY, rotation);
@@ -3985,7 +3988,8 @@ public class Font implements Disposable {
 //                    if (c >= 0xE000 && c < 0xF800)
 //                        yt = handleIntegerPosition((-centerY + imageAdjust) * scale * 0.5f * sizingY);
 
-                    yt = (font.cellHeight * 0.5f - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY;
+                    yt = (centerY - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY + sin * centerX;
+//                    yt = (font.cellHeight * 0.5f - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY;
                             //((font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY) * sizingY;
                     if (c >= 0xE000 && c < 0xF800) {
                         yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f);
@@ -4001,7 +4005,8 @@ public class Font implements Disposable {
                             dashV2 = dash.getV2();
 //                            hd = dash.getRegionHeight() * scaleY,
 //                            yd = -0.5f * cellHeight * scale;//cellHeight * scale - hd - dash.offsetY * scaleY - centerY;
-                    xc = (tr.offsetX * scaleX * sizingX) + dash.offsetX * osx - centerX * scale; // TODO: centerX * scale is suspect
+                    xc = (tr.offsetX * scaleX * sizingX) + dash.offsetX * osx - cos * centerX - cellWidth * 0.5f;;
+//                    xc = (tr.offsetX * scaleX * sizingX) + dash.offsetX * osx - centerX * scale;
                     x0 = -osx * dash.offsetX - scale;
                     float addW = 0.25f * centerX;
                     vertices[2] = color;
