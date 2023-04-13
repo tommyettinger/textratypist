@@ -3598,9 +3598,11 @@ public class Font implements Disposable {
         y = font.handleIntegerPosition(iy - yShift);
         centerX -= xShift * 0.5f;
         centerY -= yShift * 0.5f;
+//        x += centerX;
 //        x -= centerX;//
 //        y -= centerY;
-        //x += centerX * cos; y += centerX * sin;
+//        x += centerX * cos;
+//        y += centerX * sin;
 //        // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
 //        if (tr.offsetX != tr.offsetX) {
 //            if(backgroundColor != 0) {
@@ -3654,14 +3656,14 @@ public class Font implements Disposable {
         //// This works(*) with box-drawing chars, but rotates around halfway up the left edge, not the center.
         //// It does have the same sliding issue as the other methods so far.
 //        float xc = (font.cellWidth * -0.5f) * sizingX;// + (tr.offsetX * scaleX * sizingX);
-        float xc = (tr.offsetX * scaleX * sizingX) - centerX;//0f;//-centerX;
+        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX;//0f;//-centerX;
 //        float xc = tr.offsetX * scaleX - centerX * sizingX;
 //        float xc = (cos * tr.offsetX - sin * tr.offsetY) * scaleX - centerX * sizingX;
         //// ???
 //        float xc = (centerX - (tr.getRegionWidth() + tr.offsetX) * fsx) * scale * sizingX;
 
         float trrh = tr.getRegionHeight();
-        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - centerY;
+        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - centerY + sin * centerX;
 
         float h = trrh * scaleY * sizingY;
 //                yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
@@ -3890,6 +3892,7 @@ public class Font implements Disposable {
             y = font.handleIntegerPosition(iy - yShift);
             centerX = oCenterX - xShift * 0.5f;
             centerY = oCenterY - yShift * 0.5f;
+//            x += centerX;
 //            x -= centerX;
 //            y -= centerY;
             //x += centerX * cos; y += centerX * sin;
@@ -3961,6 +3964,7 @@ public class Font implements Disposable {
             y = font.handleIntegerPosition(iy - yShift);
             centerX = oCenterX - xShift * 0.5f;
             centerY = oCenterY - yShift * 0.5f;
+            x += centerX;
 //            x -= centerX;
 //            y -= centerY;
             //x += centerX * cos; y += centerX * sin;

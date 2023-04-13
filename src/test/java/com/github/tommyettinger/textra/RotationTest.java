@@ -48,7 +48,7 @@ public class RotationTest extends ApplicationAdapter {
         config.setTitle("Font test");
         config.setWindowedMode(PIXEL_WIDTH, PIXEL_HEIGHT);
         config.disableAudio(true);
-        config.useVsync(false);
+        config.useVsync(true);
         config.setForegroundFPS(0);
         new Lwjgl3Application(new RotationTest(), config);
     }
@@ -164,7 +164,7 @@ public class RotationTest extends ApplicationAdapter {
 //            case 1:
                 font.drawGlyphs(batch, layout,
                         PIXEL_WIDTH * 0.5f, y, Align.center
-                        , since * 0.05f, 0f, 0f
+                        , since * 0.015f, 0f, 0f
                 );
 //            break;
 //            default:
