@@ -3559,7 +3559,6 @@ public class Font implements Disposable {
             fsy = fsx;//0.75f * font.originalCellHeight / tr.getRegionHeight();
                     //scale * font.cellHeight * 0.8f / tr.xAdvance;//font.cellHeight / (tr.xAdvance * 1.25f);
             scaleX = scaleY = scale * fsx;
-//            System.out.println(c & 0xFFFF);//57863
         }
         else
         {
