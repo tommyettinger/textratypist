@@ -3575,7 +3575,7 @@ public class Font implements Disposable {
         float oCenterX = tr.xAdvance * osx * 0.5f;
         float oCenterY = font.originalCellHeight * osy * 0.5f;
 
-        float scaleCorrection = font.descent * font.scaleY * 2f - font.descent * osy;
+        float scaleCorrection = font.descent * fsy * 2f - font.descent * osy;
         y += scaleCorrection;
 //        y += cos * scaleCorrection;
 //        x += sin * scaleCorrection;
@@ -3685,7 +3685,7 @@ public class Font implements Disposable {
         v2 = tr.getV2();
         if (c >= 0xE000 && c < 0xF800) {
             xc += (changedW * 0.5f);
-            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f);
+            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
         }
 
 //        if (c >= 0xE000 && c < 0xF800) {
@@ -3915,7 +3915,7 @@ public class Font implements Disposable {
                     yt = (centerY - (trrh + under.offsetY) * font.scaleY) * scale * sizingY + sin * centerX;
                     //((font.originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY - 0.5f * imageAdjust * scale) * sizingY;
                     if (c >= 0xE000 && c < 0xF800) {
-                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f);
+                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
                     }
 //                    if (c >= 0xE000 && c < 0xF800)
 //                        System.out.println("With font " + name + ", UNDERLINE: yt=" + yt + ", y0=" + y0 + ", y1=" + y1 + ", y2=" + y2 + ", x0=" + x0);
@@ -3992,7 +3992,7 @@ public class Font implements Disposable {
 //                    yt = (font.cellHeight * 0.5f - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY;
                             //((font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY) * sizingY;
                     if (c >= 0xE000 && c < 0xF800) {
-                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f);
+                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
                     }
 
 //                    if (c >= 0xE000 && c < 0xF800)
