@@ -3598,7 +3598,6 @@ public class Font implements Disposable {
         y = font.handleIntegerPosition(iy - yShift);
         centerX -= xShift * 0.5f;
         centerY -= yShift * 0.5f;
-        x += cellWidth * 0.5f;
 //        x += centerX;
 //        x -= centerX;//
 //        y -= centerY;
@@ -3637,6 +3636,7 @@ public class Font implements Disposable {
                     font.cellWidth * sizingX, (font.cellHeight * scale) * sizingY, rotation);
             return font.cellWidth;
         }
+        x += cellWidth * 0.5f;
 
         Texture tex = tr.getTexture();
         float scaledHeight = font.cellHeight * scale * sizingY;
