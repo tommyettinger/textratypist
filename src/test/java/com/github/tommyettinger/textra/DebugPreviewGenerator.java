@@ -60,8 +60,8 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
-        config.enableGLDebugOutput(true, System.out);
-        config.setForegroundFPS(1);
+//        config.enableGLDebugOutput(true, System.out);
+        config.setForegroundFPS(10);
         config.useVsync(true);
         new Lwjgl3Application(new DebugPreviewGenerator(), config);
     }
@@ -166,7 +166,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
                 (font.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout.clear());
 
 
-//        Gdx.app.exit();
+        Gdx.app.exit();
     }
 
     @Override

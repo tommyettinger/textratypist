@@ -1592,7 +1592,6 @@ public final class KnownFonts implements LifecycleListener {
             return new Font(instance.yataghanMSDF);
         throw new RuntimeException("Assets for getYataghanMSDF() not found.");
     }
-
     /**
      * Horribly duplicated because this is private in TextureAtlas.
      * This can be entirely replaced by Consumer from JDK 8 once RoboVM supports it.
@@ -1814,6 +1813,22 @@ public final class KnownFonts implements LifecycleListener {
                         }
                     });
                 }
+
+                //// We would use this if we need each emoji before its written-name counterpart.
+                //// We currently do not need this feature, but might in the future.
+                //// This is slower than using the above block to only sort if there are indexes.
+//                Comparator<Region> comp = new Comparator<Region>() {
+//                    public int compare (Region region1, Region region2) {
+//                        int pos = (region1.left << 15 ^ region1.top) - (region2.left << 15 ^ region2.top);
+//                        pos = (pos >> 31 | -pos >>> 31) << 2;
+//                        int idx = (region1.index & Integer.MAX_VALUE) - (region2.index & Integer.MAX_VALUE);
+//                        idx = (idx >> 31 | -idx >>> 31) << 1;
+//                        int name = region1.name.compareTo(region2.name);
+//                        name = (name >> 31 | -name >>> 31) << 1;
+//                        return pos + idx - name;
+//                    }
+//                };
+//                getRegions().sort(comp);
             }
         });
     }

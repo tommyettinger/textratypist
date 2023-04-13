@@ -2334,7 +2334,11 @@ public class Font implements Disposable {
                 // If the previous name didn't start with an emoji char, use this name. This means if there is only one
                 // name that refers to a region, that name will be used in namesByCharCode, but if there is more than
                 // one sequential name, then names that start with emoji take priority.
-                if(f < 0xD800 || f >= 0xE000)
+                // This uses a pretty simple check, but it works even for unusual emoji like ‼, which starts with
+                // U+203C, or ✌🏿, which starts with U+270C . It does, however, fail for some natural-language characters
+                // (such as all Chinese characters, which this identifies as emoji). That shouldn't come up often, since
+                // this requires both later-in-Unicode names and earlier-in-Unicode names to refer to the same region.
+                if(f < 0x2000)
                     namesByCharCode.put(i, name);
             } else {
                 ++i;
@@ -3854,6 +3858,12 @@ public class Font implements Disposable {
         vertices[16] = (vertices[1] = font.handleIntegerPosition(y + sin * p0x + cos * p0y)) - (vertices[6] = font.handleIntegerPosition(y + sin * p1x + cos * p1y)) + (vertices[11] = font.handleIntegerPosition(y + sin * p2x + cos * p2y));
 
         drawVertices(batch, tex, vertices);
+
+        if(c >= 0xE000 && c < 0xF800 || c == 'i') {
+            System.out.println("With font " + font.name + ", drawing glyph " + namesByCharCode.get(c, "") + ", it has x: " + vertices[0] + ", y: " + vertices[1]);
+        }
+
+
         if ((glyph & BOLD) != 0L) {
             final float old0 = p0x;
             final float old1 = p1x;
