@@ -1212,7 +1212,7 @@ public class Font implements Disposable {
         originalCellWidth = toCopy.originalCellWidth;
         originalCellHeight = toCopy.originalCellHeight;
         descent = toCopy.descent;
-        
+
         xAdjust =      toCopy.xAdjust;
         yAdjust =      toCopy.yAdjust;
         widthAdjust =  toCopy.widthAdjust;
@@ -2351,7 +2351,7 @@ public class Font implements Disposable {
 
         TextureAtlas.AtlasRegion previous = regions.first();
         GlyphRegion gr = new GlyphRegion(previous,
-                previous.offsetX + offsetXChange - xAdjust, previous.offsetY + offsetYChange - yAdjust, previous.originalWidth + xAdvanceChange - widthAdjust);
+                previous.offsetX + offsetXChange, previous.offsetY + offsetYChange, previous.originalWidth + xAdvanceChange);
 //        gr.offsetY += originalCellHeight * 0.125f;
         mapping.put(start, gr);
         String name = prepend + previous.name + append;
@@ -2376,7 +2376,7 @@ public class Font implements Disposable {
                 ++i;
                 previous = region;
                 gr = new GlyphRegion(region,
-                        region.offsetX + offsetXChange - xAdjust, region.offsetY + offsetYChange - yAdjust, region.originalWidth + xAdvanceChange - widthAdjust);
+                        region.offsetX + offsetXChange, region.offsetY + offsetYChange, region.originalWidth + xAdvanceChange);
 //                gr.offsetY += originalCellHeight * 0.125f;
                 mapping.put(i, gr);
                 name = prepend + region.name + append;

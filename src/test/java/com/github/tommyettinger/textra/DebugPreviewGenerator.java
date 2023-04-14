@@ -121,7 +121,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
             layout.setEllipsis(" and so on and so forth...");
 //            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
 //                    , layout);
-            font.markup("Font name: " + font.name +
+            font.markup("[_]Font[] [~]name[]: " + font.name +
                     ", originalCellHeight: " + font.originalCellHeight +
                     ", originalCellWidth: " + font.originalCellWidth +
                     ", cellHeight: " + font.cellHeight +
@@ -155,7 +155,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         font = fnt;
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
-        font.markup("Font name: " + font.name +
+        font.markup("[_]Font[] [~]name[]: " + font.name +
                 ", originalCellHeight: " + font.originalCellHeight +
                 ", originalCellWidth: " + font.originalCellWidth +
                 ", cellHeight: " + font.cellHeight +
