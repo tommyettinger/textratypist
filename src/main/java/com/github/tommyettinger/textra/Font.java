@@ -689,6 +689,23 @@ public class Font implements Disposable {
      */
     public float PACKED_NOTE_COLOR = -0x1.71106p126F; // blue
 
+    /**
+     * The x-adjustment this Font was initialized with, or 0 if there was none given.
+     */
+    protected float xAdjust;
+    /**
+     * The y-adjustment this Font was initialized with, or 0 if there was none given.
+     */
+    protected float yAdjust;
+    /**
+     * The width-adjustment this Font was initialized with, or 0 if there was none given.
+     */
+    protected float widthAdjust;
+    /**
+     * The height-adjustment this Font was initialized with, or 0 if there was none given.
+     */
+    protected float heightAdjust;
+
     private final float[] vertices = new float[20];
     private final Layout tempLayout = new Layout();
     private final LongArray glyphBuffer = new LongArray(128);
@@ -1195,6 +1212,12 @@ public class Font implements Disposable {
         originalCellWidth = toCopy.originalCellWidth;
         originalCellHeight = toCopy.originalCellHeight;
         descent = toCopy.descent;
+        
+        xAdjust =      toCopy.xAdjust;
+        yAdjust =      toCopy.yAdjust;
+        widthAdjust =  toCopy.widthAdjust;
+        heightAdjust = toCopy.heightAdjust;
+
         mapping = new IntMap<>(toCopy.mapping.size);
         for (IntMap.Entry<GlyphRegion> e : toCopy.mapping) {
             if (e.value == null) continue;
@@ -1648,6 +1671,11 @@ public class Font implements Disposable {
         mapping = new IntMap<>(128);
         int minWidth = Integer.MAX_VALUE;
 
+        this.xAdjust = xAdjust;
+        this.yAdjust = yAdjust;
+        this.widthAdjust = widthAdjust;
+        this.heightAdjust = heightAdjust;
+
         descent = bmFont.getDescent();
         // Needed to make emoji and other texture regions appear at a reasonable height on the line.
         // Also moves the descender so that it isn't below the baseline, which causes issues.
@@ -1796,6 +1824,10 @@ public class Font implements Disposable {
         } else {
             throw new RuntimeException("Missing font file: " + fntName);
         }
+        this.xAdjust = xAdjust;
+        this.yAdjust = yAdjust;
+        this.widthAdjust = widthAdjust;
+        this.heightAdjust = heightAdjust;
         int idx = indexAfter(fnt, "lineHeight=", 0);
         float rawLineHeight = floatFromDec(fnt, idx, idx = indexAfter(fnt, "base=", idx));
         float baseline = floatFromDec(fnt, idx, idx = indexAfter(fnt, "pages=", idx));
@@ -2319,7 +2351,7 @@ public class Font implements Disposable {
 
         TextureAtlas.AtlasRegion previous = regions.first();
         GlyphRegion gr = new GlyphRegion(previous,
-                previous.offsetX + offsetXChange, previous.offsetY + offsetYChange, previous.originalWidth + xAdvanceChange);
+                previous.offsetX + offsetXChange - xAdjust, previous.offsetY + offsetYChange - yAdjust, previous.originalWidth + xAdvanceChange - widthAdjust);
 //        gr.offsetY += originalCellHeight * 0.125f;
         mapping.put(start, gr);
         String name = prepend + previous.name + append;
@@ -2344,7 +2376,7 @@ public class Font implements Disposable {
                 ++i;
                 previous = region;
                 gr = new GlyphRegion(region,
-                        region.offsetX + offsetXChange, region.offsetY + offsetYChange, region.originalWidth + xAdvanceChange);
+                        region.offsetX + offsetXChange - xAdjust, region.offsetY + offsetYChange - yAdjust, region.originalWidth + xAdvanceChange - widthAdjust);
 //                gr.offsetY += originalCellHeight * 0.125f;
                 mapping.put(i, gr);
                 name = prepend + region.name + append;
