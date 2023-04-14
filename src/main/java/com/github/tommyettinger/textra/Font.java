@@ -3859,8 +3859,14 @@ public class Font implements Disposable {
 
         drawVertices(batch, tex, vertices);
 
+        //TODO: Remove, debug code
         if(c >= 0xE000 && c < 0xF800 || c == 'i') {
-            System.out.println("With font " + font.name + ", drawing glyph " + namesByCharCode.get(c, "") + ", it has x: " + vertices[0] + ", y: " + vertices[1]);
+            System.out.println("With font " + font.name + ", drawing glyph " + namesByCharCode.get(c, "") +
+                    ", it has v0: " + vertices[0] + ", v1: " + vertices[1] +
+                    ", x: " + x + ", y: " + y + ", p0x: " + p0x + ", p0y: " + p0y +
+                    ", h: " + h + ", xc: " + xc + ", yt: " + yt +
+                    ", font.descent: " + font.descent + ", osy: " + osy +
+                    ", tr.offsetX: " + tr.offsetX + ", tr.offsetY: " + tr.offsetY + ", tr.xAdvance: " + tr.xAdvance);
         }
 
 

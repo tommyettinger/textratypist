@@ -131,6 +131,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
                     ", scaleY: " + font.scaleY +
                     ", integerPosition: " + font.integerPosition + "\n" +
                     (font.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout);
+            System.out.println(layout);
 
             ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
 //            ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
@@ -164,6 +165,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
                 ", scaleY: " + font.scaleY +
                 ", integerPosition: " + font.integerPosition + "\n" +
                 (font.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout.clear());
+        System.out.println(layout);
 
 
         Gdx.app.exit();
