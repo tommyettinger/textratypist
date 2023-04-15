@@ -122,14 +122,19 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
 //                    , layout);
             font.markup("[_]Font[] [~]name[]: " + font.name +
-                    ", originalCellHeight: " + font.originalCellHeight +
+                    ",\noriginalCellHeight: " + font.originalCellHeight +
                     ", originalCellWidth: " + font.originalCellWidth +
-                    ", cellHeight: " + font.cellHeight +
+                    ",\ncellHeight: " + font.cellHeight +
                     ", cellWidth: " + font.cellWidth +
-                    ", descent: " + font.descent +
-                    ", scaleX: " + font.scaleX +
+                    ",\nscaleX: " + font.scaleX +
                     ", scaleY: " + font.scaleY +
-                    ", integerPosition: " + font.integerPosition + "\n" +
+                    ",\nintegerPosition: " + font.integerPosition +
+                    ", descent: " + font.descent +
+                    ",\nxAdjust: " + font.xAdjust +
+                    ", yAdjust: " + font.yAdjust +
+                    ",\nwidthAdjust: " + font.widthAdjust +
+                    ", heightAdjust: " + font.heightAdjust +
+                    "\n" +
                     (font.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout);
             System.out.println(layout);
 
