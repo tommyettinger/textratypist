@@ -944,14 +944,15 @@ public class TypingLabel extends TextraLabel {
                 if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                 if (f == null) f = font;
 
-//                if(i == 0){
-//                    x -= 0.5f * f.cellWidth;
+                if(i == 0){
+                    x -= 0.5f * f.cellWidth;
+                    x += cs * 0.5f * f.cellWidth;
+                    y += sn * 0.5f * f.cellWidth;
 
-//                    x += cs * 0.5f * f.cellWidth;
-//                    y += sn * 0.5f * f.cellWidth;
-//                    x -= sn * 0.5f * f.cellHeight;
-//                    y += cs * 0.5f * f.cellHeight;
-//                }
+                    y += f.descent;
+                    x += sn * (f.descent - 0.5f * f.cellHeight);
+                    y -= cs * (f.descent - 0.5f * f.cellHeight);
+                }
 
                 if (f.kerning != null) {
                     kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);

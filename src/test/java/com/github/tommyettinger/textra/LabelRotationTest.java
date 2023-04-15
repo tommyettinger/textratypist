@@ -76,6 +76,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         stage = new Stage(viewport);
         BitmapFont font = new BitmapFont();
         Font tFont = new Font(font);
+        tFont.useIntegerPositions(false);
 
         Label.LabelStyle style = new Label.LabelStyle();
         style.background = new TextureRegionDrawable(texture);
@@ -85,7 +86,6 @@ public class LabelRotationTest extends ApplicationAdapter {
         style.background.setRightWidth(25);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
-        labelStyle.font.setUseIntegerPositions(false);
         labelStyle.background = new TextureRegionDrawable(texture);
         labelStyle.background.setTopHeight(15);
         labelStyle.background.setBottomHeight(15);
@@ -93,40 +93,34 @@ public class LabelRotationTest extends ApplicationAdapter {
         labelStyle.background.setRightWidth(25);
 
         textraLabel1 = new TextraLabel("Test", tFont);
-        textraLabel1.useIntegerPositions(false);
         textraLabel1.setPosition(200,200);
         textraLabel1.style = style;
         textraLabel1.pack();
         textraLabel1.setOrigin(center);
         textraLabel2 = new TextraLabel("Check check, [_]one two[_], [~]one two[~]...", tFont);
-        textraLabel2.useIntegerPositions(false);
         textraLabel2.setPosition(400,200);
         textraLabel2.style = style;
         textraLabel2.pack();
         textraLabel2.setOrigin(center);
         textraLabel3 = new TextraLabel("We're no strangers to love...\nYou [_]know[_] the [_]rules[_],\nand [~]so do I[~]!", tFont);
-        textraLabel3.useIntegerPositions(false);
         textraLabel3.setPosition(600,300);
         textraLabel3.style = style;
         textraLabel3.pack();
         textraLabel3.setOrigin(center);
 
         typingLabel1 = new TypingLabel("Test", tFont);
-        typingLabel1.useIntegerPositions(false);
         typingLabel1.setText("Test");
         typingLabel1.setPosition(200,200);
         typingLabel1.style = style;
         typingLabel1.pack();
         typingLabel1.setOrigin(center);
         typingLabel2 = new TypingLabel("Test", tFont);
-        typingLabel2.useIntegerPositions(false);
         typingLabel2.setText("Check check, [_]one two[_], [~]one two[~]...");
         typingLabel2.setPosition(400,200);
         typingLabel2.style = style;
         typingLabel2.pack();
         typingLabel2.setOrigin(center);
         typingLabel3 = new TypingLabel("Test", tFont);
-        typingLabel3.useIntegerPositions(false);
         typingLabel3.setText("We're no strangers to love...\nYou [_]know[_] the [_]rules[_],\nand [~]so do I[~]!");
         typingLabel3.setPosition(600,300);
         typingLabel3.style = style;
@@ -171,7 +165,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel2.setRotation(rot);
         typingLabel3.setRotation(rot);
         rot = (rot + Gdx.graphics.getDeltaTime() * 40f) % 3240.0f;
-        int alignment = aligns[((int)rot / 360) % 9];
+        int alignment = aligns[8 - ((int)rot / 360) % 9];
         Gdx.graphics.setTitle(Align.toString(alignment));
 
         label1.setAlignment(alignment);
