@@ -2187,6 +2187,15 @@ public class Font implements Disposable {
         return this;
     }
 
+    public float getDescent() {
+        return descent;
+    }
+
+    public Font setDescent(float descent) {
+        this.descent = descent;
+        return this;
+    }
+
     public String getName() {
         return name;
     }
