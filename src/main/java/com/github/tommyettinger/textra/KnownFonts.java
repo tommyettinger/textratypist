@@ -1119,7 +1119,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.kingthingsFoundation == null) {
             try {
                 instance.kingthingsFoundation = new Font(instance.prefix + "KingthingsFoundation-standard.fnt",
-                        instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 40, 0, 25, true)
+                        instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 20, 0, 0, true)
                         .scaleTo(23, 31).setTextureFilter().setName("Kingthings Foundation");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1159,7 +1159,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.kingthingsPetrock == null) {
             try {
                 instance.kingthingsPetrock = new Font(instance.prefix + "KingthingsPetrock-standard.fnt",
-                        instance.prefix + "KingthingsPetrock-standard.png", STANDARD, 0, 8, 2, 0, true)
+                        instance.prefix + "KingthingsPetrock-standard.png", STANDARD, 0, 16, 2, 0, true)
                         .scaleTo(25, 32).setTextureFilter().setName("Kingthings Petrock");
             } catch (Exception e) {
                 e.printStackTrace();
