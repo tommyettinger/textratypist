@@ -1835,8 +1835,8 @@ public class Font implements Disposable {
 
         // The SDF and MSDF fonts have essentially garbage for baseline, since Glamer can't accurately guess it.
         // For standard fonts, we incorporate the descender into yAdjust, which seems to be reliable.
-        if(distanceField == DistanceFieldType.STANDARD)
-            yAdjust += descent;
+//        if(distanceField == DistanceFieldType.STANDARD)
+//            yAdjust += descent;
         int pages = intFromDec(fnt, idx, idx = indexAfter(fnt, "\npage id=", idx));
         if (parents == null || parents.size < pages) {
             if (parents == null) parents = new Array<>(true, pages, TextureRegion.class);
@@ -2001,7 +2001,7 @@ public class Font implements Disposable {
             for (int x = 0; x < columns; x++, c++) {
                 GlyphRegion gr = new GlyphRegion(parent, x * ((int) cellWidth + padding) + padding, y * ((int) cellHeight + padding) + padding, (int) cellWidth, (int) cellHeight);
                 gr.offsetX = 0;
-                gr.offsetY = cellHeight * 0.5f + descent;
+                gr.offsetY = cellHeight * 0.5f;// + descent;
                 if (c == 10) {
                     gr.xAdvance = 0;
                 } else {
@@ -3720,7 +3720,7 @@ public class Font implements Disposable {
         v2 = tr.getV2();
         if (c >= 0xE000 && c < 0xF800) {
             xc += (changedW * 0.5f);
-            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
+//            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
         }
 
 //        if (c >= 0xE000 && c < 0xF800) {
@@ -3950,7 +3950,7 @@ public class Font implements Disposable {
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = centerX - cos * centerX - cellWidth * 0.5f;
 //                p0x = -0.0625f * centerX - cos * centerX - cellWidth * 0.5f;
-                p0y = (-0.8125f * font.cellHeight) * scale * sizingY + centerY + sin * centerX;
+                p0y = (-0.8125f * font.cellHeight) * scale * sizingY + centerY + sin * centerX + font.descent * font.scaleY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 3f * 0.0625f * centerX, font.cellHeight * scale * sizingY, rotation);
@@ -3961,9 +3961,9 @@ public class Font implements Disposable {
                     h = trrh * osy * sizingY;
                     yt = (centerY - (trrh + under.offsetY) * font.scaleY) * scale * sizingY + sin * centerX;
                     //((font.originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY - 0.5f * imageAdjust * scale) * sizingY;
-                    if (c >= 0xE000 && c < 0xF800) {
-                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
-                    }
+//                    if (c >= 0xE000 && c < 0xF800) {
+//                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
+//                    }
 //                    if (c >= 0xE000 && c < 0xF800)
 //                        System.out.println("With font " + name + ", UNDERLINE: yt=" + yt + ", y0=" + y0 + ", y1=" + y1 + ", y2=" + y2 + ", x0=" + x0);
                     //underU = under.getU() + (under.xAdvance - under.offsetX) * iw * 0.625f,
@@ -4022,7 +4022,7 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = centerX - cos * centerX - cellWidth * 0.5f;
-                p0y = centerY + (-0.45f * font.cellHeight) * scale + sin * centerX;
+                p0y = centerY + (-0.45f * font.cellHeight) * scale + sin * centerX + font.descent * font.scaleY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 3f * 0.0625f * centerX, font.cellHeight * scale * sizingY, rotation);
@@ -4038,9 +4038,9 @@ public class Font implements Disposable {
                     yt = (centerY - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY + sin * centerX;
 //                    yt = (font.cellHeight * 0.5f - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY;
                             //((font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY) * sizingY;
-                    if (c >= 0xE000 && c < 0xF800) {
-                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
-                    }
+//                    if (c >= 0xE000 && c < 0xF800) {
+//                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
+//                    }
 
 //                    if (c >= 0xE000 && c < 0xF800)
 //                        System.out.println("With font " + name + ", STRIKETHROUGH: yt=" + yt);
