@@ -3987,7 +3987,7 @@ public class Font implements Disposable {
                             underV2 = under.getV2();
 //                            hu = under.getRegionHeight() * scaleY,
 //                            yu = -0.625f * (hu + under.offsetY * scaleY);//-0.55f * cellHeight * scale;//cellHeight * scale - hu - under.offsetY * scaleY - centerY;
-                    xc = (tr.offsetX * scaleX * sizingX) + under.offsetX * osx - cos * centerX;
+                    xc = (tr.offsetX * scaleX - tr.xAdvance - under.offsetX * osx) * sizingX - cos * centerX + cellWidth * 0.5f;;
                     x0 = -osx * under.offsetX - scale;
                     float addW = 0.25f * centerX;
                     vertices[2] = color;
@@ -4072,7 +4072,8 @@ public class Font implements Disposable {
                             dashV2 = dash.getV2();
 //                            hd = dash.getRegionHeight() * scaleY,
 //                            yd = -0.5f * cellHeight * scale;//cellHeight * scale - hd - dash.offsetY * scaleY - centerY;
-                    xc = (tr.offsetX * scaleX * sizingX) + dash.offsetX * osx - cos * centerX;
+//                    xc = (tr.offsetX * scaleX + dash.offsetX * osx) * sizingX - cos * centerX - cellWidth * 0.5f;;
+                    xc = (tr.offsetX * scaleX - tr.xAdvance - dash.offsetX * osx) * sizingX - cos * centerX + cellWidth * 0.5f;;
 //                    xc = (tr.offsetX * scaleX * sizingX) + dash.offsetX * osx - centerX * scale;
                     x0 = -osx * dash.offsetX - scale;
                     float addW = 0.25f * centerX;

@@ -395,7 +395,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.cozette == null) {
             try {
                 instance.cozette = new Font(instance.prefix + "Cozette-standard.fnt",
-                        instance.prefix + "Cozette-standard.png", STANDARD, 1.5f, 3f, 0, 0, false)
+                        instance.prefix + "Cozette-standard.png", STANDARD, 0f, 3f, 0f, 0, false)
                         .setDescent(-3f).useIntegerPositions(true)
                         .setName("Cozette");
             } catch (Exception e) {
@@ -595,8 +595,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentiumUnItalic == null) {
             try {
                 instance.gentiumUnItalic = new Font(instance.prefix + "GentiumUnItalic-standard.fnt",
-                        instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, 10f, 0f, 0f, true)
-                        .scaleTo(48, 36).setTextureFilter().setName("Gentium Un-Italic");
+                        instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, 24f, 0f, 10f, true)
+                        .setDescent(-32f).scaleTo(48, 36).setTextureFilter().setName("Gentium Un-Italic");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -647,7 +647,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.goNotoUniversalSDF == null) {
             try {
                 instance.goNotoUniversalSDF = new Font(instance.prefix + "GoNotoUniversal-sdf.fnt",
-                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, 10f, 0f, 0f, true)
+                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, 3f, 0f, 0f, true)
                         .scaleTo(65.25f, 51)
                         .adjustLineHeight(0.625f)
                         .setCrispness(1.8f)
@@ -693,8 +693,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.hanazono == null) {
             try {
                 instance.hanazono = new Font(instance.prefix + "Hanazono-standard.fnt",
-                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, 7, 0, 0, false).scaleTo(16, 20)
-                        .setTextureFilter().setName("Hanazono");
+                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, 0, 0, 0, true).scaleTo(16, 20)
+                        .setDescent(-4f).setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
                 e.printStackTrace();
             }
