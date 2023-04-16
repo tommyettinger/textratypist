@@ -116,7 +116,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.astarry == null) {
             try {
                 instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
-                        instance.prefix + "AStarry-standard.png", STANDARD, 12, 24, 0, -12, true).setDescent(-30f)
+                        instance.prefix + "AStarry-standard.png", STANDARD, 12, 36, 0, -12, true).setDescent(-36f)
                         .scaleTo(8, 8).setTextureFilter().setName("A Starry");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -157,8 +157,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.astarryMSDF == null) {
             try {
                 instance.astarryMSDF = new Font(instance.prefix + "AStarry-msdf.fnt",
-                        instance.prefix + "AStarry-msdf.png", MSDF, 0, 0, -24, 0, true)
-                        .scaleTo(10, 10).setCrispness(2f).setName("A Starry (MSDF)");
+                        instance.prefix + "AStarry-msdf.png", MSDF, 8, 8, -16, -16, true).setDescent(-20f)
+                        .scaleTo(8, 8).setCrispness(2f).setName("A Starry (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
