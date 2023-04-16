@@ -200,7 +200,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.bitter == null) {
             try {
                 instance.bitter = new Font(instance.prefix + "Bitter-standard.fnt",
-                        instance.prefix + "Bitter-standard.png", STANDARD, 0, -24, 0, 0, true).setDescent(-30f)
+                        instance.prefix + "Bitter-standard.png", STANDARD, 0, -12, 0, 0, true).setDescent(-36f)
                         .scaleTo(33, 30).setTextureFilter().setName("Bitter");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -240,7 +240,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.canada = new Font(instance.prefix + "Canada1500-standard.fnt",
                         instance.prefix + "Canada1500-standard.png",
-                        STANDARD, 0, 20, 0, 0, true)
+                        STANDARD, 0, 25, 0, 0, true).setDescent(-36f)
                         .scaleTo(30, 35).setTextureFilter().setName("Canada1500");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -278,8 +278,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.cascadiaMono == null) {
             try {
                 instance.cascadiaMono = new Font(instance.prefix + "CascadiaMono-standard.fnt",
-                        instance.prefix + "CascadiaMono-standard.png", STANDARD, 0f, 0f, 0f, 0f, true)
-                        .setTextureFilter().scaleTo(10, 20).setName("Cascadia Mono");
+                        instance.prefix + "CascadiaMono-standard.png", STANDARD, 0f, 16f, 0f, 6f, true)
+                        .setTextureFilter().setDescent(-25f).scaleTo(10, 20).setName("Cascadia Mono");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -317,7 +317,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.cascadiaMonoMSDF == null) {
             try {
                 instance.cascadiaMonoMSDF = new Font(instance.prefix + "CascadiaMono-msdf.fnt",
-                        instance.prefix + "CascadiaMono-msdf.png", MSDF, 0f, 0f, -8f, 14f, true)
+                        instance.prefix + "CascadiaMono-msdf.png", MSDF, 0f, -8f, -9f, -16f, true)
                         .scaleTo(10, 20).setName("Cascadia Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
