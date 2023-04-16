@@ -395,8 +395,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.cozette == null) {
             try {
                 instance.cozette = new Font(instance.prefix + "Cozette-standard.fnt",
-                        instance.prefix + "Cozette-standard.png", STANDARD, 1.5f, 11, 0, 0, false)
-                        .useIntegerPositions(true)
+                        instance.prefix + "Cozette-standard.png", STANDARD, 1.5f, 3f, 0, 0, false)
+                        .setDescent(-3f).useIntegerPositions(true)
                         .setName("Cozette");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -436,7 +436,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.dejaVuSansMono == null) {
             try {
                 instance.dejaVuSansMono = new Font(instance.prefix + "DejaVuSansMono-msdf.fnt",
-                        instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 0f, 12f, 0f, 0f, true)
+                        instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 0f, -4f, 0f, 0f, true)
                         .scaleTo(9, 20).setCrispness(2f).setName("DejaVu Sans Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -515,7 +515,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentiumMSDF == null) {
             try {
                 instance.gentiumMSDF = new Font(instance.prefix + "Gentium-msdf.fnt",
-                        instance.prefix + "Gentium-msdf.png", MSDF, 0f, -18f, 0f, 0f, true)
+                        instance.prefix + "Gentium-msdf.png", MSDF, 0f, 0f, 0f, 0f, true)
                         .scaleTo(50, 45).adjustLineHeight(0.625f).setCrispness(3f).setName("Gentium (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -556,7 +556,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentiumSDF == null) {
             try {
                 instance.gentiumSDF = new Font(instance.prefix + "Gentium-sdf.fnt",
-                        instance.prefix + "Gentium-sdf.png", SDF, 4f, -12f, 0f, 0f, true)
+                        instance.prefix + "Gentium-sdf.png", SDF, 4f, 25f, 0f, 0f, true).setDescent(-40f)
                         .scaleTo(50, 45).adjustLineHeight(0.625f).setCrispness(1.5f).setName("Gentium (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
