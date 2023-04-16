@@ -737,7 +737,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.ibm8x16 == null) {
             try {
                 instance.ibm8x16 = new Font(instance.prefix, "IBM-8x16-standard.font", true)
-                        .fitCell(8, 16, false).setName("IBM 8x16");
+                        .setDescent(0f).fitCell(8, 16, false).setName("IBM 8x16");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -772,8 +772,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.inconsolata == null) {
             try {
                 instance.inconsolata = new Font(instance.prefix + "Inconsolata-LGC-Custom-standard.fnt",
-                        instance.prefix + "Inconsolata-LGC-Custom-standard.png", STANDARD, 1f, 6f, -4f, 0f, true)
-                        .scaleTo(10, 26).setTextureFilter().setName("Inconsolata LGC");
+                        instance.prefix + "Inconsolata-LGC-Custom-standard.png", STANDARD, 1f, 20f, -4f, 0f, true)
+                        .setDescent(-36f).scaleTo(10, 26).setTextureFilter().setName("Inconsolata LGC");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -808,8 +808,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.inconsolataMSDF == null) {
             try {
                 instance.inconsolataMSDF = new Font(instance.prefix + "Inconsolata-LGC-Custom-msdf.fnt",
-                        instance.prefix + "Inconsolata-LGC-Custom-msdf.png", MSDF, 1f, -5f, -12f, 0f, true)
-                        .scaleTo(12, 26).setCrispness(1.2f).setName("Inconsolata LGC (MSDF)");
+                        instance.prefix + "Inconsolata-LGC-Custom-msdf.png", MSDF, 0f, 0f, -16f, -8f, true)
+                        .scaleTo(10, 26).setCrispness(1.2f).setName("Inconsolata LGC (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
