@@ -1383,7 +1383,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.robotoCondensed == null) {
             try {
                 instance.robotoCondensed = new Font(instance.prefix + "RobotoCondensed-standard.fnt",
-                        instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 25, 0, 20, true)
+                        instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 32, 0, 20, true).setDescent(-30f)
                         .scaleTo(20, 32).setTextureFilter().setName("Roboto Condensed");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1460,7 +1460,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.tangerineSDF == null) {
             try {
                 instance.tangerineSDF = new Font(instance.prefix + "Tangerine-sdf.fnt",
-                        instance.prefix + "Tangerine-sdf.png", SDF, 0f, 0f, 0f, 0, false)
+                        instance.prefix + "Tangerine-sdf.png", SDF, 0f, 16f, 0f, -8, true).setDescent(-30f)
                         .scaleTo(48, 32).setCrispness(0.375f).setName("Tangerine (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1497,7 +1497,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.kaffeesatz == null) {
             try {
                 instance.kaffeesatz = new Font(instance.prefix + "YanoneKaffeesatz-standard.fnt",
-                        instance.prefix + "YanoneKaffeesatz-standard.png", STANDARD, 2f, 6f, 0f, 0, true)
+                        instance.prefix + "YanoneKaffeesatz-standard.png", STANDARD, 2f, 10f, 0f, 0, true).setDescent(-30f)
                         .scaleTo(26, 30).setTextureFilter().setName("Yanone Kaffeesatz");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1534,7 +1534,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.kaffeesatzMSDF == null) {
             try {
                 instance.kaffeesatzMSDF = new Font(instance.prefix + "YanoneKaffeesatz-msdf.fnt",
-                        instance.prefix + "YanoneKaffeesatz-msdf.png", MSDF, 0f, 8f, 0f, 0, true)
+                        instance.prefix + "YanoneKaffeesatz-msdf.png", MSDF, 0f, 16f, 0f, 0, true)
                         .scaleTo(26, 30).setCrispness(2.5f).setName("Yanone Kaffeesatz (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1574,7 +1574,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.yataghanMSDF == null) {
             try {
                 instance.yataghanMSDF = new Font(instance.prefix + "Yataghan-msdf.fnt",
-                        instance.prefix + "Yataghan-msdf.png", MSDF, 0f, -32f, 0f, 0, true)
+                        instance.prefix + "Yataghan-msdf.png", MSDF, 0f, 16f, 0f, 0, true)
                         .scaleTo(20, 32).setName("Yataghan (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
