@@ -81,8 +81,8 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         Font fnt = fonts[13];
 //        fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
-        int index = 0;
-        for (int i = 0; i < fonts.length; i++) {
+        int index = 18;
+        for (int i = 18; i < fonts.length; i++) {
             font = fonts[i];
             KnownFonts.addEmoji(font);
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
