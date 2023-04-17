@@ -891,8 +891,6 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.iosevkaMSDF == null) {
             try {
-                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
-                // This should be OK now that this uses the box-drawing underline.
                 instance.iosevkaMSDF = new Font(instance.prefix + "Iosevka-msdf.fnt",
                         instance.prefix + "Iosevka-msdf.png", MSDF, -3f, 13f, 0f, 0f, true).setDescent(-22f)
                         .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false)
@@ -938,8 +936,6 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.iosevkaSDF == null) {
             try {
-                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
-                // This should be OK now that this uses the box-drawing underline.
                 instance.iosevkaSDF = new Font(instance.prefix + "Iosevka-sdf.fnt",
                         instance.prefix + "Iosevka-sdf.png", SDF, -2f, 32f, -2f, 0f, true).setDescent(-45f)
                         .setCrispness(0.75f).scaleTo(12, 25).fitCell(10, 25, false)
@@ -1023,8 +1019,6 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.iosevkaSlabMSDF == null) {
             try {
-                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
-                // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSlabMSDF = new Font(instance.prefix + "Iosevka-Slab-msdf.fnt",
                         instance.prefix + "Iosevka-Slab-msdf.png", MSDF, -3f, 13f, 0f, 0f, true).setDescent(-22f)
                         .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false)
@@ -1069,8 +1063,6 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.iosevkaSlabSDF == null) {
             try {
-                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
-                // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSlabSDF = new Font(instance.prefix + "Iosevka-Slab-sdf.fnt",
                         instance.prefix + "Iosevka-Slab-sdf.png", SDF, -2f, 35f, -2f, 0f, true).setDescent(-45f)
                         .setCrispness(0.75f).scaleTo(12, 25).fitCell(10, 25, false)
@@ -1200,7 +1192,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.libertinusSerif == null) {
             try {
                 instance.libertinusSerif = new Font(instance.prefix + "LibertinusSerif-standard.fnt",
-                        instance.prefix + "LibertinusSerif-standard.png", STANDARD, 0, 15, 0, 0, true)
+                        instance.prefix + "LibertinusSerif-standard.png", STANDARD, 0, 15, 0, 0, true).setDescent(-25f)
                         .scaleTo(40, 34).setTextureFilter().setName("Libertinus Serif");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1273,7 +1265,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.openSans == null) {
             try {
                 instance.openSans = new Font(instance.prefix + "OpenSans-standard.fnt",
-                        instance.prefix + "OpenSans-standard.png", STANDARD, 0, 14, 0, 0, true)
+                        instance.prefix + "OpenSans-standard.png", STANDARD, 0, 0, 0, 0, true).setDescent(0f)
                         .scaleTo(20, 28).adjustLineHeight(0.875f).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1352,7 +1344,7 @@ public final class KnownFonts implements LifecycleListener {
                 // Manual adjustment: id 95 ('_') had yoffset changed from 5, to 6.
                 // This makes underlines use a different row than the bottom of letters.
                 instance.quanPixel = new Font(instance.prefix + "QuanPixel-standard.fnt",
-                        instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 8, 0, 2, false)
+                        instance.prefix + "QuanPixel-standard.png", STANDARD, 4, 8, 0, 0, false).setDescent(1f)
                         .useIntegerPositions(true)
                         .setName("QuanPixel");
             } catch (Exception e) {

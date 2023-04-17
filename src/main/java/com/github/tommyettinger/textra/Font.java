@@ -3900,16 +3900,15 @@ public class Font implements Disposable {
 
         drawVertices(batch, tex, vertices);
 
-        //TODO: Remove, debug code
-        if(c >= 0xE000 && c < 0xF800 || c == 'i') {
-            System.out.println("With font " + font.name + ", drawing glyph " + namesByCharCode.get(c, "") +
-                    ", it has v0: " + vertices[0] + ", v1: " + vertices[1] +
-                    ", x: " + x + ", y: " + y + ", p0x: " + p0x + ", p0y: " + p0y +
-                    ", h: " + h + ", xc: " + xc + ", yt: " + yt +
-                    ", font.descent: " + font.descent + ", osy: " + osy +
-                    ", tr.offsetX: " + tr.offsetX + ", tr.offsetY: " + tr.offsetY + ", tr.xAdvance: " + tr.xAdvance);
-        }
-
+        // This is the "emergency debug code" to get as much info as possible about a glyph when it prints.
+//        if(c >= 0xE000 && c < 0xF800) {
+//            System.out.println("With font " + font.name + ", drawing glyph " + namesByCharCode.get(c, "") +
+//                    ", it has v0: " + vertices[0] + ", v1: " + vertices[1] +
+//                    ", x: " + x + ", y: " + y + ", p0x: " + p0x + ", p0y: " + p0y +
+//                    ", h: " + h + ", xc: " + xc + ", yt: " + yt +
+//                    ", font.descent: " + font.descent + ", osy: " + osy +
+//                    ", tr.offsetX: " + tr.offsetX + ", tr.offsetY: " + tr.offsetY + ", tr.xAdvance: " + tr.xAdvance);
+//        }
 
         if ((glyph & BOLD) != 0L) {
             final float old0 = p0x;

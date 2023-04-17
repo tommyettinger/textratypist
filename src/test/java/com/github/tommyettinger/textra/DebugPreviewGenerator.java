@@ -78,10 +78,10 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
         Font[] fonts = KnownFonts.getAll();
-        Font fnt = fonts[13];
 //        fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
-        int index = 18;
+        int index = 19;
+        Font fnt = fonts[index];
         for (int i = 18; i < fonts.length; i++) {
             font = fonts[i];
             KnownFonts.addEmoji(font);
@@ -122,10 +122,10 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
 //                    , layout);
             font.markup("[_]Font[] [~]name[]: " + font.name +
-                    ",\noriginalCellHeight: " + font.originalCellHeight +
-                    ", originalCellWidth: " + font.originalCellWidth +
-                    ",\ncellHeight: " + font.cellHeight +
-                    ", cellWidth: " + font.cellWidth +
+                    ",\noriginalCellWidth: " + font.originalCellWidth +
+                    ", originalCellHeight: " + font.originalCellHeight +
+                    ",\ncellWidth: " + font.cellWidth +
+                    ", cellHeight: " + font.cellHeight +
                     ",\nscaleX: " + font.scaleX +
                     ", scaleY: " + font.scaleY +
                     ",\nintegerPosition: " + font.integerPosition +
@@ -136,7 +136,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
                     ", heightAdjust: " + font.heightAdjust +
                     "\n" +
                     (font.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout);
-            System.out.println(layout);
+//            System.out.println(layout);
 
             ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
 //            ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
@@ -161,16 +161,21 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
         font.markup("[_]Font[] [~]name[]: " + font.name +
+                ",\noriginalCellWidth: " + font.originalCellWidth +
                 ", originalCellHeight: " + font.originalCellHeight +
-                ", originalCellWidth: " + font.originalCellWidth +
+                ",\ncellWidth: " + font.cellWidth +
                 ", cellHeight: " + font.cellHeight +
-                ", cellWidth: " + font.cellWidth +
-                ", descent: " + font.descent +
-                ", scaleX: " + font.scaleX +
+                ",\nscaleX: " + font.scaleX +
                 ", scaleY: " + font.scaleY +
-                ", integerPosition: " + font.integerPosition + "\n" +
+                ",\nintegerPosition: " + font.integerPosition +
+                ", descent: " + font.descent +
+                ",\nxAdjust: " + font.xAdjust +
+                ", yAdjust: " + font.yAdjust +
+                ",\nwidthAdjust: " + font.widthAdjust +
+                ", heightAdjust: " + font.heightAdjust +
+                "\n" +
                 (font.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout.clear());
-        System.out.println(layout);
+//        System.out.println(layout);
 
 
         Gdx.app.exit();
