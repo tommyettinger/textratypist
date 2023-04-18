@@ -3957,7 +3957,6 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = centerX - cos * centerX - cellWidth * 0.5f;
-//                p0x = -0.0625f * centerX - cos * centerX - cellWidth * 0.5f;
                 p0y = -0.8125f * font.cellHeight * scale * sizingY + centerY + sin * centerX + font.descent * font.scaleY;
                 if (c >= 0xE000 && c < 0xF800) {
                     p0x = xc + (changedW * 0.5f);
@@ -4109,8 +4108,18 @@ public class Font implements Disposable {
         }
         // checks for error, warn, and note modes
         if((glyph & ALTERNATE_MODES_MASK) >= ERROR) {
-            p0x = -centerX;
-            p0y = -3f * centerY;
+            ix = font.handleIntegerPosition(ox + oCenterX);
+            iy = font.handleIntegerPosition(oy + oCenterY);
+            xShift = (ox + oCenterX) - (ix);
+            yShift = (oy + oCenterY) - (iy);
+            x = font.handleIntegerPosition(ix - xShift);
+            y = font.handleIntegerPosition(iy - yShift);
+            centerX = oCenterX - xShift * 0.5f;
+            centerY = oCenterY - yShift * 0.5f;
+            x += cellWidth * 0.5f;
+
+            p0x = -cos * centerX - cellWidth * 0.5f;
+            p0y = -0.95f * font.cellHeight * scale * sizingY + centerY + sin * centerX + font.descent * font.scaleY;
             drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
                     x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y), xAdvance * scaleX, xPx, yPx, rotation);
         }
