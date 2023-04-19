@@ -22,7 +22,7 @@ public class PreviewGenerator extends ApplicationAdapter {
     Font fnt;
     SpriteBatch batch;
     Viewport viewport;
-    Layout layout = new Layout().setTargetWidth(800);
+    Layout layout = new Layout().setTargetWidth(1200);
     Array<String> colorNames;
     long startTime;
     static final String text = "Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
@@ -36,37 +36,11 @@ public class PreviewGenerator extends ApplicationAdapter {
             + "\n[%^small caps][*]Special[*] [%^whiten][/]Effects[/][%]: [%?shadow]drop shadow[%], [%?jostle]RaNsoM nOtE[%], [%?error]spell check[%],",
     distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[]!",
     emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
-/*
-AStarry-standard.fnt has descent: -12
-AStarry-msdf.fnt has descent: -94
-Bitter-standard.fnt has descent: -38
-Canada1500-standard.fnt has descent: -15
-CascadiaMono-msdf.fnt has descent: -10
-Cozette-standard.fnt has descent: -3
-DejaVuSansMono-msdf.fnt has descent: 3
-Gentium-standard.fnt has descent: -31
-Gentium-sdf.fnt has descent: -18
-Hanazono-standard.fnt has descent: -5
-Inconsolata-LGC-Custom-standard.fnt has descent: -18
-Inconsolata-LGC-Custom-msdf.fnt has descent: -10
-Iosevka-standard.fnt has descent: -17
-Iosevka-msdf.fnt has descent: 5
-Iosevka-sdf.fnt has descent: 0
-Iosevka-Slab-standard.fnt has descent: -17
-Iosevka-Slab-msdf.fnt has descent: 5
-Iosevka-Slab-sdf.fnt has descent: 0
-KingthingsFoundation-standard.fnt has descent: -40
-LibertinusSerif-Regular-msdf.fnt has descent: 17
-OpenSans-standard.fnt has descent: -11
-Oxanium-standard.fnt has descent: -20
-RobotoCondensed-standard.fnt has descent: -13
-YanoneKaffeesatz-standard.fnt has descent: -19
 
-*/
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Font Preview Generator");
-        config.setWindowedMode(800, 450);
+        config.setWindowedMode(1200, 675);
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
@@ -79,7 +53,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
     @Override
     public void create() {
         batch = new SpriteBatch();
-        viewport = new StretchViewport(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+        viewport = new StretchViewport(1200, 675);
         colorNames = Colors.getColors().keys().toArray();
 
         // investigating a GPU-related bug... seems fixed now, sometimes?
@@ -93,7 +67,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         Gdx.files.local("out/").mkdirs();
         int index = 0;
         for (int i = 0; i < fonts.length; i++) {
-            Font font = fonts[i];
+            Font font = fonts[i].scale(1.5f, 1.5f);
 //        Font font = fnt = fonts[0]; {
             KnownFonts.addEmoji(font);
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
@@ -147,9 +121,8 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][].", layout);
 
             ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
-//            ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
-//        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
-            float x = 400, y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f - font.descent * font.scaleY;
+            float x = Gdx.graphics.getBackBufferWidth() * 0.5f;
+            float y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f - font.descent * font.scaleY;
             batch.begin();
             font.enableShader(batch);
             font.drawGlyphs(batch, layout, x, y, Align.center);
@@ -177,7 +150,8 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
 //        ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
 //        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
-        float x = 400, y = (450 + layout.getHeight()) * 0.5f - fnt.descent * fnt.scaleY;
+        float x = Gdx.graphics.getBackBufferWidth() * 0.5f;
+        float y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f - fnt.descent * fnt.scaleY;
         viewport.apply();
         batch.begin();
         batch.setProjectionMatrix(viewport.getCamera().combined);
