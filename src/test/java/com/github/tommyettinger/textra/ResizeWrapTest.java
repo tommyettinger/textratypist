@@ -111,8 +111,8 @@ public class ResizeWrapTest extends ApplicationAdapter {
             typingLabelScaleFont.getFont().scale(1.25f, 1.25f);
         else
             typingLabelScaleFont.getFont().scale(0.8f, 0.8f);
-        // used to reproduce a word-wrap and line-break bug with TypingLabel.offsets , which is used by effects.
-        typingLabelScaleFont.setText("{SICK}Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone");
+//         used to reproduce a word-wrap and line-break bug with TypingLabel.offsets , which is used by effects.
+//        typingLabelScaleFont.setText("{SICK}Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone");
         System.out.println("changeFontScale to " + typingLabelScaleFont.getFont().scaleY);
         typingLabelScaleFont.pack();
     }

@@ -82,11 +82,11 @@ public class IncongruityTest extends ApplicationAdapter {
     private BitmapFont[] getFonts () {
         BitmapFont tall = getFont("AStarry");
         tall.getData().setScale(1, 2);
-        //                getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getBitter(), getCanada(),
-        //                getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getHanazono(), getIBM8x16(),
-        //                getInconsolata(), getIosevka(), getIosevkaSlab(), getKingthingsFoundation(), getLibertinusSerif(),
-        //                getNowAlt(), getOpenSans(), getOxanium(), getQuanPixel(),
-        //                getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()
+        // getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getBitter(), getCanada(),
+        // getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getGentiumUnItalic(), getHanazono(),
+        // getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(), getKingthingsFoundation(),
+        // getKingthingsPetrock(), getLibertinusSerif(), getNowAlt(), getOpenSans(), getOxanium(), getQuanPixel(),
+        // getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()
         return new BitmapFont[] {
                 getFont("AStarry"),
                 tall,
@@ -96,6 +96,7 @@ public class IncongruityTest extends ApplicationAdapter {
                 getFont("Caveat"),
                 getFont("Cozette"),
                 getFont("Gentium"),
+                getFont("GentiumUnItalic"),
                 getFont("Hanazono"),
                 // cant load this one, wrong format
 //			getFont("IBM-8x16"),
@@ -104,6 +105,7 @@ public class IncongruityTest extends ApplicationAdapter {
                 getFont("Iosevka"),
                 getFont("Iosevka-Slab"),
                 getFont("KingthingsFoundation"),
+                getFont("KingthingsPetrock"),
                 getFont("LibertinusSerif"),
                 getFont("Now-Alt"),
                 getFont("OpenSans"),
@@ -141,7 +143,7 @@ public class IncongruityTest extends ApplicationAdapter {
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel Incongruity test");
-        config.setWindowedMode(800, 900);
+        config.setWindowedMode(800, 960);
         config.disableAudio(true);
 		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
