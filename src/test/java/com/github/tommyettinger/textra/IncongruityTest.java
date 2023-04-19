@@ -145,7 +145,7 @@ public class IncongruityTest extends ApplicationAdapter {
         config.setTitle("TextraLabel Incongruity test");
         config.setWindowedMode(800, 960);
         config.disableAudio(true);
-		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
+        config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
         new Lwjgl3Application(new IncongruityTest(), config);
     }

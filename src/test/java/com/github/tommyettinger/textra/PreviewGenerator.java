@@ -142,7 +142,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         startTime = TimeUtils.millis();
         fnt.markup(text + (fnt.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout.clear());
 
-//        Gdx.app.exit();
+        Gdx.app.exit();
     }
 
     @Override
