@@ -4119,7 +4119,7 @@ public class Font implements Disposable {
             x += cellWidth * 0.5f;
 
             p0x = -cos * centerX - cellWidth * 0.5f;
-            p0y = -0.95f * font.cellHeight * scale * sizingY + centerY + sin * centerX + font.descent * font.scaleY;
+            p0y = -0.8f * font.cellHeight * scale * sizingY + centerY + sin * centerX + font.descent * font.scaleY;
             drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
                     x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y), xAdvance * scaleX, xPx, yPx, rotation);
         }

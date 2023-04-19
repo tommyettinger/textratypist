@@ -32,8 +32,8 @@ public class PreviewGenerator extends ApplicationAdapter {
             + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
             + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
             + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
-            + "\n\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[],"
-            + "\nUnicode support: Pchnąć w tę łódź [BROWN]jeża[] lub ośm skrzyń [PURPLE]fig[].",
+            + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[],"
+            + "\n[%^small caps][*]Special[*] [%^whiten][/]Effects[/][%]: [%?shadow]drop shadow[%], [%?jostle]RaNsoM nOtE[%], [%?error]spell check[%],",
     distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[]!",
     emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
 /*

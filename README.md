@@ -133,8 +133,8 @@ case-insensitive, but color names are case-sensitive. The full list of styles:
 
 The special modes that can be used in place of scaling are:
 
-- `black outline`, which can be used with the style names `BLACK OUTLINE` or `BLACKEN`.
-- `white outline`, which can be used with the style names `WHITE OUTLINE` or `WHITEN`.
+- `black outline` or `blacken`, which can be used with the style names `BLACK OUTLINE` or `BLACKEN`.
+- `white outline` or `whiten`, which can be used with the style names `WHITE OUTLINE` or `WHITEN`.
 - `shiny`, which can be used with the style names `SHINY`, `SHINE`, or `GLOSSY`.
 - `drop shadow` or `shadow`, which can be used with the style names `SHADOW`, `DROPSHADOW`, or `DROP SHADOW`.
 - `error`, which can be used with the style names `ERROR`, `REDLINE`, or `RED LINE`.
@@ -145,8 +145,8 @@ The special modes that can be used in place of scaling are:
 - `small caps`, which can be used with the style names `SMALLCAPS` or `SMALL CAPS`.
   - The small caps mode can also be used with `[%^]`. It cannot be used with the `[%?small caps]` syntax; it needs a caret.
 
-The small caps mode can be used with any of the other modes except for jostle. Other than that, no two modes can be
-active at the same time, and no modes can be used at the same time as scaling.
+The small caps mode can be used with any of the other modes except for jostle, by changing `%?` to `%^`. Other than
+that, no two modes can be active at the same time, and no modes can be used at the same time as scaling.
 
 ## But wait, there's fonts!
 
