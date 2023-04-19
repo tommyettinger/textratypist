@@ -40,66 +40,66 @@ import com.ray3k.stripe.FreeTypeSkin;
 
 public class TextraUITest extends InputAdapter implements ApplicationListener {
 
-	TestWindow tw;
-	static class TestWindow extends Window
-	{
-		Table labelTable;
-		Table textraTable;
-		Table textraTopTable;
-		TextraLabel textraLabel;
-		TextraLabel textraTopLabel;
-		Label label;
-		public TestWindow(Skin skin)
-		{
-			super("", skin);
-
-			this.setResizable(true);
-
-			this.textraLabel = new TextraLabel("TextraLabel", skin);
-			this.textraLabel.setAlignment(Align.center);
-			this.textraTopLabel = new TextraLabel("TextraLabel Align Top", skin);
-			this.textraTopLabel.setAlignment(Align.top);
-			this.label = new Label("Label", skin);
-
-			this.textraTable = new Table();
-			this.textraTable.add(textraLabel);
-
-			this.textraTopTable = new Table();
-			this.textraTopTable.add(textraTopLabel);
-
-			this.labelTable = new Table();
-			this.labelTable.add(label);
-
-			add(this.textraTable).pad(50);
-			add(this.textraTopTable).pad(50);
-			add(this.labelTable).pad(50);
-
-			resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		}
-
-		public void resize(float width, float height)
-		{
-			setSize(width / 2f, height / 3f);
-
-			label.layout();
-			float scale = height / 500f;
-			label.setFontScale(scale);
-			textraLabel.font.scale(
-					scale / this.textraLabel.font.scaleX,
-					scale / this.textraLabel.font.scaleY
-			);
-			textraTopLabel.font.scale(
-					scale / this.textraTopLabel.font.scaleX,
-					scale / this.textraTopLabel.font.scaleY
-			);
-			textraTopTable.top();
-			textraTopLabel.setAlignment(Align.top);
-			textraTopTable.getCell(textraTopLabel).top().align(Align.top);
-
-			invalidateHierarchy();
-			pack();
-		}
-	}
+//	TestWindow tw;
+//	static class TestWindow extends Window
+//	{
+//		Table labelTable;
+//		Table textraTable;
+//		Table textraTopTable;
+//		TextraLabel textraLabel;
+//		TextraLabel textraTopLabel;
+//		Label label;
+//		public TestWindow(Skin skin)
+//		{
+//			super("", skin);
+//
+//			this.setResizable(true);
+//
+//			this.textraLabel = new TextraLabel("TextraLabel", skin);
+//			this.textraLabel.setAlignment(Align.center);
+//			this.textraTopLabel = new TextraLabel("TextraLabel Align Top", skin);
+//			this.textraTopLabel.setAlignment(Align.top);
+//			this.label = new Label("Label", skin);
+//
+//			this.textraTable = new Table();
+//			this.textraTable.add(textraLabel);
+//
+//			this.textraTopTable = new Table();
+//			this.textraTopTable.add(textraTopLabel);
+//
+//			this.labelTable = new Table();
+//			this.labelTable.add(label);
+//
+//			add(this.textraTable).pad(50);
+//			add(this.textraTopTable).pad(50);
+//			add(this.labelTable).pad(50);
+//
+//			resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//		}
+//
+//		public void resize(float width, float height)
+//		{
+//			setSize(width / 2f, height / 3f);
+//
+//			label.layout();
+//			float scale = height / 500f;
+//			label.setFontScale(scale);
+//			textraLabel.font.scale(
+//					scale / this.textraLabel.font.scaleX,
+//					scale / this.textraLabel.font.scaleY
+//			);
+//			textraTopLabel.font.scale(
+//					scale / this.textraTopLabel.font.scaleX,
+//					scale / this.textraTopLabel.font.scaleY
+//			);
+//			textraTopTable.top();
+//			textraTopLabel.setAlignment(Align.top);
+//			textraTopTable.getCell(textraTopLabel).top().align(Align.top);
+//
+//			invalidateHierarchy();
+//			pack();
+//		}
+//	}
 
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
@@ -236,8 +236,8 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		// stage.addActor(new Button("Behind Window", skin));
 		stage.addActor(window);
 
-		tw = new TestWindow(skin);
-		stage.addActor(tw);
+//		tw = new TestWindow(skin);
+//		stage.addActor(tw);
 
 		textfield.setTextFieldListener(new TextFieldListener() {
 			public void keyTyped (TextField textField, char key) {
@@ -298,8 +298,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 	@Override
 	public void resize (int width, int height) {
 		stage.getViewport().update(width, height, true);
-		tw.resize(width, height);
-
+//		tw.resize(width, height);
 	}
 
 	@Override

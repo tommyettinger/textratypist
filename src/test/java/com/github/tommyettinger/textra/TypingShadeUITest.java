@@ -65,12 +65,14 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		final Font font = new Font(skin.get(Label.LabelStyle.class).font)
 				.adjustLineHeight(1.25f)
 				.useIntegerPositions(true);
-		KnownFonts.addEmoji(font);
+		// For unknown reasons, emoji added to this particular font default to being offset by a full emoji width (32)
+		// on x, and a quarter-emoji width on height (probably because we adjusted line height to 1.25x).
+		// Using the extra three float arguments for offsetX, offsetY, and xAdvance changes helps a lot here.
+		KnownFonts.addEmoji(font, -32.0f, 8.0f, 0f);
 		final Font title = new Font(skin.get("title", Label.LabelStyle.class).font, 0, 2, 0, 0)
 				.adjustLineHeight(1.5f)
 				.useIntegerPositions(true);
 
-		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
