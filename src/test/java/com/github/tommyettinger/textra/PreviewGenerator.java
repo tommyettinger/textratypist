@@ -67,7 +67,9 @@ public class PreviewGenerator extends ApplicationAdapter {
         Gdx.files.local("out/").mkdirs();
         int index = 0;
         for (int i = 0; i < fonts.length; i++) {
-            Font font = fonts[i].scale(1.5f, 1.5f);
+            Font font = fonts[i];
+            if(!font.integerPosition)
+                font.scale(1.5f, 1.5f);
 //        Font font = fnt = fonts[0]; {
             KnownFonts.addEmoji(font);
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());

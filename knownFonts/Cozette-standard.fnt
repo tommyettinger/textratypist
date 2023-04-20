@@ -33,7 +33,7 @@ char id=28 x=405 y=404 width=9 height=10 xoffset=-1 yoffset=2 xadvance=6 page=0 
 char id=29 x=430 y=373 width=9 height=11 xoffset=-1 yoffset=1 xadvance=6 page=0 chnl=15
 char id=30 x=162 y=271 width=9 height=12 xoffset=-1 yoffset=0 xadvance=6 page=0 chnl=15
 char id=31 x=14 y=473 width=7 height=5 xoffset=0 yoffset=4 xadvance=6 page=0 chnl=15
-char id=32 x=70 y=472 width=7 height=5 xoffset=-3 yoffset=10 xadvance=6 page=0 chnl=15
+char id=32 x=70 y=472 width=7 height=5 xoffset=0 yoffset=10 xadvance=6 page=0 chnl=15
 char id=33 x=502 y=328 width=5 height=12 xoffset=1 yoffset=0 xadvance=6 page=0 chnl=15
 char id=34 x=35 y=466 width=7 height=7 xoffset=0 yoffset=-1 xadvance=6 page=0 chnl=15
 char id=35 x=207 y=270 width=9 height=12 xoffset=-1 yoffset=0 xadvance=6 page=0 chnl=15
