@@ -302,7 +302,7 @@ public class Font implements Disposable {
                 fontAliases.put(String.valueOf(i), i);
             }
         }
-        
+
         public FontFamily(Skin skin) {
             ObjectMap<String, BitmapFont> map = skin.getAll(BitmapFont.class);
             Array<String> keys = map.keys().toArray();
@@ -776,25 +776,25 @@ public class Font implements Disposable {
             + "}\n";
     public static final String sdfFragmentShader =
             "#ifdef GL_ES\n"
-            + "	precision mediump float;\n"
-            + "	precision mediump int;\n"
-            + "#endif\n"
-            + "\n"
-            + "uniform sampler2D u_texture;\n"
-            + "uniform float u_smoothing;\n"
-            + "varying vec4 v_color;\n"
-            + "varying vec2 v_texCoords;\n"
-            + "\n"
-            + "void main() {\n"
-            + "	if (u_smoothing > 0.0) {\n"
-            + "		float smoothing = 0.25 / u_smoothing;\n"
-            + "		vec4 color = texture2D(u_texture, v_texCoords);\n"
-            + "		float alpha = smoothstep(0.5 - smoothing, 0.5 + smoothing, color.a);\n"
-            + "		gl_FragColor = vec4(v_color.rgb * color.rgb, alpha * v_color.a);\n"
-            + "	} else {\n"
-            + "		gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n"
-            + "	}\n"
-            + "}\n";
+                    + "	precision mediump float;\n"
+                    + "	precision mediump int;\n"
+                    + "#endif\n"
+                    + "\n"
+                    + "uniform sampler2D u_texture;\n"
+                    + "uniform float u_smoothing;\n"
+                    + "varying vec4 v_color;\n"
+                    + "varying vec2 v_texCoords;\n"
+                    + "\n"
+                    + "void main() {\n"
+                    + "	if (u_smoothing > 0.0) {\n"
+                    + "		float smoothing = 0.25 / u_smoothing;\n"
+                    + "		vec4 color = texture2D(u_texture, v_texCoords);\n"
+                    + "		float alpha = smoothstep(0.5 - smoothing, 0.5 + smoothing, color.a);\n"
+                    + "		gl_FragColor = vec4(v_color.rgb * color.rgb, alpha * v_color.a);\n"
+                    + "	} else {\n"
+                    + "		gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n"
+                    + "	}\n"
+                    + "}\n";
 
     /**
      * Fragment shader source meant for MSDF fonts. This is automatically used when {@link #enableShader(Batch)} is
@@ -3602,7 +3602,7 @@ public class Font implements Disposable {
             fsx = font.cellHeight / tr.xAdvance;
 //            fsx = font.cellHeight * 0.8f / tr.xAdvance;
             fsy = fsx;//0.75f * font.originalCellHeight / tr.getRegionHeight();
-                    //scale * font.cellHeight * 0.8f / tr.xAdvance;//font.cellHeight / (tr.xAdvance * 1.25f);
+            //scale * font.cellHeight * 0.8f / tr.xAdvance;//font.cellHeight / (tr.xAdvance * 1.25f);
             scaleX = scaleY = scale * fsx;
         }
         else
@@ -3729,7 +3729,7 @@ public class Font implements Disposable {
         v2 = tr.getV2();
         if (c >= 0xE000 && c < 0xF800) {
             xc += (changedW * 0.5f);
-            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
+//            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
         }
 
 //        if (c >= 0xE000 && c < 0xF800) {
@@ -3957,12 +3957,8 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = centerX - cos * centerX - cellWidth * 0.5f;
-                p0y = -0.8125f * font.cellHeight * scale * sizingY + centerY + sin * centerX + font.descent * font.scaleY;
-                if (c >= 0xE000 && c < 0xF800) {
-                    p0x = xc + (changedW * 0.5f);
-                    p0y = font.handleIntegerPosition(yt);
-//                    p0y = font.handleIntegerPosition(yt + 0.3125f * font.cellHeight * scale * sizingY);
-                }
+//                p0x = -0.0625f * centerX - cos * centerX - cellWidth * 0.5f;
+                p0y = (-0.8125f * font.cellHeight) * scale * sizingY + centerY + sin * centerX + font.descent * font.scaleY;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 3f * 0.0625f * centerX, font.cellHeight * scale * sizingY, rotation);
@@ -3971,7 +3967,7 @@ public class Font implements Disposable {
                 if (under != null) {
                     trrh = under.getRegionHeight();
                     h = trrh * osy * sizingY;
-                    yt = (font.originalCellHeight - trrh - under.offsetY) * fsy * scale * sizingY - centerY + sin * centerX;
+                    yt = (centerY - (trrh + under.offsetY) * font.scaleY) * scale * sizingY + sin * centerX;
                     //((font.originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY - 0.5f * imageAdjust * scale) * sizingY;
 //                    if (c >= 0xE000 && c < 0xF800) {
 //                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
@@ -3985,7 +3981,7 @@ public class Font implements Disposable {
                             underV2 = under.getV2();
 //                            hu = under.getRegionHeight() * scaleY,
 //                            yu = -0.625f * (hu + under.offsetY * scaleY);//-0.55f * cellHeight * scale;//cellHeight * scale - hu - under.offsetY * scaleY - centerY;
-                    xc = (tr.offsetX * scaleX - tr.xAdvance - under.offsetX * osx) * sizingX - cos * centerX + cellWidth * 0.5f;;
+                    xc = (tr.offsetX * scaleX * sizingX) + under.offsetX * osx - cos * centerX - cellWidth * 0.5f;;
                     x0 = -osx * under.offsetX - scale;
                     float addW = 0.25f * centerX;
                     vertices[2] = color;
@@ -4035,10 +4031,6 @@ public class Font implements Disposable {
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = centerX - cos * centerX - cellWidth * 0.5f;
                 p0y = centerY + (-0.45f * font.cellHeight) * scale + sin * centerX + font.descent * font.scaleY;
-                if (c >= 0xE000 && c < 0xF800) {
-                    p0x = xc + (changedW * 0.5f);
-                    p0y = font.handleIntegerPosition(yt + 0.375f * font.cellHeight * scale * sizingY);
-                }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 3f * 0.0625f * centerX, font.cellHeight * scale * sizingY, rotation);
@@ -4050,12 +4042,10 @@ public class Font implements Disposable {
 
 //                    if (c >= 0xE000 && c < 0xF800)
 //                        yt = handleIntegerPosition((-centerY + imageAdjust) * scale * 0.5f * sizingY);
-                    yt = (font.originalCellHeight - trrh - dash.offsetY) * fsy * scale * sizingY - centerY + sin * centerX;
-                    // mostly works, but not quite
-//                    yt = (centerY - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY + sin * centerX + font.descent * font.scaleY;
-                    // old junk below this
+
+                    yt = (centerY - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY + sin * centerX;
 //                    yt = (font.cellHeight * 0.5f - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY;
-                            //((font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY) * sizingY;
+                    //((font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY) * sizingY;
 //                    if (c >= 0xE000 && c < 0xF800) {
 //                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
 //                    }
@@ -4063,15 +4053,14 @@ public class Font implements Disposable {
 //                    if (c >= 0xE000 && c < 0xF800)
 //                        System.out.println("With font " + name + ", STRIKETHROUGH: yt=" + yt);
 
-                            //dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.625f,
+                    //dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.625f,
                     final float dashU = (dash.getU() + dash.getU2()) * 0.5f - iw,
                             dashV = dash.getV(),
                             dashU2 = dashU + iw,
                             dashV2 = dash.getV2();
 //                            hd = dash.getRegionHeight() * scaleY,
 //                            yd = -0.5f * cellHeight * scale;//cellHeight * scale - hd - dash.offsetY * scaleY - centerY;
-//                    xc = (tr.offsetX * scaleX + dash.offsetX * osx) * sizingX - cos * centerX - cellWidth * 0.5f;;
-                    xc = (tr.offsetX * scaleX - tr.xAdvance - dash.offsetX * osx) * sizingX - cos * centerX + cellWidth * 0.5f;;
+                    xc = (tr.offsetX * scaleX * sizingX) + dash.offsetX * osx - cos * centerX - cellWidth * 0.5f;;
 //                    xc = (tr.offsetX * scaleX * sizingX) + dash.offsetX * osx - centerX * scale;
                     x0 = -osx * dash.offsetX - scale;
                     float addW = 0.25f * centerX;
@@ -4108,18 +4097,8 @@ public class Font implements Disposable {
         }
         // checks for error, warn, and note modes
         if((glyph & ALTERNATE_MODES_MASK) >= ERROR) {
-            ix = font.handleIntegerPosition(ox + oCenterX);
-            iy = font.handleIntegerPosition(oy + oCenterY);
-            xShift = (ox + oCenterX) - (ix);
-            yShift = (oy + oCenterY) - (iy);
-            x = font.handleIntegerPosition(ix - xShift);
-            y = font.handleIntegerPosition(iy - yShift);
-            centerX = oCenterX - xShift * 0.5f;
-            centerY = oCenterY - yShift * 0.5f;
-            x += cellWidth * 0.5f;
-
-            p0x = -cos * centerX - cellWidth * 0.5f;
-            p0y = -0.8f * font.cellHeight * scale * sizingY + centerY + sin * centerX + font.descent * font.scaleY;
+            p0x = -centerX;
+            p0y = -3f * centerY;
             drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
                     x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y), xAdvance * scaleX, xPx, yPx, rotation);
         }
@@ -6026,7 +6005,7 @@ public class Font implements Disposable {
      * When a custom Font overrides this to handle a Batch with one extra attribute per-vertex, the custom Font should
      * have a 24-item float array and copy data from {@code vertices} to its own 24-item float array, then pass that
      * larger array to {@link Batch#draw(Texture, float[], int, int)}.
-     * 
+     *
      * @param batch a Batch, which should be a SpriteBatch (or a compatible Batch) unless this was overridden
      * @param texture a Texture to draw (part of)
      * @param vertices a 20-item float array organized into 5-float sections per-vertex
