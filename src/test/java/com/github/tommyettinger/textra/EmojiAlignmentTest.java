@@ -51,12 +51,12 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        KnownFonts.addEmoji(font2, -4, -12, 0);
 //        font = new Font("Oxanium-standard.fnt", 0, 2, -4, 0).scaleTo(16f, 18f);
 //        font = KnownFonts.getAStarry().scaleTo(8f, 16f);
-        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, 12, 48, 0, 0, true).scaleTo(8f, 16f);
+        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, -8, 48, 0, 0, true).scaleTo(8f, 16f);
         font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, 8, 0, 0).scaleTo(8f, 16f);
         font.useIntegerPositions(false);
         font2.useIntegerPositions(false);
-        KnownFonts.addEmoji(font, 0, font.cellHeight * 2, 0);
-        KnownFonts.addEmoji(font2, 0, font.cellHeight * 2, 0);
+        KnownFonts.addEmoji(font, 0, 32, 0); // (font, 12, 32, 0) will work, except for any chars after an emoji...
+        KnownFonts.addEmoji(font2, 0, 32, 0);
         cw = font.cellWidth;
         ch = font.cellHeight;
         typingLabel = new TypingLabel("[#4455AA88]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
@@ -71,7 +71,8 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         Stack stack = new Stack(typingLabel, typingLabel2);
         Table root = new Table();
         root.setFillParent(true);
-        root.add(stack);//.align(Align.center);
+        root.add(typingLabel);
+//        root.add(stack);//.align(Align.center);
         stage.addActor(root);
         stage.getBatch().setShader(new ShaderProgram(
                 "attribute vec4 a_position;\n" +
