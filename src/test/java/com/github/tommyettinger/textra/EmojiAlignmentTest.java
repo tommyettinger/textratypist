@@ -33,7 +33,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class EmojiAlignmentTest extends ApplicationAdapter {
     public Stage stage;
     public Font font, font2;
-    TextraLabel typingLabel, typingLabel2;
+    TypingLabel typingLabel, typingLabel2;
     public float cw = 1, ch = 1;
     long startTime;
     @Override
@@ -50,27 +50,28 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        KnownFonts.addEmoji(font, -4, -7, 0);
 //        KnownFonts.addEmoji(font2, -4, -12, 0);
 //        font = new Font("Oxanium-standard.fnt", 0, 2, -4, 0).scaleTo(16f, 18f);
-        font = new Font("AStarry-standard.fnt", 0, 16, 0, 0).scaleTo(8f, 16f);
-        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 16, -32, 0, 0).scaleTo(8f, 16f);
+//        font = KnownFonts.getAStarry().scaleTo(8f, 16f);
+        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, 12, 48, 0, 0, true).scaleTo(8f, 16f);
+        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, 8, 0, 0).scaleTo(8f, 16f);
         font.useIntegerPositions(false);
         font2.useIntegerPositions(false);
-        KnownFonts.addEmoji(font, 0, -3, 0);
-        KnownFonts.addEmoji(font2, 2, -3, 0);
+        KnownFonts.addEmoji(font, 0, font.cellHeight * 2, 0);
+        KnownFonts.addEmoji(font2, 0, font.cellHeight * 2, 0);
         cw = font.cellWidth;
         ch = font.cellHeight;
-        typingLabel = new TextraLabel("[#4455AA88]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
+        typingLabel = new TypingLabel("[#4455AA88]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
 //        typingLabel.layout.setTargetWidth(400);
         typingLabel.setAlignment(Align.center);
         typingLabel.debug();
 
-        typingLabel2 = new TextraLabel("[#ff99aa77]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font2);
+        typingLabel2 = new TypingLabel("[#ff99aa77]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font2);
 //        typingLabel2.layout.setTargetWidth(400);
         typingLabel2.setAlignment(Align.center);
         typingLabel2.debug();
         Stack stack = new Stack(typingLabel, typingLabel2);
         Table root = new Table();
         root.setFillParent(true);
-        root.add(stack);
+        root.add(stack);//.align(Align.center);
         stage.addActor(root);
         stage.getBatch().setShader(new ShaderProgram(
                 "attribute vec4 a_position;\n" +
