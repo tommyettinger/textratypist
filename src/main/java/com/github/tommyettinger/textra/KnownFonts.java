@@ -1965,7 +1965,8 @@ public final class KnownFonts implements LifecycleListener {
             }
         }
         if (instance.twemoji != null) {
-            return changing.addAtlas(instance.twemoji, prepend, append, offsetXChange, offsetYChange, xAdvanceChange);
+            return changing.addAtlas(instance.twemoji, prepend, append,
+                    offsetXChange, offsetYChange - changing.descent * changing.scaleY, xAdvanceChange);
         }
         throw new RuntimeException("Assets 'Twemoji.atlas' and 'Twemoji.png' not found.");
     }
@@ -2097,7 +2098,8 @@ public final class KnownFonts implements LifecycleListener {
             }
         }
         if (instance.gameIcons != null) {
-            return changing.addAtlas(instance.gameIcons, prepend, append, offsetXChange, offsetYChange, xAdvanceChange);
+            return changing.addAtlas(instance.gameIcons, prepend, append,
+                    offsetXChange, offsetYChange - changing.descent * changing.scaleY, xAdvanceChange);
         }
         throw new RuntimeException("Assets 'Game-Icons.atlas' and 'Game-Icons.png' not found.");
     }

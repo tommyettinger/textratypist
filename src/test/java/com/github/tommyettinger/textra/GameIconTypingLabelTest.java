@@ -63,7 +63,7 @@ public class GameIconTypingLabelTest extends ApplicationAdapter {
 //        font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
 //        font.scale(2, 2);
         Font font = KnownFonts.addEmoji(KnownFonts.getNowAlt());
-        Font holder = KnownFonts.addGameIcons(KnownFonts.getAStarry().scaleTo(font.cellHeight, font.cellHeight).setName("Icons"));
+        Font holder = KnownFonts.addGameIcons(KnownFonts.getNowAlt().scaleTo(font.cellHeight, font.cellHeight).setName("Icons"));
         font.setFamily(new Font.FontFamily(new Font[]{font, holder}));
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
