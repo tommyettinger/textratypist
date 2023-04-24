@@ -1679,7 +1679,8 @@ public class Font implements Disposable {
         descent = bmFont.getDescent();
         // Needed to make emoji and other texture regions appear at a reasonable height on the line.
         // Also moves the descender so that it isn't below the baseline, which causes issues.
-        yAdjust += descent + bmFont.getLineHeight() * 0.5f;
+        yAdjust += descent;
+//        yAdjust += descent + bmFont.getLineHeight() * 0.5f;
         for (BitmapFont.Glyph[] page : data.glyphs) {
             if (page == null) continue;
             for (BitmapFont.Glyph glyph : page) {

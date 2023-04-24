@@ -34,7 +34,7 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
     public Stage stage;
     public Font font, font2;
     TypingLabel typingLabel, typingLabel2;
-    public float cw = 1, ch = 1;
+    public float cw = 1, ch = 1, cw2 = 1, ch2 = 1;
     long startTime;
     @Override
     public void create() {
@@ -51,19 +51,30 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        KnownFonts.addEmoji(font2, -4, -12, 0);
 //        font = new Font("Oxanium-standard.fnt", 0, 2, -4, 0).scaleTo(16f, 18f);
 //        font = KnownFonts.getAStarry().scaleTo(8f, 16f);
-        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, -8, 48, 0, 0, true).scaleTo(8f, 16f);
-        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, 8, 0, 0).scaleTo(8f, 16f);
+////        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, -4, 48, 0, 0, true).scaleTo(8f, 16f);
+//        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, 12, 0, 0).scaleTo(8f, 16f);
+        font = KnownFonts.getNowAlt().scaleTo(28f, 30f);
+//        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, -4, 48, 0, 0, true).scaleTo(8f, 16f);
+        font2 = new Font(new BitmapFont(Gdx.files.internal("Now-Alt-standard.fnt")), 0, 40, 0, 0).scaleTo(28f, 30f);
         font.useIntegerPositions(false);
         font2.useIntegerPositions(false);
-        KnownFonts.addEmoji(font, 0, 32, 0); // (font, 12, 32, 0) will work, except for any chars after an emoji...
-        KnownFonts.addEmoji(font2, 0, 32, 0);
+        // for NowAlt
+        KnownFonts.addEmoji(font, -4, 0, 0);
+        KnownFonts.addEmoji(font2, -4, 0, 0);
+        // for AStarry
+//        KnownFonts.addEmoji(font, -4, 0, 0); // (font, 12, 32, 0) will work, except for any chars after an emoji...
+//        KnownFonts.addEmoji(font2, -4, 0, 0);
         cw = font.cellWidth;
         ch = font.cellHeight;
+        cw2 = font2.cellWidth;
+        ch2 = font2.cellHeight;
+//        typingLabel = new TypingLabel("[#4455AA88]Why are all the moderators animals?\n\n\nThat's not actually true, there's a floppy!", font);
         typingLabel = new TypingLabel("[#4455AA88]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
 //        typingLabel.layout.setTargetWidth(400);
         typingLabel.setAlignment(Align.center);
         typingLabel.debug();
 
+//        typingLabel2 = new TypingLabel("[#ff99aa87]Why are all the moderators animals?\n\n\nThat's not actually true, there's a floppy!", font2);
         typingLabel2 = new TypingLabel("[#ff99aa77]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font2);
 //        typingLabel2.layout.setTargetWidth(400);
         typingLabel2.setAlignment(Align.center);
@@ -71,8 +82,8 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         Stack stack = new Stack(typingLabel, typingLabel2);
         Table root = new Table();
         root.setFillParent(true);
-        root.add(typingLabel);
-//        root.add(stack);//.align(Align.center);
+//        root.add(typingLabel);
+        root.add(stack);//.align(Align.center);
         stage.addActor(root);
         stage.getBatch().setShader(new ShaderProgram(
                 "attribute vec4 a_position;\n" +
@@ -112,7 +123,7 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         ScreenUtils.clear(Color.BLACK);
         float factor = (TimeUtils.timeSinceMillis(startTime) & 0x1FFF) * 0x3p-13f + 1f;
         font.scaleTo(cw * factor, ch * factor);
-        font2.scaleTo(cw * factor, ch * factor);
+        font2.scaleTo(cw2 * factor, ch2 * factor);
         typingLabel.invalidate();
         typingLabel2.invalidate();
         stage.act();
