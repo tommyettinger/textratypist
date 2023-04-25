@@ -1829,11 +1829,20 @@ public class Font implements Disposable {
         this.yAdjust = yAdjust;
         this.widthAdjust = widthAdjust;
         this.heightAdjust = heightAdjust;
-        int idx = indexAfter(fnt, "lineHeight=", 0);
+        int idx;
+        idx = indexAfter(fnt, "padding=", 0);
+        int padTop = intFromDec(fnt, idx, idx = indexAfter(fnt, ",", idx+1));
+        int padRight = intFromDec(fnt, idx, idx = indexAfter(fnt, ",", idx+1));
+        int padBottom = intFromDec(fnt, idx, idx = indexAfter(fnt, ",", idx+1));
+        int padLeft = intFromDec(fnt, idx, idx = indexAfter(fnt, "lineHeight=", idx+1));
+
         float rawLineHeight = floatFromDec(fnt, idx, idx = indexAfter(fnt, "base=", idx));
         float baseline = floatFromDec(fnt, idx, idx = indexAfter(fnt, "pages=", idx));
 //        descent = baseline - rawLineHeight;
         descent = 0;
+
+//        int chosenDescender = -1;
+
         // The SDF and MSDF fonts have essentially garbage for baseline, since Glamer can't accurately guess it.
         // For standard fonts, we incorporate the descender into yAdjust, which seems to be reliable.
 //        if(distanceField == DistanceFieldType.STANDARD)
@@ -1891,12 +1900,18 @@ public class Font implements Disposable {
             gr.xAdvance = a + widthAdjust;
             cellWidth = Math.max(a + widthAdjust, cellWidth);
             cellHeight = Math.max(h + heightAdjust, cellHeight);
-            if (w * h > 1) descent = Math.min(baseline - h - yo, descent);
+            if (w * h > 1) {
+                descent = Math.min(baseline - h - yo, descent);
+//                if(descent != (descent = Math.min(baseline - h - yo, descent)))
+//                    chosenDescender = c;
+            }
             mapping.put(c, gr);
             if (c == '[') {
                 mapping.put(2, gr);
             }
         }
+        descent += padBottom;
+//        System.out.println("Using descender from " + chosenDescender);
         idx = indexAfter(fnt, "\nkernings count=", 0);
         if (idx < fnt.length()) {
             int kernings = intFromDec(fnt, idx, idx = indexAfter(fnt, "\nkerning first=", idx));
