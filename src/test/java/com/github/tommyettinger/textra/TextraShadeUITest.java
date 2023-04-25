@@ -81,7 +81,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 //				.useIntegerPositions(true);
 //		font.setDescent(0);
 		KnownFonts.addEmoji(font, -16f, -8f, 0f);
-		final Font title = new Font(skin.get("title", Label.LabelStyle.class).font, 0, 6, 0, 0)
+		final Font title = new Font(skin.get("title", Label.LabelStyle.class).font, 0, 2, 0, 0)
 //				.adjustLineHeight(1.5f)
 				.useIntegerPositions(true);
 //		title.setDescent(0);

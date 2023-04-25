@@ -51,19 +51,23 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        KnownFonts.addEmoji(font2, -4, -12, 0);
 //        font = new Font("Oxanium-standard.fnt", 0, 2, -4, 0).scaleTo(16f, 18f);
 //        font = KnownFonts.getAStarry().scaleTo(8f, 16f);
-////        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, -4, 48, 0, 0, true).scaleTo(8f, 16f);
-//        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, 12, 0, 0).scaleTo(8f, 16f);
-        font = KnownFonts.getNowAlt().scaleTo(28f, 30f);
 //        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, -4, 48, 0, 0, true).scaleTo(8f, 16f);
-        font2 = new Font(new BitmapFont(Gdx.files.internal("Now-Alt-standard.fnt")), 0, 40, 0, 0).scaleTo(28f, 30f);
+        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleTo(8f, 16f);
+
+        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, 0, 0, 0).scaleTo(8f, 16f);
+//          font = KnownFonts.getNowAlt().scaleTo(28f, 30f);
+//        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, -4, 48, 0, 0, true).scaleTo(8f, 16f);
+//        font2 = new Font(new BitmapFont(Gdx.files.internal("Now-Alt-standard.fnt")), 0, 40, 0, 0).scaleTo(28f, 30f);
         font.useIntegerPositions(false);
         font2.useIntegerPositions(false);
+        System.out.println("new Font(fntFile): descent=" + font.descent);
+        System.out.println("new Font(bmpFont): descent=" + font2.descent);
         // for NowAlt
-        KnownFonts.addEmoji(font, -4, 0, 0);
-        KnownFonts.addEmoji(font2, -4, 0, 0);
-        // for AStarry
-//        KnownFonts.addEmoji(font, -4, 0, 0); // (font, 12, 32, 0) will work, except for any chars after an emoji...
+//        KnownFonts.addEmoji(font, -4, 0, 0);
 //        KnownFonts.addEmoji(font2, -4, 0, 0);
+        // for AStarry
+        KnownFonts.addEmoji(font, -4, 0, 0); // (font, 12, 32, 0) will work, except for any chars after an emoji...
+        KnownFonts.addEmoji(font2, -4, 0, 0);
         cw = font.cellWidth;
         ch = font.cellHeight;
         cw2 = font2.cellWidth;

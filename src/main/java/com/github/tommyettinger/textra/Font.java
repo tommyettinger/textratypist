@@ -1679,7 +1679,7 @@ public class Font implements Disposable {
         descent = bmFont.getDescent();
         // Needed to make emoji and other texture regions appear at a reasonable height on the line.
         // Also moves the descender so that it isn't below the baseline, which causes issues.
-        yAdjust += descent;
+//        yAdjust += descent;
 //        yAdjust += descent + bmFont.getLineHeight() * 0.5f;
         for (BitmapFont.Glyph[] page : data.glyphs) {
             if (page == null) continue;
@@ -1832,8 +1832,8 @@ public class Font implements Disposable {
         int idx = indexAfter(fnt, "lineHeight=", 0);
         float rawLineHeight = floatFromDec(fnt, idx, idx = indexAfter(fnt, "base=", idx));
         float baseline = floatFromDec(fnt, idx, idx = indexAfter(fnt, "pages=", idx));
-        descent = baseline - rawLineHeight;
-
+//        descent = baseline - rawLineHeight;
+        descent = 0;
         // The SDF and MSDF fonts have essentially garbage for baseline, since Glamer can't accurately guess it.
         // For standard fonts, we incorporate the descender into yAdjust, which seems to be reliable.
 //        if(distanceField == DistanceFieldType.STANDARD)
@@ -1891,6 +1891,7 @@ public class Font implements Disposable {
             gr.xAdvance = a + widthAdjust;
             cellWidth = Math.max(a + widthAdjust, cellWidth);
             cellHeight = Math.max(h + heightAdjust, cellHeight);
+            if (w * h > 1) descent = Math.min(baseline - h - yo, descent);
             mapping.put(c, gr);
             if (c == '[') {
                 mapping.put(2, gr);
