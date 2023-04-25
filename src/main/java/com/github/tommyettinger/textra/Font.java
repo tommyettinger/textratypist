@@ -1691,7 +1691,8 @@ public class Font implements Disposable {
 
 //                    a += widthAdjust;
 //                    h += heightAdjust;
-                    minWidth = Math.min(minWidth, a);
+                    if (glyph.id != 9608) // full block
+                        minWidth = Math.min(minWidth, a);
                     cellWidth = Math.max(a, cellWidth);
                     cellHeight = Math.max(h + heightAdjust, cellHeight);
                     GlyphRegion gr = new GlyphRegion(bmFont.getRegion(glyph.page), x, y, w, h);
@@ -5994,9 +5995,42 @@ public class Font implements Disposable {
         TypingConfig.GLOBAL_VARS.clear();
     }
 
+
     @Override
     public String toString() {
         return "Font '" + name + "' at scale " + scaleX + " by " + scaleY;
+    }
+
+    public String debugString() {
+        return "Font{" +
+                "distanceField=" + distanceField +
+                ", isMono=" + isMono +
+                ", kerning=" + kerning +
+                ", actualCrispness=" + actualCrispness +
+                ", distanceFieldCrispness=" + distanceFieldCrispness +
+                ", cellWidth=" + cellWidth +
+                ", cellHeight=" + cellHeight +
+                ", originalCellWidth=" + originalCellWidth +
+                ", originalCellHeight=" + originalCellHeight +
+                ", scaleX=" + scaleX +
+                ", scaleY=" + scaleY +
+                ", descent=" + descent +
+                ", solidBlock=" + solidBlock +
+                ", family=" + family +
+                ", integerPosition=" + integerPosition +
+                ", obliqueStrength=" + obliqueStrength +
+                ", boldStrength=" + boldStrength +
+                ", name='" + name + '\'' +
+                ", PACKED_BLACK=" + PACKED_BLACK +
+                ", PACKED_WHITE=" + PACKED_WHITE +
+                ", PACKED_ERROR_COLOR=" + PACKED_ERROR_COLOR +
+                ", PACKED_WARN_COLOR=" + PACKED_WARN_COLOR +
+                ", PACKED_NOTE_COLOR=" + PACKED_NOTE_COLOR +
+                ", xAdjust=" + xAdjust +
+                ", yAdjust=" + yAdjust +
+                ", widthAdjust=" + widthAdjust +
+                ", heightAdjust=" + heightAdjust +
+                '}';
     }
 
     /**

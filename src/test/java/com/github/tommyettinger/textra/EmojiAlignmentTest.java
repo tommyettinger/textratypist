@@ -52,21 +52,21 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        font = new Font("Oxanium-standard.fnt", 0, 2, -4, 0).scaleTo(16f, 18f);
 //        font = KnownFonts.getAStarry().scaleTo(8f, 16f);
 //        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, -4, 48, 0, 0, true).scaleTo(8f, 16f);
-//        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleTo(8f, 16f);
-//        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, 0, 0, 0).scaleTo(8f, 16f);
-          font = KnownFonts.getNowAlt().scaleTo(28f, 30f);
+        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, 0, 48, 0, 0, true).scaleTo(8f, 16f);
+        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, 48, 0, 0).scaleTo(8f, 16f);
+//          font = KnownFonts.getNowAlt().scaleTo(28f, 30f);
 //        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, -4, 48, 0, 0, true).scaleTo(8f, 16f);
-        font2 = new Font(new BitmapFont(Gdx.files.internal("Now-Alt-standard.fnt")), 0, 16, 0, 0).scaleTo(28f, 30f);
+//        font2 = new Font(new BitmapFont(Gdx.files.internal("Now-Alt-standard.fnt")), 0, 16, 0, 0).scaleTo(28f, 30f);
         font.useIntegerPositions(false);
         font2.useIntegerPositions(false);
-        System.out.println("new Font(fntFile): descent=" + font.descent);
-        System.out.println("new Font(bmpFont): descent=" + font2.descent);
+        System.out.println("new Font(fntFile): " + font.debugString());
+        System.out.println("new Font(bmpFont): " + font2.debugString());
         // for NowAlt
 //        KnownFonts.addEmoji(font, -4, 0, 0);
 //        KnownFonts.addEmoji(font2, -4, 0, 0);
         // for AStarry
-        KnownFonts.addEmoji(font, -4, 0, 0); // (font, 12, 32, 0) will work, except for any chars after an emoji...
-        KnownFonts.addEmoji(font2, -4, 0, 0);
+        KnownFonts.addEmoji(font, -4, 22, 0); // (font, 12, 32, 0) will work, except for any chars after an emoji...
+        KnownFonts.addEmoji(font2, -4, 22, 0);
         cw = font.cellWidth;
         ch = font.cellHeight;
         cw2 = font2.cellWidth;
@@ -83,6 +83,7 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         typingLabel2.setAlignment(Align.center);
         typingLabel2.debug();
         Stack stack = new Stack(typingLabel, typingLabel2);
+        stack.debug();
         Table root = new Table();
         root.setFillParent(true);
 //        root.add(typingLabel);
