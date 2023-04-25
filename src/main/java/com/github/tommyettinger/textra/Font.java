@@ -2040,6 +2040,7 @@ public class Font implements Disposable {
         defaultValue = mapping.get(' ', mapping.get(0));
         originalCellWidth = this.cellWidth;
         originalCellHeight = this.cellHeight;
+        integerPosition = true;
         isMono = true;
     }
 
@@ -4107,8 +4108,18 @@ public class Font implements Disposable {
         }
         // checks for error, warn, and note modes
         if((glyph & ALTERNATE_MODES_MASK) >= ERROR) {
-            p0x = -centerX;
-            p0y = -3f * centerY;
+            ix = font.handleIntegerPosition(ox + oCenterX);
+            iy = font.handleIntegerPosition(oy + oCenterY);
+            xShift = (ox + oCenterX) - (ix);
+            yShift = (oy + oCenterY) - (iy);
+            x = font.handleIntegerPosition(ix - xShift);
+            y = font.handleIntegerPosition(iy - yShift);
+            centerX = oCenterX - xShift * 0.5f;
+            centerY = oCenterY - yShift * 0.5f;
+            x += cellWidth * 0.5f;
+
+            p0x = -cos * centerX - cellWidth * 0.5f;
+            p0y = -font.cellHeight * scale * sizingY + centerY + sin * centerX + font.descent * font.scaleY;
             drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
                     x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y), xAdvance * scaleX, xPx, yPx, rotation);
         }
