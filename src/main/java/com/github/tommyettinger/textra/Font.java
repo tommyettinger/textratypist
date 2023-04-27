@@ -747,6 +747,39 @@ public class Font implements Disposable {
      * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and only affects one value.
      */
     public float underBreadth;
+    /**
+     * Precise adjustment for the strikethrough's x-position, affecting the left side of the strikethrough.
+     * Normally, because strikethrough continues into any strikethrough for the next glyph, decreasing
+     * strikeX should be accompanied by increasing {@link #strikeLength} by a similar amount.
+     * <br>
+     * This is a "Zen" metric, which means it is measured in fractions of
+     * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and only affects one value.
+     */
+    public float strikeX;
+    /**
+     * Precise adjustment for the strikethrough's y-position, affecting the bottom side of the strikethrough.
+     * <br>
+     * This is a "Zen" metric, which means it is measured in fractions of
+     * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and only affects one value.
+     */
+    public float strikeY;
+    /**
+     * Precise adjustment for the strikethrough's x-size, affecting the extra strikethrough drawn to the right
+     * of the strikethrough. Normally, because strikethrough continues into any strikethrough for the next glyph,
+     * decreasing {@link #strikeX} should be accompanied by increasing strikeLength by a similar amount.
+     * <br>
+     * This is a "Zen" metric, which means it is measured in fractions of
+     * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and only affects one value.
+     */
+    public float strikeLength;
+    /**
+     * Precise adjustment for the strikethrough's y-size, affecting how thick the strikethrough is from bottom
+     * to top.
+     * <br>
+     * This is a "Zen" metric, which means it is measured in fractions of
+     * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and only affects one value.
+     */
+    public float strikeBreadth;
 
     private final float[] vertices = new float[20];
     private final Layout tempLayout = new Layout();
@@ -1261,6 +1294,10 @@ public class Font implements Disposable {
         underY = toCopy.underY;
         underLength = toCopy.underLength;
         underBreadth = toCopy.underBreadth;
+        strikeX = toCopy.strikeX;
+        strikeY = toCopy.strikeY;
+        strikeLength = toCopy.strikeLength;
+        strikeBreadth = toCopy.strikeBreadth;
 
         xAdjust =      toCopy.xAdjust;
         yAdjust =      toCopy.yAdjust;
@@ -4034,7 +4071,7 @@ public class Font implements Disposable {
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 3f * 0.0625f * centerX + scale * fsx + cellWidth * font.underLength * scale,
-                        font.cellHeight * scale * sizingY * (1 + font.underBreadth), rotation);
+                        font.cellHeight * scale * sizingY * (1f + font.underBreadth), rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
@@ -4103,15 +4140,16 @@ public class Font implements Disposable {
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
-                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx;
-                p0y = centerY + (-0.45f * font.cellHeight) * scale + sin * centerX + font.descent * font.scaleY;
+                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + cellWidth * font.strikeX * scale;
+                p0y = centerY + (font.strikeY - 0.45f) * font.cellHeight * scale * sizingY + sin * centerX + font.descent * font.scaleY;
                 if (c >= 0xE000 && c < 0xF800) {
-                    p0x = xc + (changedW * 0.5f);
-                    p0y = font.handleIntegerPosition(yt + 0.375f * font.cellHeight * scale * sizingY);
+                    p0x = xc + (changedW * 0.5f) + cellWidth * font.strikeX * scale;
+                    p0y = font.handleIntegerPosition(yt + (font.strikeY + 0.375f) * font.cellHeight * scale * sizingY);
                 }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        xAdvance * scaleX + 3f * 0.0625f * centerX + scale * fsx, font.cellHeight * scale * sizingY, rotation);
+                        xAdvance * scaleX + 3f * 0.0625f * centerX + scale * fsx + font.cellWidth * scale * font.strikeLength,
+                        (1f + font.strikeBreadth) * font.cellHeight * scale * sizingY, rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
