@@ -3842,9 +3842,9 @@ public class Font implements Disposable {
 //            xc += (changedW * 0.5f);
 
             // This seems to rotate icons around their centers.
-            x += (changedW * 0.5f);
-            y += scaledHeight * 0.25f;
-            yt -= scaledHeight * 0.25f;
+            x += (changedW * 0.25f);
+//            y += scaledHeight * 0.25f;
+//            yt -= scaledHeight * 0.25f;
 
 //            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
         }
@@ -4070,7 +4070,9 @@ public class Font implements Disposable {
 //            x -= centerX;
 //            y -= centerY;
             //x += centerX * cos; y += centerX * sin;
-
+            if (c >= 0xE000 && c < 0xF800) {
+                x += (changedW * 0.25f);
+            }
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + cellWidth * font.underX * scale;
@@ -4149,6 +4151,9 @@ public class Font implements Disposable {
 //            x -= centerX;
 //            y -= centerY;
             //x += centerX * cos; y += centerX * sin;
+            if (c >= 0xE000 && c < 0xF800) {
+                x += (changedW * 0.25f);
+            }
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
