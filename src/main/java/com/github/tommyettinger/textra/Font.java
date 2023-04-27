@@ -4028,9 +4028,8 @@ public class Font implements Disposable {
                 p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY + sin * centerX
                         + font.descent * font.scaleY;
                 if (c >= 0xE000 && c < 0xF800) {
-                    p0x = xc + (changedW * 0.5f);
-                    p0y = font.handleIntegerPosition(yt);
-//                    p0y = font.handleIntegerPosition(yt + 0.3125f * font.cellHeight * scale * sizingY);
+                    p0x = xc + (changedW * 0.5f) + cellWidth * font.underX * scale;
+                    p0y = font.handleIntegerPosition(yt + font.underY * font.cellHeight * scale * sizingY);
                 }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),

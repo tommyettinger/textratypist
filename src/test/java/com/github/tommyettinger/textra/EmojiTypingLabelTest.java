@@ -149,7 +149,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
     }
 
     public void update(float delta) {
-        label.font.underY = MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.03125f) * 0.5f;
+        label.font.underBreadth = MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.03125f) * 0.5f;
         stage.act(delta);
     }
 
