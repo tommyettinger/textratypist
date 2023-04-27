@@ -3725,7 +3725,9 @@ public class Font implements Disposable {
         float oCenterY = font.originalCellHeight * osy * 0.5f;
 
         float scaleCorrection = font.descent * fsy * 2f - font.descent * osy;
+
         y += scaleCorrection;
+
 //        y += cos * scaleCorrection;
 //        x += sin * scaleCorrection;
 
@@ -3747,6 +3749,8 @@ public class Font implements Disposable {
         y = font.handleIntegerPosition(iy - yShift);
         centerX -= xShift * 0.5f;
         centerY -= yShift * 0.5f;
+
+
 //        x += centerX;
 //        x -= centerX;//
 //        y -= centerY;
@@ -3833,7 +3837,15 @@ public class Font implements Disposable {
         u2 = tr.getU2();
         v2 = tr.getV2();
         if (c >= 0xE000 && c < 0xF800) {
-            xc += (changedW * 0.5f);
+            // when this is removed, rotations for icons go around the bottom center.
+            // but, with it here, the rotations go around the bottom left corner.
+//            xc += (changedW * 0.5f);
+
+            // This seems to rotate icons around their centers.
+            x += (changedW * 0.5f);
+            y += scaledHeight * 0.25f;
+            yt -= scaledHeight * 0.25f;
+
 //            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
         }
 

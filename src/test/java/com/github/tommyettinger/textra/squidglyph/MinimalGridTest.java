@@ -41,10 +41,11 @@ public class MinimalGridTest extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
-        Font font = KnownFonts.getInconsolata().scaleTo(15f, 25f);
+        Font font = KnownFonts.addEmoji(KnownFonts.getInconsolata().scaleTo(15f, 25f));
         gg = new GlyphGrid(font, GRID_WIDTH, GRID_HEIGHT, true);
         //use Ă to test glyph height
-        playerGlyph = new GlyphActor('@', "[red orange][~][_]", gg.font);
+        playerGlyph = new GlyphActor("[~][_][+🤣]", gg.font);
+//        playerGlyph = new GlyphActor("[red orange][~][_]@", gg.font);
         gg.addActor(playerGlyph);
 
         input.setInputProcessor(new InputAdapter(){

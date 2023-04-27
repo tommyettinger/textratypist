@@ -51,6 +51,10 @@ public class GlyphActor extends Actor {
         glyph = Font.markupGlyph(c, markup, ColorLookup.DESCRIPTIVE, f.family);
         font = f;
     }
+    public GlyphActor(String markup, Font f) {
+        glyph = f.markupGlyph(markup);
+        font = f;
+    }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
