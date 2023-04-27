@@ -4076,9 +4076,9 @@ public class Font implements Disposable {
                 under = font.mapping.get('_');
                 if (under != null) {
                     trrh = under.getRegionHeight();
-                    h = trrh * osy * sizingY + cellHeight * underBreadth;
+                    h = trrh * osy * sizingY + cellHeight * font.underBreadth * scale * sizingY;
                     yt = (centerY - (trrh + under.offsetY) * font.scaleY) * scale * sizingY
-                            + sin * centerX + cellHeight * underY;
+                            + sin * centerX + cellHeight * font.underY * scale * sizingY;
                     //((font.originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY - 0.5f * imageAdjust * scale) * sizingY;
 //                    if (c >= 0xE000 && c < 0xF800) {
 //                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
@@ -4092,9 +4092,9 @@ public class Font implements Disposable {
                             underV2 = under.getV2();
 //                            hu = under.getRegionHeight() * scaleY,
 //                            yu = -0.625f * (hu + under.offsetY * scaleY);//-0.55f * cellHeight * scale;//cellHeight * scale - hu - under.offsetY * scaleY - centerY;
-                    xc = (tr.offsetX * scaleX * sizingX) + under.offsetX * osx - cos * centerX - cellWidth * 0.5f + cellWidth * underX;
+                    xc = (tr.offsetX * scaleX * sizingX) + under.offsetX * osx - cos * centerX - cellWidth * 0.5f + cellWidth * font.underX * scale;
                     x0 = -osx * under.offsetX - scale;
-                    float addW = 0.25f * centerX + cellWidth * underLength;
+                    float addW = 0.25f * centerX + cellWidth * font.underLength * scale;
                     vertices[2] = color;
                     vertices[3] = underU;
                     vertices[4] = underV;
@@ -4154,12 +4154,13 @@ public class Font implements Disposable {
                 dash = font.mapping.get('-');
                 if (dash != null) {
                     trrh = dash.getRegionHeight();
-                    h = trrh * osy * sizingY;
+                    h = trrh * osy * sizingY + font.strikeBreadth * scale * sizingY;
 
 //                    if (c >= 0xE000 && c < 0xF800)
 //                        yt = handleIntegerPosition((-centerY + imageAdjust) * scale * 0.5f * sizingY);
 
-                    yt = (centerY - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY + sin * centerX;
+                    yt = (centerY - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY
+                            + sin * centerX + cellHeight * font.strikeY * scale * sizingY;
 //                    yt = (font.cellHeight * 0.5f - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY;
                     //((font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY) * sizingY;
 //                    if (c >= 0xE000 && c < 0xF800) {
@@ -4176,9 +4177,10 @@ public class Font implements Disposable {
                             dashV2 = dash.getV2();
 //                            hd = dash.getRegionHeight() * scaleY,
 //                            yd = -0.5f * cellHeight * scale;//cellHeight * scale - hd - dash.offsetY * scaleY - centerY;
-                    xc = (tr.offsetX * scaleX * sizingX) + dash.offsetX * osx - cos * centerX - cellWidth * 0.5f;;
+                    xc = (tr.offsetX * scaleX * sizingX) + dash.offsetX * osx - cos * centerX - cellWidth * 0.5f
+                            + cellWidth * font.strikeX * scale;
 //                    xc = (tr.offsetX * scaleX * sizingX) + dash.offsetX * osx - centerX * scale;
-                    x0 = -osx * dash.offsetX - scale;
+                    x0 = -osx * dash.offsetX - scale + cellWidth * font.strikeLength * scale;
                     float addW = 0.25f * centerX;
                     vertices[2] = color;
                     vertices[3] = dashU;
