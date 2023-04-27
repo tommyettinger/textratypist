@@ -1254,8 +1254,13 @@ public class Font implements Disposable {
         originalCellWidth = toCopy.originalCellWidth;
         originalCellHeight = toCopy.originalCellHeight;
         descent = toCopy.descent;
+
         boldStrength = toCopy.boldStrength;
         obliqueStrength = toCopy.obliqueStrength;
+        underX = toCopy.underX;
+        underY = toCopy.underY;
+        underLength = toCopy.underLength;
+        underBreadth = toCopy.underBreadth;
 
         xAdjust =      toCopy.xAdjust;
         yAdjust =      toCopy.yAdjust;
@@ -4019,9 +4024,9 @@ public class Font implements Disposable {
 
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
-                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + cellWidth * underX;
-                p0y = (-0.8125f * font.cellHeight) * scale * sizingY + centerY + sin * centerX
-                        + font.descent * font.scaleY + cellHeight * underY;
+                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + cellWidth * font.underX * scale;
+                p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY + sin * centerX
+                        + font.descent * font.scaleY;
                 if (c >= 0xE000 && c < 0xF800) {
                     p0x = xc + (changedW * 0.5f);
                     p0y = font.handleIntegerPosition(yt);
@@ -4029,8 +4034,8 @@ public class Font implements Disposable {
                 }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
-                        xAdvance * scaleX + 3f * 0.0625f * centerX + scale * fsx + cellWidth * underLength,
-                        font.cellHeight * scale * sizingY * underBreadth, rotation);
+                        xAdvance * scaleX + 3f * 0.0625f * centerX + scale * fsx + cellWidth * font.underLength * scale,
+                        font.cellHeight * scale * sizingY * (1 + font.underBreadth), rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
