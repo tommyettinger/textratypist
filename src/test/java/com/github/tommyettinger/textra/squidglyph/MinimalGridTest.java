@@ -72,7 +72,8 @@ public class MinimalGridTest extends ApplicationAdapter {
                             gg.addActor(usedGlyph);
                         }
                         break;
-                    case A:
+                    case NUM_2:
+                    case AT:
                         if(usedGlyph != atGlyph) {
                             atGlyph.setPosition(emojiGlyph.getX(), emojiGlyph.getY());
                             gg.removeActor(usedGlyph);

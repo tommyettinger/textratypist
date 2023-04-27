@@ -2234,16 +2234,21 @@ public class Font implements Disposable {
         cellWidth = width;
         cellHeight = height;
         float wsx = width / scaleX;
-        IntMap.Values<GlyphRegion> vs = mapping.values();
+        IntMap.Entries<GlyphRegion> vs = mapping.entries();
         if (center) {
             while (vs.hasNext) {
-                GlyphRegion g = vs.next();
-                g.offsetX += (wsx - g.xAdvance) * 0.5f;
-                g.xAdvance = wsx;
+                IntMap.Entry<GlyphRegion> ent = vs.next();
+                GlyphRegion g = ent.value;
+                if(ent.key >= 0xE000 && ent.key < 0xF800) {
+                    g.offsetY -= descent;
+                } else{
+                    g.offsetX += (wsx - g.xAdvance) * 0.5f;
+                    g.xAdvance = wsx;
+                }
             }
         } else {
             while (vs.hasNext) {
-                vs.next().xAdvance = wsx;
+                vs.next().value.xAdvance = wsx;
             }
         }
         isMono = true;
