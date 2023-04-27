@@ -691,20 +691,62 @@ public class Font implements Disposable {
 
     /**
      * The x-adjustment this Font was initialized with, or 0 if there was none given.
+     * This is not meant to affect appearance after a Font has been constructed, but is meant to allow
+     * some introspection into what values a Font was given at construction-time.
      */
-    protected float xAdjust;
+    public float xAdjust;
     /**
      * The y-adjustment this Font was initialized with, or 0 if there was none given.
+     * This is not meant to affect appearance after a Font has been constructed, but is meant to allow
+     * some introspection into what values a Font was given at construction-time.
      */
-    protected float yAdjust;
+    public float yAdjust;
     /**
      * The width-adjustment this Font was initialized with, or 0 if there was none given.
+     * This is not meant to affect appearance after a Font has been constructed, but is meant to allow
+     * some introspection into what values a Font was given at construction-time.
      */
-    protected float widthAdjust;
+    public float widthAdjust;
     /**
      * The height-adjustment this Font was initialized with, or 0 if there was none given.
+     * This is not meant to affect appearance after a Font has been constructed, but is meant to allow
+     * some introspection into what values a Font was given at construction-time.
      */
-    protected float heightAdjust;
+    public float heightAdjust;
+
+    /**
+     * Precise adjustment for the underline's x-position, affecting the left side of the underline.
+     * Normally, because underlines continue into any underline for the next glyph, decreasing
+     * underX should be accompanied by increasing {@link #underLength} by a similar amount.
+     * <br>
+     * This is a "Zen" metric, which means it is measured in fractions of
+     * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and only affects one value.
+     */
+    public float underX;
+    /**
+     * Precise adjustment for the underline's y-position, affecting the bottom side of the underline.
+     * <br>
+     * This is a "Zen" metric, which means it is measured in fractions of
+     * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and only affects one value.
+     */
+    public float underY;
+    /**
+     * Precise adjustment for the underline's x-size, affecting the extra underline drawn to the right
+     * of the underline. Normally, because underlines continue into any underline for the next glyph,
+     * decreasing {@link #underX} should be accompanied by increasing underLength by a similar amount.
+     * <br>
+     * This is a "Zen" metric, which means it is measured in fractions of
+     * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and only affects one value.
+     */
+    public float underLength;
+    /**
+     * Precise adjustment for the underline's y-size, affecting how thick the underline is from bottom
+     * to top.
+     * <br>
+     * This is a "Zen" metric, which means it is measured in fractions of
+     * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and only affects one value.
+     */
+    public float underBreadth;
 
     private final float[] vertices = new float[20];
     private final Layout tempLayout = new Layout();
@@ -1212,6 +1254,8 @@ public class Font implements Disposable {
         originalCellWidth = toCopy.originalCellWidth;
         originalCellHeight = toCopy.originalCellHeight;
         descent = toCopy.descent;
+        boldStrength = toCopy.boldStrength;
+        obliqueStrength = toCopy.obliqueStrength;
 
         xAdjust =      toCopy.xAdjust;
         yAdjust =      toCopy.yAdjust;
@@ -1696,7 +1740,7 @@ public class Font implements Disposable {
                     cellWidth = Math.max(a, cellWidth);
                     cellHeight = Math.max(h + heightAdjust, cellHeight);
                     GlyphRegion gr = new GlyphRegion(bmFont.getRegion(glyph.page), x, y, w, h);
-                    if (glyph.id == 10) {
+                    if (glyph.id == 10) { // newline
                         a = 0;
                         gr.offsetX = 0;
                     } else if (makeGridGlyphs && BlockUtils.isBlockGlyph(glyph.id)) {
@@ -3975,9 +4019,9 @@ public class Font implements Disposable {
 
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
-                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx;
-//                p0x = -0.0625f * centerX - cos * centerX - cellWidth * 0.5f;
-                p0y = (-0.8125f * font.cellHeight) * scale * sizingY + centerY + sin * centerX + font.descent * font.scaleY;
+                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + cellWidth * underX;
+                p0y = (-0.8125f * font.cellHeight) * scale * sizingY + centerY + sin * centerX
+                        + font.descent * font.scaleY + cellHeight * underY;
                 if (c >= 0xE000 && c < 0xF800) {
                     p0x = xc + (changedW * 0.5f);
                     p0y = font.handleIntegerPosition(yt);
@@ -3985,13 +4029,15 @@ public class Font implements Disposable {
                 }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
-                        xAdvance * scaleX + 3f * 0.0625f * centerX + scale * fsx, font.cellHeight * scale * sizingY, rotation);
+                        xAdvance * scaleX + 3f * 0.0625f * centerX + scale * fsx + cellWidth * underLength,
+                        font.cellHeight * scale * sizingY * underBreadth, rotation);
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
                     trrh = under.getRegionHeight();
-                    h = trrh * osy * sizingY;
-                    yt = (centerY - (trrh + under.offsetY) * font.scaleY) * scale * sizingY + sin * centerX;
+                    h = trrh * osy * sizingY + cellHeight * underBreadth;
+                    yt = (centerY - (trrh + under.offsetY) * font.scaleY) * scale * sizingY
+                            + sin * centerX + cellHeight * underY;
                     //((font.originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY - 0.5f * imageAdjust * scale) * sizingY;
 //                    if (c >= 0xE000 && c < 0xF800) {
 //                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
@@ -4005,9 +4051,9 @@ public class Font implements Disposable {
                             underV2 = under.getV2();
 //                            hu = under.getRegionHeight() * scaleY,
 //                            yu = -0.625f * (hu + under.offsetY * scaleY);//-0.55f * cellHeight * scale;//cellHeight * scale - hu - under.offsetY * scaleY - centerY;
-                    xc = (tr.offsetX * scaleX * sizingX) + under.offsetX * osx - cos * centerX - cellWidth * 0.5f;;
+                    xc = (tr.offsetX * scaleX * sizingX) + under.offsetX * osx - cos * centerX - cellWidth * 0.5f + cellWidth * underX;
                     x0 = -osx * under.offsetX - scale;
-                    float addW = 0.25f * centerX;
+                    float addW = 0.25f * centerX + cellWidth * underLength;
                     vertices[2] = color;
                     vertices[3] = underU;
                     vertices[4] = underV;
