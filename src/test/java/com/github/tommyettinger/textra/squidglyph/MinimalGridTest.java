@@ -21,7 +21,9 @@ public class MinimalGridTest extends ApplicationAdapter {
     private Stage stage;
     private GlyphGrid gg;
     private char[][] bare, dungeon;
-    private GlyphActor playerGlyph;
+    private GlyphActor emojiGlyph;
+    private GlyphActor atGlyph;
+    private GlyphActor usedGlyph;
 
     private static final int GRID_WIDTH = 40;
     private static final int GRID_HEIGHT = 25;
@@ -47,11 +49,12 @@ public class MinimalGridTest extends ApplicationAdapter {
 //        font.cellHeight *= 0.5f;
 //        font.descent *= 0.5f;
 //        font.fitCell(32, 32, true);
-        gg = new GlyphGrid(font, GRID_WIDTH, GRID_HEIGHT, false);
+        gg = new GlyphGrid(font, GRID_WIDTH, GRID_HEIGHT, true);
         //use Ă to test glyph height
-        playerGlyph = new GlyphActor("[~][_][+😁]", gg.font);
-//        playerGlyph = new GlyphActor("[red orange][~][_]@", gg.font);
-        gg.addActor(playerGlyph);
+        emojiGlyph = new GlyphActor("[~][_][+😁]", gg.font);
+        atGlyph = new GlyphActor("[red orange][~][_]@", gg.font);
+        usedGlyph = emojiGlyph;
+        gg.addActor(usedGlyph);
 
         input.setInputProcessor(new InputAdapter(){
             @Override
@@ -60,6 +63,22 @@ public class MinimalGridTest extends ApplicationAdapter {
                     case ESCAPE:
                     case Q:
                         Gdx.app.exit();
+                        break;
+                    case E:
+                        if(usedGlyph != emojiGlyph) {
+                            emojiGlyph.setPosition(atGlyph.getX(), atGlyph.getY());
+                            gg.removeActor(usedGlyph);
+                            usedGlyph = emojiGlyph;
+                            gg.addActor(usedGlyph);
+                        }
+                        break;
+                    case A:
+                        if(usedGlyph != atGlyph) {
+                            atGlyph.setPosition(emojiGlyph.getX(), emojiGlyph.getY());
+                            gg.removeActor(usedGlyph);
+                            usedGlyph = atGlyph;
+                            gg.addActor(usedGlyph);
+                        }
                         break;
                     case R:
                         regenerate();
@@ -90,15 +109,15 @@ public class MinimalGridTest extends ApplicationAdapter {
 
     public void move(int x, int y){
         // this prevents movements from restarting while a slide is already in progress.
-        if(playerGlyph.hasActions()) return;
+        if(usedGlyph.hasActions()) return;
 
-        x = Math.round(playerGlyph.getX() + x);
-        y = Math.round(playerGlyph.getY() + y);
+        x = Math.round(usedGlyph.getX() + x);
+        y = Math.round(usedGlyph.getY() + y);
         if(x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT && bare[x][y] == '.') {
-            playerGlyph.addAction(Actions.moveTo(x, y, 0.2f));
+            usedGlyph.addAction(Actions.moveTo(x, y, 0.2f));
         }
         else{
-                playerGlyph.addAction(Actions.rotateBy(360f, 1f));
+                usedGlyph.addAction(Actions.rotateBy(360f, 1f));
         }
     }
 
@@ -205,7 +224,7 @@ public class MinimalGridTest extends ApplicationAdapter {
 //            System.out.println("\".toCharArray(),");
 //        }
 //        System.out.println("};");
-        playerGlyph.setPosition(1, 1);
+        usedGlyph.setPosition(1, 1);
         gg.backgrounds = new int[GRID_WIDTH][GRID_HEIGHT];
         gg.map.clear();
     }
