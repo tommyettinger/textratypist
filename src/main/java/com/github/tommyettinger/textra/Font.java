@@ -3852,7 +3852,7 @@ public class Font implements Disposable {
 //            xc += (changedW * 0.5f);
 
             // This seems to rotate icons around their centers.
-            x += (changedW * 0.25f);
+            x += (changedW * 0.5f);
             y += scaledHeight * 0.5f;
             yt -= scaledHeight * 0.5f;
 
@@ -4081,7 +4081,7 @@ public class Font implements Disposable {
 //            y -= centerY;
             //x += centerX * cos; y += centerX * sin;
             if (c >= 0xE000 && c < 0xF800) {
-                x += (changedW * 0.25f);
+                x += (changedW * 0.5f);
                 y += scaledHeight * 0.5f;
             }
             GlyphRegion under = font.mapping.get(0x2500);
@@ -4163,7 +4163,7 @@ public class Font implements Disposable {
 //            y -= centerY;
             //x += centerX * cos; y += centerX * sin;
             if (c >= 0xE000 && c < 0xF800) {
-                x += (changedW * 0.25f);
+                x += (changedW * 0.5f);
                 y += scaledHeight * 0.5f;
             }
 
@@ -4254,7 +4254,7 @@ public class Font implements Disposable {
             centerY = oCenterY - yShift * 0.5f;
             x += cellWidth * 0.5f;
             if (c >= 0xE000 && c < 0xF800) {
-                x += (changedW * 0.25f);
+                x += (changedW * 0.5f);
                 y += scaledHeight * 0.5f;
             }
             p0x = -cos * centerX - cellWidth * 0.5f;
@@ -4262,6 +4262,8 @@ public class Font implements Disposable {
             drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
                     x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y), xAdvance * scaleX, xPx, yPx, rotation);
         }
+        if (c >= 0xE000 && c < 0xF800)
+            changedW *= 1.25f;
         return changedW;
     }
 
