@@ -151,5 +151,6 @@ public class TypingConfig {
         registerEffect("ATTENTION", "ENDATTENTION", AttentionEffect.class);
         registerEffect("STYLIST", "ENDSTYLIST", StylistEffect.class);
         registerEffect("CANNON", "ENDCANNON", CannonEffect.class);
+        registerEffect("OCEAN", "ENDOCEAN", OceanEffect.class);
     }
 }
