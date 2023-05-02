@@ -2203,7 +2203,8 @@ public class Font implements Disposable {
     public Font adjustLineHeight(float multiplier) {
         cellHeight *= multiplier;
         originalCellHeight *= multiplier;
-//        descent *= multiplier; // I'm not sure if this would help or not.
+        descent *= multiplier; // I'm not sure if this would help or not.
+//        underY *= multiplier; strikeY *= multiplier; // Very unsure about this.
         return this;
     }
 
@@ -2217,6 +2218,7 @@ public class Font implements Disposable {
     public Font adjustCellWidth(float multiplier) {
         cellWidth *= multiplier;
         originalCellWidth *= multiplier;
+//        underX *= multiplier; strikeX *= multiplier; // Unsure about this.
         return this;
     }
 
@@ -2231,6 +2233,10 @@ public class Font implements Disposable {
      * @return this Font, for chaining
      */
     public Font fitCell(float width, float height, boolean center) {
+//        float hRatio = width / cellWidth;
+//        float vRatio = height / cellHeight;
+//        underX *= hRatio; strikeX *= hRatio;
+//        underY *= vRatio; strikeY *= vRatio;
         cellWidth = width;
         cellHeight = height;
         float wsx = width / scaleX;
@@ -2258,6 +2264,50 @@ public class Font implements Disposable {
         }
         isMono = true;
         kerning = null;
+        return this;
+    }
+
+    public float getUnderlineX() {
+        return underX;
+    }
+
+    public float getUnderlineY() {
+        return underY;
+    }
+
+    public Font setUnderlinePosition(float underX, float underY) {
+        this.underX = underX;
+        this.underY = underY;
+        return this;
+    }
+    
+    public Font setUnderlineMetrics(float underX, float underY, float underLength, float underBreadth) {
+        this.underX = underX;
+        this.underY = underY;
+        this.underLength = underLength;
+        this.underBreadth = underBreadth;
+        return this;
+    }
+
+    public float getStrikethroughX() {
+        return strikeX;
+    }
+
+    public float getStrikethroughY() {
+        return strikeY;
+    }
+
+    public Font setStrikethroughPosition(float strikeX, float strikeY) {
+        this.strikeX = strikeX;
+        this.strikeY = strikeY;
+        return this;
+    }
+    
+    public Font setStrikethroughMetrics(float strikeX, float strikeY, float strikeLength, float strikeBreadth) {
+        this.strikeX = strikeX;
+        this.strikeY = strikeY;
+        this.strikeLength = strikeLength;
+        this.strikeBreadth = strikeBreadth;
         return this;
     }
 

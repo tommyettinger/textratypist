@@ -23,7 +23,7 @@ import com.github.tommyettinger.textra.utils.NoiseUtils;
 
 /**
  * Tints the text in an irregular, flowing color pattern that defaults to using sea green through deep blue, but can be
- * changed to other colors.
+ * changed to other colors. This can also make a decent fire effect using <code>{OCEAN=0.7;1.25;0.11;1.0;0.65}</code>.
  */
 public class OceanEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.975f;
