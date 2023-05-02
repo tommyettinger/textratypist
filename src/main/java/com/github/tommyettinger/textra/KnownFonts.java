@@ -158,7 +158,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.astarryMSDF == null) {
             try {
                 instance.astarryMSDF = new Font(instance.prefix + "AStarry-msdf.fnt",
-                        instance.prefix + "AStarry-msdf.png", MSDF, 0, 0, -24, 0, true)
+                        instance.prefix + "AStarry-msdf.png", MSDF, 0, 0, 0, 0, true)
+                        .setUnderlinePosition(0f, -0.2f).setStrikethroughPosition(0f, -0.2f)
                         .scaleTo(10, 10).setCrispness(2f).setName("A Starry (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -201,7 +202,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.bitter == null) {
             try {
                 instance.bitter = new Font(instance.prefix + "Bitter-standard.fnt",
-                        instance.prefix + "Bitter-standard.png", STANDARD, 0, -24, 0, 0, true)
+                        instance.prefix + "Bitter-standard.png", STANDARD, 0, -40, 0, 0, true).setInlineImageMetrics(0f, 24f, 0f)
                         .scaleTo(33, 30).setTextureFilter().setName("Bitter");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -241,7 +242,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.canada = new Font(instance.prefix + "Canada1500-standard.fnt",
                         instance.prefix + "Canada1500-standard.png",
-                        STANDARD, 0, 20, 0, 0, true)
+                        STANDARD, 0, 0, 0, 0, true)
                         .scaleTo(30, 35).setTextureFilter().setName("Canada1500");
             } catch (Exception e) {
                 e.printStackTrace();

@@ -781,6 +781,40 @@ public class Font implements Disposable {
      */
     public float strikeBreadth;
 
+    /**
+     * An adjustment added to the {@link GlyphRegion#offsetX} of any inline images added with
+     * {@link #addAtlas(TextureAtlas, String, String, float, float, float)} (or its overloads).
+     * This is meant as a guess for how square inline images, such as {@link KnownFonts#addEmoji(Font) emoji}, may need
+     * to be moved around to fit correctly on a line. If you have multiple atlases added to one font, you should
+     * probably use the {@link #addAtlas(TextureAtlas, float, float, float)} overload that allows adding additional
+     * adjustments if one atlas isn't quite right.
+     * <br>
+     * Changing offsetXChange with a positive value moves all GlyphRegions to the right.
+     */
+    public float inlineImageOffsetX = 0f;
+    /**
+     * An adjustment added to the {@link GlyphRegion#offsetY} of any inline images added with
+     * {@link #addAtlas(TextureAtlas, String, String, float, float, float)} (or its overloads).
+     * This is meant as a guess for how square inline images, such as {@link KnownFonts#addEmoji(Font) emoji}, may need
+     * to be moved around to fit correctly on a line. If you have multiple atlases added to one font, you should
+     * probably use the {@link #addAtlas(TextureAtlas, float, float, float)} overload that allows adding additional
+     * adjustments if one atlas isn't quite right.
+     * <br>
+     * Changing offsetYChange with a positive value moves all GlyphRegions down (this is possibly unexpected).
+     */
+    public float inlineImageOffsetY = 0f;
+    /**
+     * An adjustment added to the {@link GlyphRegion#xAdvance} of any inline images added with
+     * {@link #addAtlas(TextureAtlas, String, String, float, float, float)} (or its overloads).
+     * This is meant as a guess for how square inline images, such as {@link KnownFonts#addEmoji(Font) emoji}, may need
+     * to be moved around to fit correctly on a line. If you have multiple atlases added to one font, you should
+     * probably use the {@link #addAtlas(TextureAtlas, float, float, float)} overload that allows adding additional
+     * adjustments if one atlas isn't quite right.
+     * <br>
+     * Changing xAdvanceChange with a positive value will shrink all GlyphRegions (this is probably unexpected).
+     */
+    public float inlineImageXAdvance = 0f;
+
     private final float[] vertices = new float[20];
     private final Layout tempLayout = new Layout();
     private final LongArray glyphBuffer = new LongArray(128);
@@ -1303,6 +1337,9 @@ public class Font implements Disposable {
         yAdjust =      toCopy.yAdjust;
         widthAdjust =  toCopy.widthAdjust;
         heightAdjust = toCopy.heightAdjust;
+        inlineImageOffsetX = toCopy.inlineImageOffsetX;
+        inlineImageOffsetY = toCopy.inlineImageOffsetY;
+        inlineImageXAdvance = toCopy.inlineImageXAdvance;
 
         mapping = new IntMap<>(toCopy.mapping.size);
         for (IntMap.Entry<GlyphRegion> e : toCopy.mapping) {
@@ -2311,6 +2348,25 @@ public class Font implements Disposable {
         return this;
     }
 
+    public float getInlineImageOffsetX() {
+        return inlineImageOffsetX;
+    }
+
+    public float getInlineImageOffsetY() {
+        return inlineImageOffsetY;
+    }
+
+    public float getInlineImageXAdvance() {
+        return inlineImageXAdvance;
+    }
+
+    public Font setInlineImageMetrics(float offsetX, float offsetY, float xAdvance) {
+        inlineImageOffsetX = offsetX;
+        inlineImageOffsetY = offsetY;
+        inlineImageXAdvance = xAdvance;
+        return this;
+    }
+
     /**
      * Calls {@link #setTextureFilter(Texture.TextureFilter, Texture.TextureFilter)} with
      * {@link Texture.TextureFilter#Linear} for both min and mag filters.
@@ -2500,12 +2556,19 @@ public class Font implements Disposable {
      * particular atlas show up with an incorrect position or have the wrong spacing. It also allows specifying a String
      * to prepend and to append that will be prepended and appended to each name, respectively. Either or both of the
      * Strings to prepend and append may be empty (or equivalently here, null).
+     * <br>
+     * Changing offsetXChange with a positive value moves all GlyphRegions to the right.
+     * Changing offsetYChange with a positive value moves all GlyphRegions down (this is possibly unexpected).
+     * Changing xAdvanceChange with a positive value will shrink all GlyphRegions (this is probably unexpected).
+     * Each of the metric changes has a variable from this Font added to it; {@link #inlineImageOffsetX},
+     * {@link #inlineImageOffsetY}, and {@link #inlineImageXAdvance} all are added in here.
+     *
      * @param atlas a TextureAtlas that shouldn't have more than 6144 names; all of it will be used
      * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
      * @param append will be appended after each name in the atlas; if null, will be treated as ""
-     * @param offsetXChange will be added to the {@link GlyphRegion#offsetX} of each added glyph
-     * @param offsetYChange will be added to the {@link GlyphRegion#offsetY} of each added glyph
-     * @param xAdvanceChange will be added to the {@link GlyphRegion#xAdvance} of each added glyph
+     * @param offsetXChange will be added to the {@link GlyphRegion#offsetX} of each added glyph; positive change moves a GlyphRegion to the right
+     * @param offsetYChange will be added to the {@link GlyphRegion#offsetY} of each added glyph; positive change moves a GlyphRegion down
+     * @param xAdvanceChange will be added to the {@link GlyphRegion#xAdvance} of each added glyph; positive change shrinks a GlyphRegion due to how size is calculated
      * @return this Font, for chaining
      */
     public Font addAtlas(TextureAtlas atlas, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -2520,6 +2583,10 @@ public class Font implements Disposable {
             namesByCharCode.ensureCapacity(regions.size >> 1);
         if(prepend == null) prepend = "";
         if(append == null) append = "";
+
+        offsetXChange += inlineImageOffsetX;
+        offsetYChange += inlineImageOffsetY;
+        xAdvanceChange += inlineImageXAdvance;
 
         int start = 0xE000 + namesByCharCode.size;
 
