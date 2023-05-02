@@ -2360,6 +2360,19 @@ public class Font implements Disposable {
         return inlineImageXAdvance;
     }
 
+    /**
+     * Sets the adjustments added to the metric for inline images added with {@link #addAtlas(TextureAtlas)} (or its
+     * overloads).
+     * <br>
+     * Changing offsetX with a positive value moves all GlyphRegions to the right.
+     * Changing offsetY with a positive value moves all GlyphRegions down (this is possibly unexpected).
+     * Changing xAdvance with a positive value will shrink all GlyphRegions (this is probably unexpected).
+     *
+     * @param offsetX will be added to the {@link GlyphRegion#offsetX} of each added glyph; positive change moves a GlyphRegion to the right
+     * @param offsetY will be added to the {@link GlyphRegion#offsetY} of each added glyph; positive change moves a GlyphRegion down
+     * @param xAdvance will be added to the {@link GlyphRegion#xAdvance} of each added glyph; positive change shrinks a GlyphRegion due to how size is calculated
+     * @return this Font, for chaining
+     */
     public Font setInlineImageMetrics(float offsetX, float offsetY, float xAdvance) {
         inlineImageOffsetX = offsetX;
         inlineImageOffsetY = offsetY;
@@ -2536,10 +2549,17 @@ public class Font implements Disposable {
      * {@link KnownFonts#addEmoji(Font)} and the Twemoji files in the knownFonts folder. This overload allows specifying
      * adjustments to the font-like properties of each GlyphRegion added, which may be useful if images from a
      * particular atlas show up with an incorrect position or have the wrong spacing.
+     * <br>
+     * Changing offsetXChange with a positive value moves all GlyphRegions to the right.
+     * Changing offsetYChange with a positive value moves all GlyphRegions down (this is possibly unexpected).
+     * Changing xAdvanceChange with a positive value will shrink all GlyphRegions (this is probably unexpected).
+     * Each of the metric changes has a variable from this Font added to it; {@link #inlineImageOffsetX},
+     * {@link #inlineImageOffsetY}, and {@link #inlineImageXAdvance} all are added in here.
+     *
      * @param atlas a TextureAtlas that shouldn't have more than 6144 names; all of it will be used
-     * @param offsetXChange will be added to the {@link GlyphRegion#offsetX} of each added glyph
-     * @param offsetYChange will be added to the {@link GlyphRegion#offsetY} of each added glyph
-     * @param xAdvanceChange will be added to the {@link GlyphRegion#xAdvance} of each added glyph
+     * @param offsetXChange will be added to the {@link GlyphRegion#offsetX} of each added glyph; positive change moves a GlyphRegion to the right
+     * @param offsetYChange will be added to the {@link GlyphRegion#offsetY} of each added glyph; positive change moves a GlyphRegion down
+     * @param xAdvanceChange will be added to the {@link GlyphRegion#xAdvance} of each added glyph; positive change shrinks a GlyphRegion due to how size is calculated
      * @return this Font, for chaining
      */
     public Font addAtlas(TextureAtlas atlas, float offsetXChange, float offsetYChange, float xAdvanceChange) {

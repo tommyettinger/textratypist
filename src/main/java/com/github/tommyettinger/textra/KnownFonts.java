@@ -117,7 +117,9 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
                         instance.prefix + "AStarry-standard.png", STANDARD, 12, 0, 0, -12, true)
-                        .scaleTo(8, 8).setUnderlineMetrics(0.25f, 0f, 0f, 0.25f).setStrikethroughMetrics(0.25f, 0.125f, 0f, 0.25f)
+                        .scaleTo(8, 8)
+                        .setUnderlineMetrics(0.25f, 0f, 0f, 0.25f).setStrikethroughMetrics(0.25f, 0.125f, 0f, 0.25f)
+                        .setInlineImageMetrics(0f, 6f, 0f)
                         .setTextureFilter().setName("A Starry");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -202,7 +204,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.bitter == null) {
             try {
                 instance.bitter = new Font(instance.prefix + "Bitter-standard.fnt",
-                        instance.prefix + "Bitter-standard.png", STANDARD, 0, -40, 0, 0, true).setInlineImageMetrics(0f, 24f, 0f)
+                        instance.prefix + "Bitter-standard.png", STANDARD, 0, -40, 0, 0, true)
+                        .setInlineImageMetrics(0f, 24f, 0f)
                         .scaleTo(33, 30).setTextureFilter().setName("Bitter");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -280,7 +283,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.cascadiaMono == null) {
             try {
                 instance.cascadiaMono = new Font(instance.prefix + "CascadiaMono-standard.fnt",
-                        instance.prefix + "CascadiaMono-standard.png", STANDARD, 0f, 0f, 0f, 0f, true)
+                        instance.prefix + "CascadiaMono-standard.png", STANDARD, 0f, -4f, 0f, 0f, true)
                         .setTextureFilter().scaleTo(10, 20).setName("Cascadia Mono");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -319,7 +322,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.cascadiaMonoMSDF == null) {
             try {
                 instance.cascadiaMonoMSDF = new Font(instance.prefix + "CascadiaMono-msdf.fnt",
-                        instance.prefix + "CascadiaMono-msdf.png", MSDF, 0f, 0f, -8f, 14f, true)
+                        instance.prefix + "CascadiaMono-msdf.png", MSDF, 0f, 0f, -4f, -4f, true)
                         .scaleTo(10, 20).setName("Cascadia Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -359,6 +362,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.caveat = new Font(instance.prefix + "Caveat-standard.fnt",
                         instance.prefix + "Caveat-standard.png",
                         STANDARD, 0, 16, 0, 0, true)
+                        .setInlineImageMetrics(0f, -8f, 0f)
                         .scaleTo(32, 32).setTextureFilter().setName("Caveat");
             } catch (Exception e) {
                 e.printStackTrace();
