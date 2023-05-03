@@ -2348,6 +2348,32 @@ public class Font implements Disposable {
         return this;
     }
 
+    /**
+     * Sets both the underline and strikethrough metric adjustments with the same values, as if you called both
+     * {@link #setUnderlineMetrics(float, float, float, float)} and
+     * {@link #setStrikethroughMetrics(float, float, float, float)} with identical parameters.
+     * <br>
+     * This affects "Zen" metrics, which means it is measured in fractions of
+     * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and each metric only affects one value (even though
+     * this sets two metrics for each parameter).
+     * @param x adjustment for the underline and strikethrough x-position, affecting the left side of each line
+     * @param y adjustment for the underline and strikethrough y-position, affecting the bottom side of each line
+     * @param length adjustment for the underline and strikethrough x-size, affecting the extra part drawn to the right of each line
+     * @param breadth adjustment for the underline and strikethrough y-size, affecting how thick each line is from bottom to top
+     * @return this, for chaining
+     */
+    public Font setLineMetrics(float x, float y, float length, float breadth) {
+        this.underX = x;
+        this.underY = y;
+        this.underLength = length;
+        this.underBreadth = breadth;
+        this.strikeX = x;
+        this.strikeY = y;
+        this.strikeLength = length;
+        this.strikeBreadth = breadth;
+        return this;
+    }
+
     public float getInlineImageOffsetX() {
         return inlineImageOffsetX;
     }
