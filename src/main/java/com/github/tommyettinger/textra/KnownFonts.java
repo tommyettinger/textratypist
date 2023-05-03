@@ -527,7 +527,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentiumMSDF == null) {
             try {
                 instance.gentiumMSDF = new Font(instance.prefix + "Gentium-msdf.fnt",
-                        instance.prefix + "Gentium-msdf.png", MSDF, 0f, -18f, 0f, 0f, true)
+                        instance.prefix + "Gentium-msdf.png", MSDF, 0f, 0f, 0f, 0f, true)
                         .scaleTo(50, 45).adjustLineHeight(0.625f).setCrispness(3f).setName("Gentium (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -568,8 +568,10 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentiumSDF == null) {
             try {
                 instance.gentiumSDF = new Font(instance.prefix + "Gentium-sdf.fnt",
-                        instance.prefix + "Gentium-sdf.png", SDF, 4f, -12f, 0f, 0f, true)
-                        .scaleTo(50, 45).adjustLineHeight(0.625f).setCrispness(1.5f).setName("Gentium (SDF)");
+                        instance.prefix + "Gentium-sdf.png", SDF, 4f, 0f, 0f, 0f, true)
+                        .scaleTo(50, 45).adjustLineHeight(0.625f)
+                        .setLineMetrics(0.05f, 0.25f, 0f, -0.5f).setInlineImageMetrics(0f, -20f, 0f)
+                    .setCrispness(1.5f).setName("Gentium (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -607,8 +609,10 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentiumUnItalic == null) {
             try {
                 instance.gentiumUnItalic = new Font(instance.prefix + "GentiumUnItalic-standard.fnt",
-                        instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, 10f, 0f, 0f, true)
-                        .scaleTo(48, 36).setTextureFilter().setName("Gentium Un-Italic");
+                        instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, -4f, 0f, 0f, true)
+                        .scaleTo(48, 36).setTextureFilter().adjustLineHeight(0.75f)
+                        .setLineMetrics(0f, 0f, 0f, -0.3125f)
+                        .setName("Gentium Un-Italic");
             } catch (Exception e) {
                 e.printStackTrace();
             }
