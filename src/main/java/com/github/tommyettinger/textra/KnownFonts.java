@@ -401,11 +401,12 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.cozette == null) {
             try {
                 instance.cozette = new Font(instance.prefix + "Cozette-standard.fnt",
-                        instance.prefix + "Cozette-standard.png", STANDARD, 1.5f, 11, 0, 0, false)
+                        instance.prefix + "Cozette-standard.png", STANDARD, 1.5f, 5f, 0, 0, false)
                         .useIntegerPositions(true)
+                        .setDescent(-7f)
                         .setUnderlinePosition(0.5f, 0f)
                         .setStrikethroughPosition(0.5f, 0f)
-                        .setInlineImageMetrics(-24f, 6f, 0f)
+                        .setInlineImageMetrics(-24f, 0f, 0f)
                         .setName("Cozette");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -484,8 +485,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentium == null) {
             try {
                 instance.gentium = new Font(instance.prefix + "Gentium-standard.fnt",
-                        instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, 20f, 0f, 0f, true)
-                        .scaleTo(31, 35).setInlineImageMetrics(0f, -24f, 0f).setLineMetrics(0f, 0f, 0f, -0.4f)
+                        instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, 10f, 0f, 0f, true)
+                        .scaleTo(31, 35).setInlineImageMetrics(0f, -24f, 0f).setLineMetrics(0f, 0.1f, 0f, -0.4f)
                         .setTextureFilter().setName("Gentium");
             } catch (Exception e) {
                 e.printStackTrace();

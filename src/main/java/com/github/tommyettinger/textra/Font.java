@@ -4420,10 +4420,21 @@ public class Font implements Disposable {
                 x += (changedW * 0.5f);
                 y += scaledHeight * 0.5f;
             }
+//            p0x = -cos * centerX - cellWidth * 0.5f;
+//            p0y = -font.cellHeight * scale * sizingY + centerY + sin * centerX;
+//            drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
+//                    x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y), xAdvance * scaleX, xPx, yPx, rotation);
+//
             p0x = -cos * centerX - cellWidth * 0.5f;
-            p0y = -font.cellHeight * scale * sizingY + centerY + sin * centerX + font.descent * font.scaleY;
+            p0y = (-font.cellHeight) * scale * sizingY + centerY + sin * centerX;
+            if (c >= 0xE000 && c < 0xF800) {
+                p0x = xc + (changedW * 0.5f);
+                p0y = font.handleIntegerPosition(yt);
+            }
             drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
-                    x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y), xAdvance * scaleX, xPx, yPx, rotation);
+                    x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
+                    xAdvance * scaleX, xPx, yPx, rotation);
+
         }
         if (c >= 0xE000 && c < 0xF800)
             changedW *= 1.25f;
