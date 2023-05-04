@@ -1043,11 +1043,10 @@ public final class KnownFonts implements LifecycleListener {
         initialize();
         if (instance.iosevkaSlabMSDF == null) {
             try {
-                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
-                // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSlabMSDF = new Font(instance.prefix + "Iosevka-Slab-msdf.fnt",
-                        instance.prefix + "Iosevka-Slab-msdf.png", MSDF, 1f, 13f, 0f, 0f, true)
-                        .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false)
+                        instance.prefix + "Iosevka-Slab-msdf.png", MSDF, 1f, 0f, 0f, 0f, true).setDescent(-12)
+                        .setLineMetrics(0.25f, 0.125f, 0f, -0.4f)
+                        .setCrispness(2.25f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka Slab (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1092,7 +1091,8 @@ public final class KnownFonts implements LifecycleListener {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSlabSDF = new Font(instance.prefix + "Iosevka-Slab-sdf.fnt",
-                        instance.prefix + "Iosevka-Slab-sdf.png", SDF, 2f, 5f, -2f, 0f, true)
+                        instance.prefix + "Iosevka-Slab-sdf.png", SDF, 2f, 0f, -2f, -2f, true)
+                        .setLineMetrics(0.25f, -0.125f, 0f, -0.4f).setInlineImageMetrics(0f, 8f, 0f)
                         .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka Slab (SDF)");
             } catch (Exception e) {
@@ -1140,6 +1140,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.kingthingsFoundation = new Font(instance.prefix + "KingthingsFoundation-standard.fnt",
                         instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 40, 0, 25, true)
+                        .setUnderlineMetrics(0f, 0.25f, 0.125f, -0.5f).setStrikethroughMetrics(0f, 0.125f, 0.125f, -0.5f)
+                        .setInlineImageMetrics(0f, -64f, 0f)
                         .scaleTo(23, 31).setTextureFilter().setName("Kingthings Foundation");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1180,6 +1182,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.kingthingsPetrock = new Font(instance.prefix + "KingthingsPetrock-standard.fnt",
                         instance.prefix + "KingthingsPetrock-standard.png", STANDARD, 0, 8, 2, 0, true)
+                        .setInlineImageMetrics(0f, 6f, 0f)
                         .scaleTo(25, 32).setTextureFilter().setName("Kingthings Petrock");
             } catch (Exception e) {
                 e.printStackTrace();
