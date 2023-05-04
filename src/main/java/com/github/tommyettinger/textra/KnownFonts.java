@@ -663,10 +663,11 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.goNotoUniversalSDF == null) {
             try {
                 instance.goNotoUniversalSDF = new Font(instance.prefix + "GoNotoUniversal-sdf.fnt",
-                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, 10f, 0f, 0f, true)
+                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, 0f, 0f, 0f, true)
                         .scaleTo(65.25f, 51)
                         .adjustLineHeight(0.625f)
                         .setCrispness(1.8f)
+                        .setLineMetrics(0f, 0.375f, 0f, -0.4f).setInlineImageMetrics(0f, -12f, 0f)
                         .setName("Go Noto Universal (SDF)");
 
 //                System.out.println(instance.goNotoUniversalSDF.cellWidth);
@@ -709,7 +710,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.hanazono == null) {
             try {
                 instance.hanazono = new Font(instance.prefix + "Hanazono-standard.fnt",
-                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, 7, 0, 0, false).scaleTo(16, 20)
+                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, 0, 0, 0, false).scaleTo(16, 20)
                         .setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -753,7 +754,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.ibm8x16 == null) {
             try {
                 instance.ibm8x16 = new Font(instance.prefix, "IBM-8x16-standard.font", true)
-                        .fitCell(8, 16, false).setName("IBM 8x16");
+                        .setInlineImageMetrics(-16, 0, 0).fitCell(8, 16, false).setName("IBM 8x16");
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -2134,7 +2134,7 @@ public class Font implements Disposable {
         int padding = fnt.getInt("GlyphPadding");
         cellHeight = fnt.getInt("GlyphHeight");
         cellWidth = fnt.getInt("GlyphWidth");
-        descent = Math.round(cellHeight * -0.25f);
+        descent = Math.round(cellHeight * -0.375f);
         int rows = (parent.getRegionHeight() - padding) / ((int) cellHeight + padding);
         int size = rows * columns;
         mapping = new IntMap<>(size + 1);
@@ -2142,7 +2142,7 @@ public class Font implements Disposable {
             for (int x = 0; x < columns; x++, c++) {
                 GlyphRegion gr = new GlyphRegion(parent, x * ((int) cellWidth + padding) + padding, y * ((int) cellHeight + padding) + padding, (int) cellWidth, (int) cellHeight);
                 gr.offsetX = 0;
-                gr.offsetY = cellHeight * 0.5f;// + descent;
+                gr.offsetY = cellHeight * 0.5f + descent;
                 if (c == 10) {
                     gr.xAdvance = 0;
                 } else {
@@ -3016,7 +3016,7 @@ public class Font implements Disposable {
         final float u = block.getU(),
                 v = block.getV(),
                 u2 = u + ipw,
-                v2 = v - iph;
+                v2 = v + iph;
         final float sn = MathUtils.sinDeg(rotation);
         final float cs = MathUtils.cosDeg(rotation);
         float color;// = -0X1.0P125f; // black
@@ -4436,8 +4436,8 @@ public class Font implements Disposable {
                     xAdvance * scaleX, xPx, yPx, rotation);
 
         }
-        if (c >= 0xE000 && c < 0xF800)
-            changedW *= 1.25f;
+//        if (c >= 0xE000 && c < 0xF800)
+//            changedW *= 1.25f;
         return changedW;
     }
 
