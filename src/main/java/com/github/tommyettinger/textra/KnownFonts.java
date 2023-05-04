@@ -790,6 +790,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.inconsolata = new Font(instance.prefix + "Inconsolata-LGC-Custom-standard.fnt",
                         instance.prefix + "Inconsolata-LGC-Custom-standard.png", STANDARD, 1f, 6f, -4f, 0f, true)
+                        .setInlineImageMetrics(0f, 12f, 0f)
                         .scaleTo(10, 26).setTextureFilter().setName("Inconsolata LGC");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -825,7 +826,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.inconsolataMSDF == null) {
             try {
                 instance.inconsolataMSDF = new Font(instance.prefix + "Inconsolata-LGC-Custom-msdf.fnt",
-                        instance.prefix + "Inconsolata-LGC-Custom-msdf.png", MSDF, 1f, -5f, -12f, 0f, true)
+                        instance.prefix + "Inconsolata-LGC-Custom-msdf.png", MSDF, 1f, 1f, -8f, -8f, true)
                         .scaleTo(12, 26).setCrispness(1.2f).setName("Inconsolata LGC (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -911,7 +912,8 @@ public final class KnownFonts implements LifecycleListener {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This should be OK now that this uses the box-drawing underline.
                 instance.iosevkaMSDF = new Font(instance.prefix + "Iosevka-msdf.fnt",
-                        instance.prefix + "Iosevka-msdf.png", MSDF, 1f, 13f, 0f, 0f, true)
+                        instance.prefix + "Iosevka-msdf.png", MSDF, 1f, 0f, 0f, 0f, true).setDescent(-12)
+                        .setLineMetrics(0.25f, 0.125f, 0f, -0.4f)
                         .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka (MSDF)");
             } catch (Exception e) {
@@ -958,7 +960,8 @@ public final class KnownFonts implements LifecycleListener {
                 // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
                 // This should be OK now that this uses the box-drawing underline.
                 instance.iosevkaSDF = new Font(instance.prefix + "Iosevka-sdf.fnt",
-                        instance.prefix + "Iosevka-sdf.png", SDF, 2f, 5f, -2f, 0f, true)
+                        instance.prefix + "Iosevka-sdf.png", SDF, 2f, 0f, -2f, -2f, true)
+                        .setLineMetrics(0.25f, -0.125f, 0f, -0.4f).setInlineImageMetrics(0f, 8f, 0f)
                         .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka (SDF)");
             } catch (Exception e) {
