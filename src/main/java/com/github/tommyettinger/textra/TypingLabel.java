@@ -337,6 +337,8 @@ public class TypingLabel extends TextraLabel {
     /**
      * Skips the char progression to the end, showing the entire label. Useful for when users don't want to wait for too
      * long. Ignores all subsequent events by default.
+     * This calls {@link #act(float)} with a delta of {@link Float#MIN_VALUE}, which allows the text to be skipped
+     * ahead without noticeably changing anything time-based.
      */
     @Override
     public void skipToTheEnd() {
@@ -346,6 +348,8 @@ public class TypingLabel extends TextraLabel {
     /**
      * Skips the char progression to the end, showing the entire label. Useful for when users don't want to wait for too
      * long.
+     * This calls {@link #act(float)} with a delta of {@link Float#MIN_VALUE}, which allows the text to be skipped
+     * ahead without noticeably changing anything time-based.
      *
      * @param ignoreEvents If {@code true}, skipped events won't be reported to the listener.
      */
@@ -356,6 +360,8 @@ public class TypingLabel extends TextraLabel {
     /**
      * Skips the char progression to the end, showing the entire label. Useful for when users don't want to wait for too
      * long.
+     * This calls {@link #act(float)} with a delta of {@link Float#MIN_VALUE}, which allows the text to be skipped
+     * ahead without noticeably changing anything time-based.
      *
      * @param ignoreEvents  If {@code true}, skipped events won't be reported to the listener.
      * @param ignoreEffects If {@code true}, all text effects will be instantly cancelled.
@@ -364,6 +370,7 @@ public class TypingLabel extends TextraLabel {
         skipping = true;
         ignoringEvents = ignoreEvents;
         ignoringEffects = ignoreEffects;
+        act(Float.MIN_VALUE);
     }
 
     /**

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
@@ -27,6 +28,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
     Stage       stage;
     SpriteBatch batch;
     TypingLabel label;
+    TypingLabel debugLabel;
 
     @Override
     public void create() {
@@ -47,14 +49,35 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 
         label = createTypingLabel();
 
+        debugLabel = new TypingLabel("", label.font);
+        debugLabel.setTypingListener(new TypingAdapter() {
+            @Override
+            public void event(String event) {
+                System.out.println("Event: " + event);
+                if(event.startsWith("seed "))
+                {
+                    Gdx.app.getClipboard().setContents(event.substring(5));
+                }
+            }
+        });
+
         table.pad(50f);
         table.add(label).colspan(5).growX();
         table.row();
         table.row().uniform().expand().growX().space(40).center();
+        table.add(debugLabel);
 
         table.pack();
     }
 
+    public void updateDebugLabel() {
+        String seed = ((RandomXS128)MathUtils.random).getState(0)+" "+((RandomXS128)MathUtils.random).getState(1);
+        debugLabel.restart(
+                "fps: "+Gdx.graphics.getFramesPerSecond()+"\n" +
+                        "seed: {TRIGGER=seed "+seed+"}"+seed+"{ENDTRIGGER}"
+        );
+        debugLabel.skipToTheEnd(false, false);
+    }
     public void adjustTypingConfigs() {
         // Only allow two chars per frame
         TypingConfig.CHAR_LIMIT_PER_FRAME = 2;
@@ -141,7 +164,6 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //                System.out.println(label.getIntermediateText());
 //            }
 //        });
-//
 //        // Finally parse tokens in the label text.
 //        label.parseTokens();
 
@@ -151,6 +173,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
     public void update(float delta) {
         label.font.strikeBreadth = MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.0625f) * 0.5f;
         stage.act(delta);
+        updateDebugLabel();
     }
 
     @Override
