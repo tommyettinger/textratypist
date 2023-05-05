@@ -125,18 +125,18 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     }
 
     public TypingLabel createTypingLabel() {
-        Font.FontFamily family = new Font.FontFamily(
-                new String[]{
-                        "Serif", "Sans", "Mono", "Medieval", "Future", "Humanist"
-                },
-                new Font[]{
-                        KnownFonts.getGentium().scaleTo(32, 35)/*.scale(1.15f, 1.15f)*/,
-                        KnownFonts.getOpenSans().scaleTo(23, 35)/*.scale(1.15f, 1.15f)*/.adjustLineHeight(0.9f),
-                        KnownFonts.getInconsolata().scaleTo(15, 35)/*.scale(1.15f, 1.15f)*/.adjustLineHeight(1.1f),
-                        KnownFonts.getKingthingsFoundation().scaleTo(35, 35)/*.scale(1.15f, 1.15f)*/,
-                        KnownFonts.getOxanium().scaleTo(32, 35)/*.scale(1.15f, 1.15f)*/.adjustLineHeight(1.05f),
-                        KnownFonts.getYanoneKaffeesatz().scaleTo(32, 35)/*.scale(1.15f, 1.15f)*/.adjustLineHeight(0.85f)
-                });
+//        Font.FontFamily family = new Font.FontFamily(
+//                new String[]{
+//                        "Serif", "Sans", "Mono", "Medieval", "Future", "Humanist"
+//                },
+//                new Font[]{
+//                        KnownFonts.getGentium().scaleTo(32, 35)/*.scale(1.15f, 1.15f)*/,
+//                        KnownFonts.getOpenSans().scaleTo(23, 35)/*.scale(1.15f, 1.15f)*/.adjustLineHeight(0.9f),
+//                        KnownFonts.getInconsolata().scaleTo(15, 35)/*.scale(1.15f, 1.15f)*/.adjustLineHeight(1.1f),
+//                        KnownFonts.getKingthingsFoundation().scaleTo(35, 35)/*.scale(1.15f, 1.15f)*/,
+//                        KnownFonts.getOxanium().scaleTo(32, 35)/*.scale(1.15f, 1.15f)*/.adjustLineHeight(1.05f),
+//                        KnownFonts.getYanoneKaffeesatz().scaleTo(32, 35)/*.scale(1.15f, 1.15f)*/.adjustLineHeight(0.85f)
+//                });
 //        Font font = family.connected[0].setFamily(family);
         Font font = KnownFonts.getStandardFamily();
         for(Font f : font.family.connected) {
@@ -233,9 +233,9 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1);
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
-            System.out.println(label.font.family.connected[2].setDescent(label.font.family.connected[2].descent + 1).descent);
+            System.out.println(label.font.family.connected[12].setDescent(label.font.family.connected[12].descent + 1).descent);
         else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
-            System.out.println(label.font.family.connected[2].setDescent(label.font.family.connected[2].descent - 1).descent);
+            System.out.println(label.font.family.connected[12].setDescent(label.font.family.connected[12].descent - 1).descent);
         stage.draw();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
