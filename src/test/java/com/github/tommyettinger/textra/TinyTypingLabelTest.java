@@ -30,6 +30,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     TextButton  buttonRestart;
     TextButton  buttonRebuild;
     TextButton  buttonSkip;
+    int adj = 0;
 
     @Override
     public void create() {
@@ -159,17 +160,19 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                "A {Bunny!", // used to check unclosed curly braces
 
 //                "[#8fc60cff][@OpenSans][%75]{spin}Lorem ipsum dolor sit amet, consectetur adipiscing elit.[]",
-
-//                "{JOLT=1;1.2;inf;0.3;dull lavender;light butter}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
-                "{OCEAN=0.7;1.25;0.11;1.0;0.65}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
+//"Serif", "Sans", "Mono", "Condensed", "Humanist",
+//                        "Retro", "Slab", "Handwriting", "Canada", "Cozette", "Iosevka",
+//                        "Medieval", "Future", "Console", "Code"
+                "{JOLT=1;1.2;inf;0.3;dull lavender;light butter}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
+//                "{OCEAN=0.7;1.25;0.11;1.0;0.65}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
                 "she's{WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
-                "whippin' her way through the [*]{FONT=Sans}whole dang[@][*] town! " +
-                "Sure as [/]I reckon[], if we [@Mono]meet our {HANG}fate{RESET}, " +
-                "this [light grey black][%125]storm[] will be there on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%150]eight[%]{ENDSPIN}! " +
+                "[@Handwriting]whippin'[@] her [@Slab]way[@] through the [*]{FONT=Sans}whole dang[@][*] town! " +
+                "[@Iosevka]Sure[@] as [/]I reckon[], if we [@Mono]meet our {HANG}fate{RESET}, " +
+                "this [light grey black][%125]storm[] will be [@Canada]there[@] on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%150]eight[%]{ENDSPIN}! " +
 //                "Should a young 'un go out, in the wind and the thunder, " +
 //                "if they make it back, it will be a [%^]true wonder[%]!",
-                "Should a young {IF=gender;m=lad;f=lass;t='un;e=[+🧒]} go out, in the wind and the {SHAKE=;;2}thunder{ENDSHAKE}, " +
-                "if {IF=gender;m=he makes;f=she makes;t=they make;e=[+🧒] makes} it back, it will be a [;][%^]true wonder[%][;]!",
+                "Should a [@Retro]young[@] {IF=gender;m=lad;f=lass;t='un;e=[+🧒]} go [@Code]out[@], in the [@Humanist]wind[@] and [@Geometric]the {SHAKE=;;2}thunder{ENDSHAKE}[@], " +
+                "if {IF=gender;m=he makes;f=she makes;t=they make;e=[+🧒] makes} it [@Condensed]back[@], it [@Console]will[@] be a [;][%^]true wonder[%][;]!",
 //                "Should a young {VAR=lad} go out, in the wind and the thunder, " +
 //                "if {VAR=he makes} it back, it will be a [%^]true wonder[%]!",
 
@@ -231,11 +234,20 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         update(Gdx.graphics.getDeltaTime());
 
         ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1);
-
+        if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
+        {
+            adj = adj + 15 & 15;
+            System.out.println("Adjusting " + label.font.family.connected[adj].name);
+        }
+        else if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
+        {
+            adj = adj + 1 & 15;
+            System.out.println("Adjusting " + label.font.family.connected[adj].name);
+        }
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
-            System.out.println(label.font.family.connected[12].setDescent(label.font.family.connected[12].descent + 1).descent);
+            System.out.println(label.font.family.connected[adj].setDescent(label.font.family.connected[adj].descent + 1).descent + " " + label.font.family.connected[adj].name);
         else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
-            System.out.println(label.font.family.connected[12].setDescent(label.font.family.connected[12].descent - 1).descent);
+            System.out.println(label.font.family.connected[adj].setDescent(label.font.family.connected[adj].descent - 1).descent + " " + label.font.family.connected[adj].name);
         stage.draw();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }

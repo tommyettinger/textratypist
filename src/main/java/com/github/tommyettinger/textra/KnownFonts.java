@@ -2241,6 +2241,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li>{@code Future}, which is {@link #getOxanium()},</li>
      *     <li>{@code Console}, which is {@link #getAStarry()}, and</li>
      *     <li>{@code Code}, which is {@link #getCascadiaMono()}.</li>
+     *     <li>{@code Geometric}, which is {@link #getNowAlt()}.</li>
      * </ul>
      * You can also always use the full name of one of these fonts, which can be obtained using {@link Font#getName()}.
      * {@code Serif}, which is {@link #getGentium()}, will always be the default font used after a reset. For
@@ -2250,16 +2251,16 @@ public final class KnownFonts implements LifecycleListener {
      * <br>
      * This will only function at all if all the assets (for every known standard Font) are present and load-able.
      * You should store the result of this method, rather than calling it often, because each call copies many Fonts.
-     * @return a Font that can switch between 15 different Fonts in its FontFamily, to any non-distance-field Font this knows
+     * @return a Font that can switch between 16 different Fonts in its FontFamily, to any of several Fonts this knows
      */
     public static Font getStandardFamily() {
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{"Serif", "Sans", "Mono", "Condensed", "Humanist",
                         "Retro", "Slab", "Handwriting", "Canada", "Cozette", "Iosevka",
-                        "Medieval", "Future", "Console", "Code"},
+                        "Medieval", "Future", "Console", "Code", "Geometric"},
                 new Font[]{getGentium(), getOpenSans(), getInconsolata(), getRobotoCondensed(), getYanoneKaffeesatz(),
                         getIBM8x16(), getIosevkaSlab(), getCaveat(), getCanada(), getCozette(), getIosevka(),
-                        getKingthingsFoundation(), getOxanium(), getAStarry().scale(2, 2), getCascadiaMono()});
+                        getKingthingsFoundation(), getOxanium(), getAStarry().scale(2, 2), getCascadiaMono(), getNowAlt()});
         family.fontAliases.put("Bitter", 0); // for compatibility; Bitter and Gentium look nearly identical anyway...
         return family.connected[0].setFamily(family);
     }
