@@ -1378,7 +1378,8 @@ public final class KnownFonts implements LifecycleListener {
                 // Manual adjustment: id 95 ('_') had yoffset changed from 5, to 6.
                 // This makes underlines use a different row than the bottom of letters.
                 instance.quanPixel = new Font(instance.prefix + "QuanPixel-standard.fnt",
-                        instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 8, 0, 2, false)
+                        instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 2, 0, 2, false)
+                        .setLineMetrics(0.16f, -0.0625f, 0f, 0f).setInlineImageMetrics(-32f, -8f, 0f)
                         .useIntegerPositions(true)
                         .setName("QuanPixel");
             } catch (Exception e) {
@@ -1418,6 +1419,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.robotoCondensed = new Font(instance.prefix + "RobotoCondensed-standard.fnt",
                         instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 25, 0, 20, true)
+                        .setLineMetrics(0f, -0.1f, 0f, -0.4f).setInlineImageMetrics(0f, 12f, 6f)
                         .scaleTo(20, 32).setTextureFilter().setName("Roboto Condensed");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1456,7 +1458,9 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.tangerine == null) {
             try {
                 instance.tangerine = new Font(instance.prefix + "Tangerine-standard.fnt",
-                        instance.prefix + "Tangerine-standard.png", STANDARD, 0f, 16f, 0f, 4f, true)
+                        instance.prefix + "Tangerine-standard.png", STANDARD, 0f, 16f, 0f, 0f, true)
+                        .setUnderlineMetrics(0f, 0.125f, 0f, -0.6f).setStrikethroughMetrics(0f, 0f, 0f, -0.6f)
+                        .setInlineImageMetrics(4f, -12f, 0f)
                         .scaleTo(48, 32).setTextureFilter().setName("Tangerine");
             } catch (Exception e) {
                 e.printStackTrace();
