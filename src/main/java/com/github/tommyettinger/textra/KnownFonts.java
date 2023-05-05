@@ -1223,7 +1223,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.libertinusSerif == null) {
             try {
                 instance.libertinusSerif = new Font(instance.prefix + "LibertinusSerif-standard.fnt",
-                        instance.prefix + "LibertinusSerif-standard.png", STANDARD, 0, 15, 0, 0, true)
+                        instance.prefix + "LibertinusSerif-standard.png", STANDARD, 0, 0, 0, 0, true)
+                        .setLineMetrics(0, 0.0625f, 0.0625f, -0.25f)
                         .scaleTo(40, 34).setTextureFilter().setName("Libertinus Serif");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1296,8 +1297,9 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.openSans == null) {
             try {
                 instance.openSans = new Font(instance.prefix + "OpenSans-standard.fnt",
-                        instance.prefix + "OpenSans-standard.png", STANDARD, 0, 14, 0, 0, true)
-                        .scaleTo(20, 28).adjustLineHeight(0.875f).setTextureFilter().setName("OpenSans");
+                        instance.prefix + "OpenSans-standard.png", STANDARD, 0, 16, 0, 0, true)
+                        .setLineMetrics(0f, -0.25f, 0f, -0.4f).setInlineImageMetrics(0f, 12f, 0f)
+                        .scaleTo(20, 28).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1334,6 +1336,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.oxanium = new Font(instance.prefix + "Oxanium-standard.fnt",
                         instance.prefix + "Oxanium-standard.png", STANDARD, 0, 2, -4, 0, true)
+                        .setInlineImageMetrics(0f, -8f, 0f)
                         .scaleTo(31, 35).setTextureFilter().setName("Oxanium");
             } catch (Exception e) {
                 e.printStackTrace();
