@@ -486,7 +486,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.gentium = new Font(instance.prefix + "Gentium-standard.fnt",
                         instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, 10f, 0f, 0f, true)
-                        .scaleTo(31, 35).setInlineImageMetrics(0f, -24f, 0f).setLineMetrics(0f, 0.1f, 0f, -0.4f)
+                        .scaleTo(31, 35).setInlineImageMetrics(-4f, -24f, 0f).setLineMetrics(0f, 0.1f, 0f, -0.4f)
                         .setTextureFilter().setName("Gentium");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -790,7 +790,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.inconsolata = new Font(instance.prefix + "Inconsolata-LGC-Custom-standard.fnt",
                         instance.prefix + "Inconsolata-LGC-Custom-standard.png", STANDARD, 1f, 6f, -4f, 0f, true)
-                        .setInlineImageMetrics(0f, 12f, 0f)
+                        .setLineMetrics(0f, 0.375f, 0f, 0f).setInlineImageMetrics(0f, -64f, 0f).setDescent(-64f)
                         .scaleTo(10, 26).setTextureFilter().setName("Inconsolata LGC");
             } catch (Exception e) {
                 e.printStackTrace();

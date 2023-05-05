@@ -2,6 +2,7 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
@@ -136,7 +137,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                         KnownFonts.getOxanium().scaleTo(32, 35)/*.scale(1.15f, 1.15f)*/.adjustLineHeight(1.05f),
                         KnownFonts.getYanoneKaffeesatz().scaleTo(32, 35)/*.scale(1.15f, 1.15f)*/.adjustLineHeight(0.85f)
                 });
-        Font font = family.connected[0].setFamily(family);
+//        Font font = family.connected[0].setFamily(family);
+        Font font = KnownFonts.getStandardFamily();
         for(Font f : font.family.connected) {
             if(f != null)
                 KnownFonts.addEmoji(f);
@@ -159,7 +161,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                "[#8fc60cff][@OpenSans][%75]{spin}Lorem ipsum dolor sit amet, consectetur adipiscing elit.[]",
 
 //                "{JOLT=1;1.2;inf;0.3;dull lavender;light butter}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
-                "{OCEAN}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
+                "{OCEAN=0.7;1.25;0.11;1.0;0.65}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
                 "she's{WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
                 "whippin' her way through the [*]{FONT=Sans}whole dang[@][*] town! " +
                 "Sure as [/]I reckon[], if we [@Mono]meet our {HANG}fate{RESET}, " +
@@ -229,8 +231,11 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         update(Gdx.graphics.getDeltaTime());
 
         ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1);
-        
 
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
+            System.out.println(label.font.family.connected[2].setDescent(label.font.family.connected[2].descent + 1).descent);
+        else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
+            System.out.println(label.font.family.connected[2].setDescent(label.font.family.connected[2].descent - 1).descent);
         stage.draw();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
