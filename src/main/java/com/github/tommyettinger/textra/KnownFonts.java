@@ -1983,15 +1983,9 @@ public final class KnownFonts implements LifecycleListener {
                 FileHandle atlas = Gdx.files.internal(instance.prefix + "Twemoji.atlas");
                 if (!atlas.exists() && Gdx.files.isLocalStorageAvailable()) atlas = Gdx.files.local(instance.prefix + "Twemoji.atlas");
                 if (Gdx.files.internal(instance.prefix + "Twemoji.png").exists())
-                    instance.twemoji = loadUnicodeAtlas(atlas, Gdx.files.internal(
-                            instance.prefix).isDirectory()
-                            ? Gdx.files.internal(instance.prefix)
-                            : Gdx.files.internal(instance.prefix).parent(), false);
+                    instance.twemoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
                 else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + "Twemoji.png").exists())
-                    instance.twemoji = loadUnicodeAtlas(atlas, Gdx.files.local(
-                            instance.prefix).isDirectory()
-                            ? Gdx.files.local(instance.prefix)
-                            : Gdx.files.local(instance.prefix).parent(), false);
+                    instance.twemoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -2116,15 +2110,9 @@ public final class KnownFonts implements LifecycleListener {
                 FileHandle atlas = Gdx.files.internal(instance.prefix + "Game-Icons.atlas");
                 if (!atlas.exists() && Gdx.files.isLocalStorageAvailable()) atlas = Gdx.files.local(instance.prefix + "Game-Icons.atlas");
                 if (Gdx.files.internal(instance.prefix + "Game-Icons.png").exists())
-                    instance.gameIcons = new TextureAtlas(atlas, Gdx.files.internal(
-                            instance.prefix).isDirectory()
-                            ? Gdx.files.internal(instance.prefix)
-                            : Gdx.files.internal(instance.prefix).parent(), false);
+                    instance.gameIcons = new TextureAtlas(atlas, atlas.parent(), false);
                 else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + "Game-Icons.png").exists())
-                    instance.gameIcons = new TextureAtlas(atlas, Gdx.files.local(
-                            instance.prefix).isDirectory()
-                            ? Gdx.files.local(instance.prefix)
-                            : Gdx.files.local(instance.prefix).parent(), false);
+                    instance.gameIcons = new TextureAtlas(atlas, atlas.parent(), false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
