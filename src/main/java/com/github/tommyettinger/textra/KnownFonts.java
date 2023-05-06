@@ -245,7 +245,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.canada = new Font(instance.prefix + "Canada1500-standard.fnt",
                         instance.prefix + "Canada1500-standard.png",
-                        STANDARD, 0, 0, 0, 0, true)
+                        STANDARD, 0, 8, 0, 0, true).setDescent(-22f).setInlineImageMetrics(0f, -4f, 4f)
                         .scaleTo(30, 35).setTextureFilter().setName("Canada1500");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1297,8 +1297,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.openSans == null) {
             try {
                 instance.openSans = new Font(instance.prefix + "OpenSans-standard.fnt",
-                        instance.prefix + "OpenSans-standard.png", STANDARD, 0, 16, 0, 0, true).setDescent(-28f)
-                        .setLineMetrics(0f, 0.25f, 0f, -0.4f).setInlineImageMetrics(0f, -16f, 4f)
+                        instance.prefix + "OpenSans-standard.png", STANDARD, 0, 16, 0, 0, true).setDescent(-8f)
+                        .setLineMetrics(0f, -0.125f, 0f, -0.4f).setInlineImageMetrics(0f, 4f, 4f)
                         .scaleTo(20, 28).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1335,8 +1335,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.oxanium == null) {
             try {
                 instance.oxanium = new Font(instance.prefix + "Oxanium-standard.fnt",
-                        instance.prefix + "Oxanium-standard.png", STANDARD, 0, 2, -4, 0, true).setDescent(-36f)
-                        .setLineMetrics(0f, 0.125f, 0f, 0f).setInlineImageMetrics(0f, -28f, 0f)
+                        instance.prefix + "Oxanium-standard.png", STANDARD, 0, 2, -4, 0, true).setDescent(-12f)
+                        .setLineMetrics(0f, -0.125f, 0f, 0f).setInlineImageMetrics(0f, 12f, 0f)
                         .scaleTo(31, 35).setTextureFilter().setName("Oxanium");
             } catch (Exception e) {
                 e.printStackTrace();
