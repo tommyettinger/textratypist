@@ -245,7 +245,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.canada = new Font(instance.prefix + "Canada1500-standard.fnt",
                         instance.prefix + "Canada1500-standard.png",
-                        STANDARD, 0, 8, 0, 0, true).setDescent(-22f).setInlineImageMetrics(0f, -4f, 4f)
+                        STANDARD, 0, 8, 0, 0, true).setDescent(-13f)
+                        .setInlineImageMetrics(0f, 12f, 4f).setLineMetrics(0f, -0.125f, 0f, -0.25f)
                         .scaleTo(30, 35).setTextureFilter().setName("Canada1500");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -362,7 +363,9 @@ public final class KnownFonts implements LifecycleListener {
                 instance.caveat = new Font(instance.prefix + "Caveat-standard.fnt",
                         instance.prefix + "Caveat-standard.png",
                         STANDARD, 0, 16, 0, 0, true)
-                        .setInlineImageMetrics(0f, -8f, 0f)
+                        .setDescent(-8f)
+                        .setLineMetrics(0.1f, -0.25f, 0f, -0.4f)
+                        .setInlineImageMetrics(0f, 44f, 0f)
                         .scaleTo(32, 32).setTextureFilter().setName("Caveat");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -486,7 +489,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.gentium = new Font(instance.prefix + "Gentium-standard.fnt",
                         instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, 10f, 0f, 0f, true)
-                        .scaleTo(31, 35).setInlineImageMetrics(-4f, -24f, 0f).setLineMetrics(0f, 0.1f, 0f, -0.4f)
+                        .scaleTo(31, 35).setInlineImageMetrics(-4f, 24f, 0f).setLineMetrics(0f, -0.2f, 0f, -0.4f)
+                        .setDescent(-9f)
                         .setTextureFilter().setName("Gentium");
             } catch (Exception e) {
                 e.printStackTrace();
