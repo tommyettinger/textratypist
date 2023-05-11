@@ -1270,6 +1270,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.nowAlt = new Font(instance.prefix + "Now-Alt-standard.fnt",
                         instance.prefix + "Now-Alt-standard.png", STANDARD, 0, 16, 0, 0, true)
+                        .setDescent(-12f).setLineMetrics(0f, -0.1f, 0f, 0f).setInlineImageMetrics(0f, 16f, 0f)
                         .scaleTo(28, 30).setTextureFilter().setName("Now Alt");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1427,7 +1428,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.robotoCondensed = new Font(instance.prefix + "RobotoCondensed-standard.fnt",
                         instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 25, 0, 20, true)
-                        .setLineMetrics(0f, -0.1f, 0f, -0.4f).setInlineImageMetrics(0f, 12f, 6f)
+                        .setDescent(-15f).setInlineImageMetrics(0f, 8f, 6f)
+                        .setUnderlineMetrics(0f, 0f, 0f, -0.4f).setStrikethroughMetrics(0f, -0.0625f, 0f, -0.4f)
                         .scaleTo(20, 32).setTextureFilter().setName("Roboto Condensed");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1545,6 +1547,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.kaffeesatz = new Font(instance.prefix + "YanoneKaffeesatz-standard.fnt",
                         instance.prefix + "YanoneKaffeesatz-standard.png", STANDARD, 2f, 6f, 0f, 0, true)
+                        .setDescent(-8f).setLineMetrics(0f, -0.2f, 0f, 0f).setInlineImageMetrics(0f, 16f, 4f)
                         .scaleTo(26, 30).setTextureFilter().setName("Yanone Kaffeesatz");
             } catch (Exception e) {
                 e.printStackTrace();
