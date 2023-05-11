@@ -406,10 +406,10 @@ public final class KnownFonts implements LifecycleListener {
                 instance.cozette = new Font(instance.prefix + "Cozette-standard.fnt",
                         instance.prefix + "Cozette-standard.png", STANDARD, 1.5f, 5f, 0, 0, false)
                         .useIntegerPositions(true)
-                        .setDescent(-7f)
+                        .setDescent(-4f)
                         .setUnderlinePosition(0.5f, 0f)
                         .setStrikethroughPosition(0.5f, 0f)
-                        .setInlineImageMetrics(-24f, 0f, 0f)
+                        .setInlineImageMetrics(-24f, -4f, 0f)
                         .setName("Cozette");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -758,7 +758,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.ibm8x16 == null) {
             try {
                 instance.ibm8x16 = new Font(instance.prefix, "IBM-8x16-standard.font", true)
-                        .setInlineImageMetrics(-16, 0, 0).fitCell(8, 16, false).setName("IBM 8x16");
+                        .setInlineImageMetrics(-24, 0, 0).fitCell(8, 16, false).setName("IBM 8x16").setDescent(-3f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -794,7 +794,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.inconsolata = new Font(instance.prefix + "Inconsolata-LGC-Custom-standard.fnt",
                         instance.prefix + "Inconsolata-LGC-Custom-standard.png", STANDARD, 1f, 6f, -4f, 0f, true)
-                        .setLineMetrics(0f, 0.375f, 0f, 0f).setInlineImageMetrics(0f, -64f, 0f).setDescent(-64f)
+                        .setLineMetrics(0f, 0f, 0f, -0.4f).setInlineImageMetrics(0f, 4f, 0f).setDescent(-21f)
                         .scaleTo(10, 26).setTextureFilter().setName("Inconsolata LGC");
             } catch (Exception e) {
                 e.printStackTrace();
