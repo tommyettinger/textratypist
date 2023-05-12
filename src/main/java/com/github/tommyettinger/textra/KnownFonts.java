@@ -204,8 +204,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.bitter == null) {
             try {
                 instance.bitter = new Font(instance.prefix + "Bitter-standard.fnt",
-                        instance.prefix + "Bitter-standard.png", STANDARD, 0, -40, 0, 0, true)
-                        .setInlineImageMetrics(0f, 24f, 0f)
+                        instance.prefix + "Bitter-standard.png", STANDARD, 0, -20, 0, 0, true)
+                        .setInlineImageMetrics(0f, 20f, 0f).setLineMetrics(0, -0.0625f, 0f, -0.5f).setDescent(-16f)
                         .scaleTo(33, 30).setTextureFilter().setName("Bitter");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -406,7 +406,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.cozette = new Font(instance.prefix + "Cozette-standard.fnt",
                         instance.prefix + "Cozette-standard.png", STANDARD, 1.5f, 5f, 0, 0, false)
                         .useIntegerPositions(true)
-                        .setDescent(-4f)
+                        .setDescent(-3f)
                         .setUnderlinePosition(0.5f, 0f)
                         .setStrikethroughPosition(0.5f, 0f)
                         .setInlineImageMetrics(-24f, -4f, 0f)
@@ -613,9 +613,9 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentiumUnItalic == null) {
             try {
                 instance.gentiumUnItalic = new Font(instance.prefix + "GentiumUnItalic-standard.fnt",
-                        instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, -4f, 0f, 0f, true)
-                        .scaleTo(48, 36).setTextureFilter().adjustLineHeight(0.75f)
-                        .setLineMetrics(0f, 0f, 0f, -0.3125f)
+                        instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, -4f, 0f, -12f, true)
+                        .scaleTo(60, 36).setTextureFilter()
+                        .setLineMetrics(0f, 0.15f, 0f, -0.3125f).setInlineImageMetrics(0f, -8f, 4f)
                         .setName("Gentium Un-Italic");
             } catch (Exception e) {
                 e.printStackTrace();

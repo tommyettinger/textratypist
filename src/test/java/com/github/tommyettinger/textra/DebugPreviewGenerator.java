@@ -22,7 +22,6 @@ public class DebugPreviewGenerator extends ApplicationAdapter {
     SpriteBatch batch;
     Viewport viewport;
     Layout layout = new Layout().setTargetWidth(800);
-    Array<String> colorNames;
     long startTime;
     String distanceField = "\nNo emoji here!";
     String emojiSupport = "\nEmoji! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
@@ -70,20 +69,20 @@ YanoneKaffeesatz-standard.fnt has descent: -19
     public void create() {
         batch = new SpriteBatch();
         viewport = new StretchViewport(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-        colorNames = Colors.getColors().keys().toArray();
 
         // investigating a GPU-related bug... seems fixed now, sometimes?
         // with useIntegerPositions(true), on some discrete GPUs this looks "wobbly," with an uneven baseline.
         // with useIntegerPositions(false), it seems fine?
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
-        Font[] fonts = KnownFonts.getAll();
+        Font[] fonts = KnownFonts.getAllStandard();
 //        fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
         int index = 0;
         Font fnt = fonts[index];
         for (int i = 0; i < fonts.length; i++) {
             font = fonts[i];
+            font.setFamily(new Font.FontFamily(new String[]{"Main", "G"}, new Font[]{font, KnownFonts.getGentium().scale(font.cellHeight / 35f, font.cellHeight / 35f)}));
             KnownFonts.addEmoji(font);
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 //        font = new Font(new BitmapFont(Gdx.files.internal("OpenSans-standard.fnt")), Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f)
@@ -122,6 +121,9 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
 //                    , layout);
             font.markup("[_]Font[] [~]name[] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%]): " + font.name +
+                    ",\n[@Main]Do I... [@G]Do I..." +
+                    ",\n[@Main]line up... [@G]line up..." +
+                    ",\n[@Main]with Gentium? [@G]with Gentium?[@Main]" +
                     ",\noriginalCellWidth: " + font.originalCellWidth +
                     ", originalCellHeight: " + font.originalCellHeight +
                     ",\ncellWidth: " + font.cellWidth +
