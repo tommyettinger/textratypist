@@ -489,7 +489,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.gentium = new Font(instance.prefix + "Gentium-standard.fnt",
                         instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, 10f, 0f, 0f, true)
-                        .scaleTo(31, 35).setInlineImageMetrics(-4f, 24f, 0f).setLineMetrics(0f, -0.2f, 0f, -0.4f)
+                        .scaleTo(31, 35).setInlineImageMetrics(-4f, 32f, 4f).setLineMetrics(0f, -0.2f, 0f, -0.4f)
                         .setDescent(-9f)
                         .setTextureFilter().setName("Gentium");
             } catch (Exception e) {
@@ -1470,8 +1470,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.tangerine = new Font(instance.prefix + "Tangerine-standard.fnt",
                         instance.prefix + "Tangerine-standard.png", STANDARD, 0f, 16f, 0f, 0f, true)
-                        .setUnderlineMetrics(0f, 0.125f, 0f, -0.6f).setStrikethroughMetrics(0f, 0f, 0f, -0.6f)
-                        .setInlineImageMetrics(4f, -12f, 0f)
+                        .setUnderlineMetrics(0f, 0f, 0f, -0.6f).setStrikethroughMetrics(0f, -0.125f, 0f, -0.6f)
+                        .setInlineImageMetrics(4f, 16f, 0f).setDescent(-20f)
                         .scaleTo(48, 32).setTextureFilter().setName("Tangerine");
             } catch (Exception e) {
                 e.printStackTrace();

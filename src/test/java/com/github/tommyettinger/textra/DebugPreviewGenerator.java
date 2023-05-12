@@ -75,7 +75,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         // with useIntegerPositions(false), it seems fine?
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
-        Font[] fonts = KnownFonts.getAllStandard();
+        Font[] fonts = KnownFonts.getAll();
 //        fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
         int index = 0;
