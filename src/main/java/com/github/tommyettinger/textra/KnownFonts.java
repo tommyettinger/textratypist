@@ -714,7 +714,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.hanazono == null) {
             try {
                 instance.hanazono = new Font(instance.prefix + "Hanazono-standard.fnt",
-                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, 0, 0, 0, false).scaleTo(16, 20)
+                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, 0, 0, 0, false)
+                        .setDescent(-6f).scaleTo(16, 20).setInlineImageMetrics(0, -4f, 0f)
                         .setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1231,8 +1232,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.libertinusSerif == null) {
             try {
                 instance.libertinusSerif = new Font(instance.prefix + "LibertinusSerif-standard.fnt",
-                        instance.prefix + "LibertinusSerif-standard.png", STANDARD, 0, 0, 0, 0, true)
-                        .setLineMetrics(0, 0.0625f, 0.0625f, -0.25f)
+                        instance.prefix + "LibertinusSerif-standard.png", STANDARD, 0, 6, 0, 0, true)
+                        .setLineMetrics(0.05f, 0f, 0.0625f, -0.25f)
                         .scaleTo(40, 34).setTextureFilter().setName("Libertinus Serif");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1388,8 +1389,8 @@ public final class KnownFonts implements LifecycleListener {
                 // This makes underlines use a different row than the bottom of letters.
                 instance.quanPixel = new Font(instance.prefix + "QuanPixel-standard.fnt",
                         instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 2, 0, 2, false)
-                        .setLineMetrics(0.16f, -0.0625f, 0f, 0f).setInlineImageMetrics(-32f, -8f, 0f)
-                        .useIntegerPositions(true)
+                        .setLineMetrics(0.16f, -0.0625f, 0f, 0f).setInlineImageMetrics(-32f, -4f, 0f)
+                        .useIntegerPositions(true).setDescent(-4f)
                         .setName("QuanPixel");
             } catch (Exception e) {
                 e.printStackTrace();
