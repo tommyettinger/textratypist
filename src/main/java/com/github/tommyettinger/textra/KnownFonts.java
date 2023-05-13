@@ -1898,6 +1898,8 @@ public final class KnownFonts implements LifecycleListener {
      * name or emoji, and {@link Font#namesByCharCode} to go from such an internal code to an emoji (as UTF-8).
      * <br>
      * Preview: <a href="https://i.imgur.com/Mw0fWA7.png">Image link</a> (uses the font {@link #getYanoneKaffeesatz()})
+     * You can see all emoji and the names they use
+     * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
      * <br>
      * Needs files:
      * <ul>
@@ -1933,6 +1935,8 @@ public final class KnownFonts implements LifecycleListener {
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
      * <br>
      * Preview: <a href="https://i.imgur.com/Mw0fWA7.png">Image link</a> (uses the font {@link #getYanoneKaffeesatz()})
+     * You can see all emoji and the names they use
+     * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
      * <br>
      * Needs files:
      * <ul>
@@ -1972,6 +1976,8 @@ public final class KnownFonts implements LifecycleListener {
      * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
      * <br>
      * Preview: <a href="https://i.imgur.com/Mw0fWA7.png">Image link</a> (uses the font {@link #getYanoneKaffeesatz()})
+     * You can see all emoji and the names they use
+     * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
      * <br>
      * Needs files:
      * <ul>
