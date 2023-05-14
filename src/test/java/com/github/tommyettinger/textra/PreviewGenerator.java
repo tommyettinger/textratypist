@@ -23,7 +23,6 @@ public class PreviewGenerator extends ApplicationAdapter {
     SpriteBatch batch;
     Viewport viewport;
     Layout layout = new Layout().setTargetWidth(1200);
-    Array<String> colorNames;
     long startTime;
     static final String text = "Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
             + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
@@ -44,7 +43,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
-        config.enableGLDebugOutput(true, System.out);
+//        config.enableGLDebugOutput(true, System.out);
         config.setForegroundFPS(1);
         config.useVsync(true);
         new Lwjgl3Application(new PreviewGenerator(), config);
@@ -54,7 +53,6 @@ public class PreviewGenerator extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
         viewport = new StretchViewport(1200, 675);
-        colorNames = Colors.getColors().keys().toArray();
 
         // investigating a GPU-related bug... seems fixed now, sometimes?
         // with useIntegerPositions(true), on some discrete GPUs this looks "wobbly," with an uneven baseline.
@@ -150,8 +148,6 @@ public class PreviewGenerator extends ApplicationAdapter {
     @Override
     public void render() {
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
-//        ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
-//        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
         float x = Gdx.graphics.getBackBufferWidth() * 0.5f;
         float y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f - fnt.descent * fnt.scaleY;
         viewport.apply();

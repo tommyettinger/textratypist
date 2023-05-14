@@ -95,7 +95,7 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
      * <br>
-     * Preview: <a href="https://i.imgur.com/UhwRrFc.png">Image link</a> (uses width=8, height=8)
+     * Preview: <a href="https://i.imgur.com/UhwRrFc.png">Image link</a> (uses width=8, height=8, adjustLineHeight(1.125f))
      * <br>
      * This also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
      * multiples of 8. This "A Starry Tall" version is present in {@link #getAll()} and {@link #getAllStandard()}.
@@ -116,9 +116,9 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.astarry == null) {
             try {
                 instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
-                        instance.prefix + "AStarry-standard.png", STANDARD, 12, 0, 0, -12, true)
+                        instance.prefix + "AStarry-standard.png", STANDARD, 12, 0, 0, -12, true).adjustLineHeight(1.125f)
                         .scaleTo(8, 8)
-                        .setUnderlineMetrics(0.25f, 0f, 0f, 0.25f).setStrikethroughMetrics(0.25f, 0.125f, 0f, 0.25f)
+                        .setUnderlineMetrics(0.25f, 0.1f, 0f, 0f).setStrikethroughMetrics(0.25f, 0.2f, 0f, 0f)
                         .setInlineImageMetrics(0f, 6f, 0f)
                         .setTextureFilter().setName("A Starry");
             } catch (Exception e) {
