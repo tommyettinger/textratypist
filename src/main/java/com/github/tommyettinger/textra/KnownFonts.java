@@ -671,7 +671,7 @@ public final class KnownFonts implements LifecycleListener {
                         .scaleTo(65.25f, 51)
                         .adjustLineHeight(0.625f)
                         .setCrispness(1.8f)
-                        .setLineMetrics(0f, 0.375f, 0f, -0.4f).setInlineImageMetrics(0f, -12f, 0f)
+                        .setLineMetrics(0f, 0.375f, 0f, -0.4f).setInlineImageMetrics(0f, -14f, 8f)
                         .setName("Go Noto Universal (SDF)");
 
 //                System.out.println(instance.goNotoUniversalSDF.cellWidth);
@@ -1150,7 +1150,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.kingthingsFoundation = new Font(instance.prefix + "KingthingsFoundation-standard.fnt",
                         instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 40, 0, 25, true)
                         .setUnderlineMetrics(0f, -0.125f, 0.125f, -0.2f).setStrikethroughMetrics(0f, -0.125f, 0.125f, -0.2f)
-                        .setInlineImageMetrics(0f, 44f, 0f).setDescent(-24f)
+                        .setInlineImageMetrics(0f, 48f, 8f).setDescent(-24f)
                         .scaleTo(23, 31).setTextureFilter().setName("Kingthings Foundation");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1191,7 +1191,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.kingthingsPetrock = new Font(instance.prefix + "KingthingsPetrock-standard.fnt",
                         instance.prefix + "KingthingsPetrock-standard.png", STANDARD, 0, 8, 2, 0, true)
-                        .setInlineImageMetrics(0f, 6f, 0f)
+                        .setInlineImageMetrics(0f, 10f, 8f)
                         .scaleTo(25, 32).setTextureFilter().setName("Kingthings Petrock");
             } catch (Exception e) {
                 e.printStackTrace();
