@@ -407,8 +407,8 @@ public final class KnownFonts implements LifecycleListener {
                         instance.prefix + "Cozette-standard.png", STANDARD, 1.5f, 5f, 0, 0, false)
                         .useIntegerPositions(true)
                         .setDescent(-3f)
-                        .setUnderlinePosition(0.5f, 0f)
-                        .setStrikethroughPosition(0.5f, 0f)
+                        .setUnderlinePosition(0.5f, -0.125f)
+                        .setStrikethroughPosition(0.5f, -0.125f)
                         .setInlineImageMetrics(-24f, -4f, 0f)
                         .setName("Cozette");
             } catch (Exception e) {
@@ -489,7 +489,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.gentium = new Font(instance.prefix + "Gentium-standard.fnt",
                         instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, 10f, 0f, 0f, true)
-                        .scaleTo(31, 35).setInlineImageMetrics(-4f, 32f, 4f).setLineMetrics(0f, -0.2f, 0f, -0.4f)
+                        .scaleTo(31, 35).setInlineImageMetrics(-4f, 32f, 8f).setLineMetrics(0f, -0.2f, 0f, -0.4f)
                         .setDescent(-9f)
                         .setTextureFilter().setName("Gentium");
             } catch (Exception e) {
@@ -574,7 +574,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.gentiumSDF = new Font(instance.prefix + "Gentium-sdf.fnt",
                         instance.prefix + "Gentium-sdf.png", SDF, 4f, 0f, 0f, 0f, true)
                         .scaleTo(50, 45).adjustLineHeight(0.625f)
-                        .setLineMetrics(0.05f, 0.25f, 0f, -0.5f).setInlineImageMetrics(0f, -20f, 0f)
+                        .setLineMetrics(0.05f, 0.25f, 0f, -0.5f).setInlineImageMetrics(0f, -20f, 8f)
                     .setCrispness(1.5f).setName("Gentium (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
