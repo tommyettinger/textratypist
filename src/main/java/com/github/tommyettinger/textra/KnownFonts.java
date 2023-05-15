@@ -95,12 +95,12 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
      * <br>
-     * Preview: <a href="https://i.imgur.com/UhwRrFc.png">Image link</a> (uses width=8, height=8, adjustLineHeight(1.125f))
+     * Preview: <a href="https://i.imgur.com/LS6W2nh.png">Image link</a> (uses width=8, height=8, adjustLineHeight(1.125f))
      * <br>
      * This also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
      * multiples of 8. This "A Starry Tall" version is present in {@link #getAll()} and {@link #getAllStandard()}.
      * <br>
-     * Preview: <a href="https://i.imgur.com/gZNsszP.png">Image link</a> (uses width=8, height=16)
+     * Preview: <a href="https://i.imgur.com/H7kNS3u.png">Image link</a> (uses width=8, height=16, adjustLineHeight(1.125f))
      * <br>
      * Needs files:
      * <ul>
@@ -116,8 +116,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.astarry == null) {
             try {
                 instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
-                        instance.prefix + "AStarry-standard.png", STANDARD, 12, 0, 0, -12, true).adjustLineHeight(1.125f)
-                        .scaleTo(8, 8)
+                        instance.prefix + "AStarry-standard.png", STANDARD, 12, 0, 0, -12, true)
+                        .scaleTo(8, 8).adjustLineHeight(1.125f)
                         .setUnderlineMetrics(0.25f, 0.1f, 0f, 0f).setStrikethroughMetrics(0.25f, 0.2f, 0f, 0f)
                         .setInlineImageMetrics(0f, 6f, 0f)
                         .setTextureFilter().setName("A Starry");
@@ -144,7 +144,7 @@ public final class KnownFonts implements LifecycleListener {
      * If you only need sizes in small integer multiples of 8 pixels, you might get sharper-looking results from
      * {@link #getAStarry()}.
      * <br>
-     * Preview: <a href="https://i.imgur.com/RVUvzJi.png">Image link</a> (uses width=10, height=10, crispness=2.0)
+     * Preview: <a href="https://i.imgur.com/tl9fd3E.png">Image link</a> (uses width=10, height=10, crispness=2.0)
      * <br>
      * Needs files:
      * <ul>
@@ -188,7 +188,7 @@ public final class KnownFonts implements LifecycleListener {
      * other strokes in the font. This does mean that strikethrough starts too far to the left, and extends too far to
      * the right, unfortunately, but its weight matches.
      * <br>
-     * Preview: <a href="https://i.imgur.com/7LwKBTZ.png">Image link</a> (uses width=33, height=30)
+     * Preview: <a href="https://i.imgur.com/aiyvJ8h.png">Image link</a> (uses width=33, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -228,7 +228,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/5rg7O36.png">Image link</a> (uses width=30, height=35)
+     * Preview: <a href="https://i.imgur.com/w7V78fo.png">Image link</a> (uses width=30, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -268,7 +268,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a fairly-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/AGsj34B.png">Image link</a> (uses width=10, height=20)
+     * Preview: <a href="https://i.imgur.com/YU5dIEo.png">Image link</a> (uses width=10, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -307,7 +307,7 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/qeQJ9TI.png">Image link</a> (uses width=10, height=20)
+     * Preview: <a href="https://i.imgur.com/qs6cV8v.png">Image link</a> (uses width=10, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -345,7 +345,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/gxDY0vs.png">Image link</a> (uses width=32, height=32)
+     * Preview: <a href="https://i.imgur.com/TFzX2OZ.png">Image link</a> (uses width=32, height=32)
      * <br>
      * Needs files:
      * <ul>
@@ -382,12 +382,12 @@ public final class KnownFonts implements LifecycleListener {
      * Returns a Font configured to use a cozy fixed-width bitmap font,
      * <a href="https://github.com/slavfox/Cozette">Cozette by slavfox</a>. Cozette has broad coverage of Unicode,
      * including Greek, Cyrillic, Braille, and tech-related icons. This does not scale well except to integer
-     * multiples, but it should look very crisp at its default size of 7x13 pixels. This defaults to having
+     * multiples, but it should look very crisp at its default size of 6x17 pixels. This defaults to having
      * {@link Font#integerPosition} set to true, which helps keep it pixel-perfect if 1 world unit is 1 pixel, but can
      * cause major visual issues if 1 world unit corresponds to much more than 1 pixel.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/uAsZnzo.png">Image link</a> (uses width=7, height=13,
+     * Preview: <a href="https://i.imgur.com/fC2c54R.png">Image link</a> (uses width=6, height=17,
      * useIntegerPositions(true); this size is small enough to make the scaled text unreadable in some places)
      * <br>
      * Needs files:
@@ -397,7 +397,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-License.txt">Cozette-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that represents the 7x13px font Cozette
+     * @return the Font object that represents the 6x17px font Cozette
      */
     public static Font getCozette() {
         initialize();
@@ -433,7 +433,7 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/V0zYSkO.png">Image link</a> (uses width=9, height=20)
+     * Preview: <a href="https://i.imgur.com/7tLAHE9.png">Image link</a> (uses width=9, height=20, crispness=2.0)
      * <br>
      * Needs files:
      * <ul>
@@ -470,9 +470,10 @@ public final class KnownFonts implements LifecycleListener {
      * <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It supports a lot of glyphs,
      * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
      * real languages. This does not use a distance field effect, as opposed to {@link #getGentiumSDF()}. You may want
-     * to stick using just fonts that avoid distance fields if you have a family of fonts.
+     * to stick using just fonts that avoid distance fields if you have a family of fonts. You can also use
+     * {@link #getStandardFamily()} to obtain a variant on this Font that has a FontFamily already.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ZsWgxEp.png">Image link</a> (uses width=31, height=35)
+     * Preview: <a href="https://i.imgur.com/1yy58dU.png">Image link</a> (uses width=31, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -514,7 +515,7 @@ public final class KnownFonts implements LifecycleListener {
      * uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/BkFUEue.png">Image link</a> (uses width=50, height=45,
+     * Preview: <a href="https://i.imgur.com/lTFmiYv.png">Image link</a> (uses width=50, height=45,
      * adjustLineHeight(0.625f), setCrispness(3f))
      * <br>
      * Needs files:
@@ -555,7 +556,7 @@ public final class KnownFonts implements LifecycleListener {
      * uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but should be
      * crisp enough when zoomed out.
      * <br>
-     * Preview: <a href="https://i.imgur.com/tbiLDL3.png">Image link</a> (uses width=50, height=45,
+     * Preview: <a href="https://i.imgur.com/aVvCyit.png">Image link</a> (uses width=50, height=45,
      * adjustLineHeight(0.625f), setCrispness(1.5f))
      * <br>
      * Needs files:
@@ -575,7 +576,7 @@ public final class KnownFonts implements LifecycleListener {
                         instance.prefix + "Gentium-sdf.png", SDF, 4f, 0f, 0f, 0f, true)
                         .scaleTo(50, 45).adjustLineHeight(0.625f)
                         .setLineMetrics(0.05f, 0.25f, 0f, -0.5f).setInlineImageMetrics(0f, -20f, 8f)
-                    .setCrispness(1.5f).setName("Gentium (SDF)");
+                        .setCrispness(1.5f).setName("Gentium (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -590,14 +591,15 @@ public final class KnownFonts implements LifecycleListener {
      * Returns a Font already configured to use a variable-width "italic-like" serif font with excellent Unicode
      * support, that should scale well from a height of about 97 down to a height of 30.
      * Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font License) typeface by
-     * SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>), but this took Gentim Italic
-     * and removed the 8-degree slant it had, so it looks like a regular face but with the different serif style and
-     * "flow" of an italic font. It supports a lot of glyphs,
-     * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
-     * real languages. This does not use a distance field effect. You may want
-     * to stick using just fonts that avoid distance fields if you have a family of fonts.
+     * SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>), but this took Gentium
+     * Italic and removed the 8-degree slant it had, so it looks like a regular face but with the different serif style
+     * and the "flow" of an italic font. It supports a lot of glyphs, including quite a bit of extended Latin, Greek,
+     * and Cyrillic, as well as some less-common glyphs from various real languages. Even though glyphs are not
+     * especially wide here, this Font does need to be configured with a much larger width than height to be readable.
+     * This does not use a distance field effect. You may want to stick using just fonts that avoid distance fields if
+     * you have a family of fonts.
      * <br>
-     * Preview: <a href="">Image link</a> (uses width=31, height=35)
+     * Preview: <a href="https://i.imgur.com/C7c2nwC.png">Image link</a> (uses width=60, height=36)
      * <br>
      * Needs files:
      * <ul>
@@ -650,7 +652,7 @@ public final class KnownFonts implements LifecycleListener {
      * DistanceFieldFont in libGDX. Using floats is very helpful for the distance field effect; without them, most
      * glyphs would render slightly off from the intended position, due to rounding to an int instead of using a float.
      * <br>
-     * Preview: <a href="https://i.imgur.com/Daco1P4.png">Image link</a> (uses width=65.25, height=51,
+     * Preview: <a href="https://i.imgur.com/SutsTUs.png">Image link</a> (uses width=65.25, height=51,
      * adjustLineHeight(0.625f), setCrispness(1.8f))
      * <br>
      * Needs files:
@@ -673,11 +675,6 @@ public final class KnownFonts implements LifecycleListener {
                         .setCrispness(1.8f)
                         .setLineMetrics(0f, 0.375f, 0f, -0.4f).setInlineImageMetrics(0f, -14f, 8f)
                         .setName("Go Noto Universal (SDF)");
-
-//                System.out.println(instance.goNotoUniversalSDF.cellWidth);
-//                System.out.println(instance.goNotoUniversalSDF.cellHeight);
-
-                // Above are used to see how big the font actually is, since due to scaling we don't know.
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -698,7 +695,7 @@ public final class KnownFonts implements LifecycleListener {
      * you can use an SDF font, since it scales up with higher quality.
      * Otherwise, this may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/l6hQtxT.png">Image link</a> (uses width=16, height=20)
+     * Preview: <a href="https://i.imgur.com/Lh36YYA.png">Image link</a> (uses width=16, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -743,7 +740,7 @@ public final class KnownFonts implements LifecycleListener {
      * can use {@link #getCozette()} or {@link #getQuanPixel()} for a different bitmap font. There
      * is also {@link #getAStarry()} for a non-pixel font styled after a font from the same era.
      * <br>
-     * Preview: <a href="https://i.imgur.com/HYdpU9k.png">Image link</a> (uses width=8, height=16, done with
+     * Preview: <a href="https://i.imgur.com/nznUFCQ.png">Image link</a> (uses width=8, height=16, done with
      * fitCell(8, 16, false))
      * <br>
      * Needs files:
@@ -778,7 +775,7 @@ public final class KnownFonts implements LifecycleListener {
      * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/dnahJGX.png">Image link</a> (uses width=10, height=26)
+     * Preview: <a href="https://i.imgur.com/nAkjtox.png">Image link</a> (uses width=10, height=26)
      * <br>
      * Needs files:
      * <ul>
@@ -815,7 +812,7 @@ public final class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ot66v1S.png">Image link</a> (uses width=10, height=26)
+     * Preview: <a href="https://i.imgur.com/eoKElsU.png">Image link</a> (uses width=12, height=26)
      * <br>
      * Needs files:
      * <ul>
