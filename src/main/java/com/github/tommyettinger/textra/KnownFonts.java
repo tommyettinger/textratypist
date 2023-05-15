@@ -1471,7 +1471,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.tangerine = new Font(instance.prefix + "Tangerine-standard.fnt",
                         instance.prefix + "Tangerine-standard.png", STANDARD, 0f, 16f, 0f, 0f, true)
                         .setUnderlineMetrics(0f, 0f, 0f, -0.6f).setStrikethroughMetrics(0f, -0.125f, 0f, -0.6f)
-                        .setInlineImageMetrics(4f, 16f, 0f).setDescent(-20f)
+                        .setInlineImageMetrics(4f, 20f, 8f).setDescent(-20f)
                         .scaleTo(48, 32).setTextureFilter().setName("Tangerine");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1510,7 +1510,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.tangerineSDF = new Font(instance.prefix + "Tangerine-sdf.fnt",
                         instance.prefix + "Tangerine-sdf.png", SDF, 0f, 28f, 0f, 0, false)
-                        .setLineMetrics(0.0625f, 0f, 0f, 0f).setInlineImageMetrics(0f, 0f, 4f)
+                        .setLineMetrics(0.0625f, 0f, 0f, 0f).setInlineImageMetrics(0f, 0f, 8f)
                         .scaleTo(48, 32).setCrispness(0.375f).setName("Tangerine (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1548,7 +1548,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.kaffeesatz = new Font(instance.prefix + "YanoneKaffeesatz-standard.fnt",
                         instance.prefix + "YanoneKaffeesatz-standard.png", STANDARD, 2f, 6f, 0f, 0, true)
-                        .setDescent(-8f).setLineMetrics(0f, -0.2f, 0f, 0f).setInlineImageMetrics(0f, 16f, 4f)
+                        .setDescent(-8f).setLineMetrics(0f, -0.2f, 0f, 0f).setInlineImageMetrics(0f, 18f, 4f)
                         .scaleTo(26, 30).setTextureFilter().setName("Yanone Kaffeesatz");
             } catch (Exception e) {
                 e.printStackTrace();
