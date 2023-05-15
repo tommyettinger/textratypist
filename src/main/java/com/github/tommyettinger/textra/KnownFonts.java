@@ -1308,7 +1308,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.openSans = new Font(instance.prefix + "OpenSans-standard.fnt",
                         instance.prefix + "OpenSans-standard.png", STANDARD, 0, 16, 0, 0, true).setDescent(-8f)
-                        .setLineMetrics(0f, -0.125f, 0f, -0.4f).setInlineImageMetrics(0f, 4f, 4f)
+                        .setLineMetrics(0f, -0.125f, 0f, -0.4f).setInlineImageMetrics(0f, 8f, 4f)
                         .scaleTo(20, 28).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1346,7 +1346,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.oxanium = new Font(instance.prefix + "Oxanium-standard.fnt",
                         instance.prefix + "Oxanium-standard.png", STANDARD, 0, 2, -4, 0, true).setDescent(-12f)
-                        .setLineMetrics(0f, -0.125f, 0f, 0f).setInlineImageMetrics(0f, 12f, 0f)
+                        .setLineMetrics(0f, -0.125f, 0f, 0f).setInlineImageMetrics(0f, 12f, 4f)
                         .scaleTo(31, 35).setTextureFilter().setName("Oxanium");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1389,7 +1389,7 @@ public final class KnownFonts implements LifecycleListener {
                 // This makes underlines use a different row than the bottom of letters.
                 instance.quanPixel = new Font(instance.prefix + "QuanPixel-standard.fnt",
                         instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 2, 0, 2, false)
-                        .setLineMetrics(0.16f, -0.0625f, 0f, 0f).setInlineImageMetrics(-32f, -4f, 0f)
+                        .setLineMetrics(0.125f, -0.0625f, 0.1f, 0f).setInlineImageMetrics(-32f, -4f, 0f)
                         .useIntegerPositions(true).setDescent(-4f)
                         .setName("QuanPixel");
             } catch (Exception e) {
