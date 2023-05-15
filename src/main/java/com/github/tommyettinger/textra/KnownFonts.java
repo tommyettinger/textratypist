@@ -615,7 +615,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.gentiumUnItalic = new Font(instance.prefix + "GentiumUnItalic-standard.fnt",
                         instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, -4f, 0f, -12f, true)
                         .scaleTo(60, 36).setTextureFilter()
-                        .setLineMetrics(0f, 0.15f, 0f, -0.3125f).setInlineImageMetrics(0f, -8f, 4f)
+                        .setLineMetrics(0f, 0.15f, 0f, -0.3125f).setInlineImageMetrics(0f, -8f, 8f)
                         .setName("Gentium Un-Italic");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -968,7 +968,7 @@ public final class KnownFonts implements LifecycleListener {
                 // This should be OK now that this uses the box-drawing underline.
                 instance.iosevkaSDF = new Font(instance.prefix + "Iosevka-sdf.fnt",
                         instance.prefix + "Iosevka-sdf.png", SDF, 2f, 0f, -2f, -2f, true)
-                        .setLineMetrics(0.25f, -0.125f, 0f, -0.4f).setInlineImageMetrics(0f, 8f, 0f)
+                        .setLineMetrics(0.25f, -0.125f, 0f, -0.4f).setInlineImageMetrics(0f, 12f, 8f)
                         .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka (SDF)");
             } catch (Exception e) {
@@ -1101,7 +1101,7 @@ public final class KnownFonts implements LifecycleListener {
                 // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSlabSDF = new Font(instance.prefix + "Iosevka-Slab-sdf.fnt",
                         instance.prefix + "Iosevka-Slab-sdf.png", SDF, 2f, 0f, -2f, -2f, true)
-                        .setLineMetrics(0.25f, -0.125f, 0f, -0.4f).setInlineImageMetrics(0f, 8f, 0f)
+                        .setLineMetrics(0.25f, -0.125f, 0f, -0.4f).setInlineImageMetrics(0f, 12f, 8f)
                         .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka Slab (SDF)");
             } catch (Exception e) {
