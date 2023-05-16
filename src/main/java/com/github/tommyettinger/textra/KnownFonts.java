@@ -1894,7 +1894,12 @@ public final class KnownFonts implements LifecycleListener {
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
      * name or emoji, and {@link Font#namesByCharCode} to go from such an internal code to an emoji (as UTF-8).
      * <br>
+     * Note that there isn't enough available space in a Font to add both emoji with this and icons with
+     * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
+     * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
+     * <br>
      * Preview: <a href="https://i.imgur.com/Mw0fWA7.png">Image link</a> (uses the font {@link #getYanoneKaffeesatz()})
+     * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
      * <br>
@@ -1929,9 +1934,14 @@ public final class KnownFonts implements LifecycleListener {
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
      * name or emoji, and {@link Font#namesByCharCode} to go from such an internal code to an emoji (as UTF-8).
      * <br>
+     * Note that there isn't enough available space in a Font to add both emoji with this and icons with
+     * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
+     * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
+     * <br>
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
      * <br>
      * Preview: <a href="https://i.imgur.com/Mw0fWA7.png">Image link</a> (uses the font {@link #getYanoneKaffeesatz()})
+     * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
      * <br>
@@ -1969,10 +1979,15 @@ public final class KnownFonts implements LifecycleListener {
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
      * name or emoji, and {@link Font#namesByCharCode} to go from such an internal code to an emoji (as UTF-8).
      * <br>
+     * Note that there isn't enough available space in a Font to add both emoji with this and icons with
+     * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
+     * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
+     * <br>
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font. It also
      * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
      * <br>
      * Preview: <a href="https://i.imgur.com/Mw0fWA7.png">Image link</a> (uses the font {@link #getYanoneKaffeesatz()})
+     * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
      * <br>
@@ -2030,7 +2045,14 @@ public final class KnownFonts implements LifecycleListener {
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
      * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.
      * <br>
+     * Note that there isn't enough available space in a Font to add both emoji with {@link #addEmoji(Font)} and icons
+     * with this. You can, however, make two copies of a Font, add emoji to one and icons to the other, and put both in
+     * a FontFamily, so you can access both atlases in the same block of text.
+     * <br>
      * Preview: <a href="https://i.imgur.com/s47OVEU.gif">Animated Image link</a> (uses {@link #getNowAlt()})
+     * <br>
+     * You can see all icons and the names they use
+     * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">at this GitHub Pages site</a>.
      * <br>
      * Needs files:
      * <ul>
@@ -2061,9 +2083,16 @@ public final class KnownFonts implements LifecycleListener {
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
      * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.
      * <br>
+     * Note that there isn't enough available space in a Font to add both emoji with {@link #addEmoji(Font)} and icons
+     * with this. You can, however, make two copies of a Font, add emoji to one and icons to the other, and put both in
+     * a FontFamily, so you can access both atlases in the same block of text.
+     * <br>
      * This overload allows customizing the x/y offsets and x-advance for every icon this puts in a Font.
      * <br>
      * Preview: <a href="https://i.imgur.com/s47OVEU.gif">Animated Image link</a> (uses {@link #getNowAlt()})
+     * <br>
+     * You can see all icons and the names they use
+     * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">at this GitHub Pages site</a>.
      * <br>
      * Needs files:
      * <ul>
@@ -2098,10 +2127,17 @@ public final class KnownFonts implements LifecycleListener {
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
      * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.
      * <br>
+     * Note that there isn't enough available space in a Font to add both emoji with {@link #addEmoji(Font)} and icons
+     * with this. You can, however, make two copies of a Font, add emoji to one and icons to the other, and put both in
+     * a FontFamily, so you can access both atlases in the same block of text.
+     * <br>
      * This overload allows customizing the x/y offsets and x-advance for every icon this puts in a Font. It also
      * allows specifying Strings to prepend before and append after each name in the font.
      * <br>
      * Preview: <a href="https://i.imgur.com/s47OVEU.gif">Animated Image link</a> (uses {@link #getNowAlt()})
+     * <br>
+     * You can see all icons and the names they use
+     * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">at this GitHub Pages site</a>.
      * <br>
      * Needs files:
      * <ul>
