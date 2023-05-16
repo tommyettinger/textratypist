@@ -4249,16 +4249,16 @@ public class Font implements Disposable {
             }
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
-                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + cellWidth * font.underX * scale;
-                p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY + sin * centerX
+                p0x = oCenterX - cos * oCenterX - cellWidth * 0.5f - scale * osx + cellWidth * font.underX * scale;
+                p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + oCenterY + sin * oCenterX
                         + font.descent * font.scaleY;
-                if (c >= 0xE000 && c < 0xF800) {
-                    p0x = xc + (changedW * 0.5f) + cellWidth * font.underX * scale;
-                    p0y = font.handleIntegerPosition(yt + font.underY * font.cellHeight * scale * sizingY);
-                }
+//                if (c >= 0xE000 && c < 0xF800) {
+//                    p0x = xc + (changedW * 0.5f) + cellWidth * font.underX * scale;
+//                    p0y = font.handleIntegerPosition(yt + font.underY * font.cellHeight * scale * sizingY);
+//                }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
-                        xAdvance * scaleX + 3f * 0.0625f * centerX + scale * fsx + cellWidth * font.underLength * scale,
+                        xAdvance * scaleX + 3f * 0.0625f * oCenterX + scale * osx + cellWidth * font.underLength * scale,
                         font.cellHeight * scale * sizingY * (1f + font.underBreadth), rotation);
             } else {
                 under = font.mapping.get('_');
@@ -4332,15 +4332,15 @@ public class Font implements Disposable {
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
-                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + cellWidth * font.strikeX * scale;
-                p0y = centerY + (font.strikeY - 0.45f) * font.cellHeight * scale * sizingY + sin * centerX + font.descent * font.scaleY;
-                if (c >= 0xE000 && c < 0xF800) {
-                    p0x = xc + (changedW * 0.5f) + cellWidth * font.strikeX * scale;
-                    p0y = font.handleIntegerPosition(yt + (font.strikeY + 0.375f) * font.cellHeight * scale * sizingY);
-                }
+                p0x = oCenterX - cos * oCenterX - cellWidth * 0.5f - scale * osx + cellWidth * font.strikeX * scale;
+                p0y = oCenterY + sin * oCenterX + (font.strikeY - 0.45f) * font.cellHeight * scale * sizingY + font.descent * font.scaleY;
+//                if (c >= 0xE000 && c < 0xF800) {
+//                    p0x = xc + (changedW * 0.5f) + cellWidth * font.strikeX * scale;
+//                    p0y = font.handleIntegerPosition(yt + (font.strikeY + 0.375f) * font.cellHeight * scale * sizingY);
+//                }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        xAdvance * scaleX + 3f * 0.0625f * centerX + scale * fsx + font.cellWidth * scale * font.strikeLength,
+                        xAdvance * scaleX + 3f * 0.0625f * oCenterX + scale * osx + font.cellWidth * scale * font.strikeLength,
                         (1f + font.strikeBreadth) * font.cellHeight * scale * sizingY, rotation);
             } else {
                 dash = font.mapping.get('-');
