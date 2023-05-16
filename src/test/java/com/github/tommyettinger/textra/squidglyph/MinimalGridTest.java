@@ -43,7 +43,7 @@ public class MinimalGridTest extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
-        Font font = KnownFonts.addEmoji(KnownFonts.getInconsolata().scaleTo(12.5f, 25f));
+        Font font = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic().scaleTo(25f, 25f));
 //        font.adjustCellWidth(0.5f);
 //        font.originalCellHeight *= 0.5f;
 //        font.cellHeight *= 0.5f;
