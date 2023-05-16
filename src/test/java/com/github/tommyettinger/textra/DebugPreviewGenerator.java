@@ -24,7 +24,7 @@ public class DebugPreviewGenerator extends ApplicationAdapter {
     Layout layout = new Layout().setTargetWidth(800);
     long startTime;
     String distanceField = "\nNo emoji here!";
-    String emojiSupport = "\nEmoji! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
+    String emojiSupport = "\nEmoji! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿] [_][+🥰] hm[~]m... [+🤯][]";
 /*
 AStarry-standard.fnt has descent: -12
 AStarry-msdf.fnt has descent: -94
