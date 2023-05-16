@@ -4017,7 +4017,7 @@ public class Font implements Disposable {
             // This seems to rotate icons around their centers.
             x += (changedW * 0.5f);
             y += scaledHeight * 0.5f;
-//            yt -= scaledHeight * 0.5f;
+            yt -= scaledHeight * 0.5f;
 
 //            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
         }
