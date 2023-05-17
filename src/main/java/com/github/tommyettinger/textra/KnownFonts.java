@@ -409,7 +409,7 @@ public final class KnownFonts implements LifecycleListener {
                         .setDescent(-3f)
                         .setUnderlinePosition(0f, -0.125f)
                         .setStrikethroughPosition(0f, 0f)
-                        .setInlineImageMetrics(-32f, -4f, 8f)
+                        .setInlineImageMetrics(-32f, 4f, 8f)
                         .setName("Cozette");
             } catch (Exception e) {
                 e.printStackTrace();

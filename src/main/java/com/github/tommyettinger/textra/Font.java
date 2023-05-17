@@ -2283,7 +2283,7 @@ public class Font implements Disposable {
                 IntMap.Entry<GlyphRegion> ent = vs.next();
                 GlyphRegion g = ent.value;
                 if(ent.key >= 0xE000 && ent.key < 0xF800) {
-                    g.offsetY -= descent;
+//                    g.offsetY -= descent;
                 } else{
                     g.offsetX += (wsx - g.xAdvance) * 0.5f;
                     g.xAdvance = wsx;
@@ -2293,7 +2293,7 @@ public class Font implements Disposable {
             while (vs.hasNext) {
                 IntMap.Entry<GlyphRegion> ent = vs.next();
                 if(ent.key >= 0xE000 && ent.key < 0xF800) {
-                    ent.value.offsetY -= descent;
+//                    ent.value.offsetY -= descent;
                 } else{
                     ent.value.xAdvance = wsx;
                 }
