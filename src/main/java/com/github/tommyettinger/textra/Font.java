@@ -4240,16 +4240,14 @@ public class Font implements Disposable {
         oy += font.descent * font.scaleY * 2f - font.descent * osy;
 
         if ((glyph & UNDERLINE) != 0L) {
-//            if (c >= 0xE000 && c < 0xF800)
-//                System.out.println("Underlining an emoji: " + c);
             ix = font.handleIntegerPosition(ox + oCenterX);
             iy = font.handleIntegerPosition(oy + oCenterY);
             xShift = (ox + oCenterX) - (ix);
             yShift = (oy + oCenterY) - (iy);
-            x = font.handleIntegerPosition(ix - xShift);
-            y = font.handleIntegerPosition(iy - yShift);
-            centerX = oCenterX - xShift * 0.5f;
-            centerY = oCenterY - yShift * 0.5f;
+            x = font.handleIntegerPosition(ix + xShift);
+            y = font.handleIntegerPosition(iy + yShift);
+            centerX = oCenterX + xShift * 0.5f;
+            centerY = oCenterY + yShift * 0.5f;
             x += cellWidth * 0.5f;
 //            x += centerX;
 //            x -= centerX;
@@ -4332,10 +4330,10 @@ public class Font implements Disposable {
             iy = font.handleIntegerPosition(oy + oCenterY);
             xShift = (ox + oCenterX) - (ix);
             yShift = (oy + oCenterY) - (iy);
-            x = font.handleIntegerPosition(ix - xShift);
-            y = font.handleIntegerPosition(iy - yShift);
-            centerX = oCenterX - xShift * 0.5f;
-            centerY = oCenterY - yShift * 0.5f;
+            x = font.handleIntegerPosition(ix + xShift);
+            y = font.handleIntegerPosition(iy + yShift);
+            centerX = oCenterX + xShift * 0.5f;
+            centerY = oCenterY + yShift * 0.5f;
             x += cellWidth * 0.5f;
 //            x -= centerX;
 //            y -= centerY;
@@ -4430,10 +4428,10 @@ public class Font implements Disposable {
             iy = font.handleIntegerPosition(oy + oCenterY);
             xShift = (ox + oCenterX) - (ix);
             yShift = (oy + oCenterY) - (iy);
-            x = font.handleIntegerPosition(ix - xShift);
-            y = font.handleIntegerPosition(iy - yShift);
-            centerX = oCenterX - xShift * 0.5f;
-            centerY = oCenterY - yShift * 0.5f;
+            x = font.handleIntegerPosition(ix + xShift);
+            y = font.handleIntegerPosition(iy + yShift);
+            centerX = oCenterX + xShift * 0.5f;
+            centerY = oCenterY + yShift * 0.5f;
             x += cellWidth * 0.5f;
             if (c >= 0xE000 && c < 0xF800) {
                 x += (changedW * 0.5f);
