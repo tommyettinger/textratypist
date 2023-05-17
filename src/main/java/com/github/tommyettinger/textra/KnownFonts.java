@@ -404,12 +404,12 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.cozette == null) {
             try {
                 instance.cozette = new Font(instance.prefix + "Cozette-standard.fnt",
-                        instance.prefix + "Cozette-standard.png", STANDARD, 1.5f, 5f, 0, 0, false)
+                        instance.prefix + "Cozette-standard.png", STANDARD, 0f, 5f, 0, 0, false)
                         .useIntegerPositions(true)
                         .setDescent(-3f)
-                        .setUnderlinePosition(0.5f, -0.125f)
-                        .setStrikethroughPosition(0.5f, -0.125f)
-                        .setInlineImageMetrics(-24f, -4f, 0f)
+                        .setUnderlinePosition(0f, -0.125f)
+                        .setStrikethroughPosition(0f, 0f)
+                        .setInlineImageMetrics(-32f, -4f, 8f)
                         .setName("Cozette");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -711,8 +711,9 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.hanazono == null) {
             try {
                 instance.hanazono = new Font(instance.prefix + "Hanazono-standard.fnt",
-                        instance.prefix + "Hanazono-standard.png", STANDARD, 0, 0, 0, 0, false)
-                        .setDescent(-6f).scaleTo(16, 20).setInlineImageMetrics(0, -4f, 0f)
+                        instance.prefix + "Hanazono-standard.png", STANDARD, -4, 0, 0, 0, true)
+                        .setDescent(-6f).scaleTo(16, 20)
+                        .setLineMetrics(-0.25f, 0f, 0f, -0.5f).setInlineImageMetrics(-16f, -4f, 0f)
                         .setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1386,7 +1387,7 @@ public final class KnownFonts implements LifecycleListener {
                 // This makes underlines use a different row than the bottom of letters.
                 instance.quanPixel = new Font(instance.prefix + "QuanPixel-standard.fnt",
                         instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 2, 0, 2, false)
-                        .setLineMetrics(0.125f, -0.0625f, 0.1f, 0f).setInlineImageMetrics(-32f, -4f, 0f)
+                        .setLineMetrics(-0.125f, -0.0625f, 0f, 0f).setInlineImageMetrics(-40f, -4f, 0f)
                         .useIntegerPositions(true).setDescent(-4f)
                         .setName("QuanPixel");
             } catch (Exception e) {

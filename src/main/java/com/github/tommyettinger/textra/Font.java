@@ -4297,7 +4297,7 @@ public class Font implements Disposable {
                     x0 = -osx * under.offsetX - scale;
                     float addW = xPx * 2;
                     if (c >= 0xE000 && c < 0xF800)
-                        x0 += tr.offsetX * scaleX * sizingX;
+                        x0 -= xPx;//tr.offsetX * scaleX * sizingX;
                     else
                         x0 += xPx * 2f;
                     vertices[2] = color;
@@ -4396,7 +4396,7 @@ public class Font implements Disposable {
                     x0 = -osx * dash.offsetX - scale;
                     float addW = xPx * 2;
                     if (c >= 0xE000 && c < 0xF800)
-                        x0 += tr.offsetX * scaleX * sizingX;
+                        x0 -= xPx;//tr.offsetX * scaleX * sizingX;
                     else
                         x0 += xPx * 2f;
 
