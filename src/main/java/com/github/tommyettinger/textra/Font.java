@@ -3897,7 +3897,7 @@ public class Font implements Disposable {
         float oCenterX = tr.xAdvance * osx * 0.5f;
         float oCenterY = font.originalCellHeight * osy * 0.5f;
 
-        float scaleCorrection = font.descent * fsy * 2f - font.descent * osy;
+        float scaleCorrection = font.descent * font.scaleY * 2f - font.descent * osy;
 
         y += scaleCorrection;
 
@@ -4009,6 +4009,8 @@ public class Font implements Disposable {
         v = tr.getV();
         u2 = tr.getU2();
         v2 = tr.getV2();
+
+
         if (c >= 0xE000 && c < 0xF800) {
             // when this is removed, rotations for icons go around the bottom center.
             // but, with it here, the rotations go around the bottom left corner.
@@ -4016,11 +4018,13 @@ public class Font implements Disposable {
 
             // This seems to rotate icons around their centers.
             x += (changedW * 0.5f);
-            y += scaledHeight * 0.5f;
+//            y += scaledHeight * 0.5f;
             yt -= scaledHeight * 0.5f;
 
-//            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
+//            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f);
         }
+
+
 
 //        if (c >= 0xE000 && c < 0xF800) {
 //            yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
@@ -4230,6 +4234,8 @@ public class Font implements Disposable {
             drawVertices(batch, tex, vertices);
         }
         if ((glyph & UNDERLINE) != 0L) {
+            if (c >= 0xE000 && c < 0xF800)
+                System.out.println("Underlining an emoji");
             ix = font.handleIntegerPosition(ox + oCenterX);
             iy = font.handleIntegerPosition(oy + oCenterY);
             xShift = (ox + oCenterX) - (ix);
@@ -4245,17 +4251,17 @@ public class Font implements Disposable {
             //x += centerX * cos; y += centerX * sin;
             if (c >= 0xE000 && c < 0xF800) {
                 x += (changedW * 0.5f);
-                y += scaledHeight * 0.5f;
+//                y += scaledHeight * 0.5f;
             }
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + cellWidth * font.underX * scale;
                 p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY + sin * centerX
                         + font.descent * font.scaleY;
-                if (c >= 0xE000 && c < 0xF800) {
-                    p0x = xc + (changedW * 0.5f) + cellWidth * font.underX * scale;
-                    p0y = font.handleIntegerPosition(yt + font.underY * font.cellHeight * scale * sizingY);
-                }
+//                if (c >= 0xE000 && c < 0xF800) {
+//                    p0x = xc + (changedW * 0.5f) + cellWidth * font.underX * scale;
+//                    p0y = font.handleIntegerPosition(yt + font.underY * font.cellHeight * scale * sizingY);
+//                }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 3f * 0.0625f * centerX + scale * fsx + cellWidth * font.underLength * scale,
@@ -4327,17 +4333,17 @@ public class Font implements Disposable {
             //x += centerX * cos; y += centerX * sin;
             if (c >= 0xE000 && c < 0xF800) {
                 x += (changedW * 0.5f);
-                y += scaledHeight * 0.5f;
+//                y += scaledHeight * 0.5f;
             }
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + cellWidth * font.strikeX * scale;
                 p0y = centerY + (font.strikeY - 0.45f) * font.cellHeight * scale * sizingY + sin * centerX + font.descent * font.scaleY;
-                if (c >= 0xE000 && c < 0xF800) {
-                    p0x = xc + (changedW * 0.5f) + cellWidth * font.strikeX * scale;
-                    p0y = font.handleIntegerPosition(yt + (font.strikeY + 0.375f) * font.cellHeight * scale * sizingY);
-                }
+//                if (c >= 0xE000 && c < 0xF800) {
+//                    p0x = xc + (changedW * 0.5f) + cellWidth * font.strikeX * scale;
+//                    p0y = font.handleIntegerPosition(yt + (font.strikeY + 0.375f) * font.cellHeight * scale * sizingY);
+//                }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         xAdvance * scaleX + 3f * 0.0625f * centerX + scale * fsx + font.cellWidth * scale * font.strikeLength,
