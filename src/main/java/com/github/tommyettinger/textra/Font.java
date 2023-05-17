@@ -3897,7 +3897,7 @@ public class Font implements Disposable {
         float oCenterX = tr.xAdvance * osx * 0.5f;
         float oCenterY = font.originalCellHeight * osy * 0.5f;
 
-        float scaleCorrection = font.descent * font.scaleY * 2f - font.descent * osy;
+        float scaleCorrection = font.descent * fsy * 2f - font.descent * osy;
 
         y += scaleCorrection;
 
@@ -4018,7 +4018,7 @@ public class Font implements Disposable {
 
             // This seems to rotate icons around their centers.
             x += (changedW * 0.5f);
-//            y += scaledHeight * 0.5f;
+            y += scaledHeight * 0.5f;
             yt -= scaledHeight * 0.5f;
 
 //            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f);
@@ -4233,6 +4233,8 @@ public class Font implements Disposable {
             vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
             drawVertices(batch, tex, vertices);
         }
+        oy -= scaleCorrection;
+        oy += font.descent * font.scaleY * 2f - font.descent * osy;
         if ((glyph & UNDERLINE) != 0L) {
             if (c >= 0xE000 && c < 0xF800)
                 System.out.println("Underlining an emoji");
