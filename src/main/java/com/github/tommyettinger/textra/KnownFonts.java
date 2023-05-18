@@ -590,11 +590,16 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font License) typeface by
      * SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>), but this took Gentium
      * Italic and removed the 8-degree slant it had, so it looks like a regular face but with the different serif style
-     * and the "flow" of an italic font. It supports a lot of glyphs, including quite a bit of extended Latin, Greek,
-     * and Cyrillic, as well as some less-common glyphs from various real languages. Even though glyphs are not
-     * especially wide here, this Font does need to be configured with a much larger width than height to be readable.
-     * This does not use a distance field effect. You may want to stick using just fonts that avoid distance fields if
-     * you have a family of fonts.
+     * and the "flow" of an italic font. This helps it look closer to carefully-hand-written text mixed with a serif
+     * typeface, and may fit well as a main-text font for medieval or Renaissance-period games while something like
+     * {@link #getKingthingsFoundation()} is used for titles or headers. It supports a lot of glyphs, including quite a
+     * bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. Even
+     * though glyphs are not especially wide here, this Font does need to be configured with a much larger width than
+     * height to be readable. This does not use a distance field effect. You may want to stick using just fonts that
+     * avoid distance fields if you have a family of fonts.
+     * <br>
+     * Thanks to Siavash Ranbar, who came up with the idea to take an italic version of a serif font and remove its
+     * slant, keeping the different flow from a simple oblique font.
      * <br>
      * Preview: <a href="https://i.imgur.com/7bvYtUc.png">Image link</a> (uses width=60, height=36)
      * <br>
