@@ -4302,11 +4302,15 @@ public class Font implements Disposable {
 //                            yu = -0.625f * (hu + under.offsetY * scaleY);//-0.55f * cellHeight * scale;//cellHeight * scale - hu - under.offsetY * scaleY - centerY;
                     xc = /* (tr.offsetX * scaleX * sizingX) +  */ under.offsetX * osx - cos * centerX - cellWidth * 0.5f + changedW * font.underX;
                     x0 = -osx * under.offsetX - scale;
-                    float addW = xPx * 2;
-                    if (c >= 0xE000 && c < 0xF800)
-                        x0 -= xPx;//tr.offsetX * scaleX * sizingX;
-                    else
-                        x0 += xPx * 2f;
+                    float addW = xPx * 3;
+                    if (c >= 0xE000 && c < 0xF800) {
+                        x0 -= xPx * 2f - (changedW * 0.5f);
+                        yt += scaledHeight * 0.5f;
+                    }
+                    else {
+                        x0 += xPx + centerX - cos * centerX;
+                        yt += sin * centerX;
+                    }
                     vertices[2] = color;
                     vertices[3] = underU;
                     vertices[4] = underV;
@@ -4366,8 +4370,7 @@ public class Font implements Disposable {
                 p0y = centerY + (font.strikeY - 0.45f) * font.cellHeight * scale * sizingY + font.descent * font.scaleY;
 //                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + xAdvance * font.strikeX * scaleX;
 //                p0y = centerY + (font.strikeY - 0.45f) * font.cellHeight * scale * sizingY + sin * centerX + font.descent * font.scaleY;
-                if (c >= 0xE000 && c < 0xF800)
-                {
+                if (c >= 0xE000 && c < 0xF800) {
                     p0x -= xPx * 2f - (changedW * 0.5f);
                     p0y += scaledHeight * 0.5f;
                 }
@@ -4414,11 +4417,15 @@ public class Font implements Disposable {
                             + changedW * font.strikeX;
 //                    xc = (tr.offsetX * scaleX * sizingX) + dash.offsetX * osx - centerX * scale;
                     x0 = -osx * dash.offsetX - scale;
-                    float addW = xPx * 2;
-                    if (c >= 0xE000 && c < 0xF800)
-                        x0 -= xPx;//tr.offsetX * scaleX * sizingX;
-                    else
-                        x0 += xPx * 2f;
+                    float addW = xPx * 3;
+                    if (c >= 0xE000 && c < 0xF800) {
+                        x0 -= xPx * 2f - (changedW * 0.5f);
+                        yt += scaledHeight * 0.5f;
+                    }
+                    else {
+                        x0 += xPx + centerX - cos * centerX;
+                        yt += sin * centerX;
+                    }
 
                     vertices[2] = color;
                     vertices[3] = dashU;
