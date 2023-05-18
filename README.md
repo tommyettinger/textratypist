@@ -35,8 +35,8 @@ typing-label, but there have been some changes. You can check [the TextraTypist 
 for more information.
 
 As of 0.8.3, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
-Rotate, Attention, Highlight, Link, Trigger, Stylist, and Cannon are all new to TextraTypist (not in typing-label). You
-can see usage instructions and sample GIFs at
+Rotate, Attention, Highlight, Link, Trigger, Stylist, Cannon, and Ocean are all new to TextraTypist (not in
+typing-label). You can see usage instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
 make use of the smooth scaling and rotation options that effects can use starting in TextraTypist 0.5.1 . Some make use
 of mouse tracking, new in 0.7.0, such as how Link only responds to a click on a range of text.
@@ -171,6 +171,12 @@ between any of those 13 fonts using the `[@Medieval]` syntax (where Medieval is 
 for "KingThings Foundation"). All of these fonts work without a distance field effect, so they won't look as good at
 very large sizes, but are compatible with each other.
 
+The license files for each font are included in the same folder, in `knownFonts` here. All fonts provided here were
+checked to ensure their licenses permit commercial use without fees, and all do. Most require attribution; check the
+licenses for details.
+
+## Did somebody say emoji?
+
 The [Twemoji](https://github.com/twitter/twemoji) icons are also present in an atlas of over-3000 32x32 images;
 `KnownFonts.addEmoji()` can register them with
 a Font so the `[+name]` syntax mentioned above can draw emoji inline.  Similarly, an atlas of over-4000 60x60 icons is
@@ -181,9 +187,15 @@ for icons or just for emoji to the family. There's an existing method for this; 
 obtain a Font that is intended just to display Game-Icons, with some ceremony around its usage. `[@Icons][+rooster][@]`
 is a quick example of how you could switch to the Font produced by `getGameIconsFont()`, draw an icon, and switch back.
 
-The license files for each font are included in the same folder, in `knownFonts` here. All fonts provided here were
-checked to ensure their licenses permit commercial use without fees, and all do. Most require attribution; check the
-licenses for details.
+There are previews for [Twemoji here](https://tommyettinger.github.io/twemoji-atlas/), with the emoji char and name to
+look up each image. Likewise,there are previews for
+[Game-Icons.net icons here](https://tommyettinger.github.io/game-icons-net-atlas/), with just the name needed to look up
+each image. Remember that because the game-icons.net images are pure white with transparency, you can tint them any
+color you want using the standard `[RED]`, `[light dull green]`, or `[#0022EEFF]` syntax.
+
+The license files for Twemoji and the Game-Icons.net images are included in `knownFonts`, next to the license files for
+fonts. While Twemoji has simple requirements for attribution, Game-Icons requires attribution to quite a few individual
+contributors; see the end of this document for the list, which you can and should copy to give credit to everyone.
 
 ## Act now and get these features, free of charge!
 
@@ -236,6 +248,12 @@ You probably want to get this with Gradle! The dependency for a libGDX project's
 implementation "com.github.tommyettinger:textratypist:0.8.3"
 ```
 
+Or for the latest alpha or beta release,
+
+```groovy
+implementation "com.github.tommyettinger:textratypist:0.9.0-a1"
+```
+
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
 was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code in libGDX.
 
@@ -243,6 +261,13 @@ If you use GWT, this should be compatible. It needs these dependencies in the ht
 
 ```groovy
 implementation "com.github.tommyettinger:textratypist:0.8.3:sources"
+implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
+```
+
+Or for the latest alpha or beta release,
+
+```groovy
+implementation "com.github.tommyettinger:textratypist:0.9.0-a1:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 ```
 
