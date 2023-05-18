@@ -850,7 +850,7 @@ public final class KnownFonts implements LifecycleListener {
      * have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/Fbw7ZIx.png">Image link</a> (uses .scaleTo(10, 24).fitCell(10, 24, false))
+     * Preview: <a href="https://i.imgur.com/ZTFN7mP.png">Image link</a> (uses .scaleTo(10, 24).fitCell(10, 24, false))
      * <br>
      * Needs files:
      * <ul>
@@ -895,8 +895,8 @@ public final class KnownFonts implements LifecycleListener {
      * However, using a distance field makes it effectively impossible to mix fonts using a FontFamily (any variation in
      * distance field settings would make some fonts in the family blurry and others too sharp).
      * <br>
-     * Preview: <a href="https://i.imgur.com/Xbm1mjE.png">Image link</a> (uses
-     * .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false))
+     * Preview: <a href="https://i.imgur.com/evI4ONH.png">Image link</a> (uses
+     * .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
      * <ul>
@@ -943,7 +943,7 @@ public final class KnownFonts implements LifecycleListener {
      * at small sizes. However, using a distance field makes it effectively impossible to mix fonts using a FontFamily
      * (any variation in distance field settings would make some fonts in the family blurry and others too sharp).
      * <br>
-     * Preview: <a href="https://i.imgur.com/0Z1vPlo.png">Image link</a> (uses
+     * Preview: <a href="https://i.imgur.com/OI2NxpM.png">Image link</a> (uses
      * .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
@@ -988,7 +988,7 @@ public final class KnownFonts implements LifecycleListener {
      * have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/1hvINjC.png">Image link</a> (uses .scaleTo(10, 24).fitCell(10, 24, false))
+     * Preview: <a href="https://i.imgur.com/iKkm4Us.png">Image link</a> (uses .scaleTo(10, 24).fitCell(10, 24, false))
      * <br>
      * Needs files:
      * <ul>
@@ -1031,8 +1031,8 @@ public final class KnownFonts implements LifecycleListener {
      * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/WGrr8el.png">Image link</a> (uses
-     * .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false))
+     * Preview: <a href="https://i.imgur.com/O6jYyKU.png">Image link</a> (uses
+     * .setCrispness(2.25f).scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
      * <ul>
@@ -1076,7 +1076,7 @@ public final class KnownFonts implements LifecycleListener {
      * technique that {@link #getIosevkaSlabMSDF()} uses, which isn't as sharp at large sizes but can look a little
      * better at small sizes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/dCuWg8o.png">Image link</a> (uses
+     * Preview: <a href="https://i.imgur.com/bRi4s2q.png">Image link</a> (uses
      * .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
@@ -1121,7 +1121,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ulyOx6Q.png">Image link</a> (uses scaleTo(23, 31))
+     * Preview: <a href="https://i.imgur.com/UR9UdSC.png">Image link</a> (uses scaleTo(23, 31))
      * <br>
      * Needs files:
      * <ul>
@@ -1169,7 +1169,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/KnFQTxj.png">Image link</a> (uses scaleTo(25, 32))
+     * Preview: <a href="https://i.imgur.com/gG8WjWb.png">Image link</a> (uses scaleTo(25, 32))
      * <br>
      * Needs files:
      * <ul>
@@ -1211,7 +1211,7 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #getGentium()}. The MSDF files are still present in the same directory where they were, but they are no
      * longer used by TextraTypist.
      * <br>
-     * Preview: <a href="https://i.imgur.com/E0dWFl5.png">Image link</a> (uses width=40, height=34)
+     * Preview: <a href="https://i.imgur.com/LFPC0hd.png">Image link</a> (uses width=40, height=34)
      * <br>
      * Needs files:
      * <ul>
@@ -1249,7 +1249,7 @@ public final class KnownFonts implements LifecycleListener {
      * Cyrillic. This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
      * well. This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/PzquU2s.png">Image link</a> (uses width=28, height=30)
+     * Preview: <a href="https://i.imgur.com/cBtD1Er.png">Image link</a> (uses width=28, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -1285,8 +1285,8 @@ public final class KnownFonts implements LifecycleListener {
      * scaled down nicely.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/0Dxednl.png">Image link</a> (uses
-     * .scaleTo(20, 32).adjustLineHeight(0.875f))
+     * Preview: <a href="https://i.imgur.com/GO9djDW.png">Image link</a> (uses
+     * .scaleTo(20, 28))
      * <br>
      * Needs files:
      * <ul>
@@ -1324,7 +1324,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/SQLYHD0.png">Image link</a> (uses width=31, height=35)
+     * Preview: <a href="https://i.imgur.com/3lcH8n5.png">Image link</a> (uses width=31, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -1364,7 +1364,7 @@ public final class KnownFonts implements LifecycleListener {
      * 1 pixel, but can cause major visual issues if 1 world unit corresponds to much more than 1 pixel.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/1Z3PTBF.png">Image link</a> (uses width=(not set), height=8,
+     * Preview: <a href="https://i.imgur.com/ba0GcKw.png">Image link</a> (uses width=12, height=12,
      * useIntegerPositions(true); this size is small enough to make the scaled text unreadable in some places)
      * <br>
      * Needs files:
@@ -1407,7 +1407,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/kLGnvyY.png">Image link</a> (uses width=21, height=30)
+     * Preview: <a href="https://i.imgur.com/9GiQHwl.png">Image link</a> (uses width=20, height=32)
      * <br>
      * Needs files:
      * <ul>
@@ -1448,7 +1448,7 @@ public final class KnownFonts implements LifecycleListener {
      * seem to have that problem.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ULAM7bL.png">Image link</a> (uses width=48, height=32)
+     * Preview: <a href="https://i.imgur.com/xms8x9q.png">Image link</a> (uses width=48, height=32)
      * <br>
      * Needs files:
      * <ul>
@@ -1488,7 +1488,7 @@ public final class KnownFonts implements LifecycleListener {
      * should be crisp enough when zoomed out. If you need to mix in images such as with {@link #addEmoji(Font)}, you
      * may be better off with {@link #getTangerine()}, the standard-bitmap-font version.
      * <br>
-     * Preview: <a href="https://i.imgur.com/6vMSsdO.png">Image link</a> (uses width=48, height=32, setCrispness(0.375f))
+     * Preview: <a href="https://i.imgur.com/xQFc6qj.png">Image link</a> (uses width=48, height=32, setCrispness(0.375f))
      * <br>
      * Needs files:
      * <ul>
@@ -1526,7 +1526,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/lGbqBQA.png">Image link</a> (uses width=26, height=30)
+     * Preview: <a href="https://i.imgur.com/xVhh4Y0.png">Image link</a> (uses width=26, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -1564,7 +1564,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/YeXFVE9.png">Image link</a> (uses width=26, height=30, setCrispness(2.5f))
+     * Preview: <a href="https://i.imgur.com/geuHb3J.png">Image link</a> (uses width=26, height=30, setCrispness(2.5f))
      * <br>
      * Needs files:
      * <ul>
