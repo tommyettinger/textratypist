@@ -51,7 +51,7 @@ public class ScrollPaneUITest extends InputAdapter implements ApplicationListene
 		typingLabel.setTypingListener(new TypingAdapter(){
 			@Override
 			public void event(String event) {
-				System.out.println(event);
+				System.out.println(typingLabel.getSelectedText());
 			}
 		});
 //		root.add(typingLabel);

@@ -3951,15 +3951,15 @@ public class Font implements Disposable {
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(solidBlock, tr),
                         NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
                         x,
-                        y - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
-                        font.cellWidth * sizingX, (font.cellHeight * scale) * sizingY, rotation);
+                        y,// - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
+                        font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation);
             }
             float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
 //                    x + centerX * cos,
 //                    y + centerX * sin,
                     x, y,// - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
-                    font.cellWidth * sizingX, (font.cellHeight * scale) * sizingY, rotation);
+                    font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation);
             return font.cellWidth;
         }
         x += cellWidth * 0.5f;
@@ -4085,8 +4085,8 @@ public class Font implements Disposable {
         if(backgroundColor != 0) {
             drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(font.solidBlock, tr),
                     NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
-                    x - (xAdvance * scaleX * (sizingX - 0.5f) + tr.offsetX * scaleX) * 0.5f,
-                    y - (font.cellHeight * scale + font.descent * osy) * 0.5f * sizingY,
+                    x - cellWidth * scale * 0.5f,// - (xAdvance * scaleX * (sizingX - 0.5f) + tr.offsetX * scaleX) * 0.5f,
+                    y + descent * scaleY * sizingY,// - (font.cellHeight * scale + font.descent * osy) * 0.5f * sizingY,
                     xAdvance * scaleX * sizingX + 5f, (font.cellHeight * scale) * sizingY, rotation);
         }
         if (jostled) {
