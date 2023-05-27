@@ -109,7 +109,7 @@ public class TypingLabel extends TextraLabel {
      */
     public int selectionStart = -1;
     /**
-     * The exclusive end index for the selected text, if there is a selection. This should be -1 if there is no
+     * The inclusive end index for the selected text, if there is a selection. This should be -1 if there is no
      * selection, or sometimes -2 if the selection went past the end of the text. This is essentially interchangeable
      * with {@link #selectionStart}; as long as they are different, it doesn't matter which is higher or lower.
      */
@@ -978,7 +978,7 @@ public class TypingLabel extends TextraLabel {
                     }
                 }
                 ++globalIndex;
-                if(selectable && selectionStart <= globalIndex && selectionEnd > globalIndex)
+                if(selectable && selectionStart <= globalIndex && selectionEnd >= globalIndex)
                     bgc = ColorUtils.offsetLightness((int)(glyph >>> 32), 0.5f);
                 else
                     bgc = 0;
@@ -1034,8 +1034,8 @@ public class TypingLabel extends TextraLabel {
      * @return the currently selected text, or the empty string if none is or can be selected
      */
     public String getSelectedText() {
-        if(!selectable || (selectionStart == selectionEnd && selectionStart < 0)) return "";
-        return substring(selectionStart, selectionEnd);
+        if(!selectable || (selectionStart >= selectionEnd && selectionStart < 0)) return "";
+        return substring(selectionStart, selectionEnd+1);
     }
 
     /**
@@ -1044,8 +1044,8 @@ public class TypingLabel extends TextraLabel {
      * @return true if text was copied, or false if the clipboard hasn't received any text
      */
     public boolean copySelectedText() {
-        if(!selectable || (selectionStart == selectionEnd && selectionStart < 0)) return false;
-        Gdx.app.getClipboard().setContents(substring(selectionStart, selectionEnd));
+        if(!selectable || (selectionStart >= selectionEnd && selectionStart < 0)) return false;
+        Gdx.app.getClipboard().setContents(substring(selectionStart, selectionEnd+1));
         return true;
     }
 
