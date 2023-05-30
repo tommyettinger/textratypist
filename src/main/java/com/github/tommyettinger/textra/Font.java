@@ -815,6 +815,12 @@ public class Font implements Disposable {
      */
     public float inlineImageXAdvance = 0f;
 
+    /**
+     * If true (the default), any text inside matching curly braces, plus the curly braces themselves, will be ignored,
+     * not stored in Line or Layout, and not displayed. If false, curly braces and their contents are treated as normal
+     * text.
+     */
+    public boolean omitCurlyBraces = true;
     private final float[] vertices = new float[20];
     private final Layout tempLayout = new Layout();
     private final LongArray glyphBuffer = new LongArray(128);
@@ -3324,16 +3330,18 @@ public class Font implements Disposable {
         for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
             glyph = glyphs.glyphs.get(i);
             char ch = (char) glyph;
-            if (curly) {
-                if (ch == '}') {
-                    curly = false;
+            if(omitCurlyBraces) {
+                if (curly) {
+                    if (ch == '}') {
+                        curly = false;
+                        continue;
+                    } else if (ch == '{')
+                        curly = false;
+                    else continue;
+                } else if (ch == '{') {
+                    curly = true;
                     continue;
-                } else if (ch == '{')
-                    curly = false;
-                else continue;
-            } else if (ch == '{') {
-                curly = true;
-                continue;
+                }
             }
             Font font = null;
             if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
@@ -3449,16 +3457,18 @@ public class Font implements Disposable {
             long glyph = glyphs.get(i);
             char ch = (char) glyph;
             if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
-            if (curly) {
-                if (ch == '}') {
-                    curly = false;
+            if(omitCurlyBraces) {
+                if (curly) {
+                    if (ch == '}') {
+                        curly = false;
+                        continue;
+                    } else if (ch == '{')
+                        curly = false;
+                    else continue;
+                } else if (ch == '{') {
+                    curly = true;
                     continue;
-                } else if (ch == '{')
-                    curly = false;
-                else continue;
-            } else if (ch == '{') {
-                curly = true;
-                continue;
+                }
             }
             Font font = null;
             if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
@@ -3526,16 +3536,18 @@ public class Font implements Disposable {
             long glyph = glyphs.get(i);
             char ch = (char) glyph;
             if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
-            if (curly) {
-                if (ch == '}') {
-                    curly = false;
+            if(omitCurlyBraces) {
+                if (curly) {
+                    if (ch == '}') {
+                        curly = false;
+                        continue;
+                    } else if (ch == '{')
+                        curly = false;
+                    else continue;
+                } else if (ch == '{') {
+                    curly = true;
                     continue;
-                } else if (ch == '{')
-                    curly = false;
-                else continue;
-            } else if (ch == '{') {
-                curly = true;
-                continue;
+                }
             }
             Font font = null;
             if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
@@ -3611,16 +3623,18 @@ public class Font implements Disposable {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
                 if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
-                if (curly) {
-                    if (ch == '}') {
-                        curly = false;
+                if(omitCurlyBraces) {
+                    if (curly) {
+                        if (ch == '}') {
+                            curly = false;
+                            continue;
+                        } else if (ch == '{')
+                            curly = false;
+                        else continue;
+                    } else if (ch == '{') {
+                        curly = true;
                         continue;
-                    } else if (ch == '{')
-                        curly = false;
-                    else continue;
-                } else if (ch == '{') {
-                    curly = true;
-                    continue;
+                    }
                 }
                 Font font = null;
                 if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
@@ -3692,21 +3706,23 @@ public class Font implements Disposable {
         for (int i = 0, n = glyphs.size; i < n; i++) {
             long glyph = glyphs.get(i);
             char ch = (char) glyph;
-            if (curly) {
-                if (ch == '}') {
-                    curly = false;
-                    advances.add(0f);
-                    continue;
-                } else if (ch == '{')
-                    curly = false;
-                else {
+            if(omitCurlyBraces) {
+                if (curly) {
+                    if (ch == '}') {
+                        curly = false;
+                        advances.add(0f);
+                        continue;
+                    } else if (ch == '{')
+                        curly = false;
+                    else {
+                        advances.add(0f);
+                        continue;
+                    }
+                } else if (ch == '{') {
+                    curly = true;
                     advances.add(0f);
                     continue;
                 }
-            } else if (ch == '{') {
-                curly = true;
-                advances.add(0f);
-                continue;
             }
             Font font = null;
             if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
@@ -4572,7 +4588,7 @@ public class Font implements Disposable {
 
             //// CURLY BRACKETS
 
-            if (text.charAt(i) == '{' && i + 1 < n && text.charAt(i + 1) != '{') {
+            if (omitCurlyBraces && text.charAt(i) == '{' && i + 1 < n && text.charAt(i + 1) != '{') {
                 int start = i;
                 int sizeChange = -1, fontChange = -1, innerSquareStart = -1, innerSquareEnd = -1;
                 int end = text.indexOf('}', i);
@@ -4865,18 +4881,20 @@ public class Font implements Disposable {
                                         boolean curly = false;
                                         for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                             curr = earlier.glyphs.get(k);
-                                            if (curly) {
-                                                glyphBuffer.add(curr);
-                                                if ((char) curr == '{') {
-                                                    curly = false;
-                                                } else if ((char) curr == '}') {
-                                                    curly = false;
-                                                    continue;
-                                                } else continue;
+                                            if(omitCurlyBraces) {
+                                                if (curly) {
+                                                    glyphBuffer.add(curr);
+                                                    if ((char) curr == '{') {
+                                                        curly = false;
+                                                    } else if ((char) curr == '}') {
+                                                        curly = false;
+                                                        continue;
+                                                    } else continue;
+                                                }
                                             }
                                             if ((char) curr == '{') {
                                                 glyphBuffer.add(curr);
-                                                curly = true;
+                                                curly = omitCurlyBraces;
                                                 continue;
                                             }
 
@@ -4902,18 +4920,20 @@ public class Font implements Disposable {
                                         boolean curly = false;
                                         for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                             curr = earlier.glyphs.get(k);
-                                            if (curly) {
-                                                glyphBuffer.add(curr);
-                                                if ((char) curr == '{') {
-                                                    curly = false;
-                                                } else if ((char) curr == '}') {
-                                                    curly = false;
-                                                    continue;
-                                                } else continue;
+                                            if(omitCurlyBraces) {
+                                                if (curly) {
+                                                    glyphBuffer.add(curr);
+                                                    if ((char) curr == '{') {
+                                                        curly = false;
+                                                    } else if ((char) curr == '}') {
+                                                        curly = false;
+                                                        continue;
+                                                    } else continue;
+                                                }
                                             }
                                             if ((char) curr == '{') {
                                                 glyphBuffer.add(curr);
-                                                curly = true;
+                                                curly = omitCurlyBraces;
                                                 continue;
                                             }
                                             k2 = k2 << 16 | (char) curr;
@@ -5009,90 +5029,6 @@ public class Font implements Disposable {
                     if (later == null) {
                         if(handleEllipsis(appendTo))
                             return appendTo;
-//                        //// ELLIPSIS FOR VISIBLE
-//
-//                        // here, the max lines have been reached, and an ellipsis may need to be added
-//                        // to the last line.
-//                        String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
-//                        for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
-//                            long curr;
-//                            if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-//                                    Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
-//                                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-//                                        Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
-//                                    --j;
-//                                }
-//                                float change = 0f;
-//                                if (font.kerning == null) {
-//
-//                                    // NO KERNING
-//
-//                                    boolean curly = false;
-//                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
-//                                        curr = earlier.glyphs.get(k);
-//                                        if (curly) {
-//                                            if ((char) curr == '{') {
-//                                                curly = false;
-//                                            } else if ((char) curr == '}') {
-//                                                curly = false;
-//                                                continue;
-//                                            } else continue;
-//                                        }
-//                                        if ((char) curr == '{') {
-//                                            curly = true;
-//                                            continue;
-//                                        }
-//
-//                                        float adv = xAdvance(font, scaleX, curr);
-//                                        change += adv;
-//                                    }
-//                                    for (int e = 0; e < ellipsis.length(); e++) {
-//                                        curr = current | ellipsis.charAt(e);
-//                                        float adv = xAdvance(font, scaleX, curr);
-//                                        change -= adv;
-//                                    }
-//                                } else {
-//
-//                                    // YES KERNING
-//
-//                                    int k2 = (char) earlier.glyphs.get(j);
-//                                    kern = -1;
-//                                    boolean curly = false;
-//                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
-//                                        curr = earlier.glyphs.get(k);
-//                                        if (curly) {
-//                                            if ((char) curr == '{') {
-//                                                curly = false;
-//                                            } else if ((char) curr == '}') {
-//                                                curly = false;
-//                                                continue;
-//                                            } else continue;
-//                                        }
-//                                        if ((char) curr == '{') {
-//                                            curly = true;
-//                                            continue;
-//                                        }
-//                                        k2 = k2 << 16 | (char) curr;
-//                                        float adv = xAdvance(font, scaleX, curr);
-//                                        change += adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
-//                                    }
-//                                    for (int e = 0; e < ellipsis.length(); e++) {
-//                                        curr = current | ellipsis.charAt(e);
-//                                        k2 = k2 << 16 | (char) curr;
-//                                        float adv = xAdvance(font, scaleX, curr);
-//                                        change -= adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
-//                                    }
-//                                }
-//                                if (earlier.width - change > targetWidth)
-//                                    continue;
-//                                earlier.glyphs.truncate(j + 1);
-//                                for (int e = 0; e < ellipsis.length(); e++) {
-//                                    earlier.glyphs.add(current | ellipsis.charAt(e));
-//                                }
-//                                earlier.width -= change;
-//                                return appendTo;
-//                            }
-//                        }
                     } else {
 
                         //// WRAP VISIBLE
@@ -5117,18 +5053,20 @@ public class Font implements Disposable {
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
                                         showCh = (curr & SMALL_CAPS) == SMALL_CAPS ? Category.caseUp((char)curr) : (char)curr;
-                                        if (curly) {
-                                            glyphBuffer.add(curr);
-                                            if ((char) curr == '{') {
-                                                curly = false;
-                                            } else if ((char) curr == '}') {
-                                                curly = false;
-                                                continue;
-                                            } else continue;
+                                        if(omitCurlyBraces) {
+                                            if (curly) {
+                                                glyphBuffer.add(curr);
+                                                if ((char) curr == '{') {
+                                                    curly = false;
+                                                } else if ((char) curr == '}') {
+                                                    curly = false;
+                                                    continue;
+                                                } else continue;
+                                            }
                                         }
                                         if (showCh == '{') {
                                             glyphBuffer.add(curr);
-                                            curly = true;
+                                            curly = omitCurlyBraces;
                                             continue;
                                         }
 
@@ -5156,18 +5094,20 @@ public class Font implements Disposable {
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
                                         showCh = (curr & SMALL_CAPS) == SMALL_CAPS ? Category.caseUp((char)curr) : (char)curr;
-                                        if (curly) {
-                                            glyphBuffer.add(curr);
-                                            if ((char) curr == '{') {
-                                                curly = false;
-                                            } else if ((char) curr == '}') {
-                                                curly = false;
-                                                continue;
-                                            } else continue;
+                                        if(omitCurlyBraces){
+                                            if (curly) {
+                                                glyphBuffer.add(curr);
+                                                if ((char) curr == '{') {
+                                                    curly = false;
+                                                } else if ((char) curr == '}') {
+                                                    curly = false;
+                                                    continue;
+                                                } else continue;
+                                            }
                                         }
                                         if (showCh == '{') {
                                             glyphBuffer.add(curr);
-                                            curly = true;
+                                            curly = omitCurlyBraces;
                                             continue;
                                         }
                                         k2 = k2 << 16 | showCh;
@@ -5240,16 +5180,18 @@ public class Font implements Disposable {
                         if (family != null) font = family.connected[(int) (curr >>> 16 & 15)];
                         if (font == null) font = this;
 
-                        if (curly) {
-                            if ((char) curr == '{') {
-                                curly = false;
-                            } else if ((char) curr == '}') {
-                                curly = false;
-                                continue;
-                            } else continue;
+                        if(omitCurlyBraces){
+                            if (curly) {
+                                if ((char) curr == '{') {
+                                    curly = false;
+                                } else if ((char) curr == '}') {
+                                    curly = false;
+                                    continue;
+                                } else continue;
+                            }
                         }
                         if ((char) curr == '{') {
-                            curly = true;
+                            curly = omitCurlyBraces;
                             continue;
                         }
 
@@ -5272,16 +5214,18 @@ public class Font implements Disposable {
                         curr = earlier.glyphs.get(k);
                         if (family != null) font = family.connected[(int) (curr >>> 16 & 15)];
                         if (font == null) font = this;
-                        if (curly) {
-                            if ((char) curr == '{') {
-                                curly = false;
-                            } else if ((char) curr == '}') {
-                                curly = false;
-                                continue;
-                            } else continue;
+                        if(omitCurlyBraces) {
+                            if (curly) {
+                                if ((char) curr == '{') {
+                                    curly = false;
+                                } else if ((char) curr == '}') {
+                                    curly = false;
+                                    continue;
+                                } else continue;
+                            }
                         }
                         if ((char) curr == '{') {
-                            curly = true;
+                            curly = omitCurlyBraces;
                             continue;
                         }
                         k2 = k2 << 16 | (char) curr;
@@ -5426,7 +5370,7 @@ public class Font implements Disposable {
         for (int i = 0, n = markup.length(); i <= n; i++) {
             if(i == n) return current | ' ';
             //// CURLY BRACKETS
-            if (markup.charAt(i) == '{' && i + 1 < n && markup.charAt(i + 1) != '{') {
+            if (omitCurlyBraces && markup.charAt(i) == '{' && i + 1 < n && markup.charAt(i + 1) != '{') {
                 int start = i;
                 int sizeChange = -1, fontChange = -1, innerSquareStart = -1, innerSquareEnd = -1;
                 int end = markup.indexOf('}', i);
