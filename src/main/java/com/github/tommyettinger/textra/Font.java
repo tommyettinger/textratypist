@@ -821,6 +821,12 @@ public class Font implements Disposable {
      * text.
      */
     public boolean omitCurlyBraces = true;
+    /**
+     * If true (the default), square bracket markup functions as documented in {@link #markup(String, Layout)}. If
+     * false, square brackets and their contents are treated as normal text.
+     */
+    public boolean enableSquareBrackets = true;
+
     private final float[] vertices = new float[20];
     private final Layout tempLayout = new Layout();
     private final LongArray glyphBuffer = new LongArray(128);
@@ -4596,11 +4602,11 @@ public class Font implements Disposable {
                 int eq = end;
                 for (; i < n && i <= end; i++) {
                     c = text.charAt(i);
-                    if (c == '[' && i < end && text.charAt(i+1) == '+') innerSquareStart = i;
-                    else if(innerSquareStart == -1) appendTo.add(current | c);
-                    if (c == ']') {
+                    if (enableSquareBrackets && c == '[' && i < end && text.charAt(i + 1) == '+') innerSquareStart = i;
+                    else if (innerSquareStart == -1) appendTo.add(current | c);
+                    if (enableSquareBrackets && c == ']') {
                         innerSquareEnd = i;
-                        if(innerSquareStart != -1 && font.nameLookup != null) {
+                        if (innerSquareStart != -1 && font.nameLookup != null) {
                             int len = innerSquareEnd - innerSquareStart;
                             if (len >= 2) {
                                 c = font.nameLookup.get(safeSubstring(text, innerSquareStart + 2, innerSquareEnd), '+');
@@ -4609,7 +4615,6 @@ public class Font implements Disposable {
                             }
                         }
                     }
-
                     if (c == '@') fontChange = i;
                     else if (c == '%') sizeChange = i;
                     else if (c == '?') sizeChange = -1;
@@ -4668,7 +4673,7 @@ public class Font implements Disposable {
                 }
                 current = (current & 0xFFFFFFFFFF00FFFFL) | (scale - 3 & 15) << 20 | (fontIndex & 15) << 16;
                 i--;
-            } else if (text.charAt(i) == '[') {
+            } else if (enableSquareBrackets && text.charAt(i) == '[') {
 
                 //// SQUARE BRACKET MARKUP
                 c = '[';
@@ -5379,9 +5384,9 @@ public class Font implements Disposable {
                 for (; i < n && i <= end; i++) {
                     c = markup.charAt(i);
 
-                    if (c == '[' && i < end && markup.charAt(i+1) == '+') innerSquareStart = i;
+                    if (enableSquareBrackets && c == '[' && i < end && markup.charAt(i+1) == '+') innerSquareStart = i;
                     else if(innerSquareStart == -1) current = (current | c);
-                    if (c == ']') {
+                    if (enableSquareBrackets && c == ']') {
                         innerSquareEnd = i;
                         if(innerSquareStart != -1 && font.nameLookup != null) {
                             int len = innerSquareEnd - innerSquareStart;
@@ -5449,7 +5454,7 @@ public class Font implements Disposable {
                 }
                 current = (current & 0xFFFFFFFFFF00FFFFL) | (scale - 3 & 15) << 20 | (fontIndex & 15) << 16;
                 i--;
-            } else if (markup.charAt(i) == '[') {
+            } else if (enableSquareBrackets && markup.charAt(i) == '[') {
 
                 //// SQUARE BRACKET MARKUP
                 c = '[';
