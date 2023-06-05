@@ -690,6 +690,17 @@ public class Font implements Disposable {
     public float PACKED_NOTE_COLOR = -0x1.71106p126F; // blue
 
     /**
+     * The color to use for {@link #DROP_SHADOW}, as a packed float using the default RGBA color space.
+     * This can be overridden by subclasses that either use a different color space,
+     * or want to use a different color in place of half-transparent dark gray for {@link #DROP_SHADOW}.
+     * In RGBA8888 format, this is the color {@code 0x2121217E}.
+     * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
+     * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
+     */
+    public float PACKED_SHADOW_COLOR = 0x1.424242p125F; // half-transparent dark gray
+    //Color.toFloatBits(0.1333f, 0.1333f, 0.1333f, 0.5f);
+
+    /**
      * The x-adjustment this Font was initialized with, or 0 if there was none given.
      * This is not meant to affect appearance after a Font has been constructed, but is meant to allow
      * some introspection into what values a Font was given at construction-time.
@@ -4152,7 +4163,7 @@ public class Font implements Disposable {
 
         if((glyph & ALTERNATE_MODES_MASK) == DROP_SHADOW) {
 //            float shadow = Color.toFloatBits(0.1333f, 0.1333f, 0.1333f, 0.5f);// (dark transparent gray, as batch alpha is lowered, this gets more transparent)
-            float shadow = Color.toFloatBits(0.1333f, 0.1333f, 0.1333f, batch.getColor().a * 0.5f);// (dark transparent gray, as batch alpha is lowered, this gets more transparent)
+            float shadow = ColorUtils.multiplyAlpha(PACKED_SHADOW_COLOR, batch.getColor().a);// (dark transparent gray, as batch alpha is lowered, this gets more transparent)
             vertices[2] = shadow;
             vertices[7] = shadow;
             vertices[12] = shadow;
