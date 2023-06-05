@@ -58,33 +58,33 @@ public class DialogTest extends ApplicationAdapter {
                 dialog.hide();
             }
         });
-//        TextraLabel L = new TextraLabel(
+//        TextraLabel tl = new TextraLabel(
 //                "{GRADIENT=CYAN;WHITE;1;1}Come on... The Magical Mystery Tour!{ENDGRADIENT}\n" +
 //                        "The magical mystery tour:\nIs coming\nTo take you away\nDying to take you away!\nTake you,\nToday...",
 //                gentium);
 
         ok.setVisible(false);
-        TypingLabel L = new TypingLabel(
+        TypingLabel tl = new TypingLabel(
                 "{GRADIENT=CYAN;WHITE;1;1}Come on... The Magical Mystery Tour!{ENDGRADIENT}\n" +
                         "The magical mystery tour:\nIs coming\nTo take you away\nDying to take you away!\nTake you,\nToday...",
                 gentium);
-        L.setTypingListener(new TypingAdapter() {
+        tl.setTypingListener(new TypingAdapter() {
             @Override
             public void end() {
                 ok.setVisible(true);
             }
         });
-        L.setWrap(true);
+        tl.setWrap(true);
 
         // This was necessary so the Dialog knew what height the TypingLabel actually was.
         // It should be automatically called by any getPrefHeight() or getPrefWidth() calls if not parsed already; that
         // is, it will be automatically called when its size must actually be known.
-//        L.parseTokens();
+//        tl.parseTokens();
 
         dialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                L.skipToTheEnd();
+                tl.skipToTheEnd();
                 super.clicked(event, x, y);
             }
         });
@@ -93,7 +93,7 @@ public class DialogTest extends ApplicationAdapter {
         dialog.getContentTable().clear();
 
         dialog.getButtonTable().add(ok).width(240f);
-        dialog.getContentTable().add(L).width(250f);
+        dialog.getContentTable().add(tl).width(250f);
         dialog.setKeepWithinStage(true);
         dialog.show(stage);
 

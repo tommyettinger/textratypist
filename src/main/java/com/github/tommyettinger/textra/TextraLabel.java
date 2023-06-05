@@ -57,6 +57,7 @@ public class TextraLabel extends Widget {
     public TextraLabel() {
         layout = new Layout();
         font = new Font();
+        style = new Label.LabelStyle();
     }
 
     /**
@@ -223,6 +224,7 @@ public class TextraLabel extends Widget {
     public TextraLabel(String text, Font font) {
         this.font = font;
         layout = new Layout();
+        this.style = new Label.LabelStyle();
         storedText = text;
         font.markup(text, layout);
     }
@@ -238,6 +240,7 @@ public class TextraLabel extends Widget {
     public TextraLabel(String text, Font font, Color color) {
         this.font = font;
         layout = new Layout();
+        this.style = new Label.LabelStyle();
         if (color != null) layout.setBaseColor(color);
         storedText = text;
         font.markup(text, layout);

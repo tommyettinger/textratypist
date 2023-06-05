@@ -175,6 +175,7 @@ public class TypingLabel extends TextraLabel {
     public TypingLabel(String text, Font font) {
         this.font = font;
         layout = new Layout();
+        this.style = new Label.LabelStyle();
         storedText = (text = Parser.preprocess(text));
         workingLayout.font(font);
         saveOriginalText(text);
