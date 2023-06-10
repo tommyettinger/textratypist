@@ -951,15 +951,15 @@ public class TypingLabel extends TextraLabel {
                 long glyph = glyphs.glyphs.get(i);
                 if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                 if (f == null) f = font;
-
+                float descent = f.descent * f.scaleY;
                 if(i == 0){
                     x -= 0.5f * f.cellWidth;
                     x += cs * 0.5f * f.cellWidth;
                     y += sn * 0.5f * f.cellWidth;
 
-                    y += f.descent;
-                    x += sn * (f.descent - 0.5f * f.cellHeight);
-                    y -= cs * (f.descent - 0.5f * f.cellHeight);
+                    y += descent;
+                    x += sn * (descent - 0.5f * f.cellHeight);
+                    y -= cs * (descent - 0.5f * f.cellHeight);
                 }
 
                 if (f.kerning != null) {

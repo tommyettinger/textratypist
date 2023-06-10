@@ -115,7 +115,8 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
         if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
         // and then we can regenerate the layout.
         container.getActor().getFont().regenerateLayout(container.getActor().layout);
-        container.getActor().setWidth(container.getActor().layout.getWidth());
+//        container.getActor().getFont().calculateSize(container.getActor().layout);
+        container.getActor().setSize(container.getActor().layout.getWidth(), container.getActor().layout.getHeight());
         container.setBackground(style.background);
         container.maxWidth(style.wrapWidth);
     }
@@ -127,8 +128,8 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
         container.getActor().layout.targetWidth = style.wrapWidth;
         if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
         font.regenerateLayout(container.getActor().layout);
-        font.calculateSize(container.getActor().layout);
-        container.getActor().setWidth(container.getActor().layout.getWidth());
+//        font.calculateSize(container.getActor().layout);
+        container.getActor().setSize(container.getActor().layout.getWidth(), container.getActor().layout.getHeight());
         container.setBackground(style.background);
         container.maxWidth(style.wrapWidth);
     }

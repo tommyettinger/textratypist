@@ -123,7 +123,7 @@ public class TypingTooltip extends Tooltip<TypingLabel> {
         container.getActor().layout.targetWidth = style.wrapWidth;
         if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
         container.getActor().getFont().regenerateLayout(container.getActor().layout);
-        container.getActor().setWidth(container.getActor().layout.getWidth());
+        container.getActor().setSize(container.getActor().layout.getWidth(), container.getActor().layout.getHeight());
         container.setBackground(style.background);
         container.maxWidth(style.wrapWidth);
     }
@@ -135,7 +135,7 @@ public class TypingTooltip extends Tooltip<TypingLabel> {
         container.getActor().layout.targetWidth = style.wrapWidth;
         if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
         font.regenerateLayout(container.getActor().layout);
-        container.getActor().setWidth(container.getActor().layout.getWidth());
+        container.getActor().setSize(container.getActor().layout.getWidth(), container.getActor().layout.getHeight());
         container.setBackground(style.background);
         container.maxWidth(style.wrapWidth);
     }
