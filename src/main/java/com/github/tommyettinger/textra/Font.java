@@ -3930,7 +3930,7 @@ public class Font implements Disposable {
         float oCenterX = tr.xAdvance * osx * 0.5f;
         float oCenterY = font.originalCellHeight * osy * 0.5f;
 
-        float scaleCorrection = font.descent * fsy * 2f - font.descent * osy;
+        float scaleCorrection = font.descent * fsy * 2f;// - font.descent * osy;
 
         y += scaleCorrection;
 
@@ -4118,8 +4118,8 @@ public class Font implements Disposable {
         if(backgroundColor != 0) {
             drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(font.solidBlock, tr),
                     NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
-                    x - cellWidth * scale * 0.5f,// - (xAdvance * scaleX * (sizingX - 0.5f) + tr.offsetX * scaleX) * 0.5f,
-                    y + descent * scaleY * sizingY,// - (font.cellHeight * scale + font.descent * osy) * 0.5f * sizingY,
+                    x - font.cellWidth * scale * 0.5f,// - (xAdvance * scaleX * (sizingX - 0.5f) + tr.offsetX * scaleX) * 0.5f,
+                    y + font.descent * scaleY * sizingY,// - (font.cellHeight * scale + font.descent * osy) * 0.5f * sizingY,
                     xAdvance * scaleX * sizingX + 5f, (font.cellHeight * scale) * sizingY, rotation);
         }
         if (jostled) {
@@ -4270,7 +4270,7 @@ public class Font implements Disposable {
         // this changes scaleCorrection from one that uses fsx to one that uses font.scaleY.
         // fsx and font.scaleY are equivalent for most glyphs, but not for inline images.
         oy -= scaleCorrection;
-        oy += font.descent * font.scaleY * 2f - font.descent * osy;
+        oy += font.descent * font.scaleY * 2f;// - font.descent * osy;
 
         if ((glyph & UNDERLINE) != 0L) {
             ix = font.handleIntegerPosition(ox + oCenterX);

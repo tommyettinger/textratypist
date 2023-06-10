@@ -44,6 +44,7 @@ public class IncongruityTest extends ApplicationAdapter {
         labels.defaults().pad(5);
         for (int i = 0; i < fonts.length; i++) {
             Font font = fonts[i];
+//            Font font = fonts[i].setDescent(fonts[i].getDescent() * 2);
             labels.add(new Label(font.name, skin)).left();
             TypingLabel label = new TypingLabel("Dummy Text 123", skin, font);
             labels.add(label).expandX().left();
