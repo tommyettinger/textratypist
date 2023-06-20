@@ -145,7 +145,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         TypingConfig.DEFAULT_CLEAR_COLOR = Color.WHITE;
 
         // Create some global variables to handle style
-        TypingConfig.GLOBAL_VARS.put("FIRE_WIND", "{FASTER}{GRADIENT=ORANGE;DB6600;-0.5;5}{SLOWER}{WIND=2;4;0.5;0.5}");
+        TypingConfig.GLOBAL_VARS.put("FIRE_WIND", "{GRADIENT=ORANGE;DB6600;-0.5;5}{WIND=2;4;0.5;0.5}");
     }
 
     public TypingLabel createTypingLabel() {

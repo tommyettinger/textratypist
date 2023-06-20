@@ -65,8 +65,8 @@ useful things:
 - `{CLEARFONT}` sets the font to the original font (not using the FontFamily).
 - `{ENDCOLOR}` sets the text color to the default color, which is usually white. This is the same as `{CLEARCOLOR}`.
 - `{VAR=name}` gets replaced by whatever String was associated with the variable `name`.
-- `{IF=name;choice0=a;choice1=b;=default}` checks the variable name, and compares it to each choice in the token.
-  - If `name` is equal to a choice, the token is replaced the matching value, such as `a` or `b`.
+- `{IF=name;choice0=cat;choice1=b;=default}` checks the variable name, and compares it to each choice in the token.
+  - If the value assigned to `name` is equal to a choice, the token is replaced by the choice's value, such as `cat`.
   - If no choice is equivalent and there is an empty String for a choice, the value associated with the empty String is
     used as a `default` value.
 - `{EVENT=name}` triggers an event, sending `name` to the TypingListener, when the typing reaches this point.

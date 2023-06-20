@@ -49,6 +49,7 @@ public class IncongruityTest extends ApplicationAdapter {
             TypingLabel label = new TypingLabel("Dummy Text 123", skin, font);
             labels.add(label).expandX().left();
 //            label.validate();
+            Gdx.app.log("Font", font.name + ", " + label.getPrefWidth() + ", " + label.getPrefHeight() + ", " + font.scaleY);
 
             BitmapFont bf = bitmapFonts[i];
             if (bf != null) {
@@ -57,13 +58,16 @@ public class IncongruityTest extends ApplicationAdapter {
                 style.fontColor = Color.WHITE;
                 Label bmLabel = new Label("Dummy Text 123", style);
                 bmLabel.validate();
-                float scale = label.getPrefHeight()/bmLabel.getPrefHeight();
-                Gdx.app.log("Font", font.name + ", " + label.getPrefHeight() + ", " + bmLabel.getPrefHeight() + ", " + scale);
-                bmLabel.setFontScale(scale);
+                float scaleY = label.getPrefHeight()/bmLabel.getPrefHeight();
+                float scaleX = label.getPrefWidth()/bmLabel.getPrefWidth();
+                Gdx.app.log("BMFont", font.name + ", " + bmLabel.getPrefWidth() + ", " + bmLabel.getPrefHeight()
+                        + ", " + scaleX + ", " + scaleY);
+                bmLabel.setFontScale(bf.getScaleX() * Math.min(scaleX, scaleY), bf.getScaleY() * Math.min(scaleX, scaleY));
                 labels.add(bmLabel).expandX().left();
             } else {
                 labels.add(new Label("MISSING!", skin)).expandX().left();
             }
+            if((i & 1) == 1)
             labels.row();
         }
         root.setFillParent(true);
@@ -144,7 +148,7 @@ public class IncongruityTest extends ApplicationAdapter {
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel Incongruity test");
-        config.setWindowedMode(800, 960);
+        config.setWindowedMode(1350, 700);
         config.disableAudio(true);
         config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);

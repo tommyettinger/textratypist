@@ -76,6 +76,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 				.scaleTo(30, 35);
 //				.setName("Yanone Kaffeesatz");
 		family.connected[0] = KnownFonts.getNowAlt();
+//		family.connected[11].originalCellHeight *= 0.75f;
+//		family.connected[0].originalCellHeight *= 0.75f;
 		Font font = family.connected[0];
 		font.family = family;
 //		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
