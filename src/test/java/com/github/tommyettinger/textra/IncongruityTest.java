@@ -49,7 +49,7 @@ public class IncongruityTest extends ApplicationAdapter {
             TypingLabel label = new TypingLabel("Dummy Text 123", skin, font);
             labels.add(label).expandX().left();
 //            label.validate();
-            Gdx.app.log("Font", font.name + ", " + label.getPrefWidth() + ", " + label.getPrefHeight() + ", " + font.scaleY);
+            Gdx.app.log("Font", font.name + (font.isMono ? " (MONO)" : "") + ", " + label.getPrefWidth() + ", " + label.getPrefHeight() + ", " + font.scaleY);
 
             BitmapFont bf = bitmapFonts[i];
             if (bf != null) {

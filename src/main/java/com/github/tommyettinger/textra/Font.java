@@ -2034,7 +2034,7 @@ public class Font implements Disposable {
 //            a += widthAdjust;
 //            h += heightAdjust;
             if (c != 9608) // full block
-                minWidth = Math.min(minWidth, a);
+                minWidth = Math.min(minWidth, a + widthAdjust);
             GlyphRegion gr = new GlyphRegion(parents.get(p), x, y, w, h);
             if (c == 10) {
                 a = 0;
@@ -2062,17 +2062,19 @@ public class Font implements Disposable {
         idx = indexAfter(fnt, "\nkernings count=", 0);
         if (idx < fnt.length()) {
             int kernings = intFromDec(fnt, idx, idx = indexAfter(fnt, "\nkerning first=", idx));
-            kerning = new IntFloatMap(kernings);
-            for (int i = 0; i < kernings; i++) {
-                int first = intFromDec(fnt, idx, idx = indexAfter(fnt, " second=", idx));
-                int second = intFromDec(fnt, idx, idx = indexAfter(fnt, " amount=", idx));
-                float amount = floatFromDec(fnt, idx, idx = indexAfter(fnt, "\nkerning first=", idx));
-                kerning.put(first << 16 | second, amount);
-                if (first == '[') {
-                    kerning.put(2 << 16 | second, amount);
-                }
-                if (second == '[') {
-                    kerning.put(first << 16 | 2, amount);
+            if(kernings >= 1) {
+                kerning = new IntFloatMap(kernings);
+                for (int i = 0; i < kernings; i++) {
+                    int first = intFromDec(fnt, idx, idx = indexAfter(fnt, " second=", idx));
+                    int second = intFromDec(fnt, idx, idx = indexAfter(fnt, " amount=", idx));
+                    float amount = floatFromDec(fnt, idx, idx = indexAfter(fnt, "\nkerning first=", idx));
+                    kerning.put(first << 16 | second, amount);
+                    if (first == '[') {
+                        kerning.put(2 << 16 | second, amount);
+                    }
+                    if (second == '[') {
+                        kerning.put(first << 16 | 2, amount);
+                    }
                 }
             }
         }
