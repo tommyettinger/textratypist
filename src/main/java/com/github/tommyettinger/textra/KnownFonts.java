@@ -116,7 +116,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.astarry == null) {
             try {
                 instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
-                        instance.prefix + "AStarry-standard.png", STANDARD, 12, 12, 0, -12, true)
+                        instance.prefix + "AStarry-standard.png", STANDARD, 0, 12, 0, -12, true)
                         .scaleTo(8, 8).adjustLineHeight(1f)
                         .setUnderlineMetrics(0.25f, 0.1f, 0f, 0f).setStrikethroughMetrics(0.25f, 0.2f, 0f, 0f)
                         .setInlineImageMetrics(0f, 6f, 0f)
