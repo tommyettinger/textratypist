@@ -116,8 +116,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.astarry == null) {
             try {
                 instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
-                        instance.prefix + "AStarry-standard.png", STANDARD, 12, 0, 0, -12, true)
-                        .scaleTo(8, 8).adjustLineHeight(1.125f)
+                        instance.prefix + "AStarry-standard.png", STANDARD, 12, 12, 0, -12, true)
+                        .scaleTo(8, 8).adjustLineHeight(1f)
                         .setUnderlineMetrics(0.25f, 0.1f, 0f, 0f).setStrikethroughMetrics(0.25f, 0.2f, 0f, 0f)
                         .setInlineImageMetrics(0f, 6f, 0f)
                         .setTextureFilter().setName("A Starry");
@@ -359,7 +359,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.caveat = new Font(instance.prefix + "Caveat-standard.fnt",
                         instance.prefix + "Caveat-standard.png",
-                        STANDARD, 0, 16, 0, 0, true)
+                        STANDARD, -10, 50, 0, 0, true)
                         .setDescent(-8f)
                         .setLineMetrics(0.1f, -0.25f, 0f, -0.4f)
                         .setInlineImageMetrics(0f, 44f, 0f)
@@ -401,7 +401,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.cozette == null) {
             try {
                 instance.cozette = new Font(instance.prefix + "Cozette-standard.fnt",
-                        instance.prefix + "Cozette-standard.png", STANDARD, 0f, 5f, 0, 0, false)
+                        instance.prefix + "Cozette-standard.png", STANDARD, 1f, 5f, 0, 0, false)
                         .useIntegerPositions(true)
                         .setDescent(-3f)
                         .setUnderlinePosition(0f, -0.125f)
