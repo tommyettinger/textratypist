@@ -2045,6 +2045,7 @@ public class Font implements Disposable {
                 gr.offsetX = xo + xAdjust;
             gr.offsetY = yo + yAdjust;
             gr.xAdvance = a + widthAdjust;
+
             cellWidth = Math.max(a + widthAdjust, cellWidth);
             cellHeight = Math.max(h + heightAdjust, cellHeight);
             if (w * h > 1) {

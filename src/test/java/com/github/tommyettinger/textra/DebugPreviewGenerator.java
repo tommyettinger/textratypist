@@ -121,9 +121,10 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
 //                    , layout);
             font.markup("[_]Font[] [~]name[] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%]): " + font.name +
-                    ",\n[@Main]Do I... [@G]Do I..." +
-                    ",\n[@Main]line up... [@G]line up..." +
-                    ",\n[@Main]with Gentium? [@G]with Gentium?[@Main]" +
+                    (font.distanceField != Font.DistanceFieldType.MSDF ?
+                            ",\n[@Main]Do I... [@G]Do I..." +
+                            ",\n[@Main]line up... [@G]line up..." +
+                            ",\n[@Main]with Gentium? [@G]with Gentium?[@Main]" : "") +
                     ",\noriginalCellWidth: " + font.originalCellWidth +
                     ", originalCellHeight: " + font.originalCellHeight +
                     ",\ncellWidth: " + font.cellWidth +
@@ -157,7 +158,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
             // End Pixmap.createFromFrameBuffer() modified code
 
 //            Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-            PixmapIO.writePNG(Gdx.files.local("out/debug/debug" + (index++) + ".png"), pm, 6, true);
+            PixmapIO.writePNG(Gdx.files.local("out/debug/debug" + (index++) + font.name + ".png"), pm, 6, true);
         }
         font = fnt;
 //        System.out.println(layout);
