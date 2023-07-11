@@ -52,8 +52,12 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        font = new Font("Oxanium-standard.fnt", 0, 2, -4, 0).scaleTo(16f, 18f);
 //        font = KnownFonts.getAStarry().scaleTo(8f, 16f);
 //        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, -4, 48, 0, 0, true).scaleTo(8f, 16f);
-        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, 0, 48, 0, 0, true).scaleTo(8f, 16f);
-        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, 48, 0, 0).scaleTo(8f, 16f);
+        font = KnownFonts.getAStarry().scaleTo(8f, 16f);
+//        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, 0, 48, 0, 0, true).scaleTo(8f, 16f);
+        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, 48, 0, 0)
+                .setDescent(-6f)
+                .setUnderlineMetrics(0f, 0f, 0f, 0f).setStrikethroughMetrics(0f, 0.125f, 0f, 0f)
+                .setInlineImageMetrics(-4f, 40f, 0f).scaleTo(8f, 16f);
 //          font = KnownFonts.getNowAlt().scaleTo(28f, 30f);
 //        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, -4, 48, 0, 0, true).scaleTo(8f, 16f);
 //        font2 = new Font(new BitmapFont(Gdx.files.internal("Now-Alt-standard.fnt")), 0, 16, 0, 0).scaleTo(28f, 30f);
@@ -65,8 +69,9 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        KnownFonts.addEmoji(font, -4, 0, 0);
 //        KnownFonts.addEmoji(font2, -4, 0, 0);
         // for AStarry
-        KnownFonts.addEmoji(font, -4, 22, 0); // (font, 12, 32, 0) will work, except for any chars after an emoji...
-        KnownFonts.addEmoji(font2, -4, 22, 0);
+        KnownFonts.addEmoji(font);
+//        KnownFonts.addEmoji(font, -4, 22, 0); // (font, 12, 32, 0) will work, except for any chars after an emoji...
+        KnownFonts.addEmoji(font2);
         cw = font.cellWidth;
         ch = font.cellHeight;
         cw2 = font2.cellWidth;

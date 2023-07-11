@@ -23,7 +23,6 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
-        float scale = 0.5f;
         stage = new Stage(new StretchViewport(720, 405), batch);
 //        stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);

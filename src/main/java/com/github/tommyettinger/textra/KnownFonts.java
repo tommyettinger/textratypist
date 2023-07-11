@@ -116,10 +116,11 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.astarry == null) {
             try {
                 instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
-                        instance.prefix + "AStarry-standard.png", STANDARD, 0, 0, 0, 0, true)
+                        instance.prefix + "AStarry-standard.png", STANDARD, 0, 48, 0, 0, true)
                         .scaleTo(8, 8).setDescent(-6f)
-                        .setUnderlineMetrics(0f, 0f, 0f, 0f).setStrikethroughMetrics(0f, 0.125f, 0f, 0f)
-                        .setInlineImageMetrics(-6f, 24f, -8f)
+                        .setUnderlineMetrics(0f, -0.5f, 0f, 0f).setStrikethroughMetrics(0f, -0.4f, 0f, 0f)
+                        .setInlineImageMetrics(-4f, 40f, 0f)
+//                        .setInlineImageMetrics(-6f, 24f, -8f)
                         .setTextureFilter().setName("A Starry");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1271,7 +1272,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.nowAlt = new Font(instance.prefix + "Now-Alt-standard.fnt",
                         instance.prefix + "Now-Alt-standard.png", STANDARD, 0, 32, 0, 8, true)
-                        .setDescent(-12f).setLineMetrics(0f, -0.1f, 0f, 0f).setInlineImageMetrics(0f, 16f, 0f)
+                        .setDescent(-12f).setLineMetrics(0.1f, -0.1f, 0f, 0f).setInlineImageMetrics(0f, 16f, 0f)
                         .scaleTo(29, 33).setTextureFilter().setName("Now Alt");
             } catch (Exception e) {
                 e.printStackTrace();
