@@ -4297,9 +4297,6 @@ public class Font implements Disposable {
                 p0x = cellWidth * -0.5f - scale * fsx + xAdvance * font.underX * scaleX;
                 p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY
                         + font.descent * font.scaleY;
-//                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + xAdvance * font.underX * scaleX;
-//                p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY + sin * centerX
-//                        + font.descent * font.scaleY;
                 if (c >= 0xE000 && c < 0xF800)
                 {
                     p0x -= xPx * 2f - (changedW * 0.5f);
@@ -4310,6 +4307,11 @@ public class Font implements Disposable {
                     p0x += xPx + centerX - cos * centerX;
                     p0y += sin * centerX;
                 }
+
+//                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + xAdvance * font.underX * scaleX;
+//                p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY + sin * centerX
+//                        + font.descent * font.scaleY;
+
 //                    p0x = xc + (changedW * 0.5f) + cellWidth * font.underX * scale;
 //                    p0y = font.handleIntegerPosition(yt + font.underY * font.cellHeight * scale * sizingY);
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
@@ -4506,20 +4508,26 @@ public class Font implements Disposable {
                 x += (changedW * 0.5f);
 //                y += scaledHeight * 0.5f;
             }
-//            p0x = -cos * centerX - cellWidth * 0.5f;
-//            p0y = -font.cellHeight * scale * sizingY + centerY + sin * centerX;
-//            drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
-//                    x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y), xAdvance * scaleX, xPx, yPx, rotation);
-//
-            p0x = -cos * centerX - cellWidth * 0.5f;
-            p0y = (-font.cellHeight) * scale * sizingY + centerY + sin * centerX;
-//            if (c >= 0xE000 && c < 0xF800) {
-//                p0x = xc + (changedW * 0.5f);
-//                p0y = font.handleIntegerPosition(yt);
+
+            p0x = -cos * centerX - changedW * (0.5f + font.underX);
+            p0y = -1.875f * font.cellHeight * (scale * sizingY + font.underY) + sin * centerX;
+
+//            p0x = -cellWidth + xAdvance * font.underX * scaleX;
+//            p0y = ((font.underY - 0.75f) * font.cellHeight) * scale * sizingY + centerY;
+            if (c >= 0xE000 && c < 0xF800)
+            {
+                p0x -= changedW * 0.25f - xPx * 2f;
+//                p0y += scaledHeight * 0.5f;
+            }
+//            else
+//            {
+//                p0x += xPx + centerX - cos * centerX;
+//                p0y += sin * centerX;
 //            }
+
             drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
                     x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
-                    xAdvance * scaleX, xPx, yPx, rotation);
+                    changedW * (1f + underLength), xPx, yPx, rotation);
 
         }
 //        if (c >= 0xE000 && c < 0xF800)
@@ -6341,6 +6349,14 @@ public class Font implements Disposable {
                 ", yAdjust=" + yAdjust +
                 ", widthAdjust=" + widthAdjust +
                 ", heightAdjust=" + heightAdjust +
+                ", underX=" + underX +
+                ", underY=" + underY +
+                ", underLength=" + underLength +
+                ", underBreadth=" + underBreadth +
+                ", strikeX=" + strikeX +
+                ", strikeY=" + strikeY +
+                ", strikeLength=" + strikeLength +
+                ", strikeBreadth=" + strikeBreadth +
                 '}';
     }
 

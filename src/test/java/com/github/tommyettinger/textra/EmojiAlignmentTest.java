@@ -56,7 +56,7 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, 0, 48, 0, 0, true).scaleTo(8f, 16f);
         font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), 0, 48, 0, 0)
                 .setDescent(-6f)
-                .setUnderlineMetrics(0f, 0f, 0f, 0f).setStrikethroughMetrics(0f, 0.125f, 0f, 0f)
+                .setUnderlineMetrics(0f, -0.5f, 0f, 0f).setStrikethroughMetrics(0f, -0.4f, 0f, 0f)
                 .setInlineImageMetrics(-4f, 40f, 0f).scaleTo(8f, 16f);
 //          font = KnownFonts.getNowAlt().scaleTo(28f, 30f);
 //        font = new Font("AStarry-standard.fnt", Font.DistanceFieldType.STANDARD, -4, 48, 0, 0, true).scaleTo(8f, 16f);
@@ -77,13 +77,13 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         cw2 = font2.cellWidth;
         ch2 = font2.cellHeight;
 //        typingLabel = new TypingLabel("[#4455AA88]Why are all the moderators animals?\n\n\nThat's not actually true, there's a floppy!", font);
-        typingLabel = new TypingLabel("[#4455AA88]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
+        typingLabel = new TypingLabel("[#4455AA88]Why are all the moderators [%?ERROR]animals?[+🦓][+🦉][+🐼][%][+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
 //        typingLabel.layout.setTargetWidth(400);
         typingLabel.setAlignment(Align.center);
         typingLabel.debug();
 
 //        typingLabel2 = new TypingLabel("[#ff99aa87]Why are all the moderators animals?\n\n\nThat's not actually true, there's a floppy!", font2);
-        typingLabel2 = new TypingLabel("[#ff99aa77]Why are all the moderators animals?[+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font2);
+        typingLabel2 = new TypingLabel("[#ff99aa77]Why are all the moderators [%?WARN]animals?[+🦓][+🦉][+🐼][%][+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font2);
 //        typingLabel2.layout.setTargetWidth(400);
         typingLabel2.setAlignment(Align.center);
         typingLabel2.debug();
