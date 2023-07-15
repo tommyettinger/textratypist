@@ -117,11 +117,9 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
                         instance.prefix + "AStarry-standard.png", STANDARD, 0, 48, 0, 0, true)
-                        .scaleTo(8, 8).setDescent(-6f)
-//                        .setUnderlineMetrics(0f, 0f, 0f, 0f).setStrikethroughMetrics(0f, 0.125f, 0f, 0f)
-                        .setUnderlineMetrics(0f, -0.5f, 0f, 0f).setStrikethroughMetrics(0f, -0.4f, 0f, 0f)
-                        .setInlineImageMetrics(-4f, 40f, 0f)
-//                        .setInlineImageMetrics(-6f, 24f, -8f)
+                        .scaleTo(8, 8)
+                        .setDescent(-12f).setLineMetrics(0f, -0.375f, 0f, 0f)
+                        .setInlineImageMetrics(-4f, 32f, 0f)
                         .setTextureFilter().setName("A Starry");
             } catch (Exception e) {
                 e.printStackTrace();
