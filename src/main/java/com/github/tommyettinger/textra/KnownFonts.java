@@ -615,7 +615,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.gentiumUnItalic = new Font(instance.prefix + "GentiumUnItalic-standard.fnt",
                         instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, -4f, 0f, -12f, true)
-                        .scaleTo(60, 36).setTextureFilter()
+                        .scaleTo(60, 36).setTextureFilter().setFancyLinePosition(0, 0.5f)
                         .setLineMetrics(0f, 0.15f, 0f, -0.3125f).setInlineImageMetrics(0f, -8f, 8f)
                         .setName("Gentium Un-Italic");
             } catch (Exception e) {
@@ -660,8 +660,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.goNotoUniversal = new Font(instance.prefix + "GoNotoUniversal-standard.fnt",
                         instance.prefix + "GoNotoUniversal-standard.png", STANDARD, 0f, 0f, 0f, 0f, true)
-                        .scaleTo(66, 33)
-//                        .adjustLineHeight(0.625f)
+                        .scaleTo(66, 33).setFancyLinePosition(0, 0.4f)
                         .setLineMetrics(0f, 0.1875f, 0f, -0.375f).setInlineImageMetrics(0f, -4f, 8f)
                         .setTextureFilter().setName("Go Noto Universal");
             } catch (Exception e) {
@@ -716,7 +715,7 @@ public final class KnownFonts implements LifecycleListener {
                         instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, 0f, 0f, 0f, true)
                         .scaleTo(65.25f, 51)
                         .adjustLineHeight(0.625f)
-                        .setCrispness(1.8f)
+                        .setCrispness(1.8f).setFancyLinePosition(0, 0.5f)
                         .setLineMetrics(0f, 0.375f, 0f, -0.4f).setInlineImageMetrics(0f, -14f, 8f)
                         .setName("Go Noto Universal (SDF)");
             } catch (Exception e) {
@@ -756,7 +755,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.hanazono = new Font(instance.prefix + "Hanazono-standard.fnt",
                         instance.prefix + "Hanazono-standard.png", STANDARD, -4, 0, 0, 0, true)
-                        .setDescent(-6f).scaleTo(16, 20)
+                        .setDescent(-6f).scaleTo(16, 20).setFancyLinePosition(-0.5f, 0.125f)
                         .setLineMetrics(-0.25f, 0f, 0f, -0.5f).setInlineImageMetrics(-16f, -4f, 0f)
                         .setTextureFilter().setName("Hanazono");
             } catch (Exception e) {
@@ -801,7 +800,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.ibm8x16 == null) {
             try {
                 instance.ibm8x16 = new Font(instance.prefix, "IBM-8x16-standard.font", true)
-                        .setInlineImageMetrics(-24, 0, 0).fitCell(8, 16, false).setName("IBM 8x16").setDescent(-3f);
+                        .setLineMetrics(-0.25f, 0f, 0f, 0f)
+                        .setInlineImageMetrics(-40, 0, 0).fitCell(8, 16, false).setName("IBM 8x16").setDescent(-3f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -837,7 +837,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.inconsolata = new Font(instance.prefix + "Inconsolata-LGC-Custom-standard.fnt",
                         instance.prefix + "Inconsolata-LGC-Custom-standard.png", STANDARD, 1f, 6f, -4f, 0f, true)
-                        .setLineMetrics(0f, 0f, 0f, -0.4f).setInlineImageMetrics(0f, 4f, 0f).setDescent(-21f)
+                        .setFancyLinePosition(0f, 0.2f)
+                        .setLineMetrics(0f, 0f, 0f, -0.4f).setInlineImageMetrics(0f, 8f, 0f).setDescent(-21f)
                         .scaleTo(10, 26).setTextureFilter().setName("Inconsolata LGC");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -874,6 +875,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.inconsolataMSDF = new Font(instance.prefix + "Inconsolata-LGC-Custom-msdf.fnt",
                         instance.prefix + "Inconsolata-LGC-Custom-msdf.png", MSDF, 1f, 1f, -8f, -8f, true)
+                        .setFancyLinePosition(0f, 0.25f)
                         .scaleTo(12, 26).setCrispness(1.2f).setName("Inconsolata LGC (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -962,7 +964,7 @@ public final class KnownFonts implements LifecycleListener {
                 // This should be OK now that this uses the box-drawing underline.
                 instance.iosevkaMSDF = new Font(instance.prefix + "Iosevka-msdf.fnt",
                         instance.prefix + "Iosevka-msdf.png", MSDF, 1f, 0f, 0f, 0f, true).setDescent(-12)
-                        .setLineMetrics(0.25f, 0.125f, 0f, -0.4f)
+                        .setLineMetrics(0.25f, 0.125f, 0f, -0.4f).setFancyLinePosition(0f, 0.375f)
                         .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka (MSDF)");
             } catch (Exception e) {
@@ -1010,7 +1012,7 @@ public final class KnownFonts implements LifecycleListener {
                 // This should be OK now that this uses the box-drawing underline.
                 instance.iosevkaSDF = new Font(instance.prefix + "Iosevka-sdf.fnt",
                         instance.prefix + "Iosevka-sdf.png", SDF, 2f, 0f, -2f, -2f, true)
-                        .setLineMetrics(0.25f, -0.125f, 0f, -0.4f).setInlineImageMetrics(0f, 12f, 8f)
+                        .setLineMetrics(0.25f, -0.125f, 0f, -0.4f).setInlineImageMetrics(8f, 12f, 12f)
                         .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka (SDF)");
             } catch (Exception e) {
