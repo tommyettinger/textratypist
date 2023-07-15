@@ -110,7 +110,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
                         instance.prefix + "AStarry-standard.png", STANDARD, 0, 48, 0, 0, true)
                         .scaleTo(8, 8)
-                        .setDescent(-12f).setLineMetrics(0f, -0.375f, 0f, 0f)
+                        .setDescent(-12f).setLineMetrics(0f, -0.375f, 0f, 0f).setFancyLinePosition(0, -0.375f)
                         .setInlineImageMetrics(-4f, 32f, 0f)
                         .setTextureFilter().setName("A Starry");
             } catch (Exception e) {
@@ -153,7 +153,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.astarryMSDF = new Font(instance.prefix + "AStarry-msdf.fnt",
                         instance.prefix + "AStarry-msdf.png", MSDF, 0, 0, 0, 0, true)
-                        .setUnderlinePosition(0f, -0.2f).setStrikethroughPosition(0f, -0.2f)
+                        .setUnderlinePosition(0f, -0.2f).setStrikethroughPosition(0f, -0.2f).setFancyLinePosition(0, -0.125f)
                         .scaleTo(10, 10).setCrispness(2f).setName("A Starry (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -654,11 +654,11 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.goNotoUniversal == null) {
             try {
                 instance.goNotoUniversal = new Font(instance.prefix + "GoNotoUniversal-standard.fnt",
-                        instance.prefix + "GoNotoUniversal-standard.png", SDF, 0f, 0f, 0f, 0f, true)
+                        instance.prefix + "GoNotoUniversal-standard.png", STANDARD, 0f, 0f, 0f, 0f, true)
                         .scaleTo(66, 33)
 //                        .adjustLineHeight(0.625f)
                         .setLineMetrics(0f, 0.1875f, 0f, -0.375f).setInlineImageMetrics(0f, -4f, 8f)
-                        .setName("Go Noto Universal");
+                        .setTextureFilter().setName("Go Noto Universal");
             } catch (Exception e) {
                 e.printStackTrace();
             }

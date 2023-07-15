@@ -791,6 +791,22 @@ public class Font implements Disposable {
      * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and only affects one value.
      */
     public float strikeBreadth;
+    /**
+     * Precise adjustment for the x-position of "fancy lines" such as error, warning, and note effects, affecting the
+     * left side of the line.
+     * <br>
+     * This is a "Zen" metric, which means it is measured in fractions of
+     * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and only affects one value.
+     */
+    public float fancyX;
+    /**
+     * Precise adjustment for the y-position of "fancy lines" such as error, warning, and note effects, affecting the
+     * bottom side of the line.
+     * <br>
+     * This is a "Zen" metric, which means it is measured in fractions of
+     * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and only affects one value.
+     */
+    public float fancyY;
 
     /**
      * An adjustment added to the {@link GlyphRegion#offsetX} of any inline images added with
@@ -1355,6 +1371,8 @@ public class Font implements Disposable {
         strikeY = toCopy.strikeY;
         strikeLength = toCopy.strikeLength;
         strikeBreadth = toCopy.strikeBreadth;
+        fancyX = toCopy.fancyX;
+        fancyY = toCopy.fancyY;
 
         xAdjust =      toCopy.xAdjust;
         yAdjust =      toCopy.yAdjust;
@@ -2378,6 +2396,7 @@ public class Font implements Disposable {
      * Sets both the underline and strikethrough metric adjustments with the same values, as if you called both
      * {@link #setUnderlineMetrics(float, float, float, float)} and
      * {@link #setStrikethroughMetrics(float, float, float, float)} with identical parameters.
+     * This does not affect "fancy lines" (the zigzag lines produced by error, warning, and note effects).
      * <br>
      * This affects "Zen" metrics, which means it is measured in fractions of
      * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and each metric only affects one value (even though
@@ -2397,6 +2416,32 @@ public class Font implements Disposable {
         this.strikeY = y;
         this.strikeLength = length;
         this.strikeBreadth = breadth;
+        return this;
+    }
+
+    public float getFancyLineX() {
+        return fancyX;
+    }
+
+    public float getFancyLineY() {
+        return fancyY;
+    }
+
+    /**
+     * Sets both the "fancy line" metric adjustments for position, only changing {@link #fancyX} and {@link #fancyY}.
+     * "Fancy lines" are the zigzag lines produced by error, warning, and note effects. This does not change the normal
+     * underline or the strikethrough styles.
+     * <br>
+     * This affects "Zen" metrics, which means it is measured in fractions of
+     * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and each metric only affects one value (even though
+     * this sets two metrics for each parameter).
+     * @param x adjustment for the "fancy line" x-position, affecting the left side of each line
+     * @param y adjustment for the "fancy line" y-position, affecting the bottom side of each line
+     * @return this, for chaining
+     */
+    public Font setFancyLinePosition(float x, float y) {
+        this.fancyX = x;
+        this.fancyY = y;
         return this;
     }
 
@@ -4509,8 +4554,8 @@ public class Font implements Disposable {
 //                y += scaledHeight * 0.5f;
             }
 
-            p0x = -cos * centerX - changedW * (font.underX);
-            p0y = -0.875f * (centerY - font.descent * 0.5f) * (scale * sizingY + font.underY) + sin * centerX;
+            p0x = -cos * centerX - changedW * (font.fancyX);
+            p0y = -(centerY - font.descent * font.scaleY * 0.75f) * (scale * sizingY - font.fancyY) + sin * centerX;
 
 //            p0x = -cellWidth + xAdvance * font.underX * scaleX;
 //            p0y = ((font.underY - 0.75f) * font.cellHeight) * scale * sizingY + centerY;
