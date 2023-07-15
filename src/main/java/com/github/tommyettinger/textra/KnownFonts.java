@@ -153,7 +153,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.astarryMSDF = new Font(instance.prefix + "AStarry-msdf.fnt",
                         instance.prefix + "AStarry-msdf.png", MSDF, 0, 0, 0, 0, true)
-                        .setUnderlinePosition(0f, -0.2f).setStrikethroughPosition(0f, -0.2f).setFancyLinePosition(0, -0.125f)
+                        .setUnderlinePosition(0f, -0.2f).setStrikethroughPosition(0f, -0.2f)
+                        .setFancyLinePosition(0, -0.125f)
                         .scaleTo(10, 10).setCrispness(2f).setName("A Starry (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -236,6 +237,7 @@ public final class KnownFonts implements LifecycleListener {
                         instance.prefix + "Canada1500-standard.png",
                         STANDARD, 0, 8, 0, 0, true).setDescent(-13f)
                         .setInlineImageMetrics(0f, 12f, 4f).setLineMetrics(0f, -0.125f, 0f, -0.25f)
+                        .setFancyLinePosition(0, 0.125f)
                         .scaleTo(30, 35).setTextureFilter().setName("Canada1500");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -274,6 +276,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.cascadiaMono = new Font(instance.prefix + "CascadiaMono-standard.fnt",
                         instance.prefix + "CascadiaMono-standard.png", STANDARD, 0f, -4f, 0f, 0f, true)
+                        .setFancyLinePosition(0, 0.2f)
                         .setTextureFilter().scaleTo(10, 20).setName("Cascadia Mono");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -313,6 +316,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.cascadiaMonoMSDF = new Font(instance.prefix + "CascadiaMono-msdf.fnt",
                         instance.prefix + "CascadiaMono-msdf.png", MSDF, 0f, 0f, -4f, -4f, true)
+                        .setLineMetrics(0, -0.08f, 0f, -0.25f).setFancyLinePosition(0, 0.2f)
                         .scaleTo(10, 20).setName("Cascadia Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -351,7 +355,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.caveat = new Font(instance.prefix + "Caveat-standard.fnt",
                         instance.prefix + "Caveat-standard.png",
-                        STANDARD, -10, 50, 0, 0, true)
+                        STANDARD, -10, 25, 0, 0, true)
                         .setDescent(-8f)
                         .setLineMetrics(0.1f, -0.25f, 0f, -0.4f)
                         .setInlineImageMetrics(0f, 44f, 0f)
@@ -440,6 +444,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.dejaVuSansMono = new Font(instance.prefix + "DejaVuSansMono-msdf.fnt",
                         instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 0f, 0f, 0f, 0f, true)
                         .setDescent(-6f).scaleTo(9, 20)
+                        .setFancyLinePosition(0f, 0.25f)
                         .setLineMetrics(0f, 0f, 0f, -0.25f).setCrispness(2f).setName("DejaVu Sans Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -562,9 +567,9 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentiumSDF == null) {
             try {
                 instance.gentiumSDF = new Font(instance.prefix + "Gentium-sdf.fnt",
-                        instance.prefix + "Gentium-sdf.png", SDF, 4f, 0f, 0f, 0f, true)
-                        .scaleTo(50, 45).adjustLineHeight(0.625f)
-                        .setLineMetrics(0.05f, 0.25f, 0f, -0.5f).setInlineImageMetrics(0f, -20f, 8f)
+                        instance.prefix + "Gentium-sdf.png", SDF, 4f, -45f, 0f, 0f, true)
+                        .scaleTo(50, 45).adjustLineHeight(0.625f).setFancyLinePosition(0f, 1.1f)
+                        .setLineMetrics(0.05f, 1f, 0f, -0.5f).setInlineImageMetrics(0f, -42f, 8f)
                         .setCrispness(1.5f).setName("Gentium (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
