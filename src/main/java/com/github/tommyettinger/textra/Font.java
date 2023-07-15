@@ -4510,7 +4510,7 @@ public class Font implements Disposable {
             }
 
             p0x = -cos * centerX - changedW * (font.underX);
-            p0y = -0.9f * font.cellHeight * (scale * sizingY + font.underY) + sin * centerX;
+            p0y = -0.875f * (centerY - font.descent * 0.5f) * (scale * sizingY + font.underY) + sin * centerX;
 
 //            p0x = -cellWidth + xAdvance * font.underX * scaleX;
 //            p0y = ((font.underY - 0.75f) * font.cellHeight) * scale * sizingY + centerY;
