@@ -632,6 +632,51 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getGentiumUnItalic() not found.");
     }
 
+    private Font goNotoUniversal;
+
+    /**
+     * Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support, that
+     * should scale cleanly to medium-small sizes (but not large sizes). Caches the result for later calls. The
+     * font used is Go Noto Universal, an open-source (SIL Open Font License) typeface that modifies Noto Sans by Google
+     * (see <a href="https://github.com/satbyy/go-noto-universal">Go Noto Universal's page is here</a>, and
+     * <a href="https://notofonts.github.io/">Noto Fonts have a page here</a>). It supports... most glyphs, from many
+     * languages, including essentially all extended Latin, Greek, Cyrillic, Chinese, Japanese, Armenian, Ethiopic,
+     * Cherokee, Javanese... Most scripts are here, though not Hangul (used for Korean). This also has symbols for math,
+     * music, and other usage. Unlike {@link #getGoNotoUniversalSDF() the SDF version}, the standard version should have
+     * a stable baseline. The texture this uses is larger than many of the others here, at 4096x4096 pixels, but the
+     * file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and Twemoji.png are each larger than
+     * GoNotoUniversal-standard.png . The .fnt has 21274 glyphs plus extensive kerning info, though, so it is large.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/HGapiJ1.png">Image link</a> (uses width=65.25, height=51,
+     * adjustLineHeight(0.625f), setCrispness(1.8f))
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-standard.fnt">GoNotoUniversal-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-standard.png">GoNotoUniversal-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-License.txt">GoNotoUniversal-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font GoNotoCurrent.ttf using SDF
+     */
+    public static Font getGoNotoUniversal() {
+        initialize();
+        if (instance.goNotoUniversal == null) {
+            try {
+                instance.goNotoUniversal = new Font(instance.prefix + "GoNotoUniversal-standard.fnt",
+                        instance.prefix + "GoNotoUniversal-standard.png", SDF, 0f, 0f, 0f, 0f, true)
+                        .scaleTo(66, 33)
+//                        .adjustLineHeight(0.625f)
+                        .setLineMetrics(0f, 0.1875f, 0f, -0.375f).setInlineImageMetrics(0f, -4f, 8f)
+                        .setName("Go Noto Universal");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.goNotoUniversal != null)
+            return new Font(instance.goNotoUniversal);
+        throw new RuntimeException("Assets for getGoNotoUniversal() not found.");
+    }
 
     private Font goNotoUniversalSDF;
 
@@ -640,9 +685,9 @@ public final class KnownFonts implements LifecycleListener {
      * should scale cleanly to even very large sizes (using an SDF technique). Caches the result for later calls. The
      * font used is Go Noto Universal, an open-source (SIL Open Font License) typeface that modifies Noto Sans by Google
      * (see <a href="https://github.com/satbyy/go-noto-universal">Go Noto Universal's page is here</a>, and
-     * <a href="https://notofonts.github.io/">Noto Fonts have a page here</a>). It supports... most glyphs, from all
-     * languages, including essentially all extended Latin, Greek, Cyrillic, Chinese, Japanese, Korean, Armenian,
-     * Ethiopic, Canadian Aboriginal scripts, Yi, Javanese... Pretty much every script is here, plus symbols for math,
+     * <a href="https://notofonts.github.io/">Noto Fonts have a page here</a>). It supports... most glyphs, from many
+     * languages, including essentially all extended Latin, Greek, Cyrillic, Chinese, Japanese, Armenian, Ethiopic,
+     * Cherokee, Javanese... Most scripts are here, though not Hangul (used for Korean). This also has symbols for math,
      * music, and other usage. The baseline may be slightly uneven at larger sizes, but should even out when height is
      * less than 40 or so. This uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed
      * in heavily, but should be crisp enough when zoomed out. The texture this uses is larger than many of the others
@@ -2002,8 +2047,8 @@ public final class KnownFonts implements LifecycleListener {
         return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getAStarryMSDF(),
                 getBitter(), getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getCozette(),
                 getDejaVuSansMono(), getGentium(), getGentiumMSDF(), getGentiumSDF(), getGentiumUnItalic(),
-                getGoNotoUniversalSDF(), getHanazono(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(),
-                getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
+                getGoNotoUniversal(), getGoNotoUniversalSDF(), getHanazono(), getIBM8x16(),
+                getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(),
                 getKingthingsFoundation(), getKingthingsPetrock(), getLibertinusSerif(), getNowAlt(), getOpenSans(),
                 getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(), getTangerineSDF(),
@@ -2019,10 +2064,10 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font[] getAllStandard() {
         return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getBitter(), getCanada(),
-                getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getGentiumUnItalic(), getHanazono(),
-                getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(), getKingthingsFoundation(),
-                getKingthingsPetrock(), getLibertinusSerif(), getNowAlt(), getOpenSans(), getOxanium(), getQuanPixel(),
-                getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()};
+                getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getGentiumUnItalic(), getGoNotoUniversal(),
+                getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
+                getKingthingsFoundation(), getKingthingsPetrock(), getLibertinusSerif(), getNowAlt(), getOpenSans(),
+                getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()};
     }
 
     /**
