@@ -4503,14 +4503,14 @@ public class Font implements Disposable {
             y = font.handleIntegerPosition(iy + yShift);
             centerX = oCenterX + xShift * 0.5f;
             centerY = oCenterY + yShift * 0.5f;
-            x += cellWidth * 0.5f;
+//            x += cellWidth * 0.5f;
             if (c >= 0xE000 && c < 0xF800) {
                 x += (changedW * 0.5f);
 //                y += scaledHeight * 0.5f;
             }
 
-            p0x = -cos * centerX - changedW * (0.5f + font.underX);
-            p0y = -1.875f * font.cellHeight * (scale * sizingY + font.underY) + sin * centerX;
+            p0x = -cos * centerX - changedW * (font.underX);
+            p0y = -0.9f * font.cellHeight * (scale * sizingY + font.underY) + sin * centerX;
 
 //            p0x = -cellWidth + xAdvance * font.underX * scaleX;
 //            p0y = ((font.underY - 0.75f) * font.cellHeight) * scale * sizingY + centerY;
