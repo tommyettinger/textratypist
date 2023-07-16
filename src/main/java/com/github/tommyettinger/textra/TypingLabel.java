@@ -196,6 +196,7 @@ public class TypingLabel extends TextraLabel {
     /**
      * Modifies the text of this label. If the char progression is already running, it's highly recommended to use
      * {@link #restart(String)} instead.
+     * @param newText what to use as the new text (and original text) of this label
      */
     @Override
     public void setText(String newText) {
@@ -203,7 +204,13 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * Sets the text of this label.
+     * Sets the text of this label. If the char progression is already running, it's highly recommended to use
+     * {@link #restart(String)} instead. This overload allows specifying if the original text, which is used when
+     * parsing the tokens (with {@link #parseTokens()}), should be changed to match the given text. If
+     * {@code modifyOriginalText} is true, this will {@link Parser#preprocess(CharSequence) preprocess} the text, which
+     * should generally be run once per original text and no more.
+     * <br>
+     * This overload calls {@link #setText(String, boolean, boolean)} with {@code restart} set to false.
      *
      * @param modifyOriginalText Flag determining if the original text should be modified as well. If {@code false},
      *                           only the display text is changed while the original text is untouched. If {@code true},
@@ -211,25 +218,28 @@ public class TypingLabel extends TextraLabel {
      *                           generally be run once per original text.
      * @see #restart(String)
      */
-    protected void setText(String newText, boolean modifyOriginalText) {
+    public void setText(String newText, boolean modifyOriginalText) {
         if (modifyOriginalText) newText = Parser.preprocess(newText);
-        setText(newText, modifyOriginalText, true);
+        setText(newText, modifyOriginalText, false);
     }
 
     /**
-     * Sets the text of this label.
+     * Sets the text of this label. If the char progression is already running, it's highly recommended to use
+     * {@link #restart(String)} instead. This overload allows specifying if the original text, which is used when
+     * parsing the tokens (with {@link #parseTokens()}), should be changed to match the given text. This will not ever
+     * call {@link Parser#preprocess(CharSequence)}, which makes it different from {@link #setText(String, boolean)}.
+     * You can also specify whether the text animation should restart or not here.
      *
      * @param modifyOriginalText Flag determining if the original text should be modified as well. If {@code false},
      *                           only the display text is changed while the original text is untouched.
      * @param restart            Whether this label should restart. Defaults to true.
      * @see #restart(String)
      */
-    protected void setText(String newText, boolean modifyOriginalText, boolean restart) {
+    public void setText(String newText, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
         font.markup(newText, layout.clear());
         if (wrap) {
             float w = getWidth();
-            System.out.println("Inside setText(), label's width is: " + w);
             workingLayout.setTargetWidth(w);
             font.markup(newText, workingLayout.clear());
         } else {

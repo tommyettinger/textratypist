@@ -30,9 +30,9 @@ import regexodus.REFlags;
 import regexodus.Replacer;
 
 /**
- * Utility class to parse tokens from a {@link TypingLabel}.
+ * Utility class to parse tokens from a {@link TypingLabel}; not intended for external use in most situations.
  */
-class Parser {
+public class Parser {
     private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("((?<!\\[)\\[[^\\[\\]]*(\\]|$))");
     private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\]|$)"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{6,8}");
@@ -45,14 +45,22 @@ class Parser {
     private static String RESET_REPLACEMENT;
 
 
-    static String preprocess(CharSequence text) {
+    /**
+     * Replaces any style tags using square brackets, such as <code>[_]</code> for underline, with the syntax
+     * <code>{STYLE=_}</code> (changing {@code _} based on what was in the square brackets). This also changes
+     * <code>[]</code> to <code>{RESET}</code>. This won't change escaped
+     * brackets or the inline image syntax that uses <code>[+name of an image in an atlas]</code>.
+     * @param text text that could have square-bracket style markup
+     * @return {@code text} with square bracket style markup changed to curly-brace style markup
+     */
+    public static String preprocess(CharSequence text) {
         return MARKUP_TO_TAG.replace(text).replace("[]", "{RESET}");
     }
 
     /**
      * Parses all tokens from the given {@link TypingLabel}.
      */
-    static void parseTokens(TypingLabel label) {
+    public static void parseTokens(TypingLabel label) {
         // Compile patterns if necessary
         if (PATTERN_TOKEN_STRIP == null || TypingConfig.dirtyEffectMaps) {
             PATTERN_TOKEN_STRIP = compileTokenPattern();
@@ -403,8 +411,9 @@ class Parser {
 
     /**
      * Returns a float value parsed from the given String, or the default value if the string couldn't be parsed.
+     * This can be useful in Effects.
      */
-    static float stringToFloat(String str, float defaultValue) {
+    public static float stringToFloat(String str, float defaultValue) {
         if (str != null) {
             try {
                 return Float.parseFloat(str.replaceAll("[^\\d.\\-+]", ""));
@@ -416,8 +425,9 @@ class Parser {
 
     /**
      * Returns a boolean value parsed from the given String, or the default value if the string couldn't be parsed.
+     * This can be useful in Effects.
      */
-    static boolean stringToBoolean(String str) {
+    public static boolean stringToBoolean(String str) {
         if (str != null) {
             return BOOLEAN_TRUE.containsKey(str);
         }
@@ -426,8 +436,9 @@ class Parser {
 
     /**
      * Parses a color from the given string. Returns null if the color couldn't be parsed.
+     * This can be useful in Effects.
      */
-    static int stringToColor(TypingLabel label, String str) {
+    public static int stringToColor(TypingLabel label, String str) {
         if (str != null) {
 
             // Try to parse named color
@@ -455,7 +466,7 @@ class Parser {
     /**
      * Encloses the given string in brackets to work as a regular color markup tag.
      */
-    private static String stringToColorMarkup(String str) {
+    public static String stringToColorMarkup(String str) {
         if (str != null) {
             // If color isn't registered by name, try to parse it as a hex code.
             if (str.length() >= 6 && !Palette.NAMED.containsKey(str) && PATTERN_COLOR_HEX_NO_HASH.matches(str)) {
@@ -470,7 +481,7 @@ class Parser {
     /**
      * Matches style names to syntax and encloses the given string in brackets to work as a style markup tag.
      */
-    private static String stringToStyleMarkup(String str) {
+    public static String stringToStyleMarkup(String str) {
         if (str != null) {
             if(str.isEmpty())
                 return "[]";
