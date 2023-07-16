@@ -9,9 +9,17 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.KnownFonts;
+import com.github.tommyettinger.textra.TypingLabel;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 
 import static com.badlogic.gdx.Gdx.input;
 import static com.badlogic.gdx.Input.Keys.*;
@@ -24,6 +32,12 @@ public class MinimalGridTest extends ApplicationAdapter {
     private GlyphActor emojiGlyph;
     private GlyphActor atGlyph;
     private GlyphActor usedGlyph;
+
+    private Stage screenStage;
+    private Font varWidthFont;
+    private ArrayDeque<Container<TypingLabel>> messages = new ArrayDeque<>(30);
+    private VerticalGroup messageGroup;
+    private Table root;
 
     private static final int GRID_WIDTH = 40;
     private static final int GRID_HEIGHT = 25;
@@ -43,7 +57,9 @@ public class MinimalGridTest extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
-        Font font = KnownFonts.addEmoji(KnownFonts.getKingthingsPetrock().scaleTo(25f, 25f));
+        screenStage = new Stage();
+        Font font = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic().scaleTo(46f, 25f));
+        varWidthFont = KnownFonts.getGentiumUnItalic().scaleTo(50f, 28f);
 //        font.adjustCellWidth(0.5f);
 //        font.originalCellHeight *= 0.5f;
 //        font.cellHeight *= 0.5f;
@@ -104,8 +120,25 @@ public class MinimalGridTest extends ApplicationAdapter {
             }
         });
 
+        messageGroup = new VerticalGroup();
+        messageGroup.left();
+
+        root = new Table();
+        root.setFillParent(true);
+        Table nest = new Table();
+        nest.add(messageGroup).size(66 * 25 * 0.0995f, 8 * 25);
+        root.add(nest).bottom().expand();
+
+        screenStage.addActor(root);
+
         regenerate();
         stage.addActor(gg);
+
+        message("Laĕşudiphiĕşĕşĕşĕşĕşĕş Ghathŕuphighat was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
+        message("Haisubhi Markhuśongaipaim was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
+        message("Haisubhi Markhuśongaipaim was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
+        message("Haisubhi Markhuśongaipaim was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
+        message("[*]WELCOME[*] to your [/]DOOM[/]!");
     }
 
     public void move(int x, int y){
@@ -269,6 +302,46 @@ public class MinimalGridTest extends ApplicationAdapter {
         else if(input.isKeyPressed(PERIOD) || input.isKeyPressed(NUMPAD_5) || input.isKeyPressed(NUMPAD_DOT))
             move(0, 0);
     }
+    public void message(String markupString) {
+        System.out.println(markupString);
+        TypingLabel label = null;
+        Container<TypingLabel> con = null;
+        int tall = 0;
+        for(Container<TypingLabel> c : messages){
+            tall += c.getHeight();
+        }
+        while(tall >= 8 * 25){
+            con = messages.removeFirst();
+            label = con.getActor();
+            messageGroup.removeActor(con);
+            messageGroup.pack();
+            tall = 0;
+            for(Container<TypingLabel> c : messages){
+                tall += c.getHeight();
+            }
+        }
+
+        if(label == null)
+        {
+            label = new TypingLabel("", varWidthFont);
+            label.setWrap(true);
+            label.restart(markupString);
+        }
+        else {
+            label.restart(markupString);
+        }
+        if(con == null)
+        {
+            con = new Container<>(label);
+        }
+        con.prefWidth(66 * 25 * 0.0995f);
+        label.debug();
+        label.setAlignment(Align.bottomLeft);
+        messages.addLast(con);
+        messageGroup.addActor(con);
+        root.pack();
+        System.out.println(label.getWidth() + " and was set to " + (66 * 25 * 0.0995f) + " with target width " + label.getWorkingLayout().getTargetWidth());
+    }
 
     @Override
     public void render() {
@@ -280,6 +353,9 @@ public class MinimalGridTest extends ApplicationAdapter {
         camera.update();
         stage.act();
         stage.draw();
+        screenStage.act();
+        screenStage.draw();
+
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
 
@@ -287,5 +363,6 @@ public class MinimalGridTest extends ApplicationAdapter {
     public void resize(int width, int height) {
         super.resize(width, height);
         gg.resize(width, height);
+        screenStage.getViewport().update(width, height, true);
     }
 }
