@@ -357,7 +357,7 @@ public final class KnownFonts implements LifecycleListener {
                         instance.prefix + "Caveat-standard.png",
                         STANDARD, -10, 25, 0, 0, true)
                         .setDescent(-8f)
-                        .setLineMetrics(0.1f, -0.25f, 0f, -0.4f)
+                        .setLineMetrics(0f, -0.25f, 0.05f, -0.4f)
                         .setInlineImageMetrics(0f, 44f, 0f)
                         .scaleTo(32, 32).setTextureFilter().setName("Caveat");
             } catch (Exception e) {
@@ -661,7 +661,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.goNotoUniversal = new Font(instance.prefix + "GoNotoUniversal-standard.fnt",
                         instance.prefix + "GoNotoUniversal-standard.png", STANDARD, 0f, 0f, 0f, 0f, true)
                         .scaleTo(66, 33).setFancyLinePosition(0, 0.4f)
-                        .setLineMetrics(0f, 0.1875f, 0f, -0.375f).setInlineImageMetrics(0f, -4f, 8f)
+                        .setLineMetrics(0f, 0.1875f, 0f, -0.375f).setInlineImageMetrics(0f, -4f, 6f)
                         .setTextureFilter().setName("Go Noto Universal");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -712,11 +712,11 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.goNotoUniversalSDF == null) {
             try {
                 instance.goNotoUniversalSDF = new Font(instance.prefix + "GoNotoUniversal-sdf.fnt",
-                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, 0f, 0f, 0f, true)
+                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 8f, -16f, 0f, 0f, true)
                         .scaleTo(65.25f, 51)
                         .adjustLineHeight(0.625f)
-                        .setCrispness(1.8f).setFancyLinePosition(0, 0.5f)
-                        .setLineMetrics(0f, 0.375f, 0f, -0.4f).setInlineImageMetrics(0f, -14f, 8f)
+                        .setCrispness(1.8f).setFancyLinePosition(0.8125f, 0.8125f)
+                        .setLineMetrics(0.5f, 0.8125f, 0.25f, -0.4f).setInlineImageMetrics(0f, -28f, 6f)
                         .setName("Go Noto Universal (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1473,7 +1473,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.robotoCondensed = new Font(instance.prefix + "RobotoCondensed-standard.fnt",
                         instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 25, 0, 20, true)
-                        .setDescent(-15f).setInlineImageMetrics(0f, 8f, 6f)
+                        .setDescent(-15f).setInlineImageMetrics(0f, 8f, 6f).setFancyLinePosition(0f, 0.3f)
                         .setUnderlineMetrics(0f, 0f, 0f, -0.4f).setStrikethroughMetrics(0f, -0.0625f, 0f, -0.4f)
                         .scaleTo(20, 32).setTextureFilter().setName("Roboto Condensed");
             } catch (Exception e) {
@@ -1515,7 +1515,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.tangerine = new Font(instance.prefix + "Tangerine-standard.fnt",
                         instance.prefix + "Tangerine-standard.png", STANDARD, 0f, 16f, 0f, 0f, true)
                         .setUnderlineMetrics(0f, 0f, 0f, -0.6f).setStrikethroughMetrics(0f, -0.125f, 0f, -0.6f)
-                        .setInlineImageMetrics(4f, 20f, 8f).setDescent(-20f)
+                        .setInlineImageMetrics(4f, 20f, 8f).setDescent(-20f).setFancyLinePosition(0f, 0.2f)
                         .scaleTo(48, 32).setTextureFilter().setName("Tangerine");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1553,8 +1553,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.tangerineSDF == null) {
             try {
                 instance.tangerineSDF = new Font(instance.prefix + "Tangerine-sdf.fnt",
-                        instance.prefix + "Tangerine-sdf.png", SDF, 0f, 28f, 0f, 0, false)
-                        .setLineMetrics(0.0625f, 0f, 0f, 0f).setInlineImageMetrics(0f, 0f, 8f)
+                        instance.prefix + "Tangerine-sdf.png", SDF, 0f, 28f, 0f, 0, false).setFancyLinePosition(0, 0.2f)
+                        .setLineMetrics(0.0625f, 0f, 0f, 0f).setInlineImageMetrics(-24f, 0f, 8f)
                         .scaleTo(48, 32).setCrispness(0.375f).setName("Tangerine (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1630,6 +1630,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.kaffeesatzMSDF = new Font(instance.prefix + "YanoneKaffeesatz-msdf.fnt",
                         instance.prefix + "YanoneKaffeesatz-msdf.png", MSDF, 0f, 20f, 0f, 0, true)
+                        .setFancyLinePosition(0f, 0.25f)
                         .scaleTo(26, 30).setCrispness(2.5f).setName("Yanone Kaffeesatz (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1670,7 +1671,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.yataghanMSDF = new Font(instance.prefix + "Yataghan-msdf.fnt",
                         instance.prefix + "Yataghan-msdf.png", MSDF, 0f, 4f, 0f, 0f, true)
-                        .setLineMetrics(0f, 0.125f, 0f, -0.4f)
+                        .setLineMetrics(0f, 0.125f, 0f, -0.4f).setFancyLinePosition(0, 0.375f)
                         .scaleTo(20, 32).setName("Yataghan (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
