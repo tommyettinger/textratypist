@@ -227,13 +227,12 @@ public class TypingLabel extends TextraLabel {
     protected void setText(String newText, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
         font.markup(newText, layout.clear());
-        if(wrap)
-        {
-            workingLayout.setTargetWidth(getWidth());
+        if (wrap) {
+            float w = getWidth();
+            System.out.println("Inside setText(), label's width is: " + w);
+            workingLayout.setTargetWidth(w);
             font.markup(newText, workingLayout.clear());
-        }
-        else
-        {
+        } else {
             workingLayout.setTargetWidth(0f);
             font.markup(newText, workingLayout.clear());
             setWidth(workingLayout.getWidth() + (style != null && style.background != null ?
@@ -435,16 +434,15 @@ public class TypingLabel extends TextraLabel {
      * parsed.
      */
     public void restart(String newText) {
-        // Reset cache collections
         workingLayout.baseColor = Color.WHITE_FLOAT_BITS;
         workingLayout.atLimit = false;
 
         workingLayout.maxLines = Integer.MAX_VALUE;
         workingLayout.ellipsis = null;
 
+        // Reset cache collections
         workingLayout.lines.clear();
         workingLayout.lines.add(new Line());
-
         offsets.clear();
         sizing.clear();
         rotations.clear();
@@ -462,6 +460,9 @@ public class TypingLabel extends TextraLabel {
         skipping = false;
         ignoringEvents = false;
         ignoringEffects = false;
+
+        // Reset scene2d.ui data
+        setSize(0, 0);
 
         // Set new text
         invalidate();
