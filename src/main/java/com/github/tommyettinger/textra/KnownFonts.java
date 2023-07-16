@@ -1055,7 +1055,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.iosevkaSlab = new Font(instance.prefix + "Iosevka-Slab-standard.fnt",
                         instance.prefix + "Iosevka-Slab-standard.png", STANDARD, 0f, 12f, 0f, 0f, true)
                         .scaleTo(10, 24).fitCell(10, 24, false)
-                        .setDescent(-10f).setLineMetrics(0f, -0.125f, 0f, -0.25f).setInlineImageMetrics(0f, 12f, 0f)
+                        .setDescent(-10f).setLineMetrics(0f, -0.125f, 0f, -0.25f).setInlineImageMetrics(0f, 16f, 0f)
                         .setTextureFilter().setName("Iosevka Slab");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1098,7 +1098,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.iosevkaSlabMSDF = new Font(instance.prefix + "Iosevka-Slab-msdf.fnt",
                         instance.prefix + "Iosevka-Slab-msdf.png", MSDF, 1f, 0f, 0f, 0f, true).setDescent(-12)
-                        .setLineMetrics(0.25f, 0.125f, 0f, -0.4f)
+                        .setLineMetrics(0.25f, 0.125f, 0f, -0.4f).setFancyLinePosition(0f, 0.375f)
                         .setCrispness(2.25f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka Slab (MSDF)");
             } catch (Exception e) {
@@ -1145,7 +1145,7 @@ public final class KnownFonts implements LifecycleListener {
                 // This might be OK now that this uses the box-drawing underline.
                 instance.iosevkaSlabSDF = new Font(instance.prefix + "Iosevka-Slab-sdf.fnt",
                         instance.prefix + "Iosevka-Slab-sdf.png", SDF, 2f, 0f, -2f, -2f, true)
-                        .setLineMetrics(0.25f, -0.125f, 0f, -0.4f).setInlineImageMetrics(0f, 12f, 8f)
+                        .setLineMetrics(0.25f, -0.125f, 0f, -0.4f).setInlineImageMetrics(8f, 12f, 12f)
                         .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka Slab (SDF)");
             } catch (Exception e) {
@@ -1235,7 +1235,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.kingthingsPetrock = new Font(instance.prefix + "KingthingsPetrock-standard.fnt",
                         instance.prefix + "KingthingsPetrock-standard.png", STANDARD, 0, 8, 2, 0, true)
-                        .setDescent(-20f).setInlineImageMetrics(0f, 10f, 8f)
+                        .setDescent(-20f).setInlineImageMetrics(0f, 22f, 8f).setFancyLinePosition(0, 0.2f)
                         .scaleTo(25, 32).setTextureFilter().setName("Kingthings Petrock");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1277,7 +1277,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.libertinusSerif = new Font(instance.prefix + "LibertinusSerif-standard.fnt",
                         instance.prefix + "LibertinusSerif-standard.png", STANDARD, 0, 6, 0, 0, true)
-                        .setLineMetrics(0.05f, 0f, 0.0625f, -0.25f)
+                        .setLineMetrics(0.05f, 0f, 0.0625f, -0.25f).setFancyLinePosition(0f, 0.15f)
                         .scaleTo(40, 34).setTextureFilter().setName("Libertinus Serif");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1314,8 +1314,8 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.nowAlt == null) {
             try {
                 instance.nowAlt = new Font(instance.prefix + "Now-Alt-standard.fnt",
-                        instance.prefix + "Now-Alt-standard.png", STANDARD, 0, 32, 0, 8, true)
-                        .setDescent(-12f).setLineMetrics(0.1f, -0.1f, 0f, 0f).setInlineImageMetrics(0f, 16f, 0f)
+                        instance.prefix + "Now-Alt-standard.png", STANDARD, 0, 24, 0, 8, true)
+                        .setDescent(-12f).setLineMetrics(0.05f, -0.1f, 0f, 0f).setInlineImageMetrics(0f, 24f, 8f)
                         .scaleTo(29, 33).setTextureFilter().setName("Now Alt");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1353,7 +1353,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.openSans = new Font(instance.prefix + "OpenSans-standard.fnt",
                         instance.prefix + "OpenSans-standard.png", STANDARD, 0, 16, 0, 0, true).setDescent(-8f)
                         .setLineMetrics(0f, -0.125f, 0f, -0.4f).setInlineImageMetrics(0f, 8f, 4f)
-                        .scaleTo(20, 28).setTextureFilter().setName("OpenSans");
+                        .setFancyLinePosition(0f, 0.1f).scaleTo(20, 28).setTextureFilter().setName("OpenSans");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1433,8 +1433,8 @@ public final class KnownFonts implements LifecycleListener {
                 // This makes underlines use a different row than the bottom of letters.
                 instance.quanPixel = new Font(instance.prefix + "QuanPixel-standard.fnt",
                         instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 2, 0, 2, false)
-                        .setLineMetrics(-0.125f, -0.0625f, 0f, 0f).setInlineImageMetrics(-40f, -4f, 0f)
-                        .useIntegerPositions(true).setDescent(-4f)
+                        .setLineMetrics(0.0625f, -0.0625f, -0.25f, 0f).setInlineImageMetrics(-40f, -4f, 0f)
+                        .setFancyLinePosition(0f, 0.375f).useIntegerPositions(true).setDescent(-4f)
                         .setName("QuanPixel");
             } catch (Exception e) {
                 e.printStackTrace();
