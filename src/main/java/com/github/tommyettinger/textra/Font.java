@@ -4098,11 +4098,11 @@ public class Font implements Disposable {
             // rotating xc and yt variables, to the position-only x and y variables.
             // it also offsets x by a half-cell to the right, and moves the origin for y.
             float xch = tr.offsetX * scaleX * sizingX;
-            float ych = scaledHeight * 0.5f -tr.offsetY * fsy * scale * sizingY;
+            float ych = scaledHeight * 0.5f - tr.offsetY * fsy * scale * sizingY;
             xc -= xch;
             x += xch + changedW * 0.5f;
             yt -= ych;
-            y += ych;
+            y += ych - font.descent * scaleY * 2f;
         }
         // when this is removed, rotations for icons go around the bottom center.
         // but, with it here, the rotations go around the bottom left corner.
@@ -4349,7 +4349,7 @@ public class Font implements Disposable {
             }
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
-                p0x = cellWidth * -0.5f - scale * fsx + xAdvance * font.underX * scaleX;
+                p0x = font.cellWidth * -0.5f - scale * fsx + xAdvance * font.underX * scaleX;
                 p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY
                         + font.descent * font.scaleY;
                 if (c >= 0xE000 && c < 0xF800)
@@ -4372,7 +4372,7 @@ public class Font implements Disposable {
                     p0x -= xch;
                     x += xch;
                     p0y -= ych;
-                    y += ych;
+                    y += ych - font.descent * font.scaleY * 2f;
                 }
 
 //                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + xAdvance * font.underX * scaleX;
@@ -4470,7 +4470,7 @@ public class Font implements Disposable {
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
-                p0x = cellWidth * -0.5f - scale * fsx + xAdvance * font.strikeX * scaleX;
+                p0x = font.cellWidth * -0.5f - scale * fsx + xAdvance * font.strikeX * scaleX;
                 p0y = centerY + (font.strikeY - 0.45f) * font.cellHeight * scale * sizingY + font.descent * font.scaleY;
 //                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + xAdvance * font.strikeX * scaleX;
 //                p0y = centerY + (font.strikeY - 0.45f) * font.cellHeight * scale * sizingY + sin * centerX + font.descent * font.scaleY;
@@ -4492,7 +4492,7 @@ public class Font implements Disposable {
                     p0x -= xch;
                     x += xch;
                     p0y -= ych;
-                    y += ych;
+                    y += ych - font.descent * font.scaleY * 2f;
                 }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),

@@ -63,12 +63,14 @@ public class MinimalGridTest extends ApplicationAdapter {
         // OK, this is a total mess.
         // Here, we sort-of duplicate KnownFonts.getIosevkaSlab(), but change the size, offsetY, and descent.
         // Having descent = 0 is normally incorrect, but seems to work well with GlyphGrid for some reason.
-        Font font = KnownFonts.addEmoji(new Font("Iosevka-Slab-standard.fnt",
-                "Iosevka-Slab-standard.png", STANDARD, 0f, 0f, 0f, 0f, true) // offsetY changed
-                .scaleTo(16, 28).fitCell(16, 28, false)
-                .setDescent(0f) // changed a lot
-                .setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-8f, 24f, 0f)
-                .setTextureFilter().setName("Iosevka Slab"));
+//        Font font = KnownFonts.addEmoji(new Font("Iosevka-Slab-standard.fnt",
+//                "Iosevka-Slab-standard.png", STANDARD, 0f, 0f, 0f, 0f, true) // offsetY changed
+//                .scaleTo(16, 28).fitCell(16, 28, false)
+//                .setDescent(0f) // changed a lot
+//                .setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-8f, 24f, 0f)
+//                .setTextureFilter().setName("Iosevka Slab"));
+
+        Font font = KnownFonts.addEmoji(KnownFonts.getIosevkaSlab().setDescent(0f));
 
         varWidthFont = KnownFonts.getGentiumUnItalic().scaleTo(50f, 28f);
 //        font.adjustCellWidth(0.5f);
