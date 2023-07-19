@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import static com.badlogic.gdx.Gdx.input;
 import static com.badlogic.gdx.Input.Keys.*;
+import static com.github.tommyettinger.textra.Font.DistanceFieldType.STANDARD;
 
 public class MinimalGridTest extends ApplicationAdapter {
 
@@ -58,7 +59,17 @@ public class MinimalGridTest extends ApplicationAdapter {
     public void create() {
         stage = new Stage();
         screenStage = new Stage();
-        Font font = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic().scaleTo(46f, 25f));
+//        Font font = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic().scaleTo(46f, 25f));
+        // OK, this is a total mess.
+        // Here, we sort-of duplicate KnownFonts.getIosevkaSlab(), but change the size, offsetY, and descent.
+        // Having descent = 0 is normally incorrect, but seems to work well with GlyphGrid for some reason.
+        Font font = KnownFonts.addEmoji(new Font("Iosevka-Slab-standard.fnt",
+                "Iosevka-Slab-standard.png", STANDARD, 0f, 0f, 0f, 0f, true) // offsetY changed
+                .scaleTo(16, 28).fitCell(16, 28, false)
+                .setDescent(0f) // changed a lot
+                .setLineMetrics(-0.125f, -0.25f, 0f, -0.25f).setInlineImageMetrics(-8f, 24f, 0f)
+                .setTextureFilter().setName("Iosevka Slab"));
+
         varWidthFont = KnownFonts.getGentiumUnItalic().scaleTo(50f, 28f);
 //        font.adjustCellWidth(0.5f);
 //        font.originalCellHeight *= 0.5f;
@@ -272,7 +283,9 @@ public class MinimalGridTest extends ApplicationAdapter {
                         gg.backgrounds[x][y] = 0;
                         break;
                     default:
-                        gg.backgrounds[x][y] = 0xBBBBBBFF;
+                        gg.backgrounds[x][y] = 0x808080FF |
+                                (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
+                                        * 0x01010100;
                         gg.put(x, y, c, 0x444444FF);
                 }
             }
