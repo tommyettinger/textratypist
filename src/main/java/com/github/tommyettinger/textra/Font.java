@@ -4093,17 +4093,27 @@ public class Font implements Disposable {
 
 
         if (c >= 0xE000 && c < 0xF800) {
-            // when this is removed, rotations for icons go around the bottom center.
-            // but, with it here, the rotations go around the bottom left corner.
+            // for inline images, this does two things.
+            // it moves the changes from the inline image's offsetX and offsetY from the
+            // rotating xc and yt variables, to the position-only x and y variables.
+            // it also offsets x by a half-cell to the right, and moves the origin for y.
+            float xch = tr.offsetX * scaleX * sizingX;
+            float ych = scaledHeight * 0.5f -tr.offsetY * fsy * scale * sizingY;
+            xc -= xch;
+            x += xch + changedW * 0.5f;
+            yt -= ych;
+            y += ych;
+        }
+        // when this is removed, rotations for icons go around the bottom center.
+        // but, with it here, the rotations go around the bottom left corner.
 //            xc += (changedW * 0.5f);
 
-            // This seems to rotate icons around their centers.
-            x += (changedW * 0.5f);
-            y += scaledHeight * 0.5f;
-            yt -= scaledHeight * 0.5f;
+        // This seems to rotate icons around their centers.
+//            x += changedW * 0.5f;
+//            y += scaledHeight * 0.5f;
+//            yt -= scaledHeight * 0.5f;
 
 //            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f);
-        }
 
 
 
@@ -4352,6 +4362,18 @@ public class Font implements Disposable {
                     p0x += xPx + centerX - cos * centerX;
                     p0y += sin * centerX;
                 }
+                if (c >= 0xE000 && c < 0xF800) {
+                    // for inline images, this does two things.
+                    // it moves the changes from the inline image's offsetX and offsetY from the
+                    // rotating xc and yt variables, to the position-only x and y variables.
+                    // it also moves the origin for y by a full cell height.
+                    float xch = tr.offsetX * scaleX * sizingX;
+                    float ych = scaledHeight -tr.offsetY * fsy * scale * sizingY;
+                    p0x -= xch;
+                    x += xch;
+                    p0y -= ych;
+                    y += ych;
+                }
 
 //                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + xAdvance * font.underX * scaleX;
 //                p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY + sin * centerX
@@ -4460,10 +4482,18 @@ public class Font implements Disposable {
                     p0x += xPx + centerX - cos * centerX;
                     p0y += sin * centerX;
                 }
-//                if (c >= 0xE000 && c < 0xF800) {
-//                    p0x = xc + (changedW * 0.5f) + cellWidth * font.strikeX * scale;
-//                    p0y = font.handleIntegerPosition(yt + (font.strikeY + 0.375f) * font.cellHeight * scale * sizingY);
-//                }
+                if (c >= 0xE000 && c < 0xF800) {
+                    // for inline images, this does two things.
+                    // it moves the changes from the inline image's offsetX and offsetY from the
+                    // rotating xc and yt variables, to the position-only x and y variables.
+                    // it also moves the origin for y by a full cell height.
+                    float xch = tr.offsetX * scaleX * sizingX;
+                    float ych = scaledHeight -tr.offsetY * fsy * scale * sizingY;
+                    p0x -= xch;
+                    x += xch;
+                    p0y -= ych;
+                    y += ych;
+                }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         xAdvance * (font.strikeLength + 1) * scaleX + xPx * 5f,

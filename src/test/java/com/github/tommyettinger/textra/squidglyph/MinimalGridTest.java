@@ -67,7 +67,7 @@ public class MinimalGridTest extends ApplicationAdapter {
                 "Iosevka-Slab-standard.png", STANDARD, 0f, 0f, 0f, 0f, true) // offsetY changed
                 .scaleTo(16, 28).fitCell(16, 28, false)
                 .setDescent(0f) // changed a lot
-                .setLineMetrics(-0.125f, -0.25f, 0f, -0.25f).setInlineImageMetrics(-8f, 24f, 0f)
+                .setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-8f, 24f, 0f)
                 .setTextureFilter().setName("Iosevka Slab"));
 
         varWidthFont = KnownFonts.getGentiumUnItalic().scaleTo(50f, 28f);
