@@ -19,9 +19,6 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.Constructor;
-import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
 import com.github.tommyettinger.textra.utils.Palette;
 import regexodus.Matcher;
@@ -355,20 +352,9 @@ public class Parser {
                     break;
                 }
                 case EFFECT_START: {
-                    Class<? extends Effect> clazz = TypingConfig.EFFECT_START_TOKENS.get(tokenName.toUpperCase());
-                    try {
-                        if (clazz != null) {
-                            Constructor constructor = ClassReflection.getConstructors(clazz)[0];
-                            int constructorParamCount = constructor.getParameterTypes().length;
-                            if (constructorParamCount >= 2) {
-                                effect = (Effect) constructor.newInstance(label, params);
-                            } else {
-                                effect = (Effect) constructor.newInstance(label);
-                            }
-                        }
-                    } catch (ReflectionException e) {
-                        String message = "Failed to initialize " + tokenName + " effect token. Make sure the associated class (" + clazz + ") has only one constructor with TypingLabel as first parameter and optionally String[] as second.";
-                        throw new IllegalStateException(message, e);
+                    Effect.EffectBuilder eb = TypingConfig.EFFECT_START_TOKENS.get(tokenName.toUpperCase());
+                    if (eb != null) {
+                        effect = eb.produce(label, params);
                     }
                     break;
                 }

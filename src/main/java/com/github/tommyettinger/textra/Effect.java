@@ -30,8 +30,19 @@ public abstract class Effect {
     public float duration = Float.POSITIVE_INFINITY;
     protected float totalTime;
 
+    /**
+     * A unique identifier to be used by the start token for this Effect.
+     * This is expected to be assigned by {@link TypingConfig#registerEffect(String, String, Class)}, not manually.
+     */
+    public String name;
+
     public Effect(TypingLabel label) {
         this.label = label;
+    }
+
+    public Effect assignTokenName(String name) {
+        this.name = name;
+        return this;
     }
 
     public void update(float delta) {
@@ -129,4 +140,11 @@ public abstract class Effect {
         return Parser.stringToColor(label, str);
     }
 
+    /**
+     * A functional interface that is meant to be used with the 2-parameter constructor available for all Effects here,
+     * using a method reference such as {@code WaveEffect::new}.
+     */
+    public interface EffectBuilder {
+        Effect produce(TypingLabel label, String[] params);
+    }
 }

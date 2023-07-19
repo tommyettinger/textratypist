@@ -19,7 +19,6 @@ package com.github.tommyettinger.textra.effects;
 import com.badlogic.gdx.math.MathUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
-import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /**
  * Blinks the entire text in two different colors at once, without interpolation.

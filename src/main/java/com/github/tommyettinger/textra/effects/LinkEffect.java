@@ -19,7 +19,6 @@ package com.github.tommyettinger.textra.effects;
 import com.badlogic.gdx.Gdx;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
-import com.github.tommyettinger.textra.utils.ColorUtils;
 import com.github.tommyettinger.textra.utils.StringUtils;
 
 /**

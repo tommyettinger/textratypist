@@ -32,7 +32,6 @@ import com.badlogic.gdx.utils.LongArray;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 
 import java.lang.StringBuilder;
@@ -658,13 +657,13 @@ public class TypingLabel extends TextraLabel {
                     case EFFECT_END: {
                         // Get effect class
                         boolean isStart = category == TokenCategory.EFFECT_START;
-                        Class<? extends Effect> effectClass = isStart ? TypingConfig.EFFECT_START_TOKENS.get(token) : TypingConfig.EFFECT_END_TOKENS.get(token);
+                        String effectName = isStart ? token : token.substring(3);
 
                         // End all effects of the same type
                         for (int i = 0; i < activeEffects.size; i++) {
                             Effect effect = activeEffects.get(i);
                             if (effect.indexEnd < 0) {
-                                if (ClassReflection.isAssignableFrom(effectClass, effect.getClass())) {
+                                if (effectName.equals(effect.name)) {
                                     effect.indexEnd = glyphCharIndex;
                                 }
                             }
