@@ -70,7 +70,10 @@ public class MinimalGridTest extends ApplicationAdapter {
 //                .setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-8f, 24f, 0f)
 //                .setTextureFilter().setName("Iosevka Slab"));
 
-        Font font = KnownFonts.addEmoji(KnownFonts.getIosevkaSlab().setDescent(0f));
+        Font font = KnownFonts.addEmoji(KnownFonts.getIosevkaSlab()
+//                .setLineMetrics(-0.125f, -0.125f, 0f, -0.25f)
+//                .setInlineImageMetrics(-8f, 24f, 0f)
+        );
 
         varWidthFont = KnownFonts.getGentiumUnItalic().scaleTo(50f, 28f);
 //        font.adjustCellWidth(0.5f);
@@ -147,11 +150,11 @@ public class MinimalGridTest extends ApplicationAdapter {
         regenerate();
         stage.addActor(gg);
 
-        message("Laĕşudiphiĕşĕşĕşĕşĕşĕş Ghathŕuphighat was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
-        message("Haisubhi Markhuśongaipaim was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
-        message("Haisubhi Markhuśongaipaim was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
-        message("Haisubhi Markhuśongaipaim was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
-        message("[*]WELCOME[*] to your [/]DOOM[/]!");
+        message("[%?blacken]Laĕşudiphiĕşĕşĕşĕşĕşĕş Ghathŕuphighat was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
+        message("[%?blacken]Haisubhi Markhuśongaipaim was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
+        message("[%?blacken]Haisubhi Markhuśongaipaim was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
+        message("[%?blacken]Haisubhi Markhuśongaipaim was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
+        message("[%?blacken][*]WELCOME[*] to your [/]DOOM[/]!");
     }
 
     public void move(int x, int y){

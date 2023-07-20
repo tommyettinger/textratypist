@@ -62,7 +62,8 @@ public class GlyphActor extends Actor {
         batch.setColor(batch.getColor());
         font.drawGlyph(batch, glyph, getX()
 //                + font.cellWidth * 0.5f
-                , getY() - font.descent * font.scaleY, getRotation(), getScaleX(), getScaleY());//((char)glyph >= 0xE000 && (char)glyph < 0xF800 ? font.originalCellHeight * 0.5f : 0f)
+                , getY()// - font.descent * font.scaleY * 2f
+                , getRotation(), getScaleX(), getScaleY());//((char)glyph >= 0xE000 && (char)glyph < 0xF800 ? font.originalCellHeight * 0.5f : 0f)
     }
 
     public void setColor(int color) {
