@@ -4102,7 +4102,7 @@ public class Font implements Disposable {
             xc -= xch;
             x += xch + changedW * 0.5f;
             yt -= ych;
-            y += ych - font.descent * scaleY * 2f;
+            y += ych;// - font.descent * font.scaleY * 0.5f;
         }
         // when this is removed, rotations for icons go around the bottom center.
         // but, with it here, the rotations go around the bottom left corner.
@@ -4372,7 +4372,7 @@ public class Font implements Disposable {
                     p0x -= xch;
                     x += xch;
                     p0y -= ych;
-                    y += ych - font.descent * font.scaleY * 2f;
+                    y += ych;// - font.descent * font.scaleY * 2f;
                 }
 
 //                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + xAdvance * font.underX * scaleX;
@@ -4492,7 +4492,7 @@ public class Font implements Disposable {
                     p0x -= xch;
                     x += xch;
                     p0y -= ych;
-                    y += ych - font.descent * font.scaleY * 2f;
+                    y += ych;// - font.descent * font.scaleY * 2f;
                 }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),

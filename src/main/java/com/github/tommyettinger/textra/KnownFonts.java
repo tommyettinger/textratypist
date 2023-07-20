@@ -712,11 +712,11 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.goNotoUniversalSDF == null) {
             try {
                 instance.goNotoUniversalSDF = new Font(instance.prefix + "GoNotoUniversal-sdf.fnt",
-                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 8f, -16f, 0f, 0f, true)
-                        .scaleTo(65.25f, 51)
-                        .adjustLineHeight(0.625f)
-                        .setCrispness(1.8f).setFancyLinePosition(0.8125f, 0.8125f)
-                        .setLineMetrics(0.5f, 0.8125f, 0.25f, -0.4f).setInlineImageMetrics(0f, -28f, 6f)
+                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, -16f, 0f, 0f, true)
+                        .scaleTo(43.25f, 34)
+//                        .adjustLineHeight(0.625f)
+                        .setCrispness(1.8f).setFancyLinePosition(0f, 1.25f)
+                        .setUnderlineMetrics(0.25f, 1f, 0.2f, -0.5f).setStrikethroughMetrics(0.25f, 0.85f, 0.2f, -0.5f).setInlineImageMetrics(0f, -28f, 16f)
                         .setName("Go Noto Universal (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1055,7 +1055,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.iosevkaSlab = new Font(instance.prefix + "Iosevka-Slab-standard.fnt",
                         instance.prefix + "Iosevka-Slab-standard.png", STANDARD, 0f, 12f, 0f, 0f, true)
                         .scaleTo(10, 24).fitCell(10, 24, false)
-                        .setDescent(-10f).setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-8f, 24f, 0f)
+                        .setDescent(-10f).setLineMetrics(0f, -0.125f, 0f, -0.25f).setInlineImageMetrics(0f, 12f, 0f)
                         .setTextureFilter().setName("Iosevka Slab");
             } catch (Exception e) {
                 e.printStackTrace();
