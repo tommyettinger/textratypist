@@ -917,7 +917,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.iosevka = new Font(instance.prefix + "Iosevka-standard.fnt",
                         instance.prefix + "Iosevka-standard.png", STANDARD, -2f, 12f, 0f, 0f, true)
                         .scaleTo(10, 24).fitCell(10, 24, false)
-                        .setDescent(-10f).setLineMetrics(0f, -0.125f, 0f, -0.25f).setInlineImageMetrics(0f, 12f, 0f)
+                        .setDescent(-10f).setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-6f, 12f, 0f)
                         .setTextureFilter().setName("Iosevka");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1055,7 +1055,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.iosevkaSlab = new Font(instance.prefix + "Iosevka-Slab-standard.fnt",
                         instance.prefix + "Iosevka-Slab-standard.png", STANDARD, 0f, 12f, 0f, 0f, true)
                         .scaleTo(10, 24).fitCell(10, 24, false)
-                        .setDescent(-10f).setLineMetrics(0f, -0.125f, 0f, -0.25f).setInlineImageMetrics(0f, 12f, 0f)
+                        .setDescent(-10f).setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-6f, 12f, 0f)
                         .setTextureFilter().setName("Iosevka Slab");
             } catch (Exception e) {
                 e.printStackTrace();

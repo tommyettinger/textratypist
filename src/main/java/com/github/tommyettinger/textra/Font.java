@@ -4098,7 +4098,7 @@ public class Font implements Disposable {
             // rotating xc and yt variables, to the position-only x and y variables.
             // it also offsets x by a half-cell to the right, and moves the origin for y.
             float xch = tr.offsetX * scaleX * sizingX;
-            float ych = scaledHeight * 0.5f - tr.offsetY * fsy * scale * sizingY;
+            float ych = scaledHeight * 0.5f - tr.offsetY * font.scaleY * scale * sizingY;
             xc -= xch;
             x += xch + changedW * 0.5f;
             yt -= ych;
