@@ -1246,6 +1246,48 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getKingthingsPetrock() not found.");
     }
 
+    private Font lanaPixel;
+
+    /**
+     * Returns a Font already configured to use a variable-width pixel font with excellent Unicode support, that
+     * probably should only be used at integer multiples of its normal size.
+     * Caches the result for later calls. The font used is LanaPixel, an open-source (dual-licensed under the SIL Open
+     * Font License and Creative Commons Attribution License) typeface. It supports an incredible amount of glyphs,
+     * and is meant to allow localizing to just about any widely-used language.
+     * This uses a tiny standard bitmap font, and it can only be used as-is or scaled up by integer multiples.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * Preview: <a href="https://i.imgur.com/i67BzW9.png">Image link</a> (uses width=20, height=15)
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LanaPixel-standard.fnt">LanaPixel-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LanaPixel-standard.png">LanaPixel-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LanaPixel-CCBYLicense.txt">LanaPixel-CCBYLicense.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LanaPixel-OpenFontLicense.txt">LanaPixel-OpenFontLicense.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font LanaPixel.ttf
+     */
+    public static Font getLanaPixel() {
+        initialize();
+        if (instance.lanaPixel == null) {
+            try {
+                instance.lanaPixel = new Font(instance.prefix + "LanaPixel-standard.fnt",
+                        instance.prefix + "LanaPixel-standard.png", STANDARD, 0, 0, 0, 0, false)
+                        .setInlineImageMetrics(-64, 0, 16).setFancyLinePosition(0f, 0.5f)
+//                        .useIntegerPositions(true) // needs debugging
+                        .setName("LanaPixel");
+                instance.lanaPixel.boldStrength = 0.5f;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.lanaPixel != null)
+            return new Font(instance.lanaPixel);
+        throw new RuntimeException("Assets for getLanaPixel() not found.");
+    }
+
     private Font libertinusSerif;
 
     /**
@@ -2047,8 +2089,8 @@ public final class KnownFonts implements LifecycleListener {
                 getDejaVuSansMono(), getGentium(), getGentiumMSDF(), getGentiumSDF(), getGentiumUnItalic(),
                 getGoNotoUniversal(), getGoNotoUniversalSDF(), getHanazono(), getIBM8x16(),
                 getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
-                getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(),
-                getKingthingsFoundation(), getKingthingsPetrock(), getLibertinusSerif(), getNowAlt(), getOpenSans(),
+                getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
+                getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getNowAlt(), getOpenSans(),
                 getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(), getTangerineSDF(),
                 getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghanMSDF()};
     }
@@ -2064,8 +2106,9 @@ public final class KnownFonts implements LifecycleListener {
         return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getBitter(), getCanada(),
                 getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getGentiumUnItalic(), getGoNotoUniversal(),
                 getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
-                getKingthingsFoundation(), getKingthingsPetrock(), getLibertinusSerif(), getNowAlt(), getOpenSans(),
-                getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()};
+                getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getNowAlt(),
+                getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()
+        };
     }
 
     /**
@@ -2241,6 +2284,10 @@ public final class KnownFonts implements LifecycleListener {
         if (kingthingsPetrock != null) {
             kingthingsPetrock.dispose();
             kingthingsPetrock = null;
+        }
+        if (lanaPixel != null) {
+            lanaPixel.dispose();
+            lanaPixel = null;
         }
         if (libertinusSerif != null) {
             libertinusSerif.dispose();

@@ -66,7 +66,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         int index = 0;
         for (int i = 0; i < fonts.length; i++) {
             Font font = fonts[i];
-            if(!font.integerPosition)
+            if(!font.integerPosition && !font.name.equals("LanaPixel"))
                 font.scale(1.5f, 1.5f);
 //        Font font = fnt = fonts[0]; {
             KnownFonts.addEmoji(font);
