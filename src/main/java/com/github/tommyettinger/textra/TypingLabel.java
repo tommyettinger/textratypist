@@ -226,7 +226,7 @@ public class TypingLabel extends TextraLabel {
      */
     public void setText(String newText, boolean modifyOriginalText) {
         if (modifyOriginalText) newText = Parser.preprocess("{NORMAL}" + getDefaultToken() + newText);
-        setText(newText, modifyOriginalText, false);
+        setText(newText, modifyOriginalText, true);
     }
 
     /**
@@ -245,8 +245,7 @@ public class TypingLabel extends TextraLabel {
         final boolean hasEnded = this.hasEnded();
         font.markup(newText, layout.clear());
         if (wrap) {
-            float w = getWidth();
-            workingLayout.setTargetWidth(w);
+            workingLayout.setTargetWidth(getWidth());
             font.markup(newText, workingLayout.clear());
         } else {
             workingLayout.setTargetWidth(0f);
@@ -254,7 +253,6 @@ public class TypingLabel extends TextraLabel {
             setWidth(workingLayout.getWidth() + (style != null && style.background != null ?
                     style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
         }
-
         if (modifyOriginalText) saveOriginalText(newText);
         if (restart) {
             this.restart();
