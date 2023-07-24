@@ -496,11 +496,18 @@ public class Font implements Disposable {
      */
     public ColorLookup colorLookup = ColorLookup.DESCRIPTIVE;
 
-    /**
+    /*
      * If true, this will always use integers for x and y position (rounding), which can help some fonts look more
      * clear. However, if your world units are measured so that one world unit covers several pixels, then having this
      * enabled can cause bizarre-looking visual glitches involving stretched or disappearing glyphs. This defaults to
      * false, unlike what libGDX BitmapFont defaults to.
+     */
+    /**
+     * By default, this doesn't do anything; subclasses can override {@link #handleIntegerPosition(float)} to try to do
+     * something different with it. BitmapFont in libGDX defaults to having integer positions enabled, and there they
+     * actually do something (lock the font positions to integer world units). When world units aren't equivalent to
+     * on-screen pixels, BitmapFont's behavior leads to severe glitches in font appearance, so usually we aren't missing
+     * much by not using this behavior.
      */
     public boolean integerPosition = false;
 
@@ -2512,7 +2519,11 @@ public class Font implements Disposable {
         }
         return this;
     }
-
+    /**
+     * A no-op unless this is a subclass that overrides {@link Font#handleIntegerPosition(float)}.
+     * @param integer usually ignored
+     * @return this for chaining
+     */
     public Font useIntegerPositions(boolean integer) {
         integerPosition = integer;
         return this;
@@ -3861,14 +3872,21 @@ public class Font implements Disposable {
     }
 
 
-    /**
+    /*
      * If {@link #integerPosition} is true, this returns {@code p} rounded to the nearest int; otherwise this just
      * returns p unchanged.
      * @param p a float that could be rounded
      * @return either p rounded to the nearest int or p unchanged, depending on {@link #integerPosition}
      */
+
+    /**
+     * Currently, this is only an extension point for code that wants to ensure integer positions; it does nothing on
+     * its own other than return its argument unchanged.
+     * @param p a float that could be rounded (it will not be unless this is overridden)
+     * @return unless overridden, p without changes
+     */
     protected float handleIntegerPosition(float p) {
-        return integerPosition ? MathUtils.round(p) : p;
+        return p;//integerPosition ? MathUtils.round(p) : p;
     }
 
     /**

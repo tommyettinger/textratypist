@@ -433,6 +433,11 @@ public class TextraLabel extends Widget {
         return height;
     }
 
+    /**
+     * A no-op unless {@link #font} is a subclass that overrides {@link Font#handleIntegerPosition(float)}.
+     * @param integer usually ignored
+     * @return this for chaining
+     */
     public TextraLabel useIntegerPositions(boolean integer) {
         font.integerPosition = integer;
         return this;

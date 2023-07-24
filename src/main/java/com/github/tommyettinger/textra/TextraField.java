@@ -411,7 +411,7 @@ public class TextraField extends Widget implements Disableable {
 		} else {
 			textY = textY + height * 0.5f;
 		}
-		if (font.integerPosition) textY = (int)textY;
+		if (font.integerPosition) textY = MathUtils.round(textY);
 		return textY;
 	}
 
