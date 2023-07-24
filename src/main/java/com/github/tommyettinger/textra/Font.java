@@ -4017,17 +4017,10 @@ public class Font implements Disposable {
 //        y += centerY - yShift;
 //        x += centerX;
 //        y += centerY;
-
-        // This is used in 0.9.0-alpha1 and earlier.
-//        x = font.handleIntegerPosition(ix - xShift);
-//        y = font.handleIntegerPosition(iy - yShift);
-//        centerX -= xShift * 0.5f;
-//        centerY -= yShift * 0.5f;
-        x = font.handleIntegerPosition(x + oCenterX);
-        y = font.handleIntegerPosition(y + oCenterY);
-//        centerX = oCenterX;
-//        centerY = oCenterY;
-
+        x = font.handleIntegerPosition(ix - xShift);
+        y = font.handleIntegerPosition(iy - yShift);
+        centerX -= xShift * 0.5f;
+        centerY -= yShift * 0.5f;
 
 
 //        x += centerX;
@@ -4368,18 +4361,10 @@ public class Font implements Disposable {
             iy = font.handleIntegerPosition(oy + oCenterY);
             xShift = (ox + oCenterX) - (ix);
             yShift = (oy + oCenterY) - (iy);
-
-            // This is used in 0.9.0-alpha1 and earlier.
-            // It is very different from the earlier code that handles centers and shifts.
-//            x = font.handleIntegerPosition(ix + xShift);
-//            y = font.handleIntegerPosition(iy + yShift);
-//            centerX = oCenterX + xShift * 0.5f;
-//            centerY = oCenterY + yShift * 0.5f;
-            x = font.handleIntegerPosition(ox + oCenterX);
-            y = font.handleIntegerPosition(oy + oCenterY);
-            centerX = oCenterX;
-            centerY = oCenterY;
-
+            x = font.handleIntegerPosition(ix + xShift);
+            y = font.handleIntegerPosition(iy + yShift);
+            centerX = oCenterX + xShift * 0.5f;
+            centerY = oCenterY + yShift * 0.5f;
             x += cellWidth * 0.5f;
 //            x += centerX;
 //            x -= centerX;
@@ -4490,18 +4475,10 @@ public class Font implements Disposable {
             iy = font.handleIntegerPosition(oy + oCenterY);
             xShift = (ox + oCenterX) - (ix);
             yShift = (oy + oCenterY) - (iy);
-
-            // This is used in 0.9.0-alpha1 and earlier.
-            // It is very different from the earlier code that handles centers and shifts.
-//            x = font.handleIntegerPosition(ix + xShift);
-//            y = font.handleIntegerPosition(iy + yShift);
-//            centerX = oCenterX + xShift;// * 0.5f;
-//            centerY = oCenterY + yShift;// * 0.5f;
-            x = font.handleIntegerPosition(ox + oCenterX);
-            y = font.handleIntegerPosition(oy + oCenterY);
-            centerX = oCenterX;
-            centerY = oCenterY;
-
+            x = font.handleIntegerPosition(ix + xShift);
+            y = font.handleIntegerPosition(iy + yShift);
+            centerX = oCenterX + xShift * 0.5f;
+            centerY = oCenterY + yShift * 0.5f;
             x += cellWidth * 0.5f;
 //            x -= centerX;
 //            y -= centerY;
@@ -4623,18 +4600,10 @@ public class Font implements Disposable {
             iy = font.handleIntegerPosition(oy + oCenterY);
             xShift = (ox + oCenterX) - (ix);
             yShift = (oy + oCenterY) - (iy);
-            // This is used in 0.9.0-alpha1 and earlier.
-            // It is very different from the earlier code that handles centers and shifts.
-//            x = font.handleIntegerPosition(ix + xShift);
-//            y = font.handleIntegerPosition(iy + yShift);
-//            centerX = oCenterX + xShift;// * 0.5f;
-//            centerY = oCenterY + yShift;// * 0.5f;
-            x = font.handleIntegerPosition(ox + oCenterX);
-            y = font.handleIntegerPosition(oy + oCenterY);
-            centerX = oCenterX;
-            centerY = oCenterY;
-
-
+            x = font.handleIntegerPosition(ix + xShift);
+            y = font.handleIntegerPosition(iy + yShift);
+            centerX = oCenterX + xShift * 0.5f;
+            centerY = oCenterY + yShift * 0.5f;
 //            x += cellWidth * 0.5f;
             if (c >= 0xE000 && c < 0xF800) {
                 x += (changedW * 0.5f);
