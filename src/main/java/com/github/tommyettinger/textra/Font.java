@@ -2536,6 +2536,24 @@ public class Font implements Disposable {
         return this;
     }
 
+    public float getObliqueStrength() {
+        return obliqueStrength;
+    }
+
+    public Font setObliqueStrength(float obliqueStrength) {
+        this.obliqueStrength = obliqueStrength;
+        return this;
+    }
+
+    public float getBoldStrength() {
+        return boldStrength;
+    }
+
+    public Font setBoldStrength(float boldStrength) {
+        this.boldStrength = boldStrength;
+        return this;
+    }
+
     /**
      * Gets the "crispness" multiplier for distance field fonts (SDF and MSDF). This is usually 1.0 unless it has been
      * changed. The default value is 1.0; lower values look softer and fuzzier, while higher values look sharper and
@@ -4242,7 +4260,8 @@ public class Font implements Disposable {
             vertices[17] = outline;
             int widthAdj = ((glyph & BOLD) != 0L) ? 2 : 1;
             for (int xi = -widthAdj; xi <= widthAdj; xi++) {
-                float xa = xi * xPx * boldStrength;
+                float xa = xi * xPx;
+                if(xi > 0 || boldStrength >= 1f) xa *= boldStrength;
                 for (int yi = -1; yi <= 1; yi++) {
                     if(xi == 0 && yi == 0) continue;
                     float ya = yi * yPx;
@@ -4263,7 +4282,8 @@ public class Font implements Disposable {
             vertices[17] = shine;
             int widthAdj = ((glyph & BOLD) != 0L) ? 1 : 0;
             for (int xi = -widthAdj; xi <= widthAdj; xi++) {
-                float xa = xi * xPx * boldStrength;
+                float xa = xi * xPx;
+                if(xi > 0 || boldStrength >= 1f) xa *= boldStrength;
                 float ya = 1.5f * yPx;
                 vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
                 vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
@@ -4299,30 +4319,36 @@ public class Font implements Disposable {
             final float old0 = p0x;
             final float old1 = p1x;
             final float old2 = p2x;
-            p0x = old0 + boldStrength;
-            p1x = old1 + boldStrength;
-            p2x = old2 + boldStrength;
-            vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
-            vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
-            drawVertices(batch, tex, vertices);
-            p0x = old0 - boldStrength;
-            p1x = old1 - boldStrength;
-            p2x = old2 - boldStrength;
-            vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
-            vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
-            drawVertices(batch, tex, vertices);
-            p0x = old0 - boldStrength * 0.5f;
-            p1x = old1 - boldStrength * 0.5f;
-            p2x = old2 - boldStrength * 0.5f;
-            vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
-            vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
-            drawVertices(batch, tex, vertices);
-            p0x = old0 + boldStrength * 0.5f;
-            p1x = old1 + boldStrength * 0.5f;
-            p2x = old2 + boldStrength * 0.5f;
-            vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
-            vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
-            drawVertices(batch, tex, vertices);
+            float leftStrength = (this.boldStrength >= 1f) ? this.boldStrength : 0f;
+            float rightStrength = (this.boldStrength >= 0f) ? 1f : 0f;
+            if (rightStrength != 0f) {
+                p0x = old0 + rightStrength;
+                p1x = old1 + rightStrength;
+                p2x = old2 + rightStrength;
+                vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+                vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
+                drawVertices(batch, tex, vertices);
+                p0x = old0 + rightStrength * 0.5f;
+                p1x = old1 + rightStrength * 0.5f;
+                p2x = old2 + rightStrength * 0.5f;
+                vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+                vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
+                drawVertices(batch, tex, vertices);
+            }
+            if (leftStrength != 0f) {
+                p0x = old0 - leftStrength;
+                p1x = old1 - leftStrength;
+                p2x = old2 - leftStrength;
+                vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+                vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
+                drawVertices(batch, tex, vertices);
+                p0x = old0 - leftStrength * 0.5f;
+                p1x = old1 - leftStrength * 0.5f;
+                p2x = old2 - leftStrength * 0.5f;
+                vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
+                vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
+                drawVertices(batch, tex, vertices);
+            }
         }
 
         // this changes scaleCorrection from one that uses fsx to one that uses font.scaleY.

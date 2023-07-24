@@ -109,7 +109,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
                         instance.prefix + "AStarry-standard.png", STANDARD, 0, 48, 0, 0, true)
-                        .scaleTo(8, 8)
+                        .scaleTo(8, 8).setBoldStrength(0.5f)
                         .setDescent(-12f).setLineMetrics(0f, -0.375f, 0f, 0f).setFancyLinePosition(0, -0.375f)
                         .setInlineImageMetrics(-4f, 32f, 0f)
                         .setTextureFilter().setName("A Starry");
@@ -154,7 +154,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.astarryMSDF = new Font(instance.prefix + "AStarry-msdf.fnt",
                         instance.prefix + "AStarry-msdf.png", MSDF, 0, 0, 0, 0, true)
                         .setUnderlinePosition(0f, -0.2f).setStrikethroughPosition(0f, -0.2f)
-                        .setFancyLinePosition(0, -0.125f)
+                        .setFancyLinePosition(0, -0.125f).setBoldStrength(0.5f)
                         .scaleTo(10, 10).setCrispness(2f).setName("A Starry (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -800,7 +800,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.ibm8x16 == null) {
             try {
                 instance.ibm8x16 = new Font(instance.prefix, "IBM-8x16-standard.font", true)
-                        .setLineMetrics(-0.25f, 0f, 0f, 0f)
+                        .setBoldStrength(0.5f).setLineMetrics(-0.25f, 0f, 0f, 0f)
                         .setInlineImageMetrics(-40, 0, 0).fitCell(8, 16, false).setName("IBM 8x16").setDescent(-3f);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1257,7 +1257,8 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a tiny standard bitmap font, and it can only be used as-is or scaled up by integer multiples.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/i67BzW9.png">Image link</a> (uses width=20, height=15)
+     * Preview: <a href="https://i.imgur.com/i67BzW9.png">Image link</a> (uses width=20, height=15,
+     * useIntegerPositions(true), setBoldStrength(0.5f))
      * <br>
      * Needs files:
      * <ul>
@@ -1276,9 +1277,8 @@ public final class KnownFonts implements LifecycleListener {
                 instance.lanaPixel = new Font(instance.prefix + "LanaPixel-standard.fnt",
                         instance.prefix + "LanaPixel-standard.png", STANDARD, 0, 0, 0, 0, false)
                         .setInlineImageMetrics(-64, 0, 16).setFancyLinePosition(0f, 0.5f)
-//                        .useIntegerPositions(true) // needs debugging
+                        .useIntegerPositions(true).setBoldStrength(0.5f)
                         .setName("LanaPixel");
-                instance.lanaPixel.boldStrength = 0.5f;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1477,7 +1477,7 @@ public final class KnownFonts implements LifecycleListener {
                         instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 2, 0, 2, false)
                         .setLineMetrics(0.0625f, -0.0625f, -0.25f, 0f).setInlineImageMetrics(-40f, -4f, 0f)
                         .setFancyLinePosition(0f, 0.375f).useIntegerPositions(true).setDescent(-4f)
-                        .setName("QuanPixel");
+                        .setBoldStrength(0.5f).setName("QuanPixel");
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -74,7 +74,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         // with useIntegerPositions(true), on some discrete GPUs this looks "wobbly," with an uneven baseline.
         // with useIntegerPositions(false), it seems fine?
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
-//        Font[] fonts = {KnownFonts.getGentiumSDF()};
+//        Font[] fonts = {KnownFonts.getLanaPixel().useIntegerPositions(true).setName("LanaInteger"), KnownFonts.getLanaPixel().useIntegerPositions(false).setName("LanaNot")};
         Font[] fonts = KnownFonts.getAll();
 //        fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
@@ -120,7 +120,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
             layout.setEllipsis(" and so on and so forth...");
 //            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
 //                    , layout);
-            font.markup("[_]Font[] [~]name[] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%]): " + font.name +
+            font.markup("[_]Font[] [~]name[] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%] [*]bold[] [/]oblique[]): " + font.name +
                     (font.distanceField != Font.DistanceFieldType.MSDF ?
                             ",\n[@Main]Do I... [@G]Do I..." +
                             ",\n[@Main]line up... [@G]line up..." +
@@ -179,7 +179,6 @@ YanoneKaffeesatz-standard.fnt has descent: -19
                 "\n" +
                 (font.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout.clear());
 //        System.out.println(layout);
-
 
         Gdx.app.exit();
     }
