@@ -74,7 +74,9 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         // with useIntegerPositions(true), on some discrete GPUs this looks "wobbly," with an uneven baseline.
         // with useIntegerPositions(false), it seems fine?
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
-//        Font[] fonts = {KnownFonts.getLanaPixel().useIntegerPositions(true).setName("LanaInteger"), KnownFonts.getLanaPixel().useIntegerPositions(false).setName("LanaNot")};
+//        Font[] fonts = {KnownFonts.getLanaPixel().useIntegerPositions(true)//.setName("LanaInteger")
+//                , KnownFonts.getLanaPixel().useIntegerPositions(false)//.setName("LanaNot")
+//        };
         Font[] fonts = KnownFonts.getAll();
 //        fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
@@ -82,6 +84,8 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         Font fnt = fonts[index];
         for (int i = 0; i < fonts.length; i++) {
             font = fonts[i];
+            if(!font.integerPosition)
+                continue;
             font.setFamily(new Font.FontFamily(new String[]{"Main", "G"}, new Font[]{font, KnownFonts.getGentium().scale(font.cellHeight / 35f, font.cellHeight / 35f)}));
             KnownFonts.addEmoji(font);
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
@@ -163,7 +167,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         font = fnt;
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
-        font.markup("[_]Font[] [~]name[] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%]): " + font.name +
+        font.markup("[_]Font[] [~]name[] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%] [*]bold[] [/]oblique[]):  " + font.name +
                 ",\noriginalCellWidth: " + font.originalCellWidth +
                 ", originalCellHeight: " + font.originalCellHeight +
                 ",\ncellWidth: " + font.cellWidth +
