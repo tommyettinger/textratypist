@@ -200,6 +200,13 @@ public class TypingLabel extends TextraLabel {
     @Override
     public void setText(String newText) {
         this.setText(newText, true);
+//        offsets.clear();
+//        sizing.clear();
+//        rotations.clear();
+//        activeEffects.clear();
+//        tokenEntries.clear();
+//        parseTokens();
+//        act(Float.MIN_NORMAL);
     }
 
     /**
@@ -218,7 +225,7 @@ public class TypingLabel extends TextraLabel {
      * @see #restart(String)
      */
     public void setText(String newText, boolean modifyOriginalText) {
-        if (modifyOriginalText) newText = Parser.preprocess(newText);
+        if (modifyOriginalText) newText = Parser.preprocess("{NORMAL}" + getDefaultToken() + newText);
         setText(newText, modifyOriginalText, false);
     }
 
@@ -446,12 +453,12 @@ public class TypingLabel extends TextraLabel {
         workingLayout.baseColor = Color.WHITE_FLOAT_BITS;
         workingLayout.atLimit = false;
 
-        workingLayout.maxLines = Integer.MAX_VALUE;
-        workingLayout.ellipsis = null;
-
         // Reset cache collections
+        Line first = workingLayout.lines.first();
+        first.glyphs.clear();
+        first.width = first.height = 0;
         workingLayout.lines.clear();
-        workingLayout.lines.add(new Line());
+        workingLayout.lines.add(first);
         offsets.clear();
         sizing.clear();
         rotations.clear();

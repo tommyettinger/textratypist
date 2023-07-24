@@ -49,7 +49,7 @@ public class SetTextTest extends ApplicationAdapter {
 
         Font gentium = KnownFonts.getGentium();
 
-        text = "Satchmo is a cat, who is extremely fat; when he sits down, throughout the town, we all think, 'What was that? Did it happen again (that thunderous din)? What could ever make, such a powerful quake, but a cat with a double chin?'";
+        text = "Satchmo is a {RAINBOW}cat{RESET}, who is extremely {SPEED=0.05}fat{NORMAL}; when he sits {SHAKE}down{RESET}, throughout the town, we all {WAVE}think{RESET}, 'What was that? Did it happen again (that [*]thunderous[*] din)? What could ever make, such a [_]powerful[_] quake, but a cat with a [~][_]double[_][~] chin?'";
 //                "[*]Локус[*] [*]контроля[*] - свойство " +
 //                "личности приписывать " +
 //                "свои неудачи и успехи " +
@@ -86,17 +86,21 @@ public class SetTextTest extends ApplicationAdapter {
 
         stage.act();
         stage.draw();
-        System.out.println("!!!  On frame #" + ctr);
-        System.out.println(typingLabel.layout.toString());
-        System.out.println(typingLabel);
+//        System.out.println("!!!  On frame #" + ctr);
 
         random.setSeed(++ctr);
-        if ((ctr & 3) == 0) {
+        if ((ctr & 511) == 0) {
             System.out.println("typingLabel has " + typingLabel.getMaxLines() + " max lines and " + typingLabel.getEllipsis() + " ellipsis.");
             text = StringUtils.shuffleWords(text, random);
-            typingLabel.setText(text);
-            typingLabel.skipToTheEnd();
+//            typingLabel.activeEffects.clear();
+//            typingLabel.tokenEntries.clear();
+            typingLabel.setText(text); // broken regarding effects...
+            typingLabel.parseTokens(); // this is needed when using setText().
+//            typingLabel.restart(text); // this works on its own.
+//            typingLabel.skipToTheEnd();
             textraLabel.setText("[RED]" + text);
+            System.out.println(typingLabel.layout);
+            System.out.println(typingLabel);
         }
     }
 
@@ -123,7 +127,7 @@ public class SetTextTest extends ApplicationAdapter {
         config.setTitle("TextraLabel UI test");
         config.setWindowedMode(600, 480);
         config.disableAudio(true);
-		config.setForegroundFPS(2);
+		config.setForegroundFPS(60);
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
         new Lwjgl3Application(new SetTextTest(), config);
