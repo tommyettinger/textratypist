@@ -251,7 +251,7 @@ implementation "com.github.tommyettinger:textratypist:0.8.3"
 Or for the latest alpha or beta release,
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.9.0-a1"
+implementation "com.github.tommyettinger:textratypist:0.9.0-a2"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
@@ -267,7 +267,7 @@ implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 Or for the latest alpha or beta release,
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.9.0-a1:sources"
+implementation "com.github.tommyettinger:textratypist:0.9.0-a2:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 ```
 

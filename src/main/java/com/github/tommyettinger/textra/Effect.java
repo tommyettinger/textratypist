@@ -32,7 +32,7 @@ public abstract class Effect {
 
     /**
      * A unique identifier to be used by the start token for this Effect.
-     * This is expected to be assigned by {@link TypingConfig#registerEffect(String, String, Class)}, not manually.
+     * This is expected to be assigned by {@link TypingConfig#registerEffect(String, EffectBuilder)}, not manually.
      */
     public String name;
 
