@@ -476,7 +476,7 @@ public class TypingLabel extends TextraLabel {
         ignoringEffects = false;
 
         // Reset scene2d.ui data
-        setSize(0, 0);
+//        setSize(0, 0);
 
         // Set new text
         invalidate();
