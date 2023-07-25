@@ -5342,7 +5342,8 @@ public class Font implements Disposable {
                         change += adv;
                     }
                     for (int e = 0; e < ellipsis.length(); e++) {
-                        curr = (curr & 0xFFFFFFFFFFFF0000L) | ellipsis.charAt(e);
+                        // 0xFFFFFFFF81FF0000L masks to include everything but style and char
+                        curr = (curr & 0xFFFFFFFF81FF0000L) | ellipsis.charAt(e);
                         float adv = xAdvance(font, scaleX, curr);
                         change -= adv;
                     }
@@ -5351,7 +5352,6 @@ public class Font implements Disposable {
                     // YES KERNING
 
                     int k2 = (char) earlier.glyphs.get(j);
-                    int kern = -1;
                     boolean curly = false;
                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                         curr = earlier.glyphs.get(k);
@@ -5376,7 +5376,8 @@ public class Font implements Disposable {
                         change += adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
                     }
                     for (int e = 0; e < ellipsis.length(); e++) {
-                        curr = (curr & 0xFFFFFFFFFFFF0000L) | ellipsis.charAt(e);
+                        // 0xFFFFFFFF81FF0000L masks to include everything but style and char
+                        curr = (curr & 0xFFFFFFFF81FF0000L) | ellipsis.charAt(e);
                         k2 = k2 << 16 | (char) curr;
                         float adv = xAdvance(font, scaleX, curr);
                         change -= adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
@@ -5386,7 +5387,8 @@ public class Font implements Disposable {
                     continue;
                 earlier.glyphs.truncate(j + 1);
                 for (int e = 0; e < ellipsis.length(); e++) {
-                    earlier.glyphs.add((curr & 0xFFFFFFFFFFFF0000L) | ellipsis.charAt(e));
+                    // 0xFFFFFFFF81FF0000L masks to include everything but style and char
+                    earlier.glyphs.add((curr & 0xFFFFFFFF81FF0000L) | ellipsis.charAt(e));
                 }
                 earlier.width -= change;
                 return true;
