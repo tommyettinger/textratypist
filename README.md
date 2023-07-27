@@ -251,11 +251,13 @@ implementation "com.github.tommyettinger:textratypist:0.8.3"
 Or for the latest alpha or beta release,
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.9.0-a2"
+implementation "com.github.tommyettinger:textratypist:0.9.0-a3"
 ```
 
-This assumes you already depend on libGDX; TextraTypist depends on version 1.11.0 or higher. The requirement for 1.11.0
-was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code in libGDX.
+This assumes you already depend on libGDX; TextraTypist depends on version 1.12.0 or higher. A requirement for 1.11.0
+was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code in libGDX. The requirement for 1.12.0
+was added in the 0.9.0 alpha versions because some things probably changed, but 1.12.0 (or the subsequent SNAPSHOT
+releases) should be pretty easy to update to.
 
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
@@ -267,7 +269,7 @@ implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 Or for the latest alpha or beta release,
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.9.0-a2:sources"
+implementation "com.github.tommyettinger:textratypist:0.9.0-a3:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 ```
 
