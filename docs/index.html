@@ -196,7 +196,7 @@ Returns a Font configured to use a cozy fixed-width bitmap font,
 <a href="https://github.com/slavfox/Cozette">Cozette by slavfox</a>. Cozette has broad coverage of Unicode,
 including Greek, Cyrillic, Braille, and tech-related icons. This does not scale well except to integer
 multiples, but it should look very crisp at its default size of 6x17 pixels. This defaults to having
-{@link Font#integerPosition} set to true, which currently does nothing (the code that enforces integer positions
+integerPosition set to true, which currently does nothing (the code that enforces integer positions
 seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
 This may work well in a font family with other fonts that do not use a distance field effect.
 <br>
@@ -234,7 +234,7 @@ Needs files:
 <br>
 <h2>Gentium</h2>
 <br>
-<img src="https://i.imgur.com/hJXteu4.png" alt="Gentium"/>
+<img src="previews/Gentium.png" alt="Gentium"/>
 <br>
 (uses width=31, height=35)
 <br>
@@ -243,8 +243,9 @@ scale well from a height of about 132 down to a height of 34. Caches the result 
 Gentium, an open-source (SIL Open Font License) typeface by SIL (see
 <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It supports a lot of glyphs,
 including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
-real languages. This does not use a distance field effect, as opposed to Gentium SDF. You may want
+real languages. This does not use a distance field effect, as opposed to Gentium SDF or MSDF. You may want
 to stick using just fonts that avoid distance fields if you have a family of fonts.
+You can also use KnownFonts.getStandardFamily() to obtain a variant on this Font that has a FontFamily already.
 <br>
 Needs files:
 <ul>
@@ -256,13 +257,13 @@ Needs files:
 <br>
 <h2>Gentium using MSDF</h2>
 <br>
-<img src="https://i.imgur.com/VIFHIuD.png" alt="Gentium using MSDF"/>
+<img src="previews/Gentium%20(MSDF).png" alt="Gentium using MSDF"/>
 <br>
 (uses width=50, height=45, crispness=3, adjustLineHeight(0.625f))
 <br>
 A Font already configured to use a variable-width serif font with excellent Unicode support, that should
 scale cleanly to even very large sizes (using an MSDF technique). You usually will want to reduce the line height
-of this Font after you scale it; using <pre>KnownFonts.getGentium().scaleTo(55, 45).adjustLineHeight(0.8f)</pre>
+of this Font after you scale it; using <pre>KnownFonts.getGentiumMSDF().scaleTo(55, 45).adjustLineHeight(0.8f)</pre>
 usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
 License) typeface by SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It
 supports a lot of glyphs, including quite a
@@ -280,13 +281,13 @@ Needs files:
 <br>
 <h2>Gentium using SDF</h2>
 <br>
-<img src="https://i.imgur.com/1bEdnvD.png" alt="Gentium using SDF"/>
+<img src="previews/Gentium%20(SDF).png" alt="Gentium using SDF"/>
 <br>
 (uses width=50, height=45, crispness=1.5, adjustLineHeight(0.625f))
 <br>
 A Font already configured to use a variable-width serif font with excellent Unicode support, that should
 scale cleanly to even very large sizes (using an SDF technique). You usually will want to reduce the line height
-of this Font after you scale it; using <pre>KnownFonts.getGentium().scaleTo(55, 45).adjustLineHeight(0.8f)</pre>
+of this Font after you scale it; using <pre>KnownFonts.getGentiumSDF().scaleTo(55, 45).adjustLineHeight(0.625f)</pre>
 usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
 License) typeface by SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It
 supports a lot of glyphs, including quite a
@@ -304,7 +305,7 @@ Needs files:
 <br>
 <h2>Gentium Un-Italic</h2>
 <br>
-<img src="https://i.imgur.com/7bvYtUc.png" alt="Gentium Un-Italic"/>
+<img src="previews/Gentium%20Un-Italic.png" alt="Gentium Un-Italic"/>
 <br>
 (uses width=60, height=36)
 <br>
@@ -332,11 +333,37 @@ Needs files:
 </ul>
 <br>
 <br>
+<h2>Go Noto Universal</h2>
+<br>
+<img src="previews/Go%20Noto%20Universal.png" alt="Go Noto Universal"/>
+<br>
+(uses width=66, height=33)
+<br>
+Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support, that
+should scale cleanly to medium-small sizes (but not large sizes). Caches the result for later calls. The
+font used is Go Noto Universal, an open-source (SIL Open Font License) typeface that modifies Noto Sans by Google
+(see <a href="https://github.com/satbyy/go-noto-universal">Go Noto Universal's page is here</a>, and
+<a href="https://notofonts.github.io/">Noto Fonts have a page here</a>). It supports... most glyphs, from many
+languages, including essentially all extended Latin, Greek, Cyrillic, Chinese, Japanese, Armenian, Ethiopic,
+Cherokee, Javanese... Most scripts are here, though not Hangul (used for Korean). This also has symbols for math,
+music, and other usage. Unlike getGoNotoUniversalSDF(), the SDF version, the standard version should have
+a stable baseline. The texture this uses is larger than many of the others here, at 4096x4096 pixels, but the
+file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and Twemoji.png are each larger than
+GoNotoUniversal-standard.png . The .fnt has 21274 glyphs plus extensive kerning info, though, so it is large.
+<br>
+Needs files:
+<ul>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-standard.fnt">GoNotoUniversal-standard.fnt</a></li>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-standard.png">GoNotoUniversal-standard.png</a></li>
+    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-License.txt">GoNotoUniversal-License.txt</a></li>
+</ul>
+<br>
+<br>
 <h2>Go Noto Universal using SDF</h2>
 <br>
-<img src="https://i.imgur.com/HGapiJ1.png" alt="Go Noto Universal using SDF"/>
+<img src="previews/Go%20Noto%20Universal%20(SDF).png" alt="Go Noto Universal using SDF"/>
 <br>
-(uses width=65.25, height=51, adjustLineHeight(0.625f), setCrispness(1.8f))
+(uses width=43.25, height=34, setCrispness(1.8f))
 <br>
 Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support, that
 should scale cleanly to even very large sizes (using an SDF technique). Caches the result for later calls. The
@@ -368,7 +395,7 @@ Needs files:
 <br>
 <h2>Hanazono</h2>
 <br>
-<img src="https://i.imgur.com/Bqd1lvj.png" alt="Hanazono"/>
+<img src="previews/Hanazono.png" alt="Hanazono"/>
 <br>
 (uses width=16, height=20)
 <br>
@@ -390,16 +417,18 @@ Needs files:
 <br>
 <h2>IBM 8x16</h2>
 <br>
-<img src="https://i.imgur.com/NlHY2n4.png" alt="IBM 8x16"/>
+<img src="previews/IBM%208x16.png" alt="IBM 8x16"/>
 <br>
 (uses width=8, height=16)
 <br>
-A Font configured to use a classic, nostalgic fixed-width bitmap font,
+Returns a Font configured to use a classic, nostalgic fixed-width bitmap font,
 IBM 8x16 from the early, oft-beloved computer line. This font is notably loaded
 from a SadConsole format file, which shouldn't affect how it looks (but in reality,
 it might). This does not scale except to integer multiples, but it should look very
 crisp at its default size of 8x16 pixels. This supports some extra characters, but
-not at the typical Unicode codepoints.
+not at the typical Unicode codepoints. This defaults to having
+integerPosition set to true, which currently does nothing (the code that enforces integer positions
+seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
 This may work well in a font family with other fonts that do not use a distance field effect.
 <br>
 This does not include a license because the source, <a href="https://github.com/Thraka/SadConsole/tree/master/Fonts">SadConsole's fonts</a>,
@@ -417,7 +446,7 @@ Needs files:
 <br>
 <h2>Inconsolata LGC</h2>
 <br>
-<img src="https://i.imgur.com/EdqBf99.png" alt="Inconsolata LGC"/>
+<img src="previews/Inconsolata%20LGC.png" alt="Inconsolata LGC"/>
 <br>
 (uses width=10, height=26)
 <br>
@@ -437,9 +466,9 @@ Needs files:
 <br>
 <h2>Inconsolata LGC using MSDF</h2>
 <br>
-<img src="https://i.imgur.com/ixybs8R.png" alt="Inconsolata LGC using MSDF"/>
+<img src="previews/Inconsolata%20LGC%20(MSDF).png" alt="Inconsolata LGC using MSDF"/>
 <br>
-(uses width=10, height=26)
+(uses width=12, height=26, crispness=1.2)
 <br>
 A customized version of Inconsolata LGC, a fixed-width geometric font that supports a large range of Latin,
 Greek, and Cyrillic glyphs, plus box drawing and some dingbat characters (like zodiac signs). The original font
@@ -457,7 +486,7 @@ Needs files:
 <br>
 <h2>Iosevka</h2>
 <br>
-<img src="https://i.imgur.com/ZTFN7mP.png" alt="Iosevka"/>
+<img src="previews/Iosevka.png" alt="Iosevka"/>
 <br>
 (uses .scaleTo(10, 24).fitCell(10, 24, false))
 <br>
@@ -481,7 +510,7 @@ Needs files:
 <br>
 <h2>Iosevka using MSDF</h2>
 <br>
-<img src="https://i.imgur.com/evI4ONH.png" alt="Iosevka using MSDF"/>
+<img src="previews/Iosevka%20(MSDF).png" alt="Iosevka using MSDF"/>
 <br>
 (uses .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false))
 <br>
@@ -508,7 +537,7 @@ Needs files:
 <br>
 <h2>Iosevka using SDF</h2>
 <br>
-<img src="https://i.imgur.com/OI2NxpM.png" alt="Iosevka using SDF"/>
+<img src="previews/Iosevka%20(SDF).png" alt="Iosevka using SDF"/>
 <br>
 (uses .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false))
 <br>
@@ -535,7 +564,7 @@ Needs files:
 <br>
 <h2>Iosevka Slab</h2>
 <br>
-<img src="https://i.imgur.com/iKkm4Us.png" alt="Iosevka Slab"/>
+<img src="previews/Iosevka%20Slab.png" alt="Iosevka Slab"/>
 <br>
 (uses .scaleTo(10, 24).fitCell(10, 24, false))
 <br>
@@ -559,9 +588,9 @@ Needs files:
 <br>
 <h2>Iosevka Slab using MSDF</h2>
 <br>
-<img src="https://i.imgur.com/O6jYyKU.png" alt="Iosevka Slab using MSDF"/>
+<img src="previews/Iosevka%20Slab%20(MSDF).png" alt="Iosevka Slab using MSDF"/>
 <br>
-(uses .setCrispness(2.25f).scaleTo(12, 26).fitCell(10, 25, false))
+(uses .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false))
 <br>
 A Font already configured to use a highly-legible fixed-width font with good Unicode support
 and a slab-serif geometric style, that should scale cleanly to even very large sizes (using an MSDF technique).
@@ -584,7 +613,7 @@ Needs files:
 <br>
 <h2>Iosevka Slab using SDF</h2>
 <br>
-<img src="https://i.imgur.com/bRi4s2q.png" alt="Iosevka Slab using SDF"/>
+<img src="previews/Iosevka%20Slab%20(SDF).png" alt="Iosevka Slab using SDF"/>
 <br>
 (uses .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false))
 <br>
