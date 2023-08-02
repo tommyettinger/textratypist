@@ -445,7 +445,10 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Restarts this label with the given text and starts the char progression right away. All tokens are automatically
-     * parsed.
+     * parsed. If you are reusing an existing TypingLabel and its size will change once it holds {@code newText}, you
+     * may need to call {@code label.setSize(0, 0);} before calling this. This does not change its size by itself,
+     * because restarting is also performed internally and changing the size internally could cause unexpected (read:
+     * very buggy) behavior for code using this library.
      */
     public void restart(String newText) {
         workingLayout.baseColor = Color.WHITE_FLOAT_BITS;
@@ -474,10 +477,7 @@ public class TypingLabel extends TextraLabel {
         skipping = false;
         ignoringEvents = false;
         ignoringEffects = false;
-
-        // Reset scene2d.ui data
-//        setSize(0, 0);
-
+        
         // Set new text
         invalidate();
         saveOriginalText(newText);

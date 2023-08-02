@@ -75,7 +75,9 @@ public class MinimalGridTest extends ApplicationAdapter {
 //                .setInlineImageMetrics(-8f, 24f, 0f)
         );
 
-        varWidthFont = KnownFonts.getGentiumUnItalic().scaleTo(50f, 28f);
+//        varWidthFont = KnownFonts.getGentium();
+        varWidthFont = KnownFonts.getGentiumUnItalic();
+        varWidthFont.scaleTo(varWidthFont.originalCellWidth * 30f / varWidthFont.originalCellHeight, 30f);
 //        font.adjustCellWidth(0.5f);
 //        font.originalCellHeight *= 0.5f;
 //        font.cellHeight *= 0.5f;
@@ -150,10 +152,10 @@ public class MinimalGridTest extends ApplicationAdapter {
         regenerate();
         stage.addActor(gg);
 
-        message("[%?blacken]Laĕşudiphiĕşĕşĕşĕşĕşĕş Ghathŕuphighat was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
-        message("[%?blacken]Haisubhi Markhuśongaipaim was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
-        message("[%?blacken]Haisubhi Markhuśongaipaim was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
-        message("[%?blacken]Haisubhi Markhuśongaipaim was {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
+        message("[%?blacken]Laĕşudiphiĕşĕşĕşĕşĕşĕş Ghathŕuphighat got {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
+        message("[%?blacken]Haisubhi Markhuśongaipaim got {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
+        message("[%?blacken]Haisubhi Markhuśongaipaim got {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
+        message("[%?blacken]Haisubhi Markhuśongaipaim got {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
         message("[%?blacken][*]WELCOME[*] to your [/]DOOM[/]!");
     }
 
@@ -346,6 +348,7 @@ public class MinimalGridTest extends ApplicationAdapter {
             label.restart(markupString);
         }
         else {
+            label.setSize(0, 0);
             label.restart(markupString);
         }
         if(con == null)

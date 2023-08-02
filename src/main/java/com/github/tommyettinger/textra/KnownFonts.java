@@ -1277,7 +1277,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.lanaPixel = new Font(instance.prefix + "LanaPixel-standard.fnt",
                         instance.prefix + "LanaPixel-standard.png", STANDARD, 0, 0, 0, 0, false)
                         .setInlineImageMetrics(-64, 0, 16).setFancyLinePosition(0f, 0.5f)
-                        .useIntegerPositions(true).setBoldStrength(0.5f)
+                        .useIntegerPositions(true).setBoldStrength(0.5f).setLineMetrics(0f, -0.0625f, 0f, 0f)
                         .setName("LanaPixel");
             } catch (Exception e) {
                 e.printStackTrace();
