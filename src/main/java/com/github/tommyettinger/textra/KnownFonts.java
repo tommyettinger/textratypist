@@ -87,12 +87,12 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
      * <br>
-     * Preview: <a href="https://i.imgur.com/nBB8d1y.png">Image link</a> (uses width=8, height=8, adjustLineHeight(1.125f))
+     * Preview: <a href="https://i.imgur.com/nBB8d1y.png">Image link</a> (uses width=8, height=8)
      * <br>
      * This also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
      * multiples of 8. This "A Starry Tall" version is present in {@link #getAll()} and {@link #getAllStandard()}.
      * <br>
-     * Preview: <a href="https://i.imgur.com/MICKVgG.png">Image link</a> (uses width=8, height=16, adjustLineHeight(1.125f))
+     * Preview: <a href="https://i.imgur.com/MICKVgG.png">Image link</a> (uses width=8, height=16)
      * <br>
      * Needs files:
      * <ul>
@@ -376,12 +376,12 @@ public final class KnownFonts implements LifecycleListener {
      * <a href="https://github.com/slavfox/Cozette">Cozette by slavfox</a>. Cozette has broad coverage of Unicode,
      * including Greek, Cyrillic, Braille, and tech-related icons. This does not scale well except to integer
      * multiples, but it should look very crisp at its default size of 6x17 pixels. This defaults to having
-     * {@link Font#integerPosition} set to true, which helps keep it pixel-perfect if 1 world unit is 1 pixel, but can
-     * cause major visual issues if 1 world unit corresponds to much more than 1 pixel.
+     * {@link Font#integerPosition} set to true, which currently does nothing (the code that enforces integer positions
+     * seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/jYOKMeX.png">Image link</a> (uses width=6, height=17,
-     * useIntegerPositions(true); this size is small enough to make the scaled text unreadable in some places)
+     * Preview: <a href="https://i.imgur.com/jYOKMeX.png">Image link</a> (uses width=6, height=17; this size is small
+     * enough to make the scaled text unreadable in some places)
      * <br>
      * Needs files:
      * <ul>
@@ -642,8 +642,7 @@ public final class KnownFonts implements LifecycleListener {
      * file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and Twemoji.png are each larger than
      * GoNotoUniversal-standard.png . The .fnt has 21274 glyphs plus extensive kerning info, though, so it is large.
      * <br>
-     * Preview: <a href="https://i.imgur.com/HGapiJ1.png">Image link</a> (uses width=65.25, height=51,
-     * adjustLineHeight(0.625f), setCrispness(1.8f))
+     * Preview: <a href="https://i.imgur.com/HGapiJ1.png">Image link</a> (uses width=66, height=33)
      * <br>
      * Needs files:
      * <ul>
@@ -695,8 +694,8 @@ public final class KnownFonts implements LifecycleListener {
      * DistanceFieldFont in libGDX. Using floats is very helpful for the distance field effect; without them, most
      * glyphs would render slightly off from the intended position, due to rounding to an int instead of using a float.
      * <br>
-     * Preview: <a href="https://i.imgur.com/HGapiJ1.png">Image link</a> (uses width=65.25, height=51,
-     * adjustLineHeight(0.625f), setCrispness(1.8f))
+     * Preview: <a href="https://i.imgur.com/HGapiJ1.png">Image link</a> (uses width=43.25, height=34,
+     * setCrispness(1.8f))
      * <br>
      * Needs files:
      * <ul>
@@ -714,7 +713,6 @@ public final class KnownFonts implements LifecycleListener {
                 instance.goNotoUniversalSDF = new Font(instance.prefix + "GoNotoUniversal-sdf.fnt",
                         instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, -16f, 0f, 0f, true)
                         .scaleTo(43.25f, 34)
-//                        .adjustLineHeight(0.625f)
                         .setCrispness(1.8f).setFancyLinePosition(0f, 1.25f)
                         .setUnderlineMetrics(0.25f, 1f, 0.2f, -0.5f).setStrikethroughMetrics(0.25f, 0.85f, 0.2f, -0.5f).setInlineImageMetrics(0f, -28f, 16f)
                         .setName("Go Noto Universal (SDF)");
@@ -775,7 +773,9 @@ public final class KnownFonts implements LifecycleListener {
      * from a SadConsole format file, which shouldn't affect how it looks (but in reality,
      * it might). This does not scale except to integer multiples, but it should look very
      * crisp at its default size of 8x16 pixels. This supports some extra characters, but
-     * not at the typical Unicode codepoints.
+     * not at the typical Unicode codepoints. This defaults to having
+     * {@link Font#integerPosition} set to true, which currently does nothing (the code that enforces integer positions
+     * seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
      * This does not include a license because the source, <a href="https://github.com/Thraka/SadConsole/tree/master/Fonts">SadConsole's fonts</a>,
@@ -858,7 +858,7 @@ public final class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ixybs8R.png">Image link</a> (uses width=12, height=26)
+     * Preview: <a href="https://i.imgur.com/ixybs8R.png">Image link</a> (uses .scaleTo(12, 26).setCrispness(1.2f))
      * <br>
      * Needs files:
      * <ul>
@@ -1081,7 +1081,7 @@ public final class KnownFonts implements LifecycleListener {
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
      * Preview: <a href="https://i.imgur.com/O6jYyKU.png">Image link</a> (uses
-     * .setCrispness(2.25f).scaleTo(12, 26).fitCell(10, 25, false))
+     * .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
      * <ul>
@@ -1099,7 +1099,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.iosevkaSlabMSDF = new Font(instance.prefix + "Iosevka-Slab-msdf.fnt",
                         instance.prefix + "Iosevka-Slab-msdf.png", MSDF, 1f, 0f, 0f, 0f, true).setDescent(-12)
                         .setLineMetrics(0.25f, 0.125f, 0f, -0.4f).setFancyLinePosition(0f, 0.375f)
-                        .setCrispness(2.25f).scaleTo(12, 26).fitCell(10, 25, false)
+                        .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka Slab (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1255,10 +1255,11 @@ public final class KnownFonts implements LifecycleListener {
      * Font License and Creative Commons Attribution License) typeface. It supports an incredible amount of glyphs,
      * and is meant to allow localizing to just about any widely-used language.
      * This uses a tiny standard bitmap font, and it can only be used as-is or scaled up by integer multiples.
-     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * This defaults to having {@link Font#integerPosition} set to true, which currently does nothing (the code that
+     * enforces integer positions seems to ruin the appearance of any font that uses it, so that code isn't ever used
+     * now). This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/i67BzW9.png">Image link</a> (uses width=20, height=15,
-     * useIntegerPositions(true), setBoldStrength(0.5f))
+     * Preview: <a href="https://i.imgur.com/i67BzW9.png">Image link</a> (uses width=20, height=15)
      * <br>
      * Needs files:
      * <ul>
@@ -1340,7 +1341,7 @@ public final class KnownFonts implements LifecycleListener {
      * Cyrillic. This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
      * well. This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/cBtD1Er.png">Image link</a> (uses width=28, height=30)
+     * Preview: <a href="https://i.imgur.com/cBtD1Er.png">Image link</a> (uses width=29, height=33)
      * <br>
      * Needs files:
      * <ul>
@@ -1376,8 +1377,7 @@ public final class KnownFonts implements LifecycleListener {
      * scaled down nicely.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/GO9djDW.png">Image link</a> (uses
-     * .scaleTo(20, 28))
+     * Preview: <a href="https://i.imgur.com/GO9djDW.png">Image link</a> (uses .scaleTo(20, 28))
      * <br>
      * Needs files:
      * <ul>
@@ -1451,12 +1451,12 @@ public final class KnownFonts implements LifecycleListener {
      * including all of Greek, at least most of Cyrillic, a good amount of extended Latin, all of Katakana and Hiragana,
      * many Hangul syllables, and literally thousands of CJK ideograms. This does not scale well except to integer
      * multiples, but it should look very crisp at its default size of about 8 pixels tall with variable width. This
-     * defaults to having {@link Font#integerPosition} set to true, which helps keep it pixel-perfect if 1 world unit is
-     * 1 pixel, but can cause major visual issues if 1 world unit corresponds to much more than 1 pixel.
+     * defaults to having {@link Font#integerPosition} set to true, which currently does nothing (the code that enforces
+     * integer positions seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ba0GcKw.png">Image link</a> (uses width=12, height=12,
-     * useIntegerPositions(true); this size is small enough to make the scaled text unreadable in some places)
+     * Preview: <a href="https://i.imgur.com/ba0GcKw.png">Image link</a> (uses width=12, height=12; this size is small
+     * enough to make the scaled text unreadable in some places)
      * <br>
      * Needs files:
      * <ul>

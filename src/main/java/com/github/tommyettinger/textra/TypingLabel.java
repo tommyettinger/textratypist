@@ -477,7 +477,7 @@ public class TypingLabel extends TextraLabel {
         skipping = false;
         ignoringEvents = false;
         ignoringEffects = false;
-        
+
         // Set new text
         invalidate();
         saveOriginalText(newText);
