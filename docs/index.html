@@ -9,7 +9,7 @@
 <br>
 <h2>A Starry</h2>
 <br>
-<img src="https://i.imgur.com/nBB8d1y.png" alt="A Starry"/>
+<img src="previews/A%20Starry.png" alt="A Starry"/>
 <br>
 (uses width=8, height=8)
 <br>
@@ -29,7 +29,7 @@ Needs files:
 <br>
 <h2>A Starry Tall</h2>
 <br>
-<img src="https://i.imgur.com/MICKVgG.png" alt="A Starry Tall"/>
+<img src="previews/A%20Starry%20Tall.png" alt="A Starry Tall"/>
 <br>
 (uses width=8, height=16)
 <br>
@@ -49,7 +49,7 @@ Needs files:
 <br>
 <h2>A Starry using MSDF</h2>
 <br>
-<img src="https://i.imgur.com/opEWZQL.png" alt="A Starry using MSDF"/>
+<img src="previews/A%20Starry%20(MSDF).png" alt="A Starry using MSDF"/>
 <br>
 (uses width=10, height=10, crispness=2.0)
 <br>
@@ -74,7 +74,7 @@ Needs files:
 <br>
 <h2>Bitter</h2>
 <br>
-<img src="https://i.imgur.com/GVnMNPV.png" alt="Bitter"/>
+<img src="previews/Bitter.png" alt="Bitter"/>
 <br>
 (uses width=33, height=30)
 <br>
@@ -98,7 +98,7 @@ Needs files:
 <br>
 <h2>Canada1500</h2>
 <br>
-<img src="https://i.imgur.com/5AIDAWU.png" alt="Canada1500"/>
+<img src="previews/Canada1500.png" alt="Canada1500"/>
 <br>
 (uses width=30, height=35)
 <br>
@@ -121,7 +121,7 @@ Needs files:
 <br>
 <h2>Cascadia Code Mono</h2>
 <br>
-<img src="https://i.imgur.com/fM4SjYe.png" alt="Cascadia Code Mono"/>
+<img src="previews/Cascadia%20Mono.png" alt="Cascadia Code Mono"/>
 <br>
 (uses width=10, height=20)
 <br>
@@ -143,7 +143,7 @@ Needs files:
 <br>
 <h2>Cascadia Code Mono using MSDF</h2>
 <br>
-<img src="https://i.imgur.com/LY5yqC4.png" alt="Cascadia Code Mono using MSDF"/>
+<img src="previews/Cascadia%20Mono%20(MSDF).png" alt="Cascadia Code Mono using MSDF"/>
 <br>
 (uses width=10, height=20)
 <br>
@@ -166,7 +166,7 @@ Needs files:
 <br>
 <h2>Caveat</h2>
 <br>
-<img src="https://i.imgur.com/eCc0b88.png" alt="Caveat"/>
+<img src="previews/Caveat.png" alt="Caveat"/>
 <br>
 (uses width=32, height=32)
 <br>
@@ -188,16 +188,16 @@ Needs files:
 <br>
 <h2>Cozette</h2>
 <br>
-<img src="https://i.imgur.com/jYOKMeX.png" alt="Cozette"/>
+<img src="previews/Cozette.png" alt="Cozette"/>
 <br>
 (uses width=6, height=17, useIntegerPositions(true); this size is small enough to make the scaled text unreadable in some places)
 <br>
-A Font configured to use a cozy fixed-width bitmap font,
+Returns a Font configured to use a cozy fixed-width bitmap font,
 <a href="https://github.com/slavfox/Cozette">Cozette by slavfox</a>. Cozette has broad coverage of Unicode,
 including Greek, Cyrillic, Braille, and tech-related icons. This does not scale well except to integer
-multiples, but it should look very crisp at its default size of 7x13 pixels. This defaults to having
-Font.integerPosition set to true, which helps keep it pixel-perfect if 1 world unit is 1 pixel, but can
-cause major visual issues if 1 world unit corresponds to much more than 1 pixel.
+multiples, but it should look very crisp at its default size of 6x17 pixels. This defaults to having
+{@link Font#integerPosition} set to true, which currently does nothing (the code that enforces integer positions
+seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
 This may work well in a font family with other fonts that do not use a distance field effect.
 <br>
 Needs files:
@@ -210,9 +210,9 @@ Needs files:
 <br>
 <h2>DejaVu Sans Mono using MSDF</h2>
 <br>
-<img src="https://i.imgur.com/FPE1bEn.png" alt="DejaVu Sans Mono using MSDF"/>
+<img src="previews/DejaVu%20Sans%20Mono%20(MSDF).png" alt="DejaVu Sans Mono using MSDF"/>
 <br>
-(uses width=9, height=20)
+(uses width=9, height=20, crispness=2.0)
 <br>
 A nice old standby font with very broad language support, DejaVu Sans Mono is fixed-width and can be clearly
 readable but doesn't do anything unusual stylistically. It really does handle a lot of glyphs; not only does this

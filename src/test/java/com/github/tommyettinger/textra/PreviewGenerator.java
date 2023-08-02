@@ -136,7 +136,8 @@ public class PreviewGenerator extends ApplicationAdapter {
             // End Pixmap.createFromFrameBuffer() modified code
 
 //            Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-            PixmapIO.writePNG(Gdx.files.local("out/image" + (index++) + ".png"), pm, 6, true);
+            PixmapIO.writePNG(Gdx.files.local("out/" + font.name + ".png"), pm, 2, true);
+            index++;
         }
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
