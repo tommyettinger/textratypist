@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.KnownFonts;
 import com.github.tommyettinger.textra.TypingLabel;
+import com.github.tommyettinger.textra.utils.BlockUtils;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class MinimalGridTest extends ApplicationAdapter {
     private static final int CELL_WIDTH = 32;
     private static final int CELL_HEIGHT = 32;
 
+    private static final String VALID_CHARS = "abcdefghijklmnopqrstuvwxyz" + BlockUtils.ALL_BLOCK_CHARS;
+
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Traditional Roguelike Map Demo");
@@ -70,7 +73,7 @@ public class MinimalGridTest extends ApplicationAdapter {
 //                .setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-8f, 24f, 0f)
 //                .setTextureFilter().setName("Iosevka Slab"));
 
-        Font font = KnownFonts.addEmoji(KnownFonts.getIosevkaSlab()
+        Font font = KnownFonts.addEmoji(KnownFonts.getAStarry()
 //                .setLineMetrics(-0.125f, -0.125f, 0f, -0.25f)
 //                .setInlineImageMetrics(-8f, 24f, 0f)
         );
@@ -282,12 +285,19 @@ public class MinimalGridTest extends ApplicationAdapter {
     }
 
     public void recolor(){
+        int idx = 0;
         for (int y = 0; y < GRID_HEIGHT; y++) {
             for (int x = 0; x < GRID_WIDTH; x++) {
                 char c = dungeon[x][y];
                 switch (c){
                     case ' ':
                         gg.backgrounds[x][y] = 0;
+                        break;
+                    case '.':
+                        gg.backgrounds[x][y] = 0x808080FF |
+                                (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
+                                        * 0x01010100;
+                        gg.put(x, y, VALID_CHARS.charAt(idx++ * idx % VALID_CHARS.length()), 0x444444FF);
                         break;
                     default:
                         gg.backgrounds[x][y] = 0x808080FF |
