@@ -36,7 +36,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
 //        config.enableGLDebugOutput(true, System.out);
-        config.setForegroundFPS(1);
+        config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
         new Lwjgl3Application(new PreviewEmojiGenerator(), config);
     }
@@ -49,26 +49,26 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
         Gdx.files.local("out/").mkdirs();
         font = KnownFonts.addEmoji(KnownFonts.getAStarry().scale(3, 3), 0f, 0f, 4f);
         layout.setBaseColor(Color.WHITE);
-        StringBuilder sb = new StringBuilder(4096);
+        StringBuilder sb = new StringBuilder(4000);
         sb.append("[%?blacken]");
-        RandomXS128 random = new RandomXS128(23, -42);
+        RandomXS128 random = new RandomXS128(23, 42);
         IntArray keys = font.mapping.keys().toArray();
         int ks = keys.size;
-        for (int y = 0; y < 25; y++) {
-            for (int x = 0; x < 50; x++) {
+        for (int y = 0; y < 24; y++) {
+            for (int x = 0; x < 49; x++) {
                 sb.append((char)keys.get(random.nextInt(ks)));
             }
             sb.append('\n');
-        }
+        }//
         font.markup(sb.toString(), layout);
 
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
         x = Gdx.graphics.getBackBufferWidth() * 0.5f;
-        y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight() - font.cellHeight * 3f) * 0.5f + font.descent * font.scaleY;
+        y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight() - font.cellHeight * 4f) * 0.5f + font.descent * font.scaleY;
         batch.begin();
         font.enableShader(batch);
         font.drawGlyphs(batch, layout, x, y, Align.center);
-        batch.end();
+        batch.end();//
 
         // Modified Pixmap.createFromFrameBuffer() code that uses RGB instead of RGBA
         Gdx.gl.glPixelStorei(GL20.GL_PACK_ALIGNMENT, 1);

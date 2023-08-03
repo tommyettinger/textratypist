@@ -18,7 +18,9 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.LongArray;
 
 /**
  * A replacement for libGDX's GlyphLayout, more or less; stores one or more (possibly empty) {@link Line}s of text,
@@ -304,26 +306,67 @@ public class Layout {
     }
 
     /**
+     * Gets a String representation of part of this Layout, made of only the char portions of the glyphs from start
+     * (inclusive) to end (exclusive). This can retrieve text from across multiple lines. If this encounters the special
+     * placeholder character u0002, it treats it as {@code '['}, like the rest of the library does. If this encounters
+     * emoji, icons, or other inline images assigned to the font with {@link Font#addAtlas(TextureAtlas)}, then this
+     * will use a name that can be used to look up that inline image (such as an actual emoji like 🤖 instead of the
+     * gibberish character that {@code [+robot]} produces internally).
+     * @param start inclusive start index
+     * @param end exclusive end index
+     * @return a String made of only the char portions of the glyphs from start to end
+     */
+    public StringBuilder appendSubstringInto(StringBuilder sb, int start, int end) {
+        start = Math.max(0, start);
+        end = Math.min(Math.max(countGlyphs(), start), end);
+        int index = start;
+        sb.ensureCapacity(end - start);
+        int glyphCount = 0;
+        for (int i = 0, n = lines.size; i < n && index >= 0; i++) {
+            LongArray glyphs = lines.get(i).glyphs;
+            if (index < glyphs.size) {
+                for (int fin = index - start - glyphCount + end; index < fin && index < glyphs.size; index++) {
+                    char c = (char) glyphs.get(index);
+                    if (c >= 0xE000 && c <= 0xF800) {
+                        String name = font.namesByCharCode.get(c);
+                        if (name != null) sb.append(name);
+                        else sb.append(c);
+                    } else {
+                        if (c == 2) sb.append('[');
+                        else sb.append(c);
+                    }
+                    glyphCount++;
+                }
+                if(glyphCount == end - start)
+                    return sb;
+                index = 0;
+            }
+            else
+                index -= glyphs.size;
+        }
+        return sb;
+    }
+
+    /**
      * Primarily used by {@link #toString()}, but can be useful if you want to append many Layouts into a StringBuilder.
-     * This treats instances of the character u0002 as {@code '['}, as the library does internally, instead of
-     * potentially printing a gibberish character.
+     * If this encounters the special placeholder character u0002, it treats it as {@code '['}, like the rest of the
+     * library does. If this encounters emoji, icons, or other inline images assigned to the font with
+     * {@link Font#addAtlas(TextureAtlas)}, then this will use a name that can be used to look up that inline image
+     * (such as an actual emoji like 🤖 instead of the gibberish character that {@code [+robot]} produces internally).
      * This does not add or remove newlines from the Layout's contents, and can produce line breaks if they appear.
      *
      * @param sb a non-null StringBuilder from the JDK
      * @return sb, for chaining
      */
     public StringBuilder appendInto(StringBuilder sb) {
-        char gl;
-        for (int i = 0, n = lines.size; i < n; i++) {
-            Line line = lines.get(i);
-            for (int j = 0, ln = line.glyphs.size; j < ln; j++) {
-                gl = (char) line.glyphs.get(j);
-                sb.append(gl == 2 ? '[' : gl);
-            }
-        }
-        return sb;
+        return appendSubstringInto(sb, 0, Integer.MAX_VALUE);
     }
 
+    /**
+     * Simply delegates to calling {@link #appendInto(StringBuilder)} with a new StringBuilder, calling toString(), and
+     * then returning. See the documentation for appendInto for more details.
+     * @return a String holding the char portions of every glyph in this Layout, substituting in names for inline image codes
+     */
     @Override
     public String toString() {
         return appendInto(new StringBuilder()).toString();
