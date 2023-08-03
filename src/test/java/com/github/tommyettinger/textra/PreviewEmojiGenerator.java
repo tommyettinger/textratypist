@@ -26,6 +26,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
     SpriteBatch batch;
     Viewport viewport;
     Layout layout = new Layout().setTargetWidth(1200);
+    float x, y;
 
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -46,7 +47,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
         viewport = new StretchViewport(1200, 600);
 
         Gdx.files.local("out/").mkdirs();
-        font = KnownFonts.addEmoji(KnownFonts.getAStarry().scale(3, 3));
+        font = KnownFonts.addEmoji(KnownFonts.getAStarry().scale(3, 3), 0f, 0f, 4f);
         layout.setBaseColor(Color.WHITE);
         StringBuilder sb = new StringBuilder(4096);
         sb.append("[%?blacken]");
@@ -62,8 +63,8 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
         font.markup(sb.toString(), layout);
 
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
-        float x = Gdx.graphics.getBackBufferWidth() * 0.5f;
-        float y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f - font.descent * font.scaleY;
+        x = Gdx.graphics.getBackBufferWidth() * 0.5f;
+        y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight() - font.cellHeight * 3f) * 0.5f + font.descent * font.scaleY;
         batch.begin();
         font.enableShader(batch);
         font.drawGlyphs(batch, layout, x, y, Align.center);
@@ -83,9 +84,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
     @Override
     public void render() {
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
-        float x = Gdx.graphics.getBackBufferWidth() * 0.5f;
-        float y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f + font.descent * font.scaleY;
-        viewport.apply();
+        viewport.apply(true);
         batch.begin();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         font.enableShader(batch);
@@ -96,6 +95,6 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
+        viewport.update(width, height, false);
     }
 }
