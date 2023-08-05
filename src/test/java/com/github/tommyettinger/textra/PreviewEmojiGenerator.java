@@ -30,7 +30,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
 
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Font Preview Generator");
+        config.setTitle("Emoji Preview Generator");
         config.setWindowedMode(1200, 675);
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
