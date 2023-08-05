@@ -4279,7 +4279,7 @@ public class Font implements Disposable {
             int widthAdj = ((glyph & BOLD) != 0L) ? 2 : 1;
             for (int xi = -widthAdj; xi <= widthAdj; xi++) {
                 float xa = xi * xPx;
-                if(xi > 0 || boldStrength >= 1f) xa *= boldStrength;
+                if(widthAdj == 2 && (xi > 0 || boldStrength >= 1f)) xa *= boldStrength;
                 for (int yi = -1; yi <= 1; yi++) {
                     if(xi == 0 && yi == 0) continue;
                     float ya = yi * yPx;
@@ -4301,7 +4301,7 @@ public class Font implements Disposable {
             int widthAdj = ((glyph & BOLD) != 0L) ? 1 : 0;
             for (int xi = -widthAdj; xi <= widthAdj; xi++) {
                 float xa = xi * xPx;
-                if(xi > 0 || boldStrength >= 1f) xa *= boldStrength;
+                if(widthAdj == 1 && (xi > 0 || boldStrength >= 1f)) xa *= boldStrength;
                 float ya = 1.5f * yPx;
                 vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
                 vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
