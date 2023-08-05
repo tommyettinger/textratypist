@@ -59,7 +59,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
                 sb.append((char)keys.get(random.nextInt(ks)));
             }
             sb.append('\n');
-        }//
+        }
         font.markup(sb.toString(), layout);
 
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);

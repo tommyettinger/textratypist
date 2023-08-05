@@ -312,9 +312,10 @@ public class Layout {
      * emoji, icons, or other inline images assigned to the font with {@link Font#addAtlas(TextureAtlas)}, then this
      * will use a name that can be used to look up that inline image (such as an actual emoji like 🤖 instead of the
      * gibberish character that {@code [+robot]} produces internally).
-     * @param start inclusive start index
-     * @param end exclusive end index
-     * @return a String made of only the char portions of the glyphs from start to end
+     * @param sb a non-null StringBuilder from the JDK; will be modified if this Layout is non-empty
+     * @param start inclusive start index to begin taking chars from
+     * @param end exclusive end index to stop taking chars before
+     * @return sb, for chaining
      */
     public StringBuilder appendSubstringInto(StringBuilder sb, int start, int end) {
         start = Math.max(0, start);
@@ -355,7 +356,7 @@ public class Layout {
      * (such as an actual emoji like 🤖 instead of the gibberish character that {@code [+robot]} produces internally).
      * This does not add or remove newlines from the Layout's contents, and can produce line breaks if they appear.
      *
-     * @param sb a non-null StringBuilder from the JDK
+     * @param sb a non-null StringBuilder from the JDK; will be modified if this Layout is non-empty
      * @return sb, for chaining
      */
     public StringBuilder appendInto(StringBuilder sb) {

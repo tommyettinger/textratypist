@@ -22,11 +22,13 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.ByteArray;
 import com.badlogic.gdx.utils.StreamUtils;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.Deflater;
@@ -38,9 +40,12 @@ import java.util.zip.DeflaterOutputStream;
  * everywhere else in the image. What this is useful for, is to make linear filtering look (much) better when used
  * against a light-colored background. It has no real effect if drawing black text, but with white or brightly-colored
  * text on almost any background, it can be very noticeable, especially with bold text. If you later optimize the
- * resulting PNGs for file size, you can use pngout with the /kp argument to keep the palette as-is.
+ * resulting PNGs for file size, you can use pngout with the /kp flag to keep the palette as-is. If you run oxipng on
+ * the output, make sure to use the -a flag to enable extra alpha optimizations.
  * <br>
  * This copies a lot of code from anim8-gdx, which in turn copied a lot from PixmapIO in libGDX.
+ * <br>
+ * Future development will happen in <a href="https://github.com/tommyettinger/TransparencyProcessor">another repo</a>.
  */
 public class TransparencyProcessor extends ApplicationAdapter {
     static private final byte[] SIGNATURE = {(byte)137, 80, 78, 71, 13, 10, 26, 10};
@@ -55,17 +60,14 @@ public class TransparencyProcessor extends ApplicationAdapter {
     private final Deflater deflater;
     private ByteArray curLineBytes;
     private ByteArray prevLineBytes;
-    private boolean flipY = false;
     private int lastLineLen;
-    private String[] parameters;
+    private final String[] parameters;
 
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Transparency Pre-Processor Tool");
         config.setWindowedMode(600, 400);
         config.disableAudio(true);
-        ShaderProgram.prependVertexCode = "#version 110\n";
-        ShaderProgram.prependFragmentCode = "#version 110\n";
         config.useVsync(true);
         new Lwjgl3Application(new TransparencyProcessor(args), config);
     }
@@ -158,18 +160,18 @@ public class TransparencyProcessor extends ApplicationAdapter {
 
                 int color;
                 final int w = pixmap.getWidth(), h = pixmap.getHeight();
+                boolean noWarningNeeded = false;
                 for (int y = 0; y < h; y++) {
-                    int py = flipY ? (h - y - 1) : y;
-                    for (int px = 0; px < w; px++) {
-                        color = pixmap.getPixel(px, py);
+                    for (int x = 0; x < w; x++) {
+                        color = pixmap.getPixel(x, y);
                         // this block may need to be commented out if a font uses non-white grayscale colors.
-                        if((color & 255) != 0 && (color & 0xFFFFFF00) != 0xFFFFFF00) {
+                        if(noWarningNeeded || ((color & 255) != 0 && (color & 0xFFFFFF00) != 0xFFFFFF00)) {
                             System.out.println("PROBLEM WITH " + file);
-                            System.out.println("Problem color: 0x" + Integer.toUnsignedString(color, 16));
-                            System.out.println("Position: " + px + "," + py);
-                            return;
+                            System.out.printf("Problem color: 0x%08X\n", color);
+                            System.out.println("Position: " + x + "," + y);
+                            noWarningNeeded = true;
                         }
-                        curLine[px] = (byte) (color & 255);
+                        curLine[x] = (byte) (color & 255);
                     }
 
                     deflaterOutput.write(FILTER_NONE);
