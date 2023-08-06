@@ -3456,9 +3456,10 @@ public class Font implements Disposable {
                 xChange += cs * amt;
                 yChange += sn * amt;
             }
-            if(initial){
-                float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
-                        * font.scaleX * ((glyph & ALTERNATE) != 0L ? 4f : (glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+            if(initial && !isMono){
+                float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX;
+                if(ox != ox) ox = 0f;
+                else ox *= font.scaleX * ((glyph & ALTERNATE) != 0L ? 4f : (glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
                 if(ox < 0) {
                     xChange -= cs * ox;
                     yChange -= sn * ox;
@@ -3749,11 +3750,11 @@ public class Font implements Disposable {
                     float changedW = tr.xAdvance * scaleX;
                     if(tr.offsetX != tr.offsetX)
                         changedW = font.cellWidth;
-                    else if(initial){
+                    else if(initial && !isMono){
                         float ox = tr.offsetX * scaleX;
                         if(ox < 0) changedW -= ox;
-                        initial = false;
                     }
+                    initial = false;
                     drawn += changedW + amt;
                 } else {
                     line.height = Math.max(line.height, currentHeight = (font.cellHeight /* - font.descent * font.scaleY */) * scale);
@@ -3766,7 +3767,7 @@ public class Font implements Disposable {
                     float changedW = tr.xAdvance * scaleX;
                     if(tr.offsetX != tr.offsetX || font.isMono)
                         changedW = font.cellWidth;
-                    else if(initial){
+                    else if(initial && !isMono){
                         float ox = tr.offsetX * scaleX;
                         if(ox < 0) changedW -= ox;
                     }
