@@ -22,6 +22,7 @@ import java.nio.ByteBuffer;
 
 public class PreviewIconGenerator extends ApplicationAdapter {
 
+    public static final int SCREEN_WIDTH = 1200, SCREEN_HEIGHT = 600;
     Font font;
     SpriteBatch batch;
     Viewport viewport;
@@ -31,7 +32,7 @@ public class PreviewIconGenerator extends ApplicationAdapter {
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Game-Icons Preview Generator");
-        config.setWindowedMode(1200, 675);
+        config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
@@ -44,7 +45,7 @@ public class PreviewIconGenerator extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        viewport = new StretchViewport(1200, 600);
+        viewport = new StretchViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
 
         Gdx.files.local("out/").mkdirs();
         font = KnownFonts.addGameIcons(KnownFonts.getNowAlt().fitCell(40, 40, true), -12f, -12f, 0f);
@@ -56,7 +57,7 @@ public class PreviewIconGenerator extends ApplicationAdapter {
         int ks = keys.size, ps = Palette.NAMES.size;
         for (int y = 0; y < 14; y++) {
             for (int x = 0; x < 29; x++) {
-                sb.append('[').append(Palette.NAMES.get(random.nextInt(ps))).append(']').append((char)keys.get(random.nextInt(ks)));
+                sb.append("[richmost white ").append(Palette.NAMES.get(random.nextInt(ps))).append(']').append((char)keys.get(random.nextInt(ks)));
             }
             sb.append('\n');
         }
@@ -66,7 +67,7 @@ public class PreviewIconGenerator extends ApplicationAdapter {
 
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
         x = Gdx.graphics.getBackBufferWidth() * 0.5f;
-        y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight() - font.cellHeight * 2f) * 0.5f + font.descent * font.scaleY;
+        y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight() - font.cellHeight) * 0.5f + font.descent * font.scaleY;
         batch.begin();
         font.enableShader(batch);
         font.drawGlyphs(batch, layout, x, y, Align.center);
