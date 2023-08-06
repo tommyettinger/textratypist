@@ -3573,38 +3573,35 @@ public class Font implements Disposable {
             if (font.kerning != null) {
                 kern = kern << 16 | ch;
                 scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
-                if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
+                if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
                     scaleX = scale * font.cellHeight / (tr.xAdvance);
-//                    scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
-                }
                 else
                     scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
                 amt = font.kerning.get(kern, 0) * scaleX;
                 float changedW = tr.xAdvance * scaleX;
-                if(initial){
-                    float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
-                            * scaleX;
+                if(tr.offsetX != tr.offsetX)
+                    changedW = font.cellWidth * scale;
+                else if(initial && !isMono){
+                    float ox = tr.offsetX * scaleX;
                     if(ox < 0) changedW -= ox;
-                    initial = false;
                 }
+                initial = false;
                 drawn += changedW + amt;
             } else {
                 scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
-                if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
+                if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
                     scaleX = scale * font.cellHeight / (tr.xAdvance);
-//                    scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
-                }
                 else
                     scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
+
                 float changedW = tr.xAdvance * scaleX;
-                if (font.isMono)
-                    changedW += tr.offsetX * scaleX;
-                else if(initial){
-                    float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
-                            * scaleX;
+                if(tr.offsetX != tr.offsetX)
+                    changedW = font.cellWidth * scale;
+                else if(initial && !isMono){
+                    float ox = tr.offsetX * scaleX;
                     if(ox < 0) changedW -= ox;
-                    initial = false;
                 }
+                initial = false;
                 drawn += changedW;
             }
         }
@@ -3649,43 +3646,41 @@ public class Font implements Disposable {
             if (font == null) font = this;
             GlyphRegion tr = font.mapping.get(ch);
             if (tr == null) continue;
+            scale = (glyph & ALTERNATE) != 0L || isMono ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+
             if (font.kerning != null) {
                 kern = kern << 16 | ch;
-                scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
-                if(ch >= 0xE000 && ch < 0xF800){
+                if(ch >= 0xE000 && ch < 0xF800) {
                     scaleX = scale * font.cellHeight / (tr.xAdvance);
-//                    scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
                 }
                 else
                     scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
                 line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
                 amt = font.kerning.get(kern, 0) * scaleX;
-                float changedW = xAdvance(font, scaleX, glyph);
-                if(initial){
-                    float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
-                            * scaleX;
+                float changedW = tr.xAdvance * scaleX;
+                if(tr.offsetX != tr.offsetX)
+                    changedW = font.cellWidth * scale;
+                else if(initial && !isMono){
+                    float ox = tr.offsetX * scaleX;
                     if(ox < 0) changedW -= ox;
-                    initial = false;
                 }
+                initial = false;
                 drawn += changedW + amt;
             } else {
-                scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
                 line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
-                if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
+                if((char)glyph >= 0xE000 && (char)glyph < 0xF800) {
                     scaleX = scale * font.cellHeight / (tr.xAdvance);
-//                    scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
                 }
                 else
                     scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
-                float changedW = xAdvance(font, scaleX, glyph);
-                if (font.isMono)
-                    changedW += tr.offsetX * scaleX;
-                else if(initial){
-                    float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
-                            * scaleX;
+                float changedW = tr.xAdvance * scaleX;
+                if(tr.offsetX != tr.offsetX)
+                    changedW = font.cellWidth * scale;
+                else if(initial && !isMono){
+                    float ox = tr.offsetX * scaleX;
                     if(ox < 0) changedW -= ox;
-                    initial = false;
                 }
+                initial = false;
                 drawn += changedW;
             }
         }
@@ -3736,7 +3731,7 @@ public class Font implements Disposable {
                 if (font == null) font = this;
                 GlyphRegion tr = font.mapping.get(ch);
                 if (tr == null) continue;
-                scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                scale = (glyph & ALTERNATE) != 0L || isMono ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
                 if (font.kerning != null) {
                     kern = kern << 16 | ch;
                     if(ch >= 0xE000 && ch < 0xF800){
@@ -3749,7 +3744,7 @@ public class Font implements Disposable {
                     amt = font.kerning.get(kern, 0) * scaleX;
                     float changedW = tr.xAdvance * scaleX;
                     if(tr.offsetX != tr.offsetX)
-                        changedW = font.cellWidth;
+                        changedW = font.cellWidth * scale;
                     else if(initial && !isMono){
                         float ox = tr.offsetX * scaleX;
                         if(ox < 0) changedW -= ox;
@@ -3765,9 +3760,9 @@ public class Font implements Disposable {
                     else
                         scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
                     float changedW = tr.xAdvance * scaleX;
-                    if(tr.offsetX != tr.offsetX || font.isMono)
-                        changedW = font.cellWidth;
-                    else if(initial && !isMono){
+                    if(tr.offsetX != tr.offsetX)
+                        changedW = font.cellWidth * scale;
+                    else if(initial && !font.isMono){
                         float ox = tr.offsetX * scaleX;
                         if(ox < 0) changedW -= ox;
                     }
