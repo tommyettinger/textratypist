@@ -87,12 +87,12 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
      * <br>
-     * Preview: <a href="https://i.imgur.com/nBB8d1y.png">Image link</a> (uses width=8, height=8)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/A%20Starry.png">Image link</a> (uses width=8, height=8)
      * <br>
      * This also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
      * multiples of 8. This "A Starry Tall" version is present in {@link #getAll()} and {@link #getAllStandard()}.
      * <br>
-     * Preview: <a href="https://i.imgur.com/MICKVgG.png">Image link</a> (uses width=8, height=16)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png">Image link</a> (uses width=8, height=16)
      * <br>
      * Needs files:
      * <ul>
@@ -136,7 +136,7 @@ public final class KnownFonts implements LifecycleListener {
      * If you only need sizes in small integer multiples of 8 pixels, you might get sharper-looking results from
      * {@link #getAStarry()}.
      * <br>
-     * Preview: <a href="https://i.imgur.com/opEWZQL.png">Image link</a> (uses width=10, height=10, crispness=2.0)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20(MSDF).png">Image link</a> (uses width=10, height=10, crispness=2.0)
      * <br>
      * Needs files:
      * <ul>
@@ -178,7 +178,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/GVnMNPV.png">Image link</a> (uses width=33, height=30)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Bitter.png">Image link</a> (uses width=33, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -218,7 +218,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/5AIDAWU.png">Image link</a> (uses width=30, height=35)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Canada1500.png">Image link</a> (uses width=30, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -259,7 +259,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a fairly-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/fM4SjYe.png">Image link</a> (uses width=10, height=20)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Cascadia%20Mono.png">Image link</a> (uses width=10, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -299,7 +299,7 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/LY5yqC4.png">Image link</a> (uses width=10, height=20)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Cascadia%20Mono%20(MSDF).png">Image link</a> (uses width=10, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -338,7 +338,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/eCc0b88.png">Image link</a> (uses width=32, height=32)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Caveat.png">Image link</a> (uses width=32, height=32)
      * <br>
      * Needs files:
      * <ul>
@@ -380,7 +380,7 @@ public final class KnownFonts implements LifecycleListener {
      * seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/jYOKMeX.png">Image link</a> (uses width=6, height=17; this size is small
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Cozette.png">Image link</a> (uses width=6, height=17; this size is small
      * enough to make the scaled text unreadable in some places)
      * <br>
      * Needs files:
@@ -426,7 +426,7 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/FPE1bEn.png">Image link</a> (uses width=9, height=20, crispness=2.0)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/DejaVu%20Sans%20Mono%20(MSDF).png">Image link</a> (uses width=9, height=20, crispness=2.0)
      * <br>
      * Needs files:
      * <ul>
@@ -468,7 +468,7 @@ public final class KnownFonts implements LifecycleListener {
      * of fonts.
      * You can also use {@link #getStandardFamily()} to obtain a variant on this Font that has a FontFamily already.
      * <br>
-     * Preview: <a href="https://i.imgur.com/hJXteu4.png">Image link</a> (uses width=31, height=35)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Gentium.png">Image link</a> (uses width=31, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -511,7 +511,7 @@ public final class KnownFonts implements LifecycleListener {
      * uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/VIFHIuD.png">Image link</a> (uses width=50, height=45,
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Gentium%20(MSDF).png">Image link</a> (uses width=50, height=45,
      * adjustLineHeight(0.625f), setCrispness(3f))
      * <br>
      * Needs files:
@@ -552,7 +552,7 @@ public final class KnownFonts implements LifecycleListener {
      * uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but should be
      * crisp enough when zoomed out.
      * <br>
-     * Preview: <a href="https://i.imgur.com/1bEdnvD.png">Image link</a> (uses width=50, height=45,
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Gentium%20(SDF).png">Image link</a> (uses width=50, height=45,
      * adjustLineHeight(0.625f), setCrispness(1.5f))
      * <br>
      * Needs files:
@@ -600,7 +600,7 @@ public final class KnownFonts implements LifecycleListener {
      * Thanks to Siavash Ranbar, who came up with the idea to take an italic version of a serif font and remove its
      * slant, keeping the different flow from a simple oblique font.
      * <br>
-     * Preview: <a href="https://i.imgur.com/7bvYtUc.png">Image link</a> (uses width=60, height=36)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Gentium%20Un-Italic.png">Image link</a> (uses width=60, height=36)
      * <br>
      * Needs files:
      * <ul>
@@ -644,7 +644,7 @@ public final class KnownFonts implements LifecycleListener {
      * file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and Twemoji.png are each larger than
      * GoNotoUniversal-standard.png . The .fnt has 21274 glyphs plus extensive kerning info, though, so it is large.
      * <br>
-     * Preview: <a href="https://i.imgur.com/HGapiJ1.png">Image link</a> (uses width=66, height=33)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Go%20Noto%20Universal.png">Image link</a> (uses width=66, height=33)
      * <br>
      * Needs files:
      * <ul>
@@ -696,7 +696,7 @@ public final class KnownFonts implements LifecycleListener {
      * DistanceFieldFont in libGDX. Using floats is very helpful for the distance field effect; without them, most
      * glyphs would render slightly off from the intended position, due to rounding to an int instead of using a float.
      * <br>
-     * Preview: <a href="https://i.imgur.com/HGapiJ1.png">Image link</a> (uses width=43.25, height=34,
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Go%20Noto%20Universal%20(SDF).png">Image link</a> (uses width=43.25, height=34,
      * setCrispness(1.8f))
      * <br>
      * Needs files:
@@ -738,7 +738,7 @@ public final class KnownFonts implements LifecycleListener {
      * you can use an SDF font, since it scales up with higher quality.
      * Otherwise, this may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/Bqd1lvj.png">Image link</a> (uses width=16, height=20)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Hanazono.png">Image link</a> (uses width=16, height=20)
      * <br>
      * Needs files:
      * <ul>
@@ -786,7 +786,7 @@ public final class KnownFonts implements LifecycleListener {
      * can use {@link #getCozette()} or {@link #getQuanPixel()} for a different bitmap font. There
      * is also {@link #getAStarry()} for a non-pixel font styled after a font from the same era.
      * <br>
-     * Preview: <a href="https://i.imgur.com/NlHY2n4.png">Image link</a> (uses width=8, height=16, done with
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/IBM%208x16.png">Image link</a> (uses width=8, height=16, done with
      * fitCell(8, 16, false))
      * <br>
      * Needs files:
@@ -822,7 +822,7 @@ public final class KnownFonts implements LifecycleListener {
      * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/EdqBf99.png">Image link</a> (uses width=10, height=26)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Inconsolata%20LGC.png">Image link</a> (uses width=10, height=26)
      * <br>
      * Needs files:
      * <ul>
@@ -860,7 +860,7 @@ public final class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ixybs8R.png">Image link</a> (uses .scaleTo(12, 26).setCrispness(1.2f))
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Inconsolata%20LGC%20(MSDF).png">Image link</a> (uses .scaleTo(12, 26).setCrispness(1.2f))
      * <br>
      * Needs files:
      * <ul>
