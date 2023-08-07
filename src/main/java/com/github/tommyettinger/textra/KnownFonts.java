@@ -714,9 +714,9 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.goNotoUniversalSDF = new Font(instance.prefix + "GoNotoUniversal-sdf.fnt",
                         instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, -16f, 0f, 0f, true)
-                        .scaleTo(43.25f, 34)
-                        .setCrispness(1.8f).setFancyLinePosition(0f, 1.25f)
-                        .setUnderlineMetrics(0.25f, 1f, 0.2f, -0.5f).setStrikethroughMetrics(0.25f, 0.85f, 0.2f, -0.5f).setInlineImageMetrics(0f, -28f, 16f)
+                        .scaleTo(43.25f, 34).adjustLineHeight(0.625f)
+                        .setCrispness(1.8f).setFancyLinePosition(0f, 1.15f)
+                        .setLineMetrics(0.25f, 0.85f, 0.2f, -0.5f).setInlineImageMetrics(0f, -28f, 16f)
                         .setName("Go Noto Universal (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1598,8 +1598,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.tangerineSDF = new Font(instance.prefix + "Tangerine-sdf.fnt",
                         instance.prefix + "Tangerine-sdf.png", SDF, 0f, 28f, 0f, 0, false).setFancyLinePosition(0, 0.2f)
-                        .setLineMetrics(0.0625f, 0f, 0f, 0f).setInlineImageMetrics(-24f, 0f, 8f)
-                        .scaleTo(48, 32).setCrispness(0.375f).setName("Tangerine (SDF)");
+                        .setLineMetrics(-0.5f, 0f, 0f, 0f).setInlineImageMetrics(0f, 0f, 8f)
+                        .scaleTo(45, 30).setCrispness(0.375f).setName("Tangerine (SDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
