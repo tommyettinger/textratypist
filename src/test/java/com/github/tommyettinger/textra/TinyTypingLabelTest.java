@@ -122,7 +122,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         TypingConfig.DEFAULT_CLEAR_COLOR = Color.WHITE;
 
         // Create some global variables to handle style
-        TypingConfig.GLOBAL_VARS.put("ICE_WIND", "{FASTER}{GRADIENT=88ccff;eef8ff;-0.5;5}{SLOWER}{WIND=2;4;0.25;0.1}");
+        TypingConfig.GLOBAL_VARS.put("ICE_WIND", "{GRADIENT=88ccff;eef8ff;-0.5;5}{WIND=2;4;0.25;0.1}{JOLT=1;0.6;inf;0.1;;}");
     }
 
     public TypingLabel createTypingLabel() {
@@ -154,6 +154,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         // OK, it is definitely not something that requires different fonts to trigger. Specific widths cause line
         // wrapping to somehow break the ENDWIND token (or RESET).
         final TypingLabel label = new TypingLabel(
+//                "she's[red]{JOLT=1;0.6;inf;0.7;;} blowin' on down{RESET}, ",
 //                "Behold, the [/Terror{RESET}-[*]Bunny[*]!",
 //                "{SHAKE=1,1,2}[@Medieval]Behold{RESET}, the [/]Terror{RESET}-{GRADIENT=WHITE;RED}Bunny!",
 //                "{BLINK=ff0000ff;00ff27ff;1.0;0.5}redtogreen", // used to check unclosed effects with incomplete parameters
@@ -163,9 +164,11 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //"Serif", "Sans", "Mono", "Condensed", "Humanist",
 //                        "Retro", "Slab", "Handwriting", "Canada", "Cozette", "Iosevka",
 //                        "Medieval", "Future", "Console", "Code"
+
                 "{JOLT=1;1.2;inf;0.3;dull lavender;light butter}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
 //                "{OCEAN=0.7;1.25;0.11;1.0;0.65}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
-                "she's{WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
+//                "she's{WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
+                "she's{VAR=ICE_WIND} blowin' on down{RESET}, " +
                 "[@Handwriting]whippin'[@] her [@Slab]way[@] through the [*]{FONT=Sans}whole dang[@][*] town! " +
                 "[@Iosevka]Sure[@] as [/]I reckon[], if we [@Mono]meet our [@Cozette]{HANG}fate[@]{RESET}, " +
                 "this [light grey black][%125]storm[] will be [@Canada]there[@] on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%150]eight[%]{ENDSPIN}! " +
@@ -202,7 +205,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //        label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth() - 100);
 
         // Set variable replacements for the {VAR} and {IF} tokens
-        label.setVariable("gender", "e");
+        label.setVariable("gender", "m");
         label.setVariable("lad", "'un");
         label.setVariable("he makes", "they make");
 

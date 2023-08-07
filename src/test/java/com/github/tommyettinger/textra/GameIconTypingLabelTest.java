@@ -54,7 +54,7 @@ public class GameIconTypingLabelTest extends ApplicationAdapter {
         TypingConfig.DEFAULT_CLEAR_COLOR = Color.WHITE;
 
         // Create some global variables to handle style
-        TypingConfig.GLOBAL_VARS.put("ICE_WIND", "{FASTER}{GRADIENT=88ccff;eef8ff;-0.5;5}{SLOWER}{WIND=2;4;0.25;0.1}");
+        TypingConfig.GLOBAL_VARS.put("ICE_WIND", "{GRADIENT=88ccff;eef8ff;-0.5;5}{WIND=2;4;0.25;0.1}{JOLT=1;0.6;inf;0.1;;}");
     }
 
     public TypingLabel createTypingLabel() {
