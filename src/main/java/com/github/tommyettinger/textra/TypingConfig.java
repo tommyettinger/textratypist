@@ -153,5 +153,6 @@ public class TypingConfig {
         registerEffect("STYLIST", StylistEffect::new);
         registerEffect("CANNON", CannonEffect::new);
         registerEffect("OCEAN", OceanEffect::new);
+        registerEffect("SPUTTER", SputterEffect::new);
     }
 }
