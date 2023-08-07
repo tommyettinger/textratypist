@@ -103,7 +103,7 @@ public class TypingConfig {
         TypingConfig.GLOBAL_VARS.put("ENDSHIVERINGBLIZZARD", "{ENDGRADIENT}{ENDWIND}{ENDJOLT}");
         TypingConfig.GLOBAL_VARS.put("ELECTRIFY", "{JOLT=1;1.2;inf;0.3;dull lavender;light butter}");
         TypingConfig.GLOBAL_VARS.put("ENDELECTRIFY", "{ENDJOLT}");
-        TypingConfig.GLOBAL_VARS.put("ZOMBIE", "{SICK=0.4}{CROWD}{EMERGE}[dark olive sage]");
+        TypingConfig.GLOBAL_VARS.put("ZOMBIE", "{SICK=0.4}{CROWD}{EMERGE=0.1}[dark olive sage]");
         TypingConfig.GLOBAL_VARS.put("ENDZOMBIE", "{ENDSICK}{ENDCROWD}{ENDEMERGE}{CLEARCOLOR}");
     }
     /**
@@ -189,5 +189,7 @@ public class TypingConfig {
         registerEffect("CANNON", CannonEffect::new);
         registerEffect("OCEAN", OceanEffect::new);
         registerEffect("SPUTTER", SputterEffect::new);
+
+        initializeGlobalVars();
     }
 }

@@ -36,7 +36,7 @@ public class EmergeEffect extends Effect {
     public EmergeEffect(TypingLabel label, String[] params) {
         super(label);
 
-        // Distance
+        // Intensity
         if (params.length > 0) {
             this.intensity = 1.0f / paramAsFloat(params[0], 0.25f);
         }
