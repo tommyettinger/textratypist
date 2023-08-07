@@ -157,8 +157,8 @@ public class MinimalGridTest extends ApplicationAdapter {
 
         message("[%?blacken]Laĕşudiphiĕşĕşĕşĕşĕşĕş Ghathŕuphighat got {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
         message("[%?blacken]Haisubhi Markhuśongaipaim got {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
-        message("[%?blacken]Haisubhi Markhuśongaipaim got {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
         message("[%?blacken]Haisubhi Markhuśongaipaim got {OCEAN=0.7;1.25;0.11;1.0;0.65}{SPUTTER=0.2;0.25;4;inf}obliterated!{RESET}");
+        message("[%?blacken]Haisubhi Markhuśongaipaim got {SICK=0.4}{CROWD}{EMERGE}[dark olive sage]zombified!{RESET}");
         message("[%?blacken][*]WELCOME[*] to your [/]DOOM[/]!");
     }
 

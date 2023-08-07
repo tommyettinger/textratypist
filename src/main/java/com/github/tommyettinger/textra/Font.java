@@ -6442,13 +6442,15 @@ public class Font implements Disposable {
     }
 
     /**
-     * Clears {@link TypingConfig#GLOBAL_VARS}. This can be useful if you target Android and you use
-     * Activity.finish(), or some other way of ending an app that does not clear static values.
-     * Consider calling this if you encounter different (buggy) behavior on the second launch
-     * of an Android app vs. the first launch. It is not needed on desktop JVMs or GWT.
+     * Clears {@link TypingConfig#GLOBAL_VARS} and calls {@link TypingConfig#initializeGlobalVars()}. This can be useful
+     * if you target Android and you use Activity.finish(), or some other way of ending an app that does not clear
+     * static values. Consider calling this if you encounter different (buggy) behavior on the second launch of an
+     * Android app vs. the first launch. It is not needed on desktop JVMs or GWT. This only could be needed if you add
+     * different items to {@link TypingConfig#GLOBAL_VARS} on different runs of your Android app.
      */
     public static void clearStatic() {
         TypingConfig.GLOBAL_VARS.clear();
+        TypingConfig.initializeGlobalVars();
     }
 
 

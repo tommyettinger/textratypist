@@ -56,7 +56,7 @@ public class TypingConfig {
     public static int CHAR_LIMIT_PER_FRAME = -1;
 
     /**
-     * Default color for the {@code CLEARCOLOR} token. Can be overriden by {@link TypingLabel#getClearColor()}.
+     * Default color for the {@code CLEARCOLOR} token. Can be overridden by {@link TypingLabel#getClearColor()}.
      */
     public static Color DEFAULT_CLEAR_COLOR = new Color(Color.WHITE);
 
@@ -71,6 +71,41 @@ public class TypingConfig {
      */
     public static final ObjectMap<String, String> GLOBAL_VARS = new ObjectMap<>();
 
+    /**
+     * Defines several default variables with names in {@code ALLCAPS} with no separators, all of them creating effects
+     * with complex parameters or combining multiple effects. The variables this defines:
+     * <ul>
+     *     <li><code>{VAR=FIRE}</code> changes the the following text to have fiery changing colors. You can end it with
+     *     <code>{VAR=ENDFIRE}</code>.</li>
+     *     <li><code>{VAR=SPUTTERINGFIRE}</code> changes the the following text to have fiery changing colors and resize
+     *     like popping flames. You can end it with <code>{VAR=ENDSPUTTERINGFIRE}</code>.</li>
+     *     <li><code>{VAR=BLIZZARD}</code> changes the the following text to waver in the wind and use icy colors,
+     *     white to light blue. You can end it with <code>{VAR=ENDBLIZZARD}</code>.</li>
+     *     <li><code>{VAR=SHIVERINGBLIZZARD}</code> changes the the following text to waver in the wind and use icy
+     *     colors, white to light blue, plus it will randomly make glyphs "shiver" as if cold. You can end it with
+     *     <code>{VAR=ENDSHIVERINGBLIZZARD}</code>.</li>
+     *     <li><code>{VAR=ELECTRIFY}</code> changes the the following text to be a dull gray purple color and randomly
+     *     makes glyphs turn light yellow and vibrate around. You can end it with <code>{VAR=ENDELECTRIFY}</code>.</li>
+     *     <li><code>{VAR=ZOMBIE}</code> changes the the following text to be "dark olive sage" (a dull gray-green
+     *     color), makes glyphs rotate left and right slowly and randomly, makes glyphs drop down and get back up
+     *     randomly, and when they first appear, has the glyphs emerge from the baseline (as if clawing out of a grave).
+     *     You can end it with <code>{VAR=ENDZOMBIE}</code>.</li>
+     * </ul>
+     */
+    public static void initializeGlobalVars() {
+        TypingConfig.GLOBAL_VARS.put("FIRE", "{OCEAN=0.7;1.25;0.11;1.0;0.65}");
+        TypingConfig.GLOBAL_VARS.put("ENDFIRE", "{ENDOCEAN}");
+        TypingConfig.GLOBAL_VARS.put("SPUTTERINGFIRE", "{OCEAN=0.7;1.25;0.11;1.0;0.65}{SPUTTER=0.2;0.25;4;inf}");
+        TypingConfig.GLOBAL_VARS.put("ENDSPUTTERINGFIRE", "{ENDOCEAN}{ENDSPUTTER}");
+        TypingConfig.GLOBAL_VARS.put("BLIZZARD", "{GRADIENT=88ccff;eef8ff;-0.5;5}{WIND=2;4;0.25;0.1}");
+        TypingConfig.GLOBAL_VARS.put("ENDBLIZZARD", "{ENDGRADIENT}{ENDWIND}");
+        TypingConfig.GLOBAL_VARS.put("SHIVERINGBLIZZARD", "{GRADIENT=88ccff;eef8ff;-0.5;5}{WIND=2;4;0.25;0.1}{JOLT=1;0.6;inf;0.1;;}");
+        TypingConfig.GLOBAL_VARS.put("ENDSHIVERINGBLIZZARD", "{ENDGRADIENT}{ENDWIND}{ENDJOLT}");
+        TypingConfig.GLOBAL_VARS.put("ELECTRIFY", "{JOLT=1;1.2;inf;0.3;dull lavender;light butter}");
+        TypingConfig.GLOBAL_VARS.put("ENDELECTRIFY", "{ENDJOLT}");
+        TypingConfig.GLOBAL_VARS.put("ZOMBIE", "{SICK=0.4}{CROWD}{EMERGE}[dark olive sage]");
+        TypingConfig.GLOBAL_VARS.put("ENDZOMBIE", "{ENDSICK}{ENDCROWD}{ENDEMERGE}{CLEARCOLOR}");
+    }
     /**
      * Map of start tokens and their effect classes. Internal use only.
      */
