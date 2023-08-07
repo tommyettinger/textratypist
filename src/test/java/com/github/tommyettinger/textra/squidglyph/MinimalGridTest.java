@@ -333,7 +333,6 @@ public class MinimalGridTest extends ApplicationAdapter {
             move(0, 0);
     }
     public void message(String markupString) {
-        System.out.println(markupString);
         TypingLabel label = null;
         Container<TypingLabel> con = null;
         int tall = 0;
@@ -371,7 +370,6 @@ public class MinimalGridTest extends ApplicationAdapter {
         messages.addLast(con);
         messageGroup.addActor(con);
         root.pack();
-        System.out.println(label.getWidth() + " and was set to " + (66 * 25 * 0.0995f) + " with target width " + label.getWorkingLayout().getTargetWidth());
     }
 
     @Override

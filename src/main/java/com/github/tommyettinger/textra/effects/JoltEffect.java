@@ -36,8 +36,8 @@ public class JoltEffect extends Effect {
     private float distance = 1; // How far the glyphs should move
     private float intensity = 1; // How fast the glyphs should move
     private float likelihood = DEFAULT_LIKELIHOOD; // How likely it is that each glyph will shake; repeatedly checked
-    private int baseColor = 0xFFFFFFFF;
-    private int joltColor = 0xFFFF88FF;
+    private int baseColor = 256; // The color to use when not jolting. If 256, then colors will not change
+    private int joltColor = 0xFFFF88FF; // The color to use when jolting. If baseColor is 256, this will be ignored
 
     public JoltEffect(TypingLabel label, String[] params) {
         super(label);
@@ -64,8 +64,7 @@ public class JoltEffect extends Effect {
 
         // Base Color
         if (params.length > 4) {
-            int c = paramAsColor(params[4]);
-            if (c != 256) this.baseColor = c;
+            this.baseColor = paramAsColor(params[4]);
         }
 
         // Actively Jolting Color
@@ -104,11 +103,18 @@ public class JoltEffect extends Effect {
             y *= fadeout;
             x = MathUtils.round(x);
             y = MathUtils.round(y);
-            if (fadeout > 0)
-                label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) joltColor << 32);
-        } else
-            label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) baseColor << 32);
-
+            if (fadeout > 0) {
+                if(baseColor == 256)
+                    label.setInWorkingLayout(globalIndex, glyph);
+                else
+                    label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) joltColor << 32);
+            }
+        } else {
+            if(baseColor == 256)
+                label.setInWorkingLayout(globalIndex, glyph);
+            else
+                label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) baseColor << 32);
+        }
         // Store offsets for the next tick
         lastOffsets.set(localIndex * 2, x);
         lastOffsets.set(localIndex * 2 + 1, y);

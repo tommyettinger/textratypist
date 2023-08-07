@@ -41,15 +41,20 @@ import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
  * files to use a Font. The required files include any license you need to abide by; this doesn't necessarily belong in
  * the {@code assets} folder like the rest of the files! Most of these fonts are either licensed under the OFL
  * or some Creative Commons license; the CC ones typically require attribution, but none of the fonts restrict usage to
- * noncommercial projects, and all are free as in beer as well.
+ * noncommercial projects, and all are free as in beer as well. Please take care to attribute the authors of fonts you
+ * use! Good fonts are not easy to make.
  * <br>
  * There are some special features in Font that are easier to use with parts of this class. {@link #getStandardFamily()}
  * pre-populates a FontFamily so you can switch between different fonts with the {@code [@Sans]} syntax.
  * {@link #addEmoji(Font)} adds all of Twitter's emoji from the <a href="https://github.com/twitter/twemoji">Twemoji</a>
  * project to a given font, which lets you enter emoji with the {@code [+man scientist, dark skin tone]} syntax or the
  * generally-easier {@code [+👨🏿‍🔬]} syntax. If you want to use names for emoji, you may want to consult "Twemoji.atlas"
- * for the exact names used; some names changed from the standard because of technical restrictions.
+ * for the exact names used; some names changed from the standard because of technical restrictions. You can also add
+ * the icons from <a href="https://game-icons.net">game-icons.net</a> using {@link #addGameIcons(Font)}. There is a
+ * <a href="https://tommyettinger.github.io/twemoji-atlas/">preview site for Twemoji, with names</a>, and another
+ * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">preview site for the game icons</a>.
  */
+@SuppressWarnings("CallToPrintStackTrace")
 public final class KnownFonts implements LifecycleListener {
     private static KnownFonts instance;
 
@@ -616,9 +621,9 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentiumUnItalic == null) {
             try {
                 instance.gentiumUnItalic = new Font(instance.prefix + "GentiumUnItalic-standard.fnt",
-                        instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, -4f, 0f, -12f, true)
-                        .scaleTo(60, 36).setTextureFilter().setFancyLinePosition(0, 0.5f)
-                        .setLineMetrics(0f, 0.15f, 0f, -0.3125f).setInlineImageMetrics(0f, -8f, 8f)
+                        instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, 4f, 0f, -12f, true)
+                        .scaleTo(60, 36).setTextureFilter().setFancyLinePosition(0, 0.375f).setDescent(-32f)
+                        .setLineMetrics(0f, 0.15f, 0f, -0.3125f).setInlineImageMetrics(0f, -24f, 8f)
                         .setName("Gentium Un-Italic");
             } catch (Exception e) {
                 e.printStackTrace();
