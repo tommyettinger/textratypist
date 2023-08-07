@@ -901,7 +901,7 @@ public final class KnownFonts implements LifecycleListener {
      * have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ZTFN7mP.png">Image link</a> (uses .scaleTo(10, 24).fitCell(10, 24, false))
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Iosevka.png">Image link</a> (uses .scaleTo(10, 24).fitCell(10, 24, false))
      * <br>
      * Needs files:
      * <ul>
@@ -946,7 +946,7 @@ public final class KnownFonts implements LifecycleListener {
      * However, using a distance field makes it effectively impossible to mix fonts using a FontFamily (any variation in
      * distance field settings would make some fonts in the family blurry and others too sharp).
      * <br>
-     * Preview: <a href="https://i.imgur.com/evI4ONH.png">Image link</a> (uses
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Iosevka%20(MSDF).png">Image link</a> (uses
      * .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
@@ -994,7 +994,7 @@ public final class KnownFonts implements LifecycleListener {
      * at small sizes. However, using a distance field makes it effectively impossible to mix fonts using a FontFamily
      * (any variation in distance field settings would make some fonts in the family blurry and others too sharp).
      * <br>
-     * Preview: <a href="https://i.imgur.com/OI2NxpM.png">Image link</a> (uses
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Iosevka%20(SDF).png">Image link</a> (uses
      * .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
@@ -1039,7 +1039,7 @@ public final class KnownFonts implements LifecycleListener {
      * have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/iKkm4Us.png">Image link</a> (uses .scaleTo(10, 24).fitCell(10, 24, false))
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Iosevka%20Slab.png">Image link</a> (uses .scaleTo(10, 24).fitCell(10, 24, false))
      * <br>
      * Needs files:
      * <ul>
@@ -1082,7 +1082,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/O6jYyKU.png">Image link</a> (uses
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Iosevka%20Slab%20(MSDF).png">Image link</a> (uses
      * .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
@@ -1127,7 +1127,7 @@ public final class KnownFonts implements LifecycleListener {
      * technique that {@link #getIosevkaSlabMSDF()} uses, which isn't as sharp at large sizes but can look a little
      * better at small sizes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/bRi4s2q.png">Image link</a> (uses
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Iosevka%20Slab%20(SDF).png">Image link</a> (uses
      * .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
@@ -1172,7 +1172,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/UR9UdSC.png">Image link</a> (uses scaleTo(23, 31))
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Kingthings%20Foundation.png">Image link</a> (uses scaleTo(23, 31))
      * <br>
      * Needs files:
      * <ul>
@@ -1220,7 +1220,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/gG8WjWb.png">Image link</a> (uses scaleTo(25, 32))
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Kingthings%20Petrock.png">Image link</a> (uses scaleTo(25, 32))
      * <br>
      * Needs files:
      * <ul>
@@ -1261,7 +1261,7 @@ public final class KnownFonts implements LifecycleListener {
      * enforces integer positions seems to ruin the appearance of any font that uses it, so that code isn't ever used
      * now). This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/i67BzW9.png">Image link</a> (uses width=20, height=15)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/LanaPixel.png">Image link</a> (uses width=20, height=15)
      * <br>
      * Needs files:
      * <ul>
@@ -1305,7 +1305,7 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #getGentium()}. The MSDF files are still present in the same directory where they were, but they are no
      * longer used by TextraTypist.
      * <br>
-     * Preview: <a href="https://i.imgur.com/LFPC0hd.png">Image link</a> (uses width=40, height=34)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Libertinus%20Serif.png">Image link</a> (uses width=40, height=34)
      * <br>
      * Needs files:
      * <ul>
@@ -1343,7 +1343,7 @@ public final class KnownFonts implements LifecycleListener {
      * Cyrillic. This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
      * well. This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/cBtD1Er.png">Image link</a> (uses width=29, height=33)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Now%20Alt.png">Image link</a> (uses width=29, height=33)
      * <br>
      * Needs files:
      * <ul>
@@ -1379,7 +1379,7 @@ public final class KnownFonts implements LifecycleListener {
      * scaled down nicely.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/GO9djDW.png">Image link</a> (uses .scaleTo(20, 28))
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/OpenSans.png">Image link</a> (uses .scaleTo(20, 28))
      * <br>
      * Needs files:
      * <ul>
@@ -1417,7 +1417,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/3lcH8n5.png">Image link</a> (uses width=31, height=35)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Oxanium.png">Image link</a> (uses width=31, height=35)
      * <br>
      * Needs files:
      * <ul>
@@ -1457,7 +1457,7 @@ public final class KnownFonts implements LifecycleListener {
      * integer positions seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/ba0GcKw.png">Image link</a> (uses width=12, height=12; this size is small
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/QuanPixel.png">Image link</a> (uses width=12, height=12; this size is small
      * enough to make the scaled text unreadable in some places)
      * <br>
      * Needs files:
@@ -1500,7 +1500,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/9GiQHwl.png">Image link</a> (uses width=20, height=32)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Roboto%20Condensed.png">Image link</a> (uses width=20, height=32)
      * <br>
      * Needs files:
      * <ul>
@@ -1541,7 +1541,7 @@ public final class KnownFonts implements LifecycleListener {
      * seem to have that problem.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/xms8x9q.png">Image link</a> (uses width=48, height=32)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Tangerine.png">Image link</a> (uses width=48, height=32)
      * <br>
      * Needs files:
      * <ul>
@@ -1581,7 +1581,7 @@ public final class KnownFonts implements LifecycleListener {
      * should be crisp enough when zoomed out. If you need to mix in images such as with {@link #addEmoji(Font)}, you
      * may be better off with {@link #getTangerine()}, the standard-bitmap-font version.
      * <br>
-     * Preview: <a href="https://i.imgur.com/xQFc6qj.png">Image link</a> (uses width=48, height=32, setCrispness(0.375f))
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Tangerine%20(SDF).png">Image link</a> (uses width=48, height=32, setCrispness(0.375f))
      * <br>
      * Needs files:
      * <ul>
@@ -1619,7 +1619,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://i.imgur.com/xVhh4Y0.png">Image link</a> (uses width=26, height=30)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Yanone%20Kaffeesatz.png">Image link</a> (uses width=26, height=30)
      * <br>
      * Needs files:
      * <ul>
@@ -1657,7 +1657,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://i.imgur.com/geuHb3J.png">Image link</a> (uses width=26, height=30, setCrispness(2.5f))
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Yanone%20Kaffeesatz%20(MSDF).png">Image link</a> (uses width=26, height=30, setCrispness(2.5f))
      * <br>
      * Needs files:
      * <ul>
@@ -1698,7 +1698,7 @@ public final class KnownFonts implements LifecycleListener {
      * I don't know who the original author of Yataghan was; if you are the original author and want attribution or want
      * this font removed, please post an issue on the tommyettinger/textratypist GitHub repo, or email tommyettinger.
      * <br>
-     * Preview: <a href="https://i.imgur.com/QwsJJQy.png">Image link</a> (uses width=20, height=32)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Yataghan%20(MSDF).png">Image link</a> (uses width=20, height=32)
      * <br>
      * Needs files:
      * <ul>
@@ -1750,7 +1750,8 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
-     * Preview: <a href="https://i.imgur.com/Mw0fWA7.png">Image link</a> (uses the font {@link #getYanoneKaffeesatz()})
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
+     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
@@ -1792,7 +1793,8 @@ public final class KnownFonts implements LifecycleListener {
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
      * <br>
-     * Preview: <a href="https://i.imgur.com/Mw0fWA7.png">Image link</a> (uses the font {@link #getYanoneKaffeesatz()})
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
+     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
@@ -1838,7 +1840,8 @@ public final class KnownFonts implements LifecycleListener {
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font. It also
      * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
      * <br>
-     * Preview: <a href="https://i.imgur.com/Mw0fWA7.png">Image link</a> (uses the font {@link #getYanoneKaffeesatz()})
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
+     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
@@ -1901,7 +1904,8 @@ public final class KnownFonts implements LifecycleListener {
      * with this. You can, however, make two copies of a Font, add emoji to one and icons to the other, and put both in
      * a FontFamily, so you can access both atlases in the same block of text.
      * <br>
-     * Preview: <a href="https://i.imgur.com/s47OVEU.gif">Animated Image link</a> (uses {@link #getNowAlt()})
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png">Image link</a> (uses
+     * the font {@link #getNowAlt()} and {@code [%?blacken]} mode)
      * <br>
      * You can see all icons and the names they use
      * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">at this GitHub Pages site</a>.
@@ -1941,7 +1945,8 @@ public final class KnownFonts implements LifecycleListener {
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every icon this puts in a Font.
      * <br>
-     * Preview: <a href="https://i.imgur.com/s47OVEU.gif">Animated Image link</a> (uses {@link #getNowAlt()})
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png">Image link</a> (uses
+     * the font {@link #getNowAlt()} and {@code [%?blacken]} mode)
      * <br>
      * You can see all icons and the names they use
      * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">at this GitHub Pages site</a>.
@@ -1986,7 +1991,8 @@ public final class KnownFonts implements LifecycleListener {
      * This overload allows customizing the x/y offsets and x-advance for every icon this puts in a Font. It also
      * allows specifying Strings to prepend before and append after each name in the font.
      * <br>
-     * Preview: <a href="https://i.imgur.com/s47OVEU.gif">Animated Image link</a> (uses {@link #getNowAlt()})
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png">Image link</a> (uses
+     * the font {@link #getNowAlt()} and {@code [%?blacken]} mode)
      * <br>
      * You can see all icons and the names they use
      * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">at this GitHub Pages site</a>.
@@ -2040,7 +2046,8 @@ public final class KnownFonts implements LifecycleListener {
      * both the emoji from {@link #addEmoji(Font)} and the icons from {@link #addGameIcons(Font)} in one Font, but you
      * can swap between two different Fonts in a FontFamily, one with emoji and one with icons.
      * <br>
-     * Preview: <a href="https://i.imgur.com/s47OVEU.gif">Animated Image link</a> (uses {@link #getNowAlt()})
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png">Image link</a> (uses
+     * the font {@link #getNowAlt()} and {@code [%?blacken]} mode)
      * <br>
      * Needs files:
      * <ul>
