@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.KnownFonts;
 import com.github.tommyettinger.textra.TypingLabel;
@@ -37,6 +38,7 @@ public class MinimalGridTest extends ApplicationAdapter {
     private Stage screenStage;
     private Font varWidthFont;
     private ArrayDeque<Container<TypingLabel>> messages = new ArrayDeque<>(30);
+    private ArrayDeque<String> markupMessages = new ArrayDeque<>(30);
     private Table messageGroup;
     private Table root;
 
@@ -45,6 +47,8 @@ public class MinimalGridTest extends ApplicationAdapter {
     private static final int CELL_WIDTH = 32;
     private static final int CELL_HEIGHT = 32;
 
+    private long timeUntilMessage = 1000, startTime = TimeUtils.millis();
+
     private static final String VALID_CHARS = "abcdefghijklmnopqrstuvwxyz" + BlockUtils.ALL_BLOCK_CHARS;
 
     public static void main(String[] args){
@@ -52,7 +56,7 @@ public class MinimalGridTest extends ApplicationAdapter {
         config.setTitle("Traditional Roguelike Map Demo");
         config.setWindowedMode(GRID_WIDTH * CELL_WIDTH, GRID_HEIGHT * CELL_HEIGHT);
         config.disableAudio(true);
-        config.setForegroundFPS(360); // shouldn't need to be any faster
+        config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
         new Lwjgl3Application(new MinimalGridTest(), config);
     }
@@ -154,11 +158,11 @@ public class MinimalGridTest extends ApplicationAdapter {
         regenerate();
         stage.addActor(gg);
 
-        message("[%?blacken]Grumbles Sludgenugget got {VAR=FIRE}{CANNON}obliterated!{RESET}");
-        message("[%?blacken]Crammage Cribbage-Babbage got {VAR=FIRE}{CANNON}obliterated!{RESET}");
-        message("[%?blacken]Hawke 'The Sock' Locke got {VAR=SPUTTERINGFIRE}obliterated!{RESET}");
-        message("[%?blacken]Hyperdeath Slaykiller got {VAR=ZOMBIE}zombified!{RESET}");
-        message("[%?blacken][*]WELCOME[*] to your [/]DOOM[/]!");
+        markupMessages.add("[%?blacken]Grumbles Sludgenugget got {VAR=FIRE}{CANNON}obliterated!{RESET}");
+        markupMessages.add("[%?blacken]Crammage Cribbage-Babbage got {VAR=FIRE}{CANNON}obliterated!{RESET}");
+        markupMessages.add("[%?blacken]Hawke 'The Sock' Locke got {VAR=SPUTTERINGFIRE}obliterated!{RESET}");
+        markupMessages.add("[%?blacken]Hyperdeath Slaykiller got {VAR=ZOMBIE}zombified!{RESET}");
+        markupMessages.add("[%?blacken][*]WELCOME[*] to your [/]DOOM[/]!");
     }
 
     public void move(int x, int y){
@@ -359,6 +363,7 @@ public class MinimalGridTest extends ApplicationAdapter {
             label.restart(markupString);
         }
         else {
+            label.setSize(0f, 0f);
             label.restart(markupString);
         }
         if(con == null)
@@ -373,8 +378,17 @@ public class MinimalGridTest extends ApplicationAdapter {
         root.pack();
     }
 
+    public void processQueue() {
+        if(markupMessages.isEmpty() || TimeUtils.timeSinceMillis(startTime) < timeUntilMessage){
+            return;
+        }
+        message(markupMessages.pollFirst());
+        startTime = TimeUtils.millis();
+    }
+
     @Override
     public void render() {
+        processQueue();
         recolor();
         handleHeldKeys();
         ScreenUtils.clear(Color.BLACK);

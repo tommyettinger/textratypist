@@ -5833,7 +5833,7 @@ public class Font implements Disposable {
      * usually be stored for later without needing repeated computation.
      * <br>
      * This takes a ColorLookup so that it can look up colors given a name or description; if you don't know what to
-     * use, then {@link ColorLookup#INSTANCE} is often perfectly fine. Because this is static, it does
+     * use, then {@link ColorLookup#DESCRIPTIVE} is the default elsewhere. Because this is static, it does
      * not need a Font to be involved.
      *
      * @param chr         a single char to apply markup to
@@ -5890,12 +5890,12 @@ public class Font implements Disposable {
      * usually be stored for later without needing repeated computation.
      * <br>
      * This takes a ColorLookup so that it can look up colors given a name or description; if you don't know what to
-     * use, then {@link ColorLookup#INSTANCE} is often perfectly fine. Because this is static, it does
+     * use, then {@link ColorLookup#DESCRIPTIVE} is the default elsewhere. Because this is static, it does
      * not need a Font to be involved.
      *
      * @param chr         a single char to apply markup to
      * @param markup      a String containing only markup syntax, like "[*][_][RED]" for bold underline in red
-     * @param colorLookup a ColorLookup (often a method reference or {@link ColorLookup#INSTANCE}) to get
+     * @param colorLookup a ColorLookup (often a method reference or {@link ColorLookup#DESCRIPTIVE}) to get
      *                    colors from textual names or descriptions
      * @return a long that encodes the given char with the specified markup
      */
