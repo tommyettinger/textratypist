@@ -20,11 +20,9 @@ import com.github.tommyettinger.textra.TypingLabel;
 import com.github.tommyettinger.textra.utils.BlockUtils;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 
 import static com.badlogic.gdx.Gdx.input;
 import static com.badlogic.gdx.Input.Keys.*;
-import static com.github.tommyettinger.textra.Font.DistanceFieldType.STANDARD;
 
 public class MinimalGridTest extends ApplicationAdapter {
 
@@ -142,12 +140,12 @@ public class MinimalGridTest extends ApplicationAdapter {
         });
 
         messageGroup = new VerticalGroup();
-        messageGroup.left();
+//        messageGroup.bottom().left();
 
         root = new Table();
         root.setFillParent(true);
         Table nest = new Table();
-        nest.add(messageGroup).size(66 * 25 * 0.0995f, 8 * 25);
+        nest.add(messageGroup).size(root.getWidth() * 0.8f, 8 * varWidthFont.cellHeight);
         root.add(nest).bottom().expand();
 
         screenStage.addActor(root);
@@ -155,10 +153,10 @@ public class MinimalGridTest extends ApplicationAdapter {
         regenerate();
         stage.addActor(gg);
 
-        message("[%?blacken]Laĕşudiphiĕşĕşĕşĕşĕşĕş Ghathŕuphighat got {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
-        message("[%?blacken]Haisubhi Markhuśongaipaim got {OCEAN=0.7;1.25;0.11;1.0;0.65}{CANNON}obliterated!{RESET}");
-        message("[%?blacken]Haisubhi Markhuśongaipaim got {OCEAN=0.7;1.25;0.11;1.0;0.65}{SPUTTER=0.2;0.25;4;inf}obliterated!{RESET}");
-        message("[%?blacken]Haisubhi Markhuśongaipaim got {SICK=0.4}{CROWD}{EMERGE=0.1}[dark olive sage]zombified!{RESET}");
+        message("[%?blacken]Grumbles Sludgenugget got {VAR=FIRE}{CANNON}obliterated!{RESET}");
+        message("[%?blacken]Crammage Cribbage-Babbage got {VAR=FIRE}{CANNON}obliterated!{RESET}");
+        message("[%?blacken]Hawke 'The Sock' Locke got {VAR=SPUTTERINGFIRE}obliterated!{RESET}");
+        message("[%?blacken]Hyperdeath Slaykiller got {VAR=ZOMBIE}zombified!{RESET}");
         message("[%?blacken][*]WELCOME[*] to your [/]DOOM[/]!");
     }
 
@@ -285,7 +283,7 @@ public class MinimalGridTest extends ApplicationAdapter {
     }
 
     public void recolor(){
-        int idx = 0;
+//        int idx = 0;
         for (int y = 0; y < GRID_HEIGHT; y++) {
             for (int x = 0; x < GRID_WIDTH; x++) {
                 char c = dungeon[x][y];
@@ -297,7 +295,8 @@ public class MinimalGridTest extends ApplicationAdapter {
                         gg.backgrounds[x][y] = 0x808080FF |
                                 (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
                                         * 0x01010100;
-                        gg.put(x, y, VALID_CHARS.charAt(idx++ * idx % VALID_CHARS.length()), 0x444444FF);
+                        gg.put(x, y, '.', 0x444444FF);
+//                        gg.put(x, y, VALID_CHARS.charAt(idx++ * idx % VALID_CHARS.length()), 0x444444FF);
                         break;
                     default:
                         gg.backgrounds[x][y] = 0x808080FF |
@@ -335,11 +334,11 @@ public class MinimalGridTest extends ApplicationAdapter {
     public void message(String markupString) {
         TypingLabel label = null;
         Container<TypingLabel> con = null;
-        int tall = 0;
+        float tall = 0;
         for(Container<TypingLabel> c : messages){
             tall += c.getHeight();
         }
-        while(tall >= 8 * 25){
+        while(tall > 8 * varWidthFont.cellHeight){
             con = messages.removeFirst();
             label = con.getActor();
             messageGroup.removeActor(con);
@@ -364,9 +363,9 @@ public class MinimalGridTest extends ApplicationAdapter {
         {
             con = new Container<>(label);
         }
-        con.prefWidth(66 * 25 * 0.0995f);
+        con.prefWidth(root.getWidth() * 0.8f);
         label.debug();
-        label.setAlignment(Align.bottomLeft);
+//        label.setAlignment(Align.bottomLeft);
         messages.addLast(con);
         messageGroup.addActor(con);
         root.pack();
