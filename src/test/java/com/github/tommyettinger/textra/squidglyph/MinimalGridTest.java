@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.github.tommyettinger.textra.Font;
@@ -36,7 +37,7 @@ public class MinimalGridTest extends ApplicationAdapter {
     private Stage screenStage;
     private Font varWidthFont;
     private ArrayDeque<Container<TypingLabel>> messages = new ArrayDeque<>(30);
-    private VerticalGroup messageGroup;
+    private Table messageGroup;
     private Table root;
 
     private static final int GRID_WIDTH = 40;
@@ -139,14 +140,14 @@ public class MinimalGridTest extends ApplicationAdapter {
             }
         });
 
-        messageGroup = new VerticalGroup();
-//        messageGroup.bottom().left();
+        messageGroup = new Table().background(new TextureRegionDrawable(varWidthFont.mapping.get(varWidthFont.solidBlock)).tint(new Color(0.1f, 0.1f, 0.1f, 0.6f)));
+        messageGroup.left();
 
         root = new Table();
         root.setFillParent(true);
         Table nest = new Table();
         nest.add(messageGroup).size(root.getWidth() * 0.8f, 8 * varWidthFont.cellHeight);
-        root.add(nest).bottom().expand();
+        root.add(nest).bottom().expand().padBottom(25f);
 
         screenStage.addActor(root);
 
@@ -353,10 +354,11 @@ public class MinimalGridTest extends ApplicationAdapter {
         {
             label = new TypingLabel("", varWidthFont);
             label.setWrap(true);
+            label.setMaxLines(1);
+            label.setEllipsis("...");
             label.restart(markupString);
         }
         else {
-            label.setSize(0, 0);
             label.restart(markupString);
         }
         if(con == null)
@@ -365,9 +367,9 @@ public class MinimalGridTest extends ApplicationAdapter {
         }
         con.prefWidth(root.getWidth() * 0.8f);
         label.debug();
-//        label.setAlignment(Align.bottomLeft);
+        label.setAlignment(Align.bottomLeft);
         messages.addLast(con);
-        messageGroup.addActor(con);
+        messageGroup.add(con).row();
         root.pack();
     }
 
