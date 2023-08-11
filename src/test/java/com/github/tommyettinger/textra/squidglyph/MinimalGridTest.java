@@ -144,15 +144,15 @@ public class MinimalGridTest extends ApplicationAdapter {
             }
         });
 
-        messageGroup = new Table().background(new TextureRegionDrawable(varWidthFont.mapping.get(varWidthFont.solidBlock)).tint(new Color(0.1f, 0.1f, 0.1f, 0.6f)));
+        messageGroup = new Table().background(new TextureRegionDrawable(varWidthFont.mapping.get(varWidthFont.solidBlock)).tint(new Color(0.1f, 0.1f, 0.1f, 0.5f)));
         messageGroup.left();
 
         root = new Table();
         root.setFillParent(true);
         Table nest = new Table();
-        nest.add(messageGroup).size(root.getWidth() * 0.8f, 8 * varWidthFont.cellHeight);
+        nest.add(messageGroup).size(screenStage.getWidth() * 0.8f, 8 * varWidthFont.cellHeight);
         root.add(nest).bottom().expand().padBottom(25f);
-
+        root.pack();
         screenStage.addActor(root);
 
         regenerate();
@@ -347,12 +347,12 @@ public class MinimalGridTest extends ApplicationAdapter {
             con = messages.removeFirst();
             label = con.getActor();
             messageGroup.removeActor(con);
-            messageGroup.pack();
             tall = 0;
             for(Container<TypingLabel> c : messages){
                 tall += c.getHeight();
             }
         }
+        messageGroup.pack();
 
         if(label == null)
         {
@@ -370,7 +370,7 @@ public class MinimalGridTest extends ApplicationAdapter {
         {
             con = new Container<>(label);
         }
-        con.prefWidth(root.getWidth() * 0.8f);
+        con.prefWidth(screenStage.getWidth() * 0.8f);
         label.debug();
         label.setAlignment(Align.bottomLeft);
         messages.addLast(con);
