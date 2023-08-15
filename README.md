@@ -34,8 +34,8 @@ between two colors, or go across a whole rainbow. Lots of options; lots of fun. 
 typing-label, but there have been some changes. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
 for more information.
 
-As of 0.8.3, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
-Rotate, Attention, Highlight, Link, Trigger, Stylist, Cannon, and Ocean are all new to TextraTypist (not in
+As of 0.9.0, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
+Rotate, Attention, Highlight, Link, Trigger, Stylist, Cannon, Ocean, and Sputter are all new to TextraTypist (not in
 typing-label). You can see usage instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
 make use of the smooth scaling and rotation options that effects can use starting in TextraTypist 0.5.1 . Some make use
@@ -147,6 +147,11 @@ The special modes that can be used in place of scaling are:
 
 The small caps mode can be used with any of the other modes except for jostle, by changing `%?` to `%^`. Other than
 that, no two modes can be active at the same time, and no modes can be used at the same time as scaling.
+
+The special modes are a bit overcomplicated in terms of syntax because I ran out of punctuation I could use.
+The common example of a black outline around white text can be achieved with `[WHITE][%?blacken]Outlined![%][GRAY]`.
+(The example uses `GRAY` as the normal color, but you could also use `[]` to reset the color to whatever base color was
+configured on a `Layout` or the label that holds it. Note that `[]` also resets size, mode, and pretty much everything.)
 
 Several combinations of effects are available using the `{VAR=ZOMBIE}urgh, brains...{VAR=ENDZOMBIE}` syntax:
 
@@ -274,31 +279,18 @@ user input and can use animated styles like `{RAINBOW}`.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.8.3"
-```
-
-Or for the latest alpha or beta release,
-
-```groovy
-implementation "com.github.tommyettinger:textratypist:0.9.0-a3"
+implementation "com.github.tommyettinger:textratypist:0.9.0"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.12.0 or higher. A requirement for 1.11.0
 was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code in libGDX. The requirement for 1.12.0
-was added in the 0.9.0 alpha versions because some things probably changed, but 1.12.0 (or the subsequent SNAPSHOT
-releases) should be pretty easy to update to.
+was added in 0.9.0 because some things probably changed, but 1.12.0 (or the subsequent SNAPSHOT releases) should be
+pretty easy to update to.
 
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.8.3:sources"
-implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
-```
-
-Or for the latest alpha or beta release,
-
-```groovy
-implementation "com.github.tommyettinger:textratypist:0.9.0-a3:sources"
+implementation "com.github.tommyettinger:textratypist:0.9.0:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 ```
 
@@ -449,7 +441,7 @@ artifact covered immediately above. Instead of "AutoSlight", "AutoMedium", or "A
 don't have any idea why this happens, but because hinting can be set either in the FreeType generator parameters or (if
 you use [Stripe](https://github.com/raeleus/stripe)) set in a Skin file with `"hinting": "Full"`, it isn't hard to fix.
 
-There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 through 0.8.3. You may see labels
+There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 through 0.9.0. You may see labels
 slide a little relatively to their backgrounds when rotated smoothly, and some (typically very small) fonts may need
 integer positions enabled to keep a stable baseline. Font debug lines may be quite incorrect in some of these versions,
 also, even if the text displays correctly to users. Scaling has improved significantly in 0.7.8, as has the handling of
@@ -460,6 +452,10 @@ images from an atlas have improved in 0.8.2, so selecting text shouldn't cover u
 emoji should be fully surrounded by their selection background. Positions along the line vertically, while the text is
 scaled, improved in 0.8.3 so that the scaling is relative to the center of the line, rather than the bottom of the line.
 Some other code already expected scaling to be centered like that, so this change makes scaling look better, usually.
+In 0.9.0, integer positioning can still be set, but it does nothing; in practice, setting it was causing more problems
+than improvements. The few fonts that one would think would need integer positions (pixel fonts) actually look better
+without it. There are still some rotation issues in 0.9.0, though they mostly happen when the descent is configured to
+an extreme value, or sometimes other metrics. Lining up underline/strikethrough with rotated text is also a challenge.
 
 Word wrap periodically seems to break and need fixing across different releases. The most recent time this happened was
 in 0.7.9, which also affected 0.8.0 and was fixed (I hope) in 0.8.1. A different wrapping-related bug was fixed more
