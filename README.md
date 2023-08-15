@@ -467,6 +467,20 @@ twofold: first, breaking words without proper hyphenation logic can change the m
 fixing this could be a ton of work. I do intend to try to make this configurable and match `Label` by default in some
 near-future version.
 
+A possibly-frequent issue (with an easy fix) that may start occurring with version 0.9.0 and later is that TextraTypist
+now requires Java 8 or higher. All modern desktop OSes support Java 8, and this has been true for 9 years. Android has
+supported Java 8 (language level, though only some APIs) for several years, and older versions can use "desugaring" to
+translate more-recent Java code to be compatible with (much) older Android versions. GWT has supported language level 8
+for years, as well; 2.8.2, which libGDX is built with, allows using Java 8 features, and 2.10.0, which
+[an alternate libGDX backend](https://github.com/tommyettinger/gdx-backends) supports, allows using even more. RoboVM
+doesn't support any new APIs added in Java 8, but it has supported language level 8 from the start. TextraTypist doesn't
+use any APIs from Java 8, but does now use functional interfaces and method references. Having these features allows us
+to remove some nasty reflection-based code, and that in turn helps usage on platforms where reflection is limited, such
+as GWT and Graal Native Image. GWT was able to work before, but Graal Native Image would have needed a lot of
+configuration to be added for every game/app that used TextraTypist. The other issue is that if TextraTypist continued
+to target Java 7 for its library code, it wouldn't compile with Java 20 or later, and the LTS release 21 is coming very
+soon.
+
 ## License
 
 This is based very closely on [typing-label](https://github.com/rafaskb/typing-label), by Rafa Skoberg.

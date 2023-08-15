@@ -16,6 +16,7 @@
 
 package com.github.tommyettinger.textra.utils;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.NumberUtils;
 
 /**
@@ -25,6 +26,10 @@ public class NoiseUtils {
     /**
      * Quilez' 1D noise, with some changes to work on the CPU. Takes a distance x and any int seed, and produces a
      * smoothly-changing value as x goes up or down and seed stays the same. Uses a quartic curve.
+     * <br>
+     * The distance ({@code x}) should be between -16384 and 1073733631 for this to return correct results.
+     * Because floats incur precision loss earlier than 1073733631, the actual upper bound is lower. The limit of
+     * -8192 comes from how this uses {@link MathUtils#floor(float)} internally on {@code x + x}.
      *
      * @param x    should go up and/or down steadily and by small amounts (less than 1.0, certainly)
      * @param seed should stay the same for a given curve
@@ -32,8 +37,8 @@ public class NoiseUtils {
      */
     public static float noise1D(float x, final int seed) {
         x += seed * 0x1p-24f;
-        final int xFloor = x >= 0f ? (int) x : (int) x - 1,
-                rise = 1 - ((x >= 0f ? (int) (x + x) : (int) (x + x) - 1) & 2);
+        final int xFloor = MathUtils.floor(x),
+                rise = 1 - (MathUtils.floor(x + x) & 2);
         x -= xFloor;
         // gets a random float between -16 and 16. Magic.
         final float h = NumberUtils.intBitsToFloat((int) ((seed + xFloor ^ 0x9E3779B97F4A7C15L) * 0xD1B54A32D192ED03L >>> 41) | 0x42000000) - 48f;
