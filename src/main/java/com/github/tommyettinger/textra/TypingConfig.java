@@ -75,18 +75,18 @@ public class TypingConfig {
      * Defines several default variables with names in {@code ALLCAPS} with no separators, all of them creating effects
      * with complex parameters or combining multiple effects. The variables this defines:
      * <ul>
-     *     <li><code>{VAR=FIRE}</code> changes the the following text to have fiery changing colors. You can end it with
+     *     <li><code>{VAR=FIRE}</code> changes the following text to have fiery changing colors. You can end it with
      *     <code>{VAR=ENDFIRE}</code>.</li>
-     *     <li><code>{VAR=SPUTTERINGFIRE}</code> changes the the following text to have fiery changing colors and resize
+     *     <li><code>{VAR=SPUTTERINGFIRE}</code> changes the following text to have fiery changing colors and resize
      *     like popping flames. You can end it with <code>{VAR=ENDSPUTTERINGFIRE}</code>.</li>
-     *     <li><code>{VAR=BLIZZARD}</code> changes the the following text to waver in the wind and use icy colors,
+     *     <li><code>{VAR=BLIZZARD}</code> changes the following text to waver in the wind and use icy colors,
      *     white to light blue. You can end it with <code>{VAR=ENDBLIZZARD}</code>.</li>
-     *     <li><code>{VAR=SHIVERINGBLIZZARD}</code> changes the the following text to waver in the wind and use icy
+     *     <li><code>{VAR=SHIVERINGBLIZZARD}</code> changes the following text to waver in the wind and use icy
      *     colors, white to light blue, plus it will randomly make glyphs "shiver" as if cold. You can end it with
      *     <code>{VAR=ENDSHIVERINGBLIZZARD}</code>.</li>
-     *     <li><code>{VAR=ELECTRIFY}</code> changes the the following text to be a dull gray purple color and randomly
+     *     <li><code>{VAR=ELECTRIFY}</code> changes the following text to be a dull gray purple color and randomly
      *     makes glyphs turn light yellow and vibrate around. You can end it with <code>{VAR=ENDELECTRIFY}</code>.</li>
-     *     <li><code>{VAR=ZOMBIE}</code> changes the the following text to be "dark olive sage" (a dull gray-green
+     *     <li><code>{VAR=ZOMBIE}</code> changes the following text to be "dark olive sage" (a dull gray-green
      *     color), makes glyphs rotate left and right slowly and randomly, makes glyphs drop down and get back up
      *     randomly, and when they first appear, has the glyphs emerge from the baseline (as if clawing out of a grave).
      *     You can end it with <code>{VAR=ENDZOMBIE}</code>.</li>

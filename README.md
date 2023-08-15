@@ -148,6 +148,35 @@ The special modes that can be used in place of scaling are:
 The small caps mode can be used with any of the other modes except for jostle, by changing `%?` to `%^`. Other than
 that, no two modes can be active at the same time, and no modes can be used at the same time as scaling.
 
+Several combinations of effects are available using the `{VAR=ZOMBIE}urgh, brains...{VAR=ENDZOMBIE}` syntax:
+
+ - `{VAR=FIRE}` changes the following text to have fiery changing colors. You can end it with
+   `{VAR=ENDFIRE}`.
+ - `{VAR=SPUTTERINGFIRE}` changes the following text to have fiery changing colors and resize
+   like popping flames. You can end it with `{VAR=ENDSPUTTERINGFIRE}`.
+ - `{VAR=BLIZZARD}` changes the following text to waver in the wind and use icy colors,
+   white to light blue. You can end it with `{VAR=ENDBLIZZARD}`.
+ - `{VAR=SHIVERINGBLIZZARD}` changes the following text to waver in the wind and use icy
+   colors, white to light blue, plus it will randomly make glyphs "shiver" as if cold. You can end it with
+   `{VAR=ENDSHIVERINGBLIZZARD}`.
+ - `{VAR=ELECTRIFY}` changes the following text to be a dull gray purple color and randomly
+   makes glyphs turn light yellow and vibrate around. You can end it with `{VAR=ENDELECTRIFY}`.
+ - `{VAR=ZOMBIE}` changes the following text to be "dark olive sage" (a dull gray-green
+   color), makes glyphs rotate left and right slowly and randomly, makes glyphs drop down and get back up
+   randomly, and when they first appear, has the glyphs emerge from the baseline (as if clawing out of a grave).
+   You can end it with `{VAR=ENDZOMBIE}`.
+
+These are defined in `TypingConfig.initializeGlobalVars()`, and you can define your own combinations in
+exactly the same way these are defined. For example, `FIRE` is defined with
+```java
+        TypingConfig.GLOBAL_VARS.put("FIRE", "{OCEAN=0.7;1.25;0.11;1.0;0.65}");
+        TypingConfig.GLOBAL_VARS.put("ENDFIRE", "{ENDOCEAN}");
+```
+
+The `OCEAN` effect doesn't care what colors it uses; it only defines an approximate pattern for how to transition
+between those colors. That means, counterintuitively, `FIRE` is best implemented with `OCEAN` rather than `GRADIENT`.
+Using the name `FIRE` is probably preferable to `OCEAN`, though, so the global var is here for that reason.
+
 ## But wait, there's fonts!
 
 Textratypist makes heavy use of its new `Font` class, which is a full overhaul of libGDX's BitmapFont that shares
@@ -435,6 +464,12 @@ Some other code already expected scaling to be centered like that, so this chang
 Word wrap periodically seems to break and need fixing across different releases. The most recent time this happened was
 in 0.7.9, which also affected 0.8.0 and was fixed (I hope) in 0.8.1. A different wrapping-related bug was fixed more
 recently, in 0.8.3 ; this was rare, and only affected TypingLabel when some effects were present.
+
+There's other issues with word wrap if you expect it to behave exactly like `Label` in libGDX. Here, we don't break
+words, even if a single word is longer than the width of a `TextraLabel` or `TypingLabel`. The reason for this is
+twofold: first, breaking words without proper hyphenation logic can change the meaning of those words, and second,
+fixing this could be a ton of work. I do intend to try to make this configurable and match `Label` by default in some
+near-future version.
 
 ## License
 
