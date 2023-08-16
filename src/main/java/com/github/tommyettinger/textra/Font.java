@@ -864,6 +864,7 @@ public class Font implements Disposable {
     private final float[] vertices = new float[20];
     private final Layout tempLayout = new Layout();
     private final LongArray glyphBuffer = new LongArray(128);
+    private final LongArray historyBuffer = new LongArray(64);
     /**
      * Must be in lexicographic order because we use {@link Arrays#binarySearch(char[], int, int, char)} to
      * verify if a char is present.
@@ -4757,6 +4758,7 @@ public class Font implements Disposable {
                 }
                 char after = eq + 1 >= end ? '\u0000' : text.charAt(eq + 1);
                 if (start + 1 == end || "RESET".equalsIgnoreCase(safeSubstring(text, start + 1, end))) {
+                    historyBuffer.add(current);
                     scale = 3;
                     font = this;
                     fontIndex = 0;
@@ -4764,18 +4766,21 @@ public class Font implements Disposable {
                 } else if (after == '^' || after == '=' || after == '.') {
                     switch (after) {
                         case '^':
+                            historyBuffer.add(current);
                             if ((current & SUPERSCRIPT) == SUPERSCRIPT)
                                 current &= ~SUPERSCRIPT;
                             else
                                 current |= SUPERSCRIPT;
                             break;
                         case '.':
+                            historyBuffer.add(current);
                             if ((current & SUPERSCRIPT) == SUBSCRIPT)
                                 current &= ~SUBSCRIPT;
                             else
                                 current = (current & ~SUPERSCRIPT) | SUBSCRIPT;
                             break;
                         case '=':
+                            historyBuffer.add(current);
                             if ((current & SUPERSCRIPT) == MIDSCRIPT)
                                 current &= ~MIDSCRIPT;
                             else
@@ -4783,6 +4788,7 @@ public class Font implements Disposable {
                             break;
                     }
                 } else if (fontChange >= 0 && family != null) {
+                    historyBuffer.add(current);
                     fontIndex = family.fontAliases.get(safeSubstring(text, fontChange + 1, end), -1);
                     if (fontIndex == -1) {
                         font = this;
@@ -4795,6 +4801,7 @@ public class Font implements Disposable {
                         }
                     }
                 } else if (sizeChange >= 0) {
+                    historyBuffer.add(current);
                     if (sizeChange + 1 == end) {
                         if (eq + 1 == sizeChange) {
                             scale = 3;
@@ -4813,15 +4820,30 @@ public class Font implements Disposable {
                 c = '[';
                 if (++i < n && (c = text.charAt(i)) != '[' && c != '+') {
                     if (c == ']') {
-                        color = baseColor;
-                        current = color & ~SUPERSCRIPT;
-                        scale = 3;
-                        font = this;
-                        capitalize = false;
-                        capsLock = false;
-                        lowerCase = false;
+                        if(historyBuffer.isEmpty()) {
+                            color = baseColor;
+                            current = color & ~SUPERSCRIPT;
+                            scale = 3;
+                            font = this;
+                            capitalize = false;
+                            capsLock = false;
+                            lowerCase = false;
+                        } else {
+                            current = historyBuffer.pop();
+                            scale = (int)((current & 0x1f00000L) >>> 20);
+                            if (family == null) {
+                                font = this;
+                                fontIndex = 0;
+                            }
+                            else {
+                                fontIndex = (int) ((current & 0xFFFFFFFFFFF0FFFFL) >>> 16);
+                                font = family.connected[fontIndex & 15];
+                                if (font == null) font = this;
+                            }
+                        }
                         continue;
                     }
+                    historyBuffer.add(current);
                     int len = text.indexOf(']', i) - i;
                     if (len < 0) break;
                     switch (c) {
@@ -4947,6 +4969,15 @@ public class Font implements Disposable {
                             else color = (long) lookupColor << 32;
                             current = (current & ~COLOR_MASK) | color;
                             break;
+                        case ' ':
+                            color = baseColor;
+                            current = color & ~SUPERSCRIPT;
+                            scale = 3;
+                            font = this;
+                            capitalize = false;
+                            capsLock = false;
+                            lowerCase = false;
+                            break;
                         default:
                             // attempt to look up a known Color name with a ColorLookup
                             int gdxColor = colorLookup.getRgba(safeSubstring(text, i, i + len)) & 0xFFFFFFFE;
@@ -4967,7 +4998,6 @@ public class Font implements Disposable {
                             c = font.nameLookup.get(safeSubstring(text, i + 1, i + len), '+');
                             i += len;
                             scaleX = (scale + 1) * 0.25f * font.cellHeight / (font.mapping.get(c, font.defaultValue).xAdvance);
-//                            scaleX = (scale + 1) * 0.25f * font.cellHeight / (font.mapping.get(c, font.defaultValue).xAdvance*1.25f);
                         }
                     }
                     if (font.kerning == null) {
@@ -4986,8 +5016,8 @@ public class Font implements Disposable {
                             float ox = font.mapping.get(c, font.defaultValue).offsetX;
                             if(ox != ox) ox = 0;
                             else ox *= scaleX;
-                                ox *= (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
-                                if (ox < 0) w = (appendTo.peekLine().width -= ox);
+                            ox *= (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
+                            if (ox < 0) w = (appendTo.peekLine().width -= ox);
                         }
                         initial = false;
                     }
