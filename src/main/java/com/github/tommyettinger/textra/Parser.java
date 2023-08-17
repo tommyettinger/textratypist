@@ -51,7 +51,7 @@ public class Parser {
      * @return {@code text} with square bracket style markup changed to curly-brace style markup
      */
     public static String preprocess(CharSequence text) {
-        return MARKUP_TO_TAG.replace(text).replace("[ ]", "{RESET}");
+        return MARKUP_TO_TAG.replace(text).replace("[ ]", "{RESET}").replace("[]", "{UNDO}");
     }
 
     /**
@@ -168,6 +168,9 @@ public class Parser {
                     break;
                 case RESET:
                     replacement = RESET_REPLACEMENT + label.getDefaultToken();
+                    break;
+                case UNDO:
+                    replacement = "[]";
                     break;
                 default:
                     // We don't want to process this token now. Move one index forward to continue the search
@@ -469,7 +472,7 @@ public class Parser {
      */
     public static String stringToStyleMarkup(String str) {
         if (str != null) {
-            if(str.isEmpty())
+            if(str.isEmpty() || str.equalsIgnoreCase("UNDO"))
                 return "[]";
             if (str.equals(" "))
                 return "[ ]";

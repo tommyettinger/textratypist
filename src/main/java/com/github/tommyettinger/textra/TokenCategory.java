@@ -26,5 +26,6 @@ public enum TokenCategory {
     RESET,
     SKIP,
     EFFECT_START,
-    EFFECT_END
+    EFFECT_END,
+    UNDO
 }

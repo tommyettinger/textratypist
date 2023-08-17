@@ -4840,7 +4840,7 @@ public class Font implements Disposable {
                                 fontIndex = 0;
                             }
                             else {
-                                fontIndex = (int) ((current & 0xFFFFFFFFFFF0FFFFL) >>> 16);
+                                fontIndex = (int) ((current & 0xF0000L) >>> 16);
                                 font = family.connected[fontIndex & 15];
                                 if (font == null) font = this;
                             }
