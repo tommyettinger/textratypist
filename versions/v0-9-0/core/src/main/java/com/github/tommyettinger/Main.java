@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.KnownFonts;
@@ -20,7 +21,10 @@ public class Main extends ApplicationAdapter {
     public void create() {
         stage = new Stage();
         font = KnownFonts.getRobotoCondensed();
-        TextraLabel label = new TextraLabel("Texttexttextte xtext text t e x t text text text text", font);
+        Array<TextraLabel> labels = new Array<>(new TextraLabel[]{
+                new TextraLabel("Texttexttextte xtext text t e x t text text text text", font)
+        });
+        TextraLabel label = labels.get(0);
         label.setWrap(true);
         label.setWidth(200);
         label.setAlignment(Align.bottomLeft);
