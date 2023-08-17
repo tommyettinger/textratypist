@@ -131,13 +131,13 @@ public class GridTest extends ApplicationAdapter {
 //
         font.markup(
 //                "Test"
-                "Test [*]TEST [/]Test [*]TEST[][.]test [=]Test [^]TEST [][_]Test [~]test[_] Test[]"
-                        + "\nThe [#800000]MAW[] of the [/][#66DDFF]wendigo[/] (wendigo)[] [*]appears[*]!"
-                        + "\nThe [_][#666666]BLADE[] of [*][/][#FFFF44]DYNAST-KINGS[] strikes!"
-                        + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[], [?]Unknown[]?"
-                        + "\n[#BBAA44]φ[] = (1 + 5[^]0.5[^]) * 0.5"
-                        + "\n[#FF8822]¿Qué son estos? ¡Arribate, mijo![]"
-                        + "\nPchnąć[] w tę łódź [#775522]jeża[] lub ośm skrzyń [#CC00CC]fig[]."
+                "Test [*]TEST [/]Test [*]TEST[ ][.]test [=]Test [^]TEST [ ][_]Test [~]test[_] Test[ ]"
+                        + "\nThe [#800000]MAW[ ] of the [/][#66DDFF]wendigo[/] (wendigo)[ ] [*]appears[*]!"
+                        + "\nThe [_][#666666]BLADE[ ] of [*][/][#FFFF44]DYNAST-KINGS[ ] strikes!"
+                        + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[ ], [?]Unknown[ ]?"
+                        + "\n[#BBAA44]φ[ ] = (1 + 5[^]0.5[^]) * 0.5"
+                        + "\n[#FF8822]¿Qué son estos? ¡Arribate, mijo![ ]"
+                        + "\nPchnąć[ ] w tę łódź [#775522]jeża[ ] lub ośm skrzyń [#CC00CC]fig[ ]."
                 , layout);
 
         marquee = new TypingLabel("{ROTATE=100}[/]{HIGHLIGHT=lightest magenta;1;1;1;0.5;true}EAT AT JOE'S{ENDHIGHLIGHT}", font);
@@ -148,7 +148,7 @@ public class GridTest extends ApplicationAdapter {
         marquee.setPosition(64, 350);
         marquee.skipToTheEnd();
         marquee.setRotation(-100f);
-        link = new TypingLabel("Welcome to [sky]{STYLIST=0;1;1;0;0;1}TextraTypist[], for text stuff.", font);
+        link = new TypingLabel("Welcome to [sky]{STYLIST=0;1;1;0;0;1}TextraTypist[ ], for text stuff.", font);
 //        link = new TypingLabel("Welcome to [sky][_]{LINK=https://github.com/tommyettinger/textratypist}TextraTypist[], for text stuff.", font);
 //        link.parseTokens();
         link.setWidth(Gdx.graphics.getBackBufferWidth());

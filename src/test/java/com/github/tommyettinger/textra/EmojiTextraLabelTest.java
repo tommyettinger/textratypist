@@ -83,7 +83,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
 //        final TextraLabel label = new TextraLabel(
         final TextraLabel label = new TextraLabel(
 //                "Yay! [+saxophone][+😍][+🎷] "
-                "[+⚖] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![]"
+                "[+⚖] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]"
                 ,
 //
 //                "I love TextraTypist! 😀\n" +

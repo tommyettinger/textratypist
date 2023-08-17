@@ -133,7 +133,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin, "title", title);
 		fpsLabel.setAlignment(Align.topLeft);
 		// configures an example of a TextField in password mode.
-		passwordLabel = new TypingLabel("Textfield in [~]secure[] password mode [+ninja][+ninja][+ninja]: ", skin, "title", font);
+		passwordLabel = new TypingLabel("Textfield in [~]secure[ ] password mode [+ninja][+ninja][+ninja]: ", skin, "title", font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');

@@ -471,6 +471,8 @@ public class Parser {
         if (str != null) {
             if(str.isEmpty())
                 return "[]";
+            if (str.equals(" "))
+                return "[ ]";
             if (str.equals("*") || str.equalsIgnoreCase("B") || str.equalsIgnoreCase("BOLD") || str.equalsIgnoreCase("STRONG"))
                 return "[*]";
             if (str.equals("/") || str.equalsIgnoreCase("I") || str.equalsIgnoreCase("OBLIQUE") || str.equalsIgnoreCase("ITALIC"))

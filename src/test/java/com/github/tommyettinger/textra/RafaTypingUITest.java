@@ -125,7 +125,7 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 		fpsLabel = new com.rafaskoberg.gdx.typinglabel.TypingLabel("fps: {VAR=fps}", skin);
 		fpsLabel.setAlignment(Align.topLeft);
 		// configures an example of a TextField in password mode.
-		final com.rafaskoberg.gdx.typinglabel.TypingLabel passwordLabel = new com.rafaskoberg.gdx.typinglabel.TypingLabel("Textfield in [~]secure[] password mode: ", skin);
+		final com.rafaskoberg.gdx.typinglabel.TypingLabel passwordLabel = new com.rafaskoberg.gdx.typinglabel.TypingLabel("Textfield in [~]secure[ ] password mode: ", skin);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');

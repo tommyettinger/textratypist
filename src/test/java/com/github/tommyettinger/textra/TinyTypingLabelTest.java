@@ -165,13 +165,13 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                        "Retro", "Slab", "Handwriting", "Canada", "Cozette", "Iosevka",
 //                        "Medieval", "Future", "Console", "Code"
 
-                "{JOLT=1;1.2;inf;0.3;dull lavender;light butter}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
+                "{JOLT=1;1.2;inf;0.3;dull lavender;light butter}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[], " +
 //                "{OCEAN=0.7;1.25;0.11;1.0;0.65}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
 //                "she's{WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
                 "she's{VAR=SHIVERINGBLIZZARD} blowin' on down{RESET}, " +
-                "[@Handwriting]whippin'[@] her [@Slab]way[@] through the [*]{FONT=Sans}whole dang[@][*] town! " +
-                "[@Iosevka]Sure[@] as [/]I reckon[], if we [@Mono]meet our [@Cozette]{HANG}fate[@]{RESET}, " +
-                "this [light grey black][%125]storm[] will be [@Canada]there[@] on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%150]eight[%]{ENDSPIN}! " +
+                "[@Handwriting]whippin'[] her [@Slab]way[] through the [*]{FONT=Sans}whole dang[][] town! " +
+                "[@Iosevka]Sure[@] as [/]I reckon[ ], if we [@Mono]meet our [@Cozette]{HANG}fate[@]{RESET}, " +
+                "this [light grey black][%125]storm[ ] will be [@Canada]there[@] on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%150]eight[%]{ENDSPIN}! " +
 //                "Should a young 'un go out, in the wind and the thunder, " +
 //                "if they make it back, it will be a [%^]true wonder[%]!",
                 "Should a [@Retro]young[@] {IF=gender;m=lad;f=lass;t='un;e=[+🧒]} go [@Code]out[@], in the [@Humanist]wind[@] and [@Geometric]the {SHAKE=;;2}thunder{ENDSHAKE}[@], " +

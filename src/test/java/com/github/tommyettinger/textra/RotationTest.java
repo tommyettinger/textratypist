@@ -112,14 +112,14 @@ public class RotationTest extends ApplicationAdapter {
 //        font.markup("\n[*]Водяной[] — в славянской мифологии дух, обитающий в воде, хозяин вод[^][BLUE][[2][]."
 //                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][[citation needed][].", layout);
 //
-        font.markup("Test [*]TEST [/]Test [*]TEST[][.]test [=]Test [^]TEST [][_]Test [~]te[RED]s[WHITE]t[_] Test[]"
-                        + "\n┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬[RED]┴[]┬┴"
-                        + "\nThe [#800000]MAW[] of the [/][#66DDFF]wendigo[/][] ([~]wendigo[]) [*]appears[*]!"
-                        + "\nThe [_][#666666]BLADE[] of [*][/][#FFFF44]DYNAST-KINGS[] strikes!"
-                        + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[], [?]Unknown[]?"
-                        + "\n[#BBAA44]φ[] = (1 + 5[^]0.5[^]) * 0.5 ┼┌─┤"
-                        + "\n[#FF8822]¿Qué son estos? ¡Arribate, mijo![]"
-                        + "\nPchnąć[] w tę łódź [#775522]jeża[] lub ośm skrzyń [#CC00CC]fig[]."
+        font.markup("Test [*]TEST [/]Test [*]TEST[ ][.]test [=]Test [^]TEST [ ][_]Test [~]te[RED]s[WHITE]t[_] Test[ ]"
+                        + "\n┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬[RED]┴[ ]┬┴"
+                        + "\nThe [#800000]MAW[ ] of the [/][#66DDFF]wendigo[/][ ] ([~]wendigo[ ]) [*]appears[*]!"
+                        + "\nThe [_][#666666]BLADE[ ] of [*][/][#FFFF44]DYNAST-KINGS[ ] strikes!"
+                        + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[ ], [?]Unknown[ ]?"
+                        + "\n[#BBAA44]φ[ ] = (1 + 5[^]0.5[^]) * 0.5 ┼┌─┤"
+                        + "\n[#FF8822]¿Qué son estos? ¡Arribate, mijo![ ]"
+                        + "\nPchnąć[ ] w tę łódź [#775522]jeża[ ] lub ośm skrzyń [#CC00CC]fig[ ]."
                 , layout);
 
 //        font.markup("\"You are ever more the [/]fool[/] than the pitiable cutpurse who [*]dares waylay[*] my castle road!\" the [dark rich gold]King[] admonished."

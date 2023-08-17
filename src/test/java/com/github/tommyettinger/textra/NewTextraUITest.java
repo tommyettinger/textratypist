@@ -132,7 +132,7 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 		fpsLabel = new TextraLabel("fps:", skin, font);
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
-		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[] password mode: ", font);
+		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[ ] password mode: ", font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');

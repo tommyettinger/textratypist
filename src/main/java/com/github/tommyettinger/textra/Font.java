@@ -4724,6 +4724,8 @@ public class Font implements Disposable {
         appendTo.peekLine().height = 0;
         float targetWidth = appendTo.getTargetWidth();
         int kern = -1;
+        historyBuffer.clear();
+
         for (int i = 0, n = text.length(); i < n; i++) {
             scaleX = font.scaleX * (scale + 1) * 0.25f;
 
@@ -4766,21 +4768,21 @@ public class Font implements Disposable {
                 } else if (after == '^' || after == '=' || after == '.') {
                     switch (after) {
                         case '^':
-                            historyBuffer.add(current);
+//                            historyBuffer.add(current);
                             if ((current & SUPERSCRIPT) == SUPERSCRIPT)
                                 current &= ~SUPERSCRIPT;
                             else
                                 current |= SUPERSCRIPT;
                             break;
                         case '.':
-                            historyBuffer.add(current);
+//                            historyBuffer.add(current);
                             if ((current & SUPERSCRIPT) == SUBSCRIPT)
                                 current &= ~SUBSCRIPT;
                             else
                                 current = (current & ~SUPERSCRIPT) | SUBSCRIPT;
                             break;
                         case '=':
-                            historyBuffer.add(current);
+//                            historyBuffer.add(current);
                             if ((current & SUPERSCRIPT) == MIDSCRIPT)
                                 current &= ~MIDSCRIPT;
                             else
@@ -4788,7 +4790,7 @@ public class Font implements Disposable {
                             break;
                     }
                 } else if (fontChange >= 0 && family != null) {
-                    historyBuffer.add(current);
+//                    historyBuffer.add(current);
                     fontIndex = family.fontAliases.get(safeSubstring(text, fontChange + 1, end), -1);
                     if (fontIndex == -1) {
                         font = this;
@@ -4801,7 +4803,7 @@ public class Font implements Disposable {
                         }
                     }
                 } else if (sizeChange >= 0) {
-                    historyBuffer.add(current);
+//                    historyBuffer.add(current);
                     if (sizeChange + 1 == end) {
                         if (eq + 1 == sizeChange) {
                             scale = 3;
@@ -4812,7 +4814,9 @@ public class Font implements Disposable {
                         scale = ((intFromDec(text, sizeChange + 1, end) - 24) / 25) & 15;
                     }
                 }
-                current = (current & 0xFFFFFFFFFF00FFFFL) | (scale - 3 & 15) << 20 | (fontIndex & 15) << 16;
+                long next = (current & 0xFFFFFFFFFF00FFFFL) | (scale - 3 & 15) << 20 | (fontIndex & 15) << 16;
+                if(current != next) historyBuffer.add(current);
+                current = next;
                 i--;
             } else if (enableSquareBrackets && text.charAt(i) == '[') {
 

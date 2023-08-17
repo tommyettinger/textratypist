@@ -26,15 +26,15 @@ public class PreviewGenerator extends ApplicationAdapter {
     long startTime;
     static final String text = "Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
             + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
-            + "\n[darker purple blue]...use color names or descriptions, like [/]darker purple blue[/]...[]"
+            + "\n[darker purple blue]...use color names or descriptions, like [/]darker purple blue[/]...[ ]"
             + "\n[_]...and use [!]effects[!][_]!"
-            + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[],"
-            + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[],"
-            + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
-            + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[],"
+            + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[ ],"
+            + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[ ],"
+            + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[ ], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
+            + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[ ],"
             + "\n[%^small caps][*]Special[*] [%^whiten][/]Effects[/][%]: [%?shadow]drop shadow[%], [%?jostle]RaNsoM nOtE[%], [%?error]spell check[%],",
-    distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[]!",
-    emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
+    distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[ ]!",
+    emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[ ] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
 
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();

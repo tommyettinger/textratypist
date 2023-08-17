@@ -146,10 +146,10 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TextraLabel("fps: 60...[~]I think[]...", skin.get("title", LabelStyle.class), font);
+		fpsLabel = new TextraLabel("fps: 60...[~]I think[ ]...", skin.get("title", LabelStyle.class), font);
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
-		passwordLabel = new TextraLabel("Textfield in [~]secure[] password mode: ", skin.get("title", LabelStyle.class), font);
+		passwordLabel = new TextraLabel("Textfield in [~]secure[ ] password mode: ", skin.get("title", LabelStyle.class), font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
@@ -218,7 +218,7 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
 
-		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "...[~]I think[]...");
+		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "...[~]I think[ ]...");
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 		fpsLabel.pack();
 		passwordLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);

@@ -24,7 +24,7 @@ public class DebugPreviewGenerator extends ApplicationAdapter {
     Layout layout = new Layout().setTargetWidth(800);
     long startTime;
     String distanceField = "\nNo emoji here!";
-    String emojiSupport = "\nEmoji! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿] [_][+🥰] hm[~]m... [+🤯][]";
+    String emojiSupport = "\nEmoji! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿] [_][+🥰] hm[~]m... [+🤯][ ]";
 /*
 AStarry-standard.fnt has descent: -12
 AStarry-msdf.fnt has descent: -94
@@ -123,7 +123,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
             layout.setEllipsis(" and so on and so forth...");
 //            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
 //                    , layout);
-            font.markup("[_]Font[] [~]name[] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%] [*]bold[] [/]oblique[]): " + font.name +
+            font.markup("[_]Font[ ] [~]name[ ] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%] [*]bold[ ] [/]oblique[ ]): " + font.name +
                     (font.distanceField != Font.DistanceFieldType.MSDF ?
                             ",\n[@Main]Do I... [@G]Do I..." +
                             ",\n[@Main]line up... [@G]line up..." +
@@ -166,7 +166,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         font = fnt;
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
-        font.markup("[_]Font[] [~]name[] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%] [*]bold[] [/]oblique[]):  " + font.name +
+        font.markup("[_]Font[ ] [~]name[ ] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%] [*]bold[ ] [/]oblique[ ]):  " + font.name +
                 ",\noriginalCellWidth: " + font.originalCellWidth +
                 ", originalCellHeight: " + font.originalCellHeight +
                 ",\ncellWidth: " + font.cellWidth +

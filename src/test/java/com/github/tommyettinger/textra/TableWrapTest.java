@@ -68,7 +68,7 @@ public class TableWrapTest extends ApplicationAdapter {
         });
         labels.add(button).height(50).colspan(3).top().row();
 
-        labels.add(new TextraLabel("lib[RED]GDX[] is a free and open-source game-development application framework " +
+        labels.add(new TextraLabel("lib[RED]GDX[ ] is a free and open-source game-development application framework " +
                 "written in the Java programming language", skin, font).setWrap(wr)).left().height(400).row();
 
 //        labels.add(new TypingLabel("lib[RED]GDX[] is a free and open-source game-development application framework " +
