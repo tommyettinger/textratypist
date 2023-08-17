@@ -24,7 +24,7 @@ gwt {
   compiler.strict = true
   compiler.disableCastChecking = true
   //// The next line can be useful to uncomment if you want output that hasn't been obfuscated.
-  compiler.style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED
+//  compiler.style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED
 
   sourceLevel = 1.11
 }
@@ -33,9 +33,9 @@ dependencies {
   implementation "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
   implementation "com.github.tommyettinger:gdx-backend-gwt:1.1200.1"
   implementation "com.github.tommyettinger:gdx-backend-gwt:1.1200.1:sources"
-  implementation "com.google.jsinterop:jsinterop-annotations:2.0.0:sources"
   implementation "com.github.tommyettinger:regexodus:$regExodusVersion:sources"
   implementation "com.github.tommyettinger:textratypist:$textratypistVersion:sources"
+  implementation "com.google.jsinterop:jsinterop-annotations:2.0.0:sources"
   implementation project(':core')
 
 }

@@ -6,7 +6,7 @@
   <inherits name="com.github.tommyettinger.Main" />
   <inherits name="com.github.tommyettinger.textratypist" />
   <inherits name="regexodus.regexodus" />
-  <extend-configuration-property name="gdx.reflect.include" value="com.github.tommyettinger.textra.TextraLabel"/>
+  <extend-configuration-property name="gdx.reflect.include" value="com.github.tommyettinger.textra.TypingLabel"/>
   <entry-point class="com.github.tommyettinger.gwt.GwtLauncher" />
   <set-configuration-property name="gdx.assetpath" value="../assets" />
   <set-configuration-property name="xsiframe.failIfScriptTag" value="FALSE"/>

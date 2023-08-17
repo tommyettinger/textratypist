@@ -6,7 +6,7 @@ buildscript {
 // using jpackage only works if the JDK version is 14 or higher.
 // your JAVA_HOME environment variable may also need to be a JDK with version 14 or higher.
     if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
-      classpath "org.beryx:badass-runtime-plugin:1.12.7"
+      classpath "org.beryx:badass-runtime-plugin:1.13.0"
     }
   }
 }
@@ -35,7 +35,7 @@ run {
   setIgnoreExitValue(true)
 
   if (os.contains('mac')) {
-    // Required to run LWJGL3 Java apps on MacOS
+    // Required to run LWJGL3 Java apps on macOS
     jvmArgs += "-XstartOnFirstThread"
   }
 }
@@ -65,6 +65,7 @@ jar {
 }
 
 if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
+  tasks.jpackageImage.doNotTrackState("This task both reads from and writes to the build folder.")
   runtime {
     options.set(['--strip-debug',
            '--compress', '2',
@@ -97,5 +98,6 @@ if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
 }
 
 // Equivalent to the jar task; here for compatibility with gdx-setup.
-task dist(dependsOn: [jar]) {
+tasks.register('dist') {
+  dependsOn['jar']
 }
