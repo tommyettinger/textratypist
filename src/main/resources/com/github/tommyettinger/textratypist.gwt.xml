@@ -16,7 +16,7 @@
   -->
 
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN"
-        "http://www.gwtproject.org/doctype/2.8.2/gwt-module.dtd">
+        "https://www.gwtproject.org/doctype/2.8.2/gwt-module.dtd">
 <!-- To compile to Gwt, you need to reference this file in your master .gwt.xml
      file (usually called GdxDefinition.gwt.xml) as follows:
 
@@ -26,6 +26,4 @@
     <source path="textra" />
     <inherits name="com.badlogic.gdx.backends.gdx_backends_gwt" />
     <inherits name="regexodus.regexodus" />
-    <extend-configuration-property name="gdx.reflect.include" value="com.github.tommyettinger.textra.Effect"/>
-    <extend-configuration-property name="gdx.reflect.include" value="com.github.tommyettinger.textra.effects"/>
 </module>
