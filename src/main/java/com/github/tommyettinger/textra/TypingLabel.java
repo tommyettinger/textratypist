@@ -733,7 +733,8 @@ public class TypingLabel extends TextraLabel {
 
         if (wrap) {
             float actualWidth = getWidth();
-            workingLayout.setTargetWidth(actualWidth);
+            if(actualWidth != 0f)
+                workingLayout.setTargetWidth(actualWidth);
 //            font.regenerateLayout(workingLayout);
         }
         font.calculateSize(workingLayout);
@@ -800,10 +801,11 @@ public class TypingLabel extends TextraLabel {
         if (style != null && style.background != null) {
             width = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
         }
-        if (wrap && (workingLayout.getTargetWidth() != width)) {
-            workingLayout.setTargetWidth(width);
+        if (wrap && (width == 0f || workingLayout.getTargetWidth() != width)) {
+            if(width != 0f)
+                workingLayout.setTargetWidth(width);
             font.regenerateLayout(workingLayout);
-            invalidateHierarchy();
+//            invalidateHierarchy();
         }
     }
 
