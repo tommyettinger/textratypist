@@ -1,8 +1,12 @@
 package com.github.tommyettinger;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -24,8 +28,18 @@ public class Main extends ApplicationAdapter {
         TypingLabel label = labels.get(0);
         label.setWrap(true);
         label.setWidth(200);
-        label.setAlignment(Align.bottomLeft);
-        stage.addActor(label);
+        label.setSize(200, 400);
+        label.setAlignment(Align.top);
+
+        BitmapFont bmfont = new BitmapFont(Gdx.files.internal("RobotoCondensed-standard.fnt"));
+        bmfont.getData().markupEnabled = true;
+        Label s2dLabel = new Label("I [SKY]can [ROYAL]do[] it!", new Label.LabelStyle(bmfont, Color.WHITE));
+        s2dLabel.setAlignment(Align.bottom);
+        Table table = new Table();
+        table.setFillParent(true);
+        table.add(label).row();
+        table.add(s2dLabel).bottom();
+        stage.addActor(table);
     }
 
     @Override
