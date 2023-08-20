@@ -78,5 +78,4 @@ public class WrappingTest extends ApplicationAdapter {
         config.disableAudio(true);
         new Lwjgl3Application(new WrappingTest(), config);
     }
-
 }
