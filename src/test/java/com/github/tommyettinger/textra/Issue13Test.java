@@ -46,15 +46,31 @@ public class Issue13Test  extends ApplicationAdapter {
             text.append(' ');
         }
 
-        TypingLabel typingLabel = new TypingLabel(text.toString(), skin);
-        typingLabel.setWrap(true);
+        text.append("OK.");
+
+        TextraLabel label = new TextraLabel(text.toString(), skin);
+        label.setWrap(true);
 
         // Runs in the next render thread so the layout is ready.
-        Gdx.app.postRunnable(() -> System.out.println("Lines: " + typingLabel.layout.lines()));
+        Gdx.app.postRunnable(() -> System.out.println("Lines: " + label.layout.lines()));
+
+//        TypingLabel label = new TypingLabel(text.toString(), skin);
+//        label.setWrap(true);
+//        label.setSelectable(true);
+//        label.setTypingListener(new TypingAdapter(){
+//            @Override
+//            public void event(String event) {
+//                if("*SELECTED".equals(event)){
+//                    System.out.println(label.getSelectedText());
+//                }
+//            }
+//        });
+//        // Runs in the next render thread so the layout is ready.
+//        Gdx.app.postRunnable(() -> System.out.println("Lines: " + label.workingLayout.lines()));
 
         Table table = new Table();
         table.debug();
-        table.add(typingLabel).prefWidth(100).row();
+        table.add(label).prefWidth(100).row();
 
         Stack stack = new Stack(table);
         stack.setFillParent(true);

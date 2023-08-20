@@ -249,13 +249,13 @@ public class TextraLabel extends Widget {
         super.validate();
 
         //TODO: Figure out how expensive this is to call frequently; see if we can limit how many calls we make.
-        float oldWidth = layout.getWidth();
-        float oldHeight = layout.getHeight();
-        font.calculateSize(layout);
+//        float oldWidth = layout.getWidth();
+//        float oldHeight = layout.getHeight();
+//        font.calculateSize(layout);
         float height = layout.getHeight();
-        float width = layout.getWidth();
-        if(oldWidth != width || oldHeight != height)
-            invalidateHierarchy();
+        float width;// = layout.getWidth();
+//        if(oldWidth != width || oldHeight != height)
+//            invalidateHierarchy();
         final float rot = getRotation();
         final float originX = getOriginX();
         final float originY = getOriginY();
@@ -484,11 +484,12 @@ public class TextraLabel extends Widget {
             width = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
         }
         if (wrap && layout.getTargetWidth() != width) {
-            layout.setTargetWidth(width);
+            if(width != 0f)
+                layout.setTargetWidth(width);
             font.regenerateLayout(layout);
             // This was used earlier, but regenerateLayout() seems to work better in its place.
 //            font.markup(storedText, layout.clear());
-            invalidateHierarchy();
+//            invalidateHierarchy();
         }
     }
 

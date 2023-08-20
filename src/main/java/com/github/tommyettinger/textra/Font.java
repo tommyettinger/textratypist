@@ -6192,7 +6192,7 @@ public class Font implements Disposable {
                         if (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0) {
                             if (spacingPoint + 1 < i) {
                                 spacingSpan = 0;
-                            } else spacingSpan++;
+                            } else spacingSpan=1;
                             spacingPoint = i;
                         }
                     }
