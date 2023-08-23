@@ -2577,6 +2577,32 @@ public class Font implements Disposable {
     }
 
     /**
+     * When {@code makeGridGlyphs} is passed as true to a constructor here, box drawing and other block elements will be
+     * drawn using a solid block GlyphRegion that is stretched and moved to form various lines and blocks. Setting this
+     * field to something other than 1 affects how wide the lines are for box drawing characters only; this is acts as a
+     * multiplier on the original width of a line. Normal box drawing lines such as those in {@code ┌} are 0.1f of a
+     * cell across. Thick lines such as those in {@code ┏} are 0.2f of a cell across. Double lines such as those in
+     * {@code ╔} are two normal lines, 0.1f of a cell apart; double lines are not affected by this field.
+     * @return the current box drawing breadth multiplier, which defaults to 1
+     */
+    public float getBoxDrawingBreadth() {
+        return boxDrawingBreadth;
+    }
+
+    /**
+     * When {@code makeGridGlyphs} is passed as true to a constructor here, box drawing and other block elements will be
+     * drawn using a solid block GlyphRegion that is stretched and moved to form various lines and blocks. Setting this
+     * field to something other than 1 affects how wide the lines are for box drawing characters only; this is acts as a
+     * multiplier on the original width of a line. Normal box drawing lines such as those in {@code ┌} are 0.1f of a
+     * cell across. Thick lines such as those in {@code ┏} are 0.2f of a cell across. Double lines such as those in
+     * {@code ╔} are two normal lines, 0.1f of a cell apart; double lines are not affected by this field.
+     * @param boxDrawingBreadth the new float value to use for the box drawing breadth multiplier
+     */
+    public void setBoxDrawingBreadth(float boxDrawingBreadth) {
+        this.boxDrawingBreadth = boxDrawingBreadth;
+    }
+
+    /**
      * Gets the "crispness" multiplier for distance field fonts (SDF and MSDF). This is usually 1.0 unless it has been
      * changed. The default value is 1.0; lower values look softer and fuzzier, while higher values look sharper and
      * possibly more jagged. This is used as a persistent multiplier that can be configured per-font, whereas
@@ -2994,7 +3020,9 @@ public class Font implements Disposable {
      * An internal method that draws blocks in a sequence specified by a {@code float[]}, with the block usually
      * {@link #solidBlock} (but not always). This is somewhat complicated; the sequence is typically drawn directly from
      * {@link BlockUtils}. Draws {@code block} at the given width and height, in the given packed color, rotating by the
-     * specified amount in degrees.
+     * specified amount in degrees. This overload also allows specifying a breadth multiplier for box drawing character
+     * lines, which can help match the aesthetic of a given font. The breadth multiplier only affects box drawing
+     * characters, but not any with double lines, nor does it affect block elements.
      * @param batch    typically a SpriteBatch
      * @param sequence a sequence of instructions in groups of 4: starting x, starting y, width to draw, height to draw
      * @param block    the TextureRegion to use as a block for drawing; usually {@link #solidBlock}
@@ -3035,8 +3063,6 @@ public class Font implements Disposable {
                 float thinAcross = BlockUtils.THIN_ACROSS * breadth;
                 float wideAcross = BlockUtils.WIDE_ACROSS * breadth;
 
-                float cX = sizeX, cY = sizeY;
-
                 if(sizeX == BlockUtils.THIN_ACROSS) sizeX = thinAcross;
                 else if(sizeX == BlockUtils.WIDE_ACROSS) sizeX = wideAcross;
                 else if(startX == 0f) {
@@ -3047,25 +3073,20 @@ public class Font implements Disposable {
                     else if (sizeX == BlockUtils.WIDE_OVER) sizeX += wideAcross * 0.5f;
                 }
 
-                if(cY == BlockUtils.THIN_ACROSS) sizeY = thinAcross;
-                else if(cY == BlockUtils.WIDE_ACROSS) sizeY = wideAcross;
+                if(sizeY == BlockUtils.THIN_ACROSS) sizeY = thinAcross;
+                else if(sizeY == BlockUtils.WIDE_ACROSS) sizeY = wideAcross;
                 else if(startY == 0f) {
-                    if (cY == BlockUtils.THIN_OVER) sizeY -= thinAcross * 0.5f + adjustment;
-                    else if (cY == BlockUtils.WIDE_OVER) sizeY -= wideAcross * 0.5f + adjustment;
+                    if (sizeY == BlockUtils.THIN_OVER) sizeY -= thinAcross * 0.5f + adjustment;
+                    else if (sizeY == BlockUtils.WIDE_OVER) sizeY -= wideAcross * 0.5f + adjustment;
                 } else if(startY > 0f) {
-                    if (cY == BlockUtils.THIN_OVER) sizeY += thinAcross * 0.5f;
-                    else if (cY == BlockUtils.WIDE_OVER) sizeY += wideAcross * 0.5f;
+                    if (sizeY == BlockUtils.THIN_OVER) sizeY += thinAcross * 0.5f;
+                    else if (sizeY == BlockUtils.WIDE_OVER) sizeY += wideAcross * 0.5f;
                 }
 
                 if(startX == BlockUtils.THIN_START) startX -= thinAcross * 0.5f;
                 else if(startX == BlockUtils.WIDE_START) startX -= wideAcross * 0.5f;
                 if(startY == BlockUtils.THIN_START) startY -= thinAcross * 0.5f;
                 else if(startY == BlockUtils.WIDE_START) startY -= wideAcross * 0.5f;
-
-//                if(sizeX == BlockUtils.THIN_OVER) sizeX += thinAcross;
-//                else if(sizeX == BlockUtils.WIDE_OVER) sizeX += wideAcross;
-//                if(sizeY == BlockUtils.THIN_OVER) sizeY += thinAcross;
-//                else if(sizeY == BlockUtils.WIDE_OVER) sizeY += wideAcross;
             }
             startX = startX * width - halfWidth;
             startY = startY * height - halfHeight;
