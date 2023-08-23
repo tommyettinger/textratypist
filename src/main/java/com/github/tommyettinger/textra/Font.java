@@ -3020,7 +3020,11 @@ public class Font implements Disposable {
         final float sn = MathUtils.sinDeg(rotation);
         final float cs = MathUtils.cosDeg(rotation);
 
-        float startX, startY, sizeX, sizeY;
+        float startX, startY, sizeX, sizeY, adjustment = 0f;
+        if(sequence.length == 8 && breadth != 1f && sequence[0] == 0 && sequence[5] == 0) {
+            // lousy right angles where both the left side and the bottom side are connected.
+            adjustment = (BlockUtils.THIN_ACROSS) - BlockUtils.THIN_ACROSS * breadth;
+        }
         for (int b = 0; b < sequence.length; b += 4) {
             startX = (sequence[b]);
             startY = (sequence[b + 1]);
@@ -3031,20 +3035,33 @@ public class Font implements Disposable {
                 float thinAcross = BlockUtils.THIN_ACROSS * breadth;
                 float wideAcross = BlockUtils.WIDE_ACROSS * breadth;
 
+                float cX = sizeX, cY = sizeY;
+
+                if(sizeX == BlockUtils.THIN_ACROSS) sizeX = thinAcross;
+                else if(sizeX == BlockUtils.WIDE_ACROSS) sizeX = wideAcross;
+                else if(startX == 0f) {
+                    if (sizeX == BlockUtils.THIN_OVER) sizeX -= thinAcross * 0.5f + adjustment;
+                    else if (sizeX == BlockUtils.WIDE_OVER) sizeX -= wideAcross * 0.5f + adjustment;
+                } else if(startX > 0f) {
+                    if (sizeX == BlockUtils.THIN_OVER) sizeX += thinAcross * 0.5f;
+                    else if (sizeX == BlockUtils.WIDE_OVER) sizeX += wideAcross * 0.5f;
+                }
+
+                if(cY == BlockUtils.THIN_ACROSS) sizeY = thinAcross;
+                else if(cY == BlockUtils.WIDE_ACROSS) sizeY = wideAcross;
+                else if(startY == 0f) {
+                    if (cY == BlockUtils.THIN_OVER) sizeY -= thinAcross * 0.5f + adjustment;
+                    else if (cY == BlockUtils.WIDE_OVER) sizeY -= wideAcross * 0.5f + adjustment;
+                } else if(startY > 0f) {
+                    if (cY == BlockUtils.THIN_OVER) sizeY += thinAcross * 0.5f;
+                    else if (cY == BlockUtils.WIDE_OVER) sizeY += wideAcross * 0.5f;
+                }
+
                 if(startX == BlockUtils.THIN_START) startX -= thinAcross * 0.5f;
                 else if(startX == BlockUtils.WIDE_START) startX -= wideAcross * 0.5f;
                 if(startY == BlockUtils.THIN_START) startY -= thinAcross * 0.5f;
                 else if(startY == BlockUtils.WIDE_START) startY -= wideAcross * 0.5f;
 
-                if(sizeX == BlockUtils.THIN_ACROSS) sizeX = thinAcross;
-                else if(sizeX == BlockUtils.WIDE_ACROSS) sizeX = wideAcross;
-                else if(sizeX == BlockUtils.THIN_OVER) sizeX += thinAcross * 0.5f;
-                else if(sizeX == BlockUtils.WIDE_OVER) sizeX += wideAcross * 0.5f;
-                if(sizeY == BlockUtils.THIN_ACROSS) sizeY = thinAcross;
-                else if(sizeY == BlockUtils.WIDE_ACROSS) sizeY = wideAcross;
-                else if(sizeY == BlockUtils.THIN_OVER) sizeY += thinAcross * 0.5f;
-                else if(sizeY == BlockUtils.WIDE_OVER) sizeY += wideAcross * 0.5f;
-//
 //                if(sizeX == BlockUtils.THIN_OVER) sizeX += thinAcross;
 //                else if(sizeX == BlockUtils.WIDE_OVER) sizeX += wideAcross;
 //                if(sizeY == BlockUtils.THIN_OVER) sizeY += thinAcross;
