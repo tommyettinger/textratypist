@@ -32,7 +32,7 @@ public class BlockUtils {
     public static final float TWIN_END1 = 0.45f;
     public static final float TWIN_START2 = 0.55f;
     public static final float TWIN_END2 = 0.65f;
-    public static final float TWIN_ACROSS = 0.1f;
+    public static final float TWIN_ACROSS = 0.10000001f;
     public static final float TWIN_OVER1 = 1f - TWIN_START1;
     public static final float TWIN_OVER2 = 1f - TWIN_START2;
 

@@ -528,6 +528,16 @@ public class Font implements Disposable {
     public float boldStrength = 1f;
 
     /**
+     * When {@code makeGridGlyphs} is passed as true to a constructor here, box drawing and other block elements will be
+     * drawn using a solid block GlyphRegion that is stretched and moved to form various lines and blocks. Setting this
+     * field to something other than 1 affects how wide the lines are for box drawing characters only; this is acts as a
+     * multiplier on the original width of a line. Normal box drawing lines such as those in {@code ┌} are 0.1f of a
+     * cell across. Thick lines such as those in {@code ┏} are 0.2f of a cell across. Double lines such as those in
+     * {@code ╔} are two normal lines, 0.1f of a cell apart; double lines are not affected by this field.
+     */
+    public float boxDrawingBreadth = 1f;
+
+    /**
      * The name of the Font, for display purposes. This is not necessarily the same as the name of the font used in any
      * particular {@link FontFamily}.
      */
@@ -2964,22 +2974,8 @@ public class Font implements Disposable {
     /**
      * An internal method that draws blocks in a sequence specified by a {@code float[]}, with the block usually
      * {@link #solidBlock} (but not always). This is somewhat complicated; the sequence is typically drawn directly from
-     * {@link BlockUtils}. Draws {@code block} at its full width and height, in the given packed color.
-     * @param batch    typically a SpriteBatch
-     * @param sequence a sequence of instructions in groups of 4: starting x, starting y, width to draw, height to draw
-     * @param block    the TextureRegion to use as a block for drawing; usually {@link #solidBlock}
-     * @param color    the color as a packed float
-     * @param x        the x position to draw at
-     * @param y        the y position to draw at
-     */
-    protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y) {
-        drawBlockSequence(batch, sequence, block, color, x, y, cellWidth, cellHeight);
-    }
-
-    /**
-     * An internal method that draws blocks in a sequence specified by a {@code float[]}, with the block usually
-     * {@link #solidBlock} (but not always). This is somewhat complicated; the sequence is typically drawn directly from
-     * {@link BlockUtils}. Draws {@code block} at the given width and height, in the given packed color.
+     * {@link BlockUtils}. Draws {@code block} at the given width and height, in the given packed color, rotating by the
+     * specified amount in degrees.
      * @param batch    typically a SpriteBatch
      * @param sequence a sequence of instructions in groups of 4: starting x, starting y, width to draw, height to draw
      * @param block    the TextureRegion to use as a block for drawing; usually {@link #solidBlock}
@@ -2988,47 +2984,11 @@ public class Font implements Disposable {
      * @param y        the y position to draw at
      * @param width    the width of one cell for the purposes of sequence instructions
      * @param height   the height of one cell for the purposes of sequence instructions
+     * @param rotation the rotation in degrees to use for the cell of blocks, with the origin in the center of the cell
      */
-    protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y, float width, float height) {
-        final Texture parent = block.getTexture();
-        final float ipw = 1f / parent.getWidth();
-        final float iph = 1f / parent.getHeight();
-        final float u = block.getU(),
-                v = block.getV(),
-                u2 = u + ipw,
-                v2 = v - iph;
-        float startX, startY, sizeX, sizeY;
-        for (int b = 0; b < sequence.length; b += 4) {
-            startX = (x + sequence[b] * width);
-            startY = (y + sequence[b + 1] * height);
-            sizeX = (sequence[b + 2] * width);
-            sizeY = (sequence[b + 3] * height);
-            vertices[0] = startX;
-            vertices[1] = startY;
-            vertices[2] = color;
-            vertices[3] = u;
-            vertices[4] = v;
-
-            vertices[5] = startX;
-            vertices[6] = startY + sizeY;
-            vertices[7] = color;
-            vertices[8] = u;
-            vertices[9] = v2;
-
-            vertices[10] = startX + sizeX;
-            vertices[11] = startY + sizeY;
-            vertices[12] = color;
-            vertices[13] = u2;
-            vertices[14] = v2;
-
-            vertices[15] = startX + sizeX;
-            vertices[16] = startY;
-            vertices[17] = color;
-            vertices[18] = u2;
-            vertices[19] = v;
-
-            drawVertices(batch, parent, vertices);
-        }
+    protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y,
+                                     float width, float height, float rotation) {
+        drawBlockSequence(batch, sequence, block, color, x, y, width, height, rotation, 1f);
     }
     /**
      * An internal method that draws blocks in a sequence specified by a {@code float[]}, with the block usually
@@ -3044,11 +3004,15 @@ public class Font implements Disposable {
      * @param width    the width of one cell for the purposes of sequence instructions
      * @param height   the height of one cell for the purposes of sequence instructions
      * @param rotation the rotation in degrees to use for the cell of blocks, with the origin in the center of the cell
+     * @param breadth  a multiplier applied only to the size of box-drawing characters going across the line(s); breadth changes are not performed if this is 1
      */
-    protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y, float width, float height, float rotation) {
+    protected void drawBlockSequence(Batch batch, float[] sequence, TextureRegion block, float color, float x, float y,
+                                     float width, float height, float rotation, float breadth) {
         final Texture parent = block.getTexture();
         final float ipw = 1f / parent.getWidth();
         final float iph = 1f / parent.getHeight();
+        final float halfWidth = width * 0.5f;
+        final float halfHeight = height * 0.5f;
         final float u = block.getU(),
                 v = block.getV(),
                 u2 = u + ipw,
@@ -3058,11 +3022,38 @@ public class Font implements Disposable {
 
         float startX, startY, sizeX, sizeY;
         for (int b = 0; b < sequence.length; b += 4) {
-            startX = (sequence[b] * width)      - width  * 0.5f;
-            startY = (sequence[b + 1] * height) - height * 0.5f;
-            sizeX =  (sequence[b + 2] * width);
-            sizeY =  (sequence[b + 3] * height);
+            startX = (sequence[b]);
+            startY = (sequence[b + 1]);
+            sizeX =  (sequence[b + 2]);
+            sizeY =  (sequence[b + 3]);
 
+            if(breadth != 1f){
+                float thinAcross = BlockUtils.THIN_ACROSS * breadth;
+                float wideAcross = BlockUtils.WIDE_ACROSS * breadth;
+
+                if(startX == BlockUtils.THIN_START) startX -= thinAcross * 0.5f;
+                else if(startX == BlockUtils.WIDE_START) startX -= wideAcross * 0.5f;
+                if(startY == BlockUtils.THIN_START) startY -= thinAcross * 0.5f;
+                else if(startY == BlockUtils.WIDE_START) startY -= wideAcross * 0.5f;
+
+                if(sizeX == BlockUtils.THIN_ACROSS) sizeX = thinAcross;
+                else if(sizeX == BlockUtils.WIDE_ACROSS) sizeX = wideAcross;
+                else if(sizeX == BlockUtils.THIN_OVER) sizeX += thinAcross * 0.5f;
+                else if(sizeX == BlockUtils.WIDE_OVER) sizeX += wideAcross * 0.5f;
+                if(sizeY == BlockUtils.THIN_ACROSS) sizeY = thinAcross;
+                else if(sizeY == BlockUtils.WIDE_ACROSS) sizeY = wideAcross;
+                else if(sizeY == BlockUtils.THIN_OVER) sizeY += thinAcross * 0.5f;
+                else if(sizeY == BlockUtils.WIDE_OVER) sizeY += wideAcross * 0.5f;
+//
+//                if(sizeX == BlockUtils.THIN_OVER) sizeX += thinAcross;
+//                else if(sizeX == BlockUtils.WIDE_OVER) sizeX += wideAcross;
+//                if(sizeY == BlockUtils.THIN_OVER) sizeY += thinAcross;
+//                else if(sizeY == BlockUtils.WIDE_OVER) sizeY += wideAcross;
+            }
+            startX = startX * width - halfWidth;
+            startY = startY * height - halfHeight;
+            sizeX *= width;
+            sizeY *= height;
             float p0x = startX;
             float p0y = startY + sizeY;
             float p1x = startX;
@@ -4070,10 +4061,9 @@ public class Font implements Disposable {
             }
             float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
-//                    x + centerX * cos,
-//                    y + centerX * sin,
                     x, y,// - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
-                    font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation);
+                    font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation,
+                    c < 0x2580 ? boxDrawingBreadth : 1f);
             return font.cellWidth;
         }
         x += cellWidth * 0.5f;

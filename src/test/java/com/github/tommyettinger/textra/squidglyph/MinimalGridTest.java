@@ -7,6 +7,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -49,7 +50,7 @@ public class MinimalGridTest extends ApplicationAdapter {
 
     private long timeUntilMessage = 1000, startTime = TimeUtils.millis();
 
-    private static final String VALID_CHARS = "abcdefghijklmnopqrstuvwxyz" + BlockUtils.ALL_BLOCK_CHARS;
+//    private static final String VALID_CHARS = "abcdefghijklmnopqrstuvwxyz" + BlockUtils.ALL_BLOCK_CHARS;
 
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -388,6 +389,7 @@ public class MinimalGridTest extends ApplicationAdapter {
 
     @Override
     public void render() {
+        gg.font.boxDrawingBreadth = 1.5f + MathUtils.sinDeg(TimeUtils.millis() >>> 1 & 0xFFFFFL) * 0.75f;
         processQueue();
         recolor();
         handleHeldKeys();
