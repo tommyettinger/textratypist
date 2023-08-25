@@ -34,17 +34,20 @@ public class ColorUtils {
      * Converts the four HSLA components, each in the 0.0 to 1.0 range, to an int in RGBA8888 format.
      * I brought this over from colorful-gdx's FloatColors class. I can't recall where I got the original HSL(A) code
      * from, but there's a strong chance it was written by cypherdare/cyphercove for their color space comparison.
+     * The {@code h} parameter for hue can be lower than 0.0 or higher than 1.0 because the hue "wraps around;" only the
+     * fractional part of h is used. The other parameters must be between 0.0 and 1.0 (inclusive) to make sense.
      *
-     * @param h hue, from 0.0 to 1.0
+     * @param h hue, usually from 0.0 to 1.0, but only the fractional part is used
      * @param s saturation, from 0.0 to 1.0
      * @param l lightness, from 0.0 to 1.0
      * @param a alpha, from 0.0 to 1.0
      * @return an RGBA8888-format int
      */
     public static int hsl2rgb(final float h, final float s, final float l, final float a) {
-        float x = Math.min(Math.max(Math.abs(h * 6f - 3f) - 1f, 0f), 1f);
-        float y = h + (2f / 3f);
-        float z = h + (1f / 3f);
+        float hue = h - MathUtils.floor(h);
+        float x = Math.min(Math.max(Math.abs(hue * 6f - 3f) - 1f, 0f), 1f);
+        float y = hue + (2f / 3f);
+        float z = hue + (1f / 3f);
         y -= (int) y;
         z -= (int) z;
         y = Math.min(Math.max(Math.abs(y * 6f - 3f) - 1f, 0f), 1f);
@@ -95,6 +98,8 @@ public class ColorUtils {
      * I brought this over from colorful-gdx's FloatColors class. I can't recall where I got the original HSL(A) code
      * from, but there's a strong chance it was written by cypherdare/cyphercove for their color space comparison.
      * HSV and HSB are synonyms; it makes a little more sense to call the third channel brightness.
+     * The {@code h} parameter for hue can be lower than 0.0 or higher than 1.0 because the hue "wraps around;" only the
+     * fractional part of h is used. The other parameters must be between 0.0 and 1.0 (inclusive) to make sense.
      *
      * @param h hue, from 0.0 to 1.0
      * @param s saturation, from 0.0 to 1.0
@@ -103,9 +108,10 @@ public class ColorUtils {
      * @return an RGBA8888-format int
      */
     public static int hsb2rgb(final float h, final float s, final float b, final float a) {
-        float x = Math.min(Math.max(Math.abs(h * 6f - 3f) - 1f, 0f), 1f);
-        float y = h + (2f / 3f);
-        float z = h + (1f / 3f);
+        float hue = h - MathUtils.floor(h);
+        float x = Math.min(Math.max(Math.abs(hue * 6f - 3f) - 1f, 0f), 1f);
+        float y = hue + (2f / 3f);
+        float z = hue + (1f / 3f);
         y -= (int) y;
         z -= (int) z;
         y = Math.min(Math.max(Math.abs(y * 6f - 3f) - 1f, 0f), 1f);
@@ -209,6 +215,53 @@ public class ColorUtils {
             if(colors[i] != 256)
                 result = lerpColors(result, colors[i], 1f / denom);
             else --denom;
+        }
+        return result;
+    }
+
+    /**
+     * Mixes any number of colors with arbitrary weights per-color. Takes an array of varargs of alternating ints
+     * representing colors and weights, as with {@code color, weight, color, weight...}.
+     * If {@code colors} is null or has no items, this returns 0 (fully-transparent black). Each color
+     * should be an RGBA8888 int, and each weight should be greater than 0.
+     * @param colors an array or varargs that should contain alternating {@code color, weight, color, weight...} ints
+     * @return the mixed color, as an RGBA8888 int
+     */
+    public static int unevenMix(int... colors) {
+        if(colors == null || colors.length == 0) return 0;
+        if(colors.length <= 2) return colors[0];
+        return unevenMix(colors, 0, colors.length);
+    }
+
+    /**
+     * Mixes any number of colors with arbitrary weights per-color. Takes an array of alternating ints representing
+     * colors and weights, as with {@code color, weight, color, weight...}, starting at {@code offset} in the array and
+     * continuing for {@code size} indices in the array. The {@code size} should be an even number 2 or greater,
+     * otherwise it will be reduced by 1. The weights can be any non-negative int values; this method handles
+     * normalizing them internally. Each color should an RGBA8888 int, and each weight should be greater than 0.
+     * If {@code colors} is null or has no items, or if size &lt;= 0, this returns 0 (fully-transparent black).
+     *
+     * @param colors starting at {@code offset}, this should contain alternating {@code color, weight, color, weight...} ints
+     * @param offset where to start reading from in {@code colors}
+     * @param size how many indices to read from {@code colors}; must be an even number
+     * @return the mixed color, as an RGBA8888 int
+     */
+    public static int unevenMix(int[] colors, int offset, int size) {
+        size &= -2;
+        final int end = offset + size;
+        if(colors == null || colors.length < end || offset < 0 || size <= 0)
+            return 0; // transparent black
+        int result = colors[offset];
+        float current = colors[offset + 1], total = current;
+        for (int i = offset+3; i < end; i += 2) {
+            total += colors[i];
+        }
+        total = 1f / total;
+        current *= total;
+        for (int i = offset+3; i < end; i += 2) {
+            int mixColor = colors[i-1];
+            float weight = colors[i] * total;
+            result = lerpColors(result, mixColor, weight / (current += weight));
         }
         return result;
     }

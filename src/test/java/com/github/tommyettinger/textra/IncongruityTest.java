@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.ray3k.stripe.FreeTypeSkin;
 
@@ -47,6 +48,7 @@ public class IncongruityTest extends ApplicationAdapter {
 //            Font font = fonts[i].setDescent(fonts[i].getDescent() * 2);
             labels.add(new Label(font.name, skin)).left();
             TypingLabel label = new TypingLabel("Dummy Text 123", skin, font);
+//            label.align = Align.bottom;
             labels.add(label).expandX().left();
 //            label.validate();
             Gdx.app.log("Font", font.name + (font.isMono ? " (MONO)" : "") + ", " + label.getPrefWidth() + ", " + label.getPrefHeight() + ", " + font.scaleY);
@@ -72,6 +74,7 @@ public class IncongruityTest extends ApplicationAdapter {
         }
         root.setFillParent(true);
         root.add(labels);
+        root.pack();
         labels.debugAll();
         stage.addActor(root);
     }
@@ -88,10 +91,10 @@ public class IncongruityTest extends ApplicationAdapter {
         BitmapFont tall = getFont("AStarry");
         tall.getData().setScale(1, 2);
         // getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getBitter(), getCanada(),
-        // getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getGentiumUnItalic(), getHanazono(),
-        // getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(), getKingthingsFoundation(),
-        // getKingthingsPetrock(), getLibertinusSerif(), getNowAlt(), getOpenSans(), getOxanium(), getQuanPixel(),
-        // getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()
+        // getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getGentiumUnItalic(), getGoNotoUniversal(),
+        // getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
+        // getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getNowAlt(),
+        // getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()
         return new BitmapFont[] {
                 getFont("AStarry"),
                 tall,
@@ -102,6 +105,7 @@ public class IncongruityTest extends ApplicationAdapter {
                 getFont("Cozette"),
                 getFont("Gentium"),
                 getFont("GentiumUnItalic"),
+                getFont("GoNotoUniversal"),
                 getFont("Hanazono"),
                 // cant load this one, wrong format
 //			getFont("IBM-8x16"),
@@ -111,6 +115,7 @@ public class IncongruityTest extends ApplicationAdapter {
                 getFont("Iosevka-Slab"),
                 getFont("KingthingsFoundation"),
                 getFont("KingthingsPetrock"),
+                getFont("LanaPixel"),
                 getFont("LibertinusSerif"),
                 getFont("Now-Alt"),
                 getFont("OpenSans"),
