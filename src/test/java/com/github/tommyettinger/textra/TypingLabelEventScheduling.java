@@ -26,8 +26,7 @@ public class TypingLabelEventScheduling extends ApplicationAdapter {
 
         batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("uiskin.json"));
-        float scale = 0.5f;
-        skin.getFont("default-font").getData().setScale(scale);
+        skin.getFont("default-font");//.getData().setScale(0.5f);
         stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
 

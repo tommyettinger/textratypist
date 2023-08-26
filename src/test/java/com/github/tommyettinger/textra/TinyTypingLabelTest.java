@@ -39,8 +39,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 //        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        float scale = 0.5f;
-        skin.getFont("default-font").getData().setScale(scale);
+        skin.getFont("default-font");//.getData().setScale(0.5f);
         stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
 
