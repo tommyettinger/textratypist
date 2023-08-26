@@ -62,15 +62,15 @@ public class IncongruityTest extends ApplicationAdapter {
                 bmLabel.validate();
                 float scaleY = label.getPrefHeight()/bmLabel.getPrefHeight();
                 float scaleX = label.getPrefWidth()/bmLabel.getPrefWidth();
+                bmLabel.setFontScale(bf.getScaleX() * Math.min(scaleX, scaleY), bf.getScaleY() * Math.min(scaleX, scaleY));
                 Gdx.app.log("BMFont", font.name + ", " + bmLabel.getPrefWidth() + ", " + bmLabel.getPrefHeight()
                         + ", " + scaleX + ", " + scaleY);
-                bmLabel.setFontScale(bf.getScaleX() * Math.min(scaleX, scaleY), bf.getScaleY() * Math.min(scaleX, scaleY));
                 labels.add(bmLabel).expandX().left();
             } else {
                 labels.add(new Label("MISSING!", skin)).expandX().left();
             }
             if((i & 1) == 1)
-            labels.row();
+                labels.row();
         }
         root.setFillParent(true);
         root.add(labels);

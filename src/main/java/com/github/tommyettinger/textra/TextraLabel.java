@@ -378,7 +378,7 @@ public class TextraLabel extends Widget {
                     x += cs * 0.5f * f.cellWidth;
                     y += sn * 0.5f * f.cellWidth;
 
-//                    y += descent;
+                    y += descent;
                     x += sn * (descent - 0.5f * f.cellHeight);
                     y -= cs * (descent - 0.5f * f.cellHeight);
 

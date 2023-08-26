@@ -622,7 +622,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.gentiumUnItalic = new Font(instance.prefix + "GentiumUnItalic-standard.fnt",
                         instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, 4f, 0f, -12f, true)
-                        .scaleTo(60, 36).setTextureFilter().setFancyLinePosition(0, 0.375f).setDescent(-32f)
+                        .scaleTo(60, 36).setTextureFilter().setFancyLinePosition(0, 0.375f).setDescent(-16f)
                         .setLineMetrics(0f, 0.15f, 0f, -0.3125f).setInlineImageMetrics(0f, -24f, 8f)
                         .setName("Gentium Un-Italic");
             } catch (Exception e) {
