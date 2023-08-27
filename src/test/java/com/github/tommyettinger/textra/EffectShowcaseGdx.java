@@ -135,11 +135,15 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
                 "[BLACK]lib[#e74a45]GDX   " +
                 "{FADE}[BLACK]lib[#e74a45]GDX{ENDFADE}   " +
                 "[BLACK]lib[#e74a45]GDX   " +
+                "{WAVE}[BLACK]lib[#e74a45]GDX{ENDWAVE}   " +
+                "[BLACK]lib[#e74a45]GDX   " +
                 "{SHRINK}[BLACK]lib[#e74a45]GDX{ENDSHRINK}   " +
                 "[BLACK]lib[#e74a45]GDX   " +
                 "{BLINK}[BLACK]lib[#e74a45]GDX{ENDBLINK}   " +
                 "[BLACK]lib[#e74a45]GDX   " +
                 "{EMERGE}[BLACK]lib[#e74a45]GDX{ENDEMERGE}   " +
+                "[BLACK]lib[#e74a45]GDX   " +
+                "{SPIRAL}[BLACK]lib[#e74a45]GDX{ENDSPIRAL}   " +
                 "[BLACK]lib[#e74a45]GDX  ";
         StringBuilder sb = new StringBuilder("{SPEED=SLOW}")
                 .append(text).append(text).append(text).append(text).append(text).append(text).append(text)
@@ -147,8 +151,11 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
                 .append(text).append(text).append(text).append(text).append(text).append(text).append(text)
                 .append(text).append(text).append(text).append(text).append(text).append(text).append(text)
                 .append(text).append(text).append(text).append(text).append(text).append(text).append(text);
-        final TypingLabel label = new TypingLabel("", font);
-        label.restart(sb.toString());
+
+        final TypingLabel label = new TypingLabel(sb.toString(), font);
+
+//        final TypingLabel label = new TypingLabel("", font);
+//        label.setText(sb.toString());
 
         label.selectable = true;
         label.align = Align.topLeft;

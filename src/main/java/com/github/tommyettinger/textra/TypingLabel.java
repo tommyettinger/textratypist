@@ -138,7 +138,7 @@ public class TypingLabel extends TextraLabel {
     public TypingLabel() {
         super();
         workingLayout.font(super.font);
-        saveOriginalText("");
+        setText("", true);
     }
 
     public TypingLabel(String text, Skin skin) {
@@ -158,34 +158,30 @@ public class TypingLabel extends TextraLabel {
     }
 
     public TypingLabel(String text, Label.LabelStyle style) {
-        super(text = Parser.preprocess(text), style);
+        super(text, style);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
-        saveOriginalText(text);
+        setText(text, true);
     }
 
     public TypingLabel(String text, Label.LabelStyle style, Font replacementFont) {
-        super(text = Parser.preprocess(text), style, replacementFont);
+        super(text, style, replacementFont);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
-        saveOriginalText(text);
+        setText(text, true);
     }
 
     public TypingLabel(String text, Font font) {
-        this.font = font;
-        layout = new Layout();
-        this.style = new Label.LabelStyle();
-        storedText = (text = Parser.preprocess(text));
+        super(text, font);
         workingLayout.font(font);
-        saveOriginalText(text);
+        setText(text, true);
     }
 
     public TypingLabel(String text, Font font, Color color) {
-        super(text = Parser.preprocess(text), font, color);
+        super(text, font, color);
         workingLayout.font(font);
         workingLayout.setBaseColor(layout.baseColor);
-        saveOriginalText(text);
-
+        setText(text, true);
     }
 
     /////////////////////////////
