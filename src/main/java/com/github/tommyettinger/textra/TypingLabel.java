@@ -721,7 +721,7 @@ public class TypingLabel extends TextraLabel {
             // Break loop if enough chars were processed
             charCounter++;
             int charLimit = TypingConfig.CHAR_LIMIT_PER_FRAME;
-            if (!skipping && charLimit > 0 && charCounter > charLimit) {
+            if (!skipping && charLimit > 0 && charCounter > charLimit && textSpeed != 0f) {
                 charCooldown = Math.max(charCooldown, Math.abs(textSpeed));
                 break;
             }
@@ -1324,4 +1324,15 @@ public class TypingLabel extends TextraLabel {
         this.trackingInput |= selectable;
         return this;
     }
+
+    public float getTextSpeed() {
+        return textSpeed;
+    }
+
+    public void setTextSpeed(float textSpeed) {
+        this.textSpeed = textSpeed;
+//        this.charCooldown = textSpeed;
+    }
+
+
 }

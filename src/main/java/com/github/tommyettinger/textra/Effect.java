@@ -106,16 +106,16 @@ public abstract class Effect {
      */
     protected float calculateProgress(float modifier, float offset, boolean pingpong) {
         float progress = totalTime / modifier + offset;
-        while (progress < 0.0f) {
-            progress += 2.0f;
+        while (progress < 0f) {
+            progress += 2f;
         }
         if (pingpong) {
             progress %= 2f;
-            if (progress > 1.0f) progress = 1f - (progress - 1f);
+            if (progress > 1f) progress = 1f - (progress - 1f);
         } else {
-            progress %= 1.0f;
+            progress %= 1f;
         }
-        progress = MathUtils.clamp(progress, 0, 1);
+        progress = Math.min(Math.max(progress, 0f), 1f);
         return progress;
     }
 

@@ -167,7 +167,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 "{JOLT=1;1.2;inf;0.3;dull lavender;light butter}There's a [/][@Medieval]STORM{RESET} on [@Future][red]the way[][], " +
 //                "{OCEAN=0.7;1.25;0.11;1.0;0.65}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
 //                "she's{WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
-                "she's{VAR=SHIVERINGBLIZZARD} blowin' on down{RESET}, " +
+                "{INSTANT}she's{VAR=SHIVERINGBLIZZARD} blowin' on down{ENDINSTANT}{RESET}, " +
                 "[@Handwriting]whippin'[] her [@Slab]way[] through the [*]{FONT=Sans}whole dang[][] town! " +
                 "[@Iosevka]Sure[@] as [/]I reckon[ ], if we [@Mono]meet our [@Cozette]{HANG}fate[@]{RESET}, " +
                 "this [light grey black][%125]storm[ ] will be [@Canada]there[@] on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%150]eight[%]{ENDSPIN}! " +
