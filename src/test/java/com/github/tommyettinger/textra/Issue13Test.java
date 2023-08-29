@@ -35,20 +35,24 @@ public class Issue13Test  extends ApplicationAdapter {
     @Override
     public void create () {
         stage = new Stage(new ScreenViewport());
-
+        stage.setDebugAll(true);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         int fitOneLineCount = 25;
-        int extraLines = 10;
+        int extraSpaces = 10;
 
         StringBuilder text = new StringBuilder();
-        for (int count = 0; count < fitOneLineCount + extraLines; count++) {
-            text.append(' ');
-        }
+//        for (int count = 0; count < fitOneLineCount + extraSpaces; count++) {
+//            text.append(' ');
+//        }
+//        text.append("OK.");
 
-        text.append("OK.");
-
-        TextraLabel label = new TextraLabel(text.toString(), skin);
+        // This seems to work here.
+        // https://i.imgur.com/LFYLAPc.png
+        text.append("this is a normal text test test        test!");
+        // It works for TextraLabel and TypingLabel, in the same way.
+//        TextraLabel label = new TextraLabel(text.toString(), skin);
+        TypingLabel label = new TypingLabel(text.toString(), skin);
         label.setWrap(true);
 
         // Runs in the next render thread so the layout is ready.
@@ -69,7 +73,6 @@ public class Issue13Test  extends ApplicationAdapter {
 //        Gdx.app.postRunnable(() -> System.out.println("Lines: " + label.workingLayout.lines()));
 
         Table table = new Table();
-        table.debug();
         table.add(label).prefWidth(100).row();
 
         Stack stack = new Stack(table);
