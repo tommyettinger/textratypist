@@ -83,8 +83,12 @@ changing your font, and the "font family" feature. A font can be assigned a "fam
 refer to them; this acts like a normal style, but actually changes what Font is used to draw. The full list of styles is
 long, but isn't as detailed as the effect tokens. You can enable styles with something like libGDX color markup, in
 square brackets like `[*]`, or you can use `{STYLE=BOLD}` to do the same thing. Tags and style names are both
-case-insensitive, but color names are case-sensitive. The full list of styles:
+case-insensitive, but color names are case-sensitive. The full list of styles and related square-bracket tags:
 
+- `[]` undoes the last change to style/color/formatting, though it doesn't do anything to TypingLabel effects.
+- `[ ]` resets all styles/colors/formatting and effects to the initial state.
+- `[(label)]` temporarily stores the current formatting state as `label`, so it can be re-applied later.
+- `[ label]` re-applies the formatting state stored as `label`, if there is one.
 - `[*]` toggles bold mode. Can use style names `*`, `B`, `BOLD`, `STRONG`.
 - `[/]` toggles oblique mode (like italics). Can use style names `/`, `I`, `OBLIQUE`, `ITALIC`.
 - `[^]` toggles superscript mode (and turns off subscript or midscript mode). Can use style names `^`, `SUPER`, `SUPERSCRIPT`.
@@ -150,8 +154,8 @@ that, no two modes can be active at the same time, and no modes can be used at t
 
 The special modes are a bit overcomplicated in terms of syntax because I ran out of punctuation I could use.
 The common example of a black outline around white text can be achieved with `[WHITE][%?blacken]Outlined![%][GRAY]`.
-(The example uses `GRAY` as the normal color, but you could also use `[]` to reset the color to whatever base color was
-configured on a `Layout` or the label that holds it. Note that `[]` also resets size, mode, and pretty much everything.)
+(The example uses `GRAY` as the normal color, but you could also use `[ ]` to reset the color to whatever base color was
+configured on a `Layout` or the label that holds it. Note that `[ ]` also resets size, mode, and, well, everything.)
 
 Several combinations of effects are available using the `{VAR=ZOMBIE}urgh, brains...{VAR=ENDZOMBIE}` syntax:
 
@@ -181,6 +185,15 @@ exactly the same way these are defined. For example, `FIRE` is defined with
 The `OCEAN` effect doesn't care what colors it uses; it only defines an approximate pattern for how to transition
 between those colors. That means, counterintuitively, `FIRE` is best implemented with `OCEAN` rather than `GRADIENT`.
 Using the name `FIRE` is probably preferable to `OCEAN`, though, so the global var is here for that reason.
+
+The ability to store formatting states using a label allows some more complex assembly of markup Strings from multiple
+sources. You can call something like `font.storeState("spooky", "[/][darker gray][@?blacken]")` to permanently store
+that formatting state (oblique darker gray text with a black outline) in `font`, and can then reset to that state just
+by entering `[ spooky]` (note the opening space). You could also create some insert-able text that stores the current
+formatting before it writes anything, and resets the formatting back when it is done writing. That would use something
+like `"[(previous)][BLUE][^][[citation needed][ previous]"` -- if this String gets inserted in the middle of a larger
+block of text, it won't change the surrounding formatting, but will use blue superscript for its own text (the immortal
+`[citation needed]`).
 
 ## But wait, there's fonts!
 

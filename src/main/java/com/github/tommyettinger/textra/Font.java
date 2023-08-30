@@ -3265,7 +3265,10 @@ public class Font implements Disposable {
      * underline. Markup starts with {@code [}; the next non-letter character determines what that piece of markup
      * toggles. Markup this knows:
      * <ul>
-     *     <li>{@code []} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code []} undoes the most-recently-applied format change.</li>
+     *     <li>{@code [ ]} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code [(label)]} temporarily stores the current formatting state as {@code label}.</li>
+     *     <li>{@code [ label]} re-applies the formatting state stored as {@code label}, if there is one.</li>
      *     <li>{@code [[} escapes a literal left bracket, producing it without changing state.</li>
      *     <li>{@code [+name]}, where name is the name of a TextureRegion from an atlas added to this Font with
      *     {@link #addAtlas(TextureAtlas)}, produces the corresponding TextureRegion (scaled when drawn) without
@@ -4719,7 +4722,10 @@ public class Font implements Disposable {
      * without bold, italic, superscript, subscript, strikethrough, or underline. Markup starts with {@code [}; the next
      * character determines what that piece of markup toggles. Markup this knows:
      * <ul>
-     *     <li>{@code []} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code []} undoes the most-recently-applied format change.</li>
+     *     <li>{@code [ ]} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code [(label)]} temporarily stores the current formatting state as {@code label}.</li>
+     *     <li>{@code [ label]} re-applies the formatting state stored as {@code label}, if there is one.</li>
      *     <li>{@code [[} escapes a literal left bracket, producing it without changing state.</li>
      *     <li>{@code [+name]}, where name is the name of a TextureRegion from an atlas added to this Font with
      *     {@link #addAtlas(TextureAtlas)}, produces the corresponding TextureRegion (scaled when drawn) without
@@ -5525,7 +5531,8 @@ public class Font implements Disposable {
      * strikethrough, or underline. Markup starts with {@code [}; the next character determines what that piece of
      * markup toggles. Markup this knows:
      * <ul>
-     *     <li>{@code []} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code []} undoes the most-recently-applied format change.</li>
+     *     <li>{@code [ ]} clears all markup to the initial state without any applied.</li>
      *     <li>{@code [*]} toggles bold mode.</li>
      *     <li>{@code [/]} toggles italic (technically, oblique) mode.</li>
      *     <li>{@code [^]} toggles superscript mode (and turns off subscript or midscript mode).</li>
@@ -5587,7 +5594,8 @@ public class Font implements Disposable {
      * strikethrough, or underline. Markup starts with {@code [}; the next character determines what that piece of
      * markup toggles. Markup this knows:
      * <ul>
-     *     <li>{@code []} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code []} undoes the most-recently-applied format change.</li>
+     *     <li>{@code [ ]} clears all markup to the initial state without any applied.</li>
      *     <li>{@code [*]} toggles bold mode.</li>
      *     <li>{@code [/]} toggles italic (technically, oblique) mode.</li>
      *     <li>{@code [^]} toggles superscript mode (and turns off subscript or midscript mode).</li>
@@ -5908,7 +5916,8 @@ public class Font implements Disposable {
      * strikethrough, or underline. Markup starts with {@code [}; the next character determines what that piece of
      * markup toggles. Markup this knows:
      * <ul>
-     *     <li>{@code []} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code []} undoes the most-recently-applied format change.</li>
+     *     <li>{@code [ ]} clears all markup to the initial state without any applied.</li>
      *     <li>{@code [*]} toggles bold mode.</li>
      *     <li>{@code [/]} toggles italic (technically, oblique) mode.</li>
      *     <li>{@code [^]} toggles superscript mode (and turns off subscript or midscript mode).</li>
@@ -5965,7 +5974,8 @@ public class Font implements Disposable {
      * strikethrough, or underline. Markup starts with {@code [}; the next character determines what that piece of
      * markup toggles. Markup this knows:
      * <ul>
-     *     <li>{@code []} clears all markup to the initial state without any applied.</li>
+     *     <li>{@code []} undoes the most-recently-applied format change.</li>
+     *     <li>{@code [ ]} clears all markup to the initial state without any applied.</li>
      *     <li>{@code [*]} toggles bold mode.</li>
      *     <li>{@code [/]} toggles italic (technically, oblique) mode.</li>
      *     <li>{@code [^]} toggles superscript mode (and turns off subscript or midscript mode).</li>
