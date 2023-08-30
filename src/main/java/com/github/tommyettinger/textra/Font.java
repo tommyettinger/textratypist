@@ -5531,19 +5531,23 @@ public class Font implements Disposable {
      *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
      *     looking up colors with names that contain punctuation.</li>
      * </ul>
+     * This does not automatically understand the {@code [+🔬]} syntax; you can use {@link #atlasLookup(String)} to get
+     * the internal character code that refers to an atlas glyph such as an emoji, or you can just use
+     * {@link #markupGlyph(String)} with that plus-sign syntax to enter the character.
+     * <br>
      * You can render the result using {@link #drawGlyph(Batch, long, float, float)}. It is recommended that you avoid
      * calling this method every frame, because the color lookups usually allocate some memory, and because this can
      * usually be stored for later without needing repeated computation.
      * <br>
-     * This is equivalent to calling the static {@link #markupGlyph(char, String, ColorLookup)} and giving it this
-     * Font's {@link #colorLookup} value.
+     * This is equivalent to calling {@link #markupGlyph(String)} using a placeholder character (or none) and
+     * changing the returned glyph to use {@code chr} using {@link #applyChar(long, char)}.
      *
-     * @param chr    a single char to apply markup to
+     * @param chr    a single char to apply markup to; may also be a character code from {@link #atlasLookup(String)}
      * @param markup a String containing only markup syntax, like "[*][_][RED]" for bold underline in red
      * @return a long that encodes the given char with the specified markup
      */
-    public long markupGlyph(char chr, String markup) {
-        return markupGlyph(chr, markup, colorLookup, family);
+    public long markupGlyph(int chr, String markup) {
+        return (markupGlyph(markup + (char)chr) & 0xFFFFFFFFFFFF0000L) | (char)chr;
     }
 
     /**
