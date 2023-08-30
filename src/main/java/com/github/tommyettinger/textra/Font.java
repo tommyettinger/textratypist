@@ -1392,6 +1392,7 @@ public class Font implements Disposable {
         strikeBreadth = toCopy.strikeBreadth;
         fancyX = toCopy.fancyX;
         fancyY = toCopy.fancyY;
+        boxDrawingBreadth = toCopy.boxDrawingBreadth;
 
         xAdjust =      toCopy.xAdjust;
         yAdjust =      toCopy.yAdjust;
@@ -1415,6 +1416,8 @@ public class Font implements Disposable {
         solidBlock = toCopy.solidBlock;
         name = toCopy.name;
         integerPosition = toCopy.integerPosition;
+        omitCurlyBraces = toCopy.omitCurlyBraces;
+        enableSquareBrackets = toCopy.enableSquareBrackets;
 
         if (toCopy.family != null) {
             family = new FontFamily(toCopy.family);
@@ -1437,6 +1440,7 @@ public class Font implements Disposable {
         PACKED_ERROR_COLOR = toCopy.PACKED_ERROR_COLOR;
         PACKED_WARN_COLOR = toCopy.PACKED_WARN_COLOR;
         PACKED_NOTE_COLOR = toCopy.PACKED_NOTE_COLOR;
+        PACKED_SHADOW_COLOR = toCopy.PACKED_SHADOW_COLOR;
 
         // shader, colorLookup, and whiteBlock are not copied, because there isn't much point in having different copies
         // of a ShaderProgram, stateless ColorLookup, or always-identical Texture. They are referenced directly.
@@ -4993,7 +4997,11 @@ public class Font implements Disposable {
                             if (font == null) font = this;
                             break;
                         case '(':
-                            labeledStates.put(safeSubstring(text, i + 1, i + len - 1), (current & 0xFFFFFFFFFFFF0000L));
+                            // record labeled state
+                            // the left parenthesis "must" be matched by a right parenthesis at the end.
+                            // (but really, the last char before the closing right square bracket is just ignored.)
+                            if(len - 2 > 0)
+                                labeledStates.put(safeSubstring(text, i + 1, i + len - 1), (current & 0xFFFFFFFFFFFF0000L));
                             break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
@@ -5007,14 +5015,15 @@ public class Font implements Disposable {
                             capsLock = false;
                             lowerCase = false;
                             if(len > 1) {
+                                // jump to labeled state
                                 current = labeledStates.get(safeSubstring(text, i + 1, i + len), current);
                                 scale = (int)((current >>> 20 & 15) + 3);
                                 if(family != null){
                                     font = family.connected[(int)(current >>> 16 & 15)];
                                     if(font == null) font = this;
                                 }
-
                             } else {
+                                // reset current state
                                 color = baseColor;
                                 current = color & ~SUPERSCRIPT;
                                 scale = 3;
