@@ -49,10 +49,9 @@ public class Issue13Test  extends ApplicationAdapter {
 
         // This seems to work here.
         // https://i.imgur.com/LFYLAPc.png
-        text.append("this is a normal text test test        test!");
+        text.append("[(0)][*][RED]this[GREEN] is a[ 0] normal text test test        test!");
         // It works for TextraLabel and TypingLabel, in the same way.
-//        TextraLabel label = new TextraLabel(text.toString(), skin);
-        TypingLabel label = new TypingLabel(text.toString(), skin);
+        TextraLabel label = new TextraLabel(text.toString(), skin);
         label.setWrap(true);
 
         // Runs in the next render thread so the layout is ready.
