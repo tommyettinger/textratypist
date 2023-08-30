@@ -871,10 +871,11 @@ public class Font implements Disposable {
      */
     public boolean enableSquareBrackets = true;
 
-    private final float[] vertices = new float[20];
-    private final Layout tempLayout = new Layout();
-    private final LongArray glyphBuffer = new LongArray(128);
-    private final LongArray historyBuffer = new LongArray(64);
+    private final transient float[] vertices = new float[20];
+    private final transient Layout tempLayout = new Layout();
+    private final transient LongArray glyphBuffer = new LongArray(128);
+    private final transient LongArray historyBuffer = new LongArray(64);
+    private final transient ObjectLongMap<String> labeledStates = new ObjectLongMap<>(16);
     /**
      * Must be in lexicographic order because we use {@link Arrays#binarySearch(char[], int, int, char)} to
      * verify if a char is present.
@@ -4753,6 +4754,7 @@ public class Font implements Disposable {
         float targetWidth = appendTo.getTargetWidth();
         int kern = -1;
         historyBuffer.clear();
+        labeledStates.clear();
 
         for (int i = 0, n = text.length(); i < n; i++) {
             scaleX = font.scaleX * (scale + 1) * 0.25f;
@@ -4796,21 +4798,18 @@ public class Font implements Disposable {
                 } else if (after == '^' || after == '=' || after == '.') {
                     switch (after) {
                         case '^':
-//                            historyBuffer.add(current);
                             if ((current & SUPERSCRIPT) == SUPERSCRIPT)
                                 current &= ~SUPERSCRIPT;
                             else
                                 current |= SUPERSCRIPT;
                             break;
                         case '.':
-//                            historyBuffer.add(current);
                             if ((current & SUPERSCRIPT) == SUBSCRIPT)
                                 current &= ~SUBSCRIPT;
                             else
                                 current = (current & ~SUPERSCRIPT) | SUBSCRIPT;
                             break;
                         case '=':
-//                            historyBuffer.add(current);
                             if ((current & SUPERSCRIPT) == MIDSCRIPT)
                                 current &= ~MIDSCRIPT;
                             else
@@ -4818,7 +4817,6 @@ public class Font implements Disposable {
                             break;
                     }
                 } else if (fontChange >= 0 && family != null) {
-//                    historyBuffer.add(current);
                     fontIndex = family.fontAliases.get(safeSubstring(text, fontChange + 1, end), -1);
                     if (fontIndex == -1) {
                         font = this;
@@ -4831,7 +4829,6 @@ public class Font implements Disposable {
                         }
                     }
                 } else if (sizeChange >= 0) {
-//                    historyBuffer.add(current);
                     if (sizeChange + 1 == end) {
                         if (eq + 1 == sizeChange) {
                             scale = 3;
@@ -4875,9 +4872,10 @@ public class Font implements Disposable {
                         }
                         continue;
                     }
-                    historyBuffer.add(current);
                     int len = text.indexOf(']', i) - i;
                     if (len < 0) break;
+                    if(!(len == 1 && c == ' '))
+                        historyBuffer.add(current);
                     switch (c) {
                         case '*':
                             current ^= BOLD;
@@ -4994,6 +4992,9 @@ public class Font implements Disposable {
                             font = family.connected[fontIndex & 15];
                             if (font == null) font = this;
                             break;
+                        case '(':
+                            labeledStates.put(safeSubstring(text, i + 1, i + len - 1), (current & 0xFFFFFFFFFFFF0000L));
+                            break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
                             int lookupColor = colorLookup.getRgba(safeSubstring(text, i + 1, i + len)) & 0xFFFFFFFE;
@@ -5002,13 +5003,23 @@ public class Font implements Disposable {
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         case ' ':
-                            color = baseColor;
-                            current = color & ~SUPERSCRIPT;
-                            scale = 3;
-                            font = this;
                             capitalize = false;
                             capsLock = false;
                             lowerCase = false;
+                            if(len > 1) {
+                                current = labeledStates.get(safeSubstring(text, i + 1, i + len), current);
+                                scale = (int)((current >>> 20 & 15) + 3);
+                                if(family != null){
+                                    font = family.connected[(int)(current >>> 16 & 15)];
+                                    if(font == null) font = this;
+                                }
+
+                            } else {
+                                color = baseColor;
+                                current = color & ~SUPERSCRIPT;
+                                scale = 3;
+                                font = this;
+                            }
                             break;
                         default:
                             // attempt to look up a known Color name with a ColorLookup
