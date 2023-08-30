@@ -876,6 +876,7 @@ public class Font implements Disposable {
     private final transient LongArray glyphBuffer = new LongArray(128);
     private final transient LongArray historyBuffer = new LongArray(64);
     private final transient ObjectLongMap<String> labeledStates = new ObjectLongMap<>(16);
+    private final ObjectLongMap<String> storedStates = new ObjectLongMap<>(16);
     /**
      * Must be in lexicographic order because we use {@link Arrays#binarySearch(char[], int, int, char)} to
      * verify if a char is present.
@@ -1418,6 +1419,7 @@ public class Font implements Disposable {
         integerPosition = toCopy.integerPosition;
         omitCurlyBraces = toCopy.omitCurlyBraces;
         enableSquareBrackets = toCopy.enableSquareBrackets;
+        storedStates.putAll(toCopy.storedStates);
 
         if (toCopy.family != null) {
             family = new FontFamily(toCopy.family);
@@ -2605,6 +2607,27 @@ public class Font implements Disposable {
      */
     public void setBoxDrawingBreadth(float boxDrawingBreadth) {
         this.boxDrawingBreadth = boxDrawingBreadth;
+    }
+
+    /**
+     * Gets the FontFamily this can use to switch fonts using [@Name] syntax. If the family is null, only the current
+     * Font will be used.
+     * @return the current FontFamily this Font uses, or null if this does not have one
+     */
+    public FontFamily getFamily() {
+        return family;
+    }
+
+    /**
+     * Sets the FontFamily this can use to switch fonts using [@Name] syntax. If family is null, only the current Font
+     * will be used.
+     *
+     * @param family a {@link FontFamily} that may be null or shared with other Fonts.
+     * @return this, for chaining
+     */
+    public Font setFamily(FontFamily family) {
+        this.family = family;
+        return this;
     }
 
     /**
@@ -4759,6 +4782,7 @@ public class Font implements Disposable {
         int kern = -1;
         historyBuffer.clear();
         labeledStates.clear();
+        labeledStates.putAll(storedStates);
 
         for (int i = 0, n = text.length(); i < n; i++) {
             scaleX = font.scaleX * (scale + 1) * 0.25f;
@@ -6341,17 +6365,48 @@ public class Font implements Disposable {
     }
 
     /**
-     * Sets the FontFamily this can use to switch fonts using [@Name] syntax. If family is null, only the current Font
-     * will be used.
-     *
-     * @param family a {@link FontFamily} that may be null or shared with other Fonts.
-     * @return this, for chaining
+     * Evaluates {@code markup} to get a formatting state and stores it for later usage with {@code "[ name]"} syntax
+     * and the given {@code name}. Where {@code "[ ]"} will reset state to its starting value, {@code "[ name]"} will
+     * restore a previously saved state. States can be stored with this method (which will associate the named state
+     * with this Font, and will be copied with it), or temporarily stored in a markup String using {@code "[(name)]"}.
+     * @param name a non-null String to associate a formatting state with
+     * @param markup markup (with or without a char in it) that will be applied when this formatting state is used
      */
-    public Font setFamily(FontFamily family) {
-        this.family = family;
-        return this;
+    public void storeState(String name, String markup) {
+        storedStates.put(name, markupGlyph('\u0000', markup));
     }
 
+    /**
+     * Evaluates {@code markup} to get a formatting state and stores it for later usage with {@code "[ name]"} syntax
+     * and the given {@code name}. Where {@code "[ ]"} will reset state to its starting value, {@code "[ name]"} will
+     * restore a previously saved state. States can be stored with this method (which will associate the named state
+     * with this Font, and will be copied with it), or temporarily stored in a markup String using {@code "[(name)]"}.
+     * @param name a non-null String to associate a formatting state with
+     * @param formatted any (ignored) character that will have its formatting stored for later usage
+     */
+    public void storeState(String name, long formatted) {
+        storedStates.put(name, formatted & 0xFFFFFFFFFFFF0000L);
+    }
+
+    /**
+     * Looks up the given name in the stored states and returns the associated formatting state, or {@code fallback} if
+     * the name was not present. A suggestion for {@code fallback} is to use {@code 'N'}, since a valid formatting state
+     * won't have any character data, and {@code 'N'} only has character data.
+     * @param name a non-null String to look up in the stored states
+     * @param fallback a formatting state or character to return if the given name is not found (often {@code 'N'}
+     * @return the formatting state associated with name (if found), or {@code fallback} (if not found)
+     */
+    public long getStoredState(String name, long fallback) {
+        return storedStates.get(name, fallback);
+    }
+
+    /**
+     * Removes the formatting state with the given name if it is present, or does nothing if the name is not present.
+     * @param name the name of the formatting state to remove
+     */
+    public void removeStoredState(String name) {
+        storedStates.remove(name, 0L);
+    }
     /**
      * Given the new width and height for a window, this attempts to adjust the {@link #actualCrispness} of an
      * SDF or MSDF font so that it will display cleanly at a different size. This uses this font's
