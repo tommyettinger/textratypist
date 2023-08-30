@@ -27,7 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class Issue13Test  extends ApplicationAdapter {
+public class StateTest extends ApplicationAdapter {
 
     private Stage stage;
     private Skin skin;
@@ -38,25 +38,18 @@ public class Issue13Test  extends ApplicationAdapter {
         stage.setDebugAll(true);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        int fitOneLineCount = 25;
-        int extraSpaces = 10;
-
         StringBuilder text = new StringBuilder();
-//        for (int count = 0; count < fitOneLineCount + extraSpaces; count++) {
-//            text.append(' ');
-//        }
-//        text.append("OK.");
 
-        // This seems to work here.
-        // https://i.imgur.com/LFYLAPc.png
-        text.append("this is a normal text test test        test!");
-        // It works for TextraLabel and TypingLabel, in the same way.
+        String wikipedia = "[(previous)][BLUE][^][[citation needed][ previous]";
+        text.append("Satchmo is a [brown]cat[ ], who is extremely [*]fat[*]").append(wikipedia).append("; when he sits " +
+                "[_]down[_], throughout the town, [/]we").append(wikipedia).append(" all think[/], 'What was that? Did it happen " +
+                "again (that [*]thunderous[*] din)? What could ever make, such a [_]powerful[_] quake, but " +
+                "a cat with a [~][_]double[_][~] chin?'");
+//// Does work!
         TextraLabel label = new TextraLabel(text.toString(), skin);
         label.setWrap(true);
 
-        // Runs in the next render thread so the layout is ready.
-        Gdx.app.postRunnable(() -> System.out.println("Lines: " + label.layout.lines()));
-
+//// Doesn't work right now.
 //        TypingLabel label = new TypingLabel(text.toString(), skin);
 //        label.setWrap(true);
 //        label.setSelectable(true);
@@ -68,8 +61,6 @@ public class Issue13Test  extends ApplicationAdapter {
 //                }
 //            }
 //        });
-//        // Runs in the next render thread so the layout is ready.
-//        Gdx.app.postRunnable(() -> System.out.println("Lines: " + label.workingLayout.lines()));
 
         Table table = new Table();
         table.add(label).prefWidth(100).row();
@@ -95,12 +86,12 @@ public class Issue13Test  extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Space Wrapping Test");
+        config.setTitle("State Storage Test");
         config.setWindowedMode(720, 480);
         config.setResizable(true);
         config.setForegroundFPS(0);
         config.useVsync(true);
         config.disableAudio(true);
-        new Lwjgl3Application(new Issue13Test(), config);
+        new Lwjgl3Application(new StateTest(), config);
     }
 }
