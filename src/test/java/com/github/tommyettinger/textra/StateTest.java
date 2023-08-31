@@ -40,16 +40,16 @@ public class StateTest extends ApplicationAdapter {
 
         StringBuilder text = new StringBuilder();
 
-        String wikipedia = "[(previous)][SKY][^][[citation needed][ previous]";
+        String wikipedia = "[(previous)][ ][SKY][^][[citation needed][ previous]";
         text.append("Satchmo is a [brown]cat[ ], who is extremely [*]fat[*]").append(wikipedia).append("; when he sits " +
                 "[_]down[_], throughout the town, [/]we").append(wikipedia).append(" all think[/], 'What was that? Did it happen " +
                 "again (that [*]thunderous[*] din)? What could ever make, such a [_]powerful[_] quake, but " +
-                "a cat with a [~][_]double[_][~] chin?'");
+                "a [brown]cat[ ] with a [~][_]double[_][~] chin?'");
 //// Does work!
 //        TextraLabel label = new TextraLabel(text.toString(), skin);
 //        label.setWrap(true);
 
-//// Doesn't work right now.
+//// Also works!
         TypingLabel label = new TypingLabel(text.toString(), skin);
         label.setWrap(true);
         label.setSelectable(true);

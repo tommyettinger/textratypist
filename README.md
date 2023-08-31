@@ -191,9 +191,12 @@ sources. You can call something like `font.storeState("spooky", "[/][darker gray
 that formatting state (oblique darker gray text with a black outline) in `font`, and can then reset to that state just
 by entering `[ spooky]` (note the opening space). You could also create some insert-able text that stores the current
 formatting before it writes anything, and resets the formatting back when it is done writing. That would use something
-like `"[(previous)][BLUE][^][[citation needed][ previous]"` -- if this String gets inserted in the middle of a larger
+like `"[(previous)][ ][BLUE][^][[citation needed][ previous]"` -- if this String gets inserted in the middle of a larger
 block of text, it won't change the surrounding formatting, but will use blue superscript for its own text (the immortal
-`[citation needed]`).
+`[citation needed]`) and won't use any of the surrounding block's formatting for its own superscript note. If you have
+multiple state-store tags with the same label, the value associated with that label will change as those tags are
+encountered. You might want to use unique labels to avoid accidentally changing another label's value, but this usually
+isn't needed.
 
 ## But wait, there's fonts!
 
@@ -251,17 +254,29 @@ optional overload of `Font.drawGlyph()` or `Font.drawGlyphs()`. Custom effects f
 change the rotation of any glyph, as well as its position and scale on x and/or y. You can rotate a TextraLabel or
 TypingLabel by using their `setRotation()` methods, and the rotation will now act correctly for labels with backgrounds
 and/or with different alignment settings. The origin for rotations can be set in the label, and the whole label will
-rotate around that origin point. You can also, for some fonts, have
-box-drawing characters and block elements be automatically generated. This needs a solid white block character (of any
-size, typically 1x1) present in the font at id 9608 (the Unicode full block index, `'\u2588'`). This also enables
-a better guarantee of underline and strikethrough characters connecting properly, and without smudging where two
-underscores or hyphens overlap each other. `Font` attempts to enable this in some cases, or it can be set with a
-parameter, but if it fails then it falls back to using underscores for underline and hyphens for strikethrough. All the
-fonts in `KnownFonts` either are configured to use a solid block or to specifically avoid it because that font renders
-better without it. Note that if you create a `Font` from a libGDX `BitmapFont`, this defaults to not even trying to make
-grid glyphs, because BitmapFonts rarely have a suitable solid block char.
+rotate around that origin point.
 
-These two features are new in 0.3.0, and are expected to see more attention in future releases.
+You can also, for some fonts, have box-drawing characters and block elements be automatically generated. This needs a
+solid white block character (of any size, typically 1x1) present in the font at id 9608 (the Unicode full block index,
+`'\u2588'`). This also enables a better guarantee of underline and strikethrough characters connecting properly, and
+without smudging where two underscores or hyphens overlap each other. `Font` attempts to enable this in some cases, or
+it can be set with a parameter, but if it fails then it falls back to using underscores for underline and hyphens for
+strikethrough. All the fonts in `KnownFonts` either are configured to use a solid block or to specifically avoid it
+because that font renders better without it. Note that if you create a `Font` from a libGDX `BitmapFont`, this defaults
+to not even trying to make grid glyphs, because BitmapFonts rarely have a suitable solid block char.
+
+Some extra configuration is possible for box drawing characters that are actually used for that purpose (not just
+underline or strikethrough). You can set `boxDrawingBreadth` on a `Font` to some multiplier to make box-drawing lines
+thicker or thinner, without changing how they connect to each other.
+
+Various features allow extra configuration here. You can set `boldStrength` to some value other than the default 1 if
+you want more or less extra space applied from the bold style. You can also set `obliqueStrength` to change the angle
+of the skew that oblique text gets drawn with. Colors for various effects can be changed as-needed;
+`font.PACKED_SHADOW_COLOR` can be changed to use a darker, lighter, more opaque, or more transparent shadow color, for
+instance. `font.PACKED_BLACK` affects the black outline mode, and `font.PACKED_WHITE` affects the white outline and
+shiny modes. There's similar modes to change the colors of error, warning, and note underlines. All of these color
+configurations apply per Font instance, so you could have two Font objects using the same typeface but with different
+colors configured.
 
 ## Hold the phone, there's widgets!
 
