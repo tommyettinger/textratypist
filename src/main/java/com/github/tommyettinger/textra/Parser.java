@@ -31,7 +31,7 @@ import regexodus.Replacer;
  */
 public class Parser {
     private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("((?<!\\[)\\[[^\\[\\]]*(\\]|$))");
-    private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^ \\[\\]\\+][^\\[\\]]*)(\\]|$)"), "{STYLE=$1}");
+    private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\]|$)"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{6,8}");
 
     private static final CaseInsensitiveIntMap BOOLEAN_TRUE = new CaseInsensitiveIntMap(new String[]{"true", "yes", "t", "y", "on", "1"}, new int[6]);
@@ -50,8 +50,8 @@ public class Parser {
      * @param text text that could have square-bracket style markup
      * @return {@code text} with square bracket style markup changed to curly-brace style markup
      */
-    public static String preprocess(CharSequence text) {
-        return MARKUP_TO_TAG.replace(text).replace("[ ]", "{RESET}").replace("[]", "{UNDO}");
+    public static String preprocess(String text) {
+        return MARKUP_TO_TAG.replace(text.replace("[ ]", "{RESET}")).replace("[]", "{UNDO}");
     }
 
     /**

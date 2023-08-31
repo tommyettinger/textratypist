@@ -216,7 +216,7 @@ public class TypingLabel extends TextraLabel {
      *
      * @param modifyOriginalText Flag determining if the original text should be modified as well. If {@code false},
      *                           only the display text is changed while the original text is untouched. If {@code true},
-     *                           then this runs {@link Parser#preprocess(CharSequence)} on the text, which should only
+     *                           then this runs {@link Parser#preprocess(String)} on the text, which should only
      *                           generally be run once per original text.
      * @see #restart(String)
      */
@@ -229,7 +229,7 @@ public class TypingLabel extends TextraLabel {
      * Sets the text of this label. If the char progression is already running, it's highly recommended to use
      * {@link #restart(String)} instead. This overload allows specifying if the original text, which is used when
      * parsing the tokens (with {@link #parseTokens()}), should be changed to match the given text. This will not ever
-     * call {@link Parser#preprocess(CharSequence)}, which makes it different from {@link #setText(String, boolean)}.
+     * call {@link Parser#preprocess(String)}, which makes it different from {@link #setText(String, boolean)}.
      * You can also specify whether the text animation should restart or not here.
      *
      * @param modifyOriginalText Flag determining if the original text should be modified as well. If {@code false},
