@@ -13,6 +13,12 @@ buildscript {
 apply plugin: 'java-library'
 apply plugin: 'com.vanniktech.maven.publish'
 
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 compileJava {
     sourceCompatibility = 8
     targetCompatibility = 8
@@ -33,7 +39,7 @@ def projectName = 'textratypist'
 version "$VERSION_NAME"
 group 'com.github.tommyettinger'
 
-//api "com.github.tommyettinger:textratypist:0.8.3"
+//api "com.github.tommyettinger:textratypist:0.10.0"
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
@@ -83,7 +89,7 @@ dependencies {
     testImplementation "com.rafaskoberg.gdx:typing-label:1.3.0"
     testImplementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     testImplementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-    testImplementation "com.github.raeleus.stripe:freetype:1.4.2"
+    testImplementation "com.github.raeleus.stripe:freetype:1.4.5"
     testImplementation "com.github.raeleus.TenPatch:tenpatch:5.2.3"
     testImplementation "com.github.tommyettinger:anim8-gdx:$anim8Version"
     testImplementation 'com.github.tommyettinger:colorful:0.8.4'

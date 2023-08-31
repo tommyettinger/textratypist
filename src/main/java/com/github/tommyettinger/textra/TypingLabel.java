@@ -209,7 +209,7 @@ public class TypingLabel extends TextraLabel {
      * Sets the text of this label. If the char progression is already running, it's highly recommended to use
      * {@link #restart(String)} instead. This overload allows specifying if the original text, which is used when
      * parsing the tokens (with {@link #parseTokens()}), should be changed to match the given text. If
-     * {@code modifyOriginalText} is true, this will {@link Parser#preprocess(CharSequence) preprocess} the text, which
+     * {@code modifyOriginalText} is true, this will {@link Parser#preprocess(String) preprocess} the text, which
      * should generally be run once per original text and no more.
      * <br>
      * This overload calls {@link #setText(String, boolean, boolean)} with {@code restart} set to false.

@@ -34,9 +34,9 @@ between two colors, or go across a whole rainbow. Lots of options; lots of fun. 
 typing-label, but there have been some changes. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
 for more information.
 
-As of 0.9.0, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
-Rotate, Attention, Highlight, Link, Trigger, Stylist, Cannon, Ocean, and Sputter are all new to TextraTypist (not in
-typing-label). You can see usage instructions and sample GIFs at
+As of 0.10.0, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
+Rotate, Attention, Highlight, Link, Trigger, Stylist, Cannon, Ocean, Sputter, and Instant are all new to TextraTypist
+(not in typing-label). You can see usage instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
 make use of the smooth scaling and rotation options that effects can use starting in TextraTypist 0.5.1 . Some make use
 of mouse tracking, new in 0.7.0, such as how Link only responds to a click on a range of text.
@@ -307,7 +307,7 @@ user input and can use animated styles like `{RAINBOW}`.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.9.0"
+implementation "com.github.tommyettinger:textratypist:0.10.0"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.12.0 or higher. A requirement for 1.11.0
@@ -318,7 +318,7 @@ pretty easy to update to.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.9.0:sources"
+implementation "com.github.tommyettinger:textratypist:0.10.0:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 ```
 
@@ -493,7 +493,11 @@ There's other issues with word wrap if you expect it to behave exactly like `Lab
 words, even if a single word is longer than the width of a `TextraLabel` or `TypingLabel`. The reason for this is
 twofold: first, breaking words without proper hyphenation logic can change the meaning of those words, and second,
 fixing this could be a ton of work. I do intend to try to make this configurable and match `Label` by default in some
-near-future version.
+near-future version. The word wrap behavior for multiple whitespace characters changed in version 0.10.0, and should be
+essentially correct now. Remember that word wrap only makes sense in the context of scene2d.ui if a widget (such as a
+TypingLabel or TextraLabel) if that widget has been sized by scene2d.ui, usually by being in a Table cell, or sometimes
+by being in a Container. You may need to add a label to a Table or Container, then set the width and/or height of that
+Cell or Container, to get wrap to act correctly.
 
 A possibly-frequent issue (with an easy fix) that may start occurring with version 0.9.0 and later is that TextraTypist
 now requires Java 8 or higher. All modern desktop OSes support Java 8, and this has been true for 9 years. Android has
