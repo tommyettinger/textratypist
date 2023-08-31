@@ -35,7 +35,7 @@ public class Issue13Test  extends ApplicationAdapter {
     @Override
     public void create () {
         stage = new Stage(new ScreenViewport());
-        stage.setDebugAll(true);
+//        stage.setDebugAll(true);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         int fitOneLineCount = 25;
@@ -55,7 +55,7 @@ public class Issue13Test  extends ApplicationAdapter {
         label.setWrap(true);
 
         // Runs in the next render thread so the layout is ready.
-        Gdx.app.postRunnable(() -> System.out.println("Lines: " + label.layout.lines()));
+        Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
 
 //        TypingLabel label = new TypingLabel(text.toString(), skin);
 //        label.setWrap(true);
@@ -70,13 +70,15 @@ public class Issue13Test  extends ApplicationAdapter {
 //        });
 //        // Runs in the next render thread so the layout is ready.
 //        Gdx.app.postRunnable(() -> System.out.println("Lines: " + label.workingLayout.lines()));
+//        Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
 
         Table table = new Table();
+        table.debug();
         table.add(label).prefWidth(100).row();
-
+        // pack() sets the actual size to the preferred size and then validates the sizing.
+        table.pack();
         Stack stack = new Stack(table);
         stack.setFillParent(true);
-
         stage.addActor(stack);
     }
 

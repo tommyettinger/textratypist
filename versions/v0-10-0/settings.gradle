@@ -1,0 +1,1 @@
+include 'html', 'android', 'teavm', 'core', 'lwjgl3'
