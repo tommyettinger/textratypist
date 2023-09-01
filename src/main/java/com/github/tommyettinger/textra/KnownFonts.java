@@ -622,8 +622,8 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.gentiumUnItalic = new Font(instance.prefix + "GentiumUnItalic-standard.fnt",
                         instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, 4f, 0f, -12f, true)
-                        .scaleTo(60, 36).setTextureFilter().setFancyLinePosition(0, 0.375f).setDescent(-16f)
-                        .setLineMetrics(0f, 0.15f, 0f, -0.3125f).setInlineImageMetrics(0f, -24f, 8f)
+                        .scaleTo(60, 36).setTextureFilter().setFancyLinePosition(0, 0f).setDescent(-16f)
+                        .setLineMetrics(0f, 0f, 0f, -0.3125f).setInlineImageMetrics(0f, 8f, 8f)
                         .setName("Gentium Un-Italic");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -667,7 +667,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.goNotoUniversal = new Font(instance.prefix + "GoNotoUniversal-standard.fnt",
                         instance.prefix + "GoNotoUniversal-standard.png", STANDARD, 0f, 0f, 0f, 0f, true)
                         .scaleTo(66, 33).setFancyLinePosition(0, 0.4f)
-                        .setLineMetrics(0f, 0.1875f, 0f, -0.375f).setInlineImageMetrics(0f, -4f, 6f)
+                        .setLineMetrics(0f, 0.1f, 0f, -0.375f).setInlineImageMetrics(0f, -4f, 6f)
                         .setTextureFilter().setName("Go Noto Universal");
             } catch (Exception e) {
                 e.printStackTrace();
