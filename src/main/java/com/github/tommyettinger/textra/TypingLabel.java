@@ -51,7 +51,7 @@ public class TypingLabel extends TextraLabel {
 
     // Collections
     private final ObjectMap<String, String> variables = new ObjectMap<>();
-    protected final Array<TokenEntry> tokenEntries = new Array<>();
+    final Array<TokenEntry> tokenEntries = new Array<>();
 
     // Config
     private final Color clearColor = new Color(TypingConfig.DEFAULT_CLEAR_COLOR);
@@ -196,13 +196,6 @@ public class TypingLabel extends TextraLabel {
     @Override
     public void setText(String newText) {
         this.setText(newText, true);
-//        offsets.clear();
-//        sizing.clear();
-//        rotations.clear();
-//        activeEffects.clear();
-//        tokenEntries.clear();
-//        parseTokens();
-//        act(Float.MIN_NORMAL);
     }
 
     /**
@@ -282,10 +275,7 @@ public class TypingLabel extends TextraLabel {
      * parse the tokens again.
      */
     protected void restoreOriginalText() {
-//        float actualWidth = layout.getTargetWidth();
-//        layout.setTargetWidth(Float.MAX_VALUE);
         super.setText(originalText.toString());
-//        layout.setTargetWidth(actualWidth);
         this.parsed = false;
     }
 
@@ -484,7 +474,8 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * Returns an {@link ObjectMap} with all the variable names and their respective replacement values.
+     * Returns the {@link ObjectMap} with all the variable names and their respective replacement values
+     * that this label uses to handle <code>{VAR=NAME}</code> replacements. This returns the map directly.
      */
     public ObjectMap<String, String> getVariables() {
         return variables;
@@ -492,28 +483,47 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Registers a variable and its respective replacement value to this label.
+     * @param var   the String name to use for a variable
+     * @param value the String value to use as a replacement
      */
     public void setVariable(String var, String value) {
-        variables.put(var.toUpperCase(), value);
+        if(var != null)
+            variables.put(var.toUpperCase(), value);
+    }
+
+    /**
+     * Removes a variable and its respective replacement value from this label's variable map.
+     * @param var the String name of a variable to remove
+     */
+    public void removeVariable(String var) {
+        if(var != null)
+            variables.remove(var.toUpperCase());
     }
 
     /**
      * Registers a set of variables and their respective replacement values to this label.
+     * @param variableMap an ObjectMap of variable names to their replacement Strings
      */
     public void setVariables(ObjectMap<String, String> variableMap) {
         this.variables.clear();
-        for (Entry<String, String> entry : variableMap.entries()) {
-            this.variables.put(entry.key.toUpperCase(), entry.value);
+        if (variableMap != null) {
+            for (Entry<String, String> entry : variableMap.entries()) {
+                this.variables.put(entry.key.toUpperCase(), entry.value);
+            }
         }
     }
 
     /**
      * Registers a set of variables and their respective replacement values to this label.
+     * @param variableMap a Map of variable names to their replacement Strings; null keys will be ignored silently
      */
     public void setVariables(Map<String, String> variableMap) {
         this.variables.clear();
-        for (Map.Entry<String, String> entry : variableMap.entrySet()) {
-            this.variables.put(entry.getKey().toUpperCase(), entry.getValue());
+        if (variableMap != null) {
+            for (Map.Entry<String, String> entry : variableMap.entrySet()) {
+                if(entry.getKey() != null)
+                    this.variables.put(entry.getKey().toUpperCase(), entry.getValue());
+            }
         }
     }
 
@@ -708,12 +718,6 @@ public class TypingLabel extends TextraLabel {
 
             // Break loop if this was our first glyph to prevent glyph issues.
             if (glyphCharIndex == 0 && !skipping) {
-//                // Notify listener about char progression
-//                if (glyphCharIndex < layoutSize && rawCharIndex >= 0 && listener != null) {
-//                    listener.onChar(getInLayout(layout, glyphCharIndex));
-//                }
-//                glyphCharIndex++;
-
                 charCooldown = Math.abs(textSpeed);
                 break;
             }
@@ -895,13 +899,6 @@ public class TypingLabel extends TextraLabel {
         batch.getColor().set(getColor()).a *= parentAlpha;
         batch.setColor(batch.getColor());
 
-//        baseX -= 0.5f * font.cellWidth;
-//
-//        baseX += cs * 0.5f * font.cellWidth;
-//        baseY += sn * 0.5f * font.cellWidth;
-//        baseX -= sn * 0.5f * (font.cellHeight);
-//        baseY += cs * 0.5f * (font.cellHeight);
-
         int globalIndex = -1;
 
         float inX = 0, inY = 0;
@@ -912,8 +909,6 @@ public class TypingLabel extends TextraLabel {
                 // I have no idea why the y has to be flipped here, but not above.
                 screenToLocalCoordinates(temp.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()));
             }
-            // this is what we had before, but it crashes if the TypingLabel isn't in a Stage.
-//            getParent().stageToLocalCoordinates(getStage().screenToStageCoordinates(temp.set(Gdx.input.getX(), Gdx.input.getY())));
 
             inX = temp.x;
             inY = temp.y;
