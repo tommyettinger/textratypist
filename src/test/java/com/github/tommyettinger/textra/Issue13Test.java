@@ -51,32 +51,26 @@ public class Issue13Test  extends ApplicationAdapter {
         // https://i.imgur.com/LFYLAPc.png
         text.append("this is a normal text test test        test!");
         // It works for TextraLabel and TypingLabel, in the same way.
-        TextraLabel label = new TextraLabel(text.toString(), skin);
-        label.setWrap(true);
-
-        // Runs in the next render thread so the layout is ready.
-        Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
-
-//        TypingLabel label = new TypingLabel(text.toString(), skin);
-//        label.setWrap(true);
-//        label.setSelectable(true);
-//        label.setTypingListener(new TypingAdapter(){
-//            @Override
-//            public void event(String event) {
-//                if("*SELECTED".equals(event)){
-//                    System.out.println(label.getSelectedText());
-//                }
-//            }
-//        });
-//        // Runs in the next render thread so the layout is ready.
-//        Gdx.app.postRunnable(() -> System.out.println("Lines: " + label.workingLayout.lines()));
-//        Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
-
+        TextraLabel label;
+//        if("TEXTRA".equals("TYPING")) {
+        if("TEXTRA".equals("TEXTRA")) {
+            label = new TextraLabel(text.toString(), skin);
+            label.setWrap(true);
+            // Runs in the next render thread so the layout is ready.
+            Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
+        } else {
+            label = new TypingLabel(text.toString(), skin);
+            label.setWrap(true);
+            // Runs in the next render thread so the layout is ready.
+            Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
+        }
         Table table = new Table();
         table.debug();
         table.add(label).prefWidth(100).row();
         // pack() sets the actual size to the preferred size and then validates the sizing.
-        table.pack();
+        // without calling pack(), the actual height will be reported as one line's worth,
+        // but after calling pack(), it should match the actual size.
+//        table.pack();
         Stack stack = new Stack(table);
         stack.setFillParent(true);
         stage.addActor(stack);
