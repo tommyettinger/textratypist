@@ -41,10 +41,10 @@ public interface ColorLookup {
     /**
      * An alternative ColorLookup, this parses a description such as "peach red" or "DARK DULLEST GREEN" using
      * {@link ColorUtils#describe(String)} (See its docs for more information). The colors available are in
-     * {@link com.github.tommyettinger.textra.utils.Palette}; the adjectives this can use are "light", "dark", "rich",
-     * "dull", and all versions of those with the suffixes "-er", "-est", or "-most". Case is effectively ignored for
-     * adjectives, but in some cases it can matter for color names -- ALL_CAPS names are ones from the libGDX class
-     * {@link Colors}, while lowercase ones are defined by this library.
+     * {@link com.github.tommyettinger.textra.utils.Palette}; there are adjectives that modify lightness and saturation
+     * (see {@link ColorUtils#describe(String)}), and you can specify multiple colors to mix them, with or without
+     * weights per-color. Case is effectively ignored for adjectives, but in some cases it can matter for color names --
+     * ALL_CAPS names are ones from the libGDX class {@link Colors}, while lowercase ones are defined by this library.
      */
     ColorLookup DESCRIPTIVE = new ColorLookup() {
         @Override

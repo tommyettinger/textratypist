@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.NumberUtils;
+import com.github.tommyettinger.textra.Font;
 
 import static com.github.tommyettinger.textra.utils.Palette.NAMED;
 
@@ -431,11 +432,15 @@ public class ColorUtils {
 
     /**
      * Parses a color description and returns the approximate color it describes, as an RGBA8888 int color.
-     * Color descriptions consist of one or more alphabetical words, separated by non-alphabetical characters (typically
+     * Color descriptions consist of one or more alphabetical words, separated by non-alphanumeric characters (typically
      * spaces and/or hyphens, though the underscore is treated as a letter). Any word that is the name of a color in
      * {@link Palette} will be looked up in {@link Palette#NAMED} and tracked; if there is more than one of these color
-     * name words, the colors will be mixed using {@link #mix(int[], int, int)}, or if there is just one color name
-     * word, then the corresponding color will be used.
+     * names, the colors will be mixed using {@link #unevenMix(int[], int, int)}, or if there is just one color name,
+     * then the corresponding color will be used. A number can be present after a color name (separated by any
+     * non-alphanumeric character(s) other than the underscore); if so, it acts as a positive weight for that color
+     * when mixed with other named colors. The recommended separator between a color name and its weight is the char
+     * {@code '^'}, but other punctuation like {@code ':'} is equally valid. You can also repeat a color name to
+     * increase its weight.
      * <br>
      * The special adjectives "light" and "dark" change the lightness of the described color; likewise, "rich" and
      * "dull" change the saturation (how different the color is from grayscale). All of these adjectives can have "-er"
@@ -453,12 +458,12 @@ public class ColorUtils {
      * <br>
      * Examples of valid descriptions include "blue", "dark green", "DULLER RED", "peach pink", "indigo purple mauve",
      * "BRIGHT GOLD", "lightest, richer apricot-olive", and "LIGHTMOST rich MAROON indigo".
-     * @param description a color description, as a lower-case String matching the above format
+     * @param description a color description, as a String matching the above format
      * @return an RGBA8888 int color as described
      */
     public static int describe(final String description) {
         float lightness = 0f, saturation = 0f;
-        final String[] terms = description.split("[^a-zA-Z_]+");
+        final String[] terms = description.split("[^a-zA-Z0-9_]+");
         mixing.clear();
         for(String term : terms) {
             if (term == null || term.isEmpty()) continue;
@@ -479,7 +484,7 @@ public class ColorUtils {
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, 256));
+                        mixing.add(NAMED.get(term, 256), 1);
                     }
                     break;
                 case 'B':
@@ -501,7 +506,7 @@ public class ColorUtils {
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, 256));
+                        mixing.add(NAMED.get(term, 256), 1);
                     }
                     break;
                 case 'P':
@@ -524,7 +529,7 @@ public class ColorUtils {
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, 256));
+                        mixing.add(NAMED.get(term, 256), 1);
                     }
                     break;
                 case 'W':
@@ -546,7 +551,7 @@ public class ColorUtils {
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, 256));
+                        mixing.add(NAMED.get(term, 256), 1);
                     }
                     break;
                 case 'R':
@@ -564,7 +569,7 @@ public class ColorUtils {
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, 256));
+                        mixing.add(NAMED.get(term, 256), 1);
                     }
                     break;
                 case 'D':
@@ -610,16 +615,30 @@ public class ColorUtils {
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, 256));
+                        mixing.add(NAMED.get(term, 256), 1);
                     }
                     break;
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    if(mixing.size >= 2)
+                        mixing.set((mixing.size & -2) - 1, Font.intFromDec(term, 0, term.length()));
+                    break;
                 default:
-                    mixing.add(NAMED.get(term, 256));
+                    mixing.add(NAMED.get(term, 256), 1);
                     break;
             }
         }
 
-        int result = mix(mixing.items, 0, mixing.size);
+        if(mixing.size < 2) return 256;
+        int result = unevenMix(mixing.items, 0, mixing.size);
         if(result == 256) return result;
 
         if(lightness > 0) result = lighten(result, lightness);
