@@ -248,8 +248,6 @@ public class TextraLabel extends Widget {
     public void draw(Batch batch, float parentAlpha) {
         super.validate();
 
-        float height = layout.getHeight();
-        float width = layout.getWidth();
         final float rot = getRotation();
         final float originX = getOriginX();
         final float originY = getOriginY();
@@ -257,14 +255,10 @@ public class TextraLabel extends Widget {
         final float cs = MathUtils.cosDeg(rot);
 
         int bgc;
-
-        if(width != (width = getWidth()) || height != (height = getHeight()))
-            invalidateHierarchy();
-
-
         final int lines = layout.lines();
         float baseX = getX(), baseY = getY();
 
+        float height = layout.getHeight();
         if (Align.isBottom(align)) {
             baseX -= sn * height;
             baseY += cs * height;
@@ -272,7 +266,8 @@ public class TextraLabel extends Widget {
             baseX -= sn * height * 0.5f;
             baseY += cs * height * 0.5f;
         }
-
+        float width = getWidth();
+        height = getHeight();
         if (Align.isRight(align)) {
             baseX += cs * width;
             baseY += sn * width;
@@ -380,8 +375,10 @@ public class TextraLabel extends Widget {
                     x += sn * (descent - 0.5f * f.cellHeight);
                     y -= cs * (descent - 0.5f * f.cellHeight);
 
-//                    x -= sn * 0.5f * f.cellHeight;
-//                    y += cs * 0.5f * f.cellHeight;
+                    if(font.integerPosition){
+                        x = (int)x;
+                        y = (int)y;
+                    }
                 }
 
                 if (f.kerning != null) {
