@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.ray3k.stripe.FreeTypeSkin;
 
@@ -39,11 +40,11 @@ public class TableWrapTest extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
-        Skin skin = new FreeTypeSkin(Gdx.files.internal("uiskin2.json"));
+        Skin skin = new FreeTypeSkin(Gdx.files.internal("uiskinOS.json"));
         Table root = new Table(skin);
         root.setSize(780, 600);
 
-        final Font font = KnownFonts.getRobotoCondensed();
+        final Font font = new Font(skin.getFont("outline-font"), 0, -7, 0, 2);
         final Table labels = new Table();
         labels.defaults().pad(5);
         labels.defaults().width(540).growY();
@@ -68,8 +69,11 @@ public class TableWrapTest extends ApplicationAdapter {
         });
         labels.add(button).height(50).colspan(3).top().row();
 
-        labels.add(new TextraLabel("lib[RED]GDX[ ] is a free and open-source game-development application framework " +
-                "written in the Java programming language", skin, font).setWrap(wr)).left().height(400).row();
+        TextraLabel tl = new TypingLabel("lib[RED]GDX[ ] is a free, open-source, warm and toasty game-development application framework " +
+                "written in the Java programming language.", skin, font);
+        tl.setWrap(wr);
+        tl.setAlignment(Align.center);
+        labels.add(tl).center().height(400).row();
 
 //        labels.add(new TypingLabel("lib[RED]GDX[] is a free and open-source game-development application framework " +
 //                "written in the Java programming language", skin, font).setWrap(wr)).left().height(400).row();

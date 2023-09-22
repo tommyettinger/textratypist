@@ -968,6 +968,10 @@ public class TypingLabel extends TextraLabel {
                     y += descent;
                     x += sn * (descent - 0.5f * f.cellHeight);
                     y -= cs * (descent - 0.5f * f.cellHeight);
+                    if(font.integerPosition){
+                        x = (int)x;
+                        y = (int)y;
+                    }
                 }
 
                 if (f.kerning != null) {
