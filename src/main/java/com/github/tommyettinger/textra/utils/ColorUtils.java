@@ -17,6 +17,7 @@
 package com.github.tommyettinger.textra.utils;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.NumberUtils;
@@ -251,16 +252,23 @@ public class ColorUtils {
         size &= -2;
         final int end = offset + size;
         if(colors == null || colors.length < end || offset < 0 || size <= 0)
-            return 0; // transparent black
+            return 256; // placeholder color
+        while(colors[offset] == 256)
+        {
+            if((offset += 2) >= end) return 256;
+        }
         int result = colors[offset];
         float current = colors[offset + 1], total = current;
         for (int i = offset+3; i < end; i += 2) {
-            total += colors[i];
+            if(colors[i-1] != 256)
+                total += colors[i];
         }
         total = 1f / total;
         current *= total;
         for (int i = offset+3; i < end; i += 2) {
             int mixColor = colors[i-1];
+            if(mixColor == 256)
+                continue;
             float weight = colors[i] * total;
             result = lerpColors(result, mixColor, weight / (current += weight));
         }
@@ -649,4 +657,18 @@ public class ColorUtils {
 
         return result;
     }
+
+
+    /**
+     * This simply looks up {@code key} in {@link Colors}, returning 256 (fully transparent,
+     * extremely dark blue) if no Color exists by that exact name (case-sensitive), or returning the RGBA8888 value
+     * of the color otherwise. All color names are {@code ALL_CAPS} in libGDX's Colors collection by default.
+     * @param key a color name, typically in {@code ALL_CAPS}
+     * @return the RGBA8888 int color matching the name, or {@code 256} if the name was not found
+     */
+    public static int lookupInColors(final String key) {
+        final Color c = Colors.get(key);
+        return c == null ? 256 : Color.rgba8888(c);
+    }
+
 }

@@ -17,7 +17,6 @@
 package com.github.tommyettinger.textra;
 
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 
@@ -26,7 +25,7 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
  * This is an extension point for games and libraries that may want their own way of looking up colors. This can be
  * treated as a functional interface in Java 8 and higher.
  * <br>
- * The default here is typically {@link #DESCRIPTIVE}, which allows using multiple color names, plus adjectives. There
+ * The default here is {@link #DESCRIPTIVE}, which allows using multiple color names, plus adjectives. There
  * is also {@link #INSTANCE}, which is older and only looks up one color name at a time from {@link Colors} in libGDX.
  */
 public interface ColorLookup {
@@ -34,9 +33,8 @@ public interface ColorLookup {
      * The default ColorLookup, this simply looks up {@code key} in {@link Colors}. It returns 256 (fully transparent,
      * extremely dark blue) if no Color exists by that exact name (case-sensitive), or returning the RGBA8888 value
      * of the color otherwise. All color names are {@code ALL_CAPS} in libGDX's Colors collection by default.
-     * This can also be accessed with {@link GdxColorLookup#INSTANCE}.
      */
-    GdxColorLookup INSTANCE = GdxColorLookup.INSTANCE;
+    ColorLookup INSTANCE = ColorUtils::lookupInColors;
 
     /**
      * An alternative ColorLookup, this parses a description such as "peach red" or "DARK DULLEST GREEN" using
@@ -46,12 +44,7 @@ public interface ColorLookup {
      * weights per-color. Case is effectively ignored for adjectives, but in some cases it can matter for color names --
      * ALL_CAPS names are ones from the libGDX class {@link Colors}, while lowercase ones are defined by this library.
      */
-    ColorLookup DESCRIPTIVE = new ColorLookup() {
-        @Override
-        public int getRgba(String description) {
-            return ColorUtils.describe(description);
-        }
-    };
+    ColorLookup DESCRIPTIVE = ColorUtils::describe;
 
     /**
      * Uses {@code key} to look up an RGBA8888 color, and returns that color as an int if one was found, or returns
@@ -63,26 +56,4 @@ public interface ColorLookup {
      * @return an RGBA8888 color; if 256, this can be considered to not know how to look up the given key.
      */
     int getRgba(String key);
-
-    /**
-     * The default ColorLookup, this simply looks up {@code key} in {@link Colors}, returning 256 (fully transparent,
-     * extremely dark blue) if no Color exists by that exact name (case-sensitive), or returning the RGBA8888 value
-     * of the color otherwise. All color names are {@code ALL_CAPS} in libGDX's Colors collection by default.
-     */
-    class GdxColorLookup implements ColorLookup {
-        /**
-         * The only way to access a GdxColorLookup. Since this class has no state and exists only to implement an
-         * interface, it is fine that this is static.
-         */
-        public static final GdxColorLookup INSTANCE = new GdxColorLookup();
-
-        private GdxColorLookup() {
-        }
-
-        @Override
-        public int getRgba(String key) {
-            Color c = Colors.get(key);
-            return c == null ? 256 : Color.rgba8888(c);
-        }
-    }
 }
