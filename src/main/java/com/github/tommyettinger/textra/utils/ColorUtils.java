@@ -447,8 +447,8 @@ public class ColorUtils {
      * then the corresponding color will be used. A number can be present after a color name (separated by any
      * non-alphanumeric character(s) other than the underscore); if so, it acts as a positive weight for that color
      * when mixed with other named colors. The recommended separator between a color name and its weight is the char
-     * {@code '^'}, but other punctuation like {@code ':'} is equally valid. You can also repeat a color name to
-     * increase its weight.
+     * {@code '^'}, but other punctuation like {@code ':'}, or just whitespace, is equally valid. You can also repeat a
+     * color name to increase its weight, as in "red red blue".
      * <br>
      * The special adjectives "light" and "dark" change the lightness of the described color; likewise, "rich" and
      * "dull" change the saturation (how different the color is from grayscale). All of these adjectives can have "-er"
@@ -461,7 +461,7 @@ public class ColorUtils {
      * "palemax" or (its equivalent) "palemost", where only the word length is checked.
      * <br>
      * If part of a color name or adjective is invalid, it is not considered; if the description is empty or fully
-     * invalid, this returns the RGBA8888 int value 256 (used as a placeholder by
+     * invalid, this returns the RGBA8888 int value {@code 256} (used as a placeholder by
      * {@link com.github.tommyettinger.textra.ColorLookup}).
      * <br>
      * Examples of valid descriptions include "blue", "dark green", "DULLER RED", "peach pink", "indigo purple mauve",
@@ -649,11 +649,11 @@ public class ColorUtils {
         int result = unevenMix(mixing.items, 0, mixing.size);
         if(result == 256) return result;
 
-        if(lightness > 0) result = lighten(result, lightness);
-        else if(lightness < 0) result = darken(result, -lightness);
-
         if(saturation > 0) result = enrich(result, saturation);
         else if(saturation < 0) result = dullen(result, -saturation);
+
+        if(lightness > 0) result = lighten(result, lightness);
+        else if(lightness < 0) result = darken(result, -lightness);
 
         return result;
     }

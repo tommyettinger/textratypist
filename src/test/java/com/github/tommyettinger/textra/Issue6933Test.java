@@ -52,13 +52,38 @@ public class Issue6933Test extends ApplicationAdapter {
 //        label.setFillParent(true);
 //        stage.addActor(label);
 
-        FreeTypeFontGenerator freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("LeagueSpartan-Bold.otf"));
+//        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Montserrat-Regular.ttf"));
+//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//        parameter.size = 40; // important! set this to the size you will display at!!!
+//
+//        // this section just ensures every printable character in ASCII will be in the font.
+//        StringBuilder sb = new StringBuilder(128).append(" \r\n\t");
+//        for (int i = 32; i < 127; i++) {
+//            sb.append((char) i);
+//        }
+//        // You can also give this any String that has all the characters you want to use.
+//        parameter.characters = sb.toString();
+//
+//        //FreeTypeFontGenerator.setMaxTextureSize(2048); // only needed for large font sizes or many glyphs
+//        BitmapFont bitmapFont = fontGenerator.generateFont(parameter);
+//
+//        Label.LabelStyle labelStyle = new Label.LabelStyle(bitmapFont, Color.WHITE);
+//        this.label = new Label("FPS: " + Gdx.graphics.getFramesPerSecond(), labelStyle);
+//        label.setSize(100f, 60f);
+//        label.setAlignment(Align.left, Align.bottom);
+//        label.setPosition(100f, 150f);
+//        stage.addActor(label);
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("TiroDevanagariHindi-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 300;
-        FreeTypeFontGenerator.setMaxTextureSize(4096);
-        BitmapFont bitmapFont = freeTypeFontGenerator.generateFont(parameter);
+//        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + "उच्चस्कोर";
+        parameter.incremental = true;
+
+        parameter.size = 40;
+
+        BitmapFont bitmapFont = generator.generateFont(parameter);
         Label.LabelStyle labelStyle = new Label.LabelStyle(bitmapFont, Color.WHITE);
-        this.label = new Label("FPS: " + Gdx.graphics.getFramesPerSecond(), labelStyle);
+        this.label = new Label("उच्च स्कोर", labelStyle); // Devanagari glyphs do not combine.
         label.setSize(100f, 60f);
         label.setAlignment(Align.left, Align.bottom);
         label.setPosition(100f, 150f);
