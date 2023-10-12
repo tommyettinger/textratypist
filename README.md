@@ -390,7 +390,7 @@ applies changes from the adjectives. There are some tricky things here:
 
   - The only adjectives this understands are "light", "dark", "rich", "dull", "bright", "pale", "deep", and "weak", plus
     the stronger versions of those such as "darker", "palest", and "dullmost". Any adjectives this doesn't know, this
-    ignores entirely.
+    ignores entirely. Color adjectives are case-insensitive.
     - "light" and "dark" change lightness.
     - "rich" and "dull" change saturation.
     - "bright" raises lightness and raises saturation.
@@ -400,6 +400,9 @@ applies changes from the adjectives. There are some tricky things here:
   - Color names are case-sensitive. Some names are from the libGDX `Colors` class, and are `ALL_CAPS`, sometimes with
     underscores. Other names are from colorful-gdx, and are `lowercased` single words. In a few cases, the same word
     refers to a different color value if you use ALL_CAPS or use lowercase (`ORANGE` and `orange` are a good example).
+  - If you have multiple color names in a description, all color names will be mixed using `ColorUtils.unevenMix()`. You
+    can have a number after any color name, which assigns a weight to that color for the mixing. Higher numbers will
+    cause their preceding color to have more effect on the result; any non-negative integers are allowed.
   - If there isn't a color name present in a description, the result is the int 256 (`0x00000100`), or fully transparent
     very dark blue, which is used as a placeholder because visually it is the same as transparent black. If a color does
     wind up as 256 at the time it is finally rendered, it will probably be ignored.

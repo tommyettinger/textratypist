@@ -4816,6 +4816,8 @@ public class Font implements Disposable {
                             }
                         }
                     }
+                    // meaningful chars:
+                    // []{}@%?^=.
                     if (c == '@') fontChange = i;
                     else if (c == '%') sizeChange = i;
                     else if (c == '?') sizeChange = -1;

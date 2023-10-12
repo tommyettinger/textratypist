@@ -6,7 +6,7 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.22.0'
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.25.3'
     }
 }
 
@@ -92,5 +92,5 @@ dependencies {
     testImplementation "com.github.raeleus.stripe:freetype:1.4.5"
     testImplementation "com.github.raeleus.TenPatch:tenpatch:5.2.3"
     testImplementation "com.github.tommyettinger:anim8-gdx:$anim8Version"
-    testImplementation 'com.github.tommyettinger:colorful:0.8.4'
+    testImplementation 'com.github.tommyettinger:colorful:0.8.5'
 }
