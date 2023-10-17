@@ -702,10 +702,6 @@ public class TypingLabel extends TextraLabel {
                     charCooldown += textSpeed * intervalMultiplier;
             }
 
-
-            // Increment char counter
-            charCounter++;
-
             // Increase glyph char index for all characters
             if (rawCharIndex > 0) {
                 glyphCharIndex++;

@@ -33,9 +33,9 @@ public class TypingConfig {
     public static float DEFAULT_WAIT_VALUE = 0.250f;
 
     /**
-     * Time in seconds that takes for each char to appear in the default speed. Default value is {@code 0.035}.
+     * Time in seconds that takes for each char to appear in the default speed. Default value is {@code 0.05}.
      */
-    public static float DEFAULT_SPEED_PER_CHAR = 0.035f;
+    public static float DEFAULT_SPEED_PER_CHAR = 0.05f;
 
     /**
      * Minimum value for the {@code SPEED} token. This value divides {@link #DEFAULT_SPEED_PER_CHAR} to calculate the
