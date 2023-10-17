@@ -1523,7 +1523,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.robotoCondensed = new Font(instance.prefix + "RobotoCondensed-standard.fnt",
                         instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 25, 0, 20, true)
                         .setDescent(-15f).setInlineImageMetrics(0f, 8f, 6f).setFancyLinePosition(0f, 0.3f)
-                        .setUnderlineMetrics(0f, 0f, 0f, -0.4f).setStrikethroughMetrics(0f, -0.0625f, 0f, -0.4f)
+                        .setUnderlineMetrics(0f, 0f, -0.25f, -0.4f).setStrikethroughMetrics(0f, -0.0625f, 0f, -0.4f)
                         .scaleTo(20, 32).setTextureFilter().setName("Roboto Condensed");
             } catch (Exception e) {
                 e.printStackTrace();
