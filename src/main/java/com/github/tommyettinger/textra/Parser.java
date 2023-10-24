@@ -440,16 +440,12 @@ public class Parser {
             }
             // Try to parse hex
             if (str.length() >= 6) {
-                try {
-                    if (str.startsWith("#")) {
-                        if (str.length() >= 9) return Font.intFromHex(str, 1, 9);
-                        if (str.length() >= 7) return Font.intFromHex(str, 1, 7) << 8 | 0xFF;
-                    }
-                    else {
-                        if (str.length() >= 8) return Font.intFromHex(str, 0, 8);
-                        return Font.intFromHex(str, 0, 6) << 8 | 0xFF;
-                    }
-                } catch (NumberFormatException ignored) {
+                if (str.startsWith("#")) {
+                    if (str.length() >= 9) return Font.intFromHex(str, 1, 9);
+                    if (str.length() >= 7) return Font.intFromHex(str, 1, 7) << 8 | 0xFF;
+                } else {
+                    if (str.length() >= 8) return Font.intFromHex(str, 0, 8);
+                    return Font.intFromHex(str, 0, 6) << 8 | 0xFF;
                 }
             }
         }

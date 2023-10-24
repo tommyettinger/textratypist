@@ -49,6 +49,7 @@ import java.util.Arrays;
  * fonts, but they can scale more cleanly. You can generate SDF fonts with Hiero or
  * <a href="https://github.com/libgdx/libgdx/wiki/Distance-field-fonts#using-distance-fields-for-arbitrary-images">a related tool</a>
  * that is part of libGDX; MSDF fonts are harder to generate, but possible using a tool like
+ * <a href="https://github.com/maltaisn/msdf-gdx-gen">maltaisn's msdf-gdx-gen</a> (recommended) or
  * <a href="https://github.com/tommyettinger/Glamer">Glamer</a>. Note that SDF and non-distance-field fonts can be
  * created with kerning information, but currently MSDF fonts cannot, making MSDF a better choice for monospace fonts
  * than variable-width ones.
@@ -344,29 +345,33 @@ public class Font implements Disposable {
 
     /**
      * Defines what types of distance field font this can use and render.
-     * STANDARD has no distance field.
-     * SDF is the signed distance field technique Hiero is compatible with, and uses only an alpha channel.
-     * MSDF is the multi-channel signed distance field technique, which is sharper but uses the RGB channels.
+     * <ul>
+     * <li>STANDARD has no distance field.</li>
+     * <li>SDF is the signed distance field technique Hiero is compatible with, and uses only an alpha channel.</li>
+     * <li>MSDF is the multi-channel signed distance field technique, which is sharper but uses the RGB channels.</li>
+     * </ul>
      */
     public enum DistanceFieldType {
         /**
          * Used by normal fonts with no distance field effect.
          * If the font has a large image that is downscaled, you may want to call {@link #setTextureFilter()}.
+         * You can optionally set a custom ShaderProgram this can use by setting {@link #shader}.
          */
         STANDARD,
         /**
          * Used by Signed Distance Field fonts that are compatible with {@link DistanceFieldFont}, and may be created
          * by Hiero with its Distance Field effect. You may want to set the {@link #distanceFieldCrispness} field to a
-         * higher or lower value depending on the range used to create the font in Hiero; this can take experimentation.
+         * higher or lower value depending on the range used to create the font in Hiero; this can take experimentation,
+         * but the default is 1 and higher values have sharper edges (risking getting pixelated if too high).
          */
         SDF,
         /**
          * Used by Multi-channel Signed Distance Field fonts, which are harder to create but can be more crisp than SDF
          * fonts, with hard corners where the corners were hard in the original font. If you want to create your own
-         * MSDF font, you can use <a href="https://github.com/tommyettinger/Glamer">the Glamer font generator tool</a>,
-         * which puts a lot of padding for each glyph to ensure it renders evenly, or you can use one of several other
-         * MSDF font generators, which may have an uneven baseline and look shaky when rendered for some fonts. You may
-         * want to set the {@link #distanceFieldCrispness} field to a higher or lower value based on preference.
+         * MSDF font, you can use <a href="https://github.com/maltaisn/msdf-gdx-gen">maltaisn's font generator tool</a>,
+         * though you should use a large enough font size during generation (at least 40 pixels) to avoid getting an
+         * uneven baseline that looks shaky when rendering some fonts. You may want to set the
+         * {@link #distanceFieldCrispness} field to a higher or lower value than its default of 1 based on preference.
          */
         MSDF
     }
@@ -478,8 +483,8 @@ public class Font implements Disposable {
     /**
      * A char that will be used to draw solid blocks with {@link #drawBlocks(Batch, int[][], float, float)}, and to draw
      * box-drawing/block-element characters if {@code makeGridGlyphs} is true in the constructor. The glyph
-     * that corresponds to this char should be a 1x1 pixel block of solid white pixels in most cases. Because Glamer
-     * (which generated many of the knownFonts here) places a solid block at where there is one in Unicode, this
+     * that corresponds to this char should be a 1x1 pixel block of solid white pixels in most cases. Because there is
+     * already a solid block in Unicode, this
      * defaults to that Unicode glyph, at u2588 . There is also a test in TextraTypist, BlockStamper, that can place a
      * tiny solid block in the lower-right corner and use that for this purpose. You can check if a .fnt file has a
      * solid block present by searching for {@code char id=9608} (9608 is the decimal way to write 0x2588).
@@ -927,7 +932,7 @@ public class Font implements Disposable {
     );
 
     /**
-     * The standard libGDX vertex shader source, which is also used by the MSDF shader.
+     * The standard libGDX vertex shader source, which is also used by the SDF and MSDF shaders.
      */
     public static final String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
             + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
@@ -942,6 +947,13 @@ public class Font implements Disposable {
             + "	v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
             + "	gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
             + "}\n";
+    /**
+     * A modified version of the fragment shader for SDF fonts from
+     * {@link com.badlogic.gdx.graphics.g2d.DistanceFieldFont}, now supporting RGB colors other than white (but with
+     * limited support for partial transparency). This is automatically used when {@link #enableShader(Batch)} is
+     * called and the {@link #distanceField} is {@link DistanceFieldType#SDF}. This shader can be used with inline
+     * images, but won't behave 100% correctly if they use partial transparency, such as to anti-alias edges.
+     */
     public static final String sdfFragmentShader =
             "#ifdef GL_ES\n"
                     + "	precision mediump float;\n"
@@ -966,7 +978,8 @@ public class Font implements Disposable {
 
     /**
      * Fragment shader source meant for MSDF fonts. This is automatically used when {@link #enableShader(Batch)} is
-     * called and the {@link #distanceField} is {@link DistanceFieldType#MSDF}.
+     * called and the {@link #distanceField} is {@link DistanceFieldType#MSDF}. This shader will almost always fail to
+     * work correctly with inline images.
      * <br>
      * This is mostly derived from
      * <a href="https://github.com/maltaisn/msdf-gdx/blob/v0.2.1/lib/src/main/resources/font.frag">msdf-gdx</a>, which
@@ -1092,7 +1105,7 @@ public class Font implements Disposable {
      * Reads in a CharSequence containing only hex digits (only 0-9, a-f, and A-F) with an optional sign at the start
      * and returns the long they represent, reading at most 16 characters (17 if there is a sign) and returning the
      * result if valid, or 0 if nothing could be read. The leading sign can be '+' or '-' if present. This can also
-     * represent negative numbers as they are printed by such methods as String.format given %x in the formatting
+     * represent negative numbers as they are printed by such methods as String.format given %X in the formatting
      * string; that is, if the first char of a 16-char (or longer)
      * CharSequence is a hex digit 8 or higher, then the whole number represents a negative number, using two's
      * complement and so on. This means "FFFFFFFFFFFFFFFF" would return the long -1 when passed to this, though you
@@ -2921,8 +2934,8 @@ public class Font implements Disposable {
 
     /**
      * Draws a grid made of rectangular blocks of int colors (typically RGBA) at the given x,y position in world space.
-     * This is only useful for monospace fonts. This assumes there is a full-block character at char u0000 by default,
-     * or at {@link #solidBlock} if you have set that field; Glamer produces fonts that have a block at u0000 already.
+     * This is only useful for monospace fonts. This assumes there is a full-block character at {@link #solidBlock}, so
+     * you should have set that field; most fonts in {@link KnownFonts} have a solid block char set already.
      * The {@code colors} parameter should be a rectangular 2D array, and because any colors that are the default int
      * value {@code 0} will be treated as transparent RGBA values, if a value is not assigned to a slot in the array
      * then nothing will be drawn there. The 2D array is treated as [x][y] indexed here. This is usually called before
