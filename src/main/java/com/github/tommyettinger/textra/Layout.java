@@ -169,7 +169,7 @@ public class Layout {
         if (index < 0 || index >= maxLines) return null;
         Line line = new Line(), prev = lines.get(index);
         prev.glyphs.add('\n');
-        line.height = prev.height;
+        line.height = 0;
         lines.insert(index + 1, line);
         return line;
     }

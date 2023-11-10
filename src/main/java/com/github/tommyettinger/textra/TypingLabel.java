@@ -923,6 +923,7 @@ public class TypingLabel extends TextraLabel {
 
             baseX += sn * glyphs.height;
             baseY -= cs * glyphs.height;
+
             if(glyphs.glyphs.size == 0)
                 continue;
 
@@ -962,8 +963,8 @@ public class TypingLabel extends TextraLabel {
                     y += sn * 0.5f * f.cellWidth;
 
                     y += descent;
-                    x += sn * (descent - 0.5f * f.cellHeight);
-                    y -= cs * (descent - 0.5f * f.cellHeight);
+                    x += sn * (descent - 0.5f * glyphs.height);
+                    y -= cs * (descent - 0.5f * glyphs.height);
                     if(font.integerPosition){
                         x = (int)x;
                         y = (int)y;
