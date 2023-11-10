@@ -865,9 +865,8 @@ public class Font implements Disposable {
     public float inlineImageXAdvance = 0f;
 
     /**
-     * If true (the default), any text inside matching curly braces, plus the curly braces themselves, will be ignored,
-     * not stored in Line or Layout, and not displayed. If false, curly braces and their contents are treated as normal
-     * text.
+     * If true (the default), any text inside matching curly braces, plus the curly braces themselves, will be ignored
+     * during rendering and not displayed. If false, curly braces and their contents are treated as normal text.
      */
     public boolean omitCurlyBraces = true;
     /**
@@ -6223,6 +6222,7 @@ public class Font implements Disposable {
             firstLine.glyphs.addAll(changing.getLine(i).glyphs);
         }
         changing.lines.truncate(1);
+        boolean curly = false;
         for (int ln = 0; ln < changing.lines(); ln++) {
             Line line = changing.getLine(ln);
             line.height = 0;
@@ -6235,6 +6235,7 @@ public class Font implements Disposable {
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
+                if(ch == '{' && !curly) curly = true;
                 if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
                 if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
                 if (font == null) font = this;
@@ -6280,6 +6281,13 @@ public class Font implements Disposable {
                         else ox *= scaleX * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
                         if(ox < 0) changedW -= ox;
                     }
+                    // if inside curly braces, set width to 0.
+                    if(curly) {
+                        changedW = 0;
+                        if(ch == '}') curly = false;
+                    }
+
+
                     if (breakPoint >= 0 && drawn + changedW > targetWidth) {
                         cutoff = breakPoint - spacingSpan + 1;
                         Line next;
@@ -6363,6 +6371,11 @@ public class Font implements Disposable {
                         if(ox != ox) ox = 0;
                         else ox *= scaleX * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
                         if(ox < 0) changedW -= ox;
+                    }
+                    // if inside curly braces, set width to 0.
+                    if(curly) {
+                        changedW = 0;
+                        if(ch == '}') curly = false;
                     }
                     if (breakPoint >= 0 && drawn + changedW + amt > targetWidth) {
                         cutoff = breakPoint - spacingSpan + 1;
