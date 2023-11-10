@@ -74,11 +74,17 @@ public class LabelRotationTest extends ApplicationAdapter {
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
         texture = new TextureRegion(new Texture(Gdx.files.internal("tilerb.png")));
         stage = new Stage(viewport);
-        BitmapFont font = new BitmapFont();
+//        BitmapFont font = new BitmapFont();
+        BitmapFont font = new BitmapFont(Gdx.files.internal("GoNotoUniversal-standard.fnt"), Gdx.files.internal("GoNotoUniversal-standard.png"), false);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         Font tFont = new Font(font);
+        tFont.scale(0.5f, 0.5f);
         tFont.useIntegerPositions(false);
 
         Label.LabelStyle style = new Label.LabelStyle();
+        style.font = font;
+        style.font.setUseIntegerPositions(false);
+        style.font.getData().scale(-0.5f);
         style.background = new TextureRegionDrawable(texture);
         style.background.setTopHeight(15);
         style.background.setBottomHeight(15);
@@ -92,7 +98,8 @@ public class LabelRotationTest extends ApplicationAdapter {
         labelStyle.background.setLeftWidth(25);
         labelStyle.background.setRightWidth(25);
 
-        textraLabel1 = new TextraLabel("Test", tFont);
+        textraLabel1 = new TextraLabel("สวัสดีครับ", tFont);
+//        textraLabel1 = new TextraLabel("Test", tFont);
         textraLabel1.setPosition(200,200);
         textraLabel1.style = style;
         textraLabel1.pack();
@@ -108,8 +115,10 @@ public class LabelRotationTest extends ApplicationAdapter {
         textraLabel3.pack();
         textraLabel3.setOrigin(center);
 
-        typingLabel1 = new TypingLabel("Test", tFont);
-        typingLabel1.setText("Test");
+        typingLabel1 = new TypingLabel("สวัสดีครับ", tFont);
+//        typingLabel1 = new TypingLabel("Test", tFont);
+//        typingLabel1.setText("Test");
+        typingLabel1.setText("สวัสดีครับ");
         typingLabel1.setPosition(200,200);
         typingLabel1.style = style;
         typingLabel1.pack();
@@ -127,7 +136,8 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel3.pack();
         typingLabel3.setOrigin(center);
 
-        label1 = new Label("Test", labelStyle);
+        label1 = new Label("สวัสดีครับ", labelStyle);
+//        label1 = new Label("Test", labelStyle);
         label1.setPosition(200,200);
         label1.pack();
         label2 = new Label("Check check, one two, one two...", labelStyle);

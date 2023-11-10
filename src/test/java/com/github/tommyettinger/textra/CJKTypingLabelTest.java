@@ -136,7 +136,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
                 "汉仪报宋简 汉仪报宋繁\n" +
                 "汉仪碑刻黑简 汉仪碑刻黑繁 汉仪碑刻黑W";
 
-        FreeTypeFontGenerator.setMaxTextureSize(128);
+        FreeTypeFontGenerator.setMaxTextureSize(1024);
         FreeTypeFontGenerator.FreeTypeBitmapFontData data = new FreeTypeFontGenerator.FreeTypeBitmapFontData() {
             public int getWrapIndex(Array<BitmapFont.Glyph> glyphs, int start) {
                 int i = start - 1;
