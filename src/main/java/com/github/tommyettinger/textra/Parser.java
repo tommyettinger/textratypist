@@ -425,7 +425,15 @@ public class Parser {
 
     /**
      * Parses a color from the given string. Returns null if the color couldn't be parsed.
-     * This can be useful in Effects.
+     * This can be useful in Effects. This uses the {@link ColorLookup} of the given label's
+     * default Font to try to parse {@code str} (unless the ColorLookup is null), and if that
+     * finds a named color, this returns its value. Otherwise, this parses the color as a hex
+     * RGBA8888, hex RGB888, or hex RGB444 color. The RGB modes assume alpha is fully opaque.
+     * This will attempt to parse the most chars it can and determines which RGB(A) format to
+     * use based on the length of {@code str}.
+     * @param label a TypingLabel; only used to get its default Font, which is only used for its ColorLookup
+     * @param str a String containing either the name of a color as a ColorLookup can understand, or an RGB(A) hex int
+     * @return an RGBA8888 int representing the color that str represents, or {@code 256} if no color could be looked up
      */
     public static int stringToColor(TypingLabel label, String str) {
         if (str != null) {
@@ -439,13 +447,28 @@ public class Parser {
                 }
             }
             // Try to parse hex
-            if (str.length() >= 6) {
+            if (str.length() >= 3) {
                 if (str.startsWith("#")) {
                     if (str.length() >= 9) return Font.intFromHex(str, 1, 9);
                     if (str.length() >= 7) return Font.intFromHex(str, 1, 7) << 8 | 0xFF;
+                    if (str.length() >= 4) {
+                        int rgb = Font.intFromHex(str, 1, 4);
+                        return
+                                (rgb << 20 & 0xF0000000) | (rgb << 16 & 0x0F000000) |
+                                (rgb << 16 & 0x00F00000) | (rgb << 12 & 0x000F0000) |
+                                (rgb << 12 & 0x0000F000) | (rgb <<  8 & 0x00000F00) |
+                                0xFF;
+                    }
+
                 } else {
                     if (str.length() >= 8) return Font.intFromHex(str, 0, 8);
-                    return Font.intFromHex(str, 0, 6) << 8 | 0xFF;
+                    if (str.length() >= 6) return Font.intFromHex(str, 0, 6) << 8 | 0xFF;
+                    int rgb = Font.intFromHex(str, 0, 3);
+                    return
+                            (rgb << 20 & 0xF0000000) | (rgb << 16 & 0x0F000000) |
+                            (rgb << 16 & 0x00F00000) | (rgb << 12 & 0x000F0000) |
+                            (rgb << 12 & 0x0000F000) | (rgb <<  8 & 0x00000F00) |
+                            0xFF;
                 }
             }
         }
