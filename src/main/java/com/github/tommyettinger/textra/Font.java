@@ -5022,7 +5022,15 @@ public class Font implements Disposable {
                             }
                             break;
                         case '#':
-                            if (len >= 7 && len < 9)
+                            if (len >= 4 && len < 7) {
+                                color = longFromHex(text, i + 1, i + 4);
+                                color =
+                                (color << 52 & 0xF000000000000000L) | (color << 48 & 0x0F00000000000000L) |
+                                (color << 48 & 0x00F0000000000000L) | (color << 44 & 0x000F000000000000L) |
+                                (color << 44 & 0x0000F00000000000L) | (color << 40 & 0x00000F0000000000L) |
+                                0x000000FE00000000L;
+                            }
+                            else if (len >= 7 && len < 9)
                                 color = longFromHex(text, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
                                 color = longFromHex(text, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
@@ -5853,7 +5861,15 @@ public class Font implements Disposable {
                             }
                             break;
                         case '#':
-                            if (len >= 7 && len < 9)
+                            if (len >= 4 && len < 7) {
+                                color = longFromHex(markup, i + 1, i + 4);
+                                color =
+                                        (color << 52 & 0xF000000000000000L) | (color << 48 & 0x0F00000000000000L) |
+                                        (color << 48 & 0x00F0000000000000L) | (color << 44 & 0x000F000000000000L) |
+                                        (color << 44 & 0x0000F00000000000L) | (color << 40 & 0x00000F0000000000L) |
+                                        0x000000FE00000000L;
+                            }
+                            else if (len >= 7 && len < 9)
                                 color = longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
                                 color = longFromHex(markup, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
@@ -6148,7 +6164,15 @@ public class Font implements Disposable {
                             current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
                             break;
                         case '#':
-                            if (len >= 7 && len < 9)
+                            if (len >= 4 && len < 7) {
+                                color = longFromHex(markup, i + 1, i + 4);
+                                color =
+                                    (color << 52 & 0xF000000000000000L) | (color << 48 & 0x0F00000000000000L) |
+                                    (color << 48 & 0x00F0000000000000L) | (color << 44 & 0x000F000000000000L) |
+                                    (color << 44 & 0x0000F00000000000L) | (color << 40 & 0x00000F0000000000L) |
+                                    0x000000FE00000000L;
+                            }
+                            else if (len >= 7 && len < 9)
                                 color = longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
                                 color = longFromHex(markup, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
