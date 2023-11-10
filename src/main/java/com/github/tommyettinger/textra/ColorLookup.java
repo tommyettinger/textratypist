@@ -30,24 +30,25 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
  */
 public interface ColorLookup {
     /**
-     * The default ColorLookup, this simply looks up {@code key} in {@link Colors}. It returns 256 (fully transparent,
-     * extremely dark blue) if no Color exists by that exact name (case-sensitive), or returning the RGBA8888 value
-     * of the color otherwise. All color names are {@code ALL_CAPS} in libGDX's Colors collection by default.
+     * An alternative ColorLookup, this simply looks up {@code key} in {@link Colors}. It returns 256 (fully
+     * transparent, extremely dark blue) if no Color exists by that exact name (case-sensitive), or returning the
+     * RGBA8888 value of the color otherwise. All color names are {@code ALL_CAPS} in libGDX's Colors collection by
+     * default.
      */
     ColorLookup INSTANCE = ColorUtils::lookupInColors;
 
     /**
-     * An alternative ColorLookup, this parses a description such as "peach red" or "DARK DULLEST GREEN" using
+     * The default ColorLookup, this parses a description such as "peach red" or "DARK DULLEST GREEN" using
      * {@link ColorUtils#describe(String)} (See its docs for more information). The colors available are in
      * {@link com.github.tommyettinger.textra.utils.Palette}; there are adjectives that modify lightness and saturation
      * (see {@link ColorUtils#describe(String)}), and you can specify multiple colors to mix them, with or without
-     * weights per-color. Case is effectively ignored for adjectives, but in some cases it can matter for color names --
+     * weights per-color. Case is effectively ignored for adjectives, but it matters for color names --
      * ALL_CAPS names are ones from the libGDX class {@link Colors}, while lowercase ones are defined by this library.
      */
     ColorLookup DESCRIPTIVE = ColorUtils::describe;
 
     /**
-     * Uses {@code key} to look up an RGBA8888 color, and returns that color as an int if one was found, or returns
+     * Looks up {@code key} to get an RGBA8888 color, and returns that color as an int if one was found, or returns
      * 256 if none was found. 256 is used because it is different from the more commonly-used 0 for fully-transparent,
      * while still being easy to remember and very rare to ever want (it is fully transparent, very dark blue). This
      * library will never call this method with a null key, and in most cases you can safely assume key is non-null.
