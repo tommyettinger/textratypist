@@ -32,7 +32,7 @@ import regexodus.Replacer;
 public class Parser {
     private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("((?<!\\[)\\[[^\\[\\]]*(\\]|$))");
     private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\]|$)"), "{STYLE=$1}");
-    private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{6,8}");
+    private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{3,8}");
 
     private static final CaseInsensitiveIntMap BOOLEAN_TRUE = new CaseInsensitiveIntMap(new String[]{"true", "yes", "t", "y", "on", "1"}, new int[6]);
     private static final int INDEX_TOKEN = 1;
@@ -482,7 +482,7 @@ public class Parser {
     public static String stringToColorMarkup(String str) {
         if (str != null) {
             // If color isn't registered by name, try to parse it as a hex code.
-            if (str.length() >= 6 && !Palette.NAMED.containsKey(str) && PATTERN_COLOR_HEX_NO_HASH.matches(str)) {
+            if (str.length() >= 3 && !Palette.NAMED.containsKey(str) && PATTERN_COLOR_HEX_NO_HASH.matches(str)) {
                 return "[#" + str + "]";
             }
         }
@@ -549,7 +549,7 @@ public class Parser {
                 return "[%" + str.substring(0, str.length() - 1) + "]";
             if (str.startsWith("%"))
                 return "[%" + str.substring(1) + "]";
-            if (str.length() >= 6 && !Colors.getColors().containsKey(str) && PATTERN_COLOR_HEX_NO_HASH.matches(str))
+            if (str.length() >= 3 && !Colors.getColors().containsKey(str) && PATTERN_COLOR_HEX_NO_HASH.matches(str))
                 return "[#" + str + "]";
         }
         // Return unaltered code, enclosed
