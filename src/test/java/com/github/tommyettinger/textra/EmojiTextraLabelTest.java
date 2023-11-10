@@ -83,7 +83,13 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
 //        final TextraLabel label = new TextraLabel(
         final TextraLabel label = new TextraLabel(
 //                "Yay! [+saxophone][+😍][+🎷] "
-                "[+⚖] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]"
+//                "[+⚖] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]"
+                "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
+                        + "But... {SICK}U. Nitty{ENDSICK} doesn't. {CROWD}[#BB1100][+skull][#55AA22FF][+🤡]{ENDCROWD}{CLEARCOLOR}\n"
+                        + "That's OK, I don't like loot crates anyway. {CROWD}[#B10F][+party popper][#5A2][+🥳]{ENDCROWD}{CLEARCOLOR}\n"
+                        +"[+⚖][~][_][+⚖][ ] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\n"
+                        + "{NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
+
                 ,
 //
 //                "I love TextraTypist! 😀\n" +
