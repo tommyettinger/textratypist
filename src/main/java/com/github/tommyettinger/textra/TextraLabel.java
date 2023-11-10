@@ -361,8 +361,24 @@ public class TextraLabel extends Widget {
 
             Font f = null;
             int kern = -1;
+            boolean curly = false;
             for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
                 long glyph = glyphs.glyphs.get(i);
+                char ch = (char) glyph;
+                if(font.omitCurlyBraces) {
+                    if (curly) {
+                        if (ch == '}') {
+                            curly = false;
+                            continue;
+                        } else if (ch == '{')
+                            curly = false;
+                        else continue;
+                    } else if (ch == '{') {
+                        curly = true;
+                        continue;
+                    }
+                }
+
                 if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                 if (f == null) f = font;
                 float descent = f.descent * f.scaleY;
