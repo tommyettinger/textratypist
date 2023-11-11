@@ -76,13 +76,13 @@ public class LabelRotationTest extends ApplicationAdapter {
         stage = new Stage(viewport);
 //        BitmapFont font = new BitmapFont();
         BitmapFont font = new BitmapFont(Gdx.files.internal("GoNotoUniversal-standard.fnt"), Gdx.files.internal("GoNotoUniversal-standard.png"), false);
-        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         Font tFont = new Font(font);
         tFont.scale(0.5f, 0.5f);
         tFont.useIntegerPositions(false);
 
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = font;
+        style.font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         style.font.setUseIntegerPositions(false);
         style.font.getData().scale(-0.5f);
         style.background = new TextureRegionDrawable(texture);

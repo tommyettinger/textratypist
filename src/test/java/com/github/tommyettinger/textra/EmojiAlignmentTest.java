@@ -54,9 +54,9 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        font2 = new Font(font);
 
         font = KnownFonts.getAStarry().scaleTo(8f, 16f);
-        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), Font.DistanceFieldType.STANDARD, 0, 48, 0, 0, true)
+        font2 = new Font(new BitmapFont(Gdx.files.internal("AStarry-standard.fnt")), Font.DistanceFieldType.STANDARD, 0, 24, 0, 0, true)
                 .setDescent(-12f).setLineMetrics(0f, -0.375f, 0f, 0f)
-                .setInlineImageMetrics(-4f, 32f, 0f)
+                .setInlineImageMetrics(-4f, 24f, 0f)
                 .scaleTo(8f, 16f);
         font.useIntegerPositions(false);
         font2.useIntegerPositions(false);
