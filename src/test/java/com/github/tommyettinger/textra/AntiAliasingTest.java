@@ -85,20 +85,6 @@ public class AntiAliasingTest extends ApplicationAdapter {
         stage.getViewport().update(width, height);
     }
 
-    @Override
-    public void pause() {
-        // Invoked when your application is paused.
-    }
-
-    @Override
-    public void resume() {
-        // Invoked when your application is resumed after pause.
-    }
-
-    @Override
-    public void dispose() {
-        // Destroy screen's assets here.
-    }
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel vs. Label test");
