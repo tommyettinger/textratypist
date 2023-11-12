@@ -19,7 +19,13 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.LifecycleListener;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.*;
+
+import java.io.BufferedReader;
+import java.util.Comparator;
 
 import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
 
@@ -1731,6 +1737,217 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getYataghanMSDF() not found.");
     }
 
+    /**
+     * Horribly duplicated because this is private in TextureAtlas.
+     * This can be entirely replaced by Consumer from JDK 8 once RoboVM supports it.
+     * @param <T> the type that this can parse
+     */
+    private interface Field<T> {
+        void parse(T object);
+    }
+
+    /**
+     * This is exactly like {@link TextureAtlas#TextureAtlas(FileHandle, FileHandle, boolean)}, except it jumps through
+     * some hoops to ensure the atlas is loaded with UTF-8 encoding. Loading an atlas that uses Unicode names for its
+     * TextureRegions can have those names be unusable if TextureAtlas' normal default platform encoding is used; this
+     * primarily affects Java versions before 18 where the JVM flag {@code -Dfile.encoding=UTF-8} was missing when a JAR
+     * is launched.
+     * @param packFile the FileHandle for the atlas file
+     * @param imagesDir the FileHandle for the folder that holds the images used by the atlas file
+     * @param flip If true, all regions loaded will be flipped for use with a perspective where 0,0 is the upper left corner.
+     * @return a new TextureAtlas loaded from the given files.
+     */
+    public static TextureAtlas loadUnicodeAtlas(FileHandle packFile, FileHandle imagesDir, boolean flip) {
+        return new TextureAtlas(new TextureAtlas.TextureAtlasData(packFile, imagesDir, flip){
+            private int readEntry (String[] entry, @Null String line) {
+                if (line == null) return 0;
+                line = line.trim();
+                if (line.isEmpty()) return 0;
+                int colon = line.indexOf(':');
+                if (colon == -1) return 0;
+                entry[0] = line.substring(0, colon).trim();
+                for (int i = 1, lastMatch = colon + 1;; i++) {
+                    int comma = line.indexOf(',', lastMatch);
+                    if (comma == -1) {
+                        entry[i] = line.substring(lastMatch).trim();
+                        return i;
+                    }
+                    entry[i] = line.substring(lastMatch, comma).trim();
+                    lastMatch = comma + 1;
+                    if (i == 4) return 4;
+                }
+            }
+
+            public void load (FileHandle packFile, FileHandle imagesDir, boolean flip) {
+                final String[] entry = new String[5];
+
+                ObjectMap<String, Field<Page>> pageFields = new ObjectMap<>(15, 0.99f); // Size needed to avoid collisions.
+                pageFields.put("size", page -> {
+                    page.width = Integer.parseInt(entry[1]);
+                    page.height = Integer.parseInt(entry[2]);
+                });
+                pageFields.put("format", page -> page.format = Pixmap.Format.valueOf(entry[1]));
+                pageFields.put("filter", page -> {
+                    page.minFilter = Texture.TextureFilter.valueOf(entry[1]);
+                    page.magFilter = Texture.TextureFilter.valueOf(entry[2]);
+                    page.useMipMaps = page.minFilter.isMipMap();
+                });
+                pageFields.put("repeat", page -> {
+                    if (entry[1].indexOf('x') != -1) page.uWrap = Texture.TextureWrap.Repeat;
+                    if (entry[1].indexOf('y') != -1) page.vWrap = Texture.TextureWrap.Repeat;
+                });
+                pageFields.put("pma", page -> page.pma = entry[1].equals("true"));
+
+                final boolean[] hasIndexes = {false};
+                ObjectMap<String, Field<Region>> regionFields = new ObjectMap<>(127, 0.99f); // Size needed to avoid collisions.
+                // Deprecated, use bounds.
+                regionFields.put("xy", region -> {
+                    region.left = Integer.parseInt(entry[1]);
+                    region.top = Integer.parseInt(entry[2]);
+                });
+                // Deprecated, use bounds.
+                regionFields.put("size", region -> {
+                    region.width = Integer.parseInt(entry[1]);
+                    region.height = Integer.parseInt(entry[2]);
+                });
+                regionFields.put("bounds", region -> {
+                    region.left = Integer.parseInt(entry[1]);
+                    region.top = Integer.parseInt(entry[2]);
+                    region.width = Integer.parseInt(entry[3]);
+                    region.height = Integer.parseInt(entry[4]);
+                });
+                // Deprecated, use offsets.
+                regionFields.put("offset", region -> {
+                    region.offsetX = Integer.parseInt(entry[1]);
+                    region.offsetY = Integer.parseInt(entry[2]);
+                });
+                // Deprecated, use offsets.
+                regionFields.put("orig", region -> {
+                    region.originalWidth = Integer.parseInt(entry[1]);
+                    region.originalHeight = Integer.parseInt(entry[2]);
+                });
+                regionFields.put("offsets", region -> {
+                    region.offsetX = Integer.parseInt(entry[1]);
+                    region.offsetY = Integer.parseInt(entry[2]);
+                    region.originalWidth = Integer.parseInt(entry[3]);
+                    region.originalHeight = Integer.parseInt(entry[4]);
+                });
+                regionFields.put("rotate", region -> {
+                    String value = entry[1];
+                    if (value.equals("true"))
+                        region.degrees = 90;
+                    else if (!value.equals("false")) //
+                        region.degrees = Integer.parseInt(value);
+                    region.rotate = region.degrees == 90;
+                });
+                regionFields.put("index", region -> {
+                    region.index = Integer.parseInt(entry[1]);
+                    if (region.index != -1) hasIndexes[0] = true;
+                });
+
+                BufferedReader reader;
+                try {
+                    // all this for just one line changed...
+                    reader = new BufferedReader(packFile.reader("UTF-8"), 1024);
+                } catch (IllegalArgumentException e) {
+                    throw new GdxRuntimeException(e); // This should never happen on a sane JVM.
+                }
+                try {
+                    String line = reader.readLine();
+                    // Ignore empty lines before first entry.
+                    while (line != null && line.trim().isEmpty())
+                        line = reader.readLine();
+                    // Header entries.
+                    while (true) {
+                        if (line == null || line.trim().isEmpty()) break;
+                        if (readEntry(entry, line) == 0) break; // Silently ignore all header fields.
+                        line = reader.readLine();
+                    }
+                    // Page and region entries.
+                    Page page = null;
+                    Array<String> names = null;
+                    Array<int[]> values = null;
+                    while (line != null) {
+                        if (line.trim().isEmpty()) {
+                            page = null;
+                            line = reader.readLine();
+                        } else if (page == null) {
+                            page = new Page();
+                            page.textureFile = imagesDir.child(line);
+                            while (readEntry(entry, line = reader.readLine()) != 0) {
+                                Field<Page> field = pageFields.get(entry[0]);
+                                if (field != null) field.parse(page); // Silently ignore unknown page fields.
+                            }
+                            getPages().add(page);
+                        } else {
+                            Region region = new Region();
+                            region.page = page;
+                            region.name = line.trim();
+                            if (flip) region.flip = true;
+                            while (true) {
+                                int count = readEntry(entry, line = reader.readLine());
+                                if (count == 0) break;
+                                Field<Region> field = regionFields.get(entry[0]);
+                                if (field != null)
+                                    field.parse(region);
+                                else {
+                                    if (names == null) {
+                                        names = new Array<>(8);
+                                        values = new Array<>(8);
+                                    }
+                                    names.add(entry[0]);
+                                    int[] entryValues = new int[count];
+                                    for (int i = 0; i < count; i++) {
+                                        try {
+                                            entryValues[i] = Integer.parseInt(entry[i + 1]);
+                                        } catch (NumberFormatException ignored) { // Silently ignore non-integer values.
+                                        }
+                                    }
+                                    values.add(entryValues);
+                                }
+                            }
+                            if (region.originalWidth == 0 && region.originalHeight == 0) {
+                                region.originalWidth = region.width;
+                                region.originalHeight = region.height;
+                            }
+                            if (names != null && names.size > 0) {
+                                region.names = names.toArray(String.class);
+                                region.values = values.toArray(int[].class);
+                                names.clear();
+                                values.clear();
+                            }
+                            getRegions().add(region);
+                        }
+                    }
+                } catch (Exception ex) {
+                    throw new GdxRuntimeException("Error reading texture atlas file: " + packFile, ex);
+                } finally {
+                    StreamUtils.closeQuietly(reader);
+                }
+
+                if (hasIndexes[0]) {
+                    getRegions().sort((region1, region2) -> (region1.index & Integer.MAX_VALUE) - (region2.index & Integer.MAX_VALUE));
+                }
+
+                //// We would use this if we need each emoji before its written-name counterpart.
+                //// We currently do not need this feature, but might in the future.
+                //// This is slower than using the above block to only sort if there are indexes.
+//                Comparator<Region> comp = new Comparator<Region>() {
+//                    public int compare (Region region1, Region region2) {
+//                        int pos = (region1.left << 15 ^ region1.top) - (region2.left << 15 ^ region2.top);
+//                        pos = (pos >> 31 | -pos >>> 31) << 2;
+//                        int idx = (region1.index & Integer.MAX_VALUE) - (region2.index & Integer.MAX_VALUE);
+//                        idx = (idx >> 31 | -idx >>> 31) << 1;
+//                        int name = region1.name.compareTo(region2.name);
+//                        name = (name >> 31 | -name >>> 31);
+//                        return pos + idx - name;
+//                    }
+//                };
+//                getRegions().sort(comp);
+            }
+        });
+    }
+
     private TextureAtlas twemoji;
 
     /**
@@ -1873,9 +2090,9 @@ public final class KnownFonts implements LifecycleListener {
                 FileHandle atlas = Gdx.files.internal(instance.prefix + "Twemoji.atlas");
                 if (!atlas.exists() && Gdx.files.isLocalStorageAvailable()) atlas = Gdx.files.local(instance.prefix + "Twemoji.atlas");
                 if (Gdx.files.internal(instance.prefix + "Twemoji.png").exists())
-                    instance.twemoji = new TextureAtlas(atlas, atlas.parent(), false);
+                    instance.twemoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
                 else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + "Twemoji.png").exists())
-                    instance.twemoji = new TextureAtlas(atlas, atlas.parent(), false);
+                    instance.twemoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
