@@ -1782,67 +1782,93 @@ public final class KnownFonts implements LifecycleListener {
                 final String[] entry = new String[5];
 
                 ObjectMap<String, Field<Page>> pageFields = new ObjectMap<>(15, 0.99f); // Size needed to avoid collisions.
-                pageFields.put("size", page -> {
-                    page.width = Integer.parseInt(entry[1]);
-                    page.height = Integer.parseInt(entry[2]);
+                pageFields.put("size", new Field<Page>() {
+                    public void parse (Page page) {
+                        page.width = Integer.parseInt(entry[1]);
+                        page.height = Integer.parseInt(entry[2]);
+                    }
                 });
-                pageFields.put("format", page -> page.format = Pixmap.Format.valueOf(entry[1]));
-                pageFields.put("filter", page -> {
-                    page.minFilter = Texture.TextureFilter.valueOf(entry[1]);
-                    page.magFilter = Texture.TextureFilter.valueOf(entry[2]);
-                    page.useMipMaps = page.minFilter.isMipMap();
+                pageFields.put("format", new Field<Page>() {
+                    public void parse (Page page) {
+                        page.format = Pixmap.Format.valueOf(entry[1]);
+                    }
                 });
-                pageFields.put("repeat", page -> {
-                    if (entry[1].indexOf('x') != -1) page.uWrap = Texture.TextureWrap.Repeat;
-                    if (entry[1].indexOf('y') != -1) page.vWrap = Texture.TextureWrap.Repeat;
+                pageFields.put("filter", new Field<Page>() {
+                    public void parse (Page page) {
+                        page.minFilter = Texture.TextureFilter.valueOf(entry[1]);
+                        page.magFilter = Texture.TextureFilter.valueOf(entry[2]);
+                        page.useMipMaps = page.minFilter.isMipMap();
+                    }
                 });
-                pageFields.put("pma", page -> page.pma = entry[1].equals("true"));
+                pageFields.put("repeat", new Field<Page>() {
+                    public void parse (Page page) {
+                        if (entry[1].indexOf('x') != -1) page.uWrap = Texture.TextureWrap.Repeat;
+                        if (entry[1].indexOf('y') != -1) page.vWrap = Texture.TextureWrap.Repeat;
+                    }
+                });
+                pageFields.put("pma", new Field<Page>() {
+                    public void parse (Page page) {
+                        page.pma = entry[1].equals("true");
+                    }
+                });
 
                 final boolean[] hasIndexes = {false};
                 ObjectMap<String, Field<Region>> regionFields = new ObjectMap<>(127, 0.99f); // Size needed to avoid collisions.
-                // Deprecated, use bounds.
-                regionFields.put("xy", region -> {
-                    region.left = Integer.parseInt(entry[1]);
-                    region.top = Integer.parseInt(entry[2]);
+                regionFields.put("xy", new Field<Region>() { // Deprecated, use bounds.
+                    public void parse (Region region) {
+                        region.left = Integer.parseInt(entry[1]);
+                        region.top = Integer.parseInt(entry[2]);
+                    }
                 });
-                // Deprecated, use bounds.
-                regionFields.put("size", region -> {
-                    region.width = Integer.parseInt(entry[1]);
-                    region.height = Integer.parseInt(entry[2]);
+                regionFields.put("size", new Field<Region>() { // Deprecated, use bounds.
+                    public void parse (Region region) {
+                        region.width = Integer.parseInt(entry[1]);
+                        region.height = Integer.parseInt(entry[2]);
+                    }
                 });
-                regionFields.put("bounds", region -> {
-                    region.left = Integer.parseInt(entry[1]);
-                    region.top = Integer.parseInt(entry[2]);
-                    region.width = Integer.parseInt(entry[3]);
-                    region.height = Integer.parseInt(entry[4]);
+                regionFields.put("bounds", new Field<Region>() {
+                    public void parse (Region region) {
+                        region.left = Integer.parseInt(entry[1]);
+                        region.top = Integer.parseInt(entry[2]);
+                        region.width = Integer.parseInt(entry[3]);
+                        region.height = Integer.parseInt(entry[4]);
+                    }
                 });
-                // Deprecated, use offsets.
-                regionFields.put("offset", region -> {
-                    region.offsetX = Integer.parseInt(entry[1]);
-                    region.offsetY = Integer.parseInt(entry[2]);
+                regionFields.put("offset", new Field<Region>() { // Deprecated, use offsets.
+                    public void parse (Region region) {
+                        region.offsetX = Integer.parseInt(entry[1]);
+                        region.offsetY = Integer.parseInt(entry[2]);
+                    }
                 });
-                // Deprecated, use offsets.
-                regionFields.put("orig", region -> {
-                    region.originalWidth = Integer.parseInt(entry[1]);
-                    region.originalHeight = Integer.parseInt(entry[2]);
+                regionFields.put("orig", new Field<Region>() { // Deprecated, use offsets.
+                    public void parse (Region region) {
+                        region.originalWidth = Integer.parseInt(entry[1]);
+                        region.originalHeight = Integer.parseInt(entry[2]);
+                    }
                 });
-                regionFields.put("offsets", region -> {
-                    region.offsetX = Integer.parseInt(entry[1]);
-                    region.offsetY = Integer.parseInt(entry[2]);
-                    region.originalWidth = Integer.parseInt(entry[3]);
-                    region.originalHeight = Integer.parseInt(entry[4]);
+                regionFields.put("offsets", new Field<Region>() {
+                    public void parse (Region region) {
+                        region.offsetX = Integer.parseInt(entry[1]);
+                        region.offsetY = Integer.parseInt(entry[2]);
+                        region.originalWidth = Integer.parseInt(entry[3]);
+                        region.originalHeight = Integer.parseInt(entry[4]);
+                    }
                 });
-                regionFields.put("rotate", region -> {
-                    String value = entry[1];
-                    if (value.equals("true"))
-                        region.degrees = 90;
-                    else if (!value.equals("false")) //
-                        region.degrees = Integer.parseInt(value);
-                    region.rotate = region.degrees == 90;
+                regionFields.put("rotate", new Field<Region>() {
+                    public void parse (Region region) {
+                        String value = entry[1];
+                        if (value.equals("true"))
+                            region.degrees = 90;
+                        else if (!value.equals("false")) //
+                            region.degrees = Integer.parseInt(value);
+                        region.rotate = region.degrees == 90;
+                    }
                 });
-                regionFields.put("index", region -> {
-                    region.index = Integer.parseInt(entry[1]);
-                    if (region.index != -1) hasIndexes[0] = true;
+                regionFields.put("index", new Field<Region>() {
+                    public void parse (Region region) {
+                        region.index = Integer.parseInt(entry[1]);
+                        if (region.index != -1) hasIndexes[0] = true;
+                    }
                 });
 
                 BufferedReader reader;
@@ -1926,7 +1952,11 @@ public final class KnownFonts implements LifecycleListener {
                 }
 
                 if (hasIndexes[0]) {
-                    getRegions().sort((region1, region2) -> (region1.index & Integer.MAX_VALUE) - (region2.index & Integer.MAX_VALUE));
+                    getRegions().sort(new Comparator<Region>() {
+                        public int compare (Region region1, Region region2) {
+                            return (region1.index & Integer.MAX_VALUE) - (region2.index & Integer.MAX_VALUE);
+                        }
+                    });
                 }
 
                 //// We would use this if we need each emoji before its written-name counterpart.
