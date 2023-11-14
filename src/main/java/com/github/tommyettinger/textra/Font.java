@@ -3781,7 +3781,7 @@ public class Font implements Disposable {
             boolean curly = false, initial = true;
             int kern = -1;
             float amt;
-            line.height = glyphs.size == 0 ? currentHeight : 0f;
+            line.height = currentHeight;// glyphs.size == 0 ? currentHeight : 0f;
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
@@ -3813,7 +3813,7 @@ public class Font implements Disposable {
                     }
                     else
                         scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
-                    line.height = Math.max(line.height, currentHeight = (font.cellHeight /* - font.descent * font.scaleY */) * scale);
+                    line.height = Math.max(line.height, (currentHeight = font.cellHeight) * scale);
                     amt = font.kerning.get(kern, 0) * scaleX;
                     float changedW = tr.xAdvance * scaleX;
                     if(tr.offsetX != tr.offsetX)
@@ -3825,7 +3825,7 @@ public class Font implements Disposable {
                     initial = false;
                     drawn += changedW + amt;
                 } else {
-                    line.height = Math.max(line.height, currentHeight = (font.cellHeight /* - font.descent * font.scaleY */) * scale);
+                    line.height = Math.max(line.height, (currentHeight = font.cellHeight) * scale);
                     if(ch >= 0xE000 && ch < 0xF800){
                         scaleX = scale * font.cellHeight / (tr.xAdvance);
 //                        scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
@@ -5430,7 +5430,7 @@ public class Font implements Disposable {
                                 later.width = changeNext;
                                 earlier.width -= change;
                                 later.glyphs.addAll(glyphBuffer);
-                                later.height = 0;//Math.max(later.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                                later.height = Math.max(earlier.height, font.cellHeight * (scale + 1) * 0.25f);
                                 break;
                             }
                         }
@@ -6269,7 +6269,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = 0;//Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
 
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
@@ -6310,7 +6310,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = 0;//Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
 
                         int nextSize = next.glyphs.size;
                         long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
@@ -6360,7 +6360,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = 0;//Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
 
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
@@ -6399,7 +6399,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = 0;//Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
 
                         int nextSize = next.glyphs.size;
                         long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
