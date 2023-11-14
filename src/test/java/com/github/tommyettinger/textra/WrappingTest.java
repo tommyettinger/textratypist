@@ -37,13 +37,19 @@ public class WrappingTest extends ApplicationAdapter {
         stage = new Stage();
         font = KnownFonts.getRobotoCondensed();
         Array<TypingLabel> labels = new Array<>(new TypingLabel[]{
-                new TypingLabel("{RAINBOW}Texttexttextte xtext text t e x t text text text text{ENDRAINBOW}", font)
+                new TypingLabel("{RAINBOW}Texttexttextte xtext text t-e-x-t text text text text{ENDRAINBOW}", font)
         });
         TypingLabel label = labels.get(0);
         label.setWrap(true);
         label.setWidth(200);
         label.setSize(200, 400);
         label.setAlignment(Align.top);
+        label.setTypingListener(new TypingAdapter(){
+            @Override
+            public void end() {
+                System.out.println(label.workingLayout);
+            }
+        });
 
         BitmapFont bmfont = new BitmapFont(Gdx.files.internal("RobotoCondensed-standard.fnt"));
         bmfont.getData().markupEnabled = true;

@@ -5142,10 +5142,12 @@ public class Font implements Disposable {
                                 if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
                                         Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                                     int leading = 0;
+                                    boolean hyphenated = true;
                                     while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
                                             Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
                                         ++leading;
                                         --j;
+                                        hyphenated = false;
                                     }
                                     glyphBuffer.clear();
                                     float change = 0f, changeNext = 0f;
@@ -5238,7 +5240,8 @@ public class Font implements Disposable {
                                     if (earlier.width - change > targetWidth)
                                         continue;
                                     earlier.glyphs.truncate(j + 1);
-                                    earlier.glyphs.add(' ');
+                                    if(!hyphenated)
+                                        earlier.glyphs.add(' ');
 //                                    earlier.glyphs.add('\n');
                                     later.width = changeNext;
                                     earlier.width -= change;
@@ -5322,10 +5325,12 @@ public class Font implements Disposable {
                             if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
                                     Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                                 int leading = 0;
+                                boolean hyphenated = true;
                                 while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
                                         Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
                                     ++leading;
                                     --j;
+                                    hyphenated = false;
                                 }
                                 glyphBuffer.clear();
                                 float change = 0f, changeNext = 0f;
@@ -5419,7 +5424,8 @@ public class Font implements Disposable {
                                 if (earlier.width - change > targetWidth)
                                     continue;
                                 earlier.glyphs.truncate(j + 1);
-                                earlier.glyphs.add(' ');
+                                if(!hyphenated)
+                                    earlier.glyphs.add(' ');
 //                                earlier.glyphs.add('\n');
                                 later.width = changeNext;
                                 earlier.width -= change;
