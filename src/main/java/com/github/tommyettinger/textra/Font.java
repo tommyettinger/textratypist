@@ -2883,8 +2883,8 @@ public class Font implements Disposable {
             if (batch.getShader() != shader) {
                 batch.setShader(shader);
                 shader.setUniformf("u_weight", 0f);
-                shader.setUniformf("u_smoothing", 2f * distanceFieldCrispness);
-//                shader.setUniformf("u_smoothing", 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth));
+//                shader.setUniformf("u_smoothing", 2f * distanceFieldCrispness);
+                shader.setUniformf("u_smoothing", 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth));
             }
         } else if (distanceField == DistanceFieldType.SDF) {
             if (batch.getShader() != shader) {

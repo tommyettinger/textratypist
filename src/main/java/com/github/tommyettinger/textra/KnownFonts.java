@@ -166,7 +166,7 @@ public final class KnownFonts implements LifecycleListener {
                         instance.prefix + "AStarry-msdf.png", MSDF, 0, 0, 0, 0, true)
                         .setUnderlinePosition(0f, -0.2f).setStrikethroughPosition(0f, -0.2f)
                         .setFancyLinePosition(0, -0.125f).setBoldStrength(0.5f)
-                        .scaleTo(10, 10).setCrispness(2f).setName("A Starry (MSDF)");
+                        .scaleTo(9, 9).setCrispness(2.5f).setName("A Starry (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -454,9 +454,9 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.dejaVuSansMono = new Font(instance.prefix + "DejaVuSansMono-msdf.fnt",
                         instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 0f, 0f, 0f, 0f, true)
-                        .setDescent(-6f).scaleTo(9, 20)
+                        .setDescent(-6f).scaleTo(10, 21)
                         .setFancyLinePosition(0f, 0.25f)
-                        .setLineMetrics(0f, 0f, 0f, -0.25f).setCrispness(2f).setName("DejaVu Sans Mono (MSDF)");
+                        .setLineMetrics(0.0f, 0f, -0.1f, -0.25f).setCrispness(1.5f).setName("DejaVu Sans Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
