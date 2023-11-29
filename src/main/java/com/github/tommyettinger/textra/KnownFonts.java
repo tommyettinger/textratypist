@@ -147,7 +147,8 @@ public final class KnownFonts implements LifecycleListener {
      * If you only need sizes in small integer multiples of 8 pixels, you might get sharper-looking results from
      * {@link #getAStarry()}.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20(MSDF).png">Image link</a> (uses width=10, height=10, crispness=2.0)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20(MSDF).png">Image link</a>
+     * (uses width=9, height=9, crispness=2.5)
      * <br>
      * Needs files:
      * <ul>
@@ -437,7 +438,8 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/DejaVu%20Sans%20Mono%20(MSDF).png">Image link</a> (uses width=9, height=20, crispness=2.0)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/DejaVu%20Sans%20Mono%20(MSDF).png">Image link</a> 
+     * (uses width=10, height=21, crispness=1.75)
      * <br>
      * Needs files:
      * <ul>
@@ -456,7 +458,7 @@ public final class KnownFonts implements LifecycleListener {
                         instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 0f, 0f, 0f, 0f, true)
                         .setDescent(-6f).scaleTo(10, 21)
                         .setFancyLinePosition(0f, 0.25f)
-                        .setLineMetrics(0.0f, 0f, -0.1f, -0.25f).setCrispness(1.5f).setName("DejaVu Sans Mono (MSDF)");
+                        .setLineMetrics(0.0f, 0f, -0.1f, -0.25f).setCrispness(1.75f).setName("DejaVu Sans Mono (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -523,7 +525,7 @@ public final class KnownFonts implements LifecycleListener {
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
      * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Gentium%20(MSDF).png">Image link</a> (uses width=50, height=45,
-     * adjustLineHeight(0.625f), setCrispness(3f))
+     * adjustLineHeight(0.625f), setCrispness(2f))
      * <br>
      * Needs files:
      * <ul>
@@ -540,7 +542,7 @@ public final class KnownFonts implements LifecycleListener {
             try {
                 instance.gentiumMSDF = new Font(instance.prefix + "Gentium-msdf.fnt",
                         instance.prefix + "Gentium-msdf.png", MSDF, 0f, 0f, 0f, 0f, true)
-                        .scaleTo(50, 45).adjustLineHeight(0.625f).setCrispness(3f).setName("Gentium (MSDF)");
+                        .scaleTo(50, 45).adjustLineHeight(0.625f).setLineMetrics(0f, 0f, -0.1f, -0.5f).setCrispness(2f).setName("Gentium (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -958,7 +960,7 @@ public final class KnownFonts implements LifecycleListener {
      * distance field settings would make some fonts in the family blurry and others too sharp).
      * <br>
      * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Iosevka%20(MSDF).png">Image link</a> (uses
-     * .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false))
+     * .setCrispness(1.6f).scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
      * <ul>
@@ -978,7 +980,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.iosevkaMSDF = new Font(instance.prefix + "Iosevka-msdf.fnt",
                         instance.prefix + "Iosevka-msdf.png", MSDF, 1f, 0f, 0f, 0f, true).setDescent(-12)
                         .setLineMetrics(0.25f, 0.125f, 0f, -0.4f).setFancyLinePosition(0f, 0.375f)
-                        .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false)
+                        .setCrispness(1.6f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1094,7 +1096,7 @@ public final class KnownFonts implements LifecycleListener {
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
      * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Iosevka%20Slab%20(MSDF).png">Image link</a> (uses
-     * .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false))
+     * .setCrispness(1.6f).scaleTo(12, 26).fitCell(10, 25, false))
      * <br>
      * Needs files:
      * <ul>
@@ -1112,7 +1114,7 @@ public final class KnownFonts implements LifecycleListener {
                 instance.iosevkaSlabMSDF = new Font(instance.prefix + "Iosevka-Slab-msdf.fnt",
                         instance.prefix + "Iosevka-Slab-msdf.png", MSDF, 1f, 0f, 0f, 0f, true).setDescent(-12)
                         .setLineMetrics(0.25f, 0.125f, 0f, -0.4f).setFancyLinePosition(0f, 0.375f)
-                        .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false)
+                        .setCrispness(1.6f).scaleTo(12, 26).fitCell(10, 25, false)
                         .setName("Iosevka Slab (MSDF)");
             } catch (Exception e) {
                 e.printStackTrace();
