@@ -736,7 +736,7 @@ public class TypingLabel extends TextraLabel {
         font.calculateSize(workingLayout);
 
 
-        invalidateHierarchy();
+//        invalidateHierarchy();
     }
 
     @Override
@@ -1027,7 +1027,7 @@ public class TypingLabel extends TextraLabel {
             }
 
         }
-        invalidateHierarchy();
+//        invalidateHierarchy();
 //        addMissingGlyphs();
         if (resetShader)
             batch.setShader(null);

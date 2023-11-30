@@ -6,12 +6,18 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 
 public class EmojiTextraLabelTest extends ApplicationAdapter {
     Stage       stage;
@@ -104,6 +110,17 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         label.debug();
         // Make the label wrap to new lines, respecting the table's layout.
         label.setWrap(true);
+
+        Action action = Actions.repeat(5,
+                Actions.sequence(
+                        delay(1.5f),
+                        moveBy(0, 100, 0.4f, Interpolation.pow2Out),
+                        moveBy(0, -100, 0.3f, Interpolation.pow2In),
+                        moveBy(0, 100 * .5f, 0.4f, Interpolation.pow2Out),
+                        moveBy(0, -100 * .5f, 0.3f, Interpolation.pow2In)
+                )
+        );
+        label.addAction(action);
 
         return label;
     }

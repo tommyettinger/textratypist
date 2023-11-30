@@ -9,10 +9,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -23,6 +26,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 
 public class EmojiTypingLabelTest extends ApplicationAdapter {
     Skin        skin;
@@ -169,6 +175,16 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //        });
 //        // Finally parse tokens in the label text.
 //        label.parseTokens();
+        Action action = Actions.repeat(5,
+                Actions.sequence(
+                        delay(1.5f),
+                        moveBy(0, 100, 0.4f, Interpolation.pow2Out),
+                        moveBy(0, -100, 0.3f, Interpolation.pow2In),
+                        moveBy(0, 100 * .5f, 0.4f, Interpolation.pow2Out),
+                        moveBy(0, -100 * .5f, 0.3f, Interpolation.pow2In)
+                )
+        );
+        label.addAction(action);
 
         return label;
     }
