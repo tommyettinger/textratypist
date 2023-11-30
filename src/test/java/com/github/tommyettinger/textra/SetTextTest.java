@@ -24,7 +24,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -48,7 +47,12 @@ public class SetTextTest extends ApplicationAdapter {
         stage.setDebugAll(true);
         random = new RandomXS128(ctr);
 
-        Font roboto = KnownFonts.getRobotoCondensed();
+        Font font = new Font("mk/Military_Kid.fnt", "mk/Military_Kid.png", Font.DistanceFieldType.MSDF, 0, 0, 0f, 0f, false);
+//        Font font = new Font(new BitmapFont(Gdx.files.internal("mk/Military_Kid.fnt")), Font.DistanceFieldType.MSDF, 0, 0, 0f, 0f, false);
+        font.distanceFieldCrispness = 6;
+        font.setDescent(-16);
+        font.scale(0.5f, 0.5f);
+//                KnownFonts.getRobotoCondensed();
 
         text = "[%150]Satchmo[%100] is a [%?blacken]{RAINBOW}cat{ENDRAINBOW}[%], [%50]who[%100] [%75]is[%100] extremely {SPEED=0.05}fat{NORMAL}; when he sits " +
                 "{SHAKE}down{ENDSHAKE}, throughout the town, we all {WAVE}think{ENDWAVE}, 'What was that? Did it happen " +
@@ -65,7 +69,7 @@ public class SetTextTest extends ApplicationAdapter {
 //                "действия)";
         textra = text.replaceAll("\\{[^}]*}", "");
         typingLabel = new TypingLabel(
-                text, new Label.LabelStyle(), roboto);
+                text, new Label.LabelStyle(), font);
         typingLabel.setWrap(true);
         typingLabel.setAlignment(center);
         typingLabel.setMaxLines(5);
@@ -74,7 +78,7 @@ public class SetTextTest extends ApplicationAdapter {
         typingLabel.parseTokens();
         typingLabel.skipToTheEnd();
         textraLabel = new TextraLabel(
-                "[RED]" + textra, new Label.LabelStyle(), roboto);
+                "[#FFF]" + textra, new Label.LabelStyle(), font);
         textraLabel.setWrap(true);
         textraLabel.setAlignment(center);
 //        textraLabel.layout.setMaxLines(5);
@@ -120,6 +124,7 @@ public class SetTextTest extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
+        typingLabel.font.resizeDistanceField(width, height);
     }
 
     @Override
