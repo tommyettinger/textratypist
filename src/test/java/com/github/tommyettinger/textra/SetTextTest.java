@@ -25,6 +25,7 @@ import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.tommyettinger.textra.utils.StringUtils;
@@ -49,8 +50,8 @@ public class SetTextTest extends ApplicationAdapter {
 
         Font roboto = KnownFonts.getRobotoCondensed();
 
-        text = "Satchmo is a {RAINBOW}cat{RESET}, who is extremely {SPEED=0.05}fat{NORMAL}; when he sits " +
-                "{SHAKE}down{RESET}, throughout the town, we all {WAVE}think{RESET}, 'What was that? Did it happen " +
+        text = "[%150]Satchmo[%100] is a [%?blacken]{RAINBOW}cat{ENDRAINBOW}[%], [%50]who[%100] [%75]is[%100] extremely {SPEED=0.05}fat{NORMAL}; when he sits " +
+                "{SHAKE}down{ENDSHAKE}, throughout the town, we all {WAVE}think{ENDWAVE}, 'What was that? Did it happen " +
                 "again (that [*]thunderous[*] din)? What could ever make, such a [_]powerful[_] quake, but " +
                 "a cat with a [~][_]double[_][~] chin?'";
 //                "[*]Локус[*] [*]контроля[*] - свойство " +
@@ -64,24 +65,32 @@ public class SetTextTest extends ApplicationAdapter {
 //                "действия)";
         textra = text.replaceAll("\\{[^}]*}", "");
         typingLabel = new TypingLabel(
-                "", new Label.LabelStyle(), roboto);
+                text, new Label.LabelStyle(), roboto);
         typingLabel.setWrap(true);
         typingLabel.setAlignment(center);
-        typingLabel.setMaxLines(2);
+        typingLabel.setMaxLines(5);
         typingLabel.setEllipsis("...");
         typingLabel.setText(text);
+        typingLabel.parseTokens();
         typingLabel.skipToTheEnd();
         textraLabel = new TextraLabel(
                 "[RED]" + textra, new Label.LabelStyle(), roboto);
         textraLabel.setWrap(true);
         textraLabel.setAlignment(center);
-        textraLabel.layout.setMaxLines(2);
+//        textraLabel.layout.setMaxLines(5);
         textraLabel.layout.setEllipsis("...");
         textraLabel.skipToTheEnd();
-        Stack stack = new Stack(textraLabel, typingLabel);
-        stack.setFillParent(true);
-        stack.pack();
-        stage.addActor(stack);
+//        Stack stack = new Stack(textraLabel);
+//        stack.setFillParent(true);
+//        stack.pack();
+//        stage.addActor(stack);
+        Table root = new Table();
+        root.add(typingLabel).right().fillY().growX();
+        root.pack();
+        root.setFillParent(true);
+        stage.addActor(root);
+        System.out.println("Typing: " + typingLabel);
+        System.out.println("Textra: " + textraLabel);
     }
 
     @Override
