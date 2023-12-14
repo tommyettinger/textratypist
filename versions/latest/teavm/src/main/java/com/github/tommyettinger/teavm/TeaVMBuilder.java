@@ -21,7 +21,11 @@ public class TeaVMBuilder {
         // teaBuildConfiguration.additionalAssetsClasspathFiles.add("com/github/tommyettinger/asset.extension");
 
         // Register any classes or packages that require reflection here:
-        // TeaReflectionSupplier.addReflectionClass("com.github.tommyettinger.reflect");
+         TeaReflectionSupplier.addReflectionClass("com.badlogic.gdx.graphics.Color");
+         TeaReflectionSupplier.addReflectionClass("com.badlogic.gdx.graphics.g2d.GlyphLayout");
+         TeaReflectionSupplier.addReflectionClass("com.badlogic.gdx.graphics.g2d.BitmapFont");
+         TeaReflectionSupplier.addReflectionClass("com.badlogic.gdx.scenes.scene2d");
+         TeaReflectionSupplier.addReflectionClass("com.badlogic.gdx.scenes.scene2d.ui");
 
         TeaVMTool tool = TeaBuilder.config(teaBuildConfiguration);
         tool.setMainClass(TeaVMLauncher.class.getName());
