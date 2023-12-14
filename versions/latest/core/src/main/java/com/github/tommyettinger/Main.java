@@ -27,18 +27,18 @@ public class Main extends ApplicationAdapter {
         });
         TypingLabel label = labels.get(0);
         label.setWrap(true);
-        label.setWidth(200);
-        label.setSize(200, 400);
         label.setAlignment(Align.top);
 
-        BitmapFont bmfont = new BitmapFont(Gdx.files.internal("RobotoCondensed-standard.fnt"));
-        bmfont.getData().markupEnabled = true;
-        Label s2dLabel = new Label("I [SKY]can [ROYAL]do[] it!", new Label.LabelStyle(bmfont, Color.WHITE));
-        s2dLabel.setAlignment(Align.bottom);
         Table table = new Table();
         table.setFillParent(true);
-        table.add(label).row();
-        table.add(s2dLabel).bottom();
+        table.add(label).size(200, 100).row();
+
+//        BitmapFont bmfont = new BitmapFont(Gdx.files.internal("RobotoCondensed-standard.fnt"));
+//        bmfont.getData().markupEnabled = true;
+//        Label s2dLabel = new Label("I [SKY]can [ROYAL]do[] it!", new Label.LabelStyle(bmfont, Color.WHITE));
+//        s2dLabel.setAlignment(Align.bottom);
+//        table.add(s2dLabel).bottom();
+
         stage.addActor(table);
     }
 
