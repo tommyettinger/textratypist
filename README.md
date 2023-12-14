@@ -82,12 +82,28 @@ underline, oblique, superscript, etc. Related to styles are scale changes, which
 changing your font, and the "font family" feature. A font can be assigned a "family" of other fonts and names to use to
 refer to them; this acts like a normal style, but actually changes what Font is used to draw. The full list of styles is
 long, but isn't as detailed as the effect tokens. You can enable styles with something like libGDX color markup, in
-square brackets like `[*]`, or you can use `{STYLE=BOLD}` to do the same thing. Tags and style names are both
-case-insensitive, but color names are case-sensitive. The full list of styles and related square-bracket tags:
+square brackets like `[*]`, or (if the markup is used in a `TypingLabel`) you can use `{STYLE=BOLD}` to do the same
+thing. Tags and style names are both case-insensitive, but color names are case-sensitive. The square-bracket syntax
+uses primarily punctuation, and is inspired by Markdown syntax (which GitHub uses, among other places).
+
+In the following list, each entry looks something like:
+
+`[*]` toggles bold mode. Can use style names `*`, `B`, `BOLD`, `STRONG`.
+
+That means you can always use `[*]` to turn bold mode on or off, and in a TypingLabel you can additionally use the
+case-insensitive syntax `{STYLE=*}`,  `{STYLE=B}`,  `{STYLE=BOLD}`, or  `{STYLE=STRONG}` to do the same thing.
+
+The full list of styles and related square-bracket tags:
 
 - `[]` undoes the last change to style/color/formatting, though it doesn't do anything to TypingLabel effects.
+  - This acts much like `[]` does in libGDX BitmapFont markup, but works on more than colors. 
 - `[ ]` resets all styles/colors/formatting and effects to the initial state.
+  - This used different syntax before version 0.10.0; if updating from an older version, you probably want to change the
+    old `[]` to the new `[ ]`. 
 - `[(label)]` temporarily stores the current formatting state as `label`, so it can be re-applied later.
+  - This can be useful if you want to insert a formatted snippet into an outer piece of text, without losing the
+    formatting the outer text had before the insertion.
+  - `label` can be any alphanumeric String. It probably shouldn't have spaces in it, but can have underscores.
 - `[ label]` re-applies the formatting state stored as `label`, if there is one.
 - `[*]` toggles bold mode. Can use style names `*`, `B`, `BOLD`, `STRONG`.
 - `[/]` toggles oblique mode (like italics). Can use style names `/`, `I`, `OBLIQUE`, `ITALIC`.
@@ -134,6 +150,10 @@ case-insensitive, but color names are case-sensitive. The full list of styles an
   - This is commonly used with `KnownFonts.addEmoji()` to add the 3000+ Twemoji icons to a Font.
     - If you use Twemoji, the phrases `[+saxophone]` and `[+🎷]` will each show a saxophone icon.
     - This also works with multipart emoji, such as `[+call me hand, medium-dark skin tone]` and `[+🤙🏾]`.
+    - The emoji [can be previewed here](https://tommyettinger.github.io/twemoji-atlas/).
+  - Another option is `KnownFonts.addGameIcons()`, which adds icons from
+    [the game-icons.net collection](https://game-icons.net). These use the same syntax: `[+crystal-wand]`.
+    - The game icons [can be previewed here](https://tommyettinger.github.io/game-icons-net-atlas/).
 
 The special modes that can be used in place of scaling are:
 
@@ -142,15 +162,28 @@ The special modes that can be used in place of scaling are:
 - `shiny`, which can be used with the style names `SHINY`, `SHINE`, or `GLOSSY`.
 - `drop shadow` or `shadow`, which can be used with the style names `SHADOW`, `DROPSHADOW`, or `DROP SHADOW`.
 - `error`, which can be used with the style names `ERROR`, `REDLINE`, or `RED LINE`.
+  - This adds a zigzag red line below text; the color can be changed using `Font.PACKED_ERROR_COLOR`.
 - `warn`, which can be used with the style names `WARN`, `YELLOWLINE`, or `YELLOW LINE`.
+  - This adds a dashed yellow line below text; the color can be changed using `Font.PACKED_WARN_COLOR`.
 - `note`, which can be used with the style names `NOTE`, `INFO`, `BLUELINE`, or `BLUE LINE`.
+  - This adds a wavy blue line below text; the color can be changed using `Font.PACKED_NOTE_COLOR`.
 - `jostle`, which can be used with the style names `JOSTLE`, `WOBBLE`, or `SCATTER`.
-    - The jostle mode can also be used with `[%?]`.
+  - The jostle mode can also be used with `[%?]`.
 - `small caps`, which can be used with the style names `SMALLCAPS` or `SMALL CAPS`.
   - The small caps mode can also be used with `[%^]`. It cannot be used with the `[%?small caps]` syntax; it needs a caret.
 
 The small caps mode can be used with any of the other modes except for jostle, by changing `%?` to `%^`. Other than
 that, no two modes can be active at the same time, and no modes can be used at the same time as scaling.
+
+Note that modes use slightly different syntax to avoid being confused with color names. When using square brackets, each
+of the names given here in lower-case should be preceded by `%?` most of the time (small caps and jostle are special).
+That means to enable the red-underline mode "error", you use the square-bracket tag `[%?error]`. If using the
+curly-brace markup for TypingLabel, you would use the names given here in upper-case, and can use them like other style
+names:`{STYLE=ERROR}`, for example. Small caps mode is, as mentioned, special; it is usually enabled with
+`[%^small caps]`, but can also be enabled with `[%^]`, and can also be mixed with any other mode except jostle by
+changing the normal `%?` to `%^`. Whenever small caps is active, the square-bracket tag uses `%^` instead of `%?`.
+Jostle mode is also special; it is usually enabled with `[%?jostle]`, but can also be enabled with `[%?]` on its own.
+Jostle can't be mixed with small caps.
 
 The special modes are a bit overcomplicated in terms of syntax because I ran out of punctuation I could use.
 The common example of a black outline around white text can be achieved with `[WHITE][%?blacken]Outlined![%][GRAY]`.
