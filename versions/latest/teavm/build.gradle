@@ -20,6 +20,14 @@ sourceCompatibility = 11
 
 dependencies {
   implementation "com.github.xpenatan.gdx-teavm:backend-teavm:$gdxTeaVMVersion"
+
+  implementation "org.teavm:teavm-tooling:0.10.0-dev-4"
+  implementation "org.teavm:teavm-core:0.10.0-dev-4"
+  implementation "org.teavm:teavm-classlib:0.10.0-dev-4"
+  implementation "org.teavm:teavm-jso:0.10.0-dev-4"
+  implementation "org.teavm:teavm-jso-apis:0.10.0-dev-4"
+  implementation "org.teavm:teavm-jso-impl:0.10.0-dev-4"
+  
   implementation project(':core')
 
 }

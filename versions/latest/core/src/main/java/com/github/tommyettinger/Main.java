@@ -34,10 +34,10 @@ public class Main extends ApplicationAdapter {
         table.add(label).size(200, 100).row();
 
         BitmapFont bmfont = new BitmapFont(Gdx.files.internal("RobotoCondensed-standard.fnt"));
-        bmfont.getData().markupEnabled = false;
-        Label s2dLabel = new Label("I can do it!", new Label.LabelStyle(bmfont, Color.WHITE));
-//        bmfont.getData().markupEnabled = true;
-//        Label s2dLabel = new Label("I [SKY]can [ROYAL]do[] it!", new Label.LabelStyle(bmfont, Color.WHITE));
+//        bmfont.getData().markupEnabled = false;
+//        Label s2dLabel = new Label("I can do it!", new Label.LabelStyle(bmfont, Color.WHITE));
+        bmfont.getData().markupEnabled = true;
+        Label s2dLabel = new Label("I [SKY]can [ROYAL]do[] it!", new Label.LabelStyle(bmfont, Color.WHITE));
         s2dLabel.setAlignment(Align.bottom);
         table.add(s2dLabel).bottom();
 
