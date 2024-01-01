@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
 import com.github.tommyettinger.textra.utils.Palette;
+import com.github.tommyettinger.textra.utils.StringUtils;
 import regexodus.Matcher;
 import regexodus.Pattern;
 import regexodus.REFlags;
@@ -449,10 +450,10 @@ public class Parser {
             // Try to parse hex
             if (str.length() >= 3) {
                 if (str.startsWith("#")) {
-                    if (str.length() >= 9) return Font.intFromHex(str, 1, 9);
-                    if (str.length() >= 7) return Font.intFromHex(str, 1, 7) << 8 | 0xFF;
+                    if (str.length() >= 9) return StringUtils.intFromHex(str, 1, 9);
+                    if (str.length() >= 7) return StringUtils.intFromHex(str, 1, 7) << 8 | 0xFF;
                     if (str.length() >= 4) {
-                        int rgb = Font.intFromHex(str, 1, 4);
+                        int rgb = StringUtils.intFromHex(str, 1, 4);
                         return
                                 (rgb << 20 & 0xF0000000) | (rgb << 16 & 0x0F000000) |
                                 (rgb << 16 & 0x00F00000) | (rgb << 12 & 0x000F0000) |
@@ -461,9 +462,9 @@ public class Parser {
                     }
 
                 } else {
-                    if (str.length() >= 8) return Font.intFromHex(str, 0, 8);
-                    if (str.length() >= 6) return Font.intFromHex(str, 0, 6) << 8 | 0xFF;
-                    int rgb = Font.intFromHex(str, 0, 3);
+                    if (str.length() >= 8) return StringUtils.intFromHex(str, 0, 8);
+                    if (str.length() >= 6) return StringUtils.intFromHex(str, 0, 6) << 8 | 0xFF;
+                    int rgb = StringUtils.intFromHex(str, 0, 3);
                     return
                             (rgb << 20 & 0xF0000000) | (rgb << 16 & 0x0F000000) |
                             (rgb << 16 & 0x00F00000) | (rgb << 12 & 0x000F0000) |
