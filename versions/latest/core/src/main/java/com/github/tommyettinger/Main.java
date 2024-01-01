@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.KnownFonts;
 import com.github.tommyettinger.textra.TypingLabel;
+import manifold.ext.rt.api.auto;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
@@ -25,7 +26,7 @@ public class Main extends ApplicationAdapter {
         Array<TypingLabel> labels = new Array<>(new TypingLabel[]{
                 new TypingLabel("{RAINBOW}Texttexttextte xtext text t e x t text text text text{ENDRAINBOW}", font)
         });
-        TypingLabel label = labels.get(0);
+        auto label = labels.get(0);
         label.setWrap(true);
         label.setAlignment(Align.top);
 
