@@ -190,7 +190,7 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Modifies the text of this label. If the char progression is already running, it's highly recommended to use
-     * {@link #restart(String)} instead.
+     * {@link #restart(CharSequence)} instead.
      * @param newText what to use as the new text (and original text) of this label
      */
     @Override
@@ -200,7 +200,7 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Sets the text of this label. If the char progression is already running, it's highly recommended to use
-     * {@link #restart(String)} instead. This overload allows specifying if the original text, which is used when
+     * {@link #restart(CharSequence)} instead. This overload allows specifying if the original text, which is used when
      * parsing the tokens (with {@link #parseTokens()}), should be changed to match the given text. If
      * {@code modifyOriginalText} is true, this will {@link Parser#preprocess(String) preprocess} the text, which
      * should generally be run once per original text and no more.
@@ -211,7 +211,7 @@ public class TypingLabel extends TextraLabel {
      *                           only the display text is changed while the original text is untouched. If {@code true},
      *                           then this runs {@link Parser#preprocess(String)} on the text, which should only
      *                           generally be run once per original text.
-     * @see #restart(String)
+     * @see #restart(CharSequence)
      */
     public void setText(String newText, boolean modifyOriginalText) {
         if (modifyOriginalText) newText = Parser.preprocess("{NORMAL}" + getDefaultToken() + newText);
@@ -220,7 +220,7 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Sets the text of this label. If the char progression is already running, it's highly recommended to use
-     * {@link #restart(String)} instead. This overload allows specifying if the original text, which is used when
+     * {@link #restart(CharSequence)} instead. This overload allows specifying if the original text, which is used when
      * parsing the tokens (with {@link #parseTokens()}), should be changed to match the given text. This will not ever
      * call {@link Parser#preprocess(String)}, which makes it different from {@link #setText(String, boolean)}.
      * You can also specify whether the text animation should restart or not here.
@@ -228,7 +228,7 @@ public class TypingLabel extends TextraLabel {
      * @param modifyOriginalText Flag determining if the original text should be modified as well. If {@code false},
      *                           only the display text is changed while the original text is untouched.
      * @param restart            Whether this label should restart. Defaults to true.
-     * @see #restart(String)
+     * @see #restart(CharSequence)
      */
     public void setText(String newText, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
@@ -328,9 +328,13 @@ public class TypingLabel extends TextraLabel {
      * Parses all tokens of this label. Use this after setting the text and any variables that should be replaced.
      */
     public void parseTokens() {
+        parsed = true;
+        boolean actualEnd = ended;
+        ended = false;
+//        activeEffects.clear();
         this.setText(Parser.preprocess("{NORMAL}" + getDefaultToken() + originalText), false, false);
         Parser.parseTokens(this);
-        parsed = true;
+        ended = actualEnd;
 //        setSize(workingLayout.getWidth(), workingLayout.getHeight());
     }
 
@@ -426,7 +430,7 @@ public class TypingLabel extends TextraLabel {
      * automatically parsed.
      */
     public void restart() {
-        restart(getOriginalText().toString());
+        restart(getOriginalText());
     }
 
     /**
@@ -436,7 +440,7 @@ public class TypingLabel extends TextraLabel {
      * because restarting is also performed internally and changing the size internally could cause unexpected (read:
      * very buggy) behavior for code using this library.
      */
-    public void restart(String newText) {
+    public void restart(CharSequence newText) {
         workingLayout.baseColor = Color.WHITE_FLOAT_BITS;
         workingLayout.atLimit = false;
 
@@ -469,7 +473,6 @@ public class TypingLabel extends TextraLabel {
         saveOriginalText(newText);
 
         // Parse tokens
-        tokenEntries.clear();
         parseTokens();
     }
 

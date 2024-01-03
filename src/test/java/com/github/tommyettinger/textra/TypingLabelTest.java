@@ -205,7 +205,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
         final StringBuilder text = new StringBuilder();
         text.append("{SLOWER}{GRADIENT=FF70F1;light exciting pink orange with ignored words;-0.5;5}{EASE=-8;2;1}{SHRINK=2;5}[@Medieval]Welcome,{ENDSHRINK}[%] [@]{WAIT}");
-        text.append("{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}[%^SHADOW]{VAR=title}[%]{STYLE=;}{STYLE=/}{ENDSPIRAL}![ ] {TRIGGER=lightest violet}[lightest violet][+🤔][ ]{WAIT=0.8}");
+        text.append("{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}[%^SHADOW]{VAR=title}[%]{STYLE=;}{STYLE=/}{ENDSPIRAL}![ ] {TRIGGER=lightest violet}[lightest violet]{VAR=MUTATE}[+🤔][ ]{WAIT=0.8}");
         text.append("{FAST}\n\n");
         text.append("{RESET}[@Sans]{ATTENTION}This is a [*][MAROON][%?SHINY]simple[WHITE][*] [%?blacken]test[%][@]{ENDATTENTION} to {SPIN}show you{ENDSPIN}");
         text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {CROWD=20;1;forever}how to make dialogues{ENDCROWD} {JUMP}{SLOW}[*][/]fun[/][*] again! {ENDGRADIENT}[+🥳]{ENDJUMP}{WAIT}\n");
@@ -254,6 +254,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         final TypingLabel label = new TypingLabel(text.toString(), font);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
+        label.setVariable("MUTATE", "{OCEAN}Oh yeah!");
 
         // Make the label wrap to new lines, respecting the table's layout.
         label.layout.maxLines = 15;
@@ -290,7 +291,15 @@ public class TypingLabelTest extends ApplicationAdapter {
                     else
                         System.out.println("Nothing was copied.");
                 } else {
-                    label.addAction(Actions.fadeOut(4f));
+                    label.setVariable("MUTATE", "{RAINBOW}Oh YEAH!");
+                label.saveOriginalText(label.getOriginalText());
+                    Gdx.app.postRunnable(() -> {
+//                        label.activeEffects.clear();
+                        label.invalidate();
+                        label.parseTokens();
+                    });
+
+//                    label.addAction(Actions.fadeOut(4f));
 //                    Color.rgba8888ToColor(flashColor, ColorUtils.describe(event));
 //                    ScreenUtils.clear(flashColor);
                 }
