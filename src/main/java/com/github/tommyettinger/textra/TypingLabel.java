@@ -490,8 +490,12 @@ public class TypingLabel extends TextraLabel {
      * @param value the String value to use as a replacement
      */
     public void setVariable(String var, String value) {
-        if(var != null)
-            variables.put(var.toUpperCase(), value);
+        if(var != null) {
+            String old = variables.put(var.toUpperCase(), value);
+            if (value.contains("[") || value.contains("{") || (old != null && (old.contains("[") || old.contains("{")))) {
+                parsed = false;
+            }
+        }
     }
 
     /**
@@ -524,8 +528,14 @@ public class TypingLabel extends TextraLabel {
         this.variables.clear();
         if (variableMap != null) {
             for (Map.Entry<String, String> entry : variableMap.entrySet()) {
-                if(entry.getKey() != null)
-                    this.variables.put(entry.getKey().toUpperCase(), entry.getValue());
+                if (entry.getKey() != null) {
+                    String value = entry.getValue();
+                    String old = this.variables.put(entry.getKey().toUpperCase(), value);
+                    if(value.contains("[") || value.contains("{") || (old != null && (old.contains("[") || old.contains("{")))) {
+                        parsed = false;
+                    }
+
+                }
             }
         }
     }

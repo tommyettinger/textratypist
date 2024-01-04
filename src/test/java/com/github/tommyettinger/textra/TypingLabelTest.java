@@ -251,10 +251,25 @@ public class TypingLabelTest extends ApplicationAdapter {
         }
 //        Font condensed = font.family.connected[font.family.fontAliases.get("Condensed", 0)];
 //        condensed.scaleTo(font.cellWidth, font.cellHeight);
-        final TypingLabel label = new TypingLabel(text.toString(), font);
+        final TypingLabel label = new TypingLabel(text.toString(), font){
+            @Override
+            public void act(float delta) {
+                super.act(delta);
+                long time = System.currentTimeMillis();
+                if(time % 5000 >= 1000)
+//                    setVariable("MUTATE", (time % 1000)+"ms.");
+                    setVariable("MUTATE", "[BLUE]"+(time % 1000)+"ms.");
+//                    setVariable("MUTATE", "{OCEAN}"+(time % 1000)+"ms.");
+                else
+//                    setVariable("MUTATE", (time % 1000)+"MS!!!");
+                    setVariable("MUTATE", "[RED]"+(time % 1000)+"MS!!!");
+//                    setVariable("MUTATE", "{RAINBOW}"+(time % 1000)+"MS!!!");
+                parseTokens();
+            }
+        };
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
-        label.setVariable("MUTATE", "{OCEAN}Oh yeah!");
+        label.setVariable("MUTATE", "[GREEN]Oh yeah!");
 
         // Make the label wrap to new lines, respecting the table's layout.
         label.layout.maxLines = 15;
@@ -291,15 +306,7 @@ public class TypingLabelTest extends ApplicationAdapter {
                     else
                         System.out.println("Nothing was copied.");
                 } else {
-                    label.setVariable("MUTATE", "{RAINBOW}Oh YEAH!");
-                label.saveOriginalText(label.getOriginalText());
-                    Gdx.app.postRunnable(() -> {
-//                        label.activeEffects.clear();
-                        label.invalidate();
-                        label.parseTokens();
-                    });
-
-//                    label.addAction(Actions.fadeOut(4f));
+                    label.addAction(Actions.fadeOut(4f));
 //                    Color.rgba8888ToColor(flashColor, ColorUtils.describe(event));
 //                    ScreenUtils.clear(flashColor);
                 }
