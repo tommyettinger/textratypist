@@ -32,6 +32,7 @@ import regexodus.Replacer;
  */
 public class Parser {
     private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("((?<!\\[)\\[[^\\[\\]]*(\\]|$))");
+    private static final Replacer COLOR_MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[(?:(?:#({=m}[A-Fa-f0-9]{3,8}))|(?:\\|?)({=m}\\p{Js}[^\\[\\]]*))(\\]|$)"), "{COLOR=${\\m}}");
     private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\]|$)"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{3,8}");
 
@@ -52,7 +53,10 @@ public class Parser {
      * @return {@code text} with square bracket style markup changed to curly-brace style markup
      */
     public static String preprocess(String text) {
-        return MARKUP_TO_TAG.replace(text.replace("[ ]", "{RESET}")).replace("[]", "{UNDO}");
+        text = text.replace("[ ]", "{RESET}");
+        text = text.replace("[]", "{UNDO}");
+        text = COLOR_MARKUP_TO_TAG.replace(text);
+        return MARKUP_TO_TAG.replace(text);
     }
 
     /**
@@ -482,14 +486,17 @@ public class Parser {
      */
     public static String stringToColorMarkup(String str) {
         if (str != null) {
+            if(Palette.NAMED.containsKey(str)) {
+                return "[" + str + "]";
+            }
             // If color isn't registered by name, try to parse it as a hex code.
-            if (str.length() >= 3 && !Palette.NAMED.containsKey(str) && PATTERN_COLOR_HEX_NO_HASH.matches(str)) {
+            if (str.length() >= 3 && PATTERN_COLOR_HEX_NO_HASH.matches(str)) {
                 return "[#" + str + "]";
             }
         }
 
-        // Return color code
-        return "[" + str + "]";
+        // Return no change
+        return "";
     }
 
     /**
@@ -550,11 +557,13 @@ public class Parser {
                 return "[%" + str.substring(0, str.length() - 1) + "]";
             if (str.startsWith("%"))
                 return "[%" + str.substring(1) + "]";
-            if (str.length() >= 3 && !Colors.getColors().containsKey(str) && PATTERN_COLOR_HEX_NO_HASH.matches(str))
+            if(Palette.NAMED.containsKey(str))
+                return "[" + str + "]";
+            if (str.length() >= 3 && PATTERN_COLOR_HEX_NO_HASH.matches(str))
                 return "[#" + str + "]";
         }
-        // Return unaltered code, enclosed
-        return "[" + str + "]";
+        // Return no change
+        return "";
     }
 
     /**
