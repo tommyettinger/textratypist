@@ -32,6 +32,8 @@ import regexodus.Replacer;
  */
 public class Parser {
     private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("((?<!\\[)\\[[^\\[\\]]*(\\]|$))");
+    private static final Replacer RESET_TAG = new Replacer(Pattern.compile("((?<!\\[)\\[ (?:\\]|$))"), "{RESET}");
+    private static final Replacer UNDO_TAG =  new Replacer(Pattern.compile("((?<!\\[)\\[(?:\\]|$))"), "{UNDO}");
     private static final Replacer COLOR_MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[(?:(?:#({=m}[A-Fa-f0-9]{3,8}))|(?:\\|?)({=m}[\\pL\\pN][^\\[\\]]*))(\\]|$)"), "{COLOR=${\\m}}");
     private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\]|$)"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{3,8}");
@@ -47,16 +49,18 @@ public class Parser {
     /**
      * Replaces any style tags using square brackets, such as <code>[_]</code> for underline, with the syntax
      * <code>{STYLE=_}</code> (changing {@code _} based on what was in the square brackets). This also changes
-     * <code>[]</code> to <code>{RESET}</code>. This won't change escaped
+     * <code>[ ]</code> to <code>{RESET}</code> and <code>[]</code> to <code>{UNDO}</code>. This won't change escaped
      * brackets or the inline image syntax that uses <code>[+name of an image in an atlas]</code>.
      * @param text text that could have square-bracket style markup
      * @return {@code text} with square bracket style markup changed to curly-brace style markup
      */
     public static String preprocess(String text) {
-        text = text.replace("[ ]", "{RESET}");
-        text = text.replace("[]", "{UNDO}");
+        text = RESET_TAG.replace(text);
+        text = UNDO_TAG.replace(text);
         text = COLOR_MARKUP_TO_TAG.replace(text);
-        return MARKUP_TO_TAG.replace(text);
+        text = MARKUP_TO_TAG.replace(text);
+//        System.out.println(text);
+        return text;
     }
 
     /**
