@@ -32,7 +32,7 @@ import regexodus.Replacer;
  */
 public class Parser {
     private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("((?<!\\[)\\[[^\\[\\]]*(\\]|$))");
-    private static final Replacer COLOR_MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[(?:(?:#({=m}[A-Fa-f0-9]{3,8}))|(?:\\|?)({=m}\\p{Js}[^\\[\\]]*))(\\]|$)"), "{COLOR=${\\m}}");
+    private static final Replacer COLOR_MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[(?:(?:#({=m}[A-Fa-f0-9]{3,8}))|(?:\\|?)({=m}[\\pL\\pN][^\\[\\]]*))(\\]|$)"), "{COLOR=${\\m}}");
     private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\]|$)"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{3,8}");
 
