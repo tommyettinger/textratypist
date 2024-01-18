@@ -486,17 +486,14 @@ public class Parser {
      */
     public static String stringToColorMarkup(String str) {
         if (str != null) {
-            if(Palette.NAMED.containsKey(str)) {
-                return "[" + str + "]";
-            }
             // If color isn't registered by name, try to parse it as a hex code.
-            if (str.length() >= 3 && PATTERN_COLOR_HEX_NO_HASH.matches(str)) {
+            if (str.length() >= 3 && !Palette.NAMED.containsKey(str) && PATTERN_COLOR_HEX_NO_HASH.matches(str)) {
                 return "[#" + str + "]";
             }
         }
 
         // Return no change
-        return "";
+        return "[" + str + "]";
     }
 
     /**
