@@ -158,27 +158,27 @@ public class TypingLabel extends TextraLabel {
     }
 
     public TypingLabel(String text, Label.LabelStyle style) {
-        super(text, style);
+        super(text = Parser.handleBracketMinusMarkup(text), style);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
         setText(text, true);
     }
 
     public TypingLabel(String text, Label.LabelStyle style, Font replacementFont) {
-        super(text, style, replacementFont);
+        super(text = Parser.handleBracketMinusMarkup(text), style, replacementFont);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
         setText(text, true);
     }
 
     public TypingLabel(String text, Font font) {
-        super(text, font);
+        super(text = Parser.handleBracketMinusMarkup(text), font);
         workingLayout.font(font);
         setText(text, true);
     }
 
     public TypingLabel(String text, Font font, Color color) {
-        super(text, font, color);
+        super(text = Parser.handleBracketMinusMarkup(text), font, color);
         workingLayout.font(font);
         workingLayout.setBaseColor(layout.baseColor);
         setText(text, true);
@@ -232,6 +232,7 @@ public class TypingLabel extends TextraLabel {
      */
     public void setText(String newText, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
+        newText = Parser.handleBracketMinusMarkup(newText);
         font.markup(newText, layout.clear());
         if (wrap) {
             workingLayout.setTargetWidth(getWidth());

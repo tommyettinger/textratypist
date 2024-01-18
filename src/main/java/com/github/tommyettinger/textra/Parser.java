@@ -16,7 +16,6 @@
 
 package com.github.tommyettinger.textra;
 
-import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
@@ -38,6 +37,8 @@ public class Parser {
     private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\]|$)"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{3,8}");
 
+    private static final Replacer BRACKET_MINUS_TO_TAG = new Replacer(Pattern.compile("((?<!\\[)\\[-({=t}[^\\[\\]]*)(?:\\]|$))"), "{${\\t}}");
+
     private static final CaseInsensitiveIntMap BOOLEAN_TRUE = new CaseInsensitiveIntMap(new String[]{"true", "yes", "t", "y", "on", "1"}, new int[6]);
     private static final int INDEX_TOKEN = 1;
     private static final int INDEX_PARAM = 2;
@@ -45,14 +46,31 @@ public class Parser {
     private static Pattern PATTERN_TOKEN_STRIP;
     private static String RESET_REPLACEMENT;
 
+    /**
+     * Replaces any square-bracket markup of the form {@code [-SOMETHING]} with the curly-brace tag form
+     * <code>{SOMETHING}</code>. This allows you to produce curly-brace tags even when curly braces have some meaning
+     * that is reserved by another tool, such as I18N bundles. As long as the other tool somehow consumes curly braces
+     * from the source text, this can bring back curly braces before {@link Font#markup(String, Layout)} gets called.
+     * From then on, something like {@code [-RAINBOW]} will effectively be <code>{RAINBOW}</code>.
+     * <br>
+     * If this finds no occurrence of {@code "[-"} in {@code text}, this simply returns {@code text} without allocating.
+     *
+     * @param text text that could have square-bracket-minus markup
+     * @return {@code text} with any square-bracket-minus markup changed to curly-brace tags
+     */
+    public static String handleBracketMinusMarkup(String text) {
+        if(text.contains("[-"))
+            return BRACKET_MINUS_TO_TAG.replace(text);
+        return text;
+    }
 
     /**
-     * Replaces any style tags using square brackets, such as <code>[_]</code> for underline, with the syntax
+     * Replaces any style markup using square brackets, such as <code>[_]</code> for underline, with the syntax
      * <code>{STYLE=_}</code> (changing {@code _} based on what was in the square brackets). This also changes
      * <code>[ ]</code> to <code>{RESET}</code> and <code>[]</code> to <code>{UNDO}</code>. This won't change escaped
      * brackets or the inline image syntax that uses <code>[+name of an image in an atlas]</code>.
      * @param text text that could have square-bracket style markup
-     * @return {@code text} with square bracket style markup changed to curly-brace style markup
+     * @return {@code text} with square bracket style markup changed to curly-brace style tags
      */
     public static String preprocess(String text) {
         text = RESET_TAG.replace(text);

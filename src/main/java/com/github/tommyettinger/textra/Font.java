@@ -4523,7 +4523,7 @@ public class Font implements Disposable {
      * </ul>
      * You can render {@code appendTo} using {@link #drawGlyphs(Batch, Layout, float, float)}.
      *
-     * @param text     text with markup
+     * @param text     text, typically with square-bracket markup
      * @param appendTo a Layout that stores one or more Line objects, carrying color, style, chars, and size
      * @return appendTo, for chaining
      */
