@@ -472,7 +472,7 @@ public class TypingLabel extends TextraLabel {
         ignoringEffects = false;
 
         // Set new text
-        invalidate();
+        invalidateHierarchy();
         saveOriginalText(newText);
 
         // Parse tokens
@@ -752,7 +752,7 @@ public class TypingLabel extends TextraLabel {
         font.calculateSize(workingLayout);
 
 
-        invalidate();
+        invalidateHierarchy();
     }
 
     @Override
