@@ -2,7 +2,6 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
@@ -29,7 +28,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
     Stage       stage;
     SpriteBatch batch;
     TypingLabel label;
-//    TypingLabel debugLabel;
+    TypingLabel debugLabel;
 
     @Override
     public void create() {
@@ -49,37 +48,35 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 
         label = createTypingLabel();
 
-//        debugLabel = new TypingLabel("", label.font);
-//        debugLabel.setTypingListener(new TypingAdapter() {
-//            @Override
-//            public void event(String event) {
-//                System.out.println("Event: " + event);
-//                if(event.startsWith("seed "))
-//                {
-//                    Gdx.app.getClipboard().setContents(event.substring(5));
-//                }
-//            }
-//        });
+        debugLabel = new TypingLabel("", label.font);
+        debugLabel.setTypingListener(new TypingAdapter() {
+            @Override
+            public void event(String event) {
+                System.out.println("Event: " + event);
+                if(event.startsWith("seed "))
+                {
+                    Gdx.app.getClipboard().setContents(event.substring(5));
+                }
+            }
+        });
 
-        label.debug();
-        label.setAlignment(Align.center);
         table.pad(50f);
         table.add(label).colspan(5).growX();
         table.row();
         table.row().uniform().expand().growX().space(40).center();
-//        table.add(debugLabel);
+        table.add(debugLabel);
 
         table.pack();
     }
 
-//    public void updateDebugLabel() {
-//        String seed = ((RandomXS128)MathUtils.random).getState(0)+" "+((RandomXS128)MathUtils.random).getState(1);
-//        debugLabel.restart(
-//                "fps: "+Gdx.graphics.getFramesPerSecond()+"\n" +
-//                        "seed: {TRIGGER=seed "+seed+"}"+seed+"{ENDTRIGGER}"
-//        );
-//        debugLabel.skipToTheEnd(false, false);
-//    }
+    public void updateDebugLabel() {
+        String seed = ((RandomXS128)MathUtils.random).getState(0)+" "+((RandomXS128)MathUtils.random).getState(1);
+        debugLabel.restart(
+                "fps: "+Gdx.graphics.getFramesPerSecond()+"\n" +
+                        "seed: {TRIGGER=seed "+seed+"}"+seed+"{ENDTRIGGER}"
+        );
+        debugLabel.skipToTheEnd(false, false);
+    }
     public void adjustTypingConfigs() {
         // Only allow two chars per frame
         TypingConfig.CHAR_LIMIT_PER_FRAME = 2;
@@ -123,7 +120,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
                 + "But... {SICK}U. Nitty{ENDSICK} doesn't. {CROWD}[#BB1100][+skull]{COLOR=#55AA22}[+🤡]{ENDCROWD}{CLEARCOLOR}\n"
                 + "That's OK, I don't like loot crates anyway. {CROWD}[#B10][+party popper]{COLOR=5A2}[+🥳]{ENDCROWD}{CLEARCOLOR}\n"
                 +"[+⚖][~][_][+⚖][ ] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\n"
-                + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
+                + "{NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
                 ,
 //
 //                "I love TextraTypist! 😀\n" +
@@ -146,12 +143,12 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
                 font);
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!", skin);
 //        final TypingLabel label = new TypingLabel("{WAIT=1}{SLOWER}Welcome, {VAR=title}!", skin);
-        label.setAlignment(Align.center);
+        label.align = Align.topLeft;
         label.debug();
         // Make the label wrap to new lines, respecting the table's layout.
-        label.setWrap(true);
+        label.wrap = true;
 //        label.layout.setTargetWidth(label.layout.getWidth());
-//        label.setWidth(Gdx.graphics.getBackBufferWidth() - 100);
+        label.setWidth(Gdx.graphics.getBackBufferWidth() - 100);
 
 //        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 //
@@ -174,11 +171,9 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
     }
 
     public void update(float delta) {
-        if(Gdx.input.isKeyJustPressed(Input.Keys.S) && !label.hasEnded())
-            label.skipToTheEnd();
         label.font.strikeBreadth = MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.0625f) * 0.5f;
         stage.act(delta);
-//        updateDebugLabel();
+        updateDebugLabel();
     }
 
     @Override
@@ -207,8 +202,8 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         config.setTitle("TypingLabel Test");
         config.setWindowedMode(720, 405);
         config.setResizable(true);
-        config.setForegroundFPS(0);
-        config.useVsync(false);
+        config.setForegroundFPS(60);
+        config.useVsync(true);
         config.disableAudio(true);
         new Lwjgl3Application(new EmojiTypingLabelTest(), config);
     }
