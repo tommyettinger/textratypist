@@ -161,6 +161,7 @@ public class TypingLabel extends TextraLabel {
         super(text = Parser.handleBracketMinusMarkup(text), style);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
+        Color.abgr8888ToColor(clearColor, layout.getBaseColor());
         setText(text, true);
     }
 
@@ -168,6 +169,7 @@ public class TypingLabel extends TextraLabel {
         super(text = Parser.handleBracketMinusMarkup(text), style, replacementFont);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
+        Color.abgr8888ToColor(clearColor, layout.getBaseColor());
         setText(text, true);
     }
 
@@ -181,6 +183,7 @@ public class TypingLabel extends TextraLabel {
         super(text = Parser.handleBracketMinusMarkup(text), font, color);
         workingLayout.font(font);
         workingLayout.setBaseColor(layout.baseColor);
+        Color.abgr8888ToColor(clearColor, layout.getBaseColor());
         setText(text, true);
     }
 
@@ -442,7 +445,6 @@ public class TypingLabel extends TextraLabel {
      * very buggy) behavior for code using this library.
      */
     public void restart(CharSequence newText) {
-        workingLayout.baseColor = Color.WHITE_FLOAT_BITS;
         workingLayout.atLimit = false;
 
         // Reset cache collections
@@ -1260,7 +1262,7 @@ public class TypingLabel extends TextraLabel {
     }
 
     public void insertInLayout(Layout layout, int index, CharSequence text) {
-        long current = 0xFFFFFFFE00000000L;
+        long current = (Integer.reverseBytes(NumberUtils.floatToIntBits(layout.baseColor)) & -2L) << 32;
         for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = layout.getLine(i).glyphs;
             if (index < glyphs.size) { // inserting mid-line
