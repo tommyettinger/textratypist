@@ -5176,7 +5176,7 @@ public class Font implements Disposable {
                                 later.width = changeNext;
                                 earlier.width -= change;
                                 later.glyphs.addAll(glyphBuffer);
-                                later.height = Math.max(later.height, font.cellHeight * (scale + 1) * 0.25f);
+                                later.height = Math.max(earlier.height, font.cellHeight * (scale + 1) * 0.25f);
                                 break;
                             }
                         }
