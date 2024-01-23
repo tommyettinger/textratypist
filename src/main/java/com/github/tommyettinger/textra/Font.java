@@ -30,7 +30,6 @@ import com.badlogic.gdx.utils.*;
 import com.github.tommyettinger.textra.utils.BlockUtils;
 import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
 import com.github.tommyettinger.textra.utils.ColorUtils;
-import com.github.tommyettinger.textra.utils.StringUtils;
 import regexodus.Category;
 
 import java.util.Arrays;
@@ -1041,6 +1040,261 @@ public class Font implements Disposable {
 
     //// font parsing section
 
+    private static final int[] hexCodes = new int[]
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, -1, -1, -1, -1, -1, -1,
+                    -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                    -1, 10, 11, 12, 13, 14, 15};
+
+    /**
+     * Reads in a CharSequence containing only hex digits (only 0-9, a-f, and A-F) with an optional sign at the start
+     * and returns the long they represent, reading at most 16 characters (17 if there is a sign) and returning the
+     * result if valid, or 0 if nothing could be read. The leading sign can be '+' or '-' if present. This can also
+     * represent negative numbers as they are printed by such methods as String.format given %x in the formatting
+     * string; that is, if the first char of a 16-char (or longer)
+     * CharSequence is a hex digit 8 or higher, then the whole number represents a negative number, using two's
+     * complement and so on. This means "FFFFFFFFFFFFFFFF" would return the long -1 when passed to this, though you
+     * could also simply use "-1 ". If you use both '-' at the start and have the most significant digit as 8 or higher,
+     * such as with "-FFFFFFFFFFFFFFFF", then both indicate a negative number, but the digits will be processed first
+     * (producing -1) and then the whole thing will be multiplied by -1 to flip the sign again (returning 1).
+     * <br>
+     * Should be fairly close to Java 8's Long.parseUnsignedLong method, which is an odd omission from earlier JDKs.
+     * This doesn't throw on invalid input, though, instead returning 0 if the first char is not a hex digit, or
+     * stopping the parse process early if a non-hex-digit char is read before end is reached. If the parse is stopped
+     * early, this behaves as you would expect for a number with fewer digits, and simply doesn't fill the larger places.
+     *
+     * @param cs    a CharSequence, such as a String, containing only hex digits with an optional sign (no 0x at the start)
+     * @param start the (inclusive) first character position in cs to read
+     * @param end   the (exclusive) last character position in cs to read (this stops after 16 characters if end is too large)
+     * @return the long that cs represents
+     */
+    public static long longFromHex(final CharSequence cs, final int start, int end) {
+        int len, h, lim = 16;
+        if (cs == null || start < 0 || end <= 0 || end - start <= 0
+                || (len = cs.length()) - start <= 0 || end > len)
+            return 0;
+        char c = cs.charAt(start);
+        if (c == '-') {
+            len = -1;
+            h = 0;
+            lim = 17;
+        } else if (c == '+') {
+            len = 1;
+            h = 0;
+            lim = 17;
+        } else if (c > 102 || (h = hexCodes[c]) < 0)
+            return 0;
+        else {
+            len = 1;
+        }
+        long data = h;
+        for (int i = start + 1; i < end && i < start + lim; i++) {
+            if ((c = cs.charAt(i)) > 102 || (h = hexCodes[c]) < 0)
+                return data * len;
+            data <<= 4;
+            data |= h;
+        }
+        return data * len;
+    }
+
+    /**
+     * Reads in a CharSequence containing only hex digits (only 0-9, a-f, and A-F) with an optional sign at the start
+     * and returns the long they represent, reading at most 16 characters (17 if there is a sign) and returning the
+     * result if valid, or 0 if nothing could be read. The leading sign can be '+' or '-' if present. This can also
+     * represent negative numbers as they are printed by such methods as String.format given %X in the formatting
+     * string; that is, if the first char of a 16-char (or longer)
+     * CharSequence is a hex digit 8 or higher, then the whole number represents a negative number, using two's
+     * complement and so on. This means "FFFFFFFFFFFFFFFF" would return the long -1 when passed to this, though you
+     * could also simply use "-1 ". If you use both '-' at the start and have the most significant digit as 8 or higher,
+     * such as with "-FFFFFFFFFFFFFFFF", then both indicate a negative number, but the digits will be processed first
+     * (producing -1) and then the whole thing will be multiplied by -1 to flip the sign again (returning 1).
+     * <br>
+     * Should be fairly close to Java 8's Long.parseUnsignedLong method, which is an odd omission from earlier JDKs.
+     * This doesn't throw on invalid input, though, instead returning 0 if the first char is not a hex digit, or
+     * stopping the parse process early if a non-hex-digit char is read before end is reached. If the parse is stopped
+     * early, this behaves as you would expect for a number with fewer digits, and simply doesn't fill the larger places.
+     *
+     * @param cs    a CharSequence, such as a String, containing only hex digits with an optional sign (no 0x at the start)
+     * @param start the (inclusive) first character position in cs to read
+     * @param end   the (exclusive) last character position in cs to read (this stops after 16 characters if end is too large)
+     * @return the long that cs represents
+     */
+    public static int intFromHex(final CharSequence cs, final int start, int end) {
+        int len, h, lim = 8;
+        if (cs == null || start < 0 || end <= 0 || end - start <= 0
+                || (len = cs.length()) - start <= 0 || end > len)
+            return 0;
+        char c = cs.charAt(start);
+        if (c == '-') {
+            len = -1;
+            h = 0;
+            lim = 9;
+        } else if (c == '+') {
+            len = 1;
+            h = 0;
+            lim = 9;
+        } else if (c > 102 || (h = hexCodes[c]) < 0)
+            return 0;
+        else {
+            len = 1;
+        }
+        int data = h;
+        for (int i = start + 1; i < end && i < start + lim; i++) {
+            if ((c = cs.charAt(i)) > 102 || (h = hexCodes[c]) < 0)
+                return data * len;
+            data <<= 4;
+            data |= h;
+        }
+        return data * len;
+    }
+
+    /**
+     * Reads in a CharSequence containing only decimal digits (0-9) with an optional sign at the start and returns the
+     * int they represent, reading at most 10 characters (11 if there is a sign) and returning the result if valid, or 0
+     * if nothing could be read. The leading sign can be '+' or '-' if present. This can technically be used to handle
+     * unsigned integers in decimal format, but it isn't the intended purpose. If you do use it for handling unsigned
+     * ints, 2147483647 is normally the highest positive int and -2147483648 the lowest negative one, but if you give
+     * this a number between 2147483647 and {@code 2147483647 + 2147483648}, it will interpret it as a negative number
+     * that fits in bounds using the normal rules for converting between signed and unsigned numbers.
+     * <br>
+     * Should be fairly close to the JDK's Integer.parseInt method, but this also supports CharSequence data instead of
+     * just String data, and allows specifying a start and end. This doesn't throw on invalid input, either, instead
+     * returning 0 if the first char is not a decimal digit, or stopping the parse process early if a non-decimal-digit
+     * char is read before end is reached. If the parse is stopped early, this behaves as you would expect for a number
+     * with fewer digits, and simply doesn't fill the larger places.
+     *
+     * @param cs    a CharSequence, such as a String, containing only digits 0-9 with an optional sign
+     * @param start the (inclusive) first character position in cs to read
+     * @param end   the (exclusive) last character position in cs to read (this will stop early if it encounters any invalid char, or 10 digits have been read, not including sign)
+     * @return the int that cs represents
+     */
+    public static int intFromDec(final CharSequence cs, final int start, int end) {
+        int len, h, lim = 10;
+        if (cs == null || start < 0 || end <= 0 || end - start <= 0
+                || (len = cs.length()) - start <= 0 || end > len)
+            return 0;
+        char c = cs.charAt(start);
+        if (c == '-') {
+            len = -1;
+            lim = 11;
+            h = 0;
+        } else if (c == '+') {
+            len = 1;
+            lim = 11;
+            h = 0;
+        } else if (c > 102 || (h = hexCodes[c]) < 0 || h > 9)
+            return 0;
+        else {
+            len = 1;
+        }
+        int data = h;
+        for (int i = start + 1; i < end && i < start + lim; i++) {
+            if ((c = cs.charAt(i)) > 102 || (h = hexCodes[c]) < 0 || h > 9)
+                return data * len;
+            data = data * 10 + h;
+        }
+        return data * len;
+    }
+
+    /**
+     * Reads in a CharSequence containing only decimal digits (0-9) with an optional sign at the start and an optional
+     * decimal point anywhere in the CharSequence, and returns the float they represent, reading until it encounters the
+     * end of the sequence or any invalid char, then returning the result if valid, or 0 if nothing could be read.
+     * The leading sign can be '+' or '-' if present.
+     * <br>
+     * This is somewhat similar to the JDK's {@link Float#parseFloat(String)} method, but this also supports
+     * CharSequence data instead of just String data, and allows specifying a start and end, but doesn't support
+     * scientific notation or hexadecimal float notation. This doesn't throw on invalid input, either, instead returning
+     * 0 if the first char is not a decimal digit, or stopping the parse process early if a non-decimal-digit char is
+     * read before end is reached. If the parse is stopped early, this behaves as you would expect for a number with
+     * fewer digits, and simply doesn't fill the larger places.
+     *
+     * @param cs    a CharSequence, such as a String, containing digits 0-9 with an optional sign and decimal point
+     * @param start the (inclusive) first character position in cs to read
+     * @param end   the (exclusive) last character position in cs to read (this will stop early if it encounters any invalid char)
+     * @return the float that cs represents
+     */
+    public static float floatFromDec(final CharSequence cs, final int start, int end) {
+        int len, h;
+        float decimal = 1f;
+        boolean foundPoint = false;
+        if (cs == null || start < 0 || end <= 0 || end - start <= 0
+                || (len = cs.length()) - start <= 0 || end > len)
+            return 0;
+        char c = cs.charAt(start);
+        if (c == '-') {
+            len = -1;
+            h = 0;
+        } else if (c == '+') {
+            len = 1;
+            h = 0;
+        } else if (c > 102 || (h = hexCodes[c]) < 0 || h > 9)
+            return 0;
+        else {
+            len = 1;
+        }
+        int data = h;
+        for (int i = start + 1; i < end; i++) {
+            c = cs.charAt(i);
+            if(c == '.') {
+                foundPoint = true;
+                continue;
+            }
+            if (c > 102 || (h = hexCodes[c]) < 0 || h > 9)
+                return data * len / decimal;
+            if(foundPoint){
+                decimal *= 10f;
+            }
+            data = data * 10 + h;
+        }
+        return data * len / decimal;
+    }
+
+    private static int indexAfter(String text, String search, int from) {
+        return ((from = text.indexOf(search, from)) < 0 ? text.length() : from + search.length());
+    }
+
+    /**
+     * Like {@link String#substring(int, int)} but returns "" instead of throwing any sort of Exception.
+     *
+     * @param source     the String to get a substring from
+     * @param beginIndex the first index, inclusive; will be treated as 0 if negative
+     * @param endIndex   the index after the last character (exclusive); if negative this will be source.length()
+     * @return the substring of source between beginIndex and endIndex, or "" if any parameters are null/invalid
+     */
+    public static String safeSubstring(String source, int beginIndex, int endIndex) {
+        if (source == null || source.isEmpty()) return "";
+        if (beginIndex < 0) beginIndex = 0;
+        if (endIndex < 0 || endIndex > source.length()) endIndex = source.length();
+        if (beginIndex >= endIndex) return "";
+        return source.substring(beginIndex, endIndex);
+    }
+
+    /**
+     * Returns true if {@code c} is a lower-case letter, or false otherwise.
+     * Similar to {@link Character#isLowerCase(char)}, but should actually work on GWT.
+     *
+     * @param c a char to check
+     * @return true if c is a lower-case letter, or false otherwise.
+     */
+    public static boolean isLowerCase(char c) {
+        return Category.Ll.contains(c);
+    }
+
+    /**
+     * Returns true if {@code c} is an upper-case letter, or false otherwise.
+     * Similar to {@link Character#isUpperCase(char)}, but should actually work on GWT.
+     *
+     * @param c a char to check
+     * @return true if c is an upper-case letter, or false otherwise.
+     */
+    public static boolean isUpperCase(char c) {
+        return Category.Lu.contains(c);
+    }
+
     /**
      * Gets the ColorLookup this uses to look up colors by name.
      *
@@ -1778,14 +2032,14 @@ public class Font implements Disposable {
         this.widthAdjust = widthAdjust;
         this.heightAdjust = heightAdjust;
         int idx;
-        idx = StringUtils.indexAfter(fnt, "padding=", 0);
-        int padTop = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, ",", idx+1));
-        int padRight = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, ",", idx+1));
-        int padBottom = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, ",", idx+1));
-        int padLeft = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "lineHeight=", idx+1));
+        idx = indexAfter(fnt, "padding=", 0);
+        int padTop = intFromDec(fnt, idx, idx = indexAfter(fnt, ",", idx+1));
+        int padRight = intFromDec(fnt, idx, idx = indexAfter(fnt, ",", idx+1));
+        int padBottom = intFromDec(fnt, idx, idx = indexAfter(fnt, ",", idx+1));
+        int padLeft = intFromDec(fnt, idx, idx = indexAfter(fnt, "lineHeight=", idx+1));
 
-        float rawLineHeight = StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "base=", idx));
-        float baseline = StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "pages=", idx));
+        float rawLineHeight = floatFromDec(fnt, idx, idx = indexAfter(fnt, "base=", idx));
+        float baseline = floatFromDec(fnt, idx, idx = indexAfter(fnt, "pages=", idx));
 //        descent = baseline - rawLineHeight;
         descent = 0;
 
@@ -1795,13 +2049,13 @@ public class Font implements Disposable {
         // For standard fonts, we incorporate the descender into yAdjust, which seems to be reliable.
 //        if(distanceField == DistanceFieldType.STANDARD)
 //            yAdjust += descent;
-        int pages = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "\npage id=", idx));
+        int pages = intFromDec(fnt, idx, idx = indexAfter(fnt, "\npage id=", idx));
         if (parents == null || parents.size < pages) {
             if (parents == null) parents = new Array<>(true, pages, TextureRegion.class);
             else parents.clear();
             FileHandle textureHandle;
             for (int i = 0; i < pages; i++) {
-                String textureName = fnt.substring(idx = StringUtils.indexAfter(fnt, "file=\"", idx), idx = fnt.indexOf('"', idx));
+                String textureName = fnt.substring(idx = indexAfter(fnt, "file=\"", idx), idx = fnt.indexOf('"', idx));
                 if ((textureHandle = Gdx.files.internal(textureName)).exists()
                         || (textureHandle = Gdx.files.local(textureName)).exists()) {
                     parents.add(new TextureRegion(new Texture(textureHandle)));
@@ -1813,21 +2067,21 @@ public class Font implements Disposable {
 
             }
         }
-        int size = StringUtils.intFromDec(fnt, idx = StringUtils.indexAfter(fnt, "\nchars count=", idx), idx = StringUtils.indexAfter(fnt, "\nchar id=", idx));
+        int size = intFromDec(fnt, idx = indexAfter(fnt, "\nchars count=", idx), idx = indexAfter(fnt, "\nchar id=", idx));
         mapping = new IntMap<>(size);
         float minWidth = Integer.MAX_VALUE;
         for (int i = 0; i < size; i++) {
             if (idx == fnt.length())
                 break;
-            int c =    StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " x=", idx));
-            float x =  StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " y=", idx));
-            float y =  StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " width=", idx));
-            float w =  StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " height=", idx));
-            float h =  StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " xoffset=", idx));
-            float xo = StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " yoffset=", idx));
-            float yo = StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " xadvance=", idx));
-            float a =  StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " page=", idx));
-            int p =    StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "\nchar id=", idx));
+            int c =    intFromDec(fnt, idx, idx = indexAfter(fnt, " x=", idx));
+            float x =  floatFromDec(fnt, idx, idx = indexAfter(fnt, " y=", idx));
+            float y =  floatFromDec(fnt, idx, idx = indexAfter(fnt, " width=", idx));
+            float w =  floatFromDec(fnt, idx, idx = indexAfter(fnt, " height=", idx));
+            float h =  floatFromDec(fnt, idx, idx = indexAfter(fnt, " xoffset=", idx));
+            float xo = floatFromDec(fnt, idx, idx = indexAfter(fnt, " yoffset=", idx));
+            float yo = floatFromDec(fnt, idx, idx = indexAfter(fnt, " xadvance=", idx));
+            float a =  floatFromDec(fnt, idx, idx = indexAfter(fnt, " page=", idx));
+            int p =    intFromDec(fnt, idx, idx = indexAfter(fnt, "\nchar id=", idx));
 
 //            x += xAdjust;
 //            y += yAdjust;
@@ -1861,15 +2115,15 @@ public class Font implements Disposable {
         }
         descent += padBottom;
 //        System.out.println("Using descender from " + chosenDescender);
-        idx = StringUtils.indexAfter(fnt, "\nkernings count=", 0);
+        idx = indexAfter(fnt, "\nkernings count=", 0);
         if (idx < fnt.length()) {
-            int kernings = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "\nkerning first=", idx));
+            int kernings = intFromDec(fnt, idx, idx = indexAfter(fnt, "\nkerning first=", idx));
             if(kernings >= 1) {
                 kerning = new IntFloatMap(kernings);
                 for (int i = 0; i < kernings; i++) {
-                    int first = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " second=", idx));
-                    int second = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " amount=", idx));
-                    float amount = StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "\nkerning first=", idx));
+                    int first = intFromDec(fnt, idx, idx = indexAfter(fnt, " second=", idx));
+                    int second = intFromDec(fnt, idx, idx = indexAfter(fnt, " amount=", idx));
+                    float amount = floatFromDec(fnt, idx, idx = indexAfter(fnt, "\nkerning first=", idx));
                     kerning.put(first << 16 | second, amount);
                     if (first == '[') {
                         kerning.put(2 << 16 | second, amount);
@@ -4523,7 +4777,7 @@ public class Font implements Disposable {
      * </ul>
      * You can render {@code appendTo} using {@link #drawGlyphs(Batch, Layout, float, float)}.
      *
-     * @param text     text, typically with square-bracket markup
+     * @param text     text with markup
      * @param appendTo a Layout that stores one or more Line objects, carrying color, style, chars, and size
      * @return appendTo, for chaining
      */
@@ -4568,7 +4822,7 @@ public class Font implements Disposable {
                         if (innerSquareStart != -1 && font.nameLookup != null) {
                             int len = innerSquareEnd - innerSquareStart;
                             if (len >= 2) {
-                                c = font.nameLookup.get(StringUtils.safeSubstring(text, innerSquareStart + 2, innerSquareEnd), '+');
+                                c = font.nameLookup.get(safeSubstring(text, innerSquareStart + 2, innerSquareEnd), '+');
                                 innerSquareStart = -1;
                                 appendTo.add(current | c);
                             }
@@ -4583,7 +4837,7 @@ public class Font implements Disposable {
                     else if (c == '=') eq = Math.min(eq, i);
                 }
                 char after = eq + 1 >= end ? '\u0000' : text.charAt(eq + 1);
-                if (start + 1 == end || "RESET".equalsIgnoreCase(StringUtils.safeSubstring(text, start + 1, end))) {
+                if (start + 1 == end || "RESET".equalsIgnoreCase(safeSubstring(text, start + 1, end))) {
                     historyBuffer.add(current);
                     scale = 3;
                     font = this;
@@ -4611,7 +4865,7 @@ public class Font implements Disposable {
                             break;
                     }
                 } else if (fontChange >= 0 && family != null) {
-                    fontIndex = family.fontAliases.get(StringUtils.safeSubstring(text, fontChange + 1, end), -1);
+                    fontIndex = family.fontAliases.get(safeSubstring(text, fontChange + 1, end), -1);
                     if (fontIndex == -1) {
                         font = this;
                         fontIndex = 0;
@@ -4627,10 +4881,10 @@ public class Font implements Disposable {
                         if (eq + 1 == sizeChange) {
                             scale = 3;
                         } else {
-                            scale = ((StringUtils.intFromDec(text, eq + 1, sizeChange) - 24) / 25) & 15;
+                            scale = ((intFromDec(text, eq + 1, sizeChange) - 24) / 25) & 15;
                         }
                     } else {
-                        scale = ((StringUtils.intFromDec(text, sizeChange + 1, end) - 24) / 25) & 15;
+                        scale = ((intFromDec(text, sizeChange + 1, end) - 24) / 25) & 15;
                     }
                 }
                 long next = (current & 0xFFFFFFFFFF00FFFFL) | (scale - 3 & 15) << 20 | (fontIndex & 15) << 16;
@@ -4758,7 +5012,7 @@ public class Font implements Disposable {
                                     scale = 3;
                                 } else {
                                     current = (current & 0xFFFFFFFFFE0FFFFFL) |
-                                            ((scale = ((StringUtils.intFromDec(text, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                                            ((scale = ((intFromDec(text, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
                                 }
                             }
                             else {
@@ -4768,7 +5022,7 @@ public class Font implements Disposable {
                             break;
                         case '#':
                             if (len >= 4 && len < 7) {
-                                color = StringUtils.longFromHex(text, i + 1, i + 4);
+                                color = longFromHex(text, i + 1, i + 4);
                                 color =
                                 (color << 52 & 0xF000000000000000L) | (color << 48 & 0x0F00000000000000L) |
                                 (color << 48 & 0x00F0000000000000L) | (color << 44 & 0x000F000000000000L) |
@@ -4776,9 +5030,9 @@ public class Font implements Disposable {
                                 0x000000FE00000000L;
                             }
                             else if (len >= 7 && len < 9)
-                                color = StringUtils.longFromHex(text, i + 1, i + 7) << 40 | 0x000000FE00000000L;
+                                color = longFromHex(text, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
-                                color = StringUtils.longFromHex(text, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
+                                color = longFromHex(text, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
                             else
                                 color = baseColor;
                             current = (current & ~COLOR_MASK) | color;
@@ -4789,7 +5043,7 @@ public class Font implements Disposable {
                                 fontIndex = 0;
                                 break;
                             }
-                            fontIndex = family.fontAliases.get(StringUtils.safeSubstring(text, i + 1, i + len), 0);
+                            fontIndex = family.fontAliases.get(safeSubstring(text, i + 1, i + len), 0);
                             current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
                             font = family.connected[fontIndex & 15];
                             if (font == null) font = this;
@@ -4799,11 +5053,11 @@ public class Font implements Disposable {
                             // the left parenthesis "must" be matched by a right parenthesis at the end.
                             // (but really, the last char before the closing right square bracket is just ignored.)
                             if(len - 2 > 0)
-                                labeledStates.put(StringUtils.safeSubstring(text, i + 1, i + len - 1), (current & 0xFFFFFFFFFFFF0000L));
+                                labeledStates.put(safeSubstring(text, i + 1, i + len - 1), (current & 0xFFFFFFFFFFFF0000L));
                             break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
-                            int lookupColor = colorLookup.getRgba(StringUtils.safeSubstring(text, i + 1, i + len)) & 0xFFFFFFFE;
+                            int lookupColor = colorLookup.getRgba(safeSubstring(text, i + 1, i + len)) & 0xFFFFFFFE;
                             if (lookupColor == 256) color = baseColor;
                             else color = (long) lookupColor << 32;
                             current = (current & ~COLOR_MASK) | color;
@@ -4814,7 +5068,7 @@ public class Font implements Disposable {
                             lowerCase = false;
                             if(len > 1) {
                                 // jump to labeled state
-                                current = labeledStates.get(StringUtils.safeSubstring(text, i + 1, i + len), current);
+                                current = labeledStates.get(safeSubstring(text, i + 1, i + len), current);
                                 scale = (int)((current >>> 20 & 15) + 3);
                                 if(family != null){
                                     font = family.connected[(int)(current >>> 16 & 15)];
@@ -4830,7 +5084,7 @@ public class Font implements Disposable {
                             break;
                         default:
                             // attempt to look up a known Color name with a ColorLookup
-                            int gdxColor = colorLookup.getRgba(StringUtils.safeSubstring(text, i, i + len)) & 0xFFFFFFFE;
+                            int gdxColor = colorLookup.getRgba(safeSubstring(text, i, i + len)) & 0xFFFFFFFE;
                             if (gdxColor == 256) color = baseColor;
                             else color = (long) gdxColor << 32;
                             current = (current & ~COLOR_MASK) | color;
@@ -4845,7 +5099,7 @@ public class Font implements Disposable {
                     if(c == '+' && font.nameLookup != null) {
                         int len = text.indexOf(']', i) - i;
                         if (len >= 0) {
-                            c = font.nameLookup.get(StringUtils.safeSubstring(text, i + 1, i + len), '+');
+                            c = font.nameLookup.get(safeSubstring(text, i + 1, i + len), '+');
                             i += len;
                             scaleX = (scale + 1) * 0.25f * font.cellHeight / (font.mapping.get(c, font.defaultValue).xAdvance);
                         }
@@ -5009,12 +5263,12 @@ public class Font implements Disposable {
                 //// VISIBLE CHAR RENDERING
 
                 char ch = text.charAt(i), showCh;
-                if (StringUtils.isLowerCase(ch)) {
+                if (isLowerCase(ch)) {
                     if ((capitalize && !previousWasLetter) || capsLock) {
                         ch = Category.caseUp(ch);
                     }
                     previousWasLetter = true;
-                } else if (StringUtils.isUpperCase(ch)) {
+                } else if (isUpperCase(ch)) {
                     if ((capitalize && previousWasLetter) || lowerCase) {
                         ch = Category.caseDown(ch);
                     }
@@ -5436,7 +5690,7 @@ public class Font implements Disposable {
                         if(innerSquareStart != -1 && font.nameLookup != null) {
                             int len = innerSquareEnd - innerSquareStart;
                             if (len >= 2) {
-                                c = font.nameLookup.get(StringUtils.safeSubstring(markup, innerSquareStart + 2, innerSquareEnd), '+');
+                                c = font.nameLookup.get(safeSubstring(markup, innerSquareStart + 2, innerSquareEnd), '+');
                                 innerSquareStart = -1;
                                 current = (current | c);
                             }
@@ -5450,7 +5704,7 @@ public class Font implements Disposable {
                     else if (c == '=') eq = Math.min(eq, i);
                 }
                 char after = eq + 1 >= end ? '\u0000' : markup.charAt(eq + 1);
-                if (start + 1 == end || "RESET".equalsIgnoreCase(StringUtils.safeSubstring(markup, start + 1, end))) {
+                if (start + 1 == end || "RESET".equalsIgnoreCase(safeSubstring(markup, start + 1, end))) {
                     scale = 3;
                     fontIndex = 0;
                     current &= ~SUPERSCRIPT;
@@ -5476,7 +5730,7 @@ public class Font implements Disposable {
                             break;
                     }
                 } else if (fontChange >= 0 && family != null) {
-                    fontIndex = family.fontAliases.get(StringUtils.safeSubstring(markup, fontChange + 1, end), -1);
+                    fontIndex = family.fontAliases.get(safeSubstring(markup, fontChange + 1, end), -1);
                     if (fontIndex == -1) {
                         fontIndex = 0;
                     } else {
@@ -5491,10 +5745,10 @@ public class Font implements Disposable {
                         if (eq + 1 == sizeChange) {
                             scale = 3;
                         } else {
-                            scale = ((StringUtils.intFromDec(markup, eq + 1, sizeChange) - 24) / 25) & 15;
+                            scale = ((intFromDec(markup, eq + 1, sizeChange) - 24) / 25) & 15;
                         }
                     } else {
-                        scale = ((StringUtils.intFromDec(markup, sizeChange + 1, end) - 24) / 25) & 15;
+                        scale = ((intFromDec(markup, sizeChange + 1, end) - 24) / 25) & 15;
                     }
                 }
                 current = (current & 0xFFFFFFFFFF00FFFFL) | (scale - 3 & 15) << 20 | (fontIndex & 15) << 16;
@@ -5603,7 +5857,7 @@ public class Font implements Disposable {
                                     scale = 3;
                                 } else {
                                     current = (current & 0xFFFFFFFFFE0FFFFFL) |
-                                            ((scale = ((StringUtils.intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                                            ((scale = ((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
                                 }
                             }
                             else {
@@ -5613,7 +5867,7 @@ public class Font implements Disposable {
                             break;
                         case '#':
                             if (len >= 4 && len < 7) {
-                                color = StringUtils.longFromHex(markup, i + 1, i + 4);
+                                color = longFromHex(markup, i + 1, i + 4);
                                 color =
                                         (color << 52 & 0xF000000000000000L) | (color << 48 & 0x0F00000000000000L) |
                                         (color << 48 & 0x00F0000000000000L) | (color << 44 & 0x000F000000000000L) |
@@ -5621,9 +5875,9 @@ public class Font implements Disposable {
                                         0x000000FE00000000L;
                             }
                             else if (len >= 7 && len < 9)
-                                color = StringUtils.longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FE00000000L;
+                                color = longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
-                                color = StringUtils.longFromHex(markup, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
+                                color = longFromHex(markup, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
                             else
                                 color = baseColor;
                             current = (current & ~COLOR_MASK) | color;
@@ -5633,20 +5887,20 @@ public class Font implements Disposable {
                                 fontIndex = 0;
                                 break;
                             }
-                            fontIndex = family.fontAliases.get(StringUtils.safeSubstring(markup, i + 1, i + len), 0);
+                            fontIndex = family.fontAliases.get(safeSubstring(markup, i + 1, i + len), 0);
                             font = family.connected[fontIndex];
                             current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
                             break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
-                            int lookupColor = colorLookup.getRgba(StringUtils.safeSubstring(markup, i + 1, i + len)) & 0xFFFFFFFE;
+                            int lookupColor = colorLookup.getRgba(safeSubstring(markup, i + 1, i + len)) & 0xFFFFFFFE;
                             if (lookupColor == 256) color = baseColor;
                             else color = (long) lookupColor << 32;
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         default:
                             // attempt to look up a known Color name with a ColorLookup
-                            int gdxColor = colorLookup.getRgba(StringUtils.safeSubstring(markup, i, i + len)) & 0xFFFFFFFE;
+                            int gdxColor = colorLookup.getRgba(safeSubstring(markup, i, i + len)) & 0xFFFFFFFE;
                             if (gdxColor == 256) color = baseColor;
                             else color = (long) gdxColor << 32;
                             current = (current & ~COLOR_MASK) | color;
@@ -5661,7 +5915,7 @@ public class Font implements Disposable {
                     if(c == '+' && font.nameLookup != null) {
                         int len = markup.indexOf(']', i) - i;
                         if (len >= 0) {
-                            c = font.nameLookup.get(StringUtils.safeSubstring(markup, i + 1, i + len), '+');
+                            c = font.nameLookup.get(safeSubstring(markup, i + 1, i + len), '+');
                         }
                     }
                     if(c == '[')
@@ -5674,11 +5928,11 @@ public class Font implements Disposable {
                 //// VISIBLE CHAR RENDERING
 
                 char ch = markup.charAt(i);
-                if (StringUtils.isLowerCase(ch)) {
+                if (isLowerCase(ch)) {
                     if ((capitalize) || capsLock) {
                         ch = Category.caseUp(ch);
                     }
-                } else if (StringUtils.isUpperCase(ch)) {
+                } else if (isUpperCase(ch)) {
                     if (lowerCase) {
                         ch = Category.caseDown(ch);
                     }
@@ -5900,7 +6154,7 @@ public class Font implements Disposable {
                                     // for jostle, which requires no other modes to be used
                                     current = ((current & (0xFFFFFFFFFE0FFFFFL ^ (current & 0x1000000L) >>> 4)) ^ modes);
                                 } else {
-                                    current = (current & 0xFFFFFFFFFE0FFFFFL) | ((((StringUtils.intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                                    current = (current & 0xFFFFFFFFFE0FFFFFL) | ((((intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
                                 }
                             }
                             else {
@@ -5911,12 +6165,12 @@ public class Font implements Disposable {
                             if (family == null) {
                                 break;
                             }
-                            int fontIndex = family.fontAliases.get(StringUtils.safeSubstring(markup, i + 1, i + len), 0);
+                            int fontIndex = family.fontAliases.get(safeSubstring(markup, i + 1, i + len), 0);
                             current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
                             break;
                         case '#':
                             if (len >= 4 && len < 7) {
-                                color = StringUtils.longFromHex(markup, i + 1, i + 4);
+                                color = longFromHex(markup, i + 1, i + 4);
                                 color =
                                     (color << 52 & 0xF000000000000000L) | (color << 48 & 0x0F00000000000000L) |
                                     (color << 48 & 0x00F0000000000000L) | (color << 44 & 0x000F000000000000L) |
@@ -5924,23 +6178,23 @@ public class Font implements Disposable {
                                     0x000000FE00000000L;
                             }
                             else if (len >= 7 && len < 9)
-                                color = StringUtils.longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FE00000000L;
+                                color = longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
-                                color = StringUtils.longFromHex(markup, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
+                                color = longFromHex(markup, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
                             else
                                 color = baseColor;
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
-                            int lookupColor = colorLookup.getRgba(StringUtils.safeSubstring(markup, i + 1, i + len)) & 0xFFFFFFFE;
+                            int lookupColor = colorLookup.getRgba(safeSubstring(markup, i + 1, i + len)) & 0xFFFFFFFE;
                             if (lookupColor == 256) color = baseColor;
                             else color = (long) lookupColor << 32;
                             current = (current & ~COLOR_MASK) | color;
                             break;
                         default:
                             // attempt to look up a known Color name with a ColorLookup
-                            int gdxColor = colorLookup.getRgba(StringUtils.safeSubstring(markup, i, i + len)) & 0xFFFFFFFE;
+                            int gdxColor = colorLookup.getRgba(safeSubstring(markup, i, i + len)) & 0xFFFFFFFE;
                             if (gdxColor == 256) color = baseColor;
                             else color = (long) gdxColor << 32;
                             current = (current & ~COLOR_MASK) | color;

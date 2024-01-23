@@ -158,32 +158,29 @@ public class TypingLabel extends TextraLabel {
     }
 
     public TypingLabel(String text, Label.LabelStyle style) {
-        super(text = Parser.handleBracketMinusMarkup(text), style);
+        super(text, style);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
-        Color.abgr8888ToColor(clearColor, layout.getBaseColor());
         setText(text, true);
     }
 
     public TypingLabel(String text, Label.LabelStyle style, Font replacementFont) {
-        super(text = Parser.handleBracketMinusMarkup(text), style, replacementFont);
+        super(text, style, replacementFont);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
-        Color.abgr8888ToColor(clearColor, layout.getBaseColor());
         setText(text, true);
     }
 
     public TypingLabel(String text, Font font) {
-        super(text = Parser.handleBracketMinusMarkup(text), font);
+        super(text, font);
         workingLayout.font(font);
         setText(text, true);
     }
 
     public TypingLabel(String text, Font font, Color color) {
-        super(text = Parser.handleBracketMinusMarkup(text), font, color);
+        super(text, font, color);
         workingLayout.font(font);
         workingLayout.setBaseColor(layout.baseColor);
-        Color.abgr8888ToColor(clearColor, layout.getBaseColor());
         setText(text, true);
     }
 
@@ -193,7 +190,7 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Modifies the text of this label. If the char progression is already running, it's highly recommended to use
-     * {@link #restart(CharSequence)} instead.
+     * {@link #restart(String)} instead.
      * @param newText what to use as the new text (and original text) of this label
      */
     @Override
@@ -203,7 +200,7 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Sets the text of this label. If the char progression is already running, it's highly recommended to use
-     * {@link #restart(CharSequence)} instead. This overload allows specifying if the original text, which is used when
+     * {@link #restart(String)} instead. This overload allows specifying if the original text, which is used when
      * parsing the tokens (with {@link #parseTokens()}), should be changed to match the given text. If
      * {@code modifyOriginalText} is true, this will {@link Parser#preprocess(String) preprocess} the text, which
      * should generally be run once per original text and no more.
@@ -214,7 +211,7 @@ public class TypingLabel extends TextraLabel {
      *                           only the display text is changed while the original text is untouched. If {@code true},
      *                           then this runs {@link Parser#preprocess(String)} on the text, which should only
      *                           generally be run once per original text.
-     * @see #restart(CharSequence)
+     * @see #restart(String)
      */
     public void setText(String newText, boolean modifyOriginalText) {
         if (modifyOriginalText) newText = Parser.preprocess("{NORMAL}" + getDefaultToken() + newText);
@@ -223,7 +220,7 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Sets the text of this label. If the char progression is already running, it's highly recommended to use
-     * {@link #restart(CharSequence)} instead. This overload allows specifying if the original text, which is used when
+     * {@link #restart(String)} instead. This overload allows specifying if the original text, which is used when
      * parsing the tokens (with {@link #parseTokens()}), should be changed to match the given text. This will not ever
      * call {@link Parser#preprocess(String)}, which makes it different from {@link #setText(String, boolean)}.
      * You can also specify whether the text animation should restart or not here.
@@ -231,11 +228,10 @@ public class TypingLabel extends TextraLabel {
      * @param modifyOriginalText Flag determining if the original text should be modified as well. If {@code false},
      *                           only the display text is changed while the original text is untouched.
      * @param restart            Whether this label should restart. Defaults to true.
-     * @see #restart(CharSequence)
+     * @see #restart(String)
      */
     public void setText(String newText, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
-        newText = Parser.handleBracketMinusMarkup(newText);
         font.markup(newText, layout.clear());
         if (wrap) {
             workingLayout.setTargetWidth(getWidth());
@@ -332,13 +328,9 @@ public class TypingLabel extends TextraLabel {
      * Parses all tokens of this label. Use this after setting the text and any variables that should be replaced.
      */
     public void parseTokens() {
-        parsed = true;
-        boolean actualEnd = ended;
-        ended = false;
-//        activeEffects.clear();
         this.setText(Parser.preprocess("{NORMAL}" + getDefaultToken() + originalText), false, false);
         Parser.parseTokens(this);
-        ended = actualEnd;
+        parsed = true;
 //        setSize(workingLayout.getWidth(), workingLayout.getHeight());
     }
 
@@ -434,7 +426,7 @@ public class TypingLabel extends TextraLabel {
      * automatically parsed.
      */
     public void restart() {
-        restart(getOriginalText());
+        restart(getOriginalText().toString());
     }
 
     /**
@@ -444,7 +436,8 @@ public class TypingLabel extends TextraLabel {
      * because restarting is also performed internally and changing the size internally could cause unexpected (read:
      * very buggy) behavior for code using this library.
      */
-    public void restart(CharSequence newText) {
+    public void restart(String newText) {
+        workingLayout.baseColor = Color.WHITE_FLOAT_BITS;
         workingLayout.atLimit = false;
 
         // Reset cache collections
@@ -476,6 +469,7 @@ public class TypingLabel extends TextraLabel {
         saveOriginalText(newText);
 
         // Parse tokens
+        tokenEntries.clear();
         parseTokens();
     }
 
@@ -493,12 +487,8 @@ public class TypingLabel extends TextraLabel {
      * @param value the String value to use as a replacement
      */
     public void setVariable(String var, String value) {
-        if(var != null) {
-            String old = variables.put(var.toUpperCase(), value);
-            if (value.contains("[") || value.contains("{") || (old != null && (old.contains("[") || old.contains("{")))) {
-                parsed = false;
-            }
-        }
+        if(var != null)
+            variables.put(var.toUpperCase(), value);
     }
 
     /**
@@ -531,14 +521,8 @@ public class TypingLabel extends TextraLabel {
         this.variables.clear();
         if (variableMap != null) {
             for (Map.Entry<String, String> entry : variableMap.entrySet()) {
-                if (entry.getKey() != null) {
-                    String value = entry.getValue();
-                    String old = this.variables.put(entry.getKey().toUpperCase(), value);
-                    if(value.contains("[") || value.contains("{") || (old != null && (old.contains("[") || old.contains("{")))) {
-                        parsed = false;
-                    }
-
-                }
+                if(entry.getKey() != null)
+                    this.variables.put(entry.getKey().toUpperCase(), entry.getValue());
             }
         }
     }
@@ -1262,7 +1246,7 @@ public class TypingLabel extends TextraLabel {
     }
 
     public void insertInLayout(Layout layout, int index, CharSequence text) {
-        long current = (Integer.reverseBytes(NumberUtils.floatToIntBits(layout.baseColor)) & -2L) << 32;
+        long current = 0xFFFFFFFE00000000L;
         for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = layout.getLine(i).glyphs;
             if (index < glyphs.size) { // inserting mid-line
