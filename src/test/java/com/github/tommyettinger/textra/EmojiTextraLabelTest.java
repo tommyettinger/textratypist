@@ -31,11 +31,23 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         stage.addActor(table);
         table.setFillParent(true);
 
-        label = createTextraLabel();
+        label =
+                createTextraLabel();
+//                new TextraLabel("", KnownFonts.getNowAlt()) {
+//                    @Override
+//                    public void act(float delta) {
+//                        setText(
+//                                "[_][~][%100]gO[][_][~][%125]gO[][_][~][%150]gO[][_][~][%175]gO[][_][~][%200]gO[][_][~][%225]gO[][_][~][%250]gO"
+//                                .substring(0, 16 + 16 * (Gdx.graphics.getFramesPerSecond() % 6))
+//                        );
+//                        super.act(delta);
+//                    }
+//                };
         label.debug();
         label.setAlignment(Align.center);
         table.pad(50f);
         table.add(label).colspan(5).growX();
+//        table.add(label).grow().center();
         table.row();
         table.row().uniform().expand().growX().space(40).center();
 
@@ -73,10 +85,10 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
 //                "Yay! [+saxophone][+😍][+🎷] "
 //                "[+⚖] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]"
                 "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
-                        + "But... {SICK}U. Nitty{ENDSICK} doesn't. {CROWD}[#BB1100][+skull][#55AA22FF][+🤡][ ]\n"
-                        + "That's OK, I don't like loot crates anyway. {CROWD}[#B10F][+party popper][#5A2][+🥳][ ]\n"
+                        + "But... {SICK}U. Nitty{ENDSICK} doesn't. {CROWD}[#BB1100][+skull][#55AA22FF][+🤡]{ENDCROWD}{CLEARCOLOR}\n"
+                        + "That's OK, I don't like loot crates anyway. {CROWD}[#B10F][+party popper][#5A2][+🥳]{ENDCROWD}{CLEARCOLOR}\n"
                         +"[+⚖][~][_][+⚖][ ] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\n"
-                        + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
+                        + "{NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
 
                 ,
 //
@@ -103,7 +115,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         label.setAlignment(Align.center);
         label.debug();
         // Make the label wrap to new lines, respecting the table's layout.
-        label.setWrap(true);
+        label.wrap = true;
 
         return label;
     }

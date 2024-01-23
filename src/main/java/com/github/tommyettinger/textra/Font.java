@@ -3781,7 +3781,7 @@ public class Font implements Disposable {
             boolean curly = false, initial = true;
             int kern = -1;
             float amt;
-            line.height = currentHeight;// glyphs.size == 0 ? currentHeight : 0f;
+            line.height = currentHeight;
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
@@ -5430,7 +5430,7 @@ public class Font implements Disposable {
                                 later.width = changeNext;
                                 earlier.width -= change;
                                 later.glyphs.addAll(glyphBuffer);
-                                later.height = Math.max(earlier.height, font.cellHeight * (scale + 1) * 0.25f);
+                                later.height = Math.max(later.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
                                 break;
                             }
                         }
