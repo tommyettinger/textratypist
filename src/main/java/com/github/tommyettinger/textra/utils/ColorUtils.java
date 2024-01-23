@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.NumberUtils;
+import com.github.tommyettinger.textra.Font;
 
 import static com.github.tommyettinger.textra.utils.Palette.NAMED;
 
@@ -413,7 +414,7 @@ public class ColorUtils {
      * @return another color of the same format as the one given, with alpha multiplied
      */
     public static float multiplyAlpha(float color, float multiplier) {
-        int bits = NumberUtils.floatToIntBits(color);
+        int bits = NumberUtils.floatToIntColor(color);
         return NumberUtils.intBitsToFloat((bits & 0x00FFFFFF) | Math.min(Math.max((int) ((bits >>> 25) * multiplier), 0), 127) << 25);
     }
 
@@ -645,7 +646,7 @@ public class ColorUtils {
                 case '8':
                 case '9':
                     if(mixing.size >= 2)
-                        mixing.set((mixing.size & -2) - 1, StringUtils.intFromDec(term, 0, term.length()));
+                        mixing.set((mixing.size & -2) - 1, Font.intFromDec(term, 0, term.length()));
                     break;
                 default:
                     mixing.add(NAMED.get(term, 256), 1);

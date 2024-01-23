@@ -5,12 +5,4 @@ dependencies {
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
   api "com.github.tommyettinger:regexodus:$regExodusVersion"
   api "com.github.tommyettinger:textratypist:$textratypistVersion"
-  api 'systems.manifold:manifold-ext-rt:2023.1.33'
-  annotationProcessor group: 'systems.manifold', name: 'manifold-ext', version: '2023.1.33'
 }
-
-//tasks.withType(JavaCompile) {
-//    // I do not define a module-info.java file.
-//    options.compilerArgs += ['-Xplugin:Manifold', "-Amanifold.source.target=${layout.buildDirectory.dir('generated/manifold/').get().asFile}"]
-//}
-compileJava.options.compilerArgs += ['-Xplugin:Manifold', "-Amanifold.source.target=${layout.buildDirectory.dir('generated/manifold/').get().asFile}"]
