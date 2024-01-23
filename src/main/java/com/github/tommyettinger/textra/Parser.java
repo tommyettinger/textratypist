@@ -16,11 +16,11 @@
 
 package com.github.tommyettinger.textra;
 
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
 import com.github.tommyettinger.textra.utils.Palette;
-import com.github.tommyettinger.textra.utils.StringUtils;
 import regexodus.Matcher;
 import regexodus.Pattern;
 import regexodus.REFlags;
@@ -31,13 +31,8 @@ import regexodus.Replacer;
  */
 public class Parser {
     private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("((?<!\\[)\\[[^\\[\\]]*(\\]|$))");
-    private static final Replacer RESET_TAG = new Replacer(Pattern.compile("((?<!\\[)\\[ (?:\\]|$))"), "{RESET}");
-    private static final Replacer UNDO_TAG =  new Replacer(Pattern.compile("((?<!\\[)\\[(?:\\]|$))"), "{UNDO}");
-    private static final Replacer COLOR_MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[(?:(?:#({=m}[A-Fa-f0-9]{3,8}))|(?:\\|?)({=m}[\\pL\\pN][^\\[\\]]*))(\\]|$)"), "{COLOR=${\\m}}");
     private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\]|$)"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{3,8}");
-
-    private static final Replacer BRACKET_MINUS_TO_TAG = new Replacer(Pattern.compile("((?<!\\[)\\[-({=t}[^\\[\\]]*)(?:\\]|$))"), "{${\\t}}");
 
     private static final CaseInsensitiveIntMap BOOLEAN_TRUE = new CaseInsensitiveIntMap(new String[]{"true", "yes", "t", "y", "on", "1"}, new int[6]);
     private static final int INDEX_TOKEN = 1;
@@ -46,39 +41,17 @@ public class Parser {
     private static Pattern PATTERN_TOKEN_STRIP;
     private static String RESET_REPLACEMENT;
 
-    /**
-     * Replaces any square-bracket markup of the form {@code [-SOMETHING]} with the curly-brace tag form
-     * <code>{SOMETHING}</code>. This allows you to produce curly-brace tags even when curly braces have some meaning
-     * that is reserved by another tool, such as I18N bundles. As long as the other tool somehow consumes curly braces
-     * from the source text, this can bring back curly braces before {@link Font#markup(String, Layout)} gets called.
-     * From then on, something like {@code [-RAINBOW]} will effectively be <code>{RAINBOW}</code>.
-     * <br>
-     * If this finds no occurrence of {@code "[-"} in {@code text}, this simply returns {@code text} without allocating.
-     *
-     * @param text text that could have square-bracket-minus markup
-     * @return {@code text} with any square-bracket-minus markup changed to curly-brace tags
-     */
-    public static String handleBracketMinusMarkup(String text) {
-        if(text.contains("[-"))
-            return BRACKET_MINUS_TO_TAG.replace(text);
-        return text;
-    }
 
     /**
-     * Replaces any style markup using square brackets, such as <code>[_]</code> for underline, with the syntax
+     * Replaces any style tags using square brackets, such as <code>[_]</code> for underline, with the syntax
      * <code>{STYLE=_}</code> (changing {@code _} based on what was in the square brackets). This also changes
-     * <code>[ ]</code> to <code>{RESET}</code> and <code>[]</code> to <code>{UNDO}</code>. This won't change escaped
+     * <code>[]</code> to <code>{RESET}</code>. This won't change escaped
      * brackets or the inline image syntax that uses <code>[+name of an image in an atlas]</code>.
      * @param text text that could have square-bracket style markup
-     * @return {@code text} with square bracket style markup changed to curly-brace style tags
+     * @return {@code text} with square bracket style markup changed to curly-brace style markup
      */
     public static String preprocess(String text) {
-        text = RESET_TAG.replace(text);
-        text = UNDO_TAG.replace(text);
-        text = COLOR_MARKUP_TO_TAG.replace(text);
-        text = MARKUP_TO_TAG.replace(text);
-//        System.out.println(text);
-        return text;
+        return MARKUP_TO_TAG.replace(text.replace("[ ]", "{RESET}")).replace("[]", "{UNDO}");
     }
 
     /**
@@ -476,10 +449,10 @@ public class Parser {
             // Try to parse hex
             if (str.length() >= 3) {
                 if (str.startsWith("#")) {
-                    if (str.length() >= 9) return StringUtils.intFromHex(str, 1, 9);
-                    if (str.length() >= 7) return StringUtils.intFromHex(str, 1, 7) << 8 | 0xFF;
+                    if (str.length() >= 9) return Font.intFromHex(str, 1, 9);
+                    if (str.length() >= 7) return Font.intFromHex(str, 1, 7) << 8 | 0xFF;
                     if (str.length() >= 4) {
-                        int rgb = StringUtils.intFromHex(str, 1, 4);
+                        int rgb = Font.intFromHex(str, 1, 4);
                         return
                                 (rgb << 20 & 0xF0000000) | (rgb << 16 & 0x0F000000) |
                                 (rgb << 16 & 0x00F00000) | (rgb << 12 & 0x000F0000) |
@@ -488,9 +461,9 @@ public class Parser {
                     }
 
                 } else {
-                    if (str.length() >= 8) return StringUtils.intFromHex(str, 0, 8);
-                    if (str.length() >= 6) return StringUtils.intFromHex(str, 0, 6) << 8 | 0xFF;
-                    int rgb = StringUtils.intFromHex(str, 0, 3);
+                    if (str.length() >= 8) return Font.intFromHex(str, 0, 8);
+                    if (str.length() >= 6) return Font.intFromHex(str, 0, 6) << 8 | 0xFF;
+                    int rgb = Font.intFromHex(str, 0, 3);
                     return
                             (rgb << 20 & 0xF0000000) | (rgb << 16 & 0x0F000000) |
                             (rgb << 16 & 0x00F00000) | (rgb << 12 & 0x000F0000) |
@@ -514,7 +487,7 @@ public class Parser {
             }
         }
 
-        // Return no change
+        // Return color code
         return "[" + str + "]";
     }
 
@@ -576,13 +549,11 @@ public class Parser {
                 return "[%" + str.substring(0, str.length() - 1) + "]";
             if (str.startsWith("%"))
                 return "[%" + str.substring(1) + "]";
-            if(Palette.NAMED.containsKey(str))
-                return "[" + str + "]";
-            if (str.length() >= 3 && PATTERN_COLOR_HEX_NO_HASH.matches(str))
+            if (str.length() >= 3 && !Colors.getColors().containsKey(str) && PATTERN_COLOR_HEX_NO_HASH.matches(str))
                 return "[#" + str + "]";
         }
-        // Return no change
-        return "";
+        // Return unaltered code, enclosed
+        return "[" + str + "]";
     }
 
     /**

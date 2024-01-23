@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.KnownFonts;
 import com.github.tommyettinger.textra.TypingLabel;
-import manifold.ext.rt.api.auto;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
@@ -26,22 +25,20 @@ public class Main extends ApplicationAdapter {
         Array<TypingLabel> labels = new Array<>(new TypingLabel[]{
                 new TypingLabel("{RAINBOW}Texttexttextte xtext text t e x t text text text text{ENDRAINBOW}", font)
         });
-        auto label = labels.get(0);
+        TypingLabel label = labels.get(0);
         label.setWrap(true);
+        label.setWidth(200);
+        label.setSize(200, 400);
         label.setAlignment(Align.top);
 
-        Table table = new Table();
-        table.setFillParent(true);
-        table.add(label).size(200, 100).row();
-
         BitmapFont bmfont = new BitmapFont(Gdx.files.internal("RobotoCondensed-standard.fnt"));
-//        bmfont.getData().markupEnabled = false;
-//        Label s2dLabel = new Label("I can do it!", new Label.LabelStyle(bmfont, Color.WHITE));
         bmfont.getData().markupEnabled = true;
         Label s2dLabel = new Label("I [SKY]can [ROYAL]do[] it!", new Label.LabelStyle(bmfont, Color.WHITE));
         s2dLabel.setAlignment(Align.bottom);
+        Table table = new Table();
+        table.setFillParent(true);
+        table.add(label).row();
         table.add(s2dLabel).bottom();
-
         stage.addActor(table);
     }
 
