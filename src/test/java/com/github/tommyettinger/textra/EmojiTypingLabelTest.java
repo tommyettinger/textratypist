@@ -128,7 +128,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
                 "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
                 + "But... {SICK}U. Nitty{ENDSICK} doesn't. {CROWD}[#BB1100][+skull]{COLOR=#55AA22}[+🤡]{ENDCROWD}{CLEARCOLOR}\n"
                 + "That's OK, I don't like loot crates anyway. {CROWD}[#B10][+party popper]{COLOR=5A2}[+🥳]{ENDCROWD}{CLEARCOLOR}\n"
-                +"[+⚖][~][_][+⚖][ ] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[ ][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\n"
+                +"[+⚖][~][_][+⚖][ ] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\n"
                 + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
                 ,
 //
@@ -149,7 +149,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 
 //        final TypingLabel label = new TypingLabel("[/][*][GREEN]JUNGLE[*][WHITE] TO THE[/] WELCOME!",
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!",
-                font, Color.LIGHT_GRAY);
+                font);
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!", skin);
 //        final TypingLabel label = new TypingLabel("{WAIT=1}{SLOWER}Welcome, {VAR=title}!", skin);
         label.setAlignment(Align.center);
