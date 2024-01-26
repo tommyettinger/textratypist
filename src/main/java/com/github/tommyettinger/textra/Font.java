@@ -4561,7 +4561,7 @@ public class Font implements Disposable {
                 int eq = end;
                 for (; i < n && i <= end; i++) {
                     c = text.charAt(i);
-                    if (enableSquareBrackets && c == '[' && i < end && text.charAt(i + 1) == '+') innerSquareStart = i;
+                    if (enableSquareBrackets && c == '[' && i + 1 < end && text.charAt(i + 1) == '+') innerSquareStart = i;
                     else if (innerSquareStart == -1) appendTo.add(current | c);
                     if (enableSquareBrackets && c == ']') {
                         innerSquareEnd = i;
@@ -5429,7 +5429,7 @@ public class Font implements Disposable {
                 for (; i < n && i <= end; i++) {
                     c = markup.charAt(i);
 
-                    if (enableSquareBrackets && c == '[' && i < end && markup.charAt(i+1) == '+') innerSquareStart = i;
+                    if (enableSquareBrackets && c == '[' && i + 1 < end && markup.charAt(i+1) == '+') innerSquareStart = i;
                     else if(innerSquareStart == -1) current = (current | c);
                     if (enableSquareBrackets && c == ']') {
                         innerSquareEnd = i;
