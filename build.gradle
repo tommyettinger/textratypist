@@ -12,6 +12,7 @@ buildscript {
 
 apply plugin: 'java-library'
 apply plugin: 'com.vanniktech.maven.publish'
+apply plugin: 'idea'
 
 
 java {
@@ -56,6 +57,8 @@ if (JavaVersion.current().isJava8Compatible()) {
         }
     }
 }
+
+idea.module.excludeDirs += [file("docs/")]
 
 sourceSets.test.resources.srcDirs = [file('src/test/resources').path, file('knownFonts').path]
 
