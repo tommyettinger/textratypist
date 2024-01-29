@@ -22,6 +22,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -48,27 +49,31 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         stage = new Stage(viewport);
         stage.setDebugAll(true);
 
-        Font gentium = KnownFonts.getGentium();
+//        Font font = new Font("moss/Quicksand_Medium.fnt", "moss/Quicksand_Medium.png");
+        Font font = new Font(new BitmapFont(Gdx.files.local("moss/Quicksand_Medium.fnt")));// "moss/Quicksand_Medium.png");
 
+//        font.useIntegerPositions(false);
 //        Group group=new Group();
 //        stage.addActor(group);
 
-        Sprite bg = new Sprite(gentium.mapping.get(gentium.solidBlock));
+        Sprite bg = new Sprite(font.mapping.get(font.solidBlock));
         bg.getColor().set(Color.FOREST);
 
         typingLabel=new TypingLabel();
         typingLabel.setAlignment(Align.center);
-        typingLabel.setFont(gentium);
+        typingLabel.setFont(font);
         typingLabel.style.background = new SpriteDrawable(bg);
         typingLabel.setText("[WHITE][%?blacken]Roll a ball. When the ball gets into a slot, adjacent slots freeze and become unavailable.");
         typingLabel.setZIndex(0);
-        typingLabel.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f + 30f);
+        typingLabel.setPosition((Gdx.graphics.getWidth() - typingLabel.layout.getWidth()) / 2f, Gdx.graphics.getHeight() / 2f + 30f);
         // Normally we could use the next line, but the label doesn't have its size set yet, because it hasn't
         // been added to the Stage yet.
 //        typingLabel.setOrigin(typingLabel.getWidth()/2f, typingLabel.getHeight()/2f);
         // Instead, we can use the width and height of the layout object, which knows how big the label will be
         // once the typing effect finishes.
-        typingLabel.setOrigin(typingLabel.layout.getWidth()/2f, typingLabel.layout.getHeight()/2f);
+        typingLabel.setOrigin(typingLabel.layout.getWidth() / 2f, typingLabel.layout.getHeight() / 2f);
+        typingLabel.setSize(typingLabel.layout.getWidth(), typingLabel.layout.getHeight());
+        typingLabel.layout();
 
 //        Container<TypingLabel> container=new Container<>(typingLabel);
 //        container.setFillParent(true);
@@ -76,16 +81,18 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
 
         typingLabel2=new TypingLabel();
         typingLabel2.setAlignment(Align.center);
-        typingLabel2.setFont(gentium);
+        typingLabel2.setFont(font);
         typingLabel2.style.background = new SpriteDrawable(bg);
         typingLabel2.setText("[WHITE][%?blacken]Roll a ball. When the ball gets into a slot,\nadjacent slots freeze and become unavailable.");
         typingLabel2.setZIndex(0);
-        typingLabel2.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f - 30f);
-        typingLabel2.setOrigin(typingLabel2.layout.getWidth()/2f, typingLabel2.layout.getHeight()/2f);
+        typingLabel2.setPosition((Gdx.graphics.getWidth() - typingLabel2.layout.getWidth()) / 2f, Gdx.graphics.getHeight() / 2f - 30f);
+        typingLabel2.setOrigin(typingLabel2.layout.getWidth() / 2f, typingLabel2.layout.getHeight() / 2f);
+        typingLabel2.setSize(typingLabel2.layout.getWidth(), typingLabel2.layout.getHeight());
+        typingLabel2.layout();
 
-        VerticalGroup group = new VerticalGroup();
-        group.setFillParent(true);
-        group.align(Align.center);
+        Group group = new Group();
+//        group.setFillParent(true);
+//        group.align(Align.center);
         group.addActor(typingLabel);
         group.addActor(typingLabel2);
         stage.addActor(group);
@@ -125,7 +132,7 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("ForestOMoss Background Issue test");
-        config.setWindowedMode(600, 480);
+        config.setWindowedMode(601, 481);
         config.disableAudio(true);
         config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
