@@ -21,9 +21,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -32,15 +35,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.github.tommyettinger.textra.utils.Palette;
 
 public class ForestOMossIssueTest extends ApplicationAdapter {
     ScreenViewport viewport;
     Stage stage;
+    Font font;
     TypingLabel typingLabel;
     TypingLabel typingLabel2;
     float angle;
+    Layout markup;
 
     @Override
     public void create() {
@@ -49,15 +56,19 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         stage = new Stage(viewport);
         stage.setDebugAll(true);
 
-//        Font font = new Font("moss/Quicksand_Medium.fnt", "moss/Quicksand_Medium.png");
-        Font font = new Font(new BitmapFont(Gdx.files.local("moss/Quicksand_Medium.fnt")));// "moss/Quicksand_Medium.png");
+        font = new Font("moss/Quicksand_Medium.fnt", "moss/Quicksand_Medium.png");
+//        Font font = new Font(new BitmapFont(Gdx.files.local("moss/Quicksand_Medium.fnt")));// "moss/Quicksand_Medium.png");
 
-//        font.useIntegerPositions(false);
+        font.useIntegerPositions(false);
 //        Group group=new Group();
 //        stage.addActor(group);
 
         Sprite bg = new Sprite(font.mapping.get(font.solidBlock));
         bg.getColor().set(Color.FOREST);
+
+        font.PACKED_WHITE = NumberUtils.intBitsToFloat(Integer.reverseBytes(Palette.SALMON) & 0x44FFFFFF);
+
+        font.markup("[#FFFFFF44][%?whiten]Jump around. When the ball gets into a slot,\njoined slots freeze and become unavailable.", markup = new Layout(font));
 
         typingLabel=new TypingLabel();
         typingLabel.setAlignment(Align.center);
@@ -83,7 +94,7 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         typingLabel2.setAlignment(Align.center);
         typingLabel2.setFont(font);
         typingLabel2.style.background = new SpriteDrawable(bg);
-        typingLabel2.setText("[WHITE][%?blacken]Roll a ball. When the ball gets into a slot,\nadjacent slots freeze and become unavailable.");
+        typingLabel2.setText("[WHITE][%?blacken]Jump around. When the ball gets into a slot,\njoined slots freeze and become unavailable.");
         typingLabel2.setZIndex(0);
         typingLabel2.setPosition((Gdx.graphics.getWidth() - typingLabel2.layout.getWidth()) / 2f, Gdx.graphics.getHeight() / 2f - 30f);
         typingLabel2.setOrigin(typingLabel2.layout.getWidth() / 2f, typingLabel2.layout.getHeight() / 2f);
@@ -93,7 +104,7 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         Group group = new Group();
 //        group.setFillParent(true);
 //        group.align(Align.center);
-        group.addActor(typingLabel);
+//        group.addActor(typingLabel);
         group.addActor(typingLabel2);
         stage.addActor(group);
 
@@ -103,11 +114,32 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(Color.DARK_GRAY);
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)) typingLabel.setRotation(angle += Gdx.graphics.getDeltaTime() * 5f);
-        else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) typingLabel.setRotation(angle -= Gdx.graphics.getDeltaTime() * 5f);
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) typingLabel2.setRotation(MathUtils.round(angle += 45f));
+//        else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) typingLabel2.setRotation(MathUtils.round(angle -= 45f));
+//
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)) typingLabel2.setRotation(MathUtils.round(angle += Gdx.graphics.getDeltaTime() * 25f));
+        else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) typingLabel2.setRotation(MathUtils.round(angle -= Gdx.graphics.getDeltaTime() * 25f));
 
         stage.act();
-        stage.draw();
+        Camera camera = viewport.getCamera();
+        camera.update();
+
+        Batch batch = stage.getBatch();
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+
+        float x = Gdx.graphics.getWidth() / 2f;
+        float y = Gdx.graphics.getHeight() / 2f;
+
+        stage.getRoot().draw(batch, 1);
+
+        font.drawGlyphs(stage.getBatch(), markup,
+                x, y,
+                Align.center, angle, 0, 0);
+
+
+        batch.end();
+
 //        System.out.println(typingLabel.workingLayout.lines());
     }
 

@@ -974,17 +974,34 @@ public class TypingLabel extends TextraLabel {
                 if (f == null) f = font;
                 float descent = f.descent * f.scaleY;
                 if(i == 0){
-                    x -= 0.5f * f.cellWidth;
-                    x += cs * 0.5f * f.cellWidth;
-                    y += sn * 0.5f * f.cellWidth;
+                    x -= f.cellWidth * 0.5f;
 
-                    y += descent;
-                    x += sn * (descent - 0.5f * glyphs.height);
-                    y -= cs * (descent - 0.5f * glyphs.height);
-                    if(font.integerPosition){
-                        x = (int)x;
-                        y = (int)y;
+                    x += cs * f.cellWidth * 0.5f;
+                    y += sn * f.cellWidth * 0.5f;
+
+                    x += sn * descent * 0.5f;
+                    y -= cs * descent * 0.5f;
+
+//                    y += descent;
+                    x -= sn * glyphs.height * 0.5f;
+                    y += cs * glyphs.height * 0.5f;
+//                    if(font.integerPosition){
+//                        x = (int)x;
+//                        y = (int)y;
+//                    }
+
+                    Font.GlyphRegion reg = font.mapping.get((char) glyph);
+                    if (reg != null) {
+                        float ox = reg.offsetX;
+                        if (ox != ox) ox = 0f;
+                        else
+                            ox *= f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
+                        if (ox < 0) {
+                            xChange -= cs * ox;
+                            yChange -= sn * ox;
+                        }
                     }
+
                 }
 
                 if (f.kerning != null) {
@@ -995,20 +1012,16 @@ public class TypingLabel extends TextraLabel {
                 } else {
                     kern = -1;
                 }
-                if(i == 0) {
-                    Font.GlyphRegion reg = font.mapping.get((char) glyph);
-                    if (reg != null && reg.offsetX < 0) {
-                        float ox = reg.offsetX * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
-                        xChange -= cs * ox;
-                        yChange -= sn * ox;
-                    }
-                }
                 ++globalIndex;
                 if(selectable && selectionStart <= globalIndex && selectionEnd >= globalIndex)
                     bgc = ColorUtils.offsetLightness((int)(glyph >>> 32), 0.5f);
                 else
                     bgc = 0;
                 float xx = x + xChange + offsets.get(o++), yy = y + yChange + offsets.get(o++);
+                if(font.integerPosition){
+                    xx = (int)xx;
+                    yy = (int)yy;
+                }
                 single = f.drawGlyph(batch, glyph, xx, yy, rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++), bgc);
                 if(trackingInput){
                     if(xx <= inX && inX <= xx + single && yy - glyphs.height * 0.5f <= inY && inY <= yy + glyphs.height * 0.5f) {
@@ -1043,7 +1056,7 @@ public class TypingLabel extends TextraLabel {
             }
 
         }
-        invalidate();
+//        invalidate();
 //        addMissingGlyphs();
         if (resetShader)
             batch.setShader(null);
