@@ -58,7 +58,6 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
 
         font = new Font("moss/Quicksand_Medium.fnt", "moss/Quicksand_Medium.png");
 //        Font font = new Font(new BitmapFont(Gdx.files.local("moss/Quicksand_Medium.fnt")));// "moss/Quicksand_Medium.png");
-
         font.useIntegerPositions(false);
 //        Group group=new Group();
 //        stage.addActor(group);
@@ -136,7 +135,6 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         font.drawGlyphs(stage.getBatch(), markup,
                 x, y,
                 Align.center, angle, 0, 0);
-
 
         batch.end();
 

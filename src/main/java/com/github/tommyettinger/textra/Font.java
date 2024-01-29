@@ -3196,8 +3196,8 @@ public class Font implements Disposable {
      * @return the distance in world units the drawn Line uses, left to right
      */
     public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align) {
-        final float originX = Align.isRight(align) ? glyphs.width : Align.isCenterHorizontal(align) ? glyphs.width * 0.5f : 0f;
-        final float originY = Align.isTop(align) ? glyphs.height : Align.isCenterVertical(align) ? glyphs.height * 0.5f : 0f;
+        final float originX = x + (Align.isRight(align) ? glyphs.width : Align.isCenterHorizontal(align) ? glyphs.width * 0.5f : 0f);
+        final float originY = y + (Align.isTop(align) ? glyphs.height : Align.isCenterVertical(align) ? glyphs.height * 0.5f : 0f);
         return drawGlyphs(batch, glyphs, x, y, align, 0f, originX, originY);
     }
 
@@ -3262,7 +3262,7 @@ public class Font implements Disposable {
 
             // These affect each glyph by the same amount; unrelated to per-glyph wobble.
 //            float xx = x + 0.25f * (-(sn * font.cellHeight) + (cs * font.cellWidth));
-            float yy = y + 0.25f * (+(cs * font.cellHeight) + (sn * font.cellWidth));
+//            float yy = y + 0.25f * (+(cs * font.cellHeight) + (sn * font.cellWidth));
 
 //            GlyphRegion gr = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue);
 //            float xx = x + 0.5f * ((cs * gr.xAdvance) + (sn * font.cellHeight));
@@ -3275,17 +3275,35 @@ public class Font implements Disposable {
                 xChange += cs * amt;
                 yChange += sn * amt;
             }
-            if(initial && !isMono){
-                float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX;
-                if(ox != ox) ox = 0f;
-                else ox *= font.scaleX * ((glyph & ALTERNATE) != 0L ? 4f : (glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
-                if(ox < 0) {
-                    xChange -= cs * ox;
-                    yChange -= sn * ox;
+            if(initial){
+
+                xChange -= font.cellWidth * 0.5f;
+                yChange += font.cellHeight * 0.5f;
+
+                xChange += cs * font.cellWidth * 0.5f;
+                yChange += sn * font.cellWidth * 0.5f;
+
+                xChange += sn * font.descent * font.scaleY * 0.5f;
+                yChange -= cs * font.descent * font.scaleY * 0.5f;
+
+//                yChange += font.cellHeight * 0.5f;
+                xChange -= sn * glyphs.height * 0.5f;
+                yChange += cs * glyphs.height * 0.5f;
+
+                final Font.GlyphRegion reg = font.mapping.get((int) (glyph & 0xFFFF));
+                if(!isMono && reg != null) {
+                    float ox = reg.offsetX;
+                    if (ox != ox) ox = 0f;
+                    else
+                        ox *= font.scaleX * ((glyph & ALTERNATE) != 0L ? 4f : (glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                    if (ox < 0) {
+                        xChange -= cs * ox;
+                        yChange -= sn * ox;
+                    }
                 }
                 initial = false;
             }
-            single = drawGlyph(batch, glyph, x + xChange, yy + yChange, rotation);
+            single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation);
             xChange += cs * single;
             yChange += sn * single;
             drawn += single;

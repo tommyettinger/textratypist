@@ -985,10 +985,6 @@ public class TypingLabel extends TextraLabel {
 //                    y += descent;
                     x -= sn * glyphs.height * 0.5f;
                     y += cs * glyphs.height * 0.5f;
-//                    if(font.integerPosition){
-//                        x = (int)x;
-//                        y = (int)y;
-//                    }
 
                     Font.GlyphRegion reg = font.mapping.get((char) glyph);
                     if (reg != null) {
