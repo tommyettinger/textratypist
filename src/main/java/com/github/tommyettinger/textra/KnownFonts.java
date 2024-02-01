@@ -1988,6 +1988,8 @@ public final class KnownFonts implements LifecycleListener {
      * {@code [+🤡]}, with the latter preferred because the names can be unwieldy or hard to get right. This caches the
      * Twemoji atlas for later calls. This tries to load the files "Twemoji.atlas" and "Twemoji.png" from the internal
      * storage first, and if that fails, it tries to load them from local storage in the current working directory.
+     * There are over 3000 emoji in the Twemoji set;
+     * <a href="https://github.com/twitter/twemoji#attribution-requirements">it requires attribution to use</a>.
      * <br>
      * You can add emoji to a font as inline images with KnownFonts.addEmoji(Font).
      * Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as intended
@@ -2134,6 +2136,190 @@ public final class KnownFonts implements LifecycleListener {
                     offsetXChange, offsetYChange - changing.descent * changing.scaleY, xAdvanceChange);
         }
         throw new RuntimeException("Assets 'Twemoji.atlas' and 'Twemoji.png' not found.");
+    }
+
+    private TextureAtlas openMoji;
+
+    /**
+     * Takes a Font and adds the OpenMoji icon set to it, making the glyphs available using {@code [+name]} syntax.
+     * You can use the name of an emoji, such as {@code [+clown face]}, or equivalently use the actual emoji, such as
+     * {@code [+🤡]}, with the latter preferred because the names can be unwieldy or hard to get right. This caches the
+     * OpenMoji atlas for later calls. There are two variants on the OpenMoji set here; one is in full color, and the
+     * other is line art with white lines (This version can be drawn with a color set using markup or the Batch). This
+     * tries to load the files "OpenMoji-color.atlas" and "OpenMoji-color.png" (if loading the full-color set) or
+     * "OpenMoji-white.atlas" and "OpenMoji-white.png" (if loading the line art set) from the internal
+     * storage first, and if that fails, it tries to load them from local storage in the current working directory.
+     * OpenMoji is licensed under Creative Commons-Attribution-Share-Alike, so make sure you attribute
+     * the <a href="https://openmoji.org/">OpenMoji project</a>.
+     * <br>
+     * You can add OpenMoji emoji to a font as inline images with KnownFonts.addOpenMoji(Font, boolean).
+     * Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as intended
+     * with "standard" fonts (without a distance field effect). They can scale reasonably well down, and less-reasonably well
+     * up, but at typical text sizes (12-30 pixels in height) they tend to be legible. There are over 3700 emoji in the OpenMoji
+     * set, and they are accessible both by name, using the syntax <code>[+clown face]</code>, and by entering the actual
+     * emoji, using the syntax <code>[+🤡]</code>. You can search for names in {@code OpenMoji.atlas}, or use the emoji picker in
+     * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category (Skin Composer might
+     * not be using the current version of the emoji standard, and it defaults to Twemoji instead of OpenMoji, but most of the
+     * usage is the same, and an emoji for Twemoji should also work with OpenMoji). You can also use the
+     * emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
+     * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
+     * name or emoji, and {@link Font#namesByCharCode} to go from such an internal code to an emoji (as UTF-8).
+     * <br>
+     * Note that there isn't enough available space in a Font to add both emoji with this and icons with
+     * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
+     * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
+     * <br>
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
+     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
+     * <br>
+     * You can see all emoji and the names they use
+     * <a href="https://tommyettinger.github.io/openmoji-atlas/">at this GitHub Pages site</a>.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-color.atlas">OpenMoji-color.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-color.png">OpenMoji-color.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-License.txt">OpenMoji-License.txt</a></li>
+     *     <li>OR, if {@code color} is false,</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-white.atlas">OpenMoji-white.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-white.png">OpenMoji-white.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-License.txt">OpenMoji-License.txt</a></li>
+     * </ul>
+     *
+     * @param changing a Font that will have over 3700 emoji added to it, with more aliases
+     * @return {@code changing}, after the emoji atlas has been added
+     */
+    public static Font addOpenMoji(Font changing, boolean color) {
+        return addOpenMoji(changing, color, 0f, 0f, 0f);
+    }
+    /**
+     * Takes a Font and adds the OpenMoji icon set to it, making the glyphs available using {@code [+name]} syntax.
+     * You can use the name of an emoji, such as {@code [+clown face]}, or equivalently use the actual emoji, such as
+     * {@code [+🤡]}, with the latter preferred because the names can be unwieldy or hard to get right. This caches the
+     * OpenMoji atlas for later calls. There are two variants on the OpenMoji set here; one is in full color, and the
+     * other is line art with white lines (This version can be drawn with a color set using markup or the Batch). This
+     * tries to load the files "OpenMoji-color.atlas" and "OpenMoji-color.png" (if loading the full-color set) or
+     * "OpenMoji-white.atlas" and "OpenMoji-white.png" (if loading the line art set) from the internal
+     * storage first, and if that fails, it tries to load them from local storage in the current working directory.
+     * OpenMoji is licensed under Creative Commons-Attribution-Share-Alike, so make sure you attribute
+     * the <a href="https://openmoji.org/">OpenMoji project</a>.
+     * <br>
+     * Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as
+     * intended with "standard" fonts (without a distance field effect). They can scale reasonably well down, and
+     * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
+     * You can search for names in {@code OpenMoji.atlas}, or use the emoji picker in
+     * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category. You can also use
+     * the emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
+     * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
+     * name or emoji, and {@link Font#namesByCharCode} to go from such an internal code to an emoji (as UTF-8).
+     * <br>
+     * Note that there isn't enough available space in a Font to add both emoji with this and icons with
+     * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
+     * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
+     * <br>
+     * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
+     * <br>
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
+     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
+     * <br>
+     * You can see all emoji and the names they use
+     * <a href="https://tommyettinger.github.io/openmoji-atlas/">at this GitHub Pages site</a>.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-color.atlas">OpenMoji-color.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-color.png">OpenMoji-color.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-License.txt">OpenMoji-License.txt</a></li>
+     *     <li>OR, if {@code color} is false,</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-white.atlas">OpenMoji-white.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-white.png">OpenMoji-white.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-License.txt">OpenMoji-License.txt</a></li>
+     * </ul>
+     *
+     * @param changing a Font that will have over 3700 emoji added to it, with more aliases
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph
+     * @return {@code changing}, after the emoji atlas has been added
+     */
+    public static Font addOpenMoji(Font changing, boolean color, float offsetXChange, float offsetYChange, float xAdvanceChange) {
+        return addOpenMoji(changing, color, "", "", offsetXChange, offsetYChange, xAdvanceChange);
+    }
+    /**
+     * Takes a Font and adds the OpenMoji icon set to it, making the glyphs available using {@code [+name]} syntax.
+     * You can use the name of an emoji, such as {@code [+clown face]}, or equivalently use the actual emoji, such as
+     * {@code [+🤡]}, with the latter preferred because the names can be unwieldy or hard to get right. This caches the
+     * OpenMoji atlas for later calls. This tries to load the files "OpenMoji.atlas" and "OpenMoji.png" from the internal
+     * storage first, and if that fails, it tries to load them from local storage in the current working directory.
+     * There are two variants on the OpenMoji set here; one is in full color, and the
+     * other is line art with white lines (This version can be drawn with a color set using markup or the Batch). This
+     * tries to load the files "OpenMoji-color.atlas" and "OpenMoji-color.png" (if loading the full-color set) or
+     * "OpenMoji-white.atlas" and "OpenMoji-white.png" (if loading the line art set) from the internal
+     * storage first, and if that fails, it tries to load them from local storage in the current working directory.
+     * OpenMoji is licensed under Creative Commons-Attribution-Share-Alike, so make sure you attribute
+     * the <a href="https://openmoji.org/">OpenMoji project</a>.
+     * <br>
+     * Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as
+     * intended with "standard" fonts (without a distance field effect). They can scale reasonably well down, and
+     * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
+     * You can search for names in {@code OpenMoji.atlas}, or use the emoji picker in
+     * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category. You can also use
+     * the emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
+     * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
+     * name or emoji, and {@link Font#namesByCharCode} to go from such an internal code to an emoji (as UTF-8).
+     * <br>
+     * Note that there isn't enough available space in a Font to add both emoji with this and icons with
+     * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
+     * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
+     * <br>
+     * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font. It also
+     * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
+     * <br>
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
+     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
+     * <br>
+     * You can see all emoji and the names they use
+     * <a href="https://tommyettinger.github.io/openmoji-atlas/">at this GitHub Pages site</a>.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-color.atlas">OpenMoji-color.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-color.png">OpenMoji-color.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-License.txt">OpenMoji-License.txt</a></li>
+     *     <li>OR, if {@code color} is false,</li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-white.atlas">OpenMoji-white.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-white.png">OpenMoji-white.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenMoji-License.txt">OpenMoji-License.txt</a></li>
+     * </ul>
+     *
+     * @param changing a Font that will have over 3700 emoji added to it, with more aliases
+     * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
+     * @param append will be appended after each name in the atlas; if null, will be treated as ""
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph
+     * @return {@code changing}, after the emoji atlas has been added
+     */
+    public static Font addOpenMoji(Font changing, boolean color, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
+        initialize();
+        String baseName = "OpenMoji-" + (color ? "color" : "white");
+        if (instance.openMoji == null) {
+            try {
+                FileHandle atlas = Gdx.files.internal(instance.prefix + baseName + ".atlas");
+                if (!atlas.exists() && Gdx.files.isLocalStorageAvailable()) atlas = Gdx.files.local(instance.prefix + baseName + ".atlas");
+                if (Gdx.files.internal(instance.prefix + baseName + ".png").exists())
+                    instance.openMoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
+                else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + baseName + ".png").exists())
+                    instance.openMoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.openMoji != null) {
+            return changing.addAtlas(instance.openMoji, prepend, append,
+                    offsetXChange, offsetYChange - changing.descent * changing.scaleY, xAdvanceChange);
+        }
+        throw new RuntimeException("Assets '"+baseName+".atlas' and '"+baseName+".png' not found.");
     }
 
     private TextureAtlas gameIcons;
