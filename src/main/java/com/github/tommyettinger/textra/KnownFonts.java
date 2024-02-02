@@ -2152,6 +2152,12 @@ public final class KnownFonts implements LifecycleListener {
      * OpenMoji is licensed under Creative Commons-Attribution-Share-Alike, so make sure you attribute
      * the <a href="https://openmoji.org/">OpenMoji project</a>.
      * <br>
+     * This set of emoji has a different style than the <a href="https://github.com/jdecked/twemoji/tree/v15.0.3">Twemoji</a>
+     * used by {@link #addEmoji(Font)}, with more flat areas of one color, frequent appearances of lines only partly
+     * covering the inner color, and very consistent patterns for things like the poses of people in emojis. There's
+     * also the white-line-only version you can use here, which has no equivalent in Twemoji. OpenMoji probably don't
+     * look quite as good at very small sizes when compared to Twemoji, though.
+     * <br>
      * You can add OpenMoji emoji to a font as inline images with KnownFonts.addOpenMoji(Font, boolean).
      * Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as intended
      * with "standard" fonts (without a distance field effect). They can scale reasonably well down, and less-reasonably well
@@ -2169,8 +2175,8 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
-     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png">Image link</a> (uses
+     * white lines, the font {@link #getInconsolata()}, and {@code [%?whiten]} mode)
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/openmoji-atlas/">at this GitHub Pages site</a>.
@@ -2204,6 +2210,12 @@ public final class KnownFonts implements LifecycleListener {
      * OpenMoji is licensed under Creative Commons-Attribution-Share-Alike, so make sure you attribute
      * the <a href="https://openmoji.org/">OpenMoji project</a>.
      * <br>
+     * This set of emoji has a different style than the <a href="https://github.com/jdecked/twemoji/tree/v15.0.3">Twemoji</a>
+     * used by {@link #addEmoji(Font)}, with more flat areas of one color, frequent appearances of lines only partly
+     * covering the inner color, and very consistent patterns for things like the poses of people in emojis. There's
+     * also the white-line-only version you can use here, which has no equivalent in Twemoji. OpenMoji probably don't
+     * look quite as good at very small sizes when compared to Twemoji, though.
+     * <br>
      * Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as
      * intended with "standard" fonts (without a distance field effect). They can scale reasonably well down, and
      * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
@@ -2219,8 +2231,8 @@ public final class KnownFonts implements LifecycleListener {
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
-     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png">Image link</a> (uses
+     * white lines, the font {@link #getInconsolata()}, and {@code [%?whiten]} mode)
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/openmoji-atlas/">at this GitHub Pages site</a>.
@@ -2259,6 +2271,12 @@ public final class KnownFonts implements LifecycleListener {
      * OpenMoji is licensed under Creative Commons-Attribution-Share-Alike, so make sure you attribute
      * the <a href="https://openmoji.org/">OpenMoji project</a>.
      * <br>
+     * This set of emoji has a different style than the <a href="https://github.com/jdecked/twemoji/tree/v15.0.3">Twemoji</a>
+     * used by {@link #addEmoji(Font)}, with more flat areas of one color, frequent appearances of lines only partly
+     * covering the inner color, and very consistent patterns for things like the poses of people in emojis. There's
+     * also the white-line-only version you can use here, which has no equivalent in Twemoji. OpenMoji probably don't
+     * look quite as good at very small sizes when compared to Twemoji, though.
+     * <br>
      * Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as
      * intended with "standard" fonts (without a distance field effect). They can scale reasonably well down, and
      * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
@@ -2275,8 +2293,8 @@ public final class KnownFonts implements LifecycleListener {
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font. It also
      * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
-     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png">Image link</a> (uses
+     * white lines, the font {@link #getInconsolata()}, and {@code [%?whiten]} mode)
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/openmoji-atlas/">at this GitHub Pages site</a>.
@@ -2789,6 +2807,10 @@ public final class KnownFonts implements LifecycleListener {
         if(gameIcons != null) {
             gameIcons.dispose();
             gameIcons = null;
+        }
+        if(openMoji != null) {
+            openMoji.dispose();
+            openMoji = null;
         }
     }
 }

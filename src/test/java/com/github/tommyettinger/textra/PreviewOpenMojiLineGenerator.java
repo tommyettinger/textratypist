@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.textra.utils.BlockUtils;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 import com.github.tommyettinger.textra.utils.Palette;
 import com.github.tommyettinger.textra.utils.StringUtils;
@@ -49,11 +50,11 @@ public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        viewport = new StretchViewport(1200, 600);
+        viewport = new StretchViewport(1200, 675);
 
         Gdx.files.local("out/").mkdirs();
-//        font = KnownFonts.addOpenMoji(KnownFonts.getInconsolata().scaleTo(32, 32), false, -12f, -6f, 0f);
-        font = KnownFonts.addOpenMoji(KnownFonts.getNowAlt(), false, 0f, 0f, 0f).fitCell(32, 32, true);
+        font = KnownFonts.addOpenMoji(KnownFonts.getInconsolata(), false, -12f, -6f, 0f).scaleTo(32, 32);
+//        font = KnownFonts.addOpenMoji(KnownFonts.getNowAlt(), false, 0f, 0f, 0f).fitCell(32, 32, true);
         layout.setBaseColor(Color.DARK_GRAY);
         StringBuilder sb = new StringBuilder(4000);
         sb.append("[%?whiten]");
@@ -66,12 +67,15 @@ public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
         font.mapping.remove('\r');
         font.mapping.remove('\t');
         font.mapping.remove(' ');
+        Palette.NAMES.removeValue("transparent", false);
+        Palette.NAMES.removeValue("CLEAR", false);
         IntArray keys = font.mapping.keys().toArray();
         int ks = keys.size, ps = Palette.LIST.size;
-        for (int y = 0; y < 18; y++) {
+
+        for (int y = 0; y < 19; y++) {
             for (int x = 0; x < 36; x++) {
-//                sb.append("[richmost darker ").append(Palette.NAMES.get(random.nextInt(ps))).append(']');
-                StringUtils.appendUnsignedHex(sb.append("[#"), ColorUtils.darken(Palette.LIST.get(random.nextInt(ps)), 0.25f)).append(']');
+                sb.append("[richmost darker ").append(Palette.NAMES.get(random.nextInt(ps))).append(']');
+//                StringUtils.appendUnsignedHex(sb.append("[#"), ColorUtils.darken(Palette.LIST.get(random.nextInt(ps)), 0.25f)).append(']');
                 sb.append((char)keys.get(random.nextInt(ks)));
             }
             sb.append('\n');
@@ -80,9 +84,9 @@ public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
         font.calculateSize(layout);
         System.out.println(sb);
 
-        ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
+        ScreenUtils.clear(0.35f, 0.35f, 0.35f, 1f);
         x = Gdx.graphics.getBackBufferWidth() * 0.5f;
-        y = Gdx.graphics.getBackBufferHeight() - font.cellHeight * 3.5f;
+        y = Gdx.graphics.getBackBufferHeight() - font.cellHeight * 2;
         batch.begin();
         font.enableShader(batch);
         font.drawGlyphs(batch, layout, x, y, Align.top);
@@ -102,7 +106,7 @@ public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
 
     @Override
     public void render() {
-        float bright = MathUtils.sin(TimeUtils.timeSinceMillis(startTime) * 3E-3f) * 0.25f + 0.4f;
+        float bright = MathUtils.sin(TimeUtils.timeSinceMillis(startTime) * 2E-3f) * 0.25f + 0.4f;
         ScreenUtils.clear(bright, bright, bright, 1f);
         viewport.apply(true);
         batch.begin();

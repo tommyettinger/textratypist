@@ -260,7 +260,7 @@ licenses for details.
 
 ## Did somebody say emoji?
 
-The [Twemoji](https://github.com/twitter/twemoji) icons are also present in an atlas of over-3000 32x32 images;
+The [Twemoji](https://github.com/jdecked/twemoji/tree/v15.0.3) icons are also present in an atlas of over-3000 32x32 images;
 `KnownFonts.addEmoji()` can register them with
 a Font so the `[+name]` syntax mentioned above can draw emoji inline.  Similarly, an atlas of over-4000 60x60 icons is
 present from [Game-Icons.net](https://game-icons.net/), and `KnownFonts.addGameIcons()` can register them with a Font.
@@ -560,12 +560,18 @@ also present in all library source files here. The Apache license does not typic
 `src/test/resources` folder; individual fonts have their own licenses stored in that directory.
 
 Twemoji isn't a font, so it might be best to mention it separately. It's licensed under CC-BY 4.0, and requires
-attribution to Twitter if used. 
-[Twemoji's guidelines for attribution are here](https://github.com/twitter/twemoji#attribution-requirements).
+attribution to Twitter if used.
+[Twemoji's guidelines for attribution are here](https://github.com/jdecked/twemoji/tree/v15.0.3?tab=readme-ov-file#attribution-requirements).
+(The documentation still says Twitter, not X, and to my knowledge X doesn't employ any of the active Twemoji team, so...
+I would link back to the Twemoji repo, so that it is up to them).
 
 Like Twemoji, Game-Icons.png isn't a font, and it has quite a few contributors to the project. Because all icons in the
 project are on one PNG file, you must credit all the contributors who licensed their art under CC-BY, and it may be
 ideal just to credit all the contributors, period. The list is [in the license](knownFonts%2FGame-Icons-License.txt).
+
+OpenMoji is also not a font, but it clearly has a CC-BY-SA 4.0 license, and the BY clause should be satisfied by
+attributing [the OpenMoji Project](https://openmoji.org/). The SA clause should be satisfied by any users of OpenMoji
+continuing to provide attribution. There isn't a non-commercial clause for any assets here.
 
 The logo was made by Raymond "raeleus" Buckley and contributed to this project. It can be used freely for any purpose,
 but I request that it only be used to refer to this project unless substantially modified.
@@ -638,3 +644,5 @@ The icons in Game-Icons.png were made by:
 - Caro Asercion
 
 (Projects that use TextraTypist can copy the above list of Game-Icons.png contributors to comply with its license.)
+
+Thanks again to [the OpenMoji project](https://openmoji.org/)! That was clearly a lot of work.
