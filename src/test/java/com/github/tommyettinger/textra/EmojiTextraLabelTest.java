@@ -152,7 +152,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("TypingLabel Test");
+        config.setTitle("TextraLabel Test");
         config.setWindowedMode(720, 405);
         config.setResizable(true);
         config.setForegroundFPS(0);

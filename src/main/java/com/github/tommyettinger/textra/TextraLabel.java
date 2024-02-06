@@ -501,7 +501,8 @@ public class TextraLabel extends Widget {
             font.regenerateLayout(layout);
             // This was used earlier, but regenerateLayout() seems to work better in its place.
 //            font.markup(storedText, layout.clear());
-//            invalidateHierarchy();
+
+            invalidateHierarchy();
         }
     }
 
