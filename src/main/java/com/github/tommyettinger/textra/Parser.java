@@ -576,6 +576,10 @@ public class Parser {
                 return "[%" + str.substring(0, str.length() - 1) + "]";
             if (str.startsWith("%"))
                 return "[%" + str.substring(1) + "]";
+            if (str.startsWith("("))
+                return "[" + str + "]";
+            if (str.startsWith(" "))
+                return "[" + str + "]";
             if(Palette.NAMED.containsKey(str))
                 return "[" + str + "]";
             if (str.length() >= 3 && PATTERN_COLOR_HEX_NO_HASH.matches(str))

@@ -26,6 +26,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import regexodus.Pattern;
+import regexodus.Replacer;
 
 public class StateTest extends ApplicationAdapter {
 
@@ -41,6 +43,7 @@ public class StateTest extends ApplicationAdapter {
         StringBuilder text = new StringBuilder();
 
         String wikipedia = "[(previous)][ ][SKY][^][[citation needed][ previous]";
+//        text.append("[brown][/]CAT!").append(wikipedia).append(" [/]Kitty!");
         text.append("Satchmo is a [brown]cat[ ], who is extremely [*]fat[*]").append(wikipedia).append("; when he sits " +
                 "[_]down[_], throughout the town, [/]we").append(wikipedia).append(" all think[/], 'What was that? Did it happen " +
                 "again (that [*]thunderous[*] din)? What could ever make, such a [_]powerful[_] quake, but " +

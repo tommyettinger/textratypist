@@ -61,7 +61,7 @@ public class Issue16Test extends ApplicationAdapter {
     ;
     // Currently (Feb 5, 2024), you can scale the Font after creation using its APIs.
     label.font.scale(2,2);
-    
+
     label.setWrap(true);
     label.setAlignment(Align.left);
 

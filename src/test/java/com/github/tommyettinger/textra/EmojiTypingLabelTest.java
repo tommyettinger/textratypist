@@ -126,9 +126,9 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //                        + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
 
                 "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
-                + "But... {SICK}U. Nitty{ENDSICK} doesn't. {CROWD}[#BB1100][+skull]{COLOR=#55AA22}[+🤡]{ENDCROWD}{CLEARCOLOR}\n"
+                + "But... {COLOR=#79c353ff}{SICK}U. Nitty{ENDSICK}{ENDCOLOR} doesn't. {CROWD}[#BB1100][+skull]{COLOR=#55AA22}[+🤡]{ENDCROWD}{CLEARCOLOR}\n"
                 + "That's OK, I don't like loot crates anyway. {CROWD}[#B10][+party popper]{COLOR=5A2}[+🥳]{ENDCROWD}{CLEARCOLOR}\n"
-                +"[+⚖][~][_][+⚖][ ] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[ ][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\n"
+                +"[+⚖][~][_][+⚖][ ] testing: [_][~][%25]go[%50]go[%75]go[%100][red]go[][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\n"
                 + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
                 ,
 //
