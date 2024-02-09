@@ -28,6 +28,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.tommyettinger.textra.utils.StringUtils;
+import regexodus.Pattern;
+import regexodus.Replacer;
 
 import static com.badlogic.gdx.utils.Align.center;
 
@@ -97,6 +99,24 @@ public class SetTextTest extends ApplicationAdapter {
         System.out.println("Textra: " + textraLabel);
     }
 
+    private static final Replacer anReplacer = new Replacer(Pattern.compile("\\b(a)(\\p{G}+)(?=(?:({=brace}[\\[\\{])[^\\]\\}]*{\\:brace})*[àáâãäåæāăąǻǽaèéêëēĕėęěeìíîïĩīĭįıiòóôõöøōŏőœǿoùúûüũūŭůűųu])", Pattern.IGNORE_CASE | Pattern.UNICODE), "$1n$2");
+
+    /**
+     * A simple method that looks for any occurrences of the word 'a' followed by some non-zero amount of whitespace and
+     * then any vowel starting the following word (such as 'a item'), then replaces each such improper 'a' with 'an'
+     * (such as 'an item'). The regex used here isn't bulletproof, but it should be fairly robust, handling when you
+     * have multiple whitespace chars, different whitespace chars (like carriage return and newline), accented vowels in
+     * the following word (but not in the initial 'a', which is expected to use English spelling rules), and the case of
+     * the initial 'a' or 'A'.
+     * <br>
+     * Gotta love Regexodus; this is a two-liner that uses features specific to that regular expression library.
+     * @param text the (probably generated English) multi-word text to search for 'a' in and possibly replace with 'an'
+     * @return a new String with every improper 'a' replaced
+     */
+    public static String correctABeforeVowel(final CharSequence text){
+        return anReplacer.replace(text.toString());
+    }
+
     @Override
     public void render() {
         ScreenUtils.clear(Color.DARK_GRAY);
@@ -108,8 +128,9 @@ public class SetTextTest extends ApplicationAdapter {
         random.setSeed(++ctr);
         if ((ctr & 511) == 0) {
             System.out.println("typingLabel has " + typingLabel.getMaxLines() + " max lines and " + typingLabel.getEllipsis() + " ellipsis.");
-            text = StringUtils.shuffleWords(text, random);
+            text = correctABeforeVowel(StringUtils.shuffleWords(text, random));
             textra = text.replaceAll("\\{[^}]*}", "");
+            System.out.println(text);
 //            typingLabel.activeEffects.clear();
 //            typingLabel.tokenEntries.clear();
             typingLabel.setText(text); // broken regarding effects...
@@ -117,7 +138,7 @@ public class SetTextTest extends ApplicationAdapter {
 //            typingLabel.restart(text); // this works on its own.
 //            typingLabel.skipToTheEnd();
             textraLabel.setText("[RED]" + textra);
-            System.out.println(typingLabel.layout);
+//            System.out.println(typingLabel.layout);
             System.out.println(typingLabel);
         }
     }
