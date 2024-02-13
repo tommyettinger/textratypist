@@ -24,6 +24,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
@@ -128,7 +129,7 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 				else prefix += Character.toLowerCase(character);
 				Matcher matcher = Pattern.compile(prefix, REFlags.IGNORE_CASE | REFlags.UNICODE).matcher();
 				for (int i = 0, n = items.size; i < n; i++) {
-					matcher.setTarget(items[i].storedText);
+					matcher.setTarget(items.get(i).storedText);
 					if (matcher.matchesPrefix()) {
 						setSelectedIndex(i);
 						break;
@@ -193,8 +194,8 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 		Pool<GlyphLayout> layoutPool = Pools.get(GlyphLayout.class);
 		GlyphLayout layout = layoutPool.obtain();
 		for (int i = 0; i < items.size; i++) {
-			prefWidth = Math.max(items[i].getPrefWidth(), prefWidth);
-			prefHeight += items[i].getPrefHeight();
+			prefWidth = Math.max(items.get(i).getPrefWidth(), prefWidth);
+			prefHeight += items.get(i).getPrefHeight();
 		}
 		layoutPool.free(layout);
 		prefWidth += selectedDrawable.getLeftWidth() + selectedDrawable.getRightWidth();
@@ -246,17 +247,17 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 					item.setColor(fontColorSelected.r, fontColorSelected.g, fontColorSelected.b, fontColorSelected.a * parentAlpha);
 				} else if (overIndex == i && style.over != null) //
 					drawable = style.over;
-				drawSelection(batch, drawable, x, y + itemY - item.getPrefHeight(), width, items[i].getPrefHeight());
+				drawSelection(batch, drawable, x, y + itemY - item.getPrefHeight(), width, items.get(i).getPrefHeight());
 				item.setPosition(x + textOffsetX, y + itemY - textOffsetY);
 				item.draw(batch, 1f);
 				if (selected) {
 					item.setColor(fontColorUnselected.r, fontColorUnselected.g, fontColorUnselected.b,
 						fontColorUnselected.a * parentAlpha);
 				}
+				itemY -= item.getPrefHeight();
 			} else if (itemY < cullingArea.y) {
 				break;
 			}
-			itemY -= itemHeight;
 		}
 	}
 
@@ -334,15 +335,23 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 
 	/** @return -1 if not over an item. */
 	public int getItemIndexAt (float y) {
-		float height = getHeight();
-		Drawable background = TextraListBox.this.style.background;
-		if (background != null) {
-			height -= background.getTopHeight() + background.getBottomHeight();
-			y -= background.getBottomHeight();
-		}
-		int index = (int)((height - y) / itemHeight);
-		if (index < 0 || index >= items.size) return -1;
-		return index;
+//		float height = getHeight();
+//		Drawable background = TextraListBox.this.style.background;
+//		if (background != null) {
+//			height -= background.getTopHeight() + background.getBottomHeight();
+//			y -= background.getBottomHeight();
+//		}
+//		int index = (int)((height - y) / itemHeight);
+
+		Actor outer = null;
+		Stage stage = getStage();
+		if(stage != null) outer = stage.getRoot();
+		if(outer == null) outer = getParent();
+		if(outer == null) outer = this;
+		Actor hit = outer.hit(getX() + getWidth() * 0.5f, y, false);
+		if(hit instanceof TextraLabel)
+			return items.indexOf((T)hit, true);
+		return -1;
 	}
 
 	@SafeVarargs
@@ -393,10 +402,6 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 		return items;
 	}
 
-	public float getItemHeight () {
-		return itemHeight;
-	}
-
 	public float getPrefWidth () {
 		validate();
 		return prefWidth;
@@ -406,7 +411,7 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 		validate();
 		return prefHeight;
 	}
-	
+
 	public void setCullingArea (@Null Rectangle cullingArea) {
 		this.cullingArea = cullingArea;
 	}
