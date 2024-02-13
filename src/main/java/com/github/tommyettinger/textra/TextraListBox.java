@@ -335,22 +335,22 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 
 	/** @return -1 if not over an item. */
 	public int getItemIndexAt (float y) {
-//		float height = getHeight();
-//		Drawable background = TextraListBox.this.style.background;
-//		if (background != null) {
-//			height -= background.getTopHeight() + background.getBottomHeight();
-//			y -= background.getBottomHeight();
-//		}
-//		int index = (int)((height - y) / itemHeight);
-
-		Actor outer = null;
-		Stage stage = getStage();
-		if(stage != null) outer = stage.getRoot();
-		if(outer == null) outer = getParent();
-		if(outer == null) outer = this;
-		Actor hit = outer.hit(getX() + getWidth() * 0.5f, y, false);
-		if(hit instanceof TextraLabel)
-			return items.indexOf((T)hit, true);
+		float height = getHeight();
+		Drawable background = TextraListBox.this.style.background;
+		if (background != null) {
+			height -= background.getTopHeight() + background.getBottomHeight();
+			y -= background.getBottomHeight();
+		}
+		float h = height - y;
+		if(h < 0) return -1;
+		for (int i = 0; i < items.size; i++) {
+			T item = items.get(i);
+			if(h >= item.getY() && h < item.getY() + item.getPrefHeight()){
+//				System.out.println(item);
+				return i;
+			}
+//			System.out.println("y: " + y + ", h: " + h + ", item.getY(): " + item.getY() + ", item.getPrefHeight(): " + item.getPrefHeight());
+		}
 		return -1;
 	}
 
