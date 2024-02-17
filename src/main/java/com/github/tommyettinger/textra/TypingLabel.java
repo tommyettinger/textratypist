@@ -905,7 +905,7 @@ public class TypingLabel extends TextraLabel {
 //        baseY += workingLayout.lines.first().height * 0.25f;
 
         int o = 0, s = 0, r = 0, gi = 0;
-        boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
+        boolean resetShader = font.getDistanceField() != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if (resetShader)
             font.enableShader(batch);
         batch.getColor().set(getColor()).a *= parentAlpha;

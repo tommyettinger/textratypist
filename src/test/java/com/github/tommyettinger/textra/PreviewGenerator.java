@@ -8,10 +8,8 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -59,8 +57,15 @@ public class PreviewGenerator extends ApplicationAdapter {
         // with useIntegerPositions(false), it seems fine?
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
-        Font[] fonts = KnownFonts.getAll();
-        fnt = fonts[13];
+        Font[] all = KnownFonts.getAll(), sdf = KnownFonts.getAllSDF();
+        for(Font f : sdf) {
+            f.setDistanceField(Font.DistanceFieldType.SDF_OUTLINE);
+            f.name = f.name.replace("(SDF)", "(SDF_OUTLINE)");
+        }
+        Font[] fonts = new Font[all.length + sdf.length];
+        System.arraycopy(all, 0, fonts, 0, all.length);
+        System.arraycopy(sdf, 0, fonts, all.length, sdf.length);
+        fnt = fonts[1];
 //        fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
         int index = 0;
@@ -105,7 +110,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             layout.setEllipsis(" and so on and so forth...");
 //            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
 //                    , layout);
-            font.markup(text + (font.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout);
+            font.markup(text + (font.getDistanceField() != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout);
 //        font.markup("I wanna thank you all for coming here tonight..."
 //                + "\n[#22BB22FF]Hello, [~]World[~]Universe[.]$[=]$[^]$[^]!"
 //                + "\nThe [RED]MAW[] of the [/][CYAN]wendigo[/] (wendigo)[] [*]appears[*]!"
@@ -141,7 +146,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         }
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
-        fnt.markup(text + (fnt.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout.clear());
+        fnt.markup(text + (fnt.getDistanceField() != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout.clear());
 
         Gdx.app.exit();
     }

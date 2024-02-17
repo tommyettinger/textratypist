@@ -81,6 +81,35 @@ import java.util.Arrays;
 public class Font implements Disposable {
 
     /**
+     * A {@link DistanceFieldType} that should be {@link DistanceFieldType#STANDARD} for most fonts, and can be
+     * {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or {@link DistanceFieldType#SDF_OUTLINE} if you
+     * know you have a font made to be used with one of those rendering techniques. See {@link #distanceFieldCrispness}
+     * for one way to configure SDF and MSDF fonts, and {@link #resizeDistanceField(int, int)} for a convenience method
+     * to handle window-resizing sharply.
+     */
+    public DistanceFieldType getDistanceField() {
+        return distanceField;
+    }
+
+    public void setDistanceField(DistanceFieldType distanceField) {
+        this.distanceField = distanceField;
+        if (distanceField == DistanceFieldType.MSDF) {
+            shader = new ShaderProgram(vertexShader, msdfFragmentShader);
+            if (!shader.isCompiled())
+                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
+        } else if (distanceField == DistanceFieldType.SDF) {
+            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
+            if (!shader.isCompiled())
+                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
+        } else if (distanceField == DistanceFieldType.SDF_OUTLINE) {
+            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
+            if (!shader.isCompiled())
+                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
+        } else shader = null;
+
+    }
+
+    /**
      * Describes the region of a glyph in a larger TextureRegion, carrying a little more info about the offsets that
      * apply to where the glyph is rendered.
      */
@@ -418,14 +447,7 @@ public class Font implements Disposable {
      * drawn from a TextureAtlas that the font shares with other images.
      */
     public Array<TextureRegion> parents;
-    /**
-     * A {@link DistanceFieldType} that should be {@link DistanceFieldType#STANDARD} for most fonts, and can be
-     * {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or {@link DistanceFieldType#SDF_OUTLINE} if you
-     * know you have a font made to be used with one of those rendering techniques. See {@link #distanceFieldCrispness}
-     * for one way to configure SDF and MSDF fonts, and {@link #resizeDistanceField(int, int)} for a convenience method
-     * to handle window-resizing sharply.
-     */
-    public DistanceFieldType distanceField;
+    private DistanceFieldType distanceField;
     /**
      * If true, this is a fixed-width (monospace) font; if false, this is probably a variable-width font. This affects
      * some rendering decisions Font makes, such as whether subscript chars should take up half-width (for variable
@@ -1167,7 +1189,7 @@ public class Font implements Disposable {
      * @param toCopy another Font to copy
      */
     public Font(Font toCopy) {
-        distanceField = toCopy.distanceField;
+        this.distanceField = toCopy.distanceField;
         isMono = toCopy.isMono;
         actualCrispness = toCopy.actualCrispness;
         distanceFieldCrispness = toCopy.distanceFieldCrispness;
@@ -1315,20 +1337,7 @@ public class Font implements Disposable {
      */
     public Font(String fntName, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
-        this.distanceField = distanceField;
-        if (distanceField == DistanceFieldType.MSDF) {
-            shader = new ShaderProgram(vertexShader, msdfFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
-        } else if (distanceField == DistanceFieldType.SDF) {
-            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
-        } else if (distanceField == DistanceFieldType.SDF_OUTLINE) {
-            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
-        }
+        this.setDistanceField(distanceField);
         loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
     }
 
@@ -1398,20 +1407,7 @@ public class Font implements Disposable {
      */
     public Font(String fntName, String textureName, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
-        this.distanceField = distanceField;
-        if (distanceField == DistanceFieldType.MSDF) {
-            shader = new ShaderProgram(vertexShader, msdfFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
-        } else if (distanceField == DistanceFieldType.SDF) {
-            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
-        } else if (distanceField == DistanceFieldType.SDF_OUTLINE) {
-            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
-        }
+        this.setDistanceField(distanceField);
         FileHandle textureHandle;
         if ((textureHandle = Gdx.files.internal(textureName)).exists()
                 || (textureHandle = Gdx.files.local(textureName)).exists()) {
@@ -1490,20 +1486,7 @@ public class Font implements Disposable {
      */
     public Font(String fntName, TextureRegion textureRegion, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
-        this.distanceField = distanceField;
-        if (distanceField == DistanceFieldType.MSDF) {
-            shader = new ShaderProgram(vertexShader, msdfFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
-        } else if (distanceField == DistanceFieldType.SDF) {
-            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
-        } else if (distanceField == DistanceFieldType.SDF_OUTLINE) {
-            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
-        }
+        this.setDistanceField(distanceField);
         this.parents = Array.with(textureRegion);
         if (distanceField != DistanceFieldType.STANDARD) {
             textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -1574,20 +1557,7 @@ public class Font implements Disposable {
      */
     public Font(String fntName, Array<TextureRegion> textureRegions, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
-        this.distanceField = distanceField;
-        if (distanceField == DistanceFieldType.MSDF) {
-            shader = new ShaderProgram(vertexShader, msdfFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
-        } else if (distanceField == DistanceFieldType.SDF) {
-            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
-        } else if (distanceField == DistanceFieldType.SDF_OUTLINE) {
-            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
-        }
+        this.setDistanceField(distanceField);
         this.parents = textureRegions;
         if (distanceField != DistanceFieldType.STANDARD && textureRegions != null) {
             for (TextureRegion parent : textureRegions)
@@ -1654,20 +1624,7 @@ public class Font implements Disposable {
      */
     public Font(BitmapFont bmFont, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
-        this.distanceField = distanceField;
-        if (distanceField == DistanceFieldType.MSDF) {
-            shader = new ShaderProgram(vertexShader, msdfFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
-        } else if (distanceField == DistanceFieldType.SDF) {
-            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
-        } else if (distanceField == DistanceFieldType.SDF_OUTLINE) {
-            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
-        }
+        this.setDistanceField(distanceField);
         this.parents = bmFont.getRegions();
         if (distanceField != DistanceFieldType.STANDARD && parents != null) {
             for (TextureRegion parent : parents)
@@ -1808,7 +1765,7 @@ public class Font implements Disposable {
      * @param ignoredSadConsoleFlag the value is ignored here; the presence of this parameter says to load a SadConsole .font file
      */
     public Font(String prefix, String fntName, boolean ignoredSadConsoleFlag) {
-        this.distanceField = DistanceFieldType.STANDARD;
+        this.setDistanceField(DistanceFieldType.STANDARD);
         loadSad(prefix == null ? "" : prefix, fntName);
     }
 
@@ -1864,7 +1821,7 @@ public class Font implements Disposable {
                 if ((textureHandle = Gdx.files.internal(textureName)).exists()
                         || (textureHandle = Gdx.files.local(textureName)).exists()) {
                     parents.add(new TextureRegion(new Texture(textureHandle)));
-                    if (distanceField != DistanceFieldType.STANDARD)
+                    if (getDistanceField() != DistanceFieldType.STANDARD)
                         parents.peek().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
                 } else {
                     throw new RuntimeException("Missing texture file: " + textureName);
@@ -2686,14 +2643,14 @@ public class Font implements Disposable {
      * @param batch the Batch to instruct to use the appropriate shader for this font; should usually be a SpriteBatch
      */
     public void enableShader(Batch batch) {
-        if (distanceField == DistanceFieldType.MSDF) {
+        if (getDistanceField() == DistanceFieldType.MSDF) {
             if (batch.getShader() != shader) {
                 batch.setShader(shader);
                 shader.setUniformf("u_weight", 0f);
 //                shader.setUniformf("u_smoothing", 2f * distanceFieldCrispness);
                 shader.setUniformf("u_smoothing", 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth));
             }
-        } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
+        } else if (getDistanceField() == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
             if (batch.getShader() != shader) {
                 batch.setShader(shader);
                 final float scale = Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth) * 0.5f + 0.125f;
@@ -6310,7 +6267,7 @@ public class Font implements Disposable {
      * @param height the new window height; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      */
     public void resizeDistanceField(int width, int height) {
-        if (distanceField == DistanceFieldType.MSDF) {
+        if (getDistanceField() == DistanceFieldType.MSDF) {
             if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
                 actualCrispness = distanceFieldCrispness;
             } else {
@@ -6318,7 +6275,7 @@ public class Font implements Disposable {
                         Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
                                 (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 2.15f + cellHeight * 0.01f);
             }
-        } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
+        } else if (getDistanceField() == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
             if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
                 actualCrispness = distanceFieldCrispness;
             } else {
@@ -6494,7 +6451,7 @@ public class Font implements Disposable {
 
     public String debugString() {
         return "Font{" +
-                "distanceField=" + distanceField +
+                "distanceField=" + getDistanceField() +
                 ", isMono=" + isMono +
                 ", kerning=" + kerning +
                 ", actualCrispness=" + actualCrispness +

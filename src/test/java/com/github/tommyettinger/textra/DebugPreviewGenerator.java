@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -124,7 +123,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
 //                    , layout);
             font.markup("[_]Font[ ] [~]name[ ] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%] [*]bold[ ] [/]oblique[ ]): " + font.name +
-                    (font.distanceField != Font.DistanceFieldType.MSDF ?
+                    (font.getDistanceField() != Font.DistanceFieldType.MSDF ?
                             ",\n[@Main]Do I... [@G]Do I..." +
                             ",\n[@Main]line up... [@G]line up..." +
                             ",\n[@Main]with Gentium? [@G]with Gentium?[@Main]" : "") +
@@ -141,7 +140,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
                     ",\nwidthAdjust: " + font.widthAdjust +
                     ", heightAdjust: " + font.heightAdjust +
                     "\n" +
-                    (font.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout);
+                    (font.getDistanceField() != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout);
 //            System.out.println(layout);
 
             ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
@@ -180,7 +179,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
                 ",\nwidthAdjust: " + font.widthAdjust +
                 ", heightAdjust: " + font.heightAdjust +
                 "\n" +
-                (font.distanceField != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout.clear());
+                (font.getDistanceField() != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout.clear());
 //        System.out.println(layout);
 
         Gdx.app.exit();

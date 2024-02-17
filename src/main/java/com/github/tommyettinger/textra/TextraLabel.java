@@ -316,7 +316,7 @@ public class TextraLabel extends Widget {
         if (layout.lines.isEmpty() || parentAlpha <= 0f) return;
 
         // we only change the shader or batch color if we actually are drawing something.
-        boolean resetShader = font.distanceField != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
+        boolean resetShader = font.getDistanceField() != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
         if (resetShader)
             font.enableShader(batch);
         batch.getColor().set(getColor()).a *= parentAlpha;
