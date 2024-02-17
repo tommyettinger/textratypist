@@ -58,3 +58,4 @@ Thumbs.db
 /src/test/resources/mk/
 /src/test/resources/sc/
 /src/test/resources/moss/
+*.exe
