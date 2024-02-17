@@ -350,6 +350,7 @@ public class Font implements Disposable {
      * <li>STANDARD has no distance field.</li>
      * <li>SDF is the signed distance field technique Hiero is compatible with, and uses only an alpha channel.</li>
      * <li>MSDF is the multi-channel signed distance field technique, which is sharper but uses the RGB channels.</li>
+     * <li>SDF_OUTLINE can use the same font files as SDF, but draws them with a black outline.</li>
      * </ul>
      */
     public enum DistanceFieldType {
@@ -374,7 +375,14 @@ public class Font implements Disposable {
          * uneven baseline that looks shaky when rendering some fonts. You may want to set the
          * {@link #distanceFieldCrispness} field to a higher or lower value than its default of 1 based on preference.
          */
-        MSDF
+        MSDF,
+        /**
+         * Very similar to {@link #SDF}, except that this draws a moderately-thick black outline around all SDF glyphs.
+         * It won't necessarily draw the outline correctly for inline images without a distance field effect.
+         * The outline will respect the transparency of the glyph (unlike {@link #BLACK_OUTLINE} mode).
+         * This can use the same font files as {@link #SDF}; just set {@link Font#distanceField} to SDF_OUTLINE.
+         */
+        SDF_OUTLINE
     }
 
     //// members section
@@ -412,9 +420,10 @@ public class Font implements Disposable {
     public Array<TextureRegion> parents;
     /**
      * A {@link DistanceFieldType} that should be {@link DistanceFieldType#STANDARD} for most fonts, and can be
-     * {@link DistanceFieldType#SDF} or {@link DistanceFieldType#MSDF} if you know you have a font made to be used with
-     * one of those rendering techniques. See {@link #distanceFieldCrispness} for one way to configure SDF and MSDF
-     * fonts, and {@link #resizeDistanceField(int, int)} for a convenience method to handle window-resizing sharply.
+     * {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or {@link DistanceFieldType#SDF_OUTLINE} if you
+     * know you have a font made to be used with one of those rendering techniques. See {@link #distanceFieldCrispness}
+     * for one way to configure SDF and MSDF fonts, and {@link #resizeDistanceField(int, int)} for a convenience method
+     * to handle window-resizing sharply.
      */
     public DistanceFieldType distanceField;
     /**
@@ -432,20 +441,21 @@ public class Font implements Disposable {
      */
     public IntFloatMap kerning;
     /**
-     * When {@link #distanceField} is {@link DistanceFieldType#SDF} or {@link DistanceFieldType#MSDF}, this determines
-     * how much the edges of the glyphs should be aliased sharply (higher values) or anti-aliased softly (lower values).
-     * The default value is 1. This is set internally by {@link #resizeDistanceField(int, int)} using
-     * {@link #distanceFieldCrispness} as a multiplier; when you want to have a change to crispness persist, use that
-     * other field.
+     * When {@link #distanceField} is {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or
+     * {@link DistanceFieldType#SDF_OUTLINE}, this determines how much the edges of the glyphs should be aliased sharply
+     * (higher values) or anti-aliased softly (lower values). The default value is 1. This is set internally by
+     * {@link #resizeDistanceField(int, int)} using {@link #distanceFieldCrispness} as a multiplier; when you want to
+     * have a change to crispness persist, use that other field.
      */
     public float actualCrispness = 1f;
 
     /**
-     * When {@link #distanceField} is {@link DistanceFieldType#SDF} or {@link DistanceFieldType#MSDF}, this determines
-     * how much the edges of the glyphs should be aliased sharply (higher values) or anti-aliased softly (lower values).
-     * The default value is 1. This is used as a persistent multiplier that can be configured per-font, whereas
-     * {@link #actualCrispness} is the working value that changes often but is influenced by this one. This variable is
-     * used by {@link #resizeDistanceField(int, int)} to affect the working crispness value.
+     * When {@link #distanceField} is {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or
+     * {@link DistanceFieldType#SDF_OUTLINE}, this determines how much the edges of the glyphs should be aliased sharply
+     * (higher values) or anti-aliased softly (lower values). The default value is 1. This is used as a persistent
+     * multiplier that can be configured per-font, whereas {@link #actualCrispness} is the working value that changes
+     * often but is influenced by this one. This variable is used by {@link #resizeDistanceField(int, int)} to affect
+     * the working crispness value.
      */
     public float distanceFieldCrispness = 1f;
 
@@ -971,10 +981,41 @@ public class Font implements Disposable {
                     + "		vec4 color = texture2D(u_texture, v_texCoords);\n"
                     + "		float alpha = smoothstep(0.5 - smoothing, 0.5 + smoothing, color.a);\n"
                     + "		gl_FragColor = vec4(v_color.rgb * color.rgb, alpha * v_color.a);\n"
-                    + "	} else {\n"
-                    + "		gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n"
-                    + "	}\n"
+                    + "  } else {\n"
+                    + "	    gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n"
+                    + "  }\n"
                     + "}\n";
+    /**
+     * A modified version of the fragment shader for SDF fonts from
+     * {@link com.badlogic.gdx.graphics.g2d.DistanceFieldFont}, this draws a moderately thick black outline around
+     * each glyph, with the outline respecting the transparency of the glyph (unlike {@link #BLACK_OUTLINE} mode).
+     * This also supports RGB colors other than white (but with limited support for partial transparency).
+     * This is automatically used when {@link #enableShader(Batch)} is called and the {@link #distanceField} is
+     * {@link DistanceFieldType#SDF_OUTLINE}. This shader can be used with inline images, but won't behave 100%
+     * correctly if they use partial transparency, such as to anti-alias edges.
+     */
+    public static final String sdfBlackOutlineFragmentShader =
+            "#ifdef GL_ES\n" +
+                    "precision mediump float;\n" +
+                    "#endif\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "uniform float u_smoothing;\n" +
+                    "varying vec4 v_color;\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "const float closeness = 0.2; // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline\n" +
+                    "void main() {\n" +
+                    "  if (u_smoothing > 0.0) {\n" +
+                    "    float smoothing = 0.25 / u_smoothing;\n" +
+                    "    vec4 image = texture2D(u_texture, v_texCoords);\n" +
+                    "    float outlineFactor = smoothstep(0.5 - smoothing, 0.5 + smoothing, image.a);\n" +
+                    "    vec3 color = image.rgb * v_color.rgb * outlineFactor;\n" +
+                    "    float alpha = smoothstep(closeness - smoothing, closeness + smoothing, image.a);\n" +
+                    "    gl_FragColor = vec4(color, v_color.a * alpha);\n" +
+                    "  } else {\n" +
+                    "    gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n" +
+                    "  }\n" +
+                    "}";
+
 
     /**
      * Fragment shader source meant for MSDF fonts. This is automatically used when {@link #enableShader(Batch)} is
@@ -1283,6 +1324,10 @@ public class Font implements Disposable {
             shader = new ShaderProgram(vertexShader, sdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
+        } else if (distanceField == DistanceFieldType.SDF_OUTLINE) {
+            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
+            if (!shader.isCompiled())
+                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
         }
         loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
     }
@@ -1362,12 +1407,16 @@ public class Font implements Disposable {
             shader = new ShaderProgram(vertexShader, sdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
+        } else if (distanceField == DistanceFieldType.SDF_OUTLINE) {
+            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
+            if (!shader.isCompiled())
+                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
         }
         FileHandle textureHandle;
         if ((textureHandle = Gdx.files.internal(textureName)).exists()
                 || (textureHandle = Gdx.files.local(textureName)).exists()) {
             parents = Array.with(new TextureRegion(new Texture(textureHandle)));
-            if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF) {
+            if (distanceField != DistanceFieldType.STANDARD) {
                 parents.first().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             }
         } else {
@@ -1450,9 +1499,13 @@ public class Font implements Disposable {
             shader = new ShaderProgram(vertexShader, sdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
+        } else if (distanceField == DistanceFieldType.SDF_OUTLINE) {
+            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
+            if (!shader.isCompiled())
+                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
         }
         this.parents = Array.with(textureRegion);
-        if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF) {
+        if (distanceField != DistanceFieldType.STANDARD) {
             textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
         loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
@@ -1530,10 +1583,13 @@ public class Font implements Disposable {
             shader = new ShaderProgram(vertexShader, sdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
+        } else if (distanceField == DistanceFieldType.SDF_OUTLINE) {
+            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
+            if (!shader.isCompiled())
+                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
         }
         this.parents = textureRegions;
-        if ((distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF)
-                && textureRegions != null) {
+        if (distanceField != DistanceFieldType.STANDARD && textureRegions != null) {
             for (TextureRegion parent : textureRegions)
                 parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
@@ -1607,10 +1663,13 @@ public class Font implements Disposable {
             shader = new ShaderProgram(vertexShader, sdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
+        } else if (distanceField == DistanceFieldType.SDF_OUTLINE) {
+            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
+            if (!shader.isCompiled())
+                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
         }
         this.parents = bmFont.getRegions();
-        if ((distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF)
-                && parents != null) {
+        if (distanceField != DistanceFieldType.STANDARD && parents != null) {
             for (TextureRegion parent : parents)
                 parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
@@ -1805,7 +1864,7 @@ public class Font implements Disposable {
                 if ((textureHandle = Gdx.files.internal(textureName)).exists()
                         || (textureHandle = Gdx.files.local(textureName)).exists()) {
                     parents.add(new TextureRegion(new Texture(textureHandle)));
-                    if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.MSDF)
+                    if (distanceField != DistanceFieldType.STANDARD)
                         parents.peek().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
                 } else {
                     throw new RuntimeException("Missing texture file: " + textureName);
@@ -2265,7 +2324,8 @@ public class Font implements Disposable {
      * {@link Texture.TextureFilter#Linear} for both min and mag filters.
      * This is the most common usage for setting the texture filters, and is appropriate when you have
      * a large TextureRegion holding the font and you normally downscale it. This is automatically done
-     * for {@link DistanceFieldType#SDF} and {@link DistanceFieldType#MSDF} fonts, but you may also want
+     * for {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, and {@link DistanceFieldType#SDF_OUTLINE}
+     * fonts, but you may also want
      * to use it for {@link DistanceFieldType#STANDARD} fonts when downscaling (they can look terrible
      * if the default {@link Texture.TextureFilter#Nearest} filter is used).
      * Note that this sets the filter on every Texture that holds a TextureRegion used by the font, so
@@ -2283,7 +2343,8 @@ public class Font implements Disposable {
      * {@link DistanceFieldType#STANDARD} to use a better TextureFilter for smooth downscaling, like
      * {@link Texture.TextureFilter#MipMapLinearLinear} or just
      * {@link Texture.TextureFilter#Linear}. You might, for some reason, want to
-     * set a font using {@link DistanceFieldType#SDF} or {@link DistanceFieldType#MSDF} to use TextureFilters
+     * set a font using {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or
+     * {@link DistanceFieldType#SDF_OUTLINE} to use TextureFilters
      * other than its default {@link Texture.TextureFilter#Linear}.
      * Note that this may affect the filter on other parts of an atlas.
      *
@@ -2632,7 +2693,7 @@ public class Font implements Disposable {
 //                shader.setUniformf("u_smoothing", 2f * distanceFieldCrispness);
                 shader.setUniformf("u_smoothing", 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth));
             }
-        } else if (distanceField == DistanceFieldType.SDF) {
+        } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
             if (batch.getShader() != shader) {
                 batch.setShader(shader);
                 final float scale = Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth) * 0.5f + 0.125f;
@@ -2643,7 +2704,6 @@ public class Font implements Disposable {
                 batch.setShader(null);
             }
         }
-//        batch.setPackedColor(Color.WHITE_FLOAT_BITS); // not sure why this was here, or if it is useful...
     }
 
     /**
@@ -6241,30 +6301,30 @@ public class Font implements Disposable {
     }
     /**
      * Given the new width and height for a window, this attempts to adjust the {@link #actualCrispness} of an
-     * SDF or MSDF font so that it will display cleanly at a different size. This uses this font's
+     * SDF/MSDF/SDF_OUTLINE font so that it will display cleanly at a different size. This uses this font's
      * {@link #distanceFieldCrispness} as a multiplier applied after calculating the initial crispness.
      * This is a suggestion for what to call in your {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
-     * method for each SDF or MSDF font you have currently rendering.
+     * method for each SDF, MSDF, or SDF_OUTLINE font you have currently rendering.
      *
      * @param width  the new window width; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      * @param height the new window height; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      */
     public void resizeDistanceField(int width, int height) {
-        if (distanceField == DistanceFieldType.SDF) {
-            if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
-                actualCrispness = distanceFieldCrispness;
-            } else {
-                actualCrispness = distanceFieldCrispness * (float) Math.pow(4f,
-                        Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
-                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 2f + cellHeight * 0.005f);
-            }
-        } else if (distanceField == DistanceFieldType.MSDF) {
+        if (distanceField == DistanceFieldType.MSDF) {
             if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
                 actualCrispness = distanceFieldCrispness;
             } else {
                 actualCrispness = distanceFieldCrispness * (float) Math.pow(8f,
                         Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
                                 (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 2.15f + cellHeight * 0.01f);
+            }
+        } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
+            if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
+                actualCrispness = distanceFieldCrispness;
+            } else {
+                actualCrispness = distanceFieldCrispness * (float) Math.pow(4f,
+                        Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
+                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 2f + cellHeight * 0.005f);
             }
         }
     }
