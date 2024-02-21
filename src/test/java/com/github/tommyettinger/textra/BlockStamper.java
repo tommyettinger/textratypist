@@ -48,10 +48,10 @@ public class BlockStamper  extends ApplicationAdapter {
     public void create() {
         PixmapIO.PNG png = new PixmapIO.PNG();
         png.setFlipY(false);
-        FileHandle fontsHandle = Gdx.files.local("knownFonts");
-//        FileHandle[] children = fontsHandle.list("png");
+//        FileHandle fontsHandle = Gdx.files.local("knownFonts");
+        FileHandle fontsHandle = Gdx.files.local("src/test/resources/experimental");
+        FileHandle[] children = fontsHandle.list("-msdf.png");
 //        FileHandle[] children = {Gdx.files.local("Tangerine-sdf.png"), Gdx.files.local("Tangerine-standard.png"), };
-        FileHandle[] children = fontsHandle.list("LanaPixel-standard.png");
         PER_CHILD:
         for(FileHandle fh : children){
             System.out.println("Operating on " + fh.name());

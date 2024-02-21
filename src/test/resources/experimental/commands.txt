@@ -1,0 +1,3 @@
+msdf-atlas-gen.exe -font Iosevka.ttf -charset Iosevka-chars.txt -type msdf -imageout Iosevka-msdf.png -json Iosevka-msdf.json -pxrange 4 -dimensions 1024 1024 -size 22
+msdf-atlas-gen.exe -font Iosevka.ttf -charset Iosevka-chars.txt -type sdf -imageout Iosevka-sdf.png -json Iosevka-sdf.json -pxrange 4 -dimensions 1024 1024 -size 24
+msdf-atlas-gen.exe -font Iosevka.ttf -charset Iosevka-chars.txt -type psdf -imageout Iosevka-psdf.png -json Iosevka-psdf.json -pxrange 4 -dimensions 1024 1024 -size 24

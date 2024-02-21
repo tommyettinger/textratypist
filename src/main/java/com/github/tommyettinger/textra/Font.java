@@ -2027,6 +2027,97 @@ public class Font implements Disposable {
         isMono = true;
     }
 
+    /**
+     * Creates a Font from a "Structured JSON" file produced by Chlumsky's msdf-atlas-gen tool, and uses it to assemble
+     * the many {@link GlyphRegion}s this has for each glyph. Reads the distance field type from the JSON.
+     * <br>
+     * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
+     * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
+     * produce is fairly full-featured. Although it can also produce things like Artery fonts, those seem pretty
+     * specific to the Artery engine, and the tool might not use a stable revision of the format.
+     *
+     * @param jsonName the name of a structured JSON font file this will load from an internal or local file handle (tried in that order)
+     * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust        how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust   how many pixels to add to the used height of each character, using more above
+     * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     * @param ignoredStructuredJsonFlag only present to distinguish this from other constructors; ignored
+     */
+    public Font(String jsonName, TextureRegion textureRegion,
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs,
+                boolean ignoredStructuredJsonFlag) {
+        this.parents = Array.with(textureRegion);
+        if (distanceField != DistanceFieldType.STANDARD) {
+            textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
+
+        FileHandle fntHandle;
+        JsonValue fnt;
+        JsonReader reader = new JsonReader();
+        if ((fntHandle = Gdx.files.internal(jsonName)).exists()
+                || (fntHandle = Gdx.files.local(jsonName)).exists()) {
+            fnt = reader.parse(fntHandle);
+        } else {
+            throw new RuntimeException("Missing font file: " + jsonName);
+        }
+        int pages = 1;
+        TextureRegion parent = textureRegion;
+        this.setDistanceField(distanceField);
+
+//        int columns = fnt.getInt("Columns");
+//        int padding = fnt.getInt("GlyphPadding");
+//        cellHeight = fnt.getInt("GlyphHeight");
+//        cellWidth = fnt.getInt("GlyphWidth");
+//        descent = Math.round(cellHeight * -0.375f);
+//        int rows = (parent.getRegionHeight() - padding) / ((int) cellHeight + padding);
+//        int size = rows * columns;
+//        mapping = new IntMap<>(size + 1);
+//        for (int y = 0, c = 0; y < rows; y++) {
+//            for (int x = 0; x < columns; x++, c++) {
+//                GlyphRegion gr = new GlyphRegion(parent, x * ((int) cellWidth + padding) + padding, y * ((int) cellHeight + padding) + padding, (int) cellWidth, (int) cellHeight);
+//                gr.offsetX = 0;
+//                gr.offsetY = cellHeight * 0.5f + descent;
+//                if (c == 10) {
+//                    gr.xAdvance = 0;
+//                } else {
+//                    gr.xAdvance = cellWidth;
+//                }
+//                mapping.put(c, gr);
+//                if (c == '[') {
+//                    if (mapping.containsKey(2))
+//                        mapping.put(size, mapping.get(2));
+//                    mapping.put(2, gr);
+//                }
+//            }
+//        }
+//        GlyphRegion block = mapping.get(solidBlock, null);
+//        if(block != null) {
+//            for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
+//                GlyphRegion gr = new GlyphRegion(block);
+//                gr.offsetX = Float.NaN;
+//                gr.xAdvance = cellWidth;
+//                gr.offsetY = cellHeight;
+//                mapping.put(i, gr);
+//            }
+//        }
+        // Newlines shouldn't render.
+        if (mapping.containsKey('\n')) {
+            GlyphRegion gr = mapping.get('\n');
+            gr.setRegionWidth(0);
+            gr.setRegionHeight(0);
+            gr.xAdvance = 0;
+        }
+        if (mapping.containsKey(' ')) {
+            mapping.put('\r', mapping.get(' '));
+        }
+        defaultValue = mapping.get(' ', mapping.get(0));
+        originalCellWidth = this.cellWidth;
+        originalCellHeight = this.cellHeight;
+        integerPosition = false;
+//        isMono = true;
+    }
+
     //// usage section
 
     /**
