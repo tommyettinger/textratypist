@@ -2081,7 +2081,6 @@ public class Font implements Disposable {
         float size = atlas.getFloat("size", 16f);
 
         JsonValue metrics = fnt.get("metrics");
-        //"emSize":1,"lineHeight":1.25,"ascender":0.97699999999999998,"descender":-0.20500000000000002,"underlineY":-0.074999999999999997,"underlineThickness":0.050000000000000003
 
         size *= metrics.getFloat("emSize", 1f);
         originalCellHeight = cellHeight = size * atlas.getFloat("lineHeight", 1f) + heightAdjust;
@@ -2090,40 +2089,72 @@ public class Font implements Disposable {
         underY = atlas.getFloat("underlineY", -0.1f);
         underBreadth = atlas.getFloat("underlineThickness", 0.05f);
 
-//        int columns = fnt.getInt("Columns");
-//        int padding = fnt.getInt("GlyphPadding");
-//        cellHeight = fnt.getInt("GlyphHeight");
-//        cellWidth = fnt.getInt("GlyphWidth");
-//        descent = Math.round(cellHeight * -0.375f);
-//        int rows = (parent.getRegionHeight() - padding) / ((int) cellHeight + padding);
-//        int size = rows * columns;
-//        mapping = new IntMap<>(size + 1);
-//        for (int y = 0, c = 0; y < rows; y++) {
-//            for (int x = 0; x < columns; x++, c++) {
-//                GlyphRegion gr = new GlyphRegion(parent, x * ((int) cellWidth + padding) + padding, y * ((int) cellHeight + padding) + padding, (int) cellWidth, (int) cellHeight);
-//                gr.offsetX = 0;
-//                gr.offsetY = cellHeight * 0.5f + descent;
-//                if (c == 10) {
-//                    gr.xAdvance = 0;
-//                } else {
-//                    gr.xAdvance = cellWidth;
+        JsonValue glyphs = fnt.get("glyphs"), planeBounds, atlasBounds;
+        int count = glyphs.size;
+
+        mapping = new IntMap<>(count + 1);
+        float minWidth = Integer.MAX_VALUE;
+        for (JsonValue.JsonIterator it = glyphs.iterator(); it.hasNext(); ) {
+            JsonValue current = it.next();
+            int c =    current.getInt("unicode", 65535);
+            float a =  current.getFloat("advance", size);
+            planeBounds = current.get("planeBounds");
+            atlasBounds = current.get("atlasBounds");
+            float x, y, w, h, xo, yo;
+            if(atlasBounds != null) {
+                x = atlasBounds.getFloat("left", 0f);
+                y = atlasBounds.getFloat("bottom", 0f);
+                w = atlasBounds.getFloat("right", 0f) - x;
+                h = atlasBounds.getFloat("top", 0f) - y;
+            } else {
+                x = y = w = h = 0f;
+            }
+            if(planeBounds != null) {
+                xo = planeBounds.getFloat("left", 0f) * size;
+                yo = planeBounds.getFloat("bottom", 0f) * size;
+            } else {
+                xo = yo = 0f;
+            }
+
+            if (c != 9608) // full block
+                minWidth = Math.min(minWidth, a + widthAdjust);
+            GlyphRegion gr = new GlyphRegion(textureRegion, x, y, w, h);
+            if (c == 10) {
+                a = 0;
+                gr.offsetX = 0;
+            } else if (makeGridGlyphs && BlockUtils.isBlockGlyph(c)) {
+                gr.offsetX = Float.NaN;
+            } else
+                gr.offsetX = xo + xAdjust;
+            gr.offsetY = yo + yAdjust;
+            gr.xAdvance = a + widthAdjust;
+
+            cellWidth = Math.max(a + widthAdjust, cellWidth);
+            mapping.put(c, gr);
+            if (c == '[') {
+                mapping.put(2, gr);
+            }
+        }
+
+        // TODO: Do kerning later, once we have some examples...
+        kerning = null;
+//        idx = StringUtils.indexAfter(fnt, "\nkernings count=", 0);
+//        if (idx < fnt.length()) {
+//            int kernings = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "\nkerning first=", idx));
+//            if(kernings >= 1) {
+//                kerning = new IntFloatMap(kernings);
+//                for (int i = 0; i < kernings; i++) {
+//                    int first = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " second=", idx));
+//                    int second = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " amount=", idx));
+//                    float amount = StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "\nkerning first=", idx));
+//                    kerning.put(first << 16 | second, amount);
+//                    if (first == '[') {
+//                        kerning.put(2 << 16 | second, amount);
+//                    }
+//                    if (second == '[') {
+//                        kerning.put(first << 16 | 2, amount);
+//                    }
 //                }
-//                mapping.put(c, gr);
-//                if (c == '[') {
-//                    if (mapping.containsKey(2))
-//                        mapping.put(size, mapping.get(2));
-//                    mapping.put(2, gr);
-//                }
-//            }
-//        }
-//        GlyphRegion block = mapping.get(solidBlock, null);
-//        if(block != null) {
-//            for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
-//                GlyphRegion gr = new GlyphRegion(block);
-//                gr.offsetX = Float.NaN;
-//                gr.xAdvance = cellWidth;
-//                gr.offsetY = cellHeight;
-//                mapping.put(i, gr);
 //            }
 //        }
         // Newlines shouldn't render.
@@ -2136,11 +2167,32 @@ public class Font implements Disposable {
         if (mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
         }
+        solidBlock =
+                mapping.containsKey(9608) ? '█' : '\uFFFF';
+        if (makeGridGlyphs) {
+            GlyphRegion block = mapping.get(solidBlock, null);
+            if(block == null) {
+                solidBlock = '█';
+                mapping.put(solidBlock, block = new GlyphRegion(new TextureRegion(textureRegion,
+                        textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1)));
+            }
+            for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
+                GlyphRegion gr = new GlyphRegion(block);
+                gr.offsetX = Float.NaN;
+                gr.xAdvance = cellWidth;
+                gr.offsetY = cellHeight;
+                mapping.put(i, gr);
+            }
+        } else if (!mapping.containsKey(solidBlock)) {
+            solidBlock = '█';
+            mapping.put(solidBlock, new GlyphRegion(new TextureRegion(textureRegion,
+                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1)));
+        }
         defaultValue = mapping.get(' ', mapping.get(0));
-        originalCellWidth = this.cellWidth;
-        originalCellHeight = this.cellHeight;
+        originalCellWidth = cellWidth;
+        originalCellHeight = cellHeight;
+        isMono = minWidth == cellWidth && kerning == null;
         integerPosition = false;
-//        isMono = true;
     }
 
     //// usage section
