@@ -2051,6 +2051,10 @@ public class Font implements Disposable {
         if (distanceField != DistanceFieldType.STANDARD) {
             textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
+        this.xAdjust = xAdjust;
+        this.yAdjust = yAdjust;
+        this.widthAdjust = widthAdjust;
+        this.heightAdjust = heightAdjust;
 
         FileHandle fntHandle;
         JsonValue fnt;
@@ -2062,8 +2066,29 @@ public class Font implements Disposable {
             throw new RuntimeException("Missing font file: " + jsonName);
         }
         int pages = 1;
-        TextureRegion parent = textureRegion;
-        this.setDistanceField(distanceField);
+
+        JsonValue atlas = fnt.get("atlas");
+        String dfType = atlas.getString("type", "");
+        if("msdf".equals(dfType) || "mtsdf".equals(dfType))
+            this.setDistanceField(DistanceFieldType.MSDF);
+        else if("sdf".equals(dfType) || "psdf".equals(dfType))
+            this.setDistanceField(DistanceFieldType.SDF);
+        else
+            this.setDistanceField(DistanceFieldType.STANDARD);
+
+        float distanceRange = atlas.getFloat("distanceRange", 2f);
+
+        float size = atlas.getFloat("size", 16f);
+
+        JsonValue metrics = fnt.get("metrics");
+        //"emSize":1,"lineHeight":1.25,"ascender":0.97699999999999998,"descender":-0.20500000000000002,"underlineY":-0.074999999999999997,"underlineThickness":0.050000000000000003
+
+        size *= metrics.getFloat("emSize", 1f);
+        originalCellHeight = cellHeight = size * atlas.getFloat("lineHeight", 1f) + heightAdjust;
+        float ascender = size * atlas.getFloat("ascender", 0.75f);
+        descent = size * atlas.getFloat("descender", -0.25f);
+        underY = atlas.getFloat("underlineY", -0.1f);
+        underBreadth = atlas.getFloat("underlineThickness", 0.05f);
 
 //        int columns = fnt.getInt("Columns");
 //        int padding = fnt.getInt("GlyphPadding");
