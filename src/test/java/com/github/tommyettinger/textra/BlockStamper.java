@@ -25,6 +25,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 /**
@@ -50,7 +52,8 @@ public class BlockStamper  extends ApplicationAdapter {
         png.setFlipY(false);
 //        FileHandle fontsHandle = Gdx.files.local("knownFonts");
         FileHandle fontsHandle = Gdx.files.local("src/test/resources/experimental");
-        FileHandle[] children = fontsHandle.list("-msdf.png");
+        FileHandle[] children = fontsHandle.list((dir, name) -> name.startsWith("GentiumUn") && name.endsWith(".png"));
+//        FileHandle[] children = fontsHandle.list("-standard.png");
 //        FileHandle[] children = {Gdx.files.local("Tangerine-sdf.png"), Gdx.files.local("Tangerine-standard.png"), };
         PER_CHILD:
         for(FileHandle fh : children){
