@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -57,7 +58,11 @@ public class PreviewGenerator extends ApplicationAdapter {
         // with useIntegerPositions(false), it seems fine?
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
-        Font[] all = KnownFonts.getAll(), sdf = KnownFonts.getAllSDF();
+//        Font[] all = KnownFonts.getAll(), sdf = KnownFonts.getAllSDF();
+        Font[] all = {new Font("experimental/GentiumUnItalic-psdf.json",
+                new TextureRegion(new Texture("experimental/GentiumUnItalic-psdf.png")), 0f, 0f, 0f, 0f, false, true)
+                .setName("Gentium Un-Italic (SDF)")},
+                sdf = {new Font(all[0])};
         for(Font f : sdf) {
             f.setDistanceField(Font.DistanceFieldType.SDF_OUTLINE);
             f.name = f.name.replace("(SDF)", "(SDF_OUTLINE)");

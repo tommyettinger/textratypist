@@ -2076,7 +2076,7 @@ public class Font implements Disposable {
         else
             this.setDistanceField(DistanceFieldType.STANDARD);
 
-        float distanceRange = atlas.getFloat("distanceRange", 2f);
+        distanceFieldCrispness = atlas.getFloat("distanceRange", 2f) * 0.5f;
 
         float size = atlas.getFloat("size", 16f);
 
@@ -2084,10 +2084,14 @@ public class Font implements Disposable {
 
         size *= metrics.getFloat("emSize", 1f);
         originalCellHeight = cellHeight = size * atlas.getFloat("lineHeight", 1f) + heightAdjust;
-        float ascender = size * atlas.getFloat("ascender", 0.75f);
+        float ascender = atlas.getFloat("ascender", 0.8f);
         descent = size * atlas.getFloat("descender", -0.25f);
-        underY = atlas.getFloat("underlineY", -0.1f);
-        underBreadth = atlas.getFloat("underlineThickness", 0.05f);
+//        underY = atlas.getFloat("underlineY", -0.1f);
+        strikeBreadth = underBreadth = atlas.getFloat("underlineThickness", 0.05f);
+        underLength = strikeLength = 0.25f;
+        underX = strikeX = -0.25f;
+        fancyY = 1.5f;
+//        strikeY = ascender * 0.5f;
 
         JsonValue glyphs = fnt.get("glyphs"), planeBounds, atlasBounds;
         int count = glyphs.size;
@@ -2097,21 +2101,24 @@ public class Font implements Disposable {
         for (JsonValue.JsonIterator it = glyphs.iterator(); it.hasNext(); ) {
             JsonValue current = it.next();
             int c =    current.getInt("unicode", 65535);
-            float a =  current.getFloat("advance", size);
+            float a =  current.getFloat("advance", size) * size;
             planeBounds = current.get("planeBounds");
             atlasBounds = current.get("atlasBounds");
             float x, y, w, h, xo, yo;
             if(atlasBounds != null) {
                 x = atlasBounds.getFloat("left", 0f);
-                y = atlasBounds.getFloat("bottom", 0f);
                 w = atlasBounds.getFloat("right", 0f) - x;
-                h = atlasBounds.getFloat("top", 0f) - y;
+                y = textureRegion.getRegionHeight() - atlasBounds.getFloat("top", 0f);
+                h = textureRegion.getRegionHeight() - atlasBounds.getFloat("bottom", 0f) - y;
+                // totally correct except that it is upside down...
+//                y = textureRegion.getRegionHeight() - atlasBounds.getFloat("bottom", 0f);
+//                h = textureRegion.getRegionHeight() - atlasBounds.getFloat("top", 0f) - y;
             } else {
                 x = y = w = h = 0f;
             }
             if(planeBounds != null) {
                 xo = planeBounds.getFloat("left", 0f) * size;
-                yo = planeBounds.getFloat("bottom", 0f) * size;
+                yo = -planeBounds.getFloat("top", 0f) * size;
             } else {
                 xo = yo = 0f;
             }
@@ -2136,27 +2143,26 @@ public class Font implements Disposable {
             }
         }
 
-        // TODO: Do kerning later, once we have some examples...
-        kerning = null;
-//        idx = StringUtils.indexAfter(fnt, "\nkernings count=", 0);
-//        if (idx < fnt.length()) {
-//            int kernings = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "\nkerning first=", idx));
-//            if(kernings >= 1) {
-//                kerning = new IntFloatMap(kernings);
-//                for (int i = 0; i < kernings; i++) {
-//                    int first = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " second=", idx));
-//                    int second = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, " amount=", idx));
-//                    float amount = StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "\nkerning first=", idx));
-//                    kerning.put(first << 16 | second, amount);
-//                    if (first == '[') {
-//                        kerning.put(2 << 16 | second, amount);
-//                    }
-//                    if (second == '[') {
-//                        kerning.put(first << 16 | 2, amount);
-//                    }
-//                }
-//            }
-//        }
+        JsonValue kern = fnt.get("kerning");
+        if(kern == null || kern.isEmpty())
+            kerning = null;
+        else {
+            kerning = new IntFloatMap(kern.size);
+            for (JsonValue.JsonIterator it = kern.iterator(); it.hasNext(); ) {
+                JsonValue current = it.next();
+                int first = current.getInt("unicode1", 65535);
+                int second = current.getInt("unicode2", 65535);
+                float amount = current.getFloat("advance", 0f);
+                kerning.put(first << 16 | second, amount);
+                if (first == '[') {
+                    kerning.put(2 << 16 | second, amount);
+                }
+                if (second == '[') {
+                    kerning.put(first << 16 | 2, amount);
+                }
+
+            }
+        };
         // Newlines shouldn't render.
         if (mapping.containsKey('\n')) {
             GlyphRegion gr = mapping.get('\n');
