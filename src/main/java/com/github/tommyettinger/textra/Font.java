@@ -2071,11 +2071,11 @@ public class Font implements Disposable {
         String dfType = atlas.getString("type", "");
         if("msdf".equals(dfType) || "mtsdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.MSDF);
-            distanceFieldCrispness = atlas.getFloat("distanceRange", 2f) * 0.3f;
+            distanceFieldCrispness = 16f / atlas.getFloat("distanceRange", 2f);
         }
         else if("sdf".equals(dfType) || "psdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.SDF);
-            distanceFieldCrispness = atlas.getFloat("distanceRange", 2f) * 0.75f;
+            distanceFieldCrispness = 16f / atlas.getFloat("distanceRange", 4f);
         }
         else
             this.setDistanceField(DistanceFieldType.STANDARD);

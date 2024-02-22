@@ -68,7 +68,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             for(String field : new String[]{"msdf", "sdf", "standard"}){
                 all[faceIdx * 3 + fieldIdx] = new Font("experimental/"+face+"-"+field+".json",
                         new TextureRegion(new Texture("experimental/"+face+"-"+field+".png")), 0f, 0f, 0f, 0f, false, true)
-                        .setName(fullFaceNames[faceIdx] + fullFieldNames[fieldIdx]);
+                        .scaleTo(faceIdx == 0 ? 50 : 10, 24f).setName(fullFaceNames[faceIdx] + fullFieldNames[fieldIdx]);
                 fieldIdx++;
             }
             faceIdx++;

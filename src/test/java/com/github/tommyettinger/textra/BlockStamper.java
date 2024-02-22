@@ -31,8 +31,8 @@ import java.io.IOException;
 
 /**
  * Another unusual runnable; this "stamps" font textures with a small white square in the lower-right corner, and makes
- * the corresponding .fnt file reference the given white block as its u0000 char. This doesn't have much use right now,
- * but may soon be used to dynamically create box-drawing characters of some requested stroke width.
+ * the corresponding .fnt file reference the given white block as its solid block char. This is used by the box-drawing
+ * glyph generation code, and also can be used to draw connecting underlines and strikethrough lines.
  */
 public class BlockStamper  extends ApplicationAdapter {
     public static void main(String[] args) {
@@ -52,7 +52,7 @@ public class BlockStamper  extends ApplicationAdapter {
         png.setFlipY(false);
 //        FileHandle fontsHandle = Gdx.files.local("knownFonts");
         FileHandle fontsHandle = Gdx.files.local("src/test/resources/experimental");
-        FileHandle[] children = fontsHandle.list((dir, name) -> name.startsWith("GentiumUn") && name.endsWith(".png"));
+        FileHandle[] children = fontsHandle.list((dir, name) -> name.endsWith(".png"));
 //        FileHandle[] children = fontsHandle.list("-standard.png");
 //        FileHandle[] children = {Gdx.files.local("Tangerine-sdf.png"), Gdx.files.local("Tangerine-standard.png"), };
         PER_CHILD:

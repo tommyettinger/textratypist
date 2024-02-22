@@ -1,12 +1,21 @@
-msdf-atlas-gen.exe -font Iosevka.ttf -charset Iosevka-chars.txt -type msdf -imageout Iosevka-msdf.png -json Iosevka-msdf.json -pxrange 4 -dimensions 2048 2048 -size 44                             &&
-msdf-atlas-gen.exe -font Iosevka.ttf -charset Iosevka-chars.txt -type sdf -imageout Iosevka-sdf.png -json Iosevka-sdf.json -pxrange 4 -dimensions 2048 2048 -size 48                                &&
-msdf-atlas-gen.exe -font Iosevka.ttf -charset Iosevka-chars.txt -type psdf -imageout Iosevka-psdf.png -json Iosevka-psdf.json -pxrange 4 -dimensions 2048 2048 -size 48                             &&
-msdf-atlas-gen.exe -font Iosevka.ttf -charset Iosevka-chars.txt -type softmask -imageout Iosevka-standard.png -json Iosevka-standard.json -pxrange 4 -dimensions 2048 2048 -size 60                 &&
-msdf-atlas-gen.exe -font Iosevka-Slab.ttf -charset Iosevka-chars.txt -type msdf -imageout Iosevka-Slab-msdf.png -json Iosevka-Slab-msdf.json -pxrange 4 -dimensions 2048 2048 -size 44              &&
-msdf-atlas-gen.exe -font Iosevka-Slab.ttf -charset Iosevka-chars.txt -type sdf -imageout Iosevka-Slab-sdf.png -json Iosevka-Slab-sdf.json -pxrange 4 -dimensions 2048 2048 -size 48                 &&
-msdf-atlas-gen.exe -font Iosevka-Slab.ttf -charset Iosevka-chars.txt -type psdf -imageout Iosevka-Slab-psdf.png -json Iosevka-Slab-psdf.json -pxrange 4 -dimensions 2048 2048 -size 48              &&
-msdf-atlas-gen.exe -font Iosevka-Slab.ttf -charset Iosevka-chars.txt -type softmask -imageout Iosevka-Slab-standard.png -json Iosevka-Slab-standard.json -pxrange 4 -dimensions 2048 2048 -size 60  &&
-msdf-atlas-gen.exe -font GentiumUnItalic.ttf -charset Gentium-Un-Italic.txt -type msdf -imageout GentiumUnItalic-msdf.png -json GentiumUnItalic-msdf.json -pxrange 4 -dimensions 2048 2048 -size 48 &&
-msdf-atlas-gen.exe -font GentiumUnItalic.ttf -charset Gentium-Un-Italic.txt -type sdf -imageout GentiumUnItalic-sdf.png -json GentiumUnItalic-sdf.json -pxrange 4 -dimensions 2048 2048 -size 52 &&
-msdf-atlas-gen.exe -font GentiumUnItalic.ttf -charset Gentium-Un-Italic.txt -type psdf -imageout GentiumUnItalic-psdf.png -json GentiumUnItalic-psdf.json -pxrange 4 -dimensions 2048 2048 -size 52 &&
-msdf-atlas-gen.exe -font GentiumUnItalic.ttf -charset Gentium-Un-Italic.txt -type softmask -imageout GentiumUnItalic-standard.png -json GentiumUnItalic-standard.json -pxrange 4 -dimensions 2048 2048 -size 62
+msdf-atlas-gen.exe -font Iosevka.ttf         -charset Iosevka-chars.txt     -type msdf     -imageout Iosevka-msdf.png             -json Iosevka-msdf.json -pxrange 8 -dimensions 2048 2048 -size 44                             &&
+msdf-atlas-gen.exe -font Iosevka-Slab.ttf    -charset Iosevka-chars.txt     -type msdf     -imageout Iosevka-Slab-msdf.png        -json Iosevka-Slab-msdf.json -pxrange 8 -dimensions 2048 2048 -size 44              &&
+msdf-atlas-gen.exe -font GentiumUnItalic.ttf -charset Gentium-Un-Italic.txt -type msdf     -imageout GentiumUnItalic-msdf.png     -json GentiumUnItalic-msdf.json -pxrange 8 -dimensions 2048 2048 -size 48 &&
+msdf-atlas-gen.exe -font Iosevka.ttf         -charset Iosevka-chars.txt     -type sdf      -imageout Iosevka-sdf.png              -json Iosevka-sdf.json -pxrange 8 -dimensions 2048 2048 -size 48                                &&
+msdf-atlas-gen.exe -font Iosevka.ttf         -charset Iosevka-chars.txt     -type psdf     -imageout Iosevka-psdf.png             -json Iosevka-psdf.json -pxrange 8 -dimensions 2048 2048 -size 48                             &&
+msdf-atlas-gen.exe -font Iosevka.ttf         -charset Iosevka-chars.txt     -type softmask -imageout Iosevka-standard.png         -json Iosevka-standard.json -pxrange 8 -dimensions 2048 2048 -size 60                 &&
+msdf-atlas-gen.exe -font Iosevka-Slab.ttf    -charset Iosevka-chars.txt     -type sdf      -imageout Iosevka-Slab-sdf.png         -json Iosevka-Slab-sdf.json -pxrange 8 -dimensions 2048 2048 -size 48                 &&
+msdf-atlas-gen.exe -font Iosevka-Slab.ttf    -charset Iosevka-chars.txt     -type psdf     -imageout Iosevka-Slab-psdf.png        -json Iosevka-Slab-psdf.json -pxrange 8 -dimensions 2048 2048 -size 48              &&
+msdf-atlas-gen.exe -font Iosevka-Slab.ttf    -charset Iosevka-chars.txt     -type softmask -imageout Iosevka-Slab-standard.png    -json Iosevka-Slab-standard.json -pxrange 8 -dimensions 2048 2048 -size 60  &&
+msdf-atlas-gen.exe -font GentiumUnItalic.ttf -charset Gentium-Un-Italic.txt -type sdf      -imageout GentiumUnItalic-sdf.png      -json GentiumUnItalic-sdf.json -pxrange 8 -dimensions 2048 2048 -size 52    &&
+msdf-atlas-gen.exe -font GentiumUnItalic.ttf -charset Gentium-Un-Italic.txt -type psdf     -imageout GentiumUnItalic-psdf.png     -json GentiumUnItalic-psdf.json -pxrange 8 -dimensions 2048 2048 -size 52 &&
+msdf-atlas-gen.exe -font GentiumUnItalic.ttf -charset Gentium-Un-Italic.txt -type softmask -imageout GentiumUnItalic-standard.png -json GentiumUnItalic-standard.json -pxrange 8 -dimensions 2048 2048 -size 62 &&
+TransparencyProcessor.exe Iosevka-sdf.png              &&
+TransparencyProcessor.exe Iosevka-psdf.png             &&
+TransparencyProcessor.exe Iosevka-standard.png         &&
+TransparencyProcessor.exe Iosevka-Slab-sdf.png         &&
+TransparencyProcessor.exe Iosevka-Slab-psdf.png        &&
+TransparencyProcessor.exe Iosevka-Slab-standard.png    &&
+TransparencyProcessor.exe GentiumUnItalic-sdf.png      &&
+TransparencyProcessor.exe GentiumUnItalic-psdf.png     &&
+TransparencyProcessor.exe GentiumUnItalic-standard.png
