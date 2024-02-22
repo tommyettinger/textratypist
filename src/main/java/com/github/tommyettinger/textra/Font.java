@@ -2069,14 +2069,16 @@ public class Font implements Disposable {
 
         JsonValue atlas = fnt.get("atlas");
         String dfType = atlas.getString("type", "");
-        if("msdf".equals(dfType) || "mtsdf".equals(dfType))
+        if("msdf".equals(dfType) || "mtsdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.MSDF);
-        else if("sdf".equals(dfType) || "psdf".equals(dfType))
+            distanceFieldCrispness = atlas.getFloat("distanceRange", 2f) * 0.3f;
+        }
+        else if("sdf".equals(dfType) || "psdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.SDF);
+            distanceFieldCrispness = atlas.getFloat("distanceRange", 2f) * 0.75f;
+        }
         else
             this.setDistanceField(DistanceFieldType.STANDARD);
-
-        distanceFieldCrispness = atlas.getFloat("distanceRange", 2f) * 0.5f;
 
         float size = atlas.getFloat("size", 16f);
 
@@ -2088,8 +2090,8 @@ public class Font implements Disposable {
         descent = size * atlas.getFloat("descender", -0.25f);
 //        underY = atlas.getFloat("underlineY", -0.1f);
         strikeBreadth = underBreadth = atlas.getFloat("underlineThickness", 0.05f);
-        underLength = strikeLength = 0.25f;
-        underX = strikeX = -0.25f;
+        underLength = strikeLength = 0.5f;
+        underX = strikeX = -0.4f;
         fancyY = 1.5f;
 //        strikeY = ascender * 0.5f;
 

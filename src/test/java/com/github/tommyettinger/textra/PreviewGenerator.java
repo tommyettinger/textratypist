@@ -59,10 +59,21 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
 //        Font[] all = KnownFonts.getAll(), sdf = KnownFonts.getAllSDF();
-        Font[] all = {new Font("experimental/GentiumUnItalic-psdf.json",
-                new TextureRegion(new Texture("experimental/GentiumUnItalic-psdf.png")), 0f, 0f, 0f, 0f, false, true)
-                .setName("Gentium Un-Italic (SDF)")},
-                sdf = {new Font(all[0])};
+        Font[] all = new Font[9];
+        int faceIdx = 0;
+        String[] fullFaceNames = new String[]{"Gentium Un-Italic", "Iosevka", "Iosevka Slab"};
+        String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", ""};
+        for(String face : new String[]{"GentiumUnItalic", "Iosevka", "Iosevka-Slab"}){
+            int fieldIdx = 0;
+            for(String field : new String[]{"msdf", "sdf", "standard"}){
+                all[faceIdx * 3 + fieldIdx] = new Font("experimental/"+face+"-"+field+".json",
+                        new TextureRegion(new Texture("experimental/"+face+"-"+field+".png")), 0f, 0f, 0f, 0f, false, true)
+                        .setName(fullFaceNames[faceIdx] + fullFieldNames[fieldIdx]);
+                fieldIdx++;
+            }
+            faceIdx++;
+        }
+        Font[] sdf = {new Font(all[1]), new Font(all[4]), new Font(all[7])};
         for(Font f : sdf) {
             f.setDistanceField(Font.DistanceFieldType.SDF_OUTLINE);
             f.name = f.name.replace("(SDF)", "(SDF_OUTLINE)");
@@ -78,7 +89,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             Font font = fonts[i];
             if(!font.integerPosition)
                 font.scale(1.5f, 1.5f);
-//        Font font = fnt = fonts[0]; {
+            Color baseColor = font.getDistanceField() == Font.DistanceFieldType.SDF_OUTLINE ? Color.LIGHT_GRAY : Color.DARK_GRAY;
             KnownFonts.addEmoji(font);
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 //        font = new Font(new BitmapFont(Gdx.files.internal("OpenSans-standard.fnt")), Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f)
@@ -110,7 +121,7 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        font = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", Font.DistanceFieldType.SDF, 0, 0, 0, 0).scaleTo(12f, 24f);
 //        font = KnownFonts.getIBM8x16();
 //        font = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, 16f, -7).scaleTo(16, 16);
-            layout.setBaseColor(Color.DARK_GRAY);
+            layout.setBaseColor(baseColor);
             layout.setMaxLines(20);
             layout.setEllipsis(" and so on and so forth...");
 //            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
