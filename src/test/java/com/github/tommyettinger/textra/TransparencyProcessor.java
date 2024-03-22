@@ -89,7 +89,10 @@ public class TransparencyProcessor extends ApplicationAdapter {
         if(parameters == null) {
 //            FileHandle[] files = {Gdx.files.local("knownFonts/" + "LanaPixel-standard.png")};
 //            FileHandle[] files = Gdx.files.local("knownFonts").list((dir, name) -> name.endsWith(".png") && !name.endsWith("-msdf.png"));
-            FileHandle[] files = Gdx.files.local("src/test/resources/experimental").list((dir, name) -> name.endsWith(".png") && !name.endsWith("-msdf.png"));
+            FileHandle fontsHandle = Gdx.files.local("src/test/resources/experimental");
+//            FileHandle[] files = fontsHandle.list((dir, name) -> name.endsWith(".png") && !name.endsWith("-msdf.png"));
+            FileHandle[] files = fontsHandle.list((dir, name) ->
+                    name.startsWith(BlockStamper.PREFIX) && name.endsWith(".png") && !name.endsWith("-msdf.png"));
             for (FileHandle file : files)
                 rewrite(file);
         }

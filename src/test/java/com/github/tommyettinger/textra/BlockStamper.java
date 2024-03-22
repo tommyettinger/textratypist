@@ -33,6 +33,7 @@ import java.io.IOException;
  * glyph generation code, and also can be used to draw connecting underlines and strikethrough lines.
  */
 public class BlockStamper  extends ApplicationAdapter {
+    public static final String PREFIX = "Libertinus";
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Block Stamper Tool");
@@ -51,7 +52,7 @@ public class BlockStamper  extends ApplicationAdapter {
         png.setFlipY(false);
 //        FileHandle fontsHandle = Gdx.files.local("knownFonts");
         FileHandle fontsHandle = Gdx.files.local("src/test/resources/experimental");
-        FileHandle[] children = fontsHandle.list((dir, name) -> name.endsWith(".png"));
+        FileHandle[] children = fontsHandle.list((dir, name) -> name.startsWith(PREFIX) && name.endsWith(".png"));
 //        FileHandle[] children = fontsHandle.list("-standard.png");
 //        FileHandle[] children = {Gdx.files.local("Tangerine-sdf.png"), Gdx.files.local("Tangerine-standard.png"), };
         PER_CHILD:

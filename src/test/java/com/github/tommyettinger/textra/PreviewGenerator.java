@@ -24,7 +24,8 @@ public class PreviewGenerator extends ApplicationAdapter {
     Layout layout = new Layout().setTargetWidth(1200);
     long startTime;
     static final String text = "Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
-            + "\n[#E74200]...use CSS-style hex █colors█ like [*]#E74200[*]..."
+            + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
+//            + "\n[#E74200]...use CSS-style hex █colors█ like [*]#E74200[*]..."
             + "\n[darker purple blue]...use color names or descriptions, like [/]darker purple blue[/]...[ ]"
             + "\n[_]...and use [!]effects[!][_]!"
             + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[ ],"
@@ -60,27 +61,29 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
 //        Font[] all = KnownFonts.getAll(), sdf = KnownFonts.getAllSDF();
 //        Font[] all = new Font[3];
-        Font[] all = new Font[9];
+        Font[] all = new Font[12];
         int faceIdx = 0;
 //        String[] fullFaceNames = new String[]{"Iosevka Slab"};
 //        String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", ""};
 //        for(String face : new String[]{"Iosevka-Slab"}){
-        String[] fullFaceNames = new String[]{"Gentium Un-Italic", "Iosevka", "Iosevka Slab"};
+        String[] fullFaceNames = new String[]{"Gentium Un-Italic", "Iosevka", "Iosevka Slab", "Libertinus Serif"};
         String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", ""};
-        for(String face : new String[]{"GentiumUnItalic", "Iosevka", "Iosevka-Slab"}){
+        for(String face : new String[]{"GentiumUnItalic", "Iosevka", "Iosevka-Slab", "LibertinusSerif"}){
             int fieldIdx = 0;
             for(String field : new String[]{"msdf", "sdf", "standard"}){
                 all[faceIdx * 3 + fieldIdx] = new Font("experimental/"+face+"-"+field+".json",
-                        new TextureRegion(new Texture("experimental/"+face+"-"+field+".png")), 0f, 0f, 0f, 0f, true, true)
+                        new TextureRegion(new Texture("experimental/"+face+"-"+field+".png")), 0f, 0f, 0f, 0f, true, true);
 //                        .scaleTo(10, 24f)
-                        .scaleTo(faceIdx == 0 ? 50 : 10, 24f)
+
+                all[faceIdx * 3 + fieldIdx]
+                        .scaleTo(24f * all[faceIdx * 3 + fieldIdx].cellWidth / all[faceIdx * 3 + fieldIdx].cellHeight, 24f)
                         .setName(fullFaceNames[faceIdx] + fullFieldNames[fieldIdx]);
                 fieldIdx++;
             }
             faceIdx++;
         }
 //        Font[] sdf = {new Font(all[1])};
-        Font[] sdf = {new Font(all[1]), new Font(all[4]), new Font(all[7])};
+        Font[] sdf = {new Font(all[1]), new Font(all[4]), new Font(all[7]), new Font(all[10])};
         for(Font f : sdf) {
             f.setDistanceField(Font.DistanceFieldType.SDF_OUTLINE);
             f.name = f.name.replace("(SDF)", "(SDF_OUTLINE)");
