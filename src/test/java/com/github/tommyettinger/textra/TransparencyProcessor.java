@@ -76,19 +76,20 @@ public class TransparencyProcessor extends ApplicationAdapter {
     public TransparencyProcessor(String[] args) {
         buffer = new ChunkBuffer(65536);
         deflater = new Deflater(9);
-        if(args == null || args.length == 0){
+        if (args == null || args.length == 0) {
             parameters = null;
             System.out.println("Attempting to run on all non-MSDF PNG files in knownFonts.");
-            return;
+        } else {
+            parameters = args;
         }
-        parameters = args;
     }
 
     @Override
     public void create() {
         if(parameters == null) {
-            FileHandle[] files = {Gdx.files.local("knownFonts/" + "LanaPixel-standard.png")};
+//            FileHandle[] files = {Gdx.files.local("knownFonts/" + "LanaPixel-standard.png")};
 //            FileHandle[] files = Gdx.files.local("knownFonts").list((dir, name) -> name.endsWith(".png") && !name.endsWith("-msdf.png"));
+            FileHandle[] files = Gdx.files.local("src/test/resources/experimental").list((dir, name) -> name.endsWith(".png") && !name.endsWith("-msdf.png"));
             for (FileHandle file : files)
                 rewrite(file);
         }

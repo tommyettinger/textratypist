@@ -24,7 +24,7 @@ public class PreviewGenerator extends ApplicationAdapter {
     Layout layout = new Layout().setTargetWidth(1200);
     long startTime;
     static final String text = "Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
-            + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
+            + "\n[#E74200]...use CSS-style hex █colors█ like [*]#E74200[*]..."
             + "\n[darker purple blue]...use color names or descriptions, like [/]darker purple blue[/]...[ ]"
             + "\n[_]...and use [!]effects[!][_]!"
             + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[ ],"
@@ -67,7 +67,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             int fieldIdx = 0;
             for(String field : new String[]{"msdf", "sdf", "standard"}){
                 all[faceIdx * 3 + fieldIdx] = new Font("experimental/"+face+"-"+field+".json",
-                        new TextureRegion(new Texture("experimental/"+face+"-"+field+".png")), 0f, 0f, 0f, 0f, false, true)
+                        new TextureRegion(new Texture("experimental/"+face+"-"+field+".png")), 0f, 0f, 0f, 0f, true, true)
                         .scaleTo(faceIdx == 0 ? 50 : 10, 24f).setName(fullFaceNames[faceIdx] + fullFieldNames[fieldIdx]);
                 fieldIdx++;
             }

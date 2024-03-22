@@ -24,6 +24,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import regexodus.Matcher;
+import regexodus.Pattern;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -44,10 +46,12 @@ public class BlockStamper  extends ApplicationAdapter {
         ShaderProgram.prependFragmentCode = "#version 110\n";
         config.useVsync(true);
         new Lwjgl3Application(new BlockStamper(), config);
+        TransparencyProcessor.main(args);
     }
 
     @Override
     public void create() {
+        Matcher sizeMatcher = Pattern.compile("\"size\":([0-9\\.]+)").matcher();
         PixmapIO.PNG png = new PixmapIO.PNG();
         png.setFlipY(false);
 //        FileHandle fontsHandle = Gdx.files.local("knownFonts");
@@ -56,7 +60,7 @@ public class BlockStamper  extends ApplicationAdapter {
 //        FileHandle[] children = fontsHandle.list("-standard.png");
 //        FileHandle[] children = {Gdx.files.local("Tangerine-sdf.png"), Gdx.files.local("Tangerine-standard.png"), };
         PER_CHILD:
-        for(FileHandle fh : children){
+        for(FileHandle fh : children) {
             System.out.println("Operating on " + fh.name());
             Pixmap pm = new Pixmap(fh);
             int w = pm.getWidth(), h = pm.getHeight();
@@ -64,11 +68,11 @@ public class BlockStamper  extends ApplicationAdapter {
             for (int x = w - 3; x < w; x++) {
                 for (int y = h - 3; y < h; y++) {
                     int color = pm.getPixel(x, y);
-                    if(!((color & 0xFF) == 0 || (color >>> 8) == 0)) {
+                    if (!((color & 0xFF) == 0 || (color >>> 8) == 0)) {
                         for (x = w - 3; x < w; x++) {
                             for (y = 0; y < 3; y++) {
                                 color = pm.getPixel(x, y);
-                                if(!((color & 0xFF) == 0 || (color >>> 8) == 0)) {
+                                if (!((color & 0xFF) == 0 || (color >>> 8) == 0)) {
                                     System.out.println("Had a transparency problem with " + fh.name());
                                     continue PER_CHILD;
                                 }
@@ -88,22 +92,41 @@ public class BlockStamper  extends ApplicationAdapter {
                 e.printStackTrace();
             }
             FileHandle fnt = fontsHandle.child(fh.nameWithoutExtension() + ".fnt");
-            if(fnt.exists()){
+            if (fnt.exists()) {
                 String text = fnt.readString("UTF-8");
-                if(text.contains("char id=9608 ")){
+                if (text.contains("char id=9608 ")) {
                     fnt.writeString(text.replaceFirst(
-                            "char id=9608 .+", "char id=9608 x="+(w-2)+" y="+(h-2)+" width=1 height=1 xoffset=0 yoffset=0 xadvance=1 page=0 chnl=15"),
+                                    "char id=9608 .+", "char id=9608 x=" + (w - 2) + " y=" + (h - 2) + " width=1 height=1 xoffset=0 yoffset=0 xadvance=1 page=0 chnl=15"),
                             false, "UTF-8");
-                } else if(text.contains("char id=0 ")){
+                } else if (text.contains("char id=0 ")) {
                     fnt.writeString(text.replaceFirst(
-                            "char id=0 .+", "char id=9608 x="+(w-2)+" y="+(h-2)+" width=1 height=1 xoffset=0 yoffset=0 xadvance=1 page=0 chnl=15"),
+                                    "char id=0 .+", "char id=9608 x=" + (w - 2) + " y=" + (h - 2) + " width=1 height=1 xoffset=0 yoffset=0 xadvance=1 page=0 chnl=15"),
                             false, "UTF-8");
                 } else {
                     fnt.writeString(text.replaceFirst(
-                                    "(chars count=\\d+(\\R))", "$1char id=9608 x="+(w-2)+" y="+(h-2)+" width=1 height=1 xoffset=0 yoffset=0 xadvance=1 page=0 chnl=15$2"),
+                                    "(chars count=\\d+(\\R))", "$1char id=9608 x=" + (w - 2) + " y=" + (h - 2) + " width=1 height=1 xoffset=0 yoffset=0 xadvance=1 page=0 chnl=15$2"),
                             false, "UTF-8");
                     System.out.println("Remember to increment the chars count in " + fnt.name() + " !");
 
+                }
+            } else {
+                fnt = fontsHandle.child(fh.nameWithoutExtension() + ".json");
+                if (fnt.exists()) {
+                    String text = fnt.readString("UTF-8");
+                    int idx = text.indexOf("\"glyphs\":[");
+                    if(idx < 0) continue PER_CHILD;
+                    idx += "\"glyphs\":[".length();
+                    sizeMatcher.setTarget(text);
+                    if(!sizeMatcher.find())
+                        continue PER_CHILD;
+                    double size = Double.parseDouble(sizeMatcher.group(1));
+                    String start = text.substring(0, idx), end = text.substring(idx);
+                    text = start + "{\"unicode\":9608,\"advance\":0.21142578125," +
+                            "\"planeBounds\":{\"left\":0.0,\"bottom\":0.0," +
+                            "\"right\":"+(1.0/size)+",\"top\":"+(1.0/size)+"}," +
+                            "\"atlasBounds\":{\"left\":"+(w-2)+",\"bottom\":"+(w-2)+
+                            ",\"right\":"+(w-1)+",\"top\":"+(h-1)+"}}," + end;
+                    fnt.writeString(text, false, "UTF-8");
                 }
             }
         }
