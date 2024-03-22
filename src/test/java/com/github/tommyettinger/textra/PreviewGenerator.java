@@ -59,20 +59,27 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        Font[] fonts = {KnownFonts.getCozette().useIntegerPositions(true)};
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
 //        Font[] all = KnownFonts.getAll(), sdf = KnownFonts.getAllSDF();
+//        Font[] all = new Font[3];
         Font[] all = new Font[9];
         int faceIdx = 0;
+//        String[] fullFaceNames = new String[]{"Iosevka Slab"};
+//        String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", ""};
+//        for(String face : new String[]{"Iosevka-Slab"}){
         String[] fullFaceNames = new String[]{"Gentium Un-Italic", "Iosevka", "Iosevka Slab"};
         String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", ""};
         for(String face : new String[]{"GentiumUnItalic", "Iosevka", "Iosevka-Slab"}){
             int fieldIdx = 0;
             for(String field : new String[]{"msdf", "sdf", "standard"}){
                 all[faceIdx * 3 + fieldIdx] = new Font("experimental/"+face+"-"+field+".json",
-                        new TextureRegion(new Texture("experimental/"+face+"-"+field+".png")), 0f, 0f, 0f, 0f, false, true)
-                        .scaleTo(faceIdx == 0 ? 50 : 10, 24f).setName(fullFaceNames[faceIdx] + fullFieldNames[fieldIdx]);
+                        new TextureRegion(new Texture("experimental/"+face+"-"+field+".png")), 0f, 0f, 0f, 0f, true, true)
+//                        .scaleTo(10, 24f)
+                        .scaleTo(faceIdx == 0 ? 50 : 10, 24f)
+                        .setName(fullFaceNames[faceIdx] + fullFieldNames[fieldIdx]);
                 fieldIdx++;
             }
             faceIdx++;
         }
+//        Font[] sdf = {new Font(all[1])};
         Font[] sdf = {new Font(all[1]), new Font(all[4]), new Font(all[7])};
         for(Font f : sdf) {
             f.setDistanceField(Font.DistanceFieldType.SDF_OUTLINE);

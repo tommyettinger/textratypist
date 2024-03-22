@@ -2097,7 +2097,7 @@ public class Font implements Disposable {
             underLength = strikeLength = 0.0f;
             underX = strikeX = -0.4f;
         }
-        fancyY = 0.1f;
+        fancyY = 0.0f;
 
 //        strikeY = ascender * 0.5f;
 
@@ -2126,7 +2126,7 @@ public class Font implements Disposable {
             }
             if(planeBounds != null) {
                 xo = planeBounds.getFloat("left", 0f) * size;
-                yo = size -planeBounds.getFloat("top", 0f) * size;
+                yo = size - planeBounds.getFloat("top", 0f) * size;
             } else {
                 xo = yo = 0f;
             }
@@ -2183,21 +2183,15 @@ public class Font implements Disposable {
         }
         solidBlock = '█';
         if (makeGridGlyphs) {
-            GlyphRegion block = mapping.get(solidBlock, null);
-//            if(block == null) {
-                mapping.put(solidBlock, block = new GlyphRegion(new TextureRegion(textureRegion,
-                        textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1)));
-//            }
+            GlyphRegion block = new GlyphRegion(new TextureRegion(textureRegion,
+                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), 0, cellHeight, cellWidth);
+            mapping.put(solidBlock, block);
             for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
-                GlyphRegion gr = new GlyphRegion(block);
-                gr.offsetX = Float.NaN;
-                gr.xAdvance = cellWidth;
-                gr.offsetY = cellHeight;
-                mapping.put(i, gr);
+                mapping.put(i, new GlyphRegion(block, Float.NaN, cellHeight, cellWidth));
             }
         } else if (!mapping.containsKey(solidBlock)) {
             mapping.put(solidBlock, new GlyphRegion(new TextureRegion(textureRegion,
-                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), Float.NaN, cellHeight, cellWidth));
+                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), 0, cellHeight, cellWidth));
         }
         defaultValue = mapping.get(' ', mapping.get(0));
         originalCellWidth = cellWidth;
