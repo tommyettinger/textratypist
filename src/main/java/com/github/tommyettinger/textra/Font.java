@@ -2048,9 +2048,6 @@ public class Font implements Disposable {
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs,
                 boolean ignoredStructuredJsonFlag) {
         this.parents = Array.with(textureRegion);
-        if (distanceField != DistanceFieldType.STANDARD) {
-            textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
         this.xAdjust = xAdjust;
         this.yAdjust = yAdjust;
         this.widthAdjust = widthAdjust;
@@ -2065,7 +2062,6 @@ public class Font implements Disposable {
         } else {
             throw new RuntimeException("Missing font file: " + jsonName);
         }
-        int pages = 1;
 
         JsonValue atlas = fnt.get("atlas");
         String dfType = atlas.getString("type", "");
@@ -2080,6 +2076,10 @@ public class Font implements Disposable {
         else
             this.setDistanceField(DistanceFieldType.STANDARD);
 
+        if (distanceField != DistanceFieldType.STANDARD) {
+            textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
+
         float size = atlas.getFloat("size", 16f);
 
         JsonValue metrics = fnt.get("metrics");
@@ -2090,7 +2090,7 @@ public class Font implements Disposable {
         descent = size * atlas.getFloat("descender", -0.25f);
 //        underY = atlas.getFloat("underlineY", -0.1f);
         strikeBreadth = underBreadth = atlas.getFloat("underlineThickness", 0.05f);
-        underLength = strikeLength = 0.5f;
+        underLength = strikeLength = 0.0f;
         underX = strikeX = -0.4f;
         fancyY = 1.5f;
 //        strikeY = ascender * 0.5f;
@@ -2120,7 +2120,7 @@ public class Font implements Disposable {
             }
             if(planeBounds != null) {
                 xo = planeBounds.getFloat("left", 0f) * size;
-                yo = -planeBounds.getFloat("top", 0f) * size;
+                yo = size -planeBounds.getFloat("top", 0f) * size;
             } else {
                 xo = yo = 0f;
             }
