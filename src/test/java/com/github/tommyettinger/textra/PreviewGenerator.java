@@ -61,16 +61,18 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        Font[] fonts = {KnownFonts.getGentiumSDF()};
 //        Font[] all = KnownFonts.getAll(), sdf = KnownFonts.getAllSDF();
 //        Font[] all = new Font[3];
-        Font[] all = new Font[12];
-        int faceIdx = 0;
 //        String[] fullFaceNames = new String[]{"Iosevka Slab"};
 //        String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", ""};
 //        for(String face : new String[]{"Iosevka-Slab"}){
         String[] fullFaceNames = new String[]{"Gentium Un-Italic", "Iosevka", "Iosevka Slab", "Libertinus Serif"};
-        String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", ""};
+        String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", " (PSDF)", ""};
+        Font[] sdf = new Font[fullFaceNames.length];
+        Font[] all = new Font[fullFaceNames.length * fullFieldNames.length];
+        int faceIdx = 0;
+        int sdfIdx = 0;
         for(String face : new String[]{"GentiumUnItalic", "Iosevka", "Iosevka-Slab", "LibertinusSerif"}){
             int fieldIdx = 0;
-            for(String field : new String[]{"msdf", "sdf", "standard"}){
+            for(String field : new String[]{"msdf", "sdf", "psdf", "standard"}){
                 all[faceIdx * 3 + fieldIdx] = new Font("experimental/"+face+"-"+field+".json",
                         new TextureRegion(new Texture("experimental/"+face+"-"+field+".png")), 0f, 0f, 0f, 0f, true, true);
 //                        .scaleTo(10, 24f)
@@ -78,12 +80,13 @@ public class PreviewGenerator extends ApplicationAdapter {
                 all[faceIdx * 3 + fieldIdx]
                         .scaleTo(24f * all[faceIdx * 3 + fieldIdx].cellWidth / all[faceIdx * 3 + fieldIdx].cellHeight, 24f)
                         .setName(fullFaceNames[faceIdx] + fullFieldNames[fieldIdx]);
+                if(fieldIdx == 1)
+                    sdf[sdfIdx++] = new Font(all[faceIdx * 3 + fieldIdx]);
                 fieldIdx++;
             }
             faceIdx++;
         }
 //        Font[] sdf = {new Font(all[1])};
-        Font[] sdf = {new Font(all[1]), new Font(all[4]), new Font(all[7]), new Font(all[10])};
         for(Font f : sdf) {
             f.setDistanceField(Font.DistanceFieldType.SDF_OUTLINE);
             f.name = f.name.replace("(SDF)", "(SDF_OUTLINE)");
