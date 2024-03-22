@@ -65,14 +65,14 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", ""};
 //        for(String face : new String[]{"Iosevka-Slab"}){
         String[] fullFaceNames = new String[]{"Gentium Un-Italic", "Iosevka", "Iosevka Slab", "Libertinus Serif"};
-        String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", " (PSDF)", ""};
+        String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", ""};
         Font[] sdf = new Font[fullFaceNames.length];
         Font[] all = new Font[fullFaceNames.length * fullFieldNames.length];
         int faceIdx = 0;
         int sdfIdx = 0;
         for(String face : new String[]{"GentiumUnItalic", "Iosevka", "Iosevka-Slab", "LibertinusSerif"}){
             int fieldIdx = 0;
-            for(String field : new String[]{"msdf", "sdf", "psdf", "standard"}){
+            for(String field : new String[]{"msdf", "sdf", "standard"}){
                 all[faceIdx * 3 + fieldIdx] = new Font("experimental/"+face+"-"+field+".json",
                         new TextureRegion(new Texture("experimental/"+face+"-"+field+".png")), 0f, 0f, 0f, 0f, true, true);
 //                        .scaleTo(10, 24f)

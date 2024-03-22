@@ -25,29 +25,27 @@ gwt {
   compiler.strict = true
   compiler.disableCastChecking = true
   //// The next line can be useful to uncomment if you want output that hasn't been obfuscated.
-//  compiler.style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED
+//  compiler.style = org.docstr.gradle.plugins.gwt.Style.DETAILED
 
   sourceLevel = 1.11
 }
 
 dependencies {
   implementation "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
-  implementation "com.github.tommyettinger:gdx-backend-gwt:1.1210.0"
-  implementation "com.github.tommyettinger:gdx-backend-gwt:1.1210.0:sources"
+  implementation "com.github.tommyettinger:gdx-backend-gwt:1.1210.1"
+  implementation "com.github.tommyettinger:gdx-backend-gwt:1.1210.1:sources"
   implementation "com.github.tommyettinger:regexodus:$regExodusVersion:sources"
   implementation "com.github.tommyettinger:textratypist:$textratypistVersion:sources"
   implementation "com.google.jsinterop:jsinterop-annotations:2.0.2:sources"
 
-  implementation 'systems.manifold:manifold-rt:2023.1.33:sources'
-  implementation 'systems.manifold:manifold-ext-rt:2023.1.33:sources'
   implementation project(':core')
 }
 
 import org.akhikhl.gretty.AppBeforeIntegrationTestTask
-import org.wisepersist.gradle.plugins.gwt.GwtSuperDev
+import org.docstr.gradle.plugins.gwt.GwtSuperDev
 
 gretty.httpPort = 8080
-gretty.resourceBase = project.buildDir.path + "/gwt/draftOut"
+gretty.resourceBase = project.projectDir.path + "/build/gwt/draftOut"
 gretty.contextPath = "/"
 gretty.portPropertiesFileName = "TEMP_PORTS.properties"
 
@@ -63,6 +61,7 @@ task startHttpServer (dependsOn: [draftCompileGwt]) {
     }
   }
 }
+
 task beforeRun(type: AppBeforeIntegrationTestTask, dependsOn: startHttpServer) {
   // The next line allows ports to be reused instead of
   // needing a process to be manually terminated.
@@ -135,7 +134,6 @@ task addSource {
   doLast {
     sourceSets.main.compileClasspath += files(
             project(':core').sourceSets.main.allJava.srcDirs
-//            , project(':core').buildDir('generated/manifold/')
     )
   }
 }

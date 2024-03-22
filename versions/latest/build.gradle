@@ -10,7 +10,7 @@ buildscript {
   }
   dependencies {
     classpath "com.android.tools.build:gradle:$androidPluginVersion"
-    classpath "org.wisepersist:gwt-gradle-plugin:$gwtPluginVersion"
+    classpath "org.docstr:gwt-gradle-plugin:$gwtPluginVersion"
 
   }
 }
@@ -30,7 +30,7 @@ configure(subprojects - project(':android')) {
 
 subprojects {
   version = '1.0.0'
-  ext.appName = 'v0-9-0'
+  ext.appName = 'latest'
   repositories {
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }
@@ -44,4 +44,4 @@ subprojects {
   }
 }
 
-eclipse.project.name = 'v0-9-0' + '-parent'
+eclipse.project.name = 'latest' + '-parent'
