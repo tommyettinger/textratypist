@@ -24,11 +24,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import regexodus.Matcher;
-import regexodus.Pattern;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 
 /**
@@ -51,7 +47,6 @@ public class BlockStamper  extends ApplicationAdapter {
 
     @Override
     public void create() {
-        Matcher sizeMatcher = Pattern.compile("\"size\":([0-9\\.]+)").matcher();
         PixmapIO.PNG png = new PixmapIO.PNG();
         png.setFlipY(false);
 //        FileHandle fontsHandle = Gdx.files.local("knownFonts");
@@ -108,25 +103,6 @@ public class BlockStamper  extends ApplicationAdapter {
                             false, "UTF-8");
                     System.out.println("Remember to increment the chars count in " + fnt.name() + " !");
 
-                }
-            } else {
-                fnt = fontsHandle.child(fh.nameWithoutExtension() + ".json");
-                if (fnt.exists()) {
-                    String text = fnt.readString("UTF-8");
-                    int idx = text.indexOf("\"glyphs\":[");
-                    if(idx < 0) continue PER_CHILD;
-                    idx += "\"glyphs\":[".length();
-                    sizeMatcher.setTarget(text);
-                    if(!sizeMatcher.find())
-                        continue PER_CHILD;
-                    double size = Double.parseDouble(sizeMatcher.group(1));
-                    String start = text.substring(0, idx), end = text.substring(idx);
-                    text = start + "{\"unicode\":9608,\"advance\":0.21142578125," +
-                            "\"planeBounds\":{\"left\":0.0,\"bottom\":0.0," +
-                            "\"right\":"+(1.0/size)+",\"top\":"+(1.0/size)+"}," +
-                            "\"atlasBounds\":{\"left\":"+(w-2)+",\"bottom\":"+(w-2)+
-                            ",\"right\":"+(w-1)+",\"top\":"+(h-1)+"}}," + end;
-                    fnt.writeString(text, false, "UTF-8");
                 }
             }
         }

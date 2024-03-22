@@ -2088,11 +2088,17 @@ public class Font implements Disposable {
         originalCellHeight = cellHeight = size * atlas.getFloat("lineHeight", 1f) + heightAdjust;
         float ascender = atlas.getFloat("ascender", 0.8f);
         descent = size * atlas.getFloat("descender", -0.25f);
-//        underY = atlas.getFloat("underlineY", -0.1f);
+        underY = atlas.getFloat("underlineY", -0.1f);
         strikeBreadth = underBreadth = atlas.getFloat("underlineThickness", 0.05f);
-        underLength = strikeLength = 0.0f;
-        underX = strikeX = -0.4f;
-        fancyY = 1.5f;
+        if(makeGridGlyphs){
+            underLength = strikeLength = 0.5f;
+            underX = strikeX = -0.25f;
+        } else {
+            underLength = strikeLength = 0.0f;
+            underX = strikeX = -0.4f;
+        }
+        fancyY = 0.1f;
+
 //        strikeY = ascender * 0.5f;
 
         JsonValue glyphs = fnt.get("glyphs"), planeBounds, atlasBounds;
@@ -2175,15 +2181,13 @@ public class Font implements Disposable {
         if (mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
         }
-        solidBlock =
-                mapping.containsKey(9608) ? '█' : '\uFFFF';
+        solidBlock = '█';
         if (makeGridGlyphs) {
             GlyphRegion block = mapping.get(solidBlock, null);
-            if(block == null) {
-                solidBlock = '█';
+//            if(block == null) {
                 mapping.put(solidBlock, block = new GlyphRegion(new TextureRegion(textureRegion,
                         textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1)));
-            }
+//            }
             for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
                 GlyphRegion gr = new GlyphRegion(block);
                 gr.offsetX = Float.NaN;
@@ -2192,9 +2196,8 @@ public class Font implements Disposable {
                 mapping.put(i, gr);
             }
         } else if (!mapping.containsKey(solidBlock)) {
-            solidBlock = '█';
             mapping.put(solidBlock, new GlyphRegion(new TextureRegion(textureRegion,
-                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1)));
+                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), Float.NaN, cellHeight, cellWidth));
         }
         defaultValue = mapping.get(' ', mapping.get(0));
         originalCellWidth = cellWidth;
