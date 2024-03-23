@@ -145,14 +145,11 @@ public class TransparencyProcessor extends ApplicationAdapter {
                 deflater.reset();
 
                 int lineLen = pixmap.getWidth();
-//        byte[] lineOut, curLine, prevLine;
                 byte[] curLine, prevLine;
                 if (curLineBytes == null) {
-//            lineOut = (lineOutBytes = new ByteArray(lineLen)).items;
                     curLine = (curLineBytes = new ByteArray(lineLen)).items;
                     prevLine = (prevLineBytes = new ByteArray(lineLen)).items;
                 } else {
-//            lineOut = lineOutBytes.ensureCapacity(lineLen);
                     curLine = curLineBytes.ensureCapacity(lineLen);
                     prevLine = prevLineBytes.ensureCapacity(lineLen);
                     for (int i = 0, n = lastLineLen; i < n; i++) {
