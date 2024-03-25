@@ -2091,8 +2091,8 @@ public class Font implements Disposable {
         underY = atlas.getFloat("underlineY", -0.1f);
         strikeBreadth = underBreadth = atlas.getFloat("underlineThickness", 0.05f);
         if(makeGridGlyphs){
-            underLength = strikeLength = 0.5f;
-            underX = strikeX = -0.25f;
+            underLength = strikeLength = 0.2f;
+            underX = strikeX = -0.1f;
         } else {
             underLength = strikeLength = 0.0f;
             underX = strikeX = -0.4f;
@@ -2109,7 +2109,7 @@ public class Font implements Disposable {
         for (JsonValue.JsonIterator it = glyphs.iterator(); it.hasNext(); ) {
             JsonValue current = it.next();
             int c =    current.getInt("unicode", 65535);
-            float a =  current.getFloat("advance", size) * size;
+            float a =  current.getFloat("advance", 1f) * size;
             planeBounds = current.get("planeBounds");
             atlasBounds = current.get("atlasBounds");
             float x, y, w, h, xo, yo;
@@ -2193,7 +2193,7 @@ public class Font implements Disposable {
             mapping.put(solidBlock, new GlyphRegion(new TextureRegion(textureRegion,
                     textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), 0, cellHeight, cellWidth));
         }
-        defaultValue = mapping.get(' ', mapping.get(0));
+        defaultValue = mapping.get(' ', mapping.values().next());
         originalCellWidth = cellWidth;
         originalCellHeight = cellHeight;
         isMono = minWidth == cellWidth && kerning == null;
