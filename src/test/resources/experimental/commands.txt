@@ -24,3 +24,5 @@ msdf-atlas-gen.exe -font LibertinusSerif-Regular.otf -charset LibertinusSerif-Re
 msdf-atlas-gen.exe -font LibertinusSerif-Regular.otf -charset LibertinusSerif-Regular.txt -type sdf      -imageout LibertinusSerif-sdf.png      -json LibertinusSerif-sdf.json      -pxrange 8 -dimensions 2048 2048 -size  52 &&
 msdf-atlas-gen.exe -font LibertinusSerif-Regular.otf -charset LibertinusSerif-Regular.txt -type psdf     -imageout LibertinusSerif-psdf.png     -json LibertinusSerif-psdf.json     -pxrange 8 -dimensions 2048 2048 -size  52 &&
 msdf-atlas-gen.exe -font LibertinusSerif-Regular.otf -charset LibertinusSerif-Regular.txt -type softmask -imageout LibertinusSerif-standard.png -json LibertinusSerif-standard.json -pxrange 8 -dimensions 2048 2048 -size  60
+
+java -jar FontWriter-1.0.0.jar input\Kingthings_Petrock.ttf msdf 230

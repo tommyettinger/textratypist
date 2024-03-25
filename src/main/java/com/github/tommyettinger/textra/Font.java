@@ -2076,10 +2076,6 @@ public class Font implements Disposable {
         else
             this.setDistanceField(DistanceFieldType.STANDARD);
 
-        if (distanceField != DistanceFieldType.STANDARD) {
-            textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
-
         float size = atlas.getFloat("size", 16f);
 
         JsonValue metrics = fnt.get("metrics");
@@ -2196,6 +2192,15 @@ public class Font implements Disposable {
         defaultValue = mapping.get(' ', mapping.values().next());
         originalCellWidth = cellWidth;
         originalCellHeight = cellHeight;
+
+        if (distanceField != DistanceFieldType.STANDARD) {
+            textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            if(distanceField == DistanceFieldType.MSDF)
+                distanceFieldCrispness = -8f / (float)Math.log(1f/originalCellHeight);
+            else if(distanceField == DistanceFieldType.SDF)
+                distanceFieldCrispness = -1.2f / (float)Math.log(1f/originalCellHeight);
+        }
+
         isMono = minWidth == cellWidth && kerning == null;
         integerPosition = false;
     }

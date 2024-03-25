@@ -32,7 +32,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[ ],"
             + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[ ], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
             + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[ ],"
-            + "\n[%^small caps][*]Special[*] [%^whiten][/]Effects[/][%]: [%?shadow]drop shadow[%], [%?jostle]RaNsoM nOtE[%], [%?error]spell check[%],",
+            + "\n[%^small caps][*]Special[*][%] [%^whiten][/]Effects[/][%]: [%?shadow]drop shadow[%], [%?jostle]RaNsoM nOtE[%], [%?error]spell check[%]...",
     distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[ ]!",
     emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[ ] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
 
@@ -67,7 +67,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         String[] fullFaceNames = new String[]{"Gentium Un-Italic", "Iosevka", "Iosevka Slab", "Libertinus Serif"};
         String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", ""};
         Font[] sdf = new Font[fullFaceNames.length];
-        Font[] all = new Font[fullFaceNames.length * fullFieldNames.length];
+        Font[] all = new Font[fullFaceNames.length * fullFieldNames.length + 1];
         int faceIdx = 0;
         int sdfIdx = 0;
         for(String face : new String[]{"GentiumUnItalic", "Iosevka", "Iosevka-Slab", "LibertinusSerif"}){
@@ -86,7 +86,13 @@ public class PreviewGenerator extends ApplicationAdapter {
             }
             faceIdx++;
         }
-//        Font[] sdf = {new Font(all[1])};
+        all[all.length-1] = new Font("experimental/Kingthings_PetRock-msdf.json",
+                new TextureRegion(new Texture("experimental/Kingthings_PetRock-msdf.png")), 0, 0, 0, 0, true, true)
+                .setTextureFilter()
+                .setName("Kingthings PetRock (MSDF)");
+        all[all.length-1].scaleTo(all[all.length-1].originalCellWidth*24f/all[all.length-1].originalCellHeight, 24f);
+
+        //        Font[] sdf = {new Font(all[1])};
         for(Font f : sdf) {
             f.setDistanceField(Font.DistanceFieldType.SDF_OUTLINE);
             f.name = f.name.replace("(SDF)", "(SDF_OUTLINE)");
