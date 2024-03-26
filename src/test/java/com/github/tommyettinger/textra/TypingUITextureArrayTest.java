@@ -57,7 +57,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 	@Override
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
-//		profiler.enable();
+		profiler.enable();
 		skin = new FreeTypeSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));

@@ -58,7 +58,7 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 	@Override
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
-//		profiler.enable();
+		profiler.enable();
 		skin = new FreeTypeSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
@@ -90,8 +90,8 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 			if(f != null)
 				KnownFonts.addEmoji(f);
 		}
-		Batch batch = new SpriteBatch(4000);
-//		Batch batch = new ArrayTextureSpriteBatch(4000, 2048, 2048, 8, GL30.GL_NEAREST, GL30.GL_LINEAR);
+//		Batch batch = new SpriteBatch(4000);
+		Batch batch = new ArrayTextureSpriteBatch(1000, 2048, 2048, 8, GL30.GL_NEAREST, GL30.GL_LINEAR);
 		stage = new Stage(new ScreenViewport(), batch);
 		Gdx.input.setInputProcessor(stage);
 
