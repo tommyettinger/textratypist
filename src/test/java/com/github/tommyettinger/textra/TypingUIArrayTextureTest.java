@@ -23,7 +23,10 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.MathUtils;
@@ -38,7 +41,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.stripe.FreeTypeSkin;
 
-public class TypingUITest extends InputAdapter implements ApplicationListener {
+public class TypingUIArrayTextureTest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
 		"And another one3", "The meaning of life3", "Is hard to come by3", "This is a list entry4", "And another one4",
@@ -87,7 +90,9 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 			if(f != null)
 				KnownFonts.addEmoji(f);
 		}
-		stage = new Stage(new ScreenViewport());
+		Batch batch = new SpriteBatch(4000);
+//		Batch batch = new ArrayTextureSpriteBatch(4000, 2048, 2048, 8, GL30.GL_NEAREST, GL30.GL_LINEAR);
+		stage = new Stage(new ScreenViewport(), batch);
 		Gdx.input.setInputProcessor(stage);
 
 //		stage.setDebugAll(true);
@@ -289,7 +294,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
 		config.useVsync(false);
 		config.setForegroundFPS(0);
-		new Lwjgl3Application(new TypingUITest(), config);
+		config.setOpenGLEmulation(Lwjgl3ApplicationConfiguration.GLEmulation.GL30, 3, 0);
+		new Lwjgl3Application(new TypingUIArrayTextureTest(), config);
 	}
 
 }
