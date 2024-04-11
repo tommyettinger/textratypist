@@ -18,7 +18,6 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -29,18 +28,21 @@ public class BitmapFontSupport {
     public static class JsonFontData extends BitmapFont.BitmapFontData {
         public String path = null;
 
-        public JsonFontData(){
+        public JsonFontData() {
             super();
         }
-        public JsonFontData(FileHandle jsonFont){
+
+        public JsonFontData(FileHandle jsonFont) {
             super();
             load(jsonFont, false);
         }
-        public JsonFontData(FileHandle jsonFont, String imagePath){
+
+        public JsonFontData(FileHandle jsonFont, String imagePath) {
             super();
             path = imagePath;
             load(jsonFont, false);
         }
+
         @Override
         public void load(FileHandle jsonFont, boolean flip) {
             if (imagePaths != null) throw new IllegalStateException("Already loaded.");
@@ -48,24 +50,24 @@ public class BitmapFontSupport {
                 name = jsonFont.nameWithoutExtension();
 
 
-            JsonValue fnt;
-            JsonReader reader = new JsonReader();
-            if (jsonFont.exists()) {
-                fnt = reader.parse(jsonFont);
-            } else {
-                throw new RuntimeException("Missing font file: " + jsonFont);
-            }
+                JsonValue fnt;
+                JsonReader reader = new JsonReader();
+                if (jsonFont.exists()) {
+                    fnt = reader.parse(jsonFont);
+                } else {
+                    throw new RuntimeException("Missing font file: " + jsonFont);
+                }
                 if (fnt.isEmpty()) throw new GdxRuntimeException("File is empty.");
 
-            JsonValue atlas = fnt.get("atlas");
-//            String dfType = atlas.getString("type", "");
-//            if("msdf".equals(dfType) || "mtsdf".equals(dfType) || "sdf".equals(dfType) || "psdf".equals(dfType)) {
-//                throw new RuntimeException("Distance field fonts cannot be loaded; use a 'standard' font.");
-//            }
+                JsonValue atlas = fnt.get("atlas");
+//                String dfType = atlas.getString("type", "");
+//                if("msdf".equals(dfType) || "mtsdf".equals(dfType) || "sdf".equals(dfType) || "psdf".equals(dfType)) {
+//                    throw new RuntimeException("Distance field fonts cannot be loaded; use a 'standard' font.");
+//                }
 
-            float size = atlas.getFloat("size", 16f);
-            int width  = atlas.getInt("width", 2048);
-            int height = atlas.getInt("height", 2048);
+                float size = atlas.getFloat("size", 16f);
+                int width = atlas.getInt("width", 2048);
+                int height = atlas.getInt("height", 2048);
 
                 padTop = 1;
                 padRight = 1;
@@ -83,7 +85,7 @@ public class BitmapFontSupport {
                 float baseLine = round(-descent);
                 descent += padBottom;
 
-                if(path != null)
+                if (path != null)
                     imagePaths = new String[]{jsonFont.sibling(path).path().replaceAll("\\\\", "/")};
 
                 JsonValue glyphs = fnt.get("glyphs"), planeBounds, atlasBounds;
@@ -105,10 +107,10 @@ public class BitmapFontSupport {
                     atlasBounds = current.get("atlasBounds");
                     float x, y, w, h, xo, yo;
                     if (atlasBounds != null) {
-                        glyph.srcX = (int)(x = atlasBounds.getFloat("left", 0f));
-                        glyph.width = (int)(w = atlasBounds.getFloat("right", 0f) - x);
-                        glyph.srcY = (int)(y = height - atlasBounds.getFloat("top", 0f));
-                        glyph.height = (int)(h = height - atlasBounds.getFloat("bottom", 0f) - y);
+                        glyph.srcX = (int) (x = atlasBounds.getFloat("left", 0f));
+                        glyph.width = (int) (w = atlasBounds.getFloat("right", 0f) - x);
+                        glyph.srcY = (int) (y = height - atlasBounds.getFloat("top", 0f));
+                        glyph.height = (int) (h = height - atlasBounds.getFloat("bottom", 0f) - y);
                     } else {
                         x = y = w = h = 0f;
                     }
@@ -122,25 +124,20 @@ public class BitmapFontSupport {
 //                    if (glyph.width > 0 && glyph.height > 0) descent = Math.min(baseLine + glyph.yoffset, descent);
                 }
 
-//                while (true) {
-//                    line = reader.readLine();
-//                    if (line == null) break;
-//                    if (!line.startsWith("kerning ")) break;
-//
-//                    StringTokenizer tokens = new StringTokenizer(line, " =");
-//                    tokens.nextToken();
-//                    tokens.nextToken();
-//                    int first = Integer.parseInt(tokens.nextToken());
-//                    tokens.nextToken();
-//                    int second = Integer.parseInt(tokens.nextToken());
-//                    if (first < 0 || first > Character.MAX_VALUE || second < 0 || second > Character.MAX_VALUE) continue;
-//                    BitmapFont.Glyph glyph = getGlyph((char)first);
-//                    tokens.nextToken();
-//                    int amount = Integer.parseInt(tokens.nextToken());
-//                    if (glyph != null) { // Kernings may exist for glyph pairs not contained in the font.
-//                        glyph.setKerning(second, amount);
-//                    }
-//                }
+                JsonValue kern = fnt.get("kerning");
+                if (kern != null && !kern.isEmpty()) {
+                    for (JsonValue.JsonIterator it = kern.iterator(); it.hasNext(); ) {
+                        JsonValue current = it.next();
+                        int first = current.getInt("unicode1", 65535);
+                        int second = current.getInt("unicode2", 65535);
+                        if (first < 0 || first > Character.MAX_VALUE || second < 0 || second > Character.MAX_VALUE)
+                            continue;
+                        BitmapFont.Glyph glyph = getGlyph((char) first);
+                        float amount = current.getFloat("advance", 0f);
+                        if (glyph != null)
+                            glyph.setKerning(second, round(amount));
+                    }
+                }
 
                 BitmapFont.Glyph spaceGlyph = getGlyph(' ');
                 if (spaceGlyph == null) {
@@ -152,8 +149,8 @@ public class BitmapFontSupport {
                     setGlyph(' ', spaceGlyph);
                 }
                 if (spaceGlyph.width == 0) {
-                    spaceGlyph.width = (int)(padLeft + spaceGlyph.xadvance + padRight);
-                    spaceGlyph.xoffset = (int)-padLeft;
+                    spaceGlyph.width = (int) (padLeft + spaceGlyph.xadvance + padRight);
+                    spaceGlyph.xoffset = (int) -padLeft;
                 }
                 spaceXadvance = spaceGlyph.xadvance;
 

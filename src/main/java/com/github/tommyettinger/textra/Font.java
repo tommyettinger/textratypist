@@ -2163,7 +2163,7 @@ public class Font implements Disposable {
                 }
 
             }
-        };
+        }
         // Newlines shouldn't render.
         if (mapping.containsKey('\n')) {
             GlyphRegion gr = mapping.get('\n');
