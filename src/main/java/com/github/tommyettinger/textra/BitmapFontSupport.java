@@ -18,6 +18,7 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -25,6 +26,64 @@ import com.badlogic.gdx.utils.JsonValue;
 import static com.badlogic.gdx.math.MathUtils.round;
 
 public class BitmapFontSupport {
+
+    /**
+     * Creates a BitmapFont by loading it from a Structured JSON Font, which is typically a .json file produced by
+     * <a href="https://github.com/tommyettinger/fontwriter">FontWriter</a> or a related tool. This overload takes
+     * a TextureRegion for the image the JSON needs; this region is often part of an atlas.
+     * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json file)
+     * @param region a TextureRegion, often part of a shared atlas, holding the image the JSON needs
+     * @return a new BitmapFont loaded from {@code jsonFont}
+     */
+    public static BitmapFont loadStructuredJson(FileHandle jsonFont, TextureRegion region) {
+        JsonFontData data = new JsonFontData(jsonFont);
+        return new BitmapFont(data, region, false);
+    }
+
+    /**
+     * Creates a BitmapFont by loading it from a Structured JSON Font, which is typically a .json file produced by
+     * <a href="https://github.com/tommyettinger/fontwriter">FontWriter</a> or a related tool. This overload takes
+     * a TextureRegion for the image the JSON needs; this region is often part of an atlas.
+     * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json file)
+     * @param region a TextureRegion, often part of a shared atlas, holding the image the JSON needs
+     * @param integerPositions if true, positions will be rounded to integer positions; default to false
+     * @return a new BitmapFont loaded from {@code jsonFont}
+     */
+    public static BitmapFont loadStructuredJson(FileHandle jsonFont, TextureRegion region, boolean integerPositions) {
+        JsonFontData data = new JsonFontData(jsonFont);
+        return new BitmapFont(data, region, integerPositions);
+    }
+
+    /**
+     * Creates a BitmapFont by loading it from a Structured JSON Font, which is typically a .json file produced by
+     * <a href="https://github.com/tommyettinger/fontwriter">FontWriter</a> or a related tool. This overload takes
+     * a relative path (from {@code jsonFont}) to the necessary image file, with the path as a String.
+     * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json file)
+     * @param imagePath a String holding the relative path from {@code jsonFont} to the image file the JSON needs
+     * @return a new BitmapFont loaded from {@code jsonFont}
+     */
+    public static BitmapFont loadStructuredJson(FileHandle jsonFont, String imagePath) {
+        JsonFontData data = new JsonFontData(jsonFont, imagePath);
+        return new BitmapFont(data, (TextureRegion) null, false);
+    }
+
+    /**
+     * Creates a BitmapFont by loading it from a Structured JSON Font, which is typically a .json file produced by
+     * <a href="https://github.com/tommyettinger/fontwriter">FontWriter</a> or a related tool. This overload takes
+     * a relative path (from {@code jsonFont}) to the necessary image file, with the path as a String.
+     * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json file)
+     * @param imagePath a String holding the relative path from {@code jsonFont} to the image file the JSON needs
+     * @param integerPositions if true, positions will be rounded to integer positions; default to false
+     * @return a new BitmapFont loaded from {@code jsonFont}
+     */
+    public static BitmapFont loadStructuredJson(FileHandle jsonFont, String imagePath, boolean integerPositions) {
+        JsonFontData data = new JsonFontData(jsonFont, imagePath);
+        return new BitmapFont(data, (TextureRegion) null, integerPositions);
+    }
+
+    /**
+     * Mainly for internal use; allows loading BitmapFontData from a Structured JSON Font instead of a .fnt file.
+     */
     public static class JsonFontData extends BitmapFont.BitmapFontData {
         public String path = null;
 
