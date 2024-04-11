@@ -122,6 +122,7 @@ public final class KnownFonts implements LifecycleListener {
                         instance.prefix + "AStarry-standard.png", STANDARD, 0, 24, 0, 0, true)
                         .scaleTo(8, 8).setBoldStrength(0.5f)
                         .setDescent(-12f)
+                        .setLineMetrics(0f, -0.25f, 0f, 0f)
                         .setInlineImageMetrics(-4f, 24f, 0f)
                         .setTextureFilter().setName("A Starry");
             } catch (Exception e) {

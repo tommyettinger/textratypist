@@ -78,9 +78,11 @@ public class LabelRotationTest extends ApplicationAdapter {
 //        BitmapFont font = new BitmapFont(Gdx.files.internal("GoNotoUniversal-standard.fnt"), Gdx.files.internal("GoNotoUniversal-standard.png"), false);
         BitmapFont font = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("experimental/GoNotoUniversal-standard.json"), "GoNotoUniversal-standard.png");
         Font tFont = new Font("experimental/GoNotoUniversal-standard.json", new TextureRegion(new Texture("experimental/GoNotoUniversal-standard.png")), 0, 0, 0, 0, false, true);
-//        Font tFont = new Font(font);
+        Font tFont2 = new Font(font);
         tFont.scale(0.5f, 0.5f);
+        tFont2.scale(0.5f, 0.5f);
         tFont.useIntegerPositions(false);
+        tFont2.useIntegerPositions(false);
 
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = font;
@@ -117,7 +119,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         textraLabel3.pack();
         textraLabel3.setOrigin(center);
 
-        typingLabel1 = new TypingLabel("สวัสดีครับ", tFont);
+        typingLabel1 = new TypingLabel("สวัสดีครับ", tFont2);
 //        typingLabel1 = new TypingLabel("Test", tFont);
 //        typingLabel1.setText("Test");
         typingLabel1.setText("สวัสดีครับ");
@@ -125,13 +127,13 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel1.style = style;
         typingLabel1.pack();
         typingLabel1.setOrigin(center);
-        typingLabel2 = new TypingLabel("Test", tFont);
+        typingLabel2 = new TypingLabel("Test", tFont2);
         typingLabel2.setText("Check check, [_]one two[_], [~]one two[~]...");
         typingLabel2.setPosition(400,200);
         typingLabel2.style = style;
         typingLabel2.pack();
         typingLabel2.setOrigin(center);
-        typingLabel3 = new TypingLabel("Test", tFont);
+        typingLabel3 = new TypingLabel("Test", tFont2);
         typingLabel3.setText("We're no strangers to love...\nYou [_]know[_] the [_]rules[_],\nand [~]so do I[~]!");
         typingLabel3.setPosition(600,300);
         typingLabel3.style = style;

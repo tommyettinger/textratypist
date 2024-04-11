@@ -1639,9 +1639,11 @@ public class Font implements Disposable {
         this.widthAdjust = widthAdjust;
         this.heightAdjust = heightAdjust;
 
+        cellHeight = heightAdjust + bmFont.getCapHeight() - bmFont.getDescent();
         descent = bmFont.getDescent();
         // Needed to make emoji and other texture regions appear at a reasonable height on the line.
         // Also moves the descender so that it isn't below the baseline, which causes issues.
+        yAdjust -= bmFont.getAscent() + descent;
 //        yAdjust += descent;
 //        yAdjust += descent + bmFont.getLineHeight() * 0.5f;
         for (BitmapFont.Glyph[] page : data.glyphs) {
@@ -1657,7 +1659,7 @@ public class Font implements Disposable {
                     if (glyph.id != 9608) // full block
                         minWidth = Math.min(minWidth, a);
                     cellWidth = Math.max(a, cellWidth);
-                    cellHeight = Math.max(h + heightAdjust, cellHeight);
+//                    cellHeight = Math.max(h + heightAdjust, cellHeight);
                     GlyphRegion gr = new GlyphRegion(bmFont.getRegion(glyph.page), x, y, w, h);
                     if (glyph.id == 10) { // newline
                         a = 0;

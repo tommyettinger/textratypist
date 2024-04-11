@@ -141,7 +141,7 @@ public class BitmapFontSupport {
 //                ascent = atlas.getFloat("ascender", 0.8f);
                 descent = size * atlas.getFloat("descender", -0.25f);
 
-                float baseLine = round(-lineHeight-descent);
+                float baseLine = lineHeight+descent;
                 descent += padBottom;
 
                 if (path != null)
@@ -238,7 +238,7 @@ public class BitmapFontSupport {
                     capHeight = capGlyph.height;
                 capHeight -= padY;
 
-                ascent = baseLine - capHeight;
+                ascent = -baseLine - capHeight;
                 down = -lineHeight;
                 if (flip) {
                     ascent = -ascent;
