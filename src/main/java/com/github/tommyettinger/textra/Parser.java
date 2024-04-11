@@ -464,7 +464,6 @@ public class Parser {
      */
     public static int stringToColor(TypingLabel label, String str) {
         if (str != null) {
-
             // Try to parse named color
             ColorLookup lookup = label.getFont().getColorLookup();
             if(lookup != null) {

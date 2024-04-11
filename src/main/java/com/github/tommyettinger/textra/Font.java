@@ -2073,7 +2073,7 @@ public class Font implements Disposable {
             this.setDistanceField(DistanceFieldType.SDF);
             distanceFieldCrispness = 16f / atlas.getFloat("distanceRange", 4f);
         }
-        else
+        else // softmask, hardmask
             this.setDistanceField(DistanceFieldType.STANDARD);
 
         float size = atlas.getFloat("size", 16f);
