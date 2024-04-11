@@ -141,7 +141,7 @@ public class BitmapFontSupport {
 //                ascent = atlas.getFloat("ascender", 0.8f);
                 descent = size * atlas.getFloat("descender", -0.25f);
 
-                float baseLine = round(-descent);
+                float baseLine = round(-lineHeight-descent);
                 descent += padBottom;
 
                 if (path != null)
@@ -175,7 +175,7 @@ public class BitmapFontSupport {
                     }
                     if (planeBounds != null) {
                         glyph.xoffset = round(planeBounds.getFloat("left", 0f) * size);
-                        glyph.yoffset = round(size - planeBounds.getFloat("top", 0f) * size);
+                        glyph.yoffset = round(size + planeBounds.getFloat("bottom", 0f) * size);
                     } else {
                         xo = yo = 0f;
                     }

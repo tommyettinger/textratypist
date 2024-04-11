@@ -57,7 +57,7 @@ public class LabelRotationTest extends ApplicationAdapter {
     Label.LabelStyle label2Style;
     Label.LabelStyle label3Style;
     TextureRegion texture;
-    float rot = 0;
+    float rot = 360 * 5;
     Table table;
     ShapeRenderer sr;
 
@@ -75,8 +75,10 @@ public class LabelRotationTest extends ApplicationAdapter {
         texture = new TextureRegion(new Texture(Gdx.files.internal("tilerb.png")));
         stage = new Stage(viewport);
 //        BitmapFont font = new BitmapFont();
-        BitmapFont font = new BitmapFont(Gdx.files.internal("GoNotoUniversal-standard.fnt"), Gdx.files.internal("GoNotoUniversal-standard.png"), false);
-        Font tFont = new Font(font);
+//        BitmapFont font = new BitmapFont(Gdx.files.internal("GoNotoUniversal-standard.fnt"), Gdx.files.internal("GoNotoUniversal-standard.png"), false);
+        BitmapFont font = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("experimental/GoNotoUniversal-standard.json"), "GoNotoUniversal-standard.png");
+        Font tFont = new Font("experimental/GoNotoUniversal-standard.json", new TextureRegion(new Texture("experimental/GoNotoUniversal-standard.png")), 0, 0, 0, 0, false, true);
+//        Font tFont = new Font(font);
         tFont.scale(0.5f, 0.5f);
         tFont.useIntegerPositions(false);
 
