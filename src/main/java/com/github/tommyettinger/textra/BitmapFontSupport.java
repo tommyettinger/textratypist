@@ -23,6 +23,8 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
+import static com.badlogic.gdx.math.MathUtils.round;
+
 public class BitmapFontSupport {
     public static class JsonFontData extends BitmapFont.BitmapFontData {
         public String path = null;
@@ -62,6 +64,8 @@ public class BitmapFontSupport {
 //            }
 
             float size = atlas.getFloat("size", 16f);
+            int width  = atlas.getInt("width", 2048);
+            int height = atlas.getInt("height", 2048);
 
                 padTop = 1;
                 padRight = 1;
@@ -76,61 +80,47 @@ public class BitmapFontSupport {
 //                ascent = atlas.getFloat("ascender", 0.8f);
                 descent = size * atlas.getFloat("descender", -0.25f);
 
-                float baseLine = MathUtils.round(-descent);
+                float baseLine = round(-descent);
                 descent += padBottom;
 
                 if(path != null)
                     imagePaths = new String[]{jsonFont.sibling(path).path().replaceAll("\\\\", "/")};
 
-//                while (true) {
-//                    line = reader.readLine();
-//                    if (line == null) break; // EOF
-//                    if (line.startsWith("kernings ")) break; // Starting kernings block.
-//                    if (line.startsWith("metrics ")) break; // Starting metrics block.
-//                    if (!line.startsWith("char ")) continue;
-//
-//                    BitmapFont.Glyph glyph = new BitmapFont.Glyph();
-//
-//                    StringTokenizer tokens = new StringTokenizer(line, " =");
-//                    tokens.nextToken();
-//                    tokens.nextToken();
-//                    int ch = Integer.parseInt(tokens.nextToken());
-//                    if (ch <= 0)
-//                        missingGlyph = glyph;
-//                    else if (ch <= Character.MAX_VALUE)
-//                        setGlyph(ch, glyph);
-//                    else
-//                        continue;
-//                    glyph.id = ch;
-//                    tokens.nextToken();
-//                    glyph.srcX = Integer.parseInt(tokens.nextToken());
-//                    tokens.nextToken();
-//                    glyph.srcY = Integer.parseInt(tokens.nextToken());
-//                    tokens.nextToken();
-//                    glyph.width = Integer.parseInt(tokens.nextToken());
-//                    tokens.nextToken();
-//                    glyph.height = Integer.parseInt(tokens.nextToken());
-//                    tokens.nextToken();
-//                    glyph.xoffset = Integer.parseInt(tokens.nextToken());
-//                    tokens.nextToken();
-//                    if (flip)
-//                        glyph.yoffset = Integer.parseInt(tokens.nextToken());
-//                    else
-//                        glyph.yoffset = -(glyph.height + Integer.parseInt(tokens.nextToken()));
-//                    tokens.nextToken();
-//                    glyph.xadvance = Integer.parseInt(tokens.nextToken());
-//
-//                    // Check for page safely, it could be omitted or invalid.
-//                    if (tokens.hasMoreTokens()) tokens.nextToken();
-//                    if (tokens.hasMoreTokens()) {
-//                        try {
-//                            glyph.page = Integer.parseInt(tokens.nextToken());
-//                        } catch (NumberFormatException ignored) {
-//                        }
-//                    }
-//
+                JsonValue glyphs = fnt.get("glyphs"), planeBounds, atlasBounds;
+                int count = glyphs.size;
+
+                for (JsonValue.JsonIterator it = glyphs.iterator(); it.hasNext(); ) {
+                    JsonValue current = it.next();
+                    BitmapFont.Glyph glyph = new BitmapFont.Glyph();
+                    int ch = current.getInt("unicode", -1);
+                    if (ch <= 0)
+                        missingGlyph = glyph;
+                    else if (ch <= Character.MAX_VALUE)
+                        setGlyph(ch, glyph);
+                    else
+                        continue;
+                    glyph.id = ch;
+                    glyph.xadvance = round(current.getFloat("advance", 1f) * size);
+                    planeBounds = current.get("planeBounds");
+                    atlasBounds = current.get("atlasBounds");
+                    float x, y, w, h, xo, yo;
+                    if (atlasBounds != null) {
+                        glyph.srcX = (int)(x = atlasBounds.getFloat("left", 0f));
+                        glyph.width = (int)(w = atlasBounds.getFloat("right", 0f) - x);
+                        glyph.srcY = (int)(y = height - atlasBounds.getFloat("top", 0f));
+                        glyph.height = (int)(h = height - atlasBounds.getFloat("bottom", 0f) - y);
+                    } else {
+                        x = y = w = h = 0f;
+                    }
+                    if (planeBounds != null) {
+                        glyph.xoffset = round(planeBounds.getFloat("left", 0f) * size);
+                        glyph.yoffset = round(size - planeBounds.getFloat("top", 0f) * size);
+                    } else {
+                        xo = yo = 0f;
+                    }
+
 //                    if (glyph.width > 0 && glyph.height > 0) descent = Math.min(baseLine + glyph.yoffset, descent);
-//                }
+                }
 
 //                while (true) {
 //                    line = reader.readLine();

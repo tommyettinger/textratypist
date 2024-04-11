@@ -2114,9 +2114,6 @@ public class Font implements Disposable {
                 w = atlasBounds.getFloat("right", 0f) - x;
                 y = textureRegion.getRegionHeight() - atlasBounds.getFloat("top", 0f);
                 h = textureRegion.getRegionHeight() - atlasBounds.getFloat("bottom", 0f) - y;
-                // totally correct except that it is upside down...
-//                y = textureRegion.getRegionHeight() - atlasBounds.getFloat("bottom", 0f);
-//                h = textureRegion.getRegionHeight() - atlasBounds.getFloat("top", 0f) - y;
             } else {
                 x = y = w = h = 0f;
             }
