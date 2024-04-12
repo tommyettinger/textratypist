@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -47,13 +48,23 @@ import java.util.Arrays;
  * standard, SDF, and MSDF fonts, but you call {@link #enableShader(Batch)} before rendering with SDF or MSDF fonts, and
  * can switch back to a normal SpriteBatch shader with {@code batch.setShader(null);}. The {@link TextraLabel} and
  * {@link TypingLabel} classes handle the calls to enableShader() for you. You don't have to use SDF or MSDF
- * fonts, but they can scale more cleanly. You can generate SDF fonts with Hiero or
+ * fonts, but they can scale more cleanly. MSDF looks the sharpest in general, but SDF can display inline with emoji or
+ * other colorful icons, without changing the shader. "Standard" fonts look the best when mixing different Fonts in one
+ * piece of text, and also have the best compatibility with emoji and other icons. There's also the
+ * {@link DistanceFieldType#SDF_OUTLINE} distance field mode, which you can change an SDF font to use; it draws fairly
+ * sharply, but also adds a thick black outline around everything that uses SDF.
+ * <br>
+ * You can generate SDF fonts with Hiero or
  * <a href="https://github.com/libgdx/libgdx/wiki/Distance-field-fonts#using-distance-fields-for-arbitrary-images">a related tool</a>
- * that is part of libGDX; MSDF fonts are harder to generate, but possible using a tool like
- * <a href="https://github.com/maltaisn/msdf-gdx-gen">maltaisn's msdf-gdx-gen</a> (recommended) or
- * <a href="https://github.com/tommyettinger/Glamer">Glamer</a>. Note that SDF and non-distance-field fonts can be
- * created with kerning information, but currently MSDF fonts cannot, making MSDF a better choice for monospace fonts
- * than variable-width ones.
+ * that is part of libGDX; MSDF fonts need a different tool, like
+ * <a href="https://github.com/maltaisn/msdf-gdx-gen">maltaisn's msdf-gdx-gen</a> (good for fonts with few chars) or
+ * <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (recommended, but Windows-only). Using
+ * fontwriter means you get Structured JSON Font files instead of AngelCode BMFont files; these can be loaded with
+ * {@link #Font(String, TextureRegion, float, float, float, float, boolean, boolean)}. Structured JSON Fonts can be SDF,
+ * MSDF, standard (no distance field), or some other kinds of font; the information about this is stored in the font.
+ * You can also load a libGDX BitmapFont with a Structured JSON Font using the {@link BitmapFontSupport} class.
+ * If you want a .fnt file instead for an MSDF font, msdf-gdx-gen does work, but has an uneven baseline if you put too
+ * many chars in a font, or use too small of a texture size.
  * <br>
  * This interacts with the {@link Layout} class, with a Layout referencing a Font, and various methods in Font taking
  * a Layout. You usually want to have a Layout for any text you draw repeatedly, and draw that Layout each frame with
@@ -65,7 +76,11 @@ import java.util.Arrays;
  * ignored and left alone when markup() is called, and is not considered part of the size of the Layout. Anything inside
  * single curly braces is not rendered here, though it may be interpreted by TypingLabel if you use a Layout this
  * produces there. You should escape both square brackets with <code>[[</code> and curly braces with <code>{{</code> if
- * you intend them to appear.
+ * you intend them to appear. You can change the behavior of curly braces by setting {@link #omitCurlyBraces} to false;
+ * this will make curly braces and their contents parse as normal text (the default setting is true). If curly braces
+ * have a special meaning in some other markup you use, like I18N bundles, you can change a curly-brace tag such as
+ * <code>{RESET}</code> to <code>[-RESET]</code>, with the {@code -} at the start making it ignored by markup here but
+ * usable to TypingLabel.
  * <br>
  * Most things this can draw can be drawn with a rotation, and usually an origin can be specified (where it makes
  * sense). The rotation can't be configured from markup, but the widgets that understand this class, like
@@ -329,22 +344,33 @@ public class Font implements Disposable {
                 String name = ks.get(i);
                 if ((connected[i] = map.get(name)) == null) continue;
                 fontAliases.put(name, i);
-                fontAliases.put(connected[i].name, i);
+                if(connected[i].name != null)
+                    fontAliases.put(connected[i].name, i);
                 fontAliases.put(String.valueOf(i), i);
             }
         }
 
+        /**
+         * Constructs a FontFamily given a Skin that defines one or more BitmapFont items. The name in the Skin file
+         * for each font is one way you will be able to access fonts from this family. You can also use the
+         * {@link BitmapFontData#name} of a BitmapFont in the Skin as an alias, or the essentially-randomly-chosen
+         * index of the BitmapFont in the order this encountered it.
+         * @param skin a non-null Skin that defines one or more BitmapFont items
+         */
         public FontFamily(Skin skin) {
             ObjectMap<String, BitmapFont> map = skin.getAll(BitmapFont.class);
             Array<String> keys = map.keys().toArray();
             for (int i = 0; i < map.size && i < 16; i++) {
                 String name = keys.get(i);
-                Font font = new Font(map.get(name));
+                BitmapFont bmf = map.get(name);
+                if(bmf == null) continue;
+                Font font = new Font(bmf);
                 font.name = name;
                 font.family = this;
                 connected[i] = font;
                 fontAliases.put(name, i);
-                fontAliases.put(connected[i].name, i);
+                if(bmf.getData().name != null)
+                    fontAliases.put(bmf.getData().name, i);
                 fontAliases.put(String.valueOf(i), i);
             }
         }
@@ -706,19 +732,20 @@ public class Font implements Disposable {
 
     /**
      * The color black, as a packed float using the default RGBA color space.
-     * This can be overridden by subclasses that either use a different color space,
+     * This can be edited for Fonts that either use a different color space,
      * or want to use a different color in place of black for effects like {@link #BLACK_OUTLINE}.
      */
     public float PACKED_BLACK = NumberUtils.intBitsToFloat(0xFE000000);
     /**
      * The color white, as a packed float using the default RGBA color space.
-     * This can be overridden by subclasses that either use a different color space,
+     * This can be edited for Fonts that either use a different color space,
      * or want to use a different color in place of white for effects like {@link #WHITE_OUTLINE} and {@link #SHINY}.
      */
     public float PACKED_WHITE = Color.WHITE_FLOAT_BITS;
     /**
      * The color to use for {@link #ERROR}'s underline, as a packed float using the default RGBA color space.
-     * This can be overridden by subclasses that either use a different color space,
+     * Defaults to red.
+     * This can be edited for Fonts that either use a different color space,
      * or want to use a different color in place of red for {@link #ERROR}.
      * In RGBA8888 format, this is the color {@code 0xFF0000FF}.
      * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
@@ -727,7 +754,8 @@ public class Font implements Disposable {
     public float PACKED_ERROR_COLOR = -0x1.0001fep125F; // red
     /**
      * The color to use for {@link #WARN}'s underline, as a packed float using the default RGBA color space.
-     * This can be overridden by subclasses that either use a different color space,
+     * Defaults to yellow or gold.
+     * This can be edited for Fonts that either use a different color space,
      * or want to use a different color in place of yellow for {@link #WARN}.
      * In RGBA8888 format, this is the color {@code 0xFFD510FF}.
      * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
@@ -736,7 +764,8 @@ public class Font implements Disposable {
     public float PACKED_WARN_COLOR = -0x1.21abfep125F; // yellow
     /**
      * The color to use for {@link #NOTE}'s underline, as a packed float using the default RGBA color space.
-     * This can be overridden by subclasses that either use a different color space,
+     * Defaults to blue.
+     * This can be edited for Fonts that either use a different color space,
      * or want to use a different color in place of blue for {@link #NOTE}.
      * In RGBA8888 format, this is the color {@code 0x3088B8FF}.
      * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
@@ -746,7 +775,8 @@ public class Font implements Disposable {
 
     /**
      * The color to use for {@link #DROP_SHADOW}, as a packed float using the default RGBA color space.
-     * This can be overridden by subclasses that either use a different color space,
+     * Defaults to 13% lightness, 50% alpha gray.
+     * This can be edited for Fonts that either use a different color space,
      * or want to use a different color in place of half-transparent dark gray for {@link #DROP_SHADOW}.
      * In RGBA8888 format, this is the color {@code 0x2121217E}.
      * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
@@ -900,6 +930,8 @@ public class Font implements Disposable {
     /**
      * If true (the default), any text inside matching curly braces, plus the curly braces themselves, will be ignored
      * during rendering and not displayed. If false, curly braces and their contents are treated as normal text.
+     * Note that regardless of this setting, you can use the <code>[-TAG]</code> syntax instead of <code>{TAG}</code>
+     * to produce a tag that TypingLabel can read, even though Font itself wouldn't do anything with TAG there.
      */
     public boolean omitCurlyBraces = true;
     /**
@@ -1630,7 +1662,7 @@ public class Font implements Disposable {
             for (TextureRegion parent : parents)
                 parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
-        BitmapFont.BitmapFontData data = bmFont.getData();
+        BitmapFontData data = bmFont.getData();
         mapping = new IntMap<>(128);
         int minWidth = Integer.MAX_VALUE;
 
@@ -3908,7 +3940,7 @@ public class Font implements Disposable {
 
     /**
      * Currently, this is only an extension point for code that wants to ensure integer positions; it does nothing on
-     * its own other than return its argument unchanged.
+     * its own other than return its argument unchanged. See {@link #integerPosition} for more.
      * @param p a float that could be rounded (it will not be unless this is overridden)
      * @return unless overridden, p without changes
      */
