@@ -141,7 +141,6 @@ public class BitmapFontSupport {
 //                ascent = atlas.getFloat("ascender", 0.8f);
                 descent = size * atlas.getFloat("descender", -0.25f);
 
-                float baseLine = lineHeight+descent;
                 descent += padBottom;
 
                 if (path != null)
@@ -164,20 +163,20 @@ public class BitmapFontSupport {
                     glyph.xadvance = round(current.getFloat("advance", 1f) * size);
                     planeBounds = current.get("planeBounds");
                     atlasBounds = current.get("atlasBounds");
-                    float x, y, w, h, xo, yo;
                     if (atlasBounds != null) {
+                        float x, y;
                         glyph.srcX = (int) (x = atlasBounds.getFloat("left", 0f));
-                        glyph.width = (int) (w = atlasBounds.getFloat("right", 0f) - x);
+                        glyph.width = (int) (atlasBounds.getFloat("right", 0f) - x);
                         glyph.srcY = (int) (y = height - atlasBounds.getFloat("top", 0f));
-                        glyph.height = (int) (h = height - atlasBounds.getFloat("bottom", 0f) - y);
+                        glyph.height = (int) (height - atlasBounds.getFloat("bottom", 0f) - y);
                     } else {
-                        x = y = w = h = 0f;
+                        glyph.srcX = glyph.srcY = glyph.width = glyph.height = 0;
                     }
                     if (planeBounds != null) {
                         glyph.xoffset = round(planeBounds.getFloat("left", 0f) * size);
                         glyph.yoffset = round(size + planeBounds.getFloat("bottom", 0f) * size);
                     } else {
-                        xo = yo = 0f;
+                        glyph.xoffset = glyph.yoffset = 0;
                     }
 
 //                    if (glyph.width > 0 && glyph.height > 0) descent = Math.min(baseLine + glyph.yoffset, descent);
@@ -187,8 +186,8 @@ public class BitmapFontSupport {
                 if (kern != null && !kern.isEmpty()) {
                     for (JsonValue.JsonIterator it = kern.iterator(); it.hasNext(); ) {
                         JsonValue current = it.next();
-                        int first = current.getInt("unicode1", 65535);
-                        int second = current.getInt("unicode2", 65535);
+                        int first = current.getInt("unicode1", -1);
+                        int second = current.getInt("unicode2", -1);
                         if (first < 0 || first > Character.MAX_VALUE || second < 0 || second > Character.MAX_VALUE)
                             continue;
                         BitmapFont.Glyph glyph = getGlyph((char) first);
@@ -238,7 +237,7 @@ public class BitmapFontSupport {
                     capHeight = capGlyph.height;
                 capHeight -= padY;
 
-                ascent = -baseLine - capHeight;
+                ascent = -lineHeight - capHeight;
                 down = -lineHeight;
                 if (flip) {
                     ascent = -ascent;
