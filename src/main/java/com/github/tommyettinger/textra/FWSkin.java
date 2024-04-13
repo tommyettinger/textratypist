@@ -98,7 +98,7 @@ public class FWSkin extends Skin {
                     Array<TextureRegion> regions = skin.getRegions(regionName);
                     if (regions != null && regions.notEmpty()) {
                         if(fw)
-                            font = BitmapFontSupport.loadStructuredJson(fontFile, regions.first());
+                            font = BitmapFontSupport.loadStructuredJson(fontFile, regions.first(), flip);
                         else
                             font = new BitmapFont(new BitmapFont.BitmapFontData(fontFile, flip), regions, true);
                     } else {
@@ -106,7 +106,7 @@ public class FWSkin extends Skin {
                         if (region != null)
                         {
                             if(fw)
-                                font = BitmapFontSupport.loadStructuredJson(fontFile, region);
+                                font = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
                             else
                                 font = new BitmapFont(fontFile, region, flip);
                         }
@@ -115,12 +115,12 @@ public class FWSkin extends Skin {
                             if (imageFile.exists()) {
                                 if(fw)
                                     font = BitmapFontSupport.loadStructuredJson(fontFile,
-                                            new TextureRegion(new Texture(imageFile)));
+                                            new TextureRegion(new Texture(imageFile)), flip);
                                 else
                                     font = new BitmapFont(fontFile, imageFile, flip);
                             } else {
                                 if(fw)
-                                    font = BitmapFontSupport.loadStructuredJson(fontFile, "");
+                                    font = BitmapFontSupport.loadStructuredJson(fontFile, "", flip);
                                 else
                                     font = new BitmapFont(fontFile, flip);
                             }

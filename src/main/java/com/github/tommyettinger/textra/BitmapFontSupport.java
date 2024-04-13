@@ -46,12 +46,12 @@ public class BitmapFontSupport {
      * a TextureRegion for the image the JSON needs; this region is often part of an atlas.
      * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json file)
      * @param region a TextureRegion, often part of a shared atlas, holding the image the JSON needs
-     * @param integerPositions if true, positions will be rounded to integer positions; default to false
+     * @param flip true if this BitmapFont has been flipped for use with a y-down coordinate system
      * @return a new BitmapFont loaded from {@code jsonFont}
      */
-    public static BitmapFont loadStructuredJson(FileHandle jsonFont, TextureRegion region, boolean integerPositions) {
-        JsonFontData data = new JsonFontData(jsonFont);
-        return new BitmapFont(data, region, integerPositions);
+    public static BitmapFont loadStructuredJson(FileHandle jsonFont, TextureRegion region, boolean flip) {
+        JsonFontData data = new JsonFontData(jsonFont, null, flip);
+        return new BitmapFont(data, region, false);
     }
 
     /**
@@ -73,12 +73,12 @@ public class BitmapFontSupport {
      * a relative path (from {@code jsonFont}) to the necessary image file, with the path as a String.
      * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json file)
      * @param imagePath a String holding the relative path from {@code jsonFont} to the image file the JSON needs
-     * @param integerPositions if true, positions will be rounded to integer positions; default to false
+     * @param flip true if this BitmapFont has been flipped for use with a y-down coordinate system
      * @return a new BitmapFont loaded from {@code jsonFont}
      */
-    public static BitmapFont loadStructuredJson(FileHandle jsonFont, String imagePath, boolean integerPositions) {
-        JsonFontData data = new JsonFontData(jsonFont, imagePath);
-        return new BitmapFont(data, (TextureRegion) null, integerPositions);
+    public static BitmapFont loadStructuredJson(FileHandle jsonFont, String imagePath, boolean flip) {
+        JsonFontData data = new JsonFontData(jsonFont, imagePath, flip);
+        return new BitmapFont(data, (TextureRegion) null, false);
     }
 
     /**
@@ -92,14 +92,18 @@ public class BitmapFontSupport {
         }
 
         public JsonFontData(FileHandle jsonFont) {
-            super();
-            load(jsonFont, false);
+            this(jsonFont, null);
         }
 
         public JsonFontData(FileHandle jsonFont, String imagePath) {
+            this(jsonFont, imagePath, false);
+        }
+
+        public JsonFontData(FileHandle jsonFont, String imagePath, boolean flip) {
             super();
             path = imagePath;
-            load(jsonFont, false);
+            this.flipped = flip;
+            load(jsonFont, flip);
         }
 
         @Override
@@ -174,12 +178,12 @@ public class BitmapFontSupport {
                     }
                     if (planeBounds != null) {
                         glyph.xoffset = round(planeBounds.getFloat("left", 0f) * size);
-                        glyph.yoffset = round(size + planeBounds.getFloat("bottom", 0f) * size);
+                        glyph.yoffset = flip
+                                ? round(-size - planeBounds.getFloat("top", 0f) * size)
+                                :  round(size + planeBounds.getFloat("bottom", 0f) * size);
                     } else {
                         glyph.xoffset = glyph.yoffset = 0;
                     }
-
-//                    if (glyph.width > 0 && glyph.height > 0) descent = Math.min(baseLine + glyph.yoffset, descent);
                 }
 
                 JsonValue kern = fnt.get("kerning");

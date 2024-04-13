@@ -1,6 +1,7 @@
 {
 BitmapFont: { default-font: { file: experimental/GentiumUnItalic-bmfont.fnt,
-	scaledSize: 14
+	scaledSize: 14,
+	flip: true
 } },
 Color: {
 	green: { a: 1, b: 0, g: 1, r: 0 },
