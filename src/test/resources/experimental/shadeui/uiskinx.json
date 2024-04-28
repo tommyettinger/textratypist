@@ -118,7 +118,7 @@ com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
 		vScrollKnob: android-vertical-scrollbar-knob
 	}
 },
-com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+com.github.tommyettinger.textra.Styles$LabelStyle: {
 	optional: {
 		font: font-label,
 		fontColor: { a: 1, b: 0.8, g: 0.8, r: 0.8 }
