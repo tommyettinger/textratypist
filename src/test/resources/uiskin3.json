@@ -1,8 +1,10 @@
 {
-BitmapFont: { default-font: { file: experimental/GentiumUnItalic-standard.json,
-	scaledSize: 14,
-	flip: true
-} },
+BitmapFont: {
+	default-font: { file: experimental/GentiumUnItalic-standard.json, scaledSize: 14, flip: true }
+},
+com.github.tommyettinger.textra.Font: {
+	default-font: { file: experimental/GentiumUnItalic-standard.json, scaledSize: 14, flip: true }
+},
 Color: {
 	green: { a: 1, b: 0, g: 1, r: 0 },
 	white: { a: 1, b: 1, g: 1, r: 1 },
@@ -48,6 +50,9 @@ SliderStyle: {
 	default-vertical: { parent: default-vertical }
 },
 LabelStyle: {
+	default: { font: default-font, fontColor: white }
+},
+	com.github.tommyettinger.textra.Styles$LabelStyle: {
 	default: { font: default-font, fontColor: white }
 },
 TextFieldStyle: {

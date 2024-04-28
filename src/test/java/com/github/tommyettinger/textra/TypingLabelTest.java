@@ -43,11 +43,8 @@ public class TypingLabelTest extends ApplicationAdapter {
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 //        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-        BitmapFont bmf = skin.getFont("default-font");
-//        bmf.getData().setScale(0.5f);
-        bmf.setUseIntegerPositions(false);
         stage = new Stage(new StretchViewport(720, 480), batch);
         Gdx.input.setInputProcessor(stage);
 

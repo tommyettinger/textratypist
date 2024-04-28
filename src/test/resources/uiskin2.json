@@ -74,6 +74,9 @@ SliderStyle: {
 LabelStyle: {
 	default: { font: default-font, fontColor: white }
 },
+	com.github.tommyettinger.textra.Styles$LabelStyle: {
+	default: { font: default-font, fontColor: white }
+},
 TextFieldStyle: {
 	default: { selection: selection, background: textfield, font: default-font, fontColor: white, cursor: cursor }
 },

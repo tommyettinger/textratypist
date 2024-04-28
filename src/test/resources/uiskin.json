@@ -1,4 +1,5 @@
 {
+com.github.tommyettinger.textra.Font: { default-font: { file: default.fnt } },
 BitmapFont: { default-font: { file: default.fnt } },
 Color: {
 	green: { a: 1, b: 0, g: 1, r: 0 },
@@ -45,6 +46,9 @@ SliderStyle: {
 	default-vertical: { parent: default-vertical }
 },
 LabelStyle: {
+	default: { font: default-font, fontColor: white }
+},
+	com.github.tommyettinger.textra.Styles$LabelStyle: {
 	default: { font: default-font, fontColor: white }
 },
 TextFieldStyle: {
