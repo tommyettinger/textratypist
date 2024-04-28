@@ -154,7 +154,7 @@ public class TextraField extends Widget implements Disableable {
 
 	public TextraField(@Null String text, TextFieldStyle style) {
 		setStyle(style);
-		label = new TypingLabel("", new Label.LabelStyle(style.font, style.fontColor));
+		label = new TypingLabel("", new Styles.LabelStyle(new Font(style.font), style.fontColor));
 		label.layout.setEllipsis("");
 		label.layout.setMaxLines(1);
 		label.wrap = false;
@@ -169,7 +169,7 @@ public class TextraField extends Widget implements Disableable {
 
 	public TextraField(@Null String text, TextFieldStyle style, Font replacementFont) {
 		setStyle(style);
-		label = new TypingLabel("", new Label.LabelStyle(style.font, style.fontColor), replacementFont);
+		label = new TypingLabel("", new Styles.LabelStyle(new Font(style.font), style.fontColor), replacementFont);
 		label.layout.setEllipsis("");
 		label.layout.setMaxLines(1);
 		label.wrap = false;

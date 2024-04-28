@@ -68,7 +68,7 @@ public class TypingWindow extends TextraWindow {
     }
 
     @Override
-    protected TextraLabel newLabel(String text, Label.LabelStyle style) {
+    protected TextraLabel newLabel(String text, Styles.LabelStyle style) {
         return new TypingLabel(text, style);
     }
 

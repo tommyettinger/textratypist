@@ -92,7 +92,7 @@ public class TypingDialog extends TypingWindow {
         initialize();
     }
 
-    protected TextraLabel newLabel(String text, Label.LabelStyle style) {
+    protected TextraLabel newLabel(String text, Styles.LabelStyle style) {
         return new TextraLabel(text, style);
     }
 
@@ -100,7 +100,7 @@ public class TypingDialog extends TypingWindow {
         return new TextraLabel(text, font, color);
     }
 
-    protected TypingLabel newTypingLabel(String text, Label.LabelStyle style) {
+    protected TypingLabel newTypingLabel(String text, Styles.LabelStyle style) {
         return new TypingLabel(text, style);
     }
 
@@ -175,13 +175,13 @@ public class TypingDialog extends TypingWindow {
     public TypingDialog text(@Null String text) {
         if (skin == null)
             throw new IllegalStateException("This method may only be used if the dialog was constructed with a Skin.");
-        return text(text, skin.get(Label.LabelStyle.class));
+        return text(text, skin.get(Styles.LabelStyle.class));
     }
 
     /**
      * Adds a TextraLabel to the content table.
      */
-    public TypingDialog text(@Null String text, Label.LabelStyle labelStyle) {
+    public TypingDialog text(@Null String text, Styles.LabelStyle labelStyle) {
         return text(newLabel(text, labelStyle));
     }
 
@@ -214,13 +214,13 @@ public class TypingDialog extends TypingWindow {
     public TypingDialog typing(@Null String text) {
         if (skin == null)
             throw new IllegalStateException("This method may only be used if the dialog was constructed with a Skin.");
-        return typing(text, skin.get(Label.LabelStyle.class));
+        return typing(text, skin.get(Styles.LabelStyle.class));
     }
 
     /**
      * Adds a TypingLabel to the content table.
      */
-    public TypingDialog typing(@Null String text, Label.LabelStyle labelStyle) {
+    public TypingDialog typing(@Null String text, Styles.LabelStyle labelStyle) {
         return typing(newTypingLabel(text, labelStyle));
     }
 

@@ -142,22 +142,22 @@ public class TypingLabel extends TextraLabel {
     }
 
     public TypingLabel(String text, Skin skin) {
-        this(text, skin.get(Label.LabelStyle.class));
+        this(text, skin.get(Styles.LabelStyle.class));
     }
 
     public TypingLabel(String text, Skin skin, Font replacementFont) {
-        this(text, skin.get(Label.LabelStyle.class), replacementFont);
+        this(text, skin.get(Styles.LabelStyle.class), replacementFont);
     }
 
     public TypingLabel(String text, Skin skin, String styleName) {
-        this(text, skin.get(styleName, Label.LabelStyle.class));
+        this(text, skin.get(styleName, Styles.LabelStyle.class));
     }
 
     public TypingLabel(String text, Skin skin, String styleName, Font replacementFont) {
-        this(text, skin.get(styleName, Label.LabelStyle.class), replacementFont);
+        this(text, skin.get(styleName, Styles.LabelStyle.class), replacementFont);
     }
 
-    public TypingLabel(String text, Label.LabelStyle style) {
+    public TypingLabel(String text, Styles.LabelStyle style) {
         super(text = Parser.handleBracketMinusMarkup(text), style);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
@@ -165,7 +165,7 @@ public class TypingLabel extends TextraLabel {
         setText(text, true);
     }
 
-    public TypingLabel(String text, Label.LabelStyle style, Font replacementFont) {
+    public TypingLabel(String text, Styles.LabelStyle style, Font replacementFont) {
         super(text = Parser.handleBracketMinusMarkup(text), style, replacementFont);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);

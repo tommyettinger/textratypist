@@ -86,7 +86,7 @@ public class ImageTextraButton extends Button {
         return new Image(null, Scaling.fit);
     }
 
-    protected TextraLabel newLabel(String text, LabelStyle style) {
+    protected TextraLabel newLabel(String text, Styles.LabelStyle style) {
         return new TextraLabel(text, style);
     }
 

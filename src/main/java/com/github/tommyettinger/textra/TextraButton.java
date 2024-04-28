@@ -69,7 +69,7 @@ public class TextraButton extends Button {
         setSize(getPrefWidth(), getPrefHeight());
     }
 
-    protected TextraLabel newLabel(String text, LabelStyle style) {
+    protected TextraLabel newLabel(String text, Styles.LabelStyle style) {
         return new TextraLabel(text, style);
     }
 

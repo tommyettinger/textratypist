@@ -61,14 +61,14 @@ public class TypingShadeXUITest extends InputAdapter implements ApplicationListe
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-		final Font font = new Font(skin.get(Label.LabelStyle.class).font, 0f, 0f, 0f, 0f)
+		final Font font = skin.get(Styles.LabelStyle.class).font
 //				.adjustLineHeight(0.75f)
 				.useIntegerPositions(true);
 		// For unknown reasons, emoji added to this particular font default to being offset by a full emoji width (32)
 		// on x, and a quarter-emoji width on height (probably because we adjusted line height to 1.25x).
 		// Using the extra three float arguments for offsetX, offsetY, and xAdvance changes helps a lot here.
 		KnownFonts.addEmoji(font, -32f, 4f, 0f);
-		final Font title = new Font(skin.get("title", Label.LabelStyle.class).font, 0, 2, 0, 0)
+		final Font title = skin.get("title", Styles.LabelStyle.class).font
 //				.adjustLineHeight(1.5f)
 				.useIntegerPositions(true);
 

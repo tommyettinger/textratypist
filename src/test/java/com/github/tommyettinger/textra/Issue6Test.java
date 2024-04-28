@@ -59,7 +59,7 @@ public class Issue6Test extends ApplicationAdapter {
 //                        "моё отношение, мои" +
 //                        "действия)";
         typingLabel = new TypingLabel(
-                text, new Label.LabelStyle(), gentium);
+                text, new Styles.LabelStyle(), gentium);
         typingLabel.setWrap(true);
         typingLabel.setWidth(25f);
         typingLabel.skipToTheEnd();
@@ -67,7 +67,7 @@ public class Issue6Test extends ApplicationAdapter {
         typingLabel.debug();
 
         textraLabel = new TextraLabel(
-                "[RED]" + text, new Label.LabelStyle(), gentium);
+                "[RED]" + text, new Styles.LabelStyle(), gentium);
         textraLabel.setWrap(true);
         textraLabel.setWidth(25f);
         textraLabel.skipToTheEnd();

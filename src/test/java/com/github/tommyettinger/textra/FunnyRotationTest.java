@@ -75,10 +75,10 @@ public class FunnyRotationTest extends ApplicationAdapter {
         tFont.setLineMetrics(-0.25f, -0.1f, 0f, 0f);
 //        BitmapFont font = new BitmapFont();
 //        Font tFont = new Font(font);
-        textraLabel1 = new TextraLabel("Test", skin.get("subtitle", Label.LabelStyle.class), tFont);
+        textraLabel1 = new TextraLabel("Test", skin.get("subtitle", Styles.LabelStyle.class), tFont);
         textraLabel1.useIntegerPositions(false);
         textraLabel1.setPosition(200,200);
-//        textraLabel1.style = new Label.LabelStyle();
+//        textraLabel1.style = new Styles.LabelStyle();
 //        textraLabel1.style.background = new TextureRegionDrawable(texture);
 //        textraLabel1.style.background.setTopHeight(20);
 //        textraLabel1.style.background.setBottomHeight(20);
@@ -86,10 +86,10 @@ public class FunnyRotationTest extends ApplicationAdapter {
 //        textraLabel1.style.background.setRightWidth(10);
         textraLabel1.pack();
         textraLabel1.setOrigin(center);
-        textraLabel2 = new TextraLabel("Check check, [_]one two[_], [~]one two[~]...", skin.get("subtitle", Label.LabelStyle.class), tFont);
+        textraLabel2 = new TextraLabel("Check check, [_]one two[_], [~]one two[~]...", skin.get("subtitle", Styles.LabelStyle.class), tFont);
         textraLabel2.useIntegerPositions(false);
         textraLabel2.setPosition(400,200);
-//        textraLabel2.style = new Label.LabelStyle();
+//        textraLabel2.style = new Styles.LabelStyle();
 //        textraLabel2.style.background = new TextureRegionDrawable(texture);
 //        textraLabel2.style.background.setTopHeight(15);
 //        textraLabel2.style.background.setBottomHeight(15);
@@ -98,10 +98,10 @@ public class FunnyRotationTest extends ApplicationAdapter {
         textraLabel2.pack();
         textraLabel2.setOrigin(center);
         textraLabel3 = new TextraLabel("We're no strangers to love...\nYou [_]know[_] the [_]rules[_],\nand [~]so do I[~]!",
-                skin.get("subtitle", Label.LabelStyle.class), tFont);
+                skin.get("subtitle", Styles.LabelStyle.class), tFont);
         textraLabel3.useIntegerPositions(false);
         textraLabel3.setPosition(600,300);
-//        textraLabel3.style = new Label.LabelStyle();
+//        textraLabel3.style = new Styles.LabelStyle();
 //        textraLabel3.style.background = new TextureRegionDrawable(texture);
 //        textraLabel3.style.background.setTopHeight(50);
 //        textraLabel3.style.background.setBottomHeight(50);
@@ -110,11 +110,11 @@ public class FunnyRotationTest extends ApplicationAdapter {
         textraLabel3.pack();
         textraLabel3.setOrigin(center);
 
-        typingLabel1 = new TypingLabel("Test", skin.get("subtitle", Label.LabelStyle.class), tFont);
+        typingLabel1 = new TypingLabel("Test", skin.get("subtitle", Styles.LabelStyle.class), tFont);
         typingLabel1.useIntegerPositions(false);
         typingLabel1.setText("Test");
         typingLabel1.setPosition(200,200);
-//        typingLabel1.style = new Label.LabelStyle();
+//        typingLabel1.style = new Styles.LabelStyle();
 //        typingLabel1.style.background = new TextureRegionDrawable(texture);
 //        typingLabel1.style.background.setTopHeight(20);
 //        typingLabel1.style.background.setBottomHeight(20);
@@ -122,11 +122,11 @@ public class FunnyRotationTest extends ApplicationAdapter {
 //        typingLabel1.style.background.setRightWidth(10);
         typingLabel1.pack();
         typingLabel1.setOrigin(center);
-        typingLabel2 = new TypingLabel("Test", skin.get("subtitle", Label.LabelStyle.class), tFont);
+        typingLabel2 = new TypingLabel("Test", skin.get("subtitle", Styles.LabelStyle.class), tFont);
         typingLabel2.useIntegerPositions(false);
         typingLabel2.setText("Check check, [_]one two[_], [~]one two[~]...");
         typingLabel2.setPosition(400,200);
-//        typingLabel2.style = new Label.LabelStyle();
+//        typingLabel2.style = new Styles.LabelStyle();
 //        typingLabel2.style.background = new TextureRegionDrawable(texture);
 //        typingLabel2.style.background.setTopHeight(15);
 //        typingLabel2.style.background.setBottomHeight(15);
@@ -134,11 +134,11 @@ public class FunnyRotationTest extends ApplicationAdapter {
 //        typingLabel2.style.background.setRightWidth(25);
         typingLabel2.pack();
         typingLabel2.setOrigin(center);
-        typingLabel3 = new TypingLabel("Test", skin.get("subtitle", Label.LabelStyle.class), tFont);
+        typingLabel3 = new TypingLabel("Test", skin.get("subtitle", Styles.LabelStyle.class), tFont);
         typingLabel3.useIntegerPositions(false);
         typingLabel3.setText("We're no strangers to love...\nYou [_]know[_] the [_]rules[_],\nand [~]so do I[~]!");
         typingLabel3.setPosition(600,300);
-//        typingLabel3.style = new Label.LabelStyle();
+//        typingLabel3.style = new Styles.LabelStyle();
 //        typingLabel3.style.background = new TextureRegionDrawable(texture);
 //        typingLabel3.style.background.setTopHeight(50);
 //        typingLabel3.style.background.setBottomHeight(50);

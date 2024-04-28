@@ -70,7 +70,7 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 //				KnownFonts.getCozette();
 //				new Font(skin.getFont("Cozette-standard"), 0f, 0f, 0f, 0f).useIntegerPositions(true);
 //		KnownFonts.getStandardFamily()
-//				new Font(skin.get(Label.LabelStyle.class).font)
+//				new Font(skin.get(Styles.LabelStyle.class).font)
 //				.useIntegerPositions(true);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =

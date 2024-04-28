@@ -76,12 +76,13 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 				// the y adjustment can be seen as, rather than moving the text, moving the lines (a la Planet Express).
 				new Font("RaeleusScriptius-standard.fnt", 0, 4, 0, 0);
 //				new Font(new BitmapFont(Gdx.files.internal("RaeleusScriptius-standard.fnt")), 0, 4, 0, 0);
-		//new Font(skin.get(LabelStyle.class).font)
+		//skin.get(Styles.LabelStyle.class).font
 //				.adjustLineHeight(0.75f)
 //				.useIntegerPositions(true);
 //		font.setDescent(0);
 		KnownFonts.addEmoji(font, -16f, -8f, 0f);
-		final Font title = new Font(skin.get("title", Label.LabelStyle.class).font, 0, 2, 0, 0)
+//		final Font title = new Font(skin.get("title", Styles.LabelStyle.class).font, 0, 2, 0, 0, )
+		final Font title = skin.get("title", Styles.LabelStyle.class).font
 //				.adjustLineHeight(1.5f)
 				.useIntegerPositions(true);
 //		title.setDescent(0);
@@ -141,15 +142,15 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		minSizeLabel = new TextraLabel("ginWidth cell", skin.get("title", LabelStyle.class), font); // demos SplitPane respecting widget's minWidth
+		minSizeLabel = new TextraLabel("ginWidth cell", skin.get("title", Styles.LabelStyle.class), font); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TextraLabel("fps: 60...[~]I think[ ]...", skin.get("title", LabelStyle.class), font);
+		fpsLabel = new TextraLabel("fps: 60...[~]I think[ ]...", skin.get("title", Styles.LabelStyle.class), font);
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
-		passwordLabel = new TextraLabel("Textfield in [~]secure[ ] password mode: ", skin.get("title", LabelStyle.class), font);
+		passwordLabel = new TextraLabel("Textfield in [~]secure[ ] password mode: ", skin.get("title", Styles.LabelStyle.class), font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');

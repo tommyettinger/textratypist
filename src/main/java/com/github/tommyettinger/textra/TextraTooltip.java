@@ -89,7 +89,7 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
         label.setText(text);
     }
 
-    protected TextraLabel newLabel(String text, LabelStyle style) {
+    protected TextraLabel newLabel(String text, Styles.LabelStyle style) {
         return new TextraLabel(text, style);
     }
 

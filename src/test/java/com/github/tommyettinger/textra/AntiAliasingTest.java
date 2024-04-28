@@ -51,7 +51,7 @@ public class AntiAliasingTest extends ApplicationAdapter {
         Label.LabelStyle lightRoboto = new Label.LabelStyle(light, Color.WHITE);
         lightRoboto.font.getData().setLineHeight(30);
 
-        TextraLabel textra = new TextraLabel(content, lightRoboto);
+        TextraLabel textra = new TextraLabel(content, new Styles.LabelStyle(lightRoboto));
         textra.setWrap(true);
         textra.setAlignment(topLeft);
         textra.getFont().adjustLineHeight(1.3f);

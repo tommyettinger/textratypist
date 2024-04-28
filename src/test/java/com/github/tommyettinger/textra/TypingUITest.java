@@ -68,7 +68,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //				//KnownFonts.getYanoneKaffeesatz();
 //				new Font(skin.getFont("outline-font"), 0f, 12f, 0f, 0f);//.adjustLineHeight(1.2f);
 //		KnownFonts.getStandardFamily()
-//				new Font(skin.get(Label.LabelStyle.class).font)
+//				new Font(skin.get(Styles.LabelStyle.class).font)
 //				.useIntegerPositions(true);
 //		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		family.connected[11] =

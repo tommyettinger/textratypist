@@ -96,7 +96,7 @@ public class TextraDialog extends TextraWindow {
         initialize();
     }
 
-    protected TextraLabel newLabel(String text, LabelStyle style) {
+    protected TextraLabel newLabel(String text, Styles.LabelStyle style) {
         return new TextraLabel(text, style);
     }
 
@@ -104,7 +104,7 @@ public class TextraDialog extends TextraWindow {
         return new TextraLabel(text, font, color);
     }
 
-    protected TypingLabel newTypingLabel(String text, LabelStyle style) {
+    protected TypingLabel newTypingLabel(String text, Styles.LabelStyle style) {
         return new TypingLabel(text, style);
     }
 
@@ -179,13 +179,13 @@ public class TextraDialog extends TextraWindow {
     public TextraDialog text(@Null String text) {
         if (skin == null)
             throw new IllegalStateException("This method may only be used if the dialog was constructed with a Skin.");
-        return text(text, skin.get(LabelStyle.class));
+        return text(text, skin.get(Styles.LabelStyle.class));
     }
 
     /**
      * Adds a TextraLabel to the content table.
      */
-    public TextraDialog text(@Null String text, LabelStyle labelStyle) {
+    public TextraDialog text(@Null String text, Styles.LabelStyle labelStyle) {
         return text(newLabel(text, labelStyle));
     }
 
@@ -218,13 +218,13 @@ public class TextraDialog extends TextraWindow {
     public TextraDialog typing(@Null String text) {
         if (skin == null)
             throw new IllegalStateException("This method may only be used if the dialog was constructed with a Skin.");
-        return typing(text, skin.get(LabelStyle.class));
+        return typing(text, skin.get(Styles.LabelStyle.class));
     }
 
     /**
      * Adds a TypingLabel to the content table.
      */
-    public TextraDialog typing(@Null String text, LabelStyle labelStyle) {
+    public TextraDialog typing(@Null String text, Styles.LabelStyle labelStyle) {
         return typing(newTypingLabel(text, labelStyle));
     }
 

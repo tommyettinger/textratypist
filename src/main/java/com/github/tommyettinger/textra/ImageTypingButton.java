@@ -55,7 +55,7 @@ public class ImageTypingButton extends ImageTextraButton {
     }
 
     @Override
-    protected TypingLabel newLabel(String text, Label.LabelStyle style) {
+    protected TypingLabel newLabel(String text, Styles.LabelStyle style) {
         return new TypingLabel(text, style);
     }
 

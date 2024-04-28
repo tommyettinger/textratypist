@@ -71,7 +71,7 @@ public class SetTextTest extends ApplicationAdapter {
 //                "действия)";
         textra = text.replaceAll("\\{[^}]*}", "");
         typingLabel = new TypingLabel(
-                text, new Label.LabelStyle(), font);
+                text, new Styles.LabelStyle(), font);
         typingLabel.setWrap(true);
         typingLabel.setAlignment(center);
         typingLabel.setMaxLines(5);
@@ -80,7 +80,7 @@ public class SetTextTest extends ApplicationAdapter {
         typingLabel.parseTokens();
         typingLabel.skipToTheEnd();
         textraLabel = new TextraLabel(
-                "[#FFF]" + textra, new Label.LabelStyle(), font);
+                "[#FFF]" + textra, new Styles.LabelStyle(), font);
         textraLabel.setWrap(true);
         textraLabel.setAlignment(center);
 //        textraLabel.layout.setMaxLines(5);

@@ -67,7 +67,7 @@ public class GSTransparencyTest  extends ApplicationAdapter {
         textraLabel1.setAlignment(center);
         textraLabel1.useIntegerPositions(false);
         textraLabel1.setPosition(200,200);
-        textraLabel1.style = new Label.LabelStyle();
+        textraLabel1.style = new Styles.LabelStyle();
         textraLabel1.style.background = skin.getDrawable("tablet_icon");
         textraLabel1.pack();
         textraLabel1.setOrigin(center);

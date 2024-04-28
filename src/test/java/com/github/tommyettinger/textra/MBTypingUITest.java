@@ -69,7 +69,7 @@ public class MBTypingUITest extends InputAdapter implements ApplicationListener 
 //				KnownFonts.getCozette().useIntegerPositions(true);
 				new Font(skin.getFont("font")).useIntegerPositions(true);
 //		KnownFonts.getStandardFamily()
-//				new Font(skin.get(Label.LabelStyle.class).font)
+//				new Font(skin.get(Styles.LabelStyle.class).font)
 //				.useIntegerPositions(true);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =

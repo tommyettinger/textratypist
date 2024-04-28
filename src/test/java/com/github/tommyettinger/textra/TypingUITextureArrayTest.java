@@ -70,7 +70,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 //				//KnownFonts.getYanoneKaffeesatz();
 //				new Font(skin.getFont("outline-font"), 0f, 12f, 0f, 0f);//.adjustLineHeight(1.2f);
 //		KnownFonts.getStandardFamily()
-//				new Font(skin.get(Label.LabelStyle.class).font)
+//				new Font(skin.get.class).font)
 //				.useIntegerPositions(true);
 //		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		family.connected[11] =

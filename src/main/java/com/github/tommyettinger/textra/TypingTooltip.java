@@ -57,7 +57,7 @@ public class TypingTooltip extends Tooltip<TypingLabel> {
     public TypingTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style) {
         super(null, manager);
 
-        final TypingLabel label = newLabel(text, style.label);
+        final TypingLabel label = newLabel(text, new Styles.LabelStyle(style.label));
         label.setAlignment(Align.center);
         label.setWrap(true);
         label.layout.setTargetWidth(style.wrapWidth);
@@ -100,7 +100,7 @@ public class TypingTooltip extends Tooltip<TypingLabel> {
         label.setText(text);
     }
 
-    protected TypingLabel newLabel(String text, LabelStyle style) {
+    protected TypingLabel newLabel(String text, Styles.LabelStyle style) {
         return new TypingLabel(text, style);
     }
 

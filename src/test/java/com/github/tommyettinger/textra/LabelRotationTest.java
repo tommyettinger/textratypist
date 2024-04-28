@@ -53,9 +53,9 @@ public class LabelRotationTest extends ApplicationAdapter {
     Label label1;
     Label label2;
     Label label3;
-    Label.LabelStyle label1Style;
-    Label.LabelStyle label2Style;
-    Label.LabelStyle label3Style;
+    Styles.LabelStyle label1Style;
+    Styles.LabelStyle label2Style;
+    Styles.LabelStyle label3Style;
     TextureRegion texture;
     float rot = 360 * 5;
     Table table;
@@ -84,17 +84,17 @@ public class LabelRotationTest extends ApplicationAdapter {
         tFont.useIntegerPositions(false);
         tFont2.useIntegerPositions(false);
 
-        Label.LabelStyle style = new Label.LabelStyle();
-        style.font = font;
-        style.font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        style.font.setUseIntegerPositions(false);
-        style.font.getData().scale(-0.5f);
+        Styles.LabelStyle style = new Styles.LabelStyle();
+        style.font = tFont;
+        style.font.setTextureFilter();
+        style.font.useIntegerPositions(false);
         style.background = new TextureRegionDrawable(texture);
         style.background.setTopHeight(15);
         style.background.setBottomHeight(15);
         style.background.setLeftWidth(25);
         style.background.setRightWidth(25);
 
+        font.getData().scale(-0.5f);
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
         labelStyle.background = new TextureRegionDrawable(texture);
         labelStyle.background.setTopHeight(15);

@@ -47,7 +47,7 @@ public class Issue6933Test extends ApplicationAdapter {
         stage = new Stage(viewport);
 
 //        BitmapFont font = new BitmapFont();
-//        label = new Label("Checking for updates...", new Label.LabelStyle(font, Color.WHITE));
+//        label = new Label("Checking for updates...", new Styles.LabelStyle(font, Color.WHITE));
 //        label.setAlignment(Align.center);
 //        label.setFillParent(true);
 //        stage.addActor(label);
@@ -67,7 +67,7 @@ public class Issue6933Test extends ApplicationAdapter {
 //        //FreeTypeFontGenerator.setMaxTextureSize(2048); // only needed for large font sizes or many glyphs
 //        BitmapFont bitmapFont = fontGenerator.generateFont(parameter);
 //
-//        Label.LabelStyle labelStyle = new Label.LabelStyle(bitmapFont, Color.WHITE);
+//        Styles.LabelStyle labelStyle = new Styles.LabelStyle(bitmapFont, Color.WHITE);
 //        this.label = new Label("FPS: " + Gdx.graphics.getFramesPerSecond(), labelStyle);
 //        label.setSize(100f, 60f);
 //        label.setAlignment(Align.left, Align.bottom);

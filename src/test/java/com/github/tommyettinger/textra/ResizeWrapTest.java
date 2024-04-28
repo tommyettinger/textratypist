@@ -47,6 +47,8 @@ public class ResizeWrapTest extends ApplicationAdapter {
     private BitmapFont font20;
     private Label.LabelStyle style28;
     private Label.LabelStyle style20;
+    private Styles.LabelStyle style28tt;
+    private Styles.LabelStyle style20tt;
     private Table outer;
     private Stage stage;
 
@@ -81,7 +83,7 @@ public class ResizeWrapTest extends ApplicationAdapter {
             }
         });
         typingLabelScaleFont = new TypingLabel("libGDX is a free and open-source game-development application framework written in the Java programming language.\n\ntextraLabelScale.font.scale(1.5f, 1.5f);\n" +
-                "textraLabelScale.pack();", style20);
+                "textraLabelScale.pack();", style20tt);
 //        textraLabelScaleFont = new TypingLabel("Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone"
 //                "{SHAKE}libGDX is a free and open-source game-development application framework written in the Java programming language."
 //                +"\n\ntextraLabelScale.font.scale(1.5f, 1.5f);\n" +
@@ -90,7 +92,7 @@ public class ResizeWrapTest extends ApplicationAdapter {
         typingLabelScaleFont.setWrap(true);
 
         typingLabelChangeFont = new TypingLabel("libGDX is a free and open-source game-development application framework written in the Java programming language.\n\nFont font = new Font(font28);\n" +
-                "textraLabelFont.font = font;\ntextraLabelFont.pack();", style20);
+                "textraLabelFont.font = font;\ntextraLabelFont.pack();", style20tt);
         typingLabelChangeFont.setWrap(true);
 
         outer.add(labScale).right().width(getWidth() - 40).padBottom(20).row();
@@ -166,6 +168,9 @@ public class ResizeWrapTest extends ApplicationAdapter {
         style20 = new Label.LabelStyle();
         style20.font = font20;
         style20.fontColor = Color.WHITE;
+
+        style20tt = new Styles.LabelStyle(style20);
+        style28tt = new Styles.LabelStyle(style28);
     }
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
