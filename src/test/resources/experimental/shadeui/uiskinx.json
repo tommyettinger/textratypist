@@ -13,6 +13,11 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	font-label: { file: font-label.json, useIntegerPositions:   false },
 	font-title: { file: font-title.json, useIntegerPositions:   false }
 },
+com.github.tommyettinger.textra.Font: {
+	font-button: { file: font-button.json, useIntegerPositions: false },
+	font-label: { file: font-label.json, useIntegerPositions:   false },
+	font-title: { file: font-title.json, useIntegerPositions:   false }
+},
 com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	dialogDim: {
 		name: white,

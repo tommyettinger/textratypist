@@ -85,6 +85,12 @@ public class FWSkin extends Skin {
             public Font read(Json json, JsonValue jsonData, Class type) {
                 String path = json.readValue("file", String.class, jsonData);
 
+                FileHandle fontFile = skinFile.parent().child(path);
+                if (!fontFile.exists()) fontFile = Gdx.files.internal(path);
+                if (!fontFile.exists()) throw new SerializationException("Font file not found: " + fontFile);
+
+                path = fontFile.path();
+
                 boolean fw = path.endsWith(".json");
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
                 float xAdjust = json.readValue("xAdjust", float.class, 0f, jsonData);
