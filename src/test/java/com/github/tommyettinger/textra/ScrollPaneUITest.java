@@ -27,7 +27,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.ray3k.stripe.FreeTypeSkin;
 
 public class ScrollPaneUITest extends InputAdapter implements ApplicationListener {
 	Skin skin;
@@ -35,7 +34,7 @@ public class ScrollPaneUITest extends InputAdapter implements ApplicationListene
 
 	@Override
 	public void create () {
-		skin = new FreeTypeFWSkin(Gdx.files.internal("uiskin2.json"));
+		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 		final Font font = KnownFonts.getStandardFamily();
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);

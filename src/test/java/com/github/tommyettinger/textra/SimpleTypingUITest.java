@@ -34,7 +34,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.ray3k.stripe.FreeTypeSkin;
 
 public class SimpleTypingUITest extends InputAdapter implements ApplicationListener {
 	Skin skin;
@@ -47,7 +46,7 @@ public class SimpleTypingUITest extends InputAdapter implements ApplicationListe
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.enable();
-		skin = new FreeTypeFWSkin(Gdx.files.internal("uiskin2.json"));
+		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
 		TextureRegion image = new TextureRegion(texture1);

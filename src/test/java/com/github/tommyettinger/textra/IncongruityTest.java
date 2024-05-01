@@ -26,9 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.ray3k.stripe.FreeTypeSkin;
 
 public class IncongruityTest extends ApplicationAdapter {
     Stage stage;
@@ -36,7 +34,7 @@ public class IncongruityTest extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
-        Skin skin = new FreeTypeFWSkin(Gdx.files.internal("uiskin2.json"));
+        Skin skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
         Table root = new Table(skin);
 
         Font[] fonts = KnownFonts.getAllStandard();

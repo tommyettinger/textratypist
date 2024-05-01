@@ -23,16 +23,16 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
- * An {@link com.badlogic.gdx.assets.loaders.AssetLoader} to load a {@link FreeTypeFWSkin}. This enables you to deserialize FreeType fonts from
+ * An {@link com.badlogic.gdx.assets.loaders.AssetLoader} to load a {@link FreeTypistSkin}. This enables you to deserialize FreeType fonts from
  * a Skin JSON and load it through an {@link AssetManager}. See the
  * <a href="https://github.com/raeleus/skin-composer/wiki/Creating-FreeType-Fonts#using-a-custom-serializer">Skin Composer documentation</a>.
  */
-public class FreeTypeFWSkinLoader extends SkinLoader {
+public class FreeTypistSkinLoader extends SkinLoader {
     /**
      * Creates a loader with the associated resolver.
      * @param resolver Allows {@link AssetManager} to load resources from anywhere or implement caching strategies.
      */
-    public FreeTypeFWSkinLoader(FileHandleResolver resolver) {
+    public FreeTypistSkinLoader(FileHandleResolver resolver) {
         super(resolver);
     }
     
@@ -40,6 +40,6 @@ public class FreeTypeFWSkinLoader extends SkinLoader {
      * @param atlas The TextureAtlas that the skin will use.
      * @return A new Skin (or subclass of Skin) instance based on the provided TextureAtlas. */
     protected Skin newSkin (TextureAtlas atlas) {
-        return new FreeTypeFWSkin(atlas);
+        return new FreeTypistSkin(atlas);
     }
 }

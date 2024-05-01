@@ -30,13 +30,13 @@ import com.badlogic.gdx.utils.SerializationException;
 
 /**
  * A sublass of {@link Skin} that includes a serializer for FreeType fonts from JSON. These JSON's are typically exported by
- * Skin Composer. See the
+ * Skin Composer. This can also load Font and BitmapFont objects from .fnt files or .json files made by FontWriter. See the
  * <a href="https://github.com/raeleus/skin-composer/wiki/Creating-FreeType-Fonts#using-a-custom-serializer">Skin Composer documentation</a>.
- * If you are using Asset Manager, use {@link FreeTypeFWSkinLoader}
+ * If you are using Asset Manager, use {@link FreeTypistSkinLoader}
  */
-public class FreeTypeFWSkin extends Skin {
+public class FreeTypistSkin extends Skin {
     /** Creates an empty skin. */
-    public FreeTypeFWSkin() {
+    public FreeTypistSkin() {
     }
     
     /** Creates a skin containing the resources in the specified skin JSON file. If a file in the same directory with a ".atlas"
@@ -44,7 +44,7 @@ public class FreeTypeFWSkin extends Skin {
      * automatically disposed when the skin is disposed.
      * @param  skinFile The JSON file to be read.
      */
-    public FreeTypeFWSkin(FileHandle skinFile) {
+    public FreeTypistSkin(FileHandle skinFile) {
         super(skinFile);
         
     }
@@ -54,7 +54,7 @@ public class FreeTypeFWSkin extends Skin {
      * @param skinFile The JSON file to be read.
      * @param atlas The texture atlas to be associated with the {@link Skin}.
      */
-    public FreeTypeFWSkin(FileHandle skinFile, TextureAtlas atlas) {
+    public FreeTypistSkin(FileHandle skinFile, TextureAtlas atlas) {
         super(skinFile, atlas);
     }
     
@@ -62,7 +62,7 @@ public class FreeTypeFWSkin extends Skin {
      * is disposed.
      * @param atlas The texture atlas to be associated with the {@link Skin}.
      */
-    public FreeTypeFWSkin(TextureAtlas atlas) {
+    public FreeTypistSkin(TextureAtlas atlas) {
         super(atlas);
     }
     
