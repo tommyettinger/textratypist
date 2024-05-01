@@ -37,7 +37,7 @@ public class IncongruityDistanceFieldTest extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
-        Skin skin = new FreeTypeSkin(Gdx.files.internal("uiskin2.json"));
+        Skin skin = new FreeTypeFWSkin(Gdx.files.internal("uiskin2.json"));
         Table root = new Table(skin);
 
         sdfFonts = KnownFonts.getAllSDF();

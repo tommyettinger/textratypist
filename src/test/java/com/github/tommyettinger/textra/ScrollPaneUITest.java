@@ -35,7 +35,7 @@ public class ScrollPaneUITest extends InputAdapter implements ApplicationListene
 
 	@Override
 	public void create () {
-		skin = new FreeTypeSkin(Gdx.files.internal("uiskin2.json"));
+		skin = new FreeTypeFWSkin(Gdx.files.internal("uiskin2.json"));
 		final Font font = KnownFonts.getStandardFamily();
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);

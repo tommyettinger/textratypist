@@ -57,7 +57,7 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.enable();
-		skin = new FreeTypeSkin(Gdx.files.internal("uiskin2.json"));
+		skin = new FreeTypeFWSkin(Gdx.files.internal("uiskin2.json"));
 		skin = new FWSkin(Gdx.files.internal("uiskin3.json"));
 //		skin = new FWSkin(Gdx.files.internal("uiskin4.json"));
 //		skin = new Skin(Gdx.files.internal("uiskin.json"));
