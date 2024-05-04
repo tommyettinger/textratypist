@@ -1,3 +1,5 @@
+import org.gradle.api.JavaVersion
+
 buildscript {
     repositories {
         mavenLocal()
@@ -13,6 +15,35 @@ buildscript {
 apply plugin: 'java-library'
 apply plugin: 'com.vanniktech.maven.publish'
 apply plugin: 'idea'
+
+configure(allprojects) {
+    apply plugin: 'java-library'
+    apply plugin: 'com.vanniktech.maven.publish'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    compileJava {
+        options.incremental = true
+        sourceCompatibility = 8
+        targetCompatibility = 8
+        if (JavaVersion.current().isJava9Compatible()) {
+            options.release.set(8)
+        }
+
+    }
+}
+allprojects {
+    version = "$VERSION_NAME"
+    group = 'com.github.tommyettinger'
+    ext.projectName = 'TextraTypist'
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'https://oss.sonatype.org/content/repositories/releases/' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://jitpack.io' }
+    }
+    javadoc.options.source("17")
+}
 
 
 java {
@@ -37,8 +68,8 @@ compileTestJava {
 }
 
 def projectName = 'textratypist'
-version "$VERSION_NAME"
-group 'com.github.tommyettinger'
+version = "$VERSION_NAME"
+group = 'com.github.tommyettinger'
 
 //api "com.github.tommyettinger:textratypist:0.10.0"
 
