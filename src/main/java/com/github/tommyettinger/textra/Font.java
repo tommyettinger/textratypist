@@ -2072,6 +2072,26 @@ public class Font implements Disposable {
 
     /**
      * Creates a Font from a "Structured JSON" file produced by Chlumsky's msdf-atlas-gen tool, and uses it to assemble
+     * the many {@link GlyphRegion}s this has for each glyph. Reads the distance field type from the JSON. This always
+     * tries to load a PNG file with the same filename as (and different extension from) the JSON file, trying an
+     * internal file path first, and a local file path if that fails. This always makes grid glyphs.
+     * <br>
+     * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
+     * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
+     * produce is fairly full-featured. Although it can also produce things like Artery fonts, those seem pretty
+     * specific to the Artery engine, and the tool might not use a stable revision of the format.
+     *
+     * @param jsonName the name of a structured JSON font file this will load from an internal or local file handle (tried in that order)
+     * @param ignoredStructuredJsonFlag only present to distinguish this from other constructors; ignored
+     */
+    public Font(String jsonName, boolean ignoredStructuredJsonFlag) {
+        this(jsonName, new TextureRegion(new Texture(Gdx.files.internal(jsonName.replace(".json", ".png")).exists()
+                ? Gdx.files.internal(jsonName.replace(".json", ".png")) : Gdx.files.local(jsonName.replace(".json", ".png"))
+        )), 0f, 0f, 0f, 0f, true, ignoredStructuredJsonFlag);
+    }
+
+    /**
+     * Creates a Font from a "Structured JSON" file produced by Chlumsky's msdf-atlas-gen tool, and uses it to assemble
      * the many {@link GlyphRegion}s this has for each glyph. Reads the distance field type from the JSON.
      * <br>
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
@@ -2080,6 +2100,27 @@ public class Font implements Disposable {
      * specific to the Artery engine, and the tool might not use a stable revision of the format.
      *
      * @param jsonName the name of a structured JSON font file this will load from an internal or local file handle (tried in that order)
+     * @param textureRegion a non-null TextureRegion, often taking up all of a Texture, that stores the images of the glyphs
+     * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     * @param ignoredStructuredJsonFlag only present to distinguish this from other constructors; ignored
+     */
+    public Font(String jsonName, TextureRegion textureRegion,
+                boolean makeGridGlyphs,
+                boolean ignoredStructuredJsonFlag) {
+        this(jsonName, textureRegion, 0f, 0f, 0f, 0f, makeGridGlyphs, ignoredStructuredJsonFlag);
+    }
+
+    /**
+     * Creates a Font from a "Structured JSON" file produced by Chlumsky's msdf-atlas-gen tool, and uses it to assemble
+     * the many {@link GlyphRegion}s this has for each glyph. Reads the distance field type from the JSON.
+     * <br>
+     * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
+     * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
+     * produce is fairly full-featured. Although it can also produce things like Artery fonts, those seem pretty
+     * specific to the Artery engine, and the tool might not use a stable revision of the format.
+     *
+     * @param jsonName the name of a structured JSON font file this will load from an internal or local file handle (tried in that order)
+     * @param textureRegion  a non-null TextureRegion, often taking up all of a Texture, that stores the images of the glyphs
      * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust        how many pixels to offset each character's y-position by, moving up
      * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
@@ -2105,6 +2146,8 @@ public class Font implements Disposable {
         } else {
             throw new RuntimeException("Missing font file: " + jsonName);
         }
+
+        name = fntHandle.nameWithoutExtension();
 
         JsonValue atlas = fnt.get("atlas");
         String dfType = atlas.getString("type", "");
