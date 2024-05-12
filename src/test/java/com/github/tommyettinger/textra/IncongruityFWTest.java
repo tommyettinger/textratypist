@@ -31,7 +31,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class IncongruityFWTest extends ApplicationAdapter {
     Stage stage;
-
+    Font[] fonts;
     @Override
     public void create() {
         stage = new Stage();
@@ -39,12 +39,15 @@ public class IncongruityFWTest extends ApplicationAdapter {
         Table root = new Table(skin);
 
         FileHandle[] jsonFiles = Gdx.files.local("knownFonts/fontwriter").list(".json");
-        Font[] fonts = new Font[jsonFiles.length];
+        fonts = new Font[jsonFiles.length];
         BitmapFont[] bitmapFonts = new BitmapFont[jsonFiles.length];
         for (int i = 0; i < jsonFiles.length; i++) {
             fonts[i] = new Font(jsonFiles[i].path(), true);
             fonts[i].scaleTo(fonts[i].originalCellWidth * 24f / fonts[i].originalCellHeight, 24f);
-            bitmapFonts[i] = BitmapFontSupport.loadStructuredJson(jsonFiles[i], jsonFiles[i].nameWithoutExtension() + ".png");
+            if(fonts[i].distanceField == Font.DistanceFieldType.STANDARD)
+                bitmapFonts[i] = BitmapFontSupport.loadStructuredJson(jsonFiles[i], jsonFiles[i].nameWithoutExtension() + ".png");
+            else
+                bitmapFonts[i] = BitmapFontSupport.loadStructuredJson(jsonFiles[i].sibling(jsonFiles[i].name().replaceAll("-[a-z]+\\.json", "-standard.json")), jsonFiles[i].name().replaceAll("-[a-z]+\\.json", "-standard.png"));
             bitmapFonts[i].setUseIntegerPositions(false);
             bitmapFonts[i].getData().setScale(24f / bitmapFonts[i].getLineHeight());
         }
@@ -96,6 +99,7 @@ public class IncongruityFWTest extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
+        for(Font f : fonts) f.resizeDistanceField(width, height);
     }
 
     @Override
