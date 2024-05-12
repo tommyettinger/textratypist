@@ -22,8 +22,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -35,6 +38,7 @@ import com.github.tommyettinger.textra.utils.StringUtils;
 import regexodus.Category;
 
 import java.util.Arrays;
+import java.util.IdentityHashMap;
 
 /**
  * A replacement for libGDX's BitmapFont class, supporting additional markup to allow styling text with various effects.
@@ -416,7 +420,8 @@ public class Font implements Disposable {
          */
         STANDARD,
         /**
-         * Used by Signed Distance Field fonts that are compatible with {@link DistanceFieldFont}, and may be created
+         * Used by Signed Distance Field fonts that are compatible with
+         * {@link com.badlogic.gdx.graphics.g2d.DistanceFieldFont}, and may be created
          * by Hiero with its Distance Field effect. You may want to set the {@link #distanceFieldCrispness} field to a
          * higher or lower value depending on the range used to create the font in Hiero; this can take experimentation,
          * but the default is 1 and higher values have sharper edges (risking getting pixelated if too high).
@@ -473,7 +478,10 @@ public class Font implements Disposable {
      * drawn from a TextureAtlas that the font shares with other images.
      */
     public Array<TextureRegion> parents;
-    private DistanceFieldType distanceField;
+    protected DistanceFieldType distanceField;
+
+    private static final IdentityHashMap<Batch, Float> smoothingValues = new IdentityHashMap<>(8);
+
     /**
      * If true, this is a fixed-width (monospace) font; if false, this is probably a variable-width font. This affects
      * some rendering decisions Font makes, such as whether subscript chars should take up half-width (for variable
@@ -1093,18 +1101,19 @@ public class Font implements Disposable {
                     "varying vec4 v_color;\n" +
                     "varying vec2 v_texCoords;\n" +
                     "uniform float u_smoothing;\n" +
-                    "uniform float u_weight;\n" +
+//                    "uniform float u_weight;\n" +
                     "float median(float r, float g, float b) {\n" +
                     "    return max(min(r, g), min(max(r, g), b));\n" +
                     "}\n" +
-                    "float linearstep(float a, float b, float x) {\n" +
-                    "    return clamp((x - a) / (b - a), 0.0, 1.0);\n" +
-                    "}\n" +
                     "void main() {\n" +
+                    "  if (u_smoothing > 0.0) {\n" +
                     "    vec4 msdf = TEXTURE(u_texture, v_texCoords);\n" +
-                    "    float distance = u_smoothing * (median(msdf.r, msdf.g, msdf.b) + u_weight - 0.5);\n" +
+                    "    float distance = u_smoothing * (median(msdf.r, msdf.g, msdf.b) - 0.5);\n" +
                     "    float glyphAlpha = clamp(distance + 0.5, 0.0, 1.0);\n" +
                     "    gl_FragColor = vec4(v_color.rgb, glyphAlpha * v_color.a);\n" +
+                    "  } else {\n" +
+                    "    gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n" +
+                    "  }\n" +
                     "}";
 //            "#ifdef GL_ES\n"
 //            + "	precision mediump float;\n"
@@ -2852,23 +2861,68 @@ public class Font implements Disposable {
      * @param batch the Batch to instruct to use the appropriate shader for this font; should usually be a SpriteBatch
      */
     public void enableShader(Batch batch) {
-        if (getDistanceField() == DistanceFieldType.MSDF) {
-            if (batch.getShader() != shader) {
+        if (batch.getShader() != shader) {
+            if (distanceField == DistanceFieldType.MSDF) {
                 batch.setShader(shader);
-                shader.setUniformf("u_weight", 0f);
-//                shader.setUniformf("u_smoothing", 2f * distanceFieldCrispness);
-                shader.setUniformf("u_smoothing", 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth));
-            }
-        } else if (getDistanceField() == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
-            if (batch.getShader() != shader) {
+                float smoothing = 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                shader.setUniformf("u_smoothing", smoothing);
+                smoothingValues.put(batch, smoothing);
+            } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
                 batch.setShader(shader);
-                final float scale = Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth) * 0.5f + 0.125f;
-                shader.setUniformf("u_smoothing", (actualCrispness / (scale)));
-            }
-        } else {
-            if(batch.getShader() != shader) {
+                float smoothing = (actualCrispness / (Math.max(cellHeight / originalCellHeight,
+                        cellWidth / originalCellWidth) * 0.5f + 0.125f));
+                shader.setUniformf("u_smoothing", smoothing);
+                smoothingValues.put(batch, smoothing);
+            } else {
                 batch.setShader(null);
+                smoothingValues.put(batch, 0f);
             }
+        }
+    }
+
+    /**
+     * If a distance field font needs to be drawn with a different size, different crispness, or a different Texture
+     * altogether (such as to draw an icon or emoji), you can call this just before you start drawing distance field
+     * text with this Font. You should only call this when you just changed something that affects how distance fields
+     * are drawn, which primarily means {@link #actualCrispness}, {@link #cellHeight}, {@link #originalCellHeight},
+     * {@link #cellWidth}, or {@link #originalCellWidth}, and also includes Texture changes to non-distance-field
+     * Textures. This should not be called immediately after {@link #enableShader(Batch)}, since they do similar things.
+     * <br>
+     * Typically, if you call {@link #disableDistanceFieldShader(Batch)}, you call this method later to resume drawing
+     * with a distance field.
+     * @param batch a Batch that should be running (between {@link Batch#begin()} and {@link Batch#end()})
+     */
+    public void enableDistanceFieldShader(Batch batch) {
+        if (batch.getShader() == shader) {
+            if (distanceField == DistanceFieldType.MSDF) {
+                batch.flush();
+                float smoothing = 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                shader.setUniformf("u_smoothing", smoothing);
+                smoothingValues.put(batch, smoothing);
+            } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
+                batch.flush();
+                float smoothing = (actualCrispness / (Math.max(cellHeight / originalCellHeight,
+                        cellWidth / originalCellWidth) * 0.5f + 0.125f));
+                shader.setUniformf("u_smoothing", smoothing);
+                smoothingValues.put(batch, smoothing);
+            }
+        }
+    }
+
+    /**
+     * If a distance field font needs to have its distance field effect disabled temporarily (such as to draw an icon
+     * or emoji), you can call this just before you start drawing the non-distance-field images. You should only call
+     * this just before drawing from a non-distance-field Texture. You can resume using the distance field by calling
+     * {@link #enableDistanceFieldShader(Batch)}.
+     * @param batch a Batch that should be running (between {@link Batch#begin()} and {@link Batch#end()})
+     */
+    public void disableDistanceFieldShader(Batch batch) {
+        if(batch.getShader() == shader && distanceField != DistanceFieldType.STANDARD) {
+            Float smoothing = smoothingValues.get(batch);
+            if(smoothing == null || smoothing == 0f) return;
+            batch.flush();
+            shader.setUniformf("u_smoothing", 0f);
+            smoothingValues.put(batch, 0f);
         }
     }
 
