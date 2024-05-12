@@ -42,9 +42,9 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new FreeTypistSkin(Gdx.files.internal("uiskin.json"));
 //        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        skin.getFont("default-font");//.getData().setScale(0.5f);
+//        skin.getFont("default-font").getData().setScale(0.5f);
         stage = new Stage(new StretchViewport(720, 405), batch);
         stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);
@@ -102,7 +102,9 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //        Font font = new Font("dawnlike/PlainAndSimplePlus-standard.fnt", atlas.findRegion("PlainAndSimplePlus-standard"), 0, 0, 2, 2);
 //        font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
 //        font.scale(2, 2);
-        Font font = KnownFonts.addEmoji(KnownFonts.getNowAlt());
+//        Font font = KnownFonts.addEmoji(new Font("experimental/GentiumUnItalic-sdf.json", true)).scale(0.5f, 0.5f);
+        Font font = KnownFonts.addEmoji(new Font("fontwriter/Gentium-sdf.json", true)).scale(0.6f, 0.6f);
+//        Font font = KnownFonts.addEmoji(KnownFonts.getGentiumSDF());
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
         // Create label
