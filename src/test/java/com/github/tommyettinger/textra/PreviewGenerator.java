@@ -86,8 +86,8 @@ public class PreviewGenerator extends ApplicationAdapter {
             }
             faceIdx++;
         }
-        all[all.length-1] = new Font("experimental/Kingthings_PetRock-msdf.json",
-                new TextureRegion(new Texture("experimental/Kingthings_PetRock-msdf.png")), 0, 0, 0, 0, true, true)
+        all[all.length-1] = new Font("fontwriter/Yanone-Kaffeesatz-msdf.json",
+                new TextureRegion(new Texture("fontwriter/Yanone-Kaffeesatz-msdf.png")), 0, 0, 0, 0, true, true)
                 .setTextureFilter()
                 .setName("Kingthings PetRock (MSDF)");
         all[all.length-1].scaleTo(all[all.length-1].originalCellWidth*24f/all[all.length-1].originalCellHeight, 24f);
