@@ -17,11 +17,14 @@
 package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.Scaling;
+import com.github.tommyettinger.textra.Styles.CheckBoxStyle;
 
 /**
  * A checkbox is a button that contains an image indicating the checked or unchecked state and a {@link TypingLabel}.
@@ -31,29 +34,29 @@ import com.badlogic.gdx.utils.Scaling;
 public class TypingCheckBox extends TypingButton {
     private final Image image;
     private final Cell<?> imageCell;
-    private CheckBox.CheckBoxStyle style;
+    private CheckBoxStyle style;
 
     public TypingCheckBox(@Null String text, Skin skin) {
-        this(text, skin.get(CheckBox.CheckBoxStyle.class));
+        this(text, skin.get(CheckBoxStyle.class));
     }
 
     public TypingCheckBox(@Null String text, Skin skin, String styleName) {
-        this(text, skin.get(styleName, CheckBox.CheckBoxStyle.class));
+        this(text, skin.get(styleName, CheckBoxStyle.class));
     }
 
-    public TypingCheckBox(@Null String text, CheckBox.CheckBoxStyle style) {
+    public TypingCheckBox(@Null String text, CheckBoxStyle style) {
         this(text, style, new Font(style.font));
     }
 
     public TypingCheckBox(@Null String text, Skin skin, Font replacementFont) {
-        this(text, skin.get(CheckBox.CheckBoxStyle.class), replacementFont);
+        this(text, skin.get(CheckBoxStyle.class), replacementFont);
     }
 
     public TypingCheckBox(@Null String text, Skin skin, String styleName, Font replacementFont) {
-        this(text, skin.get(styleName, CheckBox.CheckBoxStyle.class), replacementFont);
+        this(text, skin.get(styleName, CheckBoxStyle.class), replacementFont);
     }
 
-    public TypingCheckBox(@Null String text, CheckBox.CheckBoxStyle style, Font replacementFont) {
+    public TypingCheckBox(@Null String text, CheckBoxStyle style, Font replacementFont) {
         super(text, style, replacementFont);
 
         TypingLabel label = (TypingLabel) getTextraLabel();
@@ -73,20 +76,20 @@ public class TypingCheckBox extends TypingButton {
     }
 
     public void setStyle(ButtonStyle style) {
-        if (!(style instanceof CheckBox.CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
-        this.style = (CheckBox.CheckBoxStyle) style;
+        if (!(style instanceof CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
+        this.style = (CheckBoxStyle) style;
         super.setStyle(style);
     }
 
     public void setStyle(ButtonStyle style, boolean makeGridGlyphs) {
-        if (!(style instanceof CheckBox.CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
-        this.style = (CheckBox.CheckBoxStyle) style;
+        if (!(style instanceof CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
+        this.style = (CheckBoxStyle) style;
         super.setStyle(style, makeGridGlyphs);
     }
 
     public void setStyle(ButtonStyle style, Font font) {
-        if (!(style instanceof CheckBox.CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
-        this.style = (CheckBox.CheckBoxStyle) style;
+        if (!(style instanceof CheckBoxStyle)) throw new IllegalArgumentException("style must be a CheckBoxStyle.");
+        this.style = (CheckBoxStyle) style;
         super.setStyle(style, font);
     }
 
@@ -94,7 +97,7 @@ public class TypingCheckBox extends TypingButton {
      * Returns the checkbox's style. Modifying the returned style may not have an effect until {@link #setStyle(ButtonStyle)} is
      * called.
      */
-    public CheckBox.CheckBoxStyle getStyle() {
+    public CheckBoxStyle getStyle() {
         return style;
     }
 

@@ -20,13 +20,22 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.github.tommyettinger.textra.Styles.TextButtonStyle;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
@@ -263,7 +272,7 @@ public class TypingDialog extends TypingWindow {
     public TypingDialog button(@Null String text, @Null Object object) {
         if (skin == null)
             throw new IllegalStateException("This method may only be used if the dialog was constructed with a Skin.");
-        return button(text, object, skin.get(TextButton.TextButtonStyle.class));
+        return button(text, object, skin.get(TextButtonStyle.class));
     }
 
     /**
@@ -271,7 +280,7 @@ public class TypingDialog extends TypingWindow {
      *
      * @param object The object that will be passed to {@link #result(Object)} if this button is clicked. May be null.
      */
-    public TypingDialog button(@Null String text, @Null Object object, TextButton.TextButtonStyle buttonStyle) {
+    public TypingDialog button(@Null String text, @Null Object object, TextButtonStyle buttonStyle) {
         return button(font == null
                 ? new TextraButton(text, buttonStyle)
                 : new TextraButton(text, buttonStyle, font), object);

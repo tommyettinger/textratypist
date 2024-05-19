@@ -51,7 +51,7 @@ public class DialogTest extends ApplicationAdapter {
         dialog.getButtonTable().clear();
         dialog.getContentTable().clear();
         dialog.clearListeners();
-        TextraButton ok = new TextraButton("OK", new TextButton.TextButtonStyle(), gentium);
+        TextraButton ok = new TextraButton("OK", new Styles.TextButtonStyle(), gentium);
         ok.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

@@ -20,11 +20,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.github.tommyettinger.textra.Styles.TextButtonStyle;
 
 /**
  * A button with a child {@link TypingLabel} to display text.
- *
- * @author Nathan Sweet
  */
 public class TypingButton extends TextraButton {
 
@@ -36,7 +35,7 @@ public class TypingButton extends TextraButton {
         super(text, skin, styleName);
     }
 
-    public TypingButton(String text, TextButton.TextButtonStyle style) {
+    public TypingButton(String text, TextButtonStyle style) {
         super(text, style);
     }
 
@@ -48,19 +47,17 @@ public class TypingButton extends TextraButton {
         super(text, skin, styleName, replacementFont);
     }
 
-    public TypingButton(String text, TextButton.TextButtonStyle style, Font replacementFont) {
+    public TypingButton(String text, TextButtonStyle style, Font replacementFont) {
         super(text, style, replacementFont);
     }
 
     @Override
     protected TypingLabel newLabel(String text, Styles.LabelStyle style) {
-        TypingLabel label = new TypingLabel(text, style);
-        return label;
+        return new TypingLabel(text, style);
     }
 
     @Override
     protected TypingLabel newLabel(String text, Font font, Color color) {
-        TypingLabel label = new TypingLabel(text, font, color);
-        return label;
+        return new TypingLabel(text, font, color);
     }
 }

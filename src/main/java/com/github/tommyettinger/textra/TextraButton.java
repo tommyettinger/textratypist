@@ -20,11 +20,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
+import com.github.tommyettinger.textra.Styles.TextButtonStyle;
 
 /**
  * A button with a child {@link TextraLabel} to display text.
@@ -89,7 +88,7 @@ public class TextraButton extends Button {
 
         if (label != null) {
             TextButtonStyle textButtonStyle = (TextButtonStyle) style;
-            label.setFont(new Font(textButtonStyle.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs));
+            label.setFont(textButtonStyle.font);
             if (textButtonStyle.fontColor != null) label.setColor(textButtonStyle.fontColor);
         }
     }
