@@ -98,7 +98,6 @@ import java.util.IdentityHashMap;
  * @see #markup(String, Layout) The markup() method's documentation covers all the markup tags.
  */
 public class Font implements Disposable {
-
     /**
      * A {@link DistanceFieldType} that should be {@link DistanceFieldType#STANDARD} for most fonts, and can be
      * {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or {@link DistanceFieldType#SDF_OUTLINE} if you
@@ -478,9 +477,23 @@ public class Font implements Disposable {
      * drawn from a TextureAtlas that the font shares with other images.
      */
     public Array<TextureRegion> parents;
-    protected DistanceFieldType distanceField;
+    protected DistanceFieldType distanceField = DistanceFieldType.STANDARD;
 
+    /**
+     * Effectively used to attach a Float value to each Batch that might be used to draw a Font, where the Float is the
+     * current {@code u_smoothing} uniform value used by that Batch.
+     */
     private static final IdentityHashMap<Batch, Float> smoothingValues = new IdentityHashMap<>(8);
+
+    /**
+     * The last Texture drawn, which may be null if nothing has drawn before. This is used to tell when to enable or
+     * disable distance field shaders because some other Texture is being drawn. It's pretty much a hack.
+     * <br>
+     * It is a bad practice, but this is a static mutable field. This should be OK in this case because this only has
+     * any meaning when the Font is being drawn by OpenGL, which is a single-threaded API. All Font instances share this
+     * because that is necessary to allow switching between fonts to make sense.
+     */
+    private static Texture latestTexture = null;
 
     /**
      * If true, this is a fixed-width (monospace) font; if false, this is probably a variable-width font. This affects
@@ -4150,6 +4163,20 @@ public class Font implements Disposable {
 
         GlyphRegion tr = font.mapping.get(c);
         if (tr == null) return 0f;
+
+
+        if(font.distanceField != DistanceFieldType.STANDARD && latestTexture != (latestTexture = tr.getTexture())) {
+            boolean located = false;
+            for (int p = 0; p < font.parents.size; p++) {
+                if (font.parents.get(p).getTexture() == latestTexture) {
+                    font.enableDistanceFieldShader(batch);
+                    located = true;
+                    break;
+                }
+            }
+            if (!located)
+                font.disableDistanceFieldShader(batch);
+        }
 
         if(squashed) {
             sizingY *= 0.7f;

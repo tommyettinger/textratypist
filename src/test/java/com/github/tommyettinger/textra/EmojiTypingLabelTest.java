@@ -103,7 +103,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //        font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
 //        font.scale(2, 2);
 //        Font font = KnownFonts.addEmoji(new Font("experimental/GentiumUnItalic-sdf.json", true)).scale(0.5f, 0.5f);
-        Font font = KnownFonts.addEmoji(new Font("fontwriter/Gentium-sdf.json", true)).scale(0.6f, 0.6f);
+        Font font = KnownFonts.addEmoji(new Font("fontwriter/Gentium-msdf.json", true)).scale(0.6f, 0.6f);
 //        Font font = KnownFonts.addEmoji(KnownFonts.getGentiumSDF());
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
