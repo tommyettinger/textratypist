@@ -2299,6 +2299,10 @@ public class Font implements Disposable {
 
         isMono = minWidth == cellWidth && kerning == null;
         integerPosition = false;
+
+        inlineImageOffsetX = -20f + 0.1f * originalCellWidth ;
+        inlineImageOffsetY = 4f + originalCellHeight * -0.25f;
+        inlineImageXAdvance = 4f;
     }
 
     //// usage section

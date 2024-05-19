@@ -42,22 +42,28 @@ public class IncongruityFWTest extends ApplicationAdapter {
         fonts = new Font[jsonFiles.length];
         BitmapFont[] bitmapFonts = new BitmapFont[jsonFiles.length];
         for (int i = 0; i < jsonFiles.length; i++) {
-            fonts[i] = new Font(jsonFiles[i].path(), true);
-            fonts[i].scaleTo(fonts[i].originalCellWidth * 24f / fonts[i].originalCellHeight, 24f);
+            fonts[i] = KnownFonts.addEmoji(new Font(jsonFiles[i].path(), true));
+            fonts[i].scaleTo(fonts[i].originalCellWidth * 20.00f / fonts[i].originalCellHeight, 20.00f);
             if(fonts[i].distanceField == Font.DistanceFieldType.STANDARD)
                 bitmapFonts[i] = BitmapFontSupport.loadStructuredJson(jsonFiles[i], jsonFiles[i].nameWithoutExtension() + ".png");
             else
                 bitmapFonts[i] = BitmapFontSupport.loadStructuredJson(jsonFiles[i].sibling(jsonFiles[i].name().replaceAll("-[a-z]+\\.json", "-standard.json")), jsonFiles[i].name().replaceAll("-[a-z]+\\.json", "-standard.png"));
             bitmapFonts[i].setUseIntegerPositions(false);
-            bitmapFonts[i].getData().setScale(24f / bitmapFonts[i].getLineHeight());
+            bitmapFonts[i].getData().setScale(20.00f / bitmapFonts[i].getLineHeight());
         }
+        fonts[0].scale(0.5f, 1f);
+        fonts[1].scale(0.5f, 1f);
+        fonts[2].scale(0.5f, 1f);
+        bitmapFonts[0].getData().setScale(0.5f * bitmapFonts[0].getScaleX(), bitmapFonts[0].getScaleY());
+        bitmapFonts[1].getData().setScale(0.5f * bitmapFonts[1].getScaleX(), bitmapFonts[1].getScaleY());
+        bitmapFonts[2].getData().setScale(0.5f * bitmapFonts[2].getScaleX(), bitmapFonts[2].getScaleY());
         Table labels = new Table();
-        labels.defaults().pad(5);
+        labels.defaults().pad(1);
         for (int i = 0; i < fonts.length; i++) {
             Font font = fonts[i];
 //            Font font = fonts[i].setDescent(fonts[i].getDescent() * 2);
             labels.add(new Label(font.name, skin)).left();
-            TypingLabel label = new TypingLabel("Dummy Text 123", skin, font);
+            TypingLabel label = new TypingLabel("Emoji Text? 3, 2, 1, [+🎉]! [/]hooray...[/]", skin, font);
 //            label.align = Align.bottom;
             labels.add(label).expandX().left();
 //            label.validate();
@@ -68,7 +74,7 @@ public class IncongruityFWTest extends ApplicationAdapter {
                 Label.LabelStyle style = new Label.LabelStyle();
                 style.font = bf;
                 style.fontColor = Color.WHITE;
-                Label bmLabel = new Label("Dummy Text 123", style);
+                Label bmLabel = new Label("Emoji Text? 3, 2, 1... nooo... ;(", style);
                 bmLabel.validate();
                 float scaleY = label.getPrefHeight()/bmLabel.getPrefHeight();
                 float scaleX = label.getPrefWidth()/bmLabel.getPrefWidth();
@@ -119,7 +125,7 @@ public class IncongruityFWTest extends ApplicationAdapter {
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel Incongruity test");
-        config.setWindowedMode(1000, 900);
+        config.setWindowedMode(1300, 950);
         config.disableAudio(true);
         config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
