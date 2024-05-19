@@ -71,6 +71,9 @@ public class IncongruityDistanceFieldTest extends ApplicationAdapter {
 
         stage.act();
         stage.draw();
+//        System.out.println("A Starry (MSDF) uses shader " + msdfFonts[0].shader);
+//        System.out.println("Cascadia Mono (MSDF) uses shader " + msdfFonts[1].shader);
+//        System.out.println("Iosevka (MSDF) uses shader " + msdfFonts[6].shader);
     }
 
     @Override

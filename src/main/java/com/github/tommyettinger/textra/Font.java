@@ -2925,9 +2925,6 @@ public class Font implements Disposable {
             if (distanceField == DistanceFieldType.MSDF) {
                 batch.setShader(shader);
                 float smoothing = 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
-                Float old = smoothingValues.get(batch);
-                if(old != null && MathUtils.isEqual(old, smoothing))
-                    return;
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
@@ -2935,9 +2932,6 @@ public class Font implements Disposable {
                 batch.setShader(shader);
                 float smoothing = (actualCrispness / (Math.max(cellHeight / originalCellHeight,
                         cellWidth / originalCellWidth) * 0.5f + 0.125f));
-                Float old = smoothingValues.get(batch);
-                if(old != null && MathUtils.isEqual(old, smoothing))
-                    return;
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
@@ -2964,18 +2958,12 @@ public class Font implements Disposable {
         if (batch.getShader() == shader) {
             if (distanceField == DistanceFieldType.MSDF) {
                 float smoothing = 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
-                Float old = smoothingValues.get(batch);
-                if(old != null && MathUtils.isEqual(old, smoothing))
-                    return;
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
                 float smoothing = (actualCrispness / (Math.max(cellHeight / originalCellHeight,
                         cellWidth / originalCellWidth) * 0.5f + 0.125f));
-                Float old = smoothingValues.get(batch);
-                if(old != null && MathUtils.isEqual(old, smoothing))
-                    return;
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
@@ -6608,31 +6596,26 @@ public class Font implements Disposable {
         storedStates.remove(name, 0L);
     }
     /**
+     * Important; must be called in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} on each
+     * SDF, MSDF, or SDF_OUTLINE font you have currently rendering! This allows the distance field to appear
+     * as correct and crisp-outlined as it should be; without this, the distance field will probably not look
+     * very sharp at all. This doesn't need to be called every frame, only in resize().
+     * <br>
      * Given the new width and height for a window, this attempts to adjust the {@link #actualCrispness} of an
      * SDF/MSDF/SDF_OUTLINE font so that it will display cleanly at a different size. This uses this font's
      * {@link #distanceFieldCrispness} as a multiplier applied after calculating the initial crispness.
-     * This is a suggestion for what to call in your {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
-     * method for each SDF, MSDF, or SDF_OUTLINE font you have currently rendering.
      *
      * @param width  the new window width; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      * @param height the new window height; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      */
     public void resizeDistanceField(int width, int height) {
-        if (getDistanceField() == DistanceFieldType.MSDF) {
+        if (getDistanceField() != DistanceFieldType.STANDARD) {
             if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
                 actualCrispness = distanceFieldCrispness;
             } else {
-                actualCrispness = distanceFieldCrispness * (float) Math.pow(8f,
-                        Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
-                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 2.15f + cellHeight * 0.01f);
-            }
-        } else if (getDistanceField() == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
-            if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
-                actualCrispness = distanceFieldCrispness;
-            } else {
-                actualCrispness = distanceFieldCrispness * (float) Math.pow(4f,
-                        Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
-                                (float) height / Gdx.graphics.getBackBufferHeight()) * 1.9f - 2f + cellHeight * 0.005f);
+                actualCrispness = distanceFieldCrispness *
+                                  Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
+                                          (float) height / Gdx.graphics.getBackBufferHeight());
             }
         }
     }
