@@ -65,6 +65,7 @@ public class IncongruityFWTest extends ApplicationAdapter {
             labels.add(new Label(font.name, skin)).left();
             TypingLabel label = new TypingLabel("Emoji Text? 3, 2, 1, [+🎉]! [/]hooray...[/]", skin, font);
 //            label.align = Align.bottom;
+            label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
             labels.add(label).expandX().left();
 //            label.validate();
             Gdx.app.log("Font", font.name + (font.isMono ? " (MONO)" : "") + ", " + label.getPrefWidth() + ", " + label.getPrefHeight() + ", " + font.scaleY);
