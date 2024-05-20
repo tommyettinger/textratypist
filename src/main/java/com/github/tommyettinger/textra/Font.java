@@ -2180,9 +2180,10 @@ public class Font implements Disposable {
         JsonValue metrics = fnt.get("metrics");
 
         size *= metrics.getFloat("emSize", 1f);
-        originalCellHeight = cellHeight = size * atlas.getFloat("lineHeight", 1f) + heightAdjust;
+
         float ascender = atlas.getFloat("ascender", 0.8f);
         descent = size * atlas.getFloat("descender", -0.25f);
+        originalCellHeight = cellHeight = size * atlas.getFloat("lineHeight", 1f) + heightAdjust - descent;
         underY = atlas.getFloat("underlineY", -0.1f);
         strikeBreadth = underBreadth = atlas.getFloat("underlineThickness", 0.05f);
         if(makeGridGlyphs){
