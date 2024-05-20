@@ -83,7 +83,7 @@ public class FreeTypistSkin extends Skin {
             public Font read(Json json, JsonValue jsonData, Class type) {
                 String path = json.readValue("file", String.class, jsonData);
 
-                FileHandle fontFile = skinFile.parent().child(path);
+                FileHandle fontFile = skinFile.sibling(path);
                 if (!fontFile.exists()) fontFile = Gdx.files.internal(path);
                 if (!fontFile.exists()) throw new SerializationException("Font file not found: " + fontFile);
 
@@ -135,7 +135,7 @@ public class FreeTypistSkin extends Skin {
                     }
                     font.useIntegerPositions(useIntegerPositions);
                     // Scaled size is the desired cap height to scale the font to.
-                    if (scaledSize != -1) font.scaleTo(scaledSize, font.originalCellWidth * scaledSize / font.originalCellHeight);
+                    if (scaledSize != -1) font.scaleTo(font.originalCellWidth * scaledSize / font.originalCellHeight, scaledSize);
                     return font;
                 } catch (RuntimeException ex) {
                     throw new SerializationException("Error loading bitmap font: " + path, ex);
@@ -147,7 +147,7 @@ public class FreeTypistSkin extends Skin {
             public BitmapFont read (Json json, JsonValue jsonData, Class type) {
                 String path = json.readValue("file", String.class, jsonData);
 
-                FileHandle fontFile = skinFile.parent().child(path);
+                FileHandle fontFile = skinFile.sibling(path);
                 if (!fontFile.exists()) fontFile = Gdx.files.internal(path);
                 if (!fontFile.exists()) throw new SerializationException("Font file not found: " + fontFile);
 
@@ -179,7 +179,7 @@ public class FreeTypistSkin extends Skin {
                                 font = new BitmapFont(fontFile, region, flip);
                         }
                         else {
-                            FileHandle imageFile = fontFile.parent().child(regionName + ".png");
+                            FileHandle imageFile = fontFile.sibling(regionName + ".png");
                             if (imageFile.exists()) {
                                 if(fw)
                                     font = BitmapFontSupport.loadStructuredJson(fontFile,
@@ -228,7 +228,7 @@ public class FreeTypistSkin extends Skin {
                 parameter.hinting = hinting;
                 parameter.minFilter = minFilter;
                 parameter.magFilter = magFilter;
-                FreeTypeFontGenerator generator = new FreeTypeFontGenerator(skinFile.parent().child(path));
+                FreeTypeFontGenerator generator = new FreeTypeFontGenerator(skinFile.sibling(path));
                 FreeTypeFontGenerator.setMaxTextureSize(FreeTypeFontGenerator.NO_MAXIMUM);
                 BitmapFont font = generator.generateFont(parameter);
                 skin.add(jsonData.name, font);
