@@ -17,7 +17,6 @@
 package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
@@ -39,11 +38,11 @@ public class TypingWindow extends TextraWindow {
         super(title, skin, styleName);
     }
 
-    public TypingWindow(String title, Window.WindowStyle style) {
+    public TypingWindow(String title, Styles.WindowStyle style) {
         super(title, style);
     }
 
-    public TypingWindow(String title, Window.WindowStyle style, boolean makeGridGlyphs) {
+    public TypingWindow(String title, Styles.WindowStyle style, boolean makeGridGlyphs) {
         super(title, style, makeGridGlyphs);
     }
 
@@ -59,11 +58,11 @@ public class TypingWindow extends TextraWindow {
         super(title, skin, styleName, replacementFont, scaleTitleFont);
     }
 
-    public TypingWindow(String title, Window.WindowStyle style, Font replacementFont) {
+    public TypingWindow(String title, Styles.WindowStyle style, Font replacementFont) {
         super(title, style, replacementFont);
     }
 
-    public TypingWindow(String title, Window.WindowStyle style, Font replacementFont, boolean scaleTitleFont) {
+    public TypingWindow(String title, Styles.WindowStyle style, Font replacementFont, boolean scaleTitleFont) {
         super(title, style, replacementFont, scaleTitleFont);
     }
 

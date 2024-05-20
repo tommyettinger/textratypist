@@ -43,7 +43,8 @@ public class DialogTest extends ApplicationAdapter {
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
         stage = new Stage(viewport);
         Font gentium = KnownFonts.getGentium();
-        Window.WindowStyle style = new Window.WindowStyle();
+        Styles.WindowStyle style = new Styles.WindowStyle();
+        style.titleFont = gentium;
         style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.MAROON);
         dialog = new TextraDialog("", style, gentium);
         stage.setDebugAll(true);

@@ -18,10 +18,7 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Null;
 
@@ -175,6 +172,44 @@ public final class Styles {
             checkboxOver = style.checkboxOver;
             checkboxOnDisabled = style.checkboxOnDisabled;
             checkboxOffDisabled = style.checkboxOffDisabled;
+        }
+    }
+
+    /** The style for a window, see {@link TextraWindow} or {@link TypingWindow}.
+     */
+    static public class WindowStyle {
+        public @Null Drawable background;
+        public Font titleFont;
+        public @Null Color titleFontColor = new Color(1, 1, 1, 1);
+        public @Null Drawable stageBackground;
+
+        public WindowStyle () {
+        }
+
+        public WindowStyle (Font titleFont, Color titleFontColor, @Null Drawable background) {
+            this.titleFont = titleFont;
+            this.titleFontColor.set(titleFontColor);
+            this.background = background;
+        }
+
+        public WindowStyle (BitmapFont titleFont, Color titleFontColor, @Null Drawable background) {
+            this.titleFont = new Font(titleFont);
+            this.titleFontColor.set(titleFontColor);
+            this.background = background;
+        }
+
+        public WindowStyle (WindowStyle style) {
+            titleFont = style.titleFont;
+            if (style.titleFontColor != null) titleFontColor = new Color(style.titleFontColor);
+            background = style.background;
+            stageBackground = style.stageBackground;
+        }
+
+        public WindowStyle (Window.WindowStyle style) {
+            titleFont = new Font(style.titleFont);
+            if (style.titleFontColor != null) titleFontColor = new Color(style.titleFontColor);
+            background = style.background;
+            stageBackground = style.stageBackground;
         }
     }
 }

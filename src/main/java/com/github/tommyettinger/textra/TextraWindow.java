@@ -22,12 +22,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
+import com.github.tommyettinger.textra.Styles.WindowStyle;
 
 /**
  * A table that can be dragged and act as a modal window. The top padding is used as the window's title height.
@@ -69,8 +68,8 @@ public class TextraWindow extends Table {
         this(title, style, false);
     }
 
-    public TextraWindow(String title, WindowStyle style, boolean makeGridGlyphs) {
-        this(title, style, new Font(style.titleFont, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs));
+    public TextraWindow(String title, WindowStyle style, boolean ignored) {
+        this(title, style, style.titleFont);
     }
 
     public TextraWindow(String title, Skin skin, Font replacementFont) {
@@ -259,12 +258,12 @@ public class TextraWindow extends Table {
         setStyle(style, false);
     }
 
-    public void setStyle(WindowStyle style, boolean makeGridGlyphs) {
+    public void setStyle(WindowStyle style, boolean ignored) {
         if (style == null) throw new IllegalArgumentException("style cannot be null.");
         this.style = style;
 
         setBackground(style.background);
-        titleLabel.setFont(font = new Font(style.titleFont, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs));
+        titleLabel.setFont(font = style.titleFont);
         if (style.titleFontColor != null) titleLabel.setColor(style.titleFontColor);
         invalidateHierarchy();
     }
@@ -280,7 +279,7 @@ public class TextraWindow extends Table {
     }
 
     /**
-     * Returns the window's style. Modifying the returned style may not have an effect until {@link #setStyle(com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle)} is
+     * Returns the window's style. Modifying the returned style may not have an effect until {@link #setStyle(WindowStyle)} is
      * called.
      */
     public WindowStyle getStyle() {

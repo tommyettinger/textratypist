@@ -64,39 +64,39 @@ public class TypingDialog extends TypingWindow {
     };
 
     public TypingDialog(String title, Skin skin) {
-        super(title, skin.get(Window.WindowStyle.class));
+        super(title, skin.get(Styles.WindowStyle.class));
         setSkin(skin);
         this.skin = skin;
         initialize();
     }
 
     public TypingDialog(String title, Skin skin, String windowStyleName) {
-        super(title, skin.get(windowStyleName, Window.WindowStyle.class));
+        super(title, skin.get(windowStyleName, Styles.WindowStyle.class));
         setSkin(skin);
         this.skin = skin;
         initialize();
     }
 
-    public TypingDialog(String title, Window.WindowStyle windowStyle) {
+    public TypingDialog(String title, Styles.WindowStyle windowStyle) {
         super(title, windowStyle);
         initialize();
     }
 
     public TypingDialog(String title, Skin skin, Font replacementFont) {
-        super(title, skin.get(Window.WindowStyle.class), replacementFont);
+        super(title, skin.get(Styles.WindowStyle.class), replacementFont);
         setSkin(skin);
         this.skin = skin;
         initialize();
     }
 
     public TypingDialog(String title, Skin skin, String windowStyleName, Font replacementFont) {
-        super(title, skin.get(windowStyleName, Window.WindowStyle.class), replacementFont);
+        super(title, skin.get(windowStyleName, Styles.WindowStyle.class), replacementFont);
         setSkin(skin);
         this.skin = skin;
         initialize();
     }
 
-    public TypingDialog(String title, Window.WindowStyle windowStyle, Font replacementFont) {
+    public TypingDialog(String title, Styles.WindowStyle windowStyle, Font replacementFont) {
         super(title, windowStyle, replacementFont);
         initialize();
     }
