@@ -2184,16 +2184,17 @@ public class Font implements Disposable {
         float ascender = atlas.getFloat("ascender", 0.8f);
         descent = size * atlas.getFloat("descender", -0.25f);
         originalCellHeight = cellHeight = size * atlas.getFloat("lineHeight", 1f) + heightAdjust - descent;
-        underY = atlas.getFloat("underlineY", -0.1f);
-        strikeBreadth = underBreadth = atlas.getFloat("underlineThickness", 0.05f);
+        underY = atlas.getFloat("underlineY", -0.1f) - descent / size;
+        strikeBreadth = underBreadth = atlas.getFloat("underlineThickness", 0.25f);
         if(makeGridGlyphs){
-            underLength = strikeLength = 0.2f;
-            underX = strikeX = -0.1f;
+            underLength = strikeLength = 0.05f;
+            underX = strikeX = -0.05f;
         } else {
             underLength = strikeLength = 0.0f;
-            underX = strikeX = -0.4f;
+            underX = strikeX = 0.0f;
         }
-        fancyY = 0.0f;
+        fancyY = -descent / size;
+        strikeY = -0.5f * descent / size;
 
 //        strikeY = ascender * 0.5f;
 
