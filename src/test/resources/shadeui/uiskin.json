@@ -5,13 +5,18 @@ com.badlogic.gdx.graphics.Color: {
 	white: { r: 1, g: 1, b: 1, a: 1 },
 	red: { r: 1, a: 1 },
 	grey: { r: 0.7, g: 0.7, b: 0.7, a: 1 },
-	Flamingo: { r: 1, g: 0.2, b: 1, a: 1 },
+	flamingo: { r: 1, g: 0.2, b: 1, a: 1 },
 	black: { a: 1 }
 },
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
-	font-button: { file: font-button.fnt },
-	font-label: { file: font-label.fnt },
-	font-title: { file: font-title.fnt }
+	font-button: { file: font-button.json, useIntegerPositions: false },
+	font-label: { file: font-label.json, useIntegerPositions:   false },
+	font-title: { file: font-title.json, useIntegerPositions:   false }
+},
+com.github.tommyettinger.textra.Font: {
+	font-button: { file: font-button.json, useIntegerPositions: false },
+	font-label: { file: font-label.json, useIntegerPositions:   false },
+	font-title: { file: font-title.json, useIntegerPositions:   false }
 },
 com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	dialogDim: {
@@ -24,6 +29,39 @@ com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
 	default-vertical: { background: loading-bar, knob: loading-bar-knob, knobBefore: loading-bar-fill }
 },
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: font-button,
+		fontColor: { a: 1, b: 1, g: 1, r: 1 },
+		downFontColor: { a: 1, b: 1, g: 0.2, r: 1 },
+		disabledFontColor: { a: 1, b: 0.8, g: 0.8, r: 0.8 },
+		up: button,
+		down: button-down
+	},
+	round: {
+		font: font-title,
+		fontColor: { a: 1, b: 1, g: 1, r: 1 },
+		downFontColor: { a: 1, b: 1, g: 0.2, r: 1 },
+		up: round-button,
+		down: round-button-down
+	},
+	toggle: {
+		font: font-button,
+		fontColor: { a: 1, b: 1, g: 1, r: 1 },
+		downFontColor: { a: 1, b: 1, g: 0.2, r: 1 },
+		up: toggle-button-off,
+		down: toggle-button-down,
+		checked: toggle-button
+	},
+	radio: {
+		font: font-label,
+		fontColor: { a: 1, b: 1, g: 1, r: 1 },
+		downFontColor: { a: 1, b: 1, g: 0.2, r: 1 },
+		up: radio-button-off,
+		down: radio-button,
+		checked: radio-button
+	}
+},
+com.github.tommyettinger.textra.Styles$TextButtonStyle: {
 	default: {
 		font: font-button,
 		fontColor: { a: 1, b: 1, g: 1, r: 1 },
@@ -75,6 +113,19 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	right: { up: right-button, down: right-button-down }
 },
 com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+	default: {
+		background: window,
+		titleFont: font-title,
+		titleFontColor: { a: 1, b: 1, g: 1, r: 1 }
+	},
+	dialog: {
+		background: window,
+		titleFont: font-title,
+		titleFontColor: { a: 1, b: 1, g: 1, r: 1 },
+		stageBackground: list
+	}
+},
+com.github.tommyettinger.textra.Styles$WindowStyle: {
 	default: {
 		background: window,
 		titleFont: font-title,
@@ -141,6 +192,34 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		background: panel2
 	}
 },
+com.github.tommyettinger.textra.Styles$LabelStyle: {
+	optional: {
+		font: font-label,
+		fontColor: { a: 1, b: 0.8, g: 0.8, r: 0.8 }
+	},
+	default: {
+		font: font-label,
+		fontColor: { a: 1, b: 1, g: 1, r: 1 }
+	},
+	error: {
+		font: font-label,
+		fontColor: { a: 1, r: 1 }
+	},
+	title-plain: {
+		font: font-title,
+		fontColor: { a: 1, b: 1, g: 1, r: 1 }
+	},
+	subtitle: {
+		font: font-label,
+		fontColor: { a: 1 },
+		background: label
+	},
+	title: {
+		font: font-title,
+		fontColor: { a: 1, b: 1, g: 1, r: 1 },
+		background: panel2
+	}
+},
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
 		font: font-label,
@@ -157,6 +236,22 @@ com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	}
 },
 com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+	default: {
+		checkboxOn: check-on,
+		checkboxOff: check-off,
+		font: font-label,
+		fontColor: { a: 1, b: 1, g: 1, r: 1 },
+		downFontColor: { a: 1, b: 1, g: 0.2, r: 1 }
+	},
+	switch: {
+		checkboxOn: switch,
+		checkboxOff: switch-off,
+		font: font-label,
+		fontColor: { a: 1, b: 1, g: 1, r: 1 },
+		downFontColor: { a: 1, b: 1, g: 0.2, r: 1 }
+	}
+},
+com.github.tommyettinger.textra.Styles$CheckBoxStyle: {
 	default: {
 		checkboxOn: check-on,
 		checkboxOff: check-off,
