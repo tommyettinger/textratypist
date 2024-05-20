@@ -64,14 +64,13 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		TextureRegion image2 = new TextureRegion(texture2);
 		final Font font = skin.get(Styles.LabelStyle.class).font
 //				.adjustLineHeight(0.75f)
-				.useIntegerPositions(true);
-		// For unknown reasons, emoji added to this particular font default to being offset by a full emoji width (32)
-		// on x, and a quarter-emoji width on height (probably because we adjusted line height to 1.25x).
+				.useIntegerPositions(false);
+		// For unknown reasons, emoji added to this particular font are a little too high before adjustment.
 		// Using the extra three float arguments for offsetX, offsetY, and xAdvance changes helps a lot here.
-		KnownFonts.addEmoji(font, -32f, 4f, 0f);
+		KnownFonts.addEmoji(font, 0f, 4f, 0f);
 		final Font title = skin.get("title", Styles.LabelStyle.class).font
 //				.adjustLineHeight(1.5f)
-				.useIntegerPositions(true);
+				.useIntegerPositions(false);
 
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
