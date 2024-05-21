@@ -40,7 +40,7 @@ public class TableWrapTest extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
-        Skin skin = new FreeTypeSkin(Gdx.files.internal("uiskinOS.json"));
+        Skin skin = new FreeTypistSkin(Gdx.files.internal("uiskinOS.json"));
         Table root = new Table(skin);
         root.setSize(780, 600);
 

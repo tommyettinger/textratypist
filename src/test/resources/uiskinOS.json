@@ -1,6 +1,4 @@
 {
-BitmapFont: { default-font: { file: default.fnt } },
-com.github.tommyettinger.textra.Font: { default-font: { file: default.fnt } },
 Color: {
 	green: { a: 1, b: 0, g: 1, r: 0 },
 	white: { a: 1, b: 1, g: 1, r: 1 },
@@ -9,7 +7,7 @@ Color: {
 	gray: { a: 1, b: 0.8, g: 0.8, r: 0.8 },
 },
 "com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator": {
-	outline-font: {
+	default-font: {
 		font: OpenSans-standard.ttf,
 		size: 13,
 		mono: false,
@@ -17,6 +15,32 @@ Color: {
 		gamma: 1.8,
 		renderCount: 2,
 		borderWidth: 0,
+		borderColor: black,
+		borderStraight: false,
+		borderGamma: 1.8,
+		shadowOffsetX: 0,
+		shadowOffsetY: 0,
+		shadowColor: black,
+		spaceX: 0,
+		spaceY: 0,
+		padRight: 1,
+		kerning: true,
+		flip: false,
+		genMipMaps: true,
+		incremental: false,
+		hinting: Medium,
+		minFilter: Linear,
+		magFilter: Linear,
+		characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890\"!`?'.,;:()[]{}<>|/@\\^$€-%+=#_&~* ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿżźłćąęńśŻŹŁĆĄĘŃŚ"
+	},
+	outline-font: {
+		font: OpenSans-standard.ttf,
+		size: 13,
+		mono: false,
+		color: white,
+		gamma: 1.8,
+		renderCount: 2,
+		borderWidth: 1,
 		borderColor: black,
 		borderStraight: false,
 		borderGamma: 1.8,
@@ -43,7 +67,7 @@ ButtonStyle: {
 	default: { down: default-round-down, up: default-round, disabled: default-round },
 	toggle: { parent: default, checked: default-round-down }
 },
-TextButtonStyle: {
+com.github.tommyettinger.textra.Styles$TextButtonStyle: {
 	default: { parent: default, font: default-font, fontColor: white, disabledFontColor: gray },
 	toggle: { parent: default, checked: default-round-down, downFontColor: red }
 },
@@ -76,7 +100,7 @@ SliderStyle: {
 LabelStyle: {
 	default: { font: default-font, fontColor: white }
 },
-	com.github.tommyettinger.textra.Styles$LabelStyle: {
+com.github.tommyettinger.textra.Styles$LabelStyle: {
 	default: { font: default-font, fontColor: white }
 },
 TextFieldStyle: {
