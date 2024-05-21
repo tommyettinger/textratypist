@@ -18,6 +18,7 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.github.tommyettinger.textra.Styles.ImageTextButtonStyle;
 
 
 /**
@@ -38,7 +39,7 @@ public class ImageTypingButton extends ImageTextraButton {
         super(text, skin, styleName);
     }
 
-    public ImageTypingButton(String text, ImageTextButton.ImageTextButtonStyle style) {
+    public ImageTypingButton(String text, ImageTextButtonStyle style) {
         super(text, style);
     }
 
@@ -50,7 +51,7 @@ public class ImageTypingButton extends ImageTextraButton {
         super(text, skin, styleName, replacementFont);
     }
 
-    public ImageTypingButton(String text, ImageTextButton.ImageTextButtonStyle style, Font replacementFont) {
+    public ImageTypingButton(String text, ImageTextButtonStyle style, Font replacementFont) {
         super(text, style, replacementFont);
     }
 

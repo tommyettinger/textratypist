@@ -77,7 +77,7 @@ public class TypingShadeXUITest extends InputAdapter implements ApplicationListe
 
 //		stage.setDebugAll(true);
 
-		ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
+		Styles.ImageTextButtonStyle style = new Styles.ImageTextButtonStyle(skin.get(Styles.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
 		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);

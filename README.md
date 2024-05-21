@@ -381,6 +381,18 @@ RegExodus because it turns out using the default package can cause real problems
 There is at least one release in the [Releases](https://github.com/tommyettinger/textratypist/releases) section of this
 repo, but you're still encouraged to use Gradle to handle this library and its dependencies.
 
+You can also use JitPack to get a current commit, which can be handy if there's a long span between releases.
+Current gdx-liftoff and gdx-setup projects all can use JitPack dependencies without needing any extra configuration.
+You would use this dependency in your core module:
+
+```groovy
+implementation "com.github.tommyettinger.textratypist:textratypist:dc41592e94"
+```
+
+(Note the extra "textratypist"; one refers to the repo, and one refers to the actual project inside the repo.)
+You can change `dc41592e94` to any commit in the Commits tab of https://jitpack.io/#tommyettinger/textratypist ,
+but you should not use `-SNAPSHOT` -- it can change without your requesting it to, which is not what you want!
+
 ## Why doesn't something work?
 
 Some parts of TextraTypist act differently from their counterparts in scene2d.ui and Rafa Skoberg's typing-label.

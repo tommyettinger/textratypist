@@ -85,19 +85,19 @@ public class MBTypingUITest extends InputAdapter implements ApplicationListener 
 
 //		stage.setDebugAll(true);
 
-		ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
+		Styles.ImageTextButtonStyle style = new Styles.ImageTextButtonStyle(skin.get(Styles.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-//		ImageTextraButton iconButton = new ImageTextraButton("jóÓetcjóÓetcjóÓetc", style);
+//		ImageTypingButton iconButton = new ImageTypingButton("jóÓetcjóÓetcjóÓetc", style, font);
 		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
 //		TextraButton buttonMulti = new TextraButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "default");
 		TextraButton buttonMulti = new TextraButton("Multiline\nTextra\nToggle", skin, "default", font);
 
-		ImageTextButton basicIconButton = new ImageTextButton("[/]d i a b e t i c ?", style);
+		ImageTextraButton basicIconButton = new ImageTextraButton("[/]d i a b e t i c ?", style);
 
 //		TextraButton buttonMulti = new TextraButton("jóÓetc\nÓjóetc\ncjóÓet", skin, "default");
-		TextButton basicButtonMulti = new TextButton("Multiline\nText\nToggle", skin, "default");
+		TextraButton basicButtonMulti = new TextraButton("Multiline\nText\nToggle", skin, "default");
 
 //		Button imgButton = new Button(new Image(image), skin);
 //		Button imgToggleButton = new Button(new Image(image), skin, "default");

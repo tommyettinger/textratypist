@@ -19,12 +19,11 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.Scaling;
+import com.github.tommyettinger.textra.Styles.ImageTextButtonStyle;
 
 /**
  * A button with a child {@link Image} and {@link TextraLabel}.
@@ -120,7 +119,7 @@ public class ImageTextraButton extends Button {
 
         if (label != null) {
             ImageTextButtonStyle textButtonStyle = (ImageTextButtonStyle) style;
-            label.setFont(new Font(textButtonStyle.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs));
+            label.setFont(textButtonStyle.font);
             Color c = getFontColor();
             if(c != null) label.setColor(c);
         }

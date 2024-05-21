@@ -69,7 +69,7 @@ public class SimpleTypingUITest extends InputAdapter implements ApplicationListe
 
 //		 stage.setDebugAll(true);
 
-		ImageTextButtonStyle style = new ImageTextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
+		Styles.ImageTextButtonStyle style = new Styles.ImageTextButtonStyle(skin.get(Styles.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
 		ImageTypingButton iconButton = new ImageTypingButton("jóÓetc[_]Ójóetc[_]cjóÓet", style, font);

@@ -125,6 +125,53 @@ public final class Styles {
     }
 
     /**
+     * The style for an image text button, see {@link ImageTextraButton}.
+     */
+    static public class ImageTextButtonStyle extends TextButtonStyle {
+        public @Null Drawable imageUp, imageDown, imageOver, imageDisabled;
+        public @Null Drawable imageChecked, imageCheckedDown, imageCheckedOver;
+
+        public ImageTextButtonStyle() {
+        }
+
+        public ImageTextButtonStyle(@Null Drawable up, @Null Drawable down, @Null Drawable checked, BitmapFont font) {
+            super(up, down, checked, font);
+        }
+
+        public ImageTextButtonStyle(ImageTextButtonStyle style) {
+            super(style);
+            imageUp = style.imageUp;
+            imageDown = style.imageDown;
+            imageOver = style.imageOver;
+            imageDisabled = style.imageDisabled;
+
+            imageChecked = style.imageChecked;
+            imageCheckedDown = style.imageCheckedDown;
+            imageCheckedOver = style.imageCheckedOver;
+        }
+
+        public ImageTextButtonStyle(ImageTextButton.ImageTextButtonStyle style) {
+            super(style);
+            imageUp = style.imageUp;
+            imageDown = style.imageDown;
+            imageOver = style.imageOver;
+            imageDisabled = style.imageDisabled;
+
+            imageChecked = style.imageChecked;
+            imageCheckedDown = style.imageCheckedDown;
+            imageCheckedOver = style.imageCheckedOver;
+        }
+
+        public ImageTextButtonStyle(TextButtonStyle style) {
+            super(style);
+        }
+
+        public ImageTextButtonStyle(TextButton.TextButtonStyle style) {
+            super(style);
+        }
+    }
+
+    /**
      * The style for a select box, see {@link TextraCheckBox} or {@link TypingCheckBox}.
      */
     static public class CheckBoxStyle extends TextButtonStyle {
@@ -175,7 +222,8 @@ public final class Styles {
         }
     }
 
-    /** The style for a window, see {@link TextraWindow} or {@link TypingWindow}.
+    /**
+     * The style for a window, see {@link TextraWindow} or {@link TypingWindow}.
      */
     static public class WindowStyle {
         public @Null Drawable background;
@@ -183,29 +231,29 @@ public final class Styles {
         public @Null Color titleFontColor = new Color(1, 1, 1, 1);
         public @Null Drawable stageBackground;
 
-        public WindowStyle () {
+        public WindowStyle() {
         }
 
-        public WindowStyle (Font titleFont, Color titleFontColor, @Null Drawable background) {
+        public WindowStyle(Font titleFont, Color titleFontColor, @Null Drawable background) {
             this.titleFont = titleFont;
             this.titleFontColor.set(titleFontColor);
             this.background = background;
         }
 
-        public WindowStyle (BitmapFont titleFont, Color titleFontColor, @Null Drawable background) {
+        public WindowStyle(BitmapFont titleFont, Color titleFontColor, @Null Drawable background) {
             this.titleFont = new Font(titleFont);
             this.titleFontColor.set(titleFontColor);
             this.background = background;
         }
 
-        public WindowStyle (WindowStyle style) {
+        public WindowStyle(WindowStyle style) {
             titleFont = style.titleFont;
             if (style.titleFontColor != null) titleFontColor = new Color(style.titleFontColor);
             background = style.background;
             stageBackground = style.stageBackground;
         }
 
-        public WindowStyle (Window.WindowStyle style) {
+        public WindowStyle(Window.WindowStyle style) {
             titleFont = new Font(style.titleFont);
             if (style.titleFontColor != null) titleFontColor = new Color(style.titleFontColor);
             background = style.background;
