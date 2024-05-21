@@ -28,7 +28,7 @@ com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
 	default-horizontal: { background: loading-bar, knob: loading-bar-knob, knobBefore: loading-bar-fill }
 	default-vertical: { background: loading-bar, knob: loading-bar-knob, knobBefore: loading-bar-fill }
 },
-com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+com.github.tommyettinger.textra.Styles$TextButtonStyle: {
 	default: {
 		font: font-button,
 		fontColor: { a: 1, b: 1, g: 1, r: 1 },

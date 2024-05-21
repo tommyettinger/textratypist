@@ -260,4 +260,54 @@ public final class Styles {
             stageBackground = style.stageBackground;
         }
     }
+
+    /** The style for a ListBox, see {@link TextraListBox}. (Or TypingListBox, once it exists...)
+     */
+    static public class ListStyle {
+        public Font font;
+        public Color fontColorSelected = new Color(1, 1, 1, 1);
+        public Color fontColorUnselected = new Color(1, 1, 1, 1);
+        public Drawable selection;
+        public @Null Drawable down, over, background;
+
+        public ListStyle () {
+        }
+
+        public ListStyle (Font font, Color fontColorSelected, Color fontColorUnselected, Drawable selection) {
+            this.font = font;
+            this.fontColorSelected.set(fontColorSelected);
+            this.fontColorUnselected.set(fontColorUnselected);
+            this.selection = selection;
+        }
+
+        public ListStyle (BitmapFont font, Color fontColorSelected, Color fontColorUnselected, Drawable selection) {
+            this.font = new Font(font);
+            this.fontColorSelected.set(fontColorSelected);
+            this.fontColorUnselected.set(fontColorUnselected);
+            this.selection = selection;
+        }
+
+        public ListStyle (ListStyle style) {
+            font = style.font;
+            fontColorSelected.set(style.fontColorSelected);
+            fontColorUnselected.set(style.fontColorUnselected);
+            selection = style.selection;
+
+            down = style.down;
+            over = style.over;
+            background = style.background;
+        }
+
+        public ListStyle (List.ListStyle style) {
+            font = new Font(style.font);
+            fontColorSelected.set(style.fontColorSelected);
+            fontColorUnselected.set(style.fontColorUnselected);
+            selection = style.selection;
+
+            down = style.down;
+            over = style.over;
+            background = style.background;
+        }
+    }
+
 }

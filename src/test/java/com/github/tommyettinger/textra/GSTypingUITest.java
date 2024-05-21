@@ -54,7 +54,7 @@ public class GSTypingUITest extends InputAdapter implements ApplicationListener 
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.enable();
-		skin = new Skin(Gdx.files.internal("gs/skin.json"));
+		skin = new FreeTypistSkin(Gdx.files.internal("gs/skin.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
 		TextureRegion image = new TextureRegion(texture1);
