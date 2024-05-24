@@ -76,7 +76,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 //				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
 				.scaleTo(30, 35);
 //				.setName("Yanone Kaffeesatz");
-		family.connected[0] = KnownFonts.getNowAlt();
+		family.connected[0] = new Font("fontwriter/Now-Alt-standard.json", true).scaleHeightTo(30);
 //		family.connected[11].originalCellHeight *= 0.75f;
 //		family.connected[0].originalCellHeight *= 0.75f;
 		Font font = family.connected[0];

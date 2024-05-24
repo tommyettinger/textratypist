@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -65,45 +66,62 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        String[] fullFaceNames = new String[]{"Iosevka Slab"};
 //        String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", ""};
 //        for(String face : new String[]{"Iosevka-Slab"}){
-        String[] fullFaceNames = new String[]{"Gentium Un-Italic", "Iosevka", "Iosevka Slab", "Libertinus Serif"};
-        String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", ""};
-        Font[] sdf = new Font[fullFaceNames.length];
-        Font[] all = new Font[fullFaceNames.length * fullFieldNames.length + 1];
-        int faceIdx = 0;
+
+//        String[] fullFaceNames = new String[]{"Gentium Un-Italic", "Iosevka", "Iosevka Slab", "Libertinus Serif"};
+//        String[] fullFieldNames = new String[]{" (MSDF)", " (SDF)", ""};
+//        Font[] sdf = new Font[fullFaceNames.length];
+//        Font[] all = new Font[fullFaceNames.length * fullFieldNames.length + 1];
+//        int faceIdx = 0;
+//        int sdfIdx = 0;
+//        for(String face : new String[]{"GentiumUnItalic", "Iosevka", "Iosevka-Slab", "LibertinusSerif"}){
+//            int fieldIdx = 0;
+//            for(String field : new String[]{"msdf", "sdf", "standard"}){
+//                all[faceIdx * 3 + fieldIdx] = new Font("experimental/"+face+"-"+field+".json",
+//                        new TextureRegion(new Texture("experimental/"+face+"-"+field+".png")), 0f, 0f, 0f, 0f, true, true);
+////                        .scaleTo(10, 24f)
+//
+//                all[faceIdx * 3 + fieldIdx]
+//                        .scaleHeightTo(24f)
+//                        .setName(fullFaceNames[faceIdx] + fullFieldNames[fieldIdx]);
+//                if(fieldIdx == 1)
+//                    sdf[sdfIdx++] = new Font(all[faceIdx * 3 + fieldIdx]);
+//                fieldIdx++;
+//            }
+//            faceIdx++;
+//        }
+//        all[all.length-1] = new Font("fontwriter/Yanone-Kaffeesatz-msdf.json",
+//                new TextureRegion(new Texture("fontwriter/Yanone-Kaffeesatz-msdf.png")), 0, 0, 0, 0, true, true)
+//                .setTextureFilter()
+//                .setName("Yanone Kaffeesatz (MSDF)");
+//        all[all.length-1].scaleTo(all[all.length-1].originalCellWidth*24f/all[all.length-1].originalCellHeight, 24f);
+
+        FileHandle[] jsonFiles = Gdx.files.local("knownFonts/fontwriter").list(".json");
+        FileHandle[] sdfFiles = Gdx.files.local("knownFonts/fontwriter").list("-sdf.json");
+        Font[] sdf = new Font[sdfFiles.length];
+        Font[] all = new Font[jsonFiles.length];
         int sdfIdx = 0;
-        for(String face : new String[]{"GentiumUnItalic", "Iosevka", "Iosevka-Slab", "LibertinusSerif"}){
-            int fieldIdx = 0;
-            for(String field : new String[]{"msdf", "sdf", "standard"}){
-                all[faceIdx * 3 + fieldIdx] = new Font("experimental/"+face+"-"+field+".json",
-                        new TextureRegion(new Texture("experimental/"+face+"-"+field+".png")), 0f, 0f, 0f, 0f, true, true);
-//                        .scaleTo(10, 24f)
-
-                all[faceIdx * 3 + fieldIdx]
-                        .scaleTo(24f * all[faceIdx * 3 + fieldIdx].cellWidth / all[faceIdx * 3 + fieldIdx].cellHeight, 24f)
-                        .setName(fullFaceNames[faceIdx] + fullFieldNames[fieldIdx]);
-                if(fieldIdx == 1)
-                    sdf[sdfIdx++] = new Font(all[faceIdx * 3 + fieldIdx]);
-                fieldIdx++;
-            }
-            faceIdx++;
+        for (int i = 0; i < jsonFiles.length; i++) {
+            all[i] = KnownFonts.addEmoji(new Font(jsonFiles[i].path(), true));
+            all[i].scaleHeightTo(24.00f);
+            if (all[i].distanceField == Font.DistanceFieldType.SDF)
+                sdf[sdfIdx++] = new Font(all[i]);
         }
-        all[all.length-1] = new Font("fontwriter/Yanone-Kaffeesatz-msdf.json",
-                new TextureRegion(new Texture("fontwriter/Yanone-Kaffeesatz-msdf.png")), 0, 0, 0, 0, true, true)
-                .setTextureFilter()
-                .setName("Kingthings PetRock (MSDF)");
-        all[all.length-1].scaleTo(all[all.length-1].originalCellWidth*24f/all[all.length-1].originalCellHeight, 24f);
+        all[0].scale(0.5f, 1f);
+        all[1].scale(0.5f, 1f);
+        all[2].scale(0.5f, 1f);
+        sdf[0].scale(0.5f, 1f);
 
-        //        Font[] sdf = {new Font(all[1])};
         for(Font f : sdf) {
             f.setDistanceField(Font.DistanceFieldType.SDF_OUTLINE);
-            f.name = f.name.replace("(SDF)", "(SDF_OUTLINE)");
+            System.out.println(f.name);
+            f.name = f.name.replace("-sdf", "-sdf_outline");
         }
         Font[] fonts = new Font[all.length + sdf.length];
         System.arraycopy(all, 0, fonts, 0, all.length);
         System.arraycopy(sdf, 0, fonts, all.length, sdf.length);
         fnt = fonts[1];
 //        fnt = fonts[fonts.length - 1];
-        Gdx.files.local("out/").mkdirs();
+        Gdx.files.local("out/fw/").mkdirs();
         int index = 0;
         for (int i = 0; i < fonts.length; i++) {
             Font font = fonts[i];
@@ -146,7 +164,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             layout.setEllipsis(" and so on and so forth...");
 //            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
 //                    , layout);
-            font.markup(text + (font.getDistanceField() != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout);
+            font.markup(text + emojiSupport, layout);
 //        font.markup("I wanna thank you all for coming here tonight..."
 //                + "\n[#22BB22FF]Hello, [~]World[~]Universe[.]$[=]$[^]$[^]!"
 //                + "\nThe [RED]MAW[] of the [/][CYAN]wendigo[/] (wendigo)[] [*]appears[*]!"
@@ -177,12 +195,12 @@ public class PreviewGenerator extends ApplicationAdapter {
             // End Pixmap.createFromFrameBuffer() modified code
 
 //            Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-            PixmapIO.writePNG(Gdx.files.local("out/" + font.name + ".png"), pm, 2, true);
+            PixmapIO.writePNG(Gdx.files.local("out/fw/" + font.name + ".png"), pm, 2, true);
             index++;
         }
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
-        fnt.markup(text + (fnt.getDistanceField() != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout.clear());
+        fnt.markup(text + emojiSupport, layout.clear());
 
         Gdx.app.exit();
     }

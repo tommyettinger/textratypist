@@ -2183,8 +2183,9 @@ public class Font implements Disposable {
 
         float ascender = atlas.getFloat("ascender", 0.8f);
         descent = size * atlas.getFloat("descender", -0.25f);
-        originalCellHeight = cellHeight = size * atlas.getFloat("lineHeight", 1f) + heightAdjust - descent;
-        underY = atlas.getFloat("underlineY", -0.1f) - descent / size;
+        originalCellHeight = cellHeight = size * atlas.getFloat("lineHeight", 1f) + heightAdjust;
+
+        underY = atlas.getFloat("underlineY", -0.1f);
         strikeBreadth = underBreadth = atlas.getFloat("underlineThickness", 0.25f);
         if(makeGridGlyphs){
             underLength = strikeLength = 0.05f;
@@ -2193,10 +2194,12 @@ public class Font implements Disposable {
             underLength = strikeLength = 0.0f;
             underX = strikeX = 0.0f;
         }
-        fancyY = -descent / size;
-        strikeY = -0.5f * descent / size;
 
-//        strikeY = ascender * 0.5f;
+        originalCellHeight -= descent;
+        cellHeight -= descent;
+        underY -= descent / size;
+        strikeY = -0.5f * descent / size;
+        fancyY -= descent / size;
 
         JsonValue glyphs = fnt.get("glyphs"), planeBounds, atlasBounds;
         int count = glyphs.size;
@@ -2220,7 +2223,7 @@ public class Font implements Disposable {
             }
             if(planeBounds != null) {
                 xo = planeBounds.getFloat("left", 0f) * size;
-                yo = size - planeBounds.getFloat("top", 0f) * size;
+                yo = size - planeBounds.getFloat("top", 0f) * size - descent * 0.5f;
             } else {
                 xo = yo = 0f;
             }
@@ -2303,7 +2306,7 @@ public class Font implements Disposable {
         integerPosition = false;
 
         inlineImageOffsetX = -20f + 0.1f * originalCellWidth ;
-        inlineImageOffsetY = 4f + originalCellHeight * -0.25f;
+        inlineImageOffsetY = 4f + originalCellHeight * -0.1f;// - descent * 0.25f;
         inlineImageXAdvance = 4f;
     }
 
@@ -2351,6 +2354,16 @@ public class Font implements Disposable {
         cellWidth = width;
         cellHeight = height;
         return this;
+    }
+
+    /**
+     * Scales the font so that it will have the given height, keeping the current aspect ratio.
+     *
+     * @param height the target height of the font, in world units
+     * @return this Font, for chaining
+     */
+    public Font scaleHeightTo(float height) {
+        return scaleTo(cellWidth * height / cellHeight, height);
     }
 
     /**

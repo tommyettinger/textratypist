@@ -43,7 +43,7 @@ public class IncongruityFWTest extends ApplicationAdapter {
         BitmapFont[] bitmapFonts = new BitmapFont[jsonFiles.length];
         for (int i = 0; i < jsonFiles.length; i++) {
             fonts[i] = KnownFonts.addEmoji(new Font(jsonFiles[i].path(), true));
-            fonts[i].scaleTo(fonts[i].originalCellWidth * 20.00f / fonts[i].originalCellHeight, 20.00f);
+            fonts[i].scaleHeightTo(20.00f);
             if(fonts[i].distanceField == Font.DistanceFieldType.STANDARD)
                 bitmapFonts[i] = BitmapFontSupport.loadStructuredJson(jsonFiles[i], jsonFiles[i].nameWithoutExtension() + ".png");
             else
