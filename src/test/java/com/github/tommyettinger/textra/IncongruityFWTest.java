@@ -61,7 +61,6 @@ public class IncongruityFWTest extends ApplicationAdapter {
         labels.defaults().pad(1);
         for (int i = 0; i < fonts.length; i++) {
             Font font = fonts[i];
-//            Font font = fonts[i].setDescent(fonts[i].getDescent() * 2);
             labels.add(new Label(font.name, skin)).left();
             TypingLabel label = new TypingLabel("Emoji Text? 3, 2, 1, [+🎉]! [/]hooray...[/]", skin, font);
 //            label.align = Align.bottom;

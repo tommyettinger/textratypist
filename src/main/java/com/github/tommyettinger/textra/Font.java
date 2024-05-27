@@ -2306,7 +2306,7 @@ public class Font implements Disposable {
         integerPosition = false;
 
         inlineImageOffsetX = -20f + 0.1f * originalCellWidth ;
-        inlineImageOffsetY = 4f + originalCellHeight * -0.1f;// - descent * 0.25f;
+        inlineImageOffsetY = 4f + 0.1f * originalCellHeight;// - descent * 0.25f;
         inlineImageXAdvance = 4f;
     }
 

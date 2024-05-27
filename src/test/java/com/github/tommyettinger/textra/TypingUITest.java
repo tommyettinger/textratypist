@@ -45,6 +45,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		"Is hard to come by5"};
 
 	Skin skin;
+	Font font;
+	TypingWindow window;
 	Stage stage;
 	Texture texture1;
 	Texture texture2;
@@ -76,10 +78,11 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
 				.scaleTo(30, 35);
 //				.setName("Yanone Kaffeesatz");
-		family.connected[0] = KnownFonts.getNowAlt();
+//		family.connected[0] = KnownFonts.getNowAlt();
+		family.connected[0] = new Font("fontwriter/Now-Alt-sdf.json", true).scaleHeightTo(30);
 //		family.connected[11].originalCellHeight *= 0.75f;
 //		family.connected[0].originalCellHeight *= 0.75f;
-		Font font = family.connected[0];
+		font = family.connected[0];
 		font.family = family;
 //		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
 		for(Font f : font.family.connected) {
@@ -116,7 +119,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
-		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering[+saxophone][+clown face][+saxophone]", skin, font);
+		final TypingCheckBox checkBox = new TypingCheckBox(" Continuous rendering[+saxophone][+clown face][+saxophone]", skin, font);
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
@@ -169,7 +172,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		TypingWindow window = new TypingWindow("TypingWindow", skin, "default", font, true);
+		window = new TypingWindow("TypingWindow", skin, "default", new Font(font).scaleHeightTo(16), false);
 //		window.font.adjustLineHeight(0.75f);
 //		float ratio = window.getPadTop() / font.cellHeight;
 //		Font baby = new Font(font).scaleTo(font.cellWidth * ratio, window.getPadTop());//.scale(ratio, ratio);
@@ -270,6 +273,9 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	@Override
 	public void resize (int width, int height) {
 		stage.getViewport().update(width, height, true);
+		font.resizeDistanceField(width, height);
+		window.font.resizeDistanceField(width, height);
+
 	}
 
 	@Override

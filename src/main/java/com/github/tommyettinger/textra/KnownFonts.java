@@ -1377,9 +1377,9 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.nowAlt == null) {
             try {
                 instance.nowAlt = new Font(instance.prefix + "Now-Alt-standard.fnt",
-                        instance.prefix + "Now-Alt-standard.png", STANDARD, 0, 24, 0, 8, true)
-                        .setDescent(-12f).setLineMetrics(0.05f, -0.1f, 0f, 0f).setInlineImageMetrics(0f, 24f, 8f)
-                        .scaleTo(29, 33).setTextureFilter().setName("Now Alt");
+                        instance.prefix + "Now-Alt-standard.png", STANDARD, 0, 48, 0, 0, true)
+                        .scaleTo(29, 30).setDescent(-16f).adjustLineHeight(1.375f).setLineMetrics(0.05f, -0.1f, 0f, 0f).setInlineImageMetrics(0f, 20f, 8f)
+                        .setTextureFilter().setName("Now Alt");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -2138,7 +2138,7 @@ public final class KnownFonts implements LifecycleListener {
         }
         if (instance.twemoji != null) {
             return changing.addAtlas(instance.twemoji, prepend, append,
-                    offsetXChange, offsetYChange - changing.descent * changing.scaleY, xAdvanceChange);
+                    offsetXChange, offsetYChange, xAdvanceChange);
         }
         throw new RuntimeException("Assets 'Twemoji.atlas' and 'Twemoji.png' not found.");
     }
@@ -2340,7 +2340,7 @@ public final class KnownFonts implements LifecycleListener {
         }
         if (instance.openMoji != null) {
             return changing.addAtlas(instance.openMoji, prepend, append,
-                    offsetXChange, offsetYChange - changing.descent * changing.scaleY, xAdvanceChange);
+                    offsetXChange, offsetYChange, xAdvanceChange);
         }
         throw new RuntimeException("Assets '"+baseName+".atlas' and '"+baseName+".png' not found.");
     }
@@ -2491,7 +2491,7 @@ public final class KnownFonts implements LifecycleListener {
         }
         if (instance.gameIcons != null) {
             return changing.addAtlas(instance.gameIcons, prepend, append,
-                    offsetXChange - 20f, offsetYChange - changing.descent * changing.scaleY, xAdvanceChange);
+                    offsetXChange - 20f, offsetYChange, xAdvanceChange);
         }
         throw new RuntimeException("Assets 'Game-Icons.atlas' and 'Game-Icons.png' not found.");
     }
