@@ -21,11 +21,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip.TextTooltipStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Tooltip;
 import com.badlogic.gdx.scenes.scene2d.ui.TooltipManager;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
+import com.github.tommyettinger.textra.Styles.TextTooltipStyle;
 
 /**
  * A tooltip that shows a TypingLabel.
@@ -118,7 +118,7 @@ public class TypingTooltip extends Tooltip<TypingLabel> {
     public void setStyle(TextTooltipStyle style, boolean makeGridGlyphs) {
         if (style == null) throw new NullPointerException("style cannot be null");
         Container<TypingLabel> container = getContainer();
-        container.getActor().setFont(new Font(style.label.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs), false);
+        container.getActor().setFont(style.label.font, false);
         container.getActor().layout.targetWidth = style.wrapWidth;
         if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
         container.getActor().getFont().regenerateLayout(container.getActor().layout);

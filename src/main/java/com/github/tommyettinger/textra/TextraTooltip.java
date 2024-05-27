@@ -18,13 +18,12 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip.TextTooltipStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Tooltip;
 import com.badlogic.gdx.scenes.scene2d.ui.TooltipManager;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
+import com.github.tommyettinger.textra.Styles.TextTooltipStyle;
 
 /**
  * A tooltip that shows a TextraLabel.
@@ -53,7 +52,7 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
     }
 
     public TextraTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style) {
-        this(text, manager, style, new Font(style.label.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, false));
+        this(text, manager, style, style.label.font);
     }
 
     public TextraTooltip(@Null String text, Skin skin, Font replacementFont) {
@@ -108,8 +107,8 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
     public void setStyle(TextTooltipStyle style, boolean makeGridGlyphs) {
         if (style == null) throw new NullPointerException("style cannot be null");
         Container<TextraLabel> container = getContainer();
-        // we don't want to regenerate the layout yet.
-        container.getActor().setFont(new Font(style.label.font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, makeGridGlyphs), false);
+        // we don't want to regenerate the layout yet, so the last parameter is false.
+        container.getActor().setFont(style.label.font, false);
         // we set the target width first.
         container.getActor().layout.targetWidth = style.wrapWidth;
         if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);

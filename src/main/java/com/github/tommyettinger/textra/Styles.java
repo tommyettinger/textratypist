@@ -309,5 +309,38 @@ public final class Styles {
             background = style.background;
         }
     }
+    /** The style for a text tooltip, see {@link TextraTooltip}.
+     */
+    static public class TextTooltipStyle {
+        public LabelStyle label;
+        public @Null Drawable background;
+        /** 0 means don't wrap. */
+        public float wrapWidth;
+
+        public TextTooltipStyle () {
+        }
+
+        public TextTooltipStyle (LabelStyle label, @Null Drawable background) {
+            this.label = label;
+            this.background = background;
+        }
+
+        public TextTooltipStyle (Label.LabelStyle label, @Null Drawable background) {
+            this.label = new LabelStyle(label);
+            this.background = background;
+        }
+
+        public TextTooltipStyle (TextTooltipStyle style) {
+            label = new LabelStyle(style.label);
+            background = style.background;
+            wrapWidth = style.wrapWidth;
+        }
+
+        public TextTooltipStyle (TextTooltip.TextTooltipStyle style) {
+            label = new LabelStyle(style.label);
+            background = style.background;
+            wrapWidth = style.wrapWidth;
+        }
+    }
 
 }

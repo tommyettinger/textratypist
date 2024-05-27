@@ -18,7 +18,6 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
 /**
  * A table that can be dragged and act as a modal window. The top padding is used as the window's title height. The
