@@ -105,7 +105,8 @@ public class IncongruityFWTest extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        for(Font f : fonts) f.resizeDistanceField(width, height);
+        for(Font f : fonts)
+            f.resizeDistanceField(width, height);
     }
 
     @Override

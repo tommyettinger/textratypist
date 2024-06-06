@@ -2092,7 +2092,9 @@ public class Font implements Disposable {
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
      * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
      * produce is fairly full-featured. Although it can also produce things like Artery fonts, those seem pretty
-     * specific to the Artery engine, and the tool might not use a stable revision of the format.
+     * specific to the Artery engine, and the tool might not use a stable revision of the format. A specialized version
+     * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
+     * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
      * @param jsonName the name of a structured JSON font file this will load from an internal or local file handle (tried in that order)
      * @param ignoredStructuredJsonFlag only present to distinguish this from other constructors; ignored
@@ -2110,7 +2112,9 @@ public class Font implements Disposable {
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
      * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
      * produce is fairly full-featured. Although it can also produce things like Artery fonts, those seem pretty
-     * specific to the Artery engine, and the tool might not use a stable revision of the format.
+     * specific to the Artery engine, and the tool might not use a stable revision of the format. A specialized version
+     * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
+     * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
      * @param jsonName the name of a structured JSON font file this will load from an internal or local file handle (tried in that order)
      * @param textureRegion a non-null TextureRegion, often taking up all of a Texture, that stores the images of the glyphs
@@ -2130,7 +2134,9 @@ public class Font implements Disposable {
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
      * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
      * produce is fairly full-featured. Although it can also produce things like Artery fonts, those seem pretty
-     * specific to the Artery engine, and the tool might not use a stable revision of the format.
+     * specific to the Artery engine, and the tool might not use a stable revision of the format. A specialized version
+     * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
+     * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
      * @param jsonName the name of a structured JSON font file this will load from an internal or local file handle (tried in that order)
      * @param textureRegion  a non-null TextureRegion, often taking up all of a Texture, that stores the images of the glyphs
@@ -2144,33 +2150,105 @@ public class Font implements Disposable {
     public Font(String jsonName, TextureRegion textureRegion,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs,
                 boolean ignoredStructuredJsonFlag) {
+        FileHandle fntHandle;
+        if ((fntHandle = Gdx.files.internal(jsonName)).exists()
+            || (fntHandle = Gdx.files.local(jsonName)).exists()) {
+            loadJSON(fntHandle, textureRegion, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        } else {
+            throw new RuntimeException("Missing font file: " + jsonName);
+        }
+    }
+
+    /**
+     * Creates a Font from a "Structured JSON" file produced by Chlumsky's msdf-atlas-gen tool, and uses it to assemble
+     * the many {@link GlyphRegion}s this has for each glyph. Reads the distance field type from the JSON.
+     * <br>
+     * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
+     * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
+     * produce is fairly full-featured. Although it can also produce things like Artery fonts, those seem pretty
+     * specific to the Artery engine, and the tool might not use a stable revision of the format. A specialized version
+     * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
+     * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
+     *
+     * @param jsonHandle     the FileHandle of a structured JSON font file
+     * @param textureRegion  a non-null TextureRegion, often taking up all of a Texture, that stores the images of the glyphs
+     * @param ignoredStructuredJsonFlag only present to distinguish this from other constructors; ignored
+     */
+    public Font(FileHandle jsonHandle, TextureRegion textureRegion, boolean ignoredStructuredJsonFlag) {
+        if (jsonHandle.exists()) {
+            loadJSON(jsonHandle, textureRegion, 0f, 0f, 0f, 0f, false);
+        } else {
+            throw new RuntimeException("Missing font file: " + jsonHandle);
+        }
+    }
+
+    /**
+     * Creates a Font from a "Structured JSON" file produced by Chlumsky's msdf-atlas-gen tool, and uses it to assemble
+     * the many {@link GlyphRegion}s this has for each glyph. Reads the distance field type from the JSON.
+     * <br>
+     * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
+     * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
+     * produce is fairly full-featured. Although it can also produce things like Artery fonts, those seem pretty
+     * specific to the Artery engine, and the tool might not use a stable revision of the format. A specialized version
+     * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
+     * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
+     *
+     * @param jsonHandle     the FileHandle of a structured JSON font file
+     * @param textureRegion  a non-null TextureRegion, often taking up all of a Texture, that stores the images of the glyphs
+     * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust        how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust   how many pixels to add to the used height of each character, using more above
+     * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     * @param ignoredStructuredJsonFlag only present to distinguish this from other constructors; ignored
+     */
+    public Font(FileHandle jsonHandle, TextureRegion textureRegion,
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs,
+                boolean ignoredStructuredJsonFlag) {
+        if (jsonHandle.exists()) {
+            loadJSON(jsonHandle, textureRegion, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        } else {
+            throw new RuntimeException("Missing font file: " + jsonHandle);
+        }
+    }
+
+    /**
+     * The bulk of the loading code for Structured JSON fonts.
+     *
+     * @param jsonHandle     the FileHandle of a structured JSON font file
+     * @param textureRegion  a non-null TextureRegion, often taking up all of a Texture, that stores the images of the glyphs
+     * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust        how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust   how many pixels to add to the used height of each character, using more above
+     * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     */
+    protected void loadJSON(FileHandle jsonHandle, TextureRegion textureRegion,
+                            float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs)
+    {
         this.parents = Array.with(textureRegion);
         this.xAdjust = xAdjust;
         this.yAdjust = yAdjust;
         this.widthAdjust = widthAdjust;
         this.heightAdjust = heightAdjust;
 
-        FileHandle fntHandle;
         JsonValue fnt;
         JsonReader reader = new JsonReader();
-        if ((fntHandle = Gdx.files.internal(jsonName)).exists()
-                || (fntHandle = Gdx.files.local(jsonName)).exists()) {
-            fnt = reader.parse(fntHandle);
-        } else {
-            throw new RuntimeException("Missing font file: " + jsonName);
-        }
+        fnt = reader.parse(jsonHandle);
 
-        name = fntHandle.nameWithoutExtension();
+        name = jsonHandle.nameWithoutExtension();
 
         JsonValue atlas = fnt.get("atlas");
         String dfType = atlas.getString("type", "");
         if("msdf".equals(dfType) || "mtsdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.MSDF);
-            setCrispness(16f / atlas.getFloat("distanceRange", 2f));
+//            setCrispness(20f / atlas.getFloat("distanceRange", 2f)); // maybe we don't need to read this?
+            setCrispness(2.5f);
         }
         else if("sdf".equals(dfType) || "psdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.SDF);
-            setCrispness(16f / atlas.getFloat("distanceRange", 4f));
+            setCrispness(0.2f);
+//            setCrispness(0.03125f * atlas.getFloat("distanceRange", 4f)); // maybe we don't need to read this?
         }
         else // softmask, hardmask
             this.setDistanceField(DistanceFieldType.STANDARD);
@@ -2296,10 +2374,10 @@ public class Font implements Disposable {
 
         if (distanceField != DistanceFieldType.STANDARD) {
             textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-            if(distanceField == DistanceFieldType.MSDF)
-                distanceFieldCrispness = -8f / (float)Math.log(1f/originalCellHeight);
-            else if(distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE)
-                distanceFieldCrispness = -1.2f / (float)Math.log(1f/originalCellHeight);
+//            if(distanceField == DistanceFieldType.MSDF)
+//                distanceFieldCrispness = -8f / (float)Math.log(1f/originalCellHeight);
+//            else if(distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE)
+//                distanceFieldCrispness = -1.2f / (float)Math.log(1f/originalCellHeight);
         }
 
         isMono = minWidth == cellWidth && kerning == null;

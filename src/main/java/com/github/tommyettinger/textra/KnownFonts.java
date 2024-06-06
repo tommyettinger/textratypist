@@ -1361,7 +1361,7 @@ public final class KnownFonts implements LifecycleListener {
      * Cyrillic. This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
      * well. This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Now%20Alt.png">Image link</a> (uses width=29, height=33)
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Now%20Alt.png">Image link</a> (uses width=29, height=30)
      * <br>
      * Needs files:
      * <ul>
