@@ -22,18 +22,14 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ByteArray;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.github.tommyettinger.textra.utils.LZByteEncoding;
-
-import java.util.logging.FileHandler;
+import com.github.tommyettinger.textra.utils.LZBCompression;
 
 public class LZBTest extends ApplicationAdapter {
     Stage stage;
@@ -45,9 +41,9 @@ public class LZBTest extends ApplicationAdapter {
     @Override
     public void create() {
         FileHandle uncompressedFile = Gdx.files.local("knownFonts/fontwriter/DejaVu-Sans-Condensed-sdf.json");
-        FileHandle compressedFile = Gdx.files.local("knownFonts/fontwriter/DejaVu-Sans-Condensed-sdf.json.lzb");
+        FileHandle compressedFile = Gdx.files.local("knownFonts/fontwriter/DejaVu-Sans-Condensed-sdf.lzb");
         if(!compressedFile.exists()){
-            ByteArray ba = LZByteEncoding.compressToByteArray(uncompressedFile.readString("UTF8"));
+            ByteArray ba = LZBCompression.compressToByteArray(uncompressedFile.readString("UTF8"));
             compressedFile.writeBytes(ba.items, 0, ba.size, false);
         }
         stage = new Stage();

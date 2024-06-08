@@ -91,6 +91,7 @@ public class FWSkin extends Skin {
 
                 path = fontFile.path();
 
+                boolean lzb = path.endsWith(".lzb");
                 boolean fw = path.endsWith(".json");
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
                 float xAdjust = json.readValue("xAdjust", float.class, 0f, jsonData);
@@ -107,28 +108,28 @@ public class FWSkin extends Skin {
                     Font font;
                     Array<TextureRegion> regions = skin.getRegions(regionName);
                     if (regions != null && regions.notEmpty()) {
-                        if(fw)
-                            font = new Font(path, regions.first(), xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
+                        if(fw || lzb)
+                            font = new Font(fontFile, regions.first(), xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
                         else
                             font = new Font(path, regions, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
                     } else {
                         TextureRegion region = skin.optional(regionName, TextureRegion.class);
                         if (region != null)
                         {
-                            if(fw)
-                                font = new Font(path, region, xAdjust, yAdjust, widthAdjust, heightAdjust, true, true);
+                            if(fw || lzb)
+                                font = new Font(fontFile, region, xAdjust, yAdjust, widthAdjust, heightAdjust, true, true);
                             else
                                 font = new Font(path, region, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
                         }
                         else {
                             FileHandle imageFile = Gdx.files.internal(path).sibling(regionName + ".png");
                             if (imageFile.exists()) {
-                                if(fw)
-                                    font = new Font(path, new TextureRegion(new Texture(imageFile)), xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
+                                if(fw || lzb)
+                                    font = new Font(fontFile, new TextureRegion(new Texture(imageFile)), xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
                                 else
                                     font = new Font(path, new TextureRegion(new Texture(imageFile)), Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
                             } else {
-                                if(fw)
+                                if(fw || lzb)
                                     throw new RuntimeException("Missing image file or TextureRegion.");
                                 else
                                     font = new Font(path);
@@ -137,7 +138,7 @@ public class FWSkin extends Skin {
                     }
                     font.useIntegerPositions(useIntegerPositions);
                     // Scaled size is the desired cap height to scale the font to.
-                    if (scaledSize != -1) font.scaleTo(font.originalCellWidth * scaledSize / font.originalCellHeight, scaledSize);
+                    if (scaledSize != -1) font.scaleHeightTo(scaledSize);
                     return font;
                 } catch (RuntimeException ex) {
                     throw new SerializationException("Error loading bitmap font: " + path, ex);
@@ -153,13 +154,14 @@ public class FWSkin extends Skin {
                 if (!fontFile.exists()) fontFile = Gdx.files.internal(path);
                 if (!fontFile.exists()) throw new SerializationException("Font file not found: " + fontFile);
 
+                boolean lzb = "lzb".equals(fontFile.extension());
                 boolean fw = "json".equals(fontFile.extension());
 
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
                 Boolean flip = json.readValue("flip", Boolean.class, false, jsonData);
                 Boolean markupEnabled = json.readValue("markupEnabled", Boolean.class, false, jsonData);
                 // This defaults to true if loading from .fnt, or false if loading from .json :
-                Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, !fw, jsonData);
+                Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, !(fw || lzb), jsonData);
 
                 // Use a region with the same name as the font, else use a PNG file in the same directory as the FNT file.
                 String regionName = fontFile.nameWithoutExtension();
@@ -167,7 +169,7 @@ public class FWSkin extends Skin {
                     BitmapFont font;
                     Array<TextureRegion> regions = skin.getRegions(regionName);
                     if (regions != null && regions.notEmpty()) {
-                        if(fw)
+                        if(fw || lzb)
                             font = BitmapFontSupport.loadStructuredJson(fontFile, regions.first(), flip);
                         else
                             font = new BitmapFont(new BitmapFont.BitmapFontData(fontFile, flip), regions, true);
@@ -175,7 +177,7 @@ public class FWSkin extends Skin {
                         TextureRegion region = skin.optional(regionName, TextureRegion.class);
                         if (region != null)
                         {
-                            if(fw)
+                            if(fw || lzb)
                                 font = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
                             else
                                 font = new BitmapFont(fontFile, region, flip);
@@ -183,13 +185,13 @@ public class FWSkin extends Skin {
                         else {
                             FileHandle imageFile = fontFile.sibling(regionName + ".png");
                             if (imageFile.exists()) {
-                                if(fw)
+                                if(fw || lzb)
                                     font = BitmapFontSupport.loadStructuredJson(fontFile,
                                             new TextureRegion(new Texture(imageFile)), flip);
                                 else
                                     font = new BitmapFont(fontFile, imageFile, flip);
                             } else {
-                                if(fw)
+                                if(fw || lzb)
                                     font = BitmapFontSupport.loadStructuredJson(fontFile, "", flip);
                                 else
                                     font = new BitmapFont(fontFile, flip);

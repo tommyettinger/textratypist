@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.github.tommyettinger.textra.utils.LZBDecompression;
 
 import static com.badlogic.gdx.math.MathUtils.round;
 
@@ -116,7 +117,13 @@ public class BitmapFontSupport {
                 JsonValue fnt;
                 JsonReader reader = new JsonReader();
                 if (jsonFont.exists()) {
-                    fnt = reader.parse(jsonFont);
+                    if("json".equalsIgnoreCase(jsonFont.extension())) {
+                        fnt = reader.parse(jsonFont);
+                    } else if("lzb".equalsIgnoreCase(jsonFont.extension())) {
+                        fnt = reader.parse(LZBDecompression.decompressFromBytes(jsonFont.readBytes()));
+                    } else {
+                        throw new RuntimeException("Not a .json or .lzb font file: " + jsonFont);
+                    }
                 } else {
                     throw new RuntimeException("Missing font file: " + jsonFont);
                 }

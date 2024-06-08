@@ -31,10 +31,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.*;
-import com.github.tommyettinger.textra.utils.BlockUtils;
-import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
-import com.github.tommyettinger.textra.utils.ColorUtils;
-import com.github.tommyettinger.textra.utils.StringUtils;
+import com.github.tommyettinger.textra.utils.*;
 import regexodus.Category;
 
 import java.util.Arrays;
@@ -2234,7 +2231,13 @@ public class Font implements Disposable {
 
         JsonValue fnt;
         JsonReader reader = new JsonReader();
-        fnt = reader.parse(jsonHandle);
+        if("json".equalsIgnoreCase(jsonHandle.extension())){
+            fnt = reader.parse(jsonHandle);
+        } else if("lzb".equalsIgnoreCase(jsonHandle.extension())) {
+            fnt = reader.parse(LZBDecompression.decompressFromBytes(jsonHandle.readBytes()));
+        } else {
+            throw new RuntimeException("Not a .json or .lzb font file: " + jsonHandle);
+        }
 
         name = jsonHandle.nameWithoutExtension();
 
