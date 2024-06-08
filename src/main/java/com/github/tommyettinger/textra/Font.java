@@ -2233,10 +2233,10 @@ public class Font implements Disposable {
         JsonReader reader = new JsonReader();
         if("json".equalsIgnoreCase(jsonHandle.extension())){
             fnt = reader.parse(jsonHandle);
-        } else if("lzb".equalsIgnoreCase(jsonHandle.extension())) {
+        } else if("dat".equalsIgnoreCase(jsonHandle.extension())) {
             fnt = reader.parse(LZBDecompression.decompressFromBytes(jsonHandle.readBytes()));
         } else {
-            throw new RuntimeException("Not a .json or .lzb font file: " + jsonHandle);
+            throw new RuntimeException("Not a .json or .dat font file: " + jsonHandle);
         }
 
         name = jsonHandle.nameWithoutExtension();

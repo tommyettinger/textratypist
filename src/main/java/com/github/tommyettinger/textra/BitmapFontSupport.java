@@ -22,7 +22,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.github.tommyettinger.textra.utils.LZBDecompression;
+
+import java.util.ArrayList;
 
 import static com.badlogic.gdx.math.MathUtils.round;
 
@@ -119,10 +120,10 @@ public class BitmapFontSupport {
                 if (jsonFont.exists()) {
                     if("json".equalsIgnoreCase(jsonFont.extension())) {
                         fnt = reader.parse(jsonFont);
-                    } else if("lzb".equalsIgnoreCase(jsonFont.extension())) {
-                        fnt = reader.parse(LZBDecompression.decompressFromBytes(jsonFont.readBytes()));
+                    } else if("dat".equalsIgnoreCase(jsonFont.extension())) {
+                        fnt = reader.parse(decompressFromBytes(jsonFont.readBytes()));
                     } else {
-                        throw new RuntimeException("Not a .json or .lzb font file: " + jsonFont);
+                        throw new RuntimeException("Not a .json or .dat font file: " + jsonFont);
                     }
                 } else {
                     throw new RuntimeException("Missing font file: " + jsonFont);
@@ -260,4 +261,169 @@ public class BitmapFontSupport {
             }
         }
     }
+    /**
+     * Decompresses a byte array compressed with LZB, getting the original
+     * String back that was given to a compression method.
+     * <br>
+     * This is private because a preferred version is present in
+     * {@code com.github.tommyettinger.textra.utils.LZBDecompression}; this method is only present here to
+     * make copying this class easier on its own.
+     * @param compressedBytes a byte array compressed with LZB
+     * @return the String that was originally given to be compressed
+     */
+    private static String decompressFromBytes(byte[] compressedBytes) {
+        if(compressedBytes == null)
+            return null;
+        final int length = compressedBytes.length;
+        if(length == 0)
+            return "";
+        final int resetValue = 128;
+        ArrayList<String> dictionary = new ArrayList<>(256);
+        int enlargeIn = 4, dictSize = 4, numBits = 3, position = resetValue, index = 1, resb, maxpower, power;
+        String entry, w, c;
+        StringBuilder res = new StringBuilder(length);
+        char bits;
+        int val = compressedBytes[0];
+
+        for (char i = 0; i < 3; i++) {
+            dictionary.add(String.valueOf(i));
+        }
+
+        bits = 0;
+        maxpower = 2;
+        power = 0;
+        while (power != maxpower) {
+            resb = val & position;
+            position >>>= 1;
+            if (position == 0) {
+                position = resetValue;
+                val = compressedBytes[index++];
+            }
+            bits |= (resb != 0 ? 1 : 0) << power++;
+        }
+
+        switch (bits) {
+            case 0:
+                bits = 0;
+                maxpower = 8;
+                power = 0;
+                while (power != maxpower) {
+                    resb = val & position;
+                    position >>>= 1;
+                    if (position == 0) {
+                        position = resetValue;
+                        val = compressedBytes[index++];
+                    }
+                    bits |= (resb != 0 ? 1 : 0) << power++;
+                }
+                c = String.valueOf(bits);
+                break;
+            case 1:
+                bits = 0;
+                maxpower = 16;
+                power = 0;
+                while (power != maxpower) {
+                    resb = val & position;
+                    position >>>= 1;
+                    if (position == 0) {
+                        position = resetValue;
+                        val = compressedBytes[index++];
+                    }
+                    bits |= (resb != 0 ? 1 : 0) << power++;
+                }
+                c = String.valueOf(bits);
+                break;
+            default:
+                return "";
+        }
+        dictionary.add(c);
+        w = c;
+        res.append(w);
+        while (true) {
+            if (index > length) {
+                return "";
+            }
+            int cc = 0;
+            maxpower = numBits;
+            power = 0;
+            while (power != maxpower) {
+                resb = val & position;
+                position >>>= 1;
+                if (position == 0) {
+                    position = resetValue;
+                    val = compressedBytes[index++];
+                }
+                cc |= (resb != 0 ? 1 : 0) << power++;
+            }
+            switch (cc) {
+                case 0:
+                    bits = 0;
+                    maxpower = 8;
+                    power = 0;
+                    while (power != maxpower) {
+                        resb = val & position;
+                        position >>>= 1;
+                        if (position == 0) {
+                            position = resetValue;
+                            val = compressedBytes[index++];
+                        }
+                        bits |= (resb != 0 ? 1 : 0) << power++;
+                    }
+
+                    dictionary.add(String.valueOf(bits));
+                    cc = dictSize++;
+                    enlargeIn--;
+                    break;
+                case 1:
+                    bits = 0;
+                    maxpower = 16;
+                    power = 0;
+                    while (power != maxpower) {
+                        resb = val & position;
+                        position >>>= 1;
+                        if (position == 0) {
+                            position = resetValue;
+                            val = compressedBytes[index++];
+                        }
+                        bits |= (resb != 0 ? 1 : 0) << power++;
+                    }
+                    dictionary.add(String.valueOf(bits));
+                    cc = dictSize++;
+                    enlargeIn--;
+                    break;
+                case 2:
+                    return res.toString();
+            }
+
+            if (enlargeIn == 0) {
+                enlargeIn = 1 << numBits;
+                numBits++;
+            }
+
+            if (cc < dictionary.size() && dictionary.get(cc) != null) {
+                entry = dictionary.get(cc);
+            } else {
+                if (cc == dictSize) {
+                    entry = w + w.charAt(0);
+                } else {
+                    return "";
+                }
+            }
+            res.append(entry);
+
+            // Add w+entry[0] to the dictionary.
+            dictionary.add(w + entry.charAt(0));
+            dictSize++;
+            enlargeIn--;
+
+            w = entry;
+
+            if (enlargeIn == 0) {
+                enlargeIn = 1 << numBits;
+                numBits++;
+            }
+
+        }
+    }
+
 }

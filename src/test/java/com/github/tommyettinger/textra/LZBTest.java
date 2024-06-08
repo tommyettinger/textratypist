@@ -41,7 +41,7 @@ public class LZBTest extends ApplicationAdapter {
     @Override
     public void create() {
         FileHandle uncompressedFile = Gdx.files.local("knownFonts/fontwriter/DejaVu-Sans-Condensed-sdf.json");
-        FileHandle compressedFile = Gdx.files.local("knownFonts/fontwriter/DejaVu-Sans-Condensed-sdf.lzb");
+        FileHandle compressedFile = Gdx.files.local("knownFonts/fontwriter/DejaVu-Sans-Condensed-sdf.dat");
         if(!compressedFile.exists()){
             ByteArray ba = LZBCompression.compressToByteArray(uncompressedFile.readString("UTF8"));
             compressedFile.writeBytes(ba.items, 0, ba.size, false);

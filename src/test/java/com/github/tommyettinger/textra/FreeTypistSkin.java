@@ -87,7 +87,7 @@ public class FreeTypistSkin extends Skin {
 
                 path = fontFile.path();
 
-                boolean lzb = path.endsWith(".lzb");
+                boolean lzb = path.endsWith(".dat");
                 boolean fw = path.endsWith(".json");
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
                 float xAdjust = json.readValue("xAdjust", float.class, 0f, jsonData);
@@ -150,8 +150,8 @@ public class FreeTypistSkin extends Skin {
                 if (!fontFile.exists()) fontFile = Gdx.files.internal(path);
                 if (!fontFile.exists()) throw new SerializationException("Font file not found: " + fontFile);
 
-                boolean lzb = "lzb".equals(fontFile.extension());
-                boolean fw = "json".equals(fontFile.extension());
+                boolean lzb = "dat".equalsIgnoreCase(fontFile.extension());
+                boolean fw = "json".equalsIgnoreCase(fontFile.extension());
 
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
                 Boolean flip = json.readValue("flip", Boolean.class, false, jsonData);
