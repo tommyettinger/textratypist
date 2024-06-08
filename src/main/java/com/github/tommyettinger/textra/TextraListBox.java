@@ -344,11 +344,10 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 		if(h < 0) return -1;
 		for (int i = 0; i < items.size; i++) {
 			T item = items.get(i);
-			if(h >= item.getY() && h < item.getY() + item.getPrefHeight()){
-//				System.out.println(item);
+			h -= item.getPrefHeight();
+			if(h <= 0){
 				return i;
 			}
-//			System.out.println("y: " + y + ", h: " + h + ", item.getY(): " + item.getY() + ", item.getPrefHeight(): " + item.getPrefHeight());
 		}
 		return -1;
 	}

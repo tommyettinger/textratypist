@@ -180,7 +180,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		TextraListBox<TextraLabel> list = new TextraListBox<>(skin);
 		TextraLabel[] entriesArray = new TextraLabel[listEntries.length];
 		for (int i = 0; i < listEntries.length; i++) {
-			entriesArray[i] = new TextraLabel(listEntries[i], skin, font);
+			entriesArray[i] = new TextraLabel(listEntries[i], skin);
 		}
 		list.setItems(entriesArray);
 		list.getSelection().setMultiple(true);
