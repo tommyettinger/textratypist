@@ -2266,8 +2266,8 @@ public class Font implements Disposable {
         descent = size * atlas.getFloat("descender", -0.25f);
         originalCellHeight = cellHeight = size * atlas.getFloat("lineHeight", 1f) + heightAdjust;
 
-        underY = atlas.getFloat("underlineY", -0.1f);
-        strikeBreadth = underBreadth = atlas.getFloat("underlineThickness", 0.25f);
+        underY = 0.5f * atlas.getFloat("underlineY", -0.1f);
+        strikeBreadth = underBreadth = -0.375f;
         if(makeGridGlyphs){
             underLength = strikeLength = 0.05f;
             underX = strikeX = -0.05f;
@@ -2278,8 +2278,7 @@ public class Font implements Disposable {
 
         originalCellHeight -= descent;
         cellHeight -= descent;
-        underY -= descent / size;
-        strikeY = -0.5f * descent / size;
+//        strikeY += 0.5f * descent / size;
         fancyY -= descent / size;
 
         JsonValue glyphs = fnt.get("glyphs"), planeBounds, atlasBounds;
