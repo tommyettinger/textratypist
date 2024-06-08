@@ -39,12 +39,6 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 compileJava {
-	// Targeting Java 7 is the lowest version you could need to go at this point.
-	// libGDX itself targets a mix of Java 7 (for most backends) and 8 (for LWJGL3).
-    // You should change this to 8 if any libraries you use need Java 8 (some that
-    // come to mind are simple-graphs and jdkgdxds). Note that Java 20 (and almost
-    // certainly higher versions) cannot build with a release set to 7; set it to 8
-    // or higher if you expect anyone to build with Java 20 or higher.
     sourceCompatibility = 8
     targetCompatibility = 8
     if (JavaVersion.current().isJava9Compatible()) {
@@ -53,9 +47,6 @@ compileJava {
 }
 
 compileTestJava {
-	// LWJGL3 needs Java 8 starting in libGDX 1.11.0, which forces tests that use LWJGL3
-	// to use Java 8 or higher. Using options.release enforces compatibility with Java 8,
-	// including how NIO Buffers behave (which broke compatibility in Java 9).
     sourceCompatibility = 8
     targetCompatibility = 8
     if (JavaVersion.current().isJava9Compatible()) {
@@ -74,15 +65,12 @@ jar {
 }
 
 repositories {
-    // You can uncomment mavenLocal() if you need self-built versions, but it can be a problem with GWT or other sources dependencies.
     mavenLocal()
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }
     google()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
-    // JitPack is a good repo to have if you depend on commit versions.
-    // Having the below repo might cause problems if uploading to Maven Central.
     maven { url 'https://jitpack.io' }
 }
 

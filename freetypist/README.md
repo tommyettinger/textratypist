@@ -2,8 +2,8 @@
 
 Provides FreeType font loading for TextraTypist.
 
-You can load anything FWSkin (from TextraTypist) can load, such as .fnt and Structured JSON files from FontWriter, as
-well as anything FreeTypeSkin (from Stripe) can load, such as FreeType font config.
+You can load anything FWSkin (from TextraTypist) can load, such as .fnt and (optionally compressed) Structured JSON
+files from FontWriter, as well as anything FreeTypeSkin (from Stripe) can load, such as FreeType font config.
 
 This depends on FreeType, so you must have the appropriate platform dependencies for that, if you don't already.
 
@@ -25,6 +25,6 @@ into your own project, which is probably the easiest route. This is what TextraT
 
 # License
 
-Apache 2.0, the same as TextraTypist.
+[Apache 2.0](LICENSE), the same as TextraTypist.
 
 

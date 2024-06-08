@@ -88,6 +88,9 @@ TextFieldStyle: {
 com.github.tommyettinger.textra.Styles$CheckBoxStyle: {
 	default: { checkboxOn: check-on, checkboxOff: check-off, font: default-font, fontColor: white }
 },
+com.github.tommyettinger.textra.Styles$ListStyle: {
+	default: { fontColorUnselected: white, selection: selection, fontColorSelected: white, font: default-font }
+},
 ListStyle: {
 	default: { fontColorUnselected: white, selection: selection, fontColorSelected: white, font: default-font }
 },
