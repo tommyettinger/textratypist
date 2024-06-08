@@ -1074,14 +1074,15 @@ public class Font implements Disposable {
                     "uniform float u_smoothing;\n" +
                     "varying vec4 v_color;\n" +
                     "varying vec2 v_texCoords;\n" +
-                    "const float closeness = 0.2; // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline\n" +
+                    "const float closeness = 0.015625; // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline\n" +
                     "void main() {\n" +
                     "  if (u_smoothing > 0.0) {\n" +
                     "    float smoothing = 0.25 / u_smoothing;\n" +
                     "    vec4 image = texture2D(u_texture, v_texCoords);\n" +
+//                    "    image.a = sqrt(image.a);\n" +
                     "    float outlineFactor = smoothstep(0.5 - smoothing, 0.5 + smoothing, image.a);\n" +
                     "    vec3 color = image.rgb * v_color.rgb * outlineFactor;\n" +
-                    "    float alpha = smoothstep(closeness - smoothing, closeness + smoothing, image.a);\n" +
+                    "    float alpha = smoothstep(closeness, closeness + smoothing, pow(image.a, 0.4));\n" +
                     "    gl_FragColor = vec4(color, v_color.a * alpha);\n" +
                     "  } else {\n" +
                     "    gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n" +
@@ -2246,7 +2247,7 @@ public class Font implements Disposable {
         if("msdf".equals(dfType) || "mtsdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.MSDF);
 //            setCrispness(20f / atlas.getFloat("distanceRange", 2f)); // maybe we don't need to read this?
-            setCrispness(2.5f);
+            setCrispness(1.5f);
         }
         else if("sdf".equals(dfType) || "psdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.SDF);
@@ -2278,7 +2279,7 @@ public class Font implements Disposable {
 
         originalCellHeight -= descent;
         cellHeight -= descent;
-//        strikeY += 0.5f * descent / size;
+//        strikeY = 0f;
         fancyY -= descent / size;
 
         JsonValue glyphs = fnt.get("glyphs"), planeBounds, atlasBounds;

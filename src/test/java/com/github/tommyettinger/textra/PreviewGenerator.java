@@ -95,35 +95,39 @@ public class PreviewGenerator extends ApplicationAdapter {
 //                .setName("Yanone Kaffeesatz (MSDF)");
 //        all[all.length-1].scaleTo(all[all.length-1].originalCellWidth*24f/all[all.length-1].originalCellHeight, 24f);
 
-        FileHandle[] jsonFiles = Gdx.files.local("src/test/resources/experimental").list(".json");
-        FileHandle[] sdfFiles = new FileHandle[0];
-//        FileHandle[] jsonFiles = Gdx.files.local("knownFonts/fontwriter").list(".json");
-//        FileHandle[] sdfFiles = Gdx.files.local("knownFonts/fontwriter").list("-sdf.json");
+//        FileHandle[] jsonFiles = Gdx.files.local("src/test/resources/experimental").list(".json");
+//        FileHandle[] sdfFiles = new FileHandle[0];
+        FileHandle[] jsonFiles = Gdx.files.local("knownFonts/fontwriter").list(".json");
+        FileHandle[] sdfFiles = Gdx.files.local("knownFonts/fontwriter").list("-sdf.json");
         Font[] sdf = new Font[sdfFiles.length];
         Font[] all = new Font[jsonFiles.length];
         int sdfIdx = 0;
         for (int i = 0; i < jsonFiles.length; i++) {
             all[i] = KnownFonts.addEmoji(new Font(jsonFiles[i].path(), true));
             all[i].scaleHeightTo(32f);
-            if (all[i].distanceField == Font.DistanceFieldType.SDF)
+            if (all[i].distanceField == Font.DistanceFieldType.SDF) {
                 sdf[sdfIdx++] = new Font(all[i]);
+            }
         }
-//        all[0].scale(0.5f, 1f);
-//        all[1].scale(0.5f, 1f);
-//        all[2].scale(0.5f, 1f);
-//        sdf[0].scale(0.5f, 1f);
+        all[0].scale(0.5f, 1f);
+        all[1].scale(0.5f, 1f);
+        all[2].scale(0.5f, 1f);
+        sdf[0].scale(0.5f, 1f);
 
         for(Font f : sdf) {
             f.setDistanceField(Font.DistanceFieldType.SDF_OUTLINE);
-            System.out.println(f.name);
             f.name = f.name.replace("-sdf", "-sdf_outline");
         }
         Font[] fonts = new Font[all.length + sdf.length];
         System.arraycopy(all, 0, fonts, 0, all.length);
         System.arraycopy(sdf, 0, fonts, all.length, sdf.length);
+
+//        Font[] fonts = sdf;
+
+
         fnt = fonts[0];
 //        fnt = fonts[fonts.length - 1];
-        Gdx.files.local("out/experimental/").mkdirs();
+        Gdx.files.local("out/fw/").mkdirs();
         int index = 0;
         for (int i = 0; i < fonts.length; i++) {
             Font font = fonts[i];
@@ -196,7 +200,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             // End Pixmap.createFromFrameBuffer() modified code
 
 //            Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-            PixmapIO.writePNG(Gdx.files.local("out/experimental/" + font.name + ".png"), pm, 2, true);
+            PixmapIO.writePNG(Gdx.files.local("out/fw/" + font.name + ".png"), pm, 2, true);
             index++;
         }
 //        System.out.println(layout);
