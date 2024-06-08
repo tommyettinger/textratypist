@@ -57,8 +57,8 @@ public final class LZByteEncoding {
         if (uncompressedStr.isEmpty()) return new ByteArray(0);
         final int bitsPerChar = 8;
         int i, value;
-        HashMap<String, Integer> context_dictionary = new HashMap<>(256, 0.5f);
-        HashSet<String> context_dictionaryToCreate = new HashSet<>(256, 0.5f);
+        HashMap<String, Integer> context_dictionary = new HashMap<>(1024, 0.5f);
+        HashSet<String> context_dictionaryToCreate = new HashSet<>(1024, 0.5f);
         String context_c;
         String context_wc;
         String context_w = "";
@@ -68,11 +68,10 @@ public final class LZByteEncoding {
         ByteArray context_data = new ByteArray(uncompressedStr.length() >>> 1);
         byte context_data_val = 0;
         int context_data_position = 0;
-        int ii;
+        int ii, ucl = uncompressedStr.length();
 
-        char[] uncompressed = uncompressedStr.toCharArray();
-        for (ii = 0; ii < uncompressed.length; ii++) {
-            context_c = String.valueOf(uncompressed[ii]);
+        for (ii = 0; ii < ucl; ii++) {
+            context_c = String.valueOf(uncompressedStr.charAt(ii));
             if (!context_dictionary.containsKey(context_c)) {
                 context_dictionary.put(context_c, context_dictSize++);
                 context_dictionaryToCreate.add(context_c);
