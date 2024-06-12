@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2011 See AUTHORS file.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,11 +50,10 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 	private ArraySelection<T> selection = new ArraySelection<>(items);
 	private Rectangle cullingArea;
 	private float prefWidth, prefHeight;
-	float itemHeight; // TODO: Do we need this?
 	private int alignment = Align.left;
-	int pressedIndex = -1, overIndex = -1;
+	public int pressedIndex = -1, overIndex = -1;
 	private final InputListener keyListener;
-	boolean typeToSelect;
+	public boolean typeToSelect;
 
 	public TextraListBox(Skin skin) {
 		this(skin.get(ListStyle.class));
@@ -79,32 +78,32 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 				if (items.isEmpty()) return false;
 				int index;
 				switch (keycode) {
-				case Keys.A:
-					if (UIUtils.ctrl() && selection.getMultiple()) {
-						selection.clear();
-						selection.addAll(items);
+					case Keys.A:
+						if (UIUtils.ctrl() && selection.getMultiple()) {
+							selection.clear();
+							selection.addAll(items);
+							return true;
+						}
+						break;
+					case Keys.HOME:
+						setSelectedIndex(0);
 						return true;
-					}
-					break;
-				case Keys.HOME:
-					setSelectedIndex(0);
-					return true;
-				case Keys.END:
-					setSelectedIndex(items.size - 1);
-					return true;
-				case Keys.DOWN:
-					index = items.indexOf(getSelected(), false) + 1;
-					if (index >= items.size) index = 0;
-					setSelectedIndex(index);
-					return true;
-				case Keys.UP:
-					index = items.indexOf(getSelected(), false) - 1;
-					if (index < 0) index = items.size - 1;
-					setSelectedIndex(index);
-					return true;
-				case Keys.ESCAPE:
-					if (getStage() != null) getStage().setKeyboardFocus(null);
-					return true;
+					case Keys.END:
+						setSelectedIndex(items.size - 1);
+						return true;
+					case Keys.DOWN:
+						index = items.indexOf(getSelected(), false) + 1;
+						if (index >= items.size) index = 0;
+						setSelectedIndex(index);
+						return true;
+					case Keys.UP:
+						index = items.indexOf(getSelected(), false) - 1;
+						if (index < 0) index = items.size - 1;
+						setSelectedIndex(index);
+						return true;
+					case Keys.ESCAPE:
+						if (getStage() != null) getStage().setKeyboardFocus(null);
+						return true;
 				}
 				return false;
 			}
@@ -190,13 +189,10 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 		prefHeight = selectedDrawable.getTopHeight() + selectedDrawable.getBottomHeight();
 
 		prefWidth = 0;
-		Pool<GlyphLayout> layoutPool = Pools.get(GlyphLayout.class);
-		GlyphLayout layout = layoutPool.obtain();
 		for (int i = 0; i < items.size; i++) {
 			prefWidth = Math.max(items.get(i).getPrefWidth(), prefWidth);
 			prefHeight += items.get(i).getPrefHeight();
 		}
-		layoutPool.free(layout);
 		prefWidth += selectedDrawable.getLeftWidth() + selectedDrawable.getRightWidth();
 
 		Drawable background = style.background;
@@ -218,8 +214,8 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 		Color color = getColor();
 		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
 
-		float x = getX(), y = getY(), width = getWidth(), height = getHeight();
-		float itemY = height;
+		float x = getX(), y = getY(), width = getWidth();
+		float itemY = getHeight();
 
 		Drawable background = style.background;
 		if (background != null) {
@@ -247,11 +243,11 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 				} else if (overIndex == i && style.over != null) //
 					drawable = style.over;
 				drawSelection(batch, drawable, x, y + itemY - item.getPrefHeight(), width, items.get(i).getPrefHeight());
-				item.setPosition(x + textOffsetX, y + itemY - textOffsetY);
+				item.setPosition(x + textOffsetX, y + itemY - textOffsetY - item.getPrefHeight() * 0.5f);
 				item.draw(batch, 1f);
 				if (selected) {
 					item.setColor(fontColorUnselected.r, fontColorUnselected.g, fontColorUnselected.b,
-						fontColorUnselected.a * parentAlpha);
+							fontColorUnselected.a * parentAlpha);
 				}
 				itemY -= item.getPrefHeight();
 			} else if (itemY < cullingArea.y) {

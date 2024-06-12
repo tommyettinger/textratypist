@@ -615,7 +615,8 @@ Thanks to all the font designers who made fonts we use here; by making your font
 service to the people who depend on them.
 
 Thanks to Twitter for generously contributing Twemoji to the world of open source; having broadly available emoji makes
-them much more usable. Note that because this was a generous action by Twitter, it happened before its acquisition.
+them much more usable. Note that because this was a generous action by Twitter, it happened before its
+acquisition/change to "X".
 
 Thanks to the many contributors to game-icons.net for producing high-quality free icons to game developers everywhere.
 The icons in Game-Icons.png were made by:

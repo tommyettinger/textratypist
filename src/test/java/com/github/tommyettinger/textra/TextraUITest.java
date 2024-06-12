@@ -181,6 +181,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		TextraLabel[] entriesArray = new TextraLabel[listEntries.length];
 		for (int i = 0; i < listEntries.length; i++) {
 			entriesArray[i] = new TextraLabel(listEntries[i], skin);
+//			entriesArray[i].setAlignment(Align.topLeft);
 		}
 		list.setItems(entriesArray);
 		list.getSelection().setMultiple(true);
