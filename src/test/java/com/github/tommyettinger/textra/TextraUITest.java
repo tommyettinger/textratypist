@@ -178,10 +178,13 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		Image imageActor = new Image(image2);
 		ScrollPane scrollPane = new ScrollPane(imageActor);
 		TextraListBox<TextraLabel> list = new TextraListBox<>(skin);
-		TextraLabel[] entriesArray = new TextraLabel[listEntries.length];
+//		TextraLabel[] entriesArray = new TextraLabel[listEntries.length];
+//		for (int i = 0; i < listEntries.length; i++) {
+//			entriesArray[i] = new TextraLabel(listEntries[i], skin);
+//		}
+		TextraLabel[] entriesArray = new TypingLabel[listEntries.length];
 		for (int i = 0; i < listEntries.length; i++) {
-			entriesArray[i] = new TextraLabel(listEntries[i], skin);
-//			entriesArray[i].setAlignment(Align.topLeft);
+			entriesArray[i] = new TypingLabel(listEntries[i], skin);
 		}
 		list.setItems(entriesArray);
 		list.getSelection().setMultiple(true);

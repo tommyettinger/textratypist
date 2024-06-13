@@ -40,7 +40,7 @@ import regexodus.REFlags;
  * A TextraListBox (based on {@link com.badlogic.gdx.scenes.scene2d.ui.List}) displays {@link TextraLabel}s and
  * highlights the currently selected item.
  * <p>
- * {@link ChangeEvent} is fired when the list selection changes.
+ * A {@link ChangeEvent} is fired when the list selection changes.
  * <p>
  * The preferred size of the list is determined by the text bounds of the items and the size of the {@link ListStyle#selection}.
  * @author mzechner
@@ -200,6 +200,14 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 		if (background != null) {
 			prefWidth = Math.max(prefWidth + background.getLeftWidth() + background.getRightWidth(), background.getMinWidth());
 			prefHeight = Math.max(prefHeight + background.getTopHeight() + background.getBottomHeight(), background.getMinHeight());
+		}
+	}
+
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		for (int i = 0; i < items.size; i++) {
+			items.get(i).act(delta);
 		}
 	}
 
