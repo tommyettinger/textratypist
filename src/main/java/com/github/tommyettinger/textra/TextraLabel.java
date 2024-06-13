@@ -395,6 +395,13 @@ public class TextraLabel extends Widget {
                         x = (int)x;
                         y = (int)y;
                     }
+
+                    Font.GlyphRegion reg = font.mapping.get((char) glyph);
+                    if (reg != null && reg.offsetX < 0) {
+                        float ox = reg.offsetX * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
+                        xChange -= cs * ox;
+                        yChange -= sn * ox;
+                    }
                 }
 
                 if (f.kerning != null) {
@@ -404,14 +411,6 @@ public class TextraLabel extends Widget {
                     yChange += sn * amt;
                 } else {
                     kern = -1;
-                }
-                if (i == 0) {
-                    Font.GlyphRegion reg = font.mapping.get((char) glyph);
-                    if (reg != null && reg.offsetX < 0) {
-                        float ox = reg.offsetX * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
-                        xChange -= cs * ox;
-                        yChange -= sn * ox;
-                    }
                 }
                 bgc = 0;
                 float xx = x + xChange;

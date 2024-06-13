@@ -931,7 +931,7 @@ public class TypingLabel extends TextraLabel {
             overIndex = -1;
         }
 
-        float single = 0;
+        float single;
 
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
@@ -979,19 +979,17 @@ public class TypingLabel extends TextraLabel {
                     x += cs * f.cellWidth * 0.5f;
                     y += sn * f.cellWidth * 0.5f;
 
-                    x += sn * descent * 0.5f;
-                    y -= cs * descent * 0.5f;
+//                    x += sn * descent * 0.5f;
+//                    y -= cs * descent * 0.5f;
 
-//                    y += descent;
-                    x -= sn * glyphs.height * 0.5f;
-                    y += cs * glyphs.height * 0.5f;
+                    y += descent;
+                    x += sn * (descent - 0.5f * glyphs.height);
+                    y -= cs * (descent - 0.5f * glyphs.height);
 
                     Font.GlyphRegion reg = font.mapping.get((char) glyph);
-                    if (reg != null) {
+                    if (reg != null && reg.offsetX < 0) {
                         float ox = reg.offsetX;
-                        if (ox != ox) ox = 0f;
-                        else
-                            ox *= f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
+                        ox *= f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
                         if (ox < 0) {
                             xChange -= cs * ox;
                             yChange -= sn * ox;
