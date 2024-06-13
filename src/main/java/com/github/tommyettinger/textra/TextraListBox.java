@@ -19,7 +19,6 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -37,7 +36,9 @@ import regexodus.Matcher;
 import regexodus.Pattern;
 import regexodus.REFlags;
 
-/** A TextraListBox (based on scene2d.ui's List) displays textual items and highlights the currently selected item.
+/**
+ * A TextraListBox (based on {@link com.badlogic.gdx.scenes.scene2d.ui.List}) displays {@link TextraLabel}s and
+ * highlights the currently selected item.
  * <p>
  * {@link ChangeEvent} is fired when the list selection changes.
  * <p>
@@ -225,13 +226,12 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 			width -= leftWidth + background.getRightWidth();
 		}
 
-		float textOffsetX = selectedDrawable.getLeftWidth(),
-				textWidth = width - textOffsetX - selectedDrawable.getRightWidth();
-		float textOffsetY = selectedDrawable.getTopHeight();// - font.getDescent();
+		float textOffsetX = selectedDrawable.getLeftWidth();
+		float textOffsetY = selectedDrawable.getTopHeight();
 
 		for (int i = 0; i < items.size; i++) {
+			T item = items.get(i);
 			if (cullingArea == null || (itemY - items.get(i).getPrefHeight() <= cullingArea.y + cullingArea.height && itemY >= cullingArea.y)) {
-				T item = items.get(i);
 				item.setColor(fontColorUnselected.r, fontColorUnselected.g, fontColorUnselected.b, fontColorUnselected.a * parentAlpha);
 				boolean selected = selection.contains(item);
 				Drawable drawable = null;
@@ -249,10 +249,10 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 					item.setColor(fontColorUnselected.r, fontColorUnselected.g, fontColorUnselected.b,
 							fontColorUnselected.a * parentAlpha);
 				}
-				itemY -= item.getPrefHeight();
 			} else if (itemY < cullingArea.y) {
 				break;
 			}
+			itemY -= item.getPrefHeight();
 		}
 	}
 
@@ -366,7 +366,7 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 	/** Sets the items visible in the list, clearing the selection if it is no longer valid. If a selection is
 	 * {@link ArraySelection#getRequired()}, the first item is selected. This can safely be called with a (modified) array returned
 	 * from {@link #getItems()}. */
-	public void setItems (Array newItems) {
+	public void setItems (Array<? extends T> newItems) {
 		if (newItems == null) throw new IllegalArgumentException("newItems cannot be null.");
 		float oldPrefWidth = getPrefWidth(), oldPrefHeight = getPrefHeight();
 
