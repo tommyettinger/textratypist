@@ -18,10 +18,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.tommyettinger.textra.utils.BlockUtils;
-import com.github.tommyettinger.textra.utils.ColorUtils;
 import com.github.tommyettinger.textra.utils.Palette;
-import com.github.tommyettinger.textra.utils.StringUtils;
 
 import java.nio.ByteBuffer;
 

@@ -30,7 +30,6 @@ import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -177,12 +176,12 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		selectBox.setSelected("Linux6");
 		Image imageActor = new Image(image2);
 		ScrollPane scrollPane = new ScrollPane(imageActor);
-		TextraListBox<TextraLabel> list = new TextraListBox<>(skin);
+		TypingListBox<TypingLabel> list = new TypingListBox<>(skin);
 //		TextraLabel[] entriesArray = new TextraLabel[listEntries.length];
 //		for (int i = 0; i < listEntries.length; i++) {
 //			entriesArray[i] = new TextraLabel(listEntries[i], skin);
 //		}
-		TextraLabel[] entriesArray = new TypingLabel[listEntries.length];
+		TypingLabel[] entriesArray = new TypingLabel[listEntries.length];
 		for (int i = 0; i < listEntries.length; i++) {
 			entriesArray[i] = new TypingLabel(listEntries[i], skin);
 		}

@@ -2247,11 +2247,11 @@ public class Font implements Disposable {
         if("msdf".equals(dfType) || "mtsdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.MSDF);
 //            setCrispness(20f / atlas.getFloat("distanceRange", 2f)); // maybe we don't need to read this?
-            setCrispness(1.5f);
+            setCrispness(1f);
         }
         else if("sdf".equals(dfType) || "psdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.SDF);
-            setCrispness(0.2f);
+            setCrispness(1f);
 //            setCrispness(0.03125f * atlas.getFloat("distanceRange", 4f)); // maybe we don't need to read this?
         }
         else // softmask, hardmask
@@ -3053,13 +3053,15 @@ public class Font implements Disposable {
     public void enableDistanceFieldShader(Batch batch) {
         if (batch.getShader() == shader) {
             if (distanceField == DistanceFieldType.MSDF) {
-                float smoothing = 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                float smoothing = 32f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
-                float smoothing = (actualCrispness / (Math.max(cellHeight / originalCellHeight,
-                        cellWidth / originalCellWidth) * 0.5f + 0.125f));
+//                float smoothing = (actualCrispness / (Math.max(cellHeight / originalCellHeight,
+//                        cellWidth / originalCellWidth) + 0.03125f));
+//                float smoothing = actualCrispness * 13f / Math.max(cellHeight, cellWidth);
+                float smoothing = actualCrispness * 0.5f / Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);

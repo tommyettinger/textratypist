@@ -19,8 +19,6 @@ package com.github.tommyettinger.textra.utils;
 import com.badlogic.gdx.utils.ByteArray;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * Decompresses byte arrays to Strings using a type of LZ-compression.

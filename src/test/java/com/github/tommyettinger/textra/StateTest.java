@@ -26,8 +26,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import regexodus.Pattern;
-import regexodus.Replacer;
 
 public class StateTest extends ApplicationAdapter {
 
