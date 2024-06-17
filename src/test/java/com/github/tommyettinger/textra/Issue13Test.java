@@ -36,7 +36,7 @@ public class Issue13Test  extends ApplicationAdapter {
     public void create () {
         stage = new Stage(new ScreenViewport());
 //        stage.setDebugAll(true);
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 
         int fitOneLineCount = 25;
         int extraSpaces = 10;

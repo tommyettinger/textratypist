@@ -37,7 +37,7 @@ public class Issue16Test extends ApplicationAdapter {
   public void create () {
     stage = new Stage(new ScreenViewport());
 
-    skin = new Skin(Gdx.files.internal("uiskin.json"));
+    skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 
     // Currently (Feb 5, 2024), scaled BitmapFonts aren't loaded correctly by the Font constructor.
 //    skin.getFont("default-font").getData().setScale(2);

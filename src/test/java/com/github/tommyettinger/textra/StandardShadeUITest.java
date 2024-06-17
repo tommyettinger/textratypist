@@ -56,7 +56,7 @@ public class StandardShadeUITest extends InputAdapter implements ApplicationList
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.enable();
-		skin = new Skin(Gdx.files.internal("shadeui/uiskin.json"));
+		skin = new FWSkin(Gdx.files.internal("shadeui/uiskin.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
 		TextureRegion image = new TextureRegion(texture1);

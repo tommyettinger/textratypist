@@ -66,7 +66,7 @@ public class FunnyRotationTest extends ApplicationAdapter {
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
         texture = new TextureRegion(new Texture(Gdx.files.internal("tilerb.png")));
         stage = new Stage(viewport);
-        Skin skin = new Skin(Gdx.files.internal("shadeui/uiskin.json"));
+        Skin skin = new FWSkin(Gdx.files.internal("shadeui/uiskin.json"));
 
         Font tFont = new Font("RaeleusScriptius-standard.fnt", 0, 8, 0, 0);
         tFont.setLineMetrics(-0.25f, -0.1f, 0f, 0f);

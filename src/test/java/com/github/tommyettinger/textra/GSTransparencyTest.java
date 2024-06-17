@@ -58,7 +58,7 @@ public class GSTransparencyTest  extends ApplicationAdapter {
         camera.position.set(960,540,1);
         viewport = new FitViewport(1000,540,camera);
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
-        Skin skin = new Skin(Gdx.files.internal("gs/alphaSkin.json"),
+        Skin skin = new FWSkin(Gdx.files.internal("gs/alphaSkin.json"),
                 new TextureAtlas(Gdx.files.internal("gs/alphaSkin.atlas"), Gdx.files.internal("gs/")));
         stage = new Stage(viewport);
         Font tFont = KnownFonts.getGentium();

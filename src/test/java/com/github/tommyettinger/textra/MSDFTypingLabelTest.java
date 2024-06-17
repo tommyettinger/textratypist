@@ -33,7 +33,7 @@ public class MSDFTypingLabelTest extends ApplicationAdapter {
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 //        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         skin.getFont("default-font");//.getData().setScale(0.5f);
         stage = new Stage(new StretchViewport(720, 405), batch);

@@ -56,7 +56,8 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.enable();
-		skin = new FWSkin(Gdx.files.internal("uiskin.json"));
+//		skin = new FWSkin(Gdx.files.internal("uiskin.json"));
+		skin = new FWSkin(Gdx.files.internal("uiskin3.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
 //		BitmapFont font = skin.get("outline-font", BitmapFont.class);

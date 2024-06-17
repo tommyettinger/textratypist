@@ -53,7 +53,7 @@ public class MBTypingUITest extends InputAdapter implements ApplicationListener 
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.enable();
-		skin = new Skin(Gdx.files.internal("mb/eight.json"));
+		skin = new FWSkin(Gdx.files.internal("mb/eight.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
 		TextureRegion image = new TextureRegion(texture1);

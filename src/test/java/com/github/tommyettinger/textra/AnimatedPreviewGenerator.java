@@ -42,7 +42,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new FWSkin(Gdx.files.internal("uiskin.json"));
         stage = new Stage(new StretchViewport(720, 480), batch);
         Gdx.input.setInputProcessor(stage);
 

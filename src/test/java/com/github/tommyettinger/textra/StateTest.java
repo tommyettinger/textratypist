@@ -36,7 +36,7 @@ public class StateTest extends ApplicationAdapter {
     public void create () {
         stage = new Stage(new ScreenViewport());
         stage.setDebugAll(true);
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 
         StringBuilder text = new StringBuilder();
 

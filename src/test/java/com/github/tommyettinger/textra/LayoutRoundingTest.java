@@ -39,7 +39,7 @@ public class LayoutRoundingTest extends ApplicationAdapter {
 
 	public void create () {
 		batch = new SpriteBatch();
-		skin = new Skin(Gdx.files.internal("uiskin.json"));
+		skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 		stage = new Stage(new ScreenViewport());
 
 		skin.getFont("default-font").getData().setScale(1.23f);

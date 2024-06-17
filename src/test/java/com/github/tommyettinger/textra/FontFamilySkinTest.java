@@ -34,7 +34,7 @@ public class FontFamilySkinTest extends InputAdapter implements ApplicationListe
 
 	@Override
 	public void create () {
-		skin = new Skin(Gdx.files.internal("shadeui/uiskin.json"));
+		skin = new FWSkin(Gdx.files.internal("shadeui/uiskin.json"));
 		final FontFamily family = new FontFamily(skin);
 		
 		stage = new Stage(new ScreenViewport());
