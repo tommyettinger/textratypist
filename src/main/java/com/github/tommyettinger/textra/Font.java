@@ -1390,7 +1390,41 @@ public class Font implements Disposable {
     public Font(String fntName, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
         this.setDistanceField(distanceField);
-        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        FileHandle fntHandle;
+        if ((fntHandle = Gdx.files.internal(fntName)).exists()
+                || (fntHandle = Gdx.files.local(fntName)).exists()) {
+            loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        } else {
+            throw new RuntimeException("Missing font file: " + fntName);
+        }
+    }
+
+    /**
+     * Constructs a new Font by reading in a .fnt file from the given FileHandle and loading any images specified in
+     * that file. The specified distance field effect is used.
+     * This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
+     *
+     * @param fntHandle      the FileHandle holding the path to a .fnt file
+     * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust        how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust   how many pixels to add to the used height of each character, using more above
+     * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     */
+    public Font(FileHandle fntHandle, DistanceFieldType distanceField,
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
+        this.setDistanceField(distanceField);
+        if (fntHandle.exists()) {
+            loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        } else {
+            throw new RuntimeException("Missing font file: " + fntHandle.name());
+        }
     }
 
     /**
@@ -1470,7 +1504,13 @@ public class Font implements Disposable {
         } else {
             throw new RuntimeException("Missing texture file: " + textureName);
         }
-        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        FileHandle fntHandle;
+        if ((fntHandle = Gdx.files.internal(fntName)).exists()
+                || (fntHandle = Gdx.files.local(fntName)).exists()) {
+            loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        } else {
+            throw new RuntimeException("Missing font file: " + fntName);
+        }
     }
 
     /**
@@ -1543,7 +1583,46 @@ public class Font implements Disposable {
         if (distanceField != DistanceFieldType.STANDARD) {
             textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
-        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        FileHandle fntHandle;
+        if ((fntHandle = Gdx.files.internal(fntName)).exists()
+                || (fntHandle = Gdx.files.local(fntName)).exists()) {
+            loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        } else {
+            throw new RuntimeException("Missing font file: " + fntName);
+        }
+    }
+
+    /**
+     * Constructs a font based off of an AngelCode BMFont .fnt file and the given TextureRegion that holds all of its
+     * glyphs, with the specified distance field effect.
+     * This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
+     *
+     * @param fntHandle      the FileHandle holding the path to a .fnt file
+     * @param textureRegion  an existing TextureRegion, typically inside a larger TextureAtlas
+     * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust        how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust   how many pixels to add to the used height of each character, using more above
+     * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     */
+    public Font(FileHandle fntHandle, TextureRegion textureRegion, DistanceFieldType distanceField,
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
+        this.setDistanceField(distanceField);
+        this.parents = Array.with(textureRegion);
+        if (distanceField != DistanceFieldType.STANDARD) {
+            textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
+        if (fntHandle.exists()) {
+            loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        } else {
+            throw new RuntimeException("Missing font file: " + fntHandle.name());
+        }
     }
 
     /**
@@ -1615,7 +1694,46 @@ public class Font implements Disposable {
             for (TextureRegion parent : textureRegions)
                 parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
-        loadFNT(fntName, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        FileHandle fntHandle;
+        if ((fntHandle = Gdx.files.internal(fntName)).exists()
+                || (fntHandle = Gdx.files.local(fntName)).exists()) {
+            loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        } else {
+            throw new RuntimeException("Missing font file: " + fntName);
+        }
+    }
+
+    /**
+     * Constructs a font based off of an AngelCode BMFont .fnt file, with the given TextureRegion Array and specified
+     * distance field effect. This allows globally adjusting the x and y positions of glyphs in the font, as well as
+     * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
+     * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
+     * If you want to add empty space around each character, you can add approximately the normal
+     * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
+     * in square cells.
+     *
+     * @param fntHandle      the FileHandle holding the path to a .fnt file
+     * @param textureRegions an Array of TextureRegions that will be used in order as the .fnt file uses more pages
+     * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
+     * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
+     * @param yAdjust        how many pixels to offset each character's y-position by, moving up
+     * @param widthAdjust    how many pixels to add to the used width of each character, using more to the right
+     * @param heightAdjust   how many pixels to add to the used height of each character, using more above
+     * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
+     */
+    public Font(FileHandle fntHandle, Array<TextureRegion> textureRegions, DistanceFieldType distanceField,
+                float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
+        this.setDistanceField(distanceField);
+        this.parents = textureRegions;
+        if (distanceField != DistanceFieldType.STANDARD && textureRegions != null) {
+            for (TextureRegion parent : textureRegions)
+                parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
+        if (fntHandle.exists()) {
+            loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+        } else {
+            throw new RuntimeException("Missing font file: " + fntHandle.name());
+        }
     }
 
     /**
@@ -1827,22 +1945,15 @@ public class Font implements Disposable {
      * The gritty parsing code that pulls relevant info from an AngelCode BMFont .fnt file and uses it to assemble the
      * many {@link GlyphRegion}s this has for each glyph.
      *
-     * @param fntName        the file name of the .fnt file; can be internal or local
+     * @param fntHandle      the FileHandle holding the path to a .fnt file
      * @param xAdjust        added to the x-position for each glyph in the font
      * @param yAdjust        added to the y-position for each glyph in the font
      * @param widthAdjust    added to the glyph width for each glyph in the font
      * @param heightAdjust   added to the glyph height for each glyph in the font
      * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
-    protected void loadFNT(String fntName, float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
-        FileHandle fntHandle;
-        String fnt;
-        if ((fntHandle = Gdx.files.internal(fntName)).exists()
-                || (fntHandle = Gdx.files.local(fntName)).exists()) {
-            fnt = fntHandle.readString("UTF8");
-        } else {
-            throw new RuntimeException("Missing font file: " + fntName);
-        }
+    protected void loadFNT(FileHandle fntHandle, float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
+        String fnt = fntHandle.readString("UTF8");
         this.xAdjust = xAdjust;
         this.yAdjust = yAdjust;
         this.widthAdjust = widthAdjust;

@@ -22,6 +22,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
@@ -29,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
+import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -36,11 +38,12 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class TypingShadeUITest extends InputAdapter implements ApplicationListener {
-	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
+	String[] listEntriesText = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
 		"And another one3", "The meaning of life3", "Is hard to come by3", "This is a list entry4", "And another one4",
 		"The meaning of life4", "Is hard to come by4", "This is a list entry5", "And another one5", "The meaning of life5",
 		"Is hard to come by5"};
+	TextraLabel[] listEntries = new TextraLabel[listEntriesText.length];
 
 	Skin skin;
 	Stage stage;
@@ -72,6 +75,9 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 //				.adjustLineHeight(1.5f)
 				.useIntegerPositions(false);
 
+		for (int i = 0; i < listEntriesText.length; i++) {
+			listEntries[i] = new TextraLabel(listEntriesText[i], skin);
+		}
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
@@ -117,7 +123,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		selectBox.setSelected("Linux6");
 		Image imageActor = new Image(image2);
 		ScrollPane scrollPane = new ScrollPane(imageActor);
-		List<String> list = new List<>(skin);
+		TextraListBox<TextraLabel> list = new TextraListBox<>(new Styles.ListStyle(font, Color.CYAN, Color.WHITE, new BaseDrawable()));
 		list.setItems(listEntries);
 		list.getSelection().setMultiple(true);
 		list.getSelection().setRequired(false);

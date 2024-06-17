@@ -184,7 +184,7 @@ public class FWSkin extends Skin {
                         }
                         else {
                             bitmapFont = new BitmapFont(new BitmapFont.BitmapFontData(fontFile, flip), regions, true);
-                            font = new Font(path, regions, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+                            font = new Font(fontFile, regions, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
                         }
                     } else {
                         TextureRegion region = skin.optional(regionName, TextureRegion.class);
@@ -196,7 +196,7 @@ public class FWSkin extends Skin {
                             }
                             else {
                                 bitmapFont = new BitmapFont(fontFile, region, flip);
-                                font = new Font(path, region, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+                                font = new Font(fontFile, region, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
                             }
                         }
                         else {

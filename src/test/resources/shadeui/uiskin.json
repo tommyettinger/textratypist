@@ -28,40 +28,7 @@ com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
 	default-horizontal: { background: loading-bar, knob: loading-bar-knob, knobBefore: loading-bar-fill }
 	default-vertical: { background: loading-bar, knob: loading-bar-knob, knobBefore: loading-bar-fill }
 },
-com.github.tommyettinger.textra.Styles$TextButtonStyle: {
-	default: {
-		font: font-button,
-		fontColor: { a: 1, b: 1, g: 1, r: 1 },
-		downFontColor: { a: 1, b: 1, g: 0.2, r: 1 },
-		disabledFontColor: { a: 1, b: 0.8, g: 0.8, r: 0.8 },
-		up: button,
-		down: button-down
-	},
-	round: {
-		font: font-title,
-		fontColor: { a: 1, b: 1, g: 1, r: 1 },
-		downFontColor: { a: 1, b: 1, g: 0.2, r: 1 },
-		up: round-button,
-		down: round-button-down
-	},
-	toggle: {
-		font: font-button,
-		fontColor: { a: 1, b: 1, g: 1, r: 1 },
-		downFontColor: { a: 1, b: 1, g: 0.2, r: 1 },
-		up: toggle-button-off,
-		down: toggle-button-down,
-		checked: toggle-button
-	},
-	radio: {
-		font: font-label,
-		fontColor: { a: 1, b: 1, g: 1, r: 1 },
-		downFontColor: { a: 1, b: 1, g: 0.2, r: 1 },
-		up: radio-button-off,
-		down: radio-button,
-		checked: radio-button
-	}
-},
-com.github.tommyettinger.textra.Styles$TextButtonStyle: {
+TextButtonStyle: {
 	default: {
 		font: font-button,
 		fontColor: { a: 1, b: 1, g: 1, r: 1 },
@@ -235,23 +202,7 @@ com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 		background: list
 	}
 },
-com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
-	default: {
-		checkboxOn: check-on,
-		checkboxOff: check-off,
-		font: font-label,
-		fontColor: { a: 1, b: 1, g: 1, r: 1 },
-		downFontColor: { a: 1, b: 1, g: 0.2, r: 1 }
-	},
-	switch: {
-		checkboxOn: switch,
-		checkboxOff: switch-off,
-		font: font-label,
-		fontColor: { a: 1, b: 1, g: 1, r: 1 },
-		downFontColor: { a: 1, b: 1, g: 0.2, r: 1 }
-	}
-},
-com.github.tommyettinger.textra.Styles$CheckBoxStyle: {
+CheckBoxStyle: {
 	default: {
 		checkboxOn: check-on,
 		checkboxOff: check-off,
