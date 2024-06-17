@@ -70,7 +70,10 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 				.useIntegerPositions(false);
 		// For unknown reasons, emoji added to this particular font are a little too high before adjustment.
 		// Using the extra three float arguments for offsetX, offsetY, and xAdvance changes helps a lot here.
-		KnownFonts.addEmoji(font, 0f, 4f, 0f);
+//		KnownFonts.addEmoji(font, 0f, 4f, 0f);
+		KnownFonts.addEmoji(skin.get("font-button", Font.class));
+		KnownFonts.addEmoji(skin.get("font-label", Font.class));
+		KnownFonts.addEmoji(skin.get("font-title", Font.class));
 		final Font title = skin.get("title", Styles.LabelStyle.class).font
 //				.adjustLineHeight(1.5f)
 				.useIntegerPositions(false);
@@ -88,7 +91,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
 		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
 
-		Button buttonMulti = new TextraButton("Multi\nLine[+🤯][+🤯][+🤯][+🤯][+🤯][+🤯][+🤯]\nToggle", skin, "toggle", font);
+		Button buttonMulti = new TextraButton("Multi\nLine[+🤯][+🤯][+🤯][+🤯][+🤯][+🤯][+🤯]\nToggle", skin, "toggle");
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 

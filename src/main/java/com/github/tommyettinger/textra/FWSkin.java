@@ -250,7 +250,17 @@ public class FWSkin extends Skin {
             public TextButton.TextButtonStyle read(Json json, JsonValue jsonData, Class type) {
                 TextButton.TextButtonStyle s2d = new TextButton.TextButtonStyle();
                 json.readFields(s2d, jsonData);
-                skin.add(jsonData.name, new Styles.TextButtonStyle(s2d), Styles.TextButtonStyle.class);
+                skin.add(jsonData.name, new Styles.TextButtonStyle(s2d.up, s2d.down, s2d.checked, skin.get(json.readValue("font", String.class, jsonData), Font.class)), Styles.TextButtonStyle.class);
+                return s2d;
+            }
+        });
+
+        json.setSerializer(ImageTextButton.ImageTextButtonStyle.class, new Json.ReadOnlySerializer<ImageTextButton.ImageTextButtonStyle>() {
+            @Override
+            public ImageTextButton.ImageTextButtonStyle read(Json json, JsonValue jsonData, Class type) {
+                ImageTextButton.ImageTextButtonStyle s2d = new ImageTextButton.ImageTextButtonStyle();
+                json.readFields(s2d, jsonData);
+                skin.add(jsonData.name, new Styles.ImageTextButtonStyle(s2d.up, s2d.down, s2d.checked, skin.get(json.readValue("font", String.class, jsonData), Font.class)), Styles.ImageTextButtonStyle.class);
                 return s2d;
             }
         });

@@ -134,6 +134,10 @@ public final class Styles {
         public ImageTextButtonStyle() {
         }
 
+        public ImageTextButtonStyle(@Null Drawable up, @Null Drawable down, @Null Drawable checked, Font font) {
+            super(up, down, checked, font);
+        }
+
         public ImageTextButtonStyle(@Null Drawable up, @Null Drawable down, @Null Drawable checked, BitmapFont font) {
             super(up, down, checked, font);
         }
