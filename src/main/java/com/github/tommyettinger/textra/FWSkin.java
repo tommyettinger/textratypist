@@ -21,10 +21,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
@@ -236,6 +234,7 @@ public class FWSkin extends Skin {
                 }
             }
         });
+        
         json.setSerializer(Label.LabelStyle.class, new Json.ReadOnlySerializer<Label.LabelStyle>() {
             @Override
             public Label.LabelStyle read(Json json, JsonValue jsonData, Class type) {
@@ -245,6 +244,7 @@ public class FWSkin extends Skin {
                 return s2d;
             }
         });
+
         json.setSerializer(TextButton.TextButtonStyle.class, new Json.ReadOnlySerializer<TextButton.TextButtonStyle>() {
             @Override
             public TextButton.TextButtonStyle read(Json json, JsonValue jsonData, Class type) {
@@ -254,12 +254,44 @@ public class FWSkin extends Skin {
                 return s2d;
             }
         });
+
         json.setSerializer(CheckBox.CheckBoxStyle.class, new Json.ReadOnlySerializer<CheckBox.CheckBoxStyle>() {
             @Override
             public CheckBox.CheckBoxStyle read(Json json, JsonValue jsonData, Class type) {
                 CheckBox.CheckBoxStyle s2d = new CheckBox.CheckBoxStyle();
                 json.readFields(s2d, jsonData);
                 skin.add(jsonData.name, new Styles.CheckBoxStyle(s2d), Styles.CheckBoxStyle.class);
+                return s2d;
+            }
+        });
+        
+        json.setSerializer(Window.WindowStyle.class, new Json.ReadOnlySerializer<Window.WindowStyle>() {
+            @Override
+            public Window.WindowStyle read(Json json, JsonValue jsonData, Class type) {
+                Window.WindowStyle s2d = new Window.WindowStyle();
+                json.readFields(s2d, jsonData);
+                skin.add(jsonData.name, new Styles.WindowStyle(s2d), Styles.WindowStyle.class);
+                return s2d;
+            }
+        });
+
+        
+        json.setSerializer(TextTooltip.TextTooltipStyle.class, new Json.ReadOnlySerializer<TextTooltip.TextTooltipStyle>() {
+            @Override
+            public TextTooltip.TextTooltipStyle read(Json json, JsonValue jsonData, Class type) {
+                TextTooltip.TextTooltipStyle s2d = new TextTooltip.TextTooltipStyle();
+                json.readFields(s2d, jsonData);
+                skin.add(jsonData.name, new Styles.TextTooltipStyle(s2d), Styles.TextTooltipStyle.class);
+                return s2d;
+            }
+        });
+
+        json.setSerializer(List.ListStyle.class, new Json.ReadOnlySerializer<List.ListStyle>() {
+            @Override
+            public List.ListStyle read(Json json, JsonValue jsonData, Class type) {
+                List.ListStyle s2d = new List.ListStyle();
+                json.readFields(s2d, jsonData);
+                skin.add(jsonData.name, new Styles.ListStyle(s2d), Styles.ListStyle.class);
                 return s2d;
             }
         });
