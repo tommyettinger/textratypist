@@ -19,7 +19,7 @@ ButtonStyle: {
 	default: { down: default-round-down, up: default-round, disabled: default-round },
 	toggle: { parent: default, checked: default-round-down }
 },
-com.github.tommyettinger.textra.Styles$TextButtonStyle: {
+TextButtonStyle: {
 	default: { parent: default, font: default-font, fontColor: white, disabledFontColor: gray },
 	toggle: { parent: default, checked: default-round-down, downFontColor: red }
 },

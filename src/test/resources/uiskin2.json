@@ -1,5 +1,4 @@
 {
-com.github.tommyettinger.textra.Font: { default-font: { file: default.fnt } },
 BitmapFont: { default-font: { file: default.fnt } },
 Color: {
 	green: { a: 1, b: 0, g: 1, r: 0 },
@@ -42,10 +41,6 @@ ButtonStyle: {
 	default: { down: default-round-down, up: default-round, disabled: default-round },
 	toggle: { parent: default, checked: default-round-down }
 },
-com.github.tommyettinger.textra.Styles$TextButtonStyle: {
-	default: { parent: default, font: default-font, fontColor: white, disabledFontColor: gray },
-	toggle: { parent: default, checked: default-round-down, downFontColor: red }
-},
 TextButtonStyle: {
 	default: { parent: default, font: default-font, fontColor: white, disabledFontColor: gray },
 	toggle: { parent: default, checked: default-round-down, downFontColor: red }
@@ -85,7 +80,7 @@ LabelStyle: {
 TextFieldStyle: {
 	default: { selection: selection, background: textfield, font: default-font, fontColor: white, cursor: cursor }
 },
-com.github.tommyettinger.textra.Styles$CheckBoxStyle: {
+CheckBoxStyle: {
 	default: { checkboxOn: check-on, checkboxOff: check-off, font: default-font, fontColor: white }
 },
 com.github.tommyettinger.textra.Styles$ListStyle: {

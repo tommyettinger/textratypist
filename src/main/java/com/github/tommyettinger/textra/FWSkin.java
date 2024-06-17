@@ -21,8 +21,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
@@ -243,6 +245,25 @@ public class FWSkin extends Skin {
                 return s2d;
             }
         });
+        json.setSerializer(TextButton.TextButtonStyle.class, new Json.ReadOnlySerializer<TextButton.TextButtonStyle>() {
+            @Override
+            public TextButton.TextButtonStyle read(Json json, JsonValue jsonData, Class type) {
+                TextButton.TextButtonStyle s2d = new TextButton.TextButtonStyle();
+                json.readFields(s2d, jsonData);
+                skin.add(jsonData.name, new Styles.TextButtonStyle(s2d), Styles.TextButtonStyle.class);
+                return s2d;
+            }
+        });
+        json.setSerializer(CheckBox.CheckBoxStyle.class, new Json.ReadOnlySerializer<CheckBox.CheckBoxStyle>() {
+            @Override
+            public CheckBox.CheckBoxStyle read(Json json, JsonValue jsonData, Class type) {
+                CheckBox.CheckBoxStyle s2d = new CheckBox.CheckBoxStyle();
+                json.readFields(s2d, jsonData);
+                skin.add(jsonData.name, new Styles.CheckBoxStyle(s2d), Styles.CheckBoxStyle.class);
+                return s2d;
+            }
+        });
+
         return json;
     }
 }
