@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
@@ -233,7 +234,15 @@ public class FWSkin extends Skin {
                 }
             }
         });
-
+        json.setSerializer(Label.LabelStyle.class, new Json.ReadOnlySerializer<Label.LabelStyle>() {
+            @Override
+            public Label.LabelStyle read(Json json, JsonValue jsonData, Class type) {
+                Label.LabelStyle s2d = new Label.LabelStyle();
+                json.readFields(s2d, jsonData);
+                skin.add(jsonData.name, new Styles.LabelStyle(s2d), Styles.LabelStyle.class);
+                return s2d;
+            }
+        });
         return json;
     }
 }
