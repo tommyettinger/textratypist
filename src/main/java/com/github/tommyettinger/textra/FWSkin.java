@@ -200,12 +200,13 @@ public class FWSkin extends Skin {
                         else {
                             FileHandle imageFile = fontFile.sibling(regionName + ".png");
                             if (imageFile.exists()) {
+                                region = new TextureRegion(new Texture(imageFile));
                                 if(fw || lzb) {
-                                    bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, new TextureRegion(new Texture(imageFile)), flip);
-                                    font = new Font(fontFile, new TextureRegion(new Texture(imageFile)), xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
+                                    bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
+                                    font = new Font(fontFile, region, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
                                 } else {
-                                    bitmapFont = new BitmapFont(fontFile, imageFile, flip);
-                                    font = new Font(path, new TextureRegion(new Texture(imageFile)), Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+                                    bitmapFont = new BitmapFont(fontFile, region, flip);
+                                    font = new Font(path, region, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
                                 }
                             } else {
                                 if(fw || lzb)
@@ -240,7 +241,7 @@ public class FWSkin extends Skin {
             public Label.LabelStyle read(Json json, JsonValue jsonData, Class type) {
                 Label.LabelStyle s2d = new Label.LabelStyle();
                 json.readFields(s2d, jsonData);
-                skin.add(jsonData.name, new Styles.LabelStyle(s2d), Styles.LabelStyle.class);
+                skin.add(jsonData.name, new Styles.LabelStyle(skin.get(json.readValue("font", String.class, jsonData), Font.class), s2d.fontColor), Styles.LabelStyle.class);
                 return s2d;
             }
         });
@@ -270,7 +271,7 @@ public class FWSkin extends Skin {
             public CheckBox.CheckBoxStyle read(Json json, JsonValue jsonData, Class type) {
                 CheckBox.CheckBoxStyle s2d = new CheckBox.CheckBoxStyle();
                 json.readFields(s2d, jsonData);
-                skin.add(jsonData.name, new Styles.CheckBoxStyle(s2d), Styles.CheckBoxStyle.class);
+                skin.add(jsonData.name, new Styles.CheckBoxStyle(s2d.checkboxOff, s2d.checkboxOn, skin.get(json.readValue("font", String.class, jsonData), Font.class), s2d.fontColor), Styles.CheckBoxStyle.class);
                 return s2d;
             }
         });
@@ -280,7 +281,7 @@ public class FWSkin extends Skin {
             public Window.WindowStyle read(Json json, JsonValue jsonData, Class type) {
                 Window.WindowStyle s2d = new Window.WindowStyle();
                 json.readFields(s2d, jsonData);
-                skin.add(jsonData.name, new Styles.WindowStyle(s2d), Styles.WindowStyle.class);
+                skin.add(jsonData.name, new Styles.WindowStyle(skin.get(json.readValue("titleFont", String.class, jsonData), Font.class), s2d.titleFontColor, s2d.background), Styles.WindowStyle.class);
                 return s2d;
             }
         });
