@@ -244,7 +244,7 @@ behavior by manually calling the `Font.enableShader(Batch)` method on your Font,
 other ShaderProgram of choice with its `Batch.setShader()` method (often, you just pass null here to reset the shader).
 
 There are several preconfigured font settings in `KnownFonts`; the documentation for each font getter says what files
-are needed to use that font.
+are needed to use that font. **[The old .fnt files have been moved here](https://github.com/tommyettinger/fonts)**.
 [You can see previews and descriptions of all known fonts here.](https://tommyettinger.github.io/textratypist/)
 Having KnownFonts in code is meant to save some hassle getting the xAdjust, yAdjust, widthAdjust, and heightAdjust
 parameters just right, though you're still free to change them however you wish. The variety of font
