@@ -3117,13 +3117,17 @@ public class Font implements Disposable {
     /**
      * Must be called before drawing anything with an SDF or MSDF font; does not need to be called for other fonts
      * unless you are mixing them with SDF/MSDF fonts or other shaders. This also resets the Batch color to white, in
-     * case it had been left with a different setting before. If this Font is not an MSDF font, then this resets batch's
-     * shader to the default (using {@code batch.setShader(null)}).
+     * case it had been left with a different setting before. If this Font is not an SDF or MSDF font, then this resets
+     * batch's shader to the default (using {@code batch.setShader(null)}).
      * <br>
      * This is called automatically for {@link TextraLabel} and {@link TypingLabel} if it hasn't been called already.
      * You may still want to call this automatically for those cases if you have multiple such Labels that use the same
      * Font; in that case, you can draw several Labels without ending the current batch. You do need to set the shader
      * back to whatever you use for other items before you draw those, typically with {@code batch.setShader(null);} .
+     * <br>
+     * Like all distance field code here, this is dependent on calling {@link #resizeDistanceField(int, int)} in your
+     * {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} method, since that allows the distance field to be
+     * scaled correctly to the screen. Without calling resizeDistanceField(), distance field fonts will look terrible.
      *
      * @param batch the Batch to instruct to use the appropriate shader for this font; should usually be a SpriteBatch
      */
@@ -3131,7 +3135,7 @@ public class Font implements Disposable {
         if (batch.getShader() != shader) {
             if (distanceField == DistanceFieldType.MSDF) {
                 batch.setShader(shader);
-                float smoothing = 7f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                float smoothing = 8f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
@@ -3156,23 +3160,29 @@ public class Font implements Disposable {
      * are drawn, which primarily means {@link #actualCrispness}, {@link #cellHeight}, {@link #originalCellHeight},
      * {@link #cellWidth}, or {@link #originalCellWidth}, and also includes Texture changes to non-distance-field
      * Textures. This should not be called immediately after {@link #enableShader(Batch)}, since they do similar things.
+     * This does nothing if this font is not a distance field font. It also does nothing if batch's shader is different
+     * from the shader this Font uses. Otherwise, this flushes batch and sets a uniform ("u_smoothing") to a value
+     * calculated with the ratio of current cell size to original (unscaled) cell size.
      * <br>
-     * Typically, if you call {@link #disableDistanceFieldShader(Batch)}, you call this method later to resume drawing
-     * with a distance field.
+     * Typically, if you call {@link #pauseDistanceFieldShader(Batch)}, you call this method later to resume drawing
+     * with a distance field. This is usually done automatically by {@link TextraLabel} and {@link TypingLabel}.
+     * <br>
+     * Like all distance field code here, this is dependent on calling {@link #resizeDistanceField(int, int)} in your
+     * {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} method, since that allows the distance field to be
+     * scaled correctly to the screen. Without calling resizeDistanceField(), distance field fonts will look terrible.
+     *
      * @param batch a Batch that should be running (between {@link Batch#begin()} and {@link Batch#end()})
      */
-    public void enableDistanceFieldShader(Batch batch) {
+    public void resumeDistanceFieldShader(Batch batch) {
         if (batch.getShader() == shader) {
             if (distanceField == DistanceFieldType.MSDF) {
-                float smoothing = 32f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                float smoothing = 8f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
-//                float smoothing = (actualCrispness / (Math.max(cellHeight / originalCellHeight,
-//                        cellWidth / originalCellWidth) + 0.03125f));
-//                float smoothing = actualCrispness * 13f / Math.max(cellHeight, cellWidth);
-                float smoothing = actualCrispness * 0.5f / Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                float smoothing = (actualCrispness / (Math.max(cellHeight / originalCellHeight,
+                        cellWidth / originalCellWidth) * 0.5f + 0.125f));
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
@@ -3183,11 +3193,19 @@ public class Font implements Disposable {
     /**
      * If a distance field font needs to have its distance field effect disabled temporarily (such as to draw an icon
      * or emoji), you can call this just before you start drawing the non-distance-field images. You should only call
-     * this just before drawing from a non-distance-field Texture. You can resume using the distance field by calling
-     * {@link #enableDistanceFieldShader(Batch)}.
+     * this just before drawing from a non-distance-field Texture. This flushes batch and sets a uniform ("u_smoothing")
+     * to 0, unless that uniform was already 0 (then this doesn't flush, or do anything).
+     * <br>
+     * You can resume using the distance field by calling {@link #resumeDistanceFieldShader(Batch)}. This is usually
+     * done automatically by {@link TextraLabel} and {@link TypingLabel}.
+     * <br>
+     * Like all distance field code here, this is dependent on calling {@link #resizeDistanceField(int, int)} in your
+     * {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} method, since that allows the distance field to be
+     * scaled correctly to the screen. Without calling resizeDistanceField(), distance field fonts will look terrible.
+     *
      * @param batch a Batch that should be running (between {@link Batch#begin()} and {@link Batch#end()})
      */
-    public void disableDistanceFieldShader(Batch batch) {
+    public void pauseDistanceFieldShader(Batch batch) {
         if(batch.getShader() == shader && distanceField != DistanceFieldType.STANDARD) {
             Float smoothing = smoothingValues.get(batch);
             if(smoothing == null || smoothing == 0f) return;
@@ -4370,13 +4388,13 @@ public class Font implements Disposable {
             boolean located = false;
             for (int p = 0; p < font.parents.size; p++) {
                 if (font.parents.get(p).getTexture() == latestTexture) {
-                    font.enableDistanceFieldShader(batch);
+                    font.resumeDistanceFieldShader(batch);
                     located = true;
                     break;
                 }
             }
             if (!located)
-                font.disableDistanceFieldShader(batch);
+                font.pauseDistanceFieldShader(batch);
         }
 
         if(squashed) {
