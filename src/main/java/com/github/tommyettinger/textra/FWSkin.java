@@ -297,8 +297,14 @@ public class FWSkin extends Skin {
             public TextTooltip.TextTooltipStyle read(Json json, JsonValue jsonData, Class type) {
                 TextTooltip.TextTooltipStyle s2d = new TextTooltip.TextTooltipStyle();
                 json.readFields(s2d, jsonData);
-                skin.add(jsonData.name, new Styles.TextTooltipStyle(skin.get(json.readValue("label", String.class, jsonData),
-                        Styles.LabelStyle.class),s2d.background), Styles.TextTooltipStyle.class);
+                String labelStyleName = json.readValue("label", String.class, jsonData);
+                if (labelStyleName == null) {
+                    Label.LabelStyle style = json.readValue("label", Label.LabelStyle.class, jsonData);
+                    skin.add(jsonData.name, new Styles.TextTooltipStyle(style, s2d.background), Styles.TextTooltipStyle.class);
+                } else {
+                    skin.add(jsonData.name, new Styles.TextTooltipStyle(skin.get(labelStyleName, Styles.LabelStyle.class),
+                            s2d.background), Styles.TextTooltipStyle.class);
+                }
                 return s2d;
             }
         });
