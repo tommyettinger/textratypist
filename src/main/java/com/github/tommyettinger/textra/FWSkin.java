@@ -241,8 +241,8 @@ public class FWSkin extends Skin {
             public Label.LabelStyle read(Json json, JsonValue jsonData, Class type) {
                 Label.LabelStyle s2d = new Label.LabelStyle();
                 json.readFields(s2d, jsonData);
-                skin.add(jsonData.name, new Styles.LabelStyle(skin.get(json.readValue("font", String.class, jsonData), Font.class), s2d.fontColor),
-                        Styles.LabelStyle.class);
+                skin.add(jsonData.name, new Styles.LabelStyle(skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class),
+                                s2d.fontColor), Styles.LabelStyle.class);
                 return s2d;
             }
         });
@@ -253,7 +253,7 @@ public class FWSkin extends Skin {
                 TextButton.TextButtonStyle s2d = new TextButton.TextButtonStyle();
                 json.readFields(s2d, jsonData);
                 skin.add(jsonData.name, new Styles.TextButtonStyle(s2d.up, s2d.down, s2d.checked,
-                        skin.get(json.readValue("font", String.class, jsonData), Font.class)), Styles.TextButtonStyle.class);
+                        skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class)), Styles.TextButtonStyle.class);
                 return s2d;
             }
         });
@@ -264,7 +264,7 @@ public class FWSkin extends Skin {
                 ImageTextButton.ImageTextButtonStyle s2d = new ImageTextButton.ImageTextButtonStyle();
                 json.readFields(s2d, jsonData);
                 skin.add(jsonData.name, new Styles.ImageTextButtonStyle(s2d.up, s2d.down, s2d.checked,
-                        skin.get(json.readValue("font", String.class, jsonData), Font.class)), Styles.ImageTextButtonStyle.class);
+                        skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class)), Styles.ImageTextButtonStyle.class);
                 return s2d;
             }
         });
@@ -275,7 +275,7 @@ public class FWSkin extends Skin {
                 CheckBox.CheckBoxStyle s2d = new CheckBox.CheckBoxStyle();
                 json.readFields(s2d, jsonData);
                 skin.add(jsonData.name, new Styles.CheckBoxStyle(s2d.checkboxOff, s2d.checkboxOn,
-                        skin.get(json.readValue("font", String.class, jsonData), Font.class), s2d.fontColor), Styles.CheckBoxStyle.class);
+                        skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class), s2d.fontColor), Styles.CheckBoxStyle.class);
                 return s2d;
             }
         });
@@ -285,7 +285,7 @@ public class FWSkin extends Skin {
             public Window.WindowStyle read(Json json, JsonValue jsonData, Class type) {
                 Window.WindowStyle s2d = new Window.WindowStyle();
                 json.readFields(s2d, jsonData);
-                skin.add(jsonData.name, new Styles.WindowStyle(skin.get(json.readValue("titleFont", String.class, jsonData), Font.class),
+                skin.add(jsonData.name, new Styles.WindowStyle(skin.get(json.readValue("titleFont", String.class, "default-font", jsonData), Font.class),
                         s2d.titleFontColor, s2d.background), Styles.WindowStyle.class);
                 return s2d;
             }
@@ -297,7 +297,7 @@ public class FWSkin extends Skin {
             public TextTooltip.TextTooltipStyle read(Json json, JsonValue jsonData, Class type) {
                 TextTooltip.TextTooltipStyle s2d = new TextTooltip.TextTooltipStyle();
                 json.readFields(s2d, jsonData);
-                String labelStyleName = json.readValue("label", String.class, jsonData);
+                String labelStyleName = json.readValue("label", String.class, "default", jsonData);
                 if (labelStyleName == null) {
                     Label.LabelStyle style = json.readValue("label", Label.LabelStyle.class, jsonData);
                     skin.add(jsonData.name, new Styles.TextTooltipStyle(style, s2d.background), Styles.TextTooltipStyle.class);
@@ -314,7 +314,7 @@ public class FWSkin extends Skin {
             public List.ListStyle read(Json json, JsonValue jsonData, Class type) {
                 List.ListStyle s2d = new List.ListStyle();
                 json.readFields(s2d, jsonData);
-                skin.add(jsonData.name, new Styles.ListStyle(skin.get(json.readValue("font", String.class, jsonData), Font.class),
+                skin.add(jsonData.name, new Styles.ListStyle(skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class),
                         s2d.fontColorSelected, s2d.fontColorUnselected, s2d.background), Styles.ListStyle.class);
                 return s2d;
             }

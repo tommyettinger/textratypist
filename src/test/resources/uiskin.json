@@ -16,7 +16,7 @@ ButtonStyle: {
 },
 TextButtonStyle: {
 	default: { parent: default, font: default-font, fontColor: white, disabledFontColor: gray },
-	toggle: { parent: default, font: default-font, checked: default-round-down, downFontColor: red }
+	toggle: { parent: default, checked: default-round-down, downFontColor: red }
 },
 ScrollPaneStyle: {
 	default: { vScroll: default-scroll, hScrollKnob: default-round-large, background: default-rect, hScroll: default-scroll, vScrollKnob: default-round-large }
@@ -34,7 +34,7 @@ SplitPaneStyle: {
 },
 WindowStyle: {
 	default: { titleFont: default-font, background: default-window, titleFontColor: white },
-	dialog: { parent: default, titleFont: default-font, stageBackground: dialogDim }
+	dialog: { parent: default, stageBackground: dialogDim }
 },
 ProgressBarStyle: {
 	default-horizontal: { background: default-slider, knob: default-slider-knob },
