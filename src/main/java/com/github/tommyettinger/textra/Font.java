@@ -106,7 +106,7 @@ public class Font implements Disposable {
         return distanceField;
     }
 
-    public void setDistanceField(DistanceFieldType distanceField) {
+    public Font setDistanceField(DistanceFieldType distanceField) {
         this.distanceField = distanceField;
         if (distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
@@ -121,7 +121,7 @@ public class Font implements Disposable {
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
         } else shader = null;
-
+        return this;
     }
 
     /**

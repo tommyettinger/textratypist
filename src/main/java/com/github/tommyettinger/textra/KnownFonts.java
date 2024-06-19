@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.*;
+import com.github.tommyettinger.textra.Font.DistanceFieldType;
 
 import java.io.BufferedReader;
 import java.util.Comparator;
@@ -96,6 +97,8 @@ public final class KnownFonts implements LifecycleListener {
             "Kingthings-Foundation", "Kingthings-Petrock", "Libertinus-Serif", "Libertinus-Serif-Semibold", "Now-Alt",
             "Open-Sans", "Ostrich-Black", "Oxanium", "Roboto-Condensed", "Tangerine", "Yanone-Kaffeesatz", "Yataghan");
 
+    private final ObjectMap<String, Font> loaded = new ObjectMap<>(32);
+
     /** Base name for a fixed-width octagonal font. */
     public static final String A_STARRY = "A-Starry";
     /** Base name for a variable-width serif font. */
@@ -156,7 +159,42 @@ public final class KnownFonts implements LifecycleListener {
     public static final String YANONE_KAFFEESATZ = "Yanone-Kaffeesatz";
     /** Base name for a variable-width "dark fantasy" font. */
     public static final String YATAGHAN = "Yataghan";
-    
+
+    /**
+     * A general way to get a copied Font from the known set of fonts, this takes a String name (which can be from
+     * {@link #BASE_NAMES} or more likely from a constant such as {@link #OPEN_SANS}) and treats it as using no distance
+     * field effect. It looks up the appropriate file name, respecting asset prefix (see
+     * {@link #setAssetPrefix(String)}), creates the Font if necessary, then returns a copy of it.
+     * @param baseName typically a constant such as {@link #OPEN_SANS} or {@link #LIBERTINUS_SERIF}
+     * @return a copy of the Font with the given name
+     */
+    public static Font getFont(final String baseName) {
+        return getFont(baseName, STANDARD);
+    }
+    /**
+     * A general way to get a copied Font from the known set of fonts, this takes a String name (which can be from
+     * {@link #BASE_NAMES} or more likely from a constant such as {@link #OPEN_SANS}) and a DistanceFieldType (which is
+     * usually {@link DistanceFieldType#STANDARD}, but could also be {@link DistanceFieldType#SDF},
+     * {@link DistanceFieldType#MSDF}, or even  {@link DistanceFieldType#SDF_OUTLINE}). It looks up the appropriate file
+     * name, respecting asset prefix (see {@link #setAssetPrefix(String)}), creates the Font if necessary, then returns
+     * a copy of it.
+     * @param baseName typically a constant such as {@link #OPEN_SANS} or {@link #LIBERTINUS_SERIF}
+     * @param distanceField a DistanceFieldType, usually {@link DistanceFieldType#STANDARD}
+     * @return a copy of the Font with the given name
+     */
+    public static Font getFont(final String baseName, final DistanceFieldType distanceField) {
+        if(baseName == null || distanceField == null || !BASE_NAMES.contains(baseName))
+            throw new RuntimeException("Unknown Font name/DistanceFieldType: " + baseName + "/" + distanceField);
+        initialize();
+        String rootName = baseName + distanceField.filePart;
+        Font known = instance.loaded.get(rootName);
+        if(known == null){
+            known = new Font( instance.prefix + rootName + ".dat", true).scaleHeightTo(32).setName(rootName);
+            instance.loaded.put(rootName, known);
+        }
+        return new Font(known).setDistanceField(distanceField);
+    }
+
     private Font astarry;
 
     /**
@@ -566,7 +604,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentium == null) {
             try {
                 instance.gentium = new Font(instance.prefix + "Gentium-standard.fnt",
-                        instance.prefix + "Gentium-standard.png", Font.DistanceFieldType.STANDARD, 0f, 10f, 0f, 0f, true)
+                        instance.prefix + "Gentium-standard.png", DistanceFieldType.STANDARD, 0f, 10f, 0f, 0f, true)
                         .scaleTo(31, 35).setInlineImageMetrics(-4f, 32f, 8f).setLineMetrics(0f, -0.2f, 0f, -0.4f)
                         .setDescent(-9f)
                         .setTextureFilter().setName("Gentium");
@@ -698,7 +736,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gentiumUnItalic == null) {
             try {
                 instance.gentiumUnItalic = new Font(instance.prefix + "GentiumUnItalic-standard.fnt",
-                        instance.prefix + "GentiumUnItalic-standard.png", Font.DistanceFieldType.STANDARD, 0f, 4f, 0f, -12f, true)
+                        instance.prefix + "GentiumUnItalic-standard.png", DistanceFieldType.STANDARD, 0f, 4f, 0f, -12f, true)
                         .scaleTo(60, 36).setTextureFilter().setFancyLinePosition(0, 0f).setDescent(-16f)
                         .setLineMetrics(0f, 0f, 0f, -0.3125f).setInlineImageMetrics(0f, 8f, 8f)
                         .setName("Gentium Un-Italic");
