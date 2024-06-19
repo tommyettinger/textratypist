@@ -197,10 +197,10 @@ public final class KnownFonts implements LifecycleListener {
         String rootName = baseName + distanceField.filePart;
         Font known = instance.loaded.get(rootName);
         if(known == null){
-            known = new Font( instance.prefix + rootName + ".dat", true).scaleHeightTo(32).setName(baseName + distanceField.namePart);
+            known = new Font( instance.prefix + rootName + ".dat", true).scaleHeightTo(32);
             instance.loaded.put(rootName, known);
         }
-        return new Font(known).setDistanceField(distanceField);
+        return new Font(known).setName(baseName + distanceField.namePart).setDistanceField(distanceField);
     }
     /**
      * Loads a font by name but does not copy it, typically so it can be modified. This takes a String name (which can
@@ -208,11 +208,12 @@ public final class KnownFonts implements LifecycleListener {
      * (which is usually {@link DistanceFieldType#STANDARD}, but could also be {@link DistanceFieldType#SDF},
      * {@link DistanceFieldType#MSDF}, or even  {@link DistanceFieldType#SDF_OUTLINE}). It looks up the appropriate file
      * name, respecting asset prefix (see {@link #setAssetPrefix(String)}), creates the Font if necessary, then returns
-     * the same Font stored in {@link #loaded}.
+     * the same Font stored in {@link #loaded}. This does not set the {@link Font#name} or {@link Font#distanceField} on
+     * the returned Font.
      *
      * @param baseName typically a constant such as {@link #OPEN_SANS} or {@link #LIBERTINUS_SERIF}
      * @param distanceField a DistanceFieldType, usually {@link DistanceFieldType#STANDARD}
-     * @return the cached Font with the given name; this does not set the DistanceFieldType on the returned Font
+     * @return the cached Font with the given name; this does not set the name or DistanceFieldType on the returned Font
      */
     private static Font loadFont(final String baseName, final DistanceFieldType distanceField) {
         if(baseName == null || distanceField == null || !BASE_NAMES.contains(baseName))
@@ -221,7 +222,7 @@ public final class KnownFonts implements LifecycleListener {
         String rootName = baseName + distanceField.filePart;
         Font known = instance.loaded.get(rootName);
         if(known == null){
-            known = new Font( instance.prefix + rootName + ".dat", true).scaleHeightTo(32).setName(baseName + distanceField.namePart);
+            known = new Font( instance.prefix + rootName + ".dat", true).scaleHeightTo(32);
             instance.loaded.put(rootName, known);
         }
         return known;
