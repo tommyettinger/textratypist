@@ -414,31 +414,45 @@ public class Font implements Disposable {
          * If the font has a large image that is downscaled, you may want to call {@link #setTextureFilter()}.
          * You can optionally set a custom ShaderProgram this can use by setting {@link #shader}.
          */
-        STANDARD,
+        STANDARD("-standard"),
         /**
          * Used by Signed Distance Field fonts that are compatible with
-         * {@link com.badlogic.gdx.graphics.g2d.DistanceFieldFont}, and may be created
-         * by Hiero with its Distance Field effect. You may want to set the {@link #distanceFieldCrispness} field to a
-         * higher or lower value depending on the range used to create the font in Hiero; this can take experimentation,
+         * {@link com.badlogic.gdx.graphics.g2d.DistanceFieldFont}, and may be created by Hiero with its Distance Field
+         * effect, <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> or the tool it uses and builds
+         * upon, <a href="https://github.com/Chlumsky/msdf-atlas-gen">msdf-atlas-gen</a>. You may want to set the
+         * {@link #distanceFieldCrispness} field to a
+         * higher or lower value depending on how thick the stroke is in the font; this can take experimentation,
          * but the default is 1 and higher values have sharper edges (risking getting pixelated if too high).
          */
-        SDF,
+        SDF("-sdf"),
         /**
-         * Used by Multi-channel Signed Distance Field fonts, which are harder to create but can be more crisp than SDF
-         * fonts, with hard corners where the corners were hard in the original font. If you want to create your own
-         * MSDF font, you can use <a href="https://github.com/maltaisn/msdf-gdx-gen">maltaisn's font generator tool</a>,
-         * though you should use a large enough font size during generation (at least 40 pixels) to avoid getting an
-         * uneven baseline that looks shaky when rendering some fonts. You may want to set the
-         * {@link #distanceFieldCrispness} field to a higher or lower value than its default of 1 based on preference.
+         * Used by Multi-channel Signed Distance Field fonts, which are typically created by fontwriter or
+         * msdf-atlas-gen and can sometimes be more crisp than SDF fonts MSDF produces hard corners where the corners
+         * were hard in the original font. Creating MSDF fonts can be done with
+         * <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> or the tool it uses and builds upon,
+         * <a href="https://github.com/Chlumsky/msdf-atlas-gen">msdf-atlas-gen</a>. You may want to set the
+         * {@link #distanceFieldCrispness} field to a higher or lower value than its default of 1 based on preference,
+         * with higher values making more crisp (possibly aliased) fonts and lower values making softer (possibly
+         * blurry) fonts.
          */
-        MSDF,
+        MSDF("-msdf"),
         /**
          * Very similar to {@link #SDF}, except that this draws a moderately-thick black outline around all SDF glyphs.
          * It won't necessarily draw the outline correctly for inline images without a distance field effect.
          * The outline will respect the transparency of the glyph (unlike {@link #BLACK_OUTLINE} mode).
          * This can use the same font files as {@link #SDF}; just set {@link Font#distanceField} to SDF_OUTLINE.
          */
-        SDF_OUTLINE
+        SDF_OUTLINE("-sdf");
+
+        /**
+         * The part of a filename before the extension that is used to look up fonts with this DistanceFieldType.
+         * Always one of "-standard", "-sdf", or "-msdf".
+         */
+        public final String filePart;
+
+        DistanceFieldType(String filePart) {
+            this.filePart = filePart;
+        }
     }
 
     //// members section
@@ -2486,13 +2500,12 @@ public class Font implements Disposable {
         originalCellWidth = cellWidth;
         originalCellHeight = cellHeight;
 
-        if (distanceField != DistanceFieldType.STANDARD) {
-            textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-//            if(distanceField == DistanceFieldType.MSDF)
-//                distanceFieldCrispness = -8f / (float)Math.log(1f/originalCellHeight);
-//            else if(distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE)
-//                distanceFieldCrispness = -1.2f / (float)Math.log(1f/originalCellHeight);
-        }
+//        if (distanceField != DistanceFieldType.STANDARD) {
+//            textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+//        }
+
+        // This should be the default for Structured JSON fonts because they (so far) are always large.
+        textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         isMono = minWidth == cellWidth && kerning == null;
         integerPosition = false;
