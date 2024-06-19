@@ -237,40 +237,29 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/A%20Starry.png">Image link</a> (uses width=8, height=8)
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-standard.png" alt="Image preview"/">
      * <br>
      * This also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
      * multiples of 8. This "A Starry Tall" version is present in {@link #getAll()} and {@link #getAllStandard()}.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png">Image link</a> (uses width=8, height=16)
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview"/">
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.fnt">AStarry-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.png">AStarry-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-License.txt">AStarry-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-standard.dat">A-Starry-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-standard.png">A-Starry-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font A Starry
      */
     public static Font getAStarry() {
         initialize();
-        if (instance.astarry == null) {
-            try {
-                instance.astarry = new Font(instance.prefix + "AStarry-standard.fnt",
-                        instance.prefix + "AStarry-standard.png", STANDARD, 0, 24, 0, 0, true)
-                        .scaleTo(8, 8).setBoldStrength(0.5f)
-                        .setDescent(-12f)
-                        .setLineMetrics(0f, -0.25f, 0f, 0f)
-                        .setInlineImageMetrics(-4f, 24f, 0f)
-                        .setTextureFilter().setName("A Starry");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.astarry != null)
-            return new Font(instance.astarry);
-        throw new RuntimeException("Assets for getAStarry() not found.");
+        final String name = A_STARRY;
+        final DistanceFieldType dft = STANDARD;
+        Font loaded = loadFont(name, dft);
+        // make changes here, if needed
+        return new Font(loaded).setDistanceField(dft).setName(name + dft.namePart);
     }
 
     private Font astarryMSDF;
