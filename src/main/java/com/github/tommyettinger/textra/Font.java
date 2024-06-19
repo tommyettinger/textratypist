@@ -2196,12 +2196,14 @@ public class Font implements Disposable {
      * Creates a Font from a "Structured JSON" file produced by Chlumsky's msdf-atlas-gen tool, and uses it to assemble
      * the many {@link GlyphRegion}s this has for each glyph. Reads the distance field type from the JSON. This always
      * tries to load a PNG file with the same filename as (and different extension from) the JSON file, trying an
-     * internal file path first, and a local file path if that fails. This always makes grid glyphs.
+     * internal file path first, and a local file path if that fails. No matter what extension the JSON font uses, this
+     * will be able to load it (so this can load compressed .dat fonts as well as .json or .js).
+     * This always makes grid glyphs.
      * <br>
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
      * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
-     * produce is fairly full-featured. Although it can also produce things like Artery fonts, those seem pretty
-     * specific to the Artery engine, and the tool might not use a stable revision of the format. A specialized version
+     * produce is fairly full-featured. Its handling of metrics seems significantly better than the tools that work with
+     * AngelCode BMFont .fnt files, so all the fonts in {@link KnownFonts} use JSON. A specialized version
      * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
      * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
@@ -2209,8 +2211,8 @@ public class Font implements Disposable {
      * @param ignoredStructuredJsonFlag only present to distinguish this from other constructors; ignored
      */
     public Font(String jsonName, boolean ignoredStructuredJsonFlag) {
-        this(jsonName, new TextureRegion(new Texture(Gdx.files.internal(jsonName.replace(".json", ".png")).exists()
-                ? Gdx.files.internal(jsonName.replace(".json", ".png")) : Gdx.files.local(jsonName.replace(".json", ".png"))
+        this(jsonName, new TextureRegion(new Texture(Gdx.files.internal(jsonName = jsonName.replaceFirst("\\..+$", ".png")).exists()
+                ? Gdx.files.internal(jsonName) : Gdx.files.local(jsonName)
         )), 0f, 0f, 0f, 0f, true, ignoredStructuredJsonFlag);
     }
 
@@ -2220,8 +2222,8 @@ public class Font implements Disposable {
      * <br>
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
      * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
-     * produce is fairly full-featured. Although it can also produce things like Artery fonts, those seem pretty
-     * specific to the Artery engine, and the tool might not use a stable revision of the format. A specialized version
+     * produce is fairly full-featured. Its handling of metrics seems significantly better than the tools that work with
+     * AngelCode BMFont .fnt files, so all the fonts in {@link KnownFonts} use JSON. A specialized version
      * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
      * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
@@ -2242,8 +2244,8 @@ public class Font implements Disposable {
      * <br>
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
      * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
-     * produce is fairly full-featured. Although it can also produce things like Artery fonts, those seem pretty
-     * specific to the Artery engine, and the tool might not use a stable revision of the format. A specialized version
+     * produce is fairly full-featured. Its handling of metrics seems significantly better than the tools that work with
+     * AngelCode BMFont .fnt files, so all the fonts in {@link KnownFonts} use JSON. A specialized version
      * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
      * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
@@ -2274,8 +2276,8 @@ public class Font implements Disposable {
      * <br>
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
      * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
-     * produce is fairly full-featured. Although it can also produce things like Artery fonts, those seem pretty
-     * specific to the Artery engine, and the tool might not use a stable revision of the format. A specialized version
+     * produce is fairly full-featured. Its handling of metrics seems significantly better than the tools that work with
+     * AngelCode BMFont .fnt files, so all the fonts in {@link KnownFonts} use JSON. A specialized version
      * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
      * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
@@ -2297,8 +2299,8 @@ public class Font implements Disposable {
      * <br>
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
      * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
-     * produce is fairly full-featured. Although it can also produce things like Artery fonts, those seem pretty
-     * specific to the Artery engine, and the tool might not use a stable revision of the format. A specialized version
+     * produce is fairly full-featured. Its handling of metrics seems significantly better than the tools that work with
+     * AngelCode BMFont .fnt files, so all the fonts in {@link KnownFonts} use JSON. A specialized version
      * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
      * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
@@ -2343,12 +2345,10 @@ public class Font implements Disposable {
 
         JsonValue fnt;
         JsonReader reader = new JsonReader();
-        if("json".equalsIgnoreCase(jsonHandle.extension())){
-            fnt = reader.parse(jsonHandle);
-        } else if("dat".equalsIgnoreCase(jsonHandle.extension())) {
+        if("dat".equalsIgnoreCase(jsonHandle.extension())) {
             fnt = reader.parse(LZBDecompression.decompressFromBytes(jsonHandle.readBytes()));
         } else {
-            throw new RuntimeException("Not a .json or .dat font file: " + jsonHandle);
+            fnt = reader.parse(jsonHandle);
         }
 
         name = jsonHandle.nameWithoutExtension();
