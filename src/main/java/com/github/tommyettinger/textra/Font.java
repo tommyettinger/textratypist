@@ -444,6 +444,8 @@ public class Font implements Disposable {
          */
         SDF_OUTLINE("-sdf");
 
+        public static final DistanceFieldType[] ALL = values();
+
         /**
          * The part of a filename before the extension that is used to look up fonts with this DistanceFieldType.
          * Always one of "-standard", "-sdf", or "-msdf".

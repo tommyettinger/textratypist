@@ -89,6 +89,74 @@ public final class KnownFonts implements LifecycleListener {
             instance.prefix = prefix;
     }
 
+    public static final OrderedSet<String> BASE_NAMES = OrderedSet.with(
+            "A-Starry", "Bitter", "Canada1500", "Cascadia-Mono", "Caveat", "DejaVu-Sans-Condensed",
+            "DejaVu-Sans-Mono", "DejaVu-Sans", "DejaVu-Serif-Condensed", "DejaVu-Serif", "Gentium", "Gentium-Un-Italic",
+            "Glacial-Indifference", "Go-Noto-Universal", "Grenze", "Inconsolata-LGC", "Iosevka", "Iosevka-Slab",
+            "Kingthings-Foundation", "Kingthings-Petrock", "Libertinus-Serif", "Libertinus-Serif-Semibold", "Now-Alt",
+            "Open-Sans", "Ostrich-Black", "Oxanium", "Roboto-Condensed", "Tangerine", "Yanone-Kaffeesatz", "Yataghan");
+
+    /** Base name for a fixed-width octagonal font. */
+    public static final String A_STARRY = "A-Starry";
+    /** Base name for a variable-width serif font. */
+    public static final String BITTER = "Bitter";
+    /** Base name for a variable-width sans font. */
+    public static final String CANADA_1500 = "Canada1500";
+    /** Base name for a fixed-width programming font. */
+    public static final String CASCADIA_MONO = "Cascadia-Mono";
+    /** Base name for a variable-width handwriting font. */
+    public static final String CAVEAT = "Caveat";
+    /** Base name for a variable-width narrow sans font. */
+    public static final String DEJAVU_SANS_CONDENSED = "DejaVu-Sans-Condensed";
+    /** Base name for a fixed-width programming font. */
+    public static final String DEJAVU_SANS_MONO = "DejaVu-Sans-Mono";
+    /** Base name for a variable-width sans font. */
+    public static final String DEJAVU_SANS = "DejaVu-Sans";
+    /** Base name for a variable-width narrow serif font. */
+    public static final String DEJAVU_SERIF_CONDENSED = "DejaVu-Serif-Condensed";
+    /** Base name for a variable-width serif font. */
+    public static final String DEJAVU_SERIF = "DejaVu-Serif";
+    /** Base name for a variable-width Unicode-heavy serif font. */
+    public static final String GENTIUM = "Gentium";
+    /** Base name for a variable-width Unicode-heavy "swashbuckling" serif font. */
+    public static final String GENTIUM_UN_ITALIC = "Gentium-Un-Italic";
+    /** Base name for a variable-width geometric font. */
+    public static final String GLACIAL_INDIFFERENCE = "Glacial-Indifference";
+    /** Base name for a variable-width Unicode-heavy sans font. */
+    public static final String GO_NOTO_UNIVERSAL = "Go-Noto-Universal";
+    /** Base name for a variable-width heavy-weight serif font. */
+    public static final String GRENZE = "Grenze";
+    /** Base name for a fixed-width geometric/programming font. */
+    public static final String INCONSOLATA_LGC = "Inconsolata-LGC";
+    /** Base name for a fixed-width Unicode-heavy sans font. */
+    public static final String IOSEVKA = "Iosevka";
+    /** Base name for a fixed-width Unicode-heavy slab-serif font. */
+    public static final String IOSEVKA_SLAB = "Iosevka-Slab";
+    /** Base name for a variable-width ornate medieval font. */
+    public static final String KINGTHINGS_FOUNDATION = "Kingthings-Foundation";
+    /** Base name for a variable-width legible medieval font. */
+    public static final String KINGTHINGS_PETROCK = "Kingthings-Petrock";
+    /** Base name for a variable-width medium-weight serif font. */
+    public static final String LIBERTINUS_SERIF = "Libertinus-Serif";
+    /** Base name for a variable-width heavy-weight serif font. */
+    public static final String LIBERTINUS_SERIF_SEMIBOLD = "Libertinus-Serif-Semibold";
+    /** Base name for a variable-width geometric font. */
+    public static final String NOW_ALT = "Now-Alt";
+    /** Base name for a variable-width sans font. */
+    public static final String OPEN_SANS = "Open-Sans";
+    /** Base name for a variable-width geometric sans font. */
+    public static final String OSTRICH_BLACK = "Ostrich-Black";
+    /** Base name for a variable-width sci-fi font. */
+    public static final String OXANIUM = "Oxanium";
+    /** Base name for a variable-width narrow sans font. */
+    public static final String ROBOTO_CONDENSED = "Roboto-Condensed";
+    /** Base name for a variable-width script font. */
+    public static final String TANGERINE = "Tangerine";
+    /** Base name for a variable-width humanist sans font. */
+    public static final String YANONE_KAFFEESATZ = "Yanone-Kaffeesatz";
+    /** Base name for a variable-width "dark fantasy" font. */
+    public static final String YATAGHAN = "Yataghan";
+    
     private Font astarry;
 
     /**

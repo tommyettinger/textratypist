@@ -27,5 +27,7 @@ public enum TokenCategory {
     SKIP,
     EFFECT_START,
     EFFECT_END,
-    UNDO
+    UNDO;
+
+    public static final TokenCategory[] ALL = values();
 }
