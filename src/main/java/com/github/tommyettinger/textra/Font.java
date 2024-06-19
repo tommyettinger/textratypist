@@ -414,7 +414,7 @@ public class Font implements Disposable {
          * If the font has a large image that is downscaled, you may want to call {@link #setTextureFilter()}.
          * You can optionally set a custom ShaderProgram this can use by setting {@link #shader}.
          */
-        STANDARD("-standard"),
+        STANDARD("-standard", ""),
         /**
          * Used by Signed Distance Field fonts that are compatible with
          * {@link com.badlogic.gdx.graphics.g2d.DistanceFieldFont}, and may be created by Hiero with its Distance Field
@@ -424,7 +424,7 @@ public class Font implements Disposable {
          * higher or lower value depending on how thick the stroke is in the font; this can take experimentation,
          * but the default is 1 and higher values have sharper edges (risking getting pixelated if too high).
          */
-        SDF("-sdf"),
+        SDF("-sdf", " (SDF)"),
         /**
          * Used by Multi-channel Signed Distance Field fonts, which are typically created by fontwriter or
          * msdf-atlas-gen and can sometimes be more crisp than SDF fonts MSDF produces hard corners where the corners
@@ -435,14 +435,14 @@ public class Font implements Disposable {
          * with higher values making more crisp (possibly aliased) fonts and lower values making softer (possibly
          * blurry) fonts.
          */
-        MSDF("-msdf"),
+        MSDF("-msdf", " (MSDF)"),
         /**
          * Very similar to {@link #SDF}, except that this draws a moderately-thick black outline around all SDF glyphs.
          * It won't necessarily draw the outline correctly for inline images without a distance field effect.
          * The outline will respect the transparency of the glyph (unlike {@link #BLACK_OUTLINE} mode).
          * This can use the same font files as {@link #SDF}; just set {@link Font#distanceField} to SDF_OUTLINE.
          */
-        SDF_OUTLINE("-sdf");
+        SDF_OUTLINE("-sdf", " (SDF Outline)");
 
         public static final DistanceFieldType[] ALL = values();
 
@@ -451,9 +451,14 @@ public class Font implements Disposable {
          * Always one of "-standard", "-sdf", or "-msdf".
          */
         public final String filePart;
+        /**
+         * The part of the typical name of a Font that says what distance field that Font has, if any.
+         */
+        public final String namePart;
 
-        DistanceFieldType(String filePart) {
+        DistanceFieldType(String filePart, String namePart) {
             this.filePart = filePart;
+            this.namePart = namePart;
         }
     }
 

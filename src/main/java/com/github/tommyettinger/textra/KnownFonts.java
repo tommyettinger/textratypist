@@ -165,10 +165,14 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #BASE_NAMES} or more likely from a constant such as {@link #OPEN_SANS}) and treats it as using no distance
      * field effect. It looks up the appropriate file name, respecting asset prefix (see
      * {@link #setAssetPrefix(String)}), creates the Font if necessary, then returns a copy of it.
+     * <br>
+     * If a more specialized method modifies a Font in the {@link #loaded} cache when it runs, its effects will not
+     * necessarily be shown here.
+     *
      * @param baseName typically a constant such as {@link #OPEN_SANS} or {@link #LIBERTINUS_SERIF}
      * @return a copy of the Font with the given name
      */
-    public static Font getFont(final String baseName) {
+    private static Font getFont(final String baseName) {
         return getFont(baseName, STANDARD);
     }
     /**
@@ -178,21 +182,49 @@ public final class KnownFonts implements LifecycleListener {
      * {@link DistanceFieldType#MSDF}, or even  {@link DistanceFieldType#SDF_OUTLINE}). It looks up the appropriate file
      * name, respecting asset prefix (see {@link #setAssetPrefix(String)}), creates the Font if necessary, then returns
      * a copy of it.
+     * <br>
+     * If a more specialized method modifies a Font in the {@link #loaded} cache when it runs, its effects will not
+     * necessarily be shown here.
+     *
      * @param baseName typically a constant such as {@link #OPEN_SANS} or {@link #LIBERTINUS_SERIF}
      * @param distanceField a DistanceFieldType, usually {@link DistanceFieldType#STANDARD}
      * @return a copy of the Font with the given name
      */
-    public static Font getFont(final String baseName, final DistanceFieldType distanceField) {
+    private static Font getFont(final String baseName, final DistanceFieldType distanceField) {
         if(baseName == null || distanceField == null || !BASE_NAMES.contains(baseName))
             throw new RuntimeException("Unknown Font name/DistanceFieldType: " + baseName + "/" + distanceField);
         initialize();
         String rootName = baseName + distanceField.filePart;
         Font known = instance.loaded.get(rootName);
         if(known == null){
-            known = new Font( instance.prefix + rootName + ".dat", true).scaleHeightTo(32).setName(rootName);
+            known = new Font( instance.prefix + rootName + ".dat", true).scaleHeightTo(32).setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, known);
         }
         return new Font(known).setDistanceField(distanceField);
+    }
+    /**
+     * Loads a font by name but does not copy it, typically so it can be modified. This takes a String name (which can
+     * be from {@link #BASE_NAMES} or more likely from a constant such as {@link #OPEN_SANS}) and a DistanceFieldType
+     * (which is usually {@link DistanceFieldType#STANDARD}, but could also be {@link DistanceFieldType#SDF},
+     * {@link DistanceFieldType#MSDF}, or even  {@link DistanceFieldType#SDF_OUTLINE}). It looks up the appropriate file
+     * name, respecting asset prefix (see {@link #setAssetPrefix(String)}), creates the Font if necessary, then returns
+     * the same Font stored in {@link #loaded}.
+     *
+     * @param baseName typically a constant such as {@link #OPEN_SANS} or {@link #LIBERTINUS_SERIF}
+     * @param distanceField a DistanceFieldType, usually {@link DistanceFieldType#STANDARD}
+     * @return the cached Font with the given name; this does not set the DistanceFieldType on the returned Font
+     */
+    private static Font loadFont(final String baseName, final DistanceFieldType distanceField) {
+        if(baseName == null || distanceField == null || !BASE_NAMES.contains(baseName))
+            throw new RuntimeException("Unknown Font name/DistanceFieldType: " + baseName + "/" + distanceField);
+        initialize();
+        String rootName = baseName + distanceField.filePart;
+        Font known = instance.loaded.get(rootName);
+        if(known == null){
+            known = new Font( instance.prefix + rootName + ".dat", true).scaleHeightTo(32).setName(baseName + distanceField.namePart);
+            instance.loaded.put(rootName, known);
+        }
+        return known;
     }
 
     private Font astarry;
