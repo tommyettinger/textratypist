@@ -269,8 +269,6 @@ public final class KnownFonts implements LifecycleListener {
         return known;
     }
 
-    private Font astarry;
-
     /**
      * Returns a very large fixed-width Font already configured to use a square font with 45-degree angled sections,
      * based on the typeface used on the Atari ST console. This font only supports ASCII, but it supports all of it.
@@ -295,11 +293,90 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font A Starry
      */
     public static Font getAStarry() {
-        initialize();
+        return getAStarry(STANDARD);
+//        final String name = A_STARRY;
+//        final DistanceFieldType dft = STANDARD;
+//        Font loaded = loadFont(name, dft);
+//        // make changes here, if needed
+//        return new Font(loaded).setDistanceField(dft).setName(name + dft.namePart);
+    }
+
+    /**
+     * Returns a very large fixed-width Font already configured to use a square font with 45-degree angled sections,
+     * based on the typeface used on the Atari ST console. This font only supports ASCII, but it supports all of it.
+     * Caches the result for later calls. The font is "a-starry", based on "Atari ST (low-res)" by Damien Guard; it is
+     * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
+     * Ettinger, because he made changes in a-starry) if you use it.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-standard.png" alt="Image preview"/">
+     * <br>
+     * This also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
+     * multiples of 8. This "A Starry Tall" version is present in {@link #getAll()} and {@link #getAllStandard()}.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview"/">
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-standard.dat">A-Starry-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-standard.png">A-Starry-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font A Starry
+     */
+    public static Font getAStarry(DistanceFieldType dft) {
+        return getFont(A_STARRY, dft == null ? STANDARD : dft);
+    }
+    /**
+     * Returns a very large fixed-width Font already configured to use a tall font with angled sections,
+     * based on the typeface used on the Atari ST console. This font only supports ASCII, but it supports all of it.
+     * Caches the result for later calls. The font is "a-starry", based on "Atari ST (low-res)" by Damien Guard; it is
+     * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
+     * Ettinger, because he made changes in a-starry) if you use it. This is an extended-height version of a-starry,
+     * making it half the width relative to its height, instead of having equal width and height.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview"/">
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-standard.dat">A-Starry-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-standard.png">A-Starry-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font A Starry
+     */
+    public static Font getAStarryTall() {
+        return getAStarryTall(STANDARD);
+    }
+
+    /**
+     * Returns a very large fixed-width Font already configured to use a tall font with angled sections,
+     * based on the typeface used on the Atari ST console. This font only supports ASCII, but it supports all of it.
+     * Caches the result for later calls. The font is "a-starry", based on "Atari ST (low-res)" by Damien Guard; it is
+     * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
+     * Ettinger, because he made changes in a-starry) if you use it. This is an extended-height version of a-starry,
+     * making it half the width relative to its height, instead of having equal width and height.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview"/">
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-standard.dat">A-Starry-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-standard.png">A-Starry-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font A Starry
+     */
+    public static Font getAStarryTall(DistanceFieldType dft) {
         final String name = A_STARRY;
-        final DistanceFieldType dft = STANDARD;
+        if(dft == null) dft = STANDARD;
         Font loaded = loadFont(name, dft);
-        // make changes here, if needed
+        loaded.scale(0.5f, 1f);
+        loaded.boldStrength *= 0.5f;
         return new Font(loaded).setDistanceField(dft).setName(name + dft.namePart);
     }
 
@@ -330,21 +407,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font A Starry using MSDF
      */
     public static Font getAStarryMSDF() {
-        initialize();
-        if (instance.astarryMSDF == null) {
-            try {
-                instance.astarryMSDF = new Font(instance.prefix + "AStarry-msdf.fnt",
-                        instance.prefix + "AStarry-msdf.png", MSDF, 0, 0, 0, 0, true)
-                        .setUnderlinePosition(0f, -0.2f).setStrikethroughPosition(0f, -0.2f)
-                        .setFancyLinePosition(0, -0.125f).setBoldStrength(0.5f)
-                        .scaleTo(9, 9).setCrispness(2.5f).setName("A Starry (MSDF)");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.astarryMSDF != null)
-            return new Font(instance.astarryMSDF);
-        throw new RuntimeException("Assets for getAStarryMSDF() not found.");
+        return getFont(A_STARRY, MSDF);
     }
 
     private Font bitter;
@@ -2821,11 +2884,11 @@ public final class KnownFonts implements LifecycleListener {
 
     @Override
     public void dispose() {
-
-        if (astarry != null) {
-            astarry.dispose();
-            astarry = null;
+        for(Font f : loaded.values()){
+            f.dispose();
         }
+        loaded.clear();
+
         if (astarryMSDF != null) {
             astarryMSDF.dispose();
             astarryMSDF = null;
