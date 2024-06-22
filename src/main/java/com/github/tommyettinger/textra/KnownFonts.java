@@ -90,13 +90,6 @@ public final class KnownFonts implements LifecycleListener {
             instance.prefix = prefix;
     }
 
-    public static final OrderedSet<String> BASE_NAMES = OrderedSet.with(
-            "A-Starry", "Bitter", "Canada1500", "Cascadia-Mono", "Caveat", "DejaVu-Sans-Condensed",
-            "DejaVu-Sans-Mono", "DejaVu-Sans", "DejaVu-Serif-Condensed", "DejaVu-Serif", "Gentium", "Gentium-Un-Italic",
-            "Glacial-Indifference", "Go-Noto-Universal", "Grenze", "Inconsolata-LGC", "Iosevka", "Iosevka-Slab",
-            "Kingthings-Foundation", "Kingthings-Petrock", "Libertinus-Serif", "Libertinus-Serif-Semibold", "Now-Alt",
-            "Open-Sans", "Ostrich-Black", "Oxanium", "Roboto-Condensed", "Tangerine", "Yanone-Kaffeesatz", "Yataghan");
-
     private final ObjectMap<String, Font> loaded = new ObjectMap<>(32);
 
     /** Base name for a fixed-width octagonal font. */
@@ -160,11 +153,43 @@ public final class KnownFonts implements LifecycleListener {
     /** Base name for a variable-width "dark fantasy" font. */
     public static final String YATAGHAN = "Yataghan";
 
+    /** Base name for a fixed-width pixel font. */
+    public static final String COZETTE = "Cozette";
+    /** Base name for a variable-width Unicode-heavy pixel font. */
+    public static final String LANAPIXEL = "LanaPixel";
+    /** Base name for a tiny variable-width Unicode-heavy pixel font. */
+    public static final String QUANPIXEL = "QuanPixel";
+
+    /** Base name for a fixed-width "traditional" pixel font. */
+    public static final String IBM_8X16 = "IBM-8x16";
+
+    public static final OrderedSet<String> JSON_NAMES = OrderedSet.with(
+            A_STARRY, BITTER, CANADA_1500, CASCADIA_MONO, CAVEAT, DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO, DEJAVU_SANS,
+            DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF, GENTIUM, GENTIUM_UN_ITALIC, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL,
+            GRENZE, INCONSOLATA_LGC, IOSEVKA, IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LIBERTINUS_SERIF,
+            LIBERTINUS_SERIF_SEMIBOLD, NOW_ALT, OPEN_SANS, OSTRICH_BLACK, OXANIUM, ROBOTO_CONDENSED, TANGERINE,
+            YANONE_KAFFEESATZ, YATAGHAN);
+
+    public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, LANAPIXEL, QUANPIXEL);
+
+    public static final OrderedSet<String> SAD_NAMES = OrderedSet.with(IBM_8X16);
+
+    public static final OrderedSet<String> STANDARD_NAMES = new OrderedSet<>(JSON_NAMES.size + FNT_NAMES.size + SAD_NAMES.size);
+    public static final OrderedSet<String> SDF_NAMES = new OrderedSet<>(JSON_NAMES);
+    public static final OrderedSet<String> MSDF_NAMES = new OrderedSet<>(JSON_NAMES);
+
+    static {
+        STANDARD_NAMES.addAll(JSON_NAMES);
+        STANDARD_NAMES.addAll(FNT_NAMES);
+        STANDARD_NAMES.addAll(SAD_NAMES);
+    }
+
     /**
      * A general way to get a copied Font from the known set of fonts, this takes a String name (which can be from
-     * {@link #BASE_NAMES} or more likely from a constant such as {@link #OPEN_SANS}) and treats it as using no distance
-     * field effect. It looks up the appropriate file name, respecting asset prefix (see
-     * {@link #setAssetPrefix(String)}), creates the Font if necessary, then returns a copy of it.
+     * {@link #JSON_NAMES}, {@link #FNT_NAMES}, or {@link #SAD_NAMES}, or more likely from a constant such as
+     * {@link #OPEN_SANS}) and treats it as using no distance field effect ({@link DistanceFieldType#STANDARD}). It
+     * looks up the appropriate file name, respecting asset prefix (see {@link #setAssetPrefix(String)}), creates the
+     * Font if necessary, then returns a copy of it.
      * <br>
      * If a more specialized method modifies a Font in the {@link #loaded} cache when it runs, its effects will not
      * necessarily be shown here.
@@ -172,16 +197,16 @@ public final class KnownFonts implements LifecycleListener {
      * @param baseName typically a constant such as {@link #OPEN_SANS} or {@link #LIBERTINUS_SERIF}
      * @return a copy of the Font with the given name
      */
-    private static Font getFont(final String baseName) {
+    public static Font getFont(final String baseName) {
         return getFont(baseName, STANDARD);
     }
     /**
      * A general way to get a copied Font from the known set of fonts, this takes a String name (which can be from
-     * {@link #BASE_NAMES} or more likely from a constant such as {@link #OPEN_SANS}) and a DistanceFieldType (which is
-     * usually {@link DistanceFieldType#STANDARD}, but could also be {@link DistanceFieldType#SDF},
-     * {@link DistanceFieldType#MSDF}, or even  {@link DistanceFieldType#SDF_OUTLINE}). It looks up the appropriate file
-     * name, respecting asset prefix (see {@link #setAssetPrefix(String)}), creates the Font if necessary, then returns
-     * a copy of it.
+     * {@link #JSON_NAMES}, {@link #FNT_NAMES}, or {@link #SAD_NAMES}, or more likely from a constant such as
+     * {@link #OPEN_SANS}) and a DistanceFieldType (which is usually {@link DistanceFieldType#STANDARD}, but could also
+     * be {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or even {@link DistanceFieldType#SDF_OUTLINE}).
+     * It looks up the appropriate file name, respecting asset prefix (see {@link #setAssetPrefix(String)}), creates the
+     * Font if necessary, then returns a copy of it.
      * <br>
      * If a more specialized method modifies a Font in the {@link #loaded} cache when it runs, its effects will not
      * necessarily be shown here.
@@ -190,21 +215,29 @@ public final class KnownFonts implements LifecycleListener {
      * @param distanceField a DistanceFieldType, usually {@link DistanceFieldType#STANDARD}
      * @return a copy of the Font with the given name
      */
-    private static Font getFont(final String baseName, final DistanceFieldType distanceField) {
-        if(baseName == null || distanceField == null || !BASE_NAMES.contains(baseName))
-            throw new RuntimeException("Unknown Font name/DistanceFieldType: " + baseName + "/" + distanceField);
+    public static Font getFont(final String baseName, DistanceFieldType distanceField) {
+        if(baseName == null)
+            throw new RuntimeException("Font name cannot be null.");
+        if(distanceField == null) distanceField = STANDARD;
         initialize();
         String rootName = baseName + distanceField.filePart;
         Font known = instance.loaded.get(rootName);
         if(known == null){
-            known = new Font( instance.prefix + rootName + ".dat", true).scaleHeightTo(32);
+            if(JSON_NAMES.contains(baseName))
+                known = new Font(instance.prefix + rootName + ".dat", true).scaleHeightTo(32);
+            else if(FNT_NAMES.contains(baseName))
+                known = new Font(instance.prefix + rootName + ".fnt", distanceField);
+            else if(distanceField == STANDARD && SAD_NAMES.contains(baseName))
+                    known = new Font(instance.prefix, rootName + ".font", true);
+            else
+                throw new RuntimeException("Unknown font name/distance field: " + baseName + "/" + distanceField.name());
             instance.loaded.put(rootName, known);
         }
         return new Font(known).setName(baseName + distanceField.namePart).setDistanceField(distanceField);
     }
     /**
      * Loads a font by name but does not copy it, typically so it can be modified. This takes a String name (which can
-     * be from {@link #BASE_NAMES} or more likely from a constant such as {@link #OPEN_SANS}) and a DistanceFieldType
+     * be from {@link #JSON_NAMES} or more likely from a constant such as {@link #OPEN_SANS}) and a DistanceFieldType
      * (which is usually {@link DistanceFieldType#STANDARD}, but could also be {@link DistanceFieldType#SDF},
      * {@link DistanceFieldType#MSDF}, or even  {@link DistanceFieldType#SDF_OUTLINE}). It looks up the appropriate file
      * name, respecting asset prefix (see {@link #setAssetPrefix(String)}), creates the Font if necessary, then returns
@@ -215,14 +248,22 @@ public final class KnownFonts implements LifecycleListener {
      * @param distanceField a DistanceFieldType, usually {@link DistanceFieldType#STANDARD}
      * @return the cached Font with the given name; this does not set the name or DistanceFieldType on the returned Font
      */
-    private static Font loadFont(final String baseName, final DistanceFieldType distanceField) {
-        if(baseName == null || distanceField == null || !BASE_NAMES.contains(baseName))
-            throw new RuntimeException("Unknown Font name/DistanceFieldType: " + baseName + "/" + distanceField);
+    private static Font loadFont(final String baseName, DistanceFieldType distanceField) {
+        if(baseName == null)
+            throw new RuntimeException("Font name cannot be null.");
+        if(distanceField == null) distanceField = STANDARD;
         initialize();
         String rootName = baseName + distanceField.filePart;
         Font known = instance.loaded.get(rootName);
         if(known == null){
-            known = new Font( instance.prefix + rootName + ".dat", true).scaleHeightTo(32);
+            if(JSON_NAMES.contains(baseName))
+                known = new Font(instance.prefix + rootName + ".dat", true).scaleHeightTo(32);
+            else if(FNT_NAMES.contains(baseName))
+                known = new Font(instance.prefix + rootName + ".fnt", distanceField);
+            else if(distanceField == STANDARD && SAD_NAMES.contains(baseName))
+                known = new Font(instance.prefix, rootName + ".font", true);
+            else
+                throw new RuntimeException("Unknown font name/distance field: " + baseName + "/" + distanceField.name());
             instance.loaded.put(rootName, known);
         }
         return known;
