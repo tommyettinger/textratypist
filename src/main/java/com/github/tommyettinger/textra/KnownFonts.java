@@ -58,7 +58,8 @@ import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
  * generally-easier {@code [+👨🏿‍🔬]} syntax. If you want to use names for emoji, you may want to consult "Twemoji.atlas"
  * for the exact names used; some names changed from the standard because of technical restrictions. You can also add
  * the icons from <a href="https://game-icons.net">game-icons.net</a> using {@link #addGameIcons(Font)}. There is a
- * <a href="https://tommyettinger.github.io/twemoji-atlas/">preview site for Twemoji, with names</a>, and another
+ * <a href="https://tommyettinger.github.io/twemoji-atlas/">preview site for Twemoji, with names</a>, another
+ * <a href="https://tommyettinger.github.io/openmoji-atlas/">preview site for OpenMoji, with names</a>, and another
  * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">preview site for the game icons</a>.
  */
 @SuppressWarnings("CallToPrintStackTrace")
@@ -276,12 +277,10 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-standard.png" alt="Image preview"/">
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.A_STARRY, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * This also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
-     * multiples of 8. This "A Starry Tall" version is present in {@link #getAll()} and {@link #getAllStandard()}.
-     * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview"/">
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
@@ -293,12 +292,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font A Starry
      */
     public static Font getAStarry() {
-        return getAStarry(STANDARD);
-//        final String name = A_STARRY;
-//        final DistanceFieldType dft = STANDARD;
-//        Font loaded = loadFont(name, dft);
-//        // make changes here, if needed
-//        return new Font(loaded).setDistanceField(dft).setName(name + dft.namePart);
+        return getFont(A_STARRY, STANDARD);
     }
 
     /**
@@ -308,12 +302,10 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-standard.png" alt="Image preview"/">
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.A_STARRY, dft)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * This also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
-     * multiples of 8. This "A Starry Tall" version is present in {@link #getAll()} and {@link #getAllStandard()}.
-     * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview"/">
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
@@ -321,13 +313,53 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-standard.png">A-Starry-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
      * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-sdf.dat">A-Starry-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-sdf.png">A-Starry-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
+     * </ul>
+     *<br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-msdf.dat">A-Starry-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-msdf.png">A-Starry-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
+     * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
      * @return the Font object that can represent many sizes of the font A Starry
      */
     public static Font getAStarry(DistanceFieldType dft) {
-        return getFont(A_STARRY, dft == null ? STANDARD : dft);
+        return getFont(A_STARRY, dft);
     }
+    
+    /**
+     * Returns a very large fixed-width Font already configured to use a square font with 45-degree angled sections,
+     * based on the typeface used on the Atari ST console.
+     * This uses the MSDF distance field effect.
+     * This font only supports ASCII, but it supports all of it.
+     * Caches the result for later calls. The font is "a-starry", based on "Atari ST (low-res)" by Damien Guard; it is
+     * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
+     * Ettinger, because he made changes in a-starry) if you use it.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.A_STARRY, Font.DistanceFieldType.MSDF)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-msdf.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-msdf.dat">A-Starry-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-msdf.png">A-Starry-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font A Starry
+     */
+    public static Font getAStarryMSDF() {
+        return getFont(A_STARRY, MSDF);
+    }
+
     /**
      * Returns a very large fixed-width Font already configured to use a tall font with angled sections,
      * based on the typeface used on the Atari ST console. This font only supports ASCII, but it supports all of it.
@@ -336,7 +368,7 @@ public final class KnownFonts implements LifecycleListener {
      * Ettinger, because he made changes in a-starry) if you use it. This is an extended-height version of a-starry,
      * making it half the width relative to its height, instead of having equal width and height.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview"/">
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
@@ -345,7 +377,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font A Starry
+     * @return the Font object that can represent many sizes of the font A Starry, with half width
      */
     public static Font getAStarryTall() {
         return getAStarryTall(STANDARD);
@@ -359,7 +391,7 @@ public final class KnownFonts implements LifecycleListener {
      * Ettinger, because he made changes in a-starry) if you use it. This is an extended-height version of a-starry,
      * making it half the width relative to its height, instead of having equal width and height.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview"/">
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
@@ -367,9 +399,21 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-standard.png">A-Starry-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
      * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-sdf.dat">A-Starry-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-sdf.png">A-Starry-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
+     * </ul>
+     *<br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-msdf.dat">A-Starry-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-msdf.png">A-Starry-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
+     * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font A Starry
+     * @return the Font object that can represent many sizes of the font A Starry, with half width
      */
     public static Font getAStarryTall(DistanceFieldType dft) {
         final String name = A_STARRY;
@@ -377,40 +421,37 @@ public final class KnownFonts implements LifecycleListener {
         Font loaded = loadFont(name, dft);
         loaded.scale(0.5f, 1f);
         loaded.boldStrength *= 0.5f;
-        return new Font(loaded).setDistanceField(dft).setName(name + dft.namePart);
+        return new Font(loaded).setDistanceField(dft).setName(name + "-Tall" + dft.namePart);
     }
-
-    private Font astarryMSDF;
-
+    
     /**
-     * Returns a Font already configured to use a square font with 45-degree angled sections, based on the
-     * typeface used on the Atari ST console, that should scale cleanly to many sizes. This font only supports ASCII,
-     * but it supports all of it. Caches the result for later calls. The font is "a-starry", based on "Atari ST
-     * (low-res)" by Damien Guard; it is available under a CC-BY-SA-3.0 license, which requires attribution to Damien
-     * Guard (and technically Tommy Ettinger, because he made changes in a-starry) if you use it. This uses the
-     * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
-     * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
+     * Returns a Font already configured to use a light-weight variable-width slab serif font with good Latin and
+     * Cyrillic script support, that should scale pretty well from a height of about 160 down to a height of maybe 30.
+     * Caches the result for later calls. The font used is Bitter, a free (OFL) typeface by <a href="https://github.com/solmatas/BitterPro">The Bitter Project</a>.
+     * It supports quite a lot of Latin-based scripts and Cyrillic, but does not really cover Greek or any other
+     * scripts. This font can look good at its natural size, which uses width roughly equal to height,
+     * or squashed so height is slightly smaller. Bitter looks very similar to {@link #getGentium()}, except that Bitter
+     * is quite a bit lighter, with thinner strokes and stylistic flourishes on some glyphs.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * If you only need sizes in small integer multiples of 8 pixels, you might get sharper-looking results from
-     * {@link #getAStarry()}.
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.BITTER, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20(MSDF).png">Image link</a>
-     * (uses width=9, height=9, crispness=2.5)
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bitter-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-msdf.fnt">AStarry-msdf.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-msdf.png">AStarry-msdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-License.txt">AStarry-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-standard.dat">Bitter-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-standard.png">Bitter-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-License.txt">Bitter-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font A Starry using MSDF
+     * @return the Font object that can represent many sizes of the font Bitter-Light.ttf
      */
-    public static Font getAStarryMSDF() {
-        return getFont(A_STARRY, MSDF);
+    public static Font getBitter() {
+        return getFont(BITTER, STANDARD);
     }
-
-    private Font bitter;
 
     /**
      * Returns a Font already configured to use a light-weight variable-width slab serif font with good Latin and
@@ -423,32 +464,35 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Bitter.png">Image link</a> (uses width=33, height=30)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.BITTER, dft)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bitter-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-standard.fnt">Bitter-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-standard.dat">Bitter-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-standard.png">Bitter-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-License.txt">Bitter-License.txt</a></li>
      * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-sdf.dat">Bitter-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-sdf.png">Bitter-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-License.txt">Bitter-License.txt</a></li>
+     * </ul>
+     *<br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-msdf.dat">Bitter-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-msdf.png">Bitter-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-License.txt">Bitter-License.txt</a></li>
+     * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Bitter-Light.ttf
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Bitter
      */
-    public static Font getBitter() {
-        initialize();
-        if (instance.bitter == null) {
-            try {
-                instance.bitter = new Font(instance.prefix + "Bitter-standard.fnt",
-                        instance.prefix + "Bitter-standard.png", STANDARD, 0, -20, 0, 0, true)
-                        .setInlineImageMetrics(0f, 20f, 0f).setLineMetrics(0, -0.0625f, 0f, -0.5f).setDescent(-16f)
-                        .scaleTo(33, 30).setTextureFilter().setName("Bitter");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.bitter != null)
-            return new Font(instance.bitter);
-        throw new RuntimeException("Assets for getBitter() not found.");
+    public static Font getBitter(DistanceFieldType dft) {
+        return getFont(BITTER, dft);
     }
 
     private Font canada;
@@ -2889,14 +2933,6 @@ public final class KnownFonts implements LifecycleListener {
         }
         loaded.clear();
 
-        if (astarryMSDF != null) {
-            astarryMSDF.dispose();
-            astarryMSDF = null;
-        }
-        if (bitter != null) {
-            bitter.dispose();
-            bitter = null;
-        }
         if (canada != null) {
             canada.dispose();
             canada = null;
