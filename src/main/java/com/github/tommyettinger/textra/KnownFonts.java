@@ -2456,7 +2456,7 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets 'Twemoji.atlas' and 'Twemoji.png' not found.");
     }
 
-    private TextureAtlas openMoji;
+    private TextureAtlas openMojiColor, openMojiWhite;
 
     /**
      * Takes a Font and adds the OpenMoji icon set to it, making the glyphs available using {@code [+name]} syntax.
@@ -2638,24 +2638,48 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font addOpenMoji(Font changing, boolean color, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
         initialize();
-        String baseName = "OpenMoji-" + (color ? "color" : "white");
-        if (instance.openMoji == null) {
-            try {
-                FileHandle atlas = Gdx.files.internal(instance.prefix + baseName + ".atlas");
-                if (!atlas.exists() && Gdx.files.isLocalStorageAvailable()) atlas = Gdx.files.local(instance.prefix + baseName + ".atlas");
-                if (Gdx.files.internal(instance.prefix + baseName + ".png").exists())
-                    instance.openMoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
-                else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + baseName + ".png").exists())
-                    instance.openMoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
-            } catch (Exception e) {
-                e.printStackTrace();
+        if(color) {
+            String baseName = "OpenMoji-color";
+            if (instance.openMojiColor == null) {
+                try {
+                    FileHandle atlas = Gdx.files.internal(instance.prefix + baseName + ".atlas");
+                    if (!atlas.exists() && Gdx.files.isLocalStorageAvailable())
+                        atlas = Gdx.files.local(instance.prefix + baseName + ".atlas");
+                    if (Gdx.files.internal(instance.prefix + baseName + ".png").exists())
+                        instance.openMojiColor = loadUnicodeAtlas(atlas, atlas.parent(), false);
+                    else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + baseName + ".png").exists())
+                        instance.openMojiColor = loadUnicodeAtlas(atlas, atlas.parent(), false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+            if (instance.openMojiColor != null) {
+                return changing.addAtlas(instance.openMojiColor, prepend, append,
+                        offsetXChange, offsetYChange, xAdvanceChange);
+            }
+            throw new RuntimeException("Assets '"+baseName+".atlas' and '"+baseName+".png' not found.");
         }
-        if (instance.openMoji != null) {
-            return changing.addAtlas(instance.openMoji, prepend, append,
-                    offsetXChange, offsetYChange, xAdvanceChange);
+        else {
+            String baseName = "OpenMoji-white";
+            if (instance.openMojiWhite == null) {
+                try {
+                    FileHandle atlas = Gdx.files.internal(instance.prefix + baseName + ".atlas");
+                    if (!atlas.exists() && Gdx.files.isLocalStorageAvailable())
+                        atlas = Gdx.files.local(instance.prefix + baseName + ".atlas");
+                    if (Gdx.files.internal(instance.prefix + baseName + ".png").exists())
+                        instance.openMojiWhite = loadUnicodeAtlas(atlas, atlas.parent(), false);
+                    else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + baseName + ".png").exists())
+                        instance.openMojiWhite = loadUnicodeAtlas(atlas, atlas.parent(), false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (instance.openMojiWhite != null) {
+                return changing.addAtlas(instance.openMojiWhite, prepend, append,
+                        offsetXChange, offsetYChange, xAdvanceChange);
+            }
+            throw new RuntimeException("Assets '"+baseName+".atlas' and '"+baseName+".png' not found.");
         }
-        throw new RuntimeException("Assets '"+baseName+".atlas' and '"+baseName+".png' not found.");
     }
 
     private TextureAtlas gameIcons;
@@ -2994,9 +3018,13 @@ public final class KnownFonts implements LifecycleListener {
             gameIcons.dispose();
             gameIcons = null;
         }
-        if(openMoji != null) {
-            openMoji.dispose();
-            openMoji = null;
+        if(openMojiColor != null) {
+            openMojiColor.dispose();
+            openMojiColor = null;
+        }
+        if(openMojiWhite != null) {
+            openMojiWhite.dispose();
+            openMojiWhite = null;
         }
     }
 }
