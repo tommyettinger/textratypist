@@ -620,6 +620,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li>
      * </ul>
      *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
      * @return the Font object that can represent many sizes of the font Cascadia Code Mono
      */
     public static Font getCascadiaMono(DistanceFieldType dft) {
@@ -653,7 +654,32 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(CASCADIA_MONO, MSDF);
     }
 
-    private Font caveat;
+    /**
+     * Returns a Font already configured to use a variable-width handwriting font with support for extended Latin and
+     * Cyrillic, that should scale pretty well from a height of about 160 down to a height of maybe 20. It will look
+     * sharper and more aliased at smaller sizes, but should be relatively smooth at a height of 32 or so. This is a
+     * sort of natural handwriting, as opposed to the formal script in {@link #getTangerine()}.
+     * Caches the result for later calls. The font used is Caveat, a free (OFL) typeface designed by Pablo Impallari.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CAVEAT, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Caveat-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-standard.dat">Caveat-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-standard.png">Caveat-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-License.txt">Caveat-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Caveat
+     */
+    public static Font getCaveat() {
+        return getFont(CAVEAT, STANDARD);
+    }
 
     /**
      * Returns a Font already configured to use a variable-width handwriting font with support for extended Latin and
@@ -664,39 +690,37 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Caveat.png">Image link</a> (uses width=32, height=32)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CAVEAT, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Caveat-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-standard.fnt">Caveat-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-standard.dat">Caveat-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-standard.png">Caveat-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-License.txt">Caveat-License.txt</a></li>
      * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-sdf.dat">Caveat-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-sdf.png">Caveat-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-License.txt">Caveat-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-msdf.dat">Caveat-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-msdf.png">Caveat-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-License.txt">Caveat-License.txt</a></li>
+     * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Caveat.ttf
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Caveat
      */
-    public static Font getCaveat() {
-        initialize();
-        if (instance.caveat == null) {
-            try {
-                instance.caveat = new Font(instance.prefix + "Caveat-standard.fnt",
-                        instance.prefix + "Caveat-standard.png",
-                        STANDARD, -10, 25, 0, 0, true)
-                        .setDescent(-8f)
-                        .setLineMetrics(0f, -0.25f, 0.05f, -0.4f)
-                        .setInlineImageMetrics(0f, 44f, 0f)
-                        .scaleTo(32, 32).setTextureFilter().setName("Caveat");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.caveat != null)
-            return new Font(instance.caveat);
-        throw new RuntimeException("Assets for getCaveat() not found.");
+    public static Font getCaveat(DistanceFieldType dft) {
+        return getFont(CAVEAT, dft);
     }
-
-    private Font cozette;
-
+    
     /**
      * Returns a Font configured to use a cozy fixed-width bitmap font,
      * <a href="https://github.com/slavfox/Cozette">Cozette by slavfox</a>. Cozette has broad coverage of Unicode,
@@ -719,24 +743,23 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that represents the 6x17px font Cozette
      */
     public static Font getCozette() {
-        initialize();
-        if (instance.cozette == null) {
-            try {
-                instance.cozette = new Font(instance.prefix + "Cozette-standard.fnt",
-                        instance.prefix + "Cozette-standard.png", STANDARD, 1f, 5f, 0, 0, false)
-                        .useIntegerPositions(true)
-                        .setDescent(-3f)
-                        .setUnderlinePosition(0f, -0.125f)
-                        .setStrikethroughPosition(0f, 0f)
-                        .setInlineImageMetrics(-32f, 4f, 8f)
-                        .setName("Cozette");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        final String baseName = COZETTE;
+        final DistanceFieldType distanceField = STANDARD;
+        String rootName = baseName + distanceField.filePart;
+        Font found = instance.loaded.get(rootName);
+        if(found == null){
+            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 1, 5, 0, 0, false);
+            found
+                    .useIntegerPositions(true)
+                    .setDescent(-3f)
+                    .setUnderlinePosition(0f, -0.125f)
+                    .setStrikethroughPosition(0f, 0f)
+                    .setInlineImageMetrics(-32f, 4f, 8f)
+                    .setName("Cozette"+STANDARD.namePart);
+            ;
+            instance.loaded.put(rootName, found);
         }
-        if (instance.cozette != null)
-            return new Font(instance.cozette);
-        throw new RuntimeException("Assets for getCozette() not found.");
+        return new Font(found);
     }
 
     private Font dejaVuSansMono;
@@ -2994,10 +3017,6 @@ public final class KnownFonts implements LifecycleListener {
         }
         loaded.clear();
 
-        if (cozette != null) {
-            cozette.dispose();
-            cozette = null;
-        }
         if (ibm8x16 != null) {
             ibm8x16.dispose();
             ibm8x16 = null;
