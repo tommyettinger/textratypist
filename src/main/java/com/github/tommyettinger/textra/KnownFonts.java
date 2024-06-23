@@ -98,7 +98,7 @@ public final class KnownFonts implements LifecycleListener {
     /** Base name for a variable-width serif font. */
     public static final String BITTER = "Bitter";
     /** Base name for a variable-width sans font. */
-    public static final String CANADA_1500 = "Canada1500";
+    public static final String CANADA1500 = "Canada1500";
     /** Base name for a fixed-width programming font. */
     public static final String CASCADIA_MONO = "Cascadia-Mono";
     /** Base name for a variable-width handwriting font. */
@@ -165,7 +165,7 @@ public final class KnownFonts implements LifecycleListener {
     public static final String IBM_8X16 = "IBM-8x16";
 
     public static final OrderedSet<String> JSON_NAMES = OrderedSet.with(
-            A_STARRY, BITTER, CANADA_1500, CASCADIA_MONO, CAVEAT, DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO, DEJAVU_SANS,
+            A_STARRY, BITTER, CANADA1500, CASCADIA_MONO, CAVEAT, DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO, DEJAVU_SANS,
             DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF, GENTIUM, GENTIUM_UN_ITALIC, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL,
             GRENZE, INCONSOLATA_LGC, IOSEVKA, IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LIBERTINUS_SERIF,
             LIBERTINUS_SERIF_SEMIBOLD, NOW_ALT, OPEN_SANS, OSTRICH_BLACK, OXANIUM, ROBOTO_CONDENSED, TANGERINE,
@@ -423,7 +423,7 @@ public final class KnownFonts implements LifecycleListener {
         loaded.boldStrength *= 0.5f;
         return new Font(loaded).setDistanceField(dft).setName(name + "-Tall" + dft.namePart);
     }
-    
+
     /**
      * Returns a Font already configured to use a light-weight variable-width slab serif font with good Latin and
      * Cyrillic script support, that should scale pretty well from a height of about 160 down to a height of maybe 30.
@@ -461,8 +461,6 @@ public final class KnownFonts implements LifecycleListener {
      * scripts. This font can look good at its natural size, which uses width roughly equal to height,
      * or squashed so height is slightly smaller. Bitter looks very similar to {@link #getGentium()}, except that Bitter
      * is quite a bit lighter, with thinner strokes and stylistic flourishes on some glyphs.
-     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.BITTER, dft)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
@@ -495,8 +493,6 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(BITTER, dft);
     }
 
-    private Font canada;
-
     /**
      * Returns a Font already configured to use a very-legible variable-width font with strong support for Canadian
      * Aboriginal Syllabic, that should scale pretty well from a height of about 86 down to a height of maybe 30.
@@ -507,37 +503,62 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Canada1500.png">Image link</a> (uses width=30, height=35)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CANADA1500, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Canada1500-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.fnt">Canada1500-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.dat">Canada1500-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.png">Canada1500-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-License.txt">Canada1500-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Canada1500.ttf
+     * @return the Font object that can represent many sizes of the font Canada1500
      */
     public static Font getCanada() {
-        initialize();
-        if (instance.canada == null) {
-            try {
-                instance.canada = new Font(instance.prefix + "Canada1500-standard.fnt",
-                        instance.prefix + "Canada1500-standard.png",
-                        STANDARD, 0, 8, 0, 0, true).setDescent(-13f)
-                        .setInlineImageMetrics(0f, 12f, 4f).setLineMetrics(0f, -0.125f, 0f, -0.25f)
-                        .setFancyLinePosition(0, 0.125f)
-                        .scaleTo(30, 35).setTextureFilter().setName("Canada1500");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.canada != null)
-            return new Font(instance.canada);
-        throw new RuntimeException("Assets for getCanada() not found.");
+        return getFont(CANADA1500, STANDARD);
     }
 
-    private Font cascadiaMono;
+    /**
+     * Returns a Font already configured to use a very-legible variable-width font with strong support for Canadian
+     * Aboriginal Syllabic, that should scale pretty well from a height of about 86 down to a height of maybe 30.
+     * Caches the result for later calls. The font used is Canada1500, a free (public domain, via CC0) typeface by Ray
+     * Larabie. It supports quite a lot of Latin-based scripts, Greek, Cyrillic, Canadian Aboriginal Syllabic, arrows,
+     * many dingbats, and more. This font can look good at its natural size, which uses width roughly equal to height,
+     * or narrowed down so width is smaller.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CANADA1500, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Canada1500-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.dat">Canada1500-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.png">Canada1500-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-License.txt">Canada1500-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-sdf.dat">Canada1500-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-sdf.png">Canada1500-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-License.txt">Canada1500-License.txt</a></li>
+     * </ul>
+     *<br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-msdf.dat">Canada1500-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-msdf.png">Canada1500-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-License.txt">Canada1500-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Canada1500
+     */
+    public static Font getCanada(DistanceFieldType dft) {
+        return getFont(CANADA1500, dft);
+    }
 
     /**
      * Returns a Font already configured to use a quirky fixed-width font with good Unicode support
@@ -548,72 +569,88 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a fairly-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Cascadia%20Mono.png">Image link</a> (uses width=10, height=20)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CASCADIA_MONO, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-standard.fnt">CascadiaMono-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-standard.png">CascadiaMono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-Mono-standard.dat">Cascadia-Mono-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-Mono-standard.png">Cascadia-Mono-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font Cascadia Code Mono
      */
     public static Font getCascadiaMono() {
-        initialize();
-        if (instance.cascadiaMono == null) {
-            try {
-                instance.cascadiaMono = new Font(instance.prefix + "CascadiaMono-standard.fnt",
-                        instance.prefix + "CascadiaMono-standard.png", STANDARD, 0f, -4f, 0f, 0f, true)
-                        .setFancyLinePosition(0, 0.2f)
-                        .setTextureFilter().scaleTo(10, 20).setName("Cascadia Mono");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.cascadiaMono != null)
-            return new Font(instance.cascadiaMono);
-        throw new RuntimeException("Assets for getCascadiaMono() not found.");
+        return getFont(CASCADIA_MONO, STANDARD);
     }
-
-    private Font cascadiaMonoMSDF;
 
     /**
      * Returns a Font already configured to use a quirky fixed-width font with good Unicode support
-     * and a humanist style, that should scale cleanly to even very large sizes (using an MSDF technique).
+     * and a humanist style, that should scale well from a height of about 60 pixels to about 15 pixels.
      * Caches the result for later calls. The font used is Cascadia Code Mono, an open-source (SIL Open Font
      * License) typeface by Microsoft (see <a href="https://github.com/microsoft/cascadia-code">Microsoft's page</a>).
-     * It supports a lot of glyphs,
-     * including most extended Latin, Greek, Braille, and Cyrillic. This uses the Multi-channel Signed Distance
-     * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
-     * sharper edges and precise corners instead of rounded tips on strokes.
+     * It supports a lot of glyphs, including most extended Latin, Greek, Braille, and Cyrillic.
+     * This uses a fairly-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Cascadia%20Mono%20(MSDF).png">Image link</a> (uses width=10, height=20)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CASCADIA_MONO, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-msdf.fnt">CascadiaMono-msdf.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-msdf.png">CascadiaMono-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-Mono-standard.dat">Cascadia-Mono-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-Mono-standard.png">Cascadia-Mono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-Mono-sdf.dat">Cascadia-Mono-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-Mono-sdf.png">Cascadia-Mono-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-Mono-msdf.dat">Cascadia-Mono-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-Mono-msdf.png">Cascadia-Mono-msdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Cascadia Code Mono using MSDF
+     * @return the Font object that can represent many sizes of the font Cascadia Code Mono
+     */
+    public static Font getCascadiaMono(DistanceFieldType dft) {
+        return getFont(CASCADIA_MONO, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a quirky fixed-width font with good Unicode support
+     * and a humanist style.
+     * This uses the MSDF distance field effect.
+     * Caches the result for later calls. The font used is Cascadia Code Mono, an open-source (SIL Open Font
+     * License) typeface by Microsoft (see <a href="https://github.com/microsoft/cascadia-code">Microsoft's page</a>).
+     * It supports a lot of glyphs,
+     * including most extended Latin, Greek, Braille, and Cyrillic.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CASCADIA_MONO, Font.DistanceFieldType.MSDF)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-msdf.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-Mono-msdf.dat">Cascadia-Mono-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-Mono-msdf.png">Cascadia-Mono-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Cascadia Code Mono
      */
     public static Font getCascadiaMonoMSDF() {
-        initialize();
-        if (instance.cascadiaMonoMSDF == null) {
-            try {
-                instance.cascadiaMonoMSDF = new Font(instance.prefix + "CascadiaMono-msdf.fnt",
-                        instance.prefix + "CascadiaMono-msdf.png", MSDF, 0f, 0f, -4f, -4f, true)
-                        .setLineMetrics(0, -0.08f, 0f, -0.25f).setFancyLinePosition(0, 0.2f)
-                        .scaleTo(10, 20).setName("Cascadia Mono (MSDF)");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.cascadiaMonoMSDF != null)
-            return new Font(instance.cascadiaMonoMSDF);
-        throw new RuntimeException("Assets for getCascadiaMonoMSDF() not found.");
+        return getFont(CASCADIA_MONO, MSDF);
     }
 
     private Font caveat;
@@ -2933,145 +2970,21 @@ public final class KnownFonts implements LifecycleListener {
         }
         loaded.clear();
 
-        if (canada != null) {
-            canada.dispose();
-            canada = null;
-        }
-        if (cascadiaMono != null) {
-            cascadiaMono.dispose();
-            cascadiaMono = null;
-        }
-        if (cascadiaMonoMSDF != null) {
-            cascadiaMonoMSDF.dispose();
-            cascadiaMonoMSDF = null;
-        }
-        if (caveat != null) {
-            caveat.dispose();
-            caveat = null;
-        }
         if (cozette != null) {
             cozette.dispose();
             cozette = null;
-        }
-        if (dejaVuSansMono != null) {
-            dejaVuSansMono.dispose();
-            dejaVuSansMono = null;
-        }
-        if (gentium != null) {
-            gentium.dispose();
-            gentium = null;
-        }
-        if (gentiumMSDF != null) {
-            gentiumMSDF.dispose();
-            gentiumMSDF = null;
-        }
-        if (gentiumSDF != null) {
-            gentiumSDF.dispose();
-            gentiumSDF = null;
-        }
-        if (gentiumUnItalic != null) {
-            gentiumUnItalic.dispose();
-            gentiumUnItalic = null;
-        }
-        if (goNotoUniversalSDF != null) {
-            goNotoUniversalSDF.dispose();
-            goNotoUniversalSDF = null;
-        }
-        if(hanazono != null) {
-            hanazono.dispose();
-            hanazono = null;
         }
         if (ibm8x16 != null) {
             ibm8x16.dispose();
             ibm8x16 = null;
         }
-        if (inconsolata != null) {
-            inconsolata.dispose();
-            inconsolata = null;
-        }
-        if (inconsolataMSDF != null) {
-            inconsolataMSDF.dispose();
-            inconsolataMSDF = null;
-        }
-        if (iosevka != null) {
-            iosevka.dispose();
-            iosevka = null;
-        }
-        if (iosevkaMSDF != null) {
-            iosevkaMSDF.dispose();
-            iosevkaMSDF = null;
-        }
-        if (iosevkaSDF != null) {
-            iosevkaSDF.dispose();
-            iosevkaSDF = null;
-        }
-        if (iosevkaSlab != null) {
-            iosevkaSlab.dispose();
-            iosevkaSlab = null;
-        }
-        if (iosevkaSlabMSDF != null) {
-            iosevkaSlabMSDF.dispose();
-            iosevkaSlabMSDF = null;
-        }
-        if (iosevkaSlabSDF != null) {
-            iosevkaSlabSDF.dispose();
-            iosevkaSlabSDF = null;
-        }
-        if (kingthingsFoundation != null) {
-            kingthingsFoundation.dispose();
-            kingthingsFoundation = null;
-        }
-        if (kingthingsPetrock != null) {
-            kingthingsPetrock.dispose();
-            kingthingsPetrock = null;
-        }
         if (lanaPixel != null) {
             lanaPixel.dispose();
             lanaPixel = null;
         }
-        if (libertinusSerif != null) {
-            libertinusSerif.dispose();
-            libertinusSerif = null;
-        }
-        if (nowAlt != null) {
-            nowAlt.dispose();
-            nowAlt = null;
-        }
-        if (openSans != null) {
-            openSans.dispose();
-            openSans = null;
-        }
-        if (oxanium != null) {
-            oxanium.dispose();
-            oxanium = null;
-        }
         if (quanPixel != null) {
             quanPixel.dispose();
             quanPixel = null;
-        }
-        if (robotoCondensed != null) {
-            robotoCondensed.dispose();
-            robotoCondensed = null;
-        }
-        if(tangerine != null) {
-            tangerine.dispose();
-            tangerine = null;
-        }
-        if(tangerineSDF != null) {
-            tangerineSDF.dispose();
-            tangerineSDF = null;
-        }
-        if (kaffeesatz != null) {
-            kaffeesatz.dispose();
-            kaffeesatz = null;
-        }
-        if (kaffeesatzMSDF != null) {
-            kaffeesatzMSDF.dispose();
-            kaffeesatzMSDF = null;
-        }
-        if (yataghanMSDF != null) {
-            yataghanMSDF.dispose();
-            yataghanMSDF = null;
         }
         if(twemoji != null) {
             twemoji.dispose();
