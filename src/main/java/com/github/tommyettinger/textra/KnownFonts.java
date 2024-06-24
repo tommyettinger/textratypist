@@ -1221,8 +1221,6 @@ public final class KnownFonts implements LifecycleListener {
         return new Font(found);
     }
 
-    private Font inconsolata;
-
     /**
      * A customized version of Inconsolata LGC, a fixed-width geometric font that supports a large range of Latin,
      * Greek, and Cyrillic glyphs, plus box drawing and some dingbat characters (like zodiac signs). The original font
@@ -1230,36 +1228,23 @@ public final class KnownFonts implements LifecycleListener {
      * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Inconsolata%20LGC.png">Image link</a> (uses width=10, height=26)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.INCONSOLATA_LGC, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-standard.fnt">Inconsolata-LGC-Custom-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-standard.png">Inconsolata-LGC-Custom-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-standard.dat">Inconsolata-LGC-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-standard.png">Inconsolata-LGC-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font Inconsolata LGC Custom
      */
     public static Font getInconsolata() {
-        initialize();
-        if (instance.inconsolata == null) {
-            try {
-                instance.inconsolata = new Font(instance.prefix + "Inconsolata-LGC-Custom-standard.fnt",
-                        instance.prefix + "Inconsolata-LGC-Custom-standard.png", STANDARD, 1f, 6f, -4f, 0f, true)
-                        .setFancyLinePosition(0f, 0.2f)
-                        .setLineMetrics(0f, 0f, 0f, -0.4f).setInlineImageMetrics(0f, 8f, 0f).setDescent(-21f)
-                        .scaleTo(10, 26).setTextureFilter().setName("Inconsolata LGC");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.inconsolata != null)
-            return new Font(instance.inconsolata);
-        throw new RuntimeException("Assets for getInconsolata() not found.");
+        return getFont(INCONSOLATA_LGC, STANDARD);
     }
-
-    private Font inconsolataMSDF;
 
     /**
      * A customized version of Inconsolata LGC, a fixed-width geometric font that supports a large range of Latin,
@@ -1268,32 +1253,60 @@ public final class KnownFonts implements LifecycleListener {
      * Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
      * which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Inconsolata%20LGC%20(MSDF).png">Image link</a> (uses .scaleTo(12, 26).setCrispness(1.2f))
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.INCONSOLATA_LGC, Font.DistanceFieldType.MSDF)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-msdf.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-msdf.fnt">Inconsolata-LGC-Custom-msdf.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-msdf.png">Inconsolata-LGC-Custom-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-msdf.dat">Inconsolata-LGC-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-msdf.png">Inconsolata-LGC-msdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Inconsolata LGC Custom using MSDF
+     * @return the Font object that can represent many sizes of the font Inconsolata LGC Custom
      */
     public static Font getInconsolataMSDF() {
-        initialize();
-        if (instance.inconsolataMSDF == null) {
-            try {
-                instance.inconsolataMSDF = new Font(instance.prefix + "Inconsolata-LGC-Custom-msdf.fnt",
-                        instance.prefix + "Inconsolata-LGC-Custom-msdf.png", MSDF, 1f, 1f, -8f, -8f, true)
-                        .setFancyLinePosition(0f, 0.25f)
-                        .scaleTo(12, 26).setCrispness(1.2f).setName("Inconsolata LGC (MSDF)");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.inconsolataMSDF != null)
-            return new Font(instance.inconsolataMSDF);
-        throw new RuntimeException("Assets for getInconsolataMSDF() not found.");
+        return getFont(INCONSOLATA_LGC, MSDF);
+    }
+
+    /**
+     * A customized version of Inconsolata LGC, a fixed-width geometric font that supports a large range of Latin,
+     * Greek, and Cyrillic glyphs, plus box drawing and some dingbat characters (like zodiac signs). The original font
+     * Inconsolata is by Raph Levien, and various other contributors added support for other languages. This does not
+     * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.INCONSOLATA_LGC, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-standard.dat">Inconsolata-LGC-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-standard.png">Inconsolata-LGC-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-sdf.dat">Inconsolata-LGC-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-sdf.png">Inconsolata-LGC-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-msdf.dat">Inconsolata-LGC-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-msdf.png">Inconsolata-LGC-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Inconsolata LGC Custom
+     */
+    public static Font getInconsolata(DistanceFieldType dft) {
+        return getFont(INCONSOLATA_LGC, dft);
     }
 
     private Font iosevka;
@@ -3075,18 +3088,6 @@ public final class KnownFonts implements LifecycleListener {
         }
         loaded.clear();
 
-        if (ibm8x16 != null) {
-            ibm8x16.dispose();
-            ibm8x16 = null;
-        }
-        if (lanaPixel != null) {
-            lanaPixel.dispose();
-            lanaPixel = null;
-        }
-        if (quanPixel != null) {
-            quanPixel.dispose();
-            quanPixel = null;
-        }
         if(twemoji != null) {
             twemoji.dispose();
             twemoji = null;
