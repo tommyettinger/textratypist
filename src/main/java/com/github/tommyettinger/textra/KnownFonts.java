@@ -156,6 +156,8 @@ public final class KnownFonts implements LifecycleListener {
 
     /** Base name for a fixed-width pixel font. */
     public static final String COZETTE = "Cozette";
+    /** Base name for a fixed-width CJK-heavy serif font. */
+    public static final String HANAZONO = "Hanazono";
     /** Base name for a variable-width Unicode-heavy pixel font. */
     public static final String LANAPIXEL = "LanaPixel";
     /** Base name for a tiny variable-width Unicode-heavy pixel font. */
@@ -171,7 +173,7 @@ public final class KnownFonts implements LifecycleListener {
             LIBERTINUS_SERIF_SEMIBOLD, NOW_ALT, OPEN_SANS, OSTRICH_BLACK, OXANIUM, ROBOTO_CONDENSED, TANGERINE,
             YANONE_KAFFEESATZ, YATAGHAN);
 
-    public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, LANAPIXEL, QUANPIXEL);
+    public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, HANAZONO, LANAPIXEL, QUANPIXEL);
 
     public static final OrderedSet<String> SAD_NAMES = OrderedSet.with(IBM_8X16);
 
@@ -1000,7 +1002,6 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getGoNotoUniversalSDF() not found.");
     }
 
-    private Font hanazono;
 
     /**
      * Returns a Font already configured to use a variable-width, narrow font with nearly-complete CJK character
@@ -1023,21 +1024,21 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font HanMinA.ttf
      */
     public static Font getHanazono() {
-        initialize();
-        if (instance.hanazono == null) {
-            try {
-                instance.hanazono = new Font(instance.prefix + "Hanazono-standard.fnt",
-                        instance.prefix + "Hanazono-standard.png", STANDARD, -4, 0, 0, 0, true)
-                        .setDescent(-6f).scaleTo(16, 20).setFancyLinePosition(-0.5f, 0.125f)
-                        .setLineMetrics(-0.25f, 0f, 0f, -0.5f).setInlineImageMetrics(-16f, -4f, 0f)
-                        .setTextureFilter().setName("Hanazono");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        final String baseName = HANAZONO;
+        final DistanceFieldType distanceField = STANDARD;
+        String rootName = baseName + distanceField.filePart;
+        Font found = instance.loaded.get(rootName);
+        if(found == null){
+            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 1, 5, 0, 0, false);
+            found
+                    .setDescent(-6f).scaleTo(16, 20).setFancyLinePosition(-0.5f, 0.125f)
+                    .setLineMetrics(-0.25f, 0f, 0f, -0.5f).setInlineImageMetrics(-16f, -4f, 0f)
+                    .setTextureFilter()
+                    .setName(baseName + distanceField.namePart);
+            ;
+            instance.loaded.put(rootName, found);
         }
-        if (instance.hanazono != null)
-            return new Font(instance.hanazono);
-        throw new RuntimeException("Assets for getHanazono() not found.");
+        return new Font(found);
     }
 
     private Font ibm8x16;
