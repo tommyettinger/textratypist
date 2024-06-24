@@ -797,6 +797,46 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * A nice old standby font with very broad language support, DejaVu Sans Mono is fixed-width and can be clearly
+     * readable but doesn't do anything unusual stylistically. It really does handle a lot of glyphs; not only does this
+     * have practically all Latin glyphs in Unicode (enough to support everything from Icelandic to Vietnamese), it has
+     * Greek (including Extended), Cyrillic (including some optional glyphs), IPA, Armenian (maybe the only font here to
+     * do so), Georgian (which won't be treated correctly by some case-insensitive code, so it should only be used if
+     * case doesn't matter), and Lao. It has full box drawing and Braille support, handles a wide variety of math
+     * symbols, technical marks, and dingbats, etc.
+     * <br>
+     * The crispness for the MSDF version is likely too high in this version. You can call
+     * {@code KnownFonts.getDejaVuSansMono(Font.DistanceFieldType.MSDF).setCrispness(0.5f)} if you want significantly
+     * smoother edges.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Mono-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Mono-standard.dat">DejaVu-Sans-Mono-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Mono-standard.png">DejaVu-Sans-Mono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Mono-sdf.dat">DejaVu-Sans-Mono-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Mono-sdf.png">DejaVu-Sans-Mono-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Mono-msdf.dat">DejaVu-Sans-Mono-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Mono-msdf.png">DejaVu-Sans-Mono-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font DejaVu Sans Mono
+     */
+    public static Font getDejaVuSansMono(DistanceFieldType dft) {
+        return getFont(DEJAVU_SANS_MONO, dft);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width serif font with excellent Unicode support, that should
      * scale well from a height of about 132 down to a height of 24. Caches the result for later calls. The font used is
      * Gentium, an open-source (SIL Open Font License) typeface by SIL (see
@@ -882,6 +922,40 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font already configured to use a variable-width serif font with excellent Unicode support.
+     * Caches the result for later calls. The font used is
+     * Gentium, an open-source (SIL Open Font License) typeface by SIL (see
+     * <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It supports a lot of glyphs,
+     * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
+     * real languages.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-standard.dat">Gentium-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-standard.png">Gentium-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.dat">Gentium-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.png">Gentium-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-msdf.dat">Gentium-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-msdf.png">Gentium-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Gentium.ttf
+     */
+    public static Font getGentium(DistanceFieldType dft) {
+        return getFont(GENTIUM, dft);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width "italic-like" serif font with excellent Unicode
      * support, that should scale well from a height of about 97 down to a height of 30.
      * Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font License) typeface by
@@ -933,9 +1007,6 @@ public final class KnownFonts implements LifecycleListener {
      * Thanks to Siavash Ranbar, who came up with the idea to take an italic version of a serif font and remove its
      * slant, keeping the different flow from a simple oblique font.
      * <br>
-     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GENTIUM_UN_ITALIC, Font.DistanceFieldType.STANDARD)};
-     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
-     * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-Un-Italic-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
@@ -963,7 +1034,7 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getGentiumUnItalic(DistanceFieldType dft) {
         return getFont(GENTIUM_UN_ITALIC, dft);
     }
-    
+
     /**
      * Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support, that
      * should scale cleanly to medium-small sizes (but not large sizes). Caches the result for later calls. The
@@ -1028,8 +1099,7 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support, that
-     * should scale cleanly to medium-small sizes (but not large sizes). Caches the result for later calls. The
+     * Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support. The
      * font used is Go Noto Universal, an open-source (SIL Open Font License) typeface that modifies Noto Sans by Google
      * (see <a href="https://github.com/satbyy/go-noto-universal">Go Noto Universal's page is here</a>, and
      * <a href="https://notofonts.github.io/">Noto Fonts have a page here</a>). It supports... most glyphs, from many
@@ -1038,9 +1108,6 @@ public final class KnownFonts implements LifecycleListener {
      * music, and other usage. The texture this uses is larger than many of the others here, at 4096x4096 pixels, but
      * the file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and Twemoji.png are each larger than
      * Go-Noto-Universal-standard.png . The .dat has 21274 glyphs plus extensive kerning info, though, so it is large.
-     * <br>
-     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GO_NOTO_UNIVERSAL, Font.DistanceFieldType.STANDARD)};
-     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-standard.png" alt="Image preview" />
      * <br>
@@ -1108,8 +1175,6 @@ public final class KnownFonts implements LifecycleListener {
         return new Font(found);
     }
 
-    private Font ibm8x16;
-
     /**
      * Returns a Font configured to use a classic, nostalgic fixed-width bitmap font,
      * IBM 8x16 from the early, oft-beloved computer line. This font is notably loaded
@@ -1139,19 +1204,21 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that represents an 8x16 font included with early IBM computers
      */
     public static Font getIBM8x16() {
-        initialize();
-        if (instance.ibm8x16 == null) {
-            try {
-                instance.ibm8x16 = new Font(instance.prefix, "IBM-8x16-standard.font", true)
-                        .setBoldStrength(0.5f).setLineMetrics(-0.25f, 0f, 0f, 0f)
-                        .setInlineImageMetrics(-40, 0, 0).fitCell(8, 16, false).setName("IBM 8x16").setDescent(-3f);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        final String baseName = IBM_8X16;
+        final DistanceFieldType distanceField = STANDARD;
+        String rootName = baseName + distanceField.filePart;
+        Font found = instance.loaded.get(rootName);
+        if(found == null){
+            found = new Font(instance.prefix, rootName + ".font", true);
+            found
+                    .setDescent(-6f).scaleTo(16, 20).setFancyLinePosition(-0.5f, 0.125f)
+                    .setBoldStrength(0.5f).setLineMetrics(-0.25f, 0f, 0f, 0f)
+                    .setInlineImageMetrics(-40, 0, 0).fitCell(8, 16, false).setDescent(-3f)
+                    .setName(baseName + distanceField.namePart);
+            ;
+            instance.loaded.put(rootName, found);
         }
-        if (instance.ibm8x16 != null)
-            return new Font(instance.ibm8x16);
-        throw new RuntimeException("Assets for getIBM8x16() not found.");
+        return new Font(found);
     }
 
     private Font inconsolata;
