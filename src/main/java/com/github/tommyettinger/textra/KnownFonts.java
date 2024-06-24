@@ -762,8 +762,6 @@ public final class KnownFonts implements LifecycleListener {
         return new Font(found);
     }
 
-    private Font dejaVuSansMono;
-
     /**
      * A nice old standby font with very broad language support, DejaVu Sans Mono is fixed-width and can be clearly
      * readable but doesn't do anything unusual stylistically. It really does handle a lot of glyphs; not only does this
@@ -775,41 +773,30 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/DejaVu%20Sans%20Mono%20(MSDF).png">Image link</a> 
-     * (uses width=10, height=21, crispness=1.75)
+     * The crispness is likely too high in this version. You can call
+     * {@code KnownFonts.getDejaVuSansMono().setCrispness(0.5f)} if you want significantly smoother edges.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.DEJAVU_SANS_MONO, Font.DistanceFieldType.MSDF)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Mono-msdf.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-msdf.fnt">DejaVuSansMono-msdf.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-msdf.png">DejaVuSansMono-msdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-License.txt">DejaVuSansMono-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Mono-msdf.dat">DejaVu-Sans-Mono-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Mono-msdf.png">DejaVu-Sans-Mono-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font DejaVu Sans Mono using MSDF
+     * @return the Font object that can represent many sizes of the font DejaVu Sans Mono
      */
     public static Font getDejaVuSansMono() {
-        initialize();
-        if (instance.dejaVuSansMono == null) {
-            try {
-                instance.dejaVuSansMono = new Font(instance.prefix + "DejaVuSansMono-msdf.fnt",
-                        instance.prefix + "DejaVuSansMono-msdf.png", MSDF, 0f, 0f, 0f, 0f, true)
-                        .setDescent(-6f).scaleTo(10, 21)
-                        .setFancyLinePosition(0f, 0.25f)
-                        .setLineMetrics(0.0f, 0f, -0.1f, -0.25f).setCrispness(1.75f).setName("DejaVu Sans Mono (MSDF)");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.dejaVuSansMono != null)
-            return new Font(instance.dejaVuSansMono);
-        throw new RuntimeException("Assets for getDejaVuSansMono() not found.");
+        return getFont(DEJAVU_SANS_MONO, MSDF);
     }
-
-    private Font gentium;
 
     /**
      * Returns a Font already configured to use a variable-width serif font with excellent Unicode support, that should
-     * scale well from a height of about 132 down to a height of 34. Caches the result for later calls. The font used is
+     * scale well from a height of about 132 down to a height of 24. Caches the result for later calls. The font used is
      * Gentium, an open-source (SIL Open Font License) typeface by SIL (see
      * <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It supports a lot of glyphs,
      * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
@@ -818,11 +805,14 @@ public final class KnownFonts implements LifecycleListener {
      * of fonts.
      * You can also use {@link #getStandardFamily()} to obtain a variant on this Font that has a FontFamily already.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Gentium.png">Image link</a> (uses width=31, height=35)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-standard.fnt">Gentium-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-standard.dat">Gentium-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-standard.png">Gentium-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
      * </ul>
@@ -830,43 +820,27 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font Gentium.ttf
      */
     public static Font getGentium() {
-        initialize();
-        if (instance.gentium == null) {
-            try {
-                instance.gentium = new Font(instance.prefix + "Gentium-standard.fnt",
-                        instance.prefix + "Gentium-standard.png", DistanceFieldType.STANDARD, 0f, 10f, 0f, 0f, true)
-                        .scaleTo(31, 35).setInlineImageMetrics(-4f, 32f, 8f).setLineMetrics(0f, -0.2f, 0f, -0.4f)
-                        .setDescent(-9f)
-                        .setTextureFilter().setName("Gentium");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.gentium != null)
-            return new Font(instance.gentium);
-        throw new RuntimeException("Assets for getGentium() not found.");
+        return getFont(GENTIUM, STANDARD);
     }
-
-    private Font gentiumMSDF;
 
     /**
      * Returns a Font already configured to use a variable-width serif font with excellent Unicode support, that should
-     * scale cleanly to even very large sizes (using an MSDF technique). You usually will want to reduce the line height
-     * of this Font after you scale it; using
-     * {@code KnownFonts.getGentiumMSDF().scaleTo(50, 45).adjustLineHeight(0.625f)}
-     * usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
+     * scale cleanly to even very large sizes (using an MSDF technique). Caches the result for later calls.
+     * The font used is Gentium, an open-source (SIL Open Font
      * License) typeface by SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It
      * supports a lot of glyphs, including quite a
      * bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. This
      * uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Gentium%20(MSDF).png">Image link</a> (uses width=50, height=45,
-     * adjustLineHeight(0.625f), setCrispness(2f))
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.MSDF)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-msdf.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-msdf.fnt">Gentium-msdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-msdf.dat">Gentium-msdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-msdf.png">Gentium-msdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
      * </ul>
@@ -874,19 +848,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font Gentium.ttf using MSDF
      */
     public static Font getGentiumMSDF() {
-        initialize();
-        if (instance.gentiumMSDF == null) {
-            try {
-                instance.gentiumMSDF = new Font(instance.prefix + "Gentium-msdf.fnt",
-                        instance.prefix + "Gentium-msdf.png", MSDF, 0f, 0f, 0f, 0f, true)
-                        .scaleTo(50, 45).adjustLineHeight(0.625f).setLineMetrics(0f, 0f, -0.1f, -0.5f).setCrispness(2f).setName("Gentium (MSDF)");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.gentiumMSDF != null)
-            return new Font(instance.gentiumMSDF);
-        throw new RuntimeException("Assets for getGentiumMSDF() not found.");
+        return getFont(GENTIUM, MSDF);
     }
 
     private Font gentiumSDF;
