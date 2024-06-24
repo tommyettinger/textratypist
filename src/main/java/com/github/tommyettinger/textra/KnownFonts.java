@@ -916,8 +916,54 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(GENTIUM_UN_ITALIC, STANDARD);
     }
 
-    private Font goNotoUniversal;
-
+    /**
+     * Returns a Font already configured to use a variable-width "italic-like" serif font with excellent Unicode
+     * support, that should scale well from a height of about 97 down to a height of 30.
+     * Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font License) typeface by
+     * SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>), but this took Gentium
+     * Italic and removed the 8-degree slant it had, so it looks like a regular face but with the different serif style
+     * and the "flow" of an italic font. This helps it look closer to carefully-hand-written text mixed with a serif
+     * typeface, and may fit well as a main-text font for medieval or Renaissance-period games while something like
+     * {@link #getKingthingsFoundation()} is used for titles or headers. It supports a lot of glyphs, including quite a
+     * bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. Even
+     * though glyphs are not especially wide here, this Font does need to be configured with a much larger width than
+     * height to be readable. This does not use a distance field effect. You may want to stick using just fonts that
+     * avoid distance fields if you have a family of fonts.
+     * <br>
+     * Thanks to Siavash Ranbar, who came up with the idea to take an italic version of a serif font and remove its
+     * slant, keeping the different flow from a simple oblique font.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GENTIUM_UN_ITALIC, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-Un-Italic-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-Un-Italic-standard.dat">Gentium-Un-Italic-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-Un-Italic-standard.png">Gentium-Un-Italic-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-Un-Italic-sdf.dat">Gentium-Un-Italic-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-Un-Italic-sdf.png">Gentium-Un-Italic-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-Un-Italic-msdf.dat">Gentium-Un-Italic-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-Un-Italic-msdf.png">Gentium-Un-Italic-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Gentium-Un-Italic.ttf
+     */
+    public static Font getGentiumUnItalic(DistanceFieldType dft) {
+        return getFont(GENTIUM_UN_ITALIC, dft);
+    }
+    
     /**
      * Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support, that
      * should scale cleanly to medium-small sizes (but not large sizes). Caches the result for later calls. The
@@ -933,7 +979,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GO_NOTO_UNIVERSAL, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
@@ -942,13 +988,11 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-License.txt">Go-Noto-Universal-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Gentium.ttf
+     * @return the Font object that can represent many sizes of the font GoNotoCurrent.ttf
      */
     public static Font getGoNotoUniversal() {
         return getFont(GO_NOTO_UNIVERSAL, STANDARD);
     }
-
-    private Font goNotoUniversalSDF;
 
     /**
      * Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support, that
@@ -965,43 +1009,66 @@ public final class KnownFonts implements LifecycleListener {
      * Twemoji.png are each larger than GoNotoUniversal-sdf.png . The .fnt has 24350 glyphs plus extensive kerning info,
      * though, so it is quite large.
      * <br>
-     * A quirk of this particular .fnt file is that it uses features specific to TextraTypist; as far as I know, it
-     * cannot be read by the libGDX BitmapFont class. These features are simply how it stores metric values -- as float,
-     * rather than only as int. You should probably not try to load GoNotoUniversal-sdf.fnt with BitmapFont or
-     * DistanceFieldFont in libGDX. Using floats is very helpful for the distance field effect; without them, most
-     * glyphs would render slightly off from the intended position, due to rounding to an int instead of using a float.
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GO_NOTO_UNIVERSAL, Font.DistanceFieldType.SDF)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Go%20Noto%20Universal%20(SDF).png">Image link</a> (uses width=43.25, height=34,
-     * setCrispness(1.8f))
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-sdf.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-sdf.fnt">GoNotoUniversal-sdf.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-sdf.png">GoNotoUniversal-sdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-License.txt">GoNotoUniversal-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-sdf.dat">Go-Noto-Universal-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-sdf.png">Go-Noto-Universal-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-License.txt">Go-Noto-Universal-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font GoNotoCurrent.ttf using SDF
+     * @return the Font object that can represent many sizes of the font GoNotoCurrent.ttf
      */
     public static Font getGoNotoUniversalSDF() {
-        initialize();
-        if (instance.goNotoUniversalSDF == null) {
-            try {
-                instance.goNotoUniversalSDF = new Font(instance.prefix + "GoNotoUniversal-sdf.fnt",
-                        instance.prefix + "GoNotoUniversal-sdf.png", SDF, 0f, -16f, 0f, 0f, false)
-                        .scaleTo(43.25f, 34).adjustLineHeight(0.625f)
-                        .setCrispness(1.8f).setFancyLinePosition(0f, 1.15f)
-                        .setLineMetrics(0.25f, 0.85f, 0.2f, -0.5f).setInlineImageMetrics(0f, -28f, 16f)
-                        .setName("Go Noto Universal (SDF)");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.goNotoUniversalSDF != null)
-            return new Font(instance.goNotoUniversalSDF);
-        throw new RuntimeException("Assets for getGoNotoUniversalSDF() not found.");
+        return getFont(GO_NOTO_UNIVERSAL, SDF);
     }
 
+    /**
+     * Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support, that
+     * should scale cleanly to medium-small sizes (but not large sizes). Caches the result for later calls. The
+     * font used is Go Noto Universal, an open-source (SIL Open Font License) typeface that modifies Noto Sans by Google
+     * (see <a href="https://github.com/satbyy/go-noto-universal">Go Noto Universal's page is here</a>, and
+     * <a href="https://notofonts.github.io/">Noto Fonts have a page here</a>). It supports... most glyphs, from many
+     * languages, including essentially all extended Latin, Greek, Cyrillic, Chinese, Japanese, Armenian, Ethiopic,
+     * Cherokee, Javanese... Most scripts are here, though not Hangul (used for Korean). This also has symbols for math,
+     * music, and other usage. The texture this uses is larger than many of the others here, at 4096x4096 pixels, but
+     * the file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and Twemoji.png are each larger than
+     * Go-Noto-Universal-standard.png . The .dat has 21274 glyphs plus extensive kerning info, though, so it is large.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GO_NOTO_UNIVERSAL, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-standard.dat">Go-Noto-Universal-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-standard.png">Go-Noto-Universal-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-License.txt">Go-Noto-Universal-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-sdf.dat">Go-Noto-Universal-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-sdf.png">Go-Noto-Universal-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-License.txt">Go-Noto-Universal-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-msdf.dat">Go-Noto-Universal-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-msdf.png">Go-Noto-Universal-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-License.txt">Go-Noto-Universal-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font GoNotoCurrent.ttf
+     */
+    public static Font getGoNotoUniversal(DistanceFieldType dft) {
+        return getFont(GO_NOTO_UNIVERSAL, dft);
+    }
 
     /**
      * Returns a Font already configured to use a variable-width, narrow font with nearly-complete CJK character
