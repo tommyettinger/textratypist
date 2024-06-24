@@ -851,25 +851,24 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(GENTIUM, MSDF);
     }
 
-    private Font gentiumSDF;
-
     /**
      * Returns a Font already configured to use a variable-width serif font with excellent Unicode support, that should
-     * scale cleanly to even very large sizes (using an SDF technique). You usually will want to reduce the line height
-     * of this Font after you scale it; using {@code KnownFonts.getGentiumSDF().scaleTo(50, 45).adjustLineHeight(0.625f)}
-     * usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
+     * scale cleanly to even very large sizes (using an SDF technique).
+     * Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
      * License) typeface by SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It
      * supports a lot of glyphs, including quite a
      * bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. This
      * uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but should be
      * crisp enough when zoomed out.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Gentium%20(SDF).png">Image link</a> (uses width=50, height=45,
-     * adjustLineHeight(0.625f), setCrispness(1.5f))
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.SDF)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-sdf.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.fnt">Gentium-sdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.dat">Gentium-sdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.png">Gentium-sdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
      * </ul>
@@ -877,23 +876,8 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font Gentium.ttf using SDF
      */
     public static Font getGentiumSDF() {
-        initialize();
-        if (instance.gentiumSDF == null) {
-            try {
-                instance.gentiumSDF = new Font(instance.prefix + "Gentium-sdf.fnt",
-                        instance.prefix + "Gentium-sdf.png", SDF, 4f, -45f, 0f, 0f, false)
-                        .scaleTo(50, 45).adjustLineHeight(0.625f).setFancyLinePosition(0f, 1.1f)
-                        .setLineMetrics(0.05f, 1f, 0f, -0.5f).setInlineImageMetrics(0f, -42f, 8f)
-                        .setCrispness(1.5f).setName("Gentium (SDF)");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.gentiumSDF != null)
-            return new Font(instance.gentiumSDF);
-        throw new RuntimeException("Assets for getGentiumSDF() not found.");
+        return getFont(GENTIUM, SDF);
     }
-    private Font gentiumUnItalic;
 
     /**
      * Returns a Font already configured to use a variable-width "italic-like" serif font with excellent Unicode
@@ -912,33 +896,22 @@ public final class KnownFonts implements LifecycleListener {
      * Thanks to Siavash Ranbar, who came up with the idea to take an italic version of a serif font and remove its
      * slant, keeping the different flow from a simple oblique font.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Gentium%20Un-Italic.png">Image link</a> (uses width=60, height=36)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GENTIUM_UN_ITALIC, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-Un-Italic-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GentiumUnItalic-standard.fnt">GentiumUnItalic-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GentiumUnItalic-standard.png">GentiumUnItalic-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-Un-Italic-standard.dat">Gentium-Un-Italic-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-Un-Italic-standard.png">Gentium-Un-Italic-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font Gentium-Un-Italic.ttf
      */
     public static Font getGentiumUnItalic() {
-        initialize();
-        if (instance.gentiumUnItalic == null) {
-            try {
-                instance.gentiumUnItalic = new Font(instance.prefix + "GentiumUnItalic-standard.fnt",
-                        instance.prefix + "GentiumUnItalic-standard.png", DistanceFieldType.STANDARD, 0f, 4f, 0f, -12f, true)
-                        .scaleTo(60, 36).setTextureFilter().setFancyLinePosition(0, 0f).setDescent(-16f)
-                        .setLineMetrics(0f, 0f, 0f, -0.3125f).setInlineImageMetrics(0f, 8f, 8f)
-                        .setName("Gentium Un-Italic");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.gentiumUnItalic != null)
-            return new Font(instance.gentiumUnItalic);
-        throw new RuntimeException("Assets for getGentiumUnItalic() not found.");
+        return getFont(GENTIUM_UN_ITALIC, STANDARD);
     }
 
     private Font goNotoUniversal;
@@ -951,38 +924,26 @@ public final class KnownFonts implements LifecycleListener {
      * <a href="https://notofonts.github.io/">Noto Fonts have a page here</a>). It supports... most glyphs, from many
      * languages, including essentially all extended Latin, Greek, Cyrillic, Chinese, Japanese, Armenian, Ethiopic,
      * Cherokee, Javanese... Most scripts are here, though not Hangul (used for Korean). This also has symbols for math,
-     * music, and other usage. Unlike {@link #getGoNotoUniversalSDF() the SDF version}, the standard version should have
-     * a stable baseline. The texture this uses is larger than many of the others here, at 4096x4096 pixels, but the
-     * file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and Twemoji.png are each larger than
-     * GoNotoUniversal-standard.png . The .fnt has 21274 glyphs plus extensive kerning info, though, so it is large.
+     * music, and other usage. The texture this uses is larger than many of the others here, at 4096x4096 pixels, but
+     * the file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and Twemoji.png are each larger than
+     * Go-Noto-Universal-standard.png . The .dat has 21274 glyphs plus extensive kerning info, though, so it is large.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Go%20Noto%20Universal.png">Image link</a> (uses width=66, height=33)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GO_NOTO_UNIVERSAL, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-standard.fnt">GoNotoUniversal-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-standard.png">GoNotoUniversal-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-License.txt">GoNotoUniversal-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-standard.dat">Go-Noto-Universal-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-standard.png">Go-Noto-Universal-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-License.txt">Go-Noto-Universal-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font GoNotoCurrent.ttf using SDF
+     * @return the Font object that can represent many sizes of the font Gentium.ttf
      */
     public static Font getGoNotoUniversal() {
-        initialize();
-        if (instance.goNotoUniversal == null) {
-            try {
-                instance.goNotoUniversal = new Font(instance.prefix + "GoNotoUniversal-standard.fnt",
-                        instance.prefix + "GoNotoUniversal-standard.png", STANDARD, 0f, 0f, 0f, 0f, true)
-                        .scaleTo(66, 33).setFancyLinePosition(0, 0.4f)
-                        .setLineMetrics(0f, 0.1f, 0f, -0.375f).setInlineImageMetrics(0f, -4f, 6f)
-                        .setTextureFilter().setName("Go Noto Universal");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.goNotoUniversal != null)
-            return new Font(instance.goNotoUniversal);
-        throw new RuntimeException("Assets for getGoNotoUniversal() not found.");
+        return getFont(GO_NOTO_UNIVERSAL, STANDARD);
     }
 
     private Font goNotoUniversalSDF;
