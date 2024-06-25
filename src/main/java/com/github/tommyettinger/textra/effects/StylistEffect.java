@@ -71,18 +71,18 @@ public class StylistEffect extends Effect {
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         if(all) {
             if(label.overIndex < indexStart || label.overIndex > indexEnd) {
-                label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFF01FFFFFFL));
+                label.setInWorkingLayout(globalIndex, (glyph & ~effects));
                 return;
             }
         }
         else {
             if(label.overIndex != globalIndex) {
-                label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFF01FFFFFFL));
+                label.setInWorkingLayout(globalIndex, (glyph & ~effects));
                 return;
             }
         }
         // Calculate progress
-        label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFF01FFFFFFL) | effects);
+        label.setInWorkingLayout(globalIndex, (glyph & ~effects) | effects);
     }
 
 }

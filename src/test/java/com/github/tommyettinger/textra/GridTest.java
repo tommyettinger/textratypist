@@ -25,6 +25,7 @@ import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.github.tommyettinger.textra.utils.BlockUtils;
+import com.github.tommyettinger.textra.utils.ColorUtils;
 
 import static com.github.tommyettinger.textra.utils.ColorUtils.lerpColors;
 
@@ -67,10 +68,10 @@ public class GridTest extends ApplicationAdapter {
 
         batch = new SpriteBatch();
 
-        fonts = KnownFonts.getAllStandard();
-        for(Font f : fonts)
-            KnownFonts.addEmoji(f.scaleTo(20f, 25).fitCell(25, 25, true));
-        font = fonts[7];
+//        fonts = KnownFonts.getAllStandard();
+//        for(Font f : fonts)
+//            KnownFonts.addEmoji(f.scaleTo(20f, 25).fitCell(25, 25, true));
+        font = KnownFonts.addEmoji(KnownFonts.getAStarryTall().scaleTo(16f, 24).fitCell(25, 25, true));
 
 //        font = KnownFonts.getInconsolata();//.scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
@@ -97,7 +98,11 @@ public class GridTest extends ApplicationAdapter {
 
         layout = new Layout(font).setTargetWidth(Gdx.graphics.getWidth());
         backgrounds = new int[(int) Math.ceil(PIXEL_WIDTH / font.cellWidth)][(int) Math.ceil(PIXEL_HEIGHT / font.cellHeight)];
-        int sw = 0x669E83FF, se = 0x2A8528FF, nw = 0xF0DDA0FF, ne = 0x7A4A31FF;
+//        int sw = 0x669E83FF, se = 0x2A8528FF, nw = 0xF0DDA0FF, ne = 0x7A4A31FF;
+        int sw = ColorUtils.describe("dark dull brown:2 pink");
+        int se = ColorUtils.describe("darker rich brown:2 red");
+        int nw = ColorUtils.describe("lighter dull brown:2 apricot");
+        int ne = ColorUtils.describe("light rich brown:2 orange");
         backgrounds[0][0] = sw;
         backgrounds[0][backgrounds[0].length - 1] = nw;
         backgrounds[backgrounds.length - 1][0] = se;
@@ -146,11 +151,11 @@ public class GridTest extends ApplicationAdapter {
         marquee.setPosition(64, 350);
         marquee.skipToTheEnd();
         marquee.setRotation(-100f);
-        link = new TypingLabel("Welcome to [sky]{STYLIST=0;1;1;0;0;1}TextraTypist[ ], for text stuff.", font);
+        link = new TypingLabel("Welcome to [sky]{STYLIST=1;0;0;0;0;1}[_]TextraTypist[ ], for text stuff.", font);
 //        link = new TypingLabel("Welcome to [sky][_]{LINK=https://github.com/tommyettinger/textratypist}TextraTypist[], for text stuff.", font);
 //        link.parseTokens();
         link.setWidth(Gdx.graphics.getBackBufferWidth());
-        link.setPosition(0f, PIXEL_HEIGHT * 0.5f - 62.5f);
+        link.setPosition(0f, font.cellHeight * 10.5f);
         link.skipToTheEnd();
 //        font.markup("\"You are ever more the [/]fool[/] than the pitiable cutpurse who [*]dares waylay[*] my castle road!\" the [dark rich gold]King[] admonished."
 //                +" \"Forsooth! Had [_]I[_] my right mind, I would have [dark red]both of [_]your heads[] by morning. But alas, I am stricken with" +
@@ -167,11 +172,11 @@ public class GridTest extends ApplicationAdapter {
 
     @Override
     public void render() {
-        ScreenUtils.clear(0.4f, 0.5f, 0.9f, 1);
+        ScreenUtils.clear(0.2f, 0.3f, 0.4f, 1);
         
-        float x = 0, y = PIXEL_HEIGHT * 0.5f;
-        long since = TimeUtils.timeSinceMillis(startTime);
-        font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];
+        float x = 0, y = font.cellHeight * 13.5f;
+//        long since = TimeUtils.timeSinceMillis(startTime);
+//        font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];
 //        font = fonts[5];
         marquee.act(Gdx.graphics.getDeltaTime());
         link.act(Gdx.graphics.getDeltaTime());
@@ -200,7 +205,7 @@ public class GridTest extends ApplicationAdapter {
 //        );
 
         // This seemed to be causing some side effects when it rendered Cozette; should be fixed now.
-        font.drawGlyph(batch, font.markupGlyph("[RED][+🔜]"), 0, Gdx.graphics.getHeight() - font.cellHeight);
+        font.drawGlyph(batch, font.markupGlyph("[RED][+🔜]"), 0, Gdx.graphics.getHeight() - font.cellHeight * 0.5f);
         // This seems fine.
 //        font.drawGlyph(batch, font.markupGlyph("[RED]T"), 0, Gdx.graphics.getHeight() - font.cellHeight);
         // This also seems fine.

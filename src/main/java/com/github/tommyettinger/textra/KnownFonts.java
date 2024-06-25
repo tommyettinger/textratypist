@@ -422,7 +422,6 @@ public final class KnownFonts implements LifecycleListener {
         if(dft == null) dft = STANDARD;
         Font loaded = loadFont(name, dft);
         loaded.scale(0.5f, 1f);
-        loaded.boldStrength *= 0.5f;
         return new Font(loaded).setDistanceField(dft).setName(name + "-Tall" + dft.namePart);
     }
 
