@@ -65,11 +65,12 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 	 * hash. */
 	protected int mask;
 	/**
-	 * Used by {@link #place(String)} to mix hashCode() results. Changes on every call to {@link #resize(int)} by default.
-	 * This only needs to be serialized if the full key and value tables are serialized, or if the iteration order should be
-	 * the same before and after serialization.
+	 * Used by {@link #place(String)} to modify {@link #hashCodeIgnoreCase(CharSequence, int)} results.
+	 * Changes on every call to {@link #resize(int)} by default.
+	 * This only needs to be serialized if the full key and value tables are serialized, or if the iteration order
+	 * should be the same before and after serialization.
 	 */
-	protected int hashMultiplier = 0x12ED03;
+	protected int hashSeed = 0x9E3779B9;
 
 	protected transient Entries entries1, entries2;
 	protected transient Values values1, values2;
@@ -117,7 +118,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		int tableSize = tableSize(initialCapacity, loadFactor);
 		threshold = (int)(tableSize * loadFactor);
 		mask = tableSize - 1;
-		shift = Long.numberOfLeadingZeros(mask);
+		shift = Integer.numberOfLeadingZeros(mask) + 32;
 
 		keyTable = new String[tableSize];
 		valueTable = new int[tableSize];
@@ -133,7 +134,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		int tableSize = tableSize(len, loadFactor);
 		threshold = (int)(tableSize * loadFactor);
 		mask = tableSize - 1;
-		shift = Long.numberOfLeadingZeros(mask);
+		shift = Integer.numberOfLeadingZeros(mask) + 32;
 
 		keyTable = new String[tableSize];
 		valueTable = new int[tableSize];
@@ -148,7 +149,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 	/** Creates a new map identical to the specified map. */
 	public CaseInsensitiveIntMap(CaseInsensitiveIntMap map) {
 		this((int)(map.keyTable.length * map.loadFactor), map.loadFactor);
-		hashMultiplier = map.hashMultiplier;
+		hashSeed = map.hashSeed;
 		System.arraycopy(map.keyTable, 0, keyTable, 0, map.keyTable.length);
 		System.arraycopy(map.valueTable, 0, valueTable, 0, map.valueTable.length);
 		size = map.size;
@@ -163,7 +164,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 //			h = 1003 * h ^ Category.caseFold(item.charAt(i));
 //		}
 //		return (int)(h * hashMultiplier >>> shift);
-		return hashCodeIgnoreCase(item, hashMultiplier) & mask;
+		return hashCodeIgnoreCase(item, hashSeed) & mask;
 	}
 
 	/** Returns the index of the key if already present, else ~index for the next empty index. This can be overridden in this
@@ -356,9 +357,9 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		int oldCapacity = keyTable.length;
 		threshold = (int)(newSize * loadFactor);
 		mask = newSize - 1;
-		shift = Long.numberOfLeadingZeros(mask);
+		shift = Integer.numberOfLeadingZeros(mask) + 32;
 
-		hashMultiplier = GOOD_MULTIPLIERS[hashMultiplier * shift >>> 5 & 511];
+		hashSeed = hashSeed * GOOD_MULTIPLIERS[hashSeed >>> 23 ^ shift] ^ mask;
 
 		String[] oldKeyTable = keyTable;
 		int[] oldValueTable = valueTable;
@@ -380,7 +381,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		int[] valueTable = this.valueTable;
 		for (int i = 0, n = keyTable.length; i < n; i++) {
 			String key = keyTable[i];
-			if (key != null) h += key.hashCode() + valueTable[i];
+			if (key != null) h += hashCodeIgnoreCase(key) + valueTable[i];
 		}
 		return h;
 	}
@@ -395,8 +396,8 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		for (int i = 0, n = keyTable.length; i < n; i++) {
 			String key = keyTable[i];
 			if (key != null) {
-				int otherValue = other.get(key, 0);
-				if (otherValue == 0 && !other.containsKey(key)) return false;
+				int otherValue = other.get(key, -1);
+				if (otherValue == -1 && !other.containsKey(key)) return false;
 				if (otherValue != valueTable[i]) return false;
 			}
 		}
@@ -664,7 +665,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		}
 	}
 
-	public static final int[] GOOD_MULTIPLIERS = {
+	private static final int[] GOOD_MULTIPLIERS = {
 			0x00110427, 0x00144057, 0x001AFB2F, 0x001F1753, 0x00135205, 0x00176C45, 0x001E3A15, 0x001F406D,
 			0x001DEF1D, 0x0018BD49, 0x001DE7A9, 0x00117949, 0x001BDC1D, 0x00190A37, 0x0014A839, 0x00108EB9,
 			0x0019EB97, 0x0014A6B7, 0x001B3283, 0x001F890F, 0x001502ED, 0x00197DB1, 0x001A2447, 0x001F9159,
