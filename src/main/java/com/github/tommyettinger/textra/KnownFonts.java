@@ -744,6 +744,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that represents the 6x17px font Cozette
      */
     public static Font getCozette() {
+        initialize();
         final String baseName = COZETTE;
         final DistanceFieldType distanceField = STANDARD;
         String rootName = baseName + distanceField.filePart;
@@ -756,7 +757,7 @@ public final class KnownFonts implements LifecycleListener {
                     .setUnderlinePosition(0f, -0.125f)
                     .setStrikethroughPosition(0f, 0f)
                     .setInlineImageMetrics(-32f, 4f, 8f)
-                    .setName("Cozette"+STANDARD.namePart);
+                    .setName(baseName + STANDARD.namePart);
             ;
             instance.loaded.put(rootName, found);
         }
@@ -1157,6 +1158,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font HanMinA.ttf
      */
     public static Font getHanazono() {
+        initialize();
         final String baseName = HANAZONO;
         final DistanceFieldType distanceField = STANDARD;
         String rootName = baseName + distanceField.filePart;
@@ -1203,6 +1205,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that represents an 8x16 font included with early IBM computers
      */
     public static Font getIBM8x16() {
+        initialize();
         final String baseName = IBM_8X16;
         final DistanceFieldType distanceField = STANDARD;
         String rootName = baseName + distanceField.filePart;

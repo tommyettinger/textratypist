@@ -20,10 +20,17 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.RandomXS128;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.textra.utils.BlockUtils;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 
@@ -32,6 +39,8 @@ import static com.github.tommyettinger.textra.utils.ColorUtils.lerpColors;
 public class GridTest extends ApplicationAdapter {
     Font font;
     Font[] fonts;
+    Viewport viewport;
+    Stage stage;
     SpriteBatch batch;
     int[][] backgrounds;
     char[][] lines;
@@ -67,11 +76,14 @@ public class GridTest extends ApplicationAdapter {
         }
 
         batch = new SpriteBatch();
+        viewport = new StretchViewport(PIXEL_WIDTH, PIXEL_HEIGHT);
+        stage = new Stage(viewport, batch);
 
 //        fonts = KnownFonts.getAllStandard();
 //        for(Font f : fonts)
 //            KnownFonts.addEmoji(f.scaleTo(20f, 25).fitCell(25, 25, true));
         font = KnownFonts.addEmoji(KnownFonts.getAStarryTall().scaleTo(16f, 24).fitCell(25, 25, true));
+//        font = KnownFonts.addEmoji(KnownFonts.getIBM8x16().fitCell(16, 32, true).scaleTo(16, 32));
 
 //        font = KnownFonts.getInconsolata();//.scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
@@ -151,8 +163,8 @@ public class GridTest extends ApplicationAdapter {
         marquee.setPosition(64, 350);
         marquee.skipToTheEnd();
         marquee.setRotation(-100f);
-        link = new TypingLabel("Welcome to [sky]{STYLIST=1;0;0;0;0;1}[_]TextraTypist[ ], for text stuff.", font);
-//        link = new TypingLabel("Welcome to [sky][_]{LINK=https://github.com/tommyettinger/textratypist}TextraTypist[], for text stuff.", font);
+        link = new TypingLabel("Welcome to [sky]{STYLIST=1;0;0;0;0;1}{LINK=https://github.com/tommyettinger/textratypist}[_]TextraTypist[ ], for text stuff.", font);
+//        link = new TypingLabel("Welcome to [sky][_]{LINK=https://github.com/tommyettinger/textratypist}TextraTypist[ ], for text stuff.", font);
 //        link.parseTokens();
         link.setWidth(Gdx.graphics.getBackBufferWidth());
         link.setPosition(0f, font.cellHeight * 10.5f);
@@ -167,6 +179,8 @@ public class GridTest extends ApplicationAdapter {
 //                " switches on the capacitor controls. \"Sir, we need to get the [silver]teleprojector[] online. Send a party aboard, say they're negotiators.\" [light sky]First Admiral Zototh[] said with urgency." +
 //                " \"[*]Negotiators[*]? Are you serious?\" \"I said to [/]say[/] they're negotiators... just with really big guns.\"", layout);
 
+        stage.addActor(marquee);
+        stage.addActor(link);
         startTime = TimeUtils.millis();
     }
 
@@ -178,12 +192,19 @@ public class GridTest extends ApplicationAdapter {
 //        long since = TimeUtils.timeSinceMillis(startTime);
 //        font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];
 //        font = fonts[5];
-        marquee.act(Gdx.graphics.getDeltaTime());
-        link.act(Gdx.graphics.getDeltaTime());
-        batch.begin();
-        font.enableShader(batch);
 
-        font.drawBlocks(batch, backgrounds, 0f, 0f);
+//        marquee.act(Gdx.graphics.getDeltaTime());
+//        link.act(Gdx.graphics.getDeltaTime());
+        stage.act();
+        Camera camera = this.viewport.getCamera();
+        camera.update();
+        Group root = stage.getRoot();
+        if (root.isVisible()) {
+            batch.setProjectionMatrix(camera.combined);
+            batch.begin();
+            font.enableShader(batch);
+            font.drawBlocks(batch, backgrounds, 0f, 0f);
+            root.draw(batch, 1.0F);
         for (int xx = 0; xx < lines.length; xx++) {
             for (int yy = 0; yy < lines[0].length; yy++) {
                 font.drawGlyph(batch, 0xFFFFFFFE00000000L | lines[xx][yy], font.cellWidth * xx, y + font.cellHeight * (1 + yy));
@@ -213,12 +234,14 @@ public class GridTest extends ApplicationAdapter {
 
         marquee.draw(batch, 1f);
         link.draw(batch, 1f);
-        batch.end();
+            batch.end();
+        }
         Gdx.graphics.setTitle(font.name + " at " + Gdx.graphics.getFramesPerSecond() + " FPS");
     }
 
     @Override
     public void resize(int width, int height) {
+        viewport.update(width, height);
         font.resizeDistanceField(width, height);
     }
 }
