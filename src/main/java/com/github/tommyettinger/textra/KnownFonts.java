@@ -2166,8 +2166,6 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getRobotoCondensed(DistanceFieldType dft) {
         return getFont(ROBOTO_CONDENSED, dft);
     }
-    
-    private Font tangerine;
 
     /**
      * Returns a Font already configured to use a variable-width script font, that should
@@ -2175,15 +2173,16 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Tangerine, a free (OFL) typeface. It supports Latin only,
      * with a little support for Western European languages, but not really anything else. It looks elegant, though.
      * This uses a very-large standard bitmap font, which lets it be scaled down OK but not scaled up very well.
-     * Some sizes may look very sharply-aliased with this version of Tangerine, but {@link #getTangerineSDF()} doesn't
-     * seem to have that problem.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Tangerine.png">Image link</a> (uses width=48, height=32)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.TANGERINE, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-standard.fnt">Tangerine-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-standard.dat">Tangerine-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-standard.png">Tangerine-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li>
      * </ul>
@@ -2191,24 +2190,8 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font Tangerine.ttf
      */
     public static Font getTangerine() {
-        initialize();
-        if (instance.tangerine == null) {
-            try {
-                instance.tangerine = new Font(instance.prefix + "Tangerine-standard.fnt",
-                        instance.prefix + "Tangerine-standard.png", STANDARD, 0f, 16f, 0f, 0f, true)
-                        .setUnderlineMetrics(0f, 0f, 0f, -0.6f).setStrikethroughMetrics(0f, -0.125f, 0f, -0.6f)
-                        .setInlineImageMetrics(4f, 20f, 8f).setDescent(-20f).setFancyLinePosition(0f, 0.2f)
-                        .scaleTo(48, 32).setTextureFilter().setName("Tangerine");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.tangerine != null)
-            return new Font(instance.tangerine);
-        throw new RuntimeException("Assets for getTangerine() not found.");
+        return getFont(TANGERINE, STANDARD);
     }
-
-    private Font tangerineSDF;
 
     /**
      * Returns a Font already configured to use a variable-width script font, that should
@@ -2219,11 +2202,14 @@ public final class KnownFonts implements LifecycleListener {
      * should be crisp enough when zoomed out. If you need to mix in images such as with {@link #addEmoji(Font)}, you
      * may be better off with {@link #getTangerine()}, the standard-bitmap-font version.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Tangerine%20(SDF).png">Image link</a> (uses width=48, height=32, setCrispness(0.375f))
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.TANGERINE, Font.DistanceFieldType.SDF)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-sdf.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-sdf.fnt">Tangerine-sdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-sdf.dat">Tangerine-sdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-sdf.png">Tangerine-sdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li>
      * </ul>
@@ -2231,20 +2217,39 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font Tangerine.ttf using SDF
      */
     public static Font getTangerineSDF() {
-        initialize();
-        if (instance.tangerineSDF == null) {
-            try {
-                instance.tangerineSDF = new Font(instance.prefix + "Tangerine-sdf.fnt",
-                        instance.prefix + "Tangerine-sdf.png", SDF, 0f, 28f, 0f, 0, false).setFancyLinePosition(0, 0.2f)
-                        .setLineMetrics(-0.5f, 0f, 0f, 0f).setInlineImageMetrics(0f, 0f, 8f)
-                        .scaleTo(45, 30).setCrispness(0.375f).setName("Tangerine (SDF)");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.tangerineSDF != null)
-            return new Font(instance.tangerineSDF);
-        throw new RuntimeException("Assets for getTangerineSDF() not found.");
+        return getFont(TANGERINE, SDF);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width script font.
+     * Caches the result for later calls. The font used is Tangerine, a free (OFL) typeface. It supports Latin only,
+     * with a little support for Western European languages, but not really anything else. It looks elegant, though.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-standard.dat">Tangerine-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-standard.png">Tangerine-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-msdf.dat">Tangerine-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-msdf.png">Tangerine-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-sdf.dat">Tangerine-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-sdf.png">Tangerine-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Tangerine.ttf
+     */
+    public static Font getTangerine(DistanceFieldType dft) {
+        return getFont(TANGERINE, dft);
     }
 
     private Font kaffeesatz;
