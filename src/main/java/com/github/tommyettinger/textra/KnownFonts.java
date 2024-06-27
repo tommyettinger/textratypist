@@ -282,7 +282,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.A_STARRY, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -304,7 +304,7 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -344,7 +344,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.A_STARRY, Font.DistanceFieldType.MSDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-msdf.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-msdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -367,7 +367,7 @@ public final class KnownFonts implements LifecycleListener {
      * Ettinger, because he made changes in a-starry) if you use it. This is an extended-height version of a-starry,
      * making it half the width relative to its height, instead of having equal width and height.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -390,7 +390,7 @@ public final class KnownFonts implements LifecycleListener {
      * Ettinger, because he made changes in a-starry) if you use it. This is an extended-height version of a-starry,
      * making it half the width relative to its height, instead of having equal width and height.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -436,7 +436,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.BITTER, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bitter-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bitter-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -460,7 +460,7 @@ public final class KnownFonts implements LifecycleListener {
      * or squashed so height is slightly smaller. Bitter looks very similar to {@link #getGentium()}, except that Bitter
      * is quite a bit lighter, with thinner strokes and stylistic flourishes on some glyphs.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bitter-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bitter-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -501,7 +501,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CANADA1500, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Canada1500-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Canada1500-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -524,7 +524,7 @@ public final class KnownFonts implements LifecycleListener {
      * many dingbats, and more. This font can look good at its natural size, which uses width roughly equal to height,
      * or narrowed down so width is smaller.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Canada1500-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Canada1500-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -564,7 +564,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CASCADIA_MONO, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -588,7 +588,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a fairly-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -628,7 +628,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CASCADIA_MONO, Font.DistanceFieldType.MSDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-msdf.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-msdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -655,7 +655,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CAVEAT, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Caveat-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Caveat-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -679,7 +679,7 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Caveat-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Caveat-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -769,7 +769,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.DEJAVU_SANS_MONO, Font.DistanceFieldType.MSDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Mono-msdf.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Mono-msdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -797,7 +797,7 @@ public final class KnownFonts implements LifecycleListener {
      * {@code KnownFonts.getDejaVuSansMono(Font.DistanceFieldType.MSDF).setCrispness(0.5f)} if you want significantly
      * smoother edges.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Mono-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Mono-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -838,7 +838,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -866,7 +866,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.MSDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-msdf.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-msdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -894,7 +894,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.SDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-sdf.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -963,7 +963,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GENTIUM_UN_ITALIC, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-Un-Italic-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-Un-Italic-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -995,7 +995,7 @@ public final class KnownFonts implements LifecycleListener {
      * Thanks to Siavash Ranbar, who came up with the idea to take an italic version of a serif font and remove its
      * slant, keeping the different flow from a simple oblique font.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-Un-Italic-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-Un-Italic-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1038,7 +1038,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GO_NOTO_UNIVERSAL, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1071,7 +1071,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GO_NOTO_UNIVERSAL, Font.DistanceFieldType.SDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-sdf.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1097,7 +1097,7 @@ public final class KnownFonts implements LifecycleListener {
      * the file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and Twemoji.png are each larger than
      * Go-Noto-Universal-standard.png . The .dat has 21274 glyphs plus extensive kerning info, though, so it is large.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1134,7 +1134,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GRENZE, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Grenze-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Grenze-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1154,7 +1154,7 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Grenze, a free (OFL) typeface designed by the Manuale
      * Project.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Grenze-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Grenze-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1278,7 +1278,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.INCONSOLATA_LGC, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1303,7 +1303,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.INCONSOLATA_LGC, Font.DistanceFieldType.MSDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-msdf.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-msdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1325,7 +1325,7 @@ public final class KnownFonts implements LifecycleListener {
      * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1365,7 +1365,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.IOSEVKA, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1393,7 +1393,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.IOSEVKA, Font.DistanceFieldType.MSDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-msdf.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-msdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1422,7 +1422,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.IOSEVKA, Font.DistanceFieldType.SDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-sdf.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1445,7 +1445,7 @@ public final class KnownFonts implements LifecycleListener {
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
      * Greek, and Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1485,7 +1485,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.IOSEVKA_SLAB, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1513,7 +1513,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.IOSEVKA_SLAB, Font.DistanceFieldType.MSDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-msdf.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-msdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1544,7 +1544,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.IOSEVKA_SLAB, Font.DistanceFieldType.SDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-msdf.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-msdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1567,7 +1567,7 @@ public final class KnownFonts implements LifecycleListener {
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
      * Greek, and Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1609,7 +1609,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.KINGTHINGS_FOUNDATION, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Foundation-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Foundation-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1633,7 +1633,7 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #getKingthingsPetrock() Kingthings Petrock}; where Petrock is less-ornamented, Foundation is heavily
      * ornamented, and Foundation may make sense for text associated with writers of high social status.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Foundation-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Foundation-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1675,7 +1675,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.KINGTHINGS_PETROCK, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Petrock-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Petrock-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1699,7 +1699,7 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #getKingthingsFoundation() Kingthings Foundation}, but Petrock isn't as heavily-ornamented, and looks more
      * like "every-day usable" medieval or maybe Renaissance text.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Petrock-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Petrock-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1778,7 +1778,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.LIBERTINUS_SERIF, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1799,7 +1799,7 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Libertinus Serif, an open-source (SIL Open Font
      * License) typeface. It supports a lot of glyphs, including quite a bit of extended Latin, Greek, and Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1839,7 +1839,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.LIBERTINUS_SERIF_SEMIBOLD, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-Semibold-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-Semibold-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1860,7 +1860,7 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Libertinus Serif Semibold, an open-source (SIL Open Font
      * License) typeface. It supports a lot of glyphs, including quite a bit of extended Latin, Greek, and Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-Semibold-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-Semibold-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1899,7 +1899,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.NOW_ALT, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Now-Alt-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Now-Alt-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1921,7 +1921,7 @@ public final class KnownFonts implements LifecycleListener {
      * Hanken Design Co. It has decent glyph coverage for most European languages, but doesn't fully support Greek or
      * Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Now-Alt-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Now-Alt-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1958,7 +1958,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.OPEN_SANS, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Open-Sans-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Open-Sans-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1978,7 +1978,7 @@ public final class KnownFonts implements LifecycleListener {
      * does not support Greek, Cyrillic, or other scripts. This makes an especially large font by default, but can be
      * scaled down nicely.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Open-Sans-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Open-Sans-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2017,7 +2017,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.OXANIUM, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Oxanium-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Oxanium-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2039,7 +2039,7 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Oxanium, a free (OFL) typeface. It supports a lot of Latin
      * and extended Latin, but not Greek or Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Oxanium-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Oxanium-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2120,7 +2120,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.ROBOTO_CONDENSED, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Roboto-Condensed-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Roboto-Condensed-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2142,7 +2142,7 @@ public final class KnownFonts implements LifecycleListener {
      * Robertson. It supports Latin-based scripts almost entirely, plus Greek, (extended) Cyrillic, and more.
      * This font is meant to be condensed in its natural appearance, but can be scaled to be wider if desired.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Roboto-Condensed-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Roboto-Condensed-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2181,7 +2181,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.TANGERINE, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2208,7 +2208,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.TANGERINE, Font.DistanceFieldType.SDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-sdf.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2227,8 +2227,9 @@ public final class KnownFonts implements LifecycleListener {
      * Returns a Font already configured to use a variable-width script font.
      * Caches the result for later calls. The font used is Tangerine, a free (OFL) typeface. It supports Latin only,
      * with a little support for Western European languages, but not really anything else. It looks elegant, though.
+     * Using MSDF is currently recommended.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-msdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2266,7 +2267,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.YANONE_KAFFEESATZ, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2292,7 +2293,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.YANONE_KAFFEESATZ, Font.DistanceFieldType.MSDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-msdf.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-msdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2312,7 +2313,7 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
      * of Latin, Cyrillic, and some extended Latin, but not Greek.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-standard.png" alt="Image preview" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
