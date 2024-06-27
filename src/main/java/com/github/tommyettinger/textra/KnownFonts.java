@@ -2057,13 +2057,12 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-License.txt">Oxanium-License.txt</a></li>
      * </ul>
      *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
      * @return the Font object that can represent many sizes of the font Oxanium
      */
     public static Font getOxanium(DistanceFieldType dft) {
         return getFont(OXANIUM, dft);
     }
-
-    private Font quanPixel;
 
     /**
      * Returns a Font configured to use a small variable-width bitmap font with extensive coverage of Asian scripts,
@@ -2089,25 +2088,22 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getQuanPixel() {
         initialize();
-        if (instance.quanPixel == null) {
-            try {
-                // Manual adjustment: id 95 ('_') had yoffset changed from 5, to 6.
-                // This makes underlines use a different row than the bottom of letters.
-                instance.quanPixel = new Font(instance.prefix + "QuanPixel-standard.fnt",
-                        instance.prefix + "QuanPixel-standard.png", STANDARD, 0, 2, 0, 2, false)
-                        .setLineMetrics(0.0625f, -0.0625f, -0.25f, 0f).setInlineImageMetrics(-40f, -4f, 0f)
-                        .setFancyLinePosition(0f, 0.375f).useIntegerPositions(true).setDescent(-4f)
-                        .setBoldStrength(0.5f).setName("QuanPixel");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        final String baseName = QUANPIXEL;
+        final DistanceFieldType distanceField = STANDARD;
+        String rootName = baseName + distanceField.filePart;
+        Font found = instance.loaded.get(rootName);
+        if(found == null){
+            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 0, 2, 0, 2, false);
+            found
+                    .setLineMetrics(0.0625f, -0.0625f, -0.25f, 0f).setInlineImageMetrics(-40f, -4f, 0f)
+                    .setFancyLinePosition(0f, 0.375f).useIntegerPositions(true).setDescent(-4f)
+                    .setBoldStrength(0.5f)
+                    .setName(baseName + distanceField.namePart);
+            ;
+            instance.loaded.put(rootName, found);
         }
-        if (instance.quanPixel != null)
-            return new Font(instance.quanPixel);
-        throw new RuntimeException("Assets for getQuanPixel() not found.");
+        return new Font(found);
     }
-
-    private Font robotoCondensed;
 
     /**
      * Returns a Font already configured to use a very-legible condensed variable-width font with excellent Unicode
@@ -2118,35 +2114,59 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Roboto%20Condensed.png">Image link</a> (uses width=20, height=32)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.ROBOTO_CONDENSED, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Roboto-Condensed-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-standard.fnt">RobotoCondensed-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-standard.png">RobotoCondensed-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-License.txt">RobotoCondensed-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Roboto-Condensed-standard.dat">Roboto-Condensed-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Roboto-Condensed-standard.png">Roboto-Condensed-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Roboto-Condensed-License.txt">Roboto-Condensed-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font RobotoCondensed.ttf
      */
     public static Font getRobotoCondensed() {
-        initialize();
-        if (instance.robotoCondensed == null) {
-            try {
-                instance.robotoCondensed = new Font(instance.prefix + "RobotoCondensed-standard.fnt",
-                        instance.prefix + "RobotoCondensed-standard.png", STANDARD, 0, 25, 0, 20, true)
-                        .setDescent(-15f).setInlineImageMetrics(0f, 8f, 6f).setFancyLinePosition(0f, 0.3f)
-                        .setUnderlineMetrics(0f, 0f, -0.25f, -0.4f).setStrikethroughMetrics(0f, -0.0625f, 0f, -0.4f)
-                        .scaleTo(20, 32).setTextureFilter().setName("Roboto Condensed");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.robotoCondensed != null)
-            return new Font(instance.robotoCondensed);
-        throw new RuntimeException("Assets for getRobotoCondensed() not found.");
+        return getFont(ROBOTO_CONDENSED, STANDARD);
     }
 
+    /**
+     * Returns a Font already configured to use a very-legible condensed variable-width font with excellent Unicode
+     * support.
+     * Caches the result for later calls. The font used is Roboto Condensed, a free (Apache 2.0) typeface by Christian
+     * Robertson. It supports Latin-based scripts almost entirely, plus Greek, (extended) Cyrillic, and more.
+     * This font is meant to be condensed in its natural appearance, but can be scaled to be wider if desired.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Roboto-Condensed-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Roboto-Condensed-standard.dat">Roboto-Condensed-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Roboto-Condensed-standard.png">Roboto-Condensed-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Roboto-Condensed-License.txt">Roboto-Condensed-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Roboto-Condensed-msdf.dat">Roboto-Condensed-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Roboto-Condensed-msdf.png">Roboto-Condensed-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Roboto-Condensed-License.txt">Roboto-Condensed-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Roboto-Condensed-sdf.dat">Roboto-Condensed-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Roboto-Condensed-sdf.png">Roboto-Condensed-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Roboto-Condensed-License.txt">Roboto-Condensed-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font RobotoCondensed.ttf
+     */
+    public static Font getRobotoCondensed(DistanceFieldType dft) {
+        return getFont(ROBOTO_CONDENSED, dft);
+    }
+    
     private Font tangerine;
 
     /**
