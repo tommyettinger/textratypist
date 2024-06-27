@@ -1395,7 +1395,6 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(IOSEVKA, SDF);
     }
 
-
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
      * and a sans-serif geometric style.
@@ -1432,49 +1431,32 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(IOSEVKA, dft);
     }
 
-    private Font iosevkaSlab;
-
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
-     * and a slab-serif geometric style. Does not use a distance field effect, and is sized best at 9x25 pixels.
+     * and a slab-serif geometric style. Does not use a distance field effect.
      * Caches the result for later calls. The font used is Iosevka with Slab style, an open-source (SIL Open Font
      * License) typeface by <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several
      * customizations thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of
      * extended Latin, Greek, and Cyrillic.
-     * This Font is already configured with {@link Font#fitCell(float, float, boolean)}, and repeated calls to fitCell()
-     * have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Iosevka%20Slab.png">Image link</a> (uses .scaleTo(10, 24).fitCell(10, 24, false))
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.IOSEVKA_SLAB, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-standard.fnt">Iosevka-Slab-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-standard.dat">Iosevka-Slab-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-standard.png">Iosevka-Slab-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.txt">Iosevka-License.md</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf
      */
     public static Font getIosevkaSlab() {
-        initialize();
-        if (instance.iosevkaSlab == null) {
-            try {
-                instance.iosevkaSlab = new Font(instance.prefix + "Iosevka-Slab-standard.fnt",
-                        instance.prefix + "Iosevka-Slab-standard.png", STANDARD, 0f, 12f, 0f, 0f, true)
-                        .scaleTo(10, 24).fitCell(10, 24, false)
-                        .setDescent(-10f).setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-6f, 12f, 0f)
-                        .setTextureFilter().setName("Iosevka Slab");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.iosevkaSlab != null)
-            return new Font(instance.iosevkaSlab);
-        throw new RuntimeException("Assets for getIosevkaSlab() not found.");
+        return getFont(IOSEVKA_SLAB, STANDARD);
     }
-
-    private Font iosevkaSlabMSDF;
 
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
@@ -1483,42 +1465,26 @@ public final class KnownFonts implements LifecycleListener {
      * License) typeface by <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several
      * customizations thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of
      * extended Latin, Greek, and Cyrillic.
-     * This Font is already configured with {@link Font#fitCell(float, float, boolean)}, and repeated calls to fitCell()
-     * have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
      * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Iosevka%20Slab%20(MSDF).png">Image link</a> (uses
-     * .setCrispness(1.6f).scaleTo(12, 26).fitCell(10, 25, false))
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.IOSEVKA_SLAB, Font.DistanceFieldType.MSDF)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-msdf.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.fnt">Iosevka-Slab-msdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.dat">Iosevka-Slab-msdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.png">Iosevka-Slab-msdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.txt">Iosevka-License.md</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf using MSDF
      */
     public static Font getIosevkaSlabMSDF() {
-        initialize();
-        if (instance.iosevkaSlabMSDF == null) {
-            try {
-                instance.iosevkaSlabMSDF = new Font(instance.prefix + "Iosevka-Slab-msdf.fnt",
-                        instance.prefix + "Iosevka-Slab-msdf.png", MSDF, 1f, 0f, 0f, 0f, true).setDescent(-12)
-                        .setLineMetrics(0.25f, 0.125f, 0f, -0.4f).setFancyLinePosition(0f, 0.375f)
-                        .setCrispness(1.6f).scaleTo(12, 26).fitCell(10, 25, false)
-                        .setName("Iosevka Slab (MSDF)");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.iosevkaSlabMSDF != null)
-            return new Font(instance.iosevkaSlabMSDF);
-        throw new RuntimeException("Assets for getIosevkaSlabMSDF() not found.");
+        return getFont(IOSEVKA_SLAB, MSDF);
     }
-
-    private Font iosevkaSlabSDF;
 
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
@@ -1533,38 +1499,58 @@ public final class KnownFonts implements LifecycleListener {
      * technique that {@link #getIosevkaSlabMSDF()} uses, which isn't as sharp at large sizes but can look a little
      * better at small sizes.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Iosevka%20Slab%20(SDF).png">Image link</a> (uses
-     * .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false))
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.IOSEVKA_SLAB, Font.DistanceFieldType.SDF)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-msdf.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-sdf.fnt">Iosevka-Slab-sdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-sdf.dat">Iosevka-Slab-sdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-sdf.png">Iosevka-Slab-sdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.txt">Iosevka-License.md</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf using SDF
      */
     public static Font getIosevkaSlabSDF() {
-        initialize();
-        if (instance.iosevkaSlabSDF == null) {
-            try {
-                // NOTE: If the .fnt file is changed, the manual adjustment to '_' (id=95) will be lost. yoffset was changed to 4.
-                // This might be OK now that this uses the box-drawing underline.
-                instance.iosevkaSlabSDF = new Font(instance.prefix + "Iosevka-Slab-sdf.fnt",
-                        instance.prefix + "Iosevka-Slab-sdf.png", SDF, 0f, 0f, 0f, 0f, false)
-                        .setUnderlineMetrics(-0.2f, -0.1f, 0f, -0.4f)
-                        .setStrikethroughMetrics(-0.2f, 0.125f, 0f, -0.4f)
-                        .setInlineImageMetrics(-8f, 12f, 12f)
-                        .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false)
-                        .setName("Iosevka Slab (SDF)");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.iosevkaSlabSDF != null)
-            return new Font(instance.iosevkaSlabSDF);
-        throw new RuntimeException("Assets for getIosevkaSlabSDF() not found.");
+        return getFont(IOSEVKA_SLAB, SDF);
+    }
+
+    /**
+     * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
+     * and a sans-serif geometric style.
+     * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font License) typeface by
+     * <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several customizations
+     * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
+     * Greek, and Cyrillic.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-standard.dat">Iosevka-Slab-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-standard.png">Iosevka-Slab-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.txt">Iosevka-License.md</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.dat">Iosevka-Slab-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.png">Iosevka-Slab-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.txt">Iosevka-License.md</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-sdf.dat">Iosevka-Slab-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-sdf.png">Iosevka-Slab-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.txt">Iosevka-License.md</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf
+     */
+    public static Font getIosevkaSlab(DistanceFieldType dft) {
+        return getFont(IOSEVKA_SLAB, dft);
     }
 
     private Font kingthingsFoundation;
