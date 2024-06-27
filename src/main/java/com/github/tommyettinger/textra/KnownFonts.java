@@ -1685,8 +1685,6 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(KINGTHINGS_PETROCK, dft);
     }
 
-    private Font lanaPixel;
-
     /**
      * Returns a Font already configured to use a variable-width pixel font with excellent Unicode support, that
      * probably should only be used at integer multiples of its normal size.
@@ -1712,23 +1710,20 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getLanaPixel() {
         initialize();
-        if (instance.lanaPixel == null) {
-            try {
-                instance.lanaPixel = new Font(instance.prefix + "LanaPixel-standard.fnt",
-                        instance.prefix + "LanaPixel-standard.png", STANDARD, 0, 0, 0, 0, false)
-                        .setInlineImageMetrics(-64, 0, 16).setFancyLinePosition(0f, 0.5f)
-                        .useIntegerPositions(true).setBoldStrength(0.5f).setLineMetrics(0f, -0.0625f, 0f, 0f)
-                        .setName("LanaPixel");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        final String baseName = LANAPIXEL;
+        final DistanceFieldType distanceField = STANDARD;
+        String rootName = baseName + distanceField.filePart;
+        Font found = instance.loaded.get(rootName);
+        if(found == null){
+            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 0, 0, 0, 0, false);
+            found
+                    .setInlineImageMetrics(-64, 0, 16).setFancyLinePosition(0f, 0.5f)
+                    .useIntegerPositions(true).setBoldStrength(0.5f).setLineMetrics(0f, -0.0625f, 0f, 0f)
+                    .setName(baseName + distanceField.namePart);
+            instance.loaded.put(rootName, found);
         }
-        if (instance.lanaPixel != null)
-            return new Font(instance.lanaPixel);
-        throw new RuntimeException("Assets for getLanaPixel() not found.");
+        return new Font(found);
     }
-
-    private Font libertinusSerif;
 
     /**
      * Returns a Font already configured to use a variable-width serif font with good Unicode support, that should
@@ -1736,38 +1731,119 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Libertinus Serif, an open-source (SIL Open Font
      * License) typeface. It supports a lot of glyphs, including quite a bit of extended Latin, Greek, and Cyrillic.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-     * This may work well in a font family with other fonts that do not use a distance field effect. Earlier versions of
-     * this font used an MSDF effect, but that doesn't work well with kerning, so the spacing between letters was odd,
-     * and in general the font just didn't look as good as the similar {@link #getGentiumSDF()} or even
-     * {@link #getGentium()}. The MSDF files are still present in the same directory where they were, but they are no
-     * longer used by TextraTypist.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Libertinus%20Serif.png">Image link</a> (uses width=40, height=34)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.LIBERTINUS_SERIF, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-standard.fnt">LibertinusSerif-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-standard.png">LibertinusSerif-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-License.txt">LibertinusSerif-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-standard.dat">Libertinus-Serif-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-standard.png">Libertinus-Serif-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font LibertinusSerif.ttf
      */
     public static Font getLibertinusSerif() {
-        initialize();
-        if (instance.libertinusSerif == null) {
-            try {
-                instance.libertinusSerif = new Font(instance.prefix + "LibertinusSerif-standard.fnt",
-                        instance.prefix + "LibertinusSerif-standard.png", STANDARD, 0, 6, 0, 0, true)
-                        .setLineMetrics(0.05f, 0f, 0.0625f, -0.25f).setFancyLinePosition(0f, 0.15f)
-                        .scaleTo(40, 34).setTextureFilter().setName("Libertinus Serif");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.libertinusSerif != null)
-            return new Font(instance.libertinusSerif);
-        throw new RuntimeException("Assets for getLibertinusSerif() not found.");
+        return getFont(LIBERTINUS_SERIF, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width serif font with good Unicode support, that should
+     * scale cleanly to fairly large sizes or down to about 20 pixels.
+     * Caches the result for later calls. The font used is Libertinus Serif, an open-source (SIL Open Font
+     * License) typeface. It supports a lot of glyphs, including quite a bit of extended Latin, Greek, and Cyrillic.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-standard.dat">Libertinus-Serif-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-standard.png">Libertinus-Serif-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-msdf.dat">Libertinus-Serif-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-msdf.png">Libertinus-Serif-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-sdf.dat">Libertinus-Serif-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-sdf.png">Libertinus-Serif-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font LibertinusSerif.ttf
+     */
+    public static Font getLibertinusSerif(DistanceFieldType dft) {
+        return getFont(LIBERTINUS_SERIF, dft);
+    }
+
+
+    /**
+     * Returns a Font already configured to use a variable-width heavy-weight serif font with good Unicode support, that
+     * should scale cleanly to fairly large sizes or down to about 20 pixels.
+     * Caches the result for later calls. The font used is Libertinus Serif Semibold, an open-source (SIL Open Font
+     * License) typeface. It supports a lot of glyphs, including quite a bit of extended Latin, Greek, and Cyrillic.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.LIBERTINUS_SERIF_SEMIBOLD, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-Semibold-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-standard.dat">Libertinus-Serif-Semibold-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-standard.png">Libertinus-Serif-Semibold-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font LibertinusSerifSemibold.ttf
+     */
+    public static Font getLibertinusSerifSemibold() {
+        return getFont(LIBERTINUS_SERIF_SEMIBOLD, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width heavy-weight serif font with good Unicode support, that
+     * should scale cleanly to fairly large sizes or down to about 20 pixels.
+     * Caches the result for later calls. The font used is Libertinus Serif Semibold, an open-source (SIL Open Font
+     * License) typeface. It supports a lot of glyphs, including quite a bit of extended Latin, Greek, and Cyrillic.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-Semibold-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-standard.dat">Libertinus-Serif-Semibold-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-standard.png">Libertinus-Serif-Semibold-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-msdf.dat">Libertinus-Serif-Semibold-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-msdf.png">Libertinus-Serif-Semibold-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-sdf.dat">Libertinus-Serif-Semibold-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-sdf.png">Libertinus-Serif-Semibold-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font LibertinusSerifSemibold.ttf
+     */
+    public static Font getLibertinusSerifSemibold(DistanceFieldType dft) {
+        return getFont(LIBERTINUS_SERIF_SEMIBOLD, dft);
     }
 
     private Font nowAlt;
