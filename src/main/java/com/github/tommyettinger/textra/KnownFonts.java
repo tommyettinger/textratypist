@@ -2202,8 +2202,7 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Tangerine, a free (OFL) typeface. It supports Latin only,
      * with a little support for Western European languages, but not really anything else. It looks elegant, though.
      * This uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but
-     * should be crisp enough when zoomed out. If you need to mix in images such as with {@link #addEmoji(Font)}, you
-     * may be better off with {@link #getTangerine()}, the standard-bitmap-font version.
+     * should be crisp enough when zoomed out.
      * <br>
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.TANGERINE, Font.DistanceFieldType.SDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
@@ -2283,8 +2282,7 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width, narrow, humanist font, that should
-     * scale very well up or down, but isn't compatible with inline images such as {@link #addEmoji(Font) emoji}.
+     * Returns a Font already configured to use a variable-width, narrow, humanist font.
      * Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
      * of Latin, Cyrillic, and some extended Latin, but not Greek.
      * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
@@ -2340,11 +2338,8 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(YANONE_KAFFEESATZ, dft);
     }
 
-    private Font yataghanMSDF;
-
     /**
-     * Returns a Font already configured to use a variable-width, narrow, "dark fantasy" font, that should
-     * scale very well up or down, but isn't compatible with inline images such as {@link #addEmoji(Font) emoji}.
+     * Returns a Font already configured to use a variable-width, narrow, "dark fantasy" font.
      * Caches the result for later calls. The font used is Yataghan, a widely-distributed typeface. It supports ASCII
      * and some extended Latin, but not much else.
      * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
@@ -2353,11 +2348,14 @@ public final class KnownFonts implements LifecycleListener {
      * I don't know who the original author of Yataghan was; if you are the original author and want attribution or want
      * this font removed, please post an issue on the tommyettinger/textratypist GitHub repo, or email tommyettinger.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Yataghan%20(MSDF).png">Image link</a> (uses width=20, height=32)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.YATAGHAN, Font.DistanceFieldType.MSDF)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yataghan-msdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-msdf.fnt">Yataghan-msdf.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-msdf.dat">Yataghan-msdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-msdf.png">Yataghan-msdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li>
      * </ul>
@@ -2365,20 +2363,66 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font Yataghan.ttf using MSDF
      */
     public static Font getYataghanMSDF() {
-        initialize();
-        if (instance.yataghanMSDF == null) {
-            try {
-                instance.yataghanMSDF = new Font(instance.prefix + "Yataghan-msdf.fnt",
-                        instance.prefix + "Yataghan-msdf.png", MSDF, 0f, 4f, 0f, 0f, true)
-                        .setLineMetrics(0f, 0.125f, 0f, -0.4f).setFancyLinePosition(0, 0.375f)
-                        .scaleTo(20, 32).setName("Yataghan (MSDF)");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.yataghanMSDF != null)
-            return new Font(instance.yataghanMSDF);
-        throw new RuntimeException("Assets for getYataghanMSDF() not found.");
+        return getFont(YATAGHAN, MSDF);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, narrow, "dark fantasy" font.
+     * Caches the result for later calls. The font used is Yataghan, a widely-distributed typeface. It supports ASCII
+     * and some extended Latin, but not much else.
+     * <br>
+     * I don't know who the original author of Yataghan was; if you are the original author and want attribution or want
+     * this font removed, please post an issue on the tommyettinger/textratypist GitHub repo, or email tommyettinger.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.YATAGHAN, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yataghan-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-standard.dat">Yataghan-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-standard.png">Yataghan-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Yataghan.ttf
+     */
+    public static Font getYataghan() {
+        return getFont(YATAGHAN, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, narrow, "dark fantasy" font.
+     * Caches the result for later calls. The font used is Yataghan, a widely-distributed typeface. It supports ASCII
+     * and some extended Latin, but not much else.
+     * <br>
+     * I don't know who the original author of Yataghan was; if you are the original author and want attribution or want
+     * this font removed, please post an issue on the tommyettinger/textratypist GitHub repo, or email tommyettinger.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yataghan-msdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-standard.dat">Yataghan-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-standard.png">Yataghan-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li>
+     * </ul>
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-msdf.dat">Yataghan-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-msdf.png">Yataghan-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li>
+     * </ul>
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-sdf.dat">Yataghan-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-sdf.png">Yataghan-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Yataghan.ttf using MSDF
+     */
+    public static Font getYataghan(DistanceFieldType dft) {
+        return getFont(YATAGHAN, dft);
     }
 
     /**
