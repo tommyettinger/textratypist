@@ -750,13 +750,137 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font already configured to use a variable-width sans-serif font with excellent Unicode support.
+     * Caches the result for later calls. The font used is
+     * DejaVu Sans, an open-source typeface included in many Linux distros. It supports a lot of glyphs,
+     * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
+     * real languages. This does not use a distance field effect, as opposed to {@link #getDejaVuSansMono()}.
+     * You may want to stick using just fonts that avoid distance fields if you have a family of fonts.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.DEJAVU_SANS, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-standard.dat">DejaVu-Sans-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-standard.png">DejaVu-Sans-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font DejaVuSans.ttf
+     */
+    public static Font getDejaVuSans() {
+        return getFont(DEJAVU_SANS, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width sans-serif font with excellent Unicode support.
+     * Caches the result for later calls. The font used is
+     * DejaVu Sans, an open-source typeface included in many Linux distros. It supports a lot of glyphs,
+     * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
+     * real languages.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-standard.dat">DejaVu-Sans-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-standard.png">DejaVu-Sans-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-msdf.dat">DejaVu-Sans-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-msdf.png">DejaVu-Sans-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-sdf.dat">DejaVu-Sans-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-sdf.png">DejaVu-Sans-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font DejaVuSans.ttf
+     */
+    public static Font getDejaVuSans(DistanceFieldType dft) {
+        return getFont(DEJAVU_SANS, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width narrow sans-serif font with excellent Unicode support.
+     * Caches the result for later calls. The font used is
+     * DejaVu Sans Condensed, an open-source typeface included in many Linux distros. It supports a lot of glyphs,
+     * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
+     * real languages. This does not use a distance field effect, as opposed to {@link #getDejaVuSansMono()}.
+     * You may want to stick using just fonts that avoid distance fields if you have a family of fonts.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.DEJAVU_SANS_CONDENSED, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Condensed-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Condensed-standard.dat">DejaVu-Sans-Condensed-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Condensed-standard.png">DejaVu-Sans-Condensed-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font DejaVuSansCondensed.ttf
+     */
+    public static Font getDejaVuSansCondensed() {
+        return getFont(DEJAVU_SANS_CONDENSED, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width narrow sans-serif font with excellent Unicode support.
+     * Caches the result for later calls. The font used is
+     * DejaVu Sans Condensed, an open-source typeface included in many Linux distros. It supports a lot of glyphs,
+     * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
+     * real languages.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Condensed-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Condensed-standard.dat">DejaVu-Sans-Condensed-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Condensed-standard.png">DejaVu-Sans-Condensed-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Condensed-msdf.dat">DejaVu-Sans-Condensed-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Condensed-msdf.png">DejaVu-Sans-Condensed-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Condensed-sdf.dat">DejaVu-Sans-Condensed-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Sans-Condensed-sdf.png">DejaVu-Sans-Condensed-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font DejaVuSansCondensed.ttf
+     */
+    public static Font getDejaVuSansCondensed(DistanceFieldType dft) {
+        return getFont(DEJAVU_SANS_CONDENSED, dft);
+    }
+
+    /**
      * A nice old standby font with very broad language support, DejaVu Sans Mono is fixed-width and can be clearly
      * readable but doesn't do anything unusual stylistically. It really does handle a lot of glyphs; not only does this
      * have practically all Latin glyphs in Unicode (enough to support everything from Icelandic to Vietnamese), it has
      * Greek (including Extended), Cyrillic (including some optional glyphs), IPA, Armenian (maybe the only font here to
      * do so), Georgian (which won't be treated correctly by some case-insensitive code, so it should only be used if
      * case doesn't matter), and Lao. It has full box drawing and Braille support, handles a wide variety of math
-     * symbols, technical marks, and dingbats, etc. This uses the Multi-channel Signed Distance
+     * symbols, technical marks, and dingbats, etc.
+     * This is an open-source typeface included in many Linux distros.
+     * This uses the Multi-channel Signed Distance
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
@@ -792,6 +916,7 @@ public final class KnownFonts implements LifecycleListener {
      * do so), Georgian (which won't be treated correctly by some case-insensitive code, so it should only be used if
      * case doesn't matter), and Lao. It has full box drawing and Braille support, handles a wide variety of math
      * symbols, technical marks, and dingbats, etc.
+     * This is an open-source typeface included in many Linux distros.
      * <br>
      * The crispness for the MSDF version is likely too high in this version. You can call
      * {@code KnownFonts.getDejaVuSansMono(Font.DistanceFieldType.MSDF).setCrispness(0.5f)} if you want significantly
@@ -2008,6 +2133,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font configured to use a variable-width, tall, very-heavy-weight sans-serif font, Ostrich Black.
+     * It is OFL-licensed and was made by Tyler Fink.
      * <br>
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.OSTRICH_BLACK, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
@@ -2018,7 +2144,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-standard.dat">Ostrich-Black-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-standard.png">Ostrich-Black-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-License.txt">Ostrich-Black-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-License.md">Ostrich-License.md</a></li>
      * </ul>
      *
      * @return the Font object that represents the variable-width font Ostrich Black
@@ -2029,6 +2155,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font configured to use a variable-width, tall, very-heavy-weight sans-serif font, Ostrich Black.
+     * It is OFL-licensed and was made by Tyler Fink.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ostrich-Black-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
@@ -2036,19 +2163,19 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-standard.dat">Ostrich-Black-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-standard.png">Ostrich-Black-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-License.txt">Ostrich-Black-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-License.md">Ostrich-License.md</a></li>
      * </ul>
      * or,
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-msdf.dat">Ostrich-Black-msdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-msdf.png">Ostrich-Black-msdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-License.txt">Ostrich-Black-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-License.md">Ostrich-License.md</a></li>
      * </ul>
      * or
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-sdf.dat">Ostrich-Black-sdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-sdf.png">Ostrich-Black-sdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-License.txt">Ostrich-Black-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-License.md">Ostrich-License.md</a></li>
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
