@@ -760,6 +760,9 @@ public final class KnownFonts implements LifecycleListener {
      * Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
      * sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
+     * Note that the name here doesn't include "MSDF" for historical reasons. This omission is part of why using
+     * {@link #getFont(String, DistanceFieldType)} is preferred.
+     * <br>
      * The crispness is likely too high in this version. You can call
      * {@code KnownFonts.getDejaVuSansMono().setCrispness(0.5f)} if you want significantly smoother edges.
      * <br>
@@ -775,7 +778,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font DejaVu Sans Mono
+     * @return the Font object that can represent many sizes of the font DejaVu Sans Mono using MSDF
      */
     public static Font getDejaVuSansMono() {
         return getFont(DEJAVU_SANS_MONO, MSDF);
@@ -2252,8 +2255,6 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(TANGERINE, dft);
     }
 
-    private Font kaffeesatz;
-
     /**
      * Returns a Font already configured to use a variable-width, narrow, humanist font, that should
      * scale pretty well down, but not up.
@@ -2262,35 +2263,23 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Yanone%20Kaffeesatz.png">Image link</a> (uses width=26, height=30)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.YANONE_KAFFEESATZ, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-standard.fnt">YanoneKaffeesatz-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-standard.png">YanoneKaffeesatz-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-License.txt">YanoneKaffeesatz-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-standard.dat">Yanone-Kaffeesatz-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-standard.png">Yanone-Kaffeesatz-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-License.txt">Yanone-Kaffeesatz-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font YanoneKaffeesatz.ttf
      */
     public static Font getYanoneKaffeesatz() {
-        initialize();
-        if (instance.kaffeesatz == null) {
-            try {
-                instance.kaffeesatz = new Font(instance.prefix + "YanoneKaffeesatz-standard.fnt",
-                        instance.prefix + "YanoneKaffeesatz-standard.png", STANDARD, 2f, 6f, 0f, 0, true)
-                        .setDescent(-8f).setLineMetrics(0f, -0.2f, 0f, 0f).setInlineImageMetrics(0f, 18f, 4f)
-                        .scaleTo(26, 30).setTextureFilter().setName("Yanone Kaffeesatz");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.kaffeesatz != null)
-            return new Font(instance.kaffeesatz);
-        throw new RuntimeException("Assets for getYanoneKaffeesatz() not found.");
+        return getFont(YANONE_KAFFEESATZ, STANDARD);
     }
-
-    private Font kaffeesatzMSDF;
 
     /**
      * Returns a Font already configured to use a variable-width, narrow, humanist font, that should
@@ -2300,32 +2289,54 @@ public final class KnownFonts implements LifecycleListener {
      * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Yanone%20Kaffeesatz%20(MSDF).png">Image link</a> (uses width=26, height=30, setCrispness(2.5f))
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.YANONE_KAFFEESATZ, Font.DistanceFieldType.MSDF)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-msdf.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-msdf.fnt">YanoneKaffeesatz-msdf.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-msdf.png">YanoneKaffeesatz-msdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-License.txt">YanoneKaffeesatz-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-msdf.dat">Yanone-Kaffeesatz-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-msdf.png">Yanone-Kaffeesatz-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-License.txt">Yanone-Kaffeesatz-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font YanoneKaffeesatz.ttf using MSDF
      */
     public static Font getYanoneKaffeesatzMSDF() {
-        initialize();
-        if (instance.kaffeesatzMSDF == null) {
-            try {
-                instance.kaffeesatzMSDF = new Font(instance.prefix + "YanoneKaffeesatz-msdf.fnt",
-                        instance.prefix + "YanoneKaffeesatz-msdf.png", MSDF, 0f, 20f, 0f, 0, true)
-                        .setFancyLinePosition(0f, 0.25f)
-                        .scaleTo(26, 30).setCrispness(2.5f).setName("Yanone Kaffeesatz (MSDF)");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.kaffeesatzMSDF != null)
-            return new Font(instance.kaffeesatzMSDF);
-        throw new RuntimeException("Assets for getYanoneKaffeesatzMSDF() not found.");
+        return getFont(YANONE_KAFFEESATZ, MSDF);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, narrow, humanist font.
+     * Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
+     * of Latin, Cyrillic, and some extended Latin, but not Greek.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-standard.dat">Yanone-Kaffeesatz-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-standard.png">Yanone-Kaffeesatz-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-License.txt">Yanone-Kaffeesatz-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-msdf.dat">Yanone-Kaffeesatz-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-msdf.png">Yanone-Kaffeesatz-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-License.txt">Yanone-Kaffeesatz-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-sdf.dat">Yanone-Kaffeesatz-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-sdf.png">Yanone-Kaffeesatz-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-License.txt">Yanone-Kaffeesatz-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font YanoneKaffeesatz.ttf
+     */
+    public static Font getYanoneKaffeesatz(DistanceFieldType dft) {
+        return getFont(YANONE_KAFFEESATZ, dft);
     }
 
     private Font yataghanMSDF;
