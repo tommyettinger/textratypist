@@ -1553,8 +1553,6 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(IOSEVKA_SLAB, dft);
     }
 
-    private Font kingthingsFoundation;
-
     /**
      * Returns a Font already configured to use a fairly-legible variable-width ornamental/medieval font, that should
      * scale pretty well from a height of about 90 down to a height of maybe 30.
@@ -1566,42 +1564,60 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Kingthings%20Foundation.png">Image link</a> (uses scaleTo(23, 31))
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.KINGTHINGS_FOUNDATION, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Foundation-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.fnt">KingthingsFoundation-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.png">KingthingsFoundation-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
-     * </ul>
-     * You may instead want the non-bold version, but this doesn't have a pre-made instance in KnownFonts:
-     * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-Light-standard.fnt">KingthingsFoundation-Light-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-Light-standard.png">KingthingsFoundation-Light-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Foundation-standard.dat">Kingthings-Foundation-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Foundation-standard.png">Kingthings-Foundation-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font KingthingsFoundation.ttf
      */
     public static Font getKingthingsFoundation() {
-        initialize();
-        if (instance.kingthingsFoundation == null) {
-            try {
-                instance.kingthingsFoundation = new Font(instance.prefix + "KingthingsFoundation-standard.fnt",
-                        instance.prefix + "KingthingsFoundation-standard.png", STANDARD, 0, 40, 0, 25, true)
-                        .setUnderlineMetrics(0f, -0.125f, 0.125f, -0.2f).setStrikethroughMetrics(0f, -0.125f, 0.125f, -0.2f)
-                        .setInlineImageMetrics(0f, 48f, 8f).setDescent(-20f)
-                        .scaleTo(23, 31).setTextureFilter().setName("Kingthings Foundation");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.kingthingsFoundation != null)
-            return new Font(instance.kingthingsFoundation);
-        throw new RuntimeException("Assets for getKingthingsFoundation() not found.");
+        return getFont(KINGTHINGS_FOUNDATION, STANDARD);
     }
 
-    private Font kingthingsPetrock;
+    /**
+     * Returns a Font already configured to use a fairly-legible variable-width ornamental/medieval font, that should
+     * scale pretty well from a height of about 90 down to a height of maybe 30.
+     * Caches the result for later calls. The font used is Kingthings Foundation, a free (custom permissive license)
+     * typeface; this has faux-bold applied already in order to make some ornamental curls visible at more sizes. You
+     * can still apply bold again using markup. It supports only ASCII. You may want to also look at
+     * {@link #getKingthingsPetrock() Kingthings Petrock}; where Petrock is less-ornamented, Foundation is heavily
+     * ornamented, and Foundation may make sense for text associated with writers of high social status.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Foundation-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Foundation-standard.dat">Kingthings-Foundation-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Foundation-standard.png">Kingthings-Foundation-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Foundation-msdf.dat">Kingthings-Foundation-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Foundation-msdf.png">Kingthings-Foundation-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Foundation-sdf.dat">Kingthings-Foundation-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Foundation-sdf.png">Kingthings-Foundation-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font KingthingsFoundation.ttf
+     */
+    public static Font getKingthingsFoundation(DistanceFieldType dft) {
+        return getFont(KINGTHINGS_FOUNDATION, dft);
+    }
 
     /**
      * Returns a Font already configured to use a clearly-legible variable-width medieval font, that should
@@ -1614,32 +1630,59 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Kingthings%20Petrock.png">Image link</a> (uses scaleTo(25, 32))
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.KINGTHINGS_PETROCK, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Petrock-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsPetrock-standard.fnt">KingthingsPetrock-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsPetrock-standard.png">KingthingsPetrock-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Petrock-standard.dat">Kingthings-Petrock-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Petrock-standard.png">Kingthings-Petrock-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font KingthingsPetrock.ttf
      */
     public static Font getKingthingsPetrock() {
-        initialize();
-        if (instance.kingthingsPetrock == null) {
-            try {
-                instance.kingthingsPetrock = new Font(instance.prefix + "KingthingsPetrock-standard.fnt",
-                        instance.prefix + "KingthingsPetrock-standard.png", STANDARD, 0, 8, 2, 0, true)
-                        .setDescent(-20f).setInlineImageMetrics(0f, 22f, 8f).setFancyLinePosition(0, 0.2f)
-                        .scaleTo(25, 32).setTextureFilter().setName("Kingthings Petrock");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.kingthingsPetrock != null)
-            return new Font(instance.kingthingsPetrock);
-        throw new RuntimeException("Assets for getKingthingsPetrock() not found.");
+        return getFont(KINGTHINGS_PETROCK, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a clearly-legible variable-width medieval font, that should
+     * scale pretty well from a height of about 90 down to a height of maybe 30.
+     * Caches the result for later calls. The font used is Kingthings Petrock, a free (custom permissive license)
+     * typeface; it has a visual style similar to one used by some popular classic rock bands. It supports only ASCII
+     * and a small amount of extended Latin. Kingthings Petrock is similar to
+     * {@link #getKingthingsFoundation() Kingthings Foundation}, but Petrock isn't as heavily-ornamented, and looks more
+     * like "every-day usable" medieval or maybe Renaissance text.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Petrock-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Petrock-standard.dat">Kingthings-Petrock-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Petrock-standard.png">Kingthings-Petrock-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Petrock-msdf.dat">Kingthings-Petrock-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Petrock-msdf.png">Kingthings-Petrock-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Petrock-sdf.dat">Kingthings-Petrock-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-Petrock-sdf.png">Kingthings-Petrock-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font KingthingsPetrock.ttf
+     */
+    public static Font getKingthingsPetrock(DistanceFieldType dft) {
+        return getFont(KINGTHINGS_PETROCK, dft);
     }
 
     private Font lanaPixel;
