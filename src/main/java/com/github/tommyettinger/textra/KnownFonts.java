@@ -1911,7 +1911,6 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(NOW_ALT, STANDARD);
     }
 
-
     /**
      * Returns a Font already configured to use a variable-width geometric sans-serif font, that should
      * scale cleanly to fairly large sizes or down to about 20 pixels.
@@ -1947,43 +1946,62 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(NOW_ALT, dft);
     }
 
-    private Font openSans;
-
     /**
      * Returns a Font configured to use a clean variable-width font, Open Sans. It has good extended-Latin coverage, but
      * does not support Greek, Cyrillic, or other scripts. This makes an especially large font by default, but can be
      * scaled down nicely.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/OpenSans.png">Image link</a> (uses .scaleTo(20, 28))
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.OPEN_SANS, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Open-Sans-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-standard.fnt">OpenSans-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-standard.png">OpenSans-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-License.txt">OpenSans-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Open-Sans-standard.dat">Open-Sans-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Open-Sans-standard.png">Open-Sans-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Open-Sans-License.txt">Open-Sans-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that represents the variable-width font OpenSans
      */
     public static Font getOpenSans() {
-        initialize();
-        if (instance.openSans == null) {
-            try {
-                instance.openSans = new Font(instance.prefix + "OpenSans-standard.fnt",
-                        instance.prefix + "OpenSans-standard.png", STANDARD, 0, 16, 0, 0, true).setDescent(-8f)
-                        .setLineMetrics(0f, -0.125f, 0f, -0.4f).setInlineImageMetrics(0f, 8f, 4f)
-                        .setFancyLinePosition(0f, 0.1f).scaleTo(20, 28).setTextureFilter().setName("OpenSans");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.openSans != null)
-            return new Font(instance.openSans);
-        throw new RuntimeException("Assets for getOpenSans() not found.");
+        return getFont(OPEN_SANS, STANDARD);
     }
 
-    private Font oxanium;
+    /**
+     * Returns a Font configured to use a clean variable-width font, Open Sans. It has good extended-Latin coverage, but
+     * does not support Greek, Cyrillic, or other scripts. This makes an especially large font by default, but can be
+     * scaled down nicely.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Open-Sans-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Open-Sans-standard.dat">Open-Sans-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Open-Sans-standard.png">Open-Sans-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Open-Sans-License.txt">Open-Sans-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Open-Sans-msdf.dat">Open-Sans-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Open-Sans-msdf.png">Open-Sans-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Open-Sans-License.txt">Open-Sans-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Open-Sans-sdf.dat">Open-Sans-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Open-Sans-sdf.png">Open-Sans-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Open-Sans-License.txt">Open-Sans-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the variable-width font OpenSans
+     */
+    public static Font getOpenSans(DistanceFieldType dft) {
+        return getFont(OPEN_SANS, dft);
+    }
 
     /**
      * Returns a Font already configured to use a variable-width "science-fiction/high-tech" font, that should
@@ -1993,32 +2011,56 @@ public final class KnownFonts implements LifecycleListener {
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Oxanium.png">Image link</a> (uses width=31, height=35)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.OXANIUM, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Oxanium-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.fnt">Oxanium-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.dat">Oxanium-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.png">Oxanium-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-License.txt">Oxanium-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Oxanium.ttf
+     * @return the Font object that can represent many sizes of the font Oxanium
      */
     public static Font getOxanium() {
-        initialize();
-        if (instance.oxanium == null) {
-            try {
-                instance.oxanium = new Font(instance.prefix + "Oxanium-standard.fnt",
-                        instance.prefix + "Oxanium-standard.png", STANDARD, 0, 2, -4, 0, true).setDescent(-12f)
-                        .setLineMetrics(0f, -0.125f, 0f, 0f).setInlineImageMetrics(0f, 12f, 4f)
-                        .scaleTo(31, 35).setTextureFilter().setName("Oxanium");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.oxanium != null)
-            return new Font(instance.oxanium);
-        throw new RuntimeException("Assets for getOxanium() not found.");
+        return getFont(OXANIUM, STANDARD);
+    }
+
+
+    /**
+     * Returns a Font already configured to use a variable-width "science-fiction/high-tech" font, that should
+     * scale pretty well down, but not up.
+     * Caches the result for later calls. The font used is Oxanium, a free (OFL) typeface. It supports a lot of Latin
+     * and extended Latin, but not Greek or Cyrillic.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Oxanium-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.dat">Oxanium-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.png">Oxanium-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-License.txt">Oxanium-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-msdf.dat">Oxanium-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-msdf.png">Oxanium-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-License.txt">Oxanium-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-sdf.dat">Oxanium-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-sdf.png">Oxanium-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-License.txt">Oxanium-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Oxanium
+     */
+    public static Font getOxanium(DistanceFieldType dft) {
+        return getFont(OXANIUM, dft);
     }
 
     private Font quanPixel;
