@@ -304,9 +304,6 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
      * <br>
-     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.A_STARRY, dft)};
-     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
-     * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
@@ -463,9 +460,6 @@ public final class KnownFonts implements LifecycleListener {
      * or squashed so height is slightly smaller. Bitter looks very similar to {@link #getGentium()}, except that Bitter
      * is quite a bit lighter, with thinner strokes and stylistic flourishes on some glyphs.
      * <br>
-     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.BITTER, dft)};
-     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
-     * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bitter-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
@@ -530,9 +524,6 @@ public final class KnownFonts implements LifecycleListener {
      * many dingbats, and more. This font can look good at its natural size, which uses width roughly equal to height,
      * or narrowed down so width is smaller.
      * <br>
-     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CANADA1500, Font.DistanceFieldType.STANDARD)};
-     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
-     * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Canada1500-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
@@ -596,9 +587,6 @@ public final class KnownFonts implements LifecycleListener {
      * It supports a lot of glyphs, including most extended Latin, Greek, Braille, and Cyrillic.
      * This uses a fairly-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
-     * <br>
-     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CASCADIA_MONO, Font.DistanceFieldType.STANDARD)};
-     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-standard.png" alt="Image preview" />
      * <br>
@@ -690,9 +678,6 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Caveat, a free (OFL) typeface designed by Pablo Impallari.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
      * This may work well in a font family with other fonts that do not use a distance field effect.
-     * <br>
-     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CAVEAT, Font.DistanceFieldType.STANDARD)};
-     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Caveat-standard.png" alt="Image preview" />
      * <br>
@@ -1138,6 +1123,63 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font already configured to use a variable-width, heavy-weight, legible gothic font.
+     * Caches the result for later calls. The font used is Grenze, a free (OFL) typeface designed by the Manuale
+     * Project. This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
+     * well. This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GRENZE, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Grenze-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Grenze-standard.dat">Grenze-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Grenze-standard.png">Grenze-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Grenze-License.txt">Grenze-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Grenze
+     */
+    public static Font getGrenze() {
+        return getFont(GRENZE, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, heavy-weight, legible gothic font.
+     * Caches the result for later calls. The font used is Grenze, a free (OFL) typeface designed by the Manuale
+     * Project.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Grenze-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Grenze-standard.dat">Grenze-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Grenze-standard.png">Grenze-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Grenze-License.txt">Grenze-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Grenze-sdf.dat">Grenze-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Grenze-sdf.png">Grenze-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Grenze-License.txt">Grenze-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Grenze-msdf.dat">Grenze-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Grenze-msdf.png">Grenze-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Grenze-License.txt">Grenze-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Grenze
+     */
+    public static Font getGrenze(DistanceFieldType dft) {
+        return getFont(GRENZE, dft);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width, narrow font with nearly-complete CJK character
      * coverage, plus Latin, Greek, and Cyrillic, that should scale pretty well down, but not up.
      * Caches the result for later calls. The font used is Hanazono (HanMinA, specifically), a free (OFL) typeface.
@@ -1279,9 +1321,6 @@ public final class KnownFonts implements LifecycleListener {
      * Inconsolata is by Raph Levien, and various other contributors added support for other languages. This does not
      * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}.
      * This may work well in a font family with other fonts that do not use a distance field effect.
-     * <br>
-     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.INCONSOLATA_LGC, Font.DistanceFieldType.STANDARD)};
-     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-standard.png" alt="Image preview" />
      * <br>
@@ -1742,7 +1781,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-standard.dat">Libertinus-Serif-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-standard.png">Libertinus-Serif-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font LibertinusSerif.ttf
@@ -1763,19 +1802,19 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-standard.dat">Libertinus-Serif-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-standard.png">Libertinus-Serif-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li>
      * </ul>
      * or,
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-msdf.dat">Libertinus-Serif-msdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-msdf.png">Libertinus-Serif-msdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li>
      * </ul>
      * or
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-sdf.dat">Libertinus-Serif-sdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-sdf.png">Libertinus-Serif-sdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li>
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
@@ -1803,7 +1842,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-standard.dat">Libertinus-Serif-Semibold-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-standard.png">Libertinus-Serif-Semibold-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font LibertinusSerifSemibold.ttf
@@ -1824,19 +1863,19 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-standard.dat">Libertinus-Serif-Semibold-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-standard.png">Libertinus-Serif-Semibold-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li>
      * </ul>
      * or,
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-msdf.dat">Libertinus-Serif-Semibold-msdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-msdf.png">Libertinus-Serif-Semibold-msdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li>
      * </ul>
      * or
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-sdf.dat">Libertinus-Serif-Semibold-sdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-Semibold-sdf.png">Libertinus-Serif-Semibold-sdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.md</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li>
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
@@ -1846,8 +1885,6 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(LIBERTINUS_SERIF_SEMIBOLD, dft);
     }
 
-    private Font nowAlt;
-
     /**
      * Returns a Font already configured to use a variable-width geometric sans-serif font, that should
      * scale cleanly to fairly large sizes or down to about 20 pixels.
@@ -1856,11 +1893,14 @@ public final class KnownFonts implements LifecycleListener {
      * Cyrillic. This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
      * well. This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Now%20Alt.png">Image link</a> (uses width=29, height=30)
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.NOW_ALT, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Now-Alt-standard.png" alt="Image preview" />
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-standard.fnt">Now-Alt-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-standard.dat">Now-Alt-standard.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-standard.png">Now-Alt-standard.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-License.txt">Now-Alt-License.txt</a></li>
      * </ul>
@@ -1868,20 +1908,43 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font NowAlt.otf
      */
     public static Font getNowAlt() {
-        initialize();
-        if (instance.nowAlt == null) {
-            try {
-                instance.nowAlt = new Font(instance.prefix + "Now-Alt-standard.fnt",
-                        instance.prefix + "Now-Alt-standard.png", STANDARD, 0, 48, 0, 0, true)
-                        .scaleTo(29, 30).setDescent(-16f).adjustLineHeight(1.375f).setLineMetrics(0.05f, -0.1f, 0f, 0f).setInlineImageMetrics(0f, 20f, 8f)
-                        .setTextureFilter().setName("Now Alt");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (instance.nowAlt != null)
-            return new Font(instance.nowAlt);
-        throw new RuntimeException("Assets for getNowAlt() not found.");
+        return getFont(NOW_ALT, STANDARD);
+    }
+
+
+    /**
+     * Returns a Font already configured to use a variable-width geometric sans-serif font, that should
+     * scale cleanly to fairly large sizes or down to about 20 pixels.
+     * Caches the result for later calls. The font used is Now Alt, an open-source (SIL Open Font License) typeface by
+     * Hanken Design Co. It has decent glyph coverage for most European languages, but doesn't fully support Greek or
+     * Cyrillic.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Now-Alt-standard.png" alt="Image preview" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-standard.dat">Now-Alt-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-standard.png">Now-Alt-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-License.txt">Now-Alt-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-msdf.dat">Now-Alt-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-msdf.png">Now-Alt-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-License.txt">Now-Alt-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-sdf.dat">Now-Alt-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-sdf.png">Now-Alt-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-License.txt">Now-Alt-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font NowAlt.otf
+     */
+    public static Font getNowAlt(DistanceFieldType dft) {
+        return getFont(NOW_ALT, dft);
     }
 
     private Font openSans;
