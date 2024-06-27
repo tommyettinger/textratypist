@@ -2007,6 +2007,58 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font configured to use a variable-width, tall, very-heavy-weight sans-serif font, Ostrich Black.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.OSTRICH_BLACK, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ostrich-Black-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-standard.dat">Ostrich-Black-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-standard.png">Ostrich-Black-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-License.txt">Ostrich-Black-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that represents the variable-width font Ostrich Black
+     */
+    public static Font getOstrichBlack() {
+        return getFont(OSTRICH_BLACK, STANDARD);
+    }
+
+    /**
+     * Returns a Font configured to use a variable-width, tall, very-heavy-weight sans-serif font, Ostrich Black.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ostrich-Black-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-standard.dat">Ostrich-Black-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-standard.png">Ostrich-Black-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-License.txt">Ostrich-Black-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-msdf.dat">Ostrich-Black-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-msdf.png">Ostrich-Black-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-License.txt">Ostrich-Black-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-sdf.dat">Ostrich-Black-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-sdf.png">Ostrich-Black-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ostrich-Black-License.txt">Ostrich-Black-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the variable-width font Ostrich Black
+     */
+    public static Font getOstrichBlack(DistanceFieldType dft) {
+        return getFont(OSTRICH_BLACK, dft);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width "science-fiction/high-tech" font, that should
      * scale pretty well down, but not up.
      * Caches the result for later calls. The font used is Oxanium, a free (OFL) typeface. It supports a lot of Latin
@@ -3261,15 +3313,16 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all Font instances this knows
      */
     public static Font[] getAll() {
-        return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getAStarryMSDF(),
+        return new Font[]{getAStarry(), getAStarryTall(), getAStarryMSDF(),
                 getBitter(), getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getCozette(),
                 getDejaVuSansMono(), getGentium(), getGentiumMSDF(), getGentiumSDF(), getGentiumUnItalic(),
-                getGoNotoUniversal(), getGoNotoUniversalSDF(), getHanazono(), getIBM8x16(),
+                getGoNotoUniversal(), getGoNotoUniversalSDF(), getGrenze(), getHanazono(), getIBM8x16(),
                 getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
-                getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getNowAlt(), getOpenSans(),
+                getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getLibertinusSerifSemibold(),
+                getNowAlt(), getOpenSans(), getOstrichBlack(),
                 getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(), getTangerineSDF(),
-                getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghanMSDF()};
+                getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghan(), getYataghanMSDF()};
     }
 
     /**
