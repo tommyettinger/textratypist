@@ -950,6 +950,128 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font already configured to use a variable-width serif font with excellent Unicode support.
+     * Caches the result for later calls. The font used is
+     * DejaVu Serif, an open-source typeface included in many Linux distros. It supports a lot of glyphs,
+     * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
+     * real languages. This does not use a distance field effect, as opposed to {@link #getDejaVuSansMono()}.
+     * You may want to stick using just fonts that avoid distance fields if you have a family of fonts.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.DEJAVU_SERIF, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-standard.dat">DejaVu-Serif-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-standard.png">DejaVu-Serif-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font DejaVuSerif.ttf
+     */
+    public static Font getDejaVuSerif() {
+        return getFont(DEJAVU_SERIF, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width serif font with excellent Unicode support.
+     * Caches the result for later calls. The font used is
+     * DejaVu Serif, an open-source typeface included in many Linux distros. It supports a lot of glyphs,
+     * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
+     * real languages.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-standard.dat">DejaVu-Serif-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-standard.png">DejaVu-Serif-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-msdf.dat">DejaVu-Serif-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-msdf.png">DejaVu-Serif-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-sdf.dat">DejaVu-Serif-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-sdf.png">DejaVu-Serif-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font DejaVuSerif.ttf
+     */
+    public static Font getDejaVuSerif(DistanceFieldType dft) {
+        return getFont(DEJAVU_SERIF, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width narrow serif font with excellent Unicode support.
+     * Caches the result for later calls. The font used is
+     * DejaVu Serif Condensed, an open-source typeface included in many Linux distros. It supports a lot of glyphs,
+     * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
+     * real languages. This does not use a distance field effect, as opposed to {@link #getDejaVuSansMono()}.
+     * You may want to stick using just fonts that avoid distance fields if you have a family of fonts.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.DEJAVU_SERIF_CONDENSED, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-Condensed-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-Condensed-standard.dat">DejaVu-Serif-Condensed-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-Condensed-standard.png">DejaVu-Serif-Condensed-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font DejaVuSerifCondensed.ttf
+     */
+    public static Font getDejaVuSerifCondensed() {
+        return getFont(DEJAVU_SERIF_CONDENSED, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width narrow serif font with excellent Unicode support.
+     * Caches the result for later calls. The font used is
+     * DejaVu Serif Condensed, an open-source typeface included in many Linux distros. It supports a lot of glyphs,
+     * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
+     * real languages.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-Condensed-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-Condensed-standard.dat">DejaVu-Serif-Condensed-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-Condensed-standard.png">DejaVu-Serif-Condensed-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-Condensed-msdf.dat">DejaVu-Serif-Condensed-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-Condensed-msdf.png">DejaVu-Serif-Condensed-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-Condensed-sdf.dat">DejaVu-Serif-Condensed-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-Serif-Condensed-sdf.png">DejaVu-Serif-Condensed-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font DejaVuSerifCondensed.ttf
+     */
+    public static Font getDejaVuSerifCondensed(DistanceFieldType dft) {
+        return getFont(DEJAVU_SERIF_CONDENSED, dft);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width serif font with excellent Unicode support, that should
      * scale well from a height of about 132 down to a height of 24. Caches the result for later calls. The font used is
      * Gentium, an open-source (SIL Open Font License) typeface by SIL (see
