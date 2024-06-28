@@ -1271,6 +1271,65 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font already configured to use a variable-width geometric sans-serif font. This looks similar, but
+     * not identical, to {@link #getNowAlt()}. In particular, this font has a much lighter weight.
+     * Caches the result for later calls. The font used is Glacial Indifference, an open-source (SIL Open Font License)
+     * typeface. This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
+     * well. This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GLACIAL_INDIFFERENCE, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Glacial-Indifference-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Glacial-Indifference-standard.dat">Glacial-Indifference-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Glacial-Indifference-standard.png">Glacial-Indifference-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Glacial-Indifference-License.txt">Glacial-Indifference-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Glacial Indifference
+     */
+    public static Font getGlacialIndifference() {
+        return getFont(GLACIAL_INDIFFERENCE, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width geometric sans-serif font. This looks similar, but
+     * not identical, to {@link #getNowAlt()}. In particular, this font has a much lighter weight.
+     * Caches the result for later calls. The font used is Glacial Indifference, an open-source (SIL Open Font License)
+     * typeface.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Glacial-Indifference-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Glacial-Indifference-standard.dat">Glacial-Indifference-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Glacial-Indifference-standard.png">Glacial-Indifference-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Glacial-Indifference-License.txt">Glacial-Indifference-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Glacial-Indifference-msdf.dat">Glacial-Indifference-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Glacial-Indifference-msdf.png">Glacial-Indifference-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Glacial-Indifference-License.txt">Glacial-Indifference-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Glacial-Indifference-sdf.dat">Glacial-Indifference-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Glacial-Indifference-sdf.png">Glacial-Indifference-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Glacial-Indifference-License.txt">Glacial-Indifference-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Glacial Indifference
+     */
+    public static Font getGlacialIndifference(DistanceFieldType dft) {
+        return getFont(GLACIAL_INDIFFERENCE, dft);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support, that
      * should scale cleanly to medium-small sizes (but not large sizes). Caches the result for later calls. The
      * font used is Go Noto Universal, an open-source (SIL Open Font License) typeface that modifies Noto Sans by Google
