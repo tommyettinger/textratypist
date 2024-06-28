@@ -2313,8 +2313,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font configured to use a variable-width, tall, very-heavy-weight sans-serif font, Ostrich Black.
-     * It is OFL-licensed and was made by Tyler Fink.
+     * Returns a Font configured to use an ALL-CAPS, variable-width, tall, very-heavy-weight sans-serif font, Ostrich
+     * Black. It is OFL-licensed and was made by Tyler Fink.
      * <br>
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.OSTRICH_BLACK, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
@@ -2335,8 +2335,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font configured to use a variable-width, tall, very-heavy-weight sans-serif font, Ostrich Black.
-     * It is OFL-licensed and was made by Tyler Fink.
+     * Returns a Font configured to use an ALL-CAPS, variable-width, tall, very-heavy-weight sans-serif font, Ostrich
+     * Black. It is OFL-licensed and was made by Tyler Fink.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ostrich-Black-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
