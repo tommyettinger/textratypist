@@ -2702,6 +2702,32 @@ public final class KnownFonts implements LifecycleListener {
      * Returns a Font already configured to use a variable-width, narrow, "dark fantasy" font.
      * Caches the result for later calls. The font used is Yataghan, a widely-distributed typeface. It supports ASCII
      * and some extended Latin, but not much else.
+     * <br>
+     * I don't know who the original author of Yataghan was; if you are the original author and want attribution or want
+     * this font removed, please post an issue on the tommyettinger/textratypist GitHub repo, or email tommyettinger.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.YATAGHAN, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yataghan-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-standard.dat">Yataghan-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-standard.png">Yataghan-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Yataghan.ttf
+     */
+    public static Font getYataghan() {
+        return getFont(YATAGHAN, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, narrow, "dark fantasy" font.
+     * Caches the result for later calls. The font used is Yataghan, a widely-distributed typeface. It supports ASCII
+     * and some extended Latin, but not much else.
      * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
      * technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
      * <br>
@@ -2724,32 +2750,6 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getYataghanMSDF() {
         return getFont(YATAGHAN, MSDF);
-    }
-
-    /**
-     * Returns a Font already configured to use a variable-width, narrow, "dark fantasy" font.
-     * Caches the result for later calls. The font used is Yataghan, a widely-distributed typeface. It supports ASCII
-     * and some extended Latin, but not much else.
-     * <br>
-     * I don't know who the original author of Yataghan was; if you are the original author and want attribution or want
-     * this font removed, please post an issue on the tommyettinger/textratypist GitHub repo, or email tommyettinger.
-     * <br>
-     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.YATAGHAN, Font.DistanceFieldType.STANDARD)};
-     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
-     * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yataghan-standard.png" alt="Image preview" width="1200" height="675" />
-     * <br>
-     * Needs files:
-     * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-standard.dat">Yataghan-standard.dat</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-standard.png">Yataghan-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li>
-     * </ul>
-     *
-     * @return the Font object that can represent many sizes of the font Yataghan.ttf
-     */
-    public static Font getYataghan() {
-        return getFont(YATAGHAN, STANDARD);
     }
 
     /**
@@ -3566,7 +3566,7 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Gets a typically-square Font that is meant to be used in a FontFamily, allowing switching to a Font with the many
      * game-icons.net icons. The base Font this uses is {@link #getAStarry()}, because it is perfectly square by
-     * default, and this needs all of AStarry's assets. It also needs the assets for {@link #addGameIcons(Font)} to be
+     * default, and this needs all of A-Starry's assets. It also needs the assets for {@link #addGameIcons(Font)} to be
      * present, since those will be available with this Font. The name this will use in a FontFamily is "Icons". You can
      * specify the width and height you want for the icons; typically they are the same, because the icons here are
      * square, and you probably want the height to match the line height for your main font. It isn't expected that
@@ -3574,14 +3574,11 @@ public final class KnownFonts implements LifecycleListener {
      * both the emoji from {@link #addEmoji(Font)} and the icons from {@link #addGameIcons(Font)} in one Font, but you
      * can swap between two different Fonts in a FontFamily, one with emoji and one with icons.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png">Image link</a> (uses
-     * the font {@link #getNowAlt()} and {@code [%?blacken]} mode)
-     * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.fnt">AStarry-standard.fnt</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.png">AStarry-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-License.txt">AStarry-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-standard.dat">A-Starry-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-standard.png">A-Starry-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.atlas">Game-Icons.atlas</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.png">Game-Icons.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons-License.txt">Game-Icons-License.txt</a></li>
@@ -3621,32 +3618,54 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all Font instances this knows
      */
     public static Font[] getAll() {
-        return new Font[]{getAStarry(), getAStarryTall(), getAStarryMSDF(),
-                getBitter(), getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getCozette(),
-                getDejaVuSansMono(), getGentium(), getGentiumMSDF(), getGentiumSDF(), getGentiumUnItalic(),
+        return new Font[]{getAStarry(), getAStarryMSDF(), getAStarryTall(), getBitter(), getCanada(),
+                getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getCozette(), getDejaVuSans(),
+                getDejaVuSansCondensed(), getDejaVuSansMono(), getDejaVuSerif(), getDejaVuSerifCondensed(),
+                getGentium(), getGentiumMSDF(), getGentiumSDF(), getGentiumUnItalic(), getGlacialIndifference(),
                 getGoNotoUniversal(), getGoNotoUniversalSDF(), getGrenze(), getHanazono(), getIBM8x16(),
                 getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getLibertinusSerifSemibold(),
-                getNowAlt(), getOpenSans(), getOstrichBlack(),
-                getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(), getTangerineSDF(),
+                getNowAlt(), getOpenSans(), getOstrichBlack(), getOxanium(), getQuanPixel(), getRobotoCondensed(),
+                getTangerine(), getTangerineSDF(),
                 getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghan(), getYataghanMSDF()};
     }
 
     /**
-     * Returns a new array of Font instances, calling each getXyz() method in this class that returns any
-     * non-distance-field Font.
+     * Returns a new array of Font instances, calling {@link #getFont(String, DistanceFieldType)} on every font name
+     * in {@link #STANDARD_NAMES} with {@link DistanceFieldType#STANDARD} as the distance field type (meaning no
+     * distance field effect will be used). This uses the more specific configuration in methods like
+     * {@link #getCozette()} for any .fnt or .font fonts it has to load, as well as for {@link #getAStarryTall()}.
+     * <br>
      * This will only function at all if all the assets (for every known standard Font) are present and load-able.
      * You should store the result of this method, rather than calling it often, because each call copies many Fonts.
      * @return a new array containing all non-distance-field Font instances this knows
      */
     public static Font[] getAllStandard() {
-        return new Font[]{getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getBitter(), getCanada(),
-                getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getGentiumUnItalic(), getGoNotoUniversal(),
-                getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
-                getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getNowAlt(),
-                getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()
-        };
+        Font[] found = new Font[STANDARD_NAMES.size+1];
+        int i = 0;
+        // Structured JSON format
+        for(String name : JSON_NAMES){
+            found[i++] = getFont(name, STANDARD);
+        }
+        // special JSON config
+        found[i++] = getAStarryTall();
+        // AngelCode BMFont format
+        found[i++] = getCozette();
+        found[i++] = getHanazono();
+        found[i++] = getLanaPixel();
+        found[i++] = getQuanPixel();
+        // SadConsole format
+        found[i++] = getIBM8x16();
+        return found;
+
+//        return new Font[]{getAStarry(), getAStarryTall(), getBitter(), getCanada(), getCascadiaMono(), getCaveat(),
+//                getCozette(), getGentium(), getGentiumUnItalic(), getGoNotoUniversal(),
+//                getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
+//                getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getNowAlt(),
+//                getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(),
+//                getYanoneKaffeesatz(), getYataghan()
+//        };
     }
 
     /**
@@ -3662,7 +3681,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li>{@code Retro}, which is {@link #getIBM8x16()},</li>
      *     <li>{@code Slab}, which is {@link #getIosevkaSlab()},</li>
      *     <li>{@code Handwriting}, which is {@link #getCaveat()},</li>
-     *     <li>{@code Canada}, which is {@link #getCanada()},</li>
+     *     <li>{@code Dark}, which is {@link #getGrenze()},</li>
      *     <li>{@code Cozette}, which is {@link #getCozette()},</li>
      *     <li>{@code Iosevka}, which is {@link #getIosevka()},</li>
      *     <li>{@code Medieval}, which is {@link #getKingthingsFoundation()},</li>
@@ -3674,8 +3693,9 @@ public final class KnownFonts implements LifecycleListener {
      * You can also always use the full name of one of these fonts, which can be obtained using {@link Font#getName()}.
      * {@code Serif}, which is {@link #getGentium()}, will always be the default font used after a reset. For
      * backwards compatibility, {@code Bitter} is an alias for {@link #getGentium()} (not {@link #getBitter()}), because
-     * Bitter and Gentium look very similar and because a slot was needed for {@code Handwriting}, which seemed useful
-     * in more situations.
+     * Bitter and Gentium look very similar and because a slot was needed. Similarly, {@code Canada} is an alias for
+     * {@link #getNowAlt()} (not {@link #getCanada()}), because they're both geometric heavier-weight typefaces, and
+     * as before, a slot was needed.
      * <br>
      * This will only function at all if all the assets (for every known standard Font) are present and load-able.
      * You should store the result of this method, rather than calling it often, because each call copies many Fonts.
@@ -3684,36 +3704,63 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getStandardFamily() {
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{"Serif", "Sans", "Mono", "Condensed", "Humanist",
-                        "Retro", "Slab", "Handwriting", "Canada", "Cozette", "Iosevka",
+                        "Retro", "Slab", "Handwriting", "Dark", "Cozette", "Iosevka",
                         "Medieval", "Future", "Console", "Code", "Geometric"},
                 new Font[]{getGentium(), getOpenSans(), getInconsolata(), getRobotoCondensed(), getYanoneKaffeesatz(),
-                        getIBM8x16(), getIosevkaSlab(), getCaveat(), getCanada(), getCozette(), getIosevka(),
-                        getKingthingsFoundation(), getOxanium(), getAStarry().scale(2, 2), getCascadiaMono(), getNowAlt()});
+                        getIBM8x16(), getIosevkaSlab(), getCaveat(), getGrenze(), getCozette(), getIosevka(),
+                        getKingthingsFoundation(), getOxanium(), getAStarryTall(), getCascadiaMono(), getNowAlt()});
         family.fontAliases.put("Bitter", 0); // for compatibility; Bitter and Gentium look nearly identical anyway...
+        family.fontAliases.put("Canada", 15); // Canada1500 is... sort-of close... to Now Alt...
         return family.connected[0].setFamily(family);
     }
 
     /**
-     * Returns a new array of Font instances, calling each getXyz() method in this class that returns any SDF Font.
+     * Returns a new array of Font instances, calling {@link #getFont(String, DistanceFieldType)} on every font name
+     * in {@link #STANDARD_NAMES} with {@link DistanceFieldType#SDF} as the distance field type. This uses the more
+     * specific configuration in {@link #getAStarryTall(DistanceFieldType)}.
+     * <br>
      * This will only function at all if all the assets (for every known SDF Font) are present and load-able.
-     * You should store the result of this method, rather than calling it often, because each call copies 5 Fonts.
+     * You should store the result of this method, rather than calling it often, because each call copies many Fonts.
      * @return a new array containing all SDF Font instances this knows
      */
     public static Font[] getAllSDF() {
-        return new Font[]{getGentiumSDF(), getGoNotoUniversalSDF(), getIosevkaSDF(), getIosevkaSlabSDF(),
-                getTangerineSDF()};
+        Font[] found = new Font[SDF_NAMES.size+1];
+        int i = 0;
+        // Structured JSON format
+        for(String name : SDF_NAMES){
+            found[i++] = getFont(name, SDF);
+        }
+        // special JSON config
+        found[i++] = getAStarryTall(SDF);
+        return found;
+
+//        return new Font[]{getGentiumSDF(), getGoNotoUniversalSDF(), getIosevkaSDF(), getIosevkaSlabSDF(),
+//                getTangerineSDF()};
     }
 
     /**
-     * Returns a new array of Font instances, calling each getXyz() method in this class that returns any MSDF Font.
+     * Returns a new array of Font instances, calling {@link #getFont(String, DistanceFieldType)} on every font name
+     * in {@link #STANDARD_NAMES} with {@link DistanceFieldType#MSDF} as the distance field type. This uses the more
+     * specific configuration in {@link #getAStarryTall(DistanceFieldType)}.
+     * <br>
      * This will only function at all if all the assets (for every known MSDF Font) are present and load-able.
-     * You should store the result of this method, rather than calling it often, because each call copies 9 Fonts.
+     * You should store the result of this method, rather than calling it often, because each call copies many Fonts.
      * @return a new array containing all MSDF Font instances this knows
      */
     public static Font[] getAllMSDF() {
-        return new Font[]{getAStarryMSDF(), getCascadiaMonoMSDF(), getDejaVuSansMono(),
-                getGentiumMSDF(), getInconsolataMSDF(), getIosevkaMSDF(),
-                getIosevkaSlabMSDF(), getYanoneKaffeesatzMSDF(), getYataghanMSDF()};
+        Font[] found = new Font[MSDF_NAMES.size+1];
+        int i = 0;
+        // Structured JSON format
+        for(String name : MSDF_NAMES){
+            found[i++] = getFont(name, MSDF);
+        }
+        // special JSON config
+        found[i++] = getAStarryTall(MSDF);
+        return found;
+
+//        return new Font[]{getAStarryMSDF(), getCascadiaMonoMSDF(), getDejaVuSansMono(),
+//                getGentiumMSDF(), getInconsolataMSDF(), getIosevkaMSDF(),
+//                getIosevkaSlabMSDF(), getYanoneKaffeesatzMSDF(), getYataghanMSDF()};
     }
 
     @Override
@@ -3738,6 +3785,10 @@ public final class KnownFonts implements LifecycleListener {
         if(openMojiWhite != null) {
             openMojiWhite.dispose();
             openMojiWhite = null;
+        }
+        if(gameIconsFont != null) {
+            gameIconsFont.dispose();
+            gameIconsFont = null;
         }
     }
 }
