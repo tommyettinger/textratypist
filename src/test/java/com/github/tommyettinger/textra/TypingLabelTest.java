@@ -55,9 +55,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
         label = createTypingLabel();
 
-        labelEvent = new TypingLabel("",
-                new Font(new BitmapFont(Gdx.files.internal("OpenSans-standard.fnt")), Font.DistanceFieldType.STANDARD,
-                        0f, 0f, 0f, 0f).scale(0.5f, 0.5f).setTextureFilter());
+        labelEvent = new TypingLabel("", KnownFonts.getOpenSans(Font.DistanceFieldType.SDF_OUTLINE));
         labelEvent.setAlignment(Align.left);
         labelEvent.pause();
         labelEvent.setVisible(false);
@@ -200,7 +198,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
         final StringBuilder text = new StringBuilder();
         text.append("{SLOWER}[-GRADIENT=FF70F1;light exciting pink orange with ignored words;-0.5;5]{EASE=-8;2;1}{SHRINK=2;5}[@Medieval]Welcome,{ENDSHRINK}[%] [@]{WAIT}");
-        text.append("{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}[%^SHADOW]{VAR=title}[%]{STYLE=;}{STYLE=/}{ENDSPIRAL}![ ] {TRIGGER=lightest violet}[lightest violet]{VAR=MUTATE}[+🤔][ ]{WAIT=0.8}");
+        text.append("{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}[%^SHADOW]{VAR=title}[%]{STYLE=;}{STYLE=/}{ENDSPIRAL}![ ] {TRIGGER=lightest violet}[lightest violet][+🤔][ ]{WAIT=0.8}");
         text.append("{FAST}\n\n");
         text.append("{RESET}[@Sans]{ATTENTION}This is a [*][#b03060ff][%?SHINY]simple[WHITE][*][%] [%?blacken]test[%][@]{ENDATTENTION} [blacken]to[%] {SPIN}show you{ENDSPIN}");
         text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {CROWD=20;1;forever}how to make dialogues{ENDCROWD} {JUMP}{SLOW}[*][/]fun[/][*] again! {ENDGRADIENT}[+🥳]{ENDJUMP}{WAIT}\n");
@@ -209,7 +207,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         text.append("{SPEED=2.50}{COLOR=lighter dull GREEN} making the text go {SHAKE=1.1;0.6;inf}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5} ");
         text.append("{SPEED=0.25}{COLOR=jade fern}{WAVE=0.66;1;0.5;∞}[@Mono] or extremely slow.[@]{ENDWAVE}");
         text.append("{RESET} You {HEARTBEAT}[darker red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}[black][%?whiten]second[ ]{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2}, ");
-        text.append("[%?Error]jussst[%][.][red][@Canada] spelling[ ] to [%?WARN]catching[%][.][#FFD510FF][@Canada] grammar[ ] an {RAINBOW=1;1;0.7}[@Console][;]{STYLE=%?jostle}event[%][;][@]{ENDRAINBOW} in [%?note]code[%][.][#3088B8FF][@Canada] cool[ ]{EVENT=example}!{WAIT} ");
+        text.append("[%?Error]jussst[%][.][red][@Canada] spelling[ ] to [%?WARN]catching[%][.][#FFD510FF][@Canada] grammar[ ] an {RAINBOW=1;1;0.7}[@Console][;]event[;][@]{ENDRAINBOW} in [%?note]code[%][.][#3088B8FF][@Canada] cool[ ]{EVENT=example}!{WAIT} ");
         text.append("{NORMAL}\n\n");
         text.append("{VAR=FIRE_WIND}Imagine the [~]bugs[~]! I mean, possibilities! {ENDGRADIENT}{SPEED=0.1}{CANNON}[+🔥][+😁][+👏] {RESET}");
 
@@ -246,27 +244,10 @@ public class TypingLabelTest extends ApplicationAdapter {
         }
 //        Font condensed = font.family.connected[font.family.fontAliases.get("Condensed", 0)];
 //        condensed.scaleTo(font.cellWidth, font.cellHeight);
-        final TypingLabel label = new TypingLabel(text.toString(), font)
-//        {
-//            @Override
-//            public void act(float delta) {
-//                super.act(delta);
-//                long time = System.currentTimeMillis();
-//                if(time % 5000 >= 1000)
-////                    setVariable("MUTATE", (time % 1000)+"ms.");
-//                    setVariable("MUTATE", "[BLUE]"+(time % 1000)+"ms.");
-////                    setVariable("MUTATE", "{OCEAN}"+(time % 1000)+"ms.");
-//                else
-////                    setVariable("MUTATE", (time % 1000)+"MS!!!");
-//                    setVariable("MUTATE", "[RED]"+(time % 1000)+"MS!!!");
-////                    setVariable("MUTATE", "{RAINBOW}"+(time % 1000)+"MS!!!");
-//                parseTokens();
-//            }
-//        }
-        ;
+        final TypingLabel label = new TypingLabel(text.toString(), font);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
-        label.setVariable("MUTATE", "[GREEN]Oh yeah!");
+//        label.setVariable("MUTATE", "[GREEN]Oh yeah!");
 
         // Make the label wrap to new lines, respecting the table's layout.
         label.layout.maxLines = 15;

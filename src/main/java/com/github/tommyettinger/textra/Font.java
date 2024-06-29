@@ -96,35 +96,6 @@ import java.util.IdentityHashMap;
  */
 public class Font implements Disposable {
     /**
-     * A {@link DistanceFieldType} that should be {@link DistanceFieldType#STANDARD} for most fonts, and can be
-     * {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or {@link DistanceFieldType#SDF_OUTLINE} if you
-     * know you have a font made to be used with one of those rendering techniques. See {@link #distanceFieldCrispness}
-     * for one way to configure SDF and MSDF fonts, and {@link #resizeDistanceField(int, int)} for a convenience method
-     * to handle window-resizing sharply.
-     */
-    public DistanceFieldType getDistanceField() {
-        return distanceField;
-    }
-
-    public Font setDistanceField(DistanceFieldType distanceField) {
-        this.distanceField = distanceField;
-        if (distanceField == DistanceFieldType.MSDF) {
-            shader = new ShaderProgram(vertexShader, msdfFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
-        } else if (distanceField == DistanceFieldType.SDF) {
-            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
-        } else if (distanceField == DistanceFieldType.SDF_OUTLINE) {
-            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
-        } else shader = null;
-        return this;
-    }
-
-    /**
      * Describes the region of a glyph in a larger TextureRegion, carrying a little more info about the offsets that
      * apply to where the glyph is rendered.
      */
@@ -2538,6 +2509,44 @@ public class Font implements Disposable {
     }
 
     //// usage section
+
+    /**
+     * A {@link DistanceFieldType} that should be {@link DistanceFieldType#STANDARD} for most fonts, and can be
+     * {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or {@link DistanceFieldType#SDF_OUTLINE} if you
+     * know you have a font made to be used with one of those rendering techniques. See {@link #distanceFieldCrispness}
+     * for one way to configure SDF and MSDF fonts, and {@link #resizeDistanceField(int, int)} for an important method
+     * to handle window-resizing correctly.
+     */
+    public DistanceFieldType getDistanceField() {
+        return distanceField;
+    }
+
+    /**
+     * Sets this Font's distance field type; this should be {@link DistanceFieldType#STANDARD} for most fonts (meaning
+     * it is a normal bitmap font with no distance field effect), but specially-made fonts can use
+     * {@link DistanceFieldType#SDF} or {@link DistanceFieldType#MSDF} to get
+     * smoother scaling and/or sharper edges. Fonts compatible with SDF can use {@link DistanceFieldType#SDF_OUTLINE} to
+     * show a black outline around all glyphs in the font.
+     * @param distanceField a DistanceFieldType enum constant; if null, this will be treated as {@link DistanceFieldType#STANDARD}
+     * @return this, for chaining
+     */
+    public Font setDistanceField(DistanceFieldType distanceField) {
+        this.distanceField = distanceField == null ? DistanceFieldType.STANDARD : distanceField;
+        if (this.distanceField == DistanceFieldType.MSDF) {
+            shader = new ShaderProgram(vertexShader, msdfFragmentShader);
+            if (!shader.isCompiled())
+                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
+        } else if (this.distanceField == DistanceFieldType.SDF) {
+            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
+            if (!shader.isCompiled())
+                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
+        } else if (this.distanceField == DistanceFieldType.SDF_OUTLINE) {
+            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
+            if (!shader.isCompiled())
+                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
+        } else shader = null;
+        return this;
+    }
 
     /**
      * Assembles two chars into a kerning pair that can be looked up as a key in {@link #kerning}. This is unlikely to

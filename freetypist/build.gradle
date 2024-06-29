@@ -2,7 +2,7 @@ import org.gradle.api.JavaVersion
 
 buildscript {
     repositories {
-        mavenLocal()
+//        mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         gradlePluginPortal()
@@ -65,7 +65,7 @@ jar {
 }
 
 repositories {
-    mavenLocal()
+//    mavenLocal()
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }
     google()
