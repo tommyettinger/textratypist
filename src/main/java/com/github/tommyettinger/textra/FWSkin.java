@@ -35,6 +35,11 @@ import com.badlogic.gdx.utils.SerializationException;
  * load {@link Font}s from AngelCode BMFont files (with a ".fnt" extension), and continues to be able to load
  * {@link BitmapFont}s from those files as well.
  * <br>
+ * To aid usage of distance field fonts, you can call {@link #resizeDistanceFields(int, int)} on this skin (it may
+ * need to be cast to FWSkin) in your {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} method. This makes
+ * all the distance field effects have their correct sizing information, and allows edges to be crisp without becoming
+ * jagged or aliased. It only works on Font objects that use a distance field (SDF, MSDF, or SDF_OUTLINE).
+ * <br>
  * If you are using {@link com.badlogic.gdx.assets.AssetManager}, use {@link FWSkinLoader}.
  */
 
@@ -321,5 +326,22 @@ public class FWSkin extends Skin {
         });
 
         return json;
+    }
+
+    /**
+     * Calls {@link Font#resizeDistanceField(int, int)} with the given width and height on every Font loaded by this
+     * skin. If you are mainly loading Font values via a skin, this can be called instead of manually calling
+     * resizeDistanceField on each Font, and should be called in
+     * {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} (with width and height matching its parameters).
+     * Like Font's resizeDistanceField(), this only has an effect on distance field fonts -- those that use SDF, MSDF,
+     * or SDF_OUTLINE for their {@link Font#getDistanceField()}.
+     *
+     * @param width should match the width in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
+     * @param height should match the height in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
+     */
+    public void resizeDistanceFields(int width, int height) {
+        for(Font font : getAll(Font.class).values()){
+            font.resizeDistanceField(width, height);
+        }
     }
 }

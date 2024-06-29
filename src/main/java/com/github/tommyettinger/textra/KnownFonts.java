@@ -3658,14 +3658,6 @@ public final class KnownFonts implements LifecycleListener {
         // SadConsole format
         found[i++] = getIBM8x16();
         return found;
-
-//        return new Font[]{getAStarry(), getAStarryTall(), getBitter(), getCanada(), getCascadiaMono(), getCaveat(),
-//                getCozette(), getGentium(), getGentiumUnItalic(), getGoNotoUniversal(),
-//                getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
-//                getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getNowAlt(),
-//                getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(),
-//                getYanoneKaffeesatz(), getYataghan()
-//        };
     }
 
     /**
@@ -3686,8 +3678,8 @@ public final class KnownFonts implements LifecycleListener {
      *     <li>{@code Iosevka}, which is {@link #getIosevka()},</li>
      *     <li>{@code Medieval}, which is {@link #getKingthingsFoundation()},</li>
      *     <li>{@code Future}, which is {@link #getOxanium()},</li>
-     *     <li>{@code Console}, which is {@link #getAStarry()}, and</li>
-     *     <li>{@code Code}, which is {@link #getCascadiaMono()}.</li>
+     *     <li>{@code Console}, which is {@link #getAStarryTall()},</li>
+     *     <li>{@code Code}, which is {@link #getCascadiaMono()}, and</li>
      *     <li>{@code Geometric}, which is {@link #getNowAlt()}.</li>
      * </ul>
      * You can also always use the full name of one of these fonts, which can be obtained using {@link Font#getName()}.
@@ -3733,9 +3725,6 @@ public final class KnownFonts implements LifecycleListener {
         // special JSON config
         found[i++] = getAStarryTall(SDF);
         return found;
-
-//        return new Font[]{getGentiumSDF(), getGoNotoUniversalSDF(), getIosevkaSDF(), getIosevkaSlabSDF(),
-//                getTangerineSDF()};
     }
 
     /**
@@ -3757,10 +3746,6 @@ public final class KnownFonts implements LifecycleListener {
         // special JSON config
         found[i++] = getAStarryTall(MSDF);
         return found;
-
-//        return new Font[]{getAStarryMSDF(), getCascadiaMonoMSDF(), getDejaVuSansMono(),
-//                getGentiumMSDF(), getInconsolataMSDF(), getIosevkaMSDF(),
-//                getIosevkaSlabMSDF(), getYanoneKaffeesatzMSDF(), getYataghanMSDF()};
     }
 
     @Override
@@ -3786,6 +3771,7 @@ public final class KnownFonts implements LifecycleListener {
             openMojiWhite.dispose();
             openMojiWhite = null;
         }
+
         if(gameIconsFont != null) {
             gameIconsFont.dispose();
             gameIconsFont = null;
