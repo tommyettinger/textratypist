@@ -29,8 +29,8 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.SerializationException;
 
 /**
- * A sublass of {@link Skin} that includes a serializer for FreeType fonts from JSON. These JSON's are typically exported by
- * Skin Composer. This can also load Font and BitmapFont objects from .fnt files or .json files made by FontWriter. See the
+ * A sublass of {@link Skin} that includes a serializer for FreeType fonts from JSON. These JSON files are typically exported by
+ * Skin Composer. This can also load Font and BitmapFont objects from .fnt, .json, or .dat files made by FontWriter. See the
  * <a href="https://github.com/raeleus/skin-composer/wiki/Creating-FreeType-Fonts#using-a-custom-serializer">Skin Composer documentation</a>.
  * If you are using Asset Manager, use {@link FreeTypistSkinLoader}
  */

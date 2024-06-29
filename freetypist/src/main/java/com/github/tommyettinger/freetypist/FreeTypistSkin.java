@@ -22,17 +22,18 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.SerializationException;
 import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.BitmapFontSupport;
+import com.github.tommyettinger.textra.Styles;
 
 /**
- * A sublass of {@link Skin} that includes a serializer for FreeType fonts from JSON. These JSON's are typically exported by
- * Skin Composer. This can also load Font and BitmapFont objects from .fnt files or .json files made by FontWriter. See the
+ * A sublass of {@link Skin} that includes a serializer for FreeType fonts from JSON. These JSON files are typically exported by
+ * Skin Composer. This can also load Font and BitmapFont objects from .fnt, .json, or .dat files made by FontWriter. See the
  * <a href="https://github.com/raeleus/skin-composer/wiki/Creating-FreeType-Fonts#using-a-custom-serializer">Skin Composer documentation</a>.
  * If you are using Asset Manager, use {@link FreeTypistSkinLoader}
  */
@@ -114,7 +115,7 @@ public class FreeTypistSkin extends Skin {
                         if (region != null)
                         {
                             if(fw)
-                                font = new Font(path, region, xAdjust, yAdjust, widthAdjust, heightAdjust, true, true);
+                                font = new Font(path, region, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
                             else
                                 font = new Font(path, region, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
                         }
@@ -135,7 +136,7 @@ public class FreeTypistSkin extends Skin {
                     }
                     font.useIntegerPositions(useIntegerPositions);
                     // Scaled size is the desired cap height to scale the font to.
-                    if (scaledSize != -1) font.scaleTo(font.originalCellWidth * scaledSize / font.originalCellHeight, scaledSize);
+                    if (scaledSize != -1) font.scaleHeightTo(scaledSize);
                     return font;
                 } catch (RuntimeException ex) {
                     throw new SerializationException("Error loading bitmap font: " + path, ex);
@@ -151,54 +152,81 @@ public class FreeTypistSkin extends Skin {
                 if (!fontFile.exists()) fontFile = Gdx.files.internal(path);
                 if (!fontFile.exists()) throw new SerializationException("Font file not found: " + fontFile);
 
-                boolean fw = "json".equals(fontFile.extension());
+                boolean lzb = "dat".equalsIgnoreCase(fontFile.extension());
+                boolean fw = "json".equalsIgnoreCase(fontFile.extension());
 
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
                 Boolean flip = json.readValue("flip", Boolean.class, false, jsonData);
                 Boolean markupEnabled = json.readValue("markupEnabled", Boolean.class, false, jsonData);
                 // This defaults to true if loading from .fnt, or false if loading from .json :
-                Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, !fw, jsonData);
+                Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, !(fw || lzb), jsonData);
+                float xAdjust = json.readValue("xAdjust", float.class, 0f, jsonData);
+                float yAdjust = json.readValue("yAdjust", float.class, 0f, jsonData);
+                float widthAdjust = json.readValue("widthAdjust", float.class, 0f, jsonData);
+                float heightAdjust = json.readValue("heightAdjust", float.class, 0f, jsonData);
+                Boolean makeGridGlyphs = json.readValue("makeGridGlyphs", Boolean.class, true, jsonData);
 
                 // Use a region with the same name as the font, else use a PNG file in the same directory as the FNT file.
                 String regionName = fontFile.nameWithoutExtension();
                 try {
-                    BitmapFont font;
+                    BitmapFont bitmapFont;
+                    Font font;
                     Array<TextureRegion> regions = skin.getRegions(regionName);
                     if (regions != null && regions.notEmpty()) {
-                        if(fw)
-                            font = BitmapFontSupport.loadStructuredJson(fontFile, regions.first(), flip);
-                        else
-                            font = new BitmapFont(new BitmapFont.BitmapFontData(fontFile, flip), regions, true);
+                        if(fw || lzb) {
+                            bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, regions.first(), flip);
+                            font = new Font(fontFile, regions.first(), xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
+                        }
+                        else {
+                            bitmapFont = new BitmapFont(new BitmapFont.BitmapFontData(fontFile, flip), regions, true);
+                            font = new Font(fontFile, regions, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+                        }
                     } else {
                         TextureRegion region = skin.optional(regionName, TextureRegion.class);
                         if (region != null)
                         {
-                            if(fw)
-                                font = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
-                            else
-                                font = new BitmapFont(fontFile, region, flip);
+                            if(fw || lzb) {
+                                bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
+                                font = new Font(fontFile, region, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
+                            }
+                            else {
+                                bitmapFont = new BitmapFont(fontFile, region, flip);
+                                font = new Font(fontFile, region, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+                            }
                         }
                         else {
                             FileHandle imageFile = fontFile.sibling(regionName + ".png");
                             if (imageFile.exists()) {
-                                if(fw)
-                                    font = BitmapFontSupport.loadStructuredJson(fontFile,
-                                            new TextureRegion(new Texture(imageFile)), flip);
-                                else
-                                    font = new BitmapFont(fontFile, imageFile, flip);
+                                region = new TextureRegion(new Texture(imageFile));
+                                if(fw || lzb) {
+                                    bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
+                                    font = new Font(fontFile, region, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
+                                } else {
+                                    bitmapFont = new BitmapFont(fontFile, region, flip);
+                                    font = new Font(path, region, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+                                }
                             } else {
-                                if(fw)
-                                    font = BitmapFontSupport.loadStructuredJson(fontFile, "", flip);
-                                else
-                                    font = new BitmapFont(fontFile, flip);
+                                if(fw || lzb)
+                                    throw new RuntimeException("Missing image file or TextureRegion.");
+                                else {
+                                    bitmapFont = new BitmapFont(fontFile, flip);
+                                    font = new Font(path);
+                                }
                             }
                         }
                     }
-                    font.getData().markupEnabled = markupEnabled;
-                    font.setUseIntegerPositions(useIntegerPositions);
+                    bitmapFont.getData().markupEnabled = markupEnabled;
+                    bitmapFont.setUseIntegerPositions(useIntegerPositions);
+                    font.useIntegerPositions(useIntegerPositions);
                     // Scaled size is the desired cap height to scale the font to.
-                    if (scaledSize != -1) font.getData().setScale(scaledSize / font.getCapHeight());
-                    return font;
+                    if (scaledSize != -1) {
+                        bitmapFont.getData().setScale(scaledSize / bitmapFont.getCapHeight());
+                        font.scaleHeightTo(scaledSize);
+                    }
+
+                    skin.add(jsonData.name, font, Font.class);
+
+                    return bitmapFont;
                 } catch (RuntimeException ex) {
                     throw new SerializationException("Error loading bitmap font: " + fontFile, ex);
                 }
@@ -239,6 +267,90 @@ public class FreeTypistSkin extends Skin {
                 } else {
                     return generator;
                 }
+            }
+        });
+
+        json.setSerializer(Label.LabelStyle.class, new Json.ReadOnlySerializer<Label.LabelStyle>() {
+            @Override
+            public Label.LabelStyle read(Json json, JsonValue jsonData, Class type) {
+                Label.LabelStyle s2d = new Label.LabelStyle();
+                json.readFields(s2d, jsonData);
+                skin.add(jsonData.name, new Styles.LabelStyle(skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class),
+                        s2d.fontColor), Styles.LabelStyle.class);
+                return s2d;
+            }
+        });
+
+        json.setSerializer(TextButton.TextButtonStyle.class, new Json.ReadOnlySerializer<TextButton.TextButtonStyle>() {
+            @Override
+            public TextButton.TextButtonStyle read(Json json, JsonValue jsonData, Class type) {
+                TextButton.TextButtonStyle s2d = new TextButton.TextButtonStyle();
+                json.readFields(s2d, jsonData);
+                skin.add(jsonData.name, new Styles.TextButtonStyle(s2d.up, s2d.down, s2d.checked,
+                        skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class)), Styles.TextButtonStyle.class);
+                return s2d;
+            }
+        });
+
+        json.setSerializer(ImageTextButton.ImageTextButtonStyle.class, new Json.ReadOnlySerializer<ImageTextButton.ImageTextButtonStyle>() {
+            @Override
+            public ImageTextButton.ImageTextButtonStyle read(Json json, JsonValue jsonData, Class type) {
+                ImageTextButton.ImageTextButtonStyle s2d = new ImageTextButton.ImageTextButtonStyle();
+                json.readFields(s2d, jsonData);
+                skin.add(jsonData.name, new Styles.ImageTextButtonStyle(s2d.up, s2d.down, s2d.checked,
+                        skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class)), Styles.ImageTextButtonStyle.class);
+                return s2d;
+            }
+        });
+
+        json.setSerializer(CheckBox.CheckBoxStyle.class, new Json.ReadOnlySerializer<CheckBox.CheckBoxStyle>() {
+            @Override
+            public CheckBox.CheckBoxStyle read(Json json, JsonValue jsonData, Class type) {
+                CheckBox.CheckBoxStyle s2d = new CheckBox.CheckBoxStyle();
+                json.readFields(s2d, jsonData);
+                skin.add(jsonData.name, new Styles.CheckBoxStyle(s2d.checkboxOff, s2d.checkboxOn,
+                        skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class), s2d.fontColor), Styles.CheckBoxStyle.class);
+                return s2d;
+            }
+        });
+
+        json.setSerializer(Window.WindowStyle.class, new Json.ReadOnlySerializer<Window.WindowStyle>() {
+            @Override
+            public Window.WindowStyle read(Json json, JsonValue jsonData, Class type) {
+                Window.WindowStyle s2d = new Window.WindowStyle();
+                json.readFields(s2d, jsonData);
+                skin.add(jsonData.name, new Styles.WindowStyle(skin.get(json.readValue("titleFont", String.class, "default-font", jsonData), Font.class),
+                        s2d.titleFontColor, s2d.background), Styles.WindowStyle.class);
+                return s2d;
+            }
+        });
+
+
+        json.setSerializer(TextTooltip.TextTooltipStyle.class, new Json.ReadOnlySerializer<TextTooltip.TextTooltipStyle>() {
+            @Override
+            public TextTooltip.TextTooltipStyle read(Json json, JsonValue jsonData, Class type) {
+                TextTooltip.TextTooltipStyle s2d = new TextTooltip.TextTooltipStyle();
+                json.readFields(s2d, jsonData);
+                String labelStyleName = json.readValue("label", String.class, "default", jsonData);
+                if (labelStyleName == null) {
+                    Label.LabelStyle style = json.readValue("label", Label.LabelStyle.class, jsonData);
+                    skin.add(jsonData.name, new Styles.TextTooltipStyle(style, s2d.background), Styles.TextTooltipStyle.class);
+                } else {
+                    skin.add(jsonData.name, new Styles.TextTooltipStyle(skin.get(labelStyleName, Styles.LabelStyle.class),
+                            s2d.background), Styles.TextTooltipStyle.class);
+                }
+                return s2d;
+            }
+        });
+
+        json.setSerializer(List.ListStyle.class, new Json.ReadOnlySerializer<List.ListStyle>() {
+            @Override
+            public List.ListStyle read(Json json, JsonValue jsonData, Class type) {
+                List.ListStyle s2d = new List.ListStyle();
+                json.readFields(s2d, jsonData);
+                skin.add(jsonData.name, new Styles.ListStyle(skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class),
+                        s2d.fontColorSelected, s2d.fontColorUnselected, s2d.background), Styles.ListStyle.class);
+                return s2d;
             }
         });
 
