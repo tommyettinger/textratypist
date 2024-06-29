@@ -2391,12 +2391,14 @@ public class Font implements Disposable {
         String dfType = atlas.getString("type", "");
         if("msdf".equals(dfType) || "mtsdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.MSDF);
-//            setCrispness(20f / atlas.getFloat("distanceRange", 2f)); // maybe we don't need to read this?
-            setCrispness(1f);
+            setCrispness(atlas.getFloat("distanceRange", 8f) * 0.2f); // maybe we don't need to read this?
+//            setCrispness(1f);
         }
         else if("sdf".equals(dfType) || "psdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.SDF);
-            setCrispness(1f);
+            setCrispness(atlas.getFloat("distanceRange", 8f) * 0.2f);
+//            setCrispness(15f / atlas.getFloat("distanceRange", 20f));
+//            setCrispness(1f);
 //            setCrispness(0.03125f * atlas.getFloat("distanceRange", 4f)); // maybe we don't need to read this?
         }
         else // softmask, hardmask
@@ -2925,11 +2927,12 @@ public class Font implements Disposable {
     }
 
     /**
-     * Gets the "crispness" multiplier for distance field fonts (SDF and MSDF). This is usually 1.0 unless it has been
-     * changed. The default value is 1.0; lower values look softer and fuzzier, while higher values look sharper and
-     * possibly more jagged. This is used as a persistent multiplier that can be configured per-font, whereas
-     * {@link #actualCrispness} is the working value that changes often but is influenced by this one. This variable is
-     * used by {@link #resizeDistanceField(int, int)} to affect the working crispness value.
+     * Gets the "crispness" multiplier for distance field fonts (SDF and MSDF). There is no default value, because this
+     * depends on how an individual distance field font was created. Typical values range from 1.5 to 4.5 . Lower values
+     * look softer and fuzzier, while higher values look sharper and possibly more jagged. This is used as a persistent
+     * multiplier that can be configured per-font, whereas {@link #actualCrispness} is the working value that changes
+     * often but is influenced by this one. This variable is used by {@link #resizeDistanceField(int, int)} to affect
+     * the working crispness value.
      *
      * @return the current crispness multiplier, as a float
      */
@@ -2938,13 +2941,15 @@ public class Font implements Disposable {
     }
 
     /**
-     * Sets the "crispness" multiplier for distance field fonts (SDF and MSDF). The default value is 1.0; lower values
+     * Sets the "crispness" multiplier for distance field fonts (SDF and MSDF). There is no default value, because this
+     * depends on how an individual distance field font was created. Typical values range from 1.5 to 4.5 . Lower values
      * look softer and fuzzier, while higher values look sharper and possibly more jagged. This is used as a persistent
      * multiplier that can be configured per-font, whereas {@link #actualCrispness} is the working value that changes
      * often but is influenced by this one. This variable is used by {@link #resizeDistanceField(int, int)} to affect
-     * the working crispness value.
+     * the working crispness value. <em>Changing the crispness does nothing unless you also resize the distance field,
+     * for each font you are rendering.</em> So make sure to call {@link #resizeDistanceField(int, int)} in resize() !
      *
-     * @param crispness a float multiplier to be applied to the working crispness; 1.0 is the default
+     * @param crispness a float multiplier to be applied to the working crispness; often between 1.5 and 4.5
      * @return this Font, for chaining
      */
     public Font setCrispness(float crispness) {
@@ -2954,10 +2959,13 @@ public class Font implements Disposable {
 
     /**
      * Takes the "crispness" multiplier for distance field fonts (SDF and MSDF) and multiplies it by another multiplier.
-     * Using lower values for multiplier will make the font look softer and fuzzier, while higher values will make it
-     * look sharper and possibly more jagged. This affects a persistent multiplier that can be configured per-font,
+     * There is no default value for crispness, because this depends on how an individual distance field font was
+     * created. Typical values range from 1.5 to 4.5 . Lower values look softer and fuzzier, while higher values look
+     * sharper and possibly more jagged. This affects a persistent multiplier that can be configured per-font,
      * whereas {@link #actualCrispness} is the working value that changes often but is influenced by this one. The
      * variable this affects is used by {@link #resizeDistanceField(int, int)} to affect the working crispness value.
+     * <em>Changing the crispness does nothing unless you also resize the distance field, for each font you are
+     * rendering.</em> So make sure to call {@link #resizeDistanceField(int, int)} in resize() !
      *
      * @param multiplier a float multiplier to be applied to the working crispness multiplier
      * @return this Font, for chaining
@@ -3174,8 +3182,8 @@ public class Font implements Disposable {
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
                 batch.setShader(shader);
-                float smoothing = (actualCrispness / (Math.max(cellHeight / originalCellHeight,
-                        cellWidth / originalCellWidth) * 0.5f + 0.125f));
+                float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight,
+                        cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
@@ -3214,8 +3222,8 @@ public class Font implements Disposable {
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
-                float smoothing = (actualCrispness / (Math.max(cellHeight / originalCellHeight,
-                        cellWidth / originalCellWidth) * 0.5f + 0.125f));
+                float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight,
+                        cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
