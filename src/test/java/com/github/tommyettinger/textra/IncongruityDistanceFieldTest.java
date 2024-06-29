@@ -23,6 +23,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -44,25 +45,23 @@ public class IncongruityDistanceFieldTest extends ApplicationAdapter {
         Table labels = new Table();
         labels.defaults().pad(5);
         for (int i = 0; i < sdfFonts.length; i++) {
-            Font font = sdfFonts[i];
+            Font font = sdfFonts[i].scaleHeightTo(24);
             labels.add(new Label(font.name, skin)).left();
             TypingLabel label = new TypingLabel("Dummy Text 123", skin, font);
             labels.add(label).expandX().left();
-//            label.validate();
-            labels.row();
-        }
-        for (int i = 0; i < msdfFonts.length; i++) {
-            Font font = msdfFonts[i];
+
+            font = msdfFonts[i].scaleHeightTo(24);
             labels.add(new Label(font.name, skin)).left();
-            TypingLabel label = new TypingLabel("Dummy Text 123", skin, font);
+            label = new TypingLabel("Dummy Text 123", skin, font);
             labels.add(label).expandX().left();
-//            label.validate();
             labels.row();
+
         }
         root.setFillParent(true);
-        root.add(labels);
+        root.add(new ScrollPane(labels));
         labels.debugAll();
         stage.addActor(root);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -101,7 +100,7 @@ public class IncongruityDistanceFieldTest extends ApplicationAdapter {
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel Incongruity (Distance Field) test");
-        config.setWindowedMode(800, 900);
+        config.setWindowedMode(1800, 900);
         config.disableAudio(true);
 		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
