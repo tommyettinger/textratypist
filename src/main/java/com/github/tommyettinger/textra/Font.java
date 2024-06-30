@@ -4599,11 +4599,21 @@ public class Font implements Disposable {
             // rotating xc and yt variables, to the position-only x and y variables.
             // it also offsets x by a half-cell to the right, and moves the origin for y.
             float xch = tr.offsetX * scaleX * sizingX;
-            float ych = scaledHeight * 0.5f - tr.offsetY * font.scaleY * scale * sizingY;
+            float ych = scaledHeight * 3f - tr.offsetY * font.scaleY * scale * sizingY;
+//            float ych = scaledHeight * 0.5f - tr.offsetY * scaleY * sizingY;
+            //float ych = scaledHeight -tr.offsetY * fsy * scale * sizingY;
             xc -= xch;
             x += xch + changedW * 0.5f;
             yt -= ych;
-            y += ych;// - font.descent * font.scaleY * 0.5f;
+            y += ych;
+//            //y += ych - font.descent * font.scaleY * 0.5f;
+
+//            float xch = tr.offsetX * scaleX * sizingX;
+//            float ych = tr.offsetY * scaleY * sizingY;
+//            xc -= xch;
+//            x += xch;// + changedW * 0.5f;
+//            yt -= ych;
+//            y += ych;
         }
         // when this is removed, rotations for icons go around the bottom center.
         // but, with it here, the rotations go around the bottom left corner.
@@ -4789,13 +4799,14 @@ public class Font implements Disposable {
         drawVertices(batch, tex, vertices);
 
         // This is the "emergency debug code" to get as much info as possible about a glyph when it prints.
-//        if(c >= 0xE000 && c < 0xF800) {
+//        if(c == '@' || (c >= 0xE000 && c < 0xF800)) {
 //            System.out.println("With font " + font.name + ", drawing glyph " + namesByCharCode.get(c, "") +
 //                    ", it has v0: " + vertices[0] + ", v1: " + vertices[1] +
 //                    ", x: " + x + ", y: " + y + ", p0x: " + p0x + ", p0y: " + p0y +
 //                    ", h: " + h + ", xc: " + xc + ", yt: " + yt +
 //                    ", font.descent: " + font.descent + ", osy: " + osy +
-//                    ", tr.offsetX: " + tr.offsetX + ", tr.offsetY: " + tr.offsetY + ", tr.xAdvance: " + tr.xAdvance);
+//                    ", tr.offsetX: " + tr.offsetX + ", tr.offsetY: " + tr.offsetY + ", tr.xAdvance: " + tr.xAdvance +
+//                    ", xShift: " + xShift + ", yShift: " + yShift + ", fsx: " + fsx + ", fsy: " + fsy);
 //        }
 
         if ((glyph & BOLD) != 0L) {
