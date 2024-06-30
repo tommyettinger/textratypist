@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.github.tommyettinger.anim8.AnimatedGif;
 import com.github.tommyettinger.anim8.Dithered;
 import com.github.tommyettinger.anim8.FastPalette;
+import com.github.tommyettinger.anim8.QualityPalette;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 
 import java.nio.ByteBuffer;
@@ -26,12 +27,12 @@ import java.nio.ByteBuffer;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class AnimatedPreviewGenerator extends ApplicationAdapter {
+    public static final int FRAMERATE = 20;
     Skin        skin;
     Stage       stage;
     SpriteBatch batch;
     TypingLabel label;
     TypingLabel labelEvent;
-    Color flashColor = new Color(1, 1, 0.6f, 1f);
     AnimatedGif gif;
     Array<Pixmap> pms = new Array<>(Pixmap.class);
 
@@ -70,6 +71,8 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
         // Only allow two chars per frame
         TypingConfig.CHAR_LIMIT_PER_FRAME = 2;
 
+        TypingConfig.DEFAULT_SPEED_PER_CHAR = 0.0666f;
+
         // Change color used by CLEARCOLOR token
         TypingConfig.DEFAULT_CLEAR_COLOR = Color.WHITE;
 
@@ -89,7 +92,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
         text.append("{SPEED=2.50}{COLOR=lighter dull GREEN} making the text go {SHAKE=1.1;0.6;inf}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5} ");
         text.append("{SPEED=0.25}{COLOR=jade fern}{WAVE=0.66;1;0.5;∞}[@Mono] or extremely slow.[@]{ENDWAVE}");
         text.append("{RESET} You {HEARTBEAT}[darker red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}[black][%?whiten]second[ ]{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2}, ");
-        text.append("[%?Error]jussst[%][.][red][@Canada] spelling[ ] to [%?WARN]catching[%][.][#FFD510FF][@Canada] grammar[ ] an {RAINBOW=1;1;0.7}[@Console][;]{STYLE=%?jostle}event[%][;][@]{ENDRAINBOW} in [%?note]code[%][.][#3088B8FF][@Canada] cool[ ]{EVENT=example}!{WAIT} ");
+        text.append("[%?Error]jussst[%][.][red][@Canada] spelling[ ] to [%?WARN]catching[%][.][#FFD510FF][@Canada] grammar[ ] an {RAINBOW=1;1;0.7}[@Console][;]event[;][@]{ENDRAINBOW} in [%?note]code[%][.][#3088B8FF][@Canada] cool[ ]{EVENT=example}!{WAIT} ");
         text.append("{NORMAL}\n\n");
         text.append("{VAR=FIRE_WIND}Imagine the [~]bugs[~]! I mean, possibilities! {ENDGRADIENT}{SPEED=0.1}{CANNON}[+🔥][+😁][+👏]{WAIT=2} {RESET}");
 
@@ -123,25 +126,26 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
                                     alpha(0, 2f, Interpolation.pow2)
                             )
                     );
-                } else if("*SELECTED".equals(event)) {
-                    System.out.println("Selection start: " + label.selectionStart + " Selection end: " + label.selectionEnd);
-                    if(label.copySelectedText())
-                        System.out.println(label.getSelectedText());
-                    else
-                        System.out.println("Nothing was copied.");
-                } else {
-                    Color.rgba8888ToColor(flashColor, ColorUtils.describe(event));
-                    ScreenUtils.clear(flashColor);
                 }
+//                else if("*SELECTED".equals(event)) {
+//                    System.out.println("Selection start: " + label.selectionStart + " Selection end: " + label.selectionEnd);
+//                    if(label.copySelectedText())
+//                        System.out.println(label.getSelectedText());
+//                    else
+//                        System.out.println("Nothing was copied.");
+//                } else {
+//                    Color.rgba8888ToColor(flashColor, ColorUtils.describe(event));
+//                    ScreenUtils.clear(flashColor);
+//                }
             }
 
             @Override
             public void end() {
 //                System.out.println(label);
-                gif.setPalette(new FastPalette(pms));
-                gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE);
-                gif.setDitherStrength(0.25f);
-                gif.write(Gdx.files.local("preview.gif"), pms, 12);
+                gif.setPalette(new QualityPalette(pms));
+                gif.setDitherAlgorithm(Dithered.DitherAlgorithm.BURKES);
+                gif.setDitherStrength(0.5f);
+                gif.write(Gdx.files.local("preview.gif"), pms, FRAMERATE);
                 Gdx.app.exit();
             }
         });
@@ -159,7 +163,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(0.4f, 0.4f, 0.4f, 1);
 
-        update(Gdx.graphics.getDeltaTime());
+        update(1f/FRAMERATE);
 
         stage.draw();
         // Modified Pixmap.createFromFrameBuffer() code that uses RGB instead of RGBA
@@ -175,7 +179,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        label.getFont().resizeDistanceField(width, height);
+//        label.getFont().resizeDistanceField(width, height);
         stage.getViewport().update(width, height, true);
     }
 
@@ -190,7 +194,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
         config.setTitle("TypingLabel Test");
         config.setWindowedMode(720, 450);
         config.setResizable(true);
-        config.setForegroundFPS(12);
+        config.setForegroundFPS(FRAMERATE);
         config.useVsync(true);
         config.disableAudio(true);
         new Lwjgl3Application(new AnimatedPreviewGenerator(), config);
