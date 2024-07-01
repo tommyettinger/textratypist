@@ -75,10 +75,8 @@ public class MinimalGridTest extends ApplicationAdapter {
 //                .setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-8f, 24f, 0f)
 //                .setTextureFilter().setName("Iosevka Slab"));
 
-        Font font = KnownFonts.addEmoji(KnownFonts.getAStarry()
-//                .setLineMetrics(-0.125f, -0.125f, 0f, -0.25f)
-//                .setInlineImageMetrics(-8f, 24f, 0f)
-        );
+//        Font font = KnownFonts.addEmoji(KnownFonts.getAStarry());
+        Font font = KnownFonts.addEmoji(KnownFonts.getGrenze());
 
 //        varWidthFont = KnownFonts.getGentium();
         varWidthFont = KnownFonts.getGentiumUnItalic();

@@ -4472,6 +4472,8 @@ public class Font implements Disposable {
             scaleY = (fsy = font.scaleY) * scale;
 //            y -= descent * scaleY;
         }
+//With font A-Starry, drawing glyph 😁, it has v0: 1.2426202, v1: 7.788889, x: 2.2426202, y: 4.5658374, p0x: -1.0, p0y: 3.2230515, h: 0.8888889, xc: -1.0, yt: 2.3341627, font.descent: -67.0, osy: 0.0029850747, tr.offsetX: 6.800001, tr.offsetY: 37.5, tr.xAdvance: 36.0
+//With font A-Starry, drawing glyph @, it has v0: 1.1985074, v1: 7.802985, x: 2.0, y: 7.5, p0x: -0.8014926, p0y: 0.30298507, h: 0.7044776, xc: -0.8014926, yt: -0.40149254, font.descent: -67.0, osy: 0.0029850747, tr.offsetX: 66.5, tr.offsetY: 66.0, tr.xAdvance: 335.0
         osx = font.scaleX * (scale + 1f) * 0.5f;
         osy = font.scaleY * (scale + 1f) * 0.5f;
         float centerX = tr.xAdvance * scaleX * 0.5f;
@@ -4573,6 +4575,7 @@ public class Font implements Disposable {
 
         float trrh = tr.getRegionHeight();
         float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - centerY + sin * centerX;
+//        float yt = (font.originalCellHeight * fsy - (trrh + tr.offsetY) * fsy) * scale * sizingY - scaledHeight + sin * centerX;
 
         float h = trrh * scaleY * sizingY;
 //                yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
@@ -4593,13 +4596,20 @@ public class Font implements Disposable {
         v2 = tr.getV2();
 
 
+        //With font Grenze, drawing glyph @, it has v0: 1.2006655, v1: 1.6152956, x: 2.0, y: 1.4879, p0x: -0.79935884, p0y: 0.12724262, h: 0.65883803, xc: -0.79935884, yt: -0.5315954, font.descent: -35.25, osy: 0.0055364543, tr.offsetX: 36.24, tr.offsetY: 65.125, tr.xAdvance: 180.621, xShift: 0.0, yShift: 0.0, fsx: 0.0055364547, fsy: 0.0055364543
+        //With font Grenze, drawing glyph 😁, it has v0: 1.0458257, v1: 1.7671089, x: 2.0458257, y: 1.3001609, p0x: -1.0, p0y: 0.46694797, h: 0.8888889, xc: -1.0, yt: -0.42194092, font.descent: -35.25, osy: 0.0055364543, tr.offsetX: -1.9378986, tr.offsetY: 21.625, tr.xAdvance: 36.0, xShift: 0.0, yShift: 0.0, fsx: 0.027777778, fsy: 0.027777778
+
+        //With font Grenze, drawing glyph , it has v0: 1.2006412, v1: 1.6152384, x: 2.0, y: 1.4879, p0x: -0.79935884, p0y: 0.12733841, h: 0.65883803, xc: -0.79935884, yt: -0.5314996, font.descent: -35.25, osy: 0.0055364543, tr.offsetX: 36.24, tr.offsetY: 65.125, tr.xAdvance: 180.621, xShift: 0.0, yShift: 0.0, fsx: 0.0055364547, fsy: 0.0055364543, cellHeight: 1.0, originalCellHeight: 176.25, scaledHeight: 1.0
+        //With font Grenze, drawing glyph 😁, it has v0: 1.0458257, v1: 1.7671089, x: 2.0458257, y: 1.3001609, p0x: -1.0, p0y: 0.46694797, h: 0.8888889, xc: -1.0, yt: -0.42194092, font.descent: -35.25, osy: 0.0055364543, tr.offsetX: -1.9378986, tr.offsetY: 21.625, tr.xAdvance: 36.0, xShift: 0.0, yShift: 0.0, fsx: 0.027777778, fsy: 0.027777778, cellHeight: 1.0, originalCellHeight: 176.25, scaledHeight: 1.0
         if (c >= 0xE000 && c < 0xF800) {
             // for inline images, this does two things.
             // it moves the changes from the inline image's offsetX and offsetY from the
             // rotating xc and yt variables, to the position-only x and y variables.
             // it also offsets x by a half-cell to the right, and moves the origin for y.
             float xch = tr.offsetX * scaleX * sizingX;
-            float ych = scaledHeight * 3f - tr.offsetY * font.scaleY * scale * sizingY;
+            float ych = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY;
+//            float ych = (font.originalCellHeight * fsy - (trrh + tr.offsetY) * fsy) * scale * sizingY - scaledHeight;
+//            float ych = scaledHeight - tr.offsetY * font.scaleY * scale * sizingY;
 //            float ych = scaledHeight * 0.5f - tr.offsetY * scaleY * sizingY;
             //float ych = scaledHeight -tr.offsetY * fsy * scale * sizingY;
             xc -= xch;
@@ -4806,7 +4816,9 @@ public class Font implements Disposable {
 //                    ", h: " + h + ", xc: " + xc + ", yt: " + yt +
 //                    ", font.descent: " + font.descent + ", osy: " + osy +
 //                    ", tr.offsetX: " + tr.offsetX + ", tr.offsetY: " + tr.offsetY + ", tr.xAdvance: " + tr.xAdvance +
-//                    ", xShift: " + xShift + ", yShift: " + yShift + ", fsx: " + fsx + ", fsy: " + fsy);
+//                    ", xShift: " + xShift + ", yShift: " + yShift + ", fsx: " + fsx + ", fsy: " + fsy +
+//                    ", cellHeight: " + cellHeight + ", originalCellHeight: " + originalCellHeight + ", scaledHeight: " + scaledHeight
+//            );
 //        }
 
         if ((glyph & BOLD) != 0L) {
