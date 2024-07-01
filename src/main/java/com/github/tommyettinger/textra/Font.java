@@ -5005,34 +5005,42 @@ public class Font implements Disposable {
 //                x += (changedW * 0.5f);
 //            }
             if (c >= 0xE000 && c < 0xF800) {
-                y -= (scaledHeight * 0.5f);
+                y -= centerY * scale * sizingY;
             }
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
-                p0x = font.cellWidth * -0.5f - scale * fsx + xAdvance * font.strikeX * scaleX;
-                p0y = centerY + (font.strikeY - 0.45f) * font.cellHeight * scale * sizingY + font.descent * font.scaleY;
+                p0x = font.cellWidth * -0.5f - scale * font.scaleX + xAdvance * font.strikeX * scale * font.scaleX;
+                p0y = (centerY + (font.strikeY - 0.45f) * font.cellHeight) * scale * sizingY + font.descent * scale * font.scaleY;
 //                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + xAdvance * font.strikeX * scaleX;
 //                p0y = centerY + (font.strikeY - 0.45f) * font.cellHeight * scale * sizingY + sin * centerX + font.descent * font.scaleY;
-                if (c >= 0xE000 && c < 0xF800) {
-                    p0x -= xPx * 2f - (changedW * 0.5f);
-                    p0y += scaledHeight * 0.5f;
-                }
-                else {
+//                if (c >= 0xE000 && c < 0xF800) {
+//                    p0x -= xPx * 2f - (changedW * 0.5f);
+//                    p0y += scaledHeight * 0.5f;
+//                }
+//                else {
                     p0x += xPx + centerX - cos * centerX;
                     p0y += sin * centerX;
-                }
+//                }
                 if (c >= 0xE000 && c < 0xF800) {
+                    p0y += centerY * scale * sizingY;
                     // for inline images, this does two things.
                     // it moves the changes from the inline image's offsetX and offsetY from the
                     // rotating xc and yt variables, to the position-only x and y variables.
                     // it also moves the origin for y by a full cell height.
-                    float xch = tr.offsetX * scaleX * sizingX;
-                    float ych = scaledHeight -tr.offsetY * fsy * scale * sizingY;
+                    float xch = changedW * -0.5f;
+                    float ych = centerY * scale * sizingY;
                     p0x -= xch;
-                    x += xch;
+                    x += xch + changedW * 0.5f;
                     p0y -= ych;
-                    y += ych;// - font.descent * font.scaleY * 2f;
+                    y += ych;
+
+//                    float xch = tr.offsetX * scaleX * sizingX;
+//                    float ych = scaledHeight -tr.offsetY * fsy * scale * sizingY;
+//                    p0x -= xch;
+//                    x += xch;
+//                    p0y -= ych;
+//                    y += ych;// - font.descent * font.scaleY * 2f;
                 }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
