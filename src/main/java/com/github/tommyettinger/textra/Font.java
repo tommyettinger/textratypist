@@ -4574,7 +4574,11 @@ public class Font implements Disposable {
 //        float xc = (centerX - (tr.getRegionWidth() + tr.offsetX) * fsx) * scale * sizingX;
 
         float trrh = tr.getRegionHeight();
-        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - cellHeight * 0.5f + sin * centerX;
+//        float yt = (tr.offsetY * scaleY * sizingY) + sin * centerX - cellHeight * 0.5f;
+        float yt = (font.originalCellHeight * 0.5f - (trrh + tr.offsetY)) * fsy * scale * sizingY + sin * centerX;
+//        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - centerY + sin * centerX;
+//        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - cellHeight * 0.5f + sin * centerX;
+
 //        float yt = (font.originalCellHeight * fsy - (trrh + tr.offsetY) * fsy) * scale * sizingY - scaledHeight + sin * centerX;
 
         float h = trrh * scaleY * sizingY;
@@ -4607,7 +4611,8 @@ public class Font implements Disposable {
             // rotating xc and yt variables, to the position-only x and y variables.
             // it also offsets x by a half-cell to the right, and moves the origin for y.
             float xch = tr.offsetX * scaleX * sizingX;
-            float ych = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY;
+//            float ych = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - centerY;
+            float ych = (font.originalCellHeight * 0.5f - (trrh + tr.offsetY)) * fsy * scale * sizingY + scaledHeight * 0.5f;
 //            float ych = (font.originalCellHeight * fsy - (trrh + tr.offsetY) * fsy) * scale * sizingY - scaledHeight;
 //            float ych = scaledHeight - tr.offsetY * font.scaleY * scale * sizingY;
 //            float ych = scaledHeight * 0.5f - tr.offsetY * scaleY * sizingY;
@@ -4615,7 +4620,7 @@ public class Font implements Disposable {
             xc -= xch;
             x += xch + changedW * 0.5f;
             yt -= ych;
-            y += ych - cellHeight * 2;
+            y += ych;
 //            //y += ych - font.descent * font.scaleY * 0.5f;
 
 //            float xch = tr.offsetX * scaleX * sizingX;
