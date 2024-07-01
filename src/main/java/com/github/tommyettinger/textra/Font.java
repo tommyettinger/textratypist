@@ -4599,12 +4599,6 @@ public class Font implements Disposable {
         u2 = tr.getU2();
         v2 = tr.getV2();
 
-
-        //With font Grenze, drawing glyph @, it has v0: 1.2006655, v1: 1.6152956, x: 2.0, y: 1.4879, p0x: -0.79935884, p0y: 0.12724262, h: 0.65883803, xc: -0.79935884, yt: -0.5315954, font.descent: -35.25, osy: 0.0055364543, tr.offsetX: 36.24, tr.offsetY: 65.125, tr.xAdvance: 180.621, xShift: 0.0, yShift: 0.0, fsx: 0.0055364547, fsy: 0.0055364543
-        //With font Grenze, drawing glyph 😁, it has v0: 1.0458257, v1: 1.7671089, x: 2.0458257, y: 1.3001609, p0x: -1.0, p0y: 0.46694797, h: 0.8888889, xc: -1.0, yt: -0.42194092, font.descent: -35.25, osy: 0.0055364543, tr.offsetX: -1.9378986, tr.offsetY: 21.625, tr.xAdvance: 36.0, xShift: 0.0, yShift: 0.0, fsx: 0.027777778, fsy: 0.027777778
-
-        //With font Grenze, drawing glyph , it has v0: 1.2006412, v1: 1.6152384, x: 2.0, y: 1.4879, p0x: -0.79935884, p0y: 0.12733841, h: 0.65883803, xc: -0.79935884, yt: -0.5314996, font.descent: -35.25, osy: 0.0055364543, tr.offsetX: 36.24, tr.offsetY: 65.125, tr.xAdvance: 180.621, xShift: 0.0, yShift: 0.0, fsx: 0.0055364547, fsy: 0.0055364543, cellHeight: 1.0, originalCellHeight: 176.25, scaledHeight: 1.0
-        //With font Grenze, drawing glyph 😁, it has v0: 1.0458257, v1: 1.7671089, x: 2.0458257, y: 1.3001609, p0x: -1.0, p0y: 0.46694797, h: 0.8888889, xc: -1.0, yt: -0.42194092, font.descent: -35.25, osy: 0.0055364543, tr.offsetX: -1.9378986, tr.offsetY: 21.625, tr.xAdvance: 36.0, xShift: 0.0, yShift: 0.0, fsx: 0.027777778, fsy: 0.027777778, cellHeight: 1.0, originalCellHeight: 176.25, scaledHeight: 1.0
         if (c >= 0xE000 && c < 0xF800) {
             // for inline images, this does two things.
             // it moves the changes from the inline image's offsetX and offsetY from the
@@ -4876,38 +4870,41 @@ public class Font implements Disposable {
             y = font.handleIntegerPosition(iy + yShift);
             centerX = oCenterX + xShift * 0.5f;
             centerY = oCenterY + yShift * 0.5f;
-            x += cellWidth * 0.5f;
+            x += changedW * 0.5f;
 //            x += centerX;
 //            x -= centerX;
 //            y -= centerY;
             //x += centerX * cos; y += centerX * sin;
             if (c >= 0xE000 && c < 0xF800) {
-                y -= (scaledHeight * 0.5f);
+                y -= scaledHeight * 0.5f;
             }
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
-                p0x = font.cellWidth * -0.5f - scale * fsx + xAdvance * font.underX * scaleX;
+                p0x = font.cellWidth * -0.5f - scale * font.scaleX + xAdvance * font.underX * scale * font.scaleX;
                 p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY
                         + font.descent * font.scaleY;
-                if (c >= 0xE000 && c < 0xF800)
-                {
-                    p0x -= xPx * 2f - (changedW * 0.5f);
-                    p0y += scaledHeight * 0.5f;
-                }
-                else
-                {
+//                if (c >= 0xE000 && c < 0xF800)
+//                {
+//                    p0x -= xPx * 2f - (changedW * 0.5f);
+//                    p0y += scaledHeight * 0.5f;
+//                }
+//                else
+//                {
                     p0x += xPx + centerX - cos * centerX;
                     p0y += sin * centerX;
-                }
+//                }
                 if (c >= 0xE000 && c < 0xF800) {
-                    // for inline images, this does two things.
-                    // it moves the changes from the inline image's offsetX and offsetY from the
-                    // rotating xc and yt variables, to the position-only x and y variables.
-                    // it also moves the origin for y by a full cell height.
-                    float xch = tr.offsetX * scaleX * sizingX;
-                    float ych = scaledHeight -tr.offsetY * fsy * scale * sizingY;
+//                    p0x -= xPx * 2f - (changedW * 0.5f);
+                    p0y += scaledHeight * 0.5f;
+
+//                    // for inline images, this does two things.
+//                    // it moves the changes from the inline image's offsetX and offsetY from the
+//                    // rotating xc and yt variables, to the position-only x and y variables.
+//                    // it also moves the origin for y by a full cell height.
+                    float xch = tr.offsetX * scaleX * sizingX - changedW * 0.5f;
+                    float ych = tr.offsetY * scaleY * sizingY;
                     p0x -= xch;
-                    x += xch;
+                    x += xch + changedW * 0.5f;
                     p0y -= ych;
                     y += ych;// - font.descent * font.scaleY * 2f;
                 }
