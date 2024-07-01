@@ -31,8 +31,11 @@ public class MinimalGridTest extends ApplicationAdapter {
     private GlyphGrid gg;
     private char[][] bare, dungeon;
     private GlyphActor emojiGlyph;
+    private GlyphActor emojiGlyph2;
     private GlyphActor atGlyph;
+    private GlyphActor atGlyph2;
     private GlyphActor usedGlyph;
+    private GlyphActor usedGlyph2;
 
     private Stage screenStage;
     private Font varWidthFont;
@@ -64,34 +67,43 @@ public class MinimalGridTest extends ApplicationAdapter {
     public void create() {
         stage = new Stage();
         screenStage = new Stage();
-//        Font font = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic().scaleTo(46f, 25f));
+//        Font aStarry = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic().scaleTo(46f, 25f));
         // OK, this is a total mess.
         // Here, we sort-of duplicate KnownFonts.getIosevkaSlab(), but change the size, offsetY, and descent.
         // Having descent = 0 is normally incorrect, but seems to work well with GlyphGrid for some reason.
-//        Font font = KnownFonts.addEmoji(new Font("Iosevka-Slab-standard.fnt",
+//        Font aStarry = KnownFonts.addEmoji(new Font("Iosevka-Slab-standard.fnt",
 //                "Iosevka-Slab-standard.png", STANDARD, 0f, 0f, 0f, 0f, true) // offsetY changed
 //                .scaleTo(16, 28).fitCell(16, 28, false)
 //                .setDescent(0f) // changed a lot
 //                .setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-8f, 24f, 0f)
 //                .setTextureFilter().setName("Iosevka Slab"));
 
-        Font font = KnownFonts.addEmoji(KnownFonts.getAStarry());
-//        Font font = KnownFonts.addEmoji(KnownFonts.getGrenze());
+        Font aStarry = KnownFonts.addEmoji(KnownFonts.getAStarry());
+        Font grenze = KnownFonts.addEmoji(KnownFonts.getGrenze());
 
 //        varWidthFont = KnownFonts.getGentium();
         varWidthFont = KnownFonts.getGentiumUnItalic();
-        varWidthFont.scaleTo(varWidthFont.originalCellWidth * 30f / varWidthFont.originalCellHeight, 30f);
-//        font.adjustCellWidth(0.5f);
-//        font.originalCellHeight *= 0.5f;
-//        font.cellHeight *= 0.5f;
-//        font.descent *= 0.5f;
-//        font.fitCell(32, 32, true);
-        gg = new GlyphGrid(font, GRID_WIDTH, GRID_HEIGHT, true);
+        varWidthFont.scaleHeightTo(30f);
+//        aStarry.adjustCellWidth(0.5f);
+//        aStarry.originalCellHeight *= 0.5f;
+//        aStarry.cellHeight *= 0.5f;
+//        aStarry.descent *= 0.5f;
+//        aStarry.fitCell(32, 32, true);
+        gg = new GlyphGrid(aStarry, GRID_WIDTH, GRID_HEIGHT, true);
+
+        float larger = Math.max(grenze.cellWidth, grenze.cellHeight);
+        grenze.scaleTo(grenze.cellWidth / larger, grenze.cellHeight / larger).fitCell(1f, 1f, true);
+
+
         //use Ă to test glyph height
-        emojiGlyph = new GlyphActor("[~][_][+😁]", gg.font);
+        emojiGlyph = new GlyphActor("[_][+😁]", gg.font);
         atGlyph = new GlyphActor("[red orange][~][_]@", gg.font);
         usedGlyph = emojiGlyph;
         gg.addActor(usedGlyph);
+        emojiGlyph2 = new GlyphActor("[_][+😁]", grenze);
+        atGlyph2 = new GlyphActor("[red orange][~][_]@", grenze);
+        usedGlyph2 = emojiGlyph2;
+        gg.addActor(usedGlyph2);
 
         input.setInputProcessor(new InputAdapter(){
             @Override
@@ -107,6 +119,11 @@ public class MinimalGridTest extends ApplicationAdapter {
                             gg.removeActor(usedGlyph);
                             usedGlyph = emojiGlyph;
                             gg.addActor(usedGlyph);
+
+                            emojiGlyph2.setPosition(atGlyph2.getX(), atGlyph2.getY());
+                            gg.removeActor(usedGlyph2);
+                            usedGlyph2 = emojiGlyph2;
+                            gg.addActor(usedGlyph2);
                         }
                         break;
                     case NUM_2:
@@ -116,6 +133,11 @@ public class MinimalGridTest extends ApplicationAdapter {
                             gg.removeActor(usedGlyph);
                             usedGlyph = atGlyph;
                             gg.addActor(usedGlyph);
+
+                            atGlyph2.setPosition(emojiGlyph2.getX(), emojiGlyph2.getY());
+                            gg.removeActor(usedGlyph2);
+                            usedGlyph2 = atGlyph2;
+                            gg.addActor(usedGlyph2);
                         }
                         break;
                     case R:
@@ -170,9 +192,11 @@ public class MinimalGridTest extends ApplicationAdapter {
         y = Math.round(usedGlyph.getY() + y);
         if(x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT && bare[x][y] == '.') {
             usedGlyph.addAction(Actions.moveTo(x, y, 0.2f));
+            usedGlyph2.addAction(Actions.moveTo(x+1, y, 0.2f));
         }
-        else{
+        else {
                 usedGlyph.addAction(Actions.rotateBy(360f, 1f));
+                usedGlyph2.addAction(Actions.rotateBy(360f, 1f));
         }
     }
 
@@ -280,6 +304,7 @@ public class MinimalGridTest extends ApplicationAdapter {
 //        }
 //        System.out.println("};");
         usedGlyph.setPosition(1, 1);
+        usedGlyph2.setPosition(2, 1);
         gg.backgrounds = new int[GRID_WIDTH][GRID_HEIGHT];
         gg.map.clear();
     }
