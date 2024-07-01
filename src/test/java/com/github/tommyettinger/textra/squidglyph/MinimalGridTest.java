@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.github.tommyettinger.textra.Font;
@@ -96,11 +97,11 @@ public class MinimalGridTest extends ApplicationAdapter {
 
 
         //use Ă to test glyph height
-        emojiGlyph = new GlyphActor("[_][+😁]", gg.font);
+        emojiGlyph = new GlyphActor("[_][~][+😁]", gg.font);
         atGlyph = new GlyphActor("[red orange][~][_]@", gg.font);
         usedGlyph = emojiGlyph;
         gg.addActor(usedGlyph);
-        emojiGlyph2 = new GlyphActor("[_][+😁]", grenze);
+        emojiGlyph2 = new GlyphActor("[_][~][+😁]", grenze);
         atGlyph2 = new GlyphActor("[red orange][~][_]@", grenze);
         usedGlyph2 = emojiGlyph2;
         gg.addActor(usedGlyph2);
@@ -192,10 +193,21 @@ public class MinimalGridTest extends ApplicationAdapter {
         y = Math.round(usedGlyph.getY() + y);
         if(x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT && bare[x][y] == '.') {
             usedGlyph.addAction(Actions.moveTo(x, y, 0.2f));
-            usedGlyph2.addAction(Actions.moveTo(x+1, y, 0.2f));
         }
         else {
                 usedGlyph.addAction(Actions.rotateBy(360f, 1f));
+        }
+        int hash = NumberUtils.floatToRawIntBits(x);
+        hash = (hash ^ hash >>> 19) * 0x9BA55;
+        hash += NumberUtils.floatToRawIntBits(y);
+        hash = (hash ^ hash >>> 19) * 0x9BA55;
+        hash = (hash ^ hash >>> 19);
+        x = Math.round(usedGlyph2.getX() + (hash & 2) - 1);
+        y = Math.round(usedGlyph2.getY() + (hash >>> 2 & 2) - 1);
+        if(x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT && bare[x][y] == '.') {
+            usedGlyph2.addAction(Actions.moveTo(x, y, 0.2f));
+        }
+        else {
                 usedGlyph2.addAction(Actions.rotateBy(360f, 1f));
         }
     }
