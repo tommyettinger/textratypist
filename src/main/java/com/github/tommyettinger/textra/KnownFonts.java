@@ -3661,9 +3661,9 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font ({@link #getGentium()}) with a FontFamily configured so that all non-distance-field Fonts can be
+     * Returns a Font ({@link #getGentium()}) with a FontFamily configured so that 15 non-distance-field Fonts can be
      * used with syntax like {@code [@Sans]}. The names this supports can be accessed with code using
-     * {@code getStandardFamily().family.fontAliases.keys()}. These names so far are:
+     * {@code getStandardFamily().family.fontAliases.keys()}. These names are:
      * <ul>
      *     <li>{@code Serif}, which is {@link #getGentium()},</li>
      *     <li>{@code Sans}, which is {@link #getOpenSans()},</li>
@@ -3689,7 +3689,7 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #getNowAlt()} (not {@link #getCanada()}), because they're both geometric heavier-weight typefaces, and
      * as before, a slot was needed.
      * <br>
-     * This will only function at all if all the assets (for every known standard Font) are present and load-able.
+     * This will only function at all if all the assets (for every listed Font) are present and load-able.
      * You should store the result of this method, rather than calling it often, because each call copies many Fonts.
      * @return a Font that can switch between 16 different Fonts in its FontFamily, to any of several Fonts this knows
      */
@@ -3703,6 +3703,56 @@ public final class KnownFonts implements LifecycleListener {
                         getKingthingsFoundation(), getOxanium(), getAStarryTall(), getCascadiaMono(), getNowAlt()});
         family.fontAliases.put("Bitter", 0); // for compatibility; Bitter and Gentium look nearly identical anyway...
         family.fontAliases.put("Canada", 15); // Canada1500 is... sort-of close... to Now Alt...
+        return family.connected[0].setFamily(family);
+    }
+
+
+    /**
+     * Returns a Font ({@link #getGentium()}) with a FontFamily configured so that 15 Fonts with the given
+     * {@link DistanceFieldType} can be used with syntax like {@code [@Sans]}. The names this supports can be accessed
+     * with code using {@code getFamily(dft).family.fontAliases.keys()}. These names are:
+     * <ul>
+     *     <li>{@code Serif}, which is {@link #getGentium(DistanceFieldType)},</li>
+     *     <li>{@code Sans}, which is {@link #getOpenSans(DistanceFieldType)},</li>
+     *     <li>{@code Mono}, which is {@link #getInconsolata(DistanceFieldType)},</li>
+     *     <li>{@code Condensed}, which is {@link #getRobotoCondensed(DistanceFieldType)},</li>
+     *     <li>{@code Humanist}, which is {@link #getYanoneKaffeesatz(DistanceFieldType)},</li>
+     *     <li>{@code Fantasy}, which is {@link #getGentiumUnItalic(DistanceFieldType)},</li>
+     *     <li>{@code Slab}, which is {@link #getIosevkaSlab(DistanceFieldType)},</li>
+     *     <li>{@code Handwriting}, which is {@link #getCaveat(DistanceFieldType)},</li>
+     *     <li>{@code Dark}, which is {@link #getGrenze(DistanceFieldType)},</li>
+     *     <li>{@code Script}, which is {@link #getTangerine(DistanceFieldType)},</li>
+     *     <li>{@code Iosevka}, which is {@link #getIosevka(DistanceFieldType)},</li>
+     *     <li>{@code Medieval}, which is {@link #getKingthingsFoundation(DistanceFieldType)},</li>
+     *     <li>{@code Future}, which is {@link #getOxanium(DistanceFieldType)},</li>
+     *     <li>{@code Console}, which is {@link #getAStarryTall(DistanceFieldType)},</li>
+     *     <li>{@code Code}, which is {@link #getCascadiaMono(DistanceFieldType)}, and</li>
+     *     <li>{@code Geometric}, which is {@link #getNowAlt(DistanceFieldType)}.</li>
+     * </ul>
+     * You can also always use the full name of one of these fonts, which can be obtained using {@link Font#getName()}.
+     * {@code Serif}, which is {@link #getGentium(DistanceFieldType)}, will always be the default font used after a reset. For
+     * backwards compatibility, {@code Bitter} is an alias for {@link #getGentium(DistanceFieldType)} (not {@link #getBitter(DistanceFieldType)}), because
+     * Bitter and Gentium look very similar and because a slot was needed. Similarly, {@code Canada} is an alias for
+     * {@link #getNowAlt(DistanceFieldType)} (not {@link #getCanada(DistanceFieldType)}), because they're both geometric heavier-weight typefaces, and
+     * as before, a slot was needed. Both "Retro" and "Cozette" are aliases for {@link #getAStarryTall(DistanceFieldType)}, because those aliases
+     * have a meaning in {@link #getStandardFamily()}, and A Starry Tall is suitable for similar tasks.
+     * <br>
+     * This will only function at all if all the assets (for every listed Font, with the given distance field type) are present and load-able.
+     * You should store the result of this method, rather than calling it often, because each call copies many Fonts.
+     * @return a Font that can switch between 16 different Fonts in its FontFamily, to any of several Fonts this knows
+     */
+    public static Font getFamily(DistanceFieldType dft) {
+        Font.FontFamily family = new Font.FontFamily(
+                new String[]{"Serif", "Sans", "Mono", "Condensed", "Humanist",
+                        "Fantasy", "Slab", "Handwriting", "Dark", "Script", "Iosevka",
+                        "Medieval", "Future", "Console", "Code", "Geometric"},
+                new Font[]{getGentium(dft), getOpenSans(dft), getInconsolata(dft), getRobotoCondensed(dft), getYanoneKaffeesatz(dft),
+                        getGentiumUnItalic(dft), getIosevkaSlab(dft), getCaveat(dft), getGrenze(dft), getTangerine(dft), getIosevka(dft),
+                        getKingthingsFoundation(dft), getOxanium(dft), getAStarryTall(dft), getCascadiaMono(dft), getNowAlt(dft)});
+        family.fontAliases.put("Bitter", 0); // for compatibility; Bitter and Gentium look nearly identical anyway...
+        family.fontAliases.put("Canada", 15); // Canada1500 is... sort-of close... to Now Alt...
+        family.fontAliases.put("Retro", 13); // A Starry Tall is similar to IBM 8x16.
+        family.fontAliases.put("Cozette", 13); // A Starry Tall is similar to Cozette.
         return family.connected[0].setFamily(family);
     }
 
