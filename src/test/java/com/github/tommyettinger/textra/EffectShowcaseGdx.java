@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -124,32 +125,38 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
 //                });
 //        Font font = family.connected[0].setFamily(family);
         Font font =
-                KnownFonts.getAStarry().scale(1f, 2f);
+                KnownFonts.getAStarryTall();
 //                KnownFonts.getStandardFamily();
 //                KnownFonts.getGentiumSDF().scale(1.1f, 1.1f).multiplyCrispness(1.3f);
-        String text = " [BLACK]lib[#e74a45]GDX   " +
-                "{EASE}[BLACK]lib[#e74a45]GDX{ENDEASE}   " +
-                "[BLACK]lib[#e74a45]GDX   " +
-                "{SPIN}[BLACK]lib[#e74a45]GDX{ENDSPIN}   " +
-                "[BLACK]lib[#e74a45]GDX   " +
-                "{FADE}[BLACK]lib[#e74a45]GDX{ENDFADE}   " +
-                "[BLACK]lib[#e74a45]GDX   " +
-                "{WAVE}[BLACK]lib[#e74a45]GDX{ENDWAVE}   " +
-                "[BLACK]lib[#e74a45]GDX   " +
-                "{SHRINK}[BLACK]lib[#e74a45]GDX{ENDSHRINK}   " +
-                "[BLACK]lib[#e74a45]GDX   " +
-                "{BLINK}[BLACK]lib[#e74a45]GDX{ENDBLINK}   " +
-                "[BLACK]lib[#e74a45]GDX   " +
-                "{EMERGE}[BLACK]lib[#e74a45]GDX{ENDEMERGE}   " +
-                "[BLACK]lib[#e74a45]GDX   " +
-                "{SPIRAL}[BLACK]lib[#e74a45]GDX{ENDSPIRAL}   " +
-                "[BLACK]lib[#e74a45]GDX  ";
-        StringBuilder sb = new StringBuilder("{SPEED=SLOW}")
-                .append(text).append(text).append(text).append(text).append(text).append(text).append(text)
-                .append(text).append(text).append(text).append(text).append(text).append(text).append(text)
-                .append(text).append(text).append(text).append(text).append(text).append(text).append(text)
-                .append(text).append(text).append(text).append(text).append(text).append(text).append(text)
-                .append(text).append(text).append(text).append(text).append(text).append(text).append(text);
+//        String text = " [BLACK]lib[#e74a45]GDX   " +
+//                "{EASE}[BLACK]lib[#e74a45]GDX{ENDEASE}   " +
+//                "[BLACK]lib[#e74a45]GDX   " +
+//                "{SPIN}[BLACK]lib[#e74a45]GDX{ENDSPIN}   " +
+//                "[BLACK]lib[#e74a45]GDX   " +
+//                "{FADE}[BLACK]lib[#e74a45]GDX{ENDFADE}   " +
+//                "[BLACK]lib[#e74a45]GDX   " +
+//                "{WAVE}[BLACK]lib[#e74a45]GDX{ENDWAVE}   " +
+//                "[BLACK]lib[#e74a45]GDX   " +
+//                "{SHRINK}[BLACK]lib[#e74a45]GDX{ENDSHRINK}   " +
+//                "[BLACK]lib[#e74a45]GDX   " +
+//                "{BLINK}[BLACK]lib[#e74a45]GDX{ENDBLINK}   " +
+//                "[BLACK]lib[#e74a45]GDX   " +
+//                "{EMERGE}[BLACK]lib[#e74a45]GDX{ENDEMERGE}   " +
+//                "[BLACK]lib[#e74a45]GDX   " +
+//                "{SPIRAL}[BLACK]lib[#e74a45]GDX{ENDSPIRAL}   " +
+//                "[BLACK]lib[#e74a45]GDX  ";
+//        StringBuilder sb = new StringBuilder("{SPEED=SLOWER}").append(text).append(text).append(text).append(text);
+
+        StringBuilder sb = new StringBuilder(256).append("{SPEED=SLOWER}");
+        Array<String> starts = TypingConfig.EFFECT_START_TOKENS.orderedKeys();
+        starts.sort();
+        Array<String> ends = TypingConfig.EFFECT_END_TOKENS.orderedKeys();
+        ends.sort();
+        for (int i = 0, n = starts.size; i < n; i++) {
+            sb.append('{').append(starts.get(i)).append('}').append("[BLACK]lib[#e74a45]GDX")
+                    .append(" with ").append(starts.get(i)).append(' ')
+                    .append('{').append(ends.get(i)).append("} {WAIT=0.8}");
+        }
 
         final TypingLabel label = new TypingLabel(sb.toString(), font);
 

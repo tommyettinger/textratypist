@@ -130,7 +130,6 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
 //                KnownFonts.getStandardFamily();
 //                KnownFonts.getGentiumSDF().scale(1.1f, 1.1f).multiplyCrispness(1.3f);
         StringBuilder sb = new StringBuilder(256);
-//        sb.append("{VAR=Rival} tests me, the fool... ");
         Array<String> starts = TypingConfig.EFFECT_START_TOKENS.orderedKeys();
         starts.sort();
         Array<String> ends = TypingConfig.EFFECT_END_TOKENS.orderedKeys();
@@ -143,7 +142,6 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
         final TypingLabel label = new TypingLabel(
                 sb.toString(),
                 font);
-        label.setVariable("Rival", "[%150][#AA0000]Undot the Unreal[WHITE][%]");
 //        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 
         label.selectable = true;
