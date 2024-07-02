@@ -415,11 +415,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font A Starry, with half width
      */
     public static Font getAStarryTall(DistanceFieldType dft) {
-        final String name = A_STARRY;
-        if(dft == null) dft = STANDARD;
-        Font loaded = loadFont(name, dft);
-        loaded.scale(0.5f, 1f);
-        return new Font(loaded).setDistanceField(dft).setName(name + "-Tall" + dft.namePart);
+        return getFont(A_STARRY, dft).scale(0.5f, 1f).setName(A_STARRY + "-Tall" + dft.namePart);
     }
 
     /**
