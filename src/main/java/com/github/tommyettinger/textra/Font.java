@@ -4576,6 +4576,7 @@ public class Font implements Disposable {
         float trrh = tr.getRegionHeight();
 //        float yt = (tr.offsetY * scaleY * sizingY) + sin * centerX - cellHeight * 0.5f;
         float yt = (font.originalCellHeight * 0.5f - (trrh + tr.offsetY)) * fsy * scale * sizingY + sin * centerX;
+        if(squashed) yt -= font.cellHeight * scale * 0.15f;
 //        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - centerY + sin * centerX;
 //        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - cellHeight * 0.5f + sin * centerX;
 
