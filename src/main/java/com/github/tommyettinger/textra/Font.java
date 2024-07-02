@@ -4933,6 +4933,7 @@ public class Font implements Disposable {
                     h = trrh * osy * sizingY + cellHeight * font.underBreadth * scale * sizingY;
                     yt = (centerY - (trrh + under.offsetY) * font.scaleY) * scale * sizingY
                             + cellHeight * font.underY * scale * sizingY;
+                    if(squashed) yt -= font.cellHeight * scale * 0.15f;
                     //((font.originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY - 0.5f * imageAdjust * scale) * sizingY;
 //                    if (c >= 0xE000 && c < 0xF800) {
 //                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
@@ -5058,6 +5059,7 @@ public class Font implements Disposable {
 
                     yt = (centerY - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY
                             + font.cellHeight * font.strikeY * scale * sizingY;
+                    if(squashed) yt -= font.cellHeight * scale * 0.15f;
 //                    yt = (font.cellHeight * 0.5f - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY;
                     //((font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY) * sizingY;
 //                    if (c >= 0xE000 && c < 0xF800) {

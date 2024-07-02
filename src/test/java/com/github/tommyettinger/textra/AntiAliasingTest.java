@@ -33,18 +33,22 @@ import static com.badlogic.gdx.utils.Align.topLeft;
 
 public class AntiAliasingTest extends ApplicationAdapter {
     Stage stage;
-
+    Font msdf;
     @Override
     public void create() {
         stage = new Stage();
+        msdf = KnownFonts.getRobotoCondensed(Font.DistanceFieldType.MSDF).scaleHeightTo(30);
 
         String content = "libGDX is a free and open-source game-development application framework written in the " +
                 "Java programming language with some C and C++ components for performance dependent code.";
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("mo/Roboto-Light.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("mo/Roboto-Condensed.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 24;
+        parameter.hinting = FreeTypeFontGenerator.Hinting.Medium;
         BitmapFont light = generator.generateFont(parameter);
+        light.getData().breakChars = new char[]{'-'};
+//        light.setUseIntegerPositions(false);
         light.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         generator.dispose();
 
@@ -61,13 +65,19 @@ public class AntiAliasingTest extends ApplicationAdapter {
         label.setAlignment(topLeft);
         label.setWrap(true);
 
+        TextraLabel textra2 = new TextraLabel(content, new Styles.LabelStyle(msdf, Color.WHITE));
+        textra2.setWrap(true);
+        textra2.setAlignment(topLeft);
+        msdf.useIntegerPositions(true);
+
         Table table = new Table();
         table.setFillParent(true);
         // trying to figure out what offsets might cause AA
 //        table.padTop(0.35f).padLeft(0.35f);
 
-        table.add(textra).width(Gdx.graphics.getWidth() - 40).top().padBottom(20).row();
-        table.add(label).width(Gdx.graphics.getWidth() - 40).top().padBottom(20).row();
+        table.add(textra).width(Gdx.graphics.getWidth() * 0.3f - 40).top().pad(20);
+        table.add(label).width(Gdx.graphics.getWidth() * 0.3f - 40).top().pad(20);
+        table.add(textra2).width(Gdx.graphics.getWidth()  * 0.3f - 40).top().pad(20);
 
         stage.addActor(table);
     }
@@ -83,12 +93,13 @@ public class AntiAliasingTest extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height);
+        msdf.resizeDistanceField(width, height);
     }
 
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel vs. Label test");
-        config.setWindowedMode(501, 497);
+        config.setWindowedMode(800, 497);
         config.disableAudio(true);
 		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
