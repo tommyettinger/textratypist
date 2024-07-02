@@ -4546,7 +4546,7 @@ public class Font implements Disposable {
                     c < 0x2580 ? boxDrawingBreadth : 1f);
             return font.cellWidth;
         }
-        x += cellWidth * 0.5f;
+        x += font.cellWidth * 0.5f;
 
         Texture tex = tr.getTexture();
         float scaledHeight = font.cellHeight * scale * sizingY;
@@ -4567,7 +4567,7 @@ public class Font implements Disposable {
         //// This works(*) with box-drawing chars, but rotates around halfway up the left edge, not the center.
         //// It does have the same sliding issue as the other methods so far.
 //        float xc = (font.cellWidth * -0.5f) * sizingX;// + (tr.offsetX * scaleX * sizingX);
-        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - cellWidth * 0.5f;//0f;//-centerX;
+        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - font.cellWidth * 0.5f;//0f;//-centerX;
 //        float xc = tr.offsetX * scaleX - centerX * sizingX;
 //        float xc = (cos * tr.offsetX - sin * tr.offsetY) * scaleX - centerX * sizingX;
         //// ???
@@ -4870,7 +4870,7 @@ public class Font implements Disposable {
             y = font.handleIntegerPosition(iy + yShift);
             centerX = oCenterX + xShift * 0.5f;
             centerY = oCenterY + yShift * 0.5f;
-            x += changedW * 0.5f;
+            x += font.cellWidth * 0.5f;
 //            x += centerX;
 //            x -= centerX;
 //            y -= centerY;
@@ -4942,7 +4942,7 @@ public class Font implements Disposable {
                             underV2 = under.getV2();
 //                            hu = under.getRegionHeight() * scaleY,
 //                            yu = -0.625f * (hu + under.offsetY * scaleY);//-0.55f * cellHeight * scale;//cellHeight * scale - hu - under.offsetY * scaleY - centerY;
-                    xc = -0.5f * cellWidth + changedW * font.underX - scale * fsx;
+                    xc = -0.5f * font.cellWidth + changedW * font.underX - scale * fsx;
                     x0 = -2 * xPx;
                     float addW = xPx * 2;
     //p0x = - cellWidth * 0.5f - scale * fsx + xAdvance * font.underX * scaleX;
@@ -4993,7 +4993,7 @@ public class Font implements Disposable {
             y = font.handleIntegerPosition(iy + yShift);
             centerX = oCenterX + xShift * 0.5f;
             centerY = oCenterY + yShift * 0.5f;
-            x += cellWidth * 0.5f;
+            x += font.cellWidth * 0.5f;
 //            x -= centerX;
 //            y -= centerY;
             //x += centerX * cos; y += centerX * sin;
