@@ -1808,6 +1808,9 @@ public class Font implements Disposable {
         yAdjust -= bmFont.getAscent() + descent;
 //        yAdjust += descent;
 //        yAdjust += descent + bmFont.getLineHeight() * 0.5f;
+
+        fancyY -= descent / (bmFont.getCapHeight());
+
         for (BitmapFont.Glyph[] page : data.glyphs) {
             if (page == null) continue;
             for (BitmapFont.Glyph glyph : page) {
@@ -7139,6 +7142,8 @@ public class Font implements Disposable {
                 ", strikeY=" + strikeY +
                 ", strikeLength=" + strikeLength +
                 ", strikeBreadth=" + strikeBreadth +
+                ", fancyX=" + fancyX +
+                ", fancyY=" + fancyY +
                 '}';
     }
 
