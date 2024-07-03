@@ -323,8 +323,8 @@ public class GlyphGrid extends Group {
      */
     public void resize(int screenWidth, int screenHeight) {
         viewport.update(screenWidth, screenHeight, false);
-        font.resizeDistanceField((int)(screenWidth * viewport.getScreenWidth() / viewport.getWorldWidth()),
-                (int)(screenHeight * viewport.getScreenHeight() / viewport.getWorldHeight()));
+        font.resizeDistanceField(screenWidth * viewport.getScreenWidth() / viewport.getWorldWidth(),
+                screenHeight * viewport.getScreenHeight() / viewport.getWorldHeight());
     }
 
     /**

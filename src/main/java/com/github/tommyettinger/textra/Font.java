@@ -502,7 +502,7 @@ public class Font implements Disposable {
      * When {@link #distanceField} is {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or
      * {@link DistanceFieldType#SDF_OUTLINE}, this determines how much the edges of the glyphs should be aliased sharply
      * (higher values) or anti-aliased softly (lower values). The default value is 1. This is set internally by
-     * {@link #resizeDistanceField(int, int)} using {@link #distanceFieldCrispness} as a multiplier; when you want to
+     * {@link #resizeDistanceField(float, float)} using {@link #distanceFieldCrispness} as a multiplier; when you want to
      * have a change to crispness persist, use that other field.
      */
     public float actualCrispness = 1f;
@@ -512,7 +512,7 @@ public class Font implements Disposable {
      * {@link DistanceFieldType#SDF_OUTLINE}, this determines how much the edges of the glyphs should be aliased sharply
      * (higher values) or anti-aliased softly (lower values). The default value is 1. This is used as a persistent
      * multiplier that can be configured per-font, whereas {@link #actualCrispness} is the working value that changes
-     * often but is influenced by this one. This variable is used by {@link #resizeDistanceField(int, int)} to affect
+     * often but is influenced by this one. This variable is used by {@link #resizeDistanceField(float, float)} to affect
      * the working crispness value.
      */
     public float distanceFieldCrispness = 1f;
@@ -2514,7 +2514,7 @@ public class Font implements Disposable {
      * A {@link DistanceFieldType} that should be {@link DistanceFieldType#STANDARD} for most fonts, and can be
      * {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or {@link DistanceFieldType#SDF_OUTLINE} if you
      * know you have a font made to be used with one of those rendering techniques. See {@link #distanceFieldCrispness}
-     * for one way to configure SDF and MSDF fonts, and {@link #resizeDistanceField(int, int)} for an important method
+     * for one way to configure SDF and MSDF fonts, and {@link #resizeDistanceField(float, float)} for an important method
      * to handle window-resizing correctly.
      */
     public DistanceFieldType getDistanceField() {
@@ -2940,7 +2940,7 @@ public class Font implements Disposable {
      * depends on how an individual distance field font was created. Typical values range from 1.5 to 4.5 . Lower values
      * look softer and fuzzier, while higher values look sharper and possibly more jagged. This is used as a persistent
      * multiplier that can be configured per-font, whereas {@link #actualCrispness} is the working value that changes
-     * often but is influenced by this one. This variable is used by {@link #resizeDistanceField(int, int)} to affect
+     * often but is influenced by this one. This variable is used by {@link #resizeDistanceField(float, float)} to affect
      * the working crispness value.
      *
      * @return the current crispness multiplier, as a float
@@ -2954,9 +2954,9 @@ public class Font implements Disposable {
      * depends on how an individual distance field font was created. Typical values range from 1.5 to 4.5 . Lower values
      * look softer and fuzzier, while higher values look sharper and possibly more jagged. This is used as a persistent
      * multiplier that can be configured per-font, whereas {@link #actualCrispness} is the working value that changes
-     * often but is influenced by this one. This variable is used by {@link #resizeDistanceField(int, int)} to affect
+     * often but is influenced by this one. This variable is used by {@link #resizeDistanceField(float, float)} to affect
      * the working crispness value. <em>Changing the crispness does nothing unless you also resize the distance field,
-     * for each font you are rendering.</em> So make sure to call {@link #resizeDistanceField(int, int)} in resize() !
+     * for each font you are rendering.</em> So make sure to call {@link #resizeDistanceField(float, float)} in resize() !
      *
      * @param crispness a float multiplier to be applied to the working crispness; often between 1.5 and 4.5
      * @return this Font, for chaining
@@ -2972,9 +2972,9 @@ public class Font implements Disposable {
      * created. Typical values range from 1.5 to 4.5 . Lower values look softer and fuzzier, while higher values look
      * sharper and possibly more jagged. This affects a persistent multiplier that can be configured per-font,
      * whereas {@link #actualCrispness} is the working value that changes often but is influenced by this one. The
-     * variable this affects is used by {@link #resizeDistanceField(int, int)} to affect the working crispness value.
+     * variable this affects is used by {@link #resizeDistanceField(float, float)} to affect the working crispness value.
      * <em>Changing the crispness does nothing unless you also resize the distance field, for each font you are
-     * rendering.</em> So make sure to call {@link #resizeDistanceField(int, int)} in resize() !
+     * rendering.</em> So make sure to call {@link #resizeDistanceField(float, float)} in resize() !
      *
      * @param multiplier a float multiplier to be applied to the working crispness multiplier
      * @return this Font, for chaining
@@ -3175,7 +3175,7 @@ public class Font implements Disposable {
      * Font; in that case, you can draw several Labels without ending the current batch. You do need to set the shader
      * back to whatever you use for other items before you draw those, typically with {@code batch.setShader(null);} .
      * <br>
-     * Like all distance field code here, this is dependent on calling {@link #resizeDistanceField(int, int)} in your
+     * Like all distance field code here, this is dependent on calling {@link #resizeDistanceField(float, float)} in your
      * {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} method, since that allows the distance field to be
      * scaled correctly to the screen. Without calling resizeDistanceField(), distance field fonts will look terrible.
      *
@@ -3218,7 +3218,7 @@ public class Font implements Disposable {
      * Typically, if you call {@link #pauseDistanceFieldShader(Batch)}, you call this method later to resume drawing
      * with a distance field. This is usually done automatically by {@link TextraLabel} and {@link TypingLabel}.
      * <br>
-     * Like all distance field code here, this is dependent on calling {@link #resizeDistanceField(int, int)} in your
+     * Like all distance field code here, this is dependent on calling {@link #resizeDistanceField(float, float)} in your
      * {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} method, since that allows the distance field to be
      * scaled correctly to the screen. Without calling resizeDistanceField(), distance field fonts will look terrible.
      *
@@ -3269,7 +3269,7 @@ public class Font implements Disposable {
      * You can resume using the distance field by calling {@link #resumeDistanceFieldShader(Batch)}. This is usually
      * done automatically by {@link TextraLabel} and {@link TypingLabel}.
      * <br>
-     * Like all distance field code here, this is dependent on calling {@link #resizeDistanceField(int, int)} in your
+     * Like all distance field code here, this is dependent on calling {@link #resizeDistanceField(float, float)} in your
      * {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} method, since that allows the distance field to be
      * scaled correctly to the screen. Without calling resizeDistanceField(), distance field fonts will look terrible.
      *
@@ -6949,18 +6949,26 @@ public class Font implements Disposable {
      * Given the new width and height for a window, this attempts to adjust the {@link #actualCrispness} of an
      * SDF/MSDF/SDF_OUTLINE font so that it will display cleanly at a different size. This uses this font's
      * {@link #distanceFieldCrispness} as a multiplier applied after calculating the initial crispness.
+     * <br>
+     * If you use a viewport that significantly zooms in or out, you should multiply width by
+     * {@code viewport.getScreenWidth() / viewport.getWorldWidth()}, and similarly multiply height by the corresponding
+     * screen height divided by world height. This can avoid the distance fields looking extremely blurry or boxy when
+     * one world unit covers many pixels, or too aliased and jagged in the opposite case.
+     * <br>
+     * If you load all or most of your Font instances via a {@link FWSkin}, you can use
+     * {@link FWSkin#resizeDistanceFields(float, float)} to resize all Fonts loaded by the Skin at once.
      *
      * @param width  the new window width; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      * @param height the new window height; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      */
-    public void resizeDistanceField(int width, int height) {
+    public void resizeDistanceField(float width, float height) {
         if (getDistanceField() != DistanceFieldType.STANDARD) {
             if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
                 actualCrispness = distanceFieldCrispness;
             } else {
                 actualCrispness = distanceFieldCrispness *
-                                  Math.max((float) width / Gdx.graphics.getBackBufferWidth(),
-                                          (float) height / Gdx.graphics.getBackBufferHeight());
+                                  Math.max(width / Gdx.graphics.getBackBufferWidth(),
+                                          height / Gdx.graphics.getBackBufferHeight());
             }
         }
     }

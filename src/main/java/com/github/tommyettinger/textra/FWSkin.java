@@ -22,7 +22,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
@@ -35,7 +34,7 @@ import com.badlogic.gdx.utils.SerializationException;
  * load {@link Font}s from AngelCode BMFont files (with a ".fnt" extension), and continues to be able to load
  * {@link BitmapFont}s from those files as well.
  * <br>
- * To aid usage of distance field fonts, you can call {@link #resizeDistanceFields(int, int)} on this skin (it may
+ * To aid usage of distance field fonts, you can call {@link #resizeDistanceFields(float, float)} on this skin (it may
  * need to be cast to FWSkin) in your {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} method. This makes
  * all the distance field effects have their correct sizing information, and allows edges to be crisp without becoming
  * jagged or aliased. It only works on Font objects that use a distance field (SDF, MSDF, or SDF_OUTLINE).
@@ -329,7 +328,7 @@ public class FWSkin extends Skin {
     }
 
     /**
-     * Calls {@link Font#resizeDistanceField(int, int)} with the given width and height on every Font loaded by this
+     * Calls {@link Font#resizeDistanceField(float, float)} with the given width and height on every Font loaded by this
      * skin. If you are mainly loading Font values via a skin, this can be called instead of manually calling
      * resizeDistanceField on each Font, and should be called in
      * {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} (with width and height matching its parameters).
@@ -339,7 +338,7 @@ public class FWSkin extends Skin {
      * @param width should match the width in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      * @param height should match the height in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      */
-    public void resizeDistanceFields(int width, int height) {
+    public void resizeDistanceFields(float width, float height) {
         for(Font font : getAll(Font.class).values()){
             font.resizeDistanceField(width, height);
         }
