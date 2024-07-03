@@ -79,7 +79,7 @@ public class MinimalGridTest extends ApplicationAdapter {
 //                .setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-8f, 24f, 0f)
 //                .setTextureFilter().setName("Iosevka Slab"));
 
-        Font aStarry = KnownFonts.addEmoji(KnownFonts.getAStarry(Font.DistanceFieldType.MSDF));
+        Font aStarry = KnownFonts.addEmoji(KnownFonts.getIosevka(Font.DistanceFieldType.MSDF));
         Font grenze = KnownFonts.addEmoji(KnownFonts.getGrenze(Font.DistanceFieldType.SDF_OUTLINE));
 
 //        varWidthFont = KnownFonts.getGentium();

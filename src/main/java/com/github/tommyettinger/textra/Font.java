@@ -3185,14 +3185,15 @@ public class Font implements Disposable {
         if (batch.getShader() != shader) {
             if (distanceField == DistanceFieldType.MSDF) {
                 batch.setShader(shader);
-                float smoothing = 0.4f * actualCrispness * Math.max(cellHeight, cellWidth);
-//                float smoothing = 8f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+//                float smoothing = 0.4f * actualCrispness * Math.max(cellHeight, cellWidth);
+                float smoothing = 8f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
                 batch.setShader(shader);
-                float smoothing = 0.2f * actualCrispness * Math.max(cellHeight, cellWidth);
+//                float smoothing = 0.2f * actualCrispness * Math.max(cellHeight, cellWidth);
+                float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
@@ -3226,13 +3227,14 @@ public class Font implements Disposable {
     public void resumeDistanceFieldShader(Batch batch) {
         if (batch.getShader() == shader) {
             if (distanceField == DistanceFieldType.MSDF) {
-                float smoothing = 0.4f * actualCrispness * Math.max(cellHeight, cellWidth);
-//                float smoothing = 8f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+//                float smoothing = 0.4f * actualCrispness * Math.max(cellHeight, cellWidth);
+                float smoothing = 8f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
-                float smoothing = 0.2f * actualCrispness * Math.max(cellHeight, cellWidth);
+//                float smoothing = 0.2f * actualCrispness * Math.max(cellHeight, cellWidth);
+                float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
