@@ -4894,15 +4894,17 @@ public class Font implements Disposable {
 //            x -= centerX;
 //            y -= centerY;
             //x += centerX * cos; y += centerX * sin;
-            if (c >= 0xE000 && c < 0xF800) {
-                y -= scaledHeight * 0.5f;
-            }
+            // not sure here...
+//            if (c >= 0xE000 && c < 0xF800) {
+//                y -= scaledHeight * 0.5f;
+//            }
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = font.cellWidth * -0.5f - scale * font.scaleX + xAdvance * font.underX * scale * font.scaleX;
 //                p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY
 //                        + font.descent * font.scaleY;
-                p0y = ((font.underY - 0.8125f) * font.cellHeight + centerY) * scale * sizingY + font.descent * font.scaleY * scale * sizingY;
+//                p0y = ((font.underY - 0.6f) * font.cellHeight * scale + centerY) * sizingY + font.descent * font.scaleY * scale * sizingY;
+                p0y = ((font.underY - 0.5f) * font.cellHeight * scale * 0.5f) * sizingY + font.descent * font.scaleY * scale * sizingY;
 
 //                if (c >= 0xE000 && c < 0xF800)
 //                {
@@ -4915,23 +4917,24 @@ public class Font implements Disposable {
                     p0y += sin * centerX;
 //                }
                 if (c >= 0xE000 && c < 0xF800) {
-//                    p0x -= xPx * 2f - changedW * 0.5f;
-                    p0y += centerY * scale * sizingY;
-
-//                    p0y -= font.descent * font.scaleY * scale * sizingY;
-
-//                    // for inline images, this does two things.
-//                    // it moves the changes from the inline image's offsetX and offsetY from the
-//                    // rotating xc and yt variables, to the position-only x and y variables.
-//                    // it also moves the origin for y by a full cell height.
-//                    float xch = tr.offsetX * scaleX * sizingX - changedW * 0.5f;
-//                    float ych = tr.offsetY * scaleY * sizingY;
-                    float xch = changedW * -0.5f;
-                    float ych = centerY * scale * sizingY;
-                    p0x -= xch;
-                    x += xch + changedW * 0.5f;
-                    p0y -= ych;
-                    y += ych;// - font.descent * font.scaleY * 2f;
+                    p0x += changedW * 0.5f;
+////                    p0x -= xPx * 2f - changedW * 0.5f;
+//                    p0y += centerY * scale * sizingY;
+//
+////                    p0y -= font.descent * font.scaleY * scale * sizingY;
+//
+////                    // for inline images, this does two things.
+////                    // it moves the changes from the inline image's offsetX and offsetY from the
+////                    // rotating xc and yt variables, to the position-only x and y variables.
+////                    // it also moves the origin for y by a full cell height.
+////                    float xch = tr.offsetX * scaleX * sizingX - changedW * 0.5f;
+////                    float ych = tr.offsetY * scaleY * sizingY;
+//                    float xch = changedW * -0.5f;
+//                    float ych = centerY * scale * sizingY;
+//                    p0x -= xch;
+//                    x += xch + changedW * 0.5f;
+//                    p0y -= ych;
+//                    y += ych;// - font.descent * font.scaleY * 2f;
                 }
 
 //                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + xAdvance * font.underX * scaleX;
@@ -5024,14 +5027,16 @@ public class Font implements Disposable {
 //                y += (scaledHeight * 0.5f);
 //                x += (changedW * 0.5f);
 //            }
-            if (c >= 0xE000 && c < 0xF800) {
-                y -= centerY * scale * sizingY;
-            }
+            // not sure on this
+//            if (c >= 0xE000 && c < 0xF800) {
+//                y -= scaledHeight * 0.5f;
+//            }
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = font.cellWidth * -0.5f - scale * font.scaleX + xAdvance * font.strikeX * scale * font.scaleX;
-                p0y = (centerY + (font.strikeY - 0.45f) * font.cellHeight) * scale * sizingY + font.descent * scale * font.scaleY;
+                //p0y = ((font.underY - 0.6f) * font.cellHeight + centerY) * scale * sizingY + font.descent * font.scaleY * scale * sizingY;
+                p0y = ((font.strikeY) * font.cellHeight * scale * 0.5f) * sizingY + font.descent * scale * font.scaleY * sizingY;
 //                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + xAdvance * font.strikeX * scaleX;
 //                p0y = centerY + (font.strikeY - 0.45f) * font.cellHeight * scale * sizingY + sin * centerX + font.descent * font.scaleY;
 //                if (c >= 0xE000 && c < 0xF800) {
@@ -5043,17 +5048,18 @@ public class Font implements Disposable {
                     p0y += sin * centerX;
 //                }
                 if (c >= 0xE000 && c < 0xF800) {
-                    p0y += centerY * scale * sizingY;
+                    p0x += changedW * 0.5f;
+//                    p0y += centerY * sizingY;
                     // for inline images, this does two things.
                     // it moves the changes from the inline image's offsetX and offsetY from the
                     // rotating xc and yt variables, to the position-only x and y variables.
                     // it also moves the origin for y by a full cell height.
-                    float xch = changedW * -0.5f;
-                    float ych = centerY * scale * sizingY;
-                    p0x -= xch;
-                    x += xch + changedW * 0.5f;
-                    p0y -= ych;
-                    y += ych;
+//                    float xch = changedW * -0.5f;
+//                    float ych = scaledHeight * -0.5f;
+//                    p0x -= xch;
+//                    x += xch + changedW * 0.5f;
+//                    p0y -= ych;
+//                    y += ych;
 
 //                    float xch = tr.offsetX * scaleX * sizingX;
 //                    float ych = scaledHeight -tr.offsetY * fsy * scale * sizingY;

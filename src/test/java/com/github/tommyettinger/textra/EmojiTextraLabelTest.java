@@ -78,7 +78,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
 //                "Yay! [+saxophone][+😍][+🎷] "
 //                "[+⚖] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]"
                 "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
-                        + "But... {COLOR=#79c353ff}{SICK}U. Nitty{ENDSICK}{ENDCOLOR} doesn't. {CROWD}[#BB1100][+skull][#55AA22FF][+🤡][ ]\n"
+                        + "But... {COLOR=#79c353ff}{SICK}U. Nitty{ENDSICK}{ENDCOLOR} doesn't. {CROWD}[#BB1100][~][+skull][~][#55AA22FF][_][+🤡][ ]\n"
                         + "That's OK, I don't like loot crates anyway. {CROWD}[#B10F][+party popper][#5A2][+🥳][ ]\n"
                         +"[+⚖][~][_][+⚖][ ] testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\n"
                         + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
@@ -110,7 +110,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         // Make the label wrap to new lines, respecting the table's layout.
         label.setWrap(true);
 
-        Action action = Actions.repeat(5,
+        Action action = Actions.repeat(1,
                 Actions.sequence(
                         delay(1.5f),
                         moveBy(0, 100, 0.4f, Interpolation.pow2Out),
@@ -155,7 +155,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         config.setWindowedMode(720, 405);
         config.setResizable(true);
         config.setForegroundFPS(0);
-        config.useVsync(false);
+        config.useVsync(true);
         config.disableAudio(true);
         new Lwjgl3Application(new EmojiTextraLabelTest(), config);
     }
