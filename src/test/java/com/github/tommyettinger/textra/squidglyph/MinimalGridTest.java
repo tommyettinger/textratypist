@@ -79,8 +79,8 @@ public class MinimalGridTest extends ApplicationAdapter {
 //                .setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-8f, 24f, 0f)
 //                .setTextureFilter().setName("Iosevka Slab"));
 
-        Font aStarry = KnownFonts.addEmoji(KnownFonts.getAStarry());
-        Font grenze = KnownFonts.addEmoji(KnownFonts.getGrenze());
+        Font aStarry = KnownFonts.addEmoji(KnownFonts.getAStarry(Font.DistanceFieldType.MSDF));
+        Font grenze = KnownFonts.addEmoji(KnownFonts.getGrenze(Font.DistanceFieldType.SDF_OUTLINE));
 
 //        varWidthFont = KnownFonts.getGentium();
         varWidthFont = KnownFonts.getGentiumUnItalic();
@@ -99,11 +99,11 @@ public class MinimalGridTest extends ApplicationAdapter {
         //use Ă to test glyph height
         emojiGlyph = new GlyphActor("[_][~][+😁]", gg.font);
         atGlyph = new GlyphActor("[red orange][~][_]@", gg.font);
-        usedGlyph = emojiGlyph;
+        usedGlyph = atGlyph;
         gg.addActor(usedGlyph);
         emojiGlyph2 = new GlyphActor("[_][~][+😁]", grenze);
         atGlyph2 = new GlyphActor("[red orange][~][_]@", grenze);
-        usedGlyph2 = emojiGlyph2;
+        usedGlyph2 = atGlyph2;
         gg.addActor(usedGlyph2);
 
         input.setInputProcessor(new InputAdapter(){
@@ -442,6 +442,7 @@ public class MinimalGridTest extends ApplicationAdapter {
     public void resize(int width, int height) {
         super.resize(width, height);
         gg.resize(width, height);
+        atGlyph2.font.resizeDistanceField(width, height);
         screenStage.getViewport().update(width, height, true);
     }
 }

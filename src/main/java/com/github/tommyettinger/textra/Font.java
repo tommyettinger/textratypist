@@ -2366,13 +2366,10 @@ public class Font implements Disposable {
         if("msdf".equals(dfType) || "mtsdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.MSDF);
             setCrispness(atlas.getFloat("distanceRange", 8f) * 0.2f); // maybe we don't need to read this?
-//            setCrispness(1f);
         }
         else if("sdf".equals(dfType) || "psdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.SDF);
             setCrispness(atlas.getFloat("distanceRange", 8f) * 0.2f);
-//            setCrispness(15f / atlas.getFloat("distanceRange", 20f));
-//            setCrispness(1f);
 //            setCrispness(0.03125f * atlas.getFloat("distanceRange", 4f)); // maybe we don't need to read this?
         }
         else // softmask, hardmask
@@ -3188,14 +3185,14 @@ public class Font implements Disposable {
         if (batch.getShader() != shader) {
             if (distanceField == DistanceFieldType.MSDF) {
                 batch.setShader(shader);
-                float smoothing = 8f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                float smoothing = 0.4f * actualCrispness * Math.max(cellHeight, cellWidth);
+//                float smoothing = 8f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
                 batch.setShader(shader);
-                float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight,
-                        cellWidth / originalCellWidth);
+                float smoothing = 0.2f * actualCrispness * Math.max(cellHeight, cellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
@@ -3229,13 +3226,31 @@ public class Font implements Disposable {
     public void resumeDistanceFieldShader(Batch batch) {
         if (batch.getShader() == shader) {
             if (distanceField == DistanceFieldType.MSDF) {
-                float smoothing = 8f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                float smoothing = 0.4f * actualCrispness * Math.max(cellHeight, cellWidth);
+//                float smoothing = 8f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
-                float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight,
-                        cellWidth / originalCellWidth);
+                float smoothing = 0.2f * actualCrispness * Math.max(cellHeight, cellWidth);
+                batch.flush();
+                shader.setUniformf("u_smoothing", smoothing);
+                smoothingValues.put(batch, smoothing);
+            }
+        } else if(shader == null) {
+            batch.flush();
+            if(batch.getShader().hasUniform("u_smoothing"))
+                batch.getShader().setUniformf("u_smoothing", 0f);
+            smoothingValues.put(batch, 0f);
+        } else {
+            batch.setShader(shader);
+            if (distanceField == DistanceFieldType.MSDF) {
+                float smoothing = 0.4f * actualCrispness * Math.max(cellHeight, cellWidth);
+                batch.flush();
+                shader.setUniformf("u_smoothing", smoothing);
+                smoothingValues.put(batch, smoothing);
+            } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
+                float smoothing = 0.2f * actualCrispness * Math.max(cellHeight, cellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
@@ -3259,7 +3274,7 @@ public class Font implements Disposable {
      * @param batch a Batch that should be running (between {@link Batch#begin()} and {@link Batch#end()})
      */
     public void pauseDistanceFieldShader(Batch batch) {
-        if(batch.getShader() == shader && distanceField != DistanceFieldType.STANDARD) {
+        if(batch.getShader() == shader){// && distanceField != DistanceFieldType.STANDARD) {
             Float smoothing = smoothingValues.get(batch);
             if(smoothing == null || smoothing == 0f) return;
             batch.flush();
@@ -4437,7 +4452,7 @@ public class Font implements Disposable {
         if (tr == null) return 0f;
 
 
-        if(font.distanceField != DistanceFieldType.STANDARD && latestTexture != (latestTexture = tr.getTexture())) {
+        if(latestTexture != (latestTexture = tr.getTexture())) {
             boolean located = false;
             for (int p = 0; p < font.parents.size; p++) {
                 if (font.parents.get(p).getTexture() == latestTexture) {
