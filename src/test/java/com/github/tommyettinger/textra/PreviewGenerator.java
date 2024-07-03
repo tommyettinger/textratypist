@@ -95,42 +95,30 @@ public class PreviewGenerator extends ApplicationAdapter {
 
 //        FileHandle[] jsonFiles = Gdx.files.local("src/test/resources/experimental").list(".json");
 //        FileHandle[] sdfFiles = new FileHandle[0];
-        FileHandle[] jsonFiles = Gdx.files.local("knownFonts/fontwriter").list(".json");
-        FileHandle[] sdfFiles = Gdx.files.local("knownFonts/fontwriter").list("-sdf.json");
-        Font[] sdf = new Font[sdfFiles.length];
-        Font[] all = new Font[jsonFiles.length];
-        int sdfIdx = 0;
+        String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String.class);
+        Font[] all = new Font[jsonFiles.length * 4 + 4];
+        int idx = 0;
         for (int i = 0; i < jsonFiles.length; i++) {
-            all[i] = KnownFonts.addEmoji(new Font(jsonFiles[i].path(), true));
-            all[i].scaleHeightTo(32f);
-            if (all[i].distanceField == Font.DistanceFieldType.SDF) {
-                sdf[sdfIdx++] = new Font(all[i]);
-            }
+            all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.STANDARD)).scaleHeightTo(32f);
+            all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.MSDF)).scaleHeightTo(32f);
+            all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.SDF)).scaleHeightTo(32f);
+            all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.SDF_OUTLINE)).scaleHeightTo(32f);
         }
-        all[0].scale(0.5f, 1f);
-        all[1].scale(0.5f, 1f);
-        all[2].scale(0.5f, 1f);
-        sdf[0].scale(0.5f, 1f);
-
-        for(Font f : sdf) {
-            f.setDistanceField(Font.DistanceFieldType.SDF_OUTLINE);
-            f.name = f.name.replace("-sdf", "-sdf_outline");
-        }
-        Font[] fonts = new Font[all.length + sdf.length];
-        System.arraycopy(all, 0, fonts, 0, all.length);
-        System.arraycopy(sdf, 0, fonts, all.length, sdf.length);
+        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.STANDARD);
+        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.MSDF);
+        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF);
+        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE);
 
 //        Font[] fonts = sdf;
 
-
-        fnt = fonts[0];
+        fnt = all[0];
 //        fnt = fonts[fonts.length - 1];
-        Gdx.files.local("out/fw/").mkdirs();
+        Gdx.files.local("out/").mkdirs();
         int index = 0;
-        for (int i = 0; i < fonts.length; i++) {
-            Font font = fonts[i];
+        for (int i = 0; i < all.length; i++) {
+            Font font = all[i];
             font.setTextureFilter();
-            Color baseColor = font.getDistanceField() == Font.DistanceFieldType.SDF_OUTLINE ? Color.LIGHT_GRAY : Color.DARK_GRAY;
+            Color baseColor = font.getDistanceField() == Font.DistanceFieldType.SDF_OUTLINE ? Color.WHITE : Color.DARK_GRAY;
             KnownFonts.addEmoji(font);
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 //        font = new Font(new BitmapFont(Gdx.files.internal("OpenSans-standard.fnt")), Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f)
@@ -198,7 +186,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             // End Pixmap.createFromFrameBuffer() modified code
 
 //            Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-            PixmapIO.writePNG(Gdx.files.local("out/fw/" + font.name + ".png"), pm, 2, true);
+            PixmapIO.writePNG(Gdx.files.local("out/" + font.name + ".png"), pm, 2, true);
             index++;
         }
 //        System.out.println(layout);
