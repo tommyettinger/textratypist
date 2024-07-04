@@ -42,10 +42,10 @@ public class FontSwitchTest extends ApplicationAdapter {
                         "Gentium", "OpenSans", "Cozette", "Kingthings",
                 },
                 new Font[]{
-                        KnownFonts.getGentium().scaleTo(32, 35),
-                        KnownFonts.getOpenSans().scaleTo(23, 35).adjustLineHeight(0.9f),
+                        KnownFonts.getGentium().scaleHeightTo(35),
+                        KnownFonts.getOpenSans().scaleHeightTo(35).adjustLineHeight(0.9f),
                         KnownFonts.getCozette().scale(2, 2).adjustLineHeight(0.8f),
-                        KnownFonts.getKingthingsFoundation().scaleTo(25, 34).adjustLineHeight(0.875f),
+                        KnownFonts.getKingthingsFoundation(Font.DistanceFieldType.SDF).scaleHeightTo(34).adjustLineHeight(0.875f),
                 });
         font = family.connected[0].setFamily(family);
         layout.setBaseColor(Color.DARK_GRAY);
@@ -90,7 +90,7 @@ public class FontSwitchTest extends ApplicationAdapter {
         layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
         float x = 400, y = layout.getHeight();
         batch.begin();
-        font.enableShader(batch);
+        font.family.connected[3].enableShader(batch);
         font.drawGlyphs(batch, layout, x, y, Align.center);
         batch.end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
@@ -98,6 +98,6 @@ public class FontSwitchTest extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        font.resizeDistanceField(width, height);
+        font.family.connected[3].resizeDistanceField(width, height);
     }
 }

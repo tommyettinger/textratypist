@@ -21,6 +21,7 @@ public class MSDFTypingLabelTest extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;
     SpriteBatch batch;
+    Font        font;
     TypingLabel label;
     TextButton  buttonPause;
     TextButton  buttonResume;
@@ -30,6 +31,7 @@ public class MSDFTypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void create() {
+        font = KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.MSDF);
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
@@ -121,10 +123,6 @@ public class MSDFTypingLabelTest extends ApplicationAdapter {
     }
 
     public TypingLabel createTypingLabel() {
-        Font font = new Font("YanoneKaffeesatz-msdf.fnt", "YanoneKaffeesatz-msdf.png",
-                Font.DistanceFieldType.MSDF, 0f, 0f, 0f, 0f)
-                .scaleTo(26, 30).setCrispness(2.5f);
-
         final TypingLabel label = new TypingLabel(
                 "[darkest gray]Testing [/]MSDF[/] text, with [%?shadow]drop shadow[%],\n" +
                 "[%75]small, [%125]medium, [%]and [%175]large [%] sizes of [*]font!",
@@ -174,6 +172,7 @@ public class MSDFTypingLabelTest extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        font.resizeDistanceField(width, height, stage.getViewport());
     }
 
     @Override

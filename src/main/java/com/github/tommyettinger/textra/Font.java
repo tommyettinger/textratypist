@@ -329,7 +329,7 @@ public class Font implements Disposable {
          * index of the BitmapFont in the order this encountered it. Note that this constructor does not handle distance
          * field fonts (it treats all fonts as {@link DistanceFieldType#STANDARD}). But, if you use a {@link FWSkin}
          * instead of a Skin, it will try to load Fonts instead of BitmapFonts, and Font supports distance fields.
-         * 
+         *
          * @param skin a non-null Skin that defines one or more BitmapFont items
          */
         public FontFamily(Skin skin) {
