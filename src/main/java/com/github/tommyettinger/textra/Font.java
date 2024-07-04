@@ -31,6 +31,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.textra.utils.*;
 import regexodus.Category;
 
@@ -2560,6 +2561,20 @@ public class Font implements Disposable {
      */
     public int kerningPair(char first, char second) {
         return first << 16 | (second & 0xFFFF);
+    }
+
+    /**
+     * Scales the font by the given multiplier, applying it both horizontally and vertically.
+     *
+     * @param both how much to multiply the width and height of each glyph by
+     * @return this Font, for chaining
+     */
+    public Font scale(float both) {
+        scaleX *= both;
+        scaleY *= both;
+        cellWidth *= both;
+        cellHeight *= both;
+        return this;
     }
 
     /**
@@ -6940,6 +6955,7 @@ public class Font implements Disposable {
     public void removeStoredState(String name) {
         storedStates.remove(name, 0L);
     }
+
     /**
      * Important; must be called in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} on each
      * SDF, MSDF, or SDF_OUTLINE font you have currently rendering! This allows the distance field to appear
@@ -6969,6 +6985,40 @@ public class Font implements Disposable {
                 actualCrispness = distanceFieldCrispness *
                                   Math.max(width / Gdx.graphics.getBackBufferWidth(),
                                           height / Gdx.graphics.getBackBufferHeight());
+            }
+        }
+    }
+
+    /**
+     * Important; must be called in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} on each
+     * SDF, MSDF, or SDF_OUTLINE font you have currently rendering! This allows the distance field to appear
+     * as correct and crisp-outlined as it should be; without this, the distance field will probably not look
+     * very sharp at all. This doesn't need to be called every frame, only in resize(). This overload also uses
+     * a Viewport to better configure heavily-zoomed Fonts. It does not change the Viewport.
+     * <br>
+     * Given the new width and height for a window, this attempts to adjust the {@link #actualCrispness} of an
+     * SDF/MSDF/SDF_OUTLINE font so that it will display cleanly at a different size. This uses this font's
+     * {@link #distanceFieldCrispness} as a multiplier applied after calculating the initial crispness.
+     * <br>
+     * If you use a viewport that significantly zooms in or out, you should multiply width by
+     * {@code }, and similarly multiply height by the corresponding
+     * screen height divided by world height. This can avoid the distance fields looking extremely blurry or boxy when
+     * one world unit covers many pixels, or too aliased and jagged in the opposite case.
+     * <br>
+     * If you load all or most of your Font instances via a {@link FWSkin}, you can use
+     * {@link FWSkin#resizeDistanceFields(float, float)} to resize all Fonts loaded by the Skin at once.
+     *
+     * @param width  the new window width; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
+     * @param height the new window height; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
+     */
+    public void resizeDistanceField(float width, float height, Viewport viewport) {
+        if (getDistanceField() != DistanceFieldType.STANDARD) {
+            if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
+                actualCrispness = distanceFieldCrispness;
+            } else {
+                actualCrispness = distanceFieldCrispness *
+                                  Math.max(width * viewport.getScreenWidth() / (viewport.getWorldWidth() * Gdx.graphics.getBackBufferWidth()),
+                                          height * viewport.getScreenHeight() / (viewport.getWorldHeight() * Gdx.graphics.getBackBufferHeight()));
             }
         }
     }
