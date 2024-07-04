@@ -326,10 +326,17 @@ public class Font implements Disposable {
          * Constructs a FontFamily given a Skin that defines one or more BitmapFont items. The name in the Skin file
          * for each font is one way you will be able to access fonts from this family. You can also use the
          * {@link BitmapFontData#name} of a BitmapFont in the Skin as an alias, or the essentially-randomly-chosen
-         * index of the BitmapFont in the order this encountered it.
+         * index of the BitmapFont in the order this encountered it. Note that this constructor does not handle distance
+         * field fonts (it treats all fonts as {@link DistanceFieldType#STANDARD}). But, if you use a {@link FWSkin}
+         * instead of a Skin, it will try to load Fonts instead of BitmapFonts, and Font supports distance fields.
+         * 
          * @param skin a non-null Skin that defines one or more BitmapFont items
          */
         public FontFamily(Skin skin) {
+            initBitmapFonts(skin);
+        }
+
+        private void initBitmapFonts(Skin skin) {
             ObjectMap<String, BitmapFont> map = skin.getAll(BitmapFont.class);
             Array<String> keys = map.keys().toArray();
             for (int i = 0; i < map.size && i < 16; i++) {
@@ -343,6 +350,37 @@ public class Font implements Disposable {
                 fontAliases.put(name, i);
                 if(bmf.getData().name != null)
                     fontAliases.put(bmf.getData().name, i);
+                fontAliases.put(String.valueOf(i), i);
+            }
+        }
+
+
+        /**
+         * Constructs a FontFamily given a FWSkin that defines one or more Font items. The name in the Skin file
+         * for each font is one way you will be able to access fonts from this family. You can also use the
+         * {@link Font#name} of a Font in the Skin as an alias, or the essentially-randomly-chosen
+         * index of the Font in the order this encountered it. Note that if you store an FWSkin in a {@link Skin}
+         * variable, this constructor will not be used, instead choosing {@link #FontFamily(Skin)}, and that constructor
+         * doesn't handle any distance field fonts correctly.
+         * @param skin a non-null FWSkin or subclass that defines one or more Font items
+         */
+        public FontFamily(FWSkin skin) {
+            ObjectMap<String, Font> map = skin.getAll(Font.class);
+            if(map.isEmpty()) {
+                initBitmapFonts(skin);
+                return;
+            }
+            Array<String> keys = map.keys().toArray();
+            for (int i = 0; i < map.size && i < 16; i++) {
+                String name = keys.get(i);
+                Font font = map.get(name);
+                if(font == null) continue;
+                font.name = name;
+                font.family = this;
+                connected[i] = font;
+                fontAliases.put(name, i);
+                if(font.name != null)
+                    fontAliases.put(font.name, i);
                 fontAliases.put(String.valueOf(i), i);
             }
         }

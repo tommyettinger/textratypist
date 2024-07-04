@@ -9,11 +9,6 @@ com.badlogic.gdx.graphics.Color: {
 	black: { a: 1 }
 },
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
-	font-button: { file: font-button.fnt, useIntegerPositions: false },
-	font-label: { file: font-label.fnt, useIntegerPositions:   false },
-	font-title: { file: font-title.fnt, useIntegerPositions:   false }
-},
-com.github.tommyettinger.textra.Font: {
 	font-button: { file: font.json, useIntegerPositions:  false, scaledSize: 16 },
 	font-label: { file: font.json, useIntegerPositions:   false, scaledSize: 13 },
 	font-title: { file: font.json, useIntegerPositions:   false, scaledSize: 27 }

@@ -29,7 +29,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.tommyettinger.textra.Font.FontFamily;
 
 public class FontFamilySkinTest extends InputAdapter implements ApplicationListener {
-	Skin skin;
+	FWSkin skin;
 	Stage stage;
 
 	@Override
@@ -73,6 +73,7 @@ public class FontFamilySkinTest extends InputAdapter implements ApplicationListe
 	@Override
 	public void resize (int width, int height) {
 		stage.getViewport().update(width, height, true);
+		skin.resizeDistanceFields(width, height, stage.getViewport());
 	}
 
 	@Override
