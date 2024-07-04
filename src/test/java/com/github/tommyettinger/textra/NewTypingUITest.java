@@ -62,16 +62,13 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 0f, 0f, 15f);
+		final Font font = skin.get("outline-font", Font.class).adjustLineHeight(1.35f).scaleHeightTo(32);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
-		font.family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz();
-		font.family.connected[11].scale(2, 2);
 		font.family.connected[0] = font;
 
 		for(Font f : font.family.connected) {
 			if(f != null)
-				KnownFonts.addEmoji(f, 0f, 15f, 0f);
+				KnownFonts.addEmoji(f, 8f, 0f, 0f);
 		}
 
 		stage = new Stage(new ScreenViewport());
@@ -121,31 +118,7 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TypingLabel minSizeLabel = new TypingLabel("[@Medieval]ginWidth cell", skin, font){
-			/**
-			 * Parses all tokens of this label. Use this after setting the text and any variables that should be replaced.
-			 */
-			@Override
-			public void parseTokens() {
-				super.parseTokens();
-				System.out.println(workingLayout + "; height=" + workingLayout.getHeight());
-			}
-
-			/**
-			 * If your font uses {@link Font.DistanceFieldType#SDF} or {@link Font.DistanceFieldType#MSDF},
-			 * then this has to do some extra work to use the appropriate shader.
-			 * If {@link Font#enableShader(Batch)} was called before rendering a group of TypingLabels, then they will try to
-			 * share one Batch; otherwise this will change the shader to render SDF or MSDF, then change it back at the end of
-			 * each draw() call.
-			 *
-			 * @param batch       probably should be a SpriteBatch
-			 * @param parentAlpha the alpha of the parent container, or 1.0f if there is none
-			 */
-			@Override
-			public void draw(Batch batch, float parentAlpha) {
-				super.draw(batch, parentAlpha);
-			}
-		};
+		TypingLabel minSizeLabel = new TypingLabel("[@Humanist]ginWidth cell", skin, font);
 		minSizeLabel.debug();
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
@@ -154,7 +127,7 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin, font);
 		fpsLabel.setAlignment(Align.center);
 		// configures an example of a TextField in password mode.
-		final TypingLabel passwordLabel = new TypingLabel("[@Medieval]Textfield in [~]secure[ ] password mode: ", skin, font);
+		final TypingLabel passwordLabel = new TypingLabel("[@Humanist]Textfield in [~]secure[ ] password mode: ", skin, font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');

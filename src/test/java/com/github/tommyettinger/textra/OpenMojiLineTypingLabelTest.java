@@ -120,7 +120,7 @@ public class OpenMojiLineTypingLabelTest extends ApplicationAdapter {
                 "I love TextraTypist! [dark GOLD][+saxophone][dark red]{HEARTBEAT}[+😍][dark GOLD]{ENDHEARTBEAT}[+🎷][ ]\n"
                 + "But... {SICK}U. Nitty{ENDSICK} doesn't. {CROWD}[darker red][+skull]{COLOR=darkest lime}[+🤡]{ENDCROWD}{CLEARCOLOR}\n"
                 + "That's OK, I don't like loot crates anyway. {CROWD}[#714][+party popper]{COLOR=471}[+🥳]{ENDCROWD}{CLEARCOLOR}\n"
-                +"[+⚖][~][_][+⚖][ ] testing: [_][~][%25]go[%50]go[%75]go[dull red][%100]go[ ][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\n"
+                +"[+⚖][~][_][+⚖][ ] testing: [_][~][%25]go[%50]go[%75]go[%100][dull red]go[][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\n"
                 + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
                 ,
 //

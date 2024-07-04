@@ -30,7 +30,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Emoji Preview Generator");
-        config.setWindowedMode(1200, 675);
+        config.setWindowedMode(1200, 600);
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
@@ -46,7 +46,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
         viewport = new StretchViewport(1200, 600);
 
         Gdx.files.local("out/").mkdirs();
-        font = KnownFonts.addEmoji(KnownFonts.getAStarry().scale(3, 3), 0f, 0f, 4f);
+        font = KnownFonts.addEmoji(KnownFonts.getAStarry(Font.DistanceFieldType.MSDF), -4f, 4f, 4f).fitCell(24, 24, false);
         layout.setBaseColor(Color.WHITE);
         StringBuilder sb = new StringBuilder(4000);
         sb.append("[%?blacken]");
@@ -63,7 +63,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
 
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
         x = Gdx.graphics.getBackBufferWidth() * 0.5f;
-        y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight() - font.cellHeight * 4f) * 0.5f + font.descent * font.scaleY;
+        y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight() - font.cellHeight * 2) * 0.5f + font.descent * font.scaleY;
         batch.begin();
         font.enableShader(batch);
         font.drawGlyphs(batch, layout, x, y, Align.center);
@@ -95,5 +95,6 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, false);
+        font.resizeDistanceField(width, height, viewport);
     }
 }

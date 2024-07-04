@@ -45,6 +45,7 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 
 	Skin skin;
 	Stage stage;
+	Font font;
 	Texture texture1;
 	Texture texture2;
 	TextraLabel fpsLabel;
@@ -61,13 +62,10 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-		final Font font =
+		font =
 				KnownFonts.getGentium();
 //				new Font(skin.getFont("outline-font"), 0f, 15f, 0f, 10f);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
-		font.family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz();
-//		font.family.connected[11].scale(2, 2);
 		font.family.connected[0] = font;
 
 		for(Font f : font.family.connected) {
@@ -122,7 +120,7 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TextraLabel minSizeLabel = new TextraLabel("[@Medieval]ginWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
+		TextraLabel minSizeLabel = new TextraLabel("[@Humanist]ginWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
@@ -130,7 +128,7 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 		fpsLabel = new TextraLabel("fps:", skin, font);
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
-		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[ ] password mode: ", font);
+		final TextraLabel passwordLabel = new TextraLabel("[@Humanist]Textfield in [~]secure[ ] password mode: ", font);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
