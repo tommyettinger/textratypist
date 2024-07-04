@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
@@ -28,16 +29,18 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
     SpriteBatch batch;
     TypingLabel label;
 //    TypingLabel debugLabel;
+    Font font;
 
     @Override
     public void create() {
+        font = KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.MSDF)).scale(0.6f);
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
         skin = new FreeTypistSkin(Gdx.files.internal("uiskin.json"));
 //        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 //        skin.getFont("default-font").getData().setScale(0.5f);
-        stage = new Stage(new StretchViewport(720, 405), batch);
+        stage = new Stage(new ExtendViewport(720, 405), batch);
         stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);
 
@@ -95,7 +98,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //        font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
 //        font.scale(2, 2);
 //        Font font = KnownFonts.addEmoji(new Font("experimental/GentiumUnItalic-sdf.json", true)).scale(0.5f, 0.5f);
-        Font font = KnownFonts.addEmoji(new Font("fontwriter/Gentium-msdf.json", true)).scale(0.6f, 0.6f);
+
 //        Font font = KnownFonts.addEmoji(KnownFonts.getGentiumSDF());
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
@@ -204,6 +207,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        font.resizeDistanceField(width, height, stage.getViewport());
     }
 
     @Override
@@ -218,7 +222,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
         config.setWindowedMode(720, 405);
         config.setResizable(true);
         config.setForegroundFPS(0);
-        config.useVsync(false);
+        config.useVsync(true);
         config.disableAudio(true);
         new Lwjgl3Application(new EmojiTypingLabelTest(), config);
     }

@@ -93,7 +93,7 @@ public class AntiAliasingTest extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height);
-        msdf.resizeDistanceField(width, height);
+        msdf.resizeDistanceField(width, height, stage.getViewport());
     }
 
     public static void main(String[] args){

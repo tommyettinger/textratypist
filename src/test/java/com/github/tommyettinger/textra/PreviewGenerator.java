@@ -120,7 +120,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             font.setTextureFilter();
             Color baseColor = font.getDistanceField() == Font.DistanceFieldType.SDF_OUTLINE ? Color.WHITE : Color.DARK_GRAY;
             KnownFonts.addEmoji(font);
-            font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+            font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), viewport);
 //        font = new Font(new BitmapFont(Gdx.files.internal("OpenSans-standard.fnt")), Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f)
 //                .scale(0.5f, 0.5f).setTextureFilter();
 //        font = new Font(new BitmapFont(Gdx.files.internal("Gentium.fnt")), Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f)
@@ -213,6 +213,6 @@ public class PreviewGenerator extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-        fnt.resizeDistanceField(width, height);
+        fnt.resizeDistanceField(width, height, viewport);
     }
 }

@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 public class IncongruityDistanceFieldTest extends ApplicationAdapter {
     Stage stage;
@@ -35,7 +36,7 @@ public class IncongruityDistanceFieldTest extends ApplicationAdapter {
 
     @Override
     public void create() {
-        stage = new Stage();
+        stage = new Stage(new ExtendViewport(1800, 900));
         Skin skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
         Table root = new Table(skin);
 
@@ -77,10 +78,11 @@ public class IncongruityDistanceFieldTest extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
         for(Font f : sdfFonts)
-            f.resizeDistanceField(width, height);
+            f.resizeDistanceField(width, height, stage.getViewport());
         for(Font f : msdfFonts)
-            f.resizeDistanceField(width, height);
+            f.resizeDistanceField(width, height, stage.getViewport());
     }
 
     @Override
@@ -101,6 +103,7 @@ public class IncongruityDistanceFieldTest extends ApplicationAdapter {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel Incongruity (Distance Field) test");
         config.setWindowedMode(1800, 900);
+        config.setResizable(true);
         config.disableAudio(true);
 		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);

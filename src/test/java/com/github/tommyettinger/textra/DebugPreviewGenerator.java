@@ -86,7 +86,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 //            if(!font.integerPosition) continue;
             font.setFamily(new Font.FontFamily(new String[]{"Main", "G"}, new Font[]{font, KnownFonts.getGentium().scale(font.cellHeight / 35f, font.cellHeight / 35f)}));
             KnownFonts.addEmoji(font);
-            font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+            font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), viewport);
 //        font = new Font(new BitmapFont(Gdx.files.internal("OpenSans-standard.fnt")), Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f)
 //                .scale(0.5f, 0.5f).setTextureFilter();
 //        font = new Font(new BitmapFont(Gdx.files.internal("Gentium.fnt")), Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f)
@@ -203,6 +203,6 @@ YanoneKaffeesatz-standard.fnt has descent: -19
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-        font.resizeDistanceField(width, height);
+        font.resizeDistanceField(width, height, viewport);
     }
 }

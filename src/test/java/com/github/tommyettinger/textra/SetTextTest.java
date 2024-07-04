@@ -48,26 +48,27 @@ public class SetTextTest extends ApplicationAdapter {
         stage.setDebugAll(true);
         random = new RandomXS128(ctr);
 
-        Font font = new Font("mk/Military_Kid.fnt", "mk/Military_Kid.png", Font.DistanceFieldType.MSDF, 0, 0, 0f, 0f, false);
-//        Font font = new Font(new BitmapFont(Gdx.files.internal("mk/Military_Kid.fnt")), Font.DistanceFieldType.MSDF, 0, 0, 0f, 0f, false);
-        font.distanceFieldCrispness = 6;
-        font.setDescent(-16);
-        font.scale(0.5f, 0.5f);
+        Font font = KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF);
+//        Font font = new Font("mk/Military_Kid.fnt", "mk/Military_Kid.png", Font.DistanceFieldType.MSDF, 0, 0, 0f, 0f, false);
+//        font.distanceFieldCrispness = 6;
+//        font.setDescent(-16);
+//        font.scale(0.5f, 0.5f);
 //                KnownFonts.getRobotoCondensed();
 
-        text = "[%150]Satchmo[%100] is a [%?blacken]{RAINBOW}cat{ENDRAINBOW}[%], [%50]who[%100] [%75]is[%100] extremely {SPEED=0.05}fat{NORMAL}; when he sits " +
-                "{SHAKE}down{ENDSHAKE}, throughout the town, we all {WAVE}think{ENDWAVE}, 'What was that? Did it happen " +
-                "again (that [*]thunderous[*] din)? What could ever make, such a [_]powerful[_] quake, but " +
-                "a cat with a [~][_]double[_][~] chin?'";
-//                "[*]Локус[*] [*]контроля[*] - свойство " +
-//                "личности приписывать " +
-//                "свои неудачи и успехи " +
-//                "либо внешним факторам " +
-//                "(погода, везение, другие " +
-//                "люди, судьба-злодейка), " +
-//                "либо внутренним (я сам, " +
-//                "моё отношение, мои" +
-//                "действия)";
+        text =
+//                "[%150]Satchmo[%100] is a [%?blacken]{RAINBOW}cat{ENDRAINBOW}[%], [%50]who[%100] [%75]is[%100] extremely {SPEED=0.05}fat{NORMAL}; when he sits " +
+//                "{SHAKE}down{ENDSHAKE}, throughout the town, we all {WAVE}think{ENDWAVE}, 'What was that? Did it happen " +
+//                "again (that [*]thunderous[*] din)? What could ever make, such a [_]powerful[_] quake, but " +
+//                "a cat with a [~][_]double[_][~] chin?'";
+                "[*]Локус[*] [/]контроля[/] - свойство " +
+                "личности приписывать " +
+                "свои неудачи и успехи " +
+                "либо внешним факторам " +
+                "(погода, везение, другие " +
+                "люди, [_]судьба-злодейка[_]), " +
+                "либо внутренним (я сам, " +
+                "моё отношение, мои" +
+                "действия)";
         textra = text.replaceAll("\\{[^}]*}", "");
         typingLabel = new TypingLabel(
                 text, new Styles.LabelStyle(), font);
@@ -144,7 +145,8 @@ public class SetTextTest extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        typingLabel.font.resizeDistanceField(width, height);
+        stage.getViewport().update(width, height);
+        typingLabel.font.resizeDistanceField(width, height, stage.getViewport());
     }
 
     @Override

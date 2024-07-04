@@ -442,7 +442,7 @@ public class MinimalGridTest extends ApplicationAdapter {
     public void resize(int width, int height) {
         super.resize(width, height);
         gg.resize(width, height);
-        atGlyph2.font.resizeDistanceField(width, height);
         screenStage.getViewport().update(width, height, true);
+        atGlyph2.font.resizeDistanceField(width, height, screenStage.getViewport());
     }
 }
