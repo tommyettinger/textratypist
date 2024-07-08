@@ -114,12 +114,12 @@ public class PreviewGenerator extends ApplicationAdapter {
         fnt = all[0];
 //        fnt = fonts[fonts.length - 1];
         Gdx.files.local("out/").mkdirs();
-        int index = 0;
         for (int i = 0; i < all.length; i++) {
             Font font = all[i];
             font.setTextureFilter();
             Color baseColor = font.getDistanceField() == Font.DistanceFieldType.SDF_OUTLINE ? Color.WHITE : Color.DARK_GRAY;
             KnownFonts.addEmoji(font);
+            viewport.update(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), viewport);
 //        font = new Font(new BitmapFont(Gdx.files.internal("OpenSans-standard.fnt")), Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f)
 //                .scale(0.5f, 0.5f).setTextureFilter();
@@ -187,7 +187,6 @@ public class PreviewGenerator extends ApplicationAdapter {
 
 //            Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
             PixmapIO.writePNG(Gdx.files.local("out/" + font.name + ".png"), pm, 2, true);
-            index++;
         }
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
@@ -200,7 +199,7 @@ public class PreviewGenerator extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
         float x = Gdx.graphics.getBackBufferWidth() * 0.5f;
-        float y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f - fnt.descent * fnt.scaleY;
+        float y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f;// - fnt.descent * fnt.scaleY;
         viewport.apply();
         batch.begin();
         batch.setProjectionMatrix(viewport.getCamera().combined);
