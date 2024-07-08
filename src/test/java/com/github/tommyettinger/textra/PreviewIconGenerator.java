@@ -48,7 +48,7 @@ public class PreviewIconGenerator extends ApplicationAdapter {
         viewport = new StretchViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
 
         Gdx.files.local("out/").mkdirs();
-        font = KnownFonts.addGameIcons(KnownFonts.getNowAlt().fitCell(40, 40, true), 8f, -16f, 0f);
+        font = KnownFonts.addGameIcons(KnownFonts.getNowAlt(Font.DistanceFieldType.MSDF).fitCell(40, 40, true), 16f, -8f, 0f);
         layout.setBaseColor(Color.WHITE);
         StringBuilder sb = new StringBuilder(4000);
         sb.append("[%?blacken]");
@@ -68,6 +68,8 @@ public class PreviewIconGenerator extends ApplicationAdapter {
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
         x = Gdx.graphics.getBackBufferWidth() * 0.5f;
         y = Gdx.graphics.getBackBufferHeight() - font.cellHeight;
+        viewport.update(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
+        font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), viewport);
         batch.begin();
         font.enableShader(batch);
         font.drawGlyphs(batch, layout, x, y, Align.top);
@@ -99,5 +101,6 @@ public class PreviewIconGenerator extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, false);
+        font.resizeDistanceField(width, height, viewport);
     }
 }

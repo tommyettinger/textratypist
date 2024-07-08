@@ -22,7 +22,7 @@ import com.github.tommyettinger.textra.utils.Palette;
 
 import java.nio.ByteBuffer;
 
-public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
+public class PreviewOpenMojiColorGenerator extends ApplicationAdapter {
 
     Font font;
     SpriteBatch batch;
@@ -41,7 +41,7 @@ public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
 //        config.enableGLDebugOutput(true, System.out);
         config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
-        new Lwjgl3Application(new PreviewOpenMojiLineGenerator(), config);
+        new Lwjgl3Application(new PreviewOpenMojiColorGenerator(), config);
     }
 
     @Override
@@ -50,13 +50,11 @@ public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
         viewport = new StretchViewport(1200, 675);
 
         Gdx.files.local("out/").mkdirs();
-//        font = KnownFonts.addGameIcons(KnownFonts.getNowAlt(Font.DistanceFieldType.MSDF).fitCell(40, 40, true), 16f, -8f, 0f);
-
-        font = KnownFonts.addOpenMoji(KnownFonts.getNowAlt(Font.DistanceFieldType.MSDF).scaleHeightTo(32), false, 0f, -2f, 0f).fitCell(32, 32, true);
-//        font = KnownFonts.addOpenMoji(KnownFonts.getNowAlt(), false, 0f, 0f, 0f).fitCell(32, 32, true);
-        layout.setBaseColor(Color.DARK_GRAY);
+        font = KnownFonts.addOpenMoji(KnownFonts.getNowAlt(Font.DistanceFieldType.MSDF).scaleHeightTo(32), true, 0f, -2f, 0f).fitCell(32, 32, true);
+        //        font = KnownFonts.addOpenMoji(KnownFonts.getNowAlt(), false, 0f, 0f, 0f).fitCell(32, 32, true);
+        layout.setBaseColor(Color.WHITE);
         StringBuilder sb = new StringBuilder(4000);
-        sb.append("[%?whiten]");
+        sb.append("[%?blacken]");
         RandomXS128 random = new RandomXS128(1, 42);
         font.mapping.remove('[');
         font.mapping.remove(']');
@@ -73,7 +71,7 @@ public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
 
         for (int y = 0; y < 19; y++) {
             for (int x = 0; x < 36; x++) {
-                sb.append("[richmost darker ").append(Palette.NAMES.get(random.nextInt(ps))).append(']');
+//                sb.append("[richmost ").append(Palette.NAMES.get(random.nextInt(ps))).append(']');
 //                StringUtils.appendUnsignedHex(sb.append("[#"), ColorUtils.darken(Palette.LIST.get(random.nextInt(ps)), 0.25f)).append(']');
                 sb.append((char)keys.get(random.nextInt(ks)));
             }
@@ -101,14 +99,14 @@ public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
         Gdx.gl.glReadPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), GL20.GL_RGB, GL20.GL_UNSIGNED_BYTE, pixels);
         // End Pixmap.createFromFrameBuffer() modified code
 
-        PixmapIO.writePNG(Gdx.files.local("out/OpenMojiLinePreview.png"), pm, 2, true);
+        PixmapIO.writePNG(Gdx.files.local("out/OpenMojiColorPreview.png"), pm, 2, true);
 //        Gdx.app.exit();
         startTime = TimeUtils.millis();
     }
 
     @Override
     public void render() {
-        float bright = MathUtils.sin(TimeUtils.timeSinceMillis(startTime) * 2E-3f) * 0.25f + 0.4f;
+        float bright = MathUtils.sin(TimeUtils.timeSinceMillis(startTime) * 2E-3f) * 0.15f + 0.2f;
         ScreenUtils.clear(bright, bright, bright, 1f);
         viewport.apply(true);
         batch.begin();
