@@ -813,11 +813,12 @@ public class TypingLabel extends TextraLabel {
         if (style != null && style.background != null) {
             width = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
         }
-        if (wrap && (width == 0f || workingLayout.getTargetWidth() != width)) {
+        float actualWidth = font.calculateSize(workingLayout);
+        if (wrap && (width == 0f || workingLayout.getTargetWidth() != width || actualWidth > width)) {
             if(width != 0f)
                 workingLayout.setTargetWidth(width);
             font.regenerateLayout(workingLayout);
-//            invalidateHierarchy();
+            invalidateHierarchy();
         }
     }
 

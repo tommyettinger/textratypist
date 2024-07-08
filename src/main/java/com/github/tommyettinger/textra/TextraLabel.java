@@ -492,7 +492,8 @@ public class TextraLabel extends Widget {
         if (style != null && style.background != null) {
             width = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
         }
-        if (wrap && layout.getTargetWidth() != width) {
+        float actualWidth = font.calculateSize(layout);
+        if (wrap && (width == 0 || layout.getTargetWidth() != width || actualWidth > width)) {
             if(width != 0f)
                 layout.setTargetWidth(width);
             font.regenerateLayout(layout);

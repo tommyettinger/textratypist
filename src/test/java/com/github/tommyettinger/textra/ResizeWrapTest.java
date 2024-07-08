@@ -103,6 +103,7 @@ public class ResizeWrapTest extends ApplicationAdapter {
         outer.padTop(20);
         outer.top();
         outer.debugAll();
+        outer.pack();
         outer.setFillParent(true);
         stage.addActor(outer);
         Gdx.input.setInputProcessor(stage);
@@ -116,14 +117,16 @@ public class ResizeWrapTest extends ApplicationAdapter {
 //         used to reproduce a word-wrap and line-break bug with TypingLabel.offsets , which is used by effects.
 //        typingLabelScaleFont.setText("{SICK}Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone");
         System.out.println("changeFontScale to " + typingLabelScaleFont.getFont().scaleY);
-        typingLabelScaleFont.pack();
+        typingLabelScaleFont.layout();
+        outer.pack();
     }
 
     public void changeFont(){
         System.out.println("changeFont");
         Font font = new Font(font28);
         typingLabelChangeFont.setFont(font);
-        typingLabelChangeFont.pack();
+        typingLabelChangeFont.layout();
+        outer.pack();
 
         // debugging info.
 //        float widest = textraLabelChangeFont.layout.getWidth();
@@ -152,10 +155,7 @@ public class ResizeWrapTest extends ApplicationAdapter {
         parameter.size = 28;
         font28 = generator.generateFont(parameter); // font size 12 pixels
         font28.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("mo/Roboto-Light.ttf"));
-        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 20;
         font20 = generator.generateFont(parameter); // font size 12 pixels
         font20.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -169,8 +169,13 @@ public class ResizeWrapTest extends ApplicationAdapter {
         style20.font = font20;
         style20.fontColor = Color.WHITE;
 
-        style20tt = new Styles.LabelStyle(style20);
-        style28tt = new Styles.LabelStyle(style28);
+        style20tt = new Styles.LabelStyle();
+        style20tt.font = new Font(font20);
+        style20tt.fontColor = Color.WHITE;
+
+        style28tt = new Styles.LabelStyle();
+        style28tt.font = new Font(font28);
+        style28tt.fontColor = Color.WHITE;
     }
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
