@@ -407,6 +407,28 @@ public class Font implements Disposable {
             return connected[fontAliases.get(name, 0) & 15];
         }
 
+        /**
+         * Calls {@link Font#resizeDistanceField(float, float)} on each Font in this FontFamily.
+         * @param width  the new window width; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
+         * @param height the new window height; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
+         */
+        public void resizeDistanceFields(float width, float height) {
+            for(Font f : connected){
+                if(f != null) f.resizeDistanceField(width, height);
+            }
+        }
+
+        /**
+         * Calls {@link Font#resizeDistanceField(float, float, Viewport)} on each Font in this FontFamily.
+         * @param width  the new window width; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
+         * @param height the new window height; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
+         * @param viewport the current Viewport, after it has been updated using {@link Viewport#update(int, int)}
+         */
+        public void resizeDistanceFields(float width, float height, Viewport viewport) {
+            for(Font f : connected){
+                if(f != null) f.resizeDistanceField(width, height, viewport);
+            }
+        }
     }
 
     /**
@@ -7007,10 +7029,15 @@ public class Font implements Disposable {
      * If you use a viewport that significantly zooms in or out, you should multiply width by
      * {@code viewport.getScreenWidth() / viewport.getWorldWidth()}, and similarly multiply height by the corresponding
      * screen height divided by world height. This can avoid the distance fields looking extremely blurry or boxy when
-     * one world unit covers many pixels, or too aliased and jagged in the opposite case.
+     * one world unit covers many pixels, or too aliased and jagged in the opposite case.Typically, in your
+     * {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} method, you call {@link Viewport#update(int, int)}
+     * (or the overload that can center the camera, if needed), and then call this or another method that resizes
+     * distance fields on each Font you are currently using.
      * <br>
      * If you load all or most of your Font instances via a {@link FWSkin}, you can use
      * {@link FWSkin#resizeDistanceFields(float, float)} to resize all Fonts loaded by the Skin at once.
+     * You can also resize all distance fields in a FontFamily using
+     * {@link FontFamily#resizeDistanceFields(float, float)}.
      *
      * @param width  the new window width; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      * @param height the new window height; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
@@ -7038,16 +7065,22 @@ public class Font implements Disposable {
      * SDF/MSDF/SDF_OUTLINE font so that it will display cleanly at a different size. This uses this font's
      * {@link #distanceFieldCrispness} as a multiplier applied after calculating the initial crispness.
      * <br>
-     * If you use a viewport that significantly zooms in or out, you should multiply width by
-     * {@code }, and similarly multiply height by the corresponding
-     * screen height divided by world height. This can avoid the distance fields looking extremely blurry or boxy when
-     * one world unit covers many pixels, or too aliased and jagged in the opposite case.
+     * This handles scaling based on the given Viewport as well as based on the given width and height. This means
+     * you do not need to consider the manual changes suggested for the other overload,
+     * {@link #resizeDistanceField(float, float)}. The given Viewport must have been updated with the proper width
+     * and height for your application window before passing it here. Typically, in your
+     * {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} method, you call {@link Viewport#update(int, int)}
+     * (or the overload that can center the camera, if needed), and then call this or another method that resizes
+     * distance fields on each Font you are currently using.
      * <br>
      * If you load all or most of your Font instances via a {@link FWSkin}, you can use
-     * {@link FWSkin#resizeDistanceFields(float, float)} to resize all Fonts loaded by the Skin at once.
+     * {@link FWSkin#resizeDistanceFields(float, float, Viewport)} to resize all Fonts loaded by the Skin at once.
+     * You can also resize all distance fields in a FontFamily using
+     * {@link FontFamily#resizeDistanceFields(float, float, Viewport)}.
      *
      * @param width  the new window width; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      * @param height the new window height; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
+     * @param viewport the current Viewport, after it has been updated using {@link Viewport#update(int, int)}
      */
     public void resizeDistanceField(float width, float height, Viewport viewport) {
         if (getDistanceField() != DistanceFieldType.STANDARD) {
