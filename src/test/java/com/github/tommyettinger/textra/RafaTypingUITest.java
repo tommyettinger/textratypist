@@ -203,7 +203,9 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
 		
-		fpsLabel.setText(Gdx.graphics.getFramesPerSecond());
+		fpsLabel.restart(String.valueOf(Gdx.graphics.getFramesPerSecond()));
+		fpsLabel.skipToTheEnd(true, true);
+		fpsLabel.act(100000);
 //		int i;
 //		for (i = 0; i < s.length() && i < 5; i++) {
 //			fpsLabel.getOriginalText().setCharAt(5+i, s.charAt(i));

@@ -23,6 +23,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -35,7 +36,7 @@ public class ScrollPaneUITest extends InputAdapter implements ApplicationListene
 	@Override
 	public void create () {
 		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
-		final Font font = KnownFonts.getStandardFamily();
+		final Font font = KnownFonts.getStandardFamily().scaleHeightTo(32);
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
@@ -55,7 +56,8 @@ public class ScrollPaneUITest extends InputAdapter implements ApplicationListene
 		});
 //		root.add(typingLabel);
 		ScrollPane scrollPane = new ScrollPane(typingLabel);
-		root.add(scrollPane);
+		Container<ScrollPane> holder = new Container<>(scrollPane).height(35);
+		root.add(holder);
 	}
 
 	@Override
