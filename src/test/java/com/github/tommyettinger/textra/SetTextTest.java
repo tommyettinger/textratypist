@@ -56,19 +56,19 @@ public class SetTextTest extends ApplicationAdapter {
 //                KnownFonts.getRobotoCondensed();
 
         text =
-//                "[%150]Satchmo[%100] is a [%?blacken]{RAINBOW}cat{ENDRAINBOW}[%], [%50]who[%100] [%75]is[%100] extremely {SPEED=0.05}fat{NORMAL}; when he sits " +
-//                "{SHAKE}down{ENDSHAKE}, throughout the town, we all {WAVE}think{ENDWAVE}, 'What was that? Did it happen " +
-//                "again (that [*]thunderous[*] din)? What could ever make, such a [_]powerful[_] quake, but " +
-//                "a cat with a [~][_]double[_][~] chin?'";
-                "[*]Локус[*] [/]контроля[/] - свойство " +
-                "личности приписывать " +
-                "свои неудачи и успехи " +
-                "либо внешним факторам " +
-                "(погода, везение, другие " +
-                "люди, [_]судьба-злодейка[_]), " +
-                "либо внутренним (я сам, " +
-                "моё отношение, мои" +
-                "действия)";
+                "[%150]Satchmo[%100] is a [%?blacken]{RAINBOW}cat{ENDRAINBOW}[%], [%50]who[%100] [%75]is[%100] extremely {SPEED=0.05}fat{NORMAL}; when he sits " +
+                "{SHAKE}down{ENDSHAKE}, throughout the town, we all {WAVE}think{ENDWAVE}, 'What was that? Did it happen " +
+                "again (that [*]thunderous[*] din)? What could ever make, such a [_]powerful[_] quake, but " +
+                "a cat with a [~][_]double[_][~] chin?'";
+//                "[*]Локус[*] [/]контроля[/] - свойство " +
+//                "личности приписывать " +
+//                "свои неудачи и успехи " +
+//                "либо внешним факторам " +
+//                "(погода, везение, другие " +
+//                "люди, [_]судьба-злодейка[_]), " +
+//                "либо внутренним (я сам, " +
+//                "моё отношение, мои" +
+//                "действия)";
         textra = text.replaceAll("\\{[^}]*}", "");
         typingLabel = new TypingLabel(
                 text, new Styles.LabelStyle(), font);
@@ -99,7 +99,9 @@ public class SetTextTest extends ApplicationAdapter {
         System.out.println("Textra: " + textraLabel);
     }
 
-    private static final Replacer anReplacer = new Replacer(Pattern.compile("\\b(a)(\\p{G}+)(?=(?:({=brace}[\\[\\{])[^\\]\\}]*{\\:brace})*[àáâãäåæāăąǻǽaèéêëēĕėęěeìíîïĩīĭįıiòóôõöøōŏőœǿoùúûüũūŭůűųu])", Pattern.IGNORE_CASE | Pattern.UNICODE), "$1n$2");
+    private static final Replacer anReplacer = new Replacer(Pattern.compile("\\b(a)(\\p{G}+)(?=(?:({=brace}[\\[\\{])[^\\]\\}]*{\\:brace})*(?:\\p{G}*)[àáâãäåæāăąǻǽaèéêëēĕėęěeìíîïĩīĭįıiòóôõöøōŏőœǿoùúûüũūŭůűųu])", Pattern.IGNORE_CASE | Pattern.UNICODE), "$1n$2");
+
+    private static final Replacer unAnReplacer = new Replacer(Pattern.compile("\\b(a)n(\\p{G}+)(?=(?:({=brace}[\\[\\{])[^\\]\\}]*{\\:brace})*(?:\\p{G}*)[bcçćĉċčdþðďđfgĝğġģhĥħjĵȷkķlĺļľŀłmnñńņňŋpqrŕŗřsśŝşšștţťțvwŵẁẃẅxyýÿŷỳzźżž])", Pattern.IGNORE_CASE | Pattern.UNICODE), "$1$2");
 
     /**
      * A simple method that looks for any occurrences of the word 'a' followed by some non-zero amount of whitespace and
@@ -107,14 +109,18 @@ public class SetTextTest extends ApplicationAdapter {
      * (such as 'an item'). The regex used here isn't bulletproof, but it should be fairly robust, handling when you
      * have multiple whitespace chars, different whitespace chars (like carriage return and newline), accented vowels in
      * the following word (but not in the initial 'a', which is expected to use English spelling rules), and the case of
-     * the initial 'a' or 'A'.
+     * the initial 'a' or 'A'. This also changes improper uses of "an" back to "a", such as by changing "an dog" to "a
+     * dog", or "an malevolent force" to "a malevolent force".
      * <br>
      * Gotta love Regexodus; this is a two-liner that uses features specific to that regular expression library.
-     * @param text the (probably generated English) multi-word text to search for 'a' in and possibly replace with 'an'
-     * @return a new String with every improper 'a' replaced
+     * This only matches text in the Latin script because a/an is a feature of English, and doesn't have a direct
+     * equivalent I know of in the Greek or Cyrillic scripts. There could easily be one! I just couldn't verify it.
+     *
+     * @param text the (probably generated English) multi-word text to search for 'a'/'an' in and possibly replace
+     * @return a new String with every improper 'a' and 'an' replaced
      */
     public static String correctABeforeVowel(final CharSequence text){
-        return anReplacer.replace(text.toString());
+        return unAnReplacer.replace(anReplacer.replace(text.toString()));
     }
 
     @Override
