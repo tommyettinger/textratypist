@@ -49,6 +49,7 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 	Texture texture1;
 	Texture texture2;
 	com.rafaskoberg.gdx.typinglabel.TypingLabel fpsLabel;
+	TextTooltip ttt;
 	GLProfiler profiler;
 
 	@Override
@@ -132,9 +133,6 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 		passwordTextField.setPasswordCharacter('*');
 		passwordTextField.setPasswordMode(true);
 
-		buttonMulti.addListener(new TextTooltip(
-			"This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip!",
-			skin));
 		Table tooltipTable = new Table(skin);
 		tooltipTable.pad(10).background("default-round");
 		tooltipTable.add(new TextButton("Fancy tooltip!", skin));
@@ -146,7 +144,11 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
 		window.row().fill().expandX();
-		window.add(iconButton);
+		window.add(iconButton);		ttt = new TextTooltip(
+				"This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip!",
+				skin);
+		buttonMulti.addListener(ttt);
+
 		window.add(buttonMulti);
 		window.add(imgButton);
 		window.add(imgToggleButton);
@@ -206,6 +208,9 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 		fpsLabel.restart(String.valueOf(Gdx.graphics.getFramesPerSecond()));
 		fpsLabel.skipToTheEnd(true, true);
 		fpsLabel.act(100000);
+		ttt.getActor().setText((System.currentTimeMillis() & 8) == 0
+				? ttt.getActor().getText().toString().toLowerCase()
+				: ttt.getActor().getText().toString().toUpperCase());
 //		int i;
 //		for (i = 0; i < s.length() && i < 5; i++) {
 //			fpsLabel.getOriginalText().setCharAt(5+i, s.charAt(i));
