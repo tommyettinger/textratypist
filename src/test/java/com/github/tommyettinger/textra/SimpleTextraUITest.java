@@ -52,6 +52,7 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		final Font font = new Font(skin.getFont("outline-font"), 0f, 0f, 0f, 15f);
+		font.setLineMetrics(-0.5f, 0f, 0.25f, 0f);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz();
@@ -60,7 +61,7 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 
 		for(Font f : font.family.connected) {
 			if(f != null)
-				KnownFonts.addEmoji(f, 0, 15, 0);
+				KnownFonts.addEmoji(f, 8, 8, 8);
 		}
 
 		stage = new Stage(new ScreenViewport());
@@ -97,8 +98,8 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		TextraWindow window = new TextraWindow("TextraWindow", skin, "default", new Font(font), true);
-		window.getTitleTable().add(new TextraButton("X", skin, window.font)).height(window.getPadTop());
+		TextraWindow window = new TextraWindow("TextraWindow", skin, "default", font, true);
+		window.getTitleTable().add(new TextraButton("X", skin, window.titleLabel.font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
 		window.row().fill().expandX();
