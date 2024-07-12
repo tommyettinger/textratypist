@@ -13,18 +13,13 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	font-label: { file: font-label.json, useIntegerPositions:   false },
 	font-title: { file: font-title.json, useIntegerPositions:   false }
 },
-com.github.tommyettinger.textra.Font: {
-	font-button: { file: font-button.json, useIntegerPositions: false },
-	font-label: { file: font-label.json, useIntegerPositions:   false },
-	font-title: { file: font-title.json, useIntegerPositions:   false }
-},
-com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+TintedDrawable: {
 	dialogDim: {
 		name: white,
 		color: { a: 1, b: 0.2, g: 0.2, r: 0.2 }
 	}
 },
-com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
+ProgressBarStyle: {
 	default-horizontal: { background: loading-bar, knob: loading-bar-knob, knobBefore: loading-bar-fill }
 	default-vertical: { background: loading-bar, knob: loading-bar-knob, knobBefore: loading-bar-fill }
 },
@@ -61,17 +56,17 @@ TextButtonStyle: {
 		checked: radio-button
 	}
 },
-com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+ImageButtonStyle: {
 	default: { up: button, down: button-down }
 },
-com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
+SplitPaneStyle: {
 	default-vertical: { handle: vertical-splitpane },
 	default-horizontal: { handle: horizontal-splitplane }
 },
-com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
+TouchpadStyle: {
 	default: { background: touchpad, knob: touchpad-knob }
 },
-com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+ButtonStyle: {
 	default: { up: button, down: button-down },
 	music: { up: music-off, down: music-down, checked: music },
 	left: { up: left-button, down: left-button-down },
@@ -79,7 +74,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	toggle: { up: toggle-button-off, down: toggle-button-down, checked: toggle-button },
 	right: { up: right-button, down: right-button-down }
 },
-com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+WindowStyle: {
 	default: {
 		background: window,
 		titleFont: font-title,
@@ -92,7 +87,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 		stageBackground: list
 	}
 },
-com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+TextFieldStyle: {
 	default: {
 		font: font-label,
 		fontColor: { a: 1 },
@@ -102,7 +97,7 @@ com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 		messageFont: font-label
 	}
 },
-com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+ScrollPaneStyle: {
 	default: {
 		background: panel1,
 		hScroll: horizontal-scrollbar,
@@ -118,7 +113,7 @@ com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
 		vScrollKnob: android-vertical-scrollbar-knob
 	}
 },
-com.github.tommyettinger.textra.Styles$LabelStyle: {
+LabelStyle: {
 	optional: {
 		font: font-label,
 		fontColor: { a: 1, b: 0.8, g: 0.8, r: 0.8 }
@@ -146,7 +141,7 @@ com.github.tommyettinger.textra.Styles$LabelStyle: {
 		background: panel2
 	}
 },
-com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
+ListStyle: {
 	default: {
 		font: font-label,
 		fontColorSelected: { a: 1, b: 1, g: 0.2, r: 1 },
@@ -177,14 +172,14 @@ CheckBoxStyle: {
 		downFontColor: { a: 1, b: 1, g: 0.2, r: 1 }
 	}
 },
-com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle: {
+TreeStyle: {
 	default: { plus: plus, minus: minus, selection: list-selection, background: list }
 },
-com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
+SliderStyle: {
 	default-vertical: { background: slider-bar, knob: slider-bar-knob, knobBefore: slider-bar-fill },
 	default-horizontal: { background: slider-bar, knob: slider-bar-knob, knobBefore: slider-bar-fill }
 },
-com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
+SelectBoxStyle: {
 	default: {
 		font: font-button,
 		fontColor: { a: 1, b: 1, g: 1, r: 1 },

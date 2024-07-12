@@ -54,7 +54,7 @@ public class TypingShadeXUITest extends InputAdapter implements ApplicationListe
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.enable();
-		skin = new FWSkin(Gdx.files.internal("experimental/shadeui/uiskinx.json"));
+		skin = new FWSkin(Gdx.files.internal("shadeui/standard/uiskin-standard.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
 		TextureRegion image = new TextureRegion(texture1);
