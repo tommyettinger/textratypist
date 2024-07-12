@@ -346,8 +346,13 @@ public class FreeTypistSkin extends FWSkin {
             public List.ListStyle read(Json json, JsonValue jsonData, Class type) {
                 List.ListStyle s2d = new List.ListStyle();
                 json.readFields(s2d, jsonData);
-                skin.add(jsonData.name, new Styles.ListStyle(skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class),
-                        s2d.fontColorSelected, s2d.fontColorUnselected, s2d.background), Styles.ListStyle.class);
+                Styles.ListStyle stt = new Styles.ListStyle(skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class),
+                        s2d.fontColorSelected, s2d.fontColorUnselected, s2d.background);
+                stt.selection = s2d.selection;
+                stt.background = s2d.background;
+                stt.down = s2d.down;
+                stt.over = s2d.over;
+                skin.add(jsonData.name, stt, Styles.ListStyle.class);
                 return s2d;
             }
         });

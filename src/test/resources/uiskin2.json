@@ -59,7 +59,7 @@ SplitPaneStyle: {
 	default-vertical: { handle: default-splitpane-vertical },
 	default-horizontal: { handle: default-splitpane }
 },
-com.github.tommyettinger.textra.Styles$WindowStyle: {
+WindowStyle: {
 	default: { titleFont: default-font, background: default-window, titleFontColor: white },
 	dialog: { parent: default, stageBackground: dialogDim }
 },
@@ -74,17 +74,11 @@ SliderStyle: {
 LabelStyle: {
 	default: { font: default-font, fontColor: white }
 },
-	com.github.tommyettinger.textra.Styles$LabelStyle: {
-	default: { font: default-font, fontColor: white }
-},
 TextFieldStyle: {
 	default: { selection: selection, background: textfield, font: default-font, fontColor: white, cursor: cursor }
 },
 CheckBoxStyle: {
 	default: { checkboxOn: check-on, checkboxOff: check-off, font: default-font, fontColor: white }
-},
-com.github.tommyettinger.textra.Styles$ListStyle: {
-	default: { fontColorUnselected: white, selection: selection, fontColorSelected: white, font: default-font }
 },
 ListStyle: {
 	default: { fontColorUnselected: white, selection: selection, fontColorSelected: white, font: default-font }
@@ -96,12 +90,6 @@ TreeStyle: {
 	default: { minus: tree-minus, plus: tree-plus, selection: default-select-selection }
 },
 TextTooltipStyle: {
-	default: {
-		label: { font: default-font, fontColor: white },
-		background: default-pane, wrapWidth: 350
-	}
-},
-com.github.tommyettinger.textra.Styles$TextTooltipStyle: {
 	default: {
 		label: { font: default-font, fontColor: white },
 		background: default-pane, wrapWidth: 350
