@@ -313,7 +313,7 @@ public final class Styles {
             background = style.background;
         }
     }
-    /** The style for a text tooltip, see {@link TextraTooltip}.
+    /** The style for a text tooltip, see {@link TextraTooltip} or {@link TypingTooltip}.
      */
     static public class TextTooltipStyle {
         public LabelStyle label;

@@ -63,7 +63,7 @@ public class TypingTooltip extends Tooltip<TypingLabel> {
         getContainer().setActor(label);
         getContainer().width(style.wrapWidth);
         setStyle(style);
-        label.setText(text);
+        label.restart(text);
     }
 
     public TypingTooltip(@Null String text, Skin skin, Font replacementFont) {
@@ -112,36 +112,35 @@ public class TypingTooltip extends Tooltip<TypingLabel> {
     }
 
     public void setStyle(TextTooltipStyle style) {
-        setStyle(style, false);
-    }
-
-    public void setStyle(TextTooltipStyle style, boolean makeGridGlyphs) {
         if (style == null) throw new NullPointerException("style cannot be null");
-        Container<TypingLabel> container = getContainer();
-        container.getActor().setFont(style.label.font, false);
-        container.getActor().layout.targetWidth = style.wrapWidth;
-        if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
-        container.getActor().getFont().regenerateLayout(container.getActor().layout);
-        container.getActor().setSize(container.getActor().layout.getWidth(), container.getActor().layout.getHeight());
-        container.setBackground(style.background);
-        container.maxWidth(style.wrapWidth);
+        if (style.label == null) throw new NullPointerException("style.label cannot be null");
+        if (style.label.font == null) throw new NullPointerException("style.label.font cannot be null");
+        setStyle(style, style.label.font);
     }
 
     public void setStyle(TextTooltipStyle style, Font font) {
         if (style == null) throw new NullPointerException("style cannot be null");
         Container<TypingLabel> container = getContainer();
-        container.getActor().setFont(font, false);
-        container.getActor().layout.targetWidth = style.wrapWidth;
-        if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
-        font.regenerateLayout(container.getActor().layout);
-        container.getActor().setSize(container.getActor().layout.getWidth(), container.getActor().layout.getHeight());
         container.setBackground(style.background);
         container.maxWidth(style.wrapWidth);
+
+        boolean wrap = style.wrapWidth != 0;
+        container.fill(wrap);
+
+        getActor().setFont(font, false);
+        getActor().layout.targetWidth = style.wrapWidth;
+        getActor().wrap = true;
+        if (style.label.fontColor != null) getActor().setColor(style.label.fontColor);
+        font.regenerateLayout(getActor().layout);
+//        font.calculateSize(container.getActor().layout);
+        getActor().setSize(getActor().layout.getWidth(), getActor().layout.getHeight());
     }
 
     @Override
     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
         super.enter(event, x, y, pointer, fromActor);
         getContainer().getActor().restart();
+        System.out.println("TypingTooltip has size " + getActor().getWidth() + "," + getActor().getHeight());
+        System.out.println("Container has size " + getContainer().getWidth() + "," + getContainer().getHeight());
     }
 }
