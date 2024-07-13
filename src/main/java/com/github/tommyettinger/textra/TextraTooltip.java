@@ -76,26 +76,26 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
     }
 
     public TextraTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style, Font replacementFont) {
-        super(new TextraLabel(text, style.label, replacementFont), manager);
-
+        super(null, manager);
+        setActor(newLabel(text, style.label, replacementFont));
         getActor().setAlignment(Align.center);
         getActor().setWrap(true);
-//        if (style.label.fontColor != null) getActor().setColor(style.label.fontColor);
-//        label.layout.setTargetWidth(style.wrapWidth);
         getContainer().width(style.wrapWidth).background(style.background);
-//        setStyle(style, replacementFont);
-        System.out.println("Created a TextraTooltip with wrapWidth " + style.wrapWidth);
     }
 
-    private static TextraLabel newLabel(String text, Styles.LabelStyle style) {
+    protected TextraLabel newLabel(String text, Styles.LabelStyle style) {
         return new TextraLabel(text, style);
     }
 
-    private static TextraLabel newLabel(String text, Font font) {
+    protected TextraLabel newLabel(String text, Styles.LabelStyle style, Font font) {
+        return new TextraLabel(text, style, font);
+    }
+
+    protected TextraLabel newLabel(String text, Font font) {
         return new TextraLabel(text, font);
     }
 
-    private static TextraLabel newLabel(String text, Font font, Color color) {
+    protected TextraLabel newLabel(String text, Font font, Color color) {
         return color == null ? new TextraLabel(text, font) : new TextraLabel(text, font, color);
     }
 

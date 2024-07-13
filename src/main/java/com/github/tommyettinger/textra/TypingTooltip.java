@@ -54,16 +54,7 @@ public class TypingTooltip extends Tooltip<TypingLabel> {
     }
 
     public TypingTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style) {
-        super(null, manager);
-
-        final TypingLabel label = newLabel(text, new Styles.LabelStyle(style.label));
-        label.setAlignment(Align.center);
-        label.setWrap(true);
-        label.layout.setTargetWidth(style.wrapWidth);
-        getContainer().setActor(label);
-        getContainer().width(style.wrapWidth);
-        setStyle(style);
-        label.restart(text);
+        this(text, manager, style, style.label.font);
     }
 
     public TypingTooltip(@Null String text, Skin skin, Font replacementFont) {
@@ -88,19 +79,19 @@ public class TypingTooltip extends Tooltip<TypingLabel> {
 
     public TypingTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style, Font replacementFont) {
         super(null, manager);
-
-        final TypingLabel label = newLabel(text, replacementFont, style.label.fontColor);
-        label.setAlignment(Align.center);
-        label.setWrap(true);
-        label.layout.setTargetWidth(style.wrapWidth);
-        getContainer().setActor(label);
-        getContainer().width(style.wrapWidth);
-        setStyle(style, replacementFont);
-        label.setText(text);
+        setActor(newLabel(text, style.label, replacementFont));
+        getActor().setAlignment(Align.center);
+        getActor().setWrap(true);
+        getContainer().width(style.wrapWidth).background(style.background);
+        getActor().restart();
     }
 
     protected TypingLabel newLabel(String text, Styles.LabelStyle style) {
         return new TypingLabel(text, style);
+    }
+
+    protected TypingLabel newLabel(String text, Styles.LabelStyle style, Font font) {
+        return new TypingLabel(text, style, font);
     }
 
     protected TypingLabel newLabel(String text, Font font) {

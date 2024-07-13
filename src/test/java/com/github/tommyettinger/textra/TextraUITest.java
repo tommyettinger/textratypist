@@ -207,10 +207,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 
 		buttonMulti.addListener(new TextraTooltip(
 		"This is a tooltip! [~]This is a tooltip! [_]This is a tooltip! [/]This is a tooltip![~] This is a tooltip![_] This is a tooltip!",
-			skin, font)); // this wraps correctly but still doesn't show a BG
-
-		//			skin)); // this doesn't wrap or show a BG
-
+			skin, font));
 
 //		TypingLabel tl = new TypingLabel(
 //				"This is a tooltip! [~]This is a tooltip! [_]This is a tooltip! [/]This is a tooltip![~] This is a tooltip![_] This is a tooltip!",
