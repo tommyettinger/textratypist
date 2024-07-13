@@ -138,8 +138,9 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //        Font font = family.connected[0].setFamily(family);
         Font font = KnownFonts.getStandardFamily();
         for(Font f : font.family.connected) {
-            if(f != null)
+            if (f != null) {
                 KnownFonts.addEmoji(f);
+            }
         }
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());

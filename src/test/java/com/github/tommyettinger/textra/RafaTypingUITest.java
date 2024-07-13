@@ -144,7 +144,9 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
 		window.row().fill().expandX();
-		window.add(iconButton);		ttt = new TextTooltip(
+		window.add(iconButton);
+
+		ttt = new TextTooltip(
 				"This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip!",
 				skin);
 		buttonMulti.addListener(ttt);

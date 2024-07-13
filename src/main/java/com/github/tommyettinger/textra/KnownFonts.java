@@ -1560,9 +1560,8 @@ public final class KnownFonts implements LifecycleListener {
         if(found == null){
             found = new Font(instance.prefix, rootName + ".font", true);
             found
-                    .setDescent(-6f).scaleTo(16, 20).setFancyLinePosition(-0.5f, 0.125f)
                     .setBoldStrength(0.5f).setLineMetrics(-0.25f, 0f, 0f, 0f)
-                    .setInlineImageMetrics(-40, 0, 0).fitCell(8, 16, false).setDescent(-3f)
+                    .setInlineImageMetrics(-40, 0, 0).fitCell(8, 16, false).setDescent(-6f)
                     .setName(baseName + distanceField.namePart);
             ;
             instance.loaded.put(rootName, found);
