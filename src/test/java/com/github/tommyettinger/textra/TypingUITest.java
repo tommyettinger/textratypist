@@ -79,7 +79,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 				.scaleTo(30, 35);
 //				.setName("Yanone Kaffeesatz");
 //		family.connected[0] = KnownFonts.getNowAlt();
-		family.connected[0] = new Font("fontwriter/Now-Alt-sdf.json", true).scaleHeightTo(30);
+		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF).scaleHeightTo(30);
 //		family.connected[11].originalCellHeight *= 0.75f;
 //		family.connected[0].originalCellHeight *= 0.75f;
 		font = family.connected[0];

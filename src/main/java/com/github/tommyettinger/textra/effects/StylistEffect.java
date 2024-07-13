@@ -70,7 +70,7 @@ public class StylistEffect extends Effect {
         if (params.length > 0) {
             if(paramAsBoolean(params[0]))
                 effects |= Font.BOLD;
-            else {
+            else if(params.length == 1){
                 String[] split = params[0].split("[ \t,]+");
                 int[] matching = new int[split.length];
                 CaseInsensitiveIntMap set = new CaseInsensitiveIntMap(split, matching);

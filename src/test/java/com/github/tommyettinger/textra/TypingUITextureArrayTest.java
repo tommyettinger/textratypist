@@ -63,30 +63,16 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 		final Font.FontFamily family = KnownFonts.getStandardFamily().family;
-//		final Font font =
-//				//KnownFonts.getYanoneKaffeesatz();
-//				new Font(skin.getFont("outline-font"), 0f, 12f, 0f, 0f);//.adjustLineHeight(1.2f);
-//		KnownFonts.getStandardFamily()
-//				new Font(skin.get.class).font)
-//				.useIntegerPositions(true);
-//		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		family.connected[11] =
-//				font;
 				KnownFonts.getYanoneKaffeesatz()
-//				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
-				.scaleTo(30, 35);
-//				.setName("Yanone Kaffeesatz");
-		family.connected[0] = new Font("fontwriter/Now-Alt-standard.json", true).scaleHeightTo(30);
-//		family.connected[11].originalCellHeight *= 0.75f;
-//		family.connected[0].originalCellHeight *= 0.75f;
+						.scaleTo(30, 35);
+		family.connected[0] = KnownFonts.getNowAlt();
 		Font font = family.connected[0];
 		font.family = family;
-//		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
 		for(Font f : font.family.connected) {
 			if(f != null)
 				KnownFonts.addEmoji(f);
 		}
-
 //		stage = new Stage(new ScreenViewport(), new SpriteBatch());
 		stage = new Stage(new ScreenViewport(), new TextureArraySpriteBatch());
 		Gdx.input.setInputProcessor(stage);
