@@ -76,59 +76,54 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
     }
 
     public TextraTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style, Font replacementFont) {
-        super(null, manager);
+        super(new TextraLabel(text, style.label, replacementFont), manager);
 
-        final TextraLabel label = newLabel(text, replacementFont, style.label.fontColor);
-        label.setAlignment(Align.center);
-        label.setWrap(true);
-        label.layout.setTargetWidth(style.wrapWidth);
-        getContainer().setActor(label);
-        getContainer().width(style.wrapWidth);
-        setStyle(style, replacementFont);
-        label.setText(text);
+        getActor().setAlignment(Align.center);
+        getActor().setWrap(true);
+//        if (style.label.fontColor != null) getActor().setColor(style.label.fontColor);
+//        label.layout.setTargetWidth(style.wrapWidth);
+        getContainer().width(style.wrapWidth).background(style.background);
+//        setStyle(style, replacementFont);
+        System.out.println("Created a TextraTooltip with wrapWidth " + style.wrapWidth);
     }
 
-    protected TextraLabel newLabel(String text, Styles.LabelStyle style) {
+    private static TextraLabel newLabel(String text, Styles.LabelStyle style) {
         return new TextraLabel(text, style);
     }
 
-    protected TextraLabel newLabel(String text, Font font) {
+    private static TextraLabel newLabel(String text, Font font) {
         return new TextraLabel(text, font);
     }
 
-    protected TextraLabel newLabel(String text, Font font, Color color) {
+    private static TextraLabel newLabel(String text, Font font, Color color) {
         return color == null ? new TextraLabel(text, font) : new TextraLabel(text, font, color);
     }
 
     public void setStyle(TextTooltipStyle style) {
-        setStyle(style, false);
-    }
-
-    public void setStyle(TextTooltipStyle style, boolean makeGridGlyphs) {
         if (style == null) throw new NullPointerException("style cannot be null");
         Container<TextraLabel> container = getContainer();
         // we don't want to regenerate the layout yet, so the last parameter is false.
-        container.getActor().setFont(style.label.font, false);
+        getActor().setFont(style.label.font, false);
         // we set the target width first.
-        container.getActor().layout.targetWidth = style.wrapWidth;
-        if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
+//        getActor().layout.targetWidth = style.wrapWidth;
+        if (style.label.fontColor != null) getActor().setColor(style.label.fontColor);
         // and then we can regenerate the layout.
-        container.getActor().getFont().regenerateLayout(container.getActor().layout);
-//        container.getActor().getFont().calculateSize(container.getActor().layout);
-        container.getActor().setSize(container.getActor().layout.getWidth(), container.getActor().layout.getHeight());
+        getActor().getFont().regenerateLayout(getActor().layout);
+//        getActor().getFont().calculateSize(getActor().layout);
+        getActor().setSize(getActor().layout.getWidth(), getActor().layout.getHeight());
         container.setBackground(style.background);
-        container.maxWidth(style.wrapWidth);
+        container.width(style.wrapWidth);
     }
 
     public void setStyle(TextTooltipStyle style, Font font) {
         if (style == null) throw new NullPointerException("style cannot be null");
         Container<TextraLabel> container = getContainer();
-        container.getActor().setFont(font, false);
-        container.getActor().layout.targetWidth = style.wrapWidth;
-        if (style.label.fontColor != null) container.getActor().setColor(style.label.fontColor);
-        font.regenerateLayout(container.getActor().layout);
-//        font.calculateSize(container.getActor().layout);
-        container.getActor().setSize(container.getActor().layout.getWidth(), container.getActor().layout.getHeight());
+        getActor().setFont(font, false);
+        getActor().layout.targetWidth = style.wrapWidth;
+        if (style.label.fontColor != null) getActor().setColor(style.label.fontColor);
+        font.regenerateLayout(getActor().layout);
+//        font.calculateSize(getActor().layout);
+        getActor().setSize(getActor().layout.getWidth(), getActor().layout.getHeight());
         container.setBackground(style.background);
         container.maxWidth(style.wrapWidth);
     }

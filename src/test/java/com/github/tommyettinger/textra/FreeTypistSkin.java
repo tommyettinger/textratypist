@@ -332,10 +332,14 @@ public class FreeTypistSkin extends FWSkin {
                 String labelStyleName = json.readValue("label", String.class, "default", jsonData);
                 if (labelStyleName == null) {
                     Label.LabelStyle style = json.readValue("label", Label.LabelStyle.class, jsonData);
-                    skin.add(jsonData.name, new Styles.TextTooltipStyle(style, s2d.background), Styles.TextTooltipStyle.class);
+                    Styles.TextTooltipStyle tt = new Styles.TextTooltipStyle(style, s2d.background);
+                    tt.wrapWidth = s2d.wrapWidth;
+                    skin.add(jsonData.name, tt, Styles.TextTooltipStyle.class);
                 } else {
-                    skin.add(jsonData.name, new Styles.TextTooltipStyle(skin.get(labelStyleName, Styles.LabelStyle.class),
-                            s2d.background), Styles.TextTooltipStyle.class);
+                    Styles.TextTooltipStyle tt = new Styles.TextTooltipStyle(skin.get(labelStyleName, Styles.LabelStyle.class),
+                            s2d.background);
+                    tt.wrapWidth = s2d.wrapWidth;
+                    skin.add(jsonData.name, tt, Styles.TextTooltipStyle.class);
                 }
                 return s2d;
             }
