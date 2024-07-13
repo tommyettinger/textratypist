@@ -209,14 +209,13 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 //		"This is a tooltip! [~]This is a tooltip! [_]This is a tooltip! [/]This is a tooltip![~] This is a tooltip![_] This is a tooltip!",
 //			skin)); // this doesn't wrap or show a BG
 //			skin, font)); // this wraps correctly but still doesn't show a BG
-		TextraLabel tl = new TextraLabel(
+		TypingLabel tl = new TypingLabel(
 				"This is a tooltip! [~]This is a tooltip! [_]This is a tooltip! [/]This is a tooltip![~] This is a tooltip![_] This is a tooltip!",
 				skin, font);
 		tl.setWrap(true);
 		tl.style.background = skin.getDrawable("default-pane");
-		Table tab = new Table(skin);
-		tab.add(tl).width(350);
-		buttonMulti.addListener(new Tooltip<>(tab));
+		Container<TypingLabel> c = new Container<>(tl).width(350);
+		buttonMulti.addListener(new Tooltip<>(c));
 		Table tooltipTable = new Table(skin);
 		tooltipTable.pad(10).background("default-round");
 		tooltipTable.add(new TextraButton("Fancy tooltip!", skin, font));
