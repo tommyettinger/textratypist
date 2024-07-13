@@ -163,7 +163,7 @@ public class GridTest extends ApplicationAdapter {
         marquee.setPosition(64, 350);
         marquee.skipToTheEnd();
         marquee.setRotation(-100f);
-        link = new TypingLabel("Welcome to [sky]{STYLIST=1;0;0;0;0;1}{LINK=https://github.com/tommyettinger/textratypist}[_]TextraTypist[ ], for text stuff.", font);
+        link = new TypingLabel("Welcome to [sky]{STYLIST=B italic All}{LINK=https://github.com/tommyettinger/textratypist}[_]TextraTypist[ ], for text stuff.", font);
 //        link = new TypingLabel("Welcome to [sky][_]{LINK=https://github.com/tommyettinger/textratypist}TextraTypist[ ], for text stuff.", font);
 //        link.parseTokens();
         link.setWidth(Gdx.graphics.getBackBufferWidth());
