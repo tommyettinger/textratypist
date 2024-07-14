@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.github.tommyettinger.freetypist","l":"FreeTypistSkin"},{"p":"com.github.tommyettinger.freetypist","l":"FreeTypistSkinLoader"}];updateSearchResults();

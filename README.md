@@ -31,7 +31,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 Yes, it has more than the typewriter mode! Text can hang above and then drop into place. It can jump up and down in a
 long wave. It can waver and shudder, as if it is sick. It can blink in different colors, move in a gradient smoothly
 between two colors, or go across a whole rainbow. Lots of options; lots of fun. Effects are almost the same as in
-typing-label, but there have been some changes. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
+typing-label, but there have been some changes and additions. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
 for more information.
 
 As of 0.10.0, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
@@ -74,6 +74,8 @@ useful things:
   - `label.setDefaultToken()` can be used to change the initial values, so text defaults to some different settings. 
 - `{SKIP=n}` skips ahead in the typing effect, instantly displaying `n` characters.
 
+Effects use curly braces by default, but if curly braces aren't a good option for your text (such as in I18N files), you
+can use `[-EFFECT]` as an equivalent to `{EFFECT}`.
 
 ## And now, it's got style!
 
@@ -115,8 +117,8 @@ The full list of styles and related square-bracket tags:
 - `[!]` toggles all upper case mode (replacing any other case mode). Can use style names `!`, `UP`, `UPPER`.
 - `[,]` toggles all lower case mode (replacing any other case mode). Can use style names `,`, `LOW`, `LOWER`.
 - `[;]` toggles capitalize each word mode (replacing any other case mode). Can use style names `;`, `EACH`, `TITLE`.
-- `[%DDD]`, where DDD is a percentage from 0 to 375, scales text to that multiple. Can be used with `{SIZE=150%}`, `{SIZE=%25}`, or similarly, `{STYLE=200%}` or `{STYLE=%125}`.
-- `[%]` on its own sets text to the default 100% scale. Can be used with `{STYLE=%}`.
+- `[%DDD]`, where DDD is a percentage from 0 to 375, scales text to that multiple. Can be used with `{SIZE=150%}`, `{SIZE=%25}`, or similarly, `{STYLE=200%}` or `{STYLE=%125}`. Removes any special mode.
+- `[%]` on its own sets text to the default 100% scale and removes any special mode. Can be used with `{STYLE=%}`.
 - `[%?MODE]` removes the scale and sets a special mode; modes are listed below.
 - `[%^MODE]` removes the scale and sets a special mode at the same time as small-caps mode; modes are listed below.
 - `[@Name]`, where Name is a key/name in this Font's `family` variable, switches the current typeface to the named one. Can be used with `{STYLE=@Name}`.
@@ -154,6 +156,7 @@ The full list of styles and related square-bracket tags:
   - Another option is `KnownFonts.addGameIcons()`, which adds icons from
     [the game-icons.net collection](https://game-icons.net). These use the same syntax: `[+crystal-wand]`.
     - The game icons [can be previewed here](https://tommyettinger.github.io/game-icons-net-atlas/).
+- `[-SOME_EFFECT]` is equivalent to using curly braces around `SOME_EFFECT`; note the added dash.
 
 The special modes that can be used in place of scaling are:
 
@@ -237,22 +240,34 @@ Textratypist makes heavy use of its new `Font` class, which is a full overhaul o
 essentially no code with its ancestor. A Font has various qualities that give it more power than BitmapFont, mostly
 derived from how it stores (and makes available) the glyph images as TextureRegions in a map. There's nothing strictly
 preventing you from adding your own images to the `mapping` of a Font, as long as they have the requisite information to
-be used as a textual glyph, and then placing those images in with your text. Textratypist supports standard bitmap
+be used as a textual glyph, and then placing those images in with your text. This is used to implement emoji, as one
+example, and can be used for custom icons and emoji.
+
+Textratypist supports standard bitmap
 fonts and also distance field fonts, using SDF or MSDF. `TypingLabel` will automatically enable the ShaderProgram that
 the appropriate distance field type needs (if it needs one) and disable it after rendering itself. You can change this
 behavior by manually calling the `Font.enableShader(Batch)` method on your Font, and changing the Batch back to your
 other ShaderProgram of choice with its `Batch.setShader()` method (often, you just pass null here to reset the shader).
+Note that SDF and MSDF fonts need to be told about changes to the screen size, using `Font.resizeDistanceField()` or any
+of various other places' methods that call `resizeDistanceField()`. Since 1.0.0, you typically want to use the overload
+that takes a `Viewport`; if you don't have a `Viewport`, you don't need that overload. Every distance field font you are
+currently rendering needs to have its distance field resized when the window resizes, in `ApplicationListener.resize()`.
 
 There are several preconfigured font settings in `KnownFonts`; the documentation for each font getter says what files
 are needed to use that font. **[The old .fnt files have been moved here](https://github.com/tommyettinger/fonts)**.
-[You can see previews and descriptions of all known fonts here.](https://tommyettinger.github.io/textratypist/)
-Having KnownFonts in code is meant to save some hassle getting the xAdjust, yAdjust, widthAdjust, and heightAdjust
-parameters just right, though you're still free to change them however you wish. The variety of font
-types isn't amazing, but it should be a good starting point. One nice new thing to note is the
+[You can see previews and descriptions of all known fonts here.](https://tommyettinger.github.io/textratypist/apidocs/com/github/tommyettinger/textra/KnownFonts.html)
+Having KnownFonts isn't typically necessary since version 1.0.0, because the fonts are now made all by the same tool
+([fontwriter](https://github.com/tommyettinger/fontwriter)), and tend to be configured correctly out-of-the-box. The
+variety of font types isn't amazing, but it should be a good starting point. One nice new thing to note is the
 `KnownFonts.getStandardFamily()` method, which requires having 13 fonts in your assets, but naturally lets you switch
 between any of those 13 fonts using the `[@Medieval]` syntax (where Medieval is one of the names it knows, in this case
-for "KingThings Foundation"). All of these fonts work without a distance field effect, so they won't look as good at
-very large sizes, but are compatible with each other.
+for "KingThings Foundation").
+
+The fonts here use the .dat file extension (which just means it's binary data with no particular file format). They are
+compressed versions of larger .json fonts produced by fontwriter. The compression they use is GWT-compatible, so these
+.dat files can be used on any platform libGDX targets. You can still use the older .fnt files without issue, and some
+.fnt files are still used here (mostly for pixel fonts). You also generally need a .png with each font, though it can be
+in an atlas.
 
 The license files for each font are included in the same folder, in `knownFonts` here. All fonts provided here were
 checked to ensure their licenses permit commercial use without fees, and all do. Most require attribution; check the
@@ -279,6 +294,9 @@ color you want using the standard `[RED]`, `[light dull green]`, or `[#0022EEFF]
 The license files for Twemoji and the Game-Icons.net images are included in `knownFonts`, next to the license files for
 fonts. While Twemoji has simple requirements for attribution, Game-Icons requires attribution to quite a few individual
 contributors; see the end of this document for the list, which you can and should copy to give credit to everyone.
+
+There are also line-art emoji from [OpenMoji](https://openmoji.org/), and full-color versions of the same emoji. These
+may be a better fit for certain projects' art styles.
 
 ## Act now and get these features, free of charge!
 
@@ -315,8 +333,8 @@ colors configured.
 
 Starting in the 0.4.0 release, there are various widgets that replace their
 scene2d.ui counterparts and swap out `Label` for `TextraLabel`, allowing you to use markup in them.
-The widgets are `ImageTextraButton`, `TextraButton`, `TextraCheckBox`, `TextraDialog`, `TextraLabel`, `TextraTooltip`, 
-and `TextraWindow`, at least, so far.
+The widgets are `ImageTextraButton`, `TextraButton`, `TextraCheckBox`, `TextraDialog`, `TextraLabel`,
+`TextraListBox`, `TextraTooltip`, and `TextraWindow`, at least, so far.
 
 Future additions to these widgets should permit setting the `TextraLabel` to a `TypingLabel` of your choice.
 While `TextArea` is not yet supported, `TextraLabel` defaults to supporting multiple lines, and may be able to stand-in
@@ -340,18 +358,18 @@ user input and can use animated styles like `{RAINBOW}`.
 You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.10.0"
+implementation "com.github.tommyettinger:textratypist:1.0.0"
 ```
 
-This assumes you already depend on libGDX; TextraTypist depends on version 1.12.0 or higher. A requirement for 1.11.0
-was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code in libGDX. The requirement for 1.12.0
-was added in 0.9.0 because some things probably changed, but 1.12.0 (or the subsequent SNAPSHOT releases) should be
+This assumes you already depend on libGDX; TextraTypist depends on version 1.12.1 or higher. A requirement for 1.11.0
+was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code in libGDX. The requirement for 1.12.1
+was added in 1.0.0 because some things probably changed, but 1.12.1 (or the subsequent SNAPSHOT releases) should be
 pretty easy to update to.
 
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:0.10.0:sources"
+implementation "com.github.tommyettinger:textratypist:1.0.0:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 ```
 
@@ -409,9 +427,8 @@ tweaking to get a Font made from a BitmapFont to line up correctly with other wi
 offsetX, offsetY, and maybe xAdvance parameters if you load an atlas (such as with `addEmoji()` or `addGameIcons()`),
 and the adjustments may be quite different for a Font made from a BitmapFont vs. a Font made directly from a .fnt file.
 Since 0.8.1, `Font` can parse an extended version of the .fnt format that permits floats for any spatial metrics, and
-not just ints. The only file that uses this is `GoNotoUniversal-sdf.fnt`, currently, and it is mainly expected to be
-useful for fonts that have been scaled down from some larger size. Because only TextraTypist permits floats (that I know
-of), you can't load `GoNotoUniversal-sdf.fnt` as a `BitmapFont` successfully.
+not just ints. No files actually use this here and now, because the Structured JSON files produced by fontwriter all use
+floats internally for everything.
 
 If you load text from a file and display it, you can sometimes get different results from creating that text in code, or
 loading it on a different machine. This should only happen if the file actually is different -- that is, the files' line
@@ -466,20 +483,11 @@ ensure the `com.github.tommyettinger.textra.Effect` class is kept. Keeping all o
 for obfuscation purposes because this is an open-source library, but it does add a small amount to the size of the final
 JAR or APK. Right now, that appears to be 202 KB if you don't include any assets, so I wouldn't worry about it.
 
-Distance field fonts generally seem more useful than they actually are, as implemented here. Both SDF and MSDF fonts use
-a shader to handle size changes, but the way things are now, the shader only changes when the scale of a `Font` is
-changed, not when it has its size changed inline using (for example) the `[%200]` tag, or changed with an effect like
-`{SQUASH}`. In these cases, the enlarged text just looks blurry, though it is worse with MSDF. Using a standard font
-actually looks a lot better for these small-to-moderate size adjustments. Because it doesn't need a different
-shader, the standard fonts are more compatible with things like emoji, and can be used in the same batch as
-graphics that use the default SpriteBatch shader. SDF fonts support kerning, and `Gentium-sdf.fnt` uses both an SDF
-effect and kerning. The newer Go Noto Universal font uses SDF and has an incredibly large amount of kerning data in its
-.fnt file. MSDF fonts created with [msdf-gdx-gen](https://github.com/maltaisn/msdf-gdx-gen) do support kerning,
-and as long as the generated texture is fairly large, the fonts seem to work well. The best approach most of the time
-seems to be to use a large standard font texture, without SDF or MSDF, and scale it down as needed. Since 0.8.1, SDF
-fonts support emoji (just without smooth, anti-aliased edges) in full color, but MSDF fonts probably never will. MSDF
-uses color information to represent distance information, so colorful emoji appear to the MSDF shader as very
-complicated shapes, without any of their intended coloring.
+Distance field fonts might not be worth the hassle of resizing each font's distance field, but they do look much better
+at very large sizes than standard fonts. Using a standard font
+actually can look better for small-to-moderate size adjustments. The best approach when you don't need large
+text seems to be to use a large standard font texture, without SDF or MSDF, and scale it down as needed. Since 1.0.0,
+all fonts support emoji. Older versions did not support emoji in MSDF fonts.
 
 If you happen to use both tommyettinger's TextraTypist library and tommyettinger's
 [colorful-gdx](https://github.com/tommyettinger/colorful-gdx) library, you may encounter various issues. `ColorfulBatch`
@@ -515,7 +523,8 @@ However, FreeType's "Auto" hinting settings both look worse than they normally s
 artifact covered immediately above. Instead of "AutoSlight", "AutoMedium", or "AutoFull" hinting, you can choose
 "Slight", "Medium", or "Full", which makes the font look more legible and avoids the GPU half-pixel-offset issue. I
 don't have any idea why this happens, but because hinting can be set either in the FreeType generator parameters or (if
-you use [Stripe](https://github.com/raeleus/stripe)) set in a Skin file with `"hinting": "Full"`, it isn't hard to fix.
+you use [Stripe](https://github.com/raeleus/stripe) or FreeTypist from this repo) set in a Skin file with
+`"hinting": "Full"`, it isn't hard to fix.
 
 There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 through 0.9.0. You may see labels
 slide a little relatively to their backgrounds when rotated smoothly, and some (typically very small) fonts may need
