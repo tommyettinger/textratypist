@@ -71,9 +71,9 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		// For unknown reasons, emoji added to this particular font are a little too high before adjustment.
 		// Using the extra three float arguments for offsetX, offsetY, and xAdvance changes helps a lot here.
 //		KnownFonts.addEmoji(font, 0f, 4f, 0f);
-		KnownFonts.addEmoji(skin.get("font-button", Font.class));
-		KnownFonts.addEmoji(skin.get("font-label", Font.class));
-		KnownFonts.addEmoji(skin.get("font-title", Font.class));
+		KnownFonts.addEmoji(skin.get("font-button", Font.class), -8, 0f, 0f);
+		KnownFonts.addEmoji(skin.get("font-label", Font.class), -8, 0f, 0f);
+		KnownFonts.addEmoji(skin.get("font-title", Font.class), -8, 0f, 0f);
 		final Font title = skin.get("title", Styles.LabelStyle.class).font
 //				.adjustLineHeight(1.5f)
 				.useIntegerPositions(false);
@@ -148,8 +148,8 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		passwordTextField.setPasswordMode(true);
 
 		// window.debug();
-		TextraWindow window = new TextraWindow("TextraDialog", skin, title);
-		window.getTitleTable().add(new TextraButton("X", skin, font)).height(window.getPadTop());
+		TextraWindow window = new TextraWindow("TextraDialog", skin, title, true);
+		window.getTitleTable().add(new TextraButton("X", skin, window.titleLabel.font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
 		window.row().fill().expandX();

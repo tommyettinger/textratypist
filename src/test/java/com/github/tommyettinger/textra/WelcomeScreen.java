@@ -57,10 +57,10 @@ public class WelcomeScreen extends ApplicationAdapter {
     Stack stack = new Stack(label, textraLabel);
     stack.setFillParent(true);
     stage.addActor(stack);
-    label.setWidth(620);
+//    label.setWidth(620);
     label.setWrap(true);
 //    label.setPosition(10, 320);
-    textraLabel.setWidth(620);
+//    textraLabel.setWidth(620);
     textraLabel.setWrap(true);
 //    textraLabel.setPosition(10, 120);
 
@@ -70,6 +70,7 @@ public class WelcomeScreen extends ApplicationAdapter {
   public void render() {
     ScreenUtils.clear(Color.BLACK);
     stage.act();
+    stage.getViewport().apply(true);
     stage.draw();
 
   }

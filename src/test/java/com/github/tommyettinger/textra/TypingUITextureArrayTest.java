@@ -54,7 +54,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 	@Override
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
-		profiler.enable();
+		profiler.disable();
 		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
@@ -224,7 +224,8 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 
 	@Override
 	public void render () {
-		profiler.reset();
+		if(profiler.isEnabled())
+			profiler.reset();
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());

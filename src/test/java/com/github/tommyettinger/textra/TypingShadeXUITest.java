@@ -64,10 +64,10 @@ public class TypingShadeXUITest extends InputAdapter implements ApplicationListe
 		final Font font = skin.get(Styles.LabelStyle.class).font
 //				.adjustLineHeight(0.75f)
 				.useIntegerPositions(true);
-		// For unknown reasons, emoji added to this particular font default to being offset by -1/3 an emoji width (12)
+		// For unknown reasons, emoji added to this particular font default to being offset by -1/2 an emoji width (-16)
 		// on x, and a little up on height.
 		// Using the extra three float arguments for offsetX, offsetY, and xAdvance changes helps a lot here.
-		KnownFonts.addEmoji(font, -12f, -4f, 0f);
+		KnownFonts.addEmoji(font, -16f, -4f, 0f);
 		final Font title = skin.get("title", Styles.LabelStyle.class).font
 //				.adjustLineHeight(1.5f)
 				.useIntegerPositions(true);
