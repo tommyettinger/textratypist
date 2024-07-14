@@ -27,6 +27,11 @@ import java.util.ArrayList;
 
 import static com.badlogic.gdx.math.MathUtils.round;
 
+/**
+ * A utility class for loading {@link BitmapFont} instances from Structured JSON files (which use .json or .dat).
+ * {@link Font} instances can already be loaded using
+ * {@link Font#Font(FileHandle, TextureRegion, boolean) some of the constructors there}.
+ */
 public class BitmapFontSupport {
 
     /**

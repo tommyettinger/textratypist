@@ -32,21 +32,32 @@ public class TypingWindow extends TextraWindow {
     public TypingWindow(String title, Skin skin) {
         super(title, skin);
     }
+    public TypingWindow(String title, Skin skin, boolean scaleTitleFont) {
+        super(title, skin, scaleTitleFont);
+    }
 
     public TypingWindow(String title, Skin skin, String styleName) {
         super(title, skin, styleName);
+    }
+
+    public TypingWindow(String title, Skin skin, String styleName, boolean scaleTitleFont) {
+        super(title, skin, styleName, scaleTitleFont);
     }
 
     public TypingWindow(String title, Styles.WindowStyle style) {
         super(title, style);
     }
 
-    public TypingWindow(String title, Styles.WindowStyle style, boolean makeGridGlyphs) {
-        super(title, style, makeGridGlyphs);
+    public TypingWindow(String title, Styles.WindowStyle style, boolean scaleTitleFont) {
+        super(title, style, scaleTitleFont);
     }
 
     public TypingWindow(String title, Skin skin, Font replacementFont) {
         super(title, skin, replacementFont);
+    }
+
+    public TypingWindow(String title, Skin skin, Font replacementFont, boolean scaleTitleFont) {
+        super(title, skin, replacementFont, scaleTitleFont);
     }
 
     public TypingWindow(String title, Skin skin, String styleName, Font replacementFont) {

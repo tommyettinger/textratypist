@@ -59,8 +59,18 @@ public class TextraWindow extends Table {
         setSkin(skin);
     }
 
+    public TextraWindow(String title, Skin skin, boolean scaleTitleFont) {
+        this(title, skin.get(WindowStyle.class), scaleTitleFont);
+        setSkin(skin);
+    }
+
     public TextraWindow(String title, Skin skin, String styleName) {
         this(title, skin.get(styleName, WindowStyle.class));
+        setSkin(skin);
+    }
+
+    public TextraWindow(String title, Skin skin, String styleName, boolean scaleTitleFont) {
+        this(title, skin.get(styleName, WindowStyle.class), scaleTitleFont);
         setSkin(skin);
     }
 
@@ -68,12 +78,17 @@ public class TextraWindow extends Table {
         this(title, style, false);
     }
 
-    public TextraWindow(String title, WindowStyle style, boolean ignored) {
-        this(title, style, style.titleFont);
+    public TextraWindow(String title, WindowStyle style, boolean scaleTitleFont) {
+        this(title, style, style.titleFont, scaleTitleFont);
     }
 
     public TextraWindow(String title, Skin skin, Font replacementFont) {
         this(title, skin.get(WindowStyle.class), replacementFont);
+        setSkin(skin);
+    }
+
+    public TextraWindow(String title, Skin skin, Font replacementFont, boolean scaleTitleFont) {
+        this(title, skin.get(WindowStyle.class), replacementFont, scaleTitleFont);
         setSkin(skin);
     }
 
