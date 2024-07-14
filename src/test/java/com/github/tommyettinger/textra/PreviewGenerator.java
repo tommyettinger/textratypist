@@ -33,7 +33,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[ ], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
             + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[ ],"
             + "\n[%^small caps][*]Special[*][%] [%^whiten][/]Effects[/][%]: [%?shadow]drop shadow[%], [%?jostle]RaNsoM nOtE[%], [%?error]spell check[%]...",
-    distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[ ]!",
+//    distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[ ]!",
     emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[ ] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
 
     public static void main(String[] args){
@@ -175,6 +175,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             float y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f;// - font.descent * font.scaleY;
             batch.begin();
             font.enableShader(batch);
+            font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), viewport);
             font.drawGlyphs(batch, layout, x, y, Align.center);
             batch.end();
 
@@ -190,23 +191,13 @@ public class PreviewGenerator extends ApplicationAdapter {
         }
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
-        fnt.markup(text + emojiSupport, layout.clear());
+//        fnt.markup(text + emojiSupport, layout.clear());
 
         Gdx.app.exit();
     }
 
     @Override
     public void render() {
-        ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
-        float x = Gdx.graphics.getBackBufferWidth() * 0.5f;
-        float y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f;// - fnt.descent * fnt.scaleY;
-        viewport.apply();
-        batch.begin();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-        fnt.enableShader(batch);
-        fnt.drawGlyphs(batch, layout, x, y, Align.center);
-        batch.end();
-        Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
 
     @Override

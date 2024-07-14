@@ -147,8 +147,10 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
             @Override
             public void end() {
 //                System.out.println(label);
-                gif.setPalette(new QualityPalette(pms));
-                gif.setDitherAlgorithm(Dithered.DitherAlgorithm.BURKES);
+                QualityPalette pal = new QualityPalette();
+                pal.analyze(pms);
+                gif.setPalette(pal);
+                gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN);
                 gif.setDitherStrength(0.5f);
                 gif.write(Gdx.files.local("preview.gif"), pms, FRAMERATE);
                 Gdx.app.exit();
