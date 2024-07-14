@@ -38,6 +38,15 @@ if (JavaVersion.current().isJava8Compatible()) {
     }
 }
 
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+
+mavenPublishing {
+    configure(new JavaLibrary(new JavadocJar.Javadoc(), true))
+}
+
+mavenPlainJavadocJar.archiveBaseName.set("freetypist")
+
 compileJava {
     sourceCompatibility = 8
     targetCompatibility = 8

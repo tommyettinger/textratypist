@@ -31,6 +31,7 @@ configure(allprojects) {
 
     }
 }
+
 allprojects {
     version = "$VERSION_NAME"
     group = 'com.github.tommyettinger'
@@ -45,6 +46,15 @@ allprojects {
     javadoc.options.source("17")
 }
 
+
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+
+mavenPublishing {
+    configure(new JavaLibrary(new JavadocJar.Javadoc(), true))
+}
+
+mavenPlainJavadocJar.archiveBaseName.set("textratypist")
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
