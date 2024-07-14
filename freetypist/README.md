@@ -13,7 +13,7 @@ This depends on FreeType, so you must have the appropriate platform dependencies
 Using Maven Central:
 
 ```gradle
-implementation 'com.github.tommyettinger:freetypist:1.0.0'
+implementation 'com.github.tommyettinger:freetypist:1.0.1'
 ```
 
 Using JitPack:
