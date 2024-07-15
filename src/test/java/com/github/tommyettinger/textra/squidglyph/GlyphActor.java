@@ -16,10 +16,12 @@
 
 package com.github.tommyettinger.textra.squidglyph;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.textra.ColorLookup;
 import com.github.tommyettinger.textra.Font;
 
@@ -60,6 +62,9 @@ public class GlyphActor extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         batch.getColor().set((int)(glyph >>> 32)).a *= parentAlpha;
         batch.setColor(batch.getColor());
+        font.enableShader(batch);
+        final Viewport viewport = getStage().getViewport();
+        font.resizeDistanceField(viewport.getScreenWidth(), viewport.getScreenHeight(), viewport);
         font.drawGlyph(batch, glyph, getX()
 //                + font.cellWidth * 0.5f
                 , getY() - font.descent * font.scaleY * 2f
