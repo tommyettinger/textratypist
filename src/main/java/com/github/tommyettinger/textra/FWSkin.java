@@ -33,14 +33,18 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  * <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (hence the "FW" in the name). This can load
  * FontWriter's JSON format into either {@link Font} and {@link BitmapFont} objects, from the same files. It can also
  * load {@link Font}s from AngelCode BMFont files (with a ".fnt" extension), and continues to be able to load
- * {@link BitmapFont}s from those files as well.
+ * {@link BitmapFont}s from those files as well. This class is also important when using the styles in {@link Styles},
+ * since it allows reading in a skin JSON's styles both as the scene2d.ui format and as styles for TextraTypist widgets.
  * <br>
  * To aid usage of distance field fonts, you can call {@link #resizeDistanceFields(float, float)} on this skin (it may
  * need to be cast to FWSkin) in your {@link com.badlogic.gdx.ApplicationListener#resize(int, int)} method. This makes
  * all the distance field effects have their correct sizing information, and allows edges to be crisp without becoming
  * jagged or aliased. It only works on Font objects that use a distance field (SDF, MSDF, or SDF_OUTLINE).
  * <br>
- * If you are using {@link com.badlogic.gdx.assets.AssetManager}, use {@link FWSkinLoader}.
+ * If you are using {@link com.badlogic.gdx.assets.AssetManager}, use {@link FWSkinLoader}. If you need to load FreeType
+ * font parameters from a skin, use the related
+ * <a href="https://github.com/tommyettinger/textratypist/blob/main/freetypist/README.md">FreeTypist</a> dependency and
+ * its {@code FreeTypistSkin} or {@code FreeTypistSkinLoader}.
  */
 
 public class FWSkin extends Skin {
@@ -78,6 +82,8 @@ public class FWSkin extends Skin {
     /**
      * Overrides the default JSON loader to process Structured JSON Fonts from a Skin JSON.
      * This allows Font and BitmapFont items to be loaded from either .fnt or .json files.
+     * This also allows loading both standard scene2d.ui styles and styles for TextraTypist
+     * widgets from the same styles a skin JSON file normally uses.
      * @param skinFile The JSON file to be processed.
      * @return The {@link Json} used to read the file.
      */

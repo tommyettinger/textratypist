@@ -68,32 +68,22 @@ public class MinimalGridTest extends ApplicationAdapter {
     public void create() {
         stage = new Stage();
         screenStage = new Stage();
-//        Font aStarry = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic().scaleTo(46f, 25f));
-        // OK, this is a total mess.
-        // Here, we sort-of duplicate KnownFonts.getIosevkaSlab(), but change the size, offsetY, and descent.
-        // Having descent = 0 is normally incorrect, but seems to work well with GlyphGrid for some reason.
-//        Font aStarry = KnownFonts.addEmoji(new Font("Iosevka-Slab-standard.fnt",
-//                "Iosevka-Slab-standard.png", STANDARD, 0f, 0f, 0f, 0f, true) // offsetY changed
-//                .scaleTo(16, 28).fitCell(16, 28, false)
-//                .setDescent(0f) // changed a lot
-//                .setLineMetrics(-0.125f, -0.125f, 0f, -0.25f).setInlineImageMetrics(-8f, 24f, 0f)
-//                .setTextureFilter().setName("Iosevka Slab"));
-
-        Font aStarry = KnownFonts.addEmoji(KnownFonts.getIosevka(Font.DistanceFieldType.MSDF));
-        Font grenze = KnownFonts.addEmoji(KnownFonts.getGrenze(Font.DistanceFieldType.MSDF));
+//        Font gentium = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF));
+        Font iosevka = KnownFonts.addEmoji(KnownFonts.getIosevka(Font.DistanceFieldType.MSDF));
+        Font inconsolata = KnownFonts.addEmoji(KnownFonts.getInconsolata(Font.DistanceFieldType.MSDF));
 
 //        varWidthFont = KnownFonts.getGentium();
-        varWidthFont = KnownFonts.getGentiumUnItalic();
+        varWidthFont = KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF);
         varWidthFont.scaleHeightTo(30f);
-//        aStarry.adjustCellWidth(0.5f);
-//        aStarry.originalCellHeight *= 0.5f;
-//        aStarry.cellHeight *= 0.5f;
-//        aStarry.descent *= 0.5f;
-//        aStarry.fitCell(32, 32, true);
-        gg = new GlyphGrid(aStarry, GRID_WIDTH, GRID_HEIGHT, true);
+//        iosevka.adjustCellWidth(0.5f);
+//        iosevka.originalCellHeight *= 0.5f;
+//        iosevka.cellHeight *= 0.5f;
+//        iosevka.descent *= 0.5f;
+//        iosevka.fitCell(32, 32, true);
+        gg = new GlyphGrid(iosevka, GRID_WIDTH, GRID_HEIGHT, true);
 
-        float larger = Math.max(grenze.cellWidth, grenze.cellHeight);
-        grenze.scaleTo(grenze.cellWidth / larger, grenze.cellHeight / larger).fitCell(1f, 1f, true);
+        float larger = Math.max(inconsolata.cellWidth, inconsolata.cellHeight);
+        inconsolata.scaleTo(inconsolata.cellWidth / larger, inconsolata.cellHeight / larger).fitCell(1f, 1f, true);
 
 
         //use Ă to test glyph height
@@ -101,8 +91,8 @@ public class MinimalGridTest extends ApplicationAdapter {
         atGlyph = new GlyphActor("[red orange][~][_]@", gg.font);
         usedGlyph = atGlyph;
         gg.addActor(usedGlyph);
-        emojiGlyph2 = new GlyphActor("[_][~][+😁]", grenze);
-        atGlyph2 = new GlyphActor("[red orange][~][_]@", grenze);
+        emojiGlyph2 = new GlyphActor("[_][~][+😁]", inconsolata);
+        atGlyph2 = new GlyphActor("[red orange][~][_]@", inconsolata);
         usedGlyph2 = atGlyph2;
         gg.addActor(usedGlyph2);
 

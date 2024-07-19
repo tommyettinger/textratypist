@@ -22,10 +22,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Null;
 
+/**
+ * An outer class that holds all styles for TextraTypist widgets. These are each named to match a scene2d.ui style,
+ * such as {@link Styles.LabelStyle} matching {@link Label.LabelStyle}. These styles are typically loaded from a skin
+ * JSON file using {@link FWSkin} or one of its subclasses, but can also be created on their own. When reading in a
+ * skin JSON file, no changes need to be made for TextraTypist styles if using FWSkin to load in the JSON.
+ */
 public final class Styles {
     private Styles() {
     }
-
 
     /**
      * The style for a {@link TextraLabel} or {@link TypingLabel}.

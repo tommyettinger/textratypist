@@ -24,7 +24,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
  * An {@link com.badlogic.gdx.assets.loaders.AssetLoader} to load a {@link FWSkin}. This enables you to deserialize
- * FreeType fonts from a Skin JSON and load it through an {@link AssetManager}. Example code:
+ * .dat and .json fonts from a Skin JSON, then load it through an {@link AssetManager}. It also allows scene2d.ui
+ * styles in a skin JSON file to load as both their expected scene2d.ui form and a TextraTypist widget style.
+ * <br>
+ * Example code:
  * <code>
  *     AssetManager assetManager = new AssetManager();
  *     assetManager.setLoader(Skin.class, new FWSkinLoader(assetManager.getFileHandleResolver()));

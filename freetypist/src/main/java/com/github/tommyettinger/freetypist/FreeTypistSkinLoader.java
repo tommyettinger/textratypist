@@ -23,8 +23,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
- * An {@link com.badlogic.gdx.assets.loaders.AssetLoader} to load a {@link FreeTypistSkin}. This enables you to deserialize FreeType fonts from
- * a Skin JSON and load it through an {@link AssetManager}. See the
+ * An {@link com.badlogic.gdx.assets.loaders.AssetLoader} to load a {@link FreeTypistSkin}. This enables you to
+ * deserialize FreeType fonts from a Skin JSON and load it through an {@link AssetManager}. It also allows scene2d.ui
+ * styles in a skin JSON file to load as both their expected scene2d.ui form and a TextraTypist widget style. See the
  * <a href="https://github.com/raeleus/skin-composer/wiki/Creating-FreeType-Fonts#using-a-custom-serializer">Skin Composer documentation</a>.
  */
 public class FreeTypistSkinLoader extends SkinLoader {

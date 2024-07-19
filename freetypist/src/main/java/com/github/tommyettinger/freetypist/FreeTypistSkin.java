@@ -33,8 +33,11 @@ import com.github.tommyettinger.textra.BitmapFontSupport;
 import com.github.tommyettinger.textra.Styles;
 
 /**
- * A sublass of {@link Skin} (via {@link FWSkin}) that includes a serializer for FreeType fonts from JSON. These JSON files are typically exported by
- * Skin Composer. This can also load Font and BitmapFont objects from .fnt, .json, or .dat files made by FontWriter. See the
+ * A sublass of {@link Skin} (via {@link FWSkin}) that includes a serializer for FreeType fonts from JSON. These JSON
+ * files are typically exported by Skin Composer. This can also load Font and BitmapFont objects from .fnt, .json, or
+ * .dat files made by FontWriter. Because this extends FWSkin, it is also important when using the styles in
+ * {@link Styles}, since it allows reading in a skin JSON's styles both as the scene2d.ui format and as styles for
+ * TextraTypist widgets. See the
  * <a href="https://github.com/raeleus/skin-composer/wiki/Creating-FreeType-Fonts#using-a-custom-serializer">Skin Composer documentation</a>.
  * If you are using Asset Manager, use {@link FreeTypistSkinLoader}
  */
@@ -71,7 +74,10 @@ public class FreeTypistSkin extends FWSkin {
     }
     
     /**
-     * Overrides the default JSON loader to process FreeType fonts from a Skin JSON.
+     * Overrides the default JSON loader to process FreeType fonts and .dat/.json from a Skin JSON.
+     * This also allows loading both standard scene2d.ui styles and styles for TextraTypist
+     * widgets from the same styles a skin JSON file normally uses.
+     *
      * @param skinFile The JSON file to be processed.
      * @return The {@link Json} used to read the file.
      */
