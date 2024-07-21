@@ -321,7 +321,7 @@ public final class Styles {
     }
 
     /**
-     * The style for a select box, see {@code TextraSelectBox} (when it exists).
+     * The style for a select box, see {@code TextraSelectBox}.
      */
     public static class SelectBoxStyle {
         public Font font;

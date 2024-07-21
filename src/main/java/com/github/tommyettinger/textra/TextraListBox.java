@@ -356,6 +356,30 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 		return -1;
 	}
 
+	/**
+	 * Gets the widget-local y-coordinate of the item with the given index. This starts at
+	 * {@code getHeight() - items.get(0).getPrefHeight()} and goes toward 0 as the index increases.
+	 * @param index the index of an item in this list box
+	 * @return {@code -Float.MAX_VALUE} if index is negative or greater than or equal to {@code items.size}
+	 */
+	public float getYOfIndex (int index) {
+		if(index < 0 || index >= items.size) return -Float.MAX_VALUE;
+		float h = getHeight();
+		Drawable background = TextraListBox.this.style.background;
+		if (background != null) {
+			h -= background.getTopHeight();
+		}
+		if(h < 0) return -Float.MAX_VALUE;
+		for (int i = 0; i < items.size; i++) {
+			T item = items.get(i);
+			h -= item.getPrefHeight();
+			if(i >= index){
+				return h;
+			}
+		}
+		return -Float.MAX_VALUE;
+	}
+
 	@SafeVarargs
 	public final void setItems(T... newItems) {
 		if (newItems == null) throw new IllegalArgumentException("newItems cannot be null.");
