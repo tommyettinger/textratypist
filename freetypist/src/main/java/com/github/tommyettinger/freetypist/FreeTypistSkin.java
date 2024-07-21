@@ -376,16 +376,31 @@ public class FreeTypistSkin extends FWSkin {
 //            public SelectBox.SelectBoxStyle read(Json json, JsonValue jsonData, Class type) {
 //                SelectBox.SelectBoxStyle s2d = new SelectBox.SelectBoxStyle();
 //                json.readFields(s2d, jsonData);
+//                String scrollStyleName = json.readValue("scrollStyle", String.class, "default", jsonData);
+//                ScrollPane.ScrollPaneStyle sps;
+//                if (scrollStyleName == null) {
+//                    sps = json.readValue("scrollStyle", ScrollPane.ScrollPaneStyle.class, jsonData);
+//                } else {
+//                    sps = skin.get(scrollStyleName, ScrollPane.ScrollPaneStyle.class);
+//                }
+//
+//                String listStyleName = json.readValue("listStyle", String.class, "default", jsonData);
+//                Styles.ListStyle ls;
+//                if (listStyleName == null) {
+//                    ls = json.readValue("listStyle", Styles.ListStyle.class, jsonData);
+//                } else {
+//                    ls = skin.get(listStyleName, Styles.ListStyle.class);
+//                }
+//
 //                Styles.SelectBoxStyle stt = new Styles.SelectBoxStyle(skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class),
-//                        s2d.fontColor, s2d.background, skin.get(json.readValue("scrollStyle", String.class, "default", jsonData), ScrollPane.ScrollPaneStyle.class),
-//                        skin.get(json.readValue("listStyle", String.class, "default", jsonData), Styles.ListStyle.class));
+//                        s2d.fontColor, s2d.background, sps, ls);
 //                stt.background = s2d.background;
 //                stt.backgroundDisabled = s2d.backgroundDisabled;
 //                stt.backgroundOpen = s2d.backgroundOpen;
 //                stt.backgroundOver = s2d.backgroundOver;
 //                stt.disabledFontColor = s2d.disabledFontColor;
 //                stt.overFontColor = s2d.overFontColor;
-//                skin.add(jsonData.name, stt, Styles.ListStyle.class);
+//                skin.add(jsonData.name, stt, Styles.SelectBoxStyle.class);
 //                return s2d;
 //            }
 //        });
