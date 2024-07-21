@@ -35,6 +35,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class MBTypingUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
@@ -108,7 +111,7 @@ public class MBTypingUITest extends InputAdapter implements ApplicationListener 
 		TextField textfield = new TextField("", skin);
 		textfield.setMessageText("Click here!");
 		textfield.setAlignment(Align.center);
-		final SelectBox<String> selectBox = new SelectBox<>(skin);
+		final TextraSelectBox<TextraLabel> selectBox = new TextraSelectBox<>(skin);
 		selectBox.setAlignment(Align.right);
 		selectBox.getList().setAlignment(Align.right);
 		selectBox.getStyle().listStyle.selection.setRightWidth(10);
@@ -118,10 +121,15 @@ public class MBTypingUITest extends InputAdapter implements ApplicationListener 
 				System.out.println(selectBox.getSelected());
 			}
 		});
-		selectBox.setItems("Android1", "Windows1 long text in item", "Linux1", "OSX1", "Android2", "Windows2", "Linux2", "OSX2",
-			"Android3", "Windows3", "Linux3", "OSX3", "Android4", "Windows4", "Linux4", "OSX4", "Android5", "Windows5", "Linux5",
-			"OSX5", "Android6", "Windows6", "Linux6", "OSX6", "Android7", "Windows7", "Linux7", "OSX7");
-		selectBox.setSelected("Linux6");
+		String[] items = {"Android1", "Windows1 long text in item", "Linux1", "OSX1", "Android2", "Windows2", "Linux2", "OSX2",
+				"Android3", "Windows3", "Linux3", "OSX3", "Android4", "Windows4", "Linux4", "OSX4", "Android5", "Windows5", "Linux5",
+				"OSX5", "Android6", "Windows6", "Linux6", "OSX6", "Android7", "Windows7", "Linux7", "OSX7"};
+		TextraLabel[] labels = new TextraLabel[items.length];
+		for (int i = 0; i < items.length; i++) {
+			labels[i] = new TextraLabel(items[i], skin);
+		}
+		selectBox.setItems(labels);
+		selectBox.setSelectedIndex(20);
 		Image imageActor = new Image(image2);
 		ScrollPane scrollPane = new ScrollPane(imageActor);
 		List<String> list = new List<>(skin);
