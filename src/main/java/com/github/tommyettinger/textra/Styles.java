@@ -69,7 +69,7 @@ public final class Styles {
     /**
      * The style for a text button, see {@link TextraButton} or {@link TypingButton}.
      */
-    static public class TextButtonStyle extends Button.ButtonStyle {
+    public static class TextButtonStyle extends Button.ButtonStyle {
         public @Null Font font;
         public @Null Color fontColor;
         public @Null Color downFontColor;
@@ -132,7 +132,7 @@ public final class Styles {
     /**
      * The style for an image text button, see {@link ImageTextraButton}.
      */
-    static public class ImageTextButtonStyle extends TextButtonStyle {
+    public static class ImageTextButtonStyle extends TextButtonStyle {
         public @Null Drawable imageUp, imageDown, imageOver, imageDisabled;
         public @Null Drawable imageChecked, imageCheckedDown, imageCheckedOver;
 
@@ -183,7 +183,7 @@ public final class Styles {
     /**
      * The style for a select box, see {@link TextraCheckBox} or {@link TypingCheckBox}.
      */
-    static public class CheckBoxStyle extends TextButtonStyle {
+    public static class CheckBoxStyle extends TextButtonStyle {
         public Drawable checkboxOn;
         public Drawable checkboxOff;
         public @Null Drawable checkboxOnOver;
@@ -234,7 +234,7 @@ public final class Styles {
     /**
      * The style for a window, see {@link TextraWindow} or {@link TypingWindow}.
      */
-    static public class WindowStyle {
+    public static class WindowStyle {
         public @Null Drawable background;
         public Font titleFont;
         public @Null Color titleFontColor = new Color(1, 1, 1, 1);
@@ -270,9 +270,10 @@ public final class Styles {
         }
     }
 
-    /** The style for a ListBox, see {@link TextraListBox}. (Or TypingListBox, once it exists...)
+    /**
+     * The style for a ListBox, see {@link TextraListBox}.
      */
-    static public class ListStyle {
+    public static class ListStyle {
         public Font font;
         public Color fontColorSelected = new Color(1, 1, 1, 1);
         public Color fontColorUnselected = new Color(1, 1, 1, 1);
@@ -318,9 +319,77 @@ public final class Styles {
             background = style.background;
         }
     }
-    /** The style for a text tooltip, see {@link TextraTooltip} or {@link TypingTooltip}.
+
+    /**
+     * The style for a select box, see {@code TextraSelectBox} (when it exists).
      */
-    static public class TextTooltipStyle {
+    public static class SelectBoxStyle {
+        public Font font;
+        public Color fontColor = new Color(1, 1, 1, 1);
+        public @Null Color overFontColor, disabledFontColor;
+        public @Null Drawable background;
+        public ScrollPane.ScrollPaneStyle scrollStyle;
+        public ListStyle listStyle;
+        public @Null Drawable backgroundOver, backgroundOpen, backgroundDisabled;
+
+        public SelectBoxStyle () {
+        }
+
+        public SelectBoxStyle (Font font, Color fontColor, @Null Drawable background, ScrollPane.ScrollPaneStyle scrollStyle,
+                               ListStyle listStyle) {
+            this.font = font;
+            this.fontColor.set(fontColor);
+            this.background = background;
+            this.scrollStyle = scrollStyle;
+            this.listStyle = listStyle;
+        }
+
+        public SelectBoxStyle (BitmapFont font, Color fontColor, @Null Drawable background, ScrollPane.ScrollPaneStyle scrollStyle,
+                               List.ListStyle listStyle) {
+            this.font = new Font(font);
+            this.fontColor.set(fontColor);
+            this.background = background;
+            this.scrollStyle = scrollStyle;
+            this.listStyle = new ListStyle(listStyle);
+        }
+
+        public SelectBoxStyle (SelectBoxStyle style) {
+            font = new Font(style.font);
+            fontColor.set(style.fontColor);
+
+            if (style.overFontColor != null) overFontColor = new Color(style.overFontColor);
+            if (style.disabledFontColor != null) disabledFontColor = new Color(style.disabledFontColor);
+
+            background = style.background;
+            scrollStyle = new ScrollPane.ScrollPaneStyle(style.scrollStyle);
+            listStyle = new ListStyle(style.listStyle);
+
+            backgroundOver = style.backgroundOver;
+            backgroundOpen = style.backgroundOpen;
+            backgroundDisabled = style.backgroundDisabled;
+        }
+
+        public SelectBoxStyle (SelectBox.SelectBoxStyle style) {
+            font = new Font(style.font);
+            fontColor.set(style.fontColor);
+
+            if (style.overFontColor != null) overFontColor = new Color(style.overFontColor);
+            if (style.disabledFontColor != null) disabledFontColor = new Color(style.disabledFontColor);
+
+            background = style.background;
+            scrollStyle = new ScrollPane.ScrollPaneStyle(style.scrollStyle);
+            listStyle = new ListStyle(style.listStyle);
+
+            backgroundOver = style.backgroundOver;
+            backgroundOpen = style.backgroundOpen;
+            backgroundDisabled = style.backgroundDisabled;
+        }
+    }
+
+    /**
+     * The style for a text tooltip, see {@link TextraTooltip} or {@link TypingTooltip}.
+     */
+    public static class TextTooltipStyle {
         public LabelStyle label;
         public @Null Drawable background;
         /** 0 means don't wrap. */
