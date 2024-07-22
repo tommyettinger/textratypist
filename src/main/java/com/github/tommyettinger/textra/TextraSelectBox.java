@@ -181,14 +181,12 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
             if (bg != null) prefWidth = bg.getLeftWidth() + bg.getRightWidth();
             T selected = getSelected();
             if (selected != null) {
-                selected.layout();
-                prefWidth += selected.getPrefWidth();
+                prefWidth += selected.font.calculateSize(selected.layout);
             }
         } else {
             float maxItemWidth = 0;
             for (int i = 0; i < items.size; i++) {
-                items.get(i).layout();
-                maxItemWidth = Math.max(items.get(i).getPrefWidth(), maxItemWidth);
+                maxItemWidth = Math.max(items.get(i).font.calculateSize(items.get(i).layout), maxItemWidth);
             }
 
             prefWidth = maxItemWidth;
@@ -227,7 +225,6 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
 
         Drawable background = getBackgroundDrawable();
         Color fontColor = getFontColor();
-        Font font = style.font;
 
         Color color = getColor();
         float x = getX(), y = getY();
@@ -242,9 +239,9 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
                 width -= background.getLeftWidth() + background.getRightWidth();
                 height -= background.getBottomHeight() + background.getTopHeight();
                 x += background.getLeftWidth();
-                y += (int)(height * 0.5f + background.getBottomHeight() + font.cellHeight * 0.5f);
+                y += (int)(height * 0.5f + background.getBottomHeight());
             } else {
-                y += (int)(height * 0.5f + font.cellHeight * 0.5f);
+                y += (int)(height * 0.5f);
             }
             selected.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * parentAlpha);
             drawItem(batch, selected, x, y, width);
@@ -252,10 +249,10 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
     }
 
     protected void drawItem (Batch batch, T item, float x, float y, float width) {
-        item.setAlignment(alignment);
         item.setEllipsis("...");
         item.setWrap(false);
         item.layout.setTargetWidth(width);
+        item.setPosition(x, y, alignment);
         item.draw(batch, 1f);
     }
 
