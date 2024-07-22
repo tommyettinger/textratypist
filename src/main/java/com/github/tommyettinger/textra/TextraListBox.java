@@ -357,22 +357,22 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 	}
 
 	/**
-	 * Gets the widget-local y-coordinate of the item with the given index. This starts at
-	 * {@code getHeight() - items.get(0).getPrefHeight()} and goes toward 0 as the index increases.
+	 * Gets the total height of the item with the given index and all items before it. This starts at
+	 * {@code 0} and increases as the index increases.
 	 * @param index the index of an item in this list box
 	 * @return {@code -Float.MAX_VALUE} if index is negative or greater than or equal to {@code items.size}
 	 */
-	public float getYOfIndex (int index) {
+	public float getCumulativeHeight(int index) {
 		if(index < 0 || index >= items.size) return -Float.MAX_VALUE;
-		float h = getHeight();
+		float h = 0;
 		Drawable background = TextraListBox.this.style.background;
 		if (background != null) {
-			h -= background.getTopHeight();
+			h += background.getBottomHeight();
 		}
-		if(h < 0) return -Float.MAX_VALUE;
 		for (int i = 0; i < items.size; i++) {
 			T item = items.get(i);
-			h -= item.getPrefHeight();
+			item.font.calculateSize(item.layout);
+			h += item.layout.getHeight();
 			if(i >= index){
 				return h;
 			}

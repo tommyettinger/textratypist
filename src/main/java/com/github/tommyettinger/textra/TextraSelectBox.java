@@ -472,11 +472,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
         /** Allows a subclass to customize the select box list. The default implementation returns a list that delegates
          * {@link TextraListBox#toString()}  to {@link TextraSelectBox#toString(TextraLabel)} . */
         protected TextraListBox<T> newList () {
-            return new TextraListBox<T>(selectBox.style.listStyle) {
-                public String toString (T obj) {
-                    return selectBox.toString(obj);
-                }
-            };
+            return new TextraListBox<>(selectBox.style.listStyle);
         }
 
         public void show (Stage stage) {
@@ -489,7 +485,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
             selectBox.localToStageCoordinates(stagePosition.set(0, 0));
 
             // Show the list above or below the select box, limited to a number of items and the available height in the stage.
-            float height = maxListCount <= 0 ? 0 : list.getYOfIndex(Math.min(maxListCount, selectBox.items.size - 1));
+            float height = list.getCumulativeHeight(maxListCount <= 0 ? selectBox.items.size - 1 : Math.min(maxListCount, selectBox.items.size) - 1);
             Drawable scrollPaneBackground = getStyle().background;
             if (scrollPaneBackground != null) height += scrollPaneBackground.getTopHeight() + scrollPaneBackground.getBottomHeight();
             Drawable listBackground = list.getStyle().background;
@@ -518,7 +514,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
 
             validate();
             scrollTo(0, list.getHeight() -
-                    list.getYOfIndex(selectBox.getSelectedIndex()) - selectBox.getSelected().getPrefHeight() * 0.5f,
+                    list.getCumulativeHeight(selectBox.getSelectedIndex()) - selectBox.getSelected().getPrefHeight() * 0.5f,
                     0, 0, true, true);
             updateVisualScroll();
 
