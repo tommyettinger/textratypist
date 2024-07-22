@@ -334,11 +334,12 @@ colors configured.
 Starting in the 0.4.0 release, there are various widgets that replace their
 scene2d.ui counterparts and swap out `Label` for `TextraLabel`, allowing you to use markup in them.
 The widgets are `ImageTextraButton`, `TextraButton`, `TextraCheckBox`, `TextraDialog`, `TextraLabel`,
-`TextraListBox`, `TextraTooltip`, and `TextraWindow`, at least, so far.
+`TextraListBox`, `TextraTooltip`, and `TextraWindow`, plus alternate versions of each that use a `TypingLabel` instead
+of a `TextraLabel` and have `Typing` in their names.
 
-Future additions to these widgets should permit setting the `TextraLabel` to a `TypingLabel` of your choice.
-While `TextArea` is not yet supported, `TextraLabel` defaults to supporting multiple lines, and may be able to stand-in
-for some usage. A counterpart to `TextArea` is planned.
+While `TextArea` is not yet supported a counterpart to `TextArea` is planned, and just hasn't worked yet.
+`TextraLabel` defaults to supporting multiple lines, and may be able to stand-in for some usage.
+`TypingLabel` permits input tracking, too, so you can use it to make selectable regions of text -- read on!
 
 ## What about my input?
 
@@ -353,9 +354,46 @@ to mouse hovering (`{ATTENTION}`, `{HIGHLIGHT}`, and `{STYLIST}`). These only wo
 so you may want to use a `TypingLabel` and call `skipToTheEnd()` to treat it like still text that happens to respond to
 user input and can use animated styles like `{RAINBOW}`.
 
+## What's this about compatibility?
+
+You can read in a normal scene2d.ui skin JSON file with a variant on libGDX's `Skin` class, `FWSkin` (or one of the
+classes that extends it), and doing that will load normal scene2d.ui styles and specialized TextraTypist styles. The
+specialized styles are typically only different in that they use `Font` instead of `BitmapFont`, and are all nested in
+the `Styles` class here. Having a specialized style means one Font can be reused in more places, without having to make
+many copies of a BitmapFont (one per widget, sometimes)... Which was the case before TextraTypist 1.0.0 . Typically,
+changing from Skin to FWSkin is straightforward. Code like this before:
+
+```java
+Skin skin = new Skin(Gdx.files.internal("my-skin.json"));
+```
+
+Would change to this after:
+
+```java
+FWSkin skin = new FWSkin(Gdx.files.internal("my-skin.json"));
+```
+
+You could also assign a `FWSkin` to a `Skin` variable, and this is the most compatible option, since your skin variable
+will just be a normal `Skin`. There are some convenience methods in `FWSkin` to handle distance field fonts a little
+more easily, though, so using `FWSkin` where possible is a good idea.
+
+Why is it called `FWSkin`, you wonder? Well, it can load both Font and BitmapFont instances from `.fnt` files (needing
+skin configuration only for `BitmapFont`), and can do the same for Structured JSON fonts, which here are usually created
+by [fontwriter](https://github.com/tommyettinger/fontwriter), or FW. The initial purpose of `FWSkin` was just to load
+from .fnt and .json/.dat font files equally well, but its scope expanded to include the new styles.
+
+If you're used to using [Stripe](https://github.com/raeleus/stripe), there's a drop-in replacement that does both what
+`FWSkin` does and the FreeType handling that Stripe does. This is the extra `FreeTypist` dependency. It allows
+configuring FreeType by having a `"com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator"` in your skin JSON,
+which is often produced by [Skin Composer](https://github.com/raeleus/skin-composer).
+You can get it via Gradle, but it's probably a better option to just copy in the two files from the
+`freetypist/src/main/java/com/github/tommyettinger/freetypist` folder into your own code. Regardless of how you depend
+on FreeTypist, it needs a dependency on FreeType and on TextraTypist (currently 1.0.0). When features are added to
+FWSkin and TextraTypist in general, FreeTypist should be updated also. 
+
 ## How do I get it?
 
-You probably want to get this with Gradle! The dependency for a libGDX project's core module looks like:
+You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
 implementation "com.github.tommyettinger:textratypist:1.0.0"
@@ -379,15 +417,17 @@ GWT also needs this in the GdxDefinition.gwt.xml file (since version 0.7.7):
 <inherits name="com.github.tommyettinger.textratypist" />
 ```
 
-In version 0.7.4 and earlier, you would an earlier version of both dependencies (note, **this is an old version**):
+~~In version 0.7.4 and earlier, you would an earlier version of both dependencies (note, **this is an old version**):~~
 
 ```groovy
+// OLD VERSION
 implementation "com.github.tommyettinger:textratypist:0.7.4:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
 ```
 
-use these GWT inherits instead:
+~~and would use these GWT inherits instead:~~
 ```xml
+<!-- OLD VERSION -->
 <inherits name="regexodus" />
 <inherits name="textratypist" />
 ```
@@ -410,6 +450,28 @@ implementation "com.github.tommyettinger.textratypist:textratypist:dc41592e94"
 (Note the extra "textratypist"; one refers to the repo, and one refers to the actual project inside the repo.)
 You can change `dc41592e94` to any commit in the Commits tab of https://jitpack.io/#tommyettinger/textratypist ,
 but you should not use `-SNAPSHOT` -- it can change without your requesting it to, which is not what you want!
+
+You can also depend on FreeTypist using:
+
+```groovy
+implementation "com.github.tommyettinger:freetypist:1.0.1"
+```
+
+(Yes, the version is different. FreeTypist 1.0.1 uses TextraTypist 1.0.0 .)
+
+And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
+
+```groovy
+implementation "com.github.tommyettinger:freetypist:1.0.1:sources"
+```
+
+And this inherits line:
+
+```xml
+<inherits name="com.github.tommyettinger.freetypist" />
+```
+
+FreeType doesn't work out-of-the-box on GWT, though [there is this](https://github.com/intrigus/gdx-freetype-gwt)].
 
 ## Why doesn't something work?
 
@@ -560,15 +622,15 @@ A possibly-frequent issue (with an easy fix) that may start occurring with versi
 now requires Java 8 or higher. All modern desktop OSes support Java 8, and this has been true for 9 years. Android has
 supported Java 8 (language level, though only some APIs) for several years, and older versions can use "desugaring" to
 translate more-recent Java code to be compatible with (much) older Android versions. GWT has supported language level 8
-for years, as well; 2.8.2, which libGDX is built with, allows using Java 8 features, and 2.10.0, which
+for years, as well; 2.8.2, which libGDX is built with, allows using Java 8 features, and 2.11.0, which
 [an alternate libGDX backend](https://github.com/tommyettinger/gdx-backends) supports, allows using even more. RoboVM
 doesn't support any new APIs added in Java 8, but it has supported language level 8 from the start. TextraTypist doesn't
 use any APIs from Java 8, but does now use functional interfaces and method references. Having these features allows us
 to remove some nasty reflection-based code, and that in turn helps usage on platforms where reflection is limited, such
 as GWT and Graal Native Image. GWT was able to work before, but Graal Native Image would have needed a lot of
 configuration to be added for every game/app that used TextraTypist. The other issue is that if TextraTypist continued
-to target Java 7 for its library code, it wouldn't compile with Java 20 or later, and the LTS release 21 is coming very
-soon.
+to target Java 7 for its library code, it wouldn't compile with Java 20 or later, and the LTS release 21 has been out
+for almost a year.
 
 ## License
 
