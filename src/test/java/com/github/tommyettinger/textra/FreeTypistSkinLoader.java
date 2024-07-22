@@ -20,7 +20,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
  * An {@link com.badlogic.gdx.assets.loaders.AssetLoader} to load a {@link FreeTypistSkin}. This enables you to

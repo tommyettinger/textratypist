@@ -160,24 +160,22 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		TextField textfield = new TextField("", skin);
 		textfield.setMessageText("Click here!");
 		textfield.setAlignment(Align.center);
-		final TextraSelectBox<TextraLabel> selectBox = new TextraSelectBox<>(skin);
+		final TextraSelectBox selectBox = new TextraSelectBox(skin);
 		selectBox.setAlignment(Align.right);
 		selectBox.getList().setAlignment(Align.right);
 		selectBox.getStyle().listStyle.selection.setRightWidth(20);
 		selectBox.getStyle().listStyle.selection.setLeftWidth(20);
+		// the three numbers push the emoji to the left a lot, up a little, and don't resize.
+		KnownFonts.addEmoji(selectBox.getStyle().font, -16f, -4f, 0f);
 		selectBox.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println(selectBox.getSelected());
 			}
 		});
-		String[] items = {"Android1", "Windows1 long text in item", "Linux1", "OSX1", "Android2", "Windows2", "Linux2", "OSX2",
-				"Android3", "Windows3", "Linux3", "OSX3", "Android4", "Windows4", "Linux4", "OSX4", "Android5", "Windows5", "Linux5",
-				"OSX5", "Android6", "Windows6", "Linux6", "OSX6", "Android7", "Windows7", "Linux7", "OSX7"};
-		TextraLabel[] labels = new TextraLabel[items.length];
-		for (int i = 0; i < items.length; i++) {
-			labels[i] = new TextraLabel(items[i], skin);
-		}
-		selectBox.setItems(labels);
+		String[] items = {"[+🤖]Android1", "[+🪟]Windows1 long text in item", "[+🐧]Linux1", "[+🍎]macOS1", "[+🤖]Android2", "[+🪟]Windows2", "[+🐧]Linux2", "[+🍎]macOS2",
+				"[+🤖]Android3", "[+🪟]Windows3", "[+🐧]Linux3", "[+🍎]macOS3", "[+🤖]Android4", "[+🪟]Windows4", "[+🐧]Linux4", "[+🍎]macOS4", "[+🤖]Android5", "[+🪟]Windows5", "[+🐧]Linux5",
+				"[+🍎]macOS5", "[+🤖]Android6", "[+🪟]Windows6", "[+🐧]Linux6", "[+🍎]macOS6", "[+🤖]Android7", "[+🪟]Windows7", "[+🐧]Linux7", "[+🍎]macOS7"};
+		selectBox.setItemTexts(items);
 		selectBox.setSelectedIndex(20);
 		selectBox.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {

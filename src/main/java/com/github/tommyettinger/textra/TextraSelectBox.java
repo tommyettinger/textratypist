@@ -36,19 +36,19 @@ import com.badlogic.gdx.utils.ObjectSet;
  * {@link Styles.SelectBoxStyle#background}.
  * @author mzechner
  * @author Nathan Sweet */
-public class TextraSelectBox<T extends TextraLabel> extends Widget implements Disableable {
+public class TextraSelectBox extends Widget implements Disableable {
     static final Vector2 temp = new Vector2();
 
     Styles.SelectBoxStyle style;
-    final Array<T> items = new Array<>();
-    SelectBoxScrollPane<T> scrollPane;
+    final Array<TextraLabel> items = new Array<>();
+    SelectBoxScrollPane scrollPane;
     private float prefWidth, prefHeight;
     private ClickListener clickListener;
     boolean disabled;
     private int alignment = Align.left;
     boolean selectedPrefWidth;
 
-    final ArraySelection<T> selection = new ArraySelection<T>(items) {
+    final ArraySelection<TextraLabel> selection = new ArraySelection<TextraLabel>(items) {
         public boolean fireChangeEvent () {
             if (selectedPrefWidth) invalidateHierarchy();
             return super.fireChangeEvent();
@@ -86,8 +86,8 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
     }
 
     /** Allows a subclass to customize the scroll pane shown when the select box is open. */
-    protected SelectBoxScrollPane<T> newScrollPane () {
-        return new SelectBoxScrollPane<>(this);
+    protected SelectBoxScrollPane newScrollPane () {
+        return new SelectBoxScrollPane(this);
     }
 
     /** Set the max number of items to display when the select box is opened. Set to 0 (the default) to display as many as fit in
@@ -123,8 +123,28 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
         return style;
     }
 
-    /** Set the backing Array that makes up the choices available in the SelectBox */
-    public void setItems (T... newItems) {
+    /**
+     * Sets the choices available in the SelectBox using an array or varargs of markup Strings.
+     * Marks up each String in {@code newMarkupTexts} as a TextraLabel and adds that label to the choices.
+     * @param newMarkupTexts an array or varargs of individual markup Strings, one per choice
+     */
+    public void setItemTexts (String... newMarkupTexts) {
+        if (newMarkupTexts == null) throw new IllegalArgumentException("newMarkupTexts cannot be null.");
+        float oldPrefWidth = getPrefWidth();
+
+        items.clear();
+        for (int i = 0; i < newMarkupTexts.length; i++) {
+            items.add(new TextraLabel(newMarkupTexts[i], style.font, style.fontColor));
+        }
+        selection.validate();
+        scrollPane.list.setItems(items);
+
+        invalidate();
+        if (oldPrefWidth != getPrefWidth()) invalidateHierarchy();
+    }
+
+    /** Set the backing Array that makes up the choices available in the SelectBox. */
+    public void setItems (TextraLabel... newItems) {
         if (newItems == null) throw new IllegalArgumentException("newItems cannot be null.");
         float oldPrefWidth = getPrefWidth();
 
@@ -138,7 +158,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
     }
 
     /** Sets the items visible in the select box. */
-    public void setItems (Array<T> newItems) {
+    public void setItems (Array<? extends TextraLabel> newItems) {
         if (newItems == null) throw new IllegalArgumentException("newItems cannot be null.");
         float oldPrefWidth = getPrefWidth();
 
@@ -162,7 +182,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
     }
 
     /** Returns the internal items array. If modified, {@link #setItems(Array)} must be called to reflect the changes. */
-    public Array<T> getItems () {
+    public Array<TextraLabel> getItems () {
         return items;
     }
 
@@ -179,14 +199,14 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
         if (selectedPrefWidth) {
             prefWidth = 0;
             if (bg != null) prefWidth = bg.getLeftWidth() + bg.getRightWidth();
-            T selected = getSelected();
+            TextraLabel selected = getSelected();
             if (selected != null) {
 //                selected.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth());
                 prefWidth += selected.font.calculateSize(selected.layout);
             }
         } else {
             float maxItemWidth = 0;
-            T item;
+            TextraLabel item;
             for (int i = 0; i < items.size; i++) {
                 item = items.get(i);
 //                item.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth());
@@ -237,7 +257,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
         batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         if (background != null) background.draw(batch, x, y, width, height);
 
-        T selected = selection.first();
+        TextraLabel selected = selection.first();
         if (selected != null) {
             if (background != null) {
                 width -= background.getLeftWidth() + background.getRightWidth();
@@ -252,7 +272,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
         }
     }
 
-    protected void drawItem (Batch batch, T item, float x, float y, float width) {
+    protected void drawItem (Batch batch, TextraLabel item, float x, float y, float width) {
         item.setEllipsis("...");
         item.setWrap(false);
         item.layout.setTargetWidth(width);
@@ -269,17 +289,17 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
 
     /** Get the set of selected items, useful when multiple items are selected
      * @return a Selection object containing the selected elements */
-    public ArraySelection<T> getSelection () {
+    public ArraySelection<TextraLabel> getSelection () {
         return selection;
     }
 
     /** Returns the first selected item, or null. For multiple selections use {@link com.badlogic.gdx.scenes.scene2d.ui.SelectBox#getSelection()}. */
-    public @Null T getSelected () {
+    public @Null TextraLabel getSelected () {
         return selection.first();
     }
 
     /** Sets the selection to only the passed item, if it is a possible choice, else selects the first item. */
-    public void setSelected (@Null T item) {
+    public void setSelected (@Null TextraLabel item) {
         if (items.contains(item, false))
             selection.set(item);
         else if (items.size > 0)
@@ -290,7 +310,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
 
     /** @return The index of the first selected item. The top item has an index of 0. Nothing selected has an index of -1. */
     public int getSelectedIndex () {
-        ObjectSet<T> selected = selection.items();
+        ObjectSet<TextraLabel> selected = selection.items();
         return selected.size == 0 ? -1 : items.indexOf(selected.first(), false);
     }
 
@@ -312,7 +332,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
      * {@link #setSelectedPrefWidth(boolean)} is true. */
     public float getMaxPrefWidth () {
         float width = 0;
-        T item;
+        TextraLabel item;
         for (int i = 0; i < items.size; i++) {
             item = items.get(i);
 //            item.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth());
@@ -342,7 +362,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
         return prefHeight;
     }
 
-    protected String toString (T item) {
+    protected String toString (TextraLabel item) {
         return item.toString();
     }
 
@@ -368,7 +388,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
     }
 
     /** Returns the list shown when the select box is open. */
-    public TextraListBox<T> getList () {
+    public TextraListBox<TextraLabel> getList () {
         return scrollPane.list;
     }
 
@@ -379,7 +399,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
     }
 
     /** Returns the scroll pane containing the list that is shown when the select box is open. */
-    public SelectBoxScrollPane<T> getScrollPane () {
+    public SelectBoxScrollPane getScrollPane () {
         return scrollPane;
     }
 
@@ -403,15 +423,15 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
 
     /** The scroll pane shown when a select box is open.
      * @author Nathan Sweet */
-    static public class SelectBoxScrollPane<T extends TextraLabel> extends ScrollPane {
-        final TextraSelectBox<T> selectBox;
+    static public class SelectBoxScrollPane extends ScrollPane {
+        final TextraSelectBox selectBox;
         int maxListCount;
         private final Vector2 stagePosition = new Vector2();
-        final TextraListBox<T> list;
+        final TextraListBox<TextraLabel> list;
         private InputListener hideListener;
         private Actor previousScrollFocus;
 
-        public SelectBoxScrollPane (final TextraSelectBox<T> selectBox) {
+        public SelectBoxScrollPane (final TextraSelectBox selectBox) {
             super(null, selectBox.style.scrollStyle);
             this.selectBox = selectBox;
 
@@ -426,7 +446,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
 
             list.addListener(new ClickListener() {
                 public void clicked (InputEvent event, float x, float y) {
-                    T selected = list.getSelected();
+                    TextraLabel selected = list.getSelected();
                     // Force clicking the already selected item to trigger a change event.
                     if (selected != null) selectBox.selection.items().clear(51);
                     selectBox.selection.choose(selected);
@@ -443,7 +463,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
             addListener(new InputListener() {
                 public void exit (InputEvent event, float x, float y, int pointer, @Null Actor toActor) {
                     if (toActor == null || !isAscendantOf(toActor)) {
-                        T selected = selectBox.getSelected();
+                        TextraLabel selected = selectBox.getSelected();
                         if (selected != null) list.getSelection().set(selected);
                     }
                 }
@@ -475,7 +495,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
         }
 
         /** Allows a subclass to customize the select box list. */
-        protected TextraListBox<T> newList () {
+        protected TextraListBox<TextraLabel> newList () {
             return new TextraListBox<>(selectBox.style.listStyle);
         }
 
@@ -570,11 +590,11 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
             super.setStage(stage);
         }
 
-        public TextraListBox<T> getList () {
+        public TextraListBox<TextraLabel> getList () {
             return list;
         }
 
-        public TextraSelectBox<T> getSelectBox () {
+        public TextraSelectBox getSelectBox () {
             return selectBox;
         }
     }

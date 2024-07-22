@@ -18,9 +18,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.github.tommyettinger.anim8.AnimatedGif;
 import com.github.tommyettinger.anim8.Dithered;
-import com.github.tommyettinger.anim8.FastPalette;
 import com.github.tommyettinger.anim8.QualityPalette;
-import com.github.tommyettinger.textra.utils.ColorUtils;
 
 import java.nio.ByteBuffer;
 

@@ -35,9 +35,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 public class MBTypingUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
@@ -111,7 +108,7 @@ public class MBTypingUITest extends InputAdapter implements ApplicationListener 
 		TextField textfield = new TextField("", skin);
 		textfield.setMessageText("Click here!");
 		textfield.setAlignment(Align.center);
-		final TextraSelectBox<TextraLabel> selectBox = new TextraSelectBox<>(skin);
+		final TextraSelectBox selectBox = new TextraSelectBox(skin);
 		selectBox.setAlignment(Align.right);
 		selectBox.getList().setAlignment(Align.right);
 		selectBox.getStyle().listStyle.selection.setRightWidth(10);
