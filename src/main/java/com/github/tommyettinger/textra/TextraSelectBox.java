@@ -134,7 +134,7 @@ public class TextraSelectBox extends Widget implements Disableable {
 
         items.clear();
         for (int i = 0; i < newMarkupTexts.length; i++) {
-            items.add(new TextraLabel(newMarkupTexts[i], style.font, style.fontColor));
+            items.add(newLabel(newMarkupTexts[i], style.font, style.fontColor));
         }
         selection.validate();
         scrollPane.list.setItems(items);
@@ -276,7 +276,7 @@ public class TextraSelectBox extends Widget implements Disableable {
         item.setEllipsis("...");
         item.setWrap(false);
         item.layout.setTargetWidth(width);
-        item.setPosition(x, y, alignment);
+        item.setPosition(x, y, Align.left);
         item.draw(batch, 1f);
     }
 
@@ -421,9 +421,13 @@ public class TextraSelectBox extends Widget implements Disableable {
         scrollPane.addAction(sequence(fadeOut(0.15f, Interpolation.fade), removeActor()));
     }
 
+    protected TextraLabel newLabel(String markupText, Font font, Color color) {
+        return new TextraLabel(markupText, font, color);
+    }
+
     /** The scroll pane shown when a select box is open.
      * @author Nathan Sweet */
-    static public class SelectBoxScrollPane extends ScrollPane {
+    public static class SelectBoxScrollPane extends ScrollPane {
         final TextraSelectBox selectBox;
         int maxListCount;
         private final Vector2 stagePosition = new Vector2();

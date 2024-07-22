@@ -126,7 +126,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		TextField textfield = new TextField("", skin);
 		textfield.setMessageText("Click here!");
 		textfield.setAlignment(Align.center);
-		final SelectBox<String> selectBox = new SelectBox<>(skin);
+		final TypingSelectBox selectBox = new TypingSelectBox(skin);
 		selectBox.setAlignment(Align.right);
 		selectBox.getList().setAlignment(Align.right);
 		selectBox.getStyle().listStyle.selection.setRightWidth(10);
@@ -136,10 +136,13 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 				System.out.println(selectBox.getSelected());
 			}
 		});
-		selectBox.setItems("Android1", "Windows1 long text in item", "Linux1", "OSX1", "Android2", "Windows2", "Linux2", "OSX2",
-			"Android3", "Windows3", "Linux3", "OSX3", "Android4", "Windows4", "Linux4", "OSX4", "Android5", "Windows5", "Linux5",
-			"OSX5", "Android6", "Windows6", "Linux6", "OSX6", "Android7", "Windows7", "Linux7", "OSX7");
-		selectBox.setSelected("Linux6");
+		// the three numbers push the emoji to the left a lot, down a little, and shrink a lot.
+		KnownFonts.addEmoji(selectBox.getStyle().font, -24f, 2f, 12f);
+		String[] items = {"[+🤖]Android1", "[+🪟]Windows1 long text in item", "[+🐧]Linux1", "[+🍎]macOS1", "[+🤖]Android2", "[+🪟]Windows2", "[+🐧]Linux2", "[+🍎]macOS2",
+				"[+🤖]Android3", "[+🪟]Windows3", "[+🐧]Linux3", "[+🍎]macOS3", "[+🤖]Android4", "[+🪟]Windows4", "[+🐧]Linux4", "[+🍎]macOS4", "[+🤖]Android5", "[+🪟]Windows5", "[+🐧]Linux5",
+				"[+🍎]macOS5", "[+🤖]Android6", "[+🪟]Windows6", "[+🐧]Linux6", "[+🍎]macOS6", "[+🤖]Android7", "[+🪟]Windows7", "[+🐧]Linux7", "[+🍎]macOS7"};
+		selectBox.setItemTexts(items);
+		selectBox.setSelectedIndex(20);
 		Image imageActor = new Image(image2);
 		ScrollPane scrollPane = new ScrollPane(imageActor);
 		List<String> list = new List<>(skin);
@@ -193,7 +196,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		window.add(checkBox);
 		window.add(slider).minWidth(100).fillX().colspan(3);
 		window.row();
-		window.add(selectBox).maxWidth(100);
+		window.add(selectBox).maxWidth(300);
 		window.add(textfield).minWidth(100).expandX().fillX().colspan(3);
 		window.row();
 		window.add(splitPane).fill().expand().colspan(4).maxHeight(200);

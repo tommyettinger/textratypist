@@ -500,7 +500,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		return keys2;
 	}
 
-	static public class Entry {
+	public static class Entry {
 		public String key;
 		public int value;
 
@@ -561,7 +561,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		}
 	}
 
-	static public class Entries extends MapIterator implements Iterable<Entry>, Iterator<Entry> {
+	public static class Entries extends MapIterator implements Iterable<Entry>, Iterator<Entry> {
 		Entry entry = new Entry();
 
 		public Entries (CaseInsensitiveIntMap map) {
@@ -590,7 +590,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		}
 	}
 
-	static public class Values extends MapIterator {
+	public static class Values extends MapIterator {
 		public Values (CaseInsensitiveIntMap map) {
 			super(map);
 		}
@@ -629,7 +629,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		}
 	}
 
-	static public class Keys extends MapIterator implements Iterable<String>, Iterator<String> {
+	public static class Keys extends MapIterator implements Iterable<String>, Iterator<String> {
 		public Keys (CaseInsensitiveIntMap map) {
 			super(map);
 		}
