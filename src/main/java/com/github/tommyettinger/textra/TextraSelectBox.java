@@ -181,12 +181,16 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
             if (bg != null) prefWidth = bg.getLeftWidth() + bg.getRightWidth();
             T selected = getSelected();
             if (selected != null) {
+//                selected.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth());
                 prefWidth += selected.font.calculateSize(selected.layout);
             }
         } else {
             float maxItemWidth = 0;
+            T item;
             for (int i = 0; i < items.size; i++) {
-                maxItemWidth = Math.max(items.get(i).font.calculateSize(items.get(i).layout), maxItemWidth);
+                item = items.get(i);
+//                item.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth());
+                maxItemWidth = Math.max(item.font.calculateSize(item.layout), maxItemWidth);
             }
 
             prefWidth = maxItemWidth;
@@ -306,12 +310,13 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
 
     /** Returns the pref width of the select box if the widest item was selected, for use when
      * {@link #setSelectedPrefWidth(boolean)} is true. */
-    public float getMaxSelectedPrefWidth () {
+    public float getMaxPrefWidth () {
         float width = 0;
-        Layout layout = new Layout();
+        T item;
         for (int i = 0; i < items.size; i++) {
-            style.font.markup(toString(items.get(i)), layout.clear());
-            width = Math.max(style.font.calculateSize(layout), width);
+            item = items.get(i);
+//            item.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth());
+            width = Math.max(item.font.calculateSize(item.layout), width);
         }
         Drawable bg = style.background;
         if (bg != null) width = Math.max(width + bg.getLeftWidth() + bg.getRightWidth(), bg.getMinWidth());
@@ -469,8 +474,7 @@ public class TextraSelectBox<T extends TextraLabel> extends Widget implements Di
             };
         }
 
-        /** Allows a subclass to customize the select box list. The default implementation returns a list that delegates
-         * {@link TextraListBox#toString()}  to {@link TextraSelectBox#toString(TextraLabel)} . */
+        /** Allows a subclass to customize the select box list. */
         protected TextraListBox<T> newList () {
             return new TextraListBox<>(selectBox.style.listStyle);
         }
