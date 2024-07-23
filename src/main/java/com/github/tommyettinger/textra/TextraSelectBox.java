@@ -276,7 +276,7 @@ public class TextraSelectBox extends Widget implements Disableable {
         item.setEllipsis("...");
         item.setWrap(false);
         item.layout.setTargetWidth(width);
-        item.setPosition(x, y, Align.left);
+        item.setPosition(x, y);
         item.draw(batch, 1f);
     }
 

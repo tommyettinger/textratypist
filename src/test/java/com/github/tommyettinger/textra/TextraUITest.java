@@ -163,6 +163,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		final TextraSelectBox selectBox = new TextraSelectBox(skin);
 		selectBox.setAlignment(Align.right);
 		selectBox.getList().setAlignment(Align.right);
+		selectBox.getStyle().font = font;
 		selectBox.getStyle().listStyle.selection.setRightWidth(20);
 		selectBox.getStyle().listStyle.selection.setLeftWidth(20);
 		selectBox.addListener(new ChangeListener() {

@@ -129,6 +129,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		final TypingSelectBox selectBox = new TypingSelectBox(skin);
 		selectBox.setAlignment(Align.right);
 		selectBox.getList().setAlignment(Align.right);
+		selectBox.getStyle().font = font;
 		selectBox.getStyle().listStyle.selection.setRightWidth(10);
 		selectBox.getStyle().listStyle.selection.setLeftWidth(20);
 		selectBox.addListener(new ChangeListener() {
