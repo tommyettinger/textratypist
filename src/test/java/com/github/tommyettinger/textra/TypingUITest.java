@@ -146,8 +146,12 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		selectBox.setSelectedIndex(20);
 		Image imageActor = new Image(image2);
 		ScrollPane scrollPane = new ScrollPane(imageActor);
-		List<String> list = new List<>(skin);
-		list.setItems(listEntries);
+		TypingListBox<TypingLabel> list = new TypingListBox<>(skin);
+		TypingLabel[] listEntryLabels = new TypingLabel[listEntries.length];
+		for (int i = 0; i < listEntries.length; i++) {
+			listEntryLabels[i] = new TypingLabel(listEntries[i], font);
+		}
+		list.setItems(listEntryLabels);
 		list.getSelection().setMultiple(true);
 		list.getSelection().setRequired(false);
 		// list.getSelection().setToggle(true);

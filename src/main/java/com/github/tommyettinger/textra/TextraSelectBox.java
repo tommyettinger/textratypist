@@ -272,11 +272,20 @@ public class TextraSelectBox extends Widget implements Disableable {
         }
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        TextraLabel selected = selection.first();
+        if (selected != null){
+            selected.act(delta);
+        }
+    }
+
     protected void drawItem (Batch batch, TextraLabel item, float x, float y, float width) {
         item.setEllipsis("...");
         item.setWrap(false);
         item.layout.setTargetWidth(width);
-        item.setPosition(x, y);
+        item.setBounds(x, y, width, item.getHeight());
         item.draw(batch, 1f);
     }
 
