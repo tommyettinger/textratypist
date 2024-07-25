@@ -86,9 +86,14 @@ public class GameIconTypingLabelTest extends ApplicationAdapter {
 //                        + "But... {SICK}U. Nitty{ENDSICK} doesn't."
 //                        + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
 
+//                "I love TextraTypist! [@Icons][+keyboard] [gold][+saxophone]{HEARTBEAT}[deep pink][+heart-wings] OMG! [+heart-wings]{ENDHEARTBEAT}[rich apricot][+party-popper][white][@]\n"
+//                + "But...{SICK}[_][+⛎][_]. Nitty{ENDSICK} {CROWD}doesn't. [+🤮] [@Icons][#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}\n"
+//                + "\n{RAINBOW}[+pineapple][+raccoon-head][+pterodactylus][+raised-fist][+wolf-howl][+western-hat][@][%]\n"
+
                 "[%?blacken]I love TextraTypist! [@Icons][+keyboard] [gold][+saxophone]{HEARTBEAT}[deep pink][+heart-wings] OMG! [+heart-wings]{ENDHEARTBEAT}[rich apricot][+party-popper][white][@]\n"
                 + "But...{SICK}[_][+⛎][_]. Nitty{ENDSICK} {CROWD}doesn't. [+🤮] [@Icons][#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}\n"
                 + "\n{RAINBOW}[+pineapple][+raccoon-head][+pterodactylus][+raised-fist][+wolf-howl][+western-hat][@][%]\n"
+
 //                + "Scale testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go![]\n"
                 ,
 //

@@ -4686,8 +4686,14 @@ public class Font implements Disposable {
 
         // These may need to be changed to use some other way of getting a screen pixel's size in world units.
         // They might actually be 1.5 or 2 pixels; it's hard to tell when a texture with alpha is drawn over an area.
-        float xPx = 2f / (Gdx.graphics.getBackBufferWidth()  * batch.getProjectionMatrix().val[0]);
-        float yPx = 2f / (Gdx.graphics.getBackBufferHeight() * batch.getProjectionMatrix().val[5]);
+
+        // This is used in 1.0.0, and it might be more correct... I'm not sure.
+//        float xPx = 2f / (Gdx.graphics.getBackBufferWidth()  * batch.getProjectionMatrix().val[0]);
+//        float yPx = 2f / (Gdx.graphics.getBackBufferHeight() * batch.getProjectionMatrix().val[5]);
+
+        // This might be more correct for some fonts, or less for others; I don't know yet.
+        float xPx = 0.125f * font.originalCellWidth / font.cellWidth ;
+        float yPx = 0.125f * font.originalCellHeight / font.cellHeight;
 
         float u, v, u2, v2;
         u = tr.getU();
@@ -4856,6 +4862,7 @@ public class Font implements Disposable {
             vertices[7] = outline;
             vertices[12] = outline;
             vertices[17] = outline;
+//            System.out.println("blackening " + c + " , xPx is " + xPx + " , yPx is " + yPx);
             int widthAdj = ((glyph & BOLD) != 0L) ? 2 : 1;
             for (int xi = -widthAdj; xi <= widthAdj; xi++) {
                 float xa = xi * xPx;
