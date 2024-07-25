@@ -4688,12 +4688,11 @@ public class Font implements Disposable {
         // They might actually be 1.5 or 2 pixels; it's hard to tell when a texture with alpha is drawn over an area.
 
         // This is used in 1.0.0, and it might be more correct... I'm not sure.
-//        float xPx = 2f / (Gdx.graphics.getBackBufferWidth()  * batch.getProjectionMatrix().val[0]);
-//        float yPx = 2f / (Gdx.graphics.getBackBufferHeight() * batch.getProjectionMatrix().val[5]);
+        float xPx = 2f / (Gdx.graphics.getBackBufferWidth()  * batch.getProjectionMatrix().val[0]);
+        float yPx = 2f / (Gdx.graphics.getBackBufferHeight() * batch.getProjectionMatrix().val[5]);
 
-        // This might be more correct for some fonts, or less for others; I don't know yet.
-        float xPx = 0.125f * font.originalCellWidth / font.cellWidth ;
-        float yPx = 0.125f * font.originalCellHeight / font.cellHeight;
+        float xOutline = 0.25f * font.originalCellWidth / font.cellWidth ;
+        float yOutline = 0.25f * font.originalCellHeight / font.cellHeight;
 
         float u, v, u2, v2;
         u = tr.getU();
@@ -4865,11 +4864,11 @@ public class Font implements Disposable {
 //            System.out.println("blackening " + c + " , xPx is " + xPx + " , yPx is " + yPx);
             int widthAdj = ((glyph & BOLD) != 0L) ? 2 : 1;
             for (int xi = -widthAdj; xi <= widthAdj; xi++) {
-                float xa = xi * xPx;
+                float xa = xi * xOutline;
                 if(widthAdj == 2 && (xi > 0 || boldStrength >= 1f)) xa *= boldStrength;
                 for (int yi = -1; yi <= 1; yi++) {
                     if(xi == 0 && yi == 0) continue;
-                    float ya = yi * yPx;
+                    float ya = yi * yOutline;
 //                    vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
 //                    vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
                     vertices[15] = (vertices[0] = font.handleIntegerPosition(x + cos * p0x - sin * p0y + xa)) - (vertices[5] = font.handleIntegerPosition(x + cos * p1x - sin * p1y + xa)) + (vertices[10] = font.handleIntegerPosition(x + cos * p2x - sin * p2y + xa));
@@ -4887,9 +4886,9 @@ public class Font implements Disposable {
             vertices[17] = shine;
             int widthAdj = ((glyph & BOLD) != 0L) ? 1 : 0;
             for (int xi = -widthAdj; xi <= widthAdj; xi++) {
-                float xa = xi * xPx;
+                float xa = xi * xOutline;
                 if(widthAdj == 1 && (xi > 0 || boldStrength >= 1f)) xa *= boldStrength;
-                float ya = 1.5f * yPx;
+                float ya = 1.5f * yOutline;
                 vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
                 vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
 
