@@ -73,8 +73,8 @@ public class MinimalGridTest extends ApplicationAdapter {
         Font inconsolata = KnownFonts.addEmoji(KnownFonts.getInconsolata(Font.DistanceFieldType.MSDF));
 
 //        varWidthFont = KnownFonts.getGentium();
-        varWidthFont = KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF);
-        varWidthFont.scaleHeightTo(30f);
+        varWidthFont = KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF)
+                .scaleHeightTo(30f).setOutlineStrength(1.5f);
 //        iosevka.adjustCellWidth(0.5f);
 //        iosevka.originalCellHeight *= 0.5f;
 //        iosevka.cellHeight *= 0.5f;
@@ -87,12 +87,12 @@ public class MinimalGridTest extends ApplicationAdapter {
 
 
         //use Ă to test glyph height
-        emojiGlyph = new GlyphActor("[_][~][+😁]", gg.font);
-        atGlyph = new GlyphActor("[red orange][~][_]@", gg.font);
+        emojiGlyph = new GlyphActor("[_][~][%?blacken][+😁]", gg.font);
+        atGlyph = new GlyphActor("[red orange][~][_][%?blacken]@", gg.font);
         usedGlyph = atGlyph;
         gg.addActor(usedGlyph);
-        emojiGlyph2 = new GlyphActor("[_][~][+😁]", inconsolata);
-        atGlyph2 = new GlyphActor("[red orange][~][_]@", inconsolata);
+        emojiGlyph2 = new GlyphActor("[_][~][%?blacken][+😁]", inconsolata);
+        atGlyph2 = new GlyphActor("[red orange][~][_][%?blacken]@", inconsolata);
         usedGlyph2 = atGlyph2;
         gg.addActor(usedGlyph2);
 

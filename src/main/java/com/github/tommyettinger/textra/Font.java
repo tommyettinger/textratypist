@@ -663,6 +663,15 @@ public class Font implements Disposable {
     public float boldStrength = 1f;
 
     /**
+     * A multiplier that applies to the distance the "blacken" and "whiten" outlines will stretch away from the original
+     * glyph edge. The outline effects are achieved here by drawing the same GlyphRegion multiple times, in a grid of
+     * duplicate draws each a small distance apart. By reducing outlineStrength to between 0.0 and 1.0, you can reduce
+     * the thickness of outlines at large font sizes, or by increasing outlineStrength above 1.0, you can make the
+     * outlines more visible with smaller font sizes.
+     */
+    public float outlineStrength = 1f;
+
+    /**
      * When {@code makeGridGlyphs} is passed as true to a constructor here, box drawing and other block elements will be
      * drawn using a solid block GlyphRegion that is stretched and moved to form various lines and blocks. Setting this
      * field to something other than 1 affects how wide the lines are for box drawing characters only; this is acts as a
@@ -1309,6 +1318,7 @@ public class Font implements Disposable {
 
         boldStrength = toCopy.boldStrength;
         obliqueStrength = toCopy.obliqueStrength;
+        outlineStrength = toCopy.outlineStrength;
         underX = toCopy.underX;
         underY = toCopy.underY;
         underLength = toCopy.underLength;
@@ -2963,6 +2973,15 @@ public class Font implements Disposable {
         return this;
     }
 
+    public float getOutlineStrength() {
+        return outlineStrength;
+    }
+
+    public Font setOutlineStrength(float outlineStrength) {
+        this.outlineStrength = outlineStrength;
+        return this;
+    }
+
     /**
      * When {@code makeGridGlyphs} is passed as true to a constructor here, box drawing and other block elements will be
      * drawn using a solid block GlyphRegion that is stretched and moved to form various lines and blocks. Setting this
@@ -2984,9 +3003,11 @@ public class Font implements Disposable {
      * cell across. Thick lines such as those in {@code ┏} are 0.2f of a cell across. Double lines such as those in
      * {@code ╔} are two normal lines, 0.1f of a cell apart; double lines are not affected by this field.
      * @param boxDrawingBreadth the new float value to use for the box drawing breadth multiplier
+     * @return this, for chaining
      */
-    public void setBoxDrawingBreadth(float boxDrawingBreadth) {
+    public Font setBoxDrawingBreadth(float boxDrawingBreadth) {
         this.boxDrawingBreadth = boxDrawingBreadth;
+        return this;
     }
 
     /**
@@ -4691,8 +4712,8 @@ public class Font implements Disposable {
         float xPx = 2f / (Gdx.graphics.getBackBufferWidth()  * batch.getProjectionMatrix().val[0]);
         float yPx = 2f / (Gdx.graphics.getBackBufferHeight() * batch.getProjectionMatrix().val[5]);
 
-        float xOutline = 0.25f * font.originalCellWidth / font.cellWidth ;
-        float yOutline = 0.25f * font.originalCellHeight / font.cellHeight;
+        float xOutline = (outlineStrength * xPx);
+        float yOutline = (outlineStrength * yPx);
 
         float u, v, u2, v2;
         u = tr.getU();
@@ -7282,6 +7303,7 @@ public class Font implements Disposable {
                 ", integerPosition=" + integerPosition +
                 ", obliqueStrength=" + obliqueStrength +
                 ", boldStrength=" + boldStrength +
+                ", outlineStrength=" + outlineStrength +
                 ", name='" + name + '\'' +
                 ", PACKED_BLACK=" + PACKED_BLACK +
                 ", PACKED_WHITE=" + PACKED_WHITE +
