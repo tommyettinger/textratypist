@@ -597,7 +597,8 @@ public class TextraLabel extends Widget {
     /**
      * By default, does nothing; this is overridden in TypingLabel to skip its text progression ahead.
      */
-    public void skipToTheEnd() {
+    public TextraLabel skipToTheEnd() {
+        return this;
     }
 
     @Override

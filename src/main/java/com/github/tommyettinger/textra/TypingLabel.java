@@ -406,25 +406,27 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Skips the char progression to the end, showing the entire label. Useful for when users don't want to wait for too
-     * long. Ignores all subsequent events by default.
+     * long. Ignores all subsequent events by default. Doesn't change running effects.
      * This calls {@link #act(float)} with a delta of {@link Float#MIN_VALUE}, which allows the text to be skipped
      * ahead without noticeably changing anything time-based.
+     * @return this, for chaining
      */
     @Override
-    public void skipToTheEnd() {
-        skipToTheEnd(true);
+    public TypingLabel skipToTheEnd() {
+        return skipToTheEnd(true);
     }
 
     /**
      * Skips the char progression to the end, showing the entire label. Useful for when users don't want to wait for too
-     * long.
+     * long. This doesn't change running effects.
      * This calls {@link #act(float)} with a delta of {@link Float#MIN_VALUE}, which allows the text to be skipped
      * ahead without noticeably changing anything time-based.
      *
      * @param ignoreEvents If {@code true}, skipped events won't be reported to the listener.
+     * @return this, for chaining
      */
-    public void skipToTheEnd(boolean ignoreEvents) {
-        skipToTheEnd(ignoreEvents, false);
+    public TypingLabel skipToTheEnd(boolean ignoreEvents) {
+        return skipToTheEnd(ignoreEvents, false);
     }
 
     /**
@@ -435,12 +437,14 @@ public class TypingLabel extends TextraLabel {
      *
      * @param ignoreEvents  If {@code true}, skipped events won't be reported to the listener.
      * @param ignoreEffects If {@code true}, all text effects will be instantly cancelled.
+     * @return this, for chaining
      */
-    public void skipToTheEnd(boolean ignoreEvents, boolean ignoreEffects) {
+    public TypingLabel skipToTheEnd(boolean ignoreEvents, boolean ignoreEffects) {
         skipping = true;
         ignoringEvents = ignoreEvents;
         ignoringEffects = ignoreEffects;
         act(Float.MIN_VALUE);
+        return this;
     }
 
     /**
