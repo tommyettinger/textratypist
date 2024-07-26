@@ -32,7 +32,15 @@ import static com.github.tommyettinger.textra.Font.ALTERNATE;
 
 /**
  * A scene2d.ui Widget that displays text using a {@link Font} rather than a libGDX BitmapFont. This supports being
- * laid out in a Table just like the typical Label (when {@link #isWrap() wrap} is false, which is the default).
+ * laid out in a Table just like the typical Label (when {@link #isWrap() wrap} is false, which is the default). This
+ * permits square-bracket tag markup from Font, such as {@code [light blue]} to change the font color, or {@code [_]} to
+ * underline text. It does not support the curly-brace token markup that its subclass {@link TypingLabel} does, nor does
+ * this handle input in the way TypingLabel can. It also, naturally, doesn't have the typing effect TypingLabel does,
+ * which makes this more suitable for some kinds of text. TypingLabel can be told to immediately
+ * {@link TypingLabel#skipToTheEnd()}, which does make it look like a TextraLabel, but permits effects.
+ * <br>
+ * This is meant to work with {@link FWSkin} or one of its subclasses, such as {@code FreeTypistSkin}, and isn't
+ * guaranteed to work with a regular {@link Skin}. FWSkin can load the same JSON files Skin uses, and it extends Skin.
  */
 public class TextraLabel extends Widget {
     public Layout layout;
@@ -59,9 +67,11 @@ public class TextraLabel extends Widget {
 
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the specified Skin's LabelStyle.
+     * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
      *
      * @param text the text to use; may be multi-line, but will default to not wrapping
-     * @param skin the default Styles.LabelStyle will be obtained from this and used
+     * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
+     *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered as "default"
      */
     public TextraLabel(String text, Skin skin) {
         this(text, skin.get(Styles.LabelStyle.class));
@@ -69,11 +79,12 @@ public class TextraLabel extends Widget {
 
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the specified Skin's LabelStyle.
+     * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
      *
      * @param text           the text to use; may be multi-line, but will default to not wrapping
-     * @param skin           the default Styles.LabelStyle will be obtained from this and used
-     * @param makeGridGlyphs if true, the font should have a solid block glyph available, and underline/strikethrough
-     *                       may be drawn more clearly; if false, underline/strikethrough will use underscore/dash
+     * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
+     *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered as "default"
+     * @param makeGridGlyphs currently ignored
      */
     public TextraLabel(String text, Skin skin, boolean makeGridGlyphs) {
         this(text, skin.get(Styles.LabelStyle.class), makeGridGlyphs);
@@ -81,10 +92,11 @@ public class TextraLabel extends Widget {
 
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the specified style from the given
-     * Skin.
+     * Skin. The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
      *
      * @param text      the text to use; may be multi-line, but will default to not wrapping
-     * @param skin      the named Styles.LabelStyle will be obtained from this and used
+     * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
+     *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered with the given styleName
      * @param styleName the name of a Styles.LabelStyle to use from the Skin
      */
     public TextraLabel(String text, Skin skin, String styleName) {
@@ -93,13 +105,13 @@ public class TextraLabel extends Widget {
 
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the specified style from the given
-     * Skin.
+     * Skin. The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
      *
      * @param text           the text to use; may be multi-line, but will default to not wrapping
-     * @param skin           the named Styles.LabelStyle will be obtained from this and used
+     * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
+     *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered with the given styleName
      * @param styleName      the name of a Styles.LabelStyle to use from the Skin
-     * @param makeGridGlyphs if true, the font should have a solid block glyph available, and underline/strikethrough
-     *                       may be drawn more clearly; if false, underline/strikethrough will use underscore/dash
+     * @param makeGridGlyphs currently ignored
      */
     public TextraLabel(String text, Skin skin, String styleName, boolean makeGridGlyphs) {
         this(text, skin.get(styleName, Styles.LabelStyle.class), makeGridGlyphs);
@@ -108,9 +120,11 @@ public class TextraLabel extends Widget {
     /**
      * Creates a TextraLabel with the given text (which may be multi-line), using the specified style from the given
      * Skin, with the default Color overridden by the given one.
+     * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
      *
      * @param text      the text to use; may be multi-line, but will default to not wrapping
-     * @param skin      the named Styles.LabelStyle will be obtained from this and used
+     * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
+     *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered with the given styleName
      * @param styleName the name of a Styles.LabelStyle to use from the Skin
      * @param color     the color to use for the font when unspecified (at the start and when reset)
      */
@@ -122,9 +136,11 @@ public class TextraLabel extends Widget {
     /**
      * Creates a TextraLabel with the given text (which may be multi-line), using the specified style from the given
      * Skin, with the default Color overridden by the color with the given name in the skin.
+     * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
      *
      * @param text      the text to use; may be multi-line, but will default to not wrapping
-     * @param skin      the named Styles.LabelStyle will be obtained from this and used
+     * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
+     *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered with the given styleName
      * @param styleName the name of a Styles.LabelStyle to use from the Skin
      * @param colorName the name in the skin of the color to use for the font when unspecified (at the start and when reset)
      */
@@ -135,7 +151,8 @@ public class TextraLabel extends Widget {
     }
 
     /**
-     * Creates a TextraLabel with the given text (which may be multi-line) and using the given style.
+     * Creates a TextraLabel with the given text (which may be multi-line) and using the given style. This does not
+     * require a Skin to be available.
      *
      * @param text  the text to use; may be multi-line, but will default to not wrapping
      * @param style the Styles.LabelStyle to use
@@ -145,7 +162,8 @@ public class TextraLabel extends Widget {
     }
 
     /**
-     * Creates a TextraLabel with the given text (which may be multi-line) and using the given style.
+     * Creates a TextraLabel with the given text (which may be multi-line) and using the given style. This does not
+     * require a Skin to be available.
      *
      * @param text           the text to use; may be multi-line, but will default to not wrapping
      * @param style          the Styles.LabelStyle to use
@@ -158,6 +176,7 @@ public class TextraLabel extends Widget {
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the default style from
      * a Skin, replacing any font that would be drawn from the style with {@code replacementFont}.
+     * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
      *
      * @param text            the text to use; may be multi-line, but will default to not wrapping
      * @param skin            the default Styles.LabelStyle will be obtained from this and used
@@ -170,9 +189,11 @@ public class TextraLabel extends Widget {
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the given style taken by name from
      * a Skin, replacing any font that would be drawn from the style with {@code replacementFont}.
+     * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
      *
      * @param text            the text to use; may be multi-line, but will default to not wrapping
-     * @param skin            the named Styles.LabelStyle will be obtained from this and used
+     * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
+     *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered with the given styleName
      * @param styleName       the name of a Styles.LabelStyle to use from the Skin
      * @param replacementFont a Font that will be used in place of the one in style
      */
@@ -183,9 +204,11 @@ public class TextraLabel extends Widget {
     /**
      * Creates a TextraLabel with the given text (which may be multi-line) and using the given style taken by name from
      * a Skin, replacing any font that would be drawn from the style with {@code replacementFont}.
+     * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
      *
      * @param text            the text to use; may be multi-line, but will default to not wrapping
-     * @param skin            the named Styles.LabelStyle will be obtained from this and used
+     * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
+     *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered with the given styleName
      * @param styleName       the name of a Styles.LabelStyle to use from the Skin
      * @param replacementFont a Font that will be used in place of the one in style
      * @param color           the base color to use for the label, used when reset
@@ -196,7 +219,8 @@ public class TextraLabel extends Widget {
     }
 
     /**
-     * Creates a TextraLabel with the given text (which may be multi-line) and using the given style.
+     * Creates a TextraLabel with the given text (which may be multi-line) and using the given style. This does not
+     * require a Skin to be available.
      *
      * @param text            the text to use; may be multi-line, but will default to not wrapping
      * @param style           the Styles.LabelStyle to use, except for its font
@@ -212,7 +236,8 @@ public class TextraLabel extends Widget {
     }
 
     /**
-     * Creates a TextraLabel with the given text (which may be multi-line) and using the given Font.
+     * Creates a TextraLabel with the given text (which may be multi-line) and using the given Font. This does not
+     * require a Skin to be available.
      *
      * @param text the text to use; may be multi-line, but will default to not wrapping
      * @param font a Font from this library, such as one obtained from {@link KnownFonts}
@@ -227,7 +252,7 @@ public class TextraLabel extends Widget {
 
     /**
      * Creates a TextraLabel with the given text (which may be multi-line), using the given Font, and using the given
-     * default color.
+     * default color. This does not require a Skin to be available.
      *
      * @param text  the text to use; may be multi-line, but will default to not wrapping
      * @param font  a Font from this library, such as one obtained from {@link KnownFonts}

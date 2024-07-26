@@ -21,7 +21,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
@@ -157,7 +156,8 @@ public class TypingLabel extends TextraLabel {
     /**
      * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
      * @param text markup text that can contain square-bracket tags and curly-brace tokens
-     * @param skin almost always an {@link FWSkin} or one of its subclasses
+     * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
+     *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered as "default"
      */
     public TypingLabel(String text, Skin skin) {
         this(text, skin.get(Styles.LabelStyle.class));
@@ -166,7 +166,8 @@ public class TypingLabel extends TextraLabel {
     /**
      * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
      * @param text markup text that can contain square-bracket tags and curly-brace tokens
-     * @param skin almost always an {@link FWSkin} or one of its subclasses
+     * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
+     *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered as "default"
      * @param replacementFont will be used instead of the Font loaded from skin
      */
     public TypingLabel(String text, Skin skin, Font replacementFont) {
@@ -176,7 +177,8 @@ public class TypingLabel extends TextraLabel {
     /**
      * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
      * @param text markup text that can contain square-bracket tags and curly-brace tokens
-     * @param skin almost always an {@link FWSkin} or one of its subclasses
+     * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
+     *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered with the given styleName
      * @param styleName the name of the {@link Styles.LabelStyle} to load from skin
      */
     public TypingLabel(String text, Skin skin, String styleName) {
@@ -186,7 +188,8 @@ public class TypingLabel extends TextraLabel {
     /**
      * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
      * @param text markup text that can contain square-bracket tags and curly-brace tokens
-     * @param skin almost always an {@link FWSkin} or one of its subclasses
+     * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
+     *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered with the given styleName
      * @param styleName the name of the {@link Styles.LabelStyle} to load from skin
      * @param replacementFont will be used instead of the Font loaded from skin
      */
