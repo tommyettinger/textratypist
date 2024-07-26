@@ -41,8 +41,17 @@ import java.util.Map;
 import static com.github.tommyettinger.textra.Font.ALTERNATE;
 
 /**
- * An extension of {@link Label} that progressively shows the text as if it was being typed in real time, and allows the
- * use of tokens in the following format: <tt>{TOKEN=PARAMETER}</tt>.
+ * An extension of {@link TextraLabel} that progressively shows the text as if it was being typed in real time, and
+ * allows the use of tokens in the format: <code>{TOKEN=PARAMETER;ANOTHER_PARAMETER;MORE}</code>. These tokens can
+ * add various effects to spans of text, such as the token {@code WIND} making text flutter and flap around, or
+ * {@code BLINK} making it flash an alternate color repeatedly. These work in addition to the tags permitted by
+ * TextraLabel, such as <code>[light blue]</code> for to change text color, or <code>[_]</code> to underline text.
+ * For compatibility with other systems that may already use curly braces, such as some I18N techniques, you can use
+ * <code>[-</code> instead of <code>{</code> and <code>]</code> instead of <code>}</code> to use tokens without writing
+ * out curly braces.
+ * <br>
+ * This is meant to work with {@link FWSkin} or one of its subclasses, such as {@code FreeTypistSkin}, and isn't
+ * guaranteed to work with a regular {@link Skin}. FWSkin can load the same JSON files Skin uses, and it extends Skin.
  */
 public class TypingLabel extends TextraLabel {
     ///////////////////////
@@ -135,28 +144,61 @@ public class TypingLabel extends TextraLabel {
     /// --- Constructors --- ///
     ////////////////////////////
 
+    /**
+     * Creates a TypingLabel that uses the libGDX default font (lsans-15) and starts with no text.
+     * The default font will not look very good when scaled, so this should usually stay its default font size.
+     */
     public TypingLabel() {
         super();
         workingLayout.font(super.font);
         setText("", true);
     }
 
+    /**
+     * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
+     * @param text markup text that can contain square-bracket tags and curly-brace tokens
+     * @param skin almost always an {@link FWSkin} or one of its subclasses
+     */
     public TypingLabel(String text, Skin skin) {
         this(text, skin.get(Styles.LabelStyle.class));
     }
 
+    /**
+     * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
+     * @param text markup text that can contain square-bracket tags and curly-brace tokens
+     * @param skin almost always an {@link FWSkin} or one of its subclasses
+     * @param replacementFont will be used instead of the Font loaded from skin
+     */
     public TypingLabel(String text, Skin skin, Font replacementFont) {
         this(text, skin.get(Styles.LabelStyle.class), replacementFont);
     }
 
+    /**
+     * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
+     * @param text markup text that can contain square-bracket tags and curly-brace tokens
+     * @param skin almost always an {@link FWSkin} or one of its subclasses
+     * @param styleName the name of the {@link Styles.LabelStyle} to load from skin
+     */
     public TypingLabel(String text, Skin skin, String styleName) {
         this(text, skin.get(styleName, Styles.LabelStyle.class));
     }
 
+    /**
+     * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
+     * @param text markup text that can contain square-bracket tags and curly-brace tokens
+     * @param skin almost always an {@link FWSkin} or one of its subclasses
+     * @param styleName the name of the {@link Styles.LabelStyle} to load from skin
+     * @param replacementFont will be used instead of the Font loaded from skin
+     */
     public TypingLabel(String text, Skin skin, String styleName, Font replacementFont) {
         this(text, skin.get(styleName, Styles.LabelStyle.class), replacementFont);
     }
 
+    /**
+     * Creates a TypingLabel with the given markup text and style, without needing a skin.
+     * @param text markup text that can contain square-bracket tags and curly-brace tokens
+     * @param style a style from {@link Styles} and not from scene2d.ui; often made manually
+     */
     public TypingLabel(String text, Styles.LabelStyle style) {
         super(text = Parser.handleBracketMinusMarkup(text), style);
         workingLayout.font(super.font);
@@ -165,6 +207,12 @@ public class TypingLabel extends TextraLabel {
         setText(text, true);
     }
 
+    /**
+     * Creates a TypingLabel with the given markup text, style, and Font, without needing a skin.
+     * @param text markup text that can contain square-bracket tags and curly-brace tokens
+     * @param style a style from {@link Styles} and not from scene2d.ui; often made manually
+     * @param replacementFont will be used instead of the Font from the style
+     */
     public TypingLabel(String text, Styles.LabelStyle style, Font replacementFont) {
         super(text = Parser.handleBracketMinusMarkup(text), style, replacementFont);
         workingLayout.font(super.font);
@@ -173,12 +221,23 @@ public class TypingLabel extends TextraLabel {
         setText(text, true);
     }
 
+    /**
+     * Creates a TypingLabel with the given markup text and Font, without needing a skin.
+     * @param text markup text that can contain square-bracket tags and curly-brace tokens
+     * @param font will be used for all text
+     */
     public TypingLabel(String text, Font font) {
         super(text = Parser.handleBracketMinusMarkup(text), font);
         workingLayout.font(font);
         setText(text, true);
     }
 
+    /**
+     * Creates a TypingLabel with the given markup text, Font, and font color, without needing a skin.
+     * @param text markup text that can contain square-bracket tags and curly-brace tokens
+     * @param font will be used for all text
+     * @param color the default foreground color for text
+     */
     public TypingLabel(String text, Font font, Color color) {
         super(text = Parser.handleBracketMinusMarkup(text), font, color);
         workingLayout.font(font);

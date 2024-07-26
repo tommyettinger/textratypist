@@ -4712,6 +4712,7 @@ public class Font implements Disposable {
         float xPx = 2f / (Gdx.graphics.getBackBufferWidth()  * batch.getProjectionMatrix().val[0]);
         float yPx = 2f / (Gdx.graphics.getBackBufferHeight() * batch.getProjectionMatrix().val[5]);
 
+        // This uses height to calculate both, so that the outline has even thickness.
         float xOutline = (outlineStrength * cellHeight / 32f);
         float yOutline = (outlineStrength * cellHeight / 32f);
 //        float xOutline = (outlineStrength * xPx);

@@ -24,8 +24,8 @@ public interface TypingListener {
     /**
      * Called each time an {@code EVENT} token is processed.
      *
-     * @param event Name of the event specified in the token. e.g. <tt>{EVENT=player_name}</tt> will have
-     *              <tt>player_name</tt> as argument.
+     * @param event Name of the event specified in the token. e.g. <code>{EVENT=player_name}</code> will have
+     *              <code>player_name</code> as argument.
      */
     void event(String event);
 
@@ -39,8 +39,8 @@ public interface TypingListener {
      * than directly assigning replacement values to the label. Replacements returned by this method have priority over
      * direct values, unless {@code null} is returned.
      *
-     * @param variable The variable name assigned to the <tt>{VAR}</tt> token. For example, in <tt>{VAR=townName}</tt>,
-     *                 the variable will be <tt>townName</tt>
+     * @param variable The variable name assigned to the <code>{VAR}</code> token. For example, in <code>{VAR=townName}</code>,
+     *                 the variable will be <code>townName</code>
      * @return The replacement String, or {@code null} if this method should be ignored and the regular values should be
      * used instead.
      * @see TypingLabel#setVariable(String, String)
