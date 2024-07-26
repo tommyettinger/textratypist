@@ -74,7 +74,7 @@ public class MinimalGridTest extends ApplicationAdapter {
 
 //        varWidthFont = KnownFonts.getGentium();
         varWidthFont = KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF)
-                .scaleHeightTo(30f).setOutlineStrength(1.5f);
+                .scaleHeightTo(30f);//.setOutlineStrength(1.5f);
 //        iosevka.adjustCellWidth(0.5f);
 //        iosevka.originalCellHeight *= 0.5f;
 //        iosevka.cellHeight *= 0.5f;
