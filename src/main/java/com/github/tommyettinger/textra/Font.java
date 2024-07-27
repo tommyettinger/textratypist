@@ -34,6 +34,8 @@ import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.textra.utils.*;
 import regexodus.Category;
+import regexodus.Pattern;
+import regexodus.Replacer;
 
 import java.util.Arrays;
 import java.util.IdentityHashMap;
@@ -1074,6 +1076,24 @@ public class Font implements Disposable {
             '\u200A',// Unicode space (hair-width)
             '\u200B' // Unicode space (zero-width)
     );
+
+    /**
+     * A RegExodus Replacer that replaces any CJK ideographic characters with themselves plus a zero-width space after.
+     * Meant to be used via {@link #insertZeroWidthSpacesInCJK(CharSequence)}, but can be used on its own.
+     */
+    public static final Replacer CJK_SPACE_INSERTER = new Replacer(Pattern.compile("([\u2E80-\u303F\u31C0-\u31EF\u3200-\u9FFF\uF900-\uFAFF\uFE30-\uFE4F])"), "$1\u200B");
+
+    /**
+     * Inserts a zero-width space character (Unicode U+200B) after every CJK ideographic character in text. This is
+     * meant to create word breaks where there might otherwise be none, to allow breaking lines up how at least written
+     * Chinese expects them to be broken up. This assumes there won't be any ideograms in color markup or effects, and
+     * won't add zero-width spaces to Latin, Greek, Cyrillic, or other non-CJK languages.
+     * @param text a CharSequence such as a String, typically containing CJK ideograms
+     * @return a String where every CJK char has a zero-width space (U+200B) appended after it
+     */
+    public static String insertZeroWidthSpacesInCJK(CharSequence text) {
+        return CJK_SPACE_INSERTER.replace(text);
+    }
 
     /**
      * The standard libGDX vertex shader source, which is also used by the SDF and MSDF shaders.

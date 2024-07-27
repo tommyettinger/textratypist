@@ -105,7 +105,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
         });
 
         table.pad(50f);
-        table.add(label).colspan(5).growX();
+        table.add(label).width(400).colspan(5).growX();
         table.row();
         table.row().uniform().expand().growX().space(40).center();
         table.add(buttonPause, buttonResume, buttonRestart, buttonSkip, buttonRebuild);
@@ -131,9 +131,9 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
 
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("sc/NotoSansCJKsc-Regular.otf"));
         parameter.incremental = true;
-        parameter.characters = "howdY" + "汉仪拜基火云体简 汉仪拜基火云体繁 汉仪拜基火云体W\n" +
-                "汉仪报宋简 汉仪报宋繁\n" +
-                "汉仪碑刻黑简 汉仪碑刻黑繁 汉仪碑刻黑W";
+        parameter.characters = "howdY " + "汉仪拜基火云体简汉仪拜基火云体繁汉仪拜基火云体W" +
+                "汉仪报宋简汉仪报宋繁" +
+                "汉仪碑刻黑简汉仪碑刻黑繁汉仪碑刻黑W\u200B";
 
         FreeTypeFontGenerator.setMaxTextureSize(1024);
         FreeTypeFontGenerator.FreeTypeBitmapFontData data = new FreeTypeFontGenerator.FreeTypeBitmapFontData() {
@@ -282,10 +282,15 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
                 KnownFonts.addEmoji(f);
         }
 
-        final TypingLabel label = newTypingLabel("{SPIRAL=2;0.5;-2.5}{STYLE=/}[%^SHADOW]汉仪拜基火云体简[%]{STYLE=/}{ENDSPIRAL} " +
-                "汉仪拜基火云体繁 汉仪拜基火云体W\n" +
-                "汉仪报宋简 [RED]汉仪报宋繁[]\n" +
-                "[GREEN]汉仪碑刻黑简[] 汉仪碑刻黑繁 汉仪碑刻黑W");
+        final TypingLabel label = newTypingLabel(Font.insertZeroWidthSpacesInCJK(
+                "{SPIRAL=2;0.5;-2.5}{STYLE=/}[%^SHADOW]YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY[%]{STYLE=/}{ENDSPIRAL} " +
+                "YYYYYYYYYYYYYYYW\n" +
+                "YYYYY[RED]YYYYY[]\n" +
+                "[GREEN]YYYYYY[]YYYYYYYYYYYW\n\n"+
+                "{SPIRAL=2;0.5;-2.5}{STYLE=/}[%^SHADOW]汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简[%]{STYLE=/}{ENDSPIRAL} " +
+                "汉仪拜基火云体繁汉仪拜基火云体W\n" +
+                "汉仪报宋简[RED]汉仪报宋繁[]\n" +
+                "[GREEN]汉仪碑刻黑简[]汉仪碑刻黑繁汉仪碑刻黑W"));
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOW}");
         label.align = Align.topLeft;
 
