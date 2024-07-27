@@ -1088,6 +1088,12 @@ public class Font implements Disposable {
      * meant to create word breaks where there might otherwise be none, to allow breaking lines up how at least written
      * Chinese expects them to be broken up. This assumes there won't be any ideograms in color markup or effects, and
      * won't add zero-width spaces to Latin, Greek, Cyrillic, or other non-CJK languages.
+     * <br>
+     * The zero-width space character is automatically added to every Font that defines a normal space character
+     * (U+0020), and is literally a modified version of space that has zero width. This definition is allowed to
+     * overwrite an existing zero-width space character, but both should be invisible and have zero width (plus, not
+     * many fonts have a zero-width space without this modification).
+     *
      * @param text a CharSequence such as a String, typically containing CJK ideograms
      * @return a String where every CJK char has a zero-width space (U+200B) appended after it
      */
@@ -1974,6 +1980,8 @@ public class Font implements Disposable {
         }
         if (mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
+            // U+200B is the zero-width space
+            mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
         }
         solidBlock = mapping.containsKey(0x2588) ? '\u2588' : '\uFFFF';
         if (makeGridGlyphs) {
@@ -2161,6 +2169,8 @@ public class Font implements Disposable {
         }
         if (mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
+            // U+200B is the zero-width space
+            mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
         }
         solidBlock =
                 mapping.containsKey(9608) ? '\u2588' : '\uFFFF';
@@ -2279,6 +2289,8 @@ public class Font implements Disposable {
         }
         if (mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
+            // U+200B is the zero-width space
+            mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
         }
         defaultValue = mapping.get(' ', mapping.get(0));
         originalCellWidth = this.cellWidth;
@@ -2567,6 +2579,8 @@ public class Font implements Disposable {
         }
         if (mapping.containsKey(' ')) {
             mapping.put('\r', mapping.get(' '));
+            // U+200B is the zero-width space
+            mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
         }
         solidBlock = '█';
         if (makeGridGlyphs) {

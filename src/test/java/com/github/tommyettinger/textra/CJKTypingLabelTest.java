@@ -268,7 +268,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
                         new Font(newBitmapFont()),
                 });
         Font font = family.connected[0].setFamily(family);
-        font.mapping.put('\u200B', new Font.GlyphRegion(font.mapping.get(' '), 0f, 0f, 0f));
+//        font.mapping.put('\u200B', new Font.GlyphRegion(font.mapping.get(' '), 0f, 0f, 0f));
         final TypingLabel label = new TypingLabel(text, font);
 
         label.parseTokens();
