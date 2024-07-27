@@ -268,6 +268,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
                         new Font(newBitmapFont()),
                 });
         Font font = family.connected[0].setFamily(family);
+        font.mapping.put('\u200B', new Font.GlyphRegion(font.mapping.get(' '), 0f, 0f, 0f));
         final TypingLabel label = new TypingLabel(text, font);
 
         label.parseTokens();
@@ -283,7 +284,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
         }
 
         final TypingLabel label = newTypingLabel(Font.insertZeroWidthSpacesInCJK(
-                "{SPIRAL=2;0.5;-2.5}{STYLE=/}[%^SHADOW]YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY[%]{STYLE=/}{ENDSPIRAL} " +
+                "{SPIRAL=2;0.5;-2.5}{STYLE=/}[%^SHADOW]YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY\u200BYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY[%]{STYLE=/}{ENDSPIRAL} " +
                 "YYYYYYYYYYYYYYYW\n" +
                 "YYYYY[RED]YYYYY[]\n" +
                 "[GREEN]YYYYYY[]YYYYYYYYYYYW\n\n"+
