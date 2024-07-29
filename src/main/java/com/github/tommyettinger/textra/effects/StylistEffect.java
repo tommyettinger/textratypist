@@ -61,7 +61,19 @@ import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
  * since this is 0 it won't change), and enables "all" mode as the last 'y' (which highlights the whole area using the
  * effect, instead of just the char being hovered over).
  * <br>
- * The textual syntax is preferred now, but the positional syntax was here first.
+ * The textual syntax is preferred now, but the positional syntax was here first. Note that if a semicolon is present at
+ * all, this will treat the input as positional.
+ * <br>
+ * Positional syntax parameters: {@code bold;oblique;underline;strikethrough;script;all}
+ * <br>
+ * Setting {@code bold} to true, y, 1, or some other true-indicating value makes this toggle bold.
+ * Setting {@code oblique} to true, y, 1, or some other true-indicating value makes this toggle oblique.
+ * Setting {@code underline} to true, y, 1, or some other true-indicating value makes this toggle underline.
+ * Setting {@code strikethrough} to true, y, 1, or some other true-indicating value makes this toggle strikethrough.
+ * Setting {@code script} to 0 will have this not affect script mode, 1 will have it enable subscript, 2 will have it
+ * enable midscript, and 3 will have it enable superscript.
+ * The parameter {@code all} makes the whole span of text become affected when true, or individual glyphs be the only
+ * things affected when false.
  * <br>
  * Example usage:
  * <code>

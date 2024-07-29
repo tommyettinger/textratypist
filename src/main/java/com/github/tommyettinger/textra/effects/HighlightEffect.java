@@ -23,6 +23,20 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
 /**
  * Tints the single glyph (or affected text, if all is true) underneath the pointer/mouse in a rainbow pattern.
  * <br>
+ * Parameters: {@code color;distance;frequency;saturation;lightness;all}
+ * <br>
+ * The {@code color} can be any named color, potentially with modifiers, or a hex color (optionally starting with #), or
+ * "default" to use the existing default color of the label.
+ * The {@code distance} rarely needs to be changed from 1, but it affects how much the position of the mouse in the
+ * affected text changes the effect.
+ * The {@code frequency} makes the effect faster when higher than 1, or slower when lower than 1.
+ * The {@code saturation} affects the rainbow's "colorful-ness", with 1 making it maximally colorful and 0 making it
+ * grayscale.
+ * The {@code lightness} affects how light the rainbow will be, with 0.5 the default, 1 being all white, and 0 being all
+ * black. Colors can appear the most saturated when lightness is 0.5.
+ * The parameter {@code all} makes the whole span of text become affected when true, or individual glyphs be the only
+ * things affected when false.
+ * <br>
  * Example usage:
  * <code>
  * {HIGHLIGHT=default;1;1;1;0.5;true}This whole span of text will be highlighted vividly on mouse-over.{ENDHIGHLIGHT}
@@ -37,8 +51,8 @@ public class HighlightEffect extends Effect {
     private int baseColor = DEFAULT_COLOR;
     private float distance = 1; // How extensive the rainbow effect should be.
     private float frequency = 1; // How frequently the color pattern should move through the text.
-    private float saturation = 1; // Color saturation
-    private float brightness = 0.5f; // Color brightness
+    private float saturation = 1; // Color saturation, as by HSL
+    private float lightness = 0.5f; // Color lightness, as by HSL
     private boolean all = false; // Whether this should rainbow-highlight the whole responsive area.
 
     public HighlightEffect(TypingLabel label, String[] params) {
@@ -68,7 +82,7 @@ public class HighlightEffect extends Effect {
 
         // Brightness
         if (params.length > 4) {
-            this.brightness = paramAsFloat(params[4], 0.5f);
+            this.lightness = paramAsFloat(params[4], 0.5f);
         }
 
         // All
@@ -96,7 +110,7 @@ public class HighlightEffect extends Effect {
         float frequencyMod = (1f / frequency) * DEFAULT_FREQUENCY;
         float progress = calculateProgress(frequencyMod, distanceMod * localIndex, false);
 
-        label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) ColorUtils.hsl2rgb(progress, saturation, brightness, 1f) << 32);
+        label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) ColorUtils.hsl2rgb(progress, saturation, lightness, 1f) << 32);
     }
 
 }
