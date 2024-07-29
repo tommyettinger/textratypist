@@ -44,7 +44,7 @@ public class ScrollPaneUITest extends InputAdapter implements ApplicationListene
 		root.setFillParent(true);
 		stage.addActor(root);
 		
-		TypingLabel typingLabel = new TypingLabel("{HIGHLIGHT}This is a test.\n" +
+		TypingLabel typingLabel = new TypingLabel("{HIGHLIGHT=default;1;0.4;0.6;0.7;false}This is a test.\n" +
 				"Well, what in {TRIGGER=NAME}Raeleus'{ENDTRIGGER} name are we waiting for?\n" +
 				"Let's go!{ENDHIGHLIGHT}", font);
 		typingLabel.setSelectable(true);

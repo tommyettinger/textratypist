@@ -46,6 +46,9 @@ allprojects {
     javadoc.options.source("17")
 }
 
+def projectName = 'textratypist'
+version = "$VERSION_NAME"
+group = 'com.github.tommyettinger'
 
 import com.vanniktech.maven.publish.JavaLibrary
 import com.vanniktech.maven.publish.JavadocJar
@@ -54,7 +57,7 @@ mavenPublishing {
     configure(new JavaLibrary(new JavadocJar.Javadoc(), true))
 }
 
-mavenPlainJavadocJar.archiveBaseName.set("textratypist")
+mavenPlainJavadocJar.archiveBaseName.set(projectName)
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -76,10 +79,6 @@ compileTestJava {
         options.release.set(8)
     }
 }
-
-def projectName = 'textratypist'
-version = "$VERSION_NAME"
-group = 'com.github.tommyettinger'
 
 //api "com.github.tommyettinger:textratypist:1.0.0"
 

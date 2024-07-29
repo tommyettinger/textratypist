@@ -23,16 +23,9 @@ import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
 
 /**
  * Enables style properties for the single glyph (or affected text, if all is true) underneath the pointer/mouse, and
- * disables them when not underneath. This can use the positional syntax:
- * <code>
- *     {STYLIST=y;n;y;n;0;y}
- * </code>
- * Which, in order, enables bold (y for yes), does not change oblique (n for no), enables underline, does not change
- * strikethrough, does not change any of the script options (subscript would be 1, midscript 2, or superscript 3, but
- * since this is 0 it won't change), and enables "all" mode as the last 'y' (this highlights the whole area using the
- * effect, instead of just the char being hovered over).
- * <br>
- * This can also use the equivalent textual syntax:
+ * disables them when not underneath. The style properties this effect controls are things like bold and underline.
+ * There are many situations when you will want "all" mode enabled, such as to underline all of an area affected by
+ * Stylist, or change all of it to oblique instead of just one glyph at a time. Stylist can use the textual syntax:
  * <code>
  *     {STYLIST=bold underline all}
  * </code>
@@ -46,7 +39,8 @@ import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
  * </code>
  * It also just so happens that entering <code>{STYLIST}</code> will enable bold, underline, and 'all' mode.
  * <br>
- * All of these textual options are case-insensitive and apply to whole words (separated by space, tab, or comma) only:
+ * All of these textual options are case-insensitive and apply to whole words only (separated by whitespace, tab, or
+ * comma):
  * <ul>
  *     <li>Bold can be enabled with {@code bold}, {@code b}, or {@code *}.</li>
  *     <li>Oblique can be enabled with {@code oblique}, {@code o}, {@code italic}, {@code i}, or {@code /}.</li>
@@ -57,6 +51,23 @@ import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
  *     <li>Superscript can be enabled with {@code superscript}, {@code super}, or {@code ^}.</li>
  *     <li>Enabling 'all' mode can be done by having {@code all} or {@code a} in the String.</li>
  * </ul>
+ * <br>
+ * Stylist can instead use the positional syntax:
+ * <code>
+ *     {STYLIST=y;n;y;n;0;y}
+ * </code>
+ * Which, in order, enables bold (y for yes), does not change oblique (n for no), enables underline, does not change
+ * strikethrough, does not change any of the script options (subscript would be 1, midscript 2, or superscript 3, but
+ * since this is 0 it won't change), and enables "all" mode as the last 'y' (which highlights the whole area using the
+ * effect, instead of just the char being hovered over).
+ * <br>
+ * The textual syntax is preferred now, but the positional syntax was here first.
+ * <br>
+ * Example usage:
+ * <code>
+ * {STYLIST=italic all}This whole span of text will become oblique/italicized on mouse-over.{ENDSTYLIST}
+ * {STYLIST=bold strike}Individual glyphs will be set to bold and be struck through while moused-over.{ENDSTYLIST}
+ * </code>
  */
 public class StylistEffect extends Effect {
     private long effects = 0L;//Font.BOLD | Font.OBLIQUE | Font.UNDERLINE | Font.STRIKETHROUGH | Font.SUPERSCRIPT;
@@ -71,7 +82,7 @@ public class StylistEffect extends Effect {
             if(paramAsBoolean(params[0]))
                 effects |= Font.BOLD;
             else if(params.length == 1){
-                String[] split = params[0].split("[ \t,]+");
+                String[] split = params[0].split("[\\s\t,]+");
                 int[] matching = new int[split.length];
                 CaseInsensitiveIntMap set = new CaseInsensitiveIntMap(split, matching);
                 if(set.containsKey("bold") || set.containsKey("b") || set.containsKey("*"))

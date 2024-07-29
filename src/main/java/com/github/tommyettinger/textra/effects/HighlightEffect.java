@@ -22,6 +22,12 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /**
  * Tints the single glyph (or affected text, if all is true) underneath the pointer/mouse in a rainbow pattern.
+ * <br>
+ * Example usage:
+ * <code>
+ * {HIGHLIGHT=default;1;1;1;0.5;true}This whole span of text will be highlighted vividly on mouse-over.{ENDHIGHLIGHT}
+ * {HIGHLIGHT=default;1;0.4;0.6;0.7;false}Individual glyphs will be highlighted slowly in pastel colors on mouse-over.{ENDHIGHLIGHT}
+ * </code>
  */
 public class HighlightEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.975f;
