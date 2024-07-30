@@ -24,13 +24,25 @@ import com.github.tommyettinger.textra.TypingLabel;
 
 /**
  * Moves the text vertically easing it into the final position. Doesn't repeat itself.
+ * <br>
+ * Parameters: {@code distance;speed;elastic}
+ * <br>
+ * The {@code distance} is how many line-heights each glyph should move as it gets into positionl defaults to -2 .
+ * The {@code speed} affects how fast the glyphs should slide in; defaults to 1.0 .
+ * If {@code elastic} is true, the glyphs will wiggle into position; defaults to false, which uses linear movement.
+ * <br>
+ * Example usage:
+ * <code>
+ * {EASE=5;2.8;y}Each glyph here will wiggle into position from very high above, doing so quickly.{ENDEASE}
+ * {EASE=-3;0.3}Each glyph here will slide up and into place very slowly.{ENDEASE}
+ * </code>
  */
 public class EaseEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.15f;
-    private static final float DEFAULT_INTENSITY = 0.075f;
+    private static final float DEFAULT_SPEED = 0.075f;
 
     private float distance = -2; // How much of their height they should move
-    private float intensity = 1; // How fast the glyphs should move
+    private float speed = 1; // How fast the glyphs should move
     private boolean elastic = false; // True if the glyphs have an elastic movement
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
@@ -45,7 +57,7 @@ public class EaseEffect extends Effect {
 
         //Intensity
         if (params.length > 1) {
-            this.intensity = paramAsFloat(params[1], 1);
+            this.speed = paramAsFloat(params[1], 1);
         }
 
         // Elastic
@@ -57,7 +69,7 @@ public class EaseEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate real intensity
-        float realIntensity = intensity * (elastic ? 3f : 1f) * DEFAULT_INTENSITY;
+        float realIntensity = speed * (elastic ? 3f : 1f) * DEFAULT_SPEED;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);

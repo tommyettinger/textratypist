@@ -28,7 +28,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * Parameters: {@code frequency;duration}
  * <br>
  * The {@code frequency} is how often the spin repeats per 2-second interval.
- * The {@code duration} is how many seconds the spin should repeat, or {@code _} to repeat forever.
+ * The {@code duration} is how many seconds the spin should repeat, or {@code _} to repeat forever; defaults to
+ * positive infinity.
  * <br>
  * Example usage:
  * <code>

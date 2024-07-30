@@ -22,26 +22,40 @@ import com.github.tommyettinger.textra.TypingLabel;
 import com.github.tommyettinger.textra.utils.NoiseUtils;
 
 /**
- * Rotates each glyph slightly back and forth, each one independently. Distance is measured in degrees.
+ * Rotates each glyph slightly back and forth, each one independently and randomly based on the current time.
+ * <br>
+ * Parameters: {@code rotationAmount;speed;duration}
+ * <br>
+ * The {@code rotationAmount} is how many degrees a glyph is allowed to rotate clockwise or counterclockwise; defaults
+ * to 15 degrees.
+ * The {@code speed} affects how fast the glyphs should rotate; defaults to 1.0 .
+ * The {@code duration} is how many seconds the effect should repeat, or {@code _} to repeat forever; defaults to
+ * positive infinity.
+ * <br>
+ * Example usage:
+ * <code>
+ * {CROWD=50;0.8;_}Each glyph here will rotate a lot, but slowly, and will do so forever.{ENDCROWD}
+ * {CROWD=10;4;5}Each glyph here will rotate a little, but quickly, for 5 seconds total.{ENDCROWD}
+ * </code>
  */
 public class CrowdEffect extends Effect {
-    private static final float DEFAULT_DISTANCE = 1f;
-    private static final float DEFAULT_INTENSITY = 0.001f;
+    private static final float DEFAULT_ROTATION_STRENGTH = 1f;
+    private static final float DEFAULT_SPEED = 0.001f;
 
-    private float distance = 15; // How many degrees a glyph can rotate, clockwise or counterclockwise
-    private float intensity = 1; // How fast the glyphs should move
+    private float rotationAmount = 15; // How many degrees a glyph can rotate, clockwise or counterclockwise
+    private float speed = 1; // How fast the glyphs should move
 
     public CrowdEffect(TypingLabel label, String[] params) {
         super(label);
 
-        // Distance
+        // Rotation Amount
         if (params.length > 0) {
-            this.distance = paramAsFloat(params[0], 15);
+            this.rotationAmount = paramAsFloat(params[0], 15);
         }
 
-        // Intensity
+        // Speed
         if (params.length > 1) {
-            this.intensity = paramAsFloat(params[1], 1);
+            this.speed = paramAsFloat(params[1], 1);
         }
 
         // Duration
@@ -53,7 +67,7 @@ public class CrowdEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate offset
-        float rot = NoiseUtils.octaveNoise1D((TimeUtils.millis() & 0xFFFFFF) * intensity * DEFAULT_INTENSITY + globalIndex * 0.42f, globalIndex) * distance * DEFAULT_DISTANCE;
+        float rot = NoiseUtils.octaveNoise1D((TimeUtils.millis() & 0xFFFFFF) * speed * DEFAULT_SPEED + globalIndex * 0.42f, globalIndex) * rotationAmount * DEFAULT_ROTATION_STRENGTH;
 
         // Calculate fadeout
         float fadeout = calculateFadeout();
