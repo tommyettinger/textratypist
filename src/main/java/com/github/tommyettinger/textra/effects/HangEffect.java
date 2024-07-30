@@ -24,13 +24,24 @@ import com.github.tommyettinger.textra.TypingLabel;
 
 /**
  * Hangs the text in midair and suddenly drops it. Doesn't repeat itself.
+ * <br>
+ * Parameters: {@code distance;speed}
+ * <br>
+ * The {@code distance} is how many line-heights the glyphs should move up before dropping down; defaults to 1.0 .
+ * The {@code speed} affects how fast the glyphs should stretch out; defaults to 1.0 .
+ * <br>
+ * Example usage:
+ * <code>
+ * {HANG=2.0;1.3}Each glyph here will hang higher and drop a little more quickly.{ENDHANG}
+ * {HANG=-0.5;3.0}Each glyph here will pop up quickly from a short distance below, instead of dropping down.{ENDHANG}
+ * </code>
  */
 public class HangEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.7f;
-    private static final float DEFAULT_INTENSITY = 1.5f;
+    private static final float DEFAULT_SPEED = 1.5f;
 
     private float distance = 1; // How much of their height they should move
-    private float intensity = 1; // How fast the glyphs should move
+    private float speed = 1; // How fast the glyphs should move
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
 
@@ -42,16 +53,16 @@ public class HangEffect extends Effect {
             this.distance = paramAsFloat(params[0], 1);
         }
 
-        // Intensity
+        // Speed
         if (params.length > 1) {
-            this.intensity = paramAsFloat(params[1], 1);
+            this.speed = paramAsFloat(params[1], 1);
         }
     }
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate real intensity
-        float realIntensity = intensity * 1f * DEFAULT_INTENSITY;
+        float realIntensity = speed * 1f * DEFAULT_SPEED;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);

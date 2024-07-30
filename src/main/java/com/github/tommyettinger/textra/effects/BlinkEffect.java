@@ -16,7 +16,6 @@
 
 package com.github.tommyettinger.textra.effects;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
@@ -81,9 +80,9 @@ public class BlinkEffect extends Effect {
         }
 
         // Validate parameters
-        this.threshold = MathUtils.clamp(this.threshold, 0, 1);
-        this.alpha1 = MathUtils.clamp(this.alpha1, 0f, 1f);
-        this.alpha2 = MathUtils.clamp(this.alpha2, 0f, 1f);
+        this.threshold = Math.min(Math.max(this.threshold, 0f), 1f);
+        this.alpha1 =    Math.min(Math.max(this.alpha1,    0f), 1f);
+        this.alpha2 =    Math.min(Math.max(this.alpha2,    0f), 1f);
     }
 
     @Override

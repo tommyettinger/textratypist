@@ -33,7 +33,7 @@ import com.github.tommyettinger.textra.TypingLabel;
  * Example usage:
  * <code>
  * {EMERGE=2.8;y}Each glyph here will wiggle into its full size quickly.{ENDEMERGE}
- * {EMERGE=-3;0.3}Each glyph here will very slowly stretch to its full size.{ENDEMERGE}
+ * {EMERGE=0.3}Each glyph here will very slowly stretch to its full size.{ENDEMERGE}
  * </code>
  */
 public class EmergeEffect extends Effect {
@@ -72,7 +72,7 @@ public class EmergeEffect extends Effect {
         float interpolatedValue = interpolation.apply(progress);
 
         label.sizing.incr(globalIndex << 1 | 1, interpolatedValue - 1f);
-        label.offsets.incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * label.getFont().cellHeight);
+        label.offsets.incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * label.getLineHeight(globalIndex));
     }
 
 }

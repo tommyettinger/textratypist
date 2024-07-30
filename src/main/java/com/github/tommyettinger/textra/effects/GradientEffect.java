@@ -21,7 +21,21 @@ import com.github.tommyettinger.textra.TypingLabel;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /**
- * Tints the text in a gradient pattern.
+ * Tints the text in a gradient pattern; never ends.
+ * <br>
+ * Parameters: {@code color1;color2;distance;frequency}
+ * <br>
+ * The {@code color1} can be a named color or hex color; defaults to {@code #FFFFFFFF} (white).
+ * The {@code color2} should be a named color or hex color; defaults to {@code #888888FF} (medium gray).
+ * The {@code distance} rarely needs to be changed from 1, but it affects how much the position of the glyph in the
+ * affected text changes the effect.
+ * The {@code frequency} affects how fast the effect should change; defaults to 1.0 .
+ * <br>
+ * Example usage:
+ * <code>
+ * {GRADIENT=RED;LIGHT BLUE;1.0;0.3}This text will blend slowly between from red to light blue.{ENDGRADIENT}
+ * {GRADIENT=#111111FF;#EEEEEEFF;1.0;3.0}This text will blend quickly between from dark gray and light gray.{ENDGRADIENT}
+ * </code>
  */
 public class GradientEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.975f;
