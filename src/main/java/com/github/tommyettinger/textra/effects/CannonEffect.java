@@ -26,15 +26,29 @@ import com.github.tommyettinger.textra.TypingLabel;
 /**
  * Starts the text large and shrinks into the final position/size, arcing up and then ending moving down.
  * Doesn't repeat itself.
+ * <br>
+ * Parameters: {@code initialStretch;speed;height;shakeDuration;shakePower}
+ * <br>
+ * The {@code initialStretch} affects how big the glyphs should be while they are in the "foreground;" defaults to 1.0 .
+ * The {@code speed} affects how quickly the glyphs enter their target positions; defaults to 1.0 .
+ * The {@code height} is how many line-heights the glyphs should arc up and then down; defaults to 1.0 .
+ * The {@code shakeDuration} is how many seconds the glyph should shake after it "hits" its target; defaults to 2.0 .
+ * The {@code shakePower} affects how much each glyph should shake after it "hits" its target; defaults to 1.0
+ * <br>
+ * Example usage:
+ * <code>
+ * {CANNON=0.5;1.5;0.25;0.3;0.2}This text will start smaller, travel faster, arc less, and not shake much.{ENDCANNON}
+ * {CANNON=2.5;0.75;1.5;1.7;2.1}This text will start larger, travel more slowly, arc more, shake longer, and shake much more.{ENDCANNON}
+ * </code>
  */
 public class CannonEffect extends Effect {
-    private static final float DEFAULT_DISTANCE = 3f;
+    private static final float DEFAULT_STRETCH = 3f;
     private static final float DEFAULT_INTENSITY = 0.9f;
     private static final float DEFAULT_HEIGHT = 2.5f;
     private static final float DEFAULT_POWER = 1f;
 
-    private float distance = 1; // How much of their height they should start expanded by
-    private float intensity = 1; // How fast the glyphs should move
+    private float initialStretch = 1; // How much of their height they should start expanded by
+    private float speed = 1; // How fast the glyphs should move
     private float height = 1; // How high the glyphs should move above their starting position
     private float shakeDuration = 2; // How long the glyph should shake after it stops moving in, in seconds
     private float shakePower = 1; // How strong the shake effect should be
@@ -46,14 +60,14 @@ public class CannonEffect extends Effect {
     public CannonEffect(TypingLabel label, String[] params) {
         super(label);
 
-        // Distance
+        // Initial Stretch
         if (params.length > 0) {
-            this.distance = paramAsFloat(params[0], 1.0f);
+            this.initialStretch = paramAsFloat(params[0], 1.0f);
         }
 
-        //Intensity
+        // Speed
         if (params.length > 1) {
-            this.intensity = paramAsFloat(params[1], 1.0f);
+            this.speed = paramAsFloat(params[1], 1.0f);
         }
 
         // Height
@@ -76,7 +90,7 @@ public class CannonEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate real intensity
-        float realIntensity = intensity * DEFAULT_INTENSITY;
+        float realIntensity = speed * DEFAULT_INTENSITY;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
@@ -88,7 +102,7 @@ public class CannonEffect extends Effect {
 
             // Calculate offset
             Interpolation interpolation = Interpolation.sine;
-            float interpolatedValue = interpolation.apply(distance * DEFAULT_DISTANCE,
+            float interpolatedValue = interpolation.apply(initialStretch * DEFAULT_STRETCH,
                     0f, progress);
             float arcHeight = MathUtils.sin(MathUtils.PI * progress) * label.getLineHeight(globalIndex) * height * DEFAULT_HEIGHT;
 
@@ -109,8 +123,8 @@ public class CannonEffect extends Effect {
             float lastY = lastOffsets.get(localIndex * 2 + 1);
 
             // Calculate new offsets
-            float x = label.getLineHeight(globalIndex) * distance * MathUtils.random(-0.125f, 0.125f);
-            float y = label.getLineHeight(globalIndex) * distance * MathUtils.random(-0.125f, 0.125f);
+            float x = label.getLineHeight(globalIndex) * initialStretch * MathUtils.random(-0.125f, 0.125f);
+            float y = label.getLineHeight(globalIndex) * initialStretch * MathUtils.random(-0.125f, 0.125f);
 
             // Apply intensity
             float normalIntensity = MathUtils.clamp(shakePower * DEFAULT_POWER, 0, 1);

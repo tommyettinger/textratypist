@@ -23,7 +23,18 @@ import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /**
- * Makes the text jumps and falls as if there was gravity.
+ * Makes each glyph spin in place, as if around a central pole.
+ * <br>
+ * Parameters: {@code frequency;duration}
+ * <br>
+ * The {@code frequency} is how often the spin repeats per 2-second interval.
+ * The {@code duration} is how many seconds the spin should repeat, or {@code _} to repeat forever.
+ * <br>
+ * Example usage:
+ * <code>
+ * {CAROUSEL=0.5;_}Each glyph here will slowly spin forever.{ENDCAROUSEL}
+ * {CAROUSEL=2;5}Each glyph here will spin quickly for 5 seconds total.{ENDCAROUSEL}
+ * </code>
  */
 public class CarouselEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 0.5f;

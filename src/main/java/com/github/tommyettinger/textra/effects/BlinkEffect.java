@@ -22,6 +22,24 @@ import com.github.tommyettinger.textra.TypingLabel;
 
 /**
  * Blinks the entire text in two different colors at once, without interpolation.
+ * This can either blink between two different colors, or two different alpha levels for the default color. The alpha
+ * levels can be useful to make text disappear (alpha 0.0) and reappear (alpha 1.0) instead of changing color.
+ * <br>
+ * Parameters: {@code color1;color2;frequency;threshold}
+ * <br>
+ * The {@code color1} can be a named color or hex color, but if it isn't valid as one of those, it will be parsed as a
+ * float and treated as an alpha transparency value instead of a color, between 0.0 and 1.0.
+ * The {@code color2} can be a named color or hex color, but if it isn't valid as one of those, it will be parsed as a
+ * float and treated as an alpha transparency value instead of a color, between 0.0 and 1.0.
+ * The {@code frequency} is how frequently the effect should blink, defaulting to 1.0 .
+ * The {@code threshold} determines how much of the time is spent in color1; the rest is spent in color2. The default
+ * is 0.5 .
+ * <br>
+ * Example usage:
+ * <code>
+ * {BLINK=RED;LIGHT BLUE}This text will blink between red and light blue.{ENDBLINK}
+ * {BLINK=1.0;0.0;5.0;0.9}This text will briefly flicker to transparent several times a second.{ENDBLINK}
+ * </code>
  */
 public class BlinkEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 1f;
