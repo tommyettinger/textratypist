@@ -46,6 +46,7 @@ public class FadeEffect extends Effect {
     private int color2 = 256; // Second color of the effect.
     private float alpha1 = 0; // First alpha of the effect, in case a color isn't provided.
     private float alpha2 = 1; // Second alpha of the effect, in case a color isn't provided.
+    private float fadeDuration = 1; // Duration of the fade effect
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
 
@@ -70,9 +71,7 @@ public class FadeEffect extends Effect {
 
         // Fade duration
         if (params.length > 2) {
-            this.duration = paramAsFloat(params[2], 1);
-        } else {
-            this.duration = 1;
+            this.fadeDuration = paramAsFloat(params[2], 1);
         }
     }
 
@@ -80,7 +79,7 @@ public class FadeEffect extends Effect {
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed / duration, 0, 1);
+        float progress = MathUtils.clamp(timePassed / fadeDuration, 0, 1);
 
         // Calculate initial color
         if (this.color1 == 256) {
