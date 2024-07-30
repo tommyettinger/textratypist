@@ -21,21 +21,34 @@ import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /**
- * Makes the text jumps and falls as if there was gravity.
+ * Makes the text expand and shrink like a beating heart.
+ * <br>
+ * Parameters: {@code expansion;frequency;duration}
+ * <br>
+ * The {@code expansion} is how much the text should expand by, relative to its original size, at most. Defaults to 1.0 .
+ * The {@code frequency} is how quickly the "heart" "beats;" defaults to 1.0, and doesn't use any exact unit.
+ * The {@code duration} is how many seconds the beating-heart should go on, or {@code _} to repeat forever; defaults to
+ * positive infinity.
+ * <br>
+ * Example usage:
+ * <code>
+ * {HEARTBEAT=0.75;0.5;_}Each glyph here will slowly pulse by a smaller amount forever.{ENDHEARTBEAT}
+ * {HEARTBEAT=2.5;2;5}Each glyph here will pulse quickly by a large amount for 5 seconds total.{ENDHEARTBEAT}
+ * </code>
  */
 public class HeartbeatEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 1f;
-    private static final float DEFAULT_DISTANCE = 0.5f;
+    private static final float DEFAULT_EXPANSION = 0.5f;
 
-    private float distance = 1; // How much of their height they should move
-    private float frequency = 1; // How frequently the wave pattern repeats
+    private float expansion = 1; // How much of their size they should expand by
+    private float frequency = 1; // How frequently the heartbeat repeats
 
     public HeartbeatEffect(TypingLabel label, String[] params) {
         super(label);
 
-        // Distance
+        // Expansion
         if (params.length > 0) {
-            this.distance = paramAsFloat(params[0], 1);
+            this.expansion = paramAsFloat(params[0], 1);
         }
 
         // Frequency
@@ -55,7 +68,7 @@ public class HeartbeatEffect extends Effect {
         float progress = totalTime * frequency * 360.0f * DEFAULT_FREQUENCY;
 
         float c = MathUtils.cosDeg(progress), s = MathUtils.sinDeg(progress);
-        float x = distance * Math.max(-0.125f, Math.max(c * c * c, s * s * s)) * DEFAULT_DISTANCE;
+        float x = expansion * Math.max(-0.125f, Math.max(c * c * c, s * s * s)) * DEFAULT_EXPANSION;
 //        float y = distance * Math.max(-0.125f, s * s * s) * DEFAULT_DISTANCE;
 
         // Calculate fadeout

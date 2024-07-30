@@ -24,17 +24,36 @@ import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /**
- * Randomly selects and shakes individual characters in the text.
+ * Randomly selects and shakes individual characters in the text, changing their color while shaking.
+ * <br>
+ * Parameters: {@code shakeDistance;shakeSpeed;duration;likelihood;baseColor;joltColor}
+ * <br>
+ * The {@code shakeDistance} affects how far a shaking glyph should move from its original position; defaults to 1.0 .
+ * The {@code shakeSpeed} affects how fast a shaking glyph should move; defaults to 1.0 .
+ * The {@code duration} affects how long the effect will continue for, in seconds; defaults to positive infinity.
+ * The {@code likelihood} affects how often a glyph is selected to be shaken; defaults to 0.05 .
+ * The {@code baseColor} can be a named color or hex color, but if not a color this will only shake glyphs, not color them
+ * while shaking. Defaults to {@code _} (not a color).
+ * The {@code joltColor} can be a named color or hex color, and will be used as the color for shaking glyphs as long as
+ * {@code baseColor} has an actual color value (not {@code _}). Defaults to {@code #FFFF88FF} (light yellow).
+ * <br>
+ * Example usage:
+ * <code>
+ * {JOLT=1;0.8;_;0.25;dddddd;fff0cc}This text will shake more slowly, and select glyphs to shake much more frequently;
+ * it will start light gray and become pale yellow when shaking. The effect won't ever end.{ENDJOLT}
+ * {JOLT=1;1;_;0.05;DARKEST RED;RED}This text will default to very dark red but will make individual characters pop out
+ * in shaking bright red text. The effect won't ever end.{ENDJOLT}
+ * </code>
  */
 public class JoltEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.12f;
-    private static final float DEFAULT_INTENSITY = 0.5f;
+    private static final float DEFAULT_SPEED = 0.5f;
     private static final float DEFAULT_LIKELIHOOD = 0.05f;
 
     private final FloatArray lastOffsets = new FloatArray();
 
-    private float distance = 1; // How far the glyphs should move
-    private float intensity = 1; // How fast the glyphs should move
+    private float shakeDistance = 1; // How far the glyphs should move
+    private float shakeSpeed = 1; // How fast the glyphs should move
     private float likelihood = DEFAULT_LIKELIHOOD; // How likely it is that each glyph will shake; repeatedly checked
     private int baseColor = 256; // The color to use when not jolting. If 256, then colors will not change
     private int joltColor = 0xFFFF88FF; // The color to use when jolting. If baseColor is 256, this will be ignored
@@ -42,14 +61,14 @@ public class JoltEffect extends Effect {
     public JoltEffect(TypingLabel label, String[] params) {
         super(label);
 
-        // Distance
+        // Shake Distance
         if (params.length > 0) {
-            this.distance = paramAsFloat(params[0], 1);
+            this.shakeDistance = paramAsFloat(params[0], 1);
         }
 
-        // Intensity
+        // Shake Speed
         if (params.length > 1) {
-            this.intensity = paramAsFloat(params[1], 1);
+            this.shakeSpeed = paramAsFloat(params[1], 1);
         }
 
         // Duration
@@ -89,11 +108,11 @@ public class JoltEffect extends Effect {
         // Calculate new offsets
         float x = 0f, y = 0f;
         if (likelihood > determineFloat((TimeUtils.millis() >>> 10) * globalIndex + localIndex)) {
-            x = label.getLineHeight(globalIndex) * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
-            y = label.getLineHeight(globalIndex) * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
+            x = label.getLineHeight(globalIndex) * shakeDistance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
+            y = label.getLineHeight(globalIndex) * shakeDistance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
 
             // Apply intensity
-            float normalIntensity = MathUtils.clamp(intensity * DEFAULT_INTENSITY, 0, 1);
+            float normalIntensity = MathUtils.clamp(shakeSpeed * DEFAULT_SPEED, 0, 1);
             x = Interpolation.linear.apply(lastX, x, normalIntensity);
             y = Interpolation.linear.apply(lastY, y, normalIntensity);
 

@@ -23,6 +23,14 @@ import com.github.tommyettinger.textra.TypingLabel;
 /**
  * Makes a span of text appear instantly, without the typing delay taking place per-glyph. Text after the span will be
  * set to a speed of {@link TypingConfig#DEFAULT_SPEED_PER_CHAR}. Doesn't change over time and doesn't have parameters.
+ * <br>
+ * Parameters: {@code } (this has no parameters)
+ * <br>
+ * <br>
+ * Example usage:
+ * <code>
+ * {INSTANT}This text will show up all at once.{ENDINSTANT}
+ * </code>
  */
 public class InstantEffect extends Effect {
     public InstantEffect(TypingLabel label, String[] params) {
