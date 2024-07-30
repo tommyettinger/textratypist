@@ -21,6 +21,19 @@ import com.github.tommyettinger.textra.TypingLabel;
 
 /**
  * Permanently sets the size of text. Doesn't change over time.
+ * <br>
+ * Parameters: {@code sizeX;sizeY}
+ * <br>
+ * The {@code sizeX} is multiplied with the width of a cell. If sizeY is not specified, this is multiplied with the
+ * height of a cell as well. Defaults to 1.0 .
+ * The {@code sizeY} is multiplied with the height of a cell. If sizeY is present, then sizeX only affects width.
+ * Defaults to 2.0 .
+ * <br>
+ * Example usage:
+ * <code>
+ * {SCALE=1.5}Makes glyphs 1.5x wider and 1.5x taller.{ENDSCALE}
+ * {SCALE=2;1}Makes glyphs 2x wider and their normal height.{ENDSCALE}
+ * </code>
  */
 public class ScaleEffect extends Effect {
     private float sizeX = 1; // How much of their width they should start expanded by on x

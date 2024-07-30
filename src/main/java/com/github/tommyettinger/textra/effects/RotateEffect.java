@@ -21,6 +21,16 @@ import com.github.tommyettinger.textra.TypingLabel;
 
 /**
  * Permanently rotates text in-place for each cell. Doesn't change over time.
+ * <br>
+ * Parameters: {@code rotation}
+ * <br>
+ * The {@code rotation} is measured in degrees counterclockwise, and defaults to 90 .
+ * <br>
+ * Example usage:
+ * <code>
+ * {ROTATE=30}Rotates characters 30 degrees counterclockwise, which would "undo" italic effects, mostly.{ENDROTATE}
+ * {ROTATE=180}Rotates characters 180 degrees counterclockwise, which flips them upside-down.{ENDROTATE}
+ * </code>
  */
 public class RotateEffect extends Effect {
     private float rotation = 90; // how many degrees to rotate each glyph, counter-clockwise

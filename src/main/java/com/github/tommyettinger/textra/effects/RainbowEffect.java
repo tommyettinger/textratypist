@@ -22,6 +22,22 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
 
 /**
  * Tints the text in a rainbow pattern.
+ * <br>
+ * Parameters: {@code distance;frequency;saturation;lightness}
+ * <br>
+ * The {@code distance} rarely needs to be changed from 1, but it affects how much the position of the mouse in the
+ * affected text changes the effect.
+ * The {@code frequency} makes the effect faster when higher than 1, or slower when lower than 1; defaults to 1.0 .
+ * The {@code saturation} affects the rainbow's "colorful-ness", with 1 making it maximally colorful and 0 making it
+ * grayscale; defaults to 1.0 .
+ * The {@code lightness} affects how light the rainbow will be, with 0.5 the default, 1 being all white, and 0 being all
+ * black. Colors can appear the most saturated when lightness is 0.5.
+ * <br>
+ * Example usage:
+ * <code>
+ * {RAINBOW=1;1;1;0.5}This span of text will use a vividly-saturated rainbow.{ENDRAINBOW}
+ * {RAINBOW=1;0.4;0.6;0.7}This span of text will use a slower-changing pastel rainbow.{ENDRAINBOW}
+ * </code>
  */
 public class RainbowEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.975f;
@@ -30,7 +46,7 @@ public class RainbowEffect extends Effect {
     private float distance = 1; // How extensive the rainbow effect should be.
     private float frequency = 1; // How frequently the color pattern should move through the text.
     private float saturation = 1; // Color saturation
-    private float brightness = 0.5f; // Color brightness
+    private float lightness = 0.5f; // Color lightness
 
     public RainbowEffect(TypingLabel label, String[] params) {
         super(label);
@@ -50,9 +66,9 @@ public class RainbowEffect extends Effect {
             this.saturation = paramAsFloat(params[2], 1);
         }
 
-        // Brightness
+        // Lightness
         if (params.length > 3) {
-            this.brightness = paramAsFloat(params[3], 0.5f);
+            this.lightness = paramAsFloat(params[3], 0.5f);
         }
     }
 
@@ -63,7 +79,7 @@ public class RainbowEffect extends Effect {
         float frequencyMod = (1f / frequency) * DEFAULT_FREQUENCY;
         float progress = calculateProgress(frequencyMod, distanceMod * localIndex, false);
 
-        label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) ColorUtils.hsl2rgb(progress, saturation, brightness, 1f) << 32);
+        label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) | (long) ColorUtils.hsl2rgb(progress, saturation, lightness, 1f) << 32);
     }
 
 }
