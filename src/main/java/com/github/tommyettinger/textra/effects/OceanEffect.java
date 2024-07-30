@@ -23,17 +23,32 @@ import com.github.tommyettinger.textra.utils.NoiseUtils;
 
 /**
  * Tints the text in an irregular, flowing color pattern that defaults to using sea green through deep blue, but can be
- * changed to other colors. This can also make a decent fire effect using <code>{OCEAN=0.7;1.25;0.11;1.0;0.65}</code>.
+ * changed to other colors. This can also make a decent fire effect, or various other natural swirling effects.
+ * <br>
+ * Parameters: {@code distance;frequency;hue;saturation;brightness}
+ * <br>
+ * The {@code distance} rarely needs to be changed from 1, but it affects how much the position of the glyph in the
+ * affected text changes the effect.
+ * The {@code frequency} affects how fast the effect should change; defaults to 0.25 .
+ * The {@code hue} is the middle hue of the colors this uses; it can go up or down by 0.15, wrapping around at 1.0 . Defaults to 0.5 .
+ * The {@code saturation} is the saturation of all colors this will use; doesn't vary. Defaults to 0.8 .
+ * The {@code lightness} is the middle lightness of the colors this uses; it can go up or down by 0.15, clamping at 0.0 and 1.0 . Defaults to 0.25 .
+ * <br>
+ * Example usage:
+ * <code>
+ * {OCEAN=1;0.25;0.5;0.8;0.25}This text will slowly shift between darker and lighter blue and blue-green.{ENDGRADIENT}
+ * {OCEAN=0.7;1.25;0.11;1.0;0.65}This text will burn with the cleansing power of fire!{ENDGRADIENT}
+ * </code>
  */
 public class OceanEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.975f;
     private static final float DEFAULT_FREQUENCY = 2f;
 
-    private float distance = 1; // How extensive the rainbow effect should be.
+    private float distance = 1; // How extensive the color change effect should be.
     private float frequency = 0.25f; // How frequently the color pattern should move through the text.
-    private float hue = 0.5f; // Color hue; this is the middle of the hue range, and it can go up or down up to 0.15 out of 1.0
+    private float hue = 0.5f; // Color hue; this is the middle of the hue range, and it can go up by 0.15 or down by 0.15 at most
     private float saturation = 0.8f; // Color saturation
-    private float brightness = 0.25f; // Color brightness; this is the middle of the brightness range, and it can go up or down up to 0.15 out of 1.0
+    private float lightness = 0.25f; // Color lightness as per HSL; this is the middle of the brightness range, and it can go up by 0.15 or down by 0.15 at most
 
     public OceanEffect(TypingLabel label, String[] params) {
         super(label);
@@ -58,9 +73,9 @@ public class OceanEffect extends Effect {
             this.saturation = paramAsFloat(params[3], 0.8f);
         }
 
-        // Brightness
+        // Lightness
         if (params.length > 4) {
-            this.brightness = paramAsFloat(params[4], 0.25f);
+            this.lightness = paramAsFloat(params[4], 0.25f);
         }
     }
 
@@ -73,7 +88,7 @@ public class OceanEffect extends Effect {
 
         label.setInWorkingLayout(globalIndex, (glyph & 0xFFFFFFFFL) |
                 (long) ColorUtils.hsl2rgb(NoiseUtils.octaveNoise1D(progress * 5f, 12345) * 0.15f + hue, saturation,
-                        0.15f - Math.abs(NoiseUtils.noise1D(progress * 3f + progress * progress, -123456789)) * 0.3f + brightness, 1f) << 32);
+                        0.15f - Math.abs(NoiseUtils.noise1D(progress * 3f + progress * progress, -123456789)) * 0.3f + lightness, 1f) << 32);
     }
 
 }

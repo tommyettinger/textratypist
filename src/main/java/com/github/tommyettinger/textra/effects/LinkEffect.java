@@ -23,8 +23,19 @@ import com.github.tommyettinger.textra.utils.StringUtils;
 
 /**
  * Allows clicking the affected text to open a URL in the browser. You may want to use other markup with this, such as
- * underlining or especially a color change. Doesn't change over time. This doesn't validate the URL or sanity-check it
+ * underlining or especially a color change; using {@link StylistEffect} may be useful to indicate that the user is
+ * currently hovering over a link. Doesn't change over time. This doesn't validate the URL or sanity-check it
  * in any way, so try not to allow users to write arbitrary URLS and send them to other users.
+ * <br>
+ * Parameters: {@code url}
+ * <br>
+ * The {@code url} can be any URL text not containing curly braces or brackets, and can actually have semicolons in it
+ * and still be treated as one parameter. This URL is what clicking the affected text will try to open in a browser.
+ * <br>
+ * Example usage:
+ * <code>
+ * {LINK=https://libgdx.com}Everybody's favorite Java game framework!{ENDLINK}
+ * </code>
  */
 public class LinkEffect extends Effect {
     private String link = "https://libgdx.com";

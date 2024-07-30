@@ -22,22 +22,36 @@ import com.github.tommyettinger.textra.TypingLabel;
 
 /**
  * Makes the text jumps and falls as if there was gravity.
+ * <br>
+ * Parameters: {@code jumpHeight;frequency;speed;duration}
+ * <br>
+ * The {@code jumpHeight} is how many line-heights each glyph should move up (and back down) by; defaults to 1.0 .
+ * The {@code frequency} is how often the glyphs should jump, in a wave; defaults to 1.0 .
+ * The {@code speed} is how quickly each jumping glyph should move; defaults to 1.0 .
+ * The {@code duration} is how many seconds the jumping should go on, or {@code _} to repeat forever; defaults to
+ * positive infinity.
+ * <br>
+ * Example usage:
+ * <code>
+ * {JUMP=0.5;1.5;0.8;_}Each glyph here will jump a little and with slower movement, but more often; the jumps will go on forever.{ENDJUMP}
+ * {JUMP=2.5;0.25;1.0;5}Each glyph here will jump very high, infrequently, at normal speed, for 5 seconds total.{ENDJUMP}
+ * </code>
  */
 public class JumpEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 50f;
-    private static final float DEFAULT_DISTANCE = 1.33f;
-    private static final float DEFAULT_INTENSITY = 1f;
+    private static final float DEFAULT_JUMP_HEIGHT = 1.33f;
+    private static final float DEFAULT_SPEED = 1f;
 
-    private float distance = 1; // How much of their height they should move
+    private float jumpHeight = 1; // How much of their height they should move
     private float frequency = 1; // How frequently the wave pattern repeats
-    private float intensity = 1; // How fast the glyphs should move
+    private float speed = 1; // How fast the glyphs should move
 
     public JumpEffect(TypingLabel label, String[] params) {
         super(label);
 
-        // Distance
+        // Jump Height
         if (params.length > 0) {
-            this.distance = paramAsFloat(params[0], 1);
+            this.jumpHeight = paramAsFloat(params[0], 1);
         }
 
         // Frequency
@@ -45,9 +59,9 @@ public class JumpEffect extends Effect {
             this.frequency = paramAsFloat(params[1], 1);
         }
 
-        // Intensity
+        // Speed
         if (params.length > 2) {
-            this.intensity = paramAsFloat(params[2], 1);
+            this.speed = paramAsFloat(params[2], 1);
         }
 
         // Duration
@@ -59,7 +73,7 @@ public class JumpEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate progress
-        float progressModifier = (1f / intensity) * DEFAULT_INTENSITY;
+        float progressModifier = (1f / speed) * DEFAULT_SPEED;
         float normalFrequency = (1f / frequency) * DEFAULT_FREQUENCY;
         float progressOffset = localIndex / normalFrequency;
         float progress = calculateProgress(progressModifier, -progressOffset, false);
@@ -72,7 +86,7 @@ public class JumpEffect extends Effect {
         } else {
             interpolation = Interpolation.bounceOut.apply(1, 0, (progress - split) / (1f - split));
         }
-        float y = label.getLineHeight(globalIndex) * distance * interpolation * DEFAULT_DISTANCE;
+        float y = label.getLineHeight(globalIndex) * jumpHeight * interpolation * DEFAULT_JUMP_HEIGHT;
 
         // Calculate fadeout
         float fadeout = calculateFadeout();
