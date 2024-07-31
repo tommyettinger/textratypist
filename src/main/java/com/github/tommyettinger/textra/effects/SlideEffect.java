@@ -24,14 +24,27 @@ import com.github.tommyettinger.textra.TypingLabel;
 
 /**
  * Moves the text horizontally easing it into the final position. Doesn't repeat itself.
+ * This is similar to {@link EaseEffect}, except that this is horizontal.
+ * <br>
+ * Parameters: {@code distance;speed;elastic}
+ * <br>
+ * The {@code distance} is how many line-heights each glyph should move as it gets into position; defaults to 1.0 .
+ * The {@code speed} affects how fast the glyphs should slide in; defaults to 1.0 .
+ * If {@code elastic} is true, the glyphs will wiggle into position; defaults to false, which uses linear movement.
+ * <br>
+ * Example usage:
+ * <code>
+ * {EASE=5;2.8;y}Each glyph here will wiggle into position from very far to the right, doing so quickly.{ENDEASE}
+ * {EASE=-2;0.3}Each glyph here will slide into place from the left, very slowly.{ENDEASE}
+ * </code>
  */
 public class SlideEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 2f;
-    private static final float DEFAULT_INTENSITY = 0.375f;
+    private static final float DEFAULT_SPEED = 0.375f;
 
     private float distance = 1; // How much of their height they should move
-    private float intensity = 1; // How fast the glyphs should move
-    private boolean elastic = false; // Whether or not the glyphs have an elastic movement
+    private float speed = 1; // How fast the glyphs should move
+    private boolean elastic = false; // Whether the glyphs have an elastic movement
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
 
@@ -43,9 +56,9 @@ public class SlideEffect extends Effect {
             this.distance = paramAsFloat(params[0], 1);
         }
 
-        // Intensity
+        // Speed
         if (params.length > 1) {
-            this.intensity = paramAsFloat(params[1], 1);
+            this.speed = paramAsFloat(params[1], 1);
         }
 
         // Elastic
@@ -57,7 +70,7 @@ public class SlideEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate real intensity
-        float realIntensity = intensity * (elastic ? 3f : 1f) * DEFAULT_INTENSITY;
+        float realIntensity = speed * (elastic ? 3f : 1f) * DEFAULT_SPEED;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);

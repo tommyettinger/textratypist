@@ -24,12 +24,24 @@ import com.github.tommyettinger.textra.TypingLabel;
 
 /**
  * Rotates each glyph quickly and slows down as it approaches some count of rotations. Doesn't repeat itself.
+ * <br>
+ * Parameters: {@code speed;rotations;elastic}
+ * <br>
+ * The {@code speed} affects how fast the glyphs should spin; defaults to 1.0 .
+ * The {@code rotations} affects how many times each glyph should fully rotate before stopping; defaults to 1.0 .
+ * If {@code elastic} is true, the glyphs will wiggle into their final rotation; defaults to false, which uses linear movement.
+ * <br>
+ * Example usage:
+ * <code>
+ * {SPIN=5;2;y}Each glyph here will wiggle-spin very quickly twice.{ENDSPIN}
+ * {SPIN=0.4;6}Each glyph here will spin slowly six times.{ENDSPIN}
+ * </code>
  */
 public class SpinEffect extends Effect {
-    private static final float DEFAULT_INTENSITY = 1.0f;
+    private static final float DEFAULT_SPEED = 1.0f;
 
-    private float intensity = 1; // How fast the glyphs should move
-    private float rotations = 1; // how many times the glyph should circle before stopping
+    private float speed = 1; // How fast the glyphs should spin
+    private float rotations = 1; // how many times the glyph should rotate fully before stopping
     private boolean elastic = false; // True if the glyphs have an elastic movement
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
@@ -37,9 +49,9 @@ public class SpinEffect extends Effect {
     public SpinEffect(TypingLabel label, String[] params) {
         super(label);
 
-        // Distance
+        // Speed
         if (params.length > 0) {
-            this.intensity = paramAsFloat(params[0], 1);
+            this.speed = paramAsFloat(params[0], 1);
         }
 
         //Rotations
@@ -55,12 +67,12 @@ public class SpinEffect extends Effect {
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
-        // Calculate real intensity
-        float realIntensity = intensity * (elastic ? 3f : 1f) * DEFAULT_INTENSITY;
+        // Calculate real speed
+        float realSpeed = speed * (elastic ? 3f : 1f) * DEFAULT_SPEED;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed / realIntensity, 0, 1);
+        float progress = MathUtils.clamp(timePassed / realSpeed, 0, 1);
 
         // Calculate offset
         Interpolation interpolation = elastic ? Interpolation.bounceOut : Interpolation.pow3Out;

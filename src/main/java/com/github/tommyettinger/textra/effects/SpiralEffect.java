@@ -23,13 +23,25 @@ import com.github.tommyettinger.textra.TypingLabel;
 
 /**
  * Moves the text in a round spiral from outwards-in, easing it into the final position. Doesn't repeat itself.
+ * <br>
+ * Parameters: {@code distance;speed;rotations}
+ * <br>
+ * The {@code distance} is how many line-heights each glyph will move from outwards-in; defaults to 1.0 .
+ * The {@code speed} affects how fast the glyphs should move; defaults to 1.0 .
+ * The {@code rotations} affects how many times each glyph should circle its position before stopping; defaults to 1.0 .
+ * <br>
+ * Example usage:
+ * <code>
+ * {SPIN=2.5;5;2}Each glyph here will spiral in twice from fairly far away, very quickly.{ENDSPIN}
+ * {SPIN=0.8;0.5;4}Each glyph here will spiral in four times from close-by, slowly.{ENDSPIN}
+ * </code>
  */
 public class SpiralEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 1f;
-    private static final float DEFAULT_INTENSITY = 0.75f;
+    private static final float DEFAULT_SPEED = 0.75f;
 
     private float distance = 1; // How much of their height they should move
-    private float intensity = 1; // How fast the glyphs should move
+    private float speed = 1; // How fast the glyphs should move
     private float rotations = 1; // how many times the glyph should circle before stopping
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
@@ -42,9 +54,9 @@ public class SpiralEffect extends Effect {
             this.distance = paramAsFloat(params[0], 1);
         }
 
-        // Intensity
+        // Speed
         if (params.length > 1) {
-            this.intensity = 1f / paramAsFloat(params[1], 1);
+            this.speed = 1f / paramAsFloat(params[1], 1);
         }
 
         // Rotations
@@ -55,12 +67,12 @@ public class SpiralEffect extends Effect {
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
-        // Calculate real intensity
-        float realIntensity = intensity * DEFAULT_INTENSITY;
+        // Calculate real speed
+        float realSpeed = speed * DEFAULT_SPEED;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed / realIntensity, 0, 1);
+        float progress = MathUtils.clamp(timePassed / realSpeed, 0, 1);
         float spin = 360f * rotations * progress;
         // Calculate offset
         float lineHeight = label.getLineHeight(globalIndex);

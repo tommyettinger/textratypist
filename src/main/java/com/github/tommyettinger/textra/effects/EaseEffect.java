@@ -24,6 +24,7 @@ import com.github.tommyettinger.textra.TypingLabel;
 
 /**
  * Moves the text vertically easing it into the final position. Doesn't repeat itself.
+ * This is similar to {@link SlideEffect}, except that this is vertical.
  * <br>
  * Parameters: {@code distance;speed;elastic}
  * <br>
