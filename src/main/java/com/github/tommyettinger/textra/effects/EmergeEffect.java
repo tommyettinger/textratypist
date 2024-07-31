@@ -69,10 +69,10 @@ public class EmergeEffect extends Effect {
 
         // Calculate offset
         Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;
-        float interpolatedValue = interpolation.apply(progress);
+        float interpolatedValue = interpolation.apply(progress) - 1f;
 
-        label.sizing.incr(globalIndex << 1 | 1, interpolatedValue - 1f);
-        label.offsets.incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * label.getLineHeight(globalIndex));
+        label.sizing.incr(globalIndex << 1 | 1, interpolatedValue);
+        label.offsets.incr(globalIndex << 1 | 1, interpolatedValue * 0.5f * label.getLineHeight(globalIndex));
     }
 
 }

@@ -163,8 +163,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                        "Retro", "Slab", "Handwriting", "Canada", "Cozette", "Iosevka",
 //                        "Medieval", "Future", "Console", "Code"
 
-//                "{JOLT=1;1;_;0.05;DARKEST RED;RED}There's a [/][@Medieval]STORM{RESET} on [@Future][GREEN]the way[][], " +
-                "{JOLT=1;1.2;inf;0.3;dull lavender;light butter}There's a [/][@Medieval]STORM{RESET} on [@Future][green]the way[][], " +
+                "{SQUASH}There's a [/][@Medieval]STORM{RESET} on [@Future][GREEN]the way[][], " +
+//                "{JOLT=1;1.2;inf;0.3;dull lavender;light butter}There's a [/][@Medieval]STORM{RESET} on [@Future][green]the way[][], " +
 //                "{OCEAN=0.7;1.25;0.11;1.0;0.65}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
 //                "she's{WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
                 "{INSTANT}she's{VAR=SHIVERINGBLIZZARD} blowin' on down{ENDINSTANT}{RESET}, " +

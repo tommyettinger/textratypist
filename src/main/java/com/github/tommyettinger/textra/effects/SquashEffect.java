@@ -24,12 +24,24 @@ import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /**
- * Stretches the text vertically from the baseline up to its full height. Doesn't repeat itself.
+ * Shrinks the text vertically toward the baseline while stretching a little outward horizontally, then returns to
+ * normal. Doesn't repeat itself.
+ * <br>
+ * Parameters: {@code speed;elastic}
+ * <br>
+ * The {@code speed} affects how fast the glyphs should be squashed down and out; defaults to 0.25 .
+ * If {@code elastic} is true, the glyphs will wiggle to their squashed and then full size; defaults to false, which uses linear movement.
+ * <br>
+ * Example usage:
+ * <code>
+ * {SQUASH=2.8;y}Each glyph here will wiggle "bouncily" into a squashed size and back again quickly.{ENDSQUASH}
+ * {SQUASH=0.3}Each glyph here will very slowly be crushed down to a squashed size and back again.{ENDSQUASH}
+ * </code>
  */
 public class SquashEffect extends Effect {
-    private static final float DEFAULT_INTENSITY = 0.125f;
+    private static final float DEFAULT_SPEED = 0.125f;
 
-    private float intensity = 4f; // How fast the glyphs should move
+    private float speed = 4f; // How fast the glyphs should move
     private boolean elastic = false; // True if the glyphs have an elastic movement
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
@@ -37,9 +49,9 @@ public class SquashEffect extends Effect {
     public SquashEffect(TypingLabel label, String[] params) {
         super(label);
 
-        // Distance
+        // Speed
         if (params.length > 0) {
-            this.intensity = 1.0f / paramAsFloat(params[0], 0.25f);
+            this.speed = 1.0f / paramAsFloat(params[0], 0.25f);
         }
 
         // Elastic
@@ -50,12 +62,12 @@ public class SquashEffect extends Effect {
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
-        // Calculate real intensity
-        float realIntensity = intensity * (elastic ? 3f : 1f) * DEFAULT_INTENSITY;
+        // Calculate real speed
+        float realSpeed = speed * (elastic ? 3f : 1f) * DEFAULT_SPEED;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed / realIntensity, 0, 1);
+        float progress = MathUtils.clamp(timePassed / realSpeed, 0, 1);
 
         Font font = label.getFont();
 
@@ -63,14 +75,16 @@ public class SquashEffect extends Effect {
         if (progress < 0.4f) {
             float interpolatedValue = 1f - Interpolation.sine.apply(progress * 2.5f) * 0.5f;
             label.offsets.incr(globalIndex << 1, font.mapping.get((char) glyph, font.defaultValue).xAdvance * (0.125f - 0.125f * interpolatedValue));
+            label.offsets.incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * label.getLineHeight(globalIndex));
             label.sizing.incr(globalIndex << 1, 1.0f - interpolatedValue);
-            label.sizing.incr(globalIndex << 1 | 1, interpolatedValue - 1.0f);
+            label.sizing.incr(globalIndex << 1 | 1, interpolatedValue - 1f);
         } else {
             Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;
             float interpolatedValue = interpolation.apply((progress - 0.4f) * 1.666f) * 0.5f + 0.5f;
             label.offsets.incr(globalIndex << 1, font.mapping.get((char) glyph, font.defaultValue).xAdvance * (0.125f - 0.125f * interpolatedValue));
+            label.offsets.incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * label.getLineHeight(globalIndex));
             label.sizing.incr(globalIndex << 1, 1.0f - interpolatedValue);
-            label.sizing.incr(globalIndex << 1 | 1, interpolatedValue - 1.0f);
+            label.sizing.incr(globalIndex << 1 | 1, interpolatedValue - 1f);
         }
     }
 
