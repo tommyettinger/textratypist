@@ -22,15 +22,29 @@ import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /**
- * Drips the text in a random pattern.
+ * Drips the text down and back up from its normal position in a random pattern.
+ * This can work well with {@link CrowdEffect} to incorporate random rotation.
+ * <br>
+ * Parameters: {@code distance;speed;duration}
+ * <br>
+ * The {@code distance} is how many line-heights each glyph should move down, at most; defaults to 1.0 .
+ * The {@code speed} is how quickly each glyph should move; defaults to 1.0 .
+ * The {@code duration} is how many seconds the dripping should go on, or {@code _} to repeat forever; defaults to
+ * positive infinity.
+ * <br>
+ * Example usage:
+ * <code>
+ * {SICK=0.5;0.8;_}Each glyph here will shake a little and with slower movement; the shaking will go on forever.{ENDSICK}
+ * {SICK=2.5;1.0;5}Each glyph here will shake a lot, at normal speed, for 5 seconds total.{ENDSICK}
+ * </code>
  */
 public class SickEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 50f;
     private static final float DEFAULT_DISTANCE = .125f;
-    private static final float DEFAULT_INTENSITY = 1f;
+    private static final float DEFAULT_SPEED = 1f;
 
     public float distance = 1; // How far the glyphs should move
-    public float intensity = 1; // How fast the glyphs should move
+    public float speed = 1; // How fast the glyphs should move
 
     private final IntArray indices = new IntArray();
 
@@ -42,9 +56,9 @@ public class SickEffect extends Effect {
             this.distance = paramAsFloat(params[0], 1);
         }
 
-        // Intensity
+        // Speed
         if (params.length > 1) {
-            this.intensity = paramAsFloat(params[1], 1);
+            this.speed = paramAsFloat(params[1], 1);
         }
 
         // Duration
@@ -56,7 +70,7 @@ public class SickEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate progress
-        float progressModifier = (1f / intensity) * DEFAULT_INTENSITY;
+        float progressModifier = (1f / speed) * DEFAULT_SPEED;
         float progressOffset = localIndex / DEFAULT_FREQUENCY;
         float progress = calculateProgress(progressModifier, -progressOffset, false);
 

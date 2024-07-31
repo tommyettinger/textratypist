@@ -27,7 +27,7 @@ import com.github.tommyettinger.textra.TypingLabel;
  * <br>
  * Parameters: {@code distance;speed;elastic}
  * <br>
- * The {@code distance} is how many line-heights each glyph should move as it gets into positionl defaults to -2 .
+ * The {@code distance} is how many line-heights each glyph should move as it gets into position; defaults to -2 .
  * The {@code speed} affects how fast the glyphs should slide in; defaults to 1.0 .
  * If {@code elastic} is true, the glyphs will wiggle into position; defaults to false, which uses linear movement.
  * <br>
