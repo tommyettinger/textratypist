@@ -24,6 +24,17 @@ import com.github.tommyettinger.textra.utils.StringUtils;
  * Allows clicking the affected text to trigger an event. You may want to use other markup with this, such as
  * underlining or especially a color change. Doesn't change over time. This is fully dependent on what the TypingLabel's
  * TypingListener/TypingAdapter does with the event by name.
+ * <br>
+ * Parameters: {@code event}
+ * <br>
+ * The {@code event} is a normal String that will be passed to any registered
+ * {@link com.github.tommyettinger.textra.TypingListener} or {@link com.github.tommyettinger.textra.TypingAdapter} when
+ * this text is clicked. Defaults to "start".
+ * <br>
+ * Example usage:
+ * <code>
+ * {TRIGGER=party}When you click this, the party starts! If an event is registered for "party"...{ENDTRIGGER}
+ * </code>
  */
 public class TriggerEffect extends Effect {
     private String event = "start";

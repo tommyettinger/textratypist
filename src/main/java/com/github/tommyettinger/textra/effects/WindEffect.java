@@ -21,7 +21,22 @@ import com.github.tommyettinger.textra.TypingLabel;
 import com.github.tommyettinger.textra.utils.NoiseUtils;
 
 /**
- * Moves the text in a wind pattern.
+ * Moves the text as if it is being blown around by wind.
+ * <br>
+ * Parameters: {@code distanceX;distanceY;spacing;intensity;duration}
+ * <br>
+ * The {@code distanceX} is how many line-heights each glyph should move left and right by; defaults to 1.0 .
+ * The {@code distanceX} is how many line-heights each glyph should move up and down by; defaults to 1.0 .
+ * The {@code spacing} affects how much space there should be between stronger gusts; defaults to 1.0 .
+ * The {@code intensity} is how strongly the wind should appear to push on each glyph; defaults to 1.0 .
+ * The {@code duration} is how many seconds the wind should go on, or {@code _} to repeat forever; defaults to
+ * positive infinity.
+ * <br>
+ * Example usage:
+ * <code>
+ * {WIND=2;4;0.5;0.5;_}Glyphs here will move more vertically than horizontally, with little spacing and lower intensity; the wind will go on forever.{ENDWIND}
+ * {WIND=3;0.5;2.5;1.5;10}Glyphs here will move much more horizontally than vertically, with more spacing and stronger intensity; the wind will go on for 10 seconds.{ENDWIND}
+ * </code>
  */
 public class WindEffect extends Effect {
     private static final float DEFAULT_SPACING = 10f;
@@ -36,7 +51,7 @@ public class WindEffect extends Effect {
 
     private float distanceX = 1; // How much of their line height glyphs should move in the X axis
     private float distanceY = 1; // How much of their line height glyphs should move in the Y axis
-    private float spacing = 1; // How much space there should be between waves
+    private float spacing = 1; // How much space there should be between gusts
     private float intensity = 1; // How strong the wind should be
 
     public WindEffect(TypingLabel label, String[] params) {

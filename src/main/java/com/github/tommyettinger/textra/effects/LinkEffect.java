@@ -31,10 +31,11 @@ import com.github.tommyettinger.textra.utils.StringUtils;
  * <br>
  * The {@code url} can be any URL text not containing curly braces or brackets, and can actually have semicolons in it
  * and still be treated as one parameter. This URL is what clicking the affected text will try to open in a browser.
+ * Defaults to "https://libgdx.com".
  * <br>
  * Example usage:
  * <code>
- * {LINK=https://libgdx.com}Everybody's favorite Java game framework!{ENDLINK}
+ * {LINK=https://github.com/tommyettinger/textratypist}Text effects!{ENDLINK}
  * </code>
  */
 public class LinkEffect extends Effect {

@@ -22,15 +22,29 @@ import com.github.tommyettinger.textra.TypingLabel;
 
 /**
  * Moves the text vertically in a sine wave pattern.
+ * <br>
+ * Parameters: {@code distance;frequency;speed;duration}
+ * <br>
+ * The {@code distance} is how many line-heights each glyph should move up and down by; defaults to 1.0 .
+ * The {@code frequency} is how often the glyphs should rise and fall, in a wave; defaults to 1.0 .
+ * The {@code speed} is how quickly each glyph should move; defaults to 1.0 .
+ * The {@code duration} is how many seconds the wave should go on, or {@code _} to repeat forever; defaults to
+ * positive infinity.
+ * <br>
+ * Example usage:
+ * <code>
+ * {WAVE=0.5;1.5;0.8;_}Each glyph here will rise/fall a little and with slower movement, but more often; the wave will go on forever.{ENDWAVE}
+ * {WAVE=2.5;0.25;1.0;5}Each glyph here will rise/fall a lot, infrequently, at normal speed, for 5 seconds total.{ENDWAVE}
+ * </code>
  */
 public class WaveEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 15f;
     private static final float DEFAULT_DISTANCE = 0.33f;
-    private static final float DEFAULT_INTENSITY = 0.5f;
+    private static final float DEFAULT_SPEED = 0.5f;
 
     private float distance = 1; // How much of their height they should move
     private float frequency = 1; // How frequently the wave pattern repeats
-    private float intensity = 1; // How fast the glyphs should move
+    private float speed = 1; // How fast the glyphs should move
 
     public WaveEffect(TypingLabel label, String[] params) {
         super(label);
@@ -45,9 +59,9 @@ public class WaveEffect extends Effect {
             this.frequency = paramAsFloat(params[1], 1);
         }
 
-        // Intensity
+        // Speed
         if (params.length > 2) {
-            this.intensity = paramAsFloat(params[2], 1);
+            this.speed = paramAsFloat(params[2], 1);
         }
 
         // Duration
@@ -59,7 +73,7 @@ public class WaveEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate progress
-        float progressModifier = (1f / intensity) * DEFAULT_INTENSITY;
+        float progressModifier = (1f / speed) * DEFAULT_SPEED;
         float normalFrequency = (1f / frequency) * DEFAULT_FREQUENCY;
         float progressOffset = localIndex / normalFrequency;
         float progress = calculateProgress(progressModifier, progressOffset);
