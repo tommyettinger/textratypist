@@ -383,13 +383,15 @@ by [fontwriter](https://github.com/tommyettinger/fontwriter), or FW. The initial
 from .fnt and .json/.dat font files equally well, but its scope expanded to include the new styles.
 
 If you're used to using [Stripe](https://github.com/raeleus/stripe), there's a drop-in replacement that does both what
-`FWSkin` does and the FreeType handling that Stripe does. This is the extra `FreeTypist` dependency. It allows
+`FWSkin` does and the FreeType handling that Stripe does. This is the extra `FreeTypist` dependency, available in
+[a separate repository](https://github.com/tommyettinger/freetypist). It allows
 configuring FreeType by having a `"com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator"` in your skin JSON,
-which is often produced by [Skin Composer](https://github.com/raeleus/skin-composer).
-You can get it via Gradle, but it's probably a better option to just copy in the two files from the
-`freetypist/src/main/java/com/github/tommyettinger/freetypist` folder into your own code. Regardless of how you depend
-on FreeTypist, it needs a dependency on FreeType and on TextraTypist (currently 1.0.0). When features are added to
-FWSkin and TextraTypist in general, FreeTypist should be updated also. 
+which is often produced by [Skin Composer](https://github.com/raeleus/skin-composer). You can get it via Gradle, but
+it's probably a better option to just copy in the two files from
+[this folder in freetypist](https://github.com/tommyettinger/freetypist/tree/main/src/main/java/com/github/tommyettinger/freetypist)
+into your own code. Regardless of how you depend on FreeTypist, it needs a dependency on FreeType (including appropriate
+"platform" dependencies) and on TextraTypist (currently 1.0.0). When features are added to FWSkin and TextraTypist in
+general, FreeTypist should be updated also. 
 
 ## How do I get it?
 
