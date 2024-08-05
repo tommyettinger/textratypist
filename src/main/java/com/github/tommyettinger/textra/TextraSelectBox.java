@@ -96,7 +96,7 @@ public class TextraSelectBox extends Widget implements Disableable {
         scrollPane.maxListCount = maxListCount;
     }
 
-    /** @return Max number of items to display when the box is opened, or <= 0 to display them all. */
+    /** @return Max number of items to display when the box is opened, or &lt;= 0 to display them all. */
     public int getMaxListCount () {
         return scrollPane.maxListCount;
     }

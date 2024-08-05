@@ -446,11 +446,10 @@ Current gdx-liftoff and gdx-setup projects all can use JitPack dependencies with
 You would use this dependency in your core module:
 
 ```groovy
-implementation "com.github.tommyettinger.textratypist:textratypist:dc41592e94"
+implementation 'com.github.tommyettinger:textratypist:de5a52f340'
 ```
 
-(Note the extra "textratypist"; one refers to the repo, and one refers to the actual project inside the repo.)
-You can change `dc41592e94` to any commit in the Commits tab of https://jitpack.io/#tommyettinger/textratypist ,
+You can change `de5a52f340` to any commit in the Commits tab of https://jitpack.io/#tommyettinger/textratypist ,
 but you should not use `-SNAPSHOT` -- it can change without your requesting it to, which is not what you want!
 
 You can also depend on FreeTypist using:
