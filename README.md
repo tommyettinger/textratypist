@@ -256,12 +256,12 @@ currently rendering needs to have its distance field resized when the window res
 There are several preconfigured font settings in `KnownFonts`; the documentation for each font getter says what files
 are needed to use that font. **[The old .fnt files have been moved here](https://github.com/tommyettinger/fonts)**.
 [You can see previews and descriptions of all known fonts here.](https://tommyettinger.github.io/textratypist/apidocs/com/github/tommyettinger/textra/KnownFonts.html)
-Having KnownFonts isn't typically necessary since version 1.0.0, because the fonts are now made all by the same tool
-([fontwriter](https://github.com/tommyettinger/fontwriter)), and tend to be configured correctly out-of-the-box. The
-variety of font types isn't amazing, but it should be a good starting point. One nice new thing to note is the
-`KnownFonts.getStandardFamily()` method, which requires having 13 fonts in your assets, but naturally lets you switch
-between any of those 13 fonts using the `[@Medieval]` syntax (where Medieval is one of the names it knows, in this case
-for "KingThings Foundation").
+Having KnownFonts isn't necessary for many fonts since version 1.0.0, because the `.dat` fonts are now made all by the
+same tool ([fontwriter](https://github.com/tommyettinger/fontwriter)), and tend to be configured correctly
+out-of-the-box. The variety of font types isn't amazing, but it should be a good starting point. One nice thing to note
+is the`KnownFonts.getStandardFamily()` method, which requires having 16 fonts in your assets, but naturally lets you
+switch between any of those 16 fonts using the `[@Medieval]` syntax (where Medieval is one of the names it knows, in
+this case for "KingThings Foundation").
 
 The fonts here use the .dat file extension (which just means it's binary data with no particular file format). They are
 compressed versions of larger .json fonts produced by fontwriter. The compression they use is GWT-compatible, so these
@@ -272,6 +272,9 @@ in an atlas.
 The license files for each font are included in the same folder, in `knownFonts` here. All fonts provided here were
 checked to ensure their licenses permit commercial use without fees, and all do. Most require attribution; check the
 licenses for details.
+
+KnownFonts includes several other ways to configure existing Font instances by adding a TextureAtlas to the glyphs they
+know. This includes a few existing TextureAtlases of icons and... emoji!
 
 ## Did somebody say emoji?
 
