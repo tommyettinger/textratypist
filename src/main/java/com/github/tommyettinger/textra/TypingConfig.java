@@ -190,6 +190,7 @@ public class TypingConfig {
         registerEffect("OCEAN", OceanEffect::new);
         registerEffect("SPUTTER", SputterEffect::new);
         registerEffect("INSTANT", InstantEffect::new);
+        registerEffect("SLAM", SlamEffect::new);
 
         initializeGlobalVars();
     }

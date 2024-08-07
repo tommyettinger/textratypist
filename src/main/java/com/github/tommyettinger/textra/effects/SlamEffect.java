@@ -29,7 +29,7 @@ import com.github.tommyettinger.textra.TypingLabel;
  * <br>
  * Parameters: {@code initialStretch;speed;height;shakeDuration;shakePower}
  * <br>
- * The {@code hangTime} is how many seconds the glyph should stay elevated before dropping; defaults to 1.0 .
+ * The {@code hangTime} is how many seconds the glyph should stay elevated before dropping; defaults to 0.25 .
  * The {@code speed} affects how quickly the glyphs enter their target positions; defaults to 1.0 .
  * The {@code height} is how many line-heights the glyphs should start above the destination; defaults to 1.0 .
  * The {@code shakeDuration} is how many seconds the glyph should shake after it reaches its target; defaults to 2.0 .
@@ -47,7 +47,7 @@ public class SlamEffect extends Effect {
     private static final float DEFAULT_HEIGHT = 1f;
     private static final float DEFAULT_POWER = 1f;
 
-    private float hangTime = 1; // How long they should stay elevated before dropping, in seconds
+    private float hangTime = 0.25f; // How long they should stay elevated before dropping, in seconds
     private float speed = 1; // How fast the glyphs should move
     private float height = 1; // How high the glyphs should start above their target position
     private float shakeDuration = 2; // How long the glyph should shake after it stops moving in, in seconds
@@ -62,7 +62,7 @@ public class SlamEffect extends Effect {
 
         // Hang Time
         if (params.length > 0) {
-            this.hangTime = paramAsFloat(params[0], 1.0f);
+            this.hangTime = paramAsFloat(params[0], 0.25f);
         }
 
         // Speed
@@ -93,15 +93,16 @@ public class SlamEffect extends Effect {
         float realSpeed = speed * DEFAULT_SPEED;
 
         // Calculate progress
-        float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed / realSpeed - hangTime * DEFAULT_HANG_TIME, 0, 1);
-        float shakeProgress = progress >= 0.9f && shakeDuration != 0f ? MathUtils.clamp((timePassed / realSpeed - hangTime * DEFAULT_HANG_TIME - 1f) / shakeDuration, 0f, 1f) : 0f;
+        float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, -hangTime * DEFAULT_HANG_TIME + 1f, delta);
+        float progress = MathUtils.clamp(timePassed / realSpeed, 0, 1);
+        progress *= progress * progress;
+        float shakeProgress = progress >= 0.9f && shakeDuration != 0f ? MathUtils.clamp((timePassed / realSpeed - 1f) / shakeDuration, 0f, 1f) : 0f;
 
         if(shakeProgress == 0f) {
 
             // Calculate offset
             Interpolation interpolation = Interpolation.exp10In;
-            float yMove = interpolation.apply(label.getLineHeight(globalIndex) * height * DEFAULT_HEIGHT, 0, progress);
+            float yMove = interpolation.apply(label.getLineHeight(globalIndex) * height * DEFAULT_HEIGHT, 0, progress * progress);
 
             // Apply changes
             label.offsets.incr(globalIndex << 1 | 1, yMove);
@@ -117,8 +118,8 @@ public class SlamEffect extends Effect {
             float lastY = lastOffsets.get(localIndex * 2 + 1);
 
             // Calculate new offsets
-            float x = label.getLineHeight(globalIndex) * hangTime * MathUtils.random(-0.125f, 0.125f);
-            float y = label.getLineHeight(globalIndex) * hangTime * MathUtils.random(-0.125f, 0.125f);
+            float x = label.getLineHeight(globalIndex) * MathUtils.random(-0.125f, 0.125f);
+            float y = label.getLineHeight(globalIndex) * MathUtils.random(-0.125f, 0.125f);
 
             // Apply intensity
             float normalIntensity = MathUtils.clamp(shakePower * DEFAULT_POWER, 0, 1);
