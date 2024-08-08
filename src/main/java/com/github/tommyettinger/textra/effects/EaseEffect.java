@@ -56,7 +56,7 @@ public class EaseEffect extends Effect {
             this.distance = paramAsFloat(params[0], -2);
         }
 
-        //Intensity
+        // Speed
         if (params.length > 1) {
             this.speed = paramAsFloat(params[1], 1);
         }
@@ -69,12 +69,12 @@ public class EaseEffect extends Effect {
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
-        // Calculate real intensity
-        float realIntensity = speed * (elastic ? 3f : 1f) * DEFAULT_SPEED;
+        // Calculate real speed
+        float realSpeed = speed * (elastic ? 3f : 1f) * DEFAULT_SPEED;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed / realIntensity, 0, 1);
+        float progress = MathUtils.clamp(timePassed / realSpeed, 0, 1);
 
         // Calculate offset
         Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;
