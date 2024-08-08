@@ -35,13 +35,13 @@ import com.github.tommyettinger.textra.TypingLabel;
  * <br>
  * Example usage:
  * <code>
- * {EASE=5;2.8;y,y}Each glyph here will wiggle into position from very randomly-scattered points, doing so quickly.{ENDEASE}
- * {EASE=-3;0.3}Each glyph here will slide from an equal distance and random angle, going into place very slowly.{ENDEASE}
+ * {MEET=5;2.8;y;y}Each glyph here will wiggle into position from very randomly-scattered points, doing so quickly.{ENDMEET}
+ * {MEET=-3;0.3}Each glyph here will slide from an equal distance and random angle, going into place very slowly.{ENDMEET}
  * </code>
  */
 public class MeetEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 1f;
-    private static final float DEFAULT_SPEED = 0.125f;
+    private static final float DEFAULT_SPEED = 1f;
 
     private float distance = 2; // How much of their height they should move
     private float speed = 1; // How fast the glyphs should move
@@ -68,7 +68,7 @@ public class MeetEffect extends Effect {
             this.elastic = paramAsBoolean(params[2]);
         }
         // Inside
-        if (params.length > 2) {
+        if (params.length > 3) {
             this.inside = paramAsBoolean(params[3]);
         }
     }
@@ -76,11 +76,11 @@ public class MeetEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate real speed
-        float realSpeed = speed * (elastic ? 3f : 1f) * DEFAULT_SPEED;
+        float realSpeed = speed * (elastic ? 0.333f : 1f) * DEFAULT_SPEED;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed / realSpeed, 0, 1);
+        float progress = MathUtils.clamp(timePassed * realSpeed, 0, 1);
 
         // Calculate offset
         Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;

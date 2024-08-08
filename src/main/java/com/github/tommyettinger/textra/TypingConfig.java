@@ -191,6 +191,7 @@ public class TypingConfig {
         registerEffect("SPUTTER", SputterEffect::new);
         registerEffect("INSTANT", InstantEffect::new);
         registerEffect("SLAM", SlamEffect::new);
+        registerEffect("MEET", MeetEffect::new);
 
         initializeGlobalVars();
     }
