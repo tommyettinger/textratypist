@@ -117,7 +117,8 @@ public class NotoEmojiTypingLabelTest extends ApplicationAdapter {
 //                        + "But... {SICK}U. Nitty{ENDSICK} doesn't."
 //                        + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
 
-                "I love TextraTypist! [white][+saxophone][-HEARTBEAT][+😍]{ENDHEARTBEAT}[+🎷][ ]\n"
+                "[white][+🫣][] ...Do shortcodes work? [white][+peek][+face_with_peeking_eye][]\n"
+                + "I love TextraTypist! [white][+saxophone][-HEARTBEAT][+😍]{ENDHEARTBEAT}[+🎷][ ]\n"
                 + "But... {SICK}U. Nitty{ENDSICK} doesn't. {CROWD}[#BB1100][+skull]{COLOR=#55AA22}[+🤡]{ENDCROWD}{CLEARCOLOR}\n"
                 + "That's OK, I don't like loot crates anyway. {CROWD}[#B10][+party_popper]{COLOR=5A2}[+🥳]{ENDCROWD}{CLEARCOLOR}\n"
                 +"[+scales][~][_][+scales][ ] testing: [_][~][%25]go[%50]go[%75]go[%100][red]go[][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\n"
@@ -151,7 +152,7 @@ public class NotoEmojiTypingLabelTest extends ApplicationAdapter {
 //        label.layout.setTargetWidth(label.layout.getWidth());
 //        label.setWidth(Gdx.graphics.getBackBufferWidth() - 100);
 
-//        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
+        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 //
 //        // Set an event listener for when the {EVENT} token is reached and for the char progression ends.
 //        label.setTypingListener(new TypingAdapter() {
@@ -167,17 +168,6 @@ public class NotoEmojiTypingLabelTest extends ApplicationAdapter {
 //        });
 //        // Finally parse tokens in the label text.
 //        label.parseTokens();
-        Action action = Actions.repeat(2,
-                Actions.sequence(
-                        delay(1.5f),
-                        moveBy(0, 100, 0.4f, Interpolation.pow2Out),
-                        moveBy(0, -100, 0.3f, Interpolation.pow2In),
-                        moveBy(0, 100 * .5f, 0.4f, Interpolation.pow2Out),
-                        moveBy(0, -100 * .5f, 0.3f, Interpolation.pow2In)
-                )
-        );
-        label.addAction(action);
-
         return label;
     }
 
