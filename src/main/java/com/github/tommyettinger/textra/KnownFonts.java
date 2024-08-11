@@ -3404,6 +3404,173 @@ public final class KnownFonts implements LifecycleListener {
             throw new RuntimeException("Assets '"+baseName+".atlas' and '"+baseName+".png' not found.");
         }
     }
+    private TextureAtlas notoEmoji;
+
+
+//     * <br>
+//     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
+//     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
+
+    /**
+     * Takes a Font and adds the Noto Color Emoji icon set to it, making the glyphs available using {@code [+name]} syntax.
+     * You can use the name of an emoji, such as {@code [+clown]}, or equivalently use the actual emoji, such as
+     * {@code [+🤡]}, with the latter preferred because the names can be unwieldy or hard to get right. This caches the
+     * Noto Color Emoji atlas for later calls. This tries to load the files "Noto-Emoji.atlas" and "Noto-Emoji.png" from
+     * the internal storage first using the configured {@link #setAssetPrefix(String) path prefix}, and if that fails,
+     * it tries to load them from local storage in the current working directory, also with that path prefix.
+     * There are over 3000 emoji in the Noto Color Emoji set; it is licensed as OFL 1.1. There are many additional names
+     * (called "shortcodes" by some sources) for various emoji; this uses the
+     * <a href="https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true">EmojiBase</a>
+     * set of shortcodes for Unicode 15.1, which is a different set from what services like Slack and Discord use. The
+     * names are also different here from the names in {@link #addEmoji(Font)}; these names use underscores to separate
+     * words, and don't use commas or other normal-sentence punctuation.
+     * <br>
+     * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
+     * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
+     * You can search for names in {@code Noto-Emoji.atlas}, or use the emoji picker in
+     * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category. You can also use
+     * the emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
+     * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
+     * name or emoji, and {@link Font#namesByCharCode} to go from such an internal code to an emoji (as UTF-8).
+     * <br>
+     * Note that there isn't enough available space in a Font to add both emoji with this and icons with
+     * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
+     * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
+     * <br>
+     * You can see all emoji and the names they use
+     * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">at this GitHub Pages site</a>.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Noto-Emoji.atlas">Noto-Emoji.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Noto-Emoji.png">Noto-Emoji.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Noto-Emoji-License.txt">Noto-Emoji-License.txt</a></li>
+     * </ul>
+     *
+     * @param changing a Font that will have over 3000 emoji added to it, with more aliases
+     * @return {@code changing}, after the emoji atlas has been added
+     */
+    public static Font addNotoEmoji(Font changing) {
+        return addNotoEmoji(changing, 0f, 0f, 0f);
+    }
+
+    /**
+     * Takes a Font and adds the Noto Color Emoji icon set to it, making the glyphs available using {@code [+name]} syntax.
+     * You can use the name of an emoji, such as {@code [+clown]}, or equivalently use the actual emoji, such as
+     * {@code [+🤡]}, with the latter preferred because the names can be unwieldy or hard to get right. This caches the
+     * Noto Color Emoji atlas for later calls. This tries to load the files "Noto-Emoji.atlas" and "Noto-Emoji.png" from
+     * the internal storage first using the configured {@link #setAssetPrefix(String) path prefix}, and if that fails,
+     * it tries to load them from local storage in the current working directory, also with that path prefix.
+     * There are over 3000 emoji in the Noto Color Emoji set; it is licensed as OFL 1.1. There are many additional names
+     * (called "shortcodes" by some sources) for various emoji; this uses the
+     * <a href="https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true">EmojiBase</a>
+     * set of shortcodes for Unicode 15.1, which is a different set from what services like Slack and Discord use. The
+     * names are also different here from the names in {@link #addEmoji(Font)}; these names use underscores to separate
+     * words, and don't use commas or other normal-sentence punctuation.
+     * <br>
+     * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
+     * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
+     * You can search for names in {@code Noto-Emoji.atlas}, or use the emoji picker in
+     * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category. You can also use
+     * the emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
+     * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
+     * name or emoji, and {@link Font#namesByCharCode} to go from such an internal code to an emoji (as UTF-8).
+     * <br>
+     * Note that there isn't enough available space in a Font to add both emoji with this and icons with
+     * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
+     * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
+     * <br>
+     * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
+     * <br>
+     * You can see all emoji and the names they use
+     * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">at this GitHub Pages site</a>.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Noto-Emoji.atlas">Noto-Emoji.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Noto-Emoji.png">Noto-Emoji.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Noto-Emoji-License.txt">Noto-Emoji-License.txt</a></li>
+     * </ul>
+     *
+     * @param changing a Font that will have over 3000 emoji added to it, with more aliases
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push emoji to the right
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji down
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink emoji
+     * @return {@code changing}, after the emoji atlas has been added
+     */
+    public static Font addNotoEmoji(Font changing, float offsetXChange, float offsetYChange, float xAdvanceChange) {
+        return addNotoEmoji(changing, "", "", offsetXChange, offsetYChange, xAdvanceChange);
+    }
+    /**
+     * Takes a Font and adds the Noto Color Emoji icon set to it, making the glyphs available using {@code [+name]} syntax.
+     * You can use the name of an emoji, such as {@code [+clown]}, or equivalently use the actual emoji, such as
+     * {@code [+🤡]}, with the latter preferred because the names can be unwieldy or hard to get right. This caches the
+     * Noto Color Emoji atlas for later calls. This tries to load the files "Noto-Emoji.atlas" and "Noto-Emoji.png" from
+     * the internal storage first using the configured {@link #setAssetPrefix(String) path prefix}, and if that fails,
+     * it tries to load them from local storage in the current working directory, also with that path prefix.
+     * There are over 3000 emoji in the Noto Color Emoji set; it is licensed as OFL 1.1. There are many additional names
+     * (called "shortcodes" by some sources) for various emoji; this uses the
+     * <a href="https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true">EmojiBase</a>
+     * set of shortcodes for Unicode 15.1, which is a different set from what services like Slack and Discord use. The
+     * names are also different here from the names in {@link #addEmoji(Font)}; these names use underscores to separate
+     * words, and don't use commas or other normal-sentence punctuation.
+     * <br>
+     * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
+     * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
+     * You can search for names in {@code Noto-Emoji.atlas}, or use the emoji picker in
+     * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category. You can also use
+     * the emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
+     * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
+     * name or emoji, and {@link Font#namesByCharCode} to go from such an internal code to an emoji (as UTF-8).
+     * <br>
+     * Note that there isn't enough available space in a Font to add both emoji with this and icons with
+     * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
+     * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
+     * <br>
+     * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font. It also
+     * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
+     * <br>
+     * You can see all emoji and the names they use
+     * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">at this GitHub Pages site</a>.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Noto-Emoji.atlas">Noto-Emoji.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Noto-Emoji.png">Noto-Emoji.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Noto-Emoji-License.txt">Noto-Emoji-License.txt</a></li>
+     * </ul>
+     *
+     * @param changing a Font that will have over 3000 emoji added to it, with more aliases
+     * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
+     * @param append will be appended after each name in the atlas; if null, will be treated as ""
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push emoji to the right
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji down
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink emoji
+     * @return {@code changing}, after the emoji atlas has been added
+     */
+    public static Font addNotoEmoji(Font changing, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
+        initialize();
+        if (instance.notoEmoji == null) {
+            try {
+                FileHandle atlas = Gdx.files.internal(instance.prefix + "Noto-Emoji.atlas");
+                if (!atlas.exists() && Gdx.files.isLocalStorageAvailable()) atlas = Gdx.files.local(instance.prefix + "Noto-Emoji.atlas");
+                if (Gdx.files.internal(instance.prefix + "Noto-Emoji.png").exists())
+                    instance.notoEmoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
+                else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + "Noto-Emoji.png").exists())
+                    instance.notoEmoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.notoEmoji != null) {
+            return changing.addAtlas(instance.notoEmoji, prepend, append,
+                    offsetXChange, offsetYChange, xAdvanceChange);
+        }
+        throw new RuntimeException("Assets 'Noto-Emoji.atlas' and 'Noto-Emoji.png' not found.");
+    }
 
     private TextureAtlas gameIcons;
 
