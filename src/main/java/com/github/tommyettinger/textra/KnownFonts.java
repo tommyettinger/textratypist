@@ -36,13 +36,17 @@ import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
  * disposal stage of the lifecycle is called, then all Font instances here will be disposed and assigned null. This may
  * do more regarding its LifecycleListener code in the future, if Android turns out to need more work.
  * <br>
- * Typical usage involves calling one of the static methods like {@link #getCozette()} or {@link #getGentiumSDF()} to get a
- * particular Font. This knows a fair amount of fonts, but it doesn't require the image assets for all of those to be
- * present in a game -- only the files mentioned in the documentation for a method are needed, and only if you call that
- * method. It's likely that many games would only use one Font, and so would generally only need a .fnt file, a
- * .png file, and some kind of license file. They could ignore all other assets required by other fonts. The files this
- * class needs are looked for in the assets root folder by default, but you can change the names or locations of asset
- * files with {@link #setAssetPrefix(String)}.
+ * Typical usage involves calling one of the static methods like {@link #getCozette()} or {@link #getGentiumSDF()} to
+ * get a particular Font. You can also have some added flexibility by instead calling
+ * {@link #getFont(String, DistanceFieldType)} and passing it one of the constants in this class, such as
+ * {@link #GENTIUM} or {@link #INCONSOLATA_LGC}, with a {@link DistanceFieldType} of your choice (such as
+ * {@link DistanceFieldType#STANDARD}, which is also used if you don't pass a DistanceFieldType, or
+ * {@link DistanceFieldType#SDF_OUTLINE}, which is primarily accessible by this technique). This knows a fair amount of
+ * fonts, but it doesn't require the image assets for all of those to be present in a game -- only the files mentioned
+ * in the documentation for a method are needed, and only if you call that method. It's likely that many games would
+ * only use one Font, and so would generally only need a .fnt file, a .png file, and some kind of license file. They
+ * could ignore all other assets required by other fonts. The files this class needs are looked for in the assets root
+ * folder by default, but you can change the names or locations of asset files with {@link #setAssetPrefix(String)}.
  * <br>
  * There's some documentation for every known Font, including a link to a preview image and a listing of all required
  * files to use a Font. The required files include any license you need to abide by; this doesn't necessarily belong in
@@ -56,11 +60,17 @@ import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
  * {@link #addEmoji(Font)} adds all of Twitter's emoji from the <a href="https://github.com/twitter/twemoji">Twemoji</a>
  * project to a given font, which lets you enter emoji with the {@code [+man scientist, dark skin tone]} syntax or the
  * generally-easier {@code [+👨🏿‍🔬]} syntax. If you want to use names for emoji, you may want to consult "Twemoji.atlas"
- * for the exact names used; some names changed from the standard because of technical restrictions. You can also add
+ * for the exact names used; some names changed from the standard because of technical restrictions. Other types of
+ * emoji are also available; {@link #addNotoEmoji(Font)} uses Noto Color Emoji instead of Twemoji, which may look better
+ * with some art styles (especially more detailed ones), while {@link #addOpenMoji(Font, boolean)} adds either color or
+ * monochrome (white lines only) emoji from the OpenMoji set, which has a more minimalist style. You can also add
  * the icons from <a href="https://game-icons.net">game-icons.net</a> using {@link #addGameIcons(Font)}. There is a
  * <a href="https://tommyettinger.github.io/twemoji-atlas/">preview site for Twemoji, with names</a>, another
+ * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">preview site for Noto Emoji, with names</a>, another
  * <a href="https://tommyettinger.github.io/openmoji-atlas/">preview site for OpenMoji, with names</a>, and another
- * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">preview site for the game icons</a>.
+ * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">preview site for the game icons</a>. Note that the
+ * names are different for Noto Emoji and the other emoji, but you can use the {@code [+👩🏽‍🚀]} syntax with a literal emoji
+ * char for any of them.
  */
 @SuppressWarnings("CallToPrintStackTrace")
 public final class KnownFonts implements LifecycleListener {
@@ -3032,14 +3042,13 @@ public final class KnownFonts implements LifecycleListener {
      * There are over 3000 emoji in the Twemoji set;
      * <a href="https://github.com/twitter/twemoji#attribution-requirements">it requires attribution to use</a>.
      * <br>
-     * You can add emoji to a font as inline images with KnownFonts.addEmoji(Font).
-     * Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as intended
-     * with "standard" fonts (without a distance field effect). They can scale reasonably well down, and less-reasonably well
-     * up, but at typical text sizes (12-30 pixels in height) they tend to be legible. There are over 3000 emoji in the Twemoji
-     * set, and they are accessible both by name, using the syntax <code>[+clown face]</code>, and by entering the actual
-     * emoji, using the syntax <code>[+🤡]</code>. You can search for names in {@code Twemoji.atlas}, or use the emoji picker in
-     * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category. You can also use the
-     * emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
+     * You can add emoji to a font as inline images with {@code KnownFonts.addEmoji(myFont)}.
+     * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
+     * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
+     * You can search for names in {@code Twemoji.atlas}, or use the emoji picker in
+     * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category. You can also use
+     * the emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
      * name or emoji, and {@link Font#namesByCharCode} to go from such an internal code to an emoji (as UTF-8).
      * <br>
@@ -3075,8 +3084,8 @@ public final class KnownFonts implements LifecycleListener {
      * There are over 3000 emoji in the Twemoji set;
      * <a href="https://github.com/twitter/twemoji#attribution-requirements">it requires attribution to use</a>.
      * <br>
-     * Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as
-     * intended with "standard" fonts (without a distance field effect). They can scale reasonably well down, and
+     * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
      * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
      * You can search for names in {@code Twemoji.atlas}, or use the emoji picker in
      * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category. You can also use
@@ -3104,9 +3113,9 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param changing a Font that will have over 3000 emoji added to it, with more aliases
-     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push emoji to the right
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji down
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink emoji
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addEmoji(Font changing, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -3121,8 +3130,8 @@ public final class KnownFonts implements LifecycleListener {
      * There are over 3000 emoji in the Twemoji set;
      * <a href="https://github.com/twitter/twemoji#attribution-requirements">it requires attribution to use</a>.
      * <br>
-     * Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as
-     * intended with "standard" fonts (without a distance field effect). They can scale reasonably well down, and
+     * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
      * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
      * You can search for names in {@code Twemoji.atlas}, or use the emoji picker in
      * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category. You can also use
@@ -3153,9 +3162,9 @@ public final class KnownFonts implements LifecycleListener {
      * @param changing a Font that will have over 3000 emoji added to it, with more aliases
      * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
      * @param append will be appended after each name in the atlas; if null, will be treated as ""
-     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push emoji to the right
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji down
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink emoji
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addEmoji(Font changing, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -3199,16 +3208,13 @@ public final class KnownFonts implements LifecycleListener {
      * also the white-line-only version you can use here, which has no equivalent in Twemoji. OpenMoji probably don't
      * look quite as good at very small sizes when compared to Twemoji, though.
      * <br>
-     * You can add OpenMoji emoji to a font as inline images with KnownFonts.addOpenMoji(Font, boolean).
-     * Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as intended
-     * with "standard" fonts (without a distance field effect). They can scale reasonably well down, and less-reasonably well
-     * up, but at typical text sizes (12-30 pixels in height) they tend to be legible. There are over 3700 emoji in the OpenMoji
-     * set, and they are accessible both by name, using the syntax <code>[+clown face]</code>, and by entering the actual
-     * emoji, using the syntax <code>[+🤡]</code>. You can search for names in {@code OpenMoji.atlas}, or use the emoji picker in
-     * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category (Skin Composer might
-     * not be using the current version of the emoji standard, and it defaults to Twemoji instead of OpenMoji, but most of the
-     * usage is the same, and an emoji for Twemoji should also work with OpenMoji). You can also use the
-     * emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
+     * You can add OpenMoji emoji to a font as inline images with {@code KnownFonts.addOpenMoji(myFont, boolean)}.
+     * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
+     * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
+     * You can search for names in {@code OpenMoji-color.atlas}, or use the emoji picker in
+     * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category. You can also use
+     * the emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
      * name or emoji, and {@link Font#namesByCharCode} to go from such an internal code to an emoji (as UTF-8).
      * <br>
@@ -3257,10 +3263,10 @@ public final class KnownFonts implements LifecycleListener {
      * also the white-line-only version you can use here, which has no equivalent in Twemoji. OpenMoji probably don't
      * look quite as good at very small sizes when compared to Twemoji, though.
      * <br>
-     * Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as
-     * intended with "standard" fonts (without a distance field effect). They can scale reasonably well down, and
+     * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
      * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
-     * You can search for names in {@code OpenMoji.atlas}, or use the emoji picker in
+     * You can search for names in {@code OpenMoji-color.atlas}, or use the emoji picker in
      * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category. You can also use
      * the emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
@@ -3290,9 +3296,9 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param changing a Font that will have over 3700 emoji added to it, with more aliases
-     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push emoji to the right
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji down
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink emoji
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addOpenMoji(Font changing, boolean color, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -3318,10 +3324,10 @@ public final class KnownFonts implements LifecycleListener {
      * also the white-line-only version you can use here, which has no equivalent in Twemoji. OpenMoji probably don't
      * look quite as good at very small sizes when compared to Twemoji, though.
      * <br>
-     * Emoji don't work at all with MSDF fonts, and don't support more than one color with SDF fonts, but work as
-     * intended with "standard" fonts (without a distance field effect). They can scale reasonably well down, and
+     * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
      * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
-     * You can search for names in {@code OpenMoji.atlas}, or use the emoji picker in
+     * You can search for names in {@code OpenMoji-color.atlas}, or use the emoji picker in
      * <a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category. You can also use
      * the emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
@@ -3354,9 +3360,9 @@ public final class KnownFonts implements LifecycleListener {
      * @param changing a Font that will have over 3700 emoji added to it, with more aliases
      * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
      * @param append will be appended after each name in the atlas; if null, will be treated as ""
-     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push emoji to the right
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji down
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink emoji
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addOpenMoji(Font changing, boolean color, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -3406,11 +3412,6 @@ public final class KnownFonts implements LifecycleListener {
     }
     private TextureAtlas notoEmoji;
 
-
-//     * <br>
-//     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
-//     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
-
     /**
      * Takes a Font and adds the Noto Color Emoji icon set to it, making the glyphs available using {@code [+name]} syntax.
      * You can use the name of an emoji, such as {@code [+clown]}, or equivalently use the actual emoji, such as
@@ -3423,7 +3424,8 @@ public final class KnownFonts implements LifecycleListener {
      * <a href="https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true">EmojiBase</a>
      * set of shortcodes for Unicode 15.1, which is a different set from what services like Slack and Discord use. The
      * names are also different here from the names in {@link #addEmoji(Font)}; these names use underscores to separate
-     * words, and don't use commas or other normal-sentence punctuation.
+     * words, and don't use commas or other normal-sentence punctuation. Skin tones are available for compatible emoji,
+     * and the names for these contain "tone1" for the lightest skin tone through "tone5" for the darkest.
      * <br>
      * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
      * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
@@ -3440,6 +3442,9 @@ public final class KnownFonts implements LifecycleListener {
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">at this GitHub Pages site</a>.
+     * <br>
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/NotoEmojiPreview.png">Image link</a>
+     * (uses the font {@link #getAStarry()} and {@code [%?blacken]} mode)
      * <br>
      * Needs files:
      * <ul>
@@ -3467,7 +3472,8 @@ public final class KnownFonts implements LifecycleListener {
      * <a href="https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true">EmojiBase</a>
      * set of shortcodes for Unicode 15.1, which is a different set from what services like Slack and Discord use. The
      * names are also different here from the names in {@link #addEmoji(Font)}; these names use underscores to separate
-     * words, and don't use commas or other normal-sentence punctuation.
+     * words, and don't use commas or other normal-sentence punctuation. Skin tones are available for compatible emoji,
+     * and the names for these contain "tone1" for the lightest skin tone through "tone5" for the darkest.
      * <br>
      * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
      * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
@@ -3486,6 +3492,9 @@ public final class KnownFonts implements LifecycleListener {
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">at this GitHub Pages site</a>.
+     * <br>
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/NotoEmojiPreview.png">Image link</a>
+     * (uses the font {@link #getAStarry()} and {@code [%?blacken]} mode)
      * <br>
      * Needs files:
      * <ul>
@@ -3515,7 +3524,8 @@ public final class KnownFonts implements LifecycleListener {
      * <a href="https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true">EmojiBase</a>
      * set of shortcodes for Unicode 15.1, which is a different set from what services like Slack and Discord use. The
      * names are also different here from the names in {@link #addEmoji(Font)}; these names use underscores to separate
-     * words, and don't use commas or other normal-sentence punctuation.
+     * words, and don't use commas or other normal-sentence punctuation. Skin tones are available for compatible emoji,
+     * and the names for these contain "tone1" for the lightest skin tone through "tone5" for the darkest.
      * <br>
      * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
      * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
@@ -3535,6 +3545,9 @@ public final class KnownFonts implements LifecycleListener {
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">at this GitHub Pages site</a>.
+     * <br>
+     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/NotoEmojiPreview.png">Image link</a>
+     * (uses the font {@link #getAStarry()} and {@code [%?blacken]} mode)
      * <br>
      * Needs files:
      * <ul>
@@ -3649,9 +3662,9 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param changing a Font that will have over 4000 icons added to it
-     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push icons to the right
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push icons down
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink icons
      * @return {@code changing}, after the icon atlas has been added
      */
     public static Font addGameIcons(Font changing, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -3697,9 +3710,9 @@ public final class KnownFonts implements LifecycleListener {
      * @param changing a Font that will have over 4000 icons added to it
      * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
      * @param append will be appended after each name in the atlas; if null, will be treated as ""
-     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push icons to the right
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push icons down
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink icons
      * @return {@code changing}, after the icon atlas has been added
      */
     public static Font addGameIcons(Font changing, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
