@@ -39,8 +39,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * </code>
  */
 public class ZipperEffect extends Effect {
-    private static final float DEFAULT_DISTANCE = 0.3f;
-    private static final float DEFAULT_SPEED = 0.075f;
+    private static final float DEFAULT_DISTANCE = 0.75f;
+    private static final float DEFAULT_SPEED = 2f;
 
     private float distance = -2; // How much of their height they should move
     private float speed = 1; // How fast the glyphs should move
@@ -70,11 +70,11 @@ public class ZipperEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate real speed
-        float realSpeed = speed * (elastic ? 3f : 1f) * DEFAULT_SPEED;
+        float realSpeed = speed * (elastic ? 0.333f : 1f) * DEFAULT_SPEED;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed / realSpeed, 0, 1);
+        float progress = MathUtils.clamp(timePassed * realSpeed, 0, 1);
 
         // Calculate offset
         Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;

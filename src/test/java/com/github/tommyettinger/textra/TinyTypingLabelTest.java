@@ -169,7 +169,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                "she's{WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
                 "{INSTANT}she's{VAR=SHIVERINGBLIZZARD} blowin' on down{ENDINSTANT}{RESET}, " +
                 "[@Handwriting]whippin'[] her [@Slab]way[] through the [*]{FONT=Sans}whole dang[][] town! " +
-                "[@Iosevka]Sure[@] as [/]I reckon[ ], if we [@Mono]meet our [@Cozette]{HANG}fate[@]{RESET}, " +
+                "{ZIPPER}[@Iosevka]Sure[@] as [/]I reckon{ENDZIPPER}[ ], if we [@Mono]meet our [@Cozette]{HANG}fate[@]{RESET}, " +
+//                "[@Iosevka]Sure[@] as [/]I reckon[ ], if we [@Mono]meet our [@Cozette]{HANG}fate[@]{RESET}, " +
                 "this [light grey black][%125]storm[ ] will be [@Canada]there[@] on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%150]eight[%]{ENDSPIN}! " +
 //                "Should a young 'un go out, in the wind and the thunder, " +
 //                "if they make it back, it will be a [%^]true wonder[%]!",
@@ -197,7 +198,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //        final TypingLabel label = new TypingLabel("{WAIT=1}{SLOWER}Welcome, {VAR=title}!", skin);
 
 //        label.setDefaultToken("{EASE}{SLOW}");
-        label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOW}");
+        label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOWER}");
         label.align = Align.topLeft;
 
         // Make the label wrap to new lines, respecting the table's layout.
