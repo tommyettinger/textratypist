@@ -129,18 +129,36 @@ public class EffectSpeedCheck extends ApplicationAdapter {
 //                KnownFonts.getStandardFamily();
 //                KnownFonts.getGentiumSDF().scale(1.1f, 1.1f).multiplyCrispness(1.3f);
         // KNOWN EFFECTS THAT NEED TO USE EXTEND:
-        // CANNON, EASE, HANG, ZIPPER (already uses it)
+        // CANNON, EASE, HANG, SHRINK, SLAM, SLIDE, ZIPPER (already uses it)
+        // NEW EFFECTS THAT SHOULD HAVE CODE CHANGED TO MATCH:
+        // MEET (should use extend)
         String text =
-                "CANNON=1;10      {CANNON=1;10}This effect has a high value!{RESET}\n" +
-                "CANNON=1;0.1     {CANNON=1;0.1}This effect has a low value!{RESET}\n" +
-                "CROWD=15;10      {CROWD=15;10}This effect has a high value!{RESET}\n" +
-                "CROWD=15;0.1     {CROWD=15;0.1}This effect has a low value!{RESET}\n" +
-                "EASE=2;10        {EASE=2;10}This effect has a high value!{RESET}\n" +
-                "EASE=2;0.1       {EASE=2;0.1}This effect has a low value!{RESET}\n" +
-                "EMERGE=10        {EMERGE=10}This effect has a high value!{RESET}\n" +
-                "EMERGE=0.1       {EMERGE=0.1}This effect has a low value!{RESET}\n" +
-                "HANG=1;10        {HANG=1;10}This effect has a high value!{RESET}\n" +
-                "HANG=1;0.1       {HANG=1;0.1}This effect has a low value!{RESET}\n" +
+//                "CANNON=1;10      {CANNON=1;10}This effect has a high value!{RESET}\n" +
+//                "CANNON=1;0.1     {CANNON=1;0.1}This effect has a low value!{RESET}\n" +
+//                "CROWD=15;10      {CROWD=15;10}This effect has a high value!{RESET}\n" +
+//                "CROWD=15;0.1     {CROWD=15;0.1}This effect has a low value!{RESET}\n" +
+//                "EASE=2;10        {EASE=2;10}This effect has a high value!{RESET}\n" +
+//                "EASE=2;0.1       {EASE=2;0.1}This effect has a low value!{RESET}\n" +
+//                "EMERGE=10        {EMERGE=10}This effect has a high value!{RESET}\n" +
+//                "EMERGE=0.1       {EMERGE=0.1}This effect has a low value!{RESET}\n" +
+//                "HANG=1;10        {HANG=1;10}This effect has a high value!{RESET}\n" +
+//                "HANG=1;0.1       {HANG=1;0.1}This effect has a low value!{RESET}\n" +
+//                "JOLT=1;10        {JOLT=1;10}This effect has a high value!{RESET}\n" +
+//                "JOLT=1;0.1       {JOLT=1;0.1}This effect has a low value!{RESET}\n" +
+//                "JUMP=1;1;10      {JUMP=1;1;10}This effect has a high value!{RESET}\n" +
+//                "JUMP=1;1;0.1     {JUMP=1;1;0.1}This effect has a low value!{RESET}\n" +
+//                "MEET=2;10        {MEET=2;10}This effect has a high value!{RESET}\n" +
+//                "MEET=2;0.1       {MEET=2;0.1}This effect has a low value!{RESET}\n" +
+                "SHAKE=1;10       {SHAKE=1;10}This effect has a high value!{RESET}\n" +
+                "SHAKE=1;0.1      {SHAKE=1;0.1}This effect has a low value!{RESET}\n" +
+                "SHRINK=1;10      {SHRINK=1;10}This effect has a high value!{RESET}\n" +
+                "SHRINK=1;0.1     {SHRINK=1;0.1}This effect has a low value!{RESET}\n" +
+                "SICK=1;10        {SICK=1;10}This effect has a high value!{RESET}\n" +
+                "SICK=1;0.1       {SICK=1;0.1}This effect has a low value!{RESET}\n" +
+                "SLAM=0.3;10      {SLAM=0.3;10}This effect has a high value!{RESET}\n" +
+                "SLAM=0.3;0.1     {SLAM=0.3;0.1}This effect has a low value!{RESET}\n" +
+                "SLIDE=1;10       {SLIDE=1;10}This effect has a high value!{RESET}\n" +
+                "SLIDE=1;0.1      {SLIDE=1;0.1}This effect has a low value!{RESET}\n" +
                 "ZIPPER=2;10      {ZIPPER=2;10}This effect has a high value!{RESET}\n" +
                 "ZIPPER=2;0.1     {ZIPPER=2;0.1}This effect has a low value!{RESET}\n" +
                         "{WAIT=5}That's all, folks!";

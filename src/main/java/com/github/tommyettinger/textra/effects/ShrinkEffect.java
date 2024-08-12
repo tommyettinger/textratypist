@@ -27,7 +27,7 @@ import com.github.tommyettinger.textra.TypingLabel;
  * <br>
  * Parameters: {@code expansion;speed;elastic}
  * <br>
- * The {@code distance} is how many line-heights each glyph should be stretched out by at the start; defaults to 1.0 .
+ * The {@code expansion} is how many line-heights each glyph should be stretched out by at the start; defaults to 1.0 .
  * The {@code speed} affects how fast the glyphs should shrink; defaults to 1.0 .
  * If {@code elastic} is true, the glyphs will wiggle into position; defaults to false, which uses linear movement.
  * <br>
