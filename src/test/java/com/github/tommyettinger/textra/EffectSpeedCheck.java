@@ -128,10 +128,10 @@ public class EffectSpeedCheck extends ApplicationAdapter {
                 KnownFonts.getAStarryTall(Font.DistanceFieldType.MSDF).scaleHeightTo(20);
 //                KnownFonts.getStandardFamily();
 //                KnownFonts.getGentiumSDF().scale(1.1f, 1.1f).multiplyCrispness(1.3f);
-        // KNOWN EFFECTS THAT NEED TO USE EXTEND:
-        // CANNON, EASE, HANG, SHRINK, SLAM, SLIDE, SLAM, SPIN, ZIPPER (already uses it)
+        // KNOWN EFFECTS THAT NEED TO USE EXTENT:
+        // CANNON, EASE, HANG, SHRINK, SLAM, SLIDE, SPIN, ZIPPER (already uses it)
         // NEW EFFECTS THAT SHOULD HAVE CODE CHANGED TO MATCH:
-        // MEET (should use extend)
+        // MEET (should use extent)
         String text =
 //                "CANNON=1;10         {CANNON=1;10}This effect has a high value!{RESET}\n" +
 //                "CANNON=1;0.1        {CANNON=1;0.1}This effect has a low value!{RESET}\n" +

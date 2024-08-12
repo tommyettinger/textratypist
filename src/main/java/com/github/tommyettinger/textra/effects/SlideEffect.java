@@ -26,10 +26,10 @@ import com.github.tommyettinger.textra.TypingLabel;
  * Moves the text horizontally easing it into the final position. Doesn't repeat itself.
  * This is similar to {@link EaseEffect}, except that this is horizontal.
  * <br>
- * Parameters: {@code distance;speed;elastic}
+ * Parameters: {@code distance;extent;elastic}
  * <br>
  * The {@code distance} is how many line-heights each glyph should move as it gets into position; defaults to 1.0 .
- * The {@code speed} affects how fast the glyphs should slide in; defaults to 1.0 .
+ * The {@code extent} affects how long the animation should be extended by (not in any unit); defaults to 1.0 .
  * If {@code elastic} is true, the glyphs will wiggle into position; defaults to false, which uses linear movement.
  * <br>
  * Example usage:
@@ -40,10 +40,10 @@ import com.github.tommyettinger.textra.TypingLabel;
  */
 public class SlideEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 2f;
-    private static final float DEFAULT_SPEED = 0.375f;
+    private static final float DEFAULT_EXTENT = 0.375f;
 
     private float distance = 1; // How much of their height they should move
-    private float speed = 1; // How fast the glyphs should move
+    private float extent = 1; // Approximately how much the animation should be extended by (made slower)
     private boolean elastic = false; // Whether the glyphs have an elastic movement
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
@@ -56,9 +56,9 @@ public class SlideEffect extends Effect {
             this.distance = paramAsFloat(params[0], 1);
         }
 
-        // Speed
+        // Extent
         if (params.length > 1) {
-            this.speed = paramAsFloat(params[1], 1);
+            this.extent = paramAsFloat(params[1], 1);
         }
 
         // Elastic
@@ -69,12 +69,12 @@ public class SlideEffect extends Effect {
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
-        // Calculate real speed
-        float realSpeed = speed * (elastic ? 3f : 1f) * DEFAULT_SPEED;
+        // Calculate real extent
+        float realExtent = extent * (elastic ? 3f : 1f) * DEFAULT_EXTENT;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed / realSpeed, 0, 1);
+        float progress = MathUtils.clamp(timePassed / realExtent, 0, 1);
 
         // Calculate offset
         Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;

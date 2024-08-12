@@ -25,9 +25,9 @@ import com.github.tommyettinger.textra.TypingLabel;
 /**
  * Rotates each glyph quickly and slows down as it approaches some count of rotations. Doesn't repeat itself.
  * <br>
- * Parameters: {@code speed;rotations;elastic}
+ * Parameters: {@code extent;rotations;elastic}
  * <br>
- * The {@code speed} affects how fast the glyphs should spin; defaults to 1.0 .
+ * The {@code extent} affects how long the animation should be extended by (not in any unit); defaults to 1.0 .
  * The {@code rotations} affects how many times each glyph should fully rotate before stopping; defaults to 1.0 .
  * If {@code elastic} is true, the glyphs will wiggle into their final rotation; defaults to false, which uses linear movement.
  * <br>
@@ -38,9 +38,9 @@ import com.github.tommyettinger.textra.TypingLabel;
  * </code>
  */
 public class SpinEffect extends Effect {
-    private static final float DEFAULT_SPEED = 1.0f;
+    private static final float DEFAULT_EXTENT = 1.0f;
 
-    private float speed = 1; // How fast the glyphs should spin
+    private float extent = 1; // How fast the glyphs should spin
     private float rotations = 1; // how many times the glyph should rotate fully before stopping
     private boolean elastic = false; // True if the glyphs have an elastic movement
 
@@ -49,9 +49,9 @@ public class SpinEffect extends Effect {
     public SpinEffect(TypingLabel label, String[] params) {
         super(label);
 
-        // Speed
+        // Extent
         if (params.length > 0) {
-            this.speed = paramAsFloat(params[0], 1);
+            this.extent = paramAsFloat(params[0], 1);
         }
 
         //Rotations
@@ -67,12 +67,12 @@ public class SpinEffect extends Effect {
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
-        // Calculate real speed
-        float realSpeed = speed * (elastic ? 3f : 1f) * DEFAULT_SPEED;
+        // Calculate real extent
+        float realExtent = extent * (elastic ? 3f : 1f) * DEFAULT_EXTENT;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed / realSpeed, 0, 1);
+        float progress = MathUtils.clamp(timePassed / realExtent, 0, 1);
 
         // Calculate offset
         Interpolation interpolation = elastic ? Interpolation.bounceOut : Interpolation.pow3Out;
