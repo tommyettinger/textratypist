@@ -192,6 +192,7 @@ public class TypingConfig {
         registerEffect("INSTANT", InstantEffect::new);
         registerEffect("SLAM", SlamEffect::new);
         registerEffect("MEET", MeetEffect::new);
+        registerEffect("ZIPPER", ZipperEffect::new);
 
         initializeGlobalVars();
     }
