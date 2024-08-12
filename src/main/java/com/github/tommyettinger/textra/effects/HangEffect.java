@@ -24,11 +24,12 @@ import com.github.tommyettinger.textra.TypingLabel;
 
 /**
  * Hangs the text in midair and suddenly drops it. Doesn't repeat itself.
+ * See also {@link SlamEffect}, which is similar but starts elevated (instead of rising up), and shakes at the end.
  * <br>
- * Parameters: {@code distance;speed}
+ * Parameters: {@code distance;extent}
  * <br>
  * The {@code distance} is how many line-heights the glyphs should move up before dropping down; defaults to 1.0 .
- * The {@code speed} affects how fast the glyphs should stretch out; defaults to 1.0 .
+ * The {@code extent} affects how long the animation should be extended by (not in any unit); defaults to 1.0 .
  * <br>
  * Example usage:
  * <code>
@@ -38,10 +39,10 @@ import com.github.tommyettinger.textra.TypingLabel;
  */
 public class HangEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.7f;
-    private static final float DEFAULT_SPEED = 1.5f;
+    private static final float DEFAULT_EXTENT = 1.5f;
 
     private float distance = 1; // How much of their height they should move
-    private float speed = 1; // How fast the glyphs should move
+    private float extent = 1; // Approximately how much the animation should be extended by (made slower)
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
 
@@ -53,16 +54,16 @@ public class HangEffect extends Effect {
             this.distance = paramAsFloat(params[0], 1);
         }
 
-        // Speed
+        // Extent
         if (params.length > 1) {
-            this.speed = paramAsFloat(params[1], 1);
+            this.extent = paramAsFloat(params[1], 1);
         }
     }
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate real intensity
-        float realIntensity = speed * 1f * DEFAULT_SPEED;
+        float realIntensity = extent * DEFAULT_EXTENT;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);

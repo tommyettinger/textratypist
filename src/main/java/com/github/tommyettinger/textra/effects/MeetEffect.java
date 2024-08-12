@@ -26,10 +26,10 @@ import com.github.tommyettinger.textra.TypingLabel;
  * Moves the text from random starting points, easing glyphs into their final positions. Doesn't repeat itself.
  * This is similar to {@link SlideEffect} and {@link EaseEffect}, except this uses random starting points.
  * <br>
- * Parameters: {@code distance;speed;elastic;inside}
+ * Parameters: {@code distance;extent;elastic;inside}
  * <br>
  * The {@code distance} is how many line-heights each glyph should start away from its destination; defaults to 2 .
- * The {@code speed} affects how fast the glyphs should slide in; defaults to 1.0 .
+ * The {@code extent} affects how long the animation should be extended by (not in any unit); defaults to 1.0 .
  * If {@code elastic} is true, the glyphs will wiggle into position; defaults to false, which uses linear movement.
  * If {@code inside} is true, glyphs will start a random amount less than {@code distance} to their destination; defaults to false.
  * <br>
@@ -41,10 +41,10 @@ import com.github.tommyettinger.textra.TypingLabel;
  */
 public class MeetEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 1f;
-    private static final float DEFAULT_SPEED = 1f;
+    private static final float DEFAULT_EXTEND = 1f;
 
     private float distance = 2; // How much of their height they should move
-    private float speed = 1; // How fast the glyphs should move
+    private float extent = 1; // Approximately how much the animation should be extended by (made slower)
     private boolean elastic = false; // True if the glyphs have an elastic movement
     private boolean inside = false; // True if the glyphs can be positioned inside the circle
 
@@ -58,9 +58,9 @@ public class MeetEffect extends Effect {
             this.distance = paramAsFloat(params[0], 2);
         }
 
-        // Speed
+        // Extent
         if (params.length > 1) {
-            this.speed = paramAsFloat(params[1], 1);
+            this.extent = paramAsFloat(params[1], 1);
         }
 
         // Elastic
@@ -75,12 +75,12 @@ public class MeetEffect extends Effect {
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
-        // Calculate real speed
-        float realSpeed = speed * (elastic ? 0.333f : 1f) * DEFAULT_SPEED;
+        // Calculate real extent
+        float realExtent = extent * (elastic ? 3f : 1f) * DEFAULT_EXTEND;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed * realSpeed, 0, 1);
+        float progress = MathUtils.clamp(timePassed / realExtent, 0, 1);
 
         // Calculate offset
         Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;

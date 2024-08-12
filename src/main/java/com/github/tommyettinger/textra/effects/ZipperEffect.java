@@ -26,10 +26,10 @@ import com.github.tommyettinger.textra.TypingLabel;
  * Moves the text vertically easing it into the final position, alternating glyphs moving down and glyphs moving up.
  * Doesn't repeat itself. This is similar to {@link EaseEffect}, except that this alternates directions.
  * <br>
- * Parameters: {@code distance;extend;elastic}
+ * Parameters: {@code distance;extent;elastic}
  * <br>
  * The {@code distance} is how many line-heights each glyph should move as it gets into position; defaults to 2 .
- * The {@code extend} affects how long the animation should be extended by (not in any unit); defaults to 1.0 .
+ * The {@code extent} affects how long the animation should be extended by (not in any unit); defaults to 1.0 .
  * If {@code elastic} is true, the glyphs will wiggle into position; defaults to false, which uses linear movement.
  * <br>
  * Example usage:
@@ -40,10 +40,10 @@ import com.github.tommyettinger.textra.TypingLabel;
  */
 public class ZipperEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.75f;
-    private static final float DEFAULT_EXTEND = 0.5f;
+    private static final float DEFAULT_EXTENT = 0.5f;
 
     private float distance = 2; // How much of their height they should move
-    private float extend = 1; // Approximately how much the animation should be extended by (made slower)
+    private float extent = 1; // Approximately how much the animation should be extended by (made slower)
     private boolean elastic = false; // True if the glyphs have an elastic movement
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
@@ -58,7 +58,7 @@ public class ZipperEffect extends Effect {
 
         // Speed
         if (params.length > 1) {
-            this.extend = paramAsFloat(params[1], 1);
+            this.extent = paramAsFloat(params[1], 1);
         }
 
         // Elastic
@@ -70,11 +70,11 @@ public class ZipperEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate how slowly this should advance
-        float timeExtension = extend * (elastic ? 3f : 1f) * DEFAULT_EXTEND;
+        float realExtent = extent * (elastic ? 3f : 1f) * DEFAULT_EXTENT;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed / timeExtension, 0, 1);
+        float progress = MathUtils.clamp(timePassed / realExtent, 0, 1);
 
         // Calculate offset
         Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;

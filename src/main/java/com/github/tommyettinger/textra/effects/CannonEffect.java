@@ -27,10 +27,10 @@ import com.github.tommyettinger.textra.TypingLabel;
  * Starts the text large and shrinks into the final position/size, arcing up and then ending moving down; may optionally
  * shake once it arrives at its destination. Doesn't repeat itself.
  * <br>
- * Parameters: {@code initialStretch;speed;height;shakeDuration;shakePower}
+ * Parameters: {@code initialStretch;extent;height;shakeDuration;shakePower}
  * <br>
  * The {@code initialStretch} affects how big the glyphs should be while they are in the "foreground;" defaults to 1.0 .
- * The {@code speed} affects how quickly the glyphs enter their target positions; defaults to 1.0 .
+ * The {@code extent} extends how long it takes for the glyphs to enter their target positions; defaults to 1.0 .
  * The {@code height} is how many line-heights the glyphs should arc up and then down; defaults to 1.0 .
  * The {@code shakeDuration} is how many seconds the glyph should shake after it "hits" its target; defaults to 2.0 .
  * The {@code shakePower} affects how much each glyph should shake after it "hits" its target; defaults to 1.0 .
@@ -43,12 +43,12 @@ import com.github.tommyettinger.textra.TypingLabel;
  */
 public class CannonEffect extends Effect {
     private static final float DEFAULT_STRETCH = 3f;
-    private static final float DEFAULT_SPEED = 0.9f;
+    private static final float DEFAULT_EXTENT = 0.9f;
     private static final float DEFAULT_HEIGHT = 2.5f;
     private static final float DEFAULT_POWER = 1f;
 
     private float initialStretch = 1; // How much of their height they should start expanded by
-    private float speed = 1; // How fast the glyphs should move
+    private float extent = 1; // Approximately how much the animation should be extended by (made slower)
     private float height = 1; // How high the glyphs should move above their target position
     private float shakeDuration = 2; // How long the glyph should shake after it stops moving in, in seconds
     private float shakePower = 1; // How strong the shake effect should be
@@ -65,9 +65,9 @@ public class CannonEffect extends Effect {
             this.initialStretch = paramAsFloat(params[0], 1.0f);
         }
 
-        // Speed
+        // Extent
         if (params.length > 1) {
-            this.speed = paramAsFloat(params[1], 1.0f);
+            this.extent = paramAsFloat(params[1], 1.0f);
         }
 
         // Height
@@ -89,14 +89,14 @@ public class CannonEffect extends Effect {
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
-        // Calculate real speed
-        float realSpeed = speed * DEFAULT_SPEED;
+        // Calculate real extent
+        float realExtent = extent * DEFAULT_EXTENT;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed / realSpeed, 0, 1);
+        float progress = MathUtils.clamp(timePassed / realExtent, 0, 1);
         progress = (float) Math.sqrt(progress);
-        float shakeProgress = progress >= 0.9f && shakeDuration != 0f ? MathUtils.clamp((timePassed / realSpeed - 1f) / shakeDuration, 0f, 1f) : 0f;
+        float shakeProgress = progress >= 0.9f && shakeDuration != 0f ? MathUtils.clamp((timePassed / realExtent - 1f) / shakeDuration, 0f, 1f) : 0f;
 
         if(shakeProgress == 0f) {
 
