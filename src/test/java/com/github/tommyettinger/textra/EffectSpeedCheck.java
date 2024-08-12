@@ -125,17 +125,26 @@ public class EffectSpeedCheck extends ApplicationAdapter {
 //                });
 //        Font font = family.connected[0].setFamily(family);
         Font font =
-                KnownFonts.getAStarryTall();
+                KnownFonts.getAStarryTall(Font.DistanceFieldType.MSDF).scaleHeightTo(20);
 //                KnownFonts.getStandardFamily();
 //                KnownFonts.getGentiumSDF().scale(1.1f, 1.1f).multiplyCrispness(1.3f);
+        // KNOWN EFFECTS THAT NEED TO USE EXTEND:
+        // CANNON, EASE, HANG, ZIPPER (already uses it)
         String text =
-                "{CANNON=1;10}This effect has a high value!{RESET}   " +
-                "{CANNON=1;0.1}This effect has a low value!{RESET}   " +
-                "{CROWD=15;10}This effect has a high value!{RESET}   " +
-                "{CROWD=15;0.1}This effect has a low value!{RESET}   " +
-                "{ZIPPER=2;10}This effect has a high value!{RESET}   " +
-                "{ZIPPER=2;0.1}This effect has a low value!{RESET}   ";
-        StringBuilder sb = new StringBuilder("{SPEED=SLOWER}").append(text).append(text).append(text).append(text);
+                "CANNON=1;10      {CANNON=1;10}This effect has a high value!{RESET}\n" +
+                "CANNON=1;0.1     {CANNON=1;0.1}This effect has a low value!{RESET}\n" +
+                "CROWD=15;10      {CROWD=15;10}This effect has a high value!{RESET}\n" +
+                "CROWD=15;0.1     {CROWD=15;0.1}This effect has a low value!{RESET}\n" +
+                "EASE=2;10        {EASE=2;10}This effect has a high value!{RESET}\n" +
+                "EASE=2;0.1       {EASE=2;0.1}This effect has a low value!{RESET}\n" +
+                "EMERGE=10        {EMERGE=10}This effect has a high value!{RESET}\n" +
+                "EMERGE=0.1       {EMERGE=0.1}This effect has a low value!{RESET}\n" +
+                "HANG=1;10        {HANG=1;10}This effect has a high value!{RESET}\n" +
+                "HANG=1;0.1       {HANG=1;0.1}This effect has a low value!{RESET}\n" +
+                "ZIPPER=2;10      {ZIPPER=2;10}This effect has a high value!{RESET}\n" +
+                "ZIPPER=2;0.1     {ZIPPER=2;0.1}This effect has a low value!{RESET}\n" +
+                        "{WAIT=5}That's all, folks!";
+        StringBuilder sb = new StringBuilder("{SPEED=SLOWER}").append(text);
 
         final TypingLabel label = new TypingLabel(sb.toString(), font);
 
@@ -159,7 +168,7 @@ public class EffectSpeedCheck extends ApplicationAdapter {
 
             @Override
             public void end() {
-                System.out.println(label.getIntermediateText());
+                label.restart();
             }
         });
 
@@ -184,6 +193,7 @@ public class EffectSpeedCheck extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        label.font.resizeDistanceField(width, height, stage.getViewport());
     }
 
     @Override
