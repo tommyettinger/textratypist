@@ -26,10 +26,10 @@ import com.github.tommyettinger.textra.TypingLabel;
  * Moves the text vertically easing it into the final position, alternating glyphs moving down and glyphs moving up.
  * Doesn't repeat itself. This is similar to {@link EaseEffect}, except that this alternates directions.
  * <br>
- * Parameters: {@code distance;speed;elastic}
+ * Parameters: {@code distance;extend;elastic}
  * <br>
- * The {@code distance} is how many line-heights each glyph should move as it gets into position; defaults to -2 .
- * The {@code speed} affects how fast the glyphs should slide in; defaults to 1.0 .
+ * The {@code distance} is how many line-heights each glyph should move as it gets into position; defaults to 2 .
+ * The {@code extend} affects how long the animation should be extended by (not in any unit); defaults to 1.0 .
  * If {@code elastic} is true, the glyphs will wiggle into position; defaults to false, which uses linear movement.
  * <br>
  * Example usage:
@@ -40,10 +40,10 @@ import com.github.tommyettinger.textra.TypingLabel;
  */
 public class ZipperEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.75f;
-    private static final float DEFAULT_SPEED = 2f;
+    private static final float DEFAULT_EXTEND = 0.5f;
 
-    private float distance = -2; // How much of their height they should move
-    private float speed = 1; // How fast the glyphs should move
+    private float distance = 2; // How much of their height they should move
+    private float extend = 1; // Approximately how much the animation should be extended by (made slower)
     private boolean elastic = false; // True if the glyphs have an elastic movement
 
     private final IntFloatMap timePassedByGlyphIndex = new IntFloatMap();
@@ -53,12 +53,12 @@ public class ZipperEffect extends Effect {
 
         // Distance
         if (params.length > 0) {
-            this.distance = paramAsFloat(params[0], -2);
+            this.distance = paramAsFloat(params[0], 2);
         }
 
         // Speed
         if (params.length > 1) {
-            this.speed = paramAsFloat(params[1], 1);
+            this.extend = paramAsFloat(params[1], 1);
         }
 
         // Elastic
@@ -69,12 +69,12 @@ public class ZipperEffect extends Effect {
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
-        // Calculate real speed
-        float realSpeed = speed * (elastic ? 0.333f : 1f) * DEFAULT_SPEED;
+        // Calculate how slowly this should advance
+        float timeExtension = extend * (elastic ? 3f : 1f) * DEFAULT_EXTEND;
 
         // Calculate progress
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
-        float progress = MathUtils.clamp(timePassed * realSpeed, 0, 1);
+        float progress = MathUtils.clamp(timePassed / timeExtension, 0, 1);
 
         // Calculate offset
         Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;
