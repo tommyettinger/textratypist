@@ -389,12 +389,14 @@ If you're used to using [Stripe](https://github.com/raeleus/stripe), there's a d
 `FWSkin` does and the FreeType handling that Stripe does. This is the extra `FreeTypist` dependency, available in
 [a separate repository](https://github.com/tommyettinger/freetypist). It allows
 configuring FreeType by having a `"com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator"` in your skin JSON,
-which is often produced by [Skin Composer](https://github.com/raeleus/skin-composer). You can get it via Gradle, but
-it's probably a better option to just copy in the two files from
+which is often produced by [Skin Composer](https://github.com/raeleus/skin-composer). You can take normal Skins produced by SkinComposer and compatible with
+Stripe and use them with FreeTypist.
+
+You can get it via Gradle, but it's probably a better option to just copy in the two files from
 [this folder in freetypist](https://github.com/tommyettinger/freetypist/tree/main/src/main/java/com/github/tommyettinger/freetypist)
 into your own code. Regardless of how you depend on FreeTypist, it needs a dependency on FreeType (including appropriate
 "platform" dependencies) and on TextraTypist (currently 1.0.0). When features are added to FWSkin and TextraTypist in
-general, FreeTypist should be updated also. 
+general, FreeTypist should be updated also.
 
 ## How do I get it?
 
@@ -617,7 +619,7 @@ words, even if a single word is longer than the width of a `TextraLabel` or `Typ
 twofold: first, breaking words without proper hyphenation logic can change the meaning of those words, and second,
 fixing this could be a ton of work. I do intend to try to make this configurable and match `Label` by default in some
 near-future version. The word wrap behavior for multiple whitespace characters changed in version 0.10.0, and should be
-essentially correct now. Remember that word wrap only makes sense in the context of scene2d.ui if a widget (such as a
+essentially correct now. Remember that word wrap only makes sense in the context of scene2d.ui for a widget (such as a
 TypingLabel or TextraLabel) if that widget has been sized by scene2d.ui, usually by being in a Table cell, or sometimes
 by being in a Container. You may need to add a label to a Table or Container, then set the width and/or height of that
 Cell or Container, to get wrap to act correctly.
@@ -635,6 +637,23 @@ as GWT and Graal Native Image. GWT was able to work before, but Graal Native Ima
 configuration to be added for every game/app that used TextraTypist. The other issue is that if TextraTypist continued
 to target Java 7 for its library code, it wouldn't compile with Java 20 or later, and the LTS release 21 has been out
 for almost a year.
+
+If you're upgrading to TextraTypist 1.0.0 or later, and you haven't changed Skin usage at all, you'll probably encounter
+some bugs. These are quick to fix by changing `Skin` to `FWSkin`, or if you used Stripe, `FreeTypistSkin` from
+FreeTypist. There is also a `FWSkinLoader` for use with `AssetManager`, and FreeTypist has a `FreeTypistSkinLoader`.
+FWSkin allows loading the new types of scene2d.ui styles that reuse Font instances rather than making new ones often.
+It also allows loading BitmapFont and Font objects from .fnt, .json, and .dat files (where .dat is the compressed JSON
+format this repo uses), requiring only configuration for BitmapFont in the skin .json .
+
+If you want to make your own Fonts, you can use Hiero or AngelCode BMFont as you always have been able to, but now you
+can also use [FontWriter](https://github.com/tommyettinger/fontwriter) (though it is Windows-only for now). FontWriter
+can output SDF and MSDF distance field fonts, as well as standard bitmap fonts, and it always ensures the files have
+been processed how TextraTypist prefers them (they need a small white square in the lower right to use for block drawing
+and underline/strikethrough, plus a specific transparency change makes certain overlapping renders with alpha keep their
+intended colors). These processing changes could be done by running `BlockStamper` and `TransparencyProcessor` in the
+TextraTypist tests, but that's a hassle, so using FontWriter is preferred. It outputs .json and .dat font files, as well
+as a .png texture. You only need the .png file AND (the .dat file OR the .json file), but the .dat file is smaller, so
+it is usually preferred. The .json file can be hand-edited, but it isn't very easy to do that given how it is inside.
 
 ## License
 

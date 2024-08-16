@@ -283,7 +283,6 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		stage.getViewport().update(width, height, true);
 		font.resizeDistanceField(width, height, stage.getViewport());
 		window.font.resizeDistanceField(width, height, stage.getViewport());
-
 	}
 
 	@Override
