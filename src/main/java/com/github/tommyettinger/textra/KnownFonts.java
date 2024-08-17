@@ -3422,7 +3422,7 @@ public final class KnownFonts implements LifecycleListener {
      * There are over 3000 emoji in the
      * <a href="https://fonts.google.com/noto/specimen/Noto+Color+Emoji">Noto Color Emoji</a> set; it is licensed as
      * OFL 1.1. There are many additional names (called "shortcodes" by some sources) for various emoji; this uses the
-     * <a href="https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true">EmojiBase</a>
+     * <a href="{@literal https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true}">EmojiBase</a>
      * set of shortcodes for Unicode 15.1, which is a different set from what services like Slack and Discord use. The
      * names are also different here from the names in {@link #addEmoji(Font)}; these names use underscores to separate
      * words, and don't use commas or other normal-sentence punctuation. Skin tones are available for compatible emoji,
@@ -3473,7 +3473,7 @@ public final class KnownFonts implements LifecycleListener {
      * There are over 3000 emoji in the
      * <a href="https://fonts.google.com/noto/specimen/Noto+Color+Emoji">Noto Color Emoji</a> set; it is licensed as
      * OFL 1.1. There are many additional names (called "shortcodes" by some sources) for various emoji; this uses the
-     * <a href="https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true">EmojiBase</a>
+     * <a href="{@literal https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true}">EmojiBase</a>
      * set of shortcodes for Unicode 15.1, which is a different set from what services like Slack and Discord use. The
      * names are also different here from the names in {@link #addEmoji(Font)}; these names use underscores to separate
      * words, and don't use commas or other normal-sentence punctuation. Skin tones are available for compatible emoji,
@@ -3528,7 +3528,7 @@ public final class KnownFonts implements LifecycleListener {
      * There are over 3000 emoji in the
      * <a href="https://fonts.google.com/noto/specimen/Noto+Color+Emoji">Noto Color Emoji</a> set; it is licensed as
      * OFL 1.1. There are many additional names (called "shortcodes" by some sources) for various emoji; this uses the
-     * <a href="https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true">EmojiBase</a>
+     * <a href="{@literal https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true}">EmojiBase</a>
      * set of shortcodes for Unicode 15.1, which is a different set from what services like Slack and Discord use. The
      * names are also different here from the names in {@link #addEmoji(Font)}; these names use underscores to separate
      * words, and don't use commas or other normal-sentence punctuation. Skin tones are available for compatible emoji,
