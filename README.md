@@ -403,7 +403,7 @@ general, FreeTypist should be updated also.
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:1.0.0"
+implementation "com.github.tommyettinger:textratypist:1.1.0"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.12.1 or higher. A requirement for 1.11.0
@@ -414,7 +414,7 @@ pretty easy to update to.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:1.0.0:sources"
+implementation "com.github.tommyettinger:textratypist:1.1.0:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
 ```
 
@@ -460,15 +460,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:1.0.1"
+implementation "com.github.tommyettinger:freetypist:1.1.0"
 ```
 
-(Yes, the version is different. FreeTypist 1.0.1 uses TextraTypist 1.0.0 .)
+(Now, FreeTypist 1.1.0 uses TextraTypist 1.1.0 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:1.0.1:sources"
+implementation "com.github.tommyettinger:freetypist:1.1.0:sources"
 ```
 
 And this inherits line:

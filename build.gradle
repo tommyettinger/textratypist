@@ -16,21 +16,8 @@ apply plugin: 'java-library'
 apply plugin: 'com.vanniktech.maven.publish'
 apply plugin: 'idea'
 
-configure(allprojects) {
-    apply plugin: 'java-library'
-    apply plugin: 'com.vanniktech.maven.publish'
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-    compileJava {
-        options.incremental = true
-        sourceCompatibility = 8
-        targetCompatibility = 8
-        if (JavaVersion.current().isJava9Compatible()) {
-            options.release.set(8)
-        }
-
-    }
-}
+apply plugin: 'java-library'
+apply plugin: 'com.vanniktech.maven.publish'
 
 allprojects {
     version = "$VERSION_NAME"
@@ -43,7 +30,6 @@ allprojects {
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         maven { url 'https://jitpack.io' }
     }
-    javadoc.options.source("17")
 }
 
 def projectName = 'textratypist'
@@ -65,8 +51,9 @@ java {
 }
 
 compileJava {
-    sourceCompatibility = 8
-    targetCompatibility = 8
+    options.incremental = true
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
     if (JavaVersion.current().isJava9Compatible()) {
         options.release.set(8)
     }
