@@ -336,7 +336,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font A Starry
+     * @return the Font object that can represent many sizes of the font A Starry using the given DistanceFieldType
      */
     public static Font getAStarry(DistanceFieldType dft) {
         return getFont(A_STARRY, dft);
@@ -363,7 +363,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font A Starry
+     * @return the Font object that can represent many sizes of the font A Starry using MSDF
      */
     public static Font getAStarryMSDF() {
         return getFont(A_STARRY, MSDF);
@@ -422,7 +422,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font A Starry, with half width
+     * @return the Font object that can represent many sizes of the font A Starry, with half width, using the given DistanceFieldType
      */
     public static Font getAStarryTall(DistanceFieldType dft) {
         return getFont(A_STARRY, dft).scale(0.5f, 1f).setName(A_STARRY + "-Tall" + dft.namePart);
@@ -451,7 +451,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-License.txt">Bitter-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Bitter-Light.ttf
+     * @return the Font object that can represent many sizes of the font Bitter Light
      */
     public static Font getBitter() {
         return getFont(BITTER, STANDARD);
@@ -488,7 +488,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font Bitter
+     * @return the Font object that can represent many sizes of the font Bitter Light using the given DistanceFieldType
      */
     public static Font getBitter(DistanceFieldType dft) {
         return getFont(BITTER, dft);
@@ -552,7 +552,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font Canada1500
+     * @return the Font object that can represent many sizes of the font Canada1500 using the given DistanceFieldType
      */
     public static Font getCanada(DistanceFieldType dft) {
         return getFont(CANADA1500, dft);
@@ -616,7 +616,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font Cascadia Code Mono
+     * @return the Font object that can represent many sizes of the font Cascadia Code Mono using the given DistanceFieldType
      */
     public static Font getCascadiaMono(DistanceFieldType dft) {
         return getFont(CASCADIA_MONO, dft);
@@ -643,7 +643,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Cascadia Code Mono
+     * @return the Font object that can represent many sizes of the font Cascadia Code Mono using MSDF
      */
     public static Font getCascadiaMonoMSDF() {
         return getFont(CASCADIA_MONO, MSDF);
@@ -707,7 +707,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font Caveat
+     * @return the Font object that can represent many sizes of the font Caveat using the given DistanceFieldType
      */
     public static Font getCaveat(DistanceFieldType dft) {
         return getFont(CAVEAT, dft);
@@ -775,7 +775,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font DejaVuSans.ttf
+     * @return the Font object that can represent many sizes of the font DejaVuSans
      */
     public static Font getDejaVuSans() {
         return getFont(DEJAVU_SANS, STANDARD);
@@ -810,7 +810,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font DejaVuSans.ttf
+     * @return the Font object that can represent many sizes of the font DejaVu Sans using the given DistanceFieldType
      */
     public static Font getDejaVuSans(DistanceFieldType dft) {
         return getFont(DEJAVU_SANS, dft);
@@ -836,7 +836,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font DejaVuSansCondensed.ttf
+     * @return the Font object that can represent many sizes of the font DejaVu Sans Condensed
      */
     public static Font getDejaVuSansCondensed() {
         return getFont(DEJAVU_SANS_CONDENSED, STANDARD);
@@ -871,7 +871,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font DejaVuSansCondensed.ttf
+     * @return the Font object that can represent many sizes of the font DejaVu Sans Condensed using the given DistanceFieldType
      */
     public static Font getDejaVuSansCondensed(DistanceFieldType dft) {
         return getFont(DEJAVU_SANS_CONDENSED, dft);
@@ -949,7 +949,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font DejaVu Sans Mono
+     * @return the Font object that can represent many sizes of the font DejaVu Sans Mono using the given DistanceFieldType
      */
     public static Font getDejaVuSansMono(DistanceFieldType dft) {
         return getFont(DEJAVU_SANS_MONO, dft);
@@ -975,7 +975,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font DejaVuSerif.ttf
+     * @return the Font object that can represent many sizes of the font DejaVu Serif
      */
     public static Font getDejaVuSerif() {
         return getFont(DEJAVU_SERIF, STANDARD);
@@ -1010,7 +1010,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font DejaVuSerif.ttf
+     * @return the Font object that can represent many sizes of the font DejaVu Serif using the given DistanceFieldType
      */
     public static Font getDejaVuSerif(DistanceFieldType dft) {
         return getFont(DEJAVU_SERIF, dft);
@@ -1036,7 +1036,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font DejaVuSerifCondensed.ttf
+     * @return the Font object that can represent many sizes of the font DejaVu Serif Condensed
      */
     public static Font getDejaVuSerifCondensed() {
         return getFont(DEJAVU_SERIF_CONDENSED, STANDARD);
@@ -1071,7 +1071,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font DejaVuSerifCondensed.ttf
+     * @return the Font object that can represent many sizes of the font DejaVu Serif Condensed using the given DistanceFieldType
      */
     public static Font getDejaVuSerifCondensed(DistanceFieldType dft) {
         return getFont(DEJAVU_SERIF_CONDENSED, dft);
@@ -1100,7 +1100,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Gentium.ttf
+     * @return the Font object that can represent many sizes of the font Gentium
      */
     public static Font getGentium() {
         return getFont(GENTIUM, STANDARD);
@@ -1128,7 +1128,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Gentium.ttf using MSDF
+     * @return the Font object that can represent many sizes of the font Gentium using MSDF
      */
     public static Font getGentiumMSDF() {
         return getFont(GENTIUM, MSDF);
@@ -1156,7 +1156,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Gentium.ttf using SDF
+     * @return the Font object that can represent many sizes of the font Gentium using SDF
      */
     public static Font getGentiumSDF() {
         return getFont(GENTIUM, SDF);
@@ -1190,7 +1190,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font Gentium.ttf
+     * @return the Font object that can represent many sizes of the font Gentium using the given DistanceFieldType
      */
     public static Font getGentium(DistanceFieldType dft) {
         return getFont(GENTIUM, dft);
@@ -1225,7 +1225,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Gentium-Un-Italic.ttf
+     * @return the Font object that can represent many sizes of the font Gentium Un-Italic
      */
     public static Font getGentiumUnItalic() {
         return getFont(GENTIUM_UN_ITALIC, STANDARD);
@@ -1270,7 +1270,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font Gentium-Un-Italic.ttf
+     * @return the Font object that can represent many sizes of the font Gentium Un-Italic using the given DistanceFieldType
      */
     public static Font getGentiumUnItalic(DistanceFieldType dft) {
         return getFont(GENTIUM_UN_ITALIC, dft);
@@ -1329,7 +1329,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font Glacial Indifference
+     * @return the Font object that can represent many sizes of the font Glacial Indifference using the given DistanceFieldType
      */
     public static Font getGlacialIndifference(DistanceFieldType dft) {
         return getFont(GLACIAL_INDIFFERENCE, dft);
@@ -1359,7 +1359,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-License.txt">Go-Noto-Universal-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font GoNotoCurrent.ttf
+     * @return the Font object that can represent many sizes of the font Go Noto Current
      */
     public static Font getGoNotoUniversal() {
         return getFont(GO_NOTO_UNIVERSAL, STANDARD);
@@ -1392,7 +1392,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Go-Noto-Universal-License.txt">Go-Noto-Universal-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font GoNotoCurrent.ttf
+     * @return the Font object that can represent many sizes of the font Go Noto Current using SDF
      */
     public static Font getGoNotoUniversalSDF() {
         return getFont(GO_NOTO_UNIVERSAL, SDF);
@@ -1431,7 +1431,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font GoNotoCurrent.ttf
+     * @return the Font object that can represent many sizes of the font Go Noto Current using the given DistanceFieldType
      */
     public static Font getGoNotoUniversal(DistanceFieldType dft) {
         return getFont(GO_NOTO_UNIVERSAL, dft);
@@ -1488,7 +1488,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font Grenze
+     * @return the Font object that can represent many sizes of the font Grenze using the given DistanceFieldType
      */
     public static Font getGrenze(DistanceFieldType dft) {
         return getFont(GRENZE, dft);
@@ -1512,7 +1512,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-License.txt">Hanazono-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font HanMinA.ttf
+     * @return the Font object that can represent many sizes of the font HanMinA
      */
     public static Font getHanazono() {
         initialize();
@@ -1623,7 +1623,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Inconsolata LGC Custom
+     * @return the Font object that can represent many sizes of the font Inconsolata LGC Custom using MSDF
      */
     public static Font getInconsolataMSDF() {
         return getFont(INCONSOLATA_LGC, MSDF);
@@ -1658,7 +1658,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font Inconsolata LGC Custom
+     * @return the Font object that can represent many sizes of the font Inconsolata LGC Custom using the given DistanceFieldType
      */
     public static Font getInconsolata(DistanceFieldType dft) {
         return getFont(INCONSOLATA_LGC, dft);
@@ -1685,7 +1685,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.txt">Iosevka-License.md</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Iosevka.ttf
+     * @return the Font object that can represent many sizes of the font Iosevka
      */
     public static Font getIosevka() {
         return getFont(IOSEVKA, STANDARD);
@@ -1713,7 +1713,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.txt">Iosevka-License.md</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Iosevka.ttf using MSDF
+     * @return the Font object that can represent many sizes of the font Iosevka using MSDF
      */
     public static Font getIosevkaMSDF() {
         return getFont(IOSEVKA, MSDF);
@@ -1742,7 +1742,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.txt">Iosevka-License.md</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Iosevka.ttf using SDF
+     * @return the Font object that can represent many sizes of the font Iosevka using SDF
      */
     public static Font getIosevkaSDF() {
         return getFont(IOSEVKA, SDF);
@@ -1778,7 +1778,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font Iosevka.ttf
+     * @return the Font object that can represent many sizes of the font Iosevka using the given DistanceFieldType
      */
     public static Font getIosevka(DistanceFieldType dft) {
         return getFont(IOSEVKA, dft);
@@ -1805,7 +1805,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.txt">Iosevka-License.md</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf
+     * @return the Font object that can represent many sizes of the font Iosevka Slab
      */
     public static Font getIosevkaSlab() {
         return getFont(IOSEVKA_SLAB, STANDARD);
@@ -1833,7 +1833,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.txt">Iosevka-License.md</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf using MSDF
+     * @return the Font object that can represent many sizes of the font Iosevka Slab using MSDF
      */
     public static Font getIosevkaSlabMSDF() {
         return getFont(IOSEVKA_SLAB, MSDF);
@@ -1864,7 +1864,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.txt">Iosevka-License.md</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf using SDF
+     * @return the Font object that can represent many sizes of the font Iosevka Slab using SDF
      */
     public static Font getIosevkaSlabSDF() {
         return getFont(IOSEVKA_SLAB, SDF);
@@ -1900,7 +1900,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font Iosevka-Slab.ttf
+     * @return the Font object that can represent many sizes of the font Iosevka Slab using the given DistanceFieldType
      */
     public static Font getIosevkaSlab(DistanceFieldType dft) {
         return getFont(IOSEVKA_SLAB, dft);
@@ -1929,7 +1929,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font KingthingsFoundation.ttf
+     * @return the Font object that can represent many sizes of the font Kingthings Foundation
      */
     public static Font getKingthingsFoundation() {
         return getFont(KINGTHINGS_FOUNDATION, STANDARD);
@@ -1966,7 +1966,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font KingthingsFoundation.ttf
+     * @return the Font object that can represent many sizes of the font Kingthings Foundation using the given DistanceFieldType
      */
     public static Font getKingthingsFoundation(DistanceFieldType dft) {
         return getFont(KINGTHINGS_FOUNDATION, dft);
@@ -1995,7 +1995,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font KingthingsPetrock.ttf
+     * @return the Font object that can represent many sizes of the font Kingthings Petrock
      */
     public static Font getKingthingsPetrock() {
         return getFont(KINGTHINGS_PETROCK, STANDARD);
@@ -2032,7 +2032,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font KingthingsPetrock.ttf
+     * @return the Font object that can represent many sizes of the font Kingthings Petrock using the given DistanceFieldType
      */
     public static Font getKingthingsPetrock(DistanceFieldType dft) {
         return getFont(KINGTHINGS_PETROCK, dft);
@@ -2059,7 +2059,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LanaPixel-OpenFontLicense.txt">LanaPixel-OpenFontLicense.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font LanaPixel.ttf
+     * @return the Font object that can represent many sizes of the font LanaPixel
      */
     public static Font getLanaPixel() {
         initialize();
@@ -2098,7 +2098,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font LibertinusSerif.ttf
+     * @return the Font object that can represent many sizes of the font Libertinus Serif
      */
     public static Font getLibertinusSerif() {
         return getFont(LIBERTINUS_SERIF, STANDARD);
@@ -2132,7 +2132,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font LibertinusSerif.ttf
+     * @return the Font object that can represent many sizes of the font Libertinus Serif using the given DistanceFieldType
      */
     public static Font getLibertinusSerif(DistanceFieldType dft) {
         return getFont(LIBERTINUS_SERIF, dft);
@@ -2159,7 +2159,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font LibertinusSerifSemibold.ttf
+     * @return the Font object that can represent many sizes of the font Libertinus Serif Semibold
      */
     public static Font getLibertinusSerifSemibold() {
         return getFont(LIBERTINUS_SERIF_SEMIBOLD, STANDARD);
@@ -2193,7 +2193,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font LibertinusSerifSemibold.ttf
+     * @return the Font object that can represent many sizes of the font Libertinus Serif Semibold using the given DistanceFieldType
      */
     public static Font getLibertinusSerifSemibold(DistanceFieldType dft) {
         return getFont(LIBERTINUS_SERIF_SEMIBOLD, dft);
@@ -2219,7 +2219,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-License.txt">Now-Alt-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font NowAlt.otf
+     * @return the Font object that can represent many sizes of the font NowAlt
      */
     public static Font getNowAlt() {
         return getFont(NOW_ALT, STANDARD);
@@ -2254,7 +2254,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font NowAlt.otf
+     * @return the Font object that can represent many sizes of the font NowAlt using the given DistanceFieldType
      */
     public static Font getNowAlt(DistanceFieldType dft) {
         return getFont(NOW_ALT, dft);
@@ -2311,7 +2311,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the variable-width font OpenSans
+     * @return the Font object that can represent many sizes of the variable-width font OpenSans using the given DistanceFieldType
      */
     public static Font getOpenSans(DistanceFieldType dft) {
         return getFont(OPEN_SANS, dft);
@@ -2365,7 +2365,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the variable-width font Ostrich Black
+     * @return the Font object that can represent many sizes of the variable-width font Ostrich Black using the given DistanceFieldType
      */
     public static Font getOstrichBlack(DistanceFieldType dft) {
         return getFont(OSTRICH_BLACK, dft);
@@ -2426,7 +2426,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font Oxanium
+     * @return the Font object that can represent many sizes of the font Oxanium using the given DistanceFieldType
      */
     public static Font getOxanium(DistanceFieldType dft) {
         return getFont(OXANIUM, dft);
@@ -2494,7 +2494,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Roboto-Condensed-License.txt">Roboto-Condensed-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font RobotoCondensed.ttf
+     * @return the Font object that can represent many sizes of the font Roboto Condensed
      */
     public static Font getRobotoCondensed() {
         return getFont(ROBOTO_CONDENSED, STANDARD);
@@ -2529,7 +2529,7 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
-     * @return the Font object that can represent many sizes of the font RobotoCondensed.ttf
+     * @return the Font object that can represent many sizes of the font Roboto Condensed using the given DistanceFieldType
      */
     public static Font getRobotoCondensed(DistanceFieldType dft) {
         return getFont(ROBOTO_CONDENSED, dft);
@@ -2555,7 +2555,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Tangerine.ttf
+     * @return the Font object that can represent many sizes of the font Tangerine
      */
     public static Font getTangerine() {
         return getFont(TANGERINE, STANDARD);
@@ -2581,7 +2581,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Tangerine.ttf using SDF
+     * @return the Font object that can represent many sizes of the font Tangerine using SDF
      */
     public static Font getTangerineSDF() {
         return getFont(TANGERINE, SDF);
@@ -2614,7 +2614,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Tangerine.ttf
+     * @return the Font object that can represent many sizes of the font Tangerine using the given DistanceFieldType
      */
     public static Font getTangerine(DistanceFieldType dft) {
         return getFont(TANGERINE, dft);
@@ -2640,7 +2640,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-License.txt">Yanone-Kaffeesatz-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font YanoneKaffeesatz.ttf
+     * @return the Font object that can represent many sizes of the font Yanone Kaffeesatz
      */
     public static Font getYanoneKaffeesatz() {
         return getFont(YANONE_KAFFEESATZ, STANDARD);
@@ -2665,7 +2665,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-License.txt">Yanone-Kaffeesatz-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font YanoneKaffeesatz.ttf using MSDF
+     * @return the Font object that can represent many sizes of the font Yanone Kaffeesatz using MSDF
      */
     public static Font getYanoneKaffeesatzMSDF() {
         return getFont(YANONE_KAFFEESATZ, MSDF);
@@ -2697,7 +2697,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yanone-Kaffeesatz-License.txt">Yanone-Kaffeesatz-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font YanoneKaffeesatz.ttf
+     * @return the Font object that can represent many sizes of the font Yanone Kaffeesatz using the given DistanceFieldType
      */
     public static Font getYanoneKaffeesatz(DistanceFieldType dft) {
         return getFont(YANONE_KAFFEESATZ, dft);
@@ -2723,7 +2723,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Yataghan.ttf
+     * @return the Font object that can represent many sizes of the font Yataghan
      */
     public static Font getYataghan() {
         return getFont(YATAGHAN, STANDARD);
@@ -2751,7 +2751,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Yataghan.ttf using MSDF
+     * @return the Font object that can represent many sizes of the font Yataghan using MSDF
      */
     public static Font getYataghanMSDF() {
         return getFont(YATAGHAN, MSDF);
@@ -2784,7 +2784,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li>
      * </ul>
      *
-     * @return the Font object that can represent many sizes of the font Yataghan.ttf using MSDF
+     * @return the Font object that can represent many sizes of the font Yataghan using the given DistanceFieldType
      */
     public static Font getYataghan(DistanceFieldType dft) {
         return getFont(YATAGHAN, dft);
