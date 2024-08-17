@@ -3419,13 +3419,16 @@ public final class KnownFonts implements LifecycleListener {
      * Noto Color Emoji atlas for later calls. This tries to load the files "Noto-Emoji.atlas" and "Noto-Emoji.png" from
      * the internal storage first using the configured {@link #setAssetPrefix(String) path prefix}, and if that fails,
      * it tries to load them from local storage in the current working directory, also with that path prefix.
-     * There are over 3000 emoji in the Noto Color Emoji set; it is licensed as OFL 1.1. There are many additional names
-     * (called "shortcodes" by some sources) for various emoji; this uses the
+     * There are over 3000 emoji in the
+     * <a href="https://fonts.google.com/noto/specimen/Noto+Color+Emoji">Noto Color Emoji</a> set; it is licensed as
+     * OFL 1.1. There are many additional names (called "shortcodes" by some sources) for various emoji; this uses the
      * <a href="https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true">EmojiBase</a>
      * set of shortcodes for Unicode 15.1, which is a different set from what services like Slack and Discord use. The
      * names are also different here from the names in {@link #addEmoji(Font)}; these names use underscores to separate
      * words, and don't use commas or other normal-sentence punctuation. Skin tones are available for compatible emoji,
-     * and the names for these contain "tone1" for the lightest skin tone through "tone5" for the darkest.
+     * and the names for these contain "tone1" for the lightest skin tone through "tone5" for the darkest. Because
+     * shortcodes are different for Noto Emoji and the other emoji here (Twemoji and OpenMoji, which use a slightly
+     * older version of the standard for emoji), using the syntax with a single emoji, {@code [+👷🏻]}, is preferred.
      * <br>
      * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
      * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
@@ -3467,13 +3470,16 @@ public final class KnownFonts implements LifecycleListener {
      * Noto Color Emoji atlas for later calls. This tries to load the files "Noto-Emoji.atlas" and "Noto-Emoji.png" from
      * the internal storage first using the configured {@link #setAssetPrefix(String) path prefix}, and if that fails,
      * it tries to load them from local storage in the current working directory, also with that path prefix.
-     * There are over 3000 emoji in the Noto Color Emoji set; it is licensed as OFL 1.1. There are many additional names
-     * (called "shortcodes" by some sources) for various emoji; this uses the
+     * There are over 3000 emoji in the
+     * <a href="https://fonts.google.com/noto/specimen/Noto+Color+Emoji">Noto Color Emoji</a> set; it is licensed as
+     * OFL 1.1. There are many additional names (called "shortcodes" by some sources) for various emoji; this uses the
      * <a href="https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true">EmojiBase</a>
      * set of shortcodes for Unicode 15.1, which is a different set from what services like Slack and Discord use. The
      * names are also different here from the names in {@link #addEmoji(Font)}; these names use underscores to separate
      * words, and don't use commas or other normal-sentence punctuation. Skin tones are available for compatible emoji,
-     * and the names for these contain "tone1" for the lightest skin tone through "tone5" for the darkest.
+     * and the names for these contain "tone1" for the lightest skin tone through "tone5" for the darkest. Because
+     * shortcodes are different for Noto Emoji and the other emoji here (Twemoji and OpenMoji, which use a slightly
+     * older version of the standard for emoji), using the syntax with a single emoji, {@code [+👷🏻]}, is preferred.
      * <br>
      * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
      * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
@@ -3519,13 +3525,16 @@ public final class KnownFonts implements LifecycleListener {
      * Noto Color Emoji atlas for later calls. This tries to load the files "Noto-Emoji.atlas" and "Noto-Emoji.png" from
      * the internal storage first using the configured {@link #setAssetPrefix(String) path prefix}, and if that fails,
      * it tries to load them from local storage in the current working directory, also with that path prefix.
-     * There are over 3000 emoji in the Noto Color Emoji set; it is licensed as OFL 1.1. There are many additional names
-     * (called "shortcodes" by some sources) for various emoji; this uses the
+     * There are over 3000 emoji in the
+     * <a href="https://fonts.google.com/noto/specimen/Noto+Color+Emoji">Noto Color Emoji</a> set; it is licensed as
+     * OFL 1.1. There are many additional names (called "shortcodes" by some sources) for various emoji; this uses the
      * <a href="https://emojibase.dev/shortcodes?filter=&shortcodePresets=emojibase&skinTones=true&genders=true">EmojiBase</a>
      * set of shortcodes for Unicode 15.1, which is a different set from what services like Slack and Discord use. The
      * names are also different here from the names in {@link #addEmoji(Font)}; these names use underscores to separate
      * words, and don't use commas or other normal-sentence punctuation. Skin tones are available for compatible emoji,
-     * and the names for these contain "tone1" for the lightest skin tone through "tone5" for the darkest.
+     * and the names for these contain "tone1" for the lightest skin tone through "tone5" for the darkest. Because
+     * shortcodes are different for Noto Emoji and the other emoji here (Twemoji and OpenMoji, which use a slightly
+     * older version of the standard for emoji), using the syntax with a single emoji, {@code [+👷🏻]}, is preferred.
      * <br>
      * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
      * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
@@ -3596,9 +3605,10 @@ public final class KnownFonts implements LifecycleListener {
      * directory. There are 4131 images in this edition of the Game-Icons.net icons (from December 20, 2022), and
      * <a href="https://game-icons.net/faq.html">it requires attribution to use</a>.
      * <br>
-     * Although these icons might work with MSDF fonts, they should work with standard and SDF fonts. They can
-     * scale reasonably well down, and less-reasonably well up, but at typical text sizes (12-30 pixels in height) they
-     * tend to be legible. All icons use only the color white with various levels of transparency, so they can be
+     * Since TextraTypist 1.0.0, icons display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
+     * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
+     * All icons use only the color white with various levels of transparency, so they can be
      * colored like normal text glyphs. You can search for names in {@code Game-Icons.atlas}.
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
      * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.
@@ -3635,9 +3645,10 @@ public final class KnownFonts implements LifecycleListener {
      * directory. There are 4131 images in this edition of the Game-Icons.net icons (from December 20, 2022), and
      * <a href="https://game-icons.net/faq.html">it requires attribution to use</a>.
      * <br>
-     * Although these icons might work with MSDF fonts, they should work with standard and SDF fonts. They can
-     * scale reasonably well down, and less-reasonably well up, but at typical text sizes (12-30 pixels in height) they
-     * tend to be legible. All icons use only the color white with various levels of transparency, so they can be
+     * Since TextraTypist 1.0.0, icons display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
+     * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
+     * All icons use only the color white with various levels of transparency, so they can be
      * colored like normal text glyphs. You can search for names in {@code Game-Icons.atlas}.
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
      * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.
@@ -3680,9 +3691,10 @@ public final class KnownFonts implements LifecycleListener {
      * directory. There are 4131 images in this edition of the Game-Icons.net icons (from December 20, 2022), and
      * <a href="https://game-icons.net/faq.html">it requires attribution to use</a>.
      * <br>
-     * Although these icons might work with MSDF fonts, they should work with standard and SDF fonts. They can
-     * scale reasonably well down, and less-reasonably well up, but at typical text sizes (12-30 pixels in height) they
-     * tend to be legible. All icons use only the color white with various levels of transparency, so they can be
+     * Since TextraTypist 1.0.0, icons display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
+     * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
+     * All icons use only the color white with various levels of transparency, so they can be
      * colored like normal text glyphs. You can search for names in {@code Game-Icons.atlas}.
      * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
      * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.

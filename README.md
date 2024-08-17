@@ -752,4 +752,9 @@ The icons in Game-Icons.png were made by:
 
 (Projects that use TextraTypist can copy the above list of Game-Icons.png contributors to comply with its license.)
 
-Thanks again to [the OpenMoji project](https://openmoji.org/)! That was clearly a lot of work.
+Thanks again to [the OpenMoji project](https://openmoji.org/)! That was clearly a lot of work. OpenMoji is licensed as
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/#).
+
+Thanks also to the developers of the [Noto Fonts and Emoji](https://fonts.google.com/noto/specimen/Noto+Color+Emoji)!
+They are OFL 1.1 licensed. The Noto Color Emoji here also used data from the MIT-licensed
+[EmojiBase](https://github.com/milesj/emojibase/tree/master) project to create the atlas.
