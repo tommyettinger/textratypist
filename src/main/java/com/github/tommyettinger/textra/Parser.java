@@ -77,7 +77,6 @@ public class Parser {
         text = UNDO_TAG.replace(text);
         text = COLOR_MARKUP_TO_TAG.replace(text);
         text = MARKUP_TO_TAG.replace(text);
-//        System.out.println(text);
         return text;
     }
 
