@@ -30,14 +30,14 @@ import regexodus.Replacer;
  * Utility class to parse tokens from a {@link TypingLabel}; not intended for external use in most situations.
  */
 public class Parser {
-    private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("((?<!\\[)\\[[^\\[\\]]*(\\]|$))");
-    private static final Replacer RESET_TAG = new Replacer(Pattern.compile("((?<!\\[)\\[ (?:\\]|$))"), "{RESET}");
-    private static final Replacer UNDO_TAG =  new Replacer(Pattern.compile("((?<!\\[)\\[(?:\\]|$))"), "{UNDO}");
-    private static final Replacer COLOR_MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[(?:(?:#({=m}[A-Fa-f0-9]{3,8}))|(?:\\|?)({=m}[\\pL\\pN][^\\[\\]]*))(\\]|$)"), "{COLOR=${\\m}}");
-    private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\]|$)"), "{STYLE=$1}");
+    private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("((?<!\\[)\\[[^\\[\\]]*(\\]))");
+    private static final Replacer RESET_TAG = new Replacer(Pattern.compile("((?<!\\[)\\[ (?:\\]))"), "{RESET}");
+    private static final Replacer UNDO_TAG =  new Replacer(Pattern.compile("((?<!\\[)\\[(?:\\]))"), "{UNDO}");
+    private static final Replacer COLOR_MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[(?:(?:#({=m}[A-Fa-f0-9]{3,8}))|(?:\\|?)({=m}[\\pL\\pN][^\\[\\]]*))(\\])"), "{COLOR=${\\m}}");
+    private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\])"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{3,8}");
 
-    private static final Replacer BRACKET_MINUS_TO_TAG = new Replacer(Pattern.compile("((?<!\\[)\\[-({=t}[^\\[\\]]*)(?:\\]|$))"), "{${\\t}}");
+    private static final Replacer BRACKET_MINUS_TO_TAG = new Replacer(Pattern.compile("((?<!\\[)\\[-({=t}[^\\[\\]]*)(?:\\]))"), "{${\\t}}");
 
     private static final CaseInsensitiveIntMap BOOLEAN_TRUE = new CaseInsensitiveIntMap(new String[]{"true", "yes", "t", "y", "on", "1"}, new int[6]);
     private static final int INDEX_TOKEN = 1;
@@ -119,97 +119,98 @@ public class Parser {
         // Get text
         CharSequence text = label.layout.appendIntoDirect(new StringBuilder());
 
-        // Create string builder
-        Matcher m = PATTERN_TOKEN_STRIP.matcher(text);
-        int matcherIndexOffset = 0;
+        if(label.font.omitCurlyBraces || label.font.enableSquareBrackets) {
+            // Create string builder
+            Matcher m = PATTERN_TOKEN_STRIP.matcher(text);
+            int matcherIndexOffset = 0;
 
-        // Iterate through matches
-        while (true) {
-            // Reset StringBuilder and matcher
-            m.setTarget(text);
-            m.setPosition(matcherIndexOffset);
+            // Iterate through matches
+            while (true) {
+                // Reset StringBuilder and matcher
+                m.setTarget(text);
+                m.setPosition(matcherIndexOffset);
 
-            // Make sure there's at least one regex match
-            if (!m.find()) break;
+                // Make sure there's at least one regex match
+                if (!m.find()) break;
 
-            // Get token and parameter
-            final InternalToken internalToken = InternalToken.fromName(m.group(INDEX_TOKEN));
-            final String param = m.group(INDEX_PARAM);
+                // Get token and parameter
+                final InternalToken internalToken = InternalToken.fromName(m.group(INDEX_TOKEN));
+                final String param = m.group(INDEX_PARAM);
 
-            // If token couldn't be parsed, move one index forward to continue the search
-            if (internalToken == null) {
-                matcherIndexOffset++;
-                continue;
-            }
-
-            // Process tokens and handle replacement
-            String replacement;
-            switch (internalToken) {
-                case COLOR:
-                    replacement = stringToColorMarkup(param);
-                    break;
-                case STYLE:
-                case SIZE:
-                    replacement = stringToStyleMarkup(param);
-                    break;
-                case FONT:
-                    replacement = "[@" + param + ']';
-                    break;
-                case ENDCOLOR:
-                case CLEARCOLOR:
-                    replacement = "[#" + label.getClearColor().toString() + ']';
-                    break;
-                case CLEARSIZE:
-                    replacement = "[%]";
-                    break;
-                case CLEARFONT:
-                    replacement = "[@]";
-                    break;
-                case VAR:
-                    replacement = null;
-
-                    // Try to replace variable through listener.
-                    if (label.getTypingListener() != null) {
-                        replacement = label.getTypingListener().replaceVariable(param);
-                    }
-
-                    // If replacement is null, get value from maps.
-                    if (replacement == null) {
-                        replacement = label.getVariables().get(param.toUpperCase());
-                    }
-
-                    // If replacement is still null, get value from global scope
-                    if (replacement == null) {
-                        replacement = TypingConfig.GLOBAL_VARS.get(param.toUpperCase());
-                    }
-
-                    // Make sure we're not inserting "null" to the text.
-                    if (replacement == null) replacement = param.toUpperCase();
-                    break;
-                case IF:
-                    // Process token
-                    replacement = processIfToken(label, param);
-
-                    // Make sure we're not inserting "null" to the text.
-                    if(replacement == null) replacement = param.toUpperCase();
-                    break;
-                case RESET:
-                    replacement = RESET_REPLACEMENT + label.getDefaultToken();
-                    break;
-                case UNDO:
-                    replacement = "[]";
-                    break;
-                default:
-                    // We don't want to process this token now. Move one index forward to continue the search
+                // If token couldn't be parsed, move one index forward to continue the search
+                if (internalToken == null) {
                     matcherIndexOffset++;
                     continue;
+                }
+
+                // Process tokens and handle replacement
+                String replacement;
+                switch (internalToken) {
+                    case COLOR:
+                        replacement = stringToColorMarkup(param);
+                        break;
+                    case STYLE:
+                    case SIZE:
+                        replacement = stringToStyleMarkup(param);
+                        break;
+                    case FONT:
+                        replacement = "[@" + param + ']';
+                        break;
+                    case ENDCOLOR:
+                    case CLEARCOLOR:
+                        replacement = "[#" + label.getClearColor().toString() + ']';
+                        break;
+                    case CLEARSIZE:
+                        replacement = "[%]";
+                        break;
+                    case CLEARFONT:
+                        replacement = "[@]";
+                        break;
+                    case VAR:
+                        replacement = null;
+
+                        // Try to replace variable through listener.
+                        if (label.getTypingListener() != null) {
+                            replacement = label.getTypingListener().replaceVariable(param);
+                        }
+
+                        // If replacement is null, get value from maps.
+                        if (replacement == null) {
+                            replacement = label.getVariables().get(param.toUpperCase());
+                        }
+
+                        // If replacement is still null, get value from global scope
+                        if (replacement == null) {
+                            replacement = TypingConfig.GLOBAL_VARS.get(param.toUpperCase());
+                        }
+
+                        // Make sure we're not inserting "null" to the text.
+                        if (replacement == null) replacement = param.toUpperCase();
+                        break;
+                    case IF:
+                        // Process token
+                        replacement = processIfToken(label, param);
+
+                        // Make sure we're not inserting "null" to the text.
+                        if (replacement == null) replacement = param.toUpperCase();
+                        break;
+                    case RESET:
+                        replacement = RESET_REPLACEMENT + label.getDefaultToken();
+                        break;
+                    case UNDO:
+                        replacement = "[]";
+                        break;
+                    default:
+                        // We don't want to process this token now. Move one index forward to continue the search
+                        matcherIndexOffset++;
+                        continue;
+                }
+
+                // Update text with replacement
+                m.setPosition(m.start());
+                text = m.replaceFirst(replacement);
             }
-
-            // Update text with replacement
-            m.setPosition(m.start());
-            text = m.replaceFirst(replacement);
         }
-
         // Set new text
         label.setIntermediateText(text, false, false);
     }
@@ -286,125 +287,124 @@ public class Parser {
         // Get text
         CharSequence text = PATTERN_MARKUP_STRIP.matcher(label.getIntermediateText()).replaceAll("");
         CharSequence text2 = label.getIntermediateText();
-//        System.out.println(text2);
-        // Create matcher and StringBuilder
-        Matcher m = PATTERN_TOKEN_STRIP.matcher(text);
-        Matcher m2 = PATTERN_TOKEN_STRIP.matcher(text2);
-        int matcherIndexOffset = 0, m2IndexOffset = 0;
+        if(label.font.omitCurlyBraces || label.font.enableSquareBrackets) {
+            // Create matcher and StringBuilder
+            Matcher m = PATTERN_TOKEN_STRIP.matcher(text);
+            Matcher m2 = PATTERN_TOKEN_STRIP.matcher(text2);
+            int matcherIndexOffset = 0, m2IndexOffset = 0;
 
-        // Iterate through matches
-        while (true) {
-            // Reset matcher and StringBuilder
-            m.setTarget(text);
-            m2.setTarget(text2);
-            m2.setPosition(m2IndexOffset);
-            m.setPosition(matcherIndexOffset);
+            // Iterate through matches
+            while (true) {
+                // Reset matcher and StringBuilder
+                m.setTarget(text);
+                m2.setTarget(text2);
+                m2.setPosition(m2IndexOffset);
+                m.setPosition(matcherIndexOffset);
 
-            // Make sure there's at least one regex match
-            if (!m.find()) break;
-            m2.find();
-            // Get token name and category
-            String tokenName = m.group(INDEX_TOKEN).toUpperCase();
-            TokenCategory tokenCategory = null;
-            InternalToken tmpToken = InternalToken.fromName(tokenName);
-            if (tmpToken == null) {
-                if (TypingConfig.EFFECT_START_TOKENS.containsKey(tokenName)) {
-                    tokenCategory = TokenCategory.EFFECT_START;
-                } else if (TypingConfig.EFFECT_END_TOKENS.containsKey(tokenName)) {
-                    tokenCategory = TokenCategory.EFFECT_END;
+                // Make sure there's at least one regex match
+                if (!m.find()) break;
+                m2.find();
+                // Get token name and category
+                String tokenName = m.group(INDEX_TOKEN).toUpperCase();
+                TokenCategory tokenCategory = null;
+                InternalToken tmpToken = InternalToken.fromName(tokenName);
+                if (tmpToken == null) {
+                    if (TypingConfig.EFFECT_START_TOKENS.containsKey(tokenName)) {
+                        tokenCategory = TokenCategory.EFFECT_START;
+                    } else if (TypingConfig.EFFECT_END_TOKENS.containsKey(tokenName)) {
+                        tokenCategory = TokenCategory.EFFECT_END;
+                    }
+                } else {
+                    tokenCategory = tmpToken.category;
                 }
-            } else {
-                tokenCategory = tmpToken.category;
-            }
 
-            // Get token, param and index of where the token begins
-            int groupCount = m.groupCount();
-            final String paramsString = groupCount == INDEX_PARAM ? m.group(INDEX_PARAM) : null;
-            final String[] params = paramsString == null ? new String[0] : paramsString.split(";");
-            final String firstParam = params.length > 0 ? params[0] : null;
-            final int index = m.start(0);
-            int indexOffset = 0;
+                // Get token, param and index of where the token begins
+                int groupCount = m.groupCount();
+                final String paramsString = groupCount == INDEX_PARAM ? m.group(INDEX_PARAM) : null;
+                final String[] params = paramsString == null ? new String[0] : paramsString.split(";");
+                final String firstParam = params.length > 0 ? params[0] : null;
+                final int index = m.start(0);
+                int indexOffset = 0;
 
-            // If token couldn't be parsed, move one index forward to continue the search
-            if (tokenCategory == null) {
-                matcherIndexOffset++;
-                continue;
-            }
+                // If token couldn't be parsed, move one index forward to continue the search
+                if (tokenCategory == null) {
+                    matcherIndexOffset++;
+                    continue;
+                }
 
-            // Process tokens
-            float floatValue = 0;
-            String stringValue = null;
-            Effect effect = null;
+                // Process tokens
+                float floatValue = 0;
+                String stringValue = null;
+                Effect effect = null;
 
-            switch (tokenCategory) {
-                case WAIT: {
-                    floatValue = stringToFloat(firstParam, TypingConfig.DEFAULT_WAIT_VALUE);
+                switch (tokenCategory) {
+                    case WAIT: {
+                        floatValue = stringToFloat(firstParam, TypingConfig.DEFAULT_WAIT_VALUE);
 //                    indexOffset = 1;
-                    break;
-                }
-                case EVENT: {
-                    stringValue = paramsString;
+                        break;
+                    }
+                    case EVENT: {
+                        stringValue = paramsString;
 //                    indexOffset = -1;
-                    break;
-                }
-                case SPEED: {
-                    switch (tokenName) {
-                        case "SPEED": {
-                            float minModifier = TypingConfig.MIN_SPEED_MODIFIER;
-                            float maxModifier = TypingConfig.MAX_SPEED_MODIFIER;
-                            float modifier = MathUtils.clamp(stringToFloat(firstParam, 1), minModifier, maxModifier);
-                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / modifier;
-                            break;
-                        }
-                        case "SLOWER":
-                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR * 2f;
-                            break;
-                        case "SLOW":
-                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR * 1.5f;
-                            break;
-                        case "NORMAL":
-                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR;
-                            break;
-                        case "FAST":
-                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR * 0.5f;
-                            break;
-                        case "FASTER":
-                            floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR * 0.25f;
-                            break;
-                        case "NATURAL": {
-                            float minModifier = TypingConfig.MIN_SPEED_MODIFIER;
-                            float maxModifier = TypingConfig.MAX_SPEED_MODIFIER;
-                            float modifier = MathUtils.clamp(stringToFloat(firstParam, 1), minModifier, maxModifier);
-                            floatValue = -TypingConfig.DEFAULT_SPEED_PER_CHAR / modifier;
-                            break;
-                        }
+                        break;
                     }
-                    break;
-                }
-                case EFFECT_START: {
-                    Effect.EffectBuilder eb = TypingConfig.EFFECT_START_TOKENS.get(tokenName.toUpperCase());
-                    if (eb != null) {
-                        effect = eb.produce(label, params);
+                    case SPEED: {
+                        switch (tokenName) {
+                            case "SPEED": {
+                                float minModifier = TypingConfig.MIN_SPEED_MODIFIER;
+                                float maxModifier = TypingConfig.MAX_SPEED_MODIFIER;
+                                float modifier = MathUtils.clamp(stringToFloat(firstParam, 1), minModifier, maxModifier);
+                                floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR / modifier;
+                                break;
+                            }
+                            case "SLOWER":
+                                floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR * 2f;
+                                break;
+                            case "SLOW":
+                                floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR * 1.5f;
+                                break;
+                            case "NORMAL":
+                                floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR;
+                                break;
+                            case "FAST":
+                                floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR * 0.5f;
+                                break;
+                            case "FASTER":
+                                floatValue = TypingConfig.DEFAULT_SPEED_PER_CHAR * 0.25f;
+                                break;
+                            case "NATURAL": {
+                                float minModifier = TypingConfig.MIN_SPEED_MODIFIER;
+                                float maxModifier = TypingConfig.MAX_SPEED_MODIFIER;
+                                float modifier = MathUtils.clamp(stringToFloat(firstParam, 1), minModifier, maxModifier);
+                                floatValue = -TypingConfig.DEFAULT_SPEED_PER_CHAR / modifier;
+                                break;
+                            }
+                        }
+                        break;
                     }
-                    break;
+                    case EFFECT_START: {
+                        Effect.EffectBuilder eb = TypingConfig.EFFECT_START_TOKENS.get(tokenName.toUpperCase());
+                        if (eb != null) {
+                            effect = eb.produce(label, params);
+                        }
+                        break;
+                    }
+                    case EFFECT_END: {
+                        break;
+                    }
                 }
-                case EFFECT_END: {
-                    break;
-                }
+
+                // Register token
+                TokenEntry entry = new TokenEntry(tokenName, tokenCategory, index + indexOffset, m.end(0), floatValue, stringValue);
+                entry.effect = effect;
+                label.tokenEntries.add(entry);
+
+                // Set new text without tokens
+                matcherIndexOffset = m.end();
+                m2.setPosition(0);
+                text2 = m2.replaceFirst("");
             }
-
-            // Register token
-            TokenEntry entry = new TokenEntry(tokenName, tokenCategory, index + indexOffset, m.end(0), floatValue, stringValue);
-            entry.effect = effect;
-            label.tokenEntries.add(entry);
-
-            // Set new text without tokens
-            matcherIndexOffset = m.end();
-            m2.setPosition(0);
-            text2 = m2.replaceFirst("");
         }
-
-//        System.out.println("Modified: "+text);
         // Update label text
         label.setIntermediateText(text2, false, false);
     }

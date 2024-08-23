@@ -279,7 +279,7 @@ public class TypingLabel extends TextraLabel {
      * @see #restart(CharSequence)
      */
     public void setText(String newText, boolean modifyOriginalText) {
-        if (modifyOriginalText) newText = Parser.preprocess("{NORMAL}" + getDefaultToken() + newText);
+        if (modifyOriginalText) newText = Parser.preprocess(getDefaultToken() + newText);
         setText(newText, modifyOriginalText, true);
     }
 
@@ -398,7 +398,7 @@ public class TypingLabel extends TextraLabel {
         boolean actualEnd = ended;
         ended = false;
 //        activeEffects.clear();
-        this.setText(Parser.preprocess("{NORMAL}" + getDefaultToken() + originalText), false, false);
+        this.setText(Parser.preprocess(getDefaultToken() + originalText), false, false);
         Parser.parseTokens(this);
         ended = actualEnd;
 //        setSize(workingLayout.getWidth(), workingLayout.getHeight());
