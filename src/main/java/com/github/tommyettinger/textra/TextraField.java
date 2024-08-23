@@ -79,7 +79,7 @@ import java.lang.StringBuilder;
  * @author mzechner
  * @author Nathan Sweet */
 public class TextraField extends Widget implements Disableable {
-	static protected final char BACKSPACE = 8;
+	static protected final char BACKSPACE = '\b';
 	static protected final char CARRIAGE_RETURN = '\r';
 	static protected final char NEWLINE = '\n';
 	static protected final char TAB = '\t';
@@ -87,7 +87,7 @@ public class TextraField extends Widget implements Disableable {
 	/**
 	 * Used as the default char to replace content when {@link #isPasswordMode() passwordMode} is on.
 	 */
-	public static final char BULLET = 8226;
+	public static final char BULLET = 8226; // u2022, or '•'
 
 	static private final Vector2 tmp1 = new Vector2();
 	static private final Vector2 tmp2 = new Vector2();
@@ -153,11 +153,14 @@ public class TextraField extends Widget implements Disableable {
 
 	public TextraField(@Null String text, TextFieldStyle style) {
 		setStyle(style);
-		label = new TypingLabel("", new Styles.LabelStyle(new Font(style.font), style.fontColor));
+		Font replacementFont = new Font(style.font);
+		replacementFont.enableSquareBrackets = false;
+		replacementFont.omitCurlyBraces = false;
+		label = new TypingLabel("", new Styles.LabelStyle(replacementFont, style.fontColor));
 		label.layout.setEllipsis("");
 		label.layout.setMaxLines(1);
-		label.wrap = false;
-		label.trackingInput = true;
+		label.setWrap(false);
+		label.setSelectable(true);
 		clipboard = Gdx.app.getClipboard();
 		initialize();
 		setText(text);
@@ -168,11 +171,14 @@ public class TextraField extends Widget implements Disableable {
 
 	public TextraField(@Null String text, TextFieldStyle style, Font replacementFont) {
 		setStyle(style);
-		label = new TypingLabel("", new Styles.LabelStyle(new Font(style.font), style.fontColor), replacementFont);
+		replacementFont = new Font(replacementFont);
+		replacementFont.enableSquareBrackets = false;
+		replacementFont.omitCurlyBraces = false;
+		label = new TypingLabel("", new Styles.LabelStyle(replacementFont, style.fontColor));
 		label.layout.setEllipsis("");
 		label.layout.setMaxLines(1);
-		label.wrap = false;
-		label.trackingInput = true;
+		label.setWrap(false);
+		label.setSelectable(true);
 		clipboard = Gdx.app.getClipboard();
 		initialize();
 		setText(text);
@@ -211,7 +217,8 @@ public class TextraField extends Widget implements Disableable {
 
 	protected long wordUnderCursor () {
 		TypingLabel lb = this.label;
-		int start = Math.max(0, label.overIndex), right = lb.length(), left = 0, index = start;
+		if(label.overIndex == -1) return lb.length();
+		int start = label.overIndex, right = lb.length(), left = 0, index = start;
 		if (start >= lb.length()) {
 			left = lb.length();
 			right = 0;
@@ -376,7 +383,7 @@ public class TextraField extends Widget implements Disableable {
 			drawSelection(selection, batch, font, x + bgLeftWidth, y + textY);
 		}
 
-		float yOffset = font.descent;
+		float yOffset = 0;
 		if (label.length() == 0) {
 			if ((!focused || disabled) && messageText != null) {
 				if (style.messageFontColor != null) {
@@ -951,7 +958,11 @@ public class TextraField extends Widget implements Disableable {
 		}
 
 		protected void setCursorPosition (float x, float y) {
-			cursor = Math.max(label.overIndex, 0);
+			if(label.overIndex == -1) {
+				if(x < label.getX() + label.workingLayout.getWidth() * 0.5f) cursor = 0;
+				else cursor = label.length();
+			}
+			else cursor = label.overIndex;
 
 			cursorOn = focused;
 			blinkTask.cancel();
