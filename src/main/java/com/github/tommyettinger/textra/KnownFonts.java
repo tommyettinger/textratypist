@@ -21,6 +21,7 @@ import com.badlogic.gdx.LifecycleListener;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.*;
 import com.github.tommyettinger.textra.Font.DistanceFieldType;
@@ -213,6 +214,7 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getFont(final String baseName) {
         return getFont(baseName, STANDARD);
     }
+
     /**
      * A general way to get a copied Font from the known set of fonts, this takes a String name (which can be from
      * {@link #JSON_NAMES}, {@link #FNT_NAMES}, or {@link #SAD_NAMES}, or more likely from a constant such as
@@ -241,13 +243,56 @@ public final class KnownFonts implements LifecycleListener {
             else if(FNT_NAMES.contains(baseName))
                 known = new Font(instance.prefix + rootName + ".fnt", distanceField);
             else if(distanceField == STANDARD && SAD_NAMES.contains(baseName))
-                    known = new Font(instance.prefix, rootName + ".font", true);
+                known = new Font(instance.prefix, rootName + ".font", true);
             else
                 throw new RuntimeException("Unknown font name/distance field: " + baseName + "/" + distanceField.name());
             instance.loaded.put(rootName, known);
         }
         return new Font(known).setName(baseName + distanceField.namePart).setDistanceField(distanceField);
     }
+
+    /**
+     * A general way to get a copied BitmapFont from the known set of fonts, this takes a String name (which can be from
+     * {@link #JSON_NAMES} or {@link #FNT_NAMES}, but is more likely from a constant such as {@link #OPEN_SANS}).
+     * It looks up the appropriate file name, respecting asset prefix (see {@link #setAssetPrefix(String)}), creates a
+     * new instance of that BitmapFont, and returns it. This works even for fonts that don't have known .fnt files, but
+     * do have known .dat files (which is the case for most fonts here). Like {@link #getFont(String)}, this scales anu
+     * returned font that was loaded from a .dat file to have a height of 32 units, so that fonts can be mixed without
+     * too much effort. This doesn't scale .fnt fonts because (here) those are often pixel fonts that don't scale well.
+     * For .dat fonts, it also sets the (first) Texture the BitmapFont uses to use linear min-filtering, and sets
+     * {@link BitmapFont#setUseIntegerPositions(boolean)} to false, since these are generally expected for the .dat
+     * fonts here.
+     *
+     * @param baseName typically a constant such as {@link #OPEN_SANS} or {@link #LIBERTINUS_SERIF}
+     * @return a copy of the Font with the given name
+     */
+    public static BitmapFont getBitmapFont(final String baseName) {
+        if (baseName == null)
+            throw new RuntimeException("BitmapFont name cannot be null.");
+        initialize();
+        String rootName = baseName + STANDARD.filePart;
+        BitmapFont known;
+        FileHandle fh;
+        if (JSON_NAMES.contains(baseName)) {
+            known = BitmapFontSupport.loadStructuredJson(
+                    (fh = Gdx.files.local(instance.prefix + rootName + ".dat")).exists()
+                            ? fh
+                            : Gdx.files.internal(instance.prefix + rootName + ".dat"), rootName + ".png");
+            known.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+            known.setUseIntegerPositions(false);
+            known.getData().setScale(32f / (known.getData().lineHeight - known.getDescent()));
+        }
+        else if (FNT_NAMES.contains(baseName))
+            known = BitmapFontSupport.loadStructuredJson(
+                    (fh = Gdx.files.local(instance.prefix + rootName + ".fnt")).exists()
+                            ? fh
+                            : Gdx.files.internal(instance.prefix + rootName + ".fnt"), rootName + ".png");
+        else
+            throw new RuntimeException("Unknown BitmapFont name: " + baseName);
+        known.getData().name = baseName + STANDARD.namePart;
+        return known;
+    }
+
     /**
      * Loads a font by name but does not copy it, typically so it can be modified. This takes a String name (which can
      * be from {@link #JSON_NAMES} or more likely from a constant such as {@link #OPEN_SANS}) and a DistanceFieldType
