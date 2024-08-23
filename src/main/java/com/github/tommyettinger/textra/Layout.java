@@ -25,7 +25,7 @@ import com.badlogic.gdx.utils.LongArray;
 /**
  * A replacement for libGDX's GlyphLayout, more or less; stores one or more (possibly empty) {@link Line}s of text,
  * which can use color and style markup from {@link Font}, and can be drawn with
- * {@link Font#drawGlyphs(Batch, Layout, float, float, int)}. This is a Poolable class, and you can obtain a Layout with
+ * {@link Font#drawGlyphs(Batch, Layout, float, float, int)}. You can obtain a Layout with
  * {@code new Layout()} followed by setting the font, or just using a constructor.
  */
 public class Layout {

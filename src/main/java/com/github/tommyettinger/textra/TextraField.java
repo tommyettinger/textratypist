@@ -157,7 +157,7 @@ public class TextraField extends Widget implements Disableable {
 		replacementFont.enableSquareBrackets = false;
 		replacementFont.omitCurlyBraces = false;
 		label = new TypingLabel("", new Styles.LabelStyle(replacementFont, style.fontColor));
-		label.layout.setEllipsis("");
+		label.layout.targetWidth = Float.MAX_VALUE;
 		label.layout.setMaxLines(1);
 		label.setWrap(false);
 		label.setSelectable(true);
@@ -175,7 +175,7 @@ public class TextraField extends Widget implements Disableable {
 		replacementFont.enableSquareBrackets = false;
 		replacementFont.omitCurlyBraces = false;
 		label = new TypingLabel("", new Styles.LabelStyle(replacementFont, style.fontColor));
-		label.layout.setEllipsis("");
+		label.layout.targetWidth = Float.MAX_VALUE;
 		label.layout.setMaxLines(1);
 		label.setWrap(false);
 		label.setSelectable(true);

@@ -21,6 +21,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -34,7 +35,8 @@ import static com.badlogic.gdx.utils.Align.left;
 public class FieldTest extends ApplicationAdapter {
     ScreenViewport viewport;
     Stage stage;
-    TextraField field;
+    TextraField ttField;
+    TextField s2dField;
 
     @Override
     public void create() {
@@ -51,7 +53,8 @@ public class FieldTest extends ApplicationAdapter {
 
 //        Font font = new Font("RaeleusScriptius-standard.fnt", Font.DistanceFieldType.STANDARD, 0, 8, 0, 0);
         Font font = KnownFonts.getGentiumUnItalic();
-        System.out.println("descent: "+font.descent + ", lineHeight: " + font.cellHeight);
+//        System.out.println("descent: "+font.descent + ", lineHeight: " + font.cellHeight);
+        BitmapFont bmFont = KnownFonts.getBitmapFont(KnownFonts.GENTIUM_UN_ITALIC);
         String text = "22";
 //                "[*]Локус контроля[*] - свойство " +
 //                "личности приписывать " +
@@ -72,16 +75,24 @@ public class FieldTest extends ApplicationAdapter {
         selection.setMinHeight(font.cellHeight);
         background.setMinHeight(1);
         background.setMinWidth(1);
-        field = new TextraField(text, new TextField.TextFieldStyle(null, Color.WHITE.cpy(), pipe,
+        ttField = new TextraField(text, new TextField.TextFieldStyle(null, Color.WHITE.cpy(), pipe,
                 selection, background), font);
-        field.setWidth(500);
-        field.setPasswordMode(false);
-        field.setHeight(font.cellHeight);
-        field.setAlignment(left);
+        ttField.setWidth(500);
+        ttField.setPasswordMode(false);
+        ttField.setHeight(font.cellHeight);
+        ttField.setAlignment(left);
+
+        s2dField = new TextField(text, new TextField.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background));
+        s2dField.setWidth(500);
+        s2dField.setPasswordMode(false);
+        s2dField.setHeight(font.cellHeight);
+        s2dField.setAlignment(left);
 
         Table table = new Table();
         table.setFillParent(true);
-        table.add(field).width(500);
+        table.add(new TextraLabel("TT:  ", font)).width(60);
+        table.add(ttField).width(500).row();
+        table.add(new TextraLabel("S2D: ", font)).width(60);        table.add(s2dField).width(500);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
