@@ -1021,16 +1021,17 @@ public class TypingLabel extends TextraLabel {
         }
 
         float single;
+        int toSkip = startIndex;
 
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
 
+            if(glyphs.glyphs.size == 0 || (toSkip -= glyphs.glyphs.size) > 0)
+                continue;
+
             baseX += sn * glyphs.height;
             baseY -= cs * glyphs.height;
-
-            if(glyphs.glyphs.size == 0)
-                continue;
 
             float x = baseX, y = baseY;
 

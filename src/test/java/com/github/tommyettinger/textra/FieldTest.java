@@ -129,7 +129,7 @@ public class FieldTest extends ApplicationAdapter {
         config.setTitle("TextraLabel UI test");
         config.setWindowedMode(600, 480);
         config.disableAudio(true);
-		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
+		config.setForegroundFPS(5);
         config.useVsync(true);
         new Lwjgl3Application(new FieldTest(), config);
     }

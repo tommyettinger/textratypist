@@ -280,15 +280,15 @@ public class TextraField extends Widget implements Disableable {
 		System.out.println("Textra: text : " + text);
 		System.out.println("Textra: label: " + label.toString());
 
-		System.out.println("Textra: layout glyphs: " + label.layout.getLine(0).glyphs.size);
-		System.out.println("Textra: layout lines: " + label.layout.lines());
-		System.out.println("Textra: workingLayout glyphs: " + label.workingLayout.getLine(0).glyphs.size);
-		System.out.println("Textra: workingLayout lines: " + label.workingLayout.lines());
+//		System.out.println("Textra: layout glyphs: " + label.layout.getLine(0).glyphs.size);
+//		System.out.println("Textra: layout lines: " + label.layout.lines());
+//		System.out.println("Textra: workingLayout glyphs: " + label.workingLayout.getLine(0).glyphs.size);
+//		System.out.println("Textra: workingLayout lines: " + label.workingLayout.lines());
 
 		int glyphCount = this.glyphPositions.size;
 		float[] glyphPositions = this.glyphPositions.items;
 
-		System.out.println("Textra: cursor: " + cursor + ", will be clamped to less than " + glyphCount);
+//		System.out.println("Textra: cursor: " + cursor + ", will be clamped to less than " + glyphCount);
 		// Check if the cursor has gone out the left or right side of the visible area and adjust renderOffset.
 		cursor = MathUtils.clamp(cursor, 0, glyphCount - 1);
 		float distance = glyphPositions[Math.max(0, cursor - 1)] + renderOffset;
@@ -310,7 +310,7 @@ public class TextraField extends Widget implements Disableable {
 		}
 		if (-renderOffset > maxOffset) renderOffset = -maxOffset;
 
-		System.out.println("Textra: renderOffset: " + renderOffset);
+//		System.out.println("Textra: renderOffset: " + renderOffset);
 
 		// calculate first visible char based on render offset
 		visibleTextStart = 0;
@@ -394,7 +394,6 @@ public class TextraField extends Widget implements Disableable {
 			drawSelection(selection, batch, font, x + bgLeftWidth, y + textY);
 		}
 
-		float yOffset = 0;
 		if (label.length() == 0) {
 			if ((!focused || disabled) && messageText != null) {
 				if (style.messageFontColor != null) {
@@ -403,7 +402,7 @@ public class TextraField extends Widget implements Disableable {
 				} else
 					label.setColor(0.7f, 0.7f, 0.7f, color.a);
 				label.setText(messageText, false, false);
-				label.setBounds(x + bgLeftWidth + textOffset, y + textY + yOffset, Float.MAX_VALUE, font.cellHeight);
+				label.setBounds(x + bgLeftWidth + textOffset, y + textY, Float.MAX_VALUE, font.cellHeight);
 //				label.setBounds(x + bgLeftWidth + textOffset, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
 				label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);
 			}
@@ -412,7 +411,7 @@ public class TextraField extends Widget implements Disableable {
 				label.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * color.a);
 //			label.setText(text, false, false);
 //			label.font.regenerateLayout(label.layout);
-			label.setPosition(x + bgLeftWidth + textOffset, y + textY + yOffset);
+			label.setPosition(x + bgLeftWidth + textOffset, y + textY);
 			label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);
 //			font.draw(batch, displayText, x + bgLeftWidth + textOffset, y + textY, visibleTextStart, visibleTextEnd, 0, Align.left, false);
 		}
@@ -491,8 +490,8 @@ public class TextraField extends Widget implements Disableable {
 		glyphPositions.add(end);
 		visibleTextStart = Math.min(visibleTextStart, glyphPositions.size - 1);
 		visibleTextEnd = MathUtils.clamp(visibleTextEnd, visibleTextStart, glyphPositions.size - 1);
-		System.out.println("Textra: " + glyphPositions);
-		System.out.println("Textra: start: " + visibleTextStart + ", end: " + visibleTextEnd);
+//		System.out.println("Textra: " + glyphPositions);
+//		System.out.println("Textra: start: " + visibleTextStart + ", end: " + visibleTextEnd);
 
 		selectionStart = Math.min(selectionStart, label.length());
 	}
