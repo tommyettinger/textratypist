@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField2;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -36,7 +37,7 @@ public class FieldTest extends ApplicationAdapter {
     ScreenViewport viewport;
     Stage stage;
     TextraField ttField;
-    TextField s2dField;
+    TextField2 s2dField;
 
     @Override
     public void create() {
@@ -82,7 +83,7 @@ public class FieldTest extends ApplicationAdapter {
         ttField.setHeight(font.cellHeight);
         ttField.setAlignment(left);
 
-        s2dField = new TextField(text, new TextField.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background));
+        s2dField = new TextField2(text, new TextField2.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background));
         s2dField.setWidth(500);
         s2dField.setPasswordMode(false);
         s2dField.setHeight(font.cellHeight);
