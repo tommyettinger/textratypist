@@ -276,9 +276,19 @@ public class TextraField extends Widget implements Disableable {
 		Drawable background = getBackgroundDrawable();
 		if (background != null) visibleWidth -= background.getLeftWidth() + background.getRightWidth();
 
+		// these next two can be strangely mismatched; text can be longer than label.
+		System.out.println("Textra: text : " + text);
+		System.out.println("Textra: label: " + label.toString());
+
+		System.out.println("Textra: layout glyphs: " + label.layout.getLine(0).glyphs.size);
+		System.out.println("Textra: layout lines: " + label.layout.lines());
+		System.out.println("Textra: workingLayout glyphs: " + label.workingLayout.getLine(0).glyphs.size);
+		System.out.println("Textra: workingLayout lines: " + label.workingLayout.lines());
+
 		int glyphCount = this.glyphPositions.size;
 		float[] glyphPositions = this.glyphPositions.items;
 
+		System.out.println("Textra: cursor: " + cursor + ", will be clamped to less than " + glyphCount);
 		// Check if the cursor has gone out the left or right side of the visible area and adjust renderOffset.
 		cursor = MathUtils.clamp(cursor, 0, glyphCount - 1);
 		float distance = glyphPositions[Math.max(0, cursor - 1)] + renderOffset;
@@ -299,6 +309,8 @@ public class TextraField extends Widget implements Disableable {
 			maxOffset = x;
 		}
 		if (-renderOffset > maxOffset) renderOffset = -maxOffset;
+
+		System.out.println("Textra: renderOffset: " + renderOffset);
 
 		// calculate first visible char based on render offset
 		visibleTextStart = 0;
@@ -391,7 +403,8 @@ public class TextraField extends Widget implements Disableable {
 				} else
 					label.setColor(0.7f, 0.7f, 0.7f, color.a);
 				label.setText(messageText, false, false);
-				label.setBounds(x + bgLeftWidth + textOffset, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
+				label.setBounds(x + bgLeftWidth + textOffset, y + textY + yOffset, Float.MAX_VALUE, font.cellHeight);
+//				label.setBounds(x + bgLeftWidth + textOffset, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
 				label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);
 			}
 		} else {
@@ -821,12 +834,12 @@ public class TextraField extends Widget implements Disableable {
 		super.positionChanged();
 		label.setPosition(getX(), getY());
 	}
-
-	@Override
-	protected void sizeChanged() {
-		super.sizeChanged();
-		label.layout.setTargetWidth(getWidth());
-	}
+//
+//	@Override
+//	protected void sizeChanged() {
+//		super.sizeChanged();
+//		label.layout.setTargetWidth(getWidth());
+//	}
 
 	@Override
 	public void act(float delta) {

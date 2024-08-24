@@ -234,9 +234,14 @@ public class TextField2 extends Widget implements Disableable {
 		Drawable background = getBackgroundDrawable();
 		if (background != null) visibleWidth -= background.getLeftWidth() + background.getRightWidth();
 
+
+		System.out.println("Field2: text: " + text);
+		System.out.println("Field2: glyphs: " + glyphPositions.size);
+
 		int glyphCount = glyphPositions.size;
 		float[] glyphPositions = this.glyphPositions.items;
 
+		System.out.println("Field2: cursor: " + cursor + ", will be clamped to less than " + glyphCount);
 		// Check if the cursor has gone out the left or right side of the visible area and adjust renderOffset.
 		cursor = MathUtils.clamp(cursor, 0, glyphCount - 1);
 		float distance = glyphPositions[Math.max(0, cursor - 1)] + renderOffset;
@@ -257,6 +262,8 @@ public class TextField2 extends Widget implements Disableable {
 			maxOffset = x;
 		}
 		if (-renderOffset > maxOffset) renderOffset = -maxOffset;
+
+		System.out.println("Field2: renderOffset: " + renderOffset);
 
 		// calculate first visible char based on render offset
 		visibleTextStart = 0;
