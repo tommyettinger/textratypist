@@ -906,6 +906,22 @@ public class TypingLabel extends TextraLabel {
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        drawSection(batch, parentAlpha, 0, -1);
+    }
+    /**
+     * Renders a subsection of the glyphs in this label.
+     * If your font uses {@link Font.DistanceFieldType#SDF} or {@link Font.DistanceFieldType#MSDF},
+     * then this has to do some extra work to use the appropriate shader.
+     * If {@link Font#enableShader(Batch)} was called before rendering a group of TypingLabels, then they will try to
+     * share one Batch; otherwise this will change the shader to render SDF or MSDF, then change it back at the end of
+     * each draw() call.
+     *
+     * @param batch probably should be a SpriteBatch
+     * @param parentAlpha the alpha of the parent container, or 1.0f if there is none
+     * @param startIndex the first index, inclusive, to start rendering at
+     * @param endIndex the last index, exclusive, to stop rendering before; if negative this won't be limited
+     */
+    public void drawSection(Batch batch, float parentAlpha, int startIndex, int endIndex) {
         super.validate();
 
         final float rot = getRotation();
@@ -984,7 +1000,7 @@ public class TypingLabel extends TextraLabel {
         batch.getColor().set(getColor()).a *= parentAlpha;
         batch.setColor(batch.getColor());
 
-        int globalIndex = -1;
+        int globalIndex = startIndex - 1;
 
         float inX = 0, inY = 0;
         if(trackingInput) {
@@ -1037,8 +1053,8 @@ public class TypingLabel extends TextraLabel {
             }
 
             Font f = null;
-            int kern = -1;
-            for (int i = 0, n = glyphs.glyphs.size, end = glyphCharIndex,
+            int kern = -1, end = endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex - 1);
+            for (int i = startIndex, n = glyphs.glyphs.size,
                  lim = Math.min(Math.min(rotations.size, offsets.size >> 1), sizing.size >> 1);
                  i < n && r < lim; i++, gi++) {
                 if (gi > end) break EACH_LINE;

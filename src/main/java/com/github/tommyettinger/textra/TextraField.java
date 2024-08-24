@@ -105,7 +105,6 @@ public class TextraField extends Widget implements Disableable {
 
 	TextFieldStyle style;
 	private String messageText;
-	protected String displayText;
 	Clipboard clipboard;
 	InputListener inputListener;
 	@Null TextFieldListener listener;
@@ -392,16 +391,17 @@ public class TextraField extends Widget implements Disableable {
 				} else
 					label.setColor(0.7f, 0.7f, 0.7f, color.a);
 				label.setText(messageText, false, false);
-				label.setBounds(x + bgLeftWidth, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
-				label.draw(batch, parentAlpha);
+				label.setBounds(x + bgLeftWidth + textOffset, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
+				label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);
 			}
 		} else {
 			if(fontColor != null)
 				label.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * color.a);
 //			label.setText(text, false, false);
 //			label.font.regenerateLayout(label.layout);
-			label.setPosition(x + bgLeftWidth, y + textY + yOffset);
-			label.draw(batch, parentAlpha);
+			label.setPosition(x + bgLeftWidth + textOffset, y + textY + yOffset);
+			label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);
+//			font.draw(batch, displayText, x + bgLeftWidth + textOffset, y + textY, visibleTextStart, visibleTextEnd, 0, Align.left, false);
 		}
 		if (!disabled && cursorOn && cursorPatch != null) {
 			drawCursor(cursorPatch, batch, font, x + bgLeftWidth, y + textY);
@@ -417,7 +417,7 @@ public class TextraField extends Widget implements Disableable {
 		} else {
 			textY = textY + height * 0.5f;
 		}
-		if (font.integerPosition) textY = MathUtils.round(textY);
+		if (font.integerPosition) textY = (int)textY;
 		return textY;
 	}
 
@@ -468,7 +468,6 @@ public class TextraField extends Widget implements Disableable {
 				}
 			}
 		}
-		displayText = label.toString();
 		label.skipToTheEnd(true, true);
 
 		float end = 0f;
