@@ -1021,13 +1021,13 @@ public class TypingLabel extends TextraLabel {
         }
 
         float single;
-        int toSkip = startIndex;
+        int toSkip = 0;
 
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
             Line glyphs = workingLayout.getLine(ln);
 
-            if(glyphs.glyphs.size == 0 || (toSkip -= glyphs.glyphs.size) > 0)
+            if(glyphs.glyphs.size == 0 || (toSkip += glyphs.glyphs.size) < startIndex)
                 continue;
 
             baseX += sn * glyphs.height;
@@ -1042,7 +1042,6 @@ public class TypingLabel extends TextraLabel {
             x = cs * fx - sn * fy + worldOriginX;
             y = sn * fx + cs * fy + worldOriginY;
 
-
             float xChange = 0, yChange = 0;
 
             if (Align.isCenterHorizontal(align)) {
@@ -1054,8 +1053,10 @@ public class TypingLabel extends TextraLabel {
             }
 
             Font f = null;
-            int kern = -1, end = endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex - 1);
-            for (int i = startIndex, n = glyphs.glyphs.size,
+            int kern = -1,
+                    start = (toSkip - glyphs.glyphs.size < startIndex) ? startIndex - (toSkip - glyphs.glyphs.size) : 0,
+                    end = endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex - 1);
+            for (int i = start, n = glyphs.glyphs.size,
                  lim = Math.min(Math.min(rotations.size, offsets.size >> 1), sizing.size >> 1);
                  i < n && r < lim; i++, gi++) {
                 if (gi > end) break EACH_LINE;
@@ -1063,7 +1064,7 @@ public class TypingLabel extends TextraLabel {
                 if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                 if (f == null) f = font;
                 float descent = f.descent * f.scaleY;
-                if(i == 0){
+                if(i == start){
                     x -= f.cellWidth * 0.5f;
 
                     x += cs * f.cellWidth * 0.5f;
@@ -1106,6 +1107,7 @@ public class TypingLabel extends TextraLabel {
                     xx = (int)xx;
                     yy = (int)yy;
                 }
+
                 single = f.drawGlyph(batch, glyph, xx, yy, rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++), bgc);
                 if(trackingInput){
                     if(xx <= inX && inX <= xx + single && yy - glyphs.height * 0.5f <= inY && inY <= yy + glyphs.height * 0.5f) {

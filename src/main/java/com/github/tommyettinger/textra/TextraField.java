@@ -277,8 +277,8 @@ public class TextraField extends Widget implements Disableable {
 		if (background != null) visibleWidth -= background.getLeftWidth() + background.getRightWidth();
 
 		// these next two can be strangely mismatched; text can be longer than label.
-		System.out.println("Textra: text : " + text);
-		System.out.println("Textra: label: " + label.toString());
+//		System.out.println("Textra: text : " + text);
+//		System.out.println("Textra: label: " + label.toString());
 
 //		System.out.println("Textra: layout glyphs: " + label.layout.getLine(0).glyphs.size);
 //		System.out.println("Textra: layout lines: " + label.layout.lines());
@@ -322,7 +322,7 @@ public class TextraField extends Widget implements Disableable {
 				break;
 			}
 		}
-
+		
 		// calculate last visible char based on visible width and render offset
 		int end = visibleTextStart + 1;
 		float endX = visibleWidth - renderOffset;
