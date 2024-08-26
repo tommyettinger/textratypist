@@ -322,7 +322,7 @@ public class TextraField extends Widget implements Disableable {
 				break;
 			}
 		}
-		
+
 		// calculate last visible char based on visible width and render offset
 		int end = visibleTextStart + 1;
 		float endX = visibleWidth - renderOffset;
