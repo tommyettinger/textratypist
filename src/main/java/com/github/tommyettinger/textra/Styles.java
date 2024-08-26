@@ -48,6 +48,12 @@ public final class Styles {
             this.fontColor = fontColor;
         }
 
+        public LabelStyle(Font font, @Null Color fontColor, @Null Drawable background) {
+            this.font = font;
+            this.fontColor = fontColor;
+            this.background = background;
+        }
+
         public LabelStyle(BitmapFont font, @Null Color fontColor) {
             this.font = new Font(font);
             this.fontColor = fontColor;
@@ -249,6 +255,13 @@ public final class Styles {
             this.background = background;
         }
 
+        public WindowStyle(Font titleFont, Color titleFontColor, @Null Drawable background, @Null Drawable stageBackground) {
+            this.titleFont = titleFont;
+            this.titleFontColor.set(titleFontColor);
+            this.background = background;
+            this.stageBackground = stageBackground;
+        }
+
         public WindowStyle(BitmapFont titleFont, Color titleFontColor, @Null Drawable background) {
             this.titleFont = new Font(titleFont);
             this.titleFontColor.set(titleFontColor);
@@ -295,6 +308,17 @@ public final class Styles {
             this.fontColorSelected.set(fontColorSelected);
             this.fontColorUnselected.set(fontColorUnselected);
             this.selection = selection;
+        }
+
+        public ListStyle (Font font, Color fontColorSelected, Color fontColorUnselected, Drawable selection,
+                          @Null Drawable down, @Null Drawable over, @Null Drawable background) {
+            this.font = font;
+            this.fontColorSelected.set(fontColorSelected);
+            this.fontColorUnselected.set(fontColorUnselected);
+            this.selection = selection;
+            this.down = down;
+            this.over = over;
+            this.background = background;
         }
 
         public ListStyle (ListStyle style) {

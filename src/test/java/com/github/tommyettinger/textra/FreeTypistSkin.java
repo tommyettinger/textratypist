@@ -17,6 +17,7 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -280,7 +281,7 @@ public class FreeTypistSkin extends FWSkin {
                 Label.LabelStyle s2d = new Label.LabelStyle();
                 json.readFields(s2d, jsonData);
                 skin.add(jsonData.name, new Styles.LabelStyle(skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class),
-                        s2d.fontColor), Styles.LabelStyle.class);
+                        s2d.fontColor, s2d.background), Styles.LabelStyle.class);
                 return s2d;
             }
         });
@@ -290,8 +291,20 @@ public class FreeTypistSkin extends FWSkin {
             public TextButton.TextButtonStyle read(Json json, JsonValue jsonData, Class type) {
                 TextButton.TextButtonStyle s2d = new TextButton.TextButtonStyle();
                 json.readFields(s2d, jsonData);
-                skin.add(jsonData.name, new Styles.TextButtonStyle(s2d.up, s2d.down, s2d.checked,
-                        skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class)), Styles.TextButtonStyle.class);
+                Styles.TextButtonStyle stt = new Styles.TextButtonStyle(s2d.up, s2d.down, s2d.checked,
+                        skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class));
+
+                if (s2d.fontColor != null) stt.fontColor = new Color(s2d.fontColor);
+                if (s2d.downFontColor != null) stt.downFontColor = new Color(s2d.downFontColor);
+                if (s2d.overFontColor != null) stt.overFontColor = new Color(s2d.overFontColor);
+                if (s2d.focusedFontColor != null) stt.focusedFontColor = new Color(s2d.focusedFontColor);
+                if (s2d.disabledFontColor != null) stt.disabledFontColor = new Color(s2d.disabledFontColor);
+
+                if (s2d.checkedFontColor != null) stt.checkedFontColor = new Color(s2d.checkedFontColor);
+                if (s2d.checkedDownFontColor != null) stt.checkedDownFontColor = new Color(s2d.checkedDownFontColor);
+                if (s2d.checkedOverFontColor != null) stt.checkedOverFontColor = new Color(s2d.checkedOverFontColor);
+                if (s2d.checkedFocusedFontColor != null) stt.checkedFocusedFontColor = new Color(s2d.checkedFocusedFontColor);
+                skin.add(jsonData.name, stt, Styles.TextButtonStyle.class);
                 return s2d;
             }
         });
@@ -301,8 +314,28 @@ public class FreeTypistSkin extends FWSkin {
             public ImageTextButton.ImageTextButtonStyle read(Json json, JsonValue jsonData, Class type) {
                 ImageTextButton.ImageTextButtonStyle s2d = new ImageTextButton.ImageTextButtonStyle();
                 json.readFields(s2d, jsonData);
-                skin.add(jsonData.name, new Styles.ImageTextButtonStyle(s2d.up, s2d.down, s2d.checked,
-                        skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class)), Styles.ImageTextButtonStyle.class);
+                Styles.ImageTextButtonStyle stt = new Styles.ImageTextButtonStyle(s2d.up, s2d.down, s2d.checked,
+                        skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class));
+                if (s2d.fontColor != null) stt.fontColor = new Color(s2d.fontColor);
+                if (s2d.downFontColor != null) stt.downFontColor = new Color(s2d.downFontColor);
+                if (s2d.overFontColor != null) stt.overFontColor = new Color(s2d.overFontColor);
+                if (s2d.focusedFontColor != null) stt.focusedFontColor = new Color(s2d.focusedFontColor);
+                if (s2d.disabledFontColor != null) stt.disabledFontColor = new Color(s2d.disabledFontColor);
+
+                if (s2d.checkedFontColor != null) stt.checkedFontColor = new Color(s2d.checkedFontColor);
+                if (s2d.checkedDownFontColor != null) stt.checkedDownFontColor = new Color(s2d.checkedDownFontColor);
+                if (s2d.checkedOverFontColor != null) stt.checkedOverFontColor = new Color(s2d.checkedOverFontColor);
+                if (s2d.checkedFocusedFontColor != null) stt.checkedFocusedFontColor = new Color(s2d.checkedFocusedFontColor);
+
+                stt.imageUp = s2d.imageUp;
+                stt.imageDown = s2d.imageDown;
+                stt.imageOver = s2d.imageOver;
+                stt.imageDisabled = s2d.imageDisabled;
+                stt.imageChecked = s2d.imageChecked;
+                stt.imageCheckedDown = s2d.imageCheckedDown;
+                stt.imageCheckedOver = s2d.imageCheckedOver;
+
+                skin.add(jsonData.name, stt, Styles.ImageTextButtonStyle.class);
                 return s2d;
             }
         });
@@ -312,8 +345,27 @@ public class FreeTypistSkin extends FWSkin {
             public CheckBox.CheckBoxStyle read(Json json, JsonValue jsonData, Class type) {
                 CheckBox.CheckBoxStyle s2d = new CheckBox.CheckBoxStyle();
                 json.readFields(s2d, jsonData);
-                skin.add(jsonData.name, new Styles.CheckBoxStyle(s2d.checkboxOff, s2d.checkboxOn,
-                        skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class), s2d.fontColor), Styles.CheckBoxStyle.class);
+
+                Styles.CheckBoxStyle stt = new Styles.CheckBoxStyle(s2d.checkboxOff, s2d.checkboxOn,
+                        skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class), s2d.fontColor);
+
+                if (s2d.fontColor != null) stt.fontColor = new Color(s2d.fontColor);
+                if (s2d.downFontColor != null) stt.downFontColor = new Color(s2d.downFontColor);
+                if (s2d.overFontColor != null) stt.overFontColor = new Color(s2d.overFontColor);
+                if (s2d.focusedFontColor != null) stt.focusedFontColor = new Color(s2d.focusedFontColor);
+                if (s2d.disabledFontColor != null) stt.disabledFontColor = new Color(s2d.disabledFontColor);
+
+                if (s2d.checkedFontColor != null) stt.checkedFontColor = new Color(s2d.checkedFontColor);
+                if (s2d.checkedDownFontColor != null) stt.checkedDownFontColor = new Color(s2d.checkedDownFontColor);
+                if (s2d.checkedOverFontColor != null) stt.checkedOverFontColor = new Color(s2d.checkedOverFontColor);
+                if (s2d.checkedFocusedFontColor != null) stt.checkedFocusedFontColor = new Color(s2d.checkedFocusedFontColor);
+
+                stt.checkboxOnOver = s2d.checkboxOnOver;
+                stt.checkboxOver = s2d.checkboxOver;
+                stt.checkboxOnDisabled = s2d.checkboxOnDisabled;
+                stt.checkboxOffDisabled = s2d.checkboxOffDisabled;
+
+                skin.add(jsonData.name, stt, Styles.CheckBoxStyle.class);
                 return s2d;
             }
         });
@@ -357,15 +409,12 @@ public class FreeTypistSkin extends FWSkin {
                 List.ListStyle s2d = new List.ListStyle();
                 json.readFields(s2d, jsonData);
                 Styles.ListStyle stt = new Styles.ListStyle(skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class),
-                        s2d.fontColorSelected, s2d.fontColorUnselected, s2d.background);
-                stt.selection = s2d.selection;
-                stt.background = s2d.background;
-                stt.down = s2d.down;
-                stt.over = s2d.over;
+                        s2d.fontColorSelected, s2d.fontColorUnselected, s2d.selection, s2d.down, s2d.over, s2d.background);
                 skin.add(jsonData.name, stt, Styles.ListStyle.class);
                 return s2d;
             }
         });
+
 
         json.setSerializer(SelectBox.SelectBoxStyle.class, new Json.ReadOnlySerializer<SelectBox.SelectBoxStyle>() {
             @Override
