@@ -293,25 +293,25 @@ public final class Styles {
         public Drawable selection;
         public @Null Drawable down, over, background;
 
-        public ListStyle () {
+        public ListStyle() {
         }
 
-        public ListStyle (Font font, Color fontColorSelected, Color fontColorUnselected, Drawable selection) {
+        public ListStyle(Font font, Color fontColorSelected, Color fontColorUnselected, Drawable selection) {
             this.font = font;
             this.fontColorSelected.set(fontColorSelected);
             this.fontColorUnselected.set(fontColorUnselected);
             this.selection = selection;
         }
 
-        public ListStyle (BitmapFont font, Color fontColorSelected, Color fontColorUnselected, Drawable selection) {
+        public ListStyle(BitmapFont font, Color fontColorSelected, Color fontColorUnselected, Drawable selection) {
             this.font = new Font(font);
             this.fontColorSelected.set(fontColorSelected);
             this.fontColorUnselected.set(fontColorUnselected);
             this.selection = selection;
         }
 
-        public ListStyle (Font font, Color fontColorSelected, Color fontColorUnselected, Drawable selection,
-                          @Null Drawable down, @Null Drawable over, @Null Drawable background) {
+        public ListStyle(Font font, Color fontColorSelected, Color fontColorUnselected, Drawable selection,
+                         @Null Drawable down, @Null Drawable over, @Null Drawable background) {
             this.font = font;
             this.fontColorSelected.set(fontColorSelected);
             this.fontColorUnselected.set(fontColorUnselected);
@@ -321,7 +321,7 @@ public final class Styles {
             this.background = background;
         }
 
-        public ListStyle (ListStyle style) {
+        public ListStyle(ListStyle style) {
             font = style.font;
             fontColorSelected.set(style.fontColorSelected);
             fontColorUnselected.set(style.fontColorUnselected);
@@ -332,7 +332,7 @@ public final class Styles {
             background = style.background;
         }
 
-        public ListStyle (List.ListStyle style) {
+        public ListStyle(List.ListStyle style) {
             font = new Font(style.font);
             fontColorSelected.set(style.fontColorSelected);
             fontColorUnselected.set(style.fontColorUnselected);
@@ -356,11 +356,11 @@ public final class Styles {
         public ListStyle listStyle;
         public @Null Drawable backgroundOver, backgroundOpen, backgroundDisabled;
 
-        public SelectBoxStyle () {
+        public SelectBoxStyle() {
         }
 
-        public SelectBoxStyle (Font font, Color fontColor, @Null Drawable background, ScrollPane.ScrollPaneStyle scrollStyle,
-                               ListStyle listStyle) {
+        public SelectBoxStyle(Font font, Color fontColor, @Null Drawable background, ScrollPane.ScrollPaneStyle scrollStyle,
+                              ListStyle listStyle) {
             this.font = font;
             this.fontColor.set(fontColor);
             this.background = background;
@@ -368,8 +368,8 @@ public final class Styles {
             this.listStyle = listStyle;
         }
 
-        public SelectBoxStyle (BitmapFont font, Color fontColor, @Null Drawable background, ScrollPane.ScrollPaneStyle scrollStyle,
-                               List.ListStyle listStyle) {
+        public SelectBoxStyle(BitmapFont font, Color fontColor, @Null Drawable background, ScrollPane.ScrollPaneStyle scrollStyle,
+                              List.ListStyle listStyle) {
             this.font = new Font(font);
             this.fontColor.set(fontColor);
             this.background = background;
@@ -377,7 +377,7 @@ public final class Styles {
             this.listStyle = new ListStyle(listStyle);
         }
 
-        public SelectBoxStyle (SelectBoxStyle style) {
+        public SelectBoxStyle(SelectBoxStyle style) {
             font = new Font(style.font);
             fontColor.set(style.fontColor);
 
@@ -393,7 +393,7 @@ public final class Styles {
             backgroundDisabled = style.backgroundDisabled;
         }
 
-        public SelectBoxStyle (SelectBox.SelectBoxStyle style) {
+        public SelectBoxStyle(SelectBox.SelectBoxStyle style) {
             font = new Font(style.font);
             fontColor.set(style.fontColor);
 
@@ -416,33 +416,101 @@ public final class Styles {
     public static class TextTooltipStyle {
         public LabelStyle label;
         public @Null Drawable background;
-        /** 0 means don't wrap. */
+        /**
+         * 0 means don't wrap.
+         */
         public float wrapWidth;
 
-        public TextTooltipStyle () {
+        public TextTooltipStyle() {
         }
 
-        public TextTooltipStyle (LabelStyle label, @Null Drawable background) {
+        public TextTooltipStyle(LabelStyle label, @Null Drawable background) {
             this.label = label;
             this.background = background;
         }
 
-        public TextTooltipStyle (Label.LabelStyle label, @Null Drawable background) {
+        public TextTooltipStyle(Label.LabelStyle label, @Null Drawable background) {
             this.label = new LabelStyle(label);
             this.background = background;
         }
 
-        public TextTooltipStyle (TextTooltipStyle style) {
+        public TextTooltipStyle(TextTooltipStyle style) {
             label = new LabelStyle(style.label);
             background = style.background;
             wrapWidth = style.wrapWidth;
         }
 
-        public TextTooltipStyle (TextTooltip.TextTooltipStyle style) {
+        public TextTooltipStyle(TextTooltip.TextTooltipStyle style) {
             label = new LabelStyle(style.label);
             background = style.background;
             wrapWidth = style.wrapWidth;
         }
     }
 
+    /**
+     * The style for a text field, see {@link TextraField}.
+     */
+    public static class TextFieldStyle {
+        public Font font;
+        public Color fontColor;
+        public @Null Color focusedFontColor, disabledFontColor;
+        public @Null Drawable background, focusedBackground, disabledBackground, cursor, selection;
+        public @Null Font messageFont;
+        public @Null Color messageFontColor;
+
+        public TextFieldStyle() {
+        }
+
+        public TextFieldStyle(Font font, Color fontColor, @Null Drawable cursor, @Null Drawable selection,
+                              @Null Drawable background) {
+            this.font = font;
+            this.fontColor = fontColor;
+            this.cursor = cursor;
+            this.selection = selection;
+            this.background = background;
+        }
+
+
+        public TextFieldStyle(BitmapFont font, Color fontColor, @Null Drawable cursor, @Null Drawable selection,
+                              @Null Drawable background) {
+            this.font = new Font(font);
+            this.fontColor = fontColor;
+            this.cursor = cursor;
+            this.selection = selection;
+            this.background = background;
+        }
+
+        public TextFieldStyle(TextFieldStyle style) {
+            font = style.font;
+            if (style.fontColor != null) fontColor = new Color(style.fontColor);
+            if (style.focusedFontColor != null) focusedFontColor = new Color(style.focusedFontColor);
+            if (style.disabledFontColor != null) disabledFontColor = new Color(style.disabledFontColor);
+
+            background = style.background;
+            focusedBackground = style.focusedBackground;
+            disabledBackground = style.disabledBackground;
+            cursor = style.cursor;
+            selection = style.selection;
+
+            messageFont = style.messageFont;
+            if (style.messageFontColor != null) messageFontColor = new Color(style.messageFontColor);
+        }
+
+        public TextFieldStyle(TextField.TextFieldStyle style) {
+            font = new Font(style.font);
+            if (style.fontColor != null) fontColor = new Color(style.fontColor);
+            if (style.focusedFontColor != null) focusedFontColor = new Color(style.focusedFontColor);
+            if (style.disabledFontColor != null) disabledFontColor = new Color(style.disabledFontColor);
+
+            background = style.background;
+            focusedBackground = style.focusedBackground;
+            disabledBackground = style.disabledBackground;
+            cursor = style.cursor;
+            selection = style.selection;
+
+            if (style.messageFont != null)
+                messageFont = style.font == style.messageFont ? font : new Font(style.messageFont);
+            if (style.messageFontColor != null) messageFontColor = new Color(style.messageFontColor);
+        }
+    }
 }
