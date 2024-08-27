@@ -98,6 +98,7 @@ public class TextraField extends Widget implements Disableable {
 
 	TextFieldStyle style;
 	private String messageText;
+	private boolean showingMessage = false;
 	Clipboard clipboard;
 	InputListener inputListener;
 	@Null TextFieldListener listener;
@@ -393,8 +394,10 @@ public class TextraField extends Widget implements Disableable {
 						style.messageFontColor.a * color.a);
 				} else
 					label.setColor(0.7f, 0.7f, 0.7f, color.a);
-				label.setText(messageText, false, false);
-				label.setBounds(x + bgLeftWidth + textOffset, y + textY, Float.MAX_VALUE, font.cellHeight);
+				label.restart(messageText);
+				label.skipToTheEnd(false, false);
+				showingMessage = true;
+				label.setPosition(x + bgLeftWidth + textOffset, y + textY);
 //				label.setBounds(x + bgLeftWidth + textOffset, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
 				label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);
 			}
@@ -452,9 +455,14 @@ public class TextraField extends Widget implements Disableable {
 
 		label.font.defaultValue = label.font.mapping.get(' ');
 
-		label.restart(text
-				.replace('\r', ' ').replace('\n', ' ')
-		);
+		String newText = text.replace('\r', ' ').replace('\n', ' ');
+		if(newText.isEmpty() && messageText != null) {
+			newText = messageText;
+			showingMessage = true;
+		} else if(showingMessage) {
+			showingMessage = false;
+		}
+		label.restart(newText);
 
 		if (passwordMode && font.mapping.containsKey(passwordCharacter)) {
 //			if (passwordBuffer == null) passwordBuffer = new StringBuilder(newDisplayText.length());
@@ -543,6 +551,10 @@ public class TextraField extends Widget implements Disableable {
 
 	boolean insert(int position, CharSequence inserting) {
 		if(inserting.length() == 0) return false;
+		if(showingMessage) {
+			showingMessage = false;
+			label.layout.clear();
+		}
 		label.insertInLayout(label.layout, position, inserting);
 		return true;
 	}
@@ -556,6 +568,7 @@ public class TextraField extends Widget implements Disableable {
 		int from = selectionStart;
 		int to = cursor;
 		int minIndex = Math.min(from, to);
+		if(showingMessage) return minIndex;
 		int maxIndex = Math.max(from, to) - 1;
 		LongArray glyphs = label.layout.getLine(0).glyphs;
 		if(glyphs.size > 0 && minIndex <= maxIndex)
