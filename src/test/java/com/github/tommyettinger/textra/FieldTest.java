@@ -76,8 +76,8 @@ public class FieldTest extends ApplicationAdapter {
         selection.setMinHeight(font.cellHeight);
         background.setMinHeight(1);
         background.setMinWidth(1);
-        ttField = new TextraField(text, new TextField.TextFieldStyle(null, Color.WHITE.cpy(), pipe,
-                selection, background), font);
+        ttField = new TextraField(text, new Styles.TextFieldStyle(font, Color.WHITE.cpy(), pipe,
+                selection, background));
         ttField.setWidth(500);
         ttField.setPasswordMode(false);
         ttField.setHeight(font.cellHeight);
@@ -93,7 +93,8 @@ public class FieldTest extends ApplicationAdapter {
         table.setFillParent(true);
         table.add(new TextraLabel("TT:  ", font)).width(60);
         table.add(ttField).width(500).row();
-        table.add(new TextraLabel("S2D: ", font)).width(60);        table.add(s2dField).width(500);
+        table.add(new TextraLabel("S2D: ", font)).width(60);
+        table.add(s2dField).width(500);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }

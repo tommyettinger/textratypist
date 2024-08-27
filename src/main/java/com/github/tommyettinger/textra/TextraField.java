@@ -29,30 +29,23 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Clipboard;
-import com.badlogic.gdx.utils.FloatArray;
-import com.badlogic.gdx.utils.IntMap;
-import com.badlogic.gdx.utils.LongArray;
-import com.badlogic.gdx.utils.Null;
-import com.badlogic.gdx.utils.Pools;
-import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.github.tommyettinger.textra.Styles.TextFieldStyle;
 import regexodus.Category;
 
 import java.lang.StringBuilder;
+import java.util.Arrays;
 
 /** A single-line text input field.
  * <br>
- * This class is alpha-quality at best right now! You should try alternatives instead of using TextraField:
+ * This class is beta-quality right now! You can try alternatives instead of using TextraField:
  * <br>
  * When you want text entry, you should use a {@link com.badlogic.gdx.scenes.scene2d.ui.TextField} with a
  * {@link com.badlogic.gdx.graphics.g2d.BitmapFont} that has its
@@ -68,7 +61,7 @@ import java.lang.StringBuilder;
  * The preferred width of a text field is 150, a relatively arbitrary size.
  * <p>
  * The text field will copy the currently selected text when ctrl+c is pressed, and paste any text in the clipboard when ctrl+v is
- * pressed. Clipboard functionality is provided via the {@link Clipboard} interface. Currently there are two standard
+ * pressed. Clipboard functionality is provided via the {@link Clipboard} interface. Currently, there are two standard
  * implementations, one for the desktop and one for Android. The Android clipboard is a stub, as copy-and-pasting on Android is not
  * supported yet.
  * <p>
@@ -152,10 +145,9 @@ public class TextraField extends Widget implements Disableable {
 
 	public TextraField(@Null String text, TextFieldStyle style) {
 		setStyle(style);
-		Font replacementFont = new Font(style.font);
-		replacementFont.enableSquareBrackets = false;
-		replacementFont.omitCurlyBraces = false;
-		label = new TypingLabel("", new Styles.LabelStyle(replacementFont, style.fontColor));
+		this.style.font.enableSquareBrackets = false;
+		this.style.font.omitCurlyBraces = false;
+		label = new TypingLabel("", new Styles.LabelStyle(this.style.font, style.fontColor));
 		label.layout.targetWidth = Float.MAX_VALUE;
 		label.layout.setMaxLines(1);
 		label.setWrap(false);
@@ -473,11 +465,10 @@ public class TextraField extends Widget implements Disableable {
 //					passwordBuffer.append(passwordCharacter);
 //			}
 //			displayText = passwordBuffer.toString();
+			final long passwordGlyph = (long)Integer.reverseBytes(NumberUtils.floatToIntBits(label.workingLayout.baseColor)) << 32 | passwordCharacter;
 			for (int ln = 0; ln < label.workingLayout.lines(); ln++) {
 				Line line = label.workingLayout.getLine(ln);
-				for (int g = 0; g < line.glyphs.size; g++) {
-					line.glyphs.set(g, 0xFFFFFFFE00000000L | passwordCharacter);
-				}
+				Arrays.fill(line.glyphs.items, 0, line.glyphs.size, passwordGlyph);
 			}
 		}
 		label.skipToTheEnd(true, true);
@@ -490,8 +481,6 @@ public class TextraField extends Widget implements Disableable {
 		glyphPositions.add(end);
 		visibleTextStart = Math.min(visibleTextStart, glyphPositions.size - 1);
 		visibleTextEnd = MathUtils.clamp(visibleTextEnd, visibleTextStart, glyphPositions.size - 1);
-//		System.out.println("Textra: " + glyphPositions);
-//		System.out.println("Textra: start: " + visibleTextStart + ", end: " + visibleTextEnd);
 
 		selectionStart = Math.min(selectionStart, label.length());
 	}
@@ -559,7 +548,7 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	String insert (int position, CharSequence text, String to) {
-		if (to.length() == 0) return text.toString();
+		if (to.isEmpty()) return text.toString();
 		return to.substring(0, position) + text + to.substring(position);
 	}
 
@@ -890,7 +879,7 @@ public class TextraField extends Widget implements Disableable {
 		return isWordCharacter(c);
 	}
 
-	class KeyRepeatTask extends Task {
+	protected class KeyRepeatTask extends Task {
 		int keycode;
 
 		public void run () {
@@ -904,26 +893,48 @@ public class TextraField extends Widget implements Disableable {
 
 	/** Interface for listening to typed characters.
 	 * @author mzechner */
-	static public interface TextFieldListener {
-		public void keyTyped (TextraField textField, char c);
+	public interface TextFieldListener {
+		void keyTyped(TextraField textField, char c);
 	}
 
 	/** Interface for filtering characters entered into the text field.
 	 * @author mzechner */
-	static public interface TextFieldFilter {
-		public boolean acceptChar (TextraField textField, char c);
+	public interface TextFieldFilter {
+		boolean acceptChar(TextraField textField, char c);
 
-		static public class DigitsOnlyFilter implements TextFieldFilter {
+		/**
+		 * This filter only accepts the chars {@code '0'} through {@code '9'}.
+		 */
+		class DigitsOnlyFilter implements TextFieldFilter {
 			public boolean acceptChar (TextraField textField, char c) {
-				return Character.isDigit(c);
+				return c >= '0' && c <= '9';
+			}
+		}
+
+		/**
+		 * This filter only accepts what Unicode considers "letter characters."
+		 */
+		class LetterOnlyFilter implements TextFieldFilter {
+			public boolean acceptChar (TextraField textField, char c) {
+				return Category.L.contains(c);
+			}
+		}
+
+		/**
+		 * This filter only accepts what Unicode considers "word characters" -- all letters, all numbers, and the
+		 * underscore (as well as all underscore-like punctuation, like its variant for vertical text).
+		 */
+		class WordOnlyFilter implements TextFieldFilter {
+			public boolean acceptChar (TextraField textField, char c) {
+				return Category.Word.contains(c);
 			}
 		}
 	}
 
 	/** An interface for onscreen keyboards. Can invoke the default keyboard or render your own keyboard!
 	 * @author mzechner */
-	static public interface OnscreenKeyboard {
-		public void show (boolean visible);
+	public interface OnscreenKeyboard {
+		void show(boolean visible);
 	}
 
 	/** The default {@link OnscreenKeyboard} used by all {@link TextraField} instances. Just uses

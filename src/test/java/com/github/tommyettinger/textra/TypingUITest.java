@@ -123,7 +123,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
-		TextField textfield = new TextField("", skin);
+		TextraField textfield = new TextraField("", skin);
 		textfield.setMessageText("Click here!");
 		textfield.setAlignment(Align.center);
 		final TypingSelectBox selectBox = new TypingSelectBox(skin);
@@ -215,8 +215,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		// stage.addActor(new Button("Behind Window", skin));
 		stage.addActor(window);
 
-		textfield.setTextFieldListener(new TextFieldListener() {
-			public void keyTyped (TextField textField, char key) {
+		textfield.setTextFieldListener(new TextraField.TextFieldListener() {
+			public void keyTyped (TextraField textField, char key) {
 				if (key == '\n') textField.getOnscreenKeyboard().show(false);
 			}
 		});

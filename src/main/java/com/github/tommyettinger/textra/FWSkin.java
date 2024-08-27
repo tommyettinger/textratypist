@@ -430,6 +430,23 @@ public class FWSkin extends Skin {
             }
         });
 
+        json.setSerializer(TextField.TextFieldStyle.class, new Json.ReadOnlySerializer<TextField.TextFieldStyle>() {
+            @Override
+            public TextField.TextFieldStyle read(Json json, JsonValue jsonData, Class type) {
+                TextField.TextFieldStyle s2d = new TextField.TextFieldStyle();
+                json.readFields(s2d, jsonData);
+                Styles.TextFieldStyle stt = new Styles.TextFieldStyle(skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class),
+                        s2d.fontColor, s2d.cursor, s2d.selection, s2d.background);
+                stt.messageFontColor = s2d.messageFontColor;
+                stt.focusedFontColor = s2d.focusedFontColor;
+                stt.disabledFontColor = s2d.disabledFontColor;
+                stt.focusedBackground = s2d.focusedBackground;
+                stt.disabledBackground = s2d.disabledBackground;
+                skin.add(jsonData.name, stt, Styles.TextFieldStyle.class);
+                return s2d;
+            }
+        });
+
         return json;
     }
 

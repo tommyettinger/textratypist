@@ -455,7 +455,7 @@ public final class Styles {
         public Color fontColor;
         public @Null Color focusedFontColor, disabledFontColor;
         public @Null Drawable background, focusedBackground, disabledBackground, cursor, selection;
-        public @Null Font messageFont;
+//        public @Null Font messageFont;
         public @Null Color messageFontColor;
 
         public TextFieldStyle() {
@@ -463,7 +463,7 @@ public final class Styles {
 
         public TextFieldStyle(Font font, Color fontColor, @Null Drawable cursor, @Null Drawable selection,
                               @Null Drawable background) {
-            this.font = font;
+            this.font = new Font(font);
             this.fontColor = fontColor;
             this.cursor = cursor;
             this.selection = selection;
@@ -481,7 +481,7 @@ public final class Styles {
         }
 
         public TextFieldStyle(TextFieldStyle style) {
-            font = style.font;
+            font = new Font(style.font);
             if (style.fontColor != null) fontColor = new Color(style.fontColor);
             if (style.focusedFontColor != null) focusedFontColor = new Color(style.focusedFontColor);
             if (style.disabledFontColor != null) disabledFontColor = new Color(style.disabledFontColor);
@@ -492,7 +492,7 @@ public final class Styles {
             cursor = style.cursor;
             selection = style.selection;
 
-            messageFont = style.messageFont;
+//            messageFont = style.messageFont;
             if (style.messageFontColor != null) messageFontColor = new Color(style.messageFontColor);
         }
 
@@ -508,8 +508,8 @@ public final class Styles {
             cursor = style.cursor;
             selection = style.selection;
 
-            if (style.messageFont != null)
-                messageFont = style.font == style.messageFont ? font : new Font(style.messageFont);
+//            if (style.messageFont != null)
+//                messageFont = style.font == style.messageFont ? font : new Font(style.messageFont);
             if (style.messageFontColor != null) messageFontColor = new Color(style.messageFontColor);
         }
     }
