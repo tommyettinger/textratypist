@@ -401,6 +401,10 @@ public class TextraField extends Widget implements Disableable {
 				label.setPosition(x + bgLeftWidth + textOffset, y + textY);
 //				label.setBounds(x + bgLeftWidth + textOffset, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
 				label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);
+			} else if(focused && !disabled) {
+				if(showingMessage)
+					clearMessage();
+				calculateOffsets();
 			} else {
 				calculateOffsets();
 			}
@@ -788,6 +792,23 @@ public class TextraField extends Widget implements Disableable {
 		return cursor;
 	}
 
+	private void clearMessage() {
+		showingMessage = false;
+		label.restart(text = "");
+		label.skipToTheEnd(true, true);
+		float end = 0f;
+		if(label.workingLayout.lines.notEmpty()) {
+			end = label.font.calculateXAdvances(label.workingLayout.lines.first(), glyphPositions);
+		} else
+			fontOffset = 0;
+		glyphPositions.add(end);
+		visibleTextStart = 0;
+		visibleTextEnd = 0;
+
+		setSelection(0, 0);
+		clearSelection();
+	}
+
 	/** Default is an instance of {@link DefaultOnscreenKeyboard}. */
 	public OnscreenKeyboard getOnscreenKeyboard () {
 		return keyboard;
@@ -963,14 +984,16 @@ public class TextraField extends Widget implements Disableable {
 		}
 	}
 
-	/** Basic input listener for the text field */
+	/** Basic input listener for the TextraField */
 	public class TextFieldClickListener extends ClickListener {
 		public void clicked (InputEvent event, float x, float y) {
-			int count = getTapCount() % 4;
+			if(showingMessage)
+				clearMessage();
+			int count = getTapCount() & 3;
 			if (count == 0) clearSelection();
 			if (count == 2) {
 				long pair = wordUnderCursor();
-				setSelection((int) (pair >> 32), (int)pair);
+				setSelection((int) (pair >>> 32), (int)pair);
 			}
 			if (count == 3) selectAll();
 		}
@@ -979,12 +1002,16 @@ public class TextraField extends Widget implements Disableable {
 			if (!super.touchDown(event, x, y, pointer, button)) return false;
 			if (pointer == 0 && button != 0) return false;
 			if (disabled) return true;
+
 			setCursorPosition(x, y);
+
 			selectionStart = cursor;
 			Stage stage = getStage();
 			if (stage != null) stage.setKeyboardFocus(TextraField.this);
 			keyboard.show(true);
 			hasSelection = true;
+			if(showingMessage)
+				clearMessage();
 			return true;
 		}
 
