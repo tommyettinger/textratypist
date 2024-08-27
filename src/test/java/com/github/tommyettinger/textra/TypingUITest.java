@@ -137,8 +137,6 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 				System.out.println(selectBox.getSelected());
 			}
 		});
-		// the three numbers push the emoji to the left a lot, down a little, and shrink a lot.
-		KnownFonts.addEmoji(selectBox.getStyle().font, -24f, 2f, 12f);
 		String[] items = {"[+🤖]Android1", "[+🪟]Windows1 long text in item", "[+🐧]Linux1", "[+🍎]macOS1", "[+🤖]Android2", "[+🪟]Windows2", "[+🐧]Linux2", "[+🍎]macOS2",
 				"[+🤖]Android3", "[+🪟]Windows3", "[+🐧]Linux3", "[+🍎]macOS3", "[+🤖]Android4", "[+🪟]Windows4", "[+🐧]Linux4", "[+🍎]macOS4", "[+🤖]Android5", "[+🪟]Windows5", "[+🐧]Linux5",
 				"[+🍎]macOS5", "[+🤖]Android6", "[+🪟]Windows6", "[+🐧]Linux6", "[+🍎]macOS6", "[+🤖]Android7", "[+🪟]Windows7", "[+🐧]Linux7", "[+🍎]macOS7"};
