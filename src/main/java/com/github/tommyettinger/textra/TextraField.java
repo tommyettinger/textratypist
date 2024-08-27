@@ -381,7 +381,6 @@ public class TextraField extends Widget implements Disableable {
 		}
 
 		float textY = getTextY(font, background);
-		calculateOffsets();
 
 		if (focused && hasSelection && selection != null) {
 			drawSelection(selection, batch, font, x + bgLeftWidth, y + textY);
@@ -397,15 +396,20 @@ public class TextraField extends Widget implements Disableable {
 				label.restart(messageText);
 				label.skipToTheEnd(false, false);
 				showingMessage = true;
+				updateDisplayText();
+				calculateOffsets();
 				label.setPosition(x + bgLeftWidth + textOffset, y + textY);
 //				label.setBounds(x + bgLeftWidth + textOffset, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
 				label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);
+			} else {
+				calculateOffsets();
 			}
 		} else {
 			if(fontColor != null)
 				label.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * color.a);
 //			label.setText(text, false, false);
 //			label.font.regenerateLayout(label.layout);
+			calculateOffsets();
 			label.setPosition(x + bgLeftWidth + textOffset, y + textY);
 			label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);
 //			font.draw(batch, displayText, x + bgLeftWidth + textOffset, y + textY, visibleTextStart, visibleTextEnd, 0, Align.left, false);
