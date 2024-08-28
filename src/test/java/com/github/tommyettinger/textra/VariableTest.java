@@ -21,13 +21,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class Issue13Test  extends ApplicationAdapter {
+public class VariableTest extends ApplicationAdapter {
 
     private Stage stage;
     private FWSkin skin;
@@ -38,32 +37,20 @@ public class Issue13Test  extends ApplicationAdapter {
 //        stage.setDebugAll(true);
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 
-        int fitOneLineCount = 25;
-        int extraSpaces = 10;
-
-        StringBuilder text = new StringBuilder();
-//        for (int count = 0; count < fitOneLineCount + extraSpaces; count++) {
-//            text.append(' ');
-//        }
-//        text.append("OK.");
-
-        // This seems to work here.
-        // https://i.imgur.com/LFYLAPc.png
-        text.append("this is a normal text test test        test!");
-        // It works for TextraLabel and TypingLabel, in the same way.
-        TextraLabel label;
-//        if("TEXTRA".equals("TYPING")) {
-        if("TEXTRA".equals("TEXTRA")) {
-            label = new TextraLabel(text.toString(), skin);
-            label.setWrap(true);
-            // Runs in the next render thread so the layout is ready.
-            Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
-        } else {
-            label = new TypingLabel(text.toString(), skin);
-            label.setWrap(true);
-            // Runs in the next render thread so the layout is ready.
-            Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
-        }
+        TypingLabel label = new TypingLabel("Test: {VAR=test}", skin);
+        label.setWrap(true);
+//        label.setDefaultToken(""); // not needed if you parseTokens after changing variables.
+        label.setVariable("test", "firsttest");
+        label.setTypingListener(new TypingAdapter() {
+            public String replaceVariable (String variable)  {
+                System.out.println("AAAAA");
+                if("test".equals(variable)) return "testvariable";
+                return "-- Unknown Variable --";
+            }
+        });
+        label.parseTokens();
+        // Runs in the next render thread so the layout is ready.
+        Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
         Table table = new Table();
         table.debug();
         table.add(label).prefWidth(100).row();
@@ -103,6 +90,6 @@ public class Issue13Test  extends ApplicationAdapter {
         config.setForegroundFPS(0);
         config.useVsync(true);
         config.disableAudio(true);
-        new Lwjgl3Application(new Issue13Test(), config);
+        new Lwjgl3Application(new VariableTest(), config);
     }
 }
