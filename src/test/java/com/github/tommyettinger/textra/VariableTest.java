@@ -30,6 +30,8 @@ public class VariableTest extends ApplicationAdapter {
 
     private Stage stage;
     private FWSkin skin;
+    private TypingLabel label;
+    private int frame = 0;
 
     @Override
     public void create () {
@@ -37,18 +39,16 @@ public class VariableTest extends ApplicationAdapter {
 //        stage.setDebugAll(true);
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 
-        TypingLabel label = new TypingLabel("Test: {VAR=test}", skin);
+        label = new TypingLabel("Test: {VAR=test}", skin);
         label.setWrap(true);
 //        label.setDefaultToken(""); // not needed if you parseTokens after changing variables.
         label.setVariable("test", "firsttest");
         label.setTypingListener(new TypingAdapter() {
             public String replaceVariable (String variable)  {
-                System.out.println("AAAAA");
                 if("test".equals(variable)) return "testvariable";
                 return "-- Unknown Variable --";
             }
         });
-        label.parseTokens();
         // Runs in the next render thread so the layout is ready.
         Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
         Table table = new Table();
@@ -66,8 +66,12 @@ public class VariableTest extends ApplicationAdapter {
     @Override
     public void render () {
         ScreenUtils.clear(0, 0, 0, 1);
+        label.parseTokens();
         stage.act();
         stage.draw();
+        if((frame++ & 63) == 0)
+            System.out.println(Gdx.app.getJavaHeap());
+
     }
 
     @Override

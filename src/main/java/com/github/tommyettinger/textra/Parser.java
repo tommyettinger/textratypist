@@ -31,11 +31,13 @@ import regexodus.Replacer;
  */
 public class Parser {
     private static final Pattern PATTERN_MARKUP_STRIP = Pattern.compile("((?<!\\[)\\[[^\\[\\]]*(\\]))");
+    private static final Matcher MATCHER_MARKUP_STRIP = PATTERN_MARKUP_STRIP.matcher();
     private static final Replacer RESET_TAG = new Replacer(Pattern.compile("((?<!\\[)\\[ (?:\\]))"), "{RESET}");
     private static final Replacer UNDO_TAG =  new Replacer(Pattern.compile("((?<!\\[)\\[(?:\\]))"), "{UNDO}");
     private static final Replacer COLOR_MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[(?:(?:#({=m}[A-Fa-f0-9]{3,8}))|(?:\\|?)({=m}[\\pL\\pN][^\\[\\]]*))(\\])"), "{COLOR=${\\m}}");
     private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\])"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{3,8}");
+    private static final Matcher MATCHER_COLOR_HEX_NO_HASH = PATTERN_COLOR_HEX_NO_HASH.matcher();
 
     private static final Replacer BRACKET_MINUS_TO_TAG = new Replacer(Pattern.compile("((?<!\\[)\\[-({=t}[^\\[\\]]*)(?:\\]))"), "{${\\t}}");
 
@@ -44,6 +46,8 @@ public class Parser {
     private static final int INDEX_PARAM = 2;
 
     private static Pattern PATTERN_TOKEN_STRIP;
+    private static Matcher MATCHER_TOKEN_STRIP;
+    private static Matcher MATCHER_TOKEN_STRIP_2;
     private static String RESET_REPLACEMENT;
 
     /**
@@ -87,6 +91,8 @@ public class Parser {
         // Compile patterns if necessary
         if (PATTERN_TOKEN_STRIP == null || TypingConfig.dirtyEffectMaps) {
             PATTERN_TOKEN_STRIP = compileTokenPattern();
+            MATCHER_TOKEN_STRIP = PATTERN_TOKEN_STRIP.matcher();
+            MATCHER_TOKEN_STRIP_2 = PATTERN_TOKEN_STRIP.matcher();
         }
         if (RESET_REPLACEMENT == null || TypingConfig.dirtyEffectMaps) {
             RESET_REPLACEMENT = getResetReplacement();
@@ -120,7 +126,8 @@ public class Parser {
 
         if(label.font.omitCurlyBraces || label.font.enableSquareBrackets) {
             // Create string builder
-            Matcher m = PATTERN_TOKEN_STRIP.matcher(text);
+            MATCHER_TOKEN_STRIP.setTarget(text);
+            Matcher m = MATCHER_TOKEN_STRIP;
             int matcherIndexOffset = 0;
 
             // Iterate through matches
@@ -284,12 +291,15 @@ public class Parser {
      */
     private static void parseRegularTokens(TypingLabel label) {
         // Get text
-        CharSequence text = PATTERN_MARKUP_STRIP.matcher(label.getIntermediateText()).replaceAll("");
+        MATCHER_TOKEN_STRIP.setTarget(label.getIntermediateText());
+        CharSequence text = MATCHER_TOKEN_STRIP.replaceAll("");
         CharSequence text2 = label.getIntermediateText();
         if(label.font.omitCurlyBraces || label.font.enableSquareBrackets) {
             // Create matcher and StringBuilder
-            Matcher m = PATTERN_TOKEN_STRIP.matcher(text);
-            Matcher m2 = PATTERN_TOKEN_STRIP.matcher(text2);
+            MATCHER_TOKEN_STRIP.setTarget(text);
+            MATCHER_TOKEN_STRIP_2.setTarget(text2);
+            Matcher m = MATCHER_TOKEN_STRIP;
+            Matcher m2 = MATCHER_TOKEN_STRIP_2;
             int matcherIndexOffset = 0, m2IndexOffset = 0;
 
             // Iterate through matches
@@ -416,7 +426,8 @@ public class Parser {
         final CharSequence text = label.getOriginalText();
 //        System.out.println("Original: "+text);
         // Iterate through matches and register skip tokens
-        Matcher m = PATTERN_MARKUP_STRIP.matcher(text);
+        MATCHER_MARKUP_STRIP.setTarget(text);
+        Matcher m = MATCHER_MARKUP_STRIP;
         while (m.find()) {
             final String tag = m.group(0);
             final int index = m.start(0);
