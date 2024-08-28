@@ -140,6 +140,10 @@ public class TextraField extends Widget implements Disableable {
 		this(text, skin.get(TextFieldStyle.class));
 	}
 
+	public TextraField(@Null String text, Skin skin, Font replacementFont) {
+		this(text, skin.get(TextFieldStyle.class), replacementFont);
+	}
+
 	public TextraField(@Null String text, Skin skin, String styleName) {
 		this(text, skin.get(styleName, TextFieldStyle.class));
 	}
@@ -535,7 +539,7 @@ public class TextraField extends Widget implements Disableable {
 			char c = content.charAt(i);
 			if (!(writeEnters && (c == NEWLINE || c == CARRIAGE_RETURN))) {
 				if (c == '\r' || c == '\n') continue;
-				if (onlyFontChars && !mapping.containsKey(c)) continue;
+				if (onlyFontChars && !mapping.containsKey(c)) c = '\u200B';
 				if (filter != null && !filter.acceptChar(this, c)) continue;
 			}
 			buffer.append(c);

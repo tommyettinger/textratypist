@@ -53,7 +53,7 @@ public class FieldTest extends ApplicationAdapter {
 //        Font font = new Font(bmp, 0f, 10f, 0f, 0f);
 
 //        Font font = new Font("RaeleusScriptius-standard.fnt", Font.DistanceFieldType.STANDARD, 0, 8, 0, 0);
-        Font font = KnownFonts.getGentiumUnItalic();
+        Font font = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic());
 //        System.out.println("descent: "+font.descent + ", lineHeight: " + font.cellHeight);
         BitmapFont bmFont = KnownFonts.getBitmapFont(KnownFonts.GENTIUM_UN_ITALIC);
         String text = "22";

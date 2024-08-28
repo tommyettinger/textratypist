@@ -123,7 +123,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
-		TextraField textfield = new TextraField("", skin);
+		TextraField textfield = new TextraField("", skin, font);
 		textfield.setMessageText("Click here!");
 		textfield.setAlignment(Align.center);
 		final TypingSelectBox selectBox = new TypingSelectBox(skin);
