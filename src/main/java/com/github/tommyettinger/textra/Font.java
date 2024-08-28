@@ -5419,9 +5419,9 @@ public class Font implements Disposable {
                 int eq = end;
                 for (; i < n && i <= end; i++) {
                     c = text.charAt(i);
-                    if (c == '[' && i + 1 < end && text.charAt(i + 1) == '+') innerSquareStart = i;
+                    if (enableSquareBrackets && c == '[' && i + 1 < end && text.charAt(i + 1) == '+') innerSquareStart = i;
                     else if (innerSquareStart == -1) appendTo.add(current | c);
-                    if (c == ']') {
+                    if (enableSquareBrackets && c == ']') {
                         innerSquareEnd = i;
                         if (innerSquareStart != -1 && font.nameLookup != null) {
                             int len = innerSquareEnd - innerSquareStart;
@@ -5495,11 +5495,11 @@ public class Font implements Disposable {
                 if(current != next) historyBuffer.add(current);
                 current = next;
                 i--;
-            } else if (text.charAt(i) == '[') {
+            } else if (enableSquareBrackets && text.charAt(i) == '[') {
 
                 //// SQUARE BRACKET MARKUP
                 c = '[';
-                if (enableSquareBrackets && ++i < n && (c = text.charAt(i)) != '[' && c != '+') {
+                if (++i < n && (c = text.charAt(i)) != '[' && c != '+') {
                     if (c == ']') {
                         if(historyBuffer.isEmpty()) {
                             color = baseColor;
@@ -5700,18 +5700,7 @@ public class Font implements Disposable {
 
                 else {
                     float w;
-                    if(!enableSquareBrackets && i + 1 < n && text.charAt(i+1) == '+' && font.nameLookup != null
-                            && text.indexOf(']', i) >= 0) {
-                        ++i;
-                        int len = text.indexOf(']', i) - i;
-                        if (len >= 0) {
-                            c = font.nameLookup.get(StringUtils.safeSubstring(text, i + 1, i + len), '+');
-                            i += len;
-                            scaleX = (scale + 1) * 0.25f * font.cellHeight / (font.mapping.get(c, font.defaultValue).xAdvance);
-                        } else {
-                            c = '+';
-                        }
-                    } else if(c == '+' && font.nameLookup != null) {
+                    if(c == '+' && font.nameLookup != null) {
                         int len = text.indexOf(']', i) - i;
                         if (len >= 0) {
                             c = font.nameLookup.get(StringUtils.safeSubstring(text, i + 1, i + len), '+');
@@ -5740,7 +5729,7 @@ public class Font implements Disposable {
                         }
                         initial = false;
                     }
-                    if(enableSquareBrackets && c == '[')
+                    if(c == '[')
                         appendTo.add(current | 2);
                     else
                         appendTo.add(current | c);
