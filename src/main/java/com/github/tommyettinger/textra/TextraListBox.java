@@ -32,9 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.*;
 import com.github.tommyettinger.textra.Styles.ListStyle;
-import regexodus.Matcher;
-import regexodus.Pattern;
-import regexodus.REFlags;
+import regexodus.Category;
 
 /**
  * A TextraListBox (based on {@link com.badlogic.gdx.scenes.scene2d.ui.List}) displays {@link TextraLabel}s and
@@ -42,7 +40,7 @@ import regexodus.REFlags;
  * <p>
  * A {@link ChangeEvent} is fired when the list selection changes.
  * <p>
- * The preferred size of the list is determined by the text bounds of the items and the size of the {@link ListStyle#selection}.
+ * The preferred size of the list box is determined by the text bounds of the items and the size of the {@link ListStyle#selection}.
  * @author mzechner
  * @author Nathan Sweet */
 public class TextraListBox<T extends TextraLabel> extends Widget implements Cullable {
@@ -54,6 +52,12 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 	private int alignment = Align.left;
 	public int pressedIndex = -1, overIndex = -1;
 	private final InputListener keyListener;
+	/**
+	 * When this is true, typing a character while this list box is focused will jump focus to the first item in the
+	 * list that starts with that character, ignoring case.
+	 * <br>
+	 * When this is true, this does allocate some Strings every time the user types into a focused list box.
+	 */
 	public boolean typeToSelect;
 
 	public TextraListBox(Skin skin) {
@@ -112,29 +116,42 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 			public boolean keyTyped (InputEvent event, char character) {
 				if (!typeToSelect) return false;
 				long time = System.currentTimeMillis();
-				if (time > typeTimeout) prefix = "^(?:(?:({=brace}[\\[\\{])[^\\]\\}]*{\\:brace})|\\p{G}+)*";
+				if (time > typeTimeout) prefix = "";
 				typeTimeout = time + 300;
-				if(character == '\\') prefix += "\\\\";
-				else if(character == '?') prefix += "\\?";
-				else if(character == '*') prefix += "\\*";
-				else if(character == '+') prefix += "\\+";
-				else if(character == '|') prefix += "\\|";
-				else if(character == '(') prefix += "\\(";
-				else if(character == ')') prefix += "\\)";
-				else if(character == '[') prefix += "\\[";
-				else if(character == ']') prefix += "\\]";
-				else if(character == '{') prefix += "\\{";
-				else if(character == '}') prefix += "\\}";
-				else prefix += Character.toLowerCase(character);
-				Matcher matcher = Pattern.compile(prefix, REFlags.IGNORE_CASE | REFlags.UNICODE).matcher();
+				prefix += Category.caseDown(character);
 				for (int i = 0, n = items.size; i < n; i++) {
-					matcher.setTarget(items.get(i).storedText);
-					if (matcher.matchesPrefix()) {
+					if (items.get(i).toString().toLowerCase().startsWith(prefix)) {
 						setSelectedIndex(i);
 						break;
 					}
 				}
 				return false;
+
+//				if (!typeToSelect) return false;
+//				long time = System.currentTimeMillis();
+//				if (time > typeTimeout) prefix = "^(?:(?:({=brace}[\\[\\{])[^\\]\\}]*{\\:brace})|\\p{G}+)*";
+//				typeTimeout = time + 300;
+//				if(character == '\\') prefix += "\\\\";
+//				else if(character == '?') prefix += "\\?";
+//				else if(character == '*') prefix += "\\*";
+//				else if(character == '+') prefix += "\\+";
+//				else if(character == '|') prefix += "\\|";
+//				else if(character == '(') prefix += "\\(";
+//				else if(character == ')') prefix += "\\)";
+//				else if(character == '[') prefix += "\\[";
+//				else if(character == ']') prefix += "\\]";
+//				else if(character == '{') prefix += "\\{";
+//				else if(character == '}') prefix += "\\}";
+//				else prefix += character;
+//				Matcher matcher = Pattern.compile(prefix, REFlags.IGNORE_CASE | REFlags.UNICODE).matcher();
+//				for (int i = 0, n = items.size; i < n; i++) {
+//					matcher.setTarget(items.get(i).storedText);
+//					if (matcher.matchesPrefix()) {
+//						setSelectedIndex(i);
+//						break;
+//					}
+//				}
+//				return false;
 			}
 		});
 
@@ -456,6 +473,10 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 
 	public int getAlignment () {
 		return alignment;
+	}
+
+	public boolean getTypeToSelect() {
+		return typeToSelect;
 	}
 
 	public void setTypeToSelect (boolean typeToSelect) {

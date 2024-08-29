@@ -128,6 +128,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		ScrollPane scrollPane = new ScrollPane(imageActor);
 		TextraListBox<TextraLabel> list = new TextraListBox<>(new Styles.ListStyle(font, Color.CYAN, Color.WHITE, new BaseDrawable()));
 		list.setItems(listEntries);
+		list.setTypeToSelect(true);
 		list.getSelection().setMultiple(true);
 		list.getSelection().setRequired(false);
 		// list.getSelection().setToggle(true);
