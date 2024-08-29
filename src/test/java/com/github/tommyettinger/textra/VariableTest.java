@@ -69,9 +69,9 @@ public class VariableTest extends ApplicationAdapter {
         label.parseTokens();
         stage.act();
         stage.draw();
-        if((frame++ & 63) == 0)
-            System.out.println(Gdx.app.getJavaHeap());
-
+        if((frame++) == 1000) System.out.println(Gdx.app.getJavaHeap());
+        // With regex reduction: 500: 33219400, 1000: 35567760
+        // Without:              500: 35567776, 1000: 43956440
     }
 
     @Override
