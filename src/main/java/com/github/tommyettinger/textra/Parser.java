@@ -291,8 +291,8 @@ public class Parser {
      */
     private static void parseRegularTokens(TypingLabel label) {
         // Get text
-        MATCHER_TOKEN_STRIP.setTarget(label.getIntermediateText());
-        CharSequence text = MATCHER_TOKEN_STRIP.replaceAll("");
+        MATCHER_MARKUP_STRIP.setTarget(label.getIntermediateText());
+        String text = MATCHER_MARKUP_STRIP.replaceAll("");
         CharSequence text2 = label.getIntermediateText();
         if(label.font.omitCurlyBraces || label.font.enableSquareBrackets) {
             // Create matcher and StringBuilder
