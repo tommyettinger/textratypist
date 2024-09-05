@@ -21,6 +21,8 @@ import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.NumberUtils;
+import regexodus.Matcher;
+import regexodus.Pattern;
 
 import static com.github.tommyettinger.textra.utils.Palette.NAMED;
 
@@ -436,6 +438,10 @@ public class ColorUtils {
     }
 
     private static final IntArray mixing = new IntArray(8);
+    private static final Pattern nonTermPattern = Pattern.compile("[^a-zA-Z0-9_]+");
+    private static final Matcher nonTermMatcher = nonTermPattern.matcher();
+    private static float lightness = 0f;
+    private static float saturation = 0f;
 
     /**
      * Parses a color description and returns the approximate color it describes, as an RGBA8888 int color.
@@ -478,180 +484,74 @@ public class ColorUtils {
      * @return an RGBA8888 int color as described
      */
     public static int describe(final String description) {
-        float lightness = 0f, saturation = 0f;
-        final String[] terms = description.split("[^a-zA-Z0-9_]+");
+        return describe(description, 0, description.length());
+    }
+    /**
+     * Parses a subsection of a color description and returns the general color it describes, as an RGBA8888 int color.
+     * Color descriptions consist of one or more alphabetical words, separated by non-alphanumeric characters (typically
+     * spaces and/or hyphens, though the underscore is treated as a letter). Any word that is the name of a color in
+     * {@link Palette} will be looked up in {@link Palette#NAMED} and tracked; if there is more than one of these color
+     * names, the colors will be mixed using {@link #unevenMix(int[], int, int)}, or if there is just one color name,
+     * then the corresponding color will be used. A number can be present after a color name (separated by any
+     * non-alphanumeric character(s) other than the underscore); if so, it acts as a positive weight for that color
+     * when mixed with other named colors. The recommended separator between a color name and its weight is the space
+     * {@code ' '}, but other punctuation like {@code ':'}, or whitespace, is usually valid. Note that in some contexts,
+     * color descriptions shouldn't contain square brackets, curly braces, or the chars <code>@%?^=.</code> , because
+     * they can have unintended effects on the behavior of markup. You can also repeat a color name to increase its
+     * weight, as in "red red blue".
+     * <br>
+     * The special adjectives "light" and "dark" change the lightness of the described color; likewise, "rich" and
+     * "dull" change the saturation (how different the color is from grayscale). All of these adjectives can have "-er"
+     * or "-est" appended to make their effect twice or three times as strong. Technically, the chars appended to an
+     * adjective don't matter, only their count, so "lightaa" is the same as "lighter" and "richcat" is the same as
+     * "richest". There's an unofficial fourth level as well, used when any 4 characters are appended to an adjective
+     * (as in "darkmost"); it has four times the effect of the original adjective. There are also the adjectives
+     * "bright" (equivalent to "light rich"), "pale" ("light dull"), "deep" ("dark rich"), and "weak" ("dark dull").
+     * These can be amplified like the other four, except that "pale" goes to "paler", "palest", and then to
+     * "palemax" or (its equivalent) "palemost", where only the word length is checked.
+     * <br>
+     * Note that while adjectives are case-insensitive, color names are not. Because the colors defined in libGDX
+     * {@link Colors} use ALL_CAPS, and the colors additionally defined by {@link Palette} use lower case and are always
+     * one word, there are a few places where two different colors are defined by names that only differ in case.
+     * Examples include {@link Palette#orange} and {@link Palette#ORANGE}, or {@link Palette#salmon} and
+     * {@link Palette#SALMON}.
+     * <br>
+     * If part of a color name or adjective is invalid, it is not considered; if the description is empty or fully
+     * invalid, this returns the RGBA8888 int value {@code 256} (used as a placeholder by
+     * {@link com.github.tommyettinger.textra.ColorLookup}).
+     * <br>
+     * Examples of valid descriptions include "blue", "dark green", "DULLER RED", "peach pink", "indigo purple mauve",
+     * "lightest, richer apricot-olive", "BRIGHT GOLD", "palest cyan blue", "Deep fern black", "weakmost celery",
+     * "LIGHTMOST rich MAROON 2 indigo 3", "red:3 orange", and "dark deep (blue 7) (cyan 3)".
+     * @param description a color description, as a String matching the above format
+     * @return an RGBA8888 int color as described
+     */
+    public static int describe(final String description, int beginIndex, int endIndex) {
+        beginIndex = Math.max(beginIndex, 0);
+        endIndex = Math.min(endIndex, description.length());
+        if(endIndex <= beginIndex) return 256;
+
+        lightness = 0f;
+        saturation = 0f;
         mixing.clear();
-        for(String term : terms) {
-            if (term == null || term.isEmpty()) continue;
-            final int len = term.length();
-            switch (term.charAt(0)) {
-                case 'L':
-                case 'l':
-                    if (len > 2 && (term.charAt(2) == 'g' || term.charAt(2) == 'G')) { // light
-                        switch (len) {
-                            case 9:
-                                lightness += 0.20f;
-                            case 8:
-                                lightness += 0.20f;
-                            case 7:
-                                lightness += 0.20f;
-                            case 5:
-                                lightness += 0.20f;
-                                break;
-                        }
-                    } else {
-                        mixing.add(NAMED.get(term, 256), 1);
-                    }
-                    break;
-                case 'B':
-                case 'b':
-                    if (len > 3 && (term.charAt(3) == 'g' || term.charAt(3) == 'G')) { // bright
-                        switch (len) {
-                            case 10:
-                                lightness += 0.20f;
-                                saturation += 0.200f;
-                            case 9:
-                                lightness += 0.20f;
-                                saturation += 0.200f;
-                            case 8:
-                                lightness += 0.20f;
-                                saturation += 0.200f;
-                            case 6:
-                                lightness += 0.20f;
-                                saturation += 0.200f;
-                                break;
-                        }
-                    } else {
-                        mixing.add(NAMED.get(term, 256), 1);
-                    }
-                    break;
-                case 'P':
-                case 'p':
-                    if (len > 2 && (term.charAt(2) == 'l' || term.charAt(2) == 'L')) { // pale
-                        switch (len) {
-                            case 8: // palemost
-                            case 7: // palerer
-                                lightness += 0.20f;
-                                saturation -= 0.200f;
-                            case 6: // palest
-                                lightness += 0.20f;
-                                saturation -= 0.200f;
-                            case 5: // paler
-                                lightness += 0.20f;
-                                saturation -= 0.200f;
-                            case 4: // pale
-                                lightness += 0.20f;
-                                saturation -= 0.200f;
-                                break;
-                        }
-                    } else {
-                        mixing.add(NAMED.get(term, 256), 1);
-                    }
-                    break;
-                case 'W':
-                case 'w':
-                    if (len > 3 && (term.charAt(3) == 'k' || term.charAt(3) == 'K')) { // weak
-                        switch (len) {
-                            case 8:
-                                lightness -= 0.20f;
-                                saturation -= 0.200f;
-                            case 7:
-                                lightness -= 0.20f;
-                                saturation -= 0.200f;
-                            case 6:
-                                lightness -= 0.20f;
-                                saturation -= 0.200f;
-                            case 4:
-                                lightness -= 0.20f;
-                                saturation -= 0.200f;
-                                break;
-                        }
-                    } else {
-                        mixing.add(NAMED.get(term, 256), 1);
-                    }
-                    break;
-                case 'R':
-                case 'r':
-                    if (len > 1 && (term.charAt(1) == 'i' || term.charAt(1) == 'I')) { // rich
-                        switch (len) {
-                            case 8:
-                                saturation += 0.200f;
-                            case 7:
-                                saturation += 0.200f;
-                            case 6:
-                                saturation += 0.200f;
-                            case 4:
-                                saturation += 0.200f;
-                                break;
-                        }
-                    } else {
-                        mixing.add(NAMED.get(term, 256), 1);
-                    }
-                    break;
-                case 'D':
-                case 'd':
-                    if (len > 1 && (term.charAt(1) == 'a' || term.charAt(1) == 'A')) { // dark
-                        switch (len) {
-                            case 8:
-                                lightness -= 0.20f;
-                            case 7:
-                                lightness -= 0.20f;
-                            case 6:
-                                lightness -= 0.20f;
-                            case 4:
-                                lightness -= 0.20f;
-                                break;
-                        }
-                    } else if (len > 1 && (term.charAt(1) == 'u' || term.charAt(1) == 'U')) { // dull
-                        switch (len) {
-                            case 8:
-                                saturation -= 0.200f;
-                            case 7:
-                                saturation -= 0.200f;
-                            case 6:
-                                saturation -= 0.200f;
-                            case 4:
-                                saturation -= 0.200f;
-                                break;
-                        }
-                    } else if (len > 3 && (term.charAt(3) == 'p' || term.charAt(3) == 'P')) { // deep
-                        switch (len) {
-                            case 8:
-                                lightness -= 0.20f;
-                                saturation += 0.200f;
-                            case 7:
-                                lightness -= 0.20f;
-                                saturation += 0.200f;
-                            case 6:
-                                lightness -= 0.20f;
-                                saturation += 0.200f;
-                            case 4:
-                                lightness -= 0.20f;
-                                saturation += 0.200f;
-                                break;
-                        }
-                    } else {
-                        mixing.add(NAMED.get(term, 256), 1);
-                    }
-                    break;
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    if(mixing.size >= 2)
-                        mixing.set((mixing.size & -2) - 1, StringUtils.intFromDec(term, 0, term.length()));
-                    break;
-                default:
-                    mixing.add(NAMED.get(term, 256), 1);
-                    break;
-            }
+
+        int index = beginIndex;
+        Matcher m = nonTermMatcher;
+        m.setTarget(description, beginIndex, endIndex - beginIndex);
+
+        // Add segments before each match found
+        while(m.find()) {
+            if (m.start() + beginIndex > index)
+                process(description.substring(index, m.start() + beginIndex));
+            index = m.end() + beginIndex;
         }
+
+        // If no match was found, return this
+        if (index == 0)
+            process(description);
+
+        // Add remaining segment
+        process(description.substring(index, endIndex));
 
         if(mixing.size < 2) return 256;
         int result = unevenMix(mixing.items, 0, mixing.size);
@@ -666,6 +566,178 @@ public class ColorUtils {
         return result;
     }
 
+    private static void process(final String term) {
+        if (term == null || term.isEmpty()) return;
+        final int len = term.length();
+        switch (term.charAt(0)) {
+            case 'L':
+            case 'l':
+                if (len > 2 && (term.charAt(2) == 'g' || term.charAt(2) == 'G')) { // light
+                    switch (len) {
+                        case 9:
+                            lightness += 0.20f;
+                        case 8:
+                            lightness += 0.20f;
+                        case 7:
+                            lightness += 0.20f;
+                        case 5:
+                            lightness += 0.20f;
+                            break;
+                    }
+                } else {
+                    mixing.add(NAMED.get(term, 256), 1);
+                }
+                break;
+            case 'B':
+            case 'b':
+                if (len > 3 && (term.charAt(3) == 'g' || term.charAt(3) == 'G')) { // bright
+                    switch (len) {
+                        case 10:
+                            lightness += 0.20f;
+                            saturation += 0.200f;
+                        case 9:
+                            lightness += 0.20f;
+                            saturation += 0.200f;
+                        case 8:
+                            lightness += 0.20f;
+                            saturation += 0.200f;
+                        case 6:
+                            lightness += 0.20f;
+                            saturation += 0.200f;
+                            break;
+                    }
+                } else {
+                    mixing.add(NAMED.get(term, 256), 1);
+                }
+                break;
+            case 'P':
+            case 'p':
+                if (len > 2 && (term.charAt(2) == 'l' || term.charAt(2) == 'L')) { // pale
+                    switch (len) {
+                        case 8: // palemost
+                        case 7: // palerer
+                            lightness += 0.20f;
+                            saturation -= 0.200f;
+                        case 6: // palest
+                            lightness += 0.20f;
+                            saturation -= 0.200f;
+                        case 5: // paler
+                            lightness += 0.20f;
+                            saturation -= 0.200f;
+                        case 4: // pale
+                            lightness += 0.20f;
+                            saturation -= 0.200f;
+                            break;
+                    }
+                } else {
+                    mixing.add(NAMED.get(term, 256), 1);
+                }
+                break;
+            case 'W':
+            case 'w':
+                if (len > 3 && (term.charAt(3) == 'k' || term.charAt(3) == 'K')) { // weak
+                    switch (len) {
+                        case 8:
+                            lightness -= 0.20f;
+                            saturation -= 0.200f;
+                        case 7:
+                            lightness -= 0.20f;
+                            saturation -= 0.200f;
+                        case 6:
+                            lightness -= 0.20f;
+                            saturation -= 0.200f;
+                        case 4:
+                            lightness -= 0.20f;
+                            saturation -= 0.200f;
+                            break;
+                    }
+                } else {
+                    mixing.add(NAMED.get(term, 256), 1);
+                }
+                break;
+            case 'R':
+            case 'r':
+                if (len > 1 && (term.charAt(1) == 'i' || term.charAt(1) == 'I')) { // rich
+                    switch (len) {
+                        case 8:
+                            saturation += 0.200f;
+                        case 7:
+                            saturation += 0.200f;
+                        case 6:
+                            saturation += 0.200f;
+                        case 4:
+                            saturation += 0.200f;
+                            break;
+                    }
+                } else {
+                    mixing.add(NAMED.get(term, 256), 1);
+                }
+                break;
+            case 'D':
+            case 'd':
+                if (len > 1 && (term.charAt(1) == 'a' || term.charAt(1) == 'A')) { // dark
+                    switch (len) {
+                        case 8:
+                            lightness -= 0.20f;
+                        case 7:
+                            lightness -= 0.20f;
+                        case 6:
+                            lightness -= 0.20f;
+                        case 4:
+                            lightness -= 0.20f;
+                            break;
+                    }
+                } else if (len > 1 && (term.charAt(1) == 'u' || term.charAt(1) == 'U')) { // dull
+                    switch (len) {
+                        case 8:
+                            saturation -= 0.200f;
+                        case 7:
+                            saturation -= 0.200f;
+                        case 6:
+                            saturation -= 0.200f;
+                        case 4:
+                            saturation -= 0.200f;
+                            break;
+                    }
+                } else if (len > 3 && (term.charAt(3) == 'p' || term.charAt(3) == 'P')) { // deep
+                    switch (len) {
+                        case 8:
+                            lightness -= 0.20f;
+                            saturation += 0.200f;
+                        case 7:
+                            lightness -= 0.20f;
+                            saturation += 0.200f;
+                        case 6:
+                            lightness -= 0.20f;
+                            saturation += 0.200f;
+                        case 4:
+                            lightness -= 0.20f;
+                            saturation += 0.200f;
+                            break;
+                    }
+                } else {
+                    mixing.add(NAMED.get(term, 256), 1);
+                }
+                break;
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                if(mixing.size >= 2)
+                    mixing.set((mixing.size & -2) - 1, StringUtils.intFromDec(term, 0, term.length()));
+                break;
+            default:
+                mixing.add(NAMED.get(term, 256), 1);
+                break;
+        }
+    }
+
 
     /**
      * This simply looks up {@code key} in {@link Colors}, returning 256 (fully transparent,
@@ -674,8 +746,8 @@ public class ColorUtils {
      * @param key a color name, typically in {@code ALL_CAPS}
      * @return the RGBA8888 int color matching the name, or {@code 256} if the name was not found
      */
-    public static int lookupInColors(final String key) {
-        final Color c = Colors.get(key);
+    public static int lookupInColors(final String key, int beginIndex, int endIndex) {
+        final Color c = Colors.get(StringUtils.safeSubstring(key, beginIndex, endIndex));
         return c == null ? 256 : Color.rgba8888(c);
     }
 

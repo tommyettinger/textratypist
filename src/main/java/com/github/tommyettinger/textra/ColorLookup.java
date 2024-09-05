@@ -53,8 +53,23 @@ public interface ColorLookup {
      * while still being easy to remember and very rare to ever want (it is fully transparent, very dark blue). This
      * library will never call this method with a null key, and in most cases you can safely assume key is non-null.
      *
-     * @param key the String key to use to look up or build a color; should not be null.
+     * @param key the String key to use to look up or build a color; will be used entirely; should not be null.
      * @return an RGBA8888 color; if 256, this can be considered to not know how to look up the given key.
      */
-    int getRgba(String key);
+    default int getRgba(String key){
+        return getRgba(key, 0, key.length());
+    }
+
+    /**
+     * Looks up {@code key} to get an RGBA8888 color, and returns that color as an int if one was found, or returns
+     * 256 if none was found. 256 is used because it is different from the more commonly-used 0 for fully-transparent,
+     * while still being easy to remember and very rare to ever want (it is fully transparent, very dark blue). This
+     * library will never call this method with a null key, and in most cases you can safely assume key is non-null.
+     *
+     * @param key the String key to use to look up or build a color; will be used entirely; should not be null.
+     * @return an RGBA8888 color; if 256, this can be considered to not know how to look up the given key.
+     */
+    int getRgba(String key, int beginIndex, int endIndex);
+
+
 }
