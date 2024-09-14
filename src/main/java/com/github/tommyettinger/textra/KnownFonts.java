@@ -116,6 +116,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String CASCADIA_MONO = "Cascadia-Mono";
     /** Base name for a variable-width handwriting font. */
     public static final String CAVEAT = "Caveat";
+    /** Base name for a fixed-width octagonal font. */
+    public static final String COMPUTER_SAYS_NO = "Computer-Says-No";
     /** Base name for a variable-width narrow sans font. */
     public static final String DEJAVU_SANS_CONDENSED = "DejaVu-Sans-Condensed";
     /** Base name for a fixed-width programming font. */
@@ -180,7 +182,7 @@ public final class KnownFonts implements LifecycleListener {
     public static final String IBM_8X16 = "IBM-8x16";
 
     public static final OrderedSet<String> JSON_NAMES = OrderedSet.with(
-            A_STARRY, BIRDLAND_AEROPLANE, BITTER, CANADA1500, CASCADIA_MONO, CAVEAT,
+            A_STARRY, BIRDLAND_AEROPLANE, BITTER, CANADA1500, CASCADIA_MONO, CAVEAT, COMPUTER_SAYS_NO,
             DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO, DEJAVU_SANS, DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF,
             GENTIUM, GENTIUM_UN_ITALIC, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE, INCONSOLATA_LGC,
             IOSEVKA, IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK,
@@ -825,6 +827,66 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getCaveat(DistanceFieldType dft) {
         return getFont(CAVEAT, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a fixed-width, octagonal, unicode-heavy font. Caches the result for
+     * later calls. The font used is Computer Says No, a free (CC-BY-SA) typeface designed by Christian Munk.
+     * It supports Latin (including a very large span of extended Latin), Greek, and Cyrillic, Cherokee, Armenian, IPA
+     * symbols (and probably more phonetic symbols), Runic, etc.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
+     * well. This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.COMPUTER_SAYS_NO, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Computer-Says-No-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Computer-Says-No-standard.dat">Computer-Says-No-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Computer-Says-No-standard.png">Computer-Says-No-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Computer-Says-No-License.txt">Computer-Says-No-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Computer Says No
+     */
+    public static Font getComputerSaysNo() {
+        return getFont(COMPUTER_SAYS_NO, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a fixed-width, octagonal, unicode-heavy font. Caches the result for
+     * later calls. The font used is Computer Says No, a free (CC-BY-SA) typeface designed by Christian Munk.
+     * It supports Latin (including a very large span of extended Latin), Greek, and Cyrillic, Cherokee, Armenian, IPA
+     * symbols (and probably more phonetic symbols), Runic, etc.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Computer-Says-No-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Computer-Says-No-standard.dat">Computer-Says-No-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Computer-Says-No-standard.png">Computer-Says-No-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Computer-Says-No-License.txt">Computer-Says-No-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Computer-Says-No-sdf.dat">Computer-Says-No-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Computer-Says-No-sdf.png">Computer-Says-No-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Computer-Says-No-License.txt">Computer-Says-No-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Computer-Says-No-msdf.dat">Computer-Says-No-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Computer-Says-No-msdf.png">Computer-Says-No-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Computer-Says-No-License.txt">Computer-Says-No-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Computer Says No using the given DistanceFieldType
+     */
+    public static Font getComputerSaysNo(DistanceFieldType dft) {
+        return getFont(COMPUTER_SAYS_NO, dft);
     }
     
     /**
@@ -3922,11 +3984,11 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font[] getAll() {
         return new Font[]{getAStarry(), getAStarryMSDF(), getAStarryTall(), getBirdlandAeroplane(), getBitter(),
-                getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getCozette(), getDejaVuSans(),
-                getDejaVuSansCondensed(), getDejaVuSansMono(), getDejaVuSerif(), getDejaVuSerifCondensed(),
-                getGentium(), getGentiumMSDF(), getGentiumSDF(), getGentiumUnItalic(), getGlacialIndifference(),
-                getGoNotoUniversal(), getGoNotoUniversalSDF(), getGrenze(), getHanazono(), getIBM8x16(),
-                getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
+                getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getComputerSaysNo(), getCozette(),
+                getDejaVuSans(), getDejaVuSansCondensed(), getDejaVuSansMono(), getDejaVuSerif(),
+                getDejaVuSerifCondensed(), getGentium(), getGentiumMSDF(), getGentiumSDF(), getGentiumUnItalic(),
+                getGlacialIndifference(), getGoNotoUniversal(), getGoNotoUniversalSDF(), getGrenze(), getHanazono(),
+                getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getLibertinusSerifSemibold(),
                 getNowAlt(), getOpenSans(), getOstrichBlack(), getOxanium(), getQuanPixel(), getRobotoCondensed(),
