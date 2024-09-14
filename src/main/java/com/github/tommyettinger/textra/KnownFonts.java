@@ -160,6 +160,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String OSTRICH_BLACK = "Ostrich-Black";
     /** Base name for a variable-width "flowy" sans font. */
     public static final String OVERLOCK = "Overlock";
+    /** Base name for a variable-width "especially flowy" sans font. */
+    public static final String OVERLOCK_UN_ITALIC = "Overlock-Un-Italic";
     /** Base name for a variable-width sci-fi font. */
     public static final String OXANIUM = "Oxanium";
     /** Base name for a variable-width narrow sans font. */
@@ -2612,6 +2614,79 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font already configured to use a variable-width "italic-like" and "especially flowy" sans font.
+     * Caches the result for later calls. The font used is Overlock, a free (OFL) typeface by Dario Manuel Muhafara, but
+     * this took Overlock Italic and removed the 7.4-degree slant it had, so it looks like a regular face but with the
+     * different curvature and the "flow" of an italic font. This "un-italic" effect can be useful for making text look
+     * more human-written, and this font looks somewhat similar to a lighter-weight {@link #getGentiumUnItalic()}.
+     * It supports a little more than ASCII and Latin-1, but not much Greek and no Cyrillic.
+     * This does not use a distance field effect. The SDF and MSDF distance field effects are likely to look much better
+     * than this at normal font sizes; for example, you can use {@link #getOverlockUnItalic(DistanceFieldType)} with
+     * {@link DistanceFieldType#MSDF} as the argument to use MSDF.
+     * <br>
+     * Thanks to Siavash Ranbar, who came up with the idea to take an italic version of a font and remove its
+     * slant, keeping the different flow from a simple oblique font.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.OVERLOCK_UN_ITALIC, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-Un-Italic-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-Un-Italic-standard.dat">Overlock-Un-Italic-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-Un-Italic-standard.png">Overlock-Un-Italic-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Overlock Un-Italic
+     */
+    public static Font getOverlockUnItalic() {
+        return getFont(OVERLOCK_UN_ITALIC, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width "italic-like" and "especially flowy" sans font.
+     * Uses the given distance field type. Caches the result for later calls. The font used is Overlock, a free (OFL)
+     * typeface by Dario Manuel Muhafara, but this took Overlock Italic and removed the 7.4-degree slant it had, so it
+     * looks like a regular face but with the different curvature and the "flow" of an italic font. This "un-italic"
+     * effect can be useful for making text look more human-written, and this font looks somewhat similar to a
+     * lighter-weight {@link #getGentiumUnItalic()}.
+     * It supports a little more than ASCII and Latin-1, but not much Greek and no Cyrillic.
+     * The SDF and MSDF distance field effects are likely to look much better than Standard at normal font sizes.
+     * <br>
+     * Thanks to Siavash Ranbar, who came up with the idea to take an italic version of a font and remove its
+     * slant, keeping the different flow from a simple oblique font.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-Un-Italic-msdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-Un-Italic-standard.dat">Overlock-Un-Italic-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-Un-Italic-standard.png">Overlock-Un-Italic-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-Un-Italic-sdf.dat">Overlock-Un-Italic-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-Un-Italic-sdf.png">Overlock-Un-Italic-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-Un-Italic-msdf.dat">Overlock-Un-Italic-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-Un-Italic-msdf.png">Overlock-Un-Italic-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Overlock Italic, with slant removed, using the given DistanceFieldType
+     */
+    public static Font getOverlockUnItalic(DistanceFieldType dft) {
+        return getFont(OVERLOCK_UN_ITALIC, dft);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width "science-fiction/high-tech" font, that should
      * scale pretty well down, but not up.
      * Caches the result for later calls. The font used is Oxanium, a free (OFL) typeface. It supports a lot of Latin
@@ -4059,8 +4134,8 @@ public final class KnownFonts implements LifecycleListener {
                 getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getLibertinusSerifSemibold(),
-                getNowAlt(), getOpenSans(), getOstrichBlack(), getOverlock(), getOxanium(), getQuanPixel(),
-                getRobotoCondensed(), getTangerine(), getTangerineSDF(),
+                getNowAlt(), getOpenSans(), getOstrichBlack(), getOverlock(), getOverlockUnItalic(), getOxanium(),
+                getQuanPixel(), getRobotoCondensed(), getTangerine(), getTangerineSDF(),
                 getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghan(), getYataghanMSDF()};
     }
 
