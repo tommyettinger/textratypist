@@ -106,6 +106,8 @@ public final class KnownFonts implements LifecycleListener {
 
     /** Base name for a fixed-width octagonal font. */
     public static final String A_STARRY = "A-Starry";
+    /** Base name for a variable-width "sloppy" or "grungy" display font. */
+    public static final String BIRDLAND_AEROPLANE = "Birdland-Aeroplane";
     /** Base name for a variable-width serif font. */
     public static final String BITTER = "Bitter";
     /** Base name for a variable-width sans font. */
@@ -178,11 +180,12 @@ public final class KnownFonts implements LifecycleListener {
     public static final String IBM_8X16 = "IBM-8x16";
 
     public static final OrderedSet<String> JSON_NAMES = OrderedSet.with(
-            A_STARRY, BITTER, CANADA1500, CASCADIA_MONO, CAVEAT, DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO, DEJAVU_SANS,
-            DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF, GENTIUM, GENTIUM_UN_ITALIC, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL,
-            GRENZE, INCONSOLATA_LGC, IOSEVKA, IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LIBERTINUS_SERIF,
-            LIBERTINUS_SERIF_SEMIBOLD, NOW_ALT, OPEN_SANS, OSTRICH_BLACK, OXANIUM, ROBOTO_CONDENSED, TANGERINE,
-            YANONE_KAFFEESATZ, YATAGHAN);
+            A_STARRY, BIRDLAND_AEROPLANE, BITTER, CANADA1500, CASCADIA_MONO, CAVEAT,
+            DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO, DEJAVU_SANS, DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF,
+            GENTIUM, GENTIUM_UN_ITALIC, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE, INCONSOLATA_LGC,
+            IOSEVKA, IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK,
+            LIBERTINUS_SERIF, LIBERTINUS_SERIF_SEMIBOLD, NOW_ALT, OPEN_SANS, OSTRICH_BLACK, OXANIUM,
+            ROBOTO_CONDENSED, TANGERINE, YANONE_KAFFEESATZ, YATAGHAN);
 
     public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, HANAZONO, LANAPIXEL, QUANPIXEL);
 
@@ -471,6 +474,72 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getAStarryTall(DistanceFieldType dft) {
         return getFont(A_STARRY, dft).scale(0.5f, 1f).setName(A_STARRY + "-Tall" + dft.namePart);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width "sloppy" or "grungy" display font, that should scale
+     * pretty well from a height of about 160 down to a height of maybe 40. This font only covers ASCII and some (mostly
+     * Western European) other languages that use the Latin script. Caches the result for later calls. The font used is
+     * Birdland Aeroplane, a public domain typeface by
+     * <a href="https://typodermicfonts.com/public-domain/">Ray Larabie of Typodermic Fonts</a>.
+     * This font generally looks better if you use SDF or MSDF, especially at small font sizes. There's just too much
+     * resizing this has to do with STANDARD mode to look good unless displayed at a rather large size. You can use SDF
+     * with {@code KnownFonts.getFont(KnownFonts.BIRDLAND_AEROPLANE, Font.DistanceFieldType.SDF)}, or MSDF by changing
+     * SDF to... MSDF. They should look similar in most cases.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.BIRDLAND_AEROPLANE, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Birdland-Aeroplane-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Birdland-Aeroplane-standard.dat">Birdland-Aeroplane-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Birdland-Aeroplane-standard.png">Birdland-Aeroplane-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Birdland-Aeroplane-License.txt">Birdland-Aeroplane-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Birdland Aeroplane
+     */
+    public static Font getBirdlandAeroplane() {
+        return getFont(BIRDLAND_AEROPLANE, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width "sloppy" or "grungy" display font, that should scale
+     * pretty well from a height of about 160 down to a height of maybe 40, or a little smaller if using SDF or MSDF.
+     * This font only covers ASCII and some (mostly Western European) other languages that use the Latin script. Caches
+     * the result for later calls. The font used is Birdland Aeroplane, a public domain typeface by
+     * <a href="https://typodermicfonts.com/public-domain/">Ray Larabie of Typodermic Fonts</a>.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Birdland-Aeroplane-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Birdland-Aeroplane-standard.dat">Birdland-Aeroplane-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Birdland-Aeroplane-standard.png">Birdland-Aeroplane-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Birdland-Aeroplane-License.txt">Birdland-Aeroplane-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Birdland-Aeroplane-sdf.dat">Birdland-Aeroplane-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Birdland-Aeroplane-sdf.png">Birdland-Aeroplane-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Birdland-Aeroplane-License.txt">Birdland-Aeroplane-License.txt</a></li>
+     * </ul>
+     *<br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Birdland-Aeroplane-msdf.dat">Birdland-Aeroplane-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Birdland-Aeroplane-msdf.png">Birdland-Aeroplane-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Birdland-Aeroplane-License.txt">Birdland-Aeroplane-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Birdland Aeroplane using the given DistanceFieldType
+     */
+    public static Font getBirdlandAeroplane(DistanceFieldType dft) {
+        return getFont(BIRDLAND_AEROPLANE, dft);
     }
 
     /**
@@ -3847,11 +3916,13 @@ public final class KnownFonts implements LifecycleListener {
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any Font.
      * This will only function at all if all the assets (for every known Font) are present and load-able.
      * You should store the result of this method, rather than calling it often, because each call copies many Fonts.
+     * This returns a mix of standard, SDF, and MSDF fonts; some can be scaled by fractional metrics, and some are pixel
+     * fonts that should generally be scaled only by integers.
      * @return a new array containing all Font instances this knows
      */
     public static Font[] getAll() {
-        return new Font[]{getAStarry(), getAStarryMSDF(), getAStarryTall(), getBitter(), getCanada(),
-                getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getCozette(), getDejaVuSans(),
+        return new Font[]{getAStarry(), getAStarryMSDF(), getAStarryTall(), getBirdlandAeroplane(), getBitter(),
+                getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getCozette(), getDejaVuSans(),
                 getDejaVuSansCondensed(), getDejaVuSansMono(), getDejaVuSerif(), getDejaVuSerifCondensed(),
                 getGentium(), getGentiumMSDF(), getGentiumSDF(), getGentiumUnItalic(), getGlacialIndifference(),
                 getGoNotoUniversal(), getGoNotoUniversalSDF(), getGrenze(), getHanazono(), getIBM8x16(),
