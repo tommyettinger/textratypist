@@ -359,7 +359,8 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a very large fixed-width Font already configured to use a square font with 45-degree angled sections,
-     * based on the typeface used on the Atari ST console. This font only supports ASCII, but it supports all of it.
+     * based on the typeface used on the Atari ST console. Uses the given distance field type. This font only supports
+     * ASCII, but it supports all of it.
      * Caches the result for later calls. The font is "a-starry", based on "Atari ST (low-res)" by Damien Guard; it is
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
@@ -444,7 +445,8 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a very large fixed-width Font already configured to use a tall font with angled sections,
-     * based on the typeface used on the Atari ST console. This font only supports ASCII, but it supports all of it.
+     * based on the typeface used on the Atari ST console. Uses the given distance field type. This font only supports
+     * ASCII, but it supports all of it.
      * Caches the result for later calls. The font is "a-starry", based on "Atari ST (low-res)" by Damien Guard; it is
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it. This is an extended-height version of a-starry,
@@ -512,6 +514,7 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a Font already configured to use a variable-width "sloppy" or "grungy" display font, that should scale
      * pretty well from a height of about 160 down to a height of maybe 40, or a little smaller if using SDF or MSDF.
+     * Uses the given distance field type.
      * This font only covers ASCII and some (mostly Western European) other languages that use the Latin script. Caches
      * the result for later calls. The font used is Birdland Aeroplane, a public domain typeface by
      * <a href="https://typodermicfonts.com/public-domain/">Ray Larabie of Typodermic Fonts</a>.
@@ -575,7 +578,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a light-weight variable-width slab serif font with good Latin and
-     * Cyrillic script support, that should scale pretty well from a height of about 160 down to a height of maybe 30.
+     * Cyrillic script support. Uses the given distance field type.
      * Caches the result for later calls. The font used is Bitter, a free (OFL) typeface by <a href="https://github.com/solmatas/BitterPro">The Bitter Project</a>.
      * It supports quite a lot of Latin-based scripts and Cyrillic, but does not really cover Greek or any other
      * scripts. This font can look good at its natural size, which uses width roughly equal to height,
@@ -640,7 +643,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a very-legible variable-width font with strong support for Canadian
-     * Aboriginal Syllabic, that should scale pretty well from a height of about 86 down to a height of maybe 30.
+     * Aboriginal Syllabic. Uses the given distance field type.
      * Caches the result for later calls. The font used is Canada1500, a free (public domain, via CC0) typeface by Ray
      * Larabie. It supports quite a lot of Latin-based scripts, Greek, Cyrillic, Canadian Aboriginal Syllabic, arrows,
      * many dingbats, and more. This font can look good at its natural size, which uses width roughly equal to height,
@@ -703,12 +706,10 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a quirky fixed-width font with good Unicode support
-     * and a humanist style, that should scale well from a height of about 60 pixels to about 15 pixels.
+     * and a humanist style. Uses the given distance field type.
      * Caches the result for later calls. The font used is Cascadia Code Mono, an open-source (SIL Open Font
      * License) typeface by Microsoft (see <a href="https://github.com/microsoft/cascadia-code">Microsoft's page</a>).
      * It supports a lot of glyphs, including most extended Latin, Greek, Braille, and Cyrillic.
-     * This uses a fairly-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
@@ -794,12 +795,9 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width handwriting font with support for extended Latin and
-     * Cyrillic, that should scale pretty well from a height of about 160 down to a height of maybe 20. It will look
-     * sharper and more aliased at smaller sizes, but should be relatively smooth at a height of 32 or so. This is a
+     * Cyrillic. Uses the given distance field type. This is a
      * sort of natural handwriting, as opposed to the formal script in {@link #getTangerine()}.
      * Caches the result for later calls. The font used is Caveat, a free (OFL) typeface designed by Pablo Impallari.
-     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-     * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Caveat-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
@@ -857,7 +855,8 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a fixed-width, octagonal, unicode-heavy font. Caches the result for
-     * later calls. The font used is Computer Says No, a free (CC-BY-SA) typeface designed by Christian Munk.
+     * later calls. Uses the given distance field type.
+     * The font used is Computer Says No, a free (CC-BY-SA) typeface designed by Christian Munk.
      * It supports Latin (including a very large span of extended Latin), Greek, and Cyrillic, Cherokee, Armenian, IPA
      * symbols (and probably more phonetic symbols), Runic, etc.
      * <br>
@@ -959,7 +958,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width sans-serif font with excellent Unicode support.
-     * Caches the result for later calls. The font used is
+     * Uses the given distance field type. Caches the result for later calls. The font used is
      * DejaVu Sans, an open-source typeface included in many Linux distros. It supports a lot of glyphs,
      * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
      * real languages.
@@ -1020,7 +1019,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width narrow sans-serif font with excellent Unicode support.
-     * Caches the result for later calls. The font used is
+     * Uses the given distance field type. Caches the result for later calls. The font used is
      * DejaVu Sans Condensed, an open-source typeface included in many Linux distros. It supports a lot of glyphs,
      * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
      * real languages.
@@ -1092,7 +1091,8 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * A nice old standby font with very broad language support, DejaVu Sans Mono is fixed-width and can be clearly
-     * readable but doesn't do anything unusual stylistically. It really does handle a lot of glyphs; not only does this
+     * readable but doesn't do anything unusual stylistically. Uses the given distance field type. It really does handle
+     * a lot of glyphs; not only does this
      * have practically all Latin glyphs in Unicode (enough to support everything from Icelandic to Vietnamese), it has
      * Greek (including Extended), Cyrillic (including some optional glyphs), IPA, Armenian (maybe the only font here to
      * do so), Georgian (which won't be treated correctly by some case-insensitive code, so it should only be used if
@@ -1159,7 +1159,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width serif font with excellent Unicode support.
-     * Caches the result for later calls. The font used is
+     * Uses the given distance field type. Caches the result for later calls. The font used is
      * DejaVu Serif, an open-source typeface included in many Linux distros. It supports a lot of glyphs,
      * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
      * real languages.
@@ -1220,7 +1220,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width narrow serif font with excellent Unicode support.
-     * Caches the result for later calls. The font used is
+     * Uses the given distance field type. Caches the result for later calls. The font used is
      * DejaVu Serif Condensed, an open-source typeface included in many Linux distros. It supports a lot of glyphs,
      * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
      * real languages.
@@ -1340,8 +1340,8 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width serif font with excellent Unicode support.
-     * Caches the result for later calls. The font used is
-     * Gentium, an open-source (SIL Open Font License) typeface by SIL (see
+     * Uses the given distance field type.
+     * Caches the result for later calls. The font used is Gentium, an open-source (OFL) typeface by SIL (see
      * <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It supports a lot of glyphs,
      * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
      * real languages.
@@ -1375,7 +1375,7 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a Font already configured to use a variable-width "italic-like" serif font with excellent Unicode
      * support, that should scale well from a height of about 97 down to a height of 30.
-     * Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font License) typeface by
+     * Caches the result for later calls. The font used is Gentium, an open-source (OFL) typeface by
      * SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>), but this took Gentium
      * Italic and removed the 8-degree slant it had, so it looks like a regular face but with the different serif style
      * and the "flow" of an italic font. This helps it look closer to carefully-hand-written text mixed with a serif
@@ -1409,8 +1409,8 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width "italic-like" serif font with excellent Unicode
-     * support, that should scale well from a height of about 97 down to a height of 30.
-     * Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font License) typeface by
+     * support, that should scale well from a height of about 97 down to a height of 30. Uses the given distance field
+     * type. Caches the result for later calls. The font used is Gentium, an open-source (OFL) typeface by
      * SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>), but this took Gentium
      * Italic and removed the 8-degree slant it had, so it looks like a regular face but with the different serif style
      * and the "flow" of an italic font. This helps it look closer to carefully-hand-written text mixed with a serif
@@ -1478,7 +1478,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width geometric sans-serif font. This looks similar, but
+     * Returns a Font already configured to use a variable-width geometric sans-serif font.
+     * Uses the given distance field type. This looks similar, but
      * not identical, to {@link #getNowAlt()}. In particular, this font has a much lighter weight.
      * Caches the result for later calls. The font used is Glacial Indifference, an open-source (SIL Open Font License)
      * typeface.
@@ -1575,8 +1576,9 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support. The
-     * font used is Go Noto Universal, an open-source (SIL Open Font License) typeface that modifies Noto Sans by Google
+     * Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support.
+     * Uses the given distance field type. The font used is Go Noto Universal, an open-source (SIL Open Font License)
+     * typeface that modifies Noto Sans by Google
      * (see <a href="https://github.com/satbyy/go-noto-universal">Go Noto Universal's page is here</a>, and
      * <a href="https://notofonts.github.io/">Noto Fonts have a page here</a>). It supports... most glyphs, from many
      * languages, including essentially all extended Latin, Greek, Cyrillic, Chinese, Japanese, Armenian, Ethiopic,
@@ -1639,8 +1641,8 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width, heavy-weight, legible gothic font.
-     * Caches the result for later calls. The font used is Grenze, a free (OFL) typeface designed by the Manuale
-     * Project.
+     * Uses the given distance field type. Caches the result for later calls. The font used is Grenze, a free
+     * (OFL) typeface designed by the Manuale Project.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Grenze-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
@@ -1807,10 +1809,9 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * A customized version of Inconsolata LGC, a fixed-width geometric font that supports a large range of Latin,
-     * Greek, and Cyrillic glyphs, plus box drawing and some dingbat characters (like zodiac signs). The original font
-     * Inconsolata is by Raph Levien, and various other contributors added support for other languages. This does not
-     * use a distance field effect, as opposed to {@link #getInconsolataMSDF()}.
-     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * Greek, and Cyrillic glyphs, plus box drawing and some dingbat characters (like zodiac signs).
+     * Uses the given distance field type. The original font
+     * Inconsolata is by Raph Levien, and various other contributors added support for other languages.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
@@ -1926,7 +1927,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
-     * and a sans-serif geometric style.
+     * and a sans-serif geometric style. Uses the given distance field type.
      * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font License) typeface by
      * <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several customizations
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
@@ -2048,7 +2049,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a highly-legible fixed-width font with good Unicode support
-     * and a sans-serif geometric style.
+     * and a sans-serif geometric style. Uses the given distance field type.
      * Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font License) typeface by
      * <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several customizations
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
@@ -2112,8 +2113,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a fairly-legible variable-width ornamental/medieval font, that should
-     * scale pretty well from a height of about 90 down to a height of maybe 30.
+     * Returns a Font already configured to use a fairly-legible variable-width ornamental/medieval font,
+     * using the given distance field type.
      * Caches the result for later calls. The font used is Kingthings Foundation, a free (custom permissive license)
      * typeface; this has faux-bold applied already in order to make some ornamental curls visible at more sizes. You
      * can still apply bold again using markup. It supports only ASCII. You may want to also look at
@@ -2178,8 +2179,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a clearly-legible variable-width medieval font, that should
-     * scale pretty well from a height of about 90 down to a height of maybe 30.
+     * Returns a Font already configured to use a clearly-legible variable-width medieval font,
+     * using the given distance field type.
      * Caches the result for later calls. The font used is Kingthings Petrock, a free (custom permissive license)
      * typeface; it has a visual style similar to one used by some popular classic rock bands. It supports only ASCII
      * and a small amount of extended Latin. Kingthings Petrock is similar to
@@ -2281,8 +2282,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width serif font with good Unicode support, that should
-     * scale cleanly to fairly large sizes or down to about 20 pixels.
+     * Returns a Font already configured to use a variable-width serif font with good Unicode support,
+     * using the given distance field type.
      * Caches the result for later calls. The font used is Libertinus Serif, an open-source (SIL Open Font
      * License) typeface. It supports a lot of glyphs, including quite a bit of extended Latin, Greek, and Cyrillic.
      * <br>
@@ -2342,8 +2343,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width heavy-weight serif font with good Unicode support, that
-     * should scale cleanly to fairly large sizes or down to about 20 pixels.
+     * Returns a Font already configured to use a variable-width heavy-weight serif font with good Unicode support,
+     * using the given distance field type.
      * Caches the result for later calls. The font used is Libertinus Serif Semibold, an open-source (SIL Open Font
      * License) typeface. It supports a lot of glyphs, including quite a bit of extended Latin, Greek, and Cyrillic.
      * <br>
@@ -2402,8 +2403,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width geometric sans-serif font, that should
-     * scale cleanly to fairly large sizes or down to about 20 pixels.
+     * Returns a Font already configured to use a variable-width geometric sans-serif font,
+     * using the given distance field type.
      * Caches the result for later calls. The font used is Now Alt, an open-source (SIL Open Font License) typeface by
      * Hanken Design Co. It has decent glyph coverage for most European languages, but doesn't fully support Greek or
      * Cyrillic.
@@ -2461,7 +2462,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font configured to use a clean variable-width font, Open Sans. It has good extended-Latin coverage, but
+     * Returns a Font configured to use a clean variable-width font, Open Sans,
+     * using the given distance field type. It has good extended-Latin coverage, but
      * does not support Greek, Cyrillic, or other scripts. This makes an especially large font by default, but can be
      * scaled down nicely.
      * <br>
@@ -2495,7 +2497,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font configured to use an ALL-CAPS, variable-width, tall, very-heavy-weight sans-serif font, Ostrich
-     * Black. It is OFL-licensed and was made by Tyler Fink.
+     * Black, without using a distance field effect. It is OFL-licensed and was made by Tyler Fink.
      * <br>
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.OSTRICH_BLACK, Font.DistanceFieldType.STANDARD)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
@@ -2517,7 +2519,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font configured to use an ALL-CAPS, variable-width, tall, very-heavy-weight sans-serif font, Ostrich
-     * Black. It is OFL-licensed and was made by Tyler Fink.
+     * Black, using the given distance field type. It is OFL-licensed and was made by Tyler Fink.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ostrich-Black-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
@@ -2573,10 +2575,9 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(OXANIUM, STANDARD);
     }
 
-
     /**
-     * Returns a Font already configured to use a variable-width "science-fiction/high-tech" font, that should
-     * scale pretty well down, but not up.
+     * Returns a Font already configured to use a variable-width "science-fiction/high-tech" font,
+     * using the given distance field type.
      * Caches the result for later calls. The font used is Oxanium, a free (OFL) typeface. It supports a lot of Latin
      * and extended Latin, but not Greek or Cyrillic.
      * <br>
@@ -2678,7 +2679,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a very-legible condensed variable-width font with excellent Unicode
-     * support.
+     * support, using the given distance field type.
      * Caches the result for later calls. The font used is Roboto Condensed, a free (Apache 2.0) typeface by Christian
      * Robertson. It supports Latin-based scripts almost entirely, plus Greek, (extended) Cyrillic, and more.
      * This font is meant to be condensed in its natural appearance, but can be scaled to be wider if desired.
@@ -2738,8 +2739,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width script font, that should
-     * scale pretty well down, but not up.
+     * Returns a Font already configured to use a variable-width script font, that should scale to many sizes using
+     * an SDF effect.
      * Caches the result for later calls. The font used is Tangerine, a free (OFL) typeface. It supports Latin only,
      * with a little support for Western European languages, but not really anything else. It looks elegant, though.
      * This uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but
@@ -2764,7 +2765,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width script font.
+     * Returns a Font already configured to use a variable-width script font,
+     * using the given distance field type.
      * Caches the result for later calls. The font used is Tangerine, a free (OFL) typeface. It supports Latin only,
      * with a little support for Western European languages, but not really anything else. It looks elegant, though.
      * Using MSDF is currently recommended.
@@ -2823,7 +2825,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width, narrow, humanist font.
+     * Returns a Font already configured to use a variable-width, narrow, humanist font, that should scale
+     * to many sizes using an MSDF effect.
      * Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
      * of Latin, Cyrillic, and some extended Latin, but not Greek.
      * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
@@ -2848,7 +2851,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width, narrow, humanist font.
+     * Returns a Font already configured to use a variable-width, narrow, humanist font,
+     * using the given distance field type.
      * Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
      * of Latin, Cyrillic, and some extended Latin, but not Greek.
      * <br>
@@ -2906,7 +2910,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width, narrow, "dark fantasy" font.
+     * Returns a Font already configured to use a variable-width, narrow, "dark fantasy" font,
+     * that can scale to many sizes using an MSDF effect.
      * Caches the result for later calls. The font used is Yataghan, a widely-distributed typeface. It supports ASCII
      * and some extended Latin, but not much else.
      * This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
@@ -2934,7 +2939,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width, narrow, "dark fantasy" font.
+     * Returns a Font already configured to use a variable-width, narrow, "dark fantasy" font,
+     * using the given distance field type.
      * Caches the result for later calls. The font used is Yataghan, a widely-distributed typeface. It supports ASCII
      * and some extended Latin, but not much else.
      * <br>
