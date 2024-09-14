@@ -158,6 +158,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String OPEN_SANS = "Open-Sans";
     /** Base name for a variable-width geometric sans font. */
     public static final String OSTRICH_BLACK = "Ostrich-Black";
+    /** Base name for a variable-width "flowy" sans font. */
+    public static final String OVERLOCK = "Overlock";
     /** Base name for a variable-width sci-fi font. */
     public static final String OXANIUM = "Oxanium";
     /** Base name for a variable-width narrow sans font. */
@@ -2550,6 +2552,66 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font already configured to use a variable-width "flowy" sans-serif font, that should
+     * scale pretty well down, but not up.
+     * Caches the result for later calls. The font used is Overlock, a free (OFL) typeface by Dario Manuel Muhafara.
+     * It supports a little more than ASCII and Latin-1, but not much Greek and no Cyrillic.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.OVERLOCK, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-standard.dat">Overlock-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-standard.png">Overlock-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Overlock
+     */
+    public static Font getOverlock() {
+        return getFont(OVERLOCK, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width "flowy" sans-serif font,
+     * using the given distance field type.
+     * Caches the result for later calls. The font used is Overlock, a free (OFL) typeface by Dario Manuel Muhafara.
+     * It supports a little more than ASCII and Latin-1, but not much Greek and no Cyrillic.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-standard.dat">Overlock-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-standard.png">Overlock-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-msdf.dat">Overlock-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-msdf.png">Overlock-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-sdf.dat">Overlock-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-sdf.png">Overlock-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Overlock using the given DistanceFieldType
+     */
+    public static Font getOverlock(DistanceFieldType dft) {
+        return getFont(OVERLOCK, dft);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width "science-fiction/high-tech" font, that should
      * scale pretty well down, but not up.
      * Caches the result for later calls. The font used is Oxanium, a free (OFL) typeface. It supports a lot of Latin
@@ -3997,8 +4059,8 @@ public final class KnownFonts implements LifecycleListener {
                 getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getLibertinusSerifSemibold(),
-                getNowAlt(), getOpenSans(), getOstrichBlack(), getOxanium(), getQuanPixel(), getRobotoCondensed(),
-                getTangerine(), getTangerineSDF(),
+                getNowAlt(), getOpenSans(), getOstrichBlack(), getOverlock(), getOxanium(), getQuanPixel(),
+                getRobotoCondensed(), getTangerine(), getTangerineSDF(),
                 getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghan(), getYataghanMSDF()};
     }
 
