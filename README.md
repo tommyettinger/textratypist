@@ -415,7 +415,7 @@ If you use GWT, this should be compatible. It needs these dependencies in the ht
 
 ```groovy
 implementation "com.github.tommyettinger:textratypist:1.1.0:sources"
-implementation "com.github.tommyettinger:regexodus:0.1.15:sources"
+implementation "com.github.tommyettinger:regexodus:0.1.16:sources"
 ```
 
 GWT also needs this in the GdxDefinition.gwt.xml file (since version 0.7.7):
