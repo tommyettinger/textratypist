@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -77,9 +78,9 @@ public class GridTest extends ApplicationAdapter {
         viewport = new StretchViewport(PIXEL_WIDTH, PIXEL_HEIGHT);
         stage = new Stage(viewport, batch);
 
-//        fonts = KnownFonts.getAllStandard();
-//        for(Font f : fonts)
-//            KnownFonts.addEmoji(f.scaleTo(20f, 25).fitCell(25, 25, true));
+        fonts = KnownFonts.getAllStandard();
+        for(Font f : fonts)
+            KnownFonts.addEmoji(f.scaleTo(20f, 25).fitCell(25, 25, true));
         font = KnownFonts.addEmoji(KnownFonts.getAStarryTall().scaleTo(16f, 24).fitCell(25, 25, true));
 //        font = KnownFonts.addEmoji(KnownFonts.getIBM8x16().fitCell(16, 32, true).scaleTo(16, 32));
 
@@ -187,8 +188,8 @@ public class GridTest extends ApplicationAdapter {
         ScreenUtils.clear(0.2f, 0.3f, 0.4f, 1);
         
         float x = 0, y = font.cellHeight * 13.5f;
-//        long since = TimeUtils.timeSinceMillis(startTime);
-//        font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];
+        long since = TimeUtils.timeSinceMillis(startTime);
+        font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];
 //        font = fonts[5];
 
 //        marquee.act(Gdx.graphics.getDeltaTime());
@@ -217,11 +218,9 @@ public class GridTest extends ApplicationAdapter {
 //        for (int i = 0, n = glyphs[0].size(); i < n; i++) {
 //            glyphs[0].set(i, glyphs[0].get(i) & 0xFFFFFFFFL | color);
 //        }
-//        font.drawGlyphs(batch, layout,
-////0f, y, Align.left
-////                PIXEL_WIDTH * 0.5f
-//                0, y - font.cellHeight * 2, Align.left
-//        );
+        font.drawGlyphs(batch, layout,
+                0, y - font.cellHeight * 2, Align.left
+        );
 
         // This seemed to be causing some side effects when it rendered Cozette; should be fixed now.
         font.drawGlyph(batch, font.markupGlyph("[RED][+🔜]"), 0, Gdx.graphics.getHeight() - font.cellHeight * 0.5f);
