@@ -57,3 +57,4 @@ Thumbs.db
 /src/test/resources/mk/
 /src/test/resources/moss/
 *.exe
+/.kotlin/
