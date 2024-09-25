@@ -115,14 +115,15 @@ public class TextraField extends Widget implements Disableable {
 	private char passwordCharacter = BULLET;
 
 	protected float fontOffset, textOffset;
-	float renderOffset;
+	protected float renderOffset;
 	protected int visibleTextStart, visibleTextEnd;
-	private int maxLength;
+	protected int maxLength;
 
-	boolean focused;
-	boolean cursorOn;
-	float blinkTime = 0.32f;
-	final Task blinkTask = new Task() {
+	protected boolean focused;
+	protected boolean cursorOn;
+	protected boolean blinkEnabled = true;
+	protected float blinkTime = 0.32f;
+	protected final Task blinkTask = new Task() {
 		public void run () {
 			if (getStage() == null) {
 				cancel();
@@ -352,11 +353,11 @@ public class TextraField extends Widget implements Disableable {
 
 	public void draw (Batch batch, float parentAlpha) {
 		boolean focused = hasKeyboardFocus();
-		if (focused != this.focused || (focused && !blinkTask.isScheduled())) {
+		if (focused != this.focused || (focused && blinkEnabled && !blinkTask.isScheduled())) {
 			this.focused = focused;
 			blinkTask.cancel();
 			cursorOn = focused;
-			if (focused)
+			if (focused && blinkEnabled)
 				Timer.schedule(blinkTask, blinkTime, blinkTime);
 			else
 				keyRepeatTask.cancel();
@@ -888,6 +889,14 @@ public class TextraField extends Widget implements Disableable {
 		return passwordMode;
 	}
 
+	/**
+	 * Gets the password character for the text field. Default is 8226 (the bullet char {@code •} , Unicode 0x2022).
+	 * @return the current password character
+	 */
+	public char getPasswordCharacter() {
+		return passwordCharacter;
+	}
+
 	/** Sets the password character for the text field. If the character is not present in the {@link Font}, this does
 	 * nothing. Default is 8226 (the bullet char {@code •} , Unicode 0x2022). */
 	public void setPasswordCharacter (char passwordCharacter) {
@@ -896,8 +905,20 @@ public class TextraField extends Widget implements Disableable {
 			updateDisplayText();
 	}
 
+	public float getBlinkTime() {
+		return blinkTime;
+	}
+
 	public void setBlinkTime (float blinkTime) {
 		this.blinkTime = blinkTime;
+	}
+
+	public boolean isCursorBlinking() {
+		return blinkEnabled;
+	}
+
+	public void setCursorBlinking(boolean blinkEnabled) {
+		this.blinkEnabled = blinkEnabled;
 	}
 
 	public void setDisabled (boolean disabled) {
@@ -1030,15 +1051,16 @@ public class TextraField extends Widget implements Disableable {
 		}
 
 		protected void setCursorPosition (float x, float y) {
-			if(label.overIndex == -1) {
-				if(x < label.getX() + label.workingLayout.getWidth() * 0.5f) cursor = 0;
+			if (label.overIndex == -1) {
+				if (x < label.getX() + label.workingLayout.getWidth() * 0.5f) cursor = 0;
 				else cursor = label.length();
-			}
-			else cursor = label.overIndex;
+			} else cursor = label.overIndex;
 
 			cursorOn = focused;
-			blinkTask.cancel();
-			if (focused) Timer.schedule(blinkTask, blinkTime, blinkTime);
+			if (blinkEnabled) {
+				blinkTask.cancel();
+				if (focused) Timer.schedule(blinkTask, blinkTime, blinkTime);
+			}
 		}
 
 		protected void goHome (boolean jump) {
@@ -1053,8 +1075,10 @@ public class TextraField extends Widget implements Disableable {
 			if (disabled) return false;
 
 			cursorOn = focused;
-			blinkTask.cancel();
-			if (focused) Timer.schedule(blinkTask, blinkTime, blinkTime);
+			if(blinkEnabled) {
+				blinkTask.cancel();
+				if (focused) Timer.schedule(blinkTask, blinkTime, blinkTime);
+			}
 
 			if (!hasKeyboardFocus()) return false;
 

@@ -79,21 +79,23 @@ public class FieldTest extends ApplicationAdapter {
                 selection, background));
         ttField.setWidth(500);
         ttField.setPasswordMode(false);
-        ttField.setHeight(font.cellHeight);
+        ttField.setHeight(font.cellHeight * 3);
         ttField.setAlignment(left);
+
+        ttField.setCursorBlinking(false);
 
         s2dField = new TextField2(text, new TextField2.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background));
         s2dField.setWidth(500);
         s2dField.setPasswordMode(false);
-        s2dField.setHeight(font.cellHeight);
+        s2dField.setHeight(font.cellHeight * 3);
         s2dField.setAlignment(left);
 
         Table table = new Table();
         table.setFillParent(true);
-        table.add(new TextraLabel("TT:  ", font)).width(60);
-        table.add(ttField).width(500).row();
-        table.add(new TextraLabel("S2D: ", font)).width(60);
-        table.add(s2dField).width(500);
+        table.add(new TextraLabel("TT:  ", font)).width(60).height(font.cellHeight * 3);
+        table.add(ttField).width(500).height(font.cellHeight * 3).row();
+        table.add(new TextraLabel("S2D: ", font)).width(60).height(font.cellHeight * 3);
+        table.add(s2dField).width(500).height(font.cellHeight * 3);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
@@ -129,7 +131,7 @@ public class FieldTest extends ApplicationAdapter {
         config.setTitle("TextraLabel UI test");
         config.setWindowedMode(600, 480);
         config.disableAudio(true);
-		config.setForegroundFPS(5);
+		config.setForegroundFPS(60);
         config.useVsync(true);
         new Lwjgl3Application(new FieldTest(), config);
     }
