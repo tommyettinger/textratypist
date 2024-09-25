@@ -24,7 +24,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField2;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -36,7 +37,9 @@ public class FieldTest extends ApplicationAdapter {
     ScreenViewport viewport;
     Stage stage;
     TextraField ttField;
-    TextField2 s2dField;
+    TextField s2dField;
+    TextraArea ttArea;
+    TextArea s2dArea;
 
     @Override
     public void create() {
@@ -56,15 +59,16 @@ public class FieldTest extends ApplicationAdapter {
 //        System.out.println("descent: "+font.descent + ", lineHeight: " + font.cellHeight);
         BitmapFont bmFont = KnownFonts.getBitmapFont(KnownFonts.GENTIUM_UN_ITALIC);
         String text = "22";
-//                "[*]Локус контроля[*] - свойство " +
-//                "личности приписывать " +
-//                "свои неудачи и успехи " +
-//                "либо внешним факторам " +
-//                "(погода, везение, другие " +
-//                "люди, судьба-злодейка), " +
-//                "либо внутренним (я сам, " +
-//                "моё отношение, мои" +
-//                "действия)";
+        String longText =
+                "[*]Локус контроля[*] - свойство " +
+                "личности приписывать " +
+                "свои неудачи и успехи " +
+                "либо внешним факторам " +
+                "(погода, везение, другие " +
+                "люди, судьба-злодейка), " +
+                "либо внутренним (я сам, " +
+                "моё отношение, мои" +
+                "действия)";
         Font.GlyphRegion solid = font.mapping.get(font.solidBlock);
         Drawable pipe = new TextureRegionDrawable(solid),
                 selection = new TextureRegionDrawable(solid).tint(Color.GRAY),
@@ -82,20 +86,28 @@ public class FieldTest extends ApplicationAdapter {
         ttField.setHeight(font.cellHeight * 3);
         ttField.setAlignment(left);
 
-        ttField.setCursorBlinking(false);
+//        ttField.setCursorBlinking(false);
 
-        s2dField = new TextField2(text, new TextField2.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background));
+        ttArea = new TextraArea(longText, ttField.style);
+
+        s2dField = new TextField(text, new TextField.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background));
         s2dField.setWidth(500);
         s2dField.setPasswordMode(false);
         s2dField.setHeight(font.cellHeight * 3);
         s2dField.setAlignment(left);
 
+        s2dArea = new TextArea(longText, s2dField.getStyle());
+
         Table table = new Table();
         table.setFillParent(true);
-        table.add(new TextraLabel("TT:  ", font)).width(60).height(font.cellHeight * 3);
-        table.add(ttField).width(500).height(font.cellHeight * 3).row();
-        table.add(new TextraLabel("S2D: ", font)).width(60).height(font.cellHeight * 3);
-        table.add(s2dField).width(500).height(font.cellHeight * 3);
+        table.add(new TextraLabel("TT:  ", font)).width(60).height(font.cellHeight * 2);
+        table.add(ttField).width(500).height(font.cellHeight * 2).row();
+        table.add(new TextraLabel("S2D: ", font)).width(60).height(font.cellHeight * 2);
+        table.add(s2dField).width(500).height(font.cellHeight * 2).row();
+        table.add(new TextraLabel("TT:  ", font)).width(60).height(font.cellHeight * 2);
+        table.add(ttArea).width(500).height(font.cellHeight * 5).row();
+        table.add(new TextraLabel("S2D: ", font)).width(60).height(font.cellHeight * 2);
+        table.add(s2dArea).width(500).height(font.cellHeight * 5).row();
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
