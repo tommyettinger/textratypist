@@ -19,20 +19,18 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.Null;
-import com.badlogic.gdx.utils.Pool;
-import com.badlogic.gdx.utils.Pools;
 import com.github.tommyettinger.textra.Styles.TextFieldStyle;
 
-/** A text input field with multiple lines. */
+/** A text input field with multiple lines.
+ * THIS CLASS IS NOT READY TO BE USED IN PRODUCTION.
+ * */
 public class TextraArea extends TextraField {
 	/** Array storing lines breaks positions **/
 	IntArray linesBreak;
@@ -56,14 +54,26 @@ public class TextraArea extends TextraField {
 
 	public TextraArea(String text, Skin skin) {
 		super(text, skin);
+		label.workingLayout.targetWidth = 50;
+		label.workingLayout.setMaxLines(10);
+		label.setWrap(true);
+		label.setSize(getPrefWidth(), getPrefHeight());
 	}
 
 	public TextraArea(String text, Skin skin, String styleName) {
 		super(text, skin, styleName);
+		label.workingLayout.targetWidth = 50;
+		label.workingLayout.setMaxLines(10);
+		label.setWrap(true);
+		label.setSize(getPrefWidth(), getPrefHeight());
 	}
 
 	public TextraArea(String text, TextFieldStyle style) {
 		super(text, style);
+		label.workingLayout.targetWidth = 50;
+		label.workingLayout.setMaxLines(10);
+		label.setWrap(true);
+		label.setSize(getPrefWidth(), getPrefHeight());
 	}
 
 	protected void initialize () {
@@ -271,8 +281,6 @@ public class TextraArea extends TextraField {
 				- (style.background != null ? style.background.getLeftWidth() + style.background.getRightWidth() : 0);
 			linesBreak.clear();
 			int lineStart = 0;
-			int lastSpace = 0;
-			char lastCharacter;
 			Layout layout = label.workingLayout;
 			for (int i = 0; i < layout.lines(); i++) {
 				Line line = layout.getLine(i);
