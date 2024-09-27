@@ -1,0 +1,38 @@
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+eclipse.project.name = appName + '-core'
+
+dependencies {
+  api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+  api "com.badlogicgames.gdx:gdx:$gdxVersion"
+  api "com.github.tommyettinger:digital:$digitalVersion"
+  api "com.github.tommyettinger:formic:$formicVersion"
+  api "com.github.tommyettinger:juniper:$juniperVersion"
+  api "com.github.tommyettinger:regexodus:$regExodusVersion"
+  api "com.github.tommyettinger:textratypist:$textratypistVersion"
+  api "com.kotcrab.vis:vis-ui:$visUiVersion"
+  api "io.github.libktx:ktx-actors:$ktxVersion"
+  api "io.github.libktx:ktx-app:$ktxVersion"
+  api "io.github.libktx:ktx-assets-async:$ktxVersion"
+  api "io.github.libktx:ktx-assets:$ktxVersion"
+  api "io.github.libktx:ktx-async:$ktxVersion"
+  api "io.github.libktx:ktx-collections:$ktxVersion"
+  api "io.github.libktx:ktx-freetype-async:$ktxVersion"
+  api "io.github.libktx:ktx-freetype:$ktxVersion"
+  api "io.github.libktx:ktx-graphics:$ktxVersion"
+  api "io.github.libktx:ktx-i18n:$ktxVersion"
+  api "io.github.libktx:ktx-inject:$ktxVersion"
+  api "io.github.libktx:ktx-log:$ktxVersion"
+  api "io.github.libktx:ktx-math:$ktxVersion"
+  api "io.github.libktx:ktx-reflect:$ktxVersion"
+  api "io.github.libktx:ktx-scene2d:$ktxVersion"
+  api "io.github.libktx:ktx-style:$ktxVersion"
+  api "io.github.libktx:ktx-vis-style:$ktxVersion"
+  api "io.github.libktx:ktx-vis:$ktxVersion"
+  api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion"
+  api 'com.github.tommyettinger:freetypist:1.1.0.1'
+  api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+  if(enableGraalNative == 'true') {
+    implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
+  }
+}
