@@ -39,6 +39,7 @@ public class FieldTest extends ApplicationAdapter {
     TextraField ttField;
     TextField s2dField;
     TextraArea ttArea;
+    TextraArea2 tt2Area;
     TextArea s2dArea;
 
     @Override
@@ -90,6 +91,8 @@ public class FieldTest extends ApplicationAdapter {
 
         ttArea = new TextraArea(longText, ttField.style);
 
+        tt2Area = new TextraArea2(longText, ttField.style);
+
         s2dField = new TextField(text, new TextField.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background));
         s2dField.setWidth(500);
         s2dField.setPasswordMode(false);
@@ -106,6 +109,8 @@ public class FieldTest extends ApplicationAdapter {
         table.add(s2dField).width(500).height(font.cellHeight * 2).row();
         table.add(new TextraLabel("TT:  ", font)).width(60).height(font.cellHeight * 2);
         table.add(ttArea).width(500).height(font.cellHeight * 5).row();
+        table.add(new TextraLabel("TT2: ", font)).width(60).height(font.cellHeight * 2);
+        table.add(tt2Area).width(500).height(font.cellHeight * 5).row();
         table.add(new TextraLabel("S2D: ", font)).width(60).height(font.cellHeight * 2);
         table.add(s2dArea).width(500).height(font.cellHeight * 5).row();
         stage.addActor(table);

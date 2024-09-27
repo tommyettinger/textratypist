@@ -218,7 +218,7 @@ public class TextraArea extends TextraField {
 	}
 
 	protected float getTextY (Font font, @Null Drawable background) {
-		float textY = getHeight();
+		float textY = 0;//getHeight();
 		if (background != null) {
 			textY = textY - background.getTopHeight();
 		}
