@@ -20,17 +20,20 @@ public class TextraArea2 extends TextraField {
     public TextraArea2(String text, Styles.TextFieldStyle style) {
         super(text, style);
         label.setWrap(true);
-        label.workingLayout.targetWidth = 50;
+        label.workingLayout.targetWidth = 1f;
         label.setMaxLines(5);
-        label.setSize(getPrefWidth(), getPrefHeight());
     }
 
     public TextraArea2(String text, Styles.TextFieldStyle style, Font replacementFont) {
         super(text, style, replacementFont);
         label.setWrap(true);
-        label.workingLayout.targetWidth = 50;
+        label.workingLayout.targetWidth = 1f;
         label.setMaxLines(5);
-        label.setSize(getPrefWidth(), getPrefHeight());
     }
 
+    @Override
+    protected void sizeChanged() {
+        super.sizeChanged();
+        label.setSize(getWidth(), getHeight());
+    }
 }

@@ -54,26 +54,24 @@ public class TextraArea extends TextraField {
 
 	public TextraArea(String text, Skin skin) {
 		super(text, skin);
-		label.workingLayout.targetWidth = 50;
+		label.workingLayout.targetWidth = 1f;
 		label.workingLayout.setMaxLines(10);
 		label.setWrap(true);
-		label.setSize(getPrefWidth(), getPrefHeight());
 	}
 
 	public TextraArea(String text, Skin skin, String styleName) {
 		super(text, skin, styleName);
-		label.workingLayout.targetWidth = 50;
+		label.workingLayout.targetWidth = 1f;
 		label.workingLayout.setMaxLines(10);
 		label.setWrap(true);
-		label.setSize(getPrefWidth(), getPrefHeight());
+
 	}
 
 	public TextraArea(String text, TextFieldStyle style) {
 		super(text, style);
-		label.workingLayout.targetWidth = 50;
+		label.workingLayout.targetWidth = 1f;
 		label.workingLayout.setMaxLines(10);
 		label.setWrap(true);
-		label.setSize(getPrefWidth(), getPrefHeight());
 	}
 
 	protected void initialize () {
@@ -215,6 +213,7 @@ public class TextraArea extends TextraField {
 		Drawable background = style.background;
 		float availableHeight = getHeight() - (background == null ? 0 : background.getBottomHeight() + background.getTopHeight());
 		linesShowing = MathUtils.floor(availableHeight / font.cellHeight);
+		label.setSize(getWidth(), getHeight());
 	}
 
 	protected float getTextY (Font font, @Null Drawable background) {

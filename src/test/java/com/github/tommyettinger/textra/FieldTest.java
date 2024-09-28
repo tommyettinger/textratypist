@@ -41,11 +41,13 @@ public class FieldTest extends ApplicationAdapter {
     TextraArea ttArea;
     TextraArea2 tt2Area;
     TextArea s2dArea;
+    FWSkin skin;
 
     @Override
     public void create() {
         viewport = new ScreenViewport();
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
+        skin = new FWSkin(Gdx.files.internal("uiskin.json"));
         stage = new Stage(viewport);
         stage.setDebugAll(true);
 
@@ -61,15 +63,19 @@ public class FieldTest extends ApplicationAdapter {
         BitmapFont bmFont = KnownFonts.getBitmapFont(KnownFonts.GENTIUM_UN_ITALIC);
         String text = "22";
         String longText =
-                "[*]Локус контроля[*] - свойство " +
-                "личности приписывать " +
-                "свои неудачи и успехи " +
-                "либо внешним факторам " +
-                "(погода, везение, другие " +
-                "люди, судьба-злодейка), " +
-                "либо внутренним (я сам, " +
-                "моё отношение, мои" +
-                "действия)";
+                "Satchmo is a cat, who is extremely fat; when he sits " +
+                        "down, throughout the town, we all think, 'What was that? Did it happen " +
+                        "again (that thunderous din)? What could ever make, such a powerful quake, but " +
+                        "a cat with a double chin?'";
+//                "[*]Локус контроля[*] - свойство " +
+//                "личности приписывать " +
+//                "свои неудачи и успехи " +
+//                "либо внешним факторам " +
+//                "(погода, везение, другие " +
+//                "люди, судьба-злодейка), " +
+//                "либо внутренним (я сам, " +
+//                "моё отношение, мои" +
+//                "действия)";
         Font.GlyphRegion solid = font.mapping.get(font.solidBlock);
         Drawable pipe = new TextureRegionDrawable(solid),
                 selection = new TextureRegionDrawable(solid).tint(Color.GRAY),
@@ -80,8 +86,11 @@ public class FieldTest extends ApplicationAdapter {
         selection.setMinHeight(font.cellHeight);
         background.setMinHeight(1);
         background.setMinWidth(1);
-        ttField = new TextraField(text, new Styles.TextFieldStyle(font, Color.WHITE.cpy(), pipe,
-                selection, background));
+        ttField = new TextraField(text,
+skin
+//                new Styles.TextFieldStyle(font, Color.WHITE.cpy(), pipe,
+//                selection, background)
+        );
         ttField.setWidth(500);
         ttField.setPasswordMode(false);
         ttField.setHeight(font.cellHeight * 3);
@@ -93,7 +102,9 @@ public class FieldTest extends ApplicationAdapter {
 
         tt2Area = new TextraArea2(longText, ttField.style);
 
-        s2dField = new TextField(text, new TextField.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background));
+        s2dField = new TextField(text, skin
+        //new TextField.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background)
+                 );
         s2dField.setWidth(500);
         s2dField.setPasswordMode(false);
         s2dField.setHeight(font.cellHeight * 3);
@@ -146,7 +157,7 @@ public class FieldTest extends ApplicationAdapter {
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel UI test");
-        config.setWindowedMode(600, 480);
+        config.setWindowedMode(600, 600);
         config.disableAudio(true);
 		config.setForegroundFPS(60);
         config.useVsync(true);
