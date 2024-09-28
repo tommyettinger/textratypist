@@ -4384,13 +4384,13 @@ public class Font implements Disposable {
 
     /**
      * Not meant for general use; calculates the x-positions before every glyph in {@code line}, including invisible
-     * ones. Clears {@code advances} and fills it with the never-decreasing position values.
+     * ones. Appends to {@code advances} with the (usually never-decreasing) position values. Position values may
+     * decrease for right-to-left text or combining marks, neither of which are currently fully supported.
      * @param line a Line to measure the contents
-     * @param advances will be cleared and refilled with the positions of each glyph in line
+     * @param advances will have the positions of each glyph in line appended to it
      * @return the x-position after the last glyph
      */
     public float calculateXAdvances(Line line, FloatArray advances) {
-        advances.clear();
         float scaleX;
         float scale;
         LongArray glyphs = line.glyphs;
@@ -4473,6 +4473,20 @@ public class Font implements Disposable {
         return total;
     }
 
+    /**
+     * Not meant for general use; calculates the x-positions before every glyph in {@code layout}, including invisible
+     * ones. Appends to {@code advances} with the position values, which can go up and down as lines change.
+     * @param layout will have each line processed and appended to advances
+     * @param advances will have the positions of each glyph in line appended to it
+     * @return the highest x-position after the last glyph on any line
+     */
+    public float calculateXAdvances(Layout layout, FloatArray advances) {
+        float max = -1e30f;
+        for (int i = 0, len = layout.lines(); i < len; i++) {
+            max = Math.max(max, calculateXAdvances(layout.getLine(i), advances));
+        }
+        return max;
+    }
 
     /*
      * If {@link #integerPosition} is true, this returns {@code p} rounded to the nearest int; otherwise this just

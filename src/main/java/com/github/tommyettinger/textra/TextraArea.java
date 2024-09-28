@@ -163,7 +163,7 @@ public class TextraArea extends TextraField {
 		int line = index / 2;
 		// Special case when cursor moves to the beginning of the line from the end of another and a word
 		// wider than the box
-		if (index % 2 == 0 || index + 1 >= linesBreak.size || cursor != linesBreak.items[index]
+		if ((index & 1) == 0 || index + 1 >= linesBreak.size || cursor != linesBreak.items[index]
 			|| linesBreak.items[index + 1] != linesBreak.items[index]) {
 			if (line < linesBreak.size / 2 || text.length() == 0 || text.charAt(text.length() - 1) == NEWLINE
 				|| text.charAt(text.length() - 1) == CARRIAGE_RETURN) {
@@ -176,7 +176,7 @@ public class TextraArea extends TextraField {
 	/** Scroll the text area to show the line of the cursor **/
 	void showCursor () {
 		updateCurrentLine();
-		updateFirstLineShowing();
+//		updateFirstLineShowing(); // already called in updateCurrentLine()
 	}
 
 	void updateFirstLineShowing () {

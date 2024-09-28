@@ -154,8 +154,8 @@ public class TextraField extends Widget implements Disableable {
 		this.style.font.enableSquareBrackets = false;
 		this.style.font.omitCurlyBraces = false;
 		label = new TypingLabel("", new Styles.LabelStyle(this.style.font, style.fontColor));
-		label.layout.targetWidth = Float.MAX_VALUE;
-		label.layout.setMaxLines(1);
+		label.workingLayout.targetWidth = Float.MAX_VALUE;
+		label.workingLayout.setMaxLines(1);
 		label.setWrap(false);
 		label.setSelectable(true);
 		clipboard = Gdx.app.getClipboard();
@@ -172,8 +172,8 @@ public class TextraField extends Widget implements Disableable {
 		replacementFont.enableSquareBrackets = false;
 		replacementFont.omitCurlyBraces = false;
 		label = new TypingLabel("", new Styles.LabelStyle(replacementFont, style.fontColor));
-		label.layout.targetWidth = Float.MAX_VALUE;
-		label.layout.setMaxLines(1);
+		label.workingLayout.targetWidth = Float.MAX_VALUE;
+		label.workingLayout.setMaxLines(1);
 		label.setWrap(false);
 		label.setSelectable(true);
 		clipboard = Gdx.app.getClipboard();
@@ -496,7 +496,8 @@ public class TextraField extends Widget implements Disableable {
 
 		float end = 0f;
 		if(label.workingLayout.lines.notEmpty()) {
-			end = font.calculateXAdvances(label.workingLayout.lines.first(), glyphPositions);
+			glyphPositions.clear();
+			end = font.calculateXAdvances(label.workingLayout, glyphPositions);
 		} else
 			fontOffset = 0;
 		glyphPositions.add(end);
@@ -803,7 +804,8 @@ public class TextraField extends Widget implements Disableable {
 		label.skipToTheEnd(true, true);
 		float end = 0f;
 		if(label.workingLayout.lines.notEmpty()) {
-			end = label.font.calculateXAdvances(label.workingLayout.lines.first(), glyphPositions);
+			glyphPositions.clear();
+			end = label.font.calculateXAdvances(label.workingLayout, glyphPositions);
 		} else
 			fontOffset = 0;
 		glyphPositions.add(end);

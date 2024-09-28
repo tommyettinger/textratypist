@@ -99,6 +99,7 @@ skin
 //        ttField.setCursorBlinking(false);
 
         ttArea = new TextraArea(longText, ttField.style);
+        //        ttArea.setCursorBlinking(false);
 
         tt2Area = new TextraArea2(longText, ttField.style);
 
@@ -131,6 +132,8 @@ skin
     @Override
     public void render() {
         ScreenUtils.clear(Color.DARK_GRAY);
+
+//        System.out.println(ttArea.label.workingLayout.lines);
 
         stage.act();
         stage.draw();
