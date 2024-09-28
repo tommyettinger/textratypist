@@ -54,28 +54,22 @@ public class TextraArea extends TextraField {
 
 	public TextraArea(String text, Skin skin) {
 		super(text, skin);
-		label.workingLayout.targetWidth = 1f;
-		label.workingLayout.setMaxLines(10);
-		label.setWrap(true);
 	}
 
 	public TextraArea(String text, Skin skin, String styleName) {
 		super(text, skin, styleName);
-		label.workingLayout.targetWidth = 1f;
-		label.workingLayout.setMaxLines(10);
-		label.setWrap(true);
 
 	}
 
 	public TextraArea(String text, TextFieldStyle style) {
 		super(text, style);
-		label.workingLayout.targetWidth = 1f;
-		label.workingLayout.setMaxLines(10);
-		label.setWrap(true);
 	}
 
 	protected void initialize () {
 		super.initialize();
+		label.workingLayout.targetWidth = 1f;
+		label.workingLayout.setMaxLines(10);
+		label.setWrap(true);
 		writeEnters = true;
 		linesBreak = new IntArray();
 		cursorLine = 0;
