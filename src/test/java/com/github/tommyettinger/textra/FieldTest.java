@@ -115,14 +115,14 @@ skin
 
         Table table = new Table();
         table.setFillParent(true);
-        table.add(new TextraLabel("TT:  ", font)).width(60).height(font.cellHeight * 2);
-        table.add(ttField).width(500).height(font.cellHeight * 2).row();
+//        table.add(new TextraLabel("TT:  ", font)).width(60).height(font.cellHeight * 2);
+//        table.add(ttField).width(500).height(font.cellHeight * 2).row();
         table.add(new TextraLabel("S2D: ", font)).width(60).height(font.cellHeight * 2);
         table.add(s2dField).width(500).height(font.cellHeight * 2).row();
         table.add(new TextraLabel("TT:  ", font)).width(60).height(font.cellHeight * 2);
         table.add(ttArea).width(500).height(font.cellHeight * 5).row();
-        table.add(new TextraLabel("TT2: ", font)).width(60).height(font.cellHeight * 2);
-        table.add(tt2Area).width(500).height(font.cellHeight * 5).row();
+//        table.add(new TextraLabel("TT2: ", font)).width(60).height(font.cellHeight * 2);
+//        table.add(tt2Area).width(500).height(font.cellHeight * 5).row();
         table.add(new TextraLabel("S2D: ", font)).width(60).height(font.cellHeight * 2);
         table.add(s2dArea).width(500).height(font.cellHeight * 5).row();
         stage.addActor(table);

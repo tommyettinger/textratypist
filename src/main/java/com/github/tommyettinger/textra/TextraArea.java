@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.Null;
 import com.github.tommyettinger.textra.Styles.TextFieldStyle;
@@ -58,7 +59,6 @@ public class TextraArea extends TextraField {
 
 	public TextraArea(String text, Skin skin, String styleName) {
 		super(text, skin, styleName);
-
 	}
 
 	public TextraArea(String text, TextFieldStyle style) {
@@ -67,15 +67,19 @@ public class TextraArea extends TextraField {
 
 	protected void initialize () {
 		super.initialize();
-		label.workingLayout.targetWidth = 1f;
-		label.workingLayout.setMaxLines(10);
+		label.layout.setMaxLines(Integer.MAX_VALUE);
+		label.workingLayout.setMaxLines(Integer.MAX_VALUE);
 		label.setWrap(true);
+		label.setSize(getPrefWidth(), getPrefHeight());
+//		label.setWidth(500);
+//		label.setHeight(getPrefHeight());
 		writeEnters = true;
 		linesBreak = new IntArray();
 		cursorLine = 0;
 		firstLineShowing = 0;
 		moveOffset = -1;
 		linesShowing = 0;
+//		setAlignment(Align.topLeft);
 	}
 
 	protected int letterUnderCursor (float x) {
@@ -197,17 +201,28 @@ public class TextraArea extends TextraField {
 		return index;
 	}
 
-	// OVERRIDE from TextField
-
 	protected void sizeChanged () {
 		lastText = null; // Cause calculateOffsets to recalculate the line breaks.
 
 		// The number of lines showed must be updated whenever the height is updated
 		Font font = style.font;
 		Drawable background = style.background;
+		float availableWidth = getWidth() - (background == null ? 0 : background.getLeftWidth() + background.getRightWidth());
 		float availableHeight = getHeight() - (background == null ? 0 : background.getBottomHeight() + background.getTopHeight());
 		linesShowing = MathUtils.floor(availableHeight / font.cellHeight);
-		label.setSize(getWidth(), getHeight());
+		label.setSize(availableWidth, availableHeight);
+		invalidate();
+	}
+
+	@Override
+	public void layout() {
+		label.layout();
+	}
+
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		label.act(delta);
 	}
 
 	protected float getTextY (Font font, @Null Drawable background) {

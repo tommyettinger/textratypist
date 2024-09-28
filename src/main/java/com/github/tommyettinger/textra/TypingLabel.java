@@ -847,11 +847,11 @@ public class TypingLabel extends TextraLabel {
         }
         if(changed) {
             sizeChanged();
-        }
-        if (wrap && changed) {
-            workingLayout.setTargetWidth(width);
-            font.calculateSize(workingLayout);
-            invalidateHierarchy();
+            if (wrap) {
+                workingLayout.setTargetWidth(width);
+                font.calculateSize(workingLayout); // TODO: check; may instead need to be regenerateLayout ?
+                invalidateHierarchy();
+            }
         }
     }
 
