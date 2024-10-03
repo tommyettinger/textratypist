@@ -38,8 +38,8 @@ public class TextraArea2 extends TextraField {
         label.setWrap(true);
         label.setSelectable(true);
         initialize();
-        setText(text);
         label.setSize(getPrefWidth(), getPrefHeight());
+        setText(text);
         label.skipToTheEnd(true, true);
         updateDisplayText();
     }
@@ -58,8 +58,8 @@ public class TextraArea2 extends TextraField {
         label.setSelectable(true);
         writeEnters = true;
         initialize();
-        setText(text);
         label.setSize(getPrefWidth(), getPrefHeight());
+        setText(text);
         label.skipToTheEnd(true, true);
         updateDisplayText();
     }

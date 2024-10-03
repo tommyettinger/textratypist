@@ -849,7 +849,7 @@ public class TypingLabel extends TextraLabel {
             sizeChanged();
             if (wrap) {
                 workingLayout.setTargetWidth(width);
-                font.calculateSize(workingLayout); // TODO: check; may instead need to be regenerateLayout ?
+                font.regenerateLayout(workingLayout); // TODO: should this be calculateSize or regenerateLayout ?
                 invalidateHierarchy();
             }
         }

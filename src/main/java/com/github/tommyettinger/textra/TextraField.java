@@ -531,7 +531,7 @@ public class TextraField extends Widget implements Disableable {
 		cut(programmaticChangeEvents);
 	}
 
-	void cut (boolean fireChangeEvent) {
+	protected void cut (boolean fireChangeEvent) {
 		if (hasSelection && !passwordMode) {
 			copy();
 			cursor = delete(fireChangeEvent);
@@ -539,7 +539,7 @@ public class TextraField extends Widget implements Disableable {
 		}
 	}
 
-	void paste (@Null String content, boolean fireChangeEvent) {
+	protected void paste (@Null String content, boolean fireChangeEvent) {
 		if (content == null) return;
 		StringBuilder buffer = new StringBuilder();
 		int textLength = label.length(); // was text.length()
@@ -550,7 +550,7 @@ public class TextraField extends Widget implements Disableable {
 			char c = content.charAt(i);
 			if (!(writeEnters && (c == NEWLINE || c == CARRIAGE_RETURN))) {
 				if (c == '\r' || c == '\n') continue;
-				if (onlyFontChars && !mapping.containsKey(c)) c = '\u200B';
+				if (onlyFontChars && !mapping.containsKey(c)) c = '\u200B'; // zero-width space
 				if (filter != null && !filter.acceptChar(this, c)) continue;
 			}
 			buffer.append(c);
@@ -572,7 +572,7 @@ public class TextraField extends Widget implements Disableable {
 //		System.out.println("End of paste(): " + label.layout + "\n text: " + text);
 	}
 
-	boolean insert(int position, CharSequence inserting) {
+	protected boolean insert(int position, CharSequence inserting) {
 		if(inserting.length() == 0) return false;
 		if(showingMessage) {
 			showingMessage = false;
@@ -582,12 +582,12 @@ public class TextraField extends Widget implements Disableable {
 		return true;
 	}
 
-	String insert (int position, CharSequence text, String to) {
+	protected String insert (int position, CharSequence text, String to) {
 		if (to.isEmpty()) return text.toString();
 		return to.substring(0, position) + text + to.substring(position);
 	}
 
-	int delete (boolean fireChangeEvent) {
+	protected int delete (boolean fireChangeEvent) {
 		int from = selectionStart;
 		int to = cursor;
 		int minIndex = Math.min(from, to);
@@ -876,12 +876,13 @@ public class TextraField extends Widget implements Disableable {
 		super.positionChanged();
 		label.setPosition(getX(), getY());
 	}
-//
-//	@Override
-//	protected void sizeChanged() {
-//		super.sizeChanged();
-//		label.layout.setTargetWidth(getWidth());
-//	}
+
+	@Override
+	protected void sizeChanged() {
+		super.sizeChanged();
+		label.setSize(getWidth(), getHeight());
+		updateDisplayText();
+	}
 
 	@Override
 	public void act(float delta) {
