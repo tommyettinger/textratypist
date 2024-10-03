@@ -1,6 +1,8 @@
 package com.github.tommyettinger.textra;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
 
@@ -41,4 +43,14 @@ public class TextraArea2 extends TextraField {
         super.sizeChanged();
         label.setSize(getWidth(), getHeight());
     }
+
+    @Override
+    protected void drawCursor (Drawable cursorPatch, Batch batch, Font font, float x, float y) {
+        final float layoutHeight = label.workingLayout.getHeight(), linesHeight = label.getCumulativeLineHeight(cursor);
+//		System.out.println("layoutHeight: " + layoutHeight + ", linesHeight: " + linesHeight);
+        cursorPatch.draw(batch,
+                x + textOffset + glyphPositions.get(cursor) - glyphPositions.get(visibleTextStart) + fontOffset,
+                y + layoutHeight - linesHeight, cursorPatch.getMinWidth(), font.cellHeight);
+    }
+
 }

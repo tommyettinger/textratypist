@@ -1332,6 +1332,24 @@ public class TypingLabel extends TextraLabel {
         }
         return font.cellHeight;
     }
+    /**
+     * Gets the height of the Line containing the glyph at the given index, plus the heights of all preceding lines, in
+     * the working layout. If the index is out of bounds, this returns either 0 if index was too low, or the height of
+     * all lines together if the index was too high.
+     * @param index the 0-based index of the glyph to measure
+     * @return the sum of the height of the Line containing the specified glyph and all preceding line heights
+     */
+    public float getCumulativeLineHeight(int index) {
+        float cumulative = 0f;
+        for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
+            LongArray glyphs = workingLayout.getLine(i).glyphs;
+            if (index < glyphs.size)
+                return cumulative + workingLayout.getLine(i).height;
+            index -= glyphs.size;
+            cumulative += workingLayout.getLine(i).height;
+        }
+        return cumulative;
+    }
 
     public long getFromIntermediate(int index) {
         if (index >= 0 && intermediateText.length() > index) return intermediateText.charAt(index);

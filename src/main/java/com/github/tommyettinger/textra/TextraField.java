@@ -449,9 +449,10 @@ public class TextraField extends Widget implements Disableable {
 
 
 	protected void drawCursor (Drawable cursorPatch, Batch batch, Font font, float x, float y) {
+		final float lineHeight = label.getLineHeight(cursor);
 		cursorPatch.draw(batch,
 			x + textOffset + glyphPositions.get(cursor) - glyphPositions.get(visibleTextStart) + fontOffset,
-			y - font.cellHeight * 0.5f, cursorPatch.getMinWidth(), font.cellHeight);
+			y - lineHeight * 0.5f, cursorPatch.getMinWidth(), lineHeight);
 	}
 
 	void updateDisplayText () {
