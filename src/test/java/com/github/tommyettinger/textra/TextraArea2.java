@@ -2,7 +2,6 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField2;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
@@ -34,7 +33,7 @@ public class TextraArea2 extends TextraField {
         label = new TypingLabel("", new Styles.LabelStyle(this.style.font, style.fontColor));
         label.workingLayout.targetWidth = 1f;
         label.setMaxLines(Integer.MAX_VALUE);
-        label.setAlignment(Align.bottomLeft);
+        label.setAlignment(Align.topLeft);
         label.setWrap(true);
         label.setSelectable(true);
         initialize();
@@ -53,7 +52,7 @@ public class TextraArea2 extends TextraField {
         label = new TypingLabel("", new Styles.LabelStyle(replacementFont, style.fontColor));
         label.workingLayout.targetWidth = 1f;
         label.setMaxLines(Integer.MAX_VALUE);
-        label.setAlignment(Align.bottomLeft);
+        label.setAlignment(Align.topLeft);
         label.setWrap(true);
         label.setSelectable(true);
         writeEnters = true;
@@ -72,11 +71,21 @@ public class TextraArea2 extends TextraField {
 
     @Override
     protected void drawCursor (Drawable cursorPatch, Batch batch, Font font, float x, float y) {
-        final float layoutHeight = label.workingLayout.getHeight(), linesHeight = label.getCumulativeLineHeight(cursor);
+        final float layoutHeight = label.getHeight(), linesHeight = label.getCumulativeLineHeight(cursor);
 //		System.out.println("layoutHeight: " + layoutHeight + ", linesHeight: " + linesHeight);
         cursorPatch.draw(batch,
                 x + textOffset + glyphPositions.get(cursor) - glyphPositions.get(visibleTextStart) + fontOffset,
                 y + layoutHeight - linesHeight, cursorPatch.getMinWidth(), label.getLineHeight(cursor));
+    }
+
+    @Override
+    protected float getTextY (Font font, @Null Drawable background) {
+        float textY = 0;//getHeight();
+        if (background != null) {
+            textY = textY - background.getTopHeight();
+        }
+        if (font.integerPosition) textY = (int)textY;
+        return textY;
     }
 
 }
