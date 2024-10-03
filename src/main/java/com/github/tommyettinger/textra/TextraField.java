@@ -93,7 +93,7 @@ public class TextraField extends Widget implements Disableable {
 	protected int cursor, selectionStart;
 	protected boolean hasSelection;
 	protected boolean writeEnters;
-	protected final TypingLabel label;
+	protected TypingLabel label;
 	protected final FloatArray glyphPositions = new FloatArray();
 
 	TextFieldStyle style;
@@ -137,6 +137,11 @@ public class TextraField extends Widget implements Disableable {
 	final KeyRepeatTask keyRepeatTask = new KeyRepeatTask();
 	boolean programmaticChangeEvents;
 
+	/**
+	 * Only meant for subclasses; requires everything used in TextraField to be initialized by the subclass.
+	 */
+	protected TextraField() {
+	}
 	public TextraField(@Null String text, Skin skin) {
 		this(text, skin.get(TextFieldStyle.class));
 	}
@@ -150,7 +155,11 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	public TextraField(@Null String text, TextFieldStyle style) {
-		setStyle(style);
+		Styles.TextFieldStyle s = new Styles.TextFieldStyle(style);
+//        s.font = new Font(style.font); // already done by TextFieldStyle constructor
+		s.font.enableSquareBrackets = false;
+		s.font.omitCurlyBraces = false;
+		setStyle(s);
 		this.style.font.enableSquareBrackets = false;
 		this.style.font.omitCurlyBraces = false;
 		label = new TypingLabel("", new Styles.LabelStyle(this.style.font, style.fontColor));
@@ -158,10 +167,9 @@ public class TextraField extends Widget implements Disableable {
 		label.workingLayout.setMaxLines(1);
 		label.setWrap(false);
 		label.setSelectable(true);
-		clipboard = Gdx.app.getClipboard();
 		initialize();
 		setText(text);
-		setSize(getPrefWidth(), getPrefHeight());
+		label.setSize(getPrefWidth(), getPrefHeight());
 		label.skipToTheEnd(true, true);
 		updateDisplayText();
 	}
@@ -176,10 +184,9 @@ public class TextraField extends Widget implements Disableable {
 		label.workingLayout.setMaxLines(1);
 		label.setWrap(false);
 		label.setSelectable(true);
-		clipboard = Gdx.app.getClipboard();
 		initialize();
 		setText(text);
-		setSize(getPrefWidth(), getPrefHeight());
+		label.setSize(getPrefWidth(), getPrefHeight());
 		label.skipToTheEnd(true, true);
 		updateDisplayText();
 	}
@@ -197,6 +204,7 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	protected void initialize () {
+		clipboard = Gdx.app.getClipboard();
 		addListener(inputListener = createInputListener());
 	}
 
