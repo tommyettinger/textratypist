@@ -4433,7 +4433,6 @@ public class Font implements Disposable {
                 scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
                     scaleX = scale * font.cellHeight / (tr.xAdvance);
-//                    scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
                 }
                 else
                     scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));

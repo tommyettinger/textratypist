@@ -29,13 +29,15 @@ public class TextraArea2 extends TextraField {
         setStyle(s);
         this.style.font.enableSquareBrackets = false;
         this.style.font.omitCurlyBraces = false;
-        writeEnters = true;
         label = new TypingLabel("", new Styles.LabelStyle(this.style.font, style.fontColor));
         label.workingLayout.targetWidth = 1f;
         label.setMaxLines(Integer.MAX_VALUE);
         label.setAlignment(Align.topLeft);
         label.setWrap(true);
         label.setSelectable(true);
+        if(style.selection != null)
+            label.selectionDrawable = style.selection;
+        writeEnters = true;
         initialize();
         label.setSize(getPrefWidth(), getPrefHeight());
         setText(text);
@@ -55,6 +57,7 @@ public class TextraArea2 extends TextraField {
         label.setAlignment(Align.topLeft);
         label.setWrap(true);
         label.setSelectable(true);
+        if(style.selection != null) label.selectionDrawable = style.selection;
         writeEnters = true;
         initialize();
         label.setSize(getPrefWidth(), getPrefHeight());
@@ -80,7 +83,7 @@ public class TextraArea2 extends TextraField {
 
     @Override
     protected float getTextY (Font font, @Null Drawable background) {
-        float textY = 0;//getHeight();
+        float textY = 0;
         if (background != null) {
             textY = textY - background.getTopHeight();
         }

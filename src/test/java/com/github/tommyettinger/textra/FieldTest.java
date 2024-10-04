@@ -116,15 +116,15 @@ skin
         Table table = new Table();
         table.setFillParent(true);
         table.add(new TextraLabel("TT:  ", font)).width(60).height(font.cellHeight * 2);
-        table.add(ttField).width(500).height(font.cellHeight * 2).row();
+        table.add(ttField).width(200).height(font.cellHeight * 2).row();
         table.add(new TextraLabel("S2D: ", font)).width(60).height(font.cellHeight * 2);
-        table.add(s2dField).width(500).height(font.cellHeight * 2).row();
+        table.add(s2dField).width(200).height(font.cellHeight * 2).row();
         table.add(new TextraLabel("TT:  ", font)).width(60).height(font.cellHeight * 2);
-        table.add(ttArea).width(500).height(font.cellHeight * 5).row();
+        table.add(ttArea).width(200).height(font.cellHeight * 5).row();
         table.add(new TextraLabel("TT2: ", font)).width(60).height(font.cellHeight * 2);
-        table.add(tt2Area).width(500).height(font.cellHeight * 5).row();
+        table.add(tt2Area).width(200).height(font.cellHeight * 5).row();
         table.add(new TextraLabel("S2D: ", font)).width(60).height(font.cellHeight * 2);
-        table.add(s2dArea).width(500).height(font.cellHeight * 5).row();
+        table.add(s2dArea).width(200).height(font.cellHeight * 5).row();
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
@@ -141,6 +141,10 @@ skin
 
     @Override
     public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+        ttField.label.font.resizeDistanceField(width, height, stage.getViewport());
+        ttArea.label.font.resizeDistanceField(width, height, stage.getViewport());
+        tt2Area.label.font.resizeDistanceField(width, height, stage.getViewport());
     }
 
     @Override

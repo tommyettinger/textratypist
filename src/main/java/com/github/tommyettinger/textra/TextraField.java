@@ -72,22 +72,22 @@ import java.util.Arrays;
  * @author mzechner
  * @author Nathan Sweet */
 public class TextraField extends Widget implements Disableable {
-	static protected final char BACKSPACE = '\b';
-	static protected final char CARRIAGE_RETURN = '\r';
-	static protected final char NEWLINE = '\n';
-	static protected final char TAB = '\t';
-	static protected final char DELETE = 127;
+	protected static final char BACKSPACE = '\b';
+	protected static final char CARRIAGE_RETURN = '\r';
+	protected static final char NEWLINE = '\n';
+	protected static final char TAB = '\t';
+	protected static final char DELETE = 127;
 	/**
 	 * Used as the default char to replace content when {@link #isPasswordMode() passwordMode} is on.
 	 */
 	public static final char BULLET = 8226; // u2022, or '•'
 
-	static private final Vector2 tmp1 = new Vector2();
-	static private final Vector2 tmp2 = new Vector2();
-	static private final Vector2 tmp3 = new Vector2();
+	private static final Vector2 tmp1 = new Vector2();
+	private static final Vector2 tmp2 = new Vector2();
+	private static final Vector2 tmp3 = new Vector2();
 
-	static public float keyRepeatInitialTime = 0.4f;
-	static public float keyRepeatTime = 0.1f;
+	public static float keyRepeatInitialTime = 0.4f;
+	public static float keyRepeatTime = 0.1f;
 
 	protected String text;
 	protected int cursor, selectionStart;
@@ -96,23 +96,23 @@ public class TextraField extends Widget implements Disableable {
 	protected TypingLabel label;
 	protected final FloatArray glyphPositions = new FloatArray();
 
-	TextFieldStyle style;
-	private String messageText;
-	private boolean showingMessage = false;
-	Clipboard clipboard;
-	InputListener inputListener;
-	@Null TextFieldListener listener;
-	@Null TextFieldFilter filter;
-	OnscreenKeyboard keyboard = new DefaultOnscreenKeyboard();
-	boolean focusTraversal = true, onlyFontChars = true, disabled;
-	private int textHAlign = Align.left;
-	private float selectionX, selectionWidth;
+	protected TextFieldStyle style;
+	protected String messageText;
+	protected boolean showingMessage = false;
+	protected Clipboard clipboard;
+	protected InputListener inputListener;
+	protected @Null TextFieldListener listener;
+	protected @Null TextFieldFilter filter;
+	protected OnscreenKeyboard keyboard = new DefaultOnscreenKeyboard();
+	protected boolean focusTraversal = true, onlyFontChars = true, disabled;
+	protected int textHAlign = Align.left;
+	protected float selectionX, selectionWidth;
 
-	String undoText = "";
-	long lastChangeTime;
+	protected String undoText = "";
+	protected long lastChangeTime;
 
-	boolean passwordMode;
-	private char passwordCharacter = BULLET;
+	protected boolean passwordMode;
+	protected char passwordCharacter = BULLET;
 
 	protected float fontOffset, textOffset;
 	protected float renderOffset;
@@ -134,8 +134,8 @@ public class TextraField extends Widget implements Disableable {
 		}
 	};
 
-	final KeyRepeatTask keyRepeatTask = new KeyRepeatTask();
-	boolean programmaticChangeEvents;
+	protected final KeyRepeatTask keyRepeatTask = new KeyRepeatTask();
+	protected boolean programmaticChangeEvents;
 
 	/**
 	 * Only meant for subclasses; requires everything used in TextraField to be initialized by the subclass.

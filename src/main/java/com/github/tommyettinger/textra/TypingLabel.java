@@ -95,6 +95,8 @@ public class TypingLabel extends TextraLabel {
      * and you can do what you want with the selected text (such as call {@link #copySelectedText()}).
      */
     public boolean selectable = false;
+
+    public Drawable selectionDrawable = null;
     /**
      * The global glyph index (as used by {@link #setInWorkingLayout(int, long)}) of the last glyph touched by the user.
      * If nothing in this TypingLabel was touched during the last call to {@link #draw(Batch, float)}, then this will be
@@ -1022,6 +1024,117 @@ public class TypingLabel extends TextraLabel {
 
         float single;
         int toSkip = 0;
+
+        if(false && selectable && selectionDrawable != null) {
+            if(selectionStart != selectionEnd) {
+                SELECTION_LINE:
+                for (int ln = 0; ln < lines; ln++) {
+                    Line glyphs = workingLayout.getLine(ln);
+
+                    if (glyphs.glyphs.size == 0 || (toSkip += glyphs.glyphs.size) < startIndex)
+                        continue;
+
+                    baseX += sn * glyphs.height;
+                    baseY -= cs * glyphs.height;
+
+                    float x = baseX, y = baseY;
+
+                    final float worldOriginX = x + originX;
+                    final float worldOriginY = y + originY;
+                    float fx = -originX;
+                    float fy = -originY;
+                    x = cs * fx - sn * fy + worldOriginX;
+                    y = sn * fx + cs * fy + worldOriginY;
+
+                    float xChange = 0, yChange = 0;
+
+                    if (Align.isCenterHorizontal(align)) {
+                        x -= cs * (glyphs.width * 0.5f);
+                        y -= sn * (glyphs.width * 0.5f);
+                    } else if (Align.isRight(align)) {
+                        x -= cs * glyphs.width;
+                        y -= sn * glyphs.width;
+                    }
+
+                    Font f = null;
+                    int kern = -1,
+                            start = (toSkip - glyphs.glyphs.size < startIndex) ? startIndex - (toSkip - glyphs.glyphs.size) : 0,
+                            end = endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex - 1);
+                    for (int i = start, n = glyphs.glyphs.size,
+                         lim = Math.min(Math.min(rotations.size, offsets.size >> 1), sizing.size >> 1);
+                         i < n && r < lim; i++, gi++) {
+                        if (gi > end) break SELECTION_LINE;
+                        long glyph = glyphs.glyphs.get(i);
+                        if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
+                        if (f == null) f = font;
+                        float descent = f.descent * f.scaleY;
+                        if (i == start) {
+                            x -= f.cellWidth * 0.5f;
+
+                            x += cs * f.cellWidth * 0.5f;
+                            y += sn * f.cellWidth * 0.5f;
+
+//                    x += sn * descent * 0.5f;
+//                    y -= cs * descent * 0.5f;
+
+                            y += descent;
+                            x += sn * (descent - 0.5f * glyphs.height);
+                            y -= cs * (descent - 0.5f * glyphs.height);
+
+                            Font.GlyphRegion reg = font.mapping.get((char) glyph);
+                            if (reg != null && reg.offsetX < 0) {
+                                float ox = reg.offsetX;
+                                ox *= f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
+                                if (ox < 0) {
+                                    xChange -= cs * ox;
+                                    yChange -= sn * ox;
+                                }
+                            }
+
+                        }
+
+                        if (f.kerning != null) {
+                            kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
+                            float amt = f.kerning.get(kern, 0) * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
+                            xChange += cs * amt;
+                            yChange += sn * amt;
+                        } else {
+                            kern = -1;
+                        }
+                        ++globalIndex;
+                        if (selectionStart > globalIndex)
+                            continue;
+                        else if (selectionEnd < globalIndex)
+                            break SELECTION_LINE;
+                        float xx = x + xChange + offsets.get(o++), yy = y + yChange + offsets.get(o++);
+                        if (font.integerPosition) {
+                            xx = (int) xx;
+                            yy = (int) yy;
+                        }
+
+                        float scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f, scaleX;
+                        if ((char) glyph >= 0xE000 && (char) glyph < 0xF800) {
+                            scaleX = scale * font.cellHeight / (f.mapping.get((int) glyph & 0xFFFF, f.defaultValue).xAdvance);
+                        } else
+                            scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & Font.SUPERSCRIPT) >> 63));
+
+                        single = Font.xAdvance(f, scaleX, glyph);
+                        selectionDrawable.draw(batch, xx, yy, single, glyphs.height);
+                        xChange += cs * single;
+                        yChange += sn * single;
+                    }
+                }
+            } else {
+                System.out.println("selectionStart: " + selectionStart + ", selectionEnd: " + selectionEnd);
+            }
+        }
+        o = 0;
+        s = 0;
+        r = 0;
+        gi = 0;
+        globalIndex = startIndex - 1;
+        inX = 0;
+        inY = 0;
 
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
