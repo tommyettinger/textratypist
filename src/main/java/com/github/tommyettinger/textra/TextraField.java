@@ -437,13 +437,10 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	protected float getTextY (Font font, @Null Drawable background) {
-		float height = getHeight();
-		float textY = 0;//font.descent * font.scaleY;
+		float textY = 0;
 		if (background != null) {
 			float bottom = background.getBottomHeight();
-			textY = textY + (height - background.getTopHeight() - bottom) * 0.5f + bottom;
-		} else {
-			textY = textY + height * 0.5f;
+			textY = (-background.getTopHeight() - bottom) * 0.5f + bottom;
 		}
 		if (font.integerPosition) textY = (int)textY;
 		return textY;
@@ -460,7 +457,7 @@ public class TextraField extends Widget implements Disableable {
 		final float lineHeight = label.getLineHeight(cursor);
 		cursorPatch.draw(batch,
 			x + textOffset + glyphPositions.get(cursor) - glyphPositions.get(visibleTextStart) + fontOffset,
-			y - lineHeight * 0.5f, cursorPatch.getMinWidth(), lineHeight);
+			y + lineHeight, cursorPatch.getMinWidth(), lineHeight);
 	}
 
 	void updateDisplayText () {
