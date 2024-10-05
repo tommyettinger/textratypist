@@ -106,7 +106,7 @@ public class TextraField extends Widget implements Disableable {
 	protected OnscreenKeyboard keyboard = new DefaultOnscreenKeyboard();
 	protected boolean focusTraversal = true, onlyFontChars = true, disabled;
 	protected int textHAlign = Align.left;
-	protected float selectionX, selectionWidth;
+//	protected float selectionX, selectionWidth;
 
 	protected String undoText = "";
 	protected long lastChangeTime;
@@ -223,6 +223,13 @@ public class TextraField extends Widget implements Disableable {
 	protected boolean isWordCharacter (long glyph) {
 		return Category.Word.contains((char) glyph);
 	}
+	protected boolean isSpaceCharacter (char c) {
+		return Category.Space.contains(c);
+	}
+
+	protected boolean isSpaceCharacter (long glyph) {
+		return Category.Space.contains((char) glyph);
+	}
 
 	protected long wordUnderCursor () {
 		TypingLabel lb = this.label;
@@ -233,13 +240,13 @@ public class TextraField extends Widget implements Disableable {
 			right = 0;
 		} else {
 			for (; index < right; index++) {
-				if (!isWordCharacter(lb.getInWorkingLayout(index))) {
-					right = index;
+				if (isSpaceCharacter(lb.getInWorkingLayout(index))) {
+					right = index - 1;
 					break;
 				}
 			}
 			for (index = start - 1; index > -1; index--) {
-				if (!isWordCharacter(lb.getInWorkingLayout(index))) {
+				if (isSpaceCharacter(lb.getInWorkingLayout(index))) {
 					left = index + 1;
 					break;
 				}
@@ -346,15 +353,15 @@ public class TextraField extends Widget implements Disableable {
 		} else
 			textOffset = startX + renderOffset;
 
-		// calculate the selection's x-position and width
-		if (hasSelection) {
-			int minIndex = Math.min(cursor, selectionStart);
-			int maxIndex = Math.max(cursor, selectionStart);
-			float minX = Math.max(glyphPositions[minIndex] - glyphPositions[visibleTextStart], -textOffset);
-			float maxX = Math.min(glyphPositions[maxIndex] - glyphPositions[visibleTextStart], visibleWidth - textOffset);
-			selectionX = minX;
-			selectionWidth = maxX - minX;
-		}
+//		// calculate the selection's x-position and width
+//		if (hasSelection) {
+//			int minIndex = Math.min(cursor, selectionStart);
+//			int maxIndex = Math.max(cursor, selectionStart);
+//			float minX = Math.max(glyphPositions[minIndex] - glyphPositions[visibleTextStart], -textOffset);
+//			float maxX = Math.min(glyphPositions[maxIndex] - glyphPositions[visibleTextStart], visibleWidth - textOffset);
+//			selectionX = minX;
+//			selectionWidth = maxX - minX;
+//		}
 	}
 
 	protected @Null Drawable getBackgroundDrawable () {
@@ -399,9 +406,9 @@ public class TextraField extends Widget implements Disableable {
 
 		float textY = getTextY(font, background);
 
-		if (focused && hasSelection && selection != null) {
-			drawSelection(selection, batch, font, x + bgLeftWidth, y + textY);
-		}
+//		if (focused && hasSelection && selection != null) {
+//			drawSelection(selection, batch, font, x + bgLeftWidth, y + textY);
+//		}
 
 		if (label.length() == 0) {
 			if ((!focused || disabled) && messageText != null) {
@@ -450,11 +457,10 @@ public class TextraField extends Widget implements Disableable {
 		return textY;
 	}
 
-	/** Draws selection rectangle **/
-	protected void drawSelection (Drawable selection, Batch batch, Font font, float x, float y) {
-		selection.draw(batch, x + textOffset + selectionX + fontOffset, y - font.cellHeight * 0.5f, selectionWidth,
-			font.cellHeight);
-	}
+//	protected void drawSelection (Drawable selection, Batch batch, Font font, float x, float y) {
+//		selection.draw(batch, x + textOffset + selectionX + fontOffset, y - font.cellHeight * 0.5f, selectionWidth,
+//			font.cellHeight);
+//	}
 
 
 	protected void drawCursor (Drawable cursorPatch, Batch batch, Font font, float x, float y) {
@@ -519,9 +525,8 @@ public class TextraField extends Widget implements Disableable {
 
 	/** Copies the contents of this TextraField to the {@link Clipboard} implementation set on this TextraField. */
 	public void copy () {
-		if (hasSelection && !passwordMode) {
-			String toCopy = label.substring(Math.min(cursor, selectionStart), Math.max(cursor, selectionStart));
-//			System.out.println("Copying: " + toCopy);
+		if (label.hasSelection() && !passwordMode) {
+			String toCopy = label.substring(Math.min(cursor, label.selectionStart), Math.max(cursor, label.selectionEnd)+1);
 			clipboard.setContents(toCopy);
 		}
 	}
@@ -533,7 +538,7 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	protected void cut (boolean fireChangeEvent) {
-		if (hasSelection && !passwordMode) {
+		if (label.hasSelection() && !passwordMode) {
 			copy();
 			cursor = delete(fireChangeEvent);
 			updateDisplayText();
@@ -544,7 +549,7 @@ public class TextraField extends Widget implements Disableable {
 		if (content == null) return;
 		StringBuilder buffer = new StringBuilder();
 		int textLength = label.length(); // was text.length()
-		if (hasSelection) textLength -= Math.abs(cursor - selectionStart);
+		if (label.hasSelection()) textLength -= Math.abs(cursor - label.selectionStart);
 		IntMap<Font.GlyphRegion> mapping = label.font.mapping;
 		for (int i = 0, n = content.length(); i < n; i++) {
 			if (!withinMaxLength(textLength + buffer.length())) break;
@@ -557,11 +562,8 @@ public class TextraField extends Widget implements Disableable {
 			buffer.append(c);
 		}
 
-		if (hasSelection) {
-//			System.out.println("cursor before: " + cursor);
+		if (label.hasSelection())
 			cursor = delete(fireChangeEvent);
-//			System.out.println("cursor after: " + cursor);
-		}
 		if (fireChangeEvent)
 			changeText(cursor, buffer);
 		else
@@ -569,8 +571,6 @@ public class TextraField extends Widget implements Disableable {
 		text = label.layout.toString();
 		updateDisplayText();
 		cursor += buffer.length();
-
-//		System.out.println("End of paste(): " + label.layout + "\n text: " + text);
 	}
 
 	protected boolean insert(int position, CharSequence inserting) {
@@ -589,7 +589,7 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	protected int delete (boolean fireChangeEvent) {
-		int from = selectionStart;
+		int from = label.selectionStart;
 		int to = cursor;
 		int minIndex = Math.min(from, to);
 		if(showingMessage) return minIndex;
@@ -615,23 +615,23 @@ public class TextraField extends Widget implements Disableable {
 		Vector2 currentCoords = current.getParent().localToStageCoordinates(tmp2.set(current.getX(), current.getY()));
 		Vector2 bestCoords = tmp1;
 		while (true) {
-			TextraField textField = current.findNextTextField(stage.getActors(), null, bestCoords, currentCoords, up);
-			if (textField == null) { // Try to wrap around.
+			TextraField textraField = current.findNextTextField(stage.getActors(), null, bestCoords, currentCoords, up);
+			if (textraField == null) { // Try to wrap around.
 				if (up)
 					currentCoords.set(-Float.MAX_VALUE, -Float.MAX_VALUE);
 				else
 					currentCoords.set(Float.MAX_VALUE, Float.MAX_VALUE);
-				textField = current.findNextTextField(stage.getActors(), null, bestCoords, currentCoords, up);
+				textraField = current.findNextTextField(stage.getActors(), null, bestCoords, currentCoords, up);
 			}
-			if (textField == null) {
+			if (textraField == null) {
 				Gdx.input.setOnscreenKeyboardVisible(false);
 				break;
 			}
-			if (stage.setKeyboardFocus(textField)) {
-				textField.selectAll();
+			if (stage.setKeyboardFocus(textraField)) {
+				textraField.selectAll();
 				break;
 			}
-			current = textField;
+			current = textraField;
 			currentCoords.set(bestCoords);
 		}
 	}
@@ -761,17 +761,25 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	public int getSelectionStart () {
-		return selectionStart;
+		return label.selectionStart;
+	}
+
+	public int getSelectionEnd () {
+		return label.selectionStart;
 	}
 
 	public String getSelection () {
-		return hasSelection ? label.substring(Math.min(selectionStart, cursor), Math.max(selectionStart, cursor)) : "";
+		return hasSelection ? label.getSelectedText() : "";
 	}
 
 	/** Sets the selected text. */
 	public void setSelection (int selectionStart, int selectionEnd) {
-		if (selectionStart < 0) throw new IllegalArgumentException("selectionStart must be >= 0");
-		if (selectionEnd < 0) throw new IllegalArgumentException("selectionEnd must be >= 0");
+		if (selectionStart < 0 || selectionEnd < 0) {
+			hasSelection = false;
+			label.selectionStart = label.selectionEnd = -1;
+			cursor = 0;
+			return;
+		}
 		selectionStart = Math.min(text.length(), selectionStart);
 		selectionEnd = Math.min(text.length(), selectionEnd);
 		if (selectionEnd == selectionStart) {
@@ -785,16 +793,17 @@ public class TextraField extends Widget implements Disableable {
 		}
 
 		hasSelection = true;
-		this.selectionStart = selectionStart;
-		cursor = selectionEnd;
+		label.selectionStart = selectionStart;
+		cursor = label.selectionEnd = selectionEnd;
 	}
 
 	public void selectAll () {
-		setSelection(0, text.length());
+		setSelection(0, Math.max(0, text.length() - 1));
 	}
 
 	public void clearSelection () {
 		hasSelection = false;
+		label.selectionStart = label.selectionEnd = -1;
 	}
 
 	/** Sets the cursor position and clears any selection. */
@@ -822,7 +831,6 @@ public class TextraField extends Widget implements Disableable {
 		visibleTextStart = 0;
 		visibleTextEnd = 0;
 
-		setSelection(0, 0);
 		clearSelection();
 	}
 
@@ -1043,7 +1051,7 @@ public class TextraField extends Widget implements Disableable {
 
 			setCursorPosition(x, y);
 
-			selectionStart = cursor;
+			label.selectionStart = cursor;
 			Stage stage = getStage();
 			if (stage != null) stage.setKeyboardFocus(TextraField.this);
 			keyboard.show(true);
@@ -1059,7 +1067,7 @@ public class TextraField extends Widget implements Disableable {
 		}
 
 		public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-			if (selectionStart == cursor) hasSelection = false;
+			if (label.selectionStart == cursor) hasSelection = false;
 			super.touchUp(event, x, y, pointer, button);
 		}
 

@@ -38,8 +38,8 @@ public class FieldTest extends ApplicationAdapter {
     Stage stage;
     TextraField ttField;
     TextField s2dField;
-    TextraArea ttArea;
-    TextraArea2 tt2Area;
+    TextraAreaMessy ttArea;
+    TextraArea tt2Area;
     TextArea s2dArea;
     FWSkin skin;
 
@@ -98,10 +98,10 @@ skin
 
 //        ttField.setCursorBlinking(false);
 
-        ttArea = new TextraArea(longText, ttField.style);
+        ttArea = new TextraAreaMessy(longText, ttField.style);
         //        ttArea.setCursorBlinking(false);
 
-        tt2Area = new TextraArea2(longText, ttField.style);
+        tt2Area = new TextraArea(longText, ttField.style);
 
         s2dField = new TextField(text, skin
         //new TextField.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background)

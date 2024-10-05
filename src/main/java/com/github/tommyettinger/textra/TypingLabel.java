@@ -1294,6 +1294,15 @@ public class TypingLabel extends TextraLabel {
         return true;
     }
 
+    /**
+     * If this label is {@link #selectable} and there is a selected range of text, this
+     * returns true; otherwise, it returns false.
+     * @return true if there is selected text, or false otherwise
+     */
+    public boolean hasSelection() {
+        return selectable && (selectionStart < selectionEnd || selectionStart >= 0);
+    }
+
     public void setIntermediateText(CharSequence text, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
         if (text != intermediateText) {
