@@ -1034,6 +1034,9 @@ public class TypingLabel extends TextraLabel {
                     if (glyphs.glyphs.size == 0 || (toSkip += glyphs.glyphs.size) < startIndex)
                         continue;
 
+                    float selectionDrawStartX = 0f, selectionDrawStartY = 0f;
+                    float selectionWidth = 0f;
+
                     tempBaseX += sn * glyphs.height;
                     tempBaseY -= cs * glyphs.height;
 
@@ -1102,10 +1105,11 @@ public class TypingLabel extends TextraLabel {
                             kern = -1;
                         }
                         ++globalIndex;
-                        if (selectionStart > globalIndex)
-                            continue;
-                        else if (selectionEnd < globalIndex)
-                            break SELECTION_LINE;
+//                        if (selectionStart > globalIndex)
+//                            continue;
+//                        else
+                            if (selectionEnd < globalIndex)
+                            break;
                         float xx = x + xChange + offsets.get(o++), yy = y + yChange + offsets.get(o++);
                         if (font.integerPosition) {
                             xx = (int) xx;
@@ -1119,10 +1123,19 @@ public class TypingLabel extends TextraLabel {
                             scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & Font.SUPERSCRIPT) >> 63));
 
                         single = Font.xAdvance(f, scaleX, glyph);
-                        selectionDrawable.draw(batch, xx, yy, single, glyphs.height);
+                        if(selectionWidth == 0f)
+                        {
+                            selectionDrawStartX = xx;
+                            selectionDrawStartY = yy;
+                        }
+                        if (selectionStart <= globalIndex)
+                            selectionWidth += single;
                         xChange += cs * single;
                         yChange += sn * single;
                     }
+                    // draw one selection drawable
+                    if(selectionWidth > 0f)
+                        selectionDrawable.draw(batch, selectionDrawStartX, selectionDrawStartY, selectionWidth, glyphs.height);
                 }
             }
         }
