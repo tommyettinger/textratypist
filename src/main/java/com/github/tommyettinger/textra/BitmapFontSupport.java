@@ -119,7 +119,6 @@ public class BitmapFontSupport {
             try {
                 name = jsonFont.nameWithoutExtension();
 
-
                 JsonValue fnt;
                 JsonReader reader = new JsonReader();
                 if (jsonFont.exists()) {
@@ -254,7 +253,7 @@ public class BitmapFontSupport {
                     capHeight = capGlyph.height;
                 capHeight -= padY;
 
-                ascent = -lineHeight - capHeight;
+                ascent = lineHeight - capHeight;
                 down = -lineHeight;
                 if (flip) {
                     ascent = -ascent;
