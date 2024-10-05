@@ -90,8 +90,7 @@ public class TextraField extends Widget implements Disableable {
 	public static float keyRepeatTime = 0.1f;
 
 	protected String text;
-	protected int cursor, selectionStart;
-	protected boolean hasSelection;
+	protected int cursor;
 	protected boolean writeEnters;
 	protected TypingLabel label;
 	protected final FloatArray glyphPositions = new FloatArray();
@@ -106,7 +105,6 @@ public class TextraField extends Widget implements Disableable {
 	protected OnscreenKeyboard keyboard = new DefaultOnscreenKeyboard();
 	protected boolean focusTraversal = true, onlyFontChars = true, disabled;
 	protected int textHAlign = Align.left;
-//	protected float selectionX, selectionWidth;
 
 	protected String undoText = "";
 	protected long lastChangeTime;
@@ -386,7 +384,6 @@ public class TextraField extends Widget implements Disableable {
 		final Font font = label.font;
 		final Color fontColor = (disabled && style.disabledFontColor != null) ? style.disabledFontColor
 			: ((focused && style.focusedFontColor != null) ? style.focusedFontColor : style.fontColor);
-		final Drawable selection = style.selection;
 		final Drawable cursorPatch = style.cursor;
 		final Drawable background = getBackgroundDrawable();
 
@@ -397,16 +394,16 @@ public class TextraField extends Widget implements Disableable {
 		float height = getHeight();
 
 		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-		float bgLeftWidth = 0, bgRightWidth = 0;
+		float bgLeftWidth = 0;
 		if (background != null) {
 			background.draw(batch, x, y, width, height);
 			bgLeftWidth = background.getLeftWidth();
-			bgRightWidth = background.getRightWidth();
 		}
 
 		float textY = getTextY(font, background);
 
 //		if (focused && hasSelection && selection != null) {
+//			// draw the selection Drawable behind the text.
 //			drawSelection(selection, batch, font, x + bgLeftWidth, y + textY);
 //		}
 
@@ -423,7 +420,6 @@ public class TextraField extends Widget implements Disableable {
 				updateDisplayText();
 				calculateOffsets();
 				label.setPosition(x + bgLeftWidth + textOffset, y + textY);
-//				label.setBounds(x + bgLeftWidth + textOffset, y + textY + yOffset, width - bgLeftWidth - bgRightWidth, font.cellHeight);
 				label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);
 			} else if(focused && !disabled) {
 				if(showingMessage)
@@ -520,7 +516,7 @@ public class TextraField extends Widget implements Disableable {
 		visibleTextStart = Math.min(visibleTextStart, glyphPositions.size - 1);
 		visibleTextEnd = MathUtils.clamp(visibleTextEnd, visibleTextStart, glyphPositions.size - 1);
 
-		selectionStart = Math.min(selectionStart, label.length());
+		label.selectionStart = Math.min(label.selectionStart, label.length());
 	}
 
 	/** Copies the contents of this TextraField to the {@link Clipboard} implementation set on this TextraField. */
@@ -714,7 +710,6 @@ public class TextraField extends Widget implements Disableable {
 		text = "";
 		label.layout.getLine(0).glyphs.clear();
 		cursor = 0;
-		hasSelection = false;
 		paste(str, false);
 		if (programmaticChangeEvents)
 			changeText(oldText, text);
@@ -769,13 +764,12 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	public String getSelection () {
-		return hasSelection ? label.getSelectedText() : "";
+		return label.getSelectedText();
 	}
 
 	/** Sets the selected text. */
 	public void setSelection (int selectionStart, int selectionEnd) {
 		if (selectionStart < 0 || selectionEnd < 0) {
-			hasSelection = false;
 			label.selectionStart = label.selectionEnd = -1;
 			cursor = 0;
 			return;
@@ -792,7 +786,6 @@ public class TextraField extends Widget implements Disableable {
 			selectionStart = temp;
 		}
 
-		hasSelection = true;
 		label.selectionStart = selectionStart;
 		cursor = label.selectionEnd = selectionEnd;
 	}
@@ -802,7 +795,6 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	public void clearSelection () {
-		hasSelection = false;
 		label.selectionStart = label.selectionEnd = -1;
 	}
 
@@ -1051,11 +1043,9 @@ public class TextraField extends Widget implements Disableable {
 
 			setCursorPosition(x, y);
 
-			label.selectionStart = cursor;
 			Stage stage = getStage();
 			if (stage != null) stage.setKeyboardFocus(TextraField.this);
 			keyboard.show(true);
-			hasSelection = true;
 			if(showingMessage)
 				clearMessage();
 			return true;
@@ -1064,11 +1054,6 @@ public class TextraField extends Widget implements Disableable {
 		public void touchDragged (InputEvent event, float x, float y, int pointer) {
 			super.touchDragged(event, x, y, pointer);
 			setCursorPosition(x, y);
-		}
-
-		public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-			if (label.selectionStart == cursor) hasSelection = false;
-			super.touchUp(event, x, y, pointer, button);
 		}
 
 		protected void setCursorPosition (float x, float y) {
@@ -1172,9 +1157,9 @@ public class TextraField extends Widget implements Disableable {
 						}
 						break selection;
 					}
-					if (!hasSelection) {
-						selectionStart = temp;
-						hasSelection = true;
+					if (!label.hasSelection()) {
+						label.selectionStart = temp;
+						label.selectionEnd = cursor;
 					}
 				}
 			} else {
@@ -1267,7 +1252,7 @@ public class TextraField extends Widget implements Disableable {
 					String oldText = text;
 					int oldCursor = cursor;
 					if (remove) {
-						if (hasSelection)
+						if (label.hasSelection())
 							cursor = delete(false);
 						else {
 							if (backspace && cursor > 0) {
@@ -1282,8 +1267,8 @@ public class TextraField extends Widget implements Disableable {
 					if (add && !remove) {
 						// Character may be added to the text.
 						if (!enter && filter != null && !filter.acceptChar(TextraField.this, character)) return true;
-						if (!withinMaxLength(text.length() - (hasSelection ? Math.abs(cursor - selectionStart) : 0))) return true;
-						if (hasSelection)
+						if (!withinMaxLength(text.length() - (label.hasSelection() ? Math.abs(cursor - label.selectionStart) : 0))) return true;
+						if (label.hasSelection())
 							cursor = delete(false);
 						String insertion = enter ? "\n" : String.valueOf(character);
 						insert(cursor++, insertion);

@@ -236,8 +236,8 @@ public class TextraAreaMessy extends TextraField {
 	protected void drawSelection (Drawable selection, Batch batch, Font font, float x, float y) {
 		int i = firstLineShowing * 2;
 		float offsetY = 0;
-		int minIndex = Math.min(cursor, selectionStart);
-		int maxIndex = Math.max(cursor, selectionStart);
+		int minIndex = Math.min(cursor, label.selectionStart);
+		int maxIndex = Math.max(cursor, label.selectionStart);
 		float lineHeight = style.font.cellHeight;
 		while (i + 1 < linesBreak.size && i < (firstLineShowing + linesShowing) * 2) {
 
@@ -400,9 +400,8 @@ public class TextraAreaMessy extends TextraField {
 				boolean shift = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT);
 				if (keycode == Input.Keys.DOWN) {
 					if (shift) {
-						if (!hasSelection) {
-							selectionStart = cursor;
-							hasSelection = true;
+						if (!label.hasSelection()) {
+							label.selectionStart = cursor;
 						}
 					} else {
 						clearSelection();
@@ -412,9 +411,8 @@ public class TextraAreaMessy extends TextraField {
 
 				} else if (keycode == Input.Keys.UP) {
 					if (shift) {
-						if (!hasSelection) {
-							selectionStart = cursor;
-							hasSelection = true;
+						if (!label.hasSelection()) {
+							label.selectionStart = cursor;
 						}
 					} else {
 						clearSelection();
