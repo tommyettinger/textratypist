@@ -8,7 +8,7 @@ Color: {
 },
 "com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator": {
 	default-font: {
-		font: font_main.ttf,
+		font: Inconsolata-LGC.ttf,
 		size: 16,
 		mono: false,
 		color: white,
@@ -22,7 +22,7 @@ Color: {
 		shadowOffsetY: 1,
 		shadowColor: black,
 		spaceX: 0,
-		spaceY: 40,
+		spaceY: 10,
 		kerning: true,
 		flip: false,
 		genMipMaps: false,
