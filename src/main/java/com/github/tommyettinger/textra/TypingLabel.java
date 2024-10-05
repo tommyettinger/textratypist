@@ -1105,10 +1105,7 @@ public class TypingLabel extends TextraLabel {
                             kern = -1;
                         }
                         ++globalIndex;
-//                        if (selectionStart > globalIndex)
-//                            continue;
-//                        else
-                            if (selectionEnd < globalIndex)
+                        if (selectionEnd < globalIndex)
                             break;
                         float xx = x + xChange + offsets.get(o++), yy = y + yChange + offsets.get(o++);
                         if (font.integerPosition) {
@@ -1220,6 +1217,7 @@ public class TypingLabel extends TextraLabel {
                     kern = -1;
                 }
                 ++globalIndex;
+                if(endIndex >= 0 && globalIndex >= endIndex) break EACH_LINE;
                 if(selectable && selectionDrawable == null && selectionStart <= globalIndex && selectionEnd >= globalIndex)
                     bgc = ColorUtils.offsetLightness((int)(glyph >>> 32), 0.5f);
                 else

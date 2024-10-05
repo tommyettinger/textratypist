@@ -167,6 +167,8 @@ public class TextraField extends Widget implements Disableable {
 		label.workingLayout.setMaxLines(1);
 		label.setWrap(false);
 		label.setSelectable(true);
+		if(style.selection != null)
+			label.selectionDrawable = style.selection;
 		initialize();
 		setText(text);
 		label.setSize(getPrefWidth(), getPrefHeight());
@@ -184,6 +186,8 @@ public class TextraField extends Widget implements Disableable {
 		label.workingLayout.setMaxLines(1);
 		label.setWrap(false);
 		label.setSelectable(true);
+		if(style.selection != null)
+			label.selectionDrawable = style.selection;
 		initialize();
 		setText(text);
 		label.setSize(getPrefWidth(), getPrefHeight());
@@ -306,7 +310,7 @@ public class TextraField extends Widget implements Disableable {
 			if (-renderOffset < minX) renderOffset = -minX;
 		}
 
-		// Prevent renderOffset from starting too close to the end, eg after text was deleted.
+		// Prevent renderOffset from starting too close to the end, e.g. after text was deleted.
 		float maxOffset = 0;
 		float width = glyphPositions[glyphCount - 1];
 		for (int i = glyphCount - 2; i >= 0; i--) {
@@ -342,7 +346,7 @@ public class TextraField extends Widget implements Disableable {
 		} else
 			textOffset = startX + renderOffset;
 
-		// calculate selection x position and width
+		// calculate the selection's x-position and width
 		if (hasSelection) {
 			int minIndex = Math.min(cursor, selectionStart);
 			int maxIndex = Math.max(cursor, selectionStart);
