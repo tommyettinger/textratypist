@@ -1022,10 +1022,10 @@ public class TypingLabel extends TextraLabel {
             overIndex = -1;
         }
 
-        float single;
+        float single, tempBaseX = baseX, tempBaseY = baseY;
         int toSkip = 0;
 
-        if(false && selectable && selectionDrawable != null) {
+        if(selectable && selectionDrawable != null) {
             if(selectionStart != selectionEnd) {
                 SELECTION_LINE:
                 for (int ln = 0; ln < lines; ln++) {
@@ -1034,10 +1034,10 @@ public class TypingLabel extends TextraLabel {
                     if (glyphs.glyphs.size == 0 || (toSkip += glyphs.glyphs.size) < startIndex)
                         continue;
 
-                    baseX += sn * glyphs.height;
-                    baseY -= cs * glyphs.height;
+                    tempBaseX += sn * glyphs.height;
+                    tempBaseY -= cs * glyphs.height;
 
-                    float x = baseX, y = baseY;
+                    float x = tempBaseX, y = tempBaseY;
 
                     final float worldOriginX = x + originX;
                     final float worldOriginY = y + originY;
@@ -1078,8 +1078,8 @@ public class TypingLabel extends TextraLabel {
 //                    y -= cs * descent * 0.5f;
 
                             y += descent;
-                            x += sn * (descent - 0.5f * glyphs.height);
-                            y -= cs * (descent - 0.5f * glyphs.height);
+                            x += sn * (descent /* - 0.5f * glyphs.height */);
+                            y -= cs * (descent /* - 0.5f * glyphs.height */);
 
                             Font.GlyphRegion reg = font.mapping.get((char) glyph);
                             if (reg != null && reg.offsetX < 0) {
@@ -1124,17 +1124,13 @@ public class TypingLabel extends TextraLabel {
                         yChange += sn * single;
                     }
                 }
-            } else {
-                System.out.println("selectionStart: " + selectionStart + ", selectionEnd: " + selectionEnd);
             }
         }
+
+
         o = 0;
-        s = 0;
-        r = 0;
         gi = 0;
         globalIndex = startIndex - 1;
-        inX = 0;
-        inY = 0;
 
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
@@ -1211,7 +1207,7 @@ public class TypingLabel extends TextraLabel {
                     kern = -1;
                 }
                 ++globalIndex;
-                if(selectable && selectionStart <= globalIndex && selectionEnd >= globalIndex)
+                if(selectable && selectionDrawable == null && selectionStart <= globalIndex && selectionEnd >= globalIndex)
                     bgc = ColorUtils.offsetLightness((int)(glyph >>> 32), 0.5f);
                 else
                     bgc = 0;
