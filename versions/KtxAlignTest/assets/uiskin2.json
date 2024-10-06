@@ -22,7 +22,7 @@ Color: {
 		shadowOffsetY: 1,
 		shadowColor: black,
 		spaceX: 0,
-		spaceY: 10,
+		spaceY: -60,
 		kerning: true,
 		flip: false,
 		genMipMaps: false,

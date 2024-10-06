@@ -61,12 +61,13 @@ class Main : ApplicationAdapter() {
                     labelCell.height(componentHeight)
                 }
 
-                textraLabel("Hello, world!", style = "default", skin) { labelCell ->
-                    alignment = Align.center
-                    labelCell.height(componentHeight)
-                }
+                textraLabel("Hello, world!", style = "default", skin)// { labelCell ->
+//                    alignment = Align.center
+//                    labelCell.height(componentHeight)
+//                }
             }
         })
+        stage.isDebugAll = true
     }
 
     override fun render() {
