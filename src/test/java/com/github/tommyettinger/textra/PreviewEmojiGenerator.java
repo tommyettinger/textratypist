@@ -29,7 +29,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
 
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Emoji Preview Generator");
+        config.setTitle("Twemoji Preview Generator");
         config.setWindowedMode(1200, 600);
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
@@ -46,16 +46,20 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
         viewport = new StretchViewport(1200, 600);
 
         Gdx.files.local("out/").mkdirs();
-        font = KnownFonts.addEmoji(KnownFonts.getAStarry(Font.DistanceFieldType.MSDF), -4f, 4f, 4f).fitCell(24, 24, false);
+        font = KnownFonts.addEmoji(KnownFonts.getAStarry(Font.DistanceFieldType.MSDF).scaleHeightTo(20), -4f, -8f, 4f).fitCell(24, 24, true);
         layout.setBaseColor(Color.WHITE);
         StringBuilder sb = new StringBuilder(4000);
         sb.append("[%?blacken]");
-        RandomXS128 random = new RandomXS128(23, 42);
+        RandomXS128 random = new RandomXS128(123, 42);
         IntArray keys = font.mapping.keys().toArray();
         int ks = keys.size;
         for (int y = 0; y < 24; y++) {
             for (int x = 0; x < 49; x++) {
-                sb.append((char)keys.get(random.nextInt(ks)));
+                char rc;
+                do {
+                    rc = (char)keys.get(random.nextInt(ks));
+                } while (rc == '[' || rc == '{');
+                sb.append(rc);
             }
             sb.append('\n');
         }
@@ -66,6 +70,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
         y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight() - font.cellHeight * 2) * 0.5f + font.descent * font.scaleY;
         batch.begin();
         font.enableShader(batch);
+        font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
         font.drawGlyphs(batch, layout, x, y, Align.center);
         batch.end();//
 

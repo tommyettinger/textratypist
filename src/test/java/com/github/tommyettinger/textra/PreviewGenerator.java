@@ -24,7 +24,6 @@ public class PreviewGenerator extends ApplicationAdapter {
     long startTime;
     static final String text = "Fonts can be rendered normally,{CURLY BRACKETS ARE IGNORED} but using [[tags], you can..."
             + "\n[#E74200]...use CSS-style hex colors like [*]#E74200[*]..."
-//            + "\n[#E74200]...use CSS-style hex █colors█ like [*]#E74200[*]..."
             + "\n[darker purple blue]...use color names or descriptions, like [/]darker purple blue[/]...[ ]"
             + "\n[_]...and use [!]effects[!][_]!"
             + "\nNormal, [*]bold[*], [/]oblique[/] (like italic), [*][/]bold oblique[ ],"
