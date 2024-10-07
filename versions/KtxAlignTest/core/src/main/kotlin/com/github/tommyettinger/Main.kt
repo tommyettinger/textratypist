@@ -113,6 +113,7 @@ class Main : ApplicationAdapter() {
 
 
                 label("GentiumUI dat BM", style = "gentium-dat", skin) { labelCell ->
+                    setAlignment(Align.center)
                     labelCell.height(componentHeight)
                 }
 

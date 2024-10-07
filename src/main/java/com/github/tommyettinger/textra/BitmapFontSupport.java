@@ -253,7 +253,7 @@ public class BitmapFontSupport {
                     capHeight = capGlyph.height;
                 capHeight -= padY;
 
-                ascent = lineHeight - capHeight;
+                ascent = -lineHeight - capHeight;
                 down = -lineHeight;
                 if (flip) {
                     ascent = -ascent;
