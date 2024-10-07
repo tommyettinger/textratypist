@@ -35,14 +35,22 @@ class Main : ApplicationAdapter() {
         skin.loadLabelSkin(skin)
 
         Scene2DSkin.defaultSkin = skin
-//        val ht = skin.get("bitter-fnt", BitmapFont::class.java).data.capHeight
-//        println(ht)
-//        skin.get("bitter-fnt", BitmapFont::class.java).data.setScale(10f / ht)
+        var lh = skin.get("bitter-fnt", BitmapFont::class.java).data.lineHeight
+        var ch = skin.get("bitter-fnt", BitmapFont::class.java).data.capHeight
+//        println(lh)
+        skin.get("bitter-fnt", BitmapFont::class.java).data.setScale(20f / lh * ch / lh)
         skin.get("bitter-fnt", Font::class.java).setTextureFilter()
-//        val ch = skin.get("gentium-fnt", BitmapFont::class.java).data.capHeight
-//        println(ht)
-//        skin.get("gentium-fnt", BitmapFont::class.java).data.setScale(10f / ch)
+        lh = skin.get("gentium-fnt", BitmapFont::class.java).data.lineHeight
+        ch = skin.get("gentium-fnt", BitmapFont::class.java).data.capHeight
+//        println(lh)
+        skin.get("gentium-fnt", BitmapFont::class.java).data.setScale(20f / lh * ch / lh)
         skin.get("gentium-fnt", Font::class.java).setTextureFilter()
+        lh = skin.get("gentium-fnt", BitmapFont::class.java).data.lineHeight
+        ch = skin.get("gentium-fnt", BitmapFont::class.java).data.capHeight
+        skin.get("gentium-fnt", BitmapFont::class.java).setUseIntegerPositions(false)
+        println(lh)
+        println(ch)
+        skin.get("gentium-dat", BitmapFont::class.java).data.setScale(20f / lh * ch / lh)
         stage.addActor(scene2d {
             table {
                 align(Align.left)
@@ -113,7 +121,6 @@ class Main : ApplicationAdapter() {
 
 
                 label("GentiumUI dat BM", style = "gentium-dat", skin) { labelCell ->
-                    setAlignment(Align.center)
                     labelCell.height(componentHeight)
                 }
 
