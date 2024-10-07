@@ -39,6 +39,7 @@ class Main : ApplicationAdapter() {
 //        println(ht)
 //        skin.get("bitter-fnt", BitmapFont::class.java).data.scale(20f / ht)
         skin.get("bitter-fnt", Font::class.java).setTextureFilter().scaleHeightTo(20f)
+        skin.get("gentium-fnt", Font::class.java).setTextureFilter().scaleHeightTo(20f)
         stage.addActor(scene2d {
             table {
                 align(Align.left)
@@ -81,6 +82,26 @@ class Main : ApplicationAdapter() {
                 }
 
                 textraLabel("Inconsolata FT TT", style = "inconsolata", skin) { labelCell ->
+//                    alignment = Align.center
+                    labelCell.height(componentHeight)
+                }
+
+                row()
+
+                label("GentiumUI fnt BM", style = "gentium-fnt", skin) { labelCell ->
+                    labelCell.height(componentHeight)
+                }
+
+                textraLabel("GentiumUI fnt TT", style = "gentium-fnt", skin) { labelCell ->
+//                    alignment = Align.center
+                    labelCell.height(componentHeight)
+                }
+
+                label("GentiumUI FT BM", style = "gentium", skin) { labelCell ->
+                    labelCell.height(componentHeight)
+                }
+
+                textraLabel("GentiumUI FT TT", style = "gentium", skin) { labelCell ->
 //                    alignment = Align.center
                     labelCell.height(componentHeight)
                 }

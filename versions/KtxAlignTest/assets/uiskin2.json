@@ -2,9 +2,12 @@
 BitmapFont: {
   astarry-fnt: {
     file: "AStarry-standard.fnt", scaledSize: 20
-  }
+  },
   bitter-fnt: {
     file: "Bitter-standard.fnt", scaledSize: 20
+  },
+  gentium-fnt: {
+    file: "GentiumUnItalic-standard.fnt", scaledSize: 20
   }
 },
 Color: {
@@ -89,6 +92,31 @@ Color: {
 		minFilter: Linear,
 		magFilter: Linear,
 		characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890\"!`?'.,;:()[]{}<>|/@\\^$€-%+=#_&~* ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿżźłćąęńśŻŹŁĆĄĘŃŚ",
+	},
+	gentium: {
+		font: Gentium-Un-Italic.ttf,
+		size: 20,
+		mono: false,
+		color: white,
+		gamma: 1.8,
+		renderCount: 2,
+		borderWidth: 1,
+		borderColor: black,
+		borderStraight: false,
+		borderGamma: 1.8,
+		shadowOffsetX: 0,
+		shadowOffsetY: 1,
+		shadowColor: black,
+		spaceX: 0,
+		spaceY: 0,
+		kerning: true,
+		flip: false,
+		genMipMaps: false,
+		incremental: false,
+		hinting: Full,
+		minFilter: Linear,
+		magFilter: Linear,
+		characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890\"!`?'.,;:()[]{}<>|/@\\^$€-%+=#_&~* ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿżźłćąęńśŻŹŁĆĄĘŃŚ",
 	}
 },
 TintedDrawable: {
@@ -134,6 +162,8 @@ LabelStyle: {
 	bitter: { font: bitter-fnt, fontColor: white }
 	inconsolata: { font: inconsolata, fontColor: white }
 	opensans: { font: opensans, fontColor: white }
+	gentium-fnt: { font: gentium-fnt, fontColor: white }
+	gentium: { font: gentium, fontColor: white }
 },
 TextFieldStyle: {
 	default: { selection: selection, background: textfield, font: default-font, fontColor: white, cursor: cursor }
