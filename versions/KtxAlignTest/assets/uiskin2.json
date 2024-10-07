@@ -1,4 +1,12 @@
 {
+BitmapFont: {
+  astarry-fnt: {
+    file: "AStarry-standard.fnt", scaledSize: 20
+  }
+  bitter-fnt: {
+    file: "Bitter-standard.fnt", scaledSize: 20
+  }
+},
 Color: {
 	green: { a: 1, b: 0, g: 1, r: 0 },
 	white: { a: 1, b: 1, g: 1, r: 1 },
@@ -8,8 +16,8 @@ Color: {
 },
 "com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator": {
 	default-font: {
-		font: Inconsolata-LGC.ttf,
-		size: 16,
+		font: A-Starry.ttf,
+		size: 20,
 		mono: false,
 		color: white,
 		gamma: 1.8,
@@ -22,7 +30,57 @@ Color: {
 		shadowOffsetY: 1,
 		shadowColor: black,
 		spaceX: 0,
-		spaceY: -60,
+		spaceY: 0,
+		kerning: true,
+		flip: false,
+		genMipMaps: false,
+		incremental: false,
+		hinting: Full,
+		minFilter: Linear,
+		magFilter: Linear,
+		characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890\"!`?'.,;:()[]{}<>|/@\\^$€-%+=#_&~* ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿżźłćąęńśŻŹŁĆĄĘŃŚ",
+	},
+	inconsolata: {
+		font: Inconsolata-LGC.ttf,
+		size: 20,
+		mono: false,
+		color: white,
+		gamma: 1.8,
+		renderCount: 2,
+		borderWidth: 1,
+		borderColor: black,
+		borderStraight: false,
+		borderGamma: 1.8,
+		shadowOffsetX: 0,
+		shadowOffsetY: 1,
+		shadowColor: black,
+		spaceX: 0,
+		spaceY: 0,
+		kerning: true,
+		flip: false,
+		genMipMaps: false,
+		incremental: false,
+		hinting: Full,
+		minFilter: Linear,
+		magFilter: Linear,
+		characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890\"!`?'.,;:()[]{}<>|/@\\^$€-%+=#_&~* ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿżźłćąęńśŻŹŁĆĄĘŃŚ",
+	},
+	opensans: {
+		font: font_main.ttf,
+		size: 20,
+		mono: false,
+		color: white,
+		gamma: 1.8,
+		renderCount: 2,
+		borderWidth: 1,
+		borderColor: black,
+		borderStraight: false,
+		borderGamma: 1.8,
+		shadowOffsetX: 0,
+		shadowOffsetY: 1,
+		shadowColor: black,
+		spaceX: 0,
+		spaceY: 0,
 		kerning: true,
 		flip: false,
 		genMipMaps: false,
@@ -72,6 +130,10 @@ SliderStyle: {
 },
 LabelStyle: {
 	default: { font: default-font, fontColor: white }
+	astarry: { font: astarry-fnt, fontColor: white }
+	bitter: { font: bitter-fnt, fontColor: white }
+	inconsolata: { font: inconsolata, fontColor: white }
+	opensans: { font: opensans, fontColor: white }
 },
 TextFieldStyle: {
 	default: { selection: selection, background: textfield, font: default-font, fontColor: white, cursor: cursor }
