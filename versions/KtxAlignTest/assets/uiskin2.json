@@ -9,6 +9,9 @@ BitmapFont: {
   gentium-fnt: {
     file: "GentiumUnItalic-standard.fnt", scaledSize: 20
   }
+  gentium-dat: {
+    file: "Gentium-Un-Italic-standard.dat", scaledSize: 20
+  }
 },
 Color: {
 	green: { a: 1, b: 0, g: 1, r: 0 },
@@ -163,6 +166,7 @@ LabelStyle: {
 	inconsolata: { font: inconsolata, fontColor: white }
 	opensans: { font: opensans, fontColor: white }
 	gentium-fnt: { font: gentium-fnt, fontColor: white }
+	gentium-dat: { font: gentium-dat, fontColor: white }
 	gentium: { font: gentium, fontColor: white }
 },
 TextFieldStyle: {
