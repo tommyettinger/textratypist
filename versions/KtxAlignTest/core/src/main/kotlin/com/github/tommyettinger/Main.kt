@@ -59,60 +59,60 @@ class Main : ApplicationAdapter() {
                 val componentHeight = 100f
                 height = componentHeight
 
-                label("A-Starry fnt BM", style = "astarry", skin) { labelCell ->
+                label("A-Starry fnt BM\n${skin.getFont("astarry-fnt").descent}", style = "astarry", skin) { labelCell ->
                     labelCell.height(componentHeight)
                 }
 
-                textraLabel("A-Starry fnt TT", style = "astarry", skin) { labelCell ->
+                textraLabel("A-Starry fnt TT\n${skin.get("astarry-fnt", Font::class.java).descent}", style = "astarry", skin) { labelCell ->
                     alignment = Align.center
                     labelCell.height(componentHeight)
                 }
 
-                label("A-Starry FT BM") { labelCell ->
+                label("A-Starry FT BM\n${skin.getFont("default-font").descent}") { labelCell ->
                     labelCell.height(componentHeight)
                 }
 
-                textraLabel("A-Starry FT TT", style = "default", skin) { labelCell ->
-                    alignment = Align.center
-                    labelCell.height(componentHeight)
-                }
-
-                row()
-
-                label("OpenSans FT BM", style = "opensans", skin) { labelCell ->
-                    labelCell.height(componentHeight)
-                }
-
-                textraLabel("OpenSans FT TT", style = "opensans", skin) { labelCell ->
-                    alignment = Align.center
-                    labelCell.height(componentHeight)
-                }
-
-                label("Inconsolata FT BM", style = "inconsolata", skin) { labelCell ->
-                    labelCell.height(componentHeight)
-                }
-
-                textraLabel("Inconsolata FT TT", style = "inconsolata", skin) { labelCell ->
+                textraLabel("A-Starry FT TT\n${skin.get("default-font", Font::class.java).descent}", style = "default", skin) { labelCell ->
                     alignment = Align.center
                     labelCell.height(componentHeight)
                 }
 
                 row()
 
-                label("GentiumUI fnt BM", style = "gentium-fnt", skin) { labelCell ->
+                label("OpenSans FT BM\n${skin.getFont("opensans").descent}", style = "opensans", skin) { labelCell ->
                     labelCell.height(componentHeight)
                 }
 
-                textraLabel("GentiumUI fnt TT", style = "gentium-fnt", skin) { labelCell ->
+                textraLabel("OpenSans FT TT\n${skin.get("opensans", Font::class.java).descent}", style = "opensans", skin) { labelCell ->
                     alignment = Align.center
                     labelCell.height(componentHeight)
                 }
 
-                label("GentiumUI FT BM", style = "gentium", skin) { labelCell ->
+                label("Inconsolata FT BM\n${skin.getFont("inconsolata").descent}", style = "inconsolata", skin) { labelCell ->
                     labelCell.height(componentHeight)
                 }
 
-                textraLabel("GentiumUI FT TT", style = "gentium", skin) { labelCell ->
+                textraLabel("Inconsolata FT TT\n${skin.get("inconsolata", Font::class.java).descent}", style = "inconsolata", skin) { labelCell ->
+                    alignment = Align.center
+                    labelCell.height(componentHeight)
+                }
+
+                row()
+
+                label("GentiumUI fnt BM\n${skin.getFont("gentium-fnt").descent}", style = "gentium-fnt", skin) { labelCell ->
+                    labelCell.height(componentHeight)
+                }
+
+                textraLabel("GentiumUI fnt TT\n${skin.get("gentium-fnt", Font::class.java).descent}", style = "gentium-fnt", skin) { labelCell ->
+                    alignment = Align.center
+                    labelCell.height(componentHeight)
+                }
+
+                label("GentiumUI FT BM\n${skin.getFont("gentium").descent}", style = "gentium", skin) { labelCell ->
+                    labelCell.height(componentHeight)
+                }
+
+                textraLabel("GentiumUI FT TT\n${skin.get("gentium", Font::class.java).descent}", style = "gentium", skin) { labelCell ->
                     alignment = Align.center
                     labelCell.height(componentHeight)
                 }
@@ -120,20 +120,20 @@ class Main : ApplicationAdapter() {
                 row()
 
 
-                label("GentiumUI dat BM", style = "gentium-dat", skin) { labelCell ->
+                label("GentiumUI dat BM\n${skin.getFont("gentium-dat").descent}", style = "gentium-dat", skin) { labelCell ->
                     labelCell.height(componentHeight)
                 }
 
-                textraLabel("GentiumUI dat TT", style = "gentium-dat", skin) { labelCell ->
+                textraLabel("GentiumUI dat TT\n${skin.get("gentium-dat", Font::class.java).descent}", style = "gentium-dat", skin) { labelCell ->
                     alignment = Align.center
                     labelCell.height(componentHeight)
                 }
 
-                label("Bitter fnt BM", style = "bitter", skin) { labelCell ->
+                label("Bitter fnt BM\n${skin.getFont("gentium-fnt").descent}", style = "bitter", skin) { labelCell ->
                     labelCell.height(componentHeight)
                 }
 
-                textraLabel("Bitter fnt TT", style = "bitter", skin) { labelCell ->
+                textraLabel("Bitter fnt TT\n${skin.get("gentium-fnt", Font::class.java).descent}", style = "bitter", skin) { labelCell ->
                     alignment = Align.center
                     labelCell.height(componentHeight)
                 }
