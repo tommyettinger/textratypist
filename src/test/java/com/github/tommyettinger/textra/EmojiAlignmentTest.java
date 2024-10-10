@@ -53,13 +53,15 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        font2 = new Font(font);
 
 //        font = KnownFonts.getAStarry().scaleTo(8f, 16f);
-//        font2 = new Font(BitmapFontSupport.loadStructuredJson(Gdx.files.internal("A-Starry-standard.dat"), "A-Starry-standard.png"), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true)
-        font = KnownFonts.getOverlock().scaleTo(8f, 16f);
-        font2 = new Font(BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Overlock-standard.dat"), "Overlock-standard.png"), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true)
+//        font2 = new Font(BitmapFontSupport.loadStructuredJson(Gdx.files.internal("A-Starry-standard.dat"), "A-Starry-standard.png"), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleTo(8, 16);
+//        font = KnownFonts.getOverlock().scaleHeightTo(16f);
+//        font2 = new Font(BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Overlock-standard.dat"), "Overlock-standard.png"), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleHeightTo(16f);
+        font = KnownFonts.getGrenze().scaleHeightTo(16f);
+        font2 = new Font(BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Grenze-standard.dat"), "Grenze-standard.png"), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleHeightTo(16f);
 //                .setDescent(-12f).setLineMetrics(0f, -0.25f, 0f, 0f)
 //                .setDescent(font.descent)
 //                .setInlineImageMetrics(font.inlineImageOffsetX, font.inlineImageOffsetY, font.inlineImageXAdvance)
-                .scaleTo(8f, 16f);
+
         font.useIntegerPositions(false);
         font2.useIntegerPositions(false);
         System.out.println("new Font(fntFile): " + font.debugString());
