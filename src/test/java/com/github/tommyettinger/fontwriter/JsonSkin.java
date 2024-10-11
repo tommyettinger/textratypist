@@ -139,9 +139,10 @@ public class JsonSkin extends Skin {
                     }
                     bitmapFont.getData().markupEnabled = markupEnabled;
                     bitmapFont.setUseIntegerPositions(useIntegerPositions);
-                    // Scaled size is the desired cap height to scale the font to.
+                    // For BitmapFont, scaled size is the desired cap height to scale the font to.
+                    // But we scale it based on line height here because that's what Font does.
                     if (scaledSize != -1) {
-                        bitmapFont.getData().setScale(scaledSize / bitmapFont.getCapHeight());
+                        bitmapFont.getData().setScale(scaledSize / bitmapFont.getLineHeight());
                     }
 
                     return bitmapFont;

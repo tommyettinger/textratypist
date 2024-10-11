@@ -223,9 +223,12 @@ public class FreeTypistSkin extends FWSkin {
                     bitmapFont.getData().markupEnabled = markupEnabled;
                     bitmapFont.setUseIntegerPositions(useIntegerPositions);
                     font.useIntegerPositions(useIntegerPositions);
-                    // Scaled size is the desired cap height to scale the font to.
+                    // For BitmapFont, scaled size is the desired cap height to scale the font to.
+                    // For Font, scaled size is the desired line height to scale the font to.
+                    // These generally do not exactly agree, but we can get close enough by using a
+                    // smaller scale for the BitmapFont.
                     if (scaledSize != -1) {
-                        bitmapFont.getData().setScale(scaledSize / bitmapFont.getCapHeight());
+                        bitmapFont.getData().setScale(scaledSize / bitmapFont.getLineHeight());
                         font.scaleHeightTo(scaledSize);
                     }
 
