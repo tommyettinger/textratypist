@@ -152,9 +152,9 @@ public class BitmapFontSupport {
                 JsonValue metrics = fnt.get("metrics");
 
                 size *= metrics.getFloat("emSize", 1f);
-                lineHeight = size * atlas.getFloat("lineHeight", 1f);
-//                ascent = atlas.getFloat("ascender", 0.8f);
-                descent = size * atlas.getFloat("descender", -0.25f);
+                lineHeight = size * metrics.getFloat("lineHeight", 1f);
+//                ascent = size * metrics.getFloat("ascender", 0.8f) - lineHeight;
+                descent = size * metrics.getFloat("descender", -0.25f);
 
                 descent += padBottom;
 
