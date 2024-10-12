@@ -1902,7 +1902,7 @@ public class Font implements Disposable {
         // Needed to make emoji and other texture regions appear at a reasonable height on the line.
         // Also moves the descender so that it isn't below the baseline, which causes issues.
 //        yAdjust += data.xHeight - data.ascent;
-        yAdjust += data.capHeight + data.lineHeight - data.descent * 2;
+        yAdjust = (int)(yAdjust + data.capHeight - 0.5f * data.lineHeight - data.descent);
 //        yAdjust -= descent;
 //        yAdjust += 2;
 //        yAdjust += descent + bmFont.getLineHeight() * 0.5f;
@@ -1932,7 +1932,7 @@ public class Font implements Disposable {
                     } else {
                         gr.offsetX = glyph.xoffset + xAdjust;
                     }
-                    gr.offsetY = (-h - glyph.yoffset) + yAdjust;
+                    gr.offsetY = yAdjust - h - glyph.yoffset;
                     gr.xAdvance = a + widthAdjust;
                     mapping.put(glyph.id & 0xFFFF, gr);
                     if (glyph.kerning != null) {
