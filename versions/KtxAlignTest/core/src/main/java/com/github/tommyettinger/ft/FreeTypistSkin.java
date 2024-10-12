@@ -183,11 +183,9 @@ public class FreeTypistSkin extends FWSkin {
                     if (regions != null && regions.notEmpty()) {
                         if(fw || lzb) {
                             bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, regions.first(), flip);
-                            font = new Font(fontFile, regions.first(), xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
                         }
                         else {
                             bitmapFont = new BitmapFont(new BitmapFont.BitmapFontData(fontFile, flip), regions, true);
-                            font = new Font(fontFile, regions, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
                         }
                     } else {
                         TextureRegion region = skin.optional(regionName, TextureRegion.class);
@@ -195,11 +193,9 @@ public class FreeTypistSkin extends FWSkin {
                         {
                             if(fw || lzb) {
                                 bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
-                                font = new Font(fontFile, region, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
                             }
                             else {
                                 bitmapFont = new BitmapFont(fontFile, region, flip);
-                                font = new Font(fontFile, region, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
                             }
                         }
                         else {
@@ -208,21 +204,19 @@ public class FreeTypistSkin extends FWSkin {
                                 region = new TextureRegion(new Texture(imageFile));
                                 if(fw || lzb) {
                                     bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
-                                    font = new Font(fontFile, region, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
                                 } else {
                                     bitmapFont = new BitmapFont(fontFile, region, flip);
-                                    font = new Font(path, region, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
                                 }
                             } else {
                                 if(fw || lzb)
                                     throw new RuntimeException("Missing image file or TextureRegion.");
                                 else {
                                     bitmapFont = new BitmapFont(fontFile, flip);
-                                    font = new Font(path);
                                 }
                             }
                         }
                     }
+                    font = new Font(bitmapFont);
                     bitmapFont.getData().markupEnabled = markupEnabled;
                     bitmapFont.setUseIntegerPositions(useIntegerPositions);
                     font.useIntegerPositions(useIntegerPositions);
@@ -244,6 +238,98 @@ public class FreeTypistSkin extends FWSkin {
             }
         });
 
+//        json.setSerializer(BitmapFont.class, new Json.ReadOnlySerializer<BitmapFont>() {
+//            public BitmapFont read (Json json, JsonValue jsonData, Class type) {
+//                String path = json.readValue("file", String.class, jsonData);
+//
+//                FileHandle fontFile = skinFile.sibling(path);
+//                if (!fontFile.exists()) fontFile = Gdx.files.internal(path);
+//                if (!fontFile.exists()) throw new SerializationException("Font file not found: " + fontFile);
+//
+//                boolean lzb = "dat".equalsIgnoreCase(fontFile.extension());
+//                boolean fw = "json".equalsIgnoreCase(fontFile.extension());
+//
+//                float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
+//                Boolean flip = json.readValue("flip", Boolean.class, false, jsonData);
+//                Boolean markupEnabled = json.readValue("markupEnabled", Boolean.class, false, jsonData);
+//                // This defaults to true if loading from .fnt, or false if loading from .json :
+//                Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, !(fw || lzb), jsonData);
+//                float xAdjust = json.readValue("xAdjust", float.class, 0f, jsonData);
+//                float yAdjust = json.readValue("yAdjust", float.class, 0f, jsonData);
+//                float widthAdjust = json.readValue("widthAdjust", float.class, 0f, jsonData);
+//                float heightAdjust = json.readValue("heightAdjust", float.class, 0f, jsonData);
+//                Boolean makeGridGlyphs = json.readValue("makeGridGlyphs", Boolean.class, true, jsonData);
+//
+//                // Use a region with the same name as the font, else use a PNG file in the same directory as the FNT file.
+//                String regionName = fontFile.nameWithoutExtension();
+//                try {
+//                    BitmapFont bitmapFont;
+//                    Font font;
+//                    Array<TextureRegion> regions = skin.getRegions(regionName);
+//                    if (regions != null && regions.notEmpty()) {
+//                        if(fw || lzb) {
+//                            bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, regions.first(), flip);
+//                            font = new Font(fontFile, regions.first(), xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
+//                        }
+//                        else {
+//                            bitmapFont = new BitmapFont(new BitmapFont.BitmapFontData(fontFile, flip), regions, true);
+//                            font = new Font(fontFile, regions, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+//                        }
+//                    } else {
+//                        TextureRegion region = skin.optional(regionName, TextureRegion.class);
+//                        if (region != null)
+//                        {
+//                            if(fw || lzb) {
+//                                bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
+//                                font = new Font(fontFile, region, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
+//                            }
+//                            else {
+//                                bitmapFont = new BitmapFont(fontFile, region, flip);
+//                                font = new Font(fontFile, region, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+//                            }
+//                        }
+//                        else {
+//                            FileHandle imageFile = fontFile.sibling(regionName + ".png");
+//                            if (imageFile.exists()) {
+//                                region = new TextureRegion(new Texture(imageFile));
+//                                if(fw || lzb) {
+//                                    bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
+//                                    font = new Font(fontFile, region, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
+//                                } else {
+//                                    bitmapFont = new BitmapFont(fontFile, region, flip);
+//                                    font = new Font(path, region, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+//                                }
+//                            } else {
+//                                if(fw || lzb)
+//                                    throw new RuntimeException("Missing image file or TextureRegion.");
+//                                else {
+//                                    bitmapFont = new BitmapFont(fontFile, flip);
+//                                    font = new Font(path);
+//                                }
+//                            }
+//                        }
+//                    }
+//                    bitmapFont.getData().markupEnabled = markupEnabled;
+//                    bitmapFont.setUseIntegerPositions(useIntegerPositions);
+//                    font.useIntegerPositions(useIntegerPositions);
+//                    // For BitmapFont, scaled size is the desired cap height to scale the font to.
+//                    // For Font, scaled size is the desired line height to scale the font to.
+//                    // These generally do not exactly agree, but we can get close enough by using a
+//                    // smaller scale for the BitmapFont.
+//                    if (scaledSize != -1) {
+//                        bitmapFont.getData().setScale(scaledSize / bitmapFont.getLineHeight());
+//                        font.scaleHeightTo(scaledSize);
+//                    }
+//
+//                    skin.add(jsonData.name, font, Font.class);
+//
+//                    return bitmapFont;
+//                } catch (RuntimeException ex) {
+//                    throw new SerializationException("Error loading bitmap font: " + fontFile, ex);
+//                }
+//            }
+//        });
+//
         json.setSerializer(FreeTypeFontGenerator.class, new Json.ReadOnlySerializer<FreeTypeFontGenerator>() {
             @Override
             public FreeTypeFontGenerator read(Json json,
