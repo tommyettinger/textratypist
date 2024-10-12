@@ -59,7 +59,8 @@ class Main : ApplicationAdapter() {
                 val componentHeight = 100f
                 height = componentHeight
 
-                label("A-Starry fnt BM\n${skin.getFont("astarry-fnt").capHeight}", style = "astarry", skin) { labelCell ->
+                label("A-Starry fnt BM\n${skin.getFont("astarry-fnt").lineHeight}", style = "astarry", skin) { labelCell ->
+                    setAlignment(Align.center)
                     labelCell.height(componentHeight)
                 }
 
@@ -68,7 +69,8 @@ class Main : ApplicationAdapter() {
                     labelCell.height(componentHeight)
                 }
 
-                label("A-Starry FT BM\n${skin.getFont("default-font").capHeight}") { labelCell ->
+                label("A-Starry FT BM\n${skin.getFont("default-font").lineHeight}") { labelCell ->
+                    setAlignment(Align.center)
                     labelCell.height(componentHeight)
                 }
 
@@ -79,7 +81,8 @@ class Main : ApplicationAdapter() {
 
                 row()
 
-                label("OpenSans FT BM\n${skin.getFont("opensans").capHeight}", style = "opensans", skin) { labelCell ->
+                label("OpenSans FT BM\n${skin.getFont("opensans").lineHeight}", style = "opensans", skin) { labelCell ->
+                    setAlignment(Align.center)
                     labelCell.height(componentHeight)
                 }
 
@@ -88,7 +91,8 @@ class Main : ApplicationAdapter() {
                     labelCell.height(componentHeight)
                 }
 
-                label("Inconsolata FT BM\n${skin.getFont("inconsolata").capHeight}", style = "inconsolata", skin) { labelCell ->
+                label("Inconsolata FT BM\n${skin.getFont("inconsolata").lineHeight}", style = "inconsolata", skin) { labelCell ->
+                    setAlignment(Align.center)
                     labelCell.height(componentHeight)
                 }
 
@@ -99,7 +103,8 @@ class Main : ApplicationAdapter() {
 
                 row()
 
-                label("GentiumUI fnt BM\n${skin.getFont("gentium-fnt").capHeight}", style = "gentium-fnt", skin) { labelCell ->
+                label("GentiumUI fnt BM\n${skin.getFont("gentium-fnt").lineHeight}", style = "gentium-fnt", skin) { labelCell ->
+                    setAlignment(Align.center)
                     labelCell.height(componentHeight)
                 }
 
@@ -108,7 +113,8 @@ class Main : ApplicationAdapter() {
                     labelCell.height(componentHeight)
                 }
 
-                label("GentiumUI FT BM\n${skin.getFont("gentium").capHeight}", style = "gentium", skin) { labelCell ->
+                label("GentiumUI FT BM\n${skin.getFont("gentium").lineHeight}", style = "gentium", skin) { labelCell ->
+                    setAlignment(Align.center)
                     labelCell.height(componentHeight)
                 }
 
@@ -120,7 +126,8 @@ class Main : ApplicationAdapter() {
                 row()
 
 
-                label("GentiumUI dat BM\n${skin.getFont("gentium-dat").capHeight}", style = "gentium-dat", skin) { labelCell ->
+                label("GentiumUI dat BM\n${skin.getFont("gentium-dat").lineHeight}", style = "gentium-dat", skin) { labelCell ->
+                    setAlignment(Align.center)
                     labelCell.height(componentHeight)
                 }
 
@@ -129,7 +136,8 @@ class Main : ApplicationAdapter() {
                     labelCell.height(componentHeight)
                 }
 
-                label("Bitter fnt BM\n${skin.getFont("gentium-fnt").capHeight}", style = "bitter", skin) { labelCell ->
+                label("Bitter fnt BM\n${skin.getFont("gentium-fnt").lineHeight}", style = "bitter", skin) { labelCell ->
+                    setAlignment(Align.center)
                     labelCell.height(componentHeight)
                 }
 
