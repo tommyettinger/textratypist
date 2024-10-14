@@ -21,6 +21,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -56,8 +57,14 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        font2 = new Font(BitmapFontSupport.loadStructuredJson(Gdx.files.internal("A-Starry-standard.dat"), "A-Starry-standard.png"), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleTo(8, 16);
 //        font = KnownFonts.getOverlock().scaleHeightTo(16f);
 //        font2 = new Font(BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Overlock-standard.dat"), "Overlock-standard.png"), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleHeightTo(16f);
-        font = KnownFonts.getGrenze().scaleHeightTo(16f);
-        font2 = new Font(BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Grenze-standard.dat"), "Grenze-standard.png"), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleHeightTo(16f);
+
+        // displaying font in blue, font2 in red.
+        // font2 shows much higher up for some reason.
+//        font = KnownFonts.getGrenze().scaleHeightTo(16f);
+        BitmapFont gdx = new BitmapFont(Gdx.files.internal("grenze-angelcode.fnt"));
+        font = new Font(gdx, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, false).scaleHeightTo(16f);
+        BitmapFont support = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Grenze-standard.dat"), "Grenze-standard.png");
+        font2 = new Font(support, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, false).scaleHeightTo(16f);
 //                .setDescent(-12f).setLineMetrics(0f, -0.25f, 0f, 0f)
 //                .setDescent(font.descent)
 //                .setInlineImageMetrics(font.inlineImageOffsetX, font.inlineImageOffsetY, font.inlineImageXAdvance)
