@@ -192,7 +192,7 @@ public class BitmapFontSupport {
                         glyph.xoffset = round(planeBounds.getFloat("left", 0f) * size);
                         glyph.yoffset = flip
                                 ? round(-size - planeBounds.getFloat("top", 0f) * size)
-                                : -round(size + planeBounds.getFloat("bottom", 0f) * size);
+                                : round(-size + planeBounds.getFloat("bottom", 0f) * size);
                     } else {
                         glyph.xoffset = glyph.yoffset = 0;
                     }

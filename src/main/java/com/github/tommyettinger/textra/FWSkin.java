@@ -173,8 +173,9 @@ public class FWSkin extends Skin {
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
                 Boolean flip = json.readValue("flip", Boolean.class, false, jsonData);
                 Boolean markupEnabled = json.readValue("markupEnabled", Boolean.class, false, jsonData);
-                // This defaults to true if loading from .fnt, or false if loading from .json :
-                Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, !(fw || lzb), jsonData);
+                // This defaults to false, which is not what Skin normally defaults to.
+                // You can set it to true if you expect a BitmapFont to be used at pixel-perfect 100% zoom only.
+                Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, false, jsonData);
                 float xAdjust = json.readValue("xAdjust", float.class, 0f, jsonData);
                 float yAdjust = json.readValue("yAdjust", float.class, 0f, jsonData);
                 float widthAdjust = json.readValue("widthAdjust", float.class, 0f, jsonData);
@@ -231,6 +232,8 @@ public class FWSkin extends Skin {
                         }
                     }
                     bitmapFont.getData().markupEnabled = markupEnabled;
+                    if(!markupEnabled)
+                        font.omitCurlyBraces = font.enableSquareBrackets = false;
                     bitmapFont.setUseIntegerPositions(useIntegerPositions);
                     font.useIntegerPositions(useIntegerPositions);
                     // For BitmapFont, scaled size is the desired cap height to scale the font to.
