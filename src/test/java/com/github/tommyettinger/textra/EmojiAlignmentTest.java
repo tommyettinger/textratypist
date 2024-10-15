@@ -59,7 +59,9 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        font2 = new Font(BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Overlock-standard.dat"), "Overlock-standard.png"), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleHeightTo(16f);
 
         // displaying font in blue, font2 in red.
-        // font2 shows much higher up for some reason.
+        // both fonts show normal glyphs fine.
+        // now both are roughly correct, but different sizes (understandable given the different sources).
+        // emoji don't show 100% correctly, but they're similar across techniques.
 //        font = KnownFonts.getGrenze().scaleHeightTo(16f);
         BitmapFont gdx = new BitmapFont(Gdx.files.internal("grenze-angelcode.fnt"));
         font = new Font(gdx, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, false).scaleHeightTo(16f);
@@ -71,6 +73,7 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 
         font.useIntegerPositions(false);
         font2.useIntegerPositions(false);
+//        font.descent = font2.descent;
         System.out.println("new Font(fntFile): " + font.debugString());
         System.out.println("new Font(bmpFont): " + font2.debugString());
         // for NowAlt

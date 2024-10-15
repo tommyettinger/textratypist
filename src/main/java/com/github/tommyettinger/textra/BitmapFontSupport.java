@@ -156,8 +156,8 @@ public class BitmapFontSupport {
                 lineHeight = size * metrics.getFloat("lineHeight", 1f);
 //                ascent = size * metrics.getFloat("ascender", 0.8f) - lineHeight;
                 descent = size * metrics.getFloat("descender", -0.25f);
-
-                descent += padBottom;
+//                float baseLine = lineHeight + descent;
+//                descent = 0f;
 
                 if (path != null)
                     imagePaths = new String[]{jsonFont.sibling(path).path().replaceAll("\\\\", "/")};
@@ -197,6 +197,7 @@ public class BitmapFontSupport {
                         glyph.xoffset = glyph.yoffset = 0;
                     }
                 }
+                descent += padBottom;
 
                 JsonValue kern = fnt.get("kerning");
                 if (kern != null && !kern.isEmpty()) {
