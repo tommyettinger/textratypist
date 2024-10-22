@@ -64,9 +64,9 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         // emoji don't show 100% correctly, but they're similar across techniques.
 //        font = KnownFonts.getGrenze().scaleHeightTo(16f);
         BitmapFont gdx = new BitmapFont(Gdx.files.internal("grenze-angelcode.fnt"));
-        font = new Font(gdx, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, false).scaleHeightTo(16f);
+        font = new Font(gdx, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleHeightTo(16f);
         BitmapFont support = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Grenze-standard.dat"), "Grenze-standard.png");
-        font2 = new Font(support, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, false).scaleHeightTo(16f);
+        font2 = new Font(support, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleHeightTo(16f);
 //                .setDescent(-12f).setLineMetrics(0f, -0.25f, 0f, 0f)
 //                .setDescent(font.descent)
 //                .setInlineImageMetrics(font.inlineImageOffsetX, font.inlineImageOffsetY, font.inlineImageXAdvance)
@@ -88,13 +88,13 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         cw2 = font2.cellWidth;
         ch2 = font2.cellHeight;
 //        typingLabel = new TypingLabel("[#4455AA88]Why are all the moderators animals?\n\n\nThat's not actually true, there's a floppy!", font);
-        typingLabel = new TypingLabel("[#4455AA88]Why are [_]all[_] the moderators [%?ERROR]animals?[+🦓][+🦉][+🐼][%][+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
+        typingLabel = new TypingLabel("[BLUE] ╋ [#4455AA88]Why are [_]all[_] the moderators [%?ERROR]animals?[+🦓][+🦉][+🐼][%][+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font);
 //        typingLabel.layout.setTargetWidth(400);
         typingLabel.setAlignment(Align.center);
         typingLabel.debug();
 
 //        typingLabel2 = new TypingLabel("[#ff99aa87]Why are all the moderators animals?\n\n\nThat's not actually true, there's a floppy!", font2);
-        typingLabel2 = new TypingLabel("[#ff99aa77]Why are [_]all[_] the moderators [%?WARN]animals?[+🦓][+🦉][+🐼][%][+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font2);
+        typingLabel2 = new TypingLabel("[RED] ╋ [#ff99aa77]Why are [_]all[_] the moderators [%?WARN]animals?[+🦓][+🦉][+🐼][%][+🦓][+🦉][+🐼]\n\n\nThat's not actually true, there's a [+💾]!", font2);
 //        typingLabel2.layout.setTargetWidth(400);
         typingLabel2.setAlignment(Align.center);
         typingLabel2.debug();

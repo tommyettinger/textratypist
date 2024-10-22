@@ -2021,7 +2021,7 @@ public class Font implements Disposable {
         integerPosition = bmFont.usesIntegerPositions();
 
         inlineImageOffsetX = 0.1f * originalCellWidth;
-        inlineImageOffsetY = -4f + 0.1f * (originalCellHeight);
+        inlineImageOffsetY = -4f + 0.1f * originalCellHeight;
         inlineImageXAdvance = 24f;
 
         scale(bmFont.getScaleX(), bmFont.getScaleY());
@@ -2499,8 +2499,6 @@ public class Font implements Disposable {
             underX = strikeX = 0.0f;
         }
 
-        originalCellHeight -= descent;
-        cellHeight -= descent;
 //        strikeY = 0f;
         fancyY -= descent / size;
 
@@ -2526,7 +2524,7 @@ public class Font implements Disposable {
             }
             if(planeBounds != null) {
                 xo = planeBounds.getFloat("left", 0f) * size;
-                yo = size - planeBounds.getFloat("top", 0f) * size - descent * 0.5f;
+                yo = size - planeBounds.getFloat("top", 0f) * size;
             } else {
                 xo = yo = 0f;
             }
@@ -2610,7 +2608,7 @@ public class Font implements Disposable {
         integerPosition = false;
 
         inlineImageOffsetX = -20f + 0.1f * originalCellWidth;
-        inlineImageOffsetY = 4f + 0.1f * originalCellHeight;// - descent * 0.25f;
+        inlineImageOffsetY = 4f + 0.1f * originalCellHeight - descent;// - descent * 0.25f;
         inlineImageXAdvance = 4f;
     }
 

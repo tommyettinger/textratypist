@@ -58,7 +58,7 @@ public class FieldTest extends ApplicationAdapter {
 //        Font font = new Font(bmp, 0f, 10f, 0f, 0f);
 
 //        Font font = new Font("RaeleusScriptius-standard.fnt", Font.DistanceFieldType.STANDARD, 0, 8, 0, 0);
-        Font font = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic());
+        Font font = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic()).scaleHeightTo(32);
 //        System.out.println("descent: "+font.descent + ", lineHeight: " + font.cellHeight);
         BitmapFont bmFont = KnownFonts.getBitmapFont(KnownFonts.GENTIUM_UN_ITALIC);
         String text = "22";
@@ -115,15 +115,15 @@ skin
 
         Table table = new Table();
         table.setFillParent(true);
-        table.add(new TextraLabel("TT:  ", font)).width(60).height(font.cellHeight * 2);
+        table.add(new TextraLabel("TTq  " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
         table.add(ttField).width(200).height(font.cellHeight * 2).row();
-        table.add(new TextraLabel("S2D: ", font)).width(60).height(font.cellHeight * 2);
+        table.add(new TextraLabel("S2Dq " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
         table.add(s2dField).width(200).height(font.cellHeight * 2).row();
-        table.add(new TextraLabel("TT:  ", font)).width(60).height(font.cellHeight * 2);
+        table.add(new TextraLabel("TTq  " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
         table.add(ttArea).width(200).height(font.cellHeight * 5).row();
-        table.add(new TextraLabel("TT2: ", font)).width(60).height(font.cellHeight * 2);
+        table.add(new TextraLabel("TT2q " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
         table.add(tt2Area).width(200).height(font.cellHeight * 5).row();
-        table.add(new TextraLabel("S2D: ", font)).width(60).height(font.cellHeight * 2);
+        table.add(new TextraLabel("S2Dq " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
         table.add(s2dArea).width(200).height(font.cellHeight * 5).row();
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
