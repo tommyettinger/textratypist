@@ -1,4 +1,4 @@
-# v0-9-0
+# v1-1-0
 
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/tommyettinger/gdx-liftoff).
 
