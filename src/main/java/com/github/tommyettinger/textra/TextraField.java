@@ -38,7 +38,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.github.tommyettinger.textra.Styles.TextFieldStyle;
-import regexodus.Category;
+import com.github.tommyettinger.textra.utils.StringUtils;
 
 import java.lang.StringBuilder;
 import java.util.Arrays;
@@ -215,18 +215,18 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	protected boolean isWordCharacter (char c) {
-		return Category.Word.contains(c);
+		return StringUtils.WORD_CHARS.get(c);
 	}
 
 	protected boolean isWordCharacter (long glyph) {
-		return Category.Word.contains((char) glyph);
+		return StringUtils.WORD_CHARS.get((char) glyph);
 	}
 	protected boolean isSpaceCharacter (char c) {
-		return Category.Space.contains(c);
+		return StringUtils.SPACE_CHARS.get(c);
 	}
 
 	protected boolean isSpaceCharacter (long glyph) {
-		return Category.Space.contains((char) glyph);
+		return StringUtils.SPACE_CHARS.get((char) glyph);
 	}
 
 	protected long wordUnderCursor () {
@@ -992,7 +992,7 @@ public class TextraField extends Widget implements Disableable {
 		 */
 		class LetterOnlyFilter implements TextFieldFilter {
 			public boolean acceptChar (TextraField textField, char c) {
-				return Category.L.contains(c);
+				return StringUtils.LETTERS.get(c);
 			}
 		}
 
@@ -1002,7 +1002,7 @@ public class TextraField extends Widget implements Disableable {
 		 */
 		class WordOnlyFilter implements TextFieldFilter {
 			public boolean acceptChar (TextraField textField, char c) {
-				return Category.Word.contains(c);
+				return StringUtils.WORD_CHARS.get(c);
 			}
 		}
 	}

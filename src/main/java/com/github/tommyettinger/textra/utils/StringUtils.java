@@ -19,6 +19,7 @@ package com.github.tommyettinger.textra.utils;
 import com.badlogic.gdx.math.MathUtils;
 import regexodus.Category;
 
+import java.util.BitSet;
 import java.util.Random;
 
 public final class StringUtils {
@@ -483,6 +484,30 @@ public final class StringUtils {
     }
 
     /**
+     * Takes the compressed bitset inside a RegExodus {@link Category} and decompresses it to a JDK
+     * {@link BitSet}. This may improve lookup time for frequently-checked Categories, since
+     * {@link BitSet#get(int)} is quite fast (it runs in O(1) time), while {@link Category#contains(char)}
+     * is... not as fast (it runs in O(n) time, where n is the RLE-compressed size of the entire bitset).
+     * A BitSet can also be modified if needed, whereas a Category cannot.
+     * @param category a RegExodus Category, such as {@link Category#Lu} for upper-case letters
+     * @return a new BitSet storing the same contents as the given Category, but optimized for faster access
+     */
+    public static BitSet decompressCategory(Category category) {
+        char[] contents = category.contents();
+        BitSet set = new BitSet(contents[contents.length - 1]);
+        for (int i = contents.length - 1; i >= 0; i--) {
+            set.set(contents[i]);
+        }
+        return set;
+    }
+
+    public static final BitSet LETTERS = decompressCategory(Category.L);
+    public static final BitSet LOWER_CASE_LETTERS = decompressCategory(Category.Ll);
+    public static final BitSet UPPER_CASE_LETTERS = decompressCategory(Category.Lu);
+    public static final BitSet WORD_CHARS = decompressCategory(Category.Word);
+    public static final BitSet SPACE_CHARS = decompressCategory(Category.Space);
+
+    /**
      * Returns true if {@code c} is a lower-case letter, or false otherwise.
      * Similar to {@link Character#isLowerCase(char)}, but should actually work on GWT.
      *
@@ -490,7 +515,7 @@ public final class StringUtils {
      * @return true if c is a lower-case letter, or false otherwise.
      */
     public static boolean isLowerCase(char c) {
-        return Category.Ll.contains(c);
+        return LOWER_CASE_LETTERS.get(c);
     }
 
     /**
@@ -501,6 +526,6 @@ public final class StringUtils {
      * @return true if c is an upper-case letter, or false otherwise.
      */
     public static boolean isUpperCase(char c) {
-        return Category.Lu.contains(c);
+        return UPPER_CASE_LETTERS.get(c);
     }
 }
