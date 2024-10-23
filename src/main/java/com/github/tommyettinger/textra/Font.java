@@ -1901,13 +1901,14 @@ public class Font implements Disposable {
         descent = data.capHeight + data.ascent - data.lineHeight;
         // Needed to make emoji and other texture regions appear at a reasonable height on the line.
         // Also moves the descender so that it isn't below the baseline, which causes issues.
-        yAdjust += data.xHeight - data.ascent;
+        yAdjust += data.xHeight - data.ascent + descent;
+//        yAdjust += data.xHeight - data.ascent;
 //        yAdjust = (int)(yAdjust + data.capHeight - data.lineHeight - data.descent);
 //        yAdjust -= descent;
 //        yAdjust += 2;
 //        yAdjust += descent + bmFont.getLineHeight() * 0.5f;
 
-        fancyY -= descent / (bmFont.getCapHeight());
+        fancyY += 1f;
 
         for (BitmapFont.Glyph[] page : data.glyphs) {
             if (page == null) continue;
@@ -2021,7 +2022,7 @@ public class Font implements Disposable {
         integerPosition = bmFont.usesIntegerPositions();
 
         inlineImageOffsetX = 0.1f * originalCellWidth;
-        inlineImageOffsetY = -4f + 0.1f * originalCellHeight;
+        inlineImageOffsetY = -8f;
         inlineImageXAdvance = 24f;
 
         scale(bmFont.getScaleX(), bmFont.getScaleY());
