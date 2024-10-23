@@ -1897,7 +1897,7 @@ public class Font implements Disposable {
         this.widthAdjust = widthAdjust;
         this.heightAdjust = heightAdjust;
 
-        cellHeight = heightAdjust + data.lineHeight - data.descent;// + data.lineHeight;//
+        cellHeight = heightAdjust + data.lineHeight;// + data.lineHeight;//
         descent = data.capHeight + data.ascent - data.lineHeight;
         // Needed to make emoji and other texture regions appear at a reasonable height on the line.
         // Also moves the descender so that it isn't below the baseline, which causes issues.
@@ -2016,7 +2016,7 @@ public class Font implements Disposable {
         }
         defaultValue = mapping.get(data.missingGlyph == null ? ' ' : data.missingGlyph.id, mapping.get(' ', mapping.values().next()));
         originalCellWidth = cellWidth;
-        originalCellHeight = cellHeight;// += descent;
+        originalCellHeight = cellHeight;
         isMono = minWidth == cellWidth && kerning == null;
         integerPosition = bmFont.usesIntegerPositions();
 
