@@ -30,7 +30,7 @@ public class StrippedTest extends ApplicationAdapter {
 //        font = new Font(bmfont);
 //        font = new Font("one-50.fnt");
         Array<TypingLabel> labels = new Array<>(new TypingLabel[]{
-                new TypingLabel("{RAINBOW}Ads Challenge...{ENDRAINBOW}", new Styles.LabelStyle(font, null))
+                new TypingLabel("{RAINBOW}Ads Challenge...{ENDRAINBOW}", new Styles.LabelStyle(bmfont, null))
         });
         TypingLabel label = labels.get(0);
         label.setWrap(true);

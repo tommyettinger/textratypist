@@ -1885,12 +1885,22 @@ public class Font implements Disposable {
         this.setDistanceField(distanceField);
         this.parents = bmFont.getRegions();
         if (distanceField != DistanceFieldType.STANDARD && parents != null) {
-            for (TextureRegion parent : parents)
+            for (TextureRegion parent : parents) {
                 parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            }
+        }
+        float strippedY = 0f;
+        if((parents != null) && parents.notEmpty()) {
+            TextureRegion parent = parents.first();
+            if(parent instanceof TextureAtlas.AtlasRegion){
+                strippedY = ((TextureAtlas.AtlasRegion) parent).originalHeight
+                        - ((TextureAtlas.AtlasRegion) parent).packedHeight
+                        - ((TextureAtlas.AtlasRegion) parent).offsetY;
+            }
         }
         BitmapFontData data = bmFont.getData();
         mapping = new IntMap<>(128);
-        int minWidth = Integer.MAX_VALUE;
+        float minWidth = Float.MAX_VALUE;
 
         this.xAdjust = xAdjust;
         this.yAdjust = yAdjust;
@@ -1914,7 +1924,24 @@ public class Font implements Disposable {
             if (page == null) continue;
             for (BitmapFont.Glyph glyph : page) {
                 if (glyph != null) {
-                    int x = glyph.srcX, y = glyph.srcY, w = glyph.width, h = glyph.height, a = glyph.xadvance;
+                    // the only useful information I've gotten from this so far:
+                    // the glyph.yoffset values are large and negative; much larger than expected.
+                    // more than the height of a line, usually.
+                    //
+                    // Essentially, the issue here is the same as with particle effects when using stripped-whitespace
+                    // atlases -- there might be extra information about the stripped whitespace, but we don't have easy
+                    // access to it if we can only get a plain TextureRegion.
+                    
+                    if(glyph.id == 'g') {
+                        System.out.println("BitmapFont->Font, WE DEBUGGING g NOW");
+                    }
+                    else if(glyph.id == 'l') {
+                        System.out.println("BitmapFont->Font, WE DEBUGGING l NOW");
+                    }
+//                    else if(glyph.id == 'a') {
+//                        System.out.println("BitmapFont->Font, WE DEBUGGING a NOW");
+//                    }
+                    float x = glyph.srcX, y = glyph.srcY, w = glyph.width, h = glyph.height, a = glyph.xadvance;
 //                    x += xAdjust;
 //                    y += yAdjust;
 
@@ -1924,6 +1951,7 @@ public class Font implements Disposable {
                         minWidth = Math.min(minWidth, a);
                     cellWidth = Math.max(a, cellWidth);
 //                    cellHeight = Math.max(h + heightAdjust, cellHeight);
+
                     GlyphRegion gr = new GlyphRegion(bmFont.getRegion(glyph.page), x, y, w, h);
                     if (glyph.id == 10) { // newline
                         a = 0;
@@ -2116,6 +2144,18 @@ public class Font implements Disposable {
 
 //            a += widthAdjust;
 //            h += heightAdjust;
+
+            if(c == 'g') {
+                System.out.println("fnt->Font, WE DEBUGGING g NOW");
+            }
+            else if(c == 'l') {
+                System.out.println("fnt->Font, WE DEBUGGING l NOW");
+            }
+//            else if(c == 'a') {
+//                System.out.println("fnt->Font, WE DEBUGGING a NOW");
+//            }
+
+
             if (c != 9608) // full block
                 minWidth = Math.min(minWidth, a + widthAdjust);
             GlyphRegion gr = new GlyphRegion(parents.get(p), x, y, w, h);
