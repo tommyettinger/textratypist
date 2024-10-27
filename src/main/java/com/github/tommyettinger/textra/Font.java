@@ -1896,6 +1896,7 @@ public class Font implements Disposable {
                 offsetY = ((TextureAtlas.AtlasRegion) parent).originalHeight
                         - ((TextureAtlas.AtlasRegion) parent).packedHeight
                         - ((TextureAtlas.AtlasRegion) parent).offsetY;
+                System.out.println("OFFSETY is " + offsetY);
             }
         }
         BitmapFontData data = bmFont.getData();
@@ -1927,18 +1928,19 @@ public class Font implements Disposable {
                     float x = glyph.srcX, y = glyph.srcY, w = glyph.width, h = glyph.height, a = glyph.xadvance,
                             yOffset = glyph.yoffset;
                     if (offsetY > 0) {
-                        y -= offsetY;
-                        if (y < 0) {
-                            h += y;
+                        float yo = y - offsetY;
+                        if (yo < 0) {
+                            h -= yo;
                             if (h < 0) h = 0;
                             y = 0;
+                            System.out.println((char) glyph.id + " needed y adjustment.");
                         }
                         float y2 = y + h - offsetY, regionHeight = bmFont.getRegion(glyph.page).getRegionHeight();
                         if (y2 > regionHeight) {
                             float amount = y2 - regionHeight;
                             h -= amount;
                             yOffset += amount;
-//                            y2 = regionHeight;
+                            System.out.println((char) glyph.id + " needed y2 adjustment.");
                         }
                     }
 
