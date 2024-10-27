@@ -1889,11 +1889,11 @@ public class Font implements Disposable {
                 parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             }
         }
-        float strippedY = 0f;
+        float offsetY = 0f;
         if((parents != null) && parents.notEmpty()) {
             TextureRegion parent = parents.first();
             if(parent instanceof TextureAtlas.AtlasRegion){
-                strippedY = ((TextureAtlas.AtlasRegion) parent).originalHeight
+                offsetY = ((TextureAtlas.AtlasRegion) parent).originalHeight
                         - ((TextureAtlas.AtlasRegion) parent).packedHeight
                         - ((TextureAtlas.AtlasRegion) parent).offsetY;
             }
@@ -1924,6 +1924,25 @@ public class Font implements Disposable {
             if (page == null) continue;
             for (BitmapFont.Glyph glyph : page) {
                 if (glyph != null) {
+                    float x = glyph.srcX, y = glyph.srcY, w = glyph.width, h = glyph.height, a = glyph.xadvance,
+                            yOffset = glyph.yoffset;
+                    if (offsetY > 0) {
+                        y -= offsetY;
+                        if (y < 0) {
+                            h += y;
+                            if (h < 0) h = 0;
+                            y = 0;
+                        }
+                        float y2 = y + h - offsetY, regionHeight = bmFont.getRegion(glyph.page).getRegionHeight();
+                        if (y2 > regionHeight) {
+                            float amount = y2 - regionHeight;
+                            h -= amount;
+                            yOffset += amount;
+//                            y2 = regionHeight;
+                        }
+                    }
+
+
                     // the only useful information I've gotten from this so far:
                     // the glyph.yoffset values are large and negative; much larger than expected.
                     // more than the height of a line, usually.
@@ -1931,22 +1950,31 @@ public class Font implements Disposable {
                     // Essentially, the issue here is the same as with particle effects when using stripped-whitespace
                     // atlases -- there might be extra information about the stripped whitespace, but we don't have easy
                     // access to it if we can only get a plain TextureRegion.
-                    
+
                     if(glyph.id == 'g') {
+                        System.out.println(glyph.id + " is " + (char)glyph.id);
+                        System.out.println("height " + h);
+                        System.out.println("srcY " + y);
+                        System.out.println("yoffset " + yOffset);
                         System.out.println("BitmapFont->Font, WE DEBUGGING g NOW");
                     }
                     else if(glyph.id == 'l') {
+                        System.out.println(glyph.id + " is " + (char)glyph.id);
+                        System.out.println("height " + h);
+                        System.out.println("srcY " + y);
+                        System.out.println("yoffset " + yOffset);
                         System.out.println("BitmapFont->Font, WE DEBUGGING l NOW");
                     }
-//                    else if(glyph.id == 'a') {
-//                        System.out.println("BitmapFont->Font, WE DEBUGGING a NOW");
-//                    }
-                    float x = glyph.srcX, y = glyph.srcY, w = glyph.width, h = glyph.height, a = glyph.xadvance;
-//                    x += xAdjust;
-//                    y += yAdjust;
+                    else if(glyph.id == 'a') {
+                        System.out.println(glyph.id + " is " + (char)glyph.id);
+                        System.out.println("height " + h);
+                        System.out.println("srcY " + y);
+                        System.out.println("yoffset " + yOffset);
+                        System.out.println("BitmapFont->Font, WE DEBUGGING a NOW");
+                    }
 
-//                    a += widthAdjust;
-//                    h += heightAdjust;
+
+
                     if (glyph.id != 9608) // full block
                         minWidth = Math.min(minWidth, a);
                     cellWidth = Math.max(a, cellWidth);
@@ -1961,7 +1989,7 @@ public class Font implements Disposable {
                     } else {
                         gr.offsetX = glyph.xoffset + xAdjust;
                     }
-                    gr.offsetY = yAdjust - h - glyph.yoffset;
+                    gr.offsetY = yAdjust - h - yOffset;
                     gr.xAdvance = a + widthAdjust;
                     mapping.put(glyph.id & 0xFFFF, gr);
                     if (glyph.kerning != null) {

@@ -29,10 +29,7 @@ public class StrippedTest extends ApplicationAdapter {
         font = skin.get("one-50", Font.class);
 //        font = new Font(bmfont);
 //        font = new Font("one-50.fnt");
-        Array<TypingLabel> labels = new Array<>(new TypingLabel[]{
-                new TypingLabel("{RAINBOW}Ads Challenge...{ENDRAINBOW}", new Styles.LabelStyle(bmfont, null))
-        });
-        TypingLabel label = labels.get(0);
+        TypingLabel label = new TypingLabel("{RAINBOW}Ads Challenge...{ENDRAINBOW}", new Styles.LabelStyle(bmfont, null));
         label.setWrap(true);
         label.setAlignment(Align.top);
 
