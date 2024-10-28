@@ -2042,9 +2042,13 @@ public class Font implements Disposable {
         isMono = minWidth == cellWidth && kerning == null;
         integerPosition = bmFont.usesIntegerPositions();
 
-        inlineImageOffsetX = 0.1f * originalCellWidth;
-        inlineImageOffsetY = 8f;
+        inlineImageOffsetX = -32f + 0.1f * originalCellWidth;
+        inlineImageOffsetY = 10f;
         inlineImageXAdvance = 24f;
+        // the following is used in the others, but not here for some reason.
+//        inlineImageOffsetX = -20f + 0.1f * originalCellWidth;
+//        inlineImageOffsetY = -32f + 0.1f * originalCellHeight - descent;
+//        inlineImageXAdvance = 8f;
 
         scale(bmFont.getScaleX(), bmFont.getScaleY());
     }
@@ -2233,7 +2237,7 @@ public class Font implements Disposable {
         isMono = minWidth == cellWidth && kerning == null;
 
         inlineImageOffsetX = -20f + 0.1f * originalCellWidth;
-        inlineImageOffsetY = 4f + 0.1f * originalCellHeight;// - descent * 0.25f;
+        inlineImageOffsetY = -32f + 0.1f * originalCellHeight - descent;
         inlineImageXAdvance = 4f;
     }
 
@@ -2323,7 +2327,7 @@ public class Font implements Disposable {
         isMono = true;
 
         inlineImageOffsetX = -20f + 0.1f * originalCellWidth;
-        inlineImageOffsetY = 4f + 0.1f * originalCellHeight;// - descent * 0.25f;
+        inlineImageOffsetY = -32f + 0.1f * originalCellHeight - descent;
         inlineImageXAdvance = 4f;
     }
 
@@ -2631,7 +2635,7 @@ public class Font implements Disposable {
         integerPosition = false;
 
         inlineImageOffsetX = -20f + 0.1f * originalCellWidth;
-        inlineImageOffsetY = 4f + 0.1f * originalCellHeight - descent;// - descent * 0.25f;
+        inlineImageOffsetY = -32f + 0.1f * originalCellHeight - descent;
         inlineImageXAdvance = 4f;
     }
 

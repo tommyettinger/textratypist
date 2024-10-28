@@ -26,10 +26,11 @@ public class StrippedTest extends ApplicationAdapter {
         BitmapFont bmfont = skin.getFont("one-50");
 //        BitmapFont bmfont = new BitmapFont(Gdx.files.internal("one-50.fnt"));
         bmfont.getData().markupEnabled = true;
-        font = skin.get("one-50", Font.class);
-//        font = new Font(bmfont);
+//        font = skin.get("one-50", Font.class);
+        font = new Font(bmfont);
 //        font = new Font("one-50.fnt");
-        TypingLabel label = new TypingLabel("{RAINBOW}Ads! Ads! Ads! Ads!\nAds Challenge!", new Styles.LabelStyle(bmfont, null));
+        KnownFonts.addEmoji(font);
+        TypingLabel label = new TypingLabel("{RAINBOW}Ads! Ads! Ads! Ads! [+🐷]\nAds Challenge! [+🏆]", new Styles.LabelStyle(font, null));
         label.setWrap(false);
         label.setAlignment(Align.top);
 
@@ -39,7 +40,7 @@ public class StrippedTest extends ApplicationAdapter {
 
 //        bmfont.getData().markupEnabled = false;
 //        Label s2dLabel = new Label("I can do it!", new Label.LabelStyle(bmfont, Color.WHITE));
-        Label s2dLabel = new Label("[GOLD]Ads! Ads! Ads! Ads!\nAds Challenge!", new Label.LabelStyle(bmfont, Color.WHITE));
+        Label s2dLabel = new Label("[GOLD]Ads! Ads! Ads! Ads! PIG\nAds Challenge! WIN", new Label.LabelStyle(bmfont, Color.WHITE));
 //        Label s2dLabel = new Label("I [SKY]can [ROYAL]do[] it!", new Label.LabelStyle(bmfont, Color.WHITE));
         s2dLabel.setAlignment(Align.bottom);
         table.add(s2dLabel).bottom();
