@@ -29,22 +29,23 @@ public class StrippedTest extends ApplicationAdapter {
         font = skin.get("one-50", Font.class);
 //        font = new Font(bmfont);
 //        font = new Font("one-50.fnt");
-        TypingLabel label = new TypingLabel("{RAINBOW}Ads Challenge...{ENDRAINBOW}", new Styles.LabelStyle(bmfont, null));
-        label.setWrap(true);
+        TypingLabel label = new TypingLabel("{RAINBOW}Ads! Ads! Ads! Ads!\nAds Challenge!", new Styles.LabelStyle(bmfont, null));
+        label.setWrap(false);
         label.setAlignment(Align.top);
 
         Table table = new Table();
         table.setFillParent(true);
-        table.add(label).size(200, 100).row();
+        table.add(label).row();
 
 //        bmfont.getData().markupEnabled = false;
 //        Label s2dLabel = new Label("I can do it!", new Label.LabelStyle(bmfont, Color.WHITE));
-        Label s2dLabel = new Label("[GOLD]Ads Challenge!", new Label.LabelStyle(bmfont, Color.WHITE));
+        Label s2dLabel = new Label("[GOLD]Ads! Ads! Ads! Ads!\nAds Challenge!", new Label.LabelStyle(bmfont, Color.WHITE));
 //        Label s2dLabel = new Label("I [SKY]can [ROYAL]do[] it!", new Label.LabelStyle(bmfont, Color.WHITE));
         s2dLabel.setAlignment(Align.bottom);
         table.add(s2dLabel).bottom();
 
         stage.addActor(table);
+        stage.setDebugAll(true);
     }
 
     @Override

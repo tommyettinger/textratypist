@@ -1908,7 +1908,7 @@ public class Font implements Disposable {
         this.heightAdjust = heightAdjust;
 
         descent = data.capHeight + data.ascent - data.lineHeight;
-        cellHeight = heightAdjust + data.lineHeight + descent;
+        cellHeight = heightAdjust + data.lineHeight;
         // Needed to make emoji and other texture regions appear at a reasonable height on the line.
         // Also moves the descender so that it isn't below the baseline, which causes issues.
 //        yAdjust += data.xHeight - data.ascent + descent;
