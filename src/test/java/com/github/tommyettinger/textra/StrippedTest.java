@@ -26,11 +26,11 @@ public class StrippedTest extends ApplicationAdapter {
         BitmapFont bmfont = skin.getFont("one-50");
 //        BitmapFont bmfont = new BitmapFont(Gdx.files.internal("one-50.fnt"));
         bmfont.getData().markupEnabled = true;
-//        font = skin.get("one-50", Font.class);
-        font = new Font(bmfont);
+        font = skin.get("one-50", Font.class);
+//        font = new Font(bmfont);
 //        font = new Font("one-50.fnt");
         KnownFonts.addEmoji(font);
-        TypingLabel label = new TypingLabel("{RAINBOW}Ads! Ads! Ads! Ads! [+🐷]\nAds Challenge! [+🏆]", new Styles.LabelStyle(font, null));
+        TypingLabel label = new TypingLabel("{RAINBOW}Ads! [~]Ads![~] [_]Ads![_] [~][_]Ads![_][~] [+🐷]\nAds Challenge! [+🏆]", new Styles.LabelStyle(font, null));
         label.setWrap(false);
         label.setAlignment(Align.top);
 

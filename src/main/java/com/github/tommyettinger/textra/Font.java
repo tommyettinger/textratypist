@@ -2042,6 +2042,9 @@ public class Font implements Disposable {
         isMono = minWidth == cellWidth && kerning == null;
         integerPosition = bmFont.usesIntegerPositions();
 
+        underX -= 0.5f;
+        strikeX -= 0.5f;
+
         inlineImageOffsetX = -32f + 0.1f * originalCellWidth;
         inlineImageOffsetY = 10f;
         inlineImageXAdvance = 24f;
@@ -2236,9 +2239,12 @@ public class Font implements Disposable {
         originalCellHeight = cellHeight;
         isMono = minWidth == cellWidth && kerning == null;
 
-        inlineImageOffsetX = -20f + 0.1f * originalCellWidth;
-        inlineImageOffsetY = -32f + 0.1f * originalCellHeight - descent;
-        inlineImageXAdvance = 4f;
+        underY = 0.5f + descent / rawLineHeight;
+        strikeY = 0.5f + descent / rawLineHeight;
+
+        inlineImageOffsetX = -32f + 0.1f * originalCellWidth;
+        inlineImageOffsetY = -10f + 0.1f * originalCellHeight - descent;
+        inlineImageXAdvance = 24f;
     }
 
     /**
@@ -2325,6 +2331,9 @@ public class Font implements Disposable {
         originalCellHeight = this.cellHeight;
         integerPosition = true;
         isMono = true;
+
+        underY += 0.375f;
+        strikeY += 0.375f;
 
         inlineImageOffsetX = -20f + 0.1f * originalCellWidth;
         inlineImageOffsetY = -32f + 0.1f * originalCellHeight - descent;
@@ -2633,6 +2642,9 @@ public class Font implements Disposable {
 
         isMono = minWidth == cellWidth && kerning == null;
         integerPosition = false;
+
+        underY -= descent / size;
+        strikeY -= descent / size;
 
         inlineImageOffsetX = -20f + 0.1f * originalCellWidth;
         inlineImageOffsetY = -32f + 0.1f * originalCellHeight - descent;
