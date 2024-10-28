@@ -37,9 +37,10 @@ public class IncongruityTest extends ApplicationAdapter {
         Skin skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
         Table root = new Table(skin);
 
-        Font[] fonts = new Font[KnownFonts.JSON_NAMES.size];
-        for (int i = 0; i < fonts.length; i++) {
-            fonts[i] = KnownFonts.getFont(KnownFonts.JSON_NAMES.orderedItems().get(i));
+        Font[] fonts = new Font[KnownFonts.JSON_NAMES.size+1];
+        fonts[0] = KnownFonts.getAStarryTall();
+        for (int i = 1; i < fonts.length; i++) {
+            fonts[i] = KnownFonts.getFont(KnownFonts.JSON_NAMES.orderedItems().get(i-1));
         }
         BitmapFont[] bitmapFonts = getFonts();
         Table labels = new Table();
@@ -96,10 +97,12 @@ public class IncongruityTest extends ApplicationAdapter {
         // getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
         // getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getNowAlt(),
         // getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()
-        BitmapFont[] fonts = new BitmapFont[KnownFonts.JSON_NAMES.size];
-        for (int i = 0; i < fonts.length; i++) {
-            fonts[i] = getFont(KnownFonts.JSON_NAMES.orderedItems().get(i));
+        BitmapFont[] fonts = new BitmapFont[KnownFonts.JSON_NAMES.size+1];
+        fonts[0] = tall;
+        for (int i = 1; i < fonts.length; i++) {
+            fonts[i] = getFont(KnownFonts.JSON_NAMES.orderedItems().get(i-1));
         }
+
         return fonts;
     }
 
@@ -130,7 +133,7 @@ public class IncongruityTest extends ApplicationAdapter {
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel Incongruity test");
-        config.setWindowedMode(1800, 700);
+        config.setWindowedMode(1800, 900);
         config.disableAudio(true);
         config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
