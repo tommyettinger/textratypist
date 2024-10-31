@@ -21,24 +21,20 @@ public class Main extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
-        font = KnownFonts.getRobotoCondensed();
-        Array<TypingLabel> labels = new Array<>(new TypingLabel[]{
-                new TypingLabel("{RAINBOW}Texttexttextte xtext text t e x t text text text text{ENDRAINBOW}", font)
-        });
-        TypingLabel label = labels.get(0);
-        label.setWrap(true);
-        label.setWidth(200);
-        label.setSize(200, 400);
+        font = KnownFonts.addEmoji(KnownFonts.getRobotoCondensed(), 8, 8, 8);
+        TypingLabel label = new TypingLabel(
+            "A Cowboy[+🤠] strolled on in\n" +
+            "to his favorite[+💖] den of sin[+🏩].\n" +
+            "He'd got his chips[+🥔], and went all in[+🤿],\n" +
+            "he drew an ace[+♠️], and got his win[+🏆].", font);
+        label.setWrap(false);
+        label.setWidth(400);
+        label.setSize(400, 200);
         label.setAlignment(Align.top);
 
-        BitmapFont bmfont = new BitmapFont(Gdx.files.internal("RobotoCondensed-standard.fnt"));
-        bmfont.getData().markupEnabled = true;
-        Label s2dLabel = new Label("I [SKY]can [ROYAL]do[] it!", new Label.LabelStyle(bmfont, Color.WHITE));
-        s2dLabel.setAlignment(Align.bottom);
         Table table = new Table();
         table.setFillParent(true);
-        table.add(label).row();
-        table.add(s2dLabel).bottom();
+        table.add(label).center();
         stage.addActor(table);
     }
 
