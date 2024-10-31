@@ -3333,6 +3333,31 @@ public class Font implements Disposable {
     }
 
     /**
+     * Adds a new glyph to this Font that has no visible representation (like space) but advances the cursor by a
+     * specified amount, either positive to move right or negative to move left. This can be useful to manually move
+     * problematic elements in a user interface, to add a fixed-width character for something like tab, or to make a
+     * new character that moves back by an exact amount. Suggestions for representations are {@code '\b'}, {@code '\t'},
+     * or the whitespace Unicode chars between {@code 0x2000} and {@code 0x200A}, inclusive. Suggestions for
+     * representations to <em>avoid</em> are any existing characters in the Font, carriage return, newline, and any of
+     * the possibly-whitespace characters between {@code 0x200B} and {@code 0x200D}, inclusive.
+     * <br>
+     * The representation must be {@code (representation < 0xE000 || representation >= 0xF800)}; if it is in that range
+     * starting with {@code 0xE000}, then it would be considered an atlas image and the spacing calculations would be
+     * all wrong. This Font must also have an existing space character, {@code ' '}.
+     * @param representation a char that can be entered to move the cursor by a specific amount
+     * @param advance how much to advance the cursor by, in unscaled font units; positive for right or negative for left
+     * @return this Font, for chaining
+     */
+    public Font addSpacingGlyph(char representation, float advance) {
+        GlyphRegion space = mapping.get(' ', null);
+        if(space == null || (representation >= 0xE000 && representation < 0xF800)) return this;
+        GlyphRegion next = new GlyphRegion(space);
+        next.xAdvance = advance;
+        mapping.put(representation, next);
+        return this;
+    }
+
+    /**
      * Must be called before drawing anything with an SDF or MSDF font; does not need to be called for other fonts
      * unless you are mixing them with SDF/MSDF fonts or other shaders. This also resets the Batch color to white, in
      * case it had been left with a different setting before. If this Font is not an SDF or MSDF font, then this resets
