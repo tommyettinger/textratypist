@@ -21,12 +21,12 @@ public class Main extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
-        font = KnownFonts.addEmoji(KnownFonts.getRobotoCondensed(), 8, 8, 8);
+        font = KnownFonts.addEmoji(KnownFonts.getRobotoCondensed(), -8, 8, 8);
         TypingLabel label = new TypingLabel(
-            "A Cowboy[+🤠] strolled on in\n" +
-            "to his favorite[+💖] den of sin[+🏩].\n" +
-            "He'd got his chips[+🥔], and went all in[+🤿],\n" +
-            "he drew an ace[+♠️], and got his win[+🏆].", font);
+            "[+🤠][+🥾]A Cowboy strolled on in\n" +
+            "[+💖][+🏩]to his favorite den of sin.\n" +
+            "[+🥔][+🤿]He'd got his chips, and went all in,\n" +
+            "[+♠️][+🏆]he drew an ace, and got his win.", font);
         label.setWrap(false);
         label.setWidth(400);
         label.setSize(400, 200);
