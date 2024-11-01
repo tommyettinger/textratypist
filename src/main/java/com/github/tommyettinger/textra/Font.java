@@ -4123,7 +4123,7 @@ public class Font implements Disposable {
                 yChange += cs * glyphs.height * 0.5f;
 
                 final Font.GlyphRegion reg = font.mapping.get((int) (glyph & 0xFFFF));
-                if(!isMono && reg != null) {
+                if(!isMono && reg != null && !(ch >= '\uE000' && ch < '\uF800')) {
                     float ox = reg.offsetX;
                     if (ox != ox) ox = 0f;
                     else
