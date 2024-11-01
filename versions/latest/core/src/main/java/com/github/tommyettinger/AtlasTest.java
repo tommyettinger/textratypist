@@ -1,22 +1,18 @@
 package com.github.tommyettinger;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.KnownFonts;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-public class Main extends ApplicationAdapter {
+public class AtlasTest extends ApplicationAdapter {
     Stage stage;
     Font font;
     @Override
@@ -28,7 +24,7 @@ public class Main extends ApplicationAdapter {
 ////            "[+💖][+🏩]to his favorite den of sin.\n" +
 ////            "[+🥔][+🤿]He'd got his chips, and went all in,\n" +
 ////            "[+♠️][+🏆]he drew an ace, and got his win.", font);
-        font = KnownFonts.getRobotoCondensed().scale(2f, 2f).addAtlas(new TextureAtlas("ui.atlas"), 0, 0, 0);
+        font = new Font("RobotoCondensed-standard.fnt").setTextureFilter().scaleHeightTo(50f).addAtlas(new TextureAtlas("ui.atlas"), -82, 0, 0);
         // I load the left-trigger image so we know what width we will need to offset by. Most buttons are probably similar.
         Font.GlyphRegion lt = font.mapping.get(font.nameLookup.get("controller_LT", ' ')),
             space = font.mapping.get(' '),
@@ -47,8 +43,10 @@ public class Main extends ApplicationAdapter {
         TypingLabel label = new TypingLabel(
 //            "[+controller_LT]\n" +
 //            "[+controller_RT]"
-            "[+controller_LT]\n" +
-            "\b[+controller_RT] (This has a \\b before the image!)\n" +
+//            "(This has no \\b before the image!)\n" +
+//            "Inline with text, no \\b!"
+            "[+controller_A]\n" +
+            "\b[+controller_B] (This has a \\b before the image!)\n" +
             "Inline [+controller_LT][+controller_RT] with text, no \\b!"
             , font);
         label.setWrap(false);
