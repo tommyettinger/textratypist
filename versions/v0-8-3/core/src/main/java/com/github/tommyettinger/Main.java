@@ -28,19 +28,29 @@ public class Main extends ApplicationAdapter {
 ////            "[+💖][+🏩]to his favorite den of sin.\n" +
 ////            "[+🥔][+🤿]He'd got his chips, and went all in,\n" +
 ////            "[+♠️][+🏆]he drew an ace, and got his win.", font);
-        font = KnownFonts.getRobotoCondensed().scale(1f, 1f).addAtlas(new TextureAtlas("ui.atlas"), 0, 0, 0);
+        font = KnownFonts.getRobotoCondensed().scale(2f, 2f).addAtlas(new TextureAtlas("ui.atlas"), 0, 0, 0);
         // I load the left-trigger image so we know what width we will need to offset by. Most buttons are probably similar.
         Font.GlyphRegion lt = font.mapping.get(font.nameLookup.get("controller_LT", ' ')),
             space = font.mapping.get(' '),
-            back = new Font.GlyphRegion(space); // I chose space because it's invisible.
+            back = new Font.GlyphRegion(space), // I chose space because it's invisible.
+            forward = new Font.GlyphRegion(space);
         // Because atlases are meant for emoji, which are square, the GlyphRegion height is also used as the width, but only for atlases.
         back.xAdvance = -lt.getRegionHeight();
+        forward.xAdvance = lt.getRegionHeight();
         // The \b is traditionally backspace, I think, or bell. Either way it isn't visible normally, or even used.
         font.mapping.put('\b', back);
         // Now you can place \b before any text, and it will move the cursor to the left by the same width as controller_LT.
 
-        TypingLabel label = new TypingLabel("[+controller_LT] (This might not work...)\n" +
-            "\b[+controller_RT] (This has a \\b before the image!)", font);
+        // This also maps tab to move the cursor forward by the exact width as controller_LT.
+        font.mapping.put('\t', forward);
+
+        TypingLabel label = new TypingLabel(
+//            "[+controller_LT]\n" +
+//            "[+controller_RT]"
+            "[+controller_LT]\n" +
+            "\b[+controller_RT] (This has a \\b before the image!)\n" +
+            "Inline [+controller_LT][+controller_RT] with text, no \\b!"
+            , font);
         label.setWrap(false);
         label.setWidth(400);
         label.setSize(400, 200);
