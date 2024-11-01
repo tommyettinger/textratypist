@@ -1,0 +1,146 @@
+
+controller.png
+size: 2048,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+controller_A
+  rotate: false
+  xy: 1012, 16
+  size: 82, 82
+  orig: 100, 100
+  offset: 9, 9
+  index: -1
+controller_B
+  rotate: false
+  xy: 1096, 16
+  size: 82, 82
+  orig: 100, 100
+  offset: 9, 9
+  index: -1
+controller_Dpad
+  rotate: false
+  xy: 2, 2
+  size: 96, 96
+  orig: 100, 100
+  offset: 2, 2
+  index: -1
+controller_Dpad_Down
+  rotate: false
+  xy: 100, 2
+  size: 96, 96
+  orig: 100, 100
+  offset: 2, 2
+  index: -1
+controller_Dpad_Left
+  rotate: false
+  xy: 198, 2
+  size: 96, 96
+  orig: 100, 100
+  offset: 2, 2
+  index: -1
+controller_Dpad_Right
+  rotate: false
+  xy: 296, 2
+  size: 96, 96
+  orig: 100, 100
+  offset: 2, 2
+  index: -1
+controller_Dpad_Up
+  rotate: false
+  xy: 394, 2
+  size: 96, 96
+  orig: 100, 100
+  offset: 2, 2
+  index: -1
+controller_LB
+  rotate: false
+  xy: 1508, 35
+  size: 90, 63
+  orig: 100, 100
+  offset: 5, 19
+  index: -1
+controller_LT
+  rotate: false
+  xy: 852, 10
+  size: 78, 88
+  orig: 100, 100
+  offset: 12, 8
+  index: -1
+controller_Left_Stick
+  rotate: false
+  xy: 492, 9
+  size: 90, 89
+  orig: 100, 100
+  offset: 5, 5
+  index: -1
+controller_Left_Stick_Click
+  rotate: false
+  xy: 676, 9
+  size: 86, 89
+  orig: 100, 100
+  offset: 7, 5
+  index: -1
+controller_Menu
+  rotate: false
+  xy: 1348, 21
+  size: 78, 77
+  orig: 100, 100
+  offset: 11, 11
+  index: -1
+controller_RB
+  rotate: false
+  xy: 1600, 35
+  size: 90, 63
+  orig: 100, 100
+  offset: 5, 19
+  index: -1
+controller_RT
+  rotate: false
+  xy: 932, 10
+  size: 78, 88
+  orig: 100, 100
+  offset: 12, 8
+  index: -1
+controller_Right_Stick
+  rotate: false
+  xy: 584, 9
+  size: 90, 89
+  orig: 100, 100
+  offset: 5, 5
+  index: -1
+controller_Right_Stick_Click
+  rotate: false
+  xy: 764, 9
+  size: 86, 89
+  orig: 100, 100
+  offset: 7, 5
+  index: -1
+controller_Share
+  rotate: false
+  xy: 1692, 38
+  size: 92, 60
+  orig: 100, 100
+  offset: 4, 20
+  index: -1
+controller_View
+  rotate: false
+  xy: 1428, 21
+  size: 78, 77
+  orig: 100, 100
+  offset: 11, 11
+  index: -1
+controller_X
+  rotate: false
+  xy: 1180, 16
+  size: 82, 82
+  orig: 100, 100
+  offset: 9, 9
+  index: -1
+controller_Y
+  rotate: false
+  xy: 1264, 16
+  size: 82, 82
+  orig: 100, 100
+  offset: 9, 9
+  index: -1
