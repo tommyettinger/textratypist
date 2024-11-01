@@ -1085,7 +1085,7 @@ public class TypingLabel extends TextraLabel {
                             y -= cs * (descent /* - 0.5f * glyphs.height */);
 
                             Font.GlyphRegion reg = font.mapping.get((char) glyph);
-                            if (reg != null && reg.offsetX < 0) {
+                            if (reg != null && reg.offsetX < 0 && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {
                                 float ox = reg.offsetX;
                                 ox *= f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
                                 if (ox < 0) {
@@ -1197,7 +1197,7 @@ public class TypingLabel extends TextraLabel {
                     y -= cs * (descent - 0.5f * glyphs.height);
 
                     Font.GlyphRegion reg = font.mapping.get((char) glyph);
-                    if (reg != null && reg.offsetX < 0) {
+                    if (reg != null && reg.offsetX < 0 && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {
                         float ox = reg.offsetX;
                         ox *= f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
                         if (ox < 0) {
