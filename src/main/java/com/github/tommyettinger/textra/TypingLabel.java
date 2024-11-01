@@ -1415,13 +1415,13 @@ public class TypingLabel extends TextraLabel {
             if (index < glyphs.size) {
                 for (int fin = index - start - glyphCount + end; index < fin && index < glyphs.size; index++) {
                     char c = (char) glyphs.get(index);
-                    if (c >= 0xE000 && c <= 0xF800) {
+                    if (c >= '\uE000' && c <= '\uF800') {
                         String name = font.namesByCharCode.get(c);
                         if (name != null) sb.append(name);
                         else sb.append(c);
                     } else {
-                        if (c == 2) sb.append('[');
-                        else sb.append(c);
+                        if (c == '\u0002') sb.append('[');
+                        else if(c != '\u200B') sb.append(c); // do not print zero-width space
                     }
                     glyphCount++;
                 }
