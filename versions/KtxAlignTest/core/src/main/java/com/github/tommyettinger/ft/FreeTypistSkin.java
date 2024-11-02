@@ -311,8 +311,6 @@ public class FreeTypistSkin extends FWSkin {
                         }
                     }
                     bitmapFont.getData().markupEnabled = markupEnabled;
-                    if(!markupEnabled)
-                        font.omitCurlyBraces = font.enableSquareBrackets = false;
                     bitmapFont.setUseIntegerPositions(useIntegerPositions);
                     font.useIntegerPositions(useIntegerPositions);
                     // For BitmapFont, scaled size is the desired cap height to scale the font to.

@@ -4266,7 +4266,7 @@ public class Font implements Disposable {
                 float changedW = tr.xAdvance * scaleX;
                 if(tr.offsetX != tr.offsetX)
                     changedW = font.cellWidth * scale;
-                else if(initial && !isMono && !(ch >= '\uE000' && ch < '\uF800')){
+                else if(initial && !font.isMono && !(ch >= '\uE000' && ch < '\uF800')){
                     float ox = tr.offsetX * scaleX;
                     if(ox < 0) changedW -= ox;
                 }
@@ -4400,13 +4400,11 @@ public class Font implements Disposable {
                 if (font == null) font = this;
                 GlyphRegion tr = font.mapping.get(ch);
                 if (tr == null) continue;
-                scale = (glyph & ALTERNATE) != 0L || isMono ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                scale = (glyph & ALTERNATE) != 0L || font.isMono ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
                 if (font.kerning != null) {
                     kern = kern << 16 | ch;
-                    if(ch >= 0xE000 && ch < 0xF800){
+                    if(ch >= 0xE000 && ch < 0xF800)
                         scaleX = scale * font.cellHeight / (tr.xAdvance);
-//                        scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
-                    }
                     else
                         scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
                     line.height = Math.max(line.height, (currentHeight = font.cellHeight) * scale);
@@ -4414,7 +4412,7 @@ public class Font implements Disposable {
                     float changedW = tr.xAdvance * scaleX;
                     if(tr.offsetX != tr.offsetX)
                         changedW = font.cellWidth * scale;
-                    else if(initial && !isMono && !(ch >= '\uE000' && ch < '\uF800')){
+                    else if(initial && !font.isMono && !(ch >= '\uE000' && ch < '\uF800')){
                         float ox = tr.offsetX * scaleX;
                         if(ox < 0) changedW -= ox;
                     }
@@ -4422,10 +4420,8 @@ public class Font implements Disposable {
                     drawn += changedW + amt;
                 } else {
                     line.height = Math.max(line.height, (currentHeight = font.cellHeight) * scale);
-                    if(ch >= 0xE000 && ch < 0xF800){
+                    if(ch >= 0xE000 && ch < 0xF800)
                         scaleX = scale * font.cellHeight / (tr.xAdvance);
-//                        scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
-                    }
                     else
                         scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
                     float changedW = tr.xAdvance * scaleX;
@@ -5874,7 +5870,6 @@ public class Font implements Disposable {
                                                     }
                                                     initial = false;
                                                 }
-
                                             }
                                         }
                                     } else {
