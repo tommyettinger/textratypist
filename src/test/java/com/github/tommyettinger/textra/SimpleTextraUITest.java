@@ -51,7 +51,8 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 		TextureRegion image = new TextureRegion(texture1);
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
-		final Font font = new Font(skin.getFont("outline-font"), 0f, 0f, 0f, 15f);
+		final Font font = skin.get("outline-font", Font.class);
+//		final Font font = new Font(skin.getFont("outline-font"), 0f, 0f, 0f, 0f);
 		font.setLineMetrics(-0.5f, 0f, 0.25f, 0f);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
@@ -61,7 +62,7 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 
 		for(Font f : font.family.connected) {
 			if(f != null)
-				KnownFonts.addEmoji(f, 8, 8, 8);
+				KnownFonts.addEmoji(f, 8, -8, -16);
 		}
 
 		stage = new Stage(new ScreenViewport());
