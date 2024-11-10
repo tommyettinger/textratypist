@@ -71,9 +71,9 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		// For unknown reasons, emoji added to this particular font are a little too high before adjustment.
 		// Using the extra three float arguments for offsetX, offsetY, and xAdvance changes helps a lot here.
 //		KnownFonts.addEmoji(font, 0f, 4f, 0f);
-		KnownFonts.addEmoji(skin.get("font-button", Font.class), -8, 24f, 0f);
-		KnownFonts.addEmoji(skin.get("font-label", Font.class), -8, 24f, 0f);
-		KnownFonts.addEmoji(skin.get("font-title", Font.class), -8, 24f, 0f);
+		KnownFonts.addEmoji(skin.get("font-button", Font.class), -24f, 0f, 0f);
+		KnownFonts.addEmoji(skin.get("font-label", Font.class),  -24f, 0f, 0f);
+		KnownFonts.addEmoji(skin.get("font-title", Font.class),  -24f, 0f, 0f);
 		final Font title = skin.get("title", Styles.LabelStyle.class).font
 //				.adjustLineHeight(1.5f)
 				.useIntegerPositions(false);

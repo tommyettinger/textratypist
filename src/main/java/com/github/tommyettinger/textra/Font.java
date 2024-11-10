@@ -2646,8 +2646,8 @@ public class Font implements Disposable {
         underY -= descent / size;
         strikeY -= descent / size;
 
-        inlineImageOffsetX = -20f + 0.1f * originalCellWidth;
-        inlineImageOffsetY = -32f + 0.1f * originalCellHeight - descent;
+        inlineImageOffsetX = 0f;
+        inlineImageOffsetY = 0f;
         inlineImageXAdvance = 4f;
     }
 

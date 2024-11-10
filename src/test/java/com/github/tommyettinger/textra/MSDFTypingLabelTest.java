@@ -32,6 +32,8 @@ public class MSDFTypingLabelTest extends ApplicationAdapter {
     @Override
     public void create() {
         font = KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.MSDF);
+        // equivalent to
+//        font = new Font("Yanone-Kaffeesatz-msdf.dat", true).scaleHeightTo(32);
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
