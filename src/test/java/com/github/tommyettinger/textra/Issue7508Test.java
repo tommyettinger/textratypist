@@ -30,7 +30,32 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.lang.management.ManagementFactory;
+
 public class Issue7508Test extends ApplicationAdapter {
+  private static final long OFFSET = measureInternal(() -> { });
+
+  /**
+   * @return amount of memory allocated while executing provided {@link Runnable}
+   */
+  private static long measureInternal(final Runnable x) {
+    final long now = getCurrentThreadAllocatedBytes();
+    x.run();
+    return getCurrentThreadAllocatedBytes() - now;
+  }
+
+  public static long measure(final Runnable x)
+  {
+    System.gc();
+    final long mi = measureInternal(x);
+    return mi - OFFSET;
+  }
+
+  @SuppressWarnings("restriction")
+  private static long getCurrentThreadAllocatedBytes() {
+    return ((com.sun.management.ThreadMXBean) ManagementFactory.getThreadMXBean())
+            .getThreadAllocatedBytes(Thread.currentThread().getId());
+  }
 
   private Stage stage;
 
@@ -52,19 +77,25 @@ public class Issue7508Test extends ApplicationAdapter {
     stage = new Stage(new ScreenViewport());
 
     // Uses 1615733248 for both Java and Native heap
-    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("OpenSans-standard.ttf"));
-    FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-    parameter.size = 16;
-    BitmapFont font16 = generator.generateFont(parameter);
-    generator.dispose();
+    // ThreadMXBean reports 284068616 bytes used.
+//    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("OpenSans-standard.ttf"));
+//    FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//    parameter.size = 16;
+//    BitmapFont font16 = generator.generateFont(parameter);
+//    generator.dispose();
 
     // Uses 1623910080 for both Java and Native heap
-//    BitmapFont font16 = new BitmapFont();
+    // ThreadMXBean reports 284068160 bytes used.
+    BitmapFont font16 = new BitmapFont();
 
     Label.LabelStyle labelStyle = new Label.LabelStyle(font16, Color.WHITE);
-    Label label = new Label(text, labelStyle);
-
-    stage.addActor(label);
+    final Label[] label = {new Label("", labelStyle)};
+    long memory = measure(() -> {
+      label[0] = new Label(text, labelStyle);
+    });
+    stage.addActor(label[0]);
+    stage.act(0.5f);
+    Gdx.app.log("MEMORY", "ThreadMXBean reports label uses\n" + memory + " bytes.");
   }
 
   @Override
@@ -73,7 +104,7 @@ public class Issue7508Test extends ApplicationAdapter {
     stage.act();
     stage.getViewport().apply(true);
     stage.draw();
-    Gdx.app.log("MEMORY", "Java heap: " + Gdx.app.getJavaHeap() + ", Native heap: " + Gdx.app.getNativeHeap());
+    Gdx.app.log("MEMORY", "Java heap:\n" + Gdx.app.getJavaHeap() + ", Native heap: " + Gdx.app.getNativeHeap());
   }
 
   @Override

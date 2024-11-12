@@ -29,7 +29,32 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.lang.management.ManagementFactory;
+
 public class Issue7508TextraTest extends ApplicationAdapter {
+  private static final long OFFSET = measureInternal(() -> { });
+
+  /**
+   * @return amount of memory allocated while executing provided {@link Runnable}
+   */
+  private static long measureInternal(final Runnable x) {
+    final long now = getCurrentThreadAllocatedBytes();
+    x.run();
+    return getCurrentThreadAllocatedBytes() - now;
+  }
+
+  public static long measure(final Runnable x)
+  {
+    System.gc();
+    final long mi = measureInternal(x);
+    return mi - OFFSET;
+  }
+
+  @SuppressWarnings("restriction")
+  private static long getCurrentThreadAllocatedBytes() {
+    return ((com.sun.management.ThreadMXBean) ManagementFactory.getThreadMXBean())
+            .getThreadAllocatedBytes(Thread.currentThread().getId());
+  }
 
   private Stage stage;
 
@@ -60,14 +85,19 @@ public class Issue7508TextraTest extends ApplicationAdapter {
 
     // Old uses 1623910080 for both Java and Native heap
     // New uses  266370560 for both Java and Native heap
+    // ThreadMXBean reports 208281760 bytes used.
     BitmapFont bmFont = new BitmapFont();
 
     Font font16 = new Font(bmFont);
 
     Styles.LabelStyle labelStyle = new Styles.LabelStyle(font16, Color.WHITE);
-    TextraLabel label = new TextraLabel(text, labelStyle);
-
-    stage.addActor(label);
+    final TextraLabel[] label = {new TextraLabel("", labelStyle)};
+    long memory = measure(() -> {
+      label[0] = new TextraLabel(text, labelStyle);
+    });
+    stage.addActor(label[0]);
+    stage.act(0.5f);
+    Gdx.app.log("MEMORY", "ThreadMXBean reports label uses\n" + memory + " bytes.");
   }
 
   @Override
@@ -76,7 +106,7 @@ public class Issue7508TextraTest extends ApplicationAdapter {
     stage.act();
     stage.getViewport().apply(true);
     stage.draw();
-    Gdx.app.log("MEMORY", "Java heap: " + Gdx.app.getJavaHeap() + ", Native heap: " + Gdx.app.getNativeHeap());
+    Gdx.app.log("MEMORY", "Java heap:\n" + Gdx.app.getJavaHeap() + ", Native heap: " + Gdx.app.getNativeHeap());
   }
 
   @Override
