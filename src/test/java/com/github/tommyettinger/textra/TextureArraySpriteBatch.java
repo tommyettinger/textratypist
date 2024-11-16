@@ -44,7 +44,7 @@ public class TextureArraySpriteBatch implements Batch {
     private final float[] vertices;
 
     private final int spriteVertexSize = 5;//Sprite.VERTEX_SIZE;
-    private final int spriteFloatSize = 20;//Sprite.SPRITE_SIZE;
+    private final int spriteFloatSize = spriteVertexSize * 4;//Sprite.SPRITE_SIZE;
 
     /** The maximum number of available texture units for the fragment shader */
     private static int maxTextureUnits = -1;
@@ -55,7 +55,7 @@ public class TextureArraySpriteBatch implements Batch {
     /** LFU Array (index: Texture Unit Index - value: Access frequency) */
     private final int[] usedTexturesLFU;
 
-    /** Gets sent to the fragment shader as an uniform "uniform sampler2d[X] u_textures" */
+    /** Gets sent to the fragment shader as a uniform "uniform sampler2d[X] u_textures" */
     private final IntBuffer textureUnitIndicesBuffer;
 
     private float invTexWidth = 0, invTexHeight = 0;
@@ -77,7 +77,7 @@ public class TextureArraySpriteBatch implements Batch {
 
     private static String shaderErrorLog = null;
 
-    private boolean ownsShader;
+    private final boolean ownsShader;
 
     private final Color color = new Color(1, 1, 1, 1);
     private float colorPacked = Color.WHITE_FLOAT_BITS;

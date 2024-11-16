@@ -499,15 +499,28 @@ public class Font implements Disposable {
     //// members section
 
     /**
+     * Determines whether this Font can share the same reference for its data structure members (if true), or if copies
+     * should be made when using {@link #Font(Font)} (if false). This defaults to false.
+     */
+    public boolean sharing = false;
+
+    /**
      * Maps char keys (stored as ints) to their corresponding {@link GlyphRegion} values. You can add arbitrary images
      * to this mapping if you create appropriate GlyphRegion values (as with
      * {@link GlyphRegion#GlyphRegion(TextureRegion, float, float, float, float)}), though they must map to a char.
+     * If {@link #sharing} is true, then this reference may be shared with one or more other Fonts, and changes to the
+     * mapping will affect all Fonts that share that mapping. {@link #addAtlas(TextureAtlas)},
+     * {@link #addImage(String, TextureRegion)}, {@link #addSpacingGlyph(char, float)}, and
+     * {@link #fitCell(float, float, boolean)} all modify this field, and it can also be modified directly.
      */
     public IntMap<GlyphRegion> mapping;
 
     /**
      * Optional; maps the names of TextureRegions to the indices they use in {@link #mapping}, and usually assigned by
      * {@link #addAtlas(TextureAtlas)}. The keys in this map are case-insensitive.
+     * If {@link #sharing} is true, then this reference may be shared with one or more other Fonts, and changes to this
+     * variable will affect all Fonts that share references with this Font. {@link #addAtlas(TextureAtlas)} modifies
+     * this field, and it can also be modified directly.
      */
     public CaseInsensitiveIntMap nameLookup;
 
@@ -518,6 +531,10 @@ public class Font implements Disposable {
      * If multiple names are registered for the same char, the first one registered takes priority, unless the second
      * name starts with an "astral plane" char such as an emoji. In the
      * common use case of {@link KnownFonts#addEmoji(Font)}, this means the printable names are all emoji.
+     * <br>
+     * If {@link #sharing} is true, then this reference may be shared with one or more other Fonts, and changes to this
+     * variable will affect all Fonts that share references with this Font. {@link #addAtlas(TextureAtlas)} modifies
+     * this field, and it can also be modified directly.
      */
     public IntMap<String> namesByCharCode;
     /**
@@ -545,6 +562,7 @@ public class Font implements Disposable {
      * any meaning when the Font is being drawn by OpenGL, which is a single-threaded API. All Font instances share this
      * because that is necessary to allow switching between fonts to make sense.
      */
+    @SuppressWarnings("GDXJavaStaticResource")
     private static Texture latestTexture = null;
 
     /**
@@ -559,6 +577,10 @@ public class Font implements Disposable {
      * combination of two chars as a key (the earlier char is in the upper 16 bits, and the later char is in the lower
      * 16 bits). Each such combination that has a special kerning value (not the default 0) has a float associated with
      * it, which applies to the x-position of the later char.
+     * <br>
+     * If {@link #sharing} is true, then this reference may be shared with one or more other Fonts, and changes to this
+     * variable will affect all Fonts that share references with this Font. While kerning is usually only assigned when
+     * a Font is loaded from a file or a BitmapFont, it can also be modified directly.
      */
     public IntFloatMap kerning;
     /**
@@ -1332,7 +1354,6 @@ public class Font implements Disposable {
         isMono = toCopy.isMono;
         actualCrispness = toCopy.actualCrispness;
         distanceFieldCrispness = toCopy.distanceFieldCrispness;
-        parents = new Array<>(toCopy.parents);
         cellWidth = toCopy.cellWidth;
         cellHeight = toCopy.cellHeight;
         scaleX = toCopy.scaleX;
@@ -1364,22 +1385,33 @@ public class Font implements Disposable {
         inlineImageOffsetY = toCopy.inlineImageOffsetY;
         inlineImageXAdvance = toCopy.inlineImageXAdvance;
 
+        parents = new Array<>(toCopy.parents);
         mapping = new IntMap<>(toCopy.mapping.size);
-        for (IntMap.Entry<GlyphRegion> e : toCopy.mapping) {
-            if (e.value == null) continue;
-            mapping.put(e.key, new GlyphRegion(e.value));
+        if(toCopy.sharing){
+            sharing = true;
+            mapping = toCopy.mapping;
+            nameLookup = toCopy.nameLookup;
+            namesByCharCode = toCopy.namesByCharCode;
+            kerning = toCopy.kerning;
+        } else {
+            for (IntMap.Entry<GlyphRegion> e : toCopy.mapping) {
+                if (e.value == null) continue;
+                mapping.put(e.key, new GlyphRegion(e.value));
+            }
+            if(toCopy.nameLookup != null)
+                nameLookup = new CaseInsensitiveIntMap(toCopy.nameLookup);
+            if(toCopy.namesByCharCode != null)
+                namesByCharCode = new IntMap<>(toCopy.namesByCharCode);
+            kerning = toCopy.kerning == null ? null : new IntFloatMap(toCopy.kerning);
         }
-        if(toCopy.nameLookup != null)
-            nameLookup = new CaseInsensitiveIntMap(toCopy.nameLookup);
-        if(toCopy.namesByCharCode != null)
-            namesByCharCode = new IntMap<>(toCopy.namesByCharCode);
         defaultValue = toCopy.defaultValue;
-        kerning = toCopy.kerning == null ? null : new IntFloatMap(toCopy.kerning);
         solidBlock = toCopy.solidBlock;
         name = toCopy.name;
         integerPosition = toCopy.integerPosition;
         omitCurlyBraces = toCopy.omitCurlyBraces;
         enableSquareBrackets = toCopy.enableSquareBrackets;
+        whiteBlock = toCopy.whiteBlock;
+
         storedStates.putAll(toCopy.storedStates);
 
         if (toCopy.family != null) {
@@ -1411,7 +1443,6 @@ public class Font implements Disposable {
             shader = toCopy.shader;
         if (toCopy.colorLookup != null)
             colorLookup = toCopy.colorLookup;
-        whiteBlock = toCopy.whiteBlock;
     }
 
     /**
@@ -2654,6 +2685,33 @@ public class Font implements Disposable {
     //// usage section
 
     /**
+     * Configures whether some data structures should be shared when this Font is copied via {@link #Font(Font)}.
+     * If {@code share} is true, this simply sets a boolean and that will reduce the amount of work done in the copy
+     * constructor, at the cost of preventing unique configuration per Font in some fields. If {@code share} is false,
+     * and this is currently already set to share those data structures, this will stop sharing them by creating copies
+     * of {@link #mapping}, {@link #namesByCharCode}, {@link #nameLookup}, and {@link #kerning}, and using those copies
+     * from this point onward. When sharing is disabled, the copy constructor will do a similar copy for the new Font.
+     * @param share whether some data structures should share references with copies of this Font
+     * @return this, for chaining
+     */
+    public Font setSharing(boolean share) {
+        if(sharing && !share) {
+            IntMap<GlyphRegion> sharedMapping = mapping;
+            mapping = new IntMap<>(sharedMapping.size);
+            for (IntMap.Entry<GlyphRegion> e : sharedMapping) {
+                if (e.value == null) continue;
+                mapping.put(e.key, new GlyphRegion(e.value));
+            }
+            if(nameLookup != null)
+                nameLookup = new CaseInsensitiveIntMap(nameLookup);
+            if(namesByCharCode != null)
+                namesByCharCode = new IntMap<>(namesByCharCode);
+            kerning = kerning == null ? null : new IntFloatMap(kerning);
+        }
+        sharing = share;
+        return this;
+    }
+    /**
      * A {@link DistanceFieldType} that should be {@link DistanceFieldType#STANDARD} for most fonts, and can be
      * {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or {@link DistanceFieldType#SDF_OUTLINE} if you
      * know you have a font made to be used with one of those rendering techniques. See {@link #distanceFieldCrispness}
@@ -2792,6 +2850,8 @@ public class Font implements Disposable {
      * Fits all chars into cells width by height in size, and optionally centers them in their cells.
      * This sets {@link #isMono} to true, and {@link #kerning} to null.
      * If you call {@link #scaleTo(float, float)} after this, you will need to call fitCell() again to update cell size.
+     * <br>
+     * If {@link #sharing} is true, then calling this makes the same changes to Fonts that share references with this.
      *
      * @param width  the target width of a cell, in world units
      * @param height the target height of a cell, in world units
@@ -3162,6 +3222,8 @@ public class Font implements Disposable {
      * normal, such as any with human skin tones. These won't be handled well... You may want to use the
      * {@code [+scientist, dark skin tone]} or {@code [+🧑🏿‍🔬]} syntax for multipart emoji when you actually have an
      * atlas full of emoji to draw from, such as the one used by {@link KnownFonts#addEmoji(Font)}.
+     * <br>
+     * If {@link #sharing} is true, then calling this makes the same changes to Fonts that share references with this.
      *
      * @param character a String containing at least one character; only the last char (not codepoint) will be used
      * @param region the TextureRegion to associate with the given character
@@ -3187,6 +3249,9 @@ public class Font implements Disposable {
      * These won't be handled well... You may want to use the {@code [+scientist, dark skin tone]} or {@code [+🧑🏿‍🔬]}
      * syntax for multipart emoji when you actually have an atlas full of emoji to draw from, such as the one used by
      * {@link KnownFonts#addEmoji(Font)}.
+     * <br>
+     * If {@link #sharing} is true, then calling this makes the same changes to Fonts that share references with this.
+     *
      * @param character a String containing at least one character; only the last char (not codepoint) will be used
      * @param region the TextureRegion to associate with the given character
      * @return this Font, for chaining
@@ -3204,6 +3269,9 @@ public class Font implements Disposable {
      * <a href="https://github.com/tommyettinger/twemoji-atlas/">There are possible emoji atlases here.</a>
      * This may be useful if you have your own atlas, but for Twemoji in particular, you can use
      * {@link KnownFonts#addEmoji(Font)} and the Twemoji files in the knownFonts folder.
+     * <br>
+     * If {@link #sharing} is true, then calling this makes the same changes to Fonts that share references with this.
+     *
      * @param atlas a TextureAtlas that shouldn't have more than 6144 names; all of it will be used
      * @return this Font, for chaining
      */
@@ -3225,6 +3293,8 @@ public class Font implements Disposable {
      * Changing xAdvanceChange with a positive value will shrink all GlyphRegions (this is probably unexpected).
      * Each of the metric changes has a variable from this Font added to it; {@link #inlineImageOffsetX},
      * {@link #inlineImageOffsetY}, and {@link #inlineImageXAdvance} all are added in here.
+     * <br>
+     * If {@link #sharing} is true, then calling this makes the same changes to Fonts that share references with this.
      *
      * @param atlas a TextureAtlas that shouldn't have more than 6144 names; all of it will be used
      * @param offsetXChange will be added to the {@link GlyphRegion#offsetX} of each added glyph; positive change moves a GlyphRegion to the right
@@ -3252,6 +3322,8 @@ public class Font implements Disposable {
      * Changing xAdvanceChange with a positive value will shrink all GlyphRegions (this is probably unexpected).
      * Each of the metric changes has a variable from this Font added to it; {@link #inlineImageOffsetX},
      * {@link #inlineImageOffsetY}, and {@link #inlineImageXAdvance} all are added in here.
+     * <br>
+     * If {@link #sharing} is true, then calling this makes the same changes to Fonts that share references with this.
      *
      * @param atlas a TextureAtlas that shouldn't have more than 6144 names; all of it will be used
      * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
@@ -3344,6 +3416,9 @@ public class Font implements Disposable {
      * The representation must be {@code (representation < 0xE000 || representation >= 0xF800)}; if it is in that range
      * starting with {@code 0xE000}, then it would be considered an atlas image and the spacing calculations would be
      * all wrong. This Font must also have an existing space character, {@code ' '}.
+     * <br>
+     * If {@link #sharing} is true, then calling this makes the same changes to Fonts that share references with this.
+     *
      * @param representation a char that can be entered to move the cursor by a specific amount
      * @param advance how much to advance the cursor by, in unscaled font units; positive for right or negative for left
      * @return this Font, for chaining
