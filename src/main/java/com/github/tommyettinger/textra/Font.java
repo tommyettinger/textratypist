@@ -4333,7 +4333,7 @@ public class Font implements Disposable {
                 kern = kern << 16 | ch;
                 scale = extractScale(glyph);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
-                    scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
+                    scaleX = scale * font.cellHeight / tr.getRegionHeight() * font.inlineImageStretch;
                 else
                     scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
                 amt = font.kerning.get(kern, 0) * scaleX;
@@ -4349,7 +4349,7 @@ public class Font implements Disposable {
             } else {
                 scale = extractScale(glyph);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
-                    scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
+                    scaleX = scale * font.cellHeight / tr.getRegionHeight() * font.inlineImageStretch;
                 else
                     scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
 
@@ -4410,7 +4410,7 @@ public class Font implements Disposable {
             if (font.kerning != null) {
                 kern = kern << 16 | ch;
                 if(ch >= 0xE000 && ch < 0xF800) {
-                    scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
+                    scaleX = scale * font.cellHeight / tr.getRegionHeight() * font.inlineImageStretch;
                 }
                 else
                     scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
@@ -4428,7 +4428,7 @@ public class Font implements Disposable {
             } else {
                 line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800) {
-                    scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
+                    scaleX = scale * font.cellHeight / tr.getRegionHeight() * font.inlineImageStretch;
                 }
                 else
                     scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
@@ -4494,7 +4494,7 @@ public class Font implements Disposable {
                 if (font.kerning != null) {
                     kern = kern << 16 | ch;
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
+                        scaleX = scale * font.cellHeight / tr.getRegionHeight() * font.inlineImageStretch;
                     else
                         scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
                     line.height = Math.max(line.height, (currentHeight = font.cellHeight) * scale);
@@ -4511,7 +4511,7 @@ public class Font implements Disposable {
                 } else {
                     line.height = Math.max(line.height, (currentHeight = font.cellHeight) * scale);
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;// / (tr.xAdvance);
+                        scaleX = scale * font.cellHeight / tr.getRegionHeight() * font.inlineImageStretch;// / (tr.xAdvance);
                     else
                         scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
                     float changedW = tr.xAdvance * scaleX;
@@ -4581,7 +4581,7 @@ public class Font implements Disposable {
                 kern = kern << 16 | ch;
                 scale = extractScale(glyph);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
-                    scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
+                    scaleX = scale * font.cellHeight / tr.getRegionHeight() * font.inlineImageStretch;
                 }
                 else
                     scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
@@ -4602,7 +4602,7 @@ public class Font implements Disposable {
                 scale = extractScale(glyph);
                 line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
-                    scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
+                    scaleX = scale * font.cellHeight / tr.getRegionHeight() * font.inlineImageStretch;
 //                    scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
                 }
                 else
@@ -4776,7 +4776,7 @@ public class Font implements Disposable {
         float scaleX, fsx, osx;
         float scaleY, fsy, osy;
         if(c >= 0xE000 && c < 0xF800){
-            fsx = font.cellHeight / tr.xAdvance * font.inlineImageStretch;
+            fsx = font.cellHeight / tr.getRegionHeight() * font.inlineImageStretch;
 //            fsx = font.cellHeight * 0.8f / tr.xAdvance;
             fsy = fsx;//0.75f * font.originalCellHeight / tr.getRegionHeight();
             //scale * font.cellHeight * 0.8f / tr.xAdvance;//font.cellHeight / (tr.xAdvance * 1.25f);
@@ -4902,16 +4902,13 @@ public class Font implements Disposable {
             // rotating xc and yt variables, to the position-only x and y variables.
             // it also offsets x by a half-cell to the right, and moves the origin for y.
             float xch = tr.offsetX * scale * fsx * sizingX;
-//            float ych = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - centerY;
-            float ych = (font.originalCellHeight * 0.5f - trrh * font.inlineImageStretch + tr.offsetY) * fsy * scale * sizingY;
-//            float ych = (font.originalCellHeight * fsy - (trrh + tr.offsetY) * fsy) * scale * sizingY - scaledHeight;
-//            float ych = scaledHeight - tr.offsetY * font.scaleY * scale * sizingY;
-//            float ych = scaledHeight * 0.5f - tr.offsetY * scaleY * sizingY;
-            //float ych = scaledHeight -tr.offsetY * fsy * scale * sizingY;
+            float ych = tr.offsetY * scale * fsy * sizingY;
+            // this sorta works...
+//            float ych = (font.originalCellHeight * 0.5f - trrh * font.inlineImageStretch + tr.offsetY) * fsy * scale * sizingY;
             xc -= xch;
             x += xch + changedW * 0.5f;
-            yt -= ych + scaledHeight * 0.5f;// - font.descent * fsy * scale;
-            y += ych;
+            yt -= ych;// - font.descent * fsy * scale;
+            y += ych - font.cellHeight * font.inlineImageStretch * 1.5F;
 //            //y += ych - font.descent * font.scaleY * 0.5f;
 
 //            float xch = tr.offsetX * scaleX * sizingX;
@@ -5169,14 +5166,7 @@ public class Font implements Disposable {
             centerX = oCenterX + xShift * 0.5f;
             centerY = oCenterY + yShift * 0.5f;
             x += font.cellWidth * 0.5f;
-//            x += centerX;
-//            x -= centerX;
-//            y -= centerY;
-            //x += centerX * cos; y += centerX * sin;
-            // not sure here...
-//            if (c >= 0xE000 && c < 0xF800) {
-//                y -= scaledHeight * 0.5f;
-//            }
+
             GlyphRegion under = font.mapping.get(0x2500);
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = font.cellWidth * -0.5f - scale * font.scaleX + xAdvance * font.underX * scale * font.scaleX;
@@ -5185,16 +5175,8 @@ public class Font implements Disposable {
 //                p0y = ((font.underY - 0.6f) * font.cellHeight * scale + centerY) * sizingY + font.descent * font.scaleY * scale * sizingY;
                 p0y = ((font.underY - 0.5f) * font.cellHeight * scale * 0.5f) * sizingY + font.descent * font.scaleY * scale * sizingY;
 
-//                if (c >= 0xE000 && c < 0xF800)
-//                {
-//                    p0x -= xPx * 2f - (changedW * 0.5f);
-//                    p0y += scaledHeight * 0.5f;
-//                }
-//                else
-//                {
-                    p0x += xPx + centerX - cos * centerX;
-                    p0y += sin * centerX;
-//                }
+                p0x += xPx + centerX - cos * centerX;
+                p0y += sin * centerX;
                 if (c >= 0xE000 && c < 0xF800) {
                     p0x += changedW * 0.5f;
 ////                    p0x -= xPx * 2f - changedW * 0.5f;
@@ -5234,10 +5216,6 @@ public class Font implements Disposable {
                     yt = (centerY - (trrh + under.offsetY) * font.scaleY) * scale * sizingY
                             + cellHeight * font.underY * scale * sizingY;
                     if(squashed) yt -= font.cellHeight * scale * 0.15f;
-                    //((font.originalCellHeight * 0.5f - trrh - under.offsetY) * scaleY - 0.5f * imageAdjust * scale) * sizingY;
-//                    if (c >= 0xE000 && c < 0xF800) {
-//                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
-//                    }
                     final float underU = (under.getU() + under.getU2()) * 0.5f - iw,
                             underV = under.getV(),
                             underU2 = underU + iw,
@@ -5296,36 +5274,14 @@ public class Font implements Disposable {
             centerX = oCenterX + xShift * 0.5f;
             centerY = oCenterY + yShift * 0.5f;
             x += font.cellWidth * 0.5f;
-//            x -= centerX;
-//            y -= centerY;
-            //x += centerX * cos; y += centerX * sin;
-//            if (c >= 0xE000 && c < 0xF800) {
-//                x += (changedW * 0.5f);
-//            }
-//            if (c >= 0xE000 && c < 0xF800) {
-//                y += (scaledHeight * 0.5f);
-//                x += (changedW * 0.5f);
-//            }
-            // not sure on this
-//            if (c >= 0xE000 && c < 0xF800) {
-//                y -= scaledHeight * 0.5f;
-//            }
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = font.cellWidth * -0.5f - scale * font.scaleX + xAdvance * font.strikeX * scale * font.scaleX;
-                //p0y = ((font.underY - 0.6f) * font.cellHeight + centerY) * scale * sizingY + font.descent * font.scaleY * scale * sizingY;
                 p0y = ((font.strikeY) * font.cellHeight * scale * 0.5f) * sizingY + font.descent * scale * font.scaleY * sizingY;
-//                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + xAdvance * font.strikeX * scaleX;
-//                p0y = centerY + (font.strikeY - 0.45f) * font.cellHeight * scale * sizingY + sin * centerX + font.descent * font.scaleY;
-//                if (c >= 0xE000 && c < 0xF800) {
-//                    p0x -= xPx * 2f - (changedW * 0.5f);
-//                    p0y += scaledHeight * 0.5f;
-//                }
-//                else {
-                    p0x += xPx + centerX - cos * centerX;
-                    p0y += sin * centerX;
-//                }
+                p0x += xPx + centerX - cos * centerX;
+                p0y += sin * centerX;
+
                 if (c >= 0xE000 && c < 0xF800) {
                     p0x += changedW * 0.5f;
 //                    p0y += centerY * sizingY;
@@ -5357,22 +5313,10 @@ public class Font implements Disposable {
                     trrh = dash.getRegionHeight();
                     h = trrh * osy * sizingY * (1f + font.strikeBreadth);
 
-//                    if (c >= 0xE000 && c < 0xF800)
-//                        yt = handleIntegerPosition((-centerY + imageAdjust) * scale * 0.5f * sizingY);
-
                     yt = (centerY - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY
                             + font.cellHeight * font.strikeY * scale * sizingY;
                     if(squashed) yt -= font.cellHeight * scale * 0.15f;
-//                    yt = (font.cellHeight * 0.5f - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY;
-                    //((font.originalCellHeight * 0.5f - trrh - dash.offsetY) * scaleY) * sizingY;
-//                    if (c >= 0xE000 && c < 0xF800) {
-//                        yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f /* - font.cellHeight * scale */);
-//                    }
 
-//                    if (c >= 0xE000 && c < 0xF800)
-//                        System.out.println("With font " + name + ", STRIKETHROUGH: yt=" + yt);
-
-                    //dashU = dash.getU() + (dash.xAdvance - dash.offsetX) * iw * 0.625f,
                     final float dashU = (dash.getU() + dash.getU2()) * 0.5f - iw,
                             dashV = dash.getV(),
                             dashU2 = dashU + iw,
@@ -5459,8 +5403,6 @@ public class Font implements Disposable {
                     changedW * (1f + underLength), xPx, yPx, rotation);
 
         }
-//        if (c >= 0xE000 && c < 0xF800)
-//            changedW *= 1.25f;
         return changedW;
     }
 
