@@ -1039,6 +1039,12 @@ public class Font implements Disposable {
     public float inlineImageXAdvance = 0f;
 
     /**
+     * A multiplier applied to the sizes of any inline images added with
+     * {@link #addAtlas(TextureAtlas, String, String, float, float, float)} (or its overloads), at draw-time.
+     */
+    public float inlineImageStretch = 1f;
+
+    /**
      * If true (the default), any text inside matching curly braces, plus the curly braces themselves, will be ignored
      * during rendering and not displayed. If false, curly braces and their contents are treated as normal text.
      * Note that regardless of this setting, you can use the <code>[-TAG]</code> syntax instead of <code>{TAG}</code>
@@ -4327,7 +4333,7 @@ public class Font implements Disposable {
                 kern = kern << 16 | ch;
                 scale = extractScale(glyph);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
-                    scaleX = scale * font.cellHeight / (tr.xAdvance);
+                    scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
                 else
                     scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
                 amt = font.kerning.get(kern, 0) * scaleX;
@@ -4343,7 +4349,7 @@ public class Font implements Disposable {
             } else {
                 scale = extractScale(glyph);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
-                    scaleX = scale * font.cellHeight / (tr.xAdvance);
+                    scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
                 else
                     scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
 
@@ -4404,7 +4410,7 @@ public class Font implements Disposable {
             if (font.kerning != null) {
                 kern = kern << 16 | ch;
                 if(ch >= 0xE000 && ch < 0xF800) {
-                    scaleX = scale * font.cellHeight / (tr.xAdvance);
+                    scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
                 }
                 else
                     scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
@@ -4422,7 +4428,7 @@ public class Font implements Disposable {
             } else {
                 line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800) {
-                    scaleX = scale * font.cellHeight / (tr.xAdvance);
+                    scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
                 }
                 else
                     scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
@@ -4488,7 +4494,7 @@ public class Font implements Disposable {
                 if (font.kerning != null) {
                     kern = kern << 16 | ch;
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = scale * font.cellHeight / (tr.xAdvance);
+                        scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
                     else
                         scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
                     line.height = Math.max(line.height, (currentHeight = font.cellHeight) * scale);
@@ -4496,7 +4502,7 @@ public class Font implements Disposable {
                     float changedW = tr.xAdvance * scaleX;
                     if(tr.offsetX != tr.offsetX)
                         changedW = font.cellWidth * scale;
-                    else if(initial && !font.isMono && !(ch >= '\uE000' && ch < '\uF800')){
+                    else if(initial && !font.isMono /* && !(ch >= '\uE000' && ch < '\uF800') */ ){
                         float ox = tr.offsetX * scaleX;
                         if(ox < 0) changedW -= ox;
                     }
@@ -4505,13 +4511,13 @@ public class Font implements Disposable {
                 } else {
                     line.height = Math.max(line.height, (currentHeight = font.cellHeight) * scale);
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = scale * font.cellHeight / (tr.xAdvance);
+                        scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;// / (tr.xAdvance);
                     else
                         scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
                     float changedW = tr.xAdvance * scaleX;
                     if(tr.offsetX != tr.offsetX)
                         changedW = font.cellWidth * scale;
-                    else if(initial && !font.isMono && !(ch >= '\uE000' && ch < '\uF800')){
+                    else if(initial && !font.isMono /* && !(ch >= '\uE000' && ch < '\uF800') */ ){
                         float ox = tr.offsetX * scaleX;
                         if(ox < 0) changedW -= ox;
                     }
@@ -4575,7 +4581,7 @@ public class Font implements Disposable {
                 kern = kern << 16 | ch;
                 scale = extractScale(glyph);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
-                    scaleX = scale * font.cellHeight / (tr.xAdvance);
+                    scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
                 }
                 else
                     scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
@@ -4596,7 +4602,7 @@ public class Font implements Disposable {
                 scale = extractScale(glyph);
                 line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
-                    scaleX = scale * font.cellHeight / (tr.xAdvance);
+                    scaleX = scale * font.cellHeight / tr.xAdvance * font.inlineImageStretch;
 //                    scaleX = scale * font.cellHeight / (tr.xAdvance*1.25f);
                 }
                 else
@@ -4770,7 +4776,7 @@ public class Font implements Disposable {
         float scaleX, fsx, osx;
         float scaleY, fsy, osy;
         if(c >= 0xE000 && c < 0xF800){
-            fsx = font.cellHeight / tr.xAdvance;
+            fsx = font.cellHeight / tr.xAdvance * font.inlineImageStretch;
 //            fsx = font.cellHeight * 0.8f / tr.xAdvance;
             fsy = fsx;//0.75f * font.originalCellHeight / tr.getRegionHeight();
             //scale * font.cellHeight * 0.8f / tr.xAdvance;//font.cellHeight / (tr.xAdvance * 1.25f);
@@ -4807,38 +4813,10 @@ public class Font implements Disposable {
         float xShift = (x + oCenterX) - (ix);
         float yShift = (y + oCenterY) - (iy);
         // This moves the center to match the movement from integer position.
-//        x += (centerX -= xShift);
-//        y += (centerY -= yShift);
-//        x += centerX - xShift;
-//        y += centerY - yShift;
-//        x += centerX;
-//        y += centerY;
         x = font.handleIntegerPosition(ix - xShift);
         y = font.handleIntegerPosition(iy - yShift);
         centerX -= xShift * 0.5f;
         centerY -= yShift * 0.5f;
-
-
-//        x += centerX;
-//        x -= centerX;//
-//        y -= centerY;
-//        x += centerX * cos;
-//        y += centerX * sin;
-//        // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
-//        if (tr.offsetX != tr.offsetX) {
-//            if(backgroundColor != 0) {
-//                drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0x88], font.mapping.get(solidBlock, tr),
-//                        NumberUtils.intToFloatColor(Integer.reverseBytes(backgroundColor)),
-//                        x - cellWidth * (sizingX - 1.0f) + centerX, y - cellHeight * (sizingY - 1.0f) + centerY,
-//                        cellWidth * sizingX, cellHeight * sizingY, rotation);
-//            }
-//            float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
-//            drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
-//                    x - cellWidth * (sizingX - 1.0f) + centerX, y - cellHeight * (sizingY - 1.0f) + centerY,
-//                    cellWidth * sizingX, cellHeight * sizingY, rotation);
-//            return cellWidth;
-//        }
-
 
         // when offsetX is NaN, that indicates a box drawing character that we draw ourselves.
         if (tr.offsetX != tr.offsetX) {
@@ -4925,14 +4903,14 @@ public class Font implements Disposable {
             // it also offsets x by a half-cell to the right, and moves the origin for y.
             float xch = tr.offsetX * scale * fsx * sizingX;
 //            float ych = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - centerY;
-            float ych = (font.originalCellHeight * 0.5f - (trrh + tr.offsetY)) * fsy * scale * sizingY + scaledHeight * 0.5f;
+            float ych = (font.originalCellHeight * 0.5f - trrh * font.inlineImageStretch + tr.offsetY) * fsy * scale * sizingY;
 //            float ych = (font.originalCellHeight * fsy - (trrh + tr.offsetY) * fsy) * scale * sizingY - scaledHeight;
 //            float ych = scaledHeight - tr.offsetY * font.scaleY * scale * sizingY;
 //            float ych = scaledHeight * 0.5f - tr.offsetY * scaleY * sizingY;
             //float ych = scaledHeight -tr.offsetY * fsy * scale * sizingY;
             xc -= xch;
             x += xch + changedW * 0.5f;
-            yt -= ych;
+            yt -= ych + scaledHeight * 0.5f;// - font.descent * fsy * scale;
             y += ych;
 //            //y += ych - font.descent * font.scaleY * 0.5f;
 

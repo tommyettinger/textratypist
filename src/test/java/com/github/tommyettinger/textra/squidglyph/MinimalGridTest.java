@@ -69,31 +69,32 @@ public class MinimalGridTest extends ApplicationAdapter {
         stage = new Stage();
         screenStage = new Stage();
 //        Font gentium = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF));
-        Font iosevka = KnownFonts.addEmoji(KnownFonts.getIosevka(Font.DistanceFieldType.MSDF));
-        Font inconsolata = KnownFonts.addEmoji(KnownFonts.getInconsolata(Font.DistanceFieldType.MSDF));
+        Font mainFont = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.MSDF));
+//        Font mainFont = KnownFonts.addEmoji(KnownFonts.getIosevka(Font.DistanceFieldType.MSDF));
+        Font supportFont = KnownFonts.addEmoji(KnownFonts.getInconsolata(Font.DistanceFieldType.MSDF));
 
 //        varWidthFont = KnownFonts.getGentium();
         varWidthFont = KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF)
                 .scaleHeightTo(30f);//.setOutlineStrength(1.5f);
-//        iosevka.adjustCellWidth(0.5f);
-//        iosevka.originalCellHeight *= 0.5f;
-//        iosevka.cellHeight *= 0.5f;
-//        iosevka.descent *= 0.5f;
-//        iosevka.fitCell(32, 32, true);
-        gg = new GlyphGrid(iosevka, GRID_WIDTH, GRID_HEIGHT, true);
+//        mainFont.adjustCellWidth(0.5f);
+//        mainFont.originalCellHeight *= 0.5f;
+//        mainFont.cellHeight *= 0.5f;
+//        mainFont.descent *= 0.5f;
+//        mainFont.fitCell(32, 32, true);
+        gg = new GlyphGrid(mainFont, GRID_WIDTH, GRID_HEIGHT, true);
 
-        float larger = Math.max(inconsolata.cellWidth, inconsolata.cellHeight);
-        inconsolata.scaleTo(inconsolata.cellWidth / larger, inconsolata.cellHeight / larger).fitCell(1f, 1f, true);
+        float larger = Math.max(supportFont.cellWidth, supportFont.cellHeight);
+        supportFont.scaleTo(supportFont.cellWidth / larger, supportFont.cellHeight / larger).fitCell(1f, 1f, true);
 
 
         //use Ă to test glyph height
         emojiGlyph = new GlyphActor("[_][~][%?blacken][+😁]", gg.font);
         atGlyph = new GlyphActor("[red orange][~][_][%?blacken]@", gg.font);
-        usedGlyph = atGlyph;
+        usedGlyph = emojiGlyph;
         gg.addActor(usedGlyph);
-        emojiGlyph2 = new GlyphActor("[_][~][%?blacken][+😁]", inconsolata);
-        atGlyph2 = new GlyphActor("[red orange][~][_][%?blacken]@", inconsolata);
-        usedGlyph2 = atGlyph2;
+        emojiGlyph2 = new GlyphActor("[_][~][%?blacken][+😁]", supportFont);
+        atGlyph2 = new GlyphActor("[red orange][~][_][%?blacken]@", supportFont);
+        usedGlyph2 = emojiGlyph2;
         gg.addActor(usedGlyph2);
 
         input.setInputProcessor(new InputAdapter(){
