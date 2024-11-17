@@ -500,7 +500,14 @@ public class Font implements Disposable {
 
     /**
      * Determines whether this Font can share the same reference for its data structure members (if true), or if copies
-     * should be made when using {@link #Font(Font)} (if false). This defaults to false.
+     * should be made when using {@link #Font(Font)} (if false). This defaults to false. You should generally set this
+     * by using {@link #setSharing(boolean)} rather than manually changing this field.
+     * <br>
+     * It can be a good idea to set this to {@code true} using {@link #setSharing(boolean)} once you are done calling
+     * the methods {@link #addAtlas(TextureAtlas)}, {@link #addImage(String, TextureRegion)},
+     * {@link #addSpacingGlyph(char, float)}, and {@link #fitCell(float, float, boolean)}. Copying a large
+     * {@link #mapping}, and the rest of the data associated with it, can take a little time, but setting sharing to
+     * true can reduce the amount of time spent loading.
      */
     public boolean sharing = false;
 
@@ -2691,6 +2698,10 @@ public class Font implements Disposable {
      * and this is currently already set to share those data structures, this will stop sharing them by creating copies
      * of {@link #mapping}, {@link #namesByCharCode}, {@link #nameLookup}, and {@link #kerning}, and using those copies
      * from this point onward. When sharing is disabled, the copy constructor will do a similar copy for the new Font.
+     * <br>
+     * While you can still set {@link #sharing} by the field directly, doing so is discouraged unless you find yourself
+     * needing to manually handle references for any reason.
+     *
      * @param share whether some data structures should share references with copies of this Font
      * @return this, for chaining
      */
@@ -3355,7 +3366,6 @@ public class Font implements Disposable {
         TextureAtlas.AtlasRegion previous = regions.first();
         GlyphRegion gr = new GlyphRegion(previous,
                 previous.offsetX + offsetXChange, previous.offsetY + offsetYChange, previous.originalWidth + xAdvanceChange);
-//        gr.offsetY += originalCellHeight * 0.125f;
         mapping.put(start, gr);
         String name = prepend + previous.name + append;
         nameLookup.put(name, start);
@@ -3380,7 +3390,6 @@ public class Font implements Disposable {
                 previous = region;
                 gr = new GlyphRegion(region,
                         region.offsetX + offsetXChange, region.offsetY + offsetYChange, region.originalWidth + xAdvanceChange);
-//                gr.offsetY += originalCellHeight * 0.125f;
                 mapping.put(i, gr);
                 name = prepend + region.name + append;
                 nameLookup.put(name, i);
@@ -4178,7 +4187,7 @@ public class Font implements Disposable {
             if (font.kerning != null) {
                 kern = kern << 16 | (int) (glyph & 0xFFFF);
                 float amt = font.kerning.get(kern, 0)
-                        * font.scaleX * ((glyph & ALTERNATE) != 0L ? 4f : (glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                        * font.scaleX * extractScale(glyph);
                 xChange += cs * amt;
                 yChange += sn * amt;
             }
@@ -4202,7 +4211,7 @@ public class Font implements Disposable {
                     float ox = reg.offsetX;
                     if (ox != ox) ox = 0f;
                     else
-                        ox *= font.scaleX * ((glyph & ALTERNATE) != 0L ? 4f : (glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                        ox *= font.scaleX * (extractScale(glyph));
                     if (ox < 0) {
                         xChange -= cs * ox;
                         yChange -= sn * ox;
@@ -4264,10 +4273,10 @@ public class Font implements Disposable {
         if (tr == null) return 0f;
         float scale;
         if(ch >= 0xE000 && ch < 0xF800)
-            scale = ((glyph & ALTERNATE) != 0L ? 4f : (glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f * cellHeight / (tr.xAdvance);
-//            scale = ((glyph & ALTERNATE) != 0L ? 4f : (glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f * cellHeight / (tr.xAdvance*1.25f);
+            scale = (extractScale(glyph)) * cellHeight / (tr.xAdvance);
+//            scale = ((glyph & ALTERNATE) != 0L ? 4f : (glyph + 0x400000L >>> 20 & 15)) * 0.25f * cellHeight / (tr.xAdvance*1.25f);
         else
-            scale = scaleX * ((glyph & ALTERNATE) != 0L ? 4f : (glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+            scale = scaleX * (extractScale(glyph));
         float changedW = tr.xAdvance * scale;
         if (!isMono) {
             changedW += tr.offsetX * scale;
@@ -4316,7 +4325,7 @@ public class Font implements Disposable {
             if (tr == null) continue;
             if (font.kerning != null) {
                 kern = kern << 16 | ch;
-                scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                scale = extractScale(glyph);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
                     scaleX = scale * font.cellHeight / (tr.xAdvance);
                 else
@@ -4332,7 +4341,7 @@ public class Font implements Disposable {
                 initial = false;
                 drawn += changedW + amt;
             } else {
-                scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                scale = extractScale(glyph);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
                     scaleX = scale * font.cellHeight / (tr.xAdvance);
                 else
@@ -4390,7 +4399,7 @@ public class Font implements Disposable {
             if (font == null) font = this;
             GlyphRegion tr = font.mapping.get(ch);
             if (tr == null) continue;
-            scale = (glyph & ALTERNATE) != 0L || isMono ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+            scale = font.isMono ? 1f : extractScale(glyph);
 
             if (font.kerning != null) {
                 kern = kern << 16 | ch;
@@ -4475,7 +4484,7 @@ public class Font implements Disposable {
                 if (font == null) font = this;
                 GlyphRegion tr = font.mapping.get(ch);
                 if (tr == null) continue;
-                scale = (glyph & ALTERNATE) != 0L || font.isMono ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                scale = font.isMono ? 1f : extractScale(glyph);
                 if (font.kerning != null) {
                     kern = kern << 16 | ch;
                     if(ch >= 0xE000 && ch < 0xF800)
@@ -4564,7 +4573,7 @@ public class Font implements Disposable {
             }
             if (font.kerning != null) {
                 kern = kern << 16 | ch;
-                scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                scale = extractScale(glyph);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
                     scaleX = scale * font.cellHeight / (tr.xAdvance);
                 }
@@ -4584,7 +4593,7 @@ public class Font implements Disposable {
                 advances.add(total);
                 total += changedW + amt;
             } else {
-                scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+                scale = extractScale(glyph);
                 line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
                     scaleX = scale * font.cellHeight / (tr.xAdvance);
@@ -4757,7 +4766,7 @@ public class Font implements Disposable {
                 | (int)(batch.getColor().r * (glyph >>> 56))
                 | (int)(batch.getColor().g * (glyph >>> 48 & 0xFF)) << 8
                 | (int)(batch.getColor().b * (glyph >>> 40 & 0xFF)) << 16);
-        float scale = ((glyph & ALTERNATE) != 0L) ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+        float scale = extractScale(glyph);
         float scaleX, fsx, osx;
         float scaleY, fsy, osy;
         if(c >= 0xE000 && c < 0xF800){
@@ -7004,13 +7013,13 @@ public class Font implements Disposable {
 
                     //// no kerning
 
-                    scale = (int) ((glyph & ALTERNATE) != 0L ? 3 : (glyph + 0x300000L >>> 20 & 15));
-                    line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                    scale = extractIntScale(glyph);
+                    line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = (scale + 1) * 0.25f * font.cellHeight / (font.mapping.get(ch, font.defaultValue).xAdvance);
-//                        scaleX = (scale + 1) * 0.25f * font.cellHeight / (font.mapping.get(ch, font.defaultValue).xAdvance*1.25f);
+                        scaleX = scale * 0.25f * font.cellHeight / (font.mapping.get(ch, font.defaultValue).xAdvance);
+//                        scaleX = scale * 0.25f * font.cellHeight / (font.mapping.get(ch, font.defaultValue).xAdvance*1.25f);
                     else
-                        scaleX = font.scaleX * (scale + 1) * 0.25f;
+                        scaleX = font.scaleX * scale * 0.25f;
 
                     if (ch == '\n') {
                         Line next;
@@ -7023,7 +7032,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
 
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
@@ -7064,7 +7073,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
 
                         int nextSize = next.glyphs.size;
                         long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
@@ -7094,13 +7103,13 @@ public class Font implements Disposable {
 
                     //// font has kerning
 
-                    scale = (int) ((glyph & ALTERNATE) != 0L ? 3 : (glyph + 0x300000L >>> 20 & 15));
-                    line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                    scale = extractIntScale(glyph);
+                    line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = (scale + 1) * 0.25f * font.cellHeight / (font.mapping.get(ch, font.defaultValue).xAdvance);
-//                        scaleX = (scale + 1) * 0.25f * font.cellHeight / (font.mapping.get(ch, font.defaultValue).xAdvance*1.25f);
+                        scaleX = scale * 0.25f * font.cellHeight / (font.mapping.get(ch, font.defaultValue).xAdvance);
+//                        scaleX = scale * 0.25f * font.cellHeight / (font.mapping.get(ch, font.defaultValue).xAdvance*1.25f);
                     else
-                        scaleX = font.scaleX * (scale + 1) * 0.25f;
+                        scaleX = font.scaleX * scale * 0.25f;
                     kern = kern << 16 | ch;
                     amt = font.kerning.get(kern, 0) * scaleX;
                     if (ch == '\n') {
@@ -7114,7 +7123,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
 
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
@@ -7153,7 +7162,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
 
                         int nextSize = next.glyphs.size;
                         long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
@@ -7363,15 +7372,28 @@ public class Font implements Disposable {
      * @return the float scale used by the given glyph, from 0.0f to 3.75f
      */
     public static float extractScale(long glyph) {
-        return (glyph & ALTERNATE) != 0L ? 1f : (glyph + 0x400000L >>> 20 & 15) * 0.25f;
+        return (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
     }
 
     /**
-     * Replaces the section of glyph that stores its scale with the given float multiplier, rounded to a multiple of
-     * 0.25 and wrapped to within 0.0 to 3.75, both inclusive. This also disables alternate mode, enabling scaling.
+     * Given a glyph as a long, this returns an int from 1 to 16 used internally for scale. Each increment corresponds
+     * to a 25% increase in scale, so 1 is 25% scale, 4 is 100% scale, and 16 is 400% scale. If alternate mode is
+     * enabled, then this always returns 4, because scale is ignored when alternate mode is on, and 4 corresponds to
+     * 100% scale.
      *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
-     * @param scale the float scale to use, which should be between 0.0 and 3.75, both inclusive
+     * @return the int scale used by the given glyph, from 1 to 16
+     */
+    public static int extractIntScale(long glyph) {
+        return (int) ((glyph & ALTERNATE) != 0L ? 4 : (glyph + 0x300000L >>> 20 & 15) + 1);
+    }
+    /**
+     * Replaces the section of glyph that stores its scale with the given float multiplier, rounded to a multiple of
+     * 0.25 and (if out of bounds) wrapped to within 0.25 to 4.0, both inclusive. This also disables alternate mode,
+     * enabling scaling.
+     *
+     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param scale the float scale to use, which should be between 0.25 and 4.0, both inclusive
      * @return another long glyph that uses the specified scale
      */
     public static long applyScale(long glyph, float scale) {
