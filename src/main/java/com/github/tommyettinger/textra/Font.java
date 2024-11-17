@@ -4798,12 +4798,8 @@ public class Font implements Disposable {
         float oCenterX = tr.xAdvance * osx * 0.5f;
         float oCenterY = font.originalCellHeight * osy * 0.5f;
 
-        float scaleCorrection = font.descent * fsy * 2f;// - font.descent * osy;
-
+        float scaleCorrection = (c >= 0xE000 && c < 0xF800) ? 0f : font.descent * fsy * 2f;// - font.descent * osy;
         y += scaleCorrection;
-
-//        y += cos * scaleCorrection;
-//        x += sin * scaleCorrection;
 
         float ox = x, oy = y;
 
@@ -4901,14 +4897,27 @@ public class Font implements Disposable {
             // it moves the changes from the inline image's offsetX and offsetY from the
             // rotating xc and yt variables, to the position-only x and y variables.
             // it also offsets x by a half-cell to the right, and moves the origin for y.
+
+            float stretchShift = 0.5f * (trrh * font.inlineImageStretch - trrh);
+
             float xch = tr.offsetX * scale * fsx * sizingX;
-            float ych = tr.offsetY * scale * fsy * sizingY;
-            // this sorta works...
-//            float ych = (font.originalCellHeight * 0.5f - trrh * font.inlineImageStretch + tr.offsetY) * fsy * scale * sizingY;
+//            float ych = tr.offsetY * scale * fsy * sizingY;
+//            float oldYch = (font.originalCellHeight * 0.5f - (trrh + tr.offsetY)) * fsy * scale * sizingY + scaledHeight * 0.5f;
+//            // this sorta works...
+////            float ych = (font.originalCellHeight * 0.5f - trrh * font.inlineImageStretch + tr.offsetY) * fsy * scale * sizingY;
+//
+//            System.out.println("xch: " + xch +", ych: " + ych + ", old ych: " + oldYch + ", yt: " + yt + ", new yt: " +
+//                    (yt - (ych - font.descent * fsy * scale * sizingY)));
+
             xc -= xch;
-            x += xch + changedW * 0.5f;
-            yt -= ych;// - font.descent * fsy * scale;
-            y += ych - font.cellHeight * font.inlineImageStretch * 1.5F;
+            x += xch + changedW * 0.5f - stretchShift * scale * sizingX;
+
+            yt = sin * centerX;
+            if(squashed) yt -= font.cellHeight * scale * 0.15f;
+
+            yt -= scaledHeight * 0.5f;//ych - font.descent * fsy * scale * sizingY;
+            y += (font.descent * font.scaleY - stretchShift) * scale * sizingY;
+//            y += scaledHeight * 0.5f - font.descent * fsy * scale * sizingY;// - font.cellHeight * font.inlineImageStretch * 1.5F;
 //            //y += ych - font.descent * font.scaleY * 0.5f;
 
 //            float xch = tr.offsetX * scaleX * sizingX;
