@@ -16,7 +16,7 @@
   -->
 
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN"
-        "https://www.gwtproject.org/doctype/2.8.2/gwt-module.dtd">
+        "https://www.gwtproject.org/doctype/2.11.0/gwt-module.dtd">
 <!-- To compile to Gwt, you need to reference this file in your master .gwt.xml
      file (usually called GdxDefinition.gwt.xml) as follows:
 

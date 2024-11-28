@@ -233,6 +233,8 @@ public class TextraLabel extends Widget {
         this.style = style;
         storedText = text;
         font.markup(text, layout);
+        invalidateHierarchy();
+        setSize(layout.getWidth(), layout.getHeight());
     }
 
     /**

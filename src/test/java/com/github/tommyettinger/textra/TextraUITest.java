@@ -148,8 +148,8 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		TextraLabel myLabel = new TextraLabel("This is some text.", skin, font);
 
 		Table t = new Table();
-		t.row();
-		t.add(myLabel);
+//		t.row();
+//		t.add(myLabel);
 
 		t.layout();
 
@@ -206,7 +206,10 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		fpsLabel = new TextraLabel("fps:", font);
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
-		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[ ] password mode: ", skin, font);
+		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[ ] password mode..." +
+				" Wait, I need more text. DEVELOPERS, DEVELOPERS, DEVELOPERS, DEVELOPERS. I LOVE THIS COMPANY!!!!!", skin, font);
+		passwordLabel.setWrap(true);
+		passwordLabel.layout();
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
@@ -227,6 +230,8 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		tooltipTable.add(new TextraButton("Fancy tooltip!", skin, font));
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
+		System.out.println("Before layout(): " + passwordLabel.getHeight() + " with lines: " + passwordLabel.layout.lines());
+
 		TextraWindow window = new TextraWindow("TextraWindow", skin, "default", new Font(font).scale(0.75f, 0.75f), false);
 //		window.getTitleTable().debug();
 		window.getTitleTable().add(new TextraButton("X", skin, window.font)).height(window.getPadTop());
@@ -246,11 +251,13 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		window.row();
 		window.add(splitPane).fill().expand().colspan(4).maxHeight(200);
 		window.row();
-		window.add(passwordLabel).left().colspan(2);
+		window.add(passwordLabel).prefWidth(imageActor.getWidth()).left().colspan(2);
 		window.add(passwordTextField).minWidth(100).expandX().fillX().colspan(2);
 		window.row();
 		window.add(fpsLabel).left().colspan(4);
 		window.pack();
+
+		System.out.println("After layout(): " + passwordLabel.getHeight() + " with lines: " + passwordLabel.layout.lines());
 
 		// stage.addActor(new Button("Behind Window", skin));
 		stage.addActor(window);
