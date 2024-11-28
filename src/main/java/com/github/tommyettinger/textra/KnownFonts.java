@@ -168,6 +168,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String ROBOTO_CONDENSED = "Roboto-Condensed";
     /** Base name for a variable-width sans-serif font. */
     public static final String SELAWIK = "Selawik";
+    /** Base name for a variable-width bold sans-serif font. */
+    public static final String SELAWIK_BOLD = "Selawik-Bold";
     /** Base name for a variable-width script font. */
     public static final String TANGERINE = "Tangerine";
     /** Base name for a variable-width humanist sans font. */
@@ -193,7 +195,7 @@ public final class KnownFonts implements LifecycleListener {
             GENTIUM, GENTIUM_UN_ITALIC, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE, INCONSOLATA_LGC,
             IOSEVKA, IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK,
             LIBERTINUS_SERIF, LIBERTINUS_SERIF_SEMIBOLD, NOW_ALT, OPEN_SANS, OVERLOCK, OVERLOCK_UN_ITALIC,
-            OSTRICH_BLACK, OXANIUM, ROBOTO_CONDENSED, SELAWIK, TANGERINE, YANONE_KAFFEESATZ,
+            OSTRICH_BLACK, OXANIUM, ROBOTO_CONDENSED, SELAWIK, SELAWIK_BOLD, TANGERINE, YANONE_KAFFEESATZ,
             YATAGHAN);
 
     public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, HANAZONO, LANAPIXEL, QUANPIXEL);
@@ -2851,8 +2853,7 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getRobotoCondensed(DistanceFieldType dft) {
         return getFont(ROBOTO_CONDENSED, dft);
     }
-
-
+    
     /**
      * Returns a Font already configured to use a variable-width humanist sans-serif font, that should
      * scale pretty well down, but not up. This font is metric-compatible with Segoe UI.
@@ -2909,6 +2910,63 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getSelawik(DistanceFieldType dft) {
         return getFont(SELAWIK, dft);
+    }
+    /**
+     * Returns a Font already configured to use a variable-width humanist bold sans-serif font, that should
+     * scale pretty well down, but not up. This font is metric-compatible with Segoe UI.
+     * Caches the result for later calls. The font used is Selawik Bold, a free (OFL) typeface released by Microsoft.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.SELAWIK_BOLD, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-Bold-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-Bold-standard.dat">Selawik-Bold-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-Bold-standard.png">Selawik-Bold-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-Bold-License.txt">Selawik-Bold-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Selawik-Bold
+     */
+    public static Font getSelawikBold() {
+        return getFont(SELAWIK_BOLD, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width humanist bold sans-serif font,
+     * using the given distance field type. This font is metric-compatible with Segoe UI.
+     * Caches the result for later calls. The font used is Selawik Bold, a free (OFL) typeface released by Microsoft.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-Bold-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-Bold-standard.dat">Selawik-Bold-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-Bold-standard.png">Selawik-Bold-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-Bold-License.txt">Selawik-Bold-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-Bold-msdf.dat">Selawik-Bold-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-Bold-msdf.png">Selawik-Bold-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-Bold-License.txt">Selawik-Bold-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-Bold-sdf.dat">Selawik-Bold-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-Bold-sdf.png">Selawik-Bold-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-Bold-License.txt">Selawik-Bold-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Selawik-Bold using the given DistanceFieldType
+     */
+    public static Font getSelawikBold(DistanceFieldType dft) {
+        return getFont(SELAWIK_BOLD, dft);
     }
 
     /**
@@ -4197,7 +4255,7 @@ public final class KnownFonts implements LifecycleListener {
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getLibertinusSerifSemibold(),
                 getNowAlt(), getOpenSans(), getOstrichBlack(), getOverlock(), getOverlockUnItalic(), getOxanium(),
-                getQuanPixel(), getRobotoCondensed(), getSelawik(), getTangerine(), getTangerineSDF(),
+                getQuanPixel(), getRobotoCondensed(), getSelawik(), getSelawikBold(), getTangerine(), getTangerineSDF(),
                 getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghan(), getYataghanMSDF()};
     }
 
