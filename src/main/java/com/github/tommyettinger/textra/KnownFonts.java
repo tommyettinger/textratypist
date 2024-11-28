@@ -166,6 +166,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String OXANIUM = "Oxanium";
     /** Base name for a variable-width narrow sans font. */
     public static final String ROBOTO_CONDENSED = "Roboto-Condensed";
+    /** Base name for a variable-width sans-serif font. */
+    public static final String SELAWIK = "Selawik";
     /** Base name for a variable-width script font. */
     public static final String TANGERINE = "Tangerine";
     /** Base name for a variable-width humanist sans font. */
@@ -191,7 +193,8 @@ public final class KnownFonts implements LifecycleListener {
             GENTIUM, GENTIUM_UN_ITALIC, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE, INCONSOLATA_LGC,
             IOSEVKA, IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK,
             LIBERTINUS_SERIF, LIBERTINUS_SERIF_SEMIBOLD, NOW_ALT, OPEN_SANS, OVERLOCK, OVERLOCK_UN_ITALIC,
-            OSTRICH_BLACK, OXANIUM, ROBOTO_CONDENSED, TANGERINE, YANONE_KAFFEESATZ, YATAGHAN);
+            OSTRICH_BLACK, OXANIUM, ROBOTO_CONDENSED, SELAWIK, TANGERINE, YANONE_KAFFEESATZ,
+            YATAGHAN);
 
     public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, HANAZONO, LANAPIXEL, QUANPIXEL);
 
@@ -2849,6 +2852,65 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(ROBOTO_CONDENSED, dft);
     }
 
+
+    /**
+     * Returns a Font already configured to use a variable-width humanist sans-serif font, that should
+     * scale pretty well down, but not up. This font is metric-compatible with Segoe UI.
+     * Caches the result for later calls. The font used is Selawik, a free (OFL) typeface released by Microsoft.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.SELAWIK, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-standard.dat">Selawik-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-standard.png">Selawik-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-License.txt">Selawik-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Selawik
+     */
+    public static Font getSelawik() {
+        return getFont(SELAWIK, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width humanist sans-serif font,
+     * using the given distance field type. This font is metric-compatible with Segoe UI.
+     * Caches the result for later calls. The font used is Selawik, a free (OFL) typeface released by Microsoft.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-standard.dat">Selawik-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-standard.png">Selawik-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-License.txt">Selawik-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-msdf.dat">Selawik-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-msdf.png">Selawik-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-License.txt">Selawik-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-sdf.dat">Selawik-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-sdf.png">Selawik-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Selawik-License.txt">Selawik-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Selawik using the given DistanceFieldType
+     */
+    public static Font getSelawik(DistanceFieldType dft) {
+        return getFont(SELAWIK, dft);
+    }
+
     /**
      * Returns a Font already configured to use a variable-width script font, that should
      * scale pretty well down, but not up.
@@ -4135,7 +4197,7 @@ public final class KnownFonts implements LifecycleListener {
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
                 getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getLibertinusSerifSemibold(),
                 getNowAlt(), getOpenSans(), getOstrichBlack(), getOverlock(), getOverlockUnItalic(), getOxanium(),
-                getQuanPixel(), getRobotoCondensed(), getTangerine(), getTangerineSDF(),
+                getQuanPixel(), getRobotoCondensed(), getSelawik(), getTangerine(), getTangerineSDF(),
                 getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghan(), getYataghanMSDF()};
     }
 
