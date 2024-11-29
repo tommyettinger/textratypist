@@ -29,6 +29,7 @@ public class MultiLineScalingTest extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
+        stage.setDebugAll(true);
         font = KnownFonts.getRobotoCondensed(Font.DistanceFieldType.MSDF).scaleHeightTo(32);
 
         Styles.LabelStyle style = new Styles.LabelStyle(font, Color.WHITE);

@@ -384,6 +384,8 @@ public class TextraLabel extends Widget {
                 x -= cs * glyphs.width;
                 y -= sn * glyphs.width;
             }
+            x -= sn * (0.5f * glyphs.height);
+            y += cs * (0.5f * glyphs.height);
 
             Font f = null;
             int kern = -1;
@@ -413,9 +415,9 @@ public class TextraLabel extends Widget {
                     x += cs * 0.5f * f.cellWidth;
                     y += sn * 0.5f * f.cellWidth;
 
-                    y += descent;
-                    x += sn * (descent - 0.5f * glyphs.height);
-                    y -= cs * (descent - 0.5f * glyphs.height);
+//                    y -= descent;
+//                    x += sn * (descent - 0.5f * glyphs.height);
+//                    y -= cs * (descent - 0.5f * glyphs.height);
 
                     if(font.integerPosition){
                         x = (int)x;

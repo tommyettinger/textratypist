@@ -4414,7 +4414,7 @@ public class Font implements Disposable {
                 }
                 else
                     scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
-                line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
+                line.height = Math.max(line.height, font.cellHeight * scale); // * (StringUtils.SPACE_CHARS.get(ch) ? 0f : 1f)
                 amt = font.kerning.get(kern, 0) * scaleX;
                 float changedW = tr.xAdvance * scaleX;
                 if(tr.offsetX != tr.offsetX)
@@ -4426,7 +4426,7 @@ public class Font implements Disposable {
                 initial = false;
                 drawn += changedW + amt;
             } else {
-                line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
+                line.height = Math.max(line.height, font.cellHeight * scale);
                 if((char)glyph >= 0xE000 && (char)glyph < 0xF800) {
                     scaleX = scale * font.cellHeight / tr.getRegionHeight() * font.inlineImageStretch;
                 }
@@ -4467,7 +4467,7 @@ public class Font implements Disposable {
             boolean curly = false, initial = true;
             int kern = -1;
             float amt;
-            line.height = currentHeight;// glyphs.size == 0 ? currentHeight : 0f;
+            line.height = currentHeight;
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
@@ -4497,7 +4497,7 @@ public class Font implements Disposable {
                         scaleX = scale * font.cellHeight / tr.getRegionHeight() * font.inlineImageStretch;
                     else
                         scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
-                    line.height = Math.max(line.height, (currentHeight = font.cellHeight) * scale);
+                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * scale));
                     amt = font.kerning.get(kern, 0) * scaleX;
                     float changedW = tr.xAdvance * scaleX;
                     if(tr.offsetX != tr.offsetX)
@@ -4509,7 +4509,7 @@ public class Font implements Disposable {
                     initial = false;
                     drawn += changedW + amt;
                 } else {
-                    line.height = Math.max(line.height, (currentHeight = font.cellHeight) * scale);
+                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * scale));
                     if(ch >= 0xE000 && ch < 0xF800)
                         scaleX = scale * font.cellHeight / tr.getRegionHeight() * font.inlineImageStretch;// / (tr.xAdvance);
                     else
@@ -4791,7 +4791,7 @@ public class Font implements Disposable {
 //With font A-Starry, drawing glyph 😁, it has v0: 1.2426202, v1: 7.788889, x: 2.2426202, y: 4.5658374, p0x: -1.0, p0y: 3.2230515, h: 0.8888889, xc: -1.0, yt: 2.3341627, font.descent: -67.0, osy: 0.0029850747, tr.offsetX: 6.800001, tr.offsetY: 37.5, tr.xAdvance: 36.0
 //With font A-Starry, drawing glyph @, it has v0: 1.1985074, v1: 7.802985, x: 2.0, y: 7.5, p0x: -0.8014926, p0y: 0.30298507, h: 0.7044776, xc: -0.8014926, yt: -0.40149254, font.descent: -67.0, osy: 0.0029850747, tr.offsetX: 66.5, tr.offsetY: 66.0, tr.xAdvance: 335.0
         osx = font.scaleX * (scale + 1f) * 0.5f;
-        osy = font.scaleY * (scale + 1f) * 0.5f;
+        osy = font.scaleY;// * (scale + 1f) * 0.5f;
         float centerX = tr.xAdvance * scaleX * 0.5f;
         float centerY = font.originalCellHeight * scaleY * 0.5f;
 
@@ -5933,8 +5933,7 @@ public class Font implements Disposable {
                                         continue;
                                     earlier.glyphs.truncate(j + 1);
                                     if(!hyphenated)
-                                        earlier.glyphs.add(' ');
-//                                    earlier.glyphs.add('\n');
+                                        earlier.glyphs.add(applyChar(earlier.glyphs.peek(), ' '));
                                     later.width = changeNext;
                                     earlier.width -= change;
                                     later.glyphs.addAll(glyphBuffer);
@@ -6117,8 +6116,7 @@ public class Font implements Disposable {
                                     continue;
                                 earlier.glyphs.truncate(j + 1);
                                 if(!hyphenated)
-                                    earlier.glyphs.add(' ');
-//                                earlier.glyphs.add('\n');
+                                    earlier.glyphs.add(applyChar(earlier.glyphs.peek(), ' '));
                                 later.width = changeNext;
                                 earlier.width -= change;
                                 later.glyphs.addAll(glyphBuffer);
@@ -6966,8 +6964,7 @@ public class Font implements Disposable {
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
                         glyphs.truncate(i);
-//                        glyphs.add(' ');
-                        glyphs.add('\n');
+                        glyphs.add(applyChar(glyphs.peek(), '\n'));
                         break;
                     }
                     GlyphRegion tr = font.mapping.get(ch);
@@ -7057,8 +7054,7 @@ public class Font implements Disposable {
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
                         glyphs.truncate(i);
-//                        glyphs.add(' ');
-                        glyphs.add('\n');
+                        glyphs.add(applyChar(glyphs.peek(), '\n'));
                         break;
                     }
                     GlyphRegion tr = font.mapping.get(ch);
