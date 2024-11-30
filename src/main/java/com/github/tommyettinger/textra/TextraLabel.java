@@ -55,6 +55,7 @@ public class TextraLabel extends Widget {
     public boolean wrap = false;
     public String storedText;
     public Styles.LabelStyle style;
+    protected boolean prefSizeInvalid = true;
 
     /**
      * Creates a TextraLabel that uses the default libGDX font (lsans-15 in the current version) with white color.
@@ -456,6 +457,9 @@ public class TextraLabel extends Widget {
     @Override
     public float getPrefWidth() {
         if(wrap) return 0f;
+        if (prefSizeInvalid) {
+            validate();
+        }
         float width = layout.getWidth();
         if(style != null && style.background != null)
             width = Math.max(width + style.background.getLeftWidth() + style.background.getRightWidth(), style.background.getMinWidth());
@@ -464,6 +468,9 @@ public class TextraLabel extends Widget {
 
     @Override
     public float getPrefHeight() {
+        if (prefSizeInvalid) {
+            validate();
+        }
         float height = layout.getHeight();
         if(style != null && style.background != null)
                 height = Math.max(height + style.background.getBottomHeight() + style.background.getTopHeight(), style.background.getMinHeight());
@@ -606,9 +613,15 @@ public class TextraLabel extends Widget {
     }
 
     @Override
-    public boolean remove() {
-        return super.remove();
+    public void invalidate() {
+        super.invalidate();
+        prefSizeInvalid = true;
+    }
 
+    @Override
+    public void validate() {
+        prefSizeInvalid = false;
+        super.validate();
     }
 
     /**

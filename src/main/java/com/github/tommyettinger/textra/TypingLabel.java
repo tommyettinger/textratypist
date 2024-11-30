@@ -830,11 +830,6 @@ public class TypingLabel extends TextraLabel {
     }
 
     @Override
-    public boolean remove() {
-        return super.remove();
-    }
-
-    @Override
     public void setSize(float width, float height) {
         // unfortunately, we can't call super.setSize(width, height) because
         // it changes layout, where we only want to change workingLayout.
