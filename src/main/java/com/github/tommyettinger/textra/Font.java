@@ -4788,10 +4788,11 @@ public class Font implements Disposable {
             scaleY = (fsy = font.scaleY) * scale;
 //            y -= descent * scaleY;
         }
-//With font A-Starry, drawing glyph 😁, it has v0: 1.2426202, v1: 7.788889, x: 2.2426202, y: 4.5658374, p0x: -1.0, p0y: 3.2230515, h: 0.8888889, xc: -1.0, yt: 2.3341627, font.descent: -67.0, osy: 0.0029850747, tr.offsetX: 6.800001, tr.offsetY: 37.5, tr.xAdvance: 36.0
-//With font A-Starry, drawing glyph @, it has v0: 1.1985074, v1: 7.802985, x: 2.0, y: 7.5, p0x: -0.8014926, p0y: 0.30298507, h: 0.7044776, xc: -0.8014926, yt: -0.40149254, font.descent: -67.0, osy: 0.0029850747, tr.offsetX: 66.5, tr.offsetY: 66.0, tr.xAdvance: 335.0
-        osx = font.scaleX * (scale + 1f) * 0.5f;
-        osy = font.scaleY;// * (scale + 1f) * 0.5f;
+        // I have no idea why these two, osx and osy, need to be different.
+        osx = font.scaleX * scale;
+        osy = font.scaleY;
+//        osx = font.scaleX * (scale + 1f) * 0.5f;
+//        osy = font.scaleY * (scale + 1f) * 0.5f;
         float centerX = tr.xAdvance * scaleX * 0.5f;
         float centerY = font.originalCellHeight * scaleY * 0.5f;
 

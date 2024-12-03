@@ -36,7 +36,7 @@ public class MultiLineScalingTest extends ApplicationAdapter {
 
         String text = "Hello, world!\nDid you know\norange is\nmy favorite color?";
 
-        final TextraLabel testLabel1 = new TextraLabel("{SCALE=50%}" + text, style);
+        final TextraLabel testLabel1 = new TextraLabel("[%50]" + text, style);
         testLabel1.setPosition(10, 200);
         stage.addActor(testLabel1);
 
