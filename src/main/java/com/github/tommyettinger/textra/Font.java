@@ -5209,8 +5209,8 @@ public class Font implements Disposable {
                 p0x += xPx + centerX - cos * centerX;
                 p0y += sin * centerX;
                 if (c >= 0xE000 && c < 0xF800) {
-                    p0x += changedW * 0.5f;
-
+                    p0x += changedW * 0.5f;// + cos * centerX;
+                    p0y -= sin * centerX;
 //                    // for inline images, this does two things.
 //                    // it moves the changes from the inline image's offsetX and offsetY from the
 //                    // rotating xc and yt variables, to the position-only x and y variables.

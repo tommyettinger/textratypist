@@ -155,13 +155,13 @@ public class MinimalGridTest extends ApplicationAdapter {
             }
         });
 
-        messageGroup = new Table().background(new TextureRegionDrawable(varWidthFont.mapping.get(varWidthFont.solidBlock)).tint(new Color(0.1f, 0.1f, 0.1f, 0.5f)));
+        messageGroup = new Table().background(new TextureRegionDrawable(varWidthFont.mapping.get(varWidthFont.solidBlock)).tint(new Color(0.9f, 0.9f, 0.9f, 0.5f)));
         messageGroup.left();
 
         root = new Table();
         root.setFillParent(true);
         Table nest = new Table();
-        nest.add(messageGroup).size(screenStage.getWidth() * 0.8f, 8 * varWidthFont.cellHeight);
+        nest.add(messageGroup).size(screenStage.getWidth() * 0.5f, 8 * varWidthFont.cellHeight);
         root.add(nest).bottom().expand().padBottom(25f);
         root.pack();
         screenStage.addActor(root);
@@ -322,14 +322,14 @@ public class MinimalGridTest extends ApplicationAdapter {
                         gg.backgrounds[x][y] = 0;
                         break;
                     case '.':
-                        gg.backgrounds[x][y] = 0x808080FF |
+                        gg.backgrounds[x][y] = 0xFF | //0x808080FF |
                                 (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
                                         * 0x01010100;
                         gg.put(x, y, '.', 0x444444FF);
 //                        gg.put(x, y, VALID_CHARS.charAt(idx++ * idx % VALID_CHARS.length()), 0x444444FF);
                         break;
                     default:
-                        gg.backgrounds[x][y] = 0x808080FF |
+                        gg.backgrounds[x][y] = 0xFF | //0x808080FF |
                                 (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
                                         * 0x01010100;
                         gg.put(x, y, c, 0x444444FF);
