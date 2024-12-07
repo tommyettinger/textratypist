@@ -4933,18 +4933,17 @@ public class Font implements Disposable {
             // rotating xc and yt variables, to the position-only x and y variables.
             // it also offsets x by a half-cell to the right, and moves the origin for y.
 
-            float stretchShift = 0.5f * (trrh * font.inlineImageStretch) * scaleX * sizingX;
+            float stretchShift = 0.5f * (trrh * font.inlineImageStretch - trrh);
 
-            float xch = tr.offsetX * scaleX * sizingX;
+            float xch = tr.offsetX * scale * fsx * sizingX;
             xc -= xch;
-            x += xch + changedW * 0.5f - stretchShift;
+            x += xch + changedW * 0.5f - stretchShift * scale * sizingX;
 
             yt = sin * centerX;
             if(squashed) yt -= font.cellHeight * scale * 0.15f;
 
-            yt -= stretchShift * 0.5f;
-            y -= (font.descent * font.scaleY) * scale * sizingY + stretchShift;
-//            y += (font.descent * font.scaleY) * scale * sizingY + stretchShift;
+            yt -= scaledHeight * 0.5f;//ych - font.descent * fsy * scale * sizingY;
+            y += (font.descent * font.scaleY - stretchShift) * scale * sizingY;
         }
         // when this is removed, rotations for icons go around the bottom center.
         // but, with it here, the rotations go around the bottom left corner.
