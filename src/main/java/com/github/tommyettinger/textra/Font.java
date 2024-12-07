@@ -3024,8 +3024,9 @@ public class Font implements Disposable {
         return inlineImageStretch;
     }
 
-    public void setInlineImageStretch(float inlineImageStretch) {
+    public Font setInlineImageStretch(float inlineImageStretch) {
         this.inlineImageStretch = inlineImageStretch;
+        return this;
     }
 
     /**
@@ -5185,7 +5186,7 @@ public class Font implements Disposable {
 //        oy -= scaleCorrection;
 //        oy += font.descent * font.scaleY * 2f;// - font.descent * osy;
 
-        if ((glyph & UNDERLINE) != 0L) {
+        if ((glyph & UNDERLINE) != 0L && !(c >= 0xE000 && c < 0xF800)) {
             ix = font.handleIntegerPosition(ox + oCenterX);
             iy = font.handleIntegerPosition(oy + oCenterY);
             xShift = (ox + oCenterX) - (ix);
@@ -5208,26 +5209,26 @@ public class Font implements Disposable {
 
                 p0x += xPx + centerX - cos * centerX;
                 p0y += sin * centerX;
-                if (c >= 0xE000 && c < 0xF800) {
-                    p0x += changedW * 0.5f;// + cos * centerX;
-                    p0y -= sin * centerX;
-//                    // for inline images, this does two things.
-//                    // it moves the changes from the inline image's offsetX and offsetY from the
-//                    // rotating xc and yt variables, to the position-only x and y variables.
-//                    // it also offsets x by a half-cell to the right, and moves the origin for y.
-//
-//                    float stretchShift = 0.5f * (trrh * font.inlineImageStretch - trrh);
-//
-//                    float xch = tr.offsetX * scale * fsx * sizingX;
-//                    p0x -= xch;
-//                    x += xch + changedW * 0.5f - stretchShift * scale * sizingX;
-//
-//                    p0y = sin * centerX;
-//                    if(squashed) p0y -= font.cellHeight * scale * 0.15f;
-//
-//                    p0y -= scaledHeight * 0.5f;
-//                    y += (font.descent * font.scaleY - stretchShift) * scale * sizingY;
-                }
+//                if (c >= 0xE000 && c < 0xF800) {
+//                    p0x += changedW * 0.5f;// + cos * centerX;
+//                    p0y -= sin * centerX;
+////                    // for inline images, this does two things.
+////                    // it moves the changes from the inline image's offsetX and offsetY from the
+////                    // rotating xc and yt variables, to the position-only x and y variables.
+////                    // it also offsets x by a half-cell to the right, and moves the origin for y.
+////
+////                    float stretchShift = 0.5f * (trrh * font.inlineImageStretch - trrh);
+////
+////                    float xch = tr.offsetX * scale * fsx * sizingX;
+////                    p0x -= xch;
+////                    x += xch + changedW * 0.5f - stretchShift * scale * sizingX;
+////
+////                    p0y = sin * centerX;
+////                    if(squashed) p0y -= font.cellHeight * scale * 0.15f;
+////
+////                    p0y -= scaledHeight * 0.5f;
+////                    y += (font.descent * font.scaleY - stretchShift) * scale * sizingY;
+//                }
 
 //                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + xAdvance * font.underX * scaleX;
 //                p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY + sin * centerX
@@ -5258,14 +5259,14 @@ public class Font implements Disposable {
                     float addW = xPx * 2;
     //p0x = - cellWidth * 0.5f - scale * fsx + xAdvance * font.underX * scaleX;
     //p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY + font.descent * font.scaleY;
-                    if (c >= 0xE000 && c < 0xF800) {
-                        x0 -= xPx * 5f + (changedW * 0.5f);
-                        yt += scaledHeight * 0.5f;
-                    }
-                    else {
+//                    if (c >= 0xE000 && c < 0xF800) {
+//                        x0 -= xPx * 5f + (changedW * 0.5f);
+//                        yt += scaledHeight * 0.5f;
+//                    }
+//                    else {
                         x0 += xPx + centerX - cos * centerX;
                         yt += sin * centerX;
-                    }
+//                    }
                     vertices[2] = color;
                     vertices[3] = underU;
                     vertices[4] = underV;
@@ -5295,7 +5296,7 @@ public class Font implements Disposable {
                 }
             }
         }
-        if ((glyph & STRIKETHROUGH) != 0L) {
+        if ((glyph & STRIKETHROUGH) != 0L && !(c >= 0xE000 && c < 0xF800)) {
             ix = font.handleIntegerPosition(ox + oCenterX);
             iy = font.handleIntegerPosition(oy + oCenterY);
             xShift = (ox + oCenterX) - (ix);
@@ -5313,27 +5314,27 @@ public class Font implements Disposable {
                 p0x += xPx + centerX - cos * centerX;
                 p0y += sin * centerX;
 
-                if (c >= 0xE000 && c < 0xF800) {
-                    p0x += changedW * 0.5f;
-//                    p0y += centerY * sizingY;
-                    // for inline images, this does two things.
-                    // it moves the changes from the inline image's offsetX and offsetY from the
-                    // rotating xc and yt variables, to the position-only x and y variables.
-                    // it also moves the origin for y by a full cell height.
-//                    float xch = changedW * -0.5f;
-//                    float ych = scaledHeight * -0.5f;
-//                    p0x -= xch;
-//                    x += xch + changedW * 0.5f;
-//                    p0y -= ych;
-//                    y += ych;
-
-//                    float xch = tr.offsetX * scaleX * sizingX;
-//                    float ych = scaledHeight -tr.offsetY * fsy * scale * sizingY;
-//                    p0x -= xch;
-//                    x += xch;
-//                    p0y -= ych;
-//                    y += ych;// - font.descent * font.scaleY * 2f;
-                }
+//                if (c >= 0xE000 && c < 0xF800) {
+//                    p0x += changedW * 0.5f;
+////                    p0y += centerY * sizingY;
+//                    // for inline images, this does two things.
+//                    // it moves the changes from the inline image's offsetX and offsetY from the
+//                    // rotating xc and yt variables, to the position-only x and y variables.
+//                    // it also moves the origin for y by a full cell height.
+////                    float xch = changedW * -0.5f;
+////                    float ych = scaledHeight * -0.5f;
+////                    p0x -= xch;
+////                    x += xch + changedW * 0.5f;
+////                    p0y -= ych;
+////                    y += ych;
+//
+////                    float xch = tr.offsetX * scaleX * sizingX;
+////                    float ych = scaledHeight -tr.offsetY * fsy * scale * sizingY;
+////                    p0x -= xch;
+////                    x += xch;
+////                    p0y -= ych;
+////                    y += ych;// - font.descent * font.scaleY * 2f;
+//                }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         xAdvance * (font.strikeLength + 1) * scaleX + xPx * 5f,
@@ -5357,14 +5358,14 @@ public class Font implements Disposable {
                     xc = -cellWidth * 0.5f + changedW * font.strikeX - scale * fsx;
                     x0 = -2 * xPx;
                     float addW = xPx * 2;
-                    if (c >= 0xE000 && c < 0xF800) {
-                        x0 -= xPx * 5f + (changedW * 0.5f);
-                        yt += scaledHeight * 0.5f;
-                    }
-                    else {
+//                    if (c >= 0xE000 && c < 0xF800) {
+//                        x0 -= xPx * 5f + (changedW * 0.5f);
+//                        yt += scaledHeight * 0.5f;
+//                    }
+//                    else {
                         x0 += xPx + centerX - cos * centerX;
                         yt += sin * centerX;
-                    }
+//                    }
 
                     vertices[2] = color;
                     vertices[3] = dashU;
