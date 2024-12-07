@@ -4942,8 +4942,10 @@ public class Font implements Disposable {
             yt = sin * centerX;
             if(squashed) yt -= font.cellHeight * scale * 0.15f;
 
-            yt -= scaledHeight * 0.5f;//ych - font.descent * fsy * scale * sizingY;
-            y += (font.descent * font.scaleY - stretchShift) * scale * sizingY;
+            float ych = tr.offsetY * scale * fsy * sizingY;
+            yt -= ych + scaledHeight * 0.5f;//ych - font.descent * fsy * scale * sizingY;
+            y -= stretchShift * scale * sizingY - ych;
+//            y += (font.descent * font.scaleY - stretchShift) * scale * sizingY + ych;
         }
         // when this is removed, rotations for icons go around the bottom center.
         // but, with it here, the rotations go around the bottom left corner.
