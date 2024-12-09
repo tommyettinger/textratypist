@@ -5958,7 +5958,7 @@ public class Font implements Disposable {
                                         continue;
                                     earlier.glyphs.truncate(j + 1);
                                     if(!hyphenated)
-                                        earlier.glyphs.add(applyChar(earlier.glyphs.peek(), ' '));
+                                        earlier.glyphs.add(applyChar(earlier.glyphs.isEmpty() ? 0L : earlier.glyphs.peek(), ' '));
                                     later.width = changeNext;
                                     earlier.width -= change;
                                     later.glyphs.addAll(glyphBuffer);
@@ -6141,7 +6141,7 @@ public class Font implements Disposable {
                                     continue;
                                 earlier.glyphs.truncate(j + 1);
                                 if(!hyphenated)
-                                    earlier.glyphs.add(applyChar(earlier.glyphs.peek(), ' '));
+                                    earlier.glyphs.add(applyChar(earlier.glyphs.isEmpty() ? 0L : earlier.glyphs.peek(), ' '));
                                 later.width = changeNext;
                                 earlier.width -= change;
                                 later.glyphs.addAll(glyphBuffer);
@@ -6989,7 +6989,7 @@ public class Font implements Disposable {
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
                         glyphs.truncate(i);
-                        glyphs.add(applyChar(glyphs.peek(), '\n'));
+                        glyphs.add(applyChar(glyphs.isEmpty() ? 0L : glyphs.peek(), '\n'));
                         break;
                     }
                     GlyphRegion tr = font.mapping.get(ch);
@@ -7079,7 +7079,7 @@ public class Font implements Disposable {
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
                         glyphs.truncate(i);
-                        glyphs.add(applyChar(glyphs.peek(), '\n'));
+                        glyphs.add(applyChar(glyphs.isEmpty() ? 0L : glyphs.peek(), '\n'));
                         break;
                     }
                     GlyphRegion tr = font.mapping.get(ch);

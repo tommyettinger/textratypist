@@ -21,6 +21,8 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MultiLineScalingTest extends ApplicationAdapter {
@@ -34,19 +36,28 @@ public class MultiLineScalingTest extends ApplicationAdapter {
 
         Styles.LabelStyle style = new Styles.LabelStyle(font, Color.WHITE);
 
-        String text = "Hello, world!\nDid you know\norange is\nmy favorite color?";
+        String text = "Hello, world! Did you know...\n\norange is my favorite color?";
 
         final TextraLabel testLabel1 = new TextraLabel("[%50]" + text, style);
-        testLabel1.setPosition(10, 200);
-        stage.addActor(testLabel1);
+        testLabel1.setWrap(true);
+        testLabel1.setAlignment(Align.left);
+        Container<TextraLabel> c1 = new Container<>(testLabel1).width(200);
+        c1.setPosition(140, 200, Align.left);
+        stage.addActor(c1);
 
         final TextraLabel testLabel2 = new TextraLabel(text, style);
-        testLabel2.setPosition(10 + testLabel1.getX() + testLabel1.layout.getWidth(), 200);
-        stage.addActor(testLabel2);
+        testLabel2.setWrap(true);
+        testLabel2.setAlignment(Align.left);
+        Container<TextraLabel> c2 = new Container<>(testLabel2).width(200);
+        c2.setPosition(10 + c1.getX() + 200, 200, Align.left);
+        stage.addActor(c2);
 
         final TextraLabel testLabel3 = new TextraLabel("{SCALE=150%}" + text, style);
-        testLabel3.setPosition(10 + testLabel2.getX() + testLabel2.layout.getWidth(), 200);
-        stage.addActor(testLabel3);
+        testLabel3.setWrap(true);
+        testLabel3.setAlignment(Align.left);
+        Container<TextraLabel> c3 = new Container<>(testLabel3).width(200);
+        c3.setPosition(10 + c2.getX() + 200, 200, Align.left);
+        stage.addActor(c3);
     }
 
     @Override
