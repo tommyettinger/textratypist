@@ -2090,9 +2090,10 @@ public class Font implements Disposable {
         underX -= 0.5f;
         strikeX -= 0.5f;
 
-        inlineImageOffsetX = -32f + 0.1f * originalCellWidth;
-        inlineImageOffsetY = 10f;
-        inlineImageXAdvance = 24f;
+        inlineImageOffsetX = 0f;
+        inlineImageOffsetY = 0f;
+        inlineImageXAdvance = 0f;
+        inlineImageStretch = 1f;
         // the following is used in the others, but not here for some reason.
 //        inlineImageOffsetX = -20f + 0.1f * originalCellWidth;
 //        inlineImageOffsetY = -32f + 0.1f * originalCellHeight - descent;
@@ -2287,9 +2288,10 @@ public class Font implements Disposable {
         underY = 0.5f + descent / rawLineHeight;
         strikeY = 0.5f + descent / rawLineHeight;
 
-        inlineImageOffsetX = -32f + 0.1f * originalCellWidth;
-        inlineImageOffsetY = -10f + 0.1f * originalCellHeight - descent;
-        inlineImageXAdvance = 24f;
+        inlineImageOffsetX = 0f;
+        inlineImageOffsetY = 0f;
+        inlineImageXAdvance = 0f;
+        inlineImageStretch = 1f;
     }
 
     /**
@@ -2380,9 +2382,10 @@ public class Font implements Disposable {
         underY += 0.375f;
         strikeY += 0.375f;
 
-        inlineImageOffsetX = -20f + 0.1f * originalCellWidth;
-        inlineImageOffsetY = -32f + 0.1f * originalCellHeight - descent;
-        inlineImageXAdvance = 4f;
+        inlineImageOffsetX = 0f;
+        inlineImageOffsetY = 0f;
+        inlineImageXAdvance = 0f;
+        inlineImageStretch = 1f;
     }
 
     /**
@@ -2693,7 +2696,8 @@ public class Font implements Disposable {
 
         inlineImageOffsetX = 0f;
         inlineImageOffsetY = 0f;
-        inlineImageXAdvance = 4f;
+        inlineImageXAdvance = 0f;
+        inlineImageStretch = 1f;
     }
 
     //// usage section
@@ -7447,7 +7451,7 @@ public class Font implements Disposable {
         return "Font{" +
                 "distanceField=" + getDistanceField() +
                 ", isMono=" + isMono +
-                ", kerning=" + kerning +
+                ", kerning=" + (kerning == null ? "null" : kerning.size + " pairs") +
                 ", actualCrispness=" + actualCrispness +
                 ", distanceFieldCrispness=" + distanceFieldCrispness +
                 ", cellWidth=" + cellWidth +
@@ -7483,6 +7487,10 @@ public class Font implements Disposable {
                 ", strikeBreadth=" + strikeBreadth +
                 ", fancyX=" + fancyX +
                 ", fancyY=" + fancyY +
+                ", inlineImageOffsetX=" + inlineImageOffsetX +
+                ", inlineImageOffsetY=" + inlineImageOffsetY +
+                ", inlineImageXAdvance=" + inlineImageXAdvance +
+                ", inlineImageStretch=" + inlineImageStretch +
                 '}';
     }
 

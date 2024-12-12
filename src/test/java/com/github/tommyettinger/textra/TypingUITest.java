@@ -75,13 +75,14 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //				font;
 				KnownFonts.getYanoneKaffeesatz()
 //				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
-				.scaleTo(30, 35);
+				.scaleHeightTo(32);
 //				.setName("Yanone Kaffeesatz");
 //		family.connected[0] = KnownFonts.getNowAlt();
 		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF).scaleHeightTo(30);
 //		family.connected[11].originalCellHeight *= 0.75f;
 //		family.connected[0].originalCellHeight *= 0.75f;
 		font = family.connected[0];
+//		font.descent *= 0.75f; // seems to help position a little.
 		font.family = family;
 //		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
 		for(Font f : font.family.connected) {

@@ -35,14 +35,14 @@ public class ScaledWrappingTest extends ApplicationAdapter {
         Styles.LabelStyle style = new Styles.LabelStyle(font, Color.WHITE);
         String testText = "Did YOU know orange is my favorite color? Did YOU know orange is my favorite color? Did YOU know orange is my favorite color?";
 
-        final TextraLabel label = new TextraLabel("[%210]" + testText, style);
+        final TextraLabel label = new TypingLabel("[%210]" + testText, style);
         label.setSize(500, 400);
         label.setPosition(100, 50);
         label.setWrap(true);
         label.setDebug(true);
         stage.addActor(label);
 
-        final TextraLabel label2 = new TextraLabel("{SIZE=210%}" + testText, style);
+        final TextraLabel label2 = new TypingLabel("{SIZE=210%}" + testText, style);
         label2.setSize(500, 400);
         label2.setPosition(100, 550);
         label2.setWrap(true);

@@ -66,16 +66,14 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 		final Font font = skin.get(Styles.LabelStyle.class).font
-//				.adjustLineHeight(0.75f)
 				.useIntegerPositions(false);
-		// For unknown reasons, emoji added to this particular font are a little too high before adjustment.
+		// For unknown reasons, emoji added to this particular font are too rightward before adjustment.
 		// Using the extra three float arguments for offsetX, offsetY, and xAdvance changes helps a lot here.
 //		KnownFonts.addEmoji(font, 0f, 4f, 0f);
 		KnownFonts.addEmoji(skin.get("font-button", Font.class), -24f, 0f, 0f);
 		KnownFonts.addEmoji(skin.get("font-label", Font.class),  -24f, 0f, 0f);
 		KnownFonts.addEmoji(skin.get("font-title", Font.class),  -24f, 0f, 0f);
 		final Font title = skin.get("title", Styles.LabelStyle.class).font
-//				.adjustLineHeight(1.5f)
 				.useIntegerPositions(false);
 
 		for (int i = 0; i < listEntriesText.length; i++) {
