@@ -1953,7 +1953,7 @@ public class Font implements Disposable {
         this.heightAdjust = heightAdjust;
 
         descent = data.capHeight + data.ascent - data.lineHeight;
-        cellHeight = heightAdjust + data.lineHeight;
+        cellHeight = heightAdjust + data.lineHeight - descent * 0.25f;
         // Needed to make emoji and other texture regions appear at a reasonable height on the line.
         // Also moves the descender so that it isn't below the baseline, which causes issues.
 //        yAdjust += data.xHeight - data.ascent + descent;
@@ -2282,7 +2282,7 @@ public class Font implements Disposable {
         }
         defaultValue = mapping.get(' ', mapping.get(0));
         originalCellWidth = cellWidth;
-        originalCellHeight = cellHeight;
+        originalCellHeight = cellHeight -= descent * 0.25f;
         isMono = minWidth == cellWidth && kerning == null;
 
         underY = 0.5f + descent / rawLineHeight;
@@ -2571,7 +2571,7 @@ public class Font implements Disposable {
 
         float ascender = metrics.getFloat("ascender", 0.8f);
         descent = size * metrics.getFloat("descender", -0.25f);
-        originalCellHeight = cellHeight = size * metrics.getFloat("lineHeight", 1f) + heightAdjust;
+        originalCellHeight = cellHeight = size * metrics.getFloat("lineHeight", 1f) + heightAdjust - descent * 0.25f;
 
         underY = 0.5f * metrics.getFloat("underlineY", -0.1f);
         strikeBreadth = underBreadth = -0.375f;

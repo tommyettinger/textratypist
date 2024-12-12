@@ -82,7 +82,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //		family.connected[11].originalCellHeight *= 0.75f;
 //		family.connected[0].originalCellHeight *= 0.75f;
 		font = family.connected[0];
-//		font.descent *= 0.75f; // seems to help position a little.
+//		font.descent *= 0.5f; // seems to help position a little.
+//		font.adjustLineHeight((font.originalCellHeight - font.descent) / font.originalCellHeight);
 		font.family = family;
 //		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
 		for(Font f : font.family.connected) {

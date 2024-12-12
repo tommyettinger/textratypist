@@ -72,7 +72,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 //		KnownFonts.addEmoji(font, 0f, 4f, 0f);
 		KnownFonts.addEmoji(skin.get("font-button", Font.class), -24f, 0f, 0f);
 		KnownFonts.addEmoji(skin.get("font-label", Font.class),  -24f, 0f, 0f);
-		KnownFonts.addEmoji(skin.get("font-title", Font.class),  -24f, 0f, 0f);
+		KnownFonts.addEmoji(skin.get("font-title", Font.class).scaleHeightTo(24f),  -24f, 0f, 0f);
 		final Font title = skin.get("title", Styles.LabelStyle.class).font
 				.useIntegerPositions(false);
 
