@@ -2575,9 +2575,10 @@ public class Font implements Disposable {
 
         float ascender = metrics.getFloat("ascender", 0.8f);
         descent = size * metrics.getFloat("descender", -0.25f);
-        originalCellHeight = cellHeight = size * metrics.getFloat("lineHeight", 1f) + heightAdjust - descent * 0.25f;
+        originalCellHeight = cellHeight = size * metrics.getFloat("lineHeight", 1f) + heightAdjust;// - descent * 0.25f;
 
         underY = 0.5f * metrics.getFloat("underlineY", -0.1f);
+        strikeY = metrics.getFloat("strikeY", 0f);
         strikeBreadth = underBreadth = -0.375f;
         if(makeGridGlyphs){
             underLength = strikeLength = 0.05f;
@@ -2587,7 +2588,6 @@ public class Font implements Disposable {
             underX = strikeX = 0.0f;
         }
 
-//        strikeY = 0f;
         fancyY -= descent / size;
 
         JsonValue glyphs = fnt.get("glyphs"), planeBounds, atlasBounds;
@@ -2695,8 +2695,11 @@ public class Font implements Disposable {
         isMono = minWidth == cellWidth && kerning == null;
         integerPosition = false;
 
-        underY -=  descent / originalCellHeight - 0.25f;
-        strikeY -= descent / originalCellHeight;
+//        underY =  -descent / originalCellHeight;
+//        strikeY = -descent / originalCellHeight;
+
+        underY -=  descent / size;
+        strikeY -= descent / size;
 
         inlineImageOffsetX = 0f;
         inlineImageOffsetY = 0f;
@@ -5212,10 +5215,9 @@ public class Font implements Disposable {
 
             if (under != null && under.offsetX != under.offsetX) {
                 p0x = font.cellWidth * -0.5f - scale * font.scaleX + xAdvance * font.underX * scale * font.scaleX;
-//                p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY
-//                        + font.descent * font.scaleY;
-//                p0y = ((font.underY - 0.6f) * font.cellHeight * scale + centerY) * sizingY + font.descent * font.scaleY * scale * sizingY;
-                p0y = ((font.underY - 1f) * font.cellHeight * scale * 0.5f) * sizingY + font.descent * font.scaleY * scale * sizingY;
+                // this seems to have been changed while making changes for inline images, which are no longer used.
+//                p0y = ((font.underY - 1f) * font.cellHeight * scale * 0.5f) * sizingY + font.descent * font.scaleY * scale * sizingY;
+                p0y = (font.underY - 0.5f) * font.cellHeight * scale * 0.5f * sizingY + font.descent * font.scaleY * scale * sizingY;
 
                 p0x += xPx + centerX - cos * centerX;
                 p0y += sin * centerX;
