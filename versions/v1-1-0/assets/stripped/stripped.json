@@ -1,0 +1,20 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	one-50: {
+		file: one-50.fnt
+		scaledSize: -1
+		markupEnabled: true
+		flip: false
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: one-50
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+}

@@ -1,0 +1,13 @@
+
+stripped.png
+size: 512, 512
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+one-50
+  rotate: false
+  xy: 1, 182
+  size: 503, 320
+  orig: 512, 512
+  offset: 3, 185
+  index: -1
