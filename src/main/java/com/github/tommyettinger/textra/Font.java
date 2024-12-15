@@ -2575,7 +2575,7 @@ public class Font implements Disposable {
 
         float ascender = metrics.getFloat("ascender", 0.8f);
         descent = size * metrics.getFloat("descender", -0.25f);
-        originalCellHeight = cellHeight = size * metrics.getFloat("lineHeight", 1f) + heightAdjust;// - descent * 0.25f;
+        originalCellHeight = cellHeight = size * metrics.getFloat("lineHeight", 1f) + heightAdjust - descent;
 
         underY = 0.5f * metrics.getFloat("underlineY", -0.1f);
         strikeY = metrics.getFloat("strikeY", 0f);
@@ -2612,7 +2612,7 @@ public class Font implements Disposable {
             }
             if(planeBounds != null) {
                 xo = planeBounds.getFloat("left", 0f) * size;
-                yo = size - planeBounds.getFloat("top", 0f) * size;
+                yo = size - planeBounds.getFloat("top", 0f) * size - descent * 0.5f;
             } else {
                 xo = yo = 0f;
             }
@@ -2672,14 +2672,14 @@ public class Font implements Disposable {
         solidBlock = '█';
         if (makeGridGlyphs) {
             GlyphRegion block = new GlyphRegion(new TextureRegion(textureRegion,
-                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), 0, cellHeight, cellWidth);
+                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), 0, cellWidth, cellHeight);
             mapping.put(solidBlock, block);
             for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
-                mapping.put(i, new GlyphRegion(block, Float.NaN, cellHeight, cellWidth));
+                mapping.put(i, new GlyphRegion(block, Float.NaN, cellWidth, cellHeight));
             }
         } else if (!mapping.containsKey(solidBlock)) {
             mapping.put(solidBlock, new GlyphRegion(new TextureRegion(textureRegion,
-                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), 0, cellHeight, cellWidth));
+                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), 0, cellWidth, cellHeight));
         }
         defaultValue = mapping.get(' ', mapping.values().next());
         originalCellWidth = cellWidth;
@@ -2698,8 +2698,8 @@ public class Font implements Disposable {
 //        underY =  -descent / originalCellHeight;
 //        strikeY = -descent / originalCellHeight;
 
-        underY -=  descent / size;
-        strikeY -= descent / size;
+//        underY -=  descent / size;
+//        strikeY -= descent / size;
 
         inlineImageOffsetX = 0f;
         inlineImageOffsetY = 0f;
@@ -4822,7 +4822,6 @@ public class Font implements Disposable {
         float scaleY, fsy, osy;
         if(c >= 0xE000 && c < 0xF800){
             fsx = font.cellHeight / tr.getRegionHeight() * font.inlineImageStretch;
-//            fsx = font.cellHeight * 0.8f / tr.xAdvance;
             fsy = fsx;//0.75f * font.originalCellHeight / tr.getRegionHeight();
             //scale * font.cellHeight * 0.8f / tr.xAdvance;//font.cellHeight / (tr.xAdvance * 1.25f);
             scaleX = scaleY = scale * fsx;
@@ -4834,10 +4833,10 @@ public class Font implements Disposable {
 //            y -= descent * scaleY;
         }
         // I have no idea why these two, osx and osy, need to be different.
-        osx = font.scaleX * scale;
-        osy = font.scaleY;
-//        osx = font.scaleX * (scale + 1f) * 0.5f;
-//        osy = font.scaleY * (scale + 1f) * 0.5f;
+//        osx = font.scaleX * scale;
+//        osy = font.scaleY;
+        osx = font.scaleX * (scale + 1f) * 0.5f;
+        osy = font.scaleY * (scale + 1f) * 0.5f;
         float centerX = tr.xAdvance * scaleX * 0.5f;
         float centerY = font.originalCellHeight * scaleY * 0.5f;
 
@@ -4905,7 +4904,8 @@ public class Font implements Disposable {
 
         float trrh = tr.getRegionHeight();
 //        float yt = (tr.offsetY * scaleY * sizingY) + sin * centerX - cellHeight * 0.5f;
-        float yt = (font.originalCellHeight * 0.5f - (trrh + tr.offsetY)) * fsy * scale * sizingY + sin * centerX;
+        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY + sin * centerX
+                - centerY;
         if(squashed) yt -= font.cellHeight * scale * 0.15f;
 //        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - centerY + sin * centerX;
 //        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - cellHeight * 0.5f + sin * centerX;
@@ -5196,8 +5196,8 @@ public class Font implements Disposable {
 
         // this changes scaleCorrection from one that uses fsx to one that uses font.scaleY.
         // fsx and font.scaleY are equivalent for most glyphs, but not for inline images.
-//        oy -= scaleCorrection;
-//        oy += font.descent * font.scaleY * 2f;// - font.descent * osy;
+        oy = y - scaleCorrection;
+        oy += font.descent * font.scaleY * 2f;// - font.descent * osy;
 
         if ((glyph & UNDERLINE) != 0L && !(c >= 0xE000 && c < 0xF800)) {
             ix = font.handleIntegerPosition(ox + oCenterX);
@@ -5217,7 +5217,11 @@ public class Font implements Disposable {
                 p0x = font.cellWidth * -0.5f - scale * font.scaleX + xAdvance * font.underX * scale * font.scaleX;
                 // this seems to have been changed while making changes for inline images, which are no longer used.
 //                p0y = ((font.underY - 1f) * font.cellHeight * scale * 0.5f) * sizingY + font.descent * font.scaleY * scale * sizingY;
-                p0y = (font.underY - 0.5f) * font.cellHeight * scale * 0.5f * sizingY + font.descent * font.scaleY * scale * sizingY;
+                // faithful to an earlier commit, not sure from when...
+//                p0y = (font.underY - 0.5f) * font.cellHeight * scale * 0.5f * sizingY + font.descent * font.scaleY * scale * sizingY;
+
+                // June 29 version, evaluating again
+                p0y = (font.underY - 0.8125F) * font.cellHeight * scale * sizingY + centerY + font.descent * font.scaleY;
 
                 p0x += xPx + centerX - cos * centerX;
                 p0y += sin * centerX;
@@ -5322,7 +5326,10 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && dash.offsetX != dash.offsetX) {
                 p0x = font.cellWidth * -0.5f - scale * font.scaleX + xAdvance * font.strikeX * scale * font.scaleX;
-                p0y = ((font.strikeY) * font.cellHeight * scale * 0.5f) * sizingY + font.descent * scale * font.scaleY * sizingY;
+                // later version
+//                p0y = ((font.strikeY) * font.cellHeight * scale * 0.5f) * sizingY + font.descent * scale * font.scaleY * sizingY;
+                // june 29 version
+                p0y = centerY + (font.strikeY - 0.45F) * font.cellHeight * scale * sizingY + font.descent * font.scaleY;
                 p0x += xPx + centerX - cos * centerX;
                 p0y += sin * centerX;
 
