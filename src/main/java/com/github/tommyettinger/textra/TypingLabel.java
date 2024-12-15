@@ -282,7 +282,9 @@ public class TypingLabel extends TextraLabel {
      */
     public void setText(String newText, boolean modifyOriginalText) {
         if (modifyOriginalText) {
-            if(font.omitCurlyBraces || font.enableSquareBrackets)
+            if(font.omitCurlyBraces)
+                newText = Parser.preprocess("{NORMAL}" + getDefaultToken() + newText);
+            else if(font.enableSquareBrackets)
                 newText = Parser.preprocess(getDefaultToken() + newText);
             else
                 newText = getDefaultToken() + newText;
@@ -404,7 +406,9 @@ public class TypingLabel extends TextraLabel {
         parsed = true;
         boolean actualEnd = ended;
         ended = false;
-        if(font.omitCurlyBraces || font.enableSquareBrackets)
+        if(font.omitCurlyBraces)
+            this.setText(Parser.preprocess("{NORMAL}"+getDefaultToken() + originalText), false, false);
+        else if(font.enableSquareBrackets)
             this.setText(Parser.preprocess(getDefaultToken() + originalText), false, false);
         else
             this.setText(getDefaultToken() + originalText, false, false);

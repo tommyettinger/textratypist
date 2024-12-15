@@ -31,7 +31,7 @@ public class MSDFTypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void create() {
-        font = KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.MSDF);
+        font = KnownFonts.addEmoji(KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.MSDF));
         // equivalent to
 //        font = new Font("Yanone-Kaffeesatz-msdf.dat", true).scaleHeightTo(32);
         adjustTypingConfigs();
@@ -126,7 +126,7 @@ public class MSDFTypingLabelTest extends ApplicationAdapter {
 
     public TypingLabel createTypingLabel() {
         final TypingLabel label = new TypingLabel(
-                "[darkest gray]Testing [/]MSDF[/] text, with [%?shadow]drop shadow[%],\n" +
+                "{HEARTBEAT}[+balance scale]{ENDHEARTBEAT}[+⚖️][darkest gray]{HEARTBEAT}T{ENDHEARTBEAT}e{HEARTBEAT}s{ENDHEARTBEAT}t{HEARTBEAT}i{ENDHEARTBEAT}n{HEARTBEAT}g{ENDHEARTBEAT} [/]MSDF[/] text, with [%?shadow]drop shadow[%],\n" +
                 "[%75]small, [%125]medium, [%]and [%175]large [%] sizes of [*]font!",
                 font);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");

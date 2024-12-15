@@ -120,11 +120,12 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //                "TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
 //                        + "But... {SICK}U. Nitty{ENDSICK} doesn't."
 //                        + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
+                //[+⚖️]
 
                 "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
                         + "But... {COLOR=#79c353ff}{SICK}U. Nitty{ENDCOLOR}{ENDSICK} doesn't. {CROWD}[#BB1100][~][+skull][~][#55AA22FF][_][+🤡][ ]\n"
                         + "That's OK, I don't like loot crates anyway. {CROWD}[#B10F][+party popper][#5A2][+🥳][ ]\n"
-                        +"[+⚖️][~][_][+⚖️][ ] testing: [_][~]\n"
+                        +"[+balance scale][~][_][+balance scale][ ] testing: [_][~]\n"
                         // the u200B is a zero-width space, which is invisible but gets the 100% line height we want after this.
                         + "[%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\u200B\n\n"
                         + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
@@ -157,6 +158,10 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //        label.layout.setTargetWidth(label.layout.getWidth());
 //        label.setWidth(Gdx.graphics.getBackBufferWidth() - 100);
 
+//        label.setDefaultToken("{NORMAL}");
+//        label.setDefaultToken("{SCALE=100}");
+//        label.setDefaultToken("{EASE}");
+//        label.setDefaultToken("{FADE=0;1;0.33}");
 //        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 //
 //        // Set an event listener for when the {EVENT} token is reached and for the char progression ends.
