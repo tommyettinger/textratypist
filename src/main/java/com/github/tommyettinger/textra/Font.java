@@ -2288,6 +2288,10 @@ public class Font implements Disposable {
         underY = 0.5f + descent / rawLineHeight;
         strikeY = 0.5f + descent / rawLineHeight;
 
+//        underY -=  descent / originalCellHeight - 0.25f;
+//        strikeY -= descent / originalCellHeight;
+
+
         inlineImageOffsetX = 0f;
         inlineImageOffsetY = 0f;
         inlineImageXAdvance = 0f;
@@ -2691,8 +2695,8 @@ public class Font implements Disposable {
         isMono = minWidth == cellWidth && kerning == null;
         integerPosition = false;
 
-        underY -= descent / size;
-        strikeY -= descent / size;
+        underY -=  descent / originalCellHeight - 0.25f;
+        strikeY -= descent / originalCellHeight;
 
         inlineImageOffsetX = 0f;
         inlineImageOffsetY = 0f;
