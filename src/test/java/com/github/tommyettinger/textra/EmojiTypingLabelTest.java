@@ -32,7 +32,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void create() {
-        font = KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.MSDF)).scale(0.6f);
+        font = KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.MSDF));
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
@@ -122,10 +122,12 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //                        + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
 
                 "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
-                + "But... {COLOR=#79c353ff}{SICK}U. Nitty{ENDSICK}{ENDCOLOR} doesn't. {CROWD}[#BB1100][+skull]{COLOR=#55AA22}[+🤡]{ENDCROWD}{CLEARCOLOR}\n"
-                + "That's OK, I don't like loot crates anyway. {CROWD}[#B10][+party popper]{COLOR=5A2}[+🥳]{ENDCROWD}{CLEARCOLOR}\n"
-                +"[+⚖][~][_][+⚖][ ] testing: [_][~][%25]go[%50]go[%75]go[%100][red]go[][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\n"
-                + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
+                        + "But... {COLOR=#79c353ff}{SICK}U. Nitty{ENDCOLOR}{ENDSICK} doesn't. {CROWD}[#BB1100][~][+skull][~][#55AA22FF][_][+🤡][ ]\n"
+                        + "That's OK, I don't like loot crates anyway. {CROWD}[#B10F][+party popper][#5A2][+🥳][ ]\n"
+                        +"[+⚖️][~][_][+⚖️][ ] testing: [_][~]\n"
+                        // the u200B is a zero-width space, which is invisible but gets the 100% line height we want after this.
+                        + "[%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\u200B\n\n"
+                        + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
                 ,
 //
 //                "I love TextraTypist! 😀\n" +
@@ -171,7 +173,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //        });
 //        // Finally parse tokens in the label text.
 //        label.parseTokens();
-        Action action = Actions.repeat(5,
+        Action action = Actions.repeat(1,
                 Actions.sequence(
                         delay(1.5f),
                         moveBy(0, 100, 0.4f, Interpolation.pow2Out),
