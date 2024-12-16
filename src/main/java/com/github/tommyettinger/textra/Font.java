@@ -5203,7 +5203,9 @@ public class Font implements Disposable {
         // fsx and font.scaleY are equivalent for most glyphs, but not for inline images.
         oy = y - scaleCorrection;
         oy += font.descent * font.scaleY * 2f;// - font.descent * osy;
-
+//
+//        ox = x;
+//        oy = y;
         if ((glyph & UNDERLINE) != 0L && !(c >= 0xE000 && c < 0xF800)) {
             ix = font.handleIntegerPosition(ox + oCenterX);
             iy = font.handleIntegerPosition(oy + oCenterY);
@@ -5226,7 +5228,7 @@ public class Font implements Disposable {
 //                p0y = (font.underY - 0.5f) * font.cellHeight * scale * 0.5f * sizingY + font.descent * font.scaleY * scale * sizingY;
 
                 // June 29 version, evaluating again
-                p0y = (font.underY - 0.8125F) * font.cellHeight * scale * sizingY + centerY + font.descent * font.scaleY;
+                p0y = (font.underY - 0.8125F) * font.cellHeight * scale * sizingY + font.descent * font.scaleY;
 
                 p0x += xPx + centerX - cos * centerX;
                 p0y += sin * centerX;
@@ -5334,7 +5336,7 @@ public class Font implements Disposable {
                 // later version
 //                p0y = ((font.strikeY) * font.cellHeight * scale * 0.5f) * sizingY + font.descent * scale * font.scaleY * sizingY;
                 // june 29 version
-                p0y = centerY + (font.strikeY - 0.45F) * font.cellHeight * scale * sizingY + font.descent * font.scaleY;
+                p0y = (font.strikeY - 0.45F) * font.cellHeight * scale * sizingY + font.descent * font.scaleY;
                 p0x += xPx + centerX - cos * centerX;
                 p0y += sin * centerX;
 
@@ -5439,7 +5441,7 @@ public class Font implements Disposable {
             }
 
             p0x = -cos * centerX + changedW * (font.fancyX);
-            p0y = -(centerY - font.descent * font.scaleY * 0.75f) * (scale * sizingY - font.fancyY) + sin * centerX;
+            p0y = -(centerY * 2f - font.descent * font.scaleY * 0.75f) * (scale * sizingY - font.fancyY) + sin * centerX;
 
 //            p0x = -cellWidth + xAdvance * font.underX * scaleX;
 //            p0y = ((font.underY - 0.75f) * font.cellHeight) * scale * sizingY + centerY;
