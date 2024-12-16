@@ -93,21 +93,24 @@ public class PreviewGenerator extends ApplicationAdapter {
 
 //        FileHandle[] jsonFiles = Gdx.files.local("src/test/resources/experimental").list(".json");
 //        FileHandle[] sdfFiles = new FileHandle[0];
-        String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String.class);
-        Font[] all = new Font[jsonFiles.length * 4 + 4];
-        int idx = 0;
-        for (int i = 0; i < jsonFiles.length; i++) {
-            all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.STANDARD)).scaleHeightTo(32f).useIntegerPositions(false);
-            all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.MSDF)).scaleHeightTo(32f).useIntegerPositions(false);
-            all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.SDF)).scaleHeightTo(32f).useIntegerPositions(false);
-            all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.SDF_OUTLINE)).scaleHeightTo(32f).useIntegerPositions(false);
-        }
-        all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.STANDARD)).scaleHeightTo(32f).useIntegerPositions(false);
-        all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.MSDF)).scaleHeightTo(32f).useIntegerPositions(false);
-        all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF)).scaleHeightTo(32f).useIntegerPositions(false);
-        all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE)).scaleHeightTo(32f).useIntegerPositions(false);
 
-//        Font[] fonts = sdf;
+        // WHAT WE NORMALLY USE
+//        String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String.class);
+//        Font[] all = new Font[jsonFiles.length * 4 + 4];
+//        int idx = 0;
+//        for (int i = 0; i < jsonFiles.length; i++) {
+//            all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.STANDARD)).scaleHeightTo(32f).useIntegerPositions(false);
+//            all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.MSDF)).scaleHeightTo(32f).useIntegerPositions(false);
+//            all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.SDF)).scaleHeightTo(32f).useIntegerPositions(false);
+//            all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.SDF_OUTLINE)).scaleHeightTo(32f).useIntegerPositions(false);
+//        }
+//        all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.STANDARD)).scaleHeightTo(32f).useIntegerPositions(false);
+//        all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.MSDF)).scaleHeightTo(32f).useIntegerPositions(false);
+//        all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF)).scaleHeightTo(32f).useIntegerPositions(false);
+//        all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE)).scaleHeightTo(32f).useIntegerPositions(false);
+//
+        // DEBUG
+        Font[] all = new Font[]{KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.A_STARRY, Font.DistanceFieldType.MSDF)).scaleHeightTo(32f).useIntegerPositions(false)};
 
         fnt = all[0];
 //        fnt = fonts[fonts.length - 1];
@@ -186,6 +189,9 @@ public class PreviewGenerator extends ApplicationAdapter {
 
 //            Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
             PixmapIO.writePNG(Gdx.files.local("out/" + font.name + ".png"), pm, 2, true);
+
+            System.out.println();
+            System.out.println(font.debugString());
         }
 //        System.out.println(layout);
         startTime = TimeUtils.millis();

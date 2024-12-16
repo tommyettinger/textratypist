@@ -2285,8 +2285,8 @@ public class Font implements Disposable {
         originalCellHeight = cellHeight -= descent * 0.25f;
         isMono = minWidth == cellWidth && kerning == null;
 
-        underY = 0.5f + descent / rawLineHeight;
-        strikeY = 0.5f + descent / rawLineHeight;
+//        underY = 0.5f + descent / rawLineHeight;
+//        strikeY = 0.5f + descent / rawLineHeight;
 
 //        underY -=  descent / originalCellHeight - 0.25f;
 //        strikeY -= descent / originalCellHeight;
@@ -2571,14 +2571,19 @@ public class Font implements Disposable {
 
         JsonValue metrics = fnt.get("metrics");
 
-        size *= metrics.getFloat("emSize", 1f);
+        // SHOULD USE metrics ?
+        size *= atlas.getFloat("emSize", 1f);
 
-        float ascender = metrics.getFloat("ascender", 0.8f);
-        descent = size * metrics.getFloat("descender", -0.25f);
-        originalCellHeight = cellHeight = size * metrics.getFloat("lineHeight", 1f) + heightAdjust - descent;
+//        float ascender = metrics.getFloat("ascender", 0.8f);
+        // SHOULD USE metrics ?
+        descent = size * atlas.getFloat("descender", -0.25f);
+        // SHOULD USE metrics ?
+        originalCellHeight = cellHeight = size * atlas.getFloat("lineHeight", 1f) + heightAdjust - descent;
 
-        underY = 0.5f * metrics.getFloat("underlineY", -0.1f);
-        strikeY = metrics.getFloat("strikeY", 0f);
+        // SHOULD USE metrics ?
+        underY = 0.5f * atlas.getFloat("underlineY", -0.1f);
+        // SHOULD USE metrics ?
+        strikeY = atlas.getFloat("strikeY", 0f);
         strikeBreadth = underBreadth = -0.375f;
         if(makeGridGlyphs){
             underLength = strikeLength = 0.05f;
@@ -2672,14 +2677,14 @@ public class Font implements Disposable {
         solidBlock = '█';
         if (makeGridGlyphs) {
             GlyphRegion block = new GlyphRegion(new TextureRegion(textureRegion,
-                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), 0, cellWidth, cellHeight);
+                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), 0, cellHeight, cellWidth);
             mapping.put(solidBlock, block);
             for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
-                mapping.put(i, new GlyphRegion(block, Float.NaN, cellWidth, cellHeight));
+                mapping.put(i, new GlyphRegion(block, Float.NaN, cellHeight, cellWidth));
             }
         } else if (!mapping.containsKey(solidBlock)) {
             mapping.put(solidBlock, new GlyphRegion(new TextureRegion(textureRegion,
-                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), 0, cellWidth, cellHeight));
+                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), 0, cellHeight, cellWidth));
         }
         defaultValue = mapping.get(' ', mapping.values().next());
         originalCellWidth = cellWidth;
