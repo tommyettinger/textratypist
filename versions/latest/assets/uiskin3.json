@@ -23,6 +23,13 @@ TextButtonStyle: {
 ScrollPaneStyle: {
 	default: { vScroll: default-scroll, hScrollKnob: default-round-large, background: default-rect, hScroll: default-scroll, vScrollKnob: default-round-large }
 },
+SelectBoxStyle: {
+	default: {
+		font: default-font, fontColor: white, background: default-select,
+		scrollStyle: default,
+		listStyle: { font: default-font, selection: default-select-selection }
+	}
+},
 SplitPaneStyle: {
 	default-vertical: { handle: default-splitpane-vertical },
 	default-horizontal: { handle: default-splitpane }
@@ -51,13 +58,6 @@ CheckBoxStyle: {
 ListStyle: {
 	default: { fontColorUnselected: white, selection: selection, fontColorSelected: white, font: default-font }
 },
-  SelectBoxStyle: {
-    default: {
-      font: default-font, fontColor: white, background: default-select,
-      scrollStyle: default,
-      listStyle: default
-    }
-  },
 TouchpadStyle: {
 	default: { background: default-pane, knob: default-round-large }
 },
