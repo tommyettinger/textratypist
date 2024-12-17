@@ -20,10 +20,10 @@ public class AtlasTest extends ApplicationAdapter {
         stage = new Stage();
 //        font = KnownFonts.addEmoji(KnownFonts.getRobotoCondensed(), -8, 8, 8);
 //        TypingLabel label = new TypingLabel("[+🤠]", font);
-////            "[+🤠][+🥾]A Cowboy strolled on in\n" +
-////            "[+💖][+🏩]to his favorite den of sin.\n" +
-////            "[+🥔][+🤿]He'd got his chips, and went all in,\n" +
-////            "[+♠️][+🏆]he drew an ace, and got his win.", font);
+//            "[+🤠][+🥾]A Cowboy strolled on in\n" +
+//            "[+💖][+🏩]to his favorite den of sin.\n" +
+//            "[+🥔][+🤿]He'd got his chips, and went all in,\n" +
+//            "[+♠️][+🏆]he drew an ace, and got his win.", font);
         font = new Font("RobotoCondensed-standard.fnt").setTextureFilter().scaleHeightTo(50f).addAtlas(new TextureAtlas("ui.atlas"), -82, 0, 0);
         // I load the left-trigger image so we know what width we will need to offset by. Most buttons are probably similar.
         Font.GlyphRegion lt = font.mapping.get(font.nameLookup.get("controller_LT", ' ')),
