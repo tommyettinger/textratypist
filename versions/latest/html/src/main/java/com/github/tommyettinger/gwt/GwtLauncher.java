@@ -23,7 +23,7 @@ public class GwtLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-//            return new TypingUITest();
-            return new StandardUITest();
+            return new TypingUITest();
+//            return new StandardUITest();
         }
 }

@@ -14,8 +14,8 @@ public class Lwjgl3Launcher {
     }
 
     private static Lwjgl3Application createApplication() {
-//        return new Lwjgl3Application(new TypingUITest(), getDefaultConfiguration());
-        return new Lwjgl3Application(new StandardUITest(), getDefaultConfiguration());
+        return new Lwjgl3Application(new TypingUITest(), getDefaultConfiguration());
+//        return new Lwjgl3Application(new StandardUITest(), getDefaultConfiguration());
     }
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
