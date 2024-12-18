@@ -443,7 +443,13 @@ public class FreeTypistSkin extends FWSkin {
                 String listStyleName = json.readValue("listStyle", String.class, "default", jsonData);
                 Styles.ListStyle ls;
                 if (listStyleName == null) {
-                    ls = json.readValue("listStyle", Styles.ListStyle.class, jsonData);
+                    List.ListStyle ls2d = new List.ListStyle();
+                    json.readFields(ls2d, jsonData.get("listStyle"));
+                    ls = new Styles.ListStyle(skin.get(json.readValue("font", String.class, "default-font", jsonData), Font.class),
+                            ls2d.fontColorSelected, ls2d.fontColorUnselected, ls2d.selection);
+                    ls.background = ls2d.background;
+                    ls.down = ls2d.down;
+                    ls.over = ls2d.over;
                 } else {
                     ls = skin.get(listStyleName, Styles.ListStyle.class);
                 }
