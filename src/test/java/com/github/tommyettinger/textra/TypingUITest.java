@@ -88,7 +88,9 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
 		for(Font f : font.family.connected) {
 			if(f != null)
-				KnownFonts.addEmoji(f);
+				KnownFonts.addEmoji(f, -4f, -4f, 4f);
+			// as of Dec 16, 2024, the above and below lines look identical. offsetY is ignored!
+//				KnownFonts.addEmoji(f, -4f, 4f, 4f);
 		}
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
