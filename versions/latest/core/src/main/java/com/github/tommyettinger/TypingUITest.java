@@ -49,7 +49,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	Texture texture1;
 	Texture texture2;
 	TypingLabel fpsLabel;
-	GLProfiler profiler;
+//	GLProfiler profiler;
 
     public static Font getStandardFamily() {
         Font.FontFamily family = new Font.FontFamily(
@@ -61,9 +61,9 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 
     @Override
 	public void create () {
-		profiler = new GLProfiler(Gdx.graphics);
-		profiler.enable();
-		skin = new FWSkin(Gdx.files.internal("uiskin3.json"));
+//		profiler = new GLProfiler(Gdx.graphics);
+//		profiler.enable();
+		skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
 		TextureRegion image = new TextureRegion(texture1);
@@ -253,7 +253,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 
 	@Override
 	public void render () {
-		profiler.reset();
+//		profiler.reset();
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
@@ -267,12 +267,11 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		fpsLabel.setRotation(20f + 20f * MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f));
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
-		if(Gdx.input.isKeyJustPressed(Keys.SPACE) && profiler.isEnabled())
-			System.out.println("Calls: "+ profiler.getCalls() +
-                ", draw calls: "+ profiler.getDrawCalls() +
-                ", shader switches: "+ profiler.getShaderSwitches() +
-                ", texture bindings: "+ profiler.getTextureBindings());
-
+//		if(Gdx.input.isKeyJustPressed(Keys.SPACE) && profiler.isEnabled())
+//			System.out.println("Calls: "+ profiler.getCalls() +
+//                ", draw calls: "+ profiler.getDrawCalls() +
+//                ", shader switches: "+ profiler.getShaderSwitches() +
+//                ", texture bindings: "+ profiler.getTextureBindings());
 	}
 
 	@Override
