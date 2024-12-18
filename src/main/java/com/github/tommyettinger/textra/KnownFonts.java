@@ -3553,8 +3553,8 @@ public final class KnownFonts implements LifecycleListener {
      *
      * @param changing a Font that will have over 3000 emoji added to it, with more aliases
      * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push emoji to the right
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji down
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink emoji
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji up
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; positive values make emoji push later glyphs away more
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addEmoji(Font changing, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -3602,8 +3602,8 @@ public final class KnownFonts implements LifecycleListener {
      * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
      * @param append will be appended after each name in the atlas; if null, will be treated as ""
      * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push emoji to the right
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji down
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink emoji
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji up
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; positive values make emoji push later glyphs away more
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addEmoji(Font changing, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -3736,8 +3736,8 @@ public final class KnownFonts implements LifecycleListener {
      *
      * @param changing a Font that will have over 3700 emoji added to it, with more aliases
      * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push emoji to the right
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji down
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink emoji
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji up
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; positive values make emoji push later glyphs away more
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addOpenMoji(Font changing, boolean color, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -3800,8 +3800,8 @@ public final class KnownFonts implements LifecycleListener {
      * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
      * @param append will be appended after each name in the atlas; if null, will be treated as ""
      * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push emoji to the right
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji down
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink emoji
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji up
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; positive values make emoji push later glyphs away more
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addOpenMoji(Font changing, boolean color, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -3950,8 +3950,8 @@ public final class KnownFonts implements LifecycleListener {
      *
      * @param changing a Font that will have over 3000 emoji added to it, with more aliases
      * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push emoji to the right
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji down
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink emoji
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji up
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; positive values make emoji push later glyphs away more
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addNotoEmoji(Font changing, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -4008,8 +4008,8 @@ public final class KnownFonts implements LifecycleListener {
      * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
      * @param append will be appended after each name in the atlas; if null, will be treated as ""
      * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push emoji to the right
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji down
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink emoji
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push emoji up
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; positive values make emoji push later glyphs away more
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addNotoEmoji(Font changing, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -4113,8 +4113,8 @@ public final class KnownFonts implements LifecycleListener {
      *
      * @param changing a Font that will have over 4000 icons added to it
      * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push icons to the right
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push icons down
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink icons
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push icons up
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; positive values make icons push later glyphs away more
      * @return {@code changing}, after the icon atlas has been added
      */
     public static Font addGameIcons(Font changing, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -4162,8 +4162,8 @@ public final class KnownFonts implements LifecycleListener {
      * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
      * @param append will be appended after each name in the atlas; if null, will be treated as ""
      * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push icons to the right
-     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push icons down
-     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; in practice, positive values shrink icons
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push icons up
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; positive values make icons push later glyphs away more
      * @return {@code changing}, after the icon atlas has been added
      */
     public static Font addGameIcons(Font changing, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {

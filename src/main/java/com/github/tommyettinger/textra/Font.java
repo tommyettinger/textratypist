@@ -3356,17 +3356,19 @@ public class Font implements Disposable {
      * particular atlas show up with an incorrect position or have the wrong spacing.
      * <br>
      * Changing offsetXChange with a positive value moves all GlyphRegions to the right.
-     * Changing offsetYChange with a positive value moves all GlyphRegions down (this is possibly unexpected).
-     * Changing xAdvanceChange with a positive value will shrink all GlyphRegions (this is probably unexpected).
+     * Changing offsetYChange with a positive value moves all GlyphRegions up (this is possibly unexpected).
+     * Changing xAdvanceChange with a positive value will put more space between each GlyphRegion and the glyph after it.
      * Each of the metric changes has a variable from this Font added to it; {@link #inlineImageOffsetX},
-     * {@link #inlineImageOffsetY}, and {@link #inlineImageXAdvance} all are added in here.
+     * {@link #inlineImageOffsetY}, and {@link #inlineImageXAdvance} all are added in here. You can change
+     * {@link #inlineImageStretch} at any time; this multiplies the size each inline image is drawn at (after the image
+     * is scaled to try to fit a line's height).
      * <br>
      * If {@link #sharing} is true, then calling this makes the same changes to Fonts that share references with this.
      *
      * @param atlas a TextureAtlas that shouldn't have more than 6144 names; all of it will be used
      * @param offsetXChange will be added to the {@link GlyphRegion#offsetX} of each added glyph; positive change moves a GlyphRegion to the right
-     * @param offsetYChange will be added to the {@link GlyphRegion#offsetY} of each added glyph; positive change moves a GlyphRegion down
-     * @param xAdvanceChange will be added to the {@link GlyphRegion#xAdvance} of each added glyph; positive change shrinks a GlyphRegion due to how size is calculated
+     * @param offsetYChange will be added to the {@link GlyphRegion#offsetY} of each added glyph; positive change moves a GlyphRegion up
+     * @param xAdvanceChange will be added to the {@link GlyphRegion#xAdvance} of each added glyph; positive values make images push later glyphs away more
      * @return this Font, for chaining
      */
     public Font addAtlas(TextureAtlas atlas, float offsetXChange, float offsetYChange, float xAdvanceChange) {
@@ -3385,10 +3387,12 @@ public class Font implements Disposable {
      * Strings to prepend and append may be empty (or equivalently here, null).
      * <br>
      * Changing offsetXChange with a positive value moves all GlyphRegions to the right.
-     * Changing offsetYChange with a positive value moves all GlyphRegions down (this is possibly unexpected).
-     * Changing xAdvanceChange with a positive value will shrink all GlyphRegions (this is probably unexpected).
+     * Changing offsetYChange with a positive value moves all GlyphRegions up (this is possibly unexpected).
+     * Changing xAdvanceChange with a positive value will put more space between each GlyphRegion and the glyph after it.
      * Each of the metric changes has a variable from this Font added to it; {@link #inlineImageOffsetX},
-     * {@link #inlineImageOffsetY}, and {@link #inlineImageXAdvance} all are added in here.
+     * {@link #inlineImageOffsetY}, and {@link #inlineImageXAdvance} all are added in here. You can change
+     * {@link #inlineImageStretch} at any time; this multiplies the size each inline image is drawn at (after the image
+     * is scaled to try to fit a line's height).
      * <br>
      * If {@link #sharing} is true, then calling this makes the same changes to Fonts that share references with this.
      *
@@ -3396,8 +3400,8 @@ public class Font implements Disposable {
      * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
      * @param append will be appended after each name in the atlas; if null, will be treated as ""
      * @param offsetXChange will be added to the {@link GlyphRegion#offsetX} of each added glyph; positive change moves a GlyphRegion to the right
-     * @param offsetYChange will be added to the {@link GlyphRegion#offsetY} of each added glyph; positive change moves a GlyphRegion down
-     * @param xAdvanceChange will be added to the {@link GlyphRegion#xAdvance} of each added glyph; positive change shrinks a GlyphRegion due to how size is calculated
+     * @param offsetYChange will be added to the {@link GlyphRegion#offsetY} of each added glyph; positive change moves a GlyphRegion up
+     * @param xAdvanceChange will be added to the {@link GlyphRegion#xAdvance} of each added glyph; positive values make images push later glyphs away more
      * @return this Font, for chaining
      */
     public Font addAtlas(TextureAtlas atlas, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
