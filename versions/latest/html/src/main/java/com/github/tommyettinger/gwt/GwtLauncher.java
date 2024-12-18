@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import com.github.tommyettinger.Main;
+import com.github.tommyettinger.StandardUITest;
 import com.github.tommyettinger.TypingUITest;
 
 /** Launches the GWT application. */
@@ -22,6 +23,7 @@ public class GwtLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-            return new TypingUITest();
+//            return new TypingUITest();
+            return new StandardUITest();
         }
 }

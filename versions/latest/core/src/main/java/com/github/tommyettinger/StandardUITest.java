@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2011 See AUTHORS file.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,18 +14,14 @@
  * limitations under the License.
  ******************************************************************************/
 
-package com.github.tommyettinger.textra;
+package com.github.tommyettinger;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -37,6 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.github.tommyettinger.textra.FWSkin;
 
 public class StandardUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
@@ -50,12 +47,12 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 	Texture texture1;
 	Texture texture2;
 	Label fpsLabel;
-	GLProfiler profiler;
+//	GLProfiler profiler;
 
 	@Override
 	public void create () {
-		profiler = new GLProfiler(Gdx.graphics);
-		profiler.enable();
+//		profiler = new GLProfiler(Gdx.graphics);
+//		profiler.enable();
 		skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 //		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 //		skin = new FWSkin(Gdx.files.internal("uiskin3.json"));
@@ -205,19 +202,19 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 
 	@Override
 	public void render () {
-		profiler.reset();
+//		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
-		
+
 		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[citation needed]");
 		// note, this does nothing here! it is present to contrast with other types of label.
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime());
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
-		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
-			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
-					profiler.getCalls(), profiler.getDrawCalls(),
-					profiler.getShaderSwitches(), profiler.getTextureBindings());
-
+//		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
+//            System.out.println("Calls: "+ profiler.getCalls() +
+//                ", draw calls: "+ profiler.getDrawCalls() +
+//                ", shader switches: "+ profiler.getShaderSwitches() +
+//                ", texture bindings: "+ profiler.getTextureBindings());
 	}
 
 	@Override
@@ -241,20 +238,6 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 		skin.dispose();
 		texture1.dispose();
 		texture2.dispose();
-	}
-
-	public static void main(String[] args){
-		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setTitle("Label UI test");
-		config.setWindowedMode(640, 480);
-		config.disableAudio(true);
-		ShaderProgram.prependVertexCode = "#version 110\n";
-		ShaderProgram.prependFragmentCode = "#version 110\n";
-//		config.enableGLDebugOutput(true, System.out);
-//		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
-		config.useVsync(false);
-		config.setForegroundFPS(0);
-		new Lwjgl3Application(new StandardUITest(), config);
 	}
 
 	/**

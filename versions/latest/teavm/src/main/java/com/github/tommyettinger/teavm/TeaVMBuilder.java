@@ -26,12 +26,13 @@ public class TeaVMBuilder {
          TeaReflectionSupplier.addReflectionClass("com.badlogic.gdx.graphics.g2d.BitmapFont");
          TeaReflectionSupplier.addReflectionClass("com.badlogic.gdx.scenes.scene2d");
          TeaReflectionSupplier.addReflectionClass("com.badlogic.gdx.scenes.scene2d.ui");
+         TeaReflectionSupplier.addReflectionClass("com.github.tommyettinger.textra.Styles");
 
         TeaVMTool tool = TeaBuilder.config(teaBuildConfiguration);
         tool.setMainClass(TeaVMLauncher.class.getName());
-        tool.setDebugInformationGenerated(true);
+        tool.setDebugInformationGenerated(false);
         tool.setObfuscated(false);
-        tool.setOptimizationLevel(TeaVMOptimizationLevel.SIMPLE);
+        tool.setOptimizationLevel(TeaVMOptimizationLevel.FULL);
         TeaBuilder.build(tool);
     }
 }
