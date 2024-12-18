@@ -4901,28 +4901,14 @@ public class Font implements Disposable {
         //// This works(*) with box-drawing chars, but rotates around halfway up the left edge, not the center.
         //// It does have the same sliding issue as the other methods so far.
 //        float xc = (font.cellWidth * -0.5f) * sizingX;// + (tr.offsetX * scaleX * sizingX);
-        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - font.cellWidth * 0.5f;//0f;//-centerX;
-//        float xc = tr.offsetX * scaleX - centerX * sizingX;
-//        float xc = (cos * tr.offsetX - sin * tr.offsetY) * scaleX - centerX * sizingX;
-        //// ???
-//        float xc = (centerX - (tr.getRegionWidth() + tr.offsetX) * fsx) * scale * sizingX;
+        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - font.cellWidth * 0.5f;
 
         float trrh = tr.getRegionHeight();
-//        float yt = (tr.offsetY * scaleY * sizingY) + sin * centerX - cellHeight * 0.5f;
-        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY + sin * centerX
+        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * scaleY * sizingY + sin * centerX
                 - centerY;
         if(squashed) yt -= font.cellHeight * scale * 0.15f;
-//        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - centerY + sin * centerX;
-//        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * fsy * scale * sizingY - cellHeight * 0.5f + sin * centerX;
-
-//        float yt = (font.originalCellHeight * fsy - (trrh + tr.offsetY) * fsy) * scale * sizingY - scaledHeight + sin * centerX;
 
         float h = trrh * scaleY * sizingY;
-//                yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
-
-//        float yt = (font.originalCellHeight * 0.5f - trrh - tr.offsetY) * scaleY * sizingY;
-//        float yt = cellHeight * font.scaleY * 0.5f - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
-//        float yt = centerY * sizingY - (tr.getRegionHeight() + tr.offsetY) * scaleY * sizingY;
 
         // These may need to be changed to use some other way of getting a screen pixel's size in world units.
         // They might actually be 1.5 or 2 pixels; it's hard to tell when a texture with alpha is drawn over an area.
@@ -4949,17 +4935,17 @@ public class Font implements Disposable {
             // rotating xc and yt variables, to the position-only x and y variables.
             // it also offsets x by a half-cell to the right, and moves the origin for y.
 
-            float stretchShift = (trrh * font.inlineImageStretch - trrh) * fsx * scale * sizingY;
+            float stretchShift = (trrh * font.inlineImageStretch - trrh) * scaleX * sizingX;
 
-            float xch = (tr.offsetX * fsx) * scale * sizingX;
+            float xch = tr.offsetX * scaleX * sizingX;
             xc -= xch;
             x += xch + changedW * 0.5f + stretchShift;// - stretchShift * scale * sizingX;
 
-            yt = sin * centerX;
+            yt = sin * centerX - font.cellHeight;
             if(squashed) yt -= font.cellHeight * scale * 0.15f;
 
-            float ych = (tr.offsetY * fsy) * scale * sizingY;
-            yt -= ych + scaledHeight * 0.5f;//ych - font.descent * fsy * scale * sizingY;
+            float ych = tr.offsetY * yPx;
+            yt += scaledHeight * 0.5f;//ych - font.descent * fsy * scale * sizingY;
             y += ych - stretchShift;// - stretchShift * scale * sizingY;
 //            y += (font.descent * font.scaleY - stretchShift) * scale * sizingY + ych;
         }
