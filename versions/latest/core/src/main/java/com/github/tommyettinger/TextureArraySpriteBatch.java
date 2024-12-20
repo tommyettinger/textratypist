@@ -1,17 +1,10 @@
 
-package com.github.tommyettinger.textra;
-
-import java.nio.IntBuffer;
-import java.util.Arrays;
+package com.github.tommyettinger;
 
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.Mesh.VertexDataType;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -21,6 +14,9 @@ import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.BufferUtils;
+
+import java.nio.IntBuffer;
+import java.util.Arrays;
 
 /** Draws batched quads using indices.
  * <p>
@@ -99,13 +95,13 @@ public class TextureArraySpriteBatch implements Batch {
 
     /** Constructs a new TextureArraySpriteBatch with a size of 1000, one buffer, and the default shader.
      * @see TextureArraySpriteBatch#TextureArraySpriteBatch(int, ShaderProgram) */
-    public TextureArraySpriteBatch () {
+    public TextureArraySpriteBatch() {
         this(1000);
     }
 
     /** Constructs a TextureArraySpriteBatch with one buffer and the default shader.
      * @see TextureArraySpriteBatch#TextureArraySpriteBatch(int, ShaderProgram) */
-    public TextureArraySpriteBatch (int size) {
+    public TextureArraySpriteBatch(int size) {
         this(size, null);
     }
 
@@ -122,7 +118,7 @@ public class TextureArraySpriteBatch implements Batch {
      *            {@link SpriteBatch} in case Texture Arrays are not supported on a clients device.
      * @see #createDefaultShader(int)
      * @see #getMaxTextureUnits() */
-    public TextureArraySpriteBatch (int size, ShaderProgram defaultShader) throws IllegalStateException {
+    public TextureArraySpriteBatch(int size, ShaderProgram defaultShader) throws IllegalStateException {
         // 32767 is max vertex index, so 32767 / 4 vertices per sprite = 8191 sprites max.
         if (size > 8191) throw new IllegalArgumentException("Can't have more than 8191 sprites per batch: " + size);
 
@@ -1305,7 +1301,7 @@ public class TextureArraySpriteBatch implements Batch {
         }
     }
 
-    /** Queries the number of supported textures in a texture array by trying the create the default shader.<br>
+    /** Queries the number of supported textures in a texture array by trying to create the default shader.<br>
      * The first call of this method is very expensive, after that it simply returns a cached value.
      * @return the number of supported textures in a texture array or zero if this feature is unsupported on this device.
      * @see #setShader(ShaderProgram shader) */
