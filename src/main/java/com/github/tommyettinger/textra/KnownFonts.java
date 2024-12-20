@@ -3512,7 +3512,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addEmoji(Font changing) {
-        return addEmoji(changing, 0f, 0f, 0f);
+        return addEmoji(changing, -4f, -2f, 4f);
     }
     /**
      * Takes a Font and adds the Twemoji icon set to it, making the glyphs available using {@code [+name]} syntax.
@@ -3537,6 +3537,8 @@ public final class KnownFonts implements LifecycleListener {
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
+     * If you aren't sure what to use, the simplest overload uses the parameters {@code -4f, -2f, 4f}, which pushes each
+     * emoji to the left, a little down, and gives more room between it and the next glyph.
      * <br>
      * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
      * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
@@ -3582,7 +3584,9 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
-     * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font. It also
+     * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
+     * If you aren't sure what to use, the simplest overload uses the parameters {@code -4f, -2f, 4f}, which pushes each
+     * emoji to the left, a little down, and gives more room between it and the next glyph. It also
      * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
      * <br>
      * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
@@ -3682,7 +3686,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addOpenMoji(Font changing, boolean color) {
-        return addOpenMoji(changing, color, 0f, 0f, 0f);
+        return addOpenMoji(changing, color, -4f, -4f, 4f);
     }
     /**
      * Takes a Font and adds the OpenMoji icon set to it, making the glyphs available using {@code [+name]} syntax.
@@ -3716,6 +3720,8 @@ public final class KnownFonts implements LifecycleListener {
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
+     * If you aren't sure what to use, the simplest overload uses the parameters {@code -4f, -4f, 4f}, which pushes each
+     * emoji to the left, down, and gives more room between it and the next glyph.
      * <br>
      * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png">Image link</a> (uses
      * white lines, the font {@link #getInconsolata()}, and {@code [%?whiten]} mode)
@@ -3776,7 +3782,9 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
-     * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font. It also
+     * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
+     * If you aren't sure what to use, the simplest overload uses the parameters {@code -4f, -4f, 4f}, which pushes each
+     * emoji to the left, down, and gives more room between it and the next glyph. It also
      * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
      * <br>
      * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png">Image link</a> (uses
@@ -3882,6 +3890,9 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
+     * Noto Emoji are especially large when compared to the other emoji here, so you might want to call
+     * {@link Font#setInlineImageStretch(float)} with a value like 0.9f to shrink the images.
+     * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">at this GitHub Pages site</a>.
      * <br>
@@ -3899,7 +3910,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addNotoEmoji(Font changing) {
-        return addNotoEmoji(changing, 0f, 0f, 0f);
+        return addNotoEmoji(changing, -4f, -3f, 4f);
     }
 
     /**
@@ -3934,6 +3945,10 @@ public final class KnownFonts implements LifecycleListener {
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
+     * If you aren't sure what to use, the simplest overload uses the parameters {@code -4f, -3f, 4f}, which pushes each
+     * emoji to the left, down, and gives more room between it and the next glyph. Noto Emoji are especially large when
+     * compared to the other emoji here, so you might want to call {@link Font#setInlineImageStretch(float)} with a
+     * value like 0.9f to shrink the images.
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">at this GitHub Pages site</a>.
@@ -3988,8 +4003,12 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
-     * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font. It also
-     * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
+     * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
+     * If you aren't sure what to use, the simplest overload uses the parameters {@code -4f, -3f, 4f}, which pushes each
+     * emoji to the left, down, and gives more room between it and the next glyph. Noto Emoji are especially large when
+     * compared to the other emoji here, so you might want to call {@link Font#setInlineImageStretch(float)} with a
+     * value like 0.9f to shrink the images. It also allows specifying Strings to prepend before and append after each
+     * name in the font, including emoji names.
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">at this GitHub Pages site</a>.

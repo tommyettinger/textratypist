@@ -95,7 +95,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //				KnownFonts.addEmoji(f, -4f, 0f, 4f);
 
 				// as of Dec 17, 2024, this seems to work! Negative offsetY pushes emoji down, which makes more sense.
-				KnownFonts.addEmoji(f, -4f, -2f, 4f);
+				KnownFonts.addNotoEmoji(f, -4f, -3f, 4f);
 		}
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
@@ -127,7 +127,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
-		final TypingCheckBox checkBox = new TypingCheckBox(" Continuous rendering[+saxophone][+clown face][+saxophone]", skin, font);
+		final TypingCheckBox checkBox = new TypingCheckBox(" Continuous rendering[+saxophone][+🤡][+saxophone]", skin, font);
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
