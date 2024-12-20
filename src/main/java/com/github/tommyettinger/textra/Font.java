@@ -5428,8 +5428,8 @@ public class Font implements Disposable {
             centerY = oCenterY + yShift * 0.5f;
 //            x += cellWidth * 0.5f;
             if (c >= 0xE000 && c < 0xF800) {
-                x += (changedW * 0.5f);
-//                y += scaledHeight * 0.5f;
+                x += (changedW * 0.25f);
+                y -= scaledHeight * 0.25f;
             }
 
             p0x = -cos * centerX + changedW * (font.fancyX);
