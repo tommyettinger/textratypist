@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2011 See AUTHORS file.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,18 +14,14 @@
  * limitations under the License.
  ******************************************************************************/
 
-package com.github.tommyettinger.textra;
+package com.github.tommyettinger;
 
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.LifecycleListener;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.Mesh.VertexDataType;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -54,10 +50,10 @@ import java.nio.IntBuffer;
  * <p>
  * Using this Batch to render to a Frame Buffer Object (FBO) is not allowed on WebGL because of current WebGL and LibGDX API
  * limitations. Other platforms may use this Batch to render to a FBO as the state is saved and restored recursively.
- * 
+ *
  * @see Batch
  * @see SpriteBatch
- * 
+ *
  * @author mzechner (Original SpriteBatch)
  * @author Nathan Sweet (Original SpriteBatch)
  * @author VaTTeRGeR (ArrayTextureSpriteBatch) */
@@ -142,8 +138,8 @@ public class ArrayTextureSpriteBatch implements Batch {
 
 	/** Constructs a new ArrayTextureSpriteBatch with the default shader, texture cache size and texture filters.
 	 * @see ArrayTextureSpriteBatch#ArrayTextureSpriteBatch(int, int, int, int, int, int, ShaderProgram) */
-	public ArrayTextureSpriteBatch (int maxSprites, int maxTextureWidth, int maxTextureHeight, int maxConcurrentTextures,
-		int texFilterMag, int texFilterMin) throws IllegalStateException {
+	public ArrayTextureSpriteBatch(int maxSprites, int maxTextureWidth, int maxTextureHeight, int maxConcurrentTextures,
+                                   int texFilterMag, int texFilterMin) throws IllegalStateException {
 		this(maxSprites, maxTextureWidth, maxTextureHeight, maxConcurrentTextures, texFilterMag, texFilterMin, null);
 	}
 
@@ -156,7 +152,7 @@ public class ArrayTextureSpriteBatch implements Batch {
 	 * <p>
 	 * <b>Remember: VRAM usage will be roughly maxTextureWidth * maxTextureHeight * maxConcurrentTextures * 4 byte plus some
 	 * overhead!</b>
-	 * 
+	 *
 	 * @param maxSprites The maximum number of sprites in a single batched draw call. Upper limit of 8191.
 	 * @param maxTextureWidth Set as wide as your widest texture.
 	 * @param maxTextureHeight Set as tall as your tallest texture.
@@ -170,8 +166,8 @@ public class ArrayTextureSpriteBatch implements Batch {
 	 * @throws IllegalStateException Thrown if the device does not support GLES 3.0 and by extension: GL_TEXTURE_2D_ARRAY and
 	 *            Framebuffer Objects. Make sure to implement a Fallback to {@link SpriteBatch} in case Texture Arrays are not
 	 *            supported on a device. */
-	public ArrayTextureSpriteBatch (int maxSprites, int maxTextureWidth, int maxTextureHeight, int maxConcurrentTextures,
-		int texFilterMag, int texFilterMin, ShaderProgram defaultShader) throws IllegalStateException {
+	public ArrayTextureSpriteBatch(int maxSprites, int maxTextureWidth, int maxTextureHeight, int maxConcurrentTextures,
+                                   int texFilterMag, int texFilterMin, ShaderProgram defaultShader) throws IllegalStateException {
 
 		if (Gdx.gl30 == null) {
 			throw new IllegalStateException("GL30 is not available. Remember to set \"useGL30 = true\" in your application config.");

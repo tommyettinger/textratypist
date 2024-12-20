@@ -21,6 +21,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -96,7 +97,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 			if(f != null)
 				KnownFonts.addEmoji(f);
 		}
-		stage = new Stage(new ScreenViewport(), new TextureArraySpriteBatch());
+		stage = new Stage(new ScreenViewport(), new ArrayTextureSpriteBatch(1000, 2048, 2048, 16, GL30.GL_NEAREST, GL30.GL_LINEAR_MIPMAP_LINEAR));
 		Gdx.input.setInputProcessor(stage);
 
 //		stage.setDebugAll(true);

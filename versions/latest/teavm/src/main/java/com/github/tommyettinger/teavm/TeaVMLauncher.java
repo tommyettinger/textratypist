@@ -16,6 +16,7 @@ public class TeaVMLauncher {
         config.width = 760;
         config.height = 640;
         config.antialiasing = true;
+        config.useGL30 = true;
 //        new TeaApplication(new StandardUITest(), config);
         new TeaApplication(new TypingUITest(), config);
     }
