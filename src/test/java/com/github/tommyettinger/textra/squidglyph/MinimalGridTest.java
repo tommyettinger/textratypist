@@ -69,12 +69,12 @@ public class MinimalGridTest extends ApplicationAdapter {
         stage = new Stage();
         screenStage = new Stage();
 //        Font gentium = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF));
-        Font mainFont = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.STANDARD));
+        Font mainFont = KnownFonts.addEmoji(KnownFonts.getComicMono(Font.DistanceFieldType.SDF));
 //        Font mainFont = KnownFonts.addEmoji(KnownFonts.getIosevka(Font.DistanceFieldType.MSDF));
-        Font supportFont = KnownFonts.addEmoji(KnownFonts.getComputerSaysNo(Font.DistanceFieldType.STANDARD));
+        Font supportFont = KnownFonts.addEmoji(KnownFonts.getComputerSaysNo(Font.DistanceFieldType.SDF));
 
 //        varWidthFont = KnownFonts.getGentium();
-        varWidthFont = KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF)
+        varWidthFont = KnownFonts.getComicMono(Font.DistanceFieldType.SDF_OUTLINE)
                 .scaleHeightTo(30f);//.setOutlineStrength(1.5f);
 //        mainFont.adjustCellWidth(0.5f);
 //        mainFont.originalCellHeight *= 0.5f;
@@ -169,11 +169,11 @@ public class MinimalGridTest extends ApplicationAdapter {
         regenerate();
         stage.addActor(gg);
 
-        markupMessages.add("[%?blacken]Grumbles Sludgenugget got {VAR=FIRE}{CANNON}obliterated!{RESET}");
-        markupMessages.add("[%?blacken]Crammage Cribbage-Babbage got {VAR=FIRE}{CANNON}obliterated!{RESET}");
-        markupMessages.add("[%?blacken]Hawke 'The Sock' Locke got {VAR=SPUTTERINGFIRE}obliterated!{RESET}");
-        markupMessages.add("[%?blacken]Hyperdeath Slaykiller got {VAR=ZOMBIE}zombified!{RESET}");
-        markupMessages.add("[%?blacken][*]WELCOME[*] to your [/]DOOM[/]!");
+        markupMessages.add("[-%?blacken]Grumbles Sludgenugget got {VAR=FIRE}{CANNON}obliterated!{RESET}");
+        markupMessages.add("[-%?blacken]Crammage Cribbage-Babbage got {VAR=FIRE}{CANNON}obliterated!{RESET}");
+        markupMessages.add("[-%?blacken]Hawke 'The Sock' Locke got {VAR=SPUTTERINGFIRE}obliterated!{RESET}");
+        markupMessages.add("[-%?blacken]Hyperdeath Slaykiller got {VAR=ZOMBIE}zombified!{RESET}");
+        markupMessages.add("[-%?blacken][*]WELCOME[*] to your [/]DOOM[/]!");
     }
 
     public void move(int x, int y){
@@ -435,5 +435,6 @@ public class MinimalGridTest extends ApplicationAdapter {
         gg.resize(width, height);
         screenStage.getViewport().update(width, height, true);
         atGlyph2.font.resizeDistanceField(width, height, screenStage.getViewport());
+        varWidthFont.resizeDistanceField(width, height, screenStage.getViewport());
     }
 }
