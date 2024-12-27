@@ -33,7 +33,8 @@ import com.badlogic.gdx.utils.ObjectSet;
  * {@link ChangeEvent} is fired when the select box selection changes.
  * <p>
  * The preferred size of the select box is determined by the maximum text bounds of the items and the size of the
- * {@link Styles.SelectBoxStyle#background}.
+ * {@link Styles.SelectBoxStyle#background}. You cannot currently rely on setting a containing Cell's
+ * {@link com.badlogic.gdx.scenes.scene2d.ui.Cell#maxSize(float, float)} (or minSize).
  * @author mzechner
  * @author Nathan Sweet */
 public class TextraSelectBox extends Widget implements Disableable {
@@ -204,6 +205,7 @@ public class TextraSelectBox extends Widget implements Disableable {
 //                selected.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth());
                 prefWidth += selected.font.calculateSize(selected.layout);
             }
+            prefWidth = Math.min(Math.max(prefWidth, getMaxWidth()), getMinWidth());
         } else {
             float maxItemWidth = 0;
             TextraLabel item;
@@ -226,6 +228,7 @@ public class TextraSelectBox extends Widget implements Disableable {
                         style.scrollStyle.vScrollKnob != null ? style.scrollStyle.vScrollKnob.getMinWidth() : 0);
             }
             prefWidth = Math.max(prefWidth, scrollWidth);
+            prefWidth = Math.min(Math.max(prefWidth, getMaxWidth()), getMinWidth());
         }
     }
 

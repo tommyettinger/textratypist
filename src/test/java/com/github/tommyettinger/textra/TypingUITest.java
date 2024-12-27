@@ -95,7 +95,9 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //				KnownFonts.addEmoji(f, -4f, 0f, 4f);
 
 				// as of Dec 17, 2024, this seems to work! Negative offsetY pushes emoji down, which makes more sense.
-				KnownFonts.addNotoEmoji(f, -4f, -3f, 4f);
+//				KnownFonts.addNotoEmoji(f, -4f, -3f, 4f);
+				// Just using the defaults on Dec 26, 2024.
+				KnownFonts.addEmoji(f);
 		}
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
@@ -131,7 +133,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
-		TextraField textfield = new TextraField("", skin, font);
+		TextField textfield = new TextField("", skin);
 		textfield.setMessageText("Click here!");
 		textfield.setAlignment(Align.center);
 		final TypingSelectBox selectBox = new TypingSelectBox(skin);
@@ -207,7 +209,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		window.add(checkBox);
 		window.add(slider).minWidth(100).fillX().colspan(3);
 		window.row();
-		window.add(selectBox).maxWidth(300);
+		window.add(selectBox);
 		window.add(textfield).minWidth(100).expandX().fillX().colspan(3);
 		window.row();
 		window.add(splitPane).fill().expand().colspan(4).maxHeight(200);
@@ -221,8 +223,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		// stage.addActor(new Button("Behind Window", skin));
 		stage.addActor(window);
 
-		textfield.setTextFieldListener(new TextraField.TextFieldListener() {
-			public void keyTyped (TextraField textField, char key) {
+		textfield.setTextFieldListener(new TextField.TextFieldListener() {
+			public void keyTyped (TextField textField, char key) {
 				if (key == '\n') textField.getOnscreenKeyboard().show(false);
 			}
 		});
