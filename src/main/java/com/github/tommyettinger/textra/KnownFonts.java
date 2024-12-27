@@ -116,6 +116,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String CASCADIA_MONO = "Cascadia-Mono";
     /** Base name for a variable-width handwriting font. */
     public static final String CAVEAT = "Caveat";
+    /** Base name for a fixed-width dyslexia-friendly handwriting-like font. */
+    public static final String COMIC_MONO = "Comic-Mono";
     /** Base name for a fixed-width octagonal font. */
     public static final String COMPUTER_SAYS_NO = "Computer-Says-No";
     /** Base name for a variable-width narrow sans font. */
@@ -190,13 +192,14 @@ public final class KnownFonts implements LifecycleListener {
     public static final String IBM_8X16 = "IBM-8x16";
 
     public static final OrderedSet<String> JSON_NAMES = OrderedSet.with(
-            A_STARRY, BIRDLAND_AEROPLANE, BITTER, CANADA1500, CASCADIA_MONO, CAVEAT, COMPUTER_SAYS_NO,
-            DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO, DEJAVU_SANS, DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF,
-            GENTIUM, GENTIUM_UN_ITALIC, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE, INCONSOLATA_LGC,
-            IOSEVKA, IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK,
-            LIBERTINUS_SERIF, LIBERTINUS_SERIF_SEMIBOLD, NOW_ALT, OPEN_SANS, OVERLOCK, OVERLOCK_UN_ITALIC,
-            OSTRICH_BLACK, OXANIUM, ROBOTO_CONDENSED, SELAWIK, SELAWIK_BOLD, TANGERINE, YANONE_KAFFEESATZ,
-            YATAGHAN);
+            A_STARRY, BIRDLAND_AEROPLANE, BITTER, CANADA1500, CASCADIA_MONO, CAVEAT,
+            COMIC_MONO, COMPUTER_SAYS_NO, DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO,
+            DEJAVU_SANS, DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF, GENTIUM, GENTIUM_UN_ITALIC,
+            GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE, INCONSOLATA_LGC, IOSEVKA,
+            IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LIBERTINUS_SERIF,
+            LIBERTINUS_SERIF_SEMIBOLD, NOW_ALT, OPEN_SANS, OVERLOCK, OVERLOCK_UN_ITALIC,
+            OSTRICH_BLACK, OXANIUM, ROBOTO_CONDENSED, SELAWIK, SELAWIK_BOLD, TANGERINE,
+            YANONE_KAFFEESATZ, YATAGHAN);
 
     public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, HANAZONO, LANAPIXEL, QUANPIXEL);
 
@@ -822,7 +825,13 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-sdf.png">Caveat-sdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-License.txt">Caveat-License.txt</a></li>
      * </ul>
-     * <br>or
+     * <br>orComic-Mono-License.txt
+     * Comic-Mono-msdf.dat
+     * Comic-Mono-msdf.png
+     * Comic-Mono-sdf.dat
+     * Comic-Mono-sdf.png
+     * Comic-Mono-standard.dat
+     * Comic-Mono-standard.png
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-msdf.dat">Caveat-msdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-msdf.png">Caveat-msdf.png</a></li>
@@ -834,6 +843,67 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getCaveat(DistanceFieldType dft) {
         return getFont(CAVEAT, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a dyslexia-friendly, fixed-width font that is reminiscent
+     * of handwriting, that should scale well from a height of about 120 pixels to about 15 pixels. Caches
+     * the result for later calls. The font used is Comic Mono, an open-source (MIT License) typeface
+     * by Thai Pangsakulyanont (see <a href="https://dtinth.github.io/comic-mono-font/">the GitHub Page</a>).
+     * It supports only ASCII. This uses a fairly-large standard bitmap font, but not as large as it could
+     * be, because the absolute largest glyphs don't scale well to normal sizes.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.COMIC_MONO, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Comic-Mono-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-standard.dat">Comic-Mono-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-standard.png">Comic-Mono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-License.txt">Comic-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Comic Mono
+     */
+    public static Font getComicMono() {
+        return getFont(COMIC_MONO, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a dyslexia-friendly, fixed-width font that is reminiscent
+     * of handwriting. Uses the given distance field type. Caches the result for later calls.
+     * The font used is Comic Mono, an open-source (MIT License) typeface
+     * by Thai Pangsakulyanont (see <a href="https://dtinth.github.io/comic-mono-font/">the GitHub Page</a>).
+     * It supports only ASCII.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Comic-Mono-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-standard.dat">Comic-Mono-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-standard.png">Comic-Mono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-License.txt">Comic-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-sdf.dat">Comic-Mono-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-sdf.png">Comic-Mono-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-License.txt">Comic-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-msdf.dat">Comic-Mono-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-msdf.png">Comic-Mono-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-License.txt">Comic-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Comic Mono using the given DistanceFieldType
+     */
+    public static Font getComicMono(DistanceFieldType dft) {
+        return getFont(COMIC_MONO, dft);
     }
 
     /**
@@ -4266,8 +4336,8 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font[] getAll() {
         return new Font[]{getAStarry(), getAStarryMSDF(), getAStarryTall(), getBirdlandAeroplane(), getBitter(),
-                getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getComputerSaysNo(), getCozette(),
-                getDejaVuSans(), getDejaVuSansCondensed(), getDejaVuSansMono(), getDejaVuSerif(),
+                getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getComicMono(), getComputerSaysNo(),
+                getCozette(), getDejaVuSans(), getDejaVuSansCondensed(), getDejaVuSansMono(), getDejaVuSerif(),
                 getDejaVuSerifCondensed(), getGentium(), getGentiumMSDF(), getGentiumSDF(), getGentiumUnItalic(),
                 getGlacialIndifference(), getGoNotoUniversal(), getGoNotoUniversalSDF(), getGrenze(), getHanazono(),
                 getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
