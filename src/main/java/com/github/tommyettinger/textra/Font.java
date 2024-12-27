@@ -4910,7 +4910,7 @@ public class Font implements Disposable {
         float trrh = tr.getRegionHeight();
         float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * scaleY * sizingY + sin * centerX
                 - centerY;
-        if(squashed) yt -= font.cellHeight * scale * 0.15f;
+        if(squashed) yt -= font.descent * scaleY * 0.175f;
 
         float h = trrh * scaleY * sizingY;
 
@@ -4946,7 +4946,7 @@ public class Font implements Disposable {
             x += xch + changedW * 0.5f + stretchShift;// - stretchShift * scale * sizingX;
 
             yt = sin * centerX - font.cellHeight;
-            if(squashed) yt -= font.cellHeight * scale * 0.15f;
+            if(squashed) yt -= font.descent * scaleY * 0.175f;
 
             float ych = tr.offsetY * yPx;
             yt += scaledHeight * 0.5f;//ych - font.descent * fsy * scale * sizingY;
@@ -5262,7 +5262,7 @@ public class Font implements Disposable {
                     h = trrh * osy * sizingY + cellHeight * font.underBreadth * scale * sizingY;
                     yt = (centerY - (trrh + under.offsetY) * font.scaleY) * scale * sizingY
                             + cellHeight * font.underY * scale * sizingY;
-                    if(squashed) yt -= font.cellHeight * scale * 0.15f;
+                    if(squashed) yt -= font.descent * scaleY * 0.175f;
                     final float underU = (under.getU() + under.getU2()) * 0.5f - iw,
                             underV = under.getV(),
                             underU2 = underU + iw,
@@ -5365,7 +5365,7 @@ public class Font implements Disposable {
 
                     yt = (centerY - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY
                             + font.cellHeight * font.strikeY * scale * sizingY;
-                    if(squashed) yt -= font.cellHeight * scale * 0.15f;
+                    if(squashed) yt -= font.descent * scaleY * 0.175f;
 
                     final float dashU = (dash.getU() + dash.getU2()) * 0.5f - iw,
                             dashV = dash.getV(),
