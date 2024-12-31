@@ -153,7 +153,9 @@ public class Font implements Disposable {
          * @param xAdvance how much horizontal space the GlyphRegion should use up when drawn
          */
         public GlyphRegion(TextureRegion textureRegion, float offsetX, float offsetY, float xAdvance) {
-            super(textureRegion);
+            super();
+            if(textureRegion.getTexture() != null)
+                setRegion(textureRegion);
             this.offsetX = offsetX;
             this.offsetY = offsetY;
             this.xAdvance = xAdvance;
@@ -170,7 +172,9 @@ public class Font implements Disposable {
          * @param height        the height of the GlyphRegion, in pixels
          */
         public GlyphRegion(TextureRegion textureRegion, float x, float y, float width, float height) {
-            super(textureRegion, Math.round(x), Math.round(y), Math.round(width), Math.round(height));
+            super();
+            if(textureRegion.getTexture() != null)
+                setRegion(textureRegion, Math.round(x), Math.round(y), Math.round(width), Math.round(height));
             offsetX = 0f;
             offsetY = 0f;
             xAdvance = width;
@@ -182,7 +186,9 @@ public class Font implements Disposable {
          * @param other the other GlyphRegion to copy
          */
         public GlyphRegion(GlyphRegion other) {
-            super(other);
+            super();
+            if(other.getTexture() != null)
+                setRegion(other);
             offsetX = other.offsetX;
             offsetY = other.offsetY;
             xAdvance = other.xAdvance;
@@ -1630,7 +1636,7 @@ public class Font implements Disposable {
         this.setDistanceField(distanceField);
         FileHandle textureHandle;
         if(textureName == null) {
-            parents = Array.with(new TextureRegion(null, 1, 1));
+            parents = Array.with(new TextureRegion());
         } else if ((textureHandle = Gdx.files.internal(textureName)).exists()
                 || (textureHandle = Gdx.files.local(textureName)).exists()) {
             parents = Array.with(new TextureRegion(new Texture(textureHandle)));
@@ -2167,7 +2173,7 @@ public class Font implements Disposable {
             for (int i = 0; i < pages; i++) {
                 String textureName = fnt.substring(idx = StringUtils.indexAfter(fnt, "file=\"", idx), idx = fnt.indexOf('"', idx));
                 if(Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop){
-                    parents.add(new TextureRegion(null, 1, 1));
+                    parents.add(new TextureRegion());
                 } else if ((textureHandle = Gdx.files.internal(textureName)).exists()
                         || (textureHandle = Gdx.files.local(textureName)).exists()) {
                     parents.add(new TextureRegion(new Texture(textureHandle)));
@@ -2427,7 +2433,7 @@ public class Font implements Disposable {
      */
     public Font(String jsonName, boolean ignoredStructuredJsonFlag) {
         this(jsonName, Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop
-                ? new TextureRegion(null, 1, 1)
+                ? new TextureRegion()
                 : new TextureRegion(new Texture(
                         Gdx.files.internal(jsonName = jsonName.replaceFirst("\\..+$", ".png")).exists()
                                 ? Gdx.files.internal(jsonName)
