@@ -16,6 +16,7 @@
 
 package com.github.tommyettinger.textra;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -1628,7 +1629,9 @@ public class Font implements Disposable {
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
         this.setDistanceField(distanceField);
         FileHandle textureHandle;
-        if ((textureHandle = Gdx.files.internal(textureName)).exists()
+        if(textureName == null) {
+            parents = Array.with(new TextureRegion(null, 1, 1));
+        } else if ((textureHandle = Gdx.files.internal(textureName)).exists()
                 || (textureHandle = Gdx.files.local(textureName)).exists()) {
             parents = Array.with(new TextureRegion(new Texture(textureHandle)));
             if (distanceField != DistanceFieldType.STANDARD) {
@@ -1713,7 +1716,7 @@ public class Font implements Disposable {
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
         this.setDistanceField(distanceField);
         this.parents = Array.with(textureRegion);
-        if (distanceField != DistanceFieldType.STANDARD) {
+        if (textureRegion.getTexture() != null && distanceField != DistanceFieldType.STANDARD) {
             textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
         FileHandle fntHandle;
@@ -1748,7 +1751,7 @@ public class Font implements Disposable {
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
         this.setDistanceField(distanceField);
         this.parents = Array.with(textureRegion);
-        if (distanceField != DistanceFieldType.STANDARD) {
+        if (textureRegion.getTexture() != null && distanceField != DistanceFieldType.STANDARD) {
             textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
         if (fntHandle.exists()) {
@@ -1825,7 +1828,8 @@ public class Font implements Disposable {
         this.parents = textureRegions;
         if (distanceField != DistanceFieldType.STANDARD && textureRegions != null) {
             for (TextureRegion parent : textureRegions)
-                parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+                if(parent.getTexture() != null)
+                    parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
         FileHandle fntHandle;
         if ((fntHandle = Gdx.files.internal(fntName)).exists()
@@ -1860,7 +1864,8 @@ public class Font implements Disposable {
         this.parents = textureRegions;
         if (distanceField != DistanceFieldType.STANDARD && textureRegions != null) {
             for (TextureRegion parent : textureRegions)
-                parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+                if(parent.getTexture() != null)
+                    parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
         if (fntHandle.exists()) {
             loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
@@ -1931,7 +1936,8 @@ public class Font implements Disposable {
         this.parents = bmFont.getRegions();
         if (distanceField != DistanceFieldType.STANDARD && parents != null) {
             for (TextureRegion parent : parents) {
-                parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+                if(parent.getTexture() != null)
+                    parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             }
         }
         float offsetY = 0f;
@@ -2058,6 +2064,7 @@ public class Font implements Disposable {
                 Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
                 temp.setColor(Color.WHITE);
                 temp.fill();
+                // This is only OK because a BitmapFont requires a Texture anyway, so the headless case is impossible.
                 whiteBlock = new Texture(3, 3, Pixmap.Format.RGBA8888);
                 whiteBlock.draw(temp, 0, 0);
                 solidBlock = '\u2588';
@@ -2075,6 +2082,7 @@ public class Font implements Disposable {
             Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
             temp.setColor(Color.WHITE);
             temp.fill();
+            // This is only OK because a BitmapFont requires a Texture anyway, so the headless case is impossible.
             whiteBlock = new Texture(3, 3, Pixmap.Format.RGBA8888);
             whiteBlock.draw(temp, 0, 0);
             solidBlock = '\u2588';
@@ -2158,7 +2166,9 @@ public class Font implements Disposable {
             FileHandle textureHandle;
             for (int i = 0; i < pages; i++) {
                 String textureName = fnt.substring(idx = StringUtils.indexAfter(fnt, "file=\"", idx), idx = fnt.indexOf('"', idx));
-                if ((textureHandle = Gdx.files.internal(textureName)).exists()
+                if(Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop){
+                    parents.add(new TextureRegion(null, 1, 1));
+                } else if ((textureHandle = Gdx.files.internal(textureName)).exists()
                         || (textureHandle = Gdx.files.local(textureName)).exists()) {
                     parents.add(new TextureRegion(new Texture(textureHandle)));
                     if (getDistanceField() != DistanceFieldType.STANDARD)
@@ -2253,7 +2263,7 @@ public class Font implements Disposable {
                 mapping.containsKey(9608) ? '\u2588' : '\uFFFF';
         if (makeGridGlyphs) {
             GlyphRegion block = mapping.get(solidBlock, null);
-            if(block == null) {
+            if (block == null && Gdx.app.getType() != Application.ApplicationType.HeadlessDesktop) {
                 Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
                 temp.setColor(Color.WHITE);
                 temp.fill();
@@ -2270,6 +2280,9 @@ public class Font implements Disposable {
                 gr.offsetY = cellHeight;
                 mapping.put(i, gr);
             }
+        } else if(Gdx.app.getType() != Application.ApplicationType.HeadlessDesktop) {
+            solidBlock = '\u2588';
+            mapping.put(solidBlock, new GlyphRegion(new TextureRegion(null, 1, 1)));
         } else if (!mapping.containsKey(solidBlock)) {
             Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
             temp.setColor(Color.WHITE);
@@ -5502,7 +5515,7 @@ public class Font implements Disposable {
      *     if family is non-null).</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a color name or description that will be looked up in
-     *     {@link #getColorLookup()}, changes the color. By default this can receive ALL_CAPS names from {@link Colors}
+     *     {@link #getColorLookup()}, changes the color. By default, this can receive ALL_CAPS names from {@link Colors}
      *     in libGDX, any names from {@link com.github.tommyettinger.textra.utils.Palette}, or mixes of one or
      *     more color names with adjectives like "dark". The name can optionally be preceded by {@code |}, which allows
      *     looking up colors with names that contain punctuation. This doesn't do much if using the default ColorLookup,

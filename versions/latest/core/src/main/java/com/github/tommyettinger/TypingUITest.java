@@ -97,7 +97,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 			if(f != null)
 				KnownFonts.addEmoji(f);
 		}
-		stage = new Stage(new ScreenViewport(), new ArrayTextureSpriteBatch(1000, 2048, 2048, 16, GL30.GL_NEAREST, GL30.GL_LINEAR_MIPMAP_LINEAR));
+		stage = new Stage(new ScreenViewport(), new TextureArraySpriteBatch(1000));
+//		stage = new Stage(new ScreenViewport(), new ArrayTextureSpriteBatch(1000, 2048, 2048, 16, GL30.GL_NEAREST, GL30.GL_LINEAR_MIPMAP_LINEAR));
 		Gdx.input.setInputProcessor(stage);
 
 //		stage.setDebugAll(true);
