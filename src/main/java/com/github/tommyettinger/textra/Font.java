@@ -2333,7 +2333,9 @@ public class Font implements Disposable {
             if (parents == null) parents = new Array<>(true, pages, TextureRegion.class);
             FileHandle textureHandle;
             String textureName = fnt.getString("FilePath");
-            if ((textureHandle = Gdx.files.internal(prefix + textureName)).exists()
+            if (Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop) {
+                parents.add(parent = new TextureRegion(null, 1, 1));
+            } else if ((textureHandle = Gdx.files.internal(prefix + textureName)).exists()
                     || (textureHandle = Gdx.files.local(prefix + textureName)).exists()) {
                 parents.add(parent = new TextureRegion(new Texture(textureHandle)));
             } else {
@@ -2424,8 +2426,12 @@ public class Font implements Disposable {
      * @param ignoredStructuredJsonFlag only present to distinguish this from other constructors; ignored
      */
     public Font(String jsonName, boolean ignoredStructuredJsonFlag) {
-        this(jsonName, new TextureRegion(new Texture(Gdx.files.internal(jsonName = jsonName.replaceFirst("\\..+$", ".png")).exists()
-                ? Gdx.files.internal(jsonName) : Gdx.files.local(jsonName)
+        this(jsonName, Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop
+                ? new TextureRegion(null, 1, 1)
+                : new TextureRegion(new Texture(
+                        Gdx.files.internal(jsonName = jsonName.replaceFirst("\\..+$", ".png")).exists()
+                                ? Gdx.files.internal(jsonName)
+                                : Gdx.files.local(jsonName)
         )), 0f, 0f, 0f, 0f, true, ignoredStructuredJsonFlag);
     }
 
@@ -2708,7 +2714,8 @@ public class Font implements Disposable {
 //        }
 
         // This should be the default for Structured JSON fonts because they (so far) are always large.
-        textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        if(textureRegion.getTexture() != null)
+            textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         isMono = minWidth == cellWidth && kerning == null;
         integerPosition = false;
@@ -2779,6 +2786,8 @@ public class Font implements Disposable {
      * @return this, for chaining
      */
     public Font setDistanceField(DistanceFieldType distanceField) {
+        if(Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop)
+            return this;
         this.distanceField = distanceField == null ? DistanceFieldType.STANDARD : distanceField;
         if (this.distanceField == DistanceFieldType.MSDF) {
             shader = new ShaderProgram(vertexShader, msdfFragmentShader);
