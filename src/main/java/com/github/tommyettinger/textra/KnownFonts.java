@@ -3320,7 +3320,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new TextureAtlas loaded from the given files.
      */
     public static TextureAtlas loadUnicodeAtlas(FileHandle packFile, FileHandle imagesDir, boolean flip) {
-        return new TextureAtlas(new TextureAtlas.TextureAtlasData(packFile, imagesDir, flip){
+        TextureAtlas.TextureAtlasData data = new TextureAtlas.TextureAtlasData(packFile, imagesDir, flip){
             private int readEntry (String[] entry, @Null String line) {
                 if (line == null) return 0;
                 line = line.trim();
@@ -3537,7 +3537,43 @@ public final class KnownFonts implements LifecycleListener {
 //                };
 //                getRegions().sort(comp);
             }
-        });
+        };
+        TextureAtlas atlas = new TextureAtlas();
+        ObjectSet<Texture> textures = atlas.getTextures();
+        textures.ensureCapacity(data.getPages().size);
+        Array<TextureAtlas.AtlasRegion> regions = atlas.getRegions();
+        regions.ensureCapacity(data.getRegions().size);
+        if(!Font.canUseTextures){
+            // TODO: don't bother with the Page textures, just add some kind of... textureless AtlasRegion.
+        }
+        else {
+            for (TextureAtlas.TextureAtlasData.Page page : data.getPages()) {
+                if (page.texture == null) page.texture = new Texture(page.textureFile, page.format, page.useMipMaps);
+                page.texture.setFilter(page.minFilter, page.magFilter);
+                page.texture.setWrap(page.uWrap, page.vWrap);
+                textures.add(page.texture);
+            }
+
+            regions.ensureCapacity(data.getRegions().size);
+            for (TextureAtlas.TextureAtlasData.Region region : data.getRegions()) {
+                TextureAtlas.AtlasRegion atlasRegion = new TextureAtlas.AtlasRegion(region.page.texture, region.left, region.top, //
+                        region.rotate ? region.height : region.width, //
+                        region.rotate ? region.width : region.height);
+                atlasRegion.index = region.index;
+                atlasRegion.name = region.name;
+                atlasRegion.offsetX = region.offsetX;
+                atlasRegion.offsetY = region.offsetY;
+                atlasRegion.originalHeight = region.originalHeight;
+                atlasRegion.originalWidth = region.originalWidth;
+                atlasRegion.rotate = region.rotate;
+                atlasRegion.degrees = region.degrees;
+                atlasRegion.names = region.names;
+                atlasRegion.values = region.values;
+                if (region.flip) atlasRegion.flip(false, true);
+                regions.add(atlasRegion);
+            }
+        }
+        return atlas;
     }
 
     private TextureAtlas twemoji;

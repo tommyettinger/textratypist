@@ -1770,7 +1770,8 @@ public class Font implements Disposable {
         this.setDistanceField(distanceField);
         FileHandle textureHandle;
         if(textureName == null) {
-            parents = Array.with(new TextureRegion());
+            parents = Array.of(true, 1, TextureRegion.class);
+            parents.add(new TexturelessRegion());
         } else if ((textureHandle = Gdx.files.internal(textureName)).exists()
                 || (textureHandle = Gdx.files.local(textureName)).exists()) {
             parents = Array.with(new TextureRegion(new Texture(textureHandle)));
@@ -2307,7 +2308,8 @@ public class Font implements Disposable {
             for (int i = 0; i < pages; i++) {
                 String textureName = fnt.substring(idx = StringUtils.indexAfter(fnt, "file=\"", idx), idx = fnt.indexOf('"', idx));
                 if(!canUseTextures){
-                    parents.add(new TextureRegion());
+                    parents = Array.of(true, 1, TextureRegion.class);
+                    parents.add(new TexturelessRegion());
                 } else if ((textureHandle = Gdx.files.internal(textureName)).exists()
                         || (textureHandle = Gdx.files.local(textureName)).exists()) {
                     parents.add(new TextureRegion(new Texture(textureHandle)));
@@ -2567,7 +2569,7 @@ public class Font implements Disposable {
      */
     public Font(String jsonName, boolean ignoredStructuredJsonFlag) {
         this(jsonName, !canUseTextures
-                ? new TextureRegion()
+                ? new TexturelessRegion((TextureRegion) null, 0, 0, 2048, 2048)
                 : new TextureRegion(new Texture(
                         Gdx.files.internal(jsonName = jsonName.replaceFirst("\\..+$", ".png")).exists()
                                 ? Gdx.files.internal(jsonName)
@@ -2835,15 +2837,19 @@ public class Font implements Disposable {
         }
         solidBlock = '█';
         if (makeGridGlyphs) {
-            GlyphRegion block = new GlyphRegion(new TextureRegion(textureRegion,
-                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), 0, cellHeight, cellWidth);
+            GlyphRegion block = new GlyphRegion(canUseTextures
+                    ? new TextureRegion(textureRegion, textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1)
+                    : new TexturelessRegion(textureRegion, textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1)
+                    , 0, cellHeight, cellWidth);
             mapping.put(solidBlock, block);
             for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
                 mapping.put(i, new GlyphRegion(block, Float.NaN, cellHeight, cellWidth));
             }
         } else if (!mapping.containsKey(solidBlock)) {
-            mapping.put(solidBlock, new GlyphRegion(new TextureRegion(textureRegion,
-                    textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1), 0, cellHeight, cellWidth));
+            mapping.put(solidBlock, new GlyphRegion(canUseTextures
+                    ? new TextureRegion(textureRegion, textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1)
+                    : new TexturelessRegion(textureRegion, textureRegion.getRegionWidth() - 2, textureRegion.getRegionHeight() - 2, 1, 1)
+                    , 0, cellHeight, cellWidth));
         }
         defaultValue = mapping.get(' ', mapping.values().next());
         originalCellWidth = cellWidth;
