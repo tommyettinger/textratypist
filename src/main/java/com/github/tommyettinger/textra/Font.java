@@ -1156,6 +1156,7 @@ public class Font implements Disposable {
      * Changing offsetXChange with a positive value moves all GlyphRegions to the right.
      */
     public float inlineImageOffsetX = 0f;
+
     /**
      * An adjustment added to the {@link GlyphRegion#offsetY} of any inline images added with
      * {@link #addAtlas(TextureAtlas, String, String, float, float, float)} (or its overloads).
@@ -1164,10 +1165,10 @@ public class Font implements Disposable {
      * probably use the {@link #addAtlas(TextureAtlas, float, float, float)} overload that allows adding additional
      * adjustments if one atlas isn't quite right.
      * <br>
-     * Changing offsetYChange with a positive value moves all GlyphRegions down (this is possibly unexpected).
+     * Changing offsetYChange with a positive value moves all inline images up (this is possibly unexpected).
      */
     public float inlineImageOffsetY = 0f;
-    // TODO: Check if xAdvanceChange still shrinks
+
     /**
      * An adjustment added to the {@link GlyphRegion#xAdvance} of any inline images added with
      * {@link #addAtlas(TextureAtlas, String, String, float, float, float)} (or its overloads).
@@ -1176,13 +1177,16 @@ public class Font implements Disposable {
      * probably use the {@link #addAtlas(TextureAtlas, float, float, float)} overload that allows adding additional
      * adjustments if one atlas isn't quite right.
      * <br>
-     * Changing xAdvanceChange with a positive value will shrink all GlyphRegions (this is probably unexpected).
+     * Changing xAdvanceChange with a positive value will make all inline images take up more space to the right.
      */
     public float inlineImageXAdvance = 0f;
 
     /**
-     * A multiplier applied to the sizes of any inline images added with
+     * A multiplier applied to the sizes of any inline images (such as emoji) added with
      * {@link #addAtlas(TextureAtlas, String, String, float, float, float)} (or its overloads), at draw-time.
+     * This defaults to 1.0f, and typically doesn't change much because it applies to the inline images after they have
+     * already been scaled to fit in approximately one line-height. This means 0.5f will make inline images quite small,
+     * and anything greater than 1.0f will probably make inline images taller than one line of text.
      */
     public float inlineImageStretch = 1f;
 
@@ -1191,8 +1195,18 @@ public class Font implements Disposable {
      * during rendering and not displayed. If false, curly braces and their contents are treated as normal text.
      * Note that regardless of this setting, you can use the <code>[-TAG]</code> syntax instead of <code>{TAG}</code>
      * to produce a tag that TypingLabel can read, even though Font itself wouldn't do anything with TAG there.
+     * <br>
+     * This is meant to allow TextraTypist to interoperate with the I18N Bundle system widely used for localizing apps
+     * and games. Bundles use curly braces for their own purposes, but don't interfere with square ones. You can set
+     * this variable to false and use {@code [-RAINBOW]} instead of <code>{RAINBOW}</code> (or any other effect), which
+     * should behave the same in an I18N bundle as not in one.
+     * <br>
+     * The reason for the name of this field is that the text inside curly braces really is omitted from any
+     * rendering by default, but it is still present in the Layout, taking up no space visually. Font code that draws
+     * a Layout won't do anything with omitted data, nor will TextraLabel, but TypingLabel will.
      */
     public boolean omitCurlyBraces = true;
+    
     /**
      * If true (the default), square bracket markup functions as documented in {@link #markup(String, Layout)}. If
      * false, square brackets and their contents are treated as normal text.
