@@ -16,7 +16,6 @@
 
 package com.github.tommyettinger.textra;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -219,8 +218,7 @@ public class Font implements Disposable {
      * cannot generally draw anything.
      */
     public static class TexturelessRegion extends TextureRegion {
-        public int x, y;
-        public int width, height;
+        public int x, y, width, height;
 
         public TexturelessRegion() {
             super();
@@ -334,6 +332,107 @@ public class Font implements Disposable {
         public boolean isFlipY() {
             return height < 0;
         }
+    }
+
+    public static class TexturelessAtlasRegion extends TextureAtlas.AtlasRegion {
+        public int x, y, width, height;
+
+        protected TexturelessAtlasRegion(Texture texture, int x, int y, int width, int height) throws NullPointerException {
+            super(null, x, y, width, height);
+        }
+
+        public static TexturelessAtlasRegion make(int x, int y, int width, int height){
+            TexturelessAtlasRegion tar = null;
+            try {
+                tar = new TexturelessAtlasRegion(null, x, y, width, height);
+            } catch (NullPointerException ignored) {
+            }
+            tar.setRegion(x, y, width, height);
+
+            return tar;
+        }
+
+        @Override
+        public void setRegion(Texture texture) {
+        }
+
+        @Override
+        public void setRegion(int x, int y, int width, int height) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
+
+        @Override
+        public void setRegion(float u, float v, float u2, float v2) {
+        }
+
+        @Override
+        public void setRegion(TextureRegion region) {
+        }
+
+        @Override
+        public void setRegion(TextureRegion region, int x, int y, int width, int height) {
+            this.setRegion(x, y, width, height);
+        }
+
+        @Override
+        public int getRegionX() {
+            return this.x;
+        }
+
+        @Override
+        public void setRegionX(int x) {
+            this.x = x;
+        }
+
+        @Override
+        public int getRegionY() {
+            return y;
+        }
+
+        @Override
+        public void setRegionY(int y) {
+            this.y = y;
+        }
+
+        @Override
+        public int getRegionWidth() {
+            return width;
+        }
+
+        @Override
+        public void setRegionWidth(int width) {
+            this.width = width;
+        }
+
+        @Override
+        public int getRegionHeight() {
+            return height;
+        }
+
+        @Override
+        public void setRegionHeight(int height) {
+            this.height = height;
+        }
+
+        @Override
+        public void flip(boolean x, boolean y) {
+            if(x) width = -width;
+            if(y) height = -height;
+        }
+
+        @Override
+        public boolean isFlipX() {
+            return width < 0;
+        }
+
+        @Override
+        public boolean isFlipY() {
+            return height < 0;
+        }
+
     }
 
     /**
@@ -1206,7 +1305,7 @@ public class Font implements Disposable {
      * a Layout won't do anything with omitted data, nor will TextraLabel, but TypingLabel will.
      */
     public boolean omitCurlyBraces = true;
-    
+
     /**
      * If true (the default), square bracket markup functions as documented in {@link #markup(String, Layout)}. If
      * false, square brackets and their contents are treated as normal text.
