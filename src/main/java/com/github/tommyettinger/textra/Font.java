@@ -3402,8 +3402,11 @@ public class Font implements Disposable {
      * @return this, for chaining
      */
     public Font setTextureFilter(Texture.TextureFilter minFilter, Texture.TextureFilter magFilter) {
-        for (TextureRegion parent : parents) {
-            parent.getTexture().setFilter(minFilter, magFilter);
+
+        if(canUseTextures) {
+            for (TextureRegion parent : parents) {
+                parent.getTexture().setFilter(minFilter, magFilter);
+            }
         }
         return this;
     }

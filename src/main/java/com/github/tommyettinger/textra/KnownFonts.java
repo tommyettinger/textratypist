@@ -3543,10 +3543,26 @@ public final class KnownFonts implements LifecycleListener {
         textures.ensureCapacity(data.getPages().size);
         Array<TextureAtlas.AtlasRegion> regions = atlas.getRegions();
         regions.ensureCapacity(data.getRegions().size);
-        if(!Font.canUseTextures){
-            // TODO: don't bother with the Page textures, just add some kind of... textureless AtlasRegion.
-        }
-        else {
+        if(!Font.canUseTextures) {
+            regions.ensureCapacity(data.getRegions().size);
+            for (TextureAtlas.TextureAtlasData.Region region : data.getRegions()) {
+                TextureAtlas.AtlasRegion atlasRegion = Font.TexturelessAtlasRegion.make(region.left, region.top,
+                        region.rotate ? region.height : region.width,
+                        region.rotate ? region.width : region.height);
+                atlasRegion.index = region.index;
+                atlasRegion.name = region.name;
+                atlasRegion.offsetX = region.offsetX;
+                atlasRegion.offsetY = region.offsetY;
+                atlasRegion.originalHeight = region.originalHeight;
+                atlasRegion.originalWidth = region.originalWidth;
+                atlasRegion.rotate = region.rotate;
+                atlasRegion.degrees = region.degrees;
+                atlasRegion.names = region.names;
+                atlasRegion.values = region.values;
+                if (region.flip) atlasRegion.flip(false, true);
+                regions.add(atlasRegion);
+            }
+        } else {
             for (TextureAtlas.TextureAtlasData.Page page : data.getPages()) {
                 if (page.texture == null) page.texture = new Texture(page.textureFile, page.format, page.useMipMaps);
                 page.texture.setFilter(page.minFilter, page.magFilter);
