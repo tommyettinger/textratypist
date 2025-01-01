@@ -113,6 +113,7 @@ dependencies {
         exclude group: "org.jcraft", module: "jorbis"
         exclude group: "org.lwjgl", module: "lwjgl-openal"
     }
+    testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
     testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     testImplementation "com.rafaskoberg.gdx:typing-label:1.4.0"
     testImplementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
