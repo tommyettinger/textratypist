@@ -506,6 +506,16 @@ public class Font implements Disposable {
     //// members section
 
     /**
+     * If true, any Font created will be able to instantiate Texture objects, query their dimensions, and perform other
+     * operations that typically require an OpenGL context. If false, all operations that would use a Texture are either
+     * avoided or can be expected to fail (such as trying to {@link #drawGlyph(Batch, long, float, float)}). Even if
+     * this is false, you can still change {@link Layout} instances with {@link #markup(String, Layout)}, since those
+     * don't require any Texture to function.
+     * <br>
+     * You should set this to false before creating any Font if you are using a headless backend.
+     */
+    public static boolean canUseTextures = true;
+    /**
      * Determines whether this Font can share the same reference for its data structure members (if true), or if copies
      * should be made when using {@link #Font(Font)} (if false). This defaults to false. You should generally set this
      * by using {@link #setSharing(boolean)} rather than manually changing this field.
@@ -2172,7 +2182,7 @@ public class Font implements Disposable {
             FileHandle textureHandle;
             for (int i = 0; i < pages; i++) {
                 String textureName = fnt.substring(idx = StringUtils.indexAfter(fnt, "file=\"", idx), idx = fnt.indexOf('"', idx));
-                if(Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop){
+                if(!canUseTextures){
                     parents.add(new TextureRegion());
                 } else if ((textureHandle = Gdx.files.internal(textureName)).exists()
                         || (textureHandle = Gdx.files.local(textureName)).exists()) {
@@ -2269,7 +2279,7 @@ public class Font implements Disposable {
                 mapping.containsKey(9608) ? '\u2588' : '\uFFFF';
         if (makeGridGlyphs) {
             GlyphRegion block = mapping.get(solidBlock, null);
-            if (block == null && Gdx.app.getType() != Application.ApplicationType.HeadlessDesktop) {
+            if (block == null && canUseTextures) {
                 Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
                 temp.setColor(Color.WHITE);
                 temp.fill();
@@ -2286,7 +2296,7 @@ public class Font implements Disposable {
                 gr.offsetY = cellHeight;
                 mapping.put(i, gr);
             }
-        } else if(Gdx.app.getType() != Application.ApplicationType.HeadlessDesktop) {
+        } else if(canUseTextures) {
             solidBlock = '\u2588';
             mapping.put(solidBlock, new GlyphRegion(new TextureRegion(null, 1, 1)));
         } else if (!mapping.containsKey(solidBlock)) {
@@ -2339,7 +2349,7 @@ public class Font implements Disposable {
             if (parents == null) parents = new Array<>(true, pages, TextureRegion.class);
             FileHandle textureHandle;
             String textureName = fnt.getString("FilePath");
-            if (Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop) {
+            if (!canUseTextures) {
                 parents.add(parent = new TextureRegion(null, 1, 1));
             } else if ((textureHandle = Gdx.files.internal(prefix + textureName)).exists()
                     || (textureHandle = Gdx.files.local(prefix + textureName)).exists()) {
@@ -2432,7 +2442,7 @@ public class Font implements Disposable {
      * @param ignoredStructuredJsonFlag only present to distinguish this from other constructors; ignored
      */
     public Font(String jsonName, boolean ignoredStructuredJsonFlag) {
-        this(jsonName, Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop
+        this(jsonName, !canUseTextures
                 ? new TextureRegion()
                 : new TextureRegion(new Texture(
                         Gdx.files.internal(jsonName = jsonName.replaceFirst("\\..+$", ".png")).exists()
@@ -2792,7 +2802,7 @@ public class Font implements Disposable {
      * @return this, for chaining
      */
     public Font setDistanceField(DistanceFieldType distanceField) {
-        if(Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop)
+        if(!canUseTextures)
             return this;
         this.distanceField = distanceField == null ? DistanceFieldType.STANDARD : distanceField;
         if (this.distanceField == DistanceFieldType.MSDF) {
