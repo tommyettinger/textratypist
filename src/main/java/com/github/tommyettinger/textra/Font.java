@@ -213,6 +213,130 @@ public class Font implements Disposable {
     }
 
     /**
+     * Describes the region of a glyph in a hypothetical larger Texture that most likely does not exist here.
+     * This is meant to replace {@link TextureRegion} when {@link #canUseTextures} is false. It knows the x,y position
+     * that a normal TextureRegion would start drawing with, as well as the width and height of that region, but it
+     * cannot generally draw anything.
+     */
+    public static class TexturelessRegion extends TextureRegion {
+        public int x, y;
+        public int width, height;
+
+        public TexturelessRegion() {
+            super();
+        }
+
+        public TexturelessRegion(Texture texture) {
+            super();
+            setRegion(0, 0, 0, 0);
+        }
+
+        public TexturelessRegion(Texture texture, int width, int height) {
+            super();
+            setRegion(0, 0, width, height);
+        }
+
+        public TexturelessRegion(Texture texture, int x, int y, int width, int height) {
+            super();
+            setRegion(x, y, width, height);
+        }
+
+        public TexturelessRegion(Texture texture, float u, float v, float u2, float v2) {
+            this(texture);
+        }
+
+        public TexturelessRegion(TextureRegion region) {
+            super(region);
+        }
+
+        public TexturelessRegion(TextureRegion region, int x, int y, int width, int height) {
+            super();
+            setRegion(x, y, width, height);
+        }
+
+        @Override
+        public void setRegion(Texture texture) {
+        }
+
+        @Override
+        public void setRegion(int x, int y, int width, int height) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
+
+        @Override
+        public void setRegion(float u, float v, float u2, float v2) {
+        }
+
+        @Override
+        public void setRegion(TextureRegion region) {
+        }
+
+        @Override
+        public void setRegion(TextureRegion region, int x, int y, int width, int height) {
+            this.setRegion(x, y, width, height);
+        }
+
+        @Override
+        public int getRegionX() {
+            return this.x;
+        }
+
+        @Override
+        public void setRegionX(int x) {
+            this.x = x;
+        }
+
+        @Override
+        public int getRegionY() {
+            return y;
+        }
+
+        @Override
+        public void setRegionY(int y) {
+            this.y = y;
+        }
+
+        @Override
+        public int getRegionWidth() {
+            return width;
+        }
+
+        @Override
+        public void setRegionWidth(int width) {
+            this.width = width;
+        }
+
+        @Override
+        public int getRegionHeight() {
+            return height;
+        }
+
+        @Override
+        public void setRegionHeight(int height) {
+            this.height = height;
+        }
+
+        @Override
+        public void flip(boolean x, boolean y) {
+            if(x) width = -width;
+            if(y) height = -height;
+        }
+
+        @Override
+        public boolean isFlipX() {
+            return width < 0;
+        }
+
+        @Override
+        public boolean isFlipY() {
+            return height < 0;
+        }
+    }
+
+    /**
      * Holds up to 16 Font values, accessible by index or by name, that markup can switch between while rendering.
      * This uses the [@Name] syntax. It is suggested that multiple Font objects share the same FontFamily so users can
      * have the same names mean the same fonts reliably.
