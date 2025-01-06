@@ -30,7 +30,6 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
     TextButton  buttonRestart;
     TextButton  buttonRebuild;
     TextButton  buttonSkip;
-    int adj = 0;
 
     @Override
     public void create() {

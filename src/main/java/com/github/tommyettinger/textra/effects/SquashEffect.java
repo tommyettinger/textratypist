@@ -70,25 +70,25 @@ public class SquashEffect extends Effect {
         float progress = MathUtils.clamp(timePassed / realSpeed, 0, 1);
 
         Font font = label.getFont();
+        float lineHeight = label.getLineHeight(globalIndex);
 
         // Calculate offset
         if (progress < 0.4f) {
             float interpolatedValue = 1f - Interpolation.sine.apply(progress * 2.5f) * 0.5f;
-            label.offsets.incr(globalIndex << 1, font.mapping.get((char) glyph, font.defaultValue).xAdvance * (0.125f - 0.125f * interpolatedValue));
-            label.offsets.incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * label.getLineHeight(globalIndex));
+            float xOff = lineHeight * (-0.25f * (1.0f - interpolatedValue));
+            label.offsets.incr(globalIndex << 1, xOff);
+            label.offsets.incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * lineHeight);
             label.sizing.incr(globalIndex << 1, 1.0f - interpolatedValue);
             label.sizing.incr(globalIndex << 1 | 1, interpolatedValue - 1f);
         } else {
             Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;
             float interpolatedValue = interpolation.apply((progress - 0.4f) * 1.666f) * 0.5f + 0.5f;
-            label.offsets.incr(globalIndex << 1, font.mapping.get((char) glyph, font.defaultValue).xAdvance * (0.125f - 0.125f * interpolatedValue));
-            label.offsets.incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * label.getLineHeight(globalIndex));
+            float xOff = lineHeight * (-0.25f * (1.0f - interpolatedValue));
+            label.offsets.incr(globalIndex << 1, xOff);
+            label.offsets.incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * lineHeight);
             label.sizing.incr(globalIndex << 1, 1.0f - interpolatedValue);
             label.sizing.incr(globalIndex << 1 | 1, interpolatedValue - 1f);
         }
-    }
-
-    {
     }
 
 }

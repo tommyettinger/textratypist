@@ -37,7 +37,7 @@ import static com.badlogic.gdx.Gdx.input;
 import static com.github.tommyettinger.textra.Font.DistanceFieldType.STANDARD;
 
 public class ColorfulBatchFontTest extends ApplicationAdapter {
-    public static final int SCREEN_WIDTH = 808;
+    public static final int SCREEN_WIDTH = 810;
     public static final int SCREEN_HEIGHT = 51 * 15;
     private ColorfulBatch batch;
     private Viewport screenView;
@@ -65,7 +65,7 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
         b.drawPixel(0, 0, 0x808080FF);
         blank = new Texture(b);
         font = new ColorfulFont("Cozette-standard.fnt",
-                "Cozette-standard.png", STANDARD, 0, 2, 0, 0, false)
+                "Cozette-standard.png", STANDARD, 0, 0, 0, 0, false)
                 .useIntegerPositions(true)
                 .setName("Cozette");
         font.PACKED_BLACK = Palette.BLACK;
