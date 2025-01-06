@@ -55,17 +55,17 @@ public class AntiAliasingTest extends ApplicationAdapter {
         Label.LabelStyle lightRoboto = new Label.LabelStyle(light, Color.WHITE);
         lightRoboto.font.getData().setLineHeight(30);
 
-        TextraLabel textra = new TextraLabel(content, new Styles.LabelStyle(lightRoboto));
+        TextraLabel textra = new TextraLabel("Stretched TextraLabel:\n" + content, new Styles.LabelStyle(lightRoboto));
         textra.setWrap(true);
         textra.setAlignment(topLeft);
-        textra.getFont().adjustLineHeight(1.3f);
+        textra.getFont().adjustLineHeight(1.2f);
         textra.getFont().useIntegerPositions(true);
 
-        Label label = new Label(content, lightRoboto);
+        Label label = new Label("Label:\n" + content, lightRoboto);
         label.setAlignment(topLeft);
         label.setWrap(true);
 
-        TextraLabel textra2 = new TextraLabel(content, new Styles.LabelStyle(msdf, Color.WHITE));
+        TextraLabel textra2 = new TextraLabel("TextraLabel:\n" + content, new Styles.LabelStyle(msdf, Color.WHITE));
         textra2.setWrap(true);
         textra2.setAlignment(topLeft);
         msdf.useIntegerPositions(true);
@@ -99,7 +99,7 @@ public class AntiAliasingTest extends ApplicationAdapter {
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel vs. Label test");
-        config.setWindowedMode(800, 497);
+        config.setWindowedMode(909, 497);
         config.disableAudio(true);
 		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);

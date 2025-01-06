@@ -100,7 +100,8 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
         text.append("[lighter blue violet]{CAROUSEL}Imagine{ENDCAROUSEL}[] the [rich green]{SLAM}[~]bugs[][]!{ENDSLAM} I mean, {RAINBOW=1;1;0.7}possibilities{ENDRAINBOW}! ");
         text.append("{SPEED=0.1}{CANNON}[+🔥][+😁][+👏]{WAIT=2} {RESET}");
 
-        Font font = KnownFonts.addNotoEmoji(KnownFonts.getStandardFamily());//.scale(0.8f, 0.8f);
+        Font font = KnownFonts.addEmoji(KnownFonts.getStandardFamily());
+//        Font font = KnownFonts.addNotoEmoji(KnownFonts.getStandardFamily());
         final TypingLabel label = new TypingLabel(text.toString(), font);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
