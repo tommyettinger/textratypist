@@ -5226,8 +5226,10 @@ public class Font implements Disposable {
             float stretchShift = (trrh * font.inlineImageStretch - trrh) * scaleX * sizingX;
 
             float xch = tr.offsetX * scaleX * sizingX;
-            xc -= xch;
-            x += xch + changedW * 0.5f + stretchShift;// - stretchShift * scale * sizingX;
+            xc -= xch - changedW * 0.5f - stretchShift;
+//            x += xch + stretchShift;
+            x += xch + stretchShift;
+//            x += xch + changedW + stretchShift;
 
             yt = sin * centerX - font.cellHeight;
             if(squashed) yt -= font.descent * scaleY * 0.175f;
