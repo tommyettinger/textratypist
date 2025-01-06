@@ -131,25 +131,14 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
                             )
                     );
                 }
-//                else if("*SELECTED".equals(event)) {
-//                    System.out.println("Selection start: " + label.selectionStart + " Selection end: " + label.selectionEnd);
-//                    if(label.copySelectedText())
-//                        System.out.println(label.getSelectedText());
-//                    else
-//                        System.out.println("Nothing was copied.");
-//                } else {
-//                    Color.rgba8888ToColor(flashColor, ColorUtils.describe(event));
-//                    ScreenUtils.clear(flashColor);
-//                }
             }
 
             @Override
             public void end() {
-//                System.out.println(label);
                 QualityPalette pal = new QualityPalette();
                 pal.analyze(pms);
                 gif.setPalette(pal);
-                gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN);
+                gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE);
                 gif.setDitherStrength(0.5f);
                 gif.write(Gdx.files.local("preview.gif"), pms, FRAMERATE);
                 Gdx.app.exit();
@@ -198,7 +187,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TypingLabel Test");
-        config.setWindowedMode(720, 450);
+        config.setWindowedMode(720, 480);
         config.setResizable(true);
         config.setForegroundFPS(FRAMERATE);
         config.useVsync(true);
