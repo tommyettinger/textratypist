@@ -2535,9 +2535,9 @@ public class Font implements Disposable {
                 gr.offsetY = cellHeight;
                 mapping.put(i, gr);
             }
-        } else if(canUseTextures) {
+        } else if(!canUseTextures) {
             solidBlock = '\u2588';
-            mapping.put(solidBlock, new GlyphRegion(new TextureRegion(null, 1, 1)));
+            mapping.put(solidBlock, new GlyphRegion(new TexturelessRegion()));
         } else if (!mapping.containsKey(solidBlock)) {
             Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
             temp.setColor(Color.WHITE);

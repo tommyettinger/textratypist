@@ -19,7 +19,6 @@ public class HeadlessTest extends ApplicationAdapter {
 
     Font fnt;
     Layout layout = new Layout().setTargetWidth(1200);
-    int idx;
     int limit;
     String[] jsonFiles;
     Font[] all;
@@ -33,7 +32,6 @@ public class HeadlessTest extends ApplicationAdapter {
             + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[ ], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
             + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[ ],"
             + "\n[%^small caps][*]Special[*][%] [%^whiten][/]Effects[/][%]: [%?shadow]drop shadow[%], [%?jostle]RaNsoM nOtE[%], [%?error]spell check[%]...",
-//    distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[ ]!",
     emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[ ] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
 
     public static void main(String[] args){
@@ -61,7 +59,6 @@ public class HeadlessTest extends ApplicationAdapter {
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF)).scaleHeightTo(32f).useIntegerPositions(false).setTextureFilter();
 //        all[idx++ + limit] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE)).scaleHeightTo(32f).useIntegerPositions(false).setTextureFilter();
 //        limit += idx;
-        idx = 0;
 
         for (int i = 0; i < limit; i++) {
             fnt = all[i];
