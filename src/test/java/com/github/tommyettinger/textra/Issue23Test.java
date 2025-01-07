@@ -35,9 +35,10 @@ public class Issue23Test extends ApplicationAdapter {
         font = KnownFonts.getRobotoCondensed(Font.DistanceFieldType.MSDF).scaleHeightTo(32);
         TextureAtlas atlas = new TextureAtlas("controller_white.atlas");
         font.addAtlas(atlas, 0, 0, 0);
+        font.addImage("\uE777", atlas.findRegion("white"));
         Styles.LabelStyle style = new Styles.LabelStyle(font, Color.WHITE);
 
-        final String text = "Did YOU[+white]know orange is my favorite color? Did YOU[+controller_B] know orange is my favorite color?";
+        final String text = "Did YOU[+white]know orange is my favorite color? Did YOU\uE777 know orange is my favorite color?";
         final TypingLabel label = new TypingLabel("[%50]" + text, style);
         label.setSize(900, 300);
         label.setPosition(100, 100);
