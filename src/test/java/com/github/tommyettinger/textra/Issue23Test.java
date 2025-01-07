@@ -21,6 +21,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -36,9 +37,10 @@ public class Issue23Test extends ApplicationAdapter {
         TextureAtlas atlas = new TextureAtlas("controller_white.atlas");
         font.addAtlas(atlas, 0, 0, 0);
         font.addImage("\uE777", atlas.findRegion("white"));
+        font.addImage(";", atlas.findRegion("white"));
         Styles.LabelStyle style = new Styles.LabelStyle(font, Color.WHITE);
 
-        final String text = "Did YOU[+white]know orange is my favorite color? Did YOU\uE777 know orange is my favorite color?";
+        final String text = "Did YOU[+white] know orange[orange];[] it is my favorite color? Did YOU\uE777 know orange, it is my favorite color?";
         final TypingLabel label = new TypingLabel("[%50]" + text, style);
         label.setSize(900, 300);
         label.setPosition(100, 100);
