@@ -40,7 +40,7 @@ public class Issue23Test extends ApplicationAdapter {
         font.addImage(";", atlas.findRegion("white"));
         Styles.LabelStyle style = new Styles.LabelStyle(font, Color.WHITE);
 
-        final String text = "Did YOU[+white] know orange[orange];[] it is my favorite color? Did YOU\uE777 know orange, it is my favorite color?";
+        final String text = "Did YOU[+white] know orange, [+controller_B] it is my favorite color? Did YOU\uE777 know orange, it is my favorite color?";
         final TypingLabel label = new TypingLabel("[%50]" + text, style);
         label.setSize(900, 300);
         label.setPosition(100, 100);

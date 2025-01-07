@@ -3733,6 +3733,7 @@ public class Font implements Disposable {
                 ++i;
                 previous = region;
                 gr = new GlyphRegion(region,
+//                        offsetXChange, offsetYChange, region.getRegionWidth() + xAdvanceChange);
                         region.offsetX + offsetXChange, region.offsetY + offsetYChange, region.originalWidth + xAdvanceChange);
                 mapping.put(i, gr);
                 name = prepend + region.name + append;
@@ -5128,24 +5129,24 @@ public class Font implements Disposable {
         // I have no idea why these two, osx and osy, need to be different.
 //        osx = font.scaleX * scale;
 //        osy = font.scaleY;
-        osx = font.scaleX * (scale + 1f) * 0.5f;
-        osy = font.scaleY * (scale + 1f) * 0.5f;
+        osx = fsx * (scale + 1f) * 0.5f;
+        osy = fsy * (scale + 1f) * 0.5f;
         float centerX = tr.xAdvance * scaleX * 0.5f;
         float centerY = font.originalCellHeight * scaleY * 0.5f;
 
         float oCenterX = tr.xAdvance * osx * 0.5f;
         float oCenterY = font.originalCellHeight * osy * 0.5f;
 
-        float scaleCorrection = (c >= 0xE000 && c < 0xF800) ? font.descent * font.scaleY * 2f : font.descent * fsy * 2f;// - font.descent * osy;
+        float scaleCorrection = font.descent * font.scaleY * 2f;// - font.descent * osy;
         y += scaleCorrection;
 
         float ox = x, oy = y;
 
-        float ix = font.handleIntegerPosition(x + oCenterX);
-        float iy = font.handleIntegerPosition(y + oCenterY);
+        float ix = font.handleIntegerPosition(x + centerX);
+        float iy = font.handleIntegerPosition(y + centerY);
         // The shifts here represent how far the position was moved by handling the integer position, if that was done.
-        float xShift = (x + oCenterX) - (ix);
-        float yShift = (y + oCenterY) - (iy);
+        float xShift = (x + centerX) - (ix);
+        float yShift = (y + centerY) - (iy);
         // This moves the center to match the movement from integer position.
         x = font.handleIntegerPosition(ix - xShift);
         y = font.handleIntegerPosition(iy - yShift);
@@ -5226,17 +5227,16 @@ public class Font implements Disposable {
             float stretchShift = (trrh * font.inlineImageStretch - trrh) * scaleX * sizingX;
 
             float xch = tr.offsetX * scaleX * sizingX;
-            xc -= xch - changedW * 0.5f - stretchShift;
-//            x += xch + stretchShift;
-            x += xch + stretchShift;
+            xc -= xch + stretchShift;
+            x  += xch + stretchShift;
 //            x += xch + changedW + stretchShift;
 
-            yt = sin * centerX - scaledHeight;
+            float ych = tr.offsetY * scaleY * sizingY;
+            yt = sin * centerX - centerY - ych - stretchShift + font.descent * font.scaleY * scale;
             if(squashed) yt -= font.descent * scaleY * 0.175f;
 
-            float ych = tr.offsetY * yPx;
-            yt += scaledHeight * 0.5f;//ych - font.descent * fsy * scale * sizingY;
-            y += ych - stretchShift;// - stretchShift * scale * sizingY;
+            //yt += scaledHeight * 0.5f;//ych - font.descent * fsy * scale * sizingY;
+            y += ych + stretchShift;// - stretchShift * scale * sizingY;
 //            y += (font.descent * font.scaleY - stretchShift) * scale * sizingY + ych;
         }
         // when this is removed, rotations for icons go around the bottom center.
