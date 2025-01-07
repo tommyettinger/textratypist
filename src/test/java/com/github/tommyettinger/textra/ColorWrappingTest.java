@@ -32,6 +32,7 @@ public class ColorWrappingTest extends ApplicationAdapter {
     public void create() {
         stage = new Stage();
         stage.setDebugAll(true);
+//        String text = "Did you know orange is my favorite color? Did[+ok_hand_tone2] YOU know orange is my favorite color? Did YOU know orange is my favorite color?";
         String text = "Did you know orange is my favorite color? Did[+OK hand, medium-light skin tone] YOU know orange is my favorite color? Did YOU know orange is my favorite color?";
 
         font = KnownFonts.getDejaVuSans();
@@ -48,6 +49,11 @@ public class ColorWrappingTest extends ApplicationAdapter {
                         Actions.run(() -> {
                             // change to same color it starts with, to see if color is the culprit
                             label.setText("[#ffff00ff][%50]" + text);
+                        }),
+                        Actions.delay(3.0f),
+                        Actions.run(() -> {
+                            // change to same color it starts with, to see if color is the culprit
+                            label.setText("[%50]" + text);
                         }),
                         Actions.delay(4.0f),
                         Actions.run(() -> {

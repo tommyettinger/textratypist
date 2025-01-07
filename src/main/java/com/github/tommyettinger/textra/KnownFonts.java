@@ -3634,7 +3634,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addEmoji(Font changing) {
-        return addEmoji(changing, -4f, -2f, 4f);
+        return addEmoji(changing, 0f, 0f, 0f);
     }
     /**
      * Takes a Font and adds the Twemoji icon set to it, making the glyphs available using {@code [+name]} syntax.
@@ -3808,7 +3808,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addOpenMoji(Font changing, boolean color) {
-        return addOpenMoji(changing, color, -4f, -4f, 4f);
+        return addOpenMoji(changing, color, 0f, 0f, 0f);
     }
     /**
      * Takes a Font and adds the OpenMoji icon set to it, making the glyphs available using {@code [+name]} syntax.
@@ -4032,7 +4032,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addNotoEmoji(Font changing) {
-        return addNotoEmoji(changing, -4f, -3f, 4f);
+        return addNotoEmoji(changing, 0f, 0f, 0f);
     }
 
     /**
