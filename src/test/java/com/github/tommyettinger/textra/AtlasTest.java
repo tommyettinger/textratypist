@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -24,7 +25,7 @@ public class AtlasTest extends ApplicationAdapter {
         font = new Font(KnownFonts.GENTIUM_UN_ITALIC + "-msdf.dat",
                 new TextureRegion(new Texture(KnownFonts.GENTIUM_UN_ITALIC + "-msdf.png")),
                 0f, 0f, 0f, 0f,
-                true, true).scaleHeightTo(50f).setInlineImageStretch(0.75f).addAtlas(new TextureAtlas("controller.atlas"), -40, -20, 0);
+                true, true).scaleHeightTo(50f).addAtlas(new TextureAtlas("controller.atlas"));
         // I load the left-trigger image so we know what width we will need to offset by. Most buttons are probably similar.
         Font.GlyphRegion lt = font.mapping.get(font.nameLookup.get("controller_LT", ' ')),
             space = font.mapping.get(' '),
@@ -71,6 +72,7 @@ public class AtlasTest extends ApplicationAdapter {
     @Override
     public void render() {
         ScreenUtils.clear(Color.BLACK);
+        font.setInlineImageStretch(0.25f * MathUtils.sinDeg((System.currentTimeMillis() & 0xFFFFF) * 0.1f) + 0.75f);
         stage.act();
         stage.draw();
     }

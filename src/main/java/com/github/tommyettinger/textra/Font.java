@@ -5232,11 +5232,11 @@ public class Font implements Disposable {
 //            x += xch + changedW + stretchShift;
 
             float ych = tr.offsetY * scaleY * sizingY;
-            yt = sin * centerX - centerY - ych - stretchShift + font.descent * font.scaleY * scale;
+            yt = sin * centerX - centerY - ych + font.descent * font.scaleY * scale * 0.5f;
             if(squashed) yt -= font.descent * scaleY * 0.175f;
 
             //yt += scaledHeight * 0.5f;//ych - font.descent * fsy * scale * sizingY;
-            y += ych + stretchShift;// - stretchShift * scale * sizingY;
+            y += ych - stretchShift;// - stretchShift * scale * sizingY;
 //            y += (font.descent * font.scaleY - stretchShift) * scale * sizingY + ych;
         }
         // when this is removed, rotations for icons go around the bottom center.
