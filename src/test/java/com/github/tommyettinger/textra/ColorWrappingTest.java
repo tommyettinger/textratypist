@@ -40,12 +40,12 @@ public class ColorWrappingTest extends ApplicationAdapter {
         font = KnownFonts.getDejaVuSans();
         KnownFonts.addEmoji(font);
 
-        final TextraLabel label = new TextraLabel("", font);
+        final TextraLabel label = new TextraLabel("[#ffff00ff][%50]" + text, font);
         label.setSize(300, 300);
         label.setPosition(100, 400);
         label.setWrap(true);
         label.setDebug(true);
-        label.setText("[#ffff00ff][%50]" + text);
+//        label.setText("[#ffff00ff][%50]" + text);
         stage.addAction(
                 Actions.sequence(
                         Actions.delay(2.0f),
