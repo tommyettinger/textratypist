@@ -502,13 +502,18 @@ public class TextraLabel extends Widget {
     /**
      * Sets the wrapping mode; if this changes the mode, then this invalidates the hierarchy. When wrap is enabled,
      * the preferred and/or min/max sizes must be used so this knows where to wrap. If wrap is disabled, lines that are
-     * too wide will just widen the size of the widget.
+     * too wide will just widen the size of the widget. This also calls {@link #layout()} if wrap becomes enabled
+     * because of this call, because much of the behavior of layout() depends on wrap's value.
      *
      * @param wrap whether to wrap or not
      */
     public TextraLabel setWrap(boolean wrap) {
         if (this.wrap != (this.wrap = wrap))
+        {
             invalidateHierarchy();
+            if(this.wrap)
+                layout();
+        }
         return this;
     }
 

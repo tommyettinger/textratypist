@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class ColorWrappingTest extends ApplicationAdapter {
@@ -32,17 +33,19 @@ public class ColorWrappingTest extends ApplicationAdapter {
     public void create() {
         stage = new Stage();
         stage.setDebugAll(true);
+        // Noto emoji use different names.
 //        String text = "Did you know orange is my favorite color? Did[+ok_hand_tone2] YOU know orange is my favorite color? Did YOU know orange is my favorite color?";
         String text = "Did you know orange is my favorite color? Did[+OK hand, medium-light skin tone] YOU know orange is my favorite color? Did YOU know orange is my favorite color?";
 
         font = KnownFonts.getDejaVuSans();
         KnownFonts.addEmoji(font);
 
-        final TextraLabel label = new TextraLabel("[#ffff00ff][%50]" + text, font);
+        final TextraLabel label = new TextraLabel("", font);
         label.setSize(300, 300);
         label.setPosition(100, 400);
         label.setWrap(true);
         label.setDebug(true);
+        label.setText("[#ffff00ff][%50]" + text);
         stage.addAction(
                 Actions.sequence(
                         Actions.delay(2.0f),
@@ -62,7 +65,10 @@ public class ColorWrappingTest extends ApplicationAdapter {
                         })
                 )
         );
-        stage.addActor(label);
+        Table table = new Table();
+        table.add(label).size(300, 300);
+        table.setFillParent(true);
+        stage.addActor(table);
     }
 
     @Override
