@@ -5192,7 +5192,7 @@ public class Font implements Disposable {
         float trrh = tr.getRegionHeight();
         float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * scaleY * sizingY + sin * centerX
                 - centerY;
-        if(squashed) yt -= font.descent * scaleY * 0.175f;
+        if(squashed) yt -= font.descent * scaleY * sizingY * 0.175f;
 
         float h = trrh * scaleY * sizingY;
 
@@ -5229,12 +5229,19 @@ public class Font implements Disposable {
 //            x += xch + changedW + stretchShift;
 
             float ych = tr.offsetY * scaleY * sizingY;
-            yt = sin * centerX - centerY - ych + font.descent * font.scaleY * scale * 0.5f;
-            if(squashed) yt -= font.descent * scaleY * 0.175f;
+//            yt = (font.originalCellHeight - (trrh + tr.offsetY)) * scaleY * sizingY + sin * centerX
+//                    - centerY;
 
-            //yt += scaledHeight * 0.5f;//ych - font.descent * fsy * scale * sizingY;
-            y += ych - stretchShift;// - stretchShift * scale * sizingY;
-//            y += (font.descent * font.scaleY - stretchShift) * scale * sizingY + ych;
+            //            yt = sin * centerX - centerY - ych + font.descent * font.scaleY * scale * 0.5f;
+
+
+            yt =  - ych - stretchShift - font.descent * fsy * scale * sizingY + sin * centerX - centerY;
+            if(squashed) yt -= font.descent * scaleY * sizingY * 0.175f;
+//            yt -= ych + stretchShift;
+//            y  += ych + stretchShift;
+
+            y += ych - stretchShift + font.descent * fsy * scale * sizingY;
+
         }
         // when this is removed, rotations for icons go around the bottom center.
         // but, with it here, the rotations go around the bottom left corner.
