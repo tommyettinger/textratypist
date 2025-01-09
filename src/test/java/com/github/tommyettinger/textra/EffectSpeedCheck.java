@@ -161,16 +161,19 @@ public class EffectSpeedCheck extends ApplicationAdapter {
 //                "SPIN=10;5           {SPIN=10;5}This effect has a high value!{RESET}\n" +
 //                "SPIN=0.1;5          {SPIN=0.1;5}This effect has a low value!{RESET}\n" +
 
-                "SPIRAL=1;10         {SPIRAL=1;10}This effect has a high value!{RESET}\n" +
-                "SPIRAL=1;0.1        {SPIRAL=1;0.1}This effect has a low value!{RESET}\n" +
-                "SPUTTER=0.3;0.3;10  {SPUTTER=0.3;0.3;10}This effect has a high value!{RESET}\n" +
-                "SPUTTER=0.3;0.3;0.1 {SPUTTER=0.3;0.3;0.1}This effect has a low value!{RESET}\n" +
+                "HEARTBEAT=1;10;5    {HEARTBEAT=1;10;5}This effect has a high value!{RESET}\n" +
+                "HEARTBEAT=1;0.1;5   {HEARTBEAT=1;0.1;5}This effect has a low value!{RESET}\n" +
+
+//                "SPIRAL=1;10         {SPIRAL=1;10}This effect has a high value!{RESET}\n" +
+//                "SPIRAL=1;0.1        {SPIRAL=1;0.1}This effect has a low value!{RESET}\n" +
+//                "SPUTTER=0.3;0.3;10  {SPUTTER=0.3;0.3;10}This effect has a high value!{RESET}\n" +
+//                "SPUTTER=0.3;0.3;0.1 {SPUTTER=0.3;0.3;0.1}This effect has a low value!{RESET}\n" +
                 "SQUASH=10           {SQUASH=10}This effect has a high value!{RESET}\n" +
                 "SQUASH=0.1          {SQUASH=0.1}This effect has a low value!{RESET}\n" +
-                "WAVE=1;1;10         {WAVE=1;1;10}This effect has a high value!{RESET}\n" +
-                "WAVE=1;1;0.1        {WAVE=1;1;0.1}This effect has a low value!{RESET}\n" +
-                "ZIPPER=2;10         {ZIPPER=2;10}This effect has a high value!{RESET}\n" +
-                "ZIPPER=2;0.1        {ZIPPER=2;0.1}This effect has a low value!{RESET}\n" +
+//                "WAVE=1;1;10         {WAVE=1;1;10}This effect has a high value!{RESET}\n" +
+//                "WAVE=1;1;0.1        {WAVE=1;1;0.1}This effect has a low value!{RESET}\n" +
+//                "ZIPPER=2;10         {ZIPPER=2;10}This effect has a high value!{RESET}\n" +
+//                "ZIPPER=2;0.1        {ZIPPER=2;0.1}This effect has a low value!{RESET}\n" +
                         "{WAIT=5}That's all, folks!"
                 ;
         StringBuilder sb = new StringBuilder("{SPEED=SLOWER}").append(text);
