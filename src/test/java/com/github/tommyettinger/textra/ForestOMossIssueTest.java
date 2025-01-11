@@ -51,11 +51,13 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         stage = new Stage(viewport);
         stage.setDebugAll(true);
 
+        // These fonts aren't in the GitHub repo. To reproduce the bug, I'm using local copies of this
+        // font but not publishing them. I'll try to reproduce with a known font later.
         font = new Font("moss/Quicksand_Medium.fnt", "moss/Quicksand_Medium.png");
-//        Font font = new Font(new BitmapFont(Gdx.files.local("moss/Quicksand_Medium.fnt")));// "moss/Quicksand_Medium.png");
-        font.useIntegerPositions(false);
-//        Group group=new Group();
-//        stage.addActor(group);
+
+        // toggle between the next two lines to make the outline partly disappear or reappear.
+//        font.useIntegerPositions(false); // has bug
+        font.useIntegerPositions(true); // should not have bug
 
         Sprite bg = new Sprite(font.mapping.get(font.solidBlock));
         bg.getColor().set(Color.FOREST);
@@ -67,7 +69,7 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         typingLabel=new TypingLabel();
         typingLabel.setAlignment(Align.center);
         typingLabel.setFont(font);
-        typingLabel.style.background = new SpriteDrawable(bg);
+        typingLabel.style.background = new SpriteDrawable(bg).tint(Color.FOREST);
         typingLabel.setText("[WHITE][%?blacken]Roll a ball. When the ball gets into a slot, adjacent slots freeze and become unavailable.");
         typingLabel.setZIndex(0);
         typingLabel.setPosition((Gdx.graphics.getWidth() - typingLabel.layout.getWidth()) / 2f, Gdx.graphics.getHeight() / 2f + 30f);
@@ -85,12 +87,12 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
 //        stage.addActor(container);
 
         typingLabel2=new TypingLabel();
-        typingLabel2.setAlignment(Align.center);
+//        typingLabel2.setAlignment(Align.center);
         typingLabel2.setFont(font);
-        typingLabel2.style.background = new SpriteDrawable(bg);
+        typingLabel2.style.background = new SpriteDrawable(bg).tint(Color.FOREST);
         typingLabel2.setText("[WHITE][%?blacken]Jump around. When the ball gets into a slot,\njoined slots freeze and become unavailable.");
         typingLabel2.setZIndex(0);
-        typingLabel2.setPosition((Gdx.graphics.getWidth() - typingLabel2.layout.getWidth()) / 2f, Gdx.graphics.getHeight() / 2f - 30f);
+        typingLabel2.setPosition((Gdx.graphics.getWidth() - typingLabel2.layout.getWidth()) / 2f, Gdx.graphics.getHeight() / 2f - 30);
         typingLabel2.setOrigin(typingLabel2.layout.getWidth() / 2f, typingLabel2.layout.getHeight() / 2f);
         typingLabel2.setSize(typingLabel2.layout.getWidth(), typingLabel2.layout.getHeight());
         typingLabel2.layout();
@@ -127,9 +129,9 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
 
         stage.getRoot().draw(batch, 1);
 
-        font.drawGlyphs(stage.getBatch(), markup,
-                x, y,
-                Align.center, angle, 0, 0);
+//        font.drawGlyphs(stage.getBatch(), markup,
+//                x, y,
+//                Align.center, angle, 0, 0);
 
         batch.end();
 
