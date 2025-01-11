@@ -77,7 +77,7 @@ public class TextureArraySpriteBatch implements Batch {
 
     private static String shaderErrorLog = null;
 
-    private final boolean ownsShader;
+    private boolean ownsShader;
 
     private final Color color = new Color(1, 1, 1, 1);
     private float colorPacked = Color.WHITE_FLOAT_BITS;
@@ -136,11 +136,8 @@ public class TextureArraySpriteBatch implements Batch {
         if (defaultShader == null) {
             shader = createDefaultShader(maxTextureUnits);
             ownsShader = true;
-
-        } else {
+        } else
             shader = defaultShader;
-            ownsShader = false;
-        }
 
         usedTextures = new Texture[maxTextureUnits];
         usedTexturesLFU = new int[maxTextureUnits];
@@ -152,7 +149,7 @@ public class TextureArraySpriteBatch implements Batch {
         }
         textureUnitIndicesBuffer.flip();
 
-        VertexDataType vertexDataType = (Gdx.gl30 != null) ? VertexDataType.VertexBufferObjectWithVAO : VertexDataType.VertexArray;
+        VertexDataType vertexDataType = (Gdx.gl30 != null) ? VertexDataType.VertexBufferObjectWithVAO : VertexDataType.VertexBufferObject;
 
         // The vertex data is extended with one float for the texture index.
         mesh = new Mesh(vertexDataType, false, size * 4, size * 6,
@@ -178,6 +175,10 @@ public class TextureArraySpriteBatch implements Batch {
         }
 
         mesh.setIndices(indices);
+
+        // Pre bind the mesh to force the upload of indices data.
+        mesh.getIndexData().bind();
+        mesh.getIndexData().unbind();
     }
 
     /** Returns a new instance of the default shader used by TextureArraySpriteBatch for GL2 when no shader is specified.
@@ -1088,9 +1089,6 @@ public class TextureArraySpriteBatch implements Batch {
         Mesh mesh = this.mesh;
 
         mesh.setVertices(vertices, 0, idx);
-
-        mesh.getIndicesBuffer().position(0);
-        mesh.getIndicesBuffer().limit(count);
 
         if (blendingDisabled) {
             Gdx.gl.glDisable(GL20.GL_BLEND);
