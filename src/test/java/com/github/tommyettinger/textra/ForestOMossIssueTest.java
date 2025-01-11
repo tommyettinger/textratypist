@@ -52,9 +52,15 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         stage.setDebugAll(true);
 
         // These fonts aren't in the GitHub repo. To reproduce the bug, I'm using local copies of this
-        // font but not publishing them. I'll try to reproduce with a known font later.
-        font = new Font("moss/Quicksand_Medium.fnt", "moss/Quicksand_Medium.png");
+        // font but not publishing them. I can also reproduce with Cozette and QuanPixel.
+//        font = new Font("moss/Quicksand_Medium.fnt", "moss/Quicksand_Medium.png");
 
+        // with bug, left outline is missing.
+        // with bug "fixed" all outlines work.
+//        font = KnownFonts.getCozette();
+        // worst-case with bug; outlines appear inconsistently.
+        // still bad with bug "fixed" (outline is above only).
+        font = KnownFonts.getQuanPixel();
         // toggle between the next two lines to make the outline partly disappear or reappear.
 //        font.useIntegerPositions(false); // has bug
         font.useIntegerPositions(true); // should not have bug
