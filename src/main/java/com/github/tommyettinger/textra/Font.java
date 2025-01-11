@@ -5726,7 +5726,7 @@ public class Font implements Disposable {
             if (c >= 0xE000 && c < 0xF800)
             {
                 p0x -= changedW * 0.25f - xPx * 2f;
-//                p0y += scaledHeight * 0.5f;
+                p0y += scaledHeight * 1.5f;
             }
 //            else
 //            {
