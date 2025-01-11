@@ -5123,7 +5123,6 @@ public class Font implements Disposable {
             scaleY = (fsy = font.scaleY) * scale;
 //            y -= descent * scaleY;
         }
-        // I have no idea why these two, osx and osy, need to be different.
 //        osx = font.scaleX * scale;
 //        osy = font.scaleY;
         osx = fsx * (scale + 1f) * 0.5f;
@@ -5134,7 +5133,7 @@ public class Font implements Disposable {
         float oCenterX = tr.xAdvance * osx * 0.5f;
         float oCenterY = font.originalCellHeight * osy * 0.5f;
 
-        float scaleCorrection = font.descent * font.scaleY * 2f;// - font.descent * osy;
+        float scaleCorrection = font.descent * font.scaleY * scale;// - font.descent * osy;
         y += scaleCorrection;
 
         float ox = x, oy = y;
@@ -5475,13 +5474,12 @@ public class Font implements Disposable {
             p2x = old2;
         }
 
-        y -= centerY;
+//        y -= centerY;
 
         // this changes scaleCorrection from one that uses fsx to one that uses font.scaleY.
         // fsx and font.scaleY are equivalent for most glyphs, but not for inline images.
-        oy = y - scaleCorrection;
-        oy += font.descent * font.scaleY * 2f;// - font.descent * osy;
-
+        oy = y - scaleCorrection - centerY;
+        oy += font.descent * font.scaleY;// - font.descent * osy;
 //        ox = x;
 //        oy = y;
         if ((glyph & UNDERLINE) != 0L && !(c >= 0xE000 && c < 0xF800)) {
