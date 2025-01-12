@@ -6119,7 +6119,7 @@ public class Font implements Disposable {
                         if (len >= 0) {
                             c = font.nameLookup.get(StringUtils.safeSubstring(text, i + 1, i + len), '+');
                             i += len;
-                            scaleX = (scale + 1) * 0.25f * font.cellHeight / font.mapping.get(c, font.defaultValue).getRegionHeight() * font.inlineImageStretch;
+                            scaleX = (scale + 1) * 0.25f * font.cellHeight / font.mapping.get(c, font.defaultValue).xAdvance * font.inlineImageStretch;
                         }
                     }
                     if (font.kerning == null) {
@@ -6294,7 +6294,7 @@ public class Font implements Disposable {
                 }
                 showCh = (current & SMALL_CAPS) == SMALL_CAPS ? Category.caseUp(ch) : ch;
                 if(ch >= 0xE000 && ch < 0xF800){
-                    scaleX = (scale + 1) * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).getRegionHeight() * font.inlineImageStretch;
+                    scaleX = (scale + 1) * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).xAdvance * font.inlineImageStretch;
                 }
                 float w;
                 if (font.kerning == null) {
@@ -7267,7 +7267,7 @@ public class Font implements Disposable {
                     scale = extractIntScale(glyph);
                     line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = scale * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).getRegionHeight() * font.inlineImageStretch;
+                        scaleX = scale * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).xAdvance * font.inlineImageStretch;
                     else
                         scaleX = font.scaleX * scale * 0.25f;
 
@@ -7355,7 +7355,7 @@ public class Font implements Disposable {
                     scale = extractIntScale(glyph);
                     line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = scale * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).getRegionHeight() * font.inlineImageStretch;
+                        scaleX = scale * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).xAdvance * font.inlineImageStretch;
                     else
                         scaleX = font.scaleX * scale * 0.25f;
                     kern = kern << 16 | ch;
