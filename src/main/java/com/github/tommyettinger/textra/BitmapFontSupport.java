@@ -150,12 +150,13 @@ public class BitmapFontSupport {
                 padLeft = 1;
                 float padY = padTop + padBottom;
 
-                JsonValue metrics = fnt.get("metrics");
+//                JsonValue metrics = fnt.get("metrics");
 
-                size *= metrics.getFloat("emSize", 1f);
-                lineHeight = size * metrics.getFloat("lineHeight", 1f);
+                descent = size * -0.25f;//metrics.getFloat("descender", -0.25f);
+
+//                size *= metrics.getFloat("emSize", 1f);
+                lineHeight = size - descent;// * metrics.getFloat("lineHeight", 1f);
 //                ascent = size * metrics.getFloat("ascender", 0.8f) - lineHeight;
-                descent = size * metrics.getFloat("descender", -0.25f);
 //                float baseLine = lineHeight + descent;
 //                descent = 0f;
 
@@ -197,7 +198,7 @@ public class BitmapFontSupport {
                         glyph.xoffset = glyph.yoffset = 0;
                     }
                 }
-                descent += padBottom;
+//                descent += padBottom;
 
                 JsonValue kern = fnt.get("kerning");
                 if (kern != null && !kern.isEmpty()) {
