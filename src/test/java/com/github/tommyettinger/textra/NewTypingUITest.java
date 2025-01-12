@@ -61,13 +61,13 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 
-		final Font font = skin.get("outline-font", Font.class).adjustLineHeight(1.35f).scaleHeightTo(32);
+		final Font font = skin.get("outline-font", Font.class).scaleHeightTo(32);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[0] = font;
 
 		for(Font f : font.family.connected) {
 			if(f != null)
-				KnownFonts.addEmoji(f, 8f, 0f, 0f);
+				KnownFonts.addEmoji(f, 0f, 0f, 0f);
 		}
 
 		stage = new Stage(new ScreenViewport());

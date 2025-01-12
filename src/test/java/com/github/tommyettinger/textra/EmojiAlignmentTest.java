@@ -64,9 +64,9 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
         // emoji don't show 100% correctly, but they're similar across techniques.
 //        font = KnownFonts.getGrenze().scaleHeightTo(16f);
         BitmapFont gdx = new BitmapFont(Gdx.files.internal("grenze-angelcode.fnt"));
-        font = new Font(gdx, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleHeightTo(16f);
+        font = new Font(gdx, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true);
         BitmapFont support = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Grenze-standard.dat"), "Grenze-standard.png");
-        font2 = new Font(support, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleHeightTo(16f);
+        font2 = new Font(support, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true);
 //                .setDescent(-12f).setLineMetrics(0f, -0.25f, 0f, 0f)
 //                .setDescent(font.descent)
 //                .setInlineImageMetrics(font.inlineImageOffsetX, font.inlineImageOffsetY, font.inlineImageXAdvance)
@@ -81,8 +81,9 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        KnownFonts.addEmoji(font2, -4, 0, 0);
         // for AStarry
         KnownFonts.addEmoji(font);
-//        KnownFonts.addEmoji(font, -4, 22, 0); // (font, 12, 32, 0) will work, except for any chars after an emoji...
         KnownFonts.addEmoji(font2);
+        font.scaleHeightTo(16f);//.setInlineImageStretch(0.5f);
+        font2.scaleHeightTo(16f);//.setInlineImageStretch(0.5f);
         cw = font.cellWidth;
         ch = font.cellHeight;
         cw2 = font2.cellWidth;

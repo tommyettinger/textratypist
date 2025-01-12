@@ -31,6 +31,9 @@ import com.badlogic.gdx.utils.ByteArray;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.github.tommyettinger.textra.utils.LZBCompression;
 
+/**
+ * Doesn't currently run because the assets were removed. They were large.
+ */
 public class LZBTest extends ApplicationAdapter {
     Stage stage;
     Skin skin;
