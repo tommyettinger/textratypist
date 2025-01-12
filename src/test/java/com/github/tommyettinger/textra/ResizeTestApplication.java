@@ -24,10 +24,14 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class ResizeTestApplication extends ApplicationAdapter {
@@ -44,7 +48,7 @@ public class ResizeTestApplication extends ApplicationAdapter {
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("Resizable Label Test");
-        configuration.setOpenGLEmulation(Lwjgl3ApplicationConfiguration.GLEmulation.GL30, 3, 0);
+//        configuration.setOpenGLEmulation(Lwjgl3ApplicationConfiguration.GLEmulation.GL30, 3, 0);
 
         configuration.setResizable(true);
         configuration.setWindowedMode(1280, 720);
@@ -72,6 +76,7 @@ public class ResizeTestApplication extends ApplicationAdapter {
 
     public void createUI() {
         background = new Table();
+        background.background(new TextureRegionDrawable(new TextureRegion(backgroundImage)));
         background.setFillParent(true);
         ui.addActor(background);
 
@@ -133,12 +138,12 @@ public class ResizeTestApplication extends ApplicationAdapter {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(1,1,1,1);
-        batch.begin();
-        batch.setColor(Color.GRAY);
-        batch.draw(backgroundImage, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.setColor(Color.WHITE);
-        batch.end();
+        ScreenUtils.clear(Color.WHITE);
+//        batch.begin();
+//        batch.setColor(Color.GRAY);
+//        batch.draw(backgroundImage, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//        batch.setColor(Color.WHITE);
+//        batch.end();
 
         ui.act();
         if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
@@ -147,6 +152,7 @@ public class ResizeTestApplication extends ApplicationAdapter {
                     + "So juicy and red! You could probably collect them on a mountain..");
             System.out.println(itemDesc.layout);
         }
+        ui.getViewport().apply(true);
         ui.draw();
     }
 
