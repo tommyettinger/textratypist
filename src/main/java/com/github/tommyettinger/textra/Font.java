@@ -2362,10 +2362,6 @@ public class Font implements Disposable {
         inlineImageOffsetY = 0f;
         inlineImageXAdvance = 0f;
         inlineImageStretch = 1f;
-        // the following is used in the others, but not here for some reason.
-//        inlineImageOffsetX = -20f + 0.1f * originalCellWidth;
-//        inlineImageOffsetY = -32f + 0.1f * originalCellHeight - descent;
-//        inlineImageXAdvance = 8f;
 
         scale(bmFont.getScaleX(), bmFont.getScaleY());
     }
