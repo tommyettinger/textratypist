@@ -1658,6 +1658,7 @@ public class Font implements Disposable {
         inlineImageOffsetX = toCopy.inlineImageOffsetX;
         inlineImageOffsetY = toCopy.inlineImageOffsetY;
         inlineImageXAdvance = toCopy.inlineImageXAdvance;
+        inlineImageStretch = toCopy.inlineImageStretch;
 
         parents = new Array<>(toCopy.parents);
         mapping = new IntMap<>(toCopy.mapping.size);
@@ -5222,20 +5223,20 @@ public class Font implements Disposable {
             // rotating xc and yt variables, to the position-only x and y variables.
             // it also offsets x by a half-cell to the right, and moves the origin for y.
 
-            float stretchShift = (trrh * font.inlineImageStretch - trrh) * scaleX * sizingX;
+            float stretchShift = (trrh * font.inlineImageStretch - trrh) * scaleX * sizingX * 0.5f;
 
             float xch = tr.offsetX * scaleX * sizingX;
             xc -= xch + stretchShift;
             x  += xch + stretchShift;
 
 //            float ych = tr.offsetY * scaleY * sizingY;
-            yt = (sin * scaledHeight - scaledHeight) * 0.5f + stretchShift;
+            yt = (sin * scaledHeight - scaledHeight - stretchShift) * 0.5f;
 
 
 //            yt =  - ych - stretchShift - font.descent * fsy * scale * sizingY + sin * centerX - centerY;
             if(squashed) yt -= font.descent * scaleY * sizingY * 0.175f;
 //            yt -= ych + stretchShift;
-            y = oy + scaledHeight * 0.5f - stretchShift;
+            y = oy + (scaledHeight) * 0.5f - stretchShift;
 
 //            y += ych - stretchShift + font.descent * fsy * scale * sizingY;
 
