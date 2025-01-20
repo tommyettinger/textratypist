@@ -1564,9 +1564,15 @@ public class Font implements Disposable {
      * such as bold and strikethrough, to look incorrect, so this is mostly useful for testing. Note, you can add a
      * shadow effect to any of the fonts in {@link KnownFonts} by using the {@code [%?shadow]} mode, so you don't
      * typically need or want the shadow to be applied to the font beforehand.
+     * <br>
+     * This makes small adjustments to the vertical metrics of the default BitmapFont when copied into this Font. These
+     * should make a BitmapFont created with no constructor parameters and a Font constructed in the same way position
+     * themselves nearly-identically when placed over each other or compared side-by-side. Wrapping may behave
+     * differently between BitmapFont and Font, both because of different line break behavior on hyphens and because
+     * Font may wrap slightly sooner than BitmapFont if they both are on the threshold of filling a line entirely.
      */
     public Font() {
-        this(new BitmapFont(), 0f, 0f, 0f, 0f);
+        this(new BitmapFont(), 0f, 1f, 0f, -1f);
     }
 
     /**
