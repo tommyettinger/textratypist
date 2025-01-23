@@ -104,21 +104,23 @@ public final class KnownFonts implements LifecycleListener {
 
     private final ObjectMap<String, Font> loaded = new ObjectMap<>(32);
 
-    /** Base name for a fixed-width octagonal font. */
+    /** Base name for a fixed-width octagonal font with square dimensions. */
     public static final String A_STARRY = "A-Starry";
     /** Base name for a variable-width "sloppy" or "grungy" display font. */
     public static final String BIRDLAND_AEROPLANE = "Birdland-Aeroplane";
-    /** Base name for a variable-width serif font. */
+    /** Base name for a variable-width thin-weight serif font. */
     public static final String BITTER = "Bitter";
     /** Base name for a variable-width sans font. */
     public static final String CANADA1500 = "Canada1500";
     /** Base name for a fixed-width programming font. */
     public static final String CASCADIA_MONO = "Cascadia-Mono";
-    /** Base name for a variable-width handwriting font. */
+    /** Base name for a variable-width informal handwriting font. */
     public static final String CAVEAT = "Caveat";
+    /** Base name for a variable-width extra-heavy-weight "attention-getting" font. */
+    public static final String CHANGA_ONE = "Changa-One";
     /** Base name for a fixed-width dyslexia-friendly handwriting-like font. */
     public static final String COMIC_MONO = "Comic-Mono";
-    /** Base name for a fixed-width octagonal font. */
+    /** Base name for a fixed-width octagonal font, possibly usable as "college-style" lettering. */
     public static final String COMPUTER_SAYS_NO = "Computer-Says-No";
     /** Base name for a variable-width narrow sans font. */
     public static final String DEJAVU_SANS_CONDENSED = "DejaVu-Sans-Condensed";
@@ -136,9 +138,9 @@ public final class KnownFonts implements LifecycleListener {
     public static final String GENTIUM_UN_ITALIC = "Gentium-Un-Italic";
     /** Base name for a variable-width geometric font. */
     public static final String GLACIAL_INDIFFERENCE = "Glacial-Indifference";
-    /** Base name for a variable-width Unicode-heavy sans font. */
+    /** Base name for a variable-width Unicode-heavy sans font. Uses a larger Texture, 4096x4096. */
     public static final String GO_NOTO_UNIVERSAL = "Go-Noto-Universal";
-    /** Base name for a variable-width heavy-weight serif font. */
+    /** Base name for a variable-width heavy-weight serif font, looking like early printing-press type. */
     public static final String GRENZE = "Grenze";
     /** Base name for a fixed-width geometric/programming font. */
     public static final String INCONSOLATA_LGC = "Inconsolata-LGC";
@@ -158,13 +160,13 @@ public final class KnownFonts implements LifecycleListener {
     public static final String NOW_ALT = "Now-Alt";
     /** Base name for a variable-width sans font. */
     public static final String OPEN_SANS = "Open-Sans";
-    /** Base name for a variable-width geometric sans font. */
+    /** Base name for a variable-width all-caps geometric sans font. */
     public static final String OSTRICH_BLACK = "Ostrich-Black";
     /** Base name for a variable-width "flowy" sans font. */
     public static final String OVERLOCK = "Overlock";
     /** Base name for a variable-width "especially flowy" sans font. */
     public static final String OVERLOCK_UN_ITALIC = "Overlock-Un-Italic";
-    /** Base name for a variable-width sci-fi font. */
+    /** Base name for a variable-width "sci-fi" display font. */
     public static final String OXANIUM = "Oxanium";
     /** Base name for a variable-width narrow sans font. */
     public static final String ROBOTO_CONDENSED = "Roboto-Condensed";
@@ -172,11 +174,11 @@ public final class KnownFonts implements LifecycleListener {
     public static final String SELAWIK = "Selawik";
     /** Base name for a variable-width bold sans-serif font. */
     public static final String SELAWIK_BOLD = "Selawik-Bold";
-    /** Base name for a variable-width script font. */
+    /** Base name for a variable-width formal script font. */
     public static final String TANGERINE = "Tangerine";
     /** Base name for a variable-width humanist sans font. */
     public static final String YANONE_KAFFEESATZ = "Yanone-Kaffeesatz";
-    /** Base name for a variable-width "dark fantasy" font. */
+    /** Base name for a variable-width "dark fantasy" display font. */
     public static final String YATAGHAN = "Yataghan";
 
     /** Base name for a fixed-width pixel font. */
@@ -192,7 +194,7 @@ public final class KnownFonts implements LifecycleListener {
     public static final String IBM_8X16 = "IBM-8x16";
 
     public static final OrderedSet<String> JSON_NAMES = OrderedSet.with(
-            A_STARRY, BIRDLAND_AEROPLANE, BITTER, CANADA1500, CASCADIA_MONO, CAVEAT,
+            A_STARRY, BIRDLAND_AEROPLANE, BITTER, CANADA1500, CASCADIA_MONO, CAVEAT, CHANGA_ONE,
             COMIC_MONO, COMPUTER_SAYS_NO, DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO,
             DEJAVU_SANS, DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF, GENTIUM, GENTIUM_UN_ITALIC,
             GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE, INCONSOLATA_LGC, IOSEVKA,
@@ -825,13 +827,7 @@ public final class KnownFonts implements LifecycleListener {
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-sdf.png">Caveat-sdf.png</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-License.txt">Caveat-License.txt</a></li>
      * </ul>
-     * <br>orComic-Mono-License.txt
-     * Comic-Mono-msdf.dat
-     * Comic-Mono-msdf.png
-     * Comic-Mono-sdf.dat
-     * Comic-Mono-sdf.png
-     * Comic-Mono-standard.dat
-     * Comic-Mono-standard.png
+     * <br>or
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-msdf.dat">Caveat-msdf.dat</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-msdf.png">Caveat-msdf.png</a></li>
@@ -843,6 +839,66 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getCaveat(DistanceFieldType dft) {
         return getFont(CAVEAT, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width extra-heavy-weight "attention-getting" font with some
+     * support for extended Latin, that should scale pretty well from a height of about 160 down to a height of maybe
+     * 20. It will look sharper and more aliased at smaller sizes, but should be relatively smooth at a height of 32 or
+     * so.
+     * Caches the result for later calls. The font used is Changa One, a free (OFL) typeface designed by Eduardo Tunni.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CHANGA_ONE, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Changa-One-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Changa-One-standard.dat">Changa-One-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Changa-One-standard.png">Changa-One-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Changa-One-License.txt">Changa-One-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Changa One
+     */
+    public static Font getChangaOne() {
+        return getFont(CHANGA_ONE, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width extra-heavy-weight "attention-getting" font with some
+     * support for extended Latin Uses the given distance field type.
+     * Caches the result for later calls. The font used is Changa One, a free (OFL) typeface designed by Eduardo Tunni.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Changa-One-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Changa-One-standard.dat">Changa-One-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Changa-One-standard.png">Changa-One-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Changa-One-License.txt">Changa-One-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Changa-One-sdf.dat">Changa-One-sdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Changa-One-sdf.png">Changa-One-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Changa-One-License.txt">Changa-One-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Changa-One-msdf.dat">Changa-One-msdf.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Changa-One-msdf.png">Changa-One-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Changa-One-License.txt">Changa-One-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Changa One using the given DistanceFieldType
+     */
+    public static Font getChangaOne(DistanceFieldType dft) {
+        return getFont(CHANGA_ONE, dft);
     }
 
     /**
@@ -4388,16 +4444,17 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font[] getAll() {
         return new Font[]{getAStarry(), getAStarryMSDF(), getAStarryTall(), getBirdlandAeroplane(), getBitter(),
-                getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getComicMono(), getComputerSaysNo(),
-                getCozette(), getDejaVuSans(), getDejaVuSansCondensed(), getDejaVuSansMono(), getDejaVuSerif(),
-                getDejaVuSerifCondensed(), getGentium(), getGentiumMSDF(), getGentiumSDF(), getGentiumUnItalic(),
-                getGlacialIndifference(), getGoNotoUniversal(), getGoNotoUniversalSDF(), getGrenze(), getHanazono(),
-                getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
-                getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(), getKingthingsFoundation(),
-                getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getLibertinusSerifSemibold(),
-                getNowAlt(), getOpenSans(), getOstrichBlack(), getOverlock(), getOverlockUnItalic(), getOxanium(),
-                getQuanPixel(), getRobotoCondensed(), getSelawik(), getSelawikBold(), getTangerine(), getTangerineSDF(),
-                getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghan(), getYataghanMSDF()};
+                getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getChangaOne(), getComicMono(),
+                getComputerSaysNo(), getCozette(), getDejaVuSans(), getDejaVuSansCondensed(), getDejaVuSansMono(),
+                getDejaVuSerif(), getDejaVuSerifCondensed(), getGentium(), getGentiumMSDF(), getGentiumSDF(),
+                getGentiumUnItalic(), getGlacialIndifference(), getGoNotoUniversal(), getGoNotoUniversalSDF(),
+                getGrenze(), getHanazono(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(),
+                getIosevkaMSDF(), getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(),
+                getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(),
+                getLibertinusSerifSemibold(), getNowAlt(), getOpenSans(), getOstrichBlack(), getOverlock(),
+                getOverlockUnItalic(), getOxanium(), getQuanPixel(), getRobotoCondensed(), getSelawik(),
+                getSelawikBold(), getTangerine(), getTangerineSDF(), getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(),
+                getYataghan(), getYataghanMSDF()};
     }
 
     /**
