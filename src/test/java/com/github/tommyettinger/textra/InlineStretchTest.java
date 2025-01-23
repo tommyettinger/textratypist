@@ -20,12 +20,15 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class InlineStretchTest extends ApplicationAdapter {
 
+  private Font font;
   private Stage stage;
 
   public InlineStretchTest() {
@@ -34,19 +37,26 @@ public class InlineStretchTest extends ApplicationAdapter {
   @Override
   public void create() {
     stage = new Stage(new ScreenViewport());
-    Font font = KnownFonts.getGentiumUnItalic();
+    font = KnownFonts.getGentiumUnItalic();
     KnownFonts.addEmoji(font);
+    Font font2 = new Font(font);
     font.setInlineImageStretch(0.5f);
-    TypingLabel label = new TypingLabel("[+🤡] This is a [+😄]test message.", font);
-    label.setPosition(100f, 100f);
+    TypingLabel label  = new TypingLabel("[+🤡] This is a [+😄]test message.", font);
+    TypingLabel label2 = new TypingLabel("[+🤡] This is a [+😄]test message.", font2);
+    label.setPosition(50f, 100f);
+    label2.setPosition(50f, 200f);
     label.pack();
+    label2.pack();
     label.debug();
+    label2.debug();
     stage.addActor(label);
+    stage.addActor(label2);
   }
 
   @Override
   public void render() {
     ScreenUtils.clear(Color.BLACK);
+    font.setInlineImageStretch(MathUtils.sinDeg((System.currentTimeMillis() & 0xFFFFFL) * 0.1f) * 0.5f + 1.0f);
     stage.act();
     stage.getViewport().apply(true);
     stage.draw();
