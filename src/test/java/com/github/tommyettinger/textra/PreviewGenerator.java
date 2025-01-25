@@ -95,9 +95,11 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        FileHandle[] sdfFiles = new FileHandle[0];
 
         // WHAT WE NORMALLY USE
-        String[] jsonFiles = new String[0];//KnownFonts.JSON_NAMES.orderedItems().toArray(String.class);
+        String[] jsonFiles =
+//                new String[0];
+                KnownFonts.JSON_NAMES.orderedItems().toArray(String.class);
         String[] limitedJsonFiles = KnownFonts.LIMITED_JSON_NAMES.orderedItems().toArray(String.class);
-        Font[] all = new Font[jsonFiles.length * 4 + 4 + limitedJsonFiles.length];
+        Font[] all = new Font[jsonFiles.length * 4 + 4 + limitedJsonFiles.length + 5];
         int idx = 0;
         for (int i = 0; i < jsonFiles.length; i++) {
             all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.STANDARD)).scaleHeightTo(32f).useIntegerPositions(false);
@@ -111,7 +113,12 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE)).scaleHeightTo(32f).useIntegerPositions(false);
 
         all[idx++] = KnownFonts.getCordata16x26();
-        all[idx] = KnownFonts.getIBM8x16();
+        all[idx++] = KnownFonts.getIBM8x16();
+        all[idx++] = KnownFonts.getCozette();
+        all[idx++] = KnownFonts.getHanazono();
+        all[idx++] = KnownFonts.getIBM8x16Sad();
+        all[idx++] = KnownFonts.getLanaPixel();
+        all[idx++] = KnownFonts.getQuanPixel();
         // DEBUG
 //        Font[] all = new Font[]{KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.A_STARRY, Font.DistanceFieldType.MSDF)).scaleHeightTo(32f).useIntegerPositions(false)};
 
