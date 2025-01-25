@@ -118,6 +118,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String CAVEAT = "Caveat";
     /** Base name for a variable-width extra-heavy-weight "attention-getting" font. */
     public static final String CHANGA_ONE = "Changa-One";
+    /** Base name for a fixed-width, tall, thin pixel font. */
+    public static final String CORDATA_16X26 = "Cordata-16x26";
     /** Base name for a fixed-width dyslexia-friendly handwriting-like font. */
     public static final String COMIC_MONO = "Comic-Mono";
     /** Base name for a fixed-width octagonal font, possibly usable as "college-style" lettering. */
@@ -209,7 +211,7 @@ public final class KnownFonts implements LifecycleListener {
 
     public static final OrderedSet<String> SAD_NAMES = OrderedSet.with(IBM_8X16_SAD);
 
-    public static final OrderedSet<String> LIMITED_JSON_NAMES = OrderedSet.with(IBM_8X16);
+    public static final OrderedSet<String> LIMITED_JSON_NAMES = OrderedSet.with(CORDATA_16X26, IBM_8X16);
 
     public static final OrderedSet<String> STANDARD_NAMES = new OrderedSet<>(JSON_NAMES.size + FNT_NAMES.size + SAD_NAMES.size + LIMITED_JSON_NAMES.size);
     public static final OrderedSet<String> SDF_NAMES = new OrderedSet<>(JSON_NAMES);
@@ -1027,7 +1029,42 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getComputerSaysNo(DistanceFieldType dft) {
         return getFont(COMPUTER_SAYS_NO, dft);
     }
-    
+
+
+    /**
+     * Returns a Font configured to use a tall, thin, "retro," fixed-width bitmap font,
+     * Cordata PPC 21 from the little-known Cordata computer line. This uses an extended
+     * version of that font, with VileR making the extensions
+     * <a href="https://int10h.org/oldschool-pc-fonts/">available here</a> under the
+     * CC-BY-SA 4.0 license.
+     * This does not scale well except to integer multiples, but it should look very
+     * crisp at its default size of 16x26 pixels. This might not match the actual height you
+     * get with {@link Font#scaleHeightTo(float)}! A height of 40f or a multiple thereof seems
+     * correct for this Font at this point in time. This defaults to having
+     * {@link Font#integerPosition} set to true.
+     * This may work well in a font family with other fonts that do not use a distance field
+     * effect, though they all could have different sizes.
+     * <br>
+     * Preview: None currently, coming soon.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cordata-16x26-License.txt">Cordata-16x26-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cordata-16x26-standard.dat">Cordata-16x26-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cordata-16x26-standard.png">Cordata-16x26-standard.png</a></li>
+     * </ul>
+     *
+     * @return the Font object that represents a 16x26 font included with early Cordata and Corona computers
+     */
+    public static Font getCordata16x26() {
+        return getFont(CORDATA_16X26, STANDARD)
+                .scaleHeightTo(40f)
+                .setLineMetrics(0f, 0.05f, 0f, -0.5f)
+//                .setBoldStrength(0.5f).setOutlineStrength(2f)
+                .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
+                .setInlineImageMetrics(-4f, 2f, -8f, 0.75f)
+                .useIntegerPositions(true);
+    }
     /**
      * Returns a Font configured to use a cozy fixed-width bitmap font,
      * <a href="https://github.com/slavfox/Cozette">Cozette by slavfox</a>. Cozette has broad coverage of Unicode,
@@ -4485,12 +4522,13 @@ public final class KnownFonts implements LifecycleListener {
     public static Font[] getAll() {
         return new Font[]{getAStarry(), getAStarryMSDF(), getAStarryTall(), getBirdlandAeroplane(), getBitter(),
                 getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getChangaOne(), getComicMono(),
-                getComputerSaysNo(), getCozette(), getDejaVuSans(), getDejaVuSansCondensed(), getDejaVuSansMono(),
-                getDejaVuSerif(), getDejaVuSerifCondensed(), getGentium(), getGentiumMSDF(), getGentiumSDF(),
-                getGentiumUnItalic(), getGlacialIndifference(), getGoNotoUniversal(), getGoNotoUniversalSDF(),
+                getComputerSaysNo(), getCordata16x26(), getCozette(),
+                getDejaVuSans(), getDejaVuSansCondensed(), getDejaVuSansMono(), getDejaVuSerif(), getDejaVuSerifCondensed(),
+                getGentium(), getGentiumMSDF(), getGentiumSDF(), getGentiumUnItalic(),
+                getGlacialIndifference(), getGoNotoUniversal(), getGoNotoUniversalSDF(),
                 getGrenze(), getHanazono(), getIBM8x16(), getIBM8x16Sad(), getInconsolata(), getInconsolataMSDF(),
-                getIosevka(), getIosevkaMSDF(), getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(),
-                getIosevkaSlabSDF(), getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(),
+                getIosevka(), getIosevkaMSDF(), getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(),
+                getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(),
                 getLibertinusSerif(), getLibertinusSerifSemibold(), getNowAlt(), getOpenSans(), getOstrichBlack(),
                 getOverlock(), getOverlockUnItalic(), getOxanium(), getQuanPixel(), getRobotoCondensed(), getSelawik(),
                 getSelawikBold(), getTangerine(), getTangerineSDF(), getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(),
@@ -4508,7 +4546,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all non-distance-field Font instances this knows
      */
     public static Font[] getAllStandard() {
-        Font[] found = new Font[STANDARD_NAMES.size+1];
+        Font[] found = new Font[JSON_NAMES.size+FNT_NAMES.size+ SAD_NAMES.size+3];
         int i = 0;
         // Structured JSON format
         for(String name : JSON_NAMES){
@@ -4516,6 +4554,8 @@ public final class KnownFonts implements LifecycleListener {
         }
         // special JSON config
         found[i++] = getAStarryTall();
+        found[i++] = getCordata16x26();
+        found[i++] = getIBM8x16();
         // AngelCode BMFont format
         found[i++] = getCozette();
         found[i++] = getHanazono();
