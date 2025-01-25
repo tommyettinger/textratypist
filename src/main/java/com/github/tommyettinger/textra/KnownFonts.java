@@ -1858,7 +1858,7 @@ public final class KnownFonts implements LifecycleListener {
      * you can use an SDF font, since it scales up with higher quality.
      * Otherwise, this may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Hanazono.png">Image link</a> (uses width=16, height=20)
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Hanazono.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1876,10 +1876,10 @@ public final class KnownFonts implements LifecycleListener {
         String rootName = baseName + distanceField.filePart;
         Font found = instance.loaded.get(rootName);
         if(found == null){
-            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 1, 5, 0, 0, false);
+            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 1, 5, 0, 0, true);
             found
-                    .setDescent(-6f).scaleTo(16, 20).setFancyLinePosition(-0.5f, 0.125f)
-                    .setLineMetrics(-0.25f, 0f, 0f, -0.5f).setInlineImageMetrics(-16f, 4f, 0f)
+                    .setDescent(-6f).scaleTo(16, 20).setFancyLinePosition(0f, 0.125f)
+                    .setLineMetrics(-0.25f, 0f, 0f, -0.5f).setInlineImageMetrics(-4f, -5f, -8f, 0.75f)
                     .setTextureFilter()
                     .setName(baseName + distanceField.namePart);
             ;
