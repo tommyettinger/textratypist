@@ -3263,7 +3263,8 @@ public class Font implements Disposable {
      * <br>
      * This affects "Zen" metrics, which means it is measured in fractions of
      * {@link #cellWidth} or {@link #cellHeight} (as appropriate), and each metric only affects one value (even though
-     * this sets two metrics for each parameter).
+     * this sets two metrics for each parameter). For length and breadth, you should consider the value as adding or
+     * subtracting a fraction of the original length of a line across a cell or of the breadth of the line itself.
      * @param x adjustment for the underline and strikethrough x-position, affecting the left side of each line
      * @param y adjustment for the underline and strikethrough y-position, affecting the bottom side of each line
      * @param length adjustment for the underline and strikethrough x-size, affecting the extra part drawn to the right of each line
@@ -3334,12 +3335,12 @@ public class Font implements Disposable {
      * overloads).
      * <br>
      * Changing offsetX with a positive value moves all GlyphRegions to the right.
-     * Changing offsetY with a positive value moves all GlyphRegions down (this is possibly unexpected).
-     * Changing xAdvance with a positive value will shrink all GlyphRegions (this is probably unexpected).
+     * Changing offsetY with a positive value moves all GlyphRegions up (this is possibly unexpected).
+     * Changing xAdvanceChange with a positive value will put more space between each GlyphRegion and the glyph after it.
      *
      * @param offsetX will be added to the {@link GlyphRegion#offsetX} of each added glyph; positive change moves a GlyphRegion to the right
-     * @param offsetY will be added to the {@link GlyphRegion#offsetY} of each added glyph; positive change moves a GlyphRegion down
-     * @param xAdvance will be added to the {@link GlyphRegion#xAdvance} of each added glyph; positive change shrinks a GlyphRegion due to how size is calculated
+     * @param offsetY will be added to the {@link GlyphRegion#offsetY} of each added glyph; positive change moves a GlyphRegion up
+     * @param xAdvance will be added to the {@link GlyphRegion#xAdvance} of each added glyph; positive values make images push later glyphs away more
      * @return this Font, for chaining
      */
     public Font setInlineImageMetrics(float offsetX, float offsetY, float xAdvance) {
@@ -3355,13 +3356,13 @@ public class Font implements Disposable {
      * overloads).
      * <br>
      * Changing offsetX with a positive value moves all GlyphRegions to the right.
-     * Changing offsetY with a positive value moves all GlyphRegions down (this is possibly unexpected).
-     * Changing xAdvance with a positive value will shrink all GlyphRegions (this is probably unexpected).
-     * Changing stretch with a value higher than 1 will enlarge all inline images
+     * Changing offsetY with a positive value moves all GlyphRegions up (this is possibly unexpected).
+     * Changing xAdvanceChange with a positive value will put more space between each GlyphRegion and the glyph after it.
+     * Changing stretch with a value higher than 1 will enlarge all inline images, and lower than 1 will shrink them.
      *
      * @param offsetX will be added to the {@link GlyphRegion#offsetX} of each added glyph; positive change moves a GlyphRegion to the right
-     * @param offsetY will be added to the {@link GlyphRegion#offsetY} of each added glyph; positive change moves a GlyphRegion down
-     * @param xAdvance will be added to the {@link GlyphRegion#xAdvance} of each added glyph; positive change shrinks a GlyphRegion due to how size is calculated
+     * @param offsetY will be added to the {@link GlyphRegion#offsetY} of each added glyph; positive change moves a GlyphRegion up
+     * @param xAdvance will be added to the {@link GlyphRegion#xAdvance} of each added glyph; positive values make images push later glyphs away more
      * @param stretch affects the size at which inline images are drawn, but does not change individual glyphs; this is a size multiplier with values higher than 1 making glyphs larger
      * @return this Font, for chaining
      */
@@ -3712,7 +3713,7 @@ public class Font implements Disposable {
 
         TextureAtlas.AtlasRegion previous = regions.first();
         GlyphRegion gr = new GlyphRegion(previous,
-                previous.offsetX + offsetXChange, previous.offsetY + offsetYChange, previous.originalWidth + xAdvanceChange);
+                previous.offsetX + offsetXChange, previous.offsetY - offsetYChange, previous.originalWidth + xAdvanceChange);
         mapping.put(start, gr);
         String name = prepend + previous.name + append;
         nameLookup.put(name, start);
@@ -3737,7 +3738,7 @@ public class Font implements Disposable {
                 previous = region;
                 gr = new GlyphRegion(region,
 //                        offsetXChange, offsetYChange, region.getRegionWidth() + xAdvanceChange);
-                        region.offsetX + offsetXChange, region.offsetY + offsetYChange, region.originalWidth + xAdvanceChange);
+                        region.offsetX + offsetXChange, region.offsetY - offsetYChange, region.originalWidth + xAdvanceChange);
                 mapping.put(i, gr);
                 name = prepend + region.name + append;
                 nameLookup.put(name, i);
