@@ -120,7 +120,7 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        all[idx++] = KnownFonts.getLanaPixel();
 //        all[idx++] = KnownFonts.getQuanPixel();
         // DEBUG
-        Font[] all = new Font[]{KnownFonts.getHanazono()};
+        Font[] all = new Font[]{KnownFonts.getIBM8x16Sad()};
 
         fnt = all[0];
 //        fnt = fonts[fonts.length - 1];

@@ -1942,7 +1942,7 @@ public final class KnownFonts implements LifecycleListener {
      * can use {@link #getCozette()} or {@link #getQuanPixel()} for a different bitmap font. There
      * is also {@link #getAStarry()} for a non-pixel font styled after a font from the same era.
      * <br>
-     * Preview: None currently.
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/IBM-8x16-Sad.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1961,8 +1961,9 @@ public final class KnownFonts implements LifecycleListener {
         if(found == null){
             found = new Font(instance.prefix, rootName + ".font", true);
             found
-                    .setBoldStrength(0.5f).setLineMetrics(-0.25f, 0f, 0f, 0f)
-                    .setInlineImageMetrics(-40, 0, 0).fitCell(8, 16, false).setDescent(-6f)
+                    .setBoldStrength(0.5f).setOutlineStrength(2f)
+                    .setLineMetrics(-0.25f, 0.25f, 0f, 0f)
+                    .setInlineImageMetrics(-4f, -2f, -8f, 0.8f).fitCell(8, 16, false).setDescent(-6f)
                     .setName(baseName + distanceField.namePart);
             ;
             instance.loaded.put(rootName, found);
