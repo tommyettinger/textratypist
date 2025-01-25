@@ -1882,7 +1882,7 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getIBM8x16() {
         return getFont(IBM_8X16, STANDARD)
-                .scaleHeightTo(20)
+                .scaleHeightTo(20).setLineMetrics(0f, 0.05f, 0f, -0.5f).setBoldStrength(0.5f).setOutlineStrength(2f)
                 .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
                 .useIntegerPositions(true);
     }

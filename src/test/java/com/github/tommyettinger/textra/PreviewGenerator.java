@@ -96,7 +96,7 @@ public class PreviewGenerator extends ApplicationAdapter {
 
         // WHAT WE NORMALLY USE
         String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String.class);
-        Font[] all = new Font[jsonFiles.length * 4 + 4];
+        Font[] all = new Font[jsonFiles.length * 4 + 4 + 1];
         int idx = 0;
         for (int i = 0; i < jsonFiles.length; i++) {
             all[idx++] = KnownFonts.addEmoji(KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.STANDARD)).scaleHeightTo(32f).useIntegerPositions(false);
@@ -109,6 +109,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF)).scaleHeightTo(32f).useIntegerPositions(false);
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE)).scaleHeightTo(32f).useIntegerPositions(false);
 
+        all[idx] = KnownFonts.getIBM8x16();
         // DEBUG
 //        Font[] all = new Font[]{KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.A_STARRY, Font.DistanceFieldType.MSDF)).scaleHeightTo(32f).useIntegerPositions(false)};
 
@@ -117,40 +118,10 @@ public class PreviewGenerator extends ApplicationAdapter {
         Gdx.files.local("out/").mkdirs();
         for (int i = 0; i < all.length; i++) {
             Font font = all[i];
-            font.setTextureFilter();
             Color baseColor = font.getDistanceField() == Font.DistanceFieldType.SDF_OUTLINE ? Color.WHITE : Color.DARK_GRAY;
             KnownFonts.addEmoji(font);
             viewport.update(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), viewport);
-//        font = new Font(new BitmapFont(Gdx.files.internal("OpenSans-standard.fnt")), Font.DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f)
-//                .scale(0.5f, 0.5f).setTextureFilter();
-//        font = new Font(new BitmapFont(Gdx.files.internal("Gentium.fnt")), Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f)
-//                .scale(0.42f, 0.42f).setTextureFilter();
-//      font = new Font("Gentium.fnt", Font.DistanceFieldType.STANDARD, -1f, 0f, -4.5f, 0f).scale(0.35f, 0.35f)
-//          .setTextureFilter().adjustLineHeight(0.8f);
-//        font = new Font("LibertinusSerif.fnt",
-//                new TextureRegion(new Texture(Gdx.files.internal("LibertinusSerif.png"), true)), Font.DistanceFieldType.STANDARD, 0, 0, 0, 0)
-//        .scale(0.25f, 0.25f).setTextureFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.MipMapLinearNearest);
-//        font = KnownFonts.getLibertinusSerif().scaleTo(165, 40);
-//        font = KnownFonts.getCozette().scale(2, 2);
-//        font = KnownFonts.getGentium().scaleTo(31, 35);
-//        font = KnownFonts.getGentiumSDF().scaleTo(60, 45).adjustLineHeight(0.8f);
-//        font = KnownFonts.getAStarry();
-//        font = KnownFonts.getIosevkaSlab().scaleTo(12, 28);
-//        font = KnownFonts.getInconsolataLGC().scaleTo(12, 40);
-//        font = KnownFonts.getIosevka().scaleTo(10, 30);
-//        font = KnownFonts.getIosevkaSlab().scaleTo(10, 30);
-//        font = KnownFonts.getIosevkaSDF().scaleTo(10, 25);
-//        font = KnownFonts.getIosevkaSlabSDF().scaleTo(10, 25);
-//        font = KnownFonts.getIosevkaMSDF().scaleTo(10, 25);
-//        font = KnownFonts.getIosevkaSlabMSDF().scaleTo(10, 25);
-//        font = KnownFonts.getCozette().scaleTo(7, 13);
-//        font = KnownFonts.getOpenSans().scaleTo(25, 35);
-//        font = KnownFonts.getAStarry().scaleTo(18, 18);
-//        font = KnownFonts.getCascadiaMono().scaleTo(10, 20);
-//        font = new Font("Iosevka-sdf.fnt", "Iosevka-sdf.png", Font.DistanceFieldType.SDF, 0, 0, 0, 0).scaleTo(12f, 24f);
-//        font = KnownFonts.getIBM8x16();
-//        font = new Font("Iosevka-Slab-msdf.fnt", "Iosevka-Slab-msdf.png", MSDF, 3f, 6, 16f, -7).scaleTo(16, 16);
             layout.setBaseColor(baseColor);
             layout.setMaxLines(20);
             layout.setEllipsis(" and so on and so forth...");
