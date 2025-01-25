@@ -142,6 +142,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String GO_NOTO_UNIVERSAL = "Go-Noto-Universal";
     /** Base name for a variable-width heavy-weight serif font, looking like early printing-press type. */
     public static final String GRENZE = "Grenze";
+    /** Base name for a fixed-width "traditional" pixel font. */
+    public static final String IBM_8X16 = "IBM-8x16";
     /** Base name for a fixed-width geometric/programming font. */
     public static final String INCONSOLATA_LGC = "Inconsolata-LGC";
     /** Base name for a fixed-width Unicode-heavy sans font. */
@@ -190,8 +192,8 @@ public final class KnownFonts implements LifecycleListener {
     /** Base name for a tiny variable-width Unicode-heavy pixel font. */
     public static final String QUANPIXEL = "QuanPixel";
 
-    /** Base name for a fixed-width "traditional" pixel font. */
-    public static final String IBM_8X16 = "IBM-8x16";
+    /** Base name for a fixed-width "traditional" pixel font using SadConsole's format. */
+    public static final String IBM_8X16_SAD = "IBM-8x16-Sad";
 
     public static final OrderedSet<String> JSON_NAMES = OrderedSet.with(
             A_STARRY, BIRDLAND_AEROPLANE, BITTER, CANADA1500, CASCADIA_MONO, CAVEAT, CHANGA_ONE,
@@ -205,9 +207,11 @@ public final class KnownFonts implements LifecycleListener {
 
     public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, HANAZONO, LANAPIXEL, QUANPIXEL);
 
-    public static final OrderedSet<String> SAD_NAMES = OrderedSet.with(IBM_8X16);
+    public static final OrderedSet<String> SAD_NAMES = OrderedSet.with(IBM_8X16_SAD);
 
-    public static final OrderedSet<String> STANDARD_NAMES = new OrderedSet<>(JSON_NAMES.size + FNT_NAMES.size + SAD_NAMES.size);
+    public static final OrderedSet<String> LIMITED_JSON_NAMES = OrderedSet.with(IBM_8X16);
+
+    public static final OrderedSet<String> STANDARD_NAMES = new OrderedSet<>(JSON_NAMES.size + FNT_NAMES.size + SAD_NAMES.size + LIMITED_JSON_NAMES.size);
     public static final OrderedSet<String> SDF_NAMES = new OrderedSet<>(JSON_NAMES);
     public static final OrderedSet<String> MSDF_NAMES = new OrderedSet<>(JSON_NAMES);
 
@@ -215,6 +219,7 @@ public final class KnownFonts implements LifecycleListener {
         STANDARD_NAMES.addAll(JSON_NAMES);
         STANDARD_NAMES.addAll(FNT_NAMES);
         STANDARD_NAMES.addAll(SAD_NAMES);
+        STANDARD_NAMES.addAll(LIMITED_JSON_NAMES);
     }
 
     /**
@@ -257,7 +262,7 @@ public final class KnownFonts implements LifecycleListener {
         String rootName = baseName + distanceField.filePart;
         Font known = instance.loaded.get(rootName);
         if(known == null){
-            if(JSON_NAMES.contains(baseName))
+            if(JSON_NAMES.contains(baseName) || LIMITED_JSON_NAMES.contains(baseName))
                 known = new Font(instance.prefix + rootName + ".dat", true).scaleHeightTo(32);
             else if(FNT_NAMES.contains(baseName))
                 known = new Font(instance.prefix + rootName + ".fnt", distanceField);
@@ -323,7 +328,7 @@ public final class KnownFonts implements LifecycleListener {
      *
      * @param baseName typically a constant such as {@link #OPEN_SANS} or {@link #LIBERTINUS_SERIF}
      * @param distanceField a DistanceFieldType, usually {@link DistanceFieldType#STANDARD}
-     * @return the cached Font with the given name; this does not set the name or DistanceFieldType on the returned Font
+     * @return the cached Font with the given name; this does not set the name or DistanceFieldType on the returned Font, and does not scale it.
      */
     private static Font loadFont(final String baseName, DistanceFieldType distanceField) {
         if(baseName == null)
@@ -333,8 +338,8 @@ public final class KnownFonts implements LifecycleListener {
         String rootName = baseName + distanceField.filePart;
         Font known = instance.loaded.get(rootName);
         if(known == null){
-            if(JSON_NAMES.contains(baseName))
-                known = new Font(instance.prefix + rootName + ".dat", true).scaleHeightTo(32);
+            if(JSON_NAMES.contains(baseName) || LIMITED_JSON_NAMES.contains(baseName))
+                known = new Font(instance.prefix + rootName + ".dat", true);
             else if(FNT_NAMES.contains(baseName))
                 known = new Font(instance.prefix + rootName + ".fnt", distanceField);
             else if(distanceField == STANDARD && SAD_NAMES.contains(baseName))
@@ -1848,14 +1853,50 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font configured to use a classic, nostalgic fixed-width bitmap font,
+     * IBM 8x16 from the early, oft-beloved computer line. This uses an extended version
+     * of the IBM VGA 8x16 font, with VileR making the extensions
+     * <a href="https://int10h.org/oldschool-pc-fonts/">available here</a> under the
+     * CC-BY-SA 4.0 license.
+     * This does not scale well except to integer multiples, but it should look very
+     * crisp at its default size of 8x16 pixels. This might not match the actual height you
+     * get with {@link Font#scaleHeightTo(float)}! A height of 20 or a multiple thereof seems
+     * correct for this Font at this point in time. This defaults to having
+     * {@link Font#integerPosition} set to true.
+     * This may work well in a font family with other fonts that do not use a distance field
+     * effect, though they all could have different sizes, and this font is quite small.
+     * <br>
+     * There is also {@link #getIBM8x16Sad()}, which uses a less-extended version of the same
+     * original font, and loads from a different file format. This method should probably be
+     * preferred, if only because the licensing is clear here.
+     * <br>
+     * Preview: None currently, coming soon.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-License.txt">IBM-8x16-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-standard.dat">IBM-8x16-standard.dat</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-standard.png">IBM-8x16-standard.png</a></li>
+     * </ul>
+     *
+     * @return the Font object that represents an 8x16 font included with early IBM computers
+     */
+    public static Font getIBM8x16() {
+        return getFont(IBM_8X16, STANDARD)
+                .scaleHeightTo(20)
+                .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
+                .useIntegerPositions(true);
+    }
+
+    /**
+     * Returns a Font configured to use a classic, nostalgic fixed-width bitmap font,
      * IBM 8x16 from the early, oft-beloved computer line. This font is notably loaded
      * from a SadConsole format file, which shouldn't affect how it looks (but in reality,
      * it might). This does not scale except to integer multiples, but it should look very
      * crisp at its default size of 8x16 pixels. This supports some extra characters, but
      * not at the typical Unicode codepoints. This defaults to having
-     * {@link Font#integerPosition} set to true, which currently does nothing (the code that enforces integer positions
-     * seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
-     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * {@link Font#integerPosition} set to true.
+     * This may work well in a font family with other fonts that do not use a distance field
+     * effect, though they all could have different sizes, and this font is quite small.
      * <br>
      * This does not include a license because the source, <a href="https://github.com/Thraka/SadConsole/tree/master/Fonts">SadConsole's fonts</a>,
      * did not include one. It is doubtful that IBM would have any issues with respectful use
@@ -1863,20 +1904,19 @@ public final class KnownFonts implements LifecycleListener {
      * can use {@link #getCozette()} or {@link #getQuanPixel()} for a different bitmap font. There
      * is also {@link #getAStarry()} for a non-pixel font styled after a font from the same era.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/IBM%208x16.png">Image link</a> (uses width=8, height=16, done with
-     * fitCell(8, 16, false))
+     * Preview: None currently.
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-standard.font">IBM-8x16-standard.font</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-standard.png">IBM-8x16-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-Sad-standard.font">IBM-8x16-Sad-standard.font</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-Sad-standard.png">IBM-8x16-Sad-standard.png</a></li>
      * </ul>
      *
      * @return the Font object that represents an 8x16 font included with early IBM computers
      */
-    public static Font getIBM8x16() {
+    public static Font getIBM8x16Sad() {
         initialize();
-        final String baseName = IBM_8X16;
+        final String baseName = IBM_8X16_SAD;
         final DistanceFieldType distanceField = STANDARD;
         String rootName = baseName + distanceField.filePart;
         Font found = instance.loaded.get(rootName);
@@ -4448,11 +4488,11 @@ public final class KnownFonts implements LifecycleListener {
                 getComputerSaysNo(), getCozette(), getDejaVuSans(), getDejaVuSansCondensed(), getDejaVuSansMono(),
                 getDejaVuSerif(), getDejaVuSerifCondensed(), getGentium(), getGentiumMSDF(), getGentiumSDF(),
                 getGentiumUnItalic(), getGlacialIndifference(), getGoNotoUniversal(), getGoNotoUniversalSDF(),
-                getGrenze(), getHanazono(), getIBM8x16(), getInconsolata(), getInconsolataMSDF(), getIosevka(),
-                getIosevkaMSDF(), getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(),
-                getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(),
-                getLibertinusSerifSemibold(), getNowAlt(), getOpenSans(), getOstrichBlack(), getOverlock(),
-                getOverlockUnItalic(), getOxanium(), getQuanPixel(), getRobotoCondensed(), getSelawik(),
+                getGrenze(), getHanazono(), getIBM8x16(), getIBM8x16Sad(), getInconsolata(), getInconsolataMSDF(),
+                getIosevka(), getIosevkaMSDF(), getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(),
+                getIosevkaSlabSDF(), getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(),
+                getLibertinusSerif(), getLibertinusSerifSemibold(), getNowAlt(), getOpenSans(), getOstrichBlack(),
+                getOverlock(), getOverlockUnItalic(), getOxanium(), getQuanPixel(), getRobotoCondensed(), getSelawik(),
                 getSelawikBold(), getTangerine(), getTangerineSDF(), getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(),
                 getYataghan(), getYataghanMSDF()};
     }
@@ -4482,7 +4522,7 @@ public final class KnownFonts implements LifecycleListener {
         found[i++] = getLanaPixel();
         found[i++] = getQuanPixel();
         // SadConsole format
-        found[i++] = getIBM8x16();
+        found[i++] = getIBM8x16Sad();
         return found;
     }
 
