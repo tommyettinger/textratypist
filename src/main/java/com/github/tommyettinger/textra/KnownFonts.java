@@ -2440,7 +2440,7 @@ public final class KnownFonts implements LifecycleListener {
      * enforces integer positions seems to ruin the appearance of any font that uses it, so that code isn't ever used
      * now). This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/LanaPixel.png">Image link</a> (uses width=20, height=15)
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/LanaPixel.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2461,8 +2461,9 @@ public final class KnownFonts implements LifecycleListener {
         if(found == null){
             found = new Font(instance.prefix + rootName + ".fnt", distanceField, 0, 0, 0, 0, false);
             found
-                    .setInlineImageMetrics(-64, 0, 16).setFancyLinePosition(0f, 0.5f)
-                    .useIntegerPositions(true).setBoldStrength(0.5f).setLineMetrics(0f, -0.0625f, 0f, 0f)
+                    .setInlineImageMetrics(0f, 3f, -8f, 0.75f).setFancyLinePosition(0f, 4f)
+                    .useIntegerPositions(true).setBoldStrength(0.5f).setOutlineStrength(2f)
+                    .setUnderlineMetrics(0f, -0.0625f, 0f, 0f).setStrikethroughMetrics(0f, 0.0625f, 0f, 0f)
                     .setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, found);
         }
