@@ -2967,8 +2967,8 @@ public final class KnownFonts implements LifecycleListener {
      * integer positions seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/QuanPixel.png">Image link</a> (uses width=12, height=12; this size is small
-     * enough to make the scaled text unreadable in some places)
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/QuanPixel.png" alt="Image preview" width="1200" height="675" />
+     * (uses width=12, height=12; this size is small enough to make the scaled text unreadable in some places)
      * <br>
      * Needs files:
      * <ul>
@@ -2988,11 +2988,10 @@ public final class KnownFonts implements LifecycleListener {
         if(found == null){
             found = new Font(instance.prefix + rootName + ".fnt", distanceField, 0, 2, 0, 2, false);
             found
-                    .setLineMetrics(0.0625f, -0.0625f, -0.25f, 0f).setInlineImageMetrics(-40f, 4f, 0f)
-                    .setFancyLinePosition(0f, 0.375f).useIntegerPositions(true).setDescent(-4f)
-                    .setBoldStrength(0.5f)
+                    .setDescent(-4f).setInlineImageMetrics(0f, 2f, -4f, 0.875f).setFancyLinePosition(0f, 3f)
+                    .useIntegerPositions(true).setBoldStrength(0.5f).setOutlineStrength(2f)
+                    .setUnderlineMetrics(0.0625f, 0.125f, -0.25f, 0f).setStrikethroughMetrics(0.0625f, 0.125f, -0.25f, 0f)
                     .setName(baseName + distanceField.namePart);
-            ;
             instance.loaded.put(rootName, found);
         }
         return new Font(found);
