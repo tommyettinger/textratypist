@@ -1045,7 +1045,7 @@ public final class KnownFonts implements LifecycleListener {
      * This may work well in a font family with other fonts that do not use a distance field
      * effect, though they all could have different sizes.
      * <br>
-     * Preview: None currently, coming soon.
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Cordata-16x26.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1074,8 +1074,8 @@ public final class KnownFonts implements LifecycleListener {
      * seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/Cozette.png">Image link</a> (uses width=6, height=17; this size is small
-     * enough to make the scaled text unreadable in some places)
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Cozette.png" alt="Image preview" width="1200" height="675" />
+     * (uses width=6, height=17; this size is small enough to make the scaled text unreadable in some places)
      * <br>
      * Needs files:
      * <ul>
@@ -1906,7 +1906,7 @@ public final class KnownFonts implements LifecycleListener {
      * original font, and loads from a different file format. This method should probably be
      * preferred, if only because the licensing is clear here.
      * <br>
-     * Preview: None currently, coming soon.
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/IBM-8x16.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
