@@ -5234,9 +5234,9 @@ public class Font implements Disposable {
 
 
 //            yt =  - ych - stretchShift - font.descent * fsy * scale * sizingY + sin * centerX - centerY;
-            if(squashed) yt -= font.descent * scaleY * sizingY * 0.175f;
+            if(squashed) yt -= font.descent * font.scaleY * scale * sizingY * 0.175f;
 //            yt -= ych + stretchShift;
-            y = oy + (scaledHeight * 0.5f) - ych;
+            y = oy + (scaledHeight * 0.5f) - ych + font.descent * font.scaleY * scale * sizingY;
 
 //            y += ych - stretchShift + font.descent * fsy * scale * sizingY;
 
