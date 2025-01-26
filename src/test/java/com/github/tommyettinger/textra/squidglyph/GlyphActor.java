@@ -66,8 +66,8 @@ public class GlyphActor extends Actor {
         font.resizeDistanceField(viewport.getScreenWidth(), viewport.getScreenHeight(), viewport);
         font.drawGlyph(batch, glyph, getX()
 //                + font.cellWidth * 0.5f
-                , getY() - font.descent * font.scaleY * 3f
-                , getRotation(), getScaleX(), getScaleY());//((char)glyph >= 0xE000 && (char)glyph < 0xF800 ? font.originalCellHeight * 0.5f : 0f)
+                , getY() - font.descent * font.scaleY * (((char)glyph >= 0xE000 && (char)glyph < 0xF800) ? 3f : 2f)
+                , getRotation(), getScaleX(), getScaleY());
     }
 
     public void setColor(int color) {
