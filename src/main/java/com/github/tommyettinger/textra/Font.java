@@ -2846,7 +2846,7 @@ public class Font implements Disposable {
 
         float size = atlas.getFloat("size", 16f);
 
-        JsonValue metrics = fnt.get("metrics");
+//        JsonValue metrics = fnt.get("metrics");
 
         // SHOULD USE metrics ?
 //        size *= metrics.getFloat("emSize", 1f);
@@ -2855,8 +2855,7 @@ public class Font implements Disposable {
         // SHOULD USE metrics ?
         descent = size * -0.25f;//metrics.getFloat("descender", -0.25f);
         // SHOULD USE metrics ?
-//        originalCellHeight = cellHeight = heightAdjust - descent + size;// * metrics.getFloat("lineHeight", 1f);
-        originalCellHeight = cellHeight = heightAdjust + size * metrics.getFloat("lineHeight", 1f);
+        originalCellHeight = cellHeight = heightAdjust - descent + size;// * metrics.getFloat("lineHeight", 1f);
 
         // SHOULD USE metrics ?
         underY = -0.05f;//0.5f * metrics.getFloat("underlineY", -0.1f);
