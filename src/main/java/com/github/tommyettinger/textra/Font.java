@@ -2219,8 +2219,13 @@ public class Font implements Disposable {
         this.widthAdjust = widthAdjust;
         this.heightAdjust = heightAdjust;
 
-        descent = data.capHeight + data.ascent - data.lineHeight;
-        cellHeight = heightAdjust + data.lineHeight - descent * 0.25f;
+        float size = data.lineHeight * 0.8f;
+        descent = size * -0.25f;//metrics.getFloat("descender", -0.25f);
+        originalCellHeight = cellHeight = heightAdjust - descent + size;// * metrics.getFloat("lineHeight", 1f);
+
+//        descent = data.capHeight + data.ascent - data.lineHeight;
+//        cellHeight = heightAdjust + data.lineHeight - descent * 0.25f;
+
         // Needed to make emoji and other texture regions appear at a reasonable height on the line.
         // Also moves the descender so that it isn't below the baseline, which causes issues.
 //        yAdjust += data.xHeight - data.ascent + descent;
@@ -2230,7 +2235,22 @@ public class Font implements Disposable {
 //        yAdjust += 2;
 //        yAdjust += descent + bmFont.getLineHeight() * 0.5f;
 
-        fancyY += 0.5f;
+        // SHOULD USE metrics ?
+        underY = -0.05f;//0.5f * metrics.getFloat("underlineY", -0.1f);
+        // SHOULD USE metrics ?
+        strikeY = 0.05f;//metrics.getFloat("strikeY", 0f);
+        strikeBreadth = underBreadth = -0.375f;
+        if(makeGridGlyphs){
+            underLength = strikeLength = 0.05f;
+            underX = strikeX = -0.05f;
+        } else {
+            underLength = strikeLength = 0.0f;
+            underX = strikeX = 0.0f;
+        }
+
+        fancyY -= descent / size;
+
+//        fancyY += 0.5f;
 
         for (BitmapFont.Glyph[] page : data.glyphs) {
             if (page == null) continue;
@@ -2852,9 +2872,8 @@ public class Font implements Disposable {
 //        size *= metrics.getFloat("emSize", 1f);
 
 //        float ascender = metrics.getFloat("ascender", 0.8f);
-        // SHOULD USE metrics ?
+        // SHOULD USE metrics (both lines)?
         descent = size * -0.25f;//metrics.getFloat("descender", -0.25f);
-        // SHOULD USE metrics ?
         originalCellHeight = cellHeight = heightAdjust - descent + size;// * metrics.getFloat("lineHeight", 1f);
 
         // SHOULD USE metrics ?
