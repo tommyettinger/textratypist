@@ -86,7 +86,8 @@ public final class LZBDecompression {
                 position = resetValue;
                 val = compressedBytes[index++];
             }
-            bits |= (resb != 0 ? 1 : 0) << power++;
+            bits |= (resb != 0 ? 1 << power : 0);
+            power++;
         }
 
         switch (bits) {
@@ -101,7 +102,8 @@ public final class LZBDecompression {
                         position = resetValue;
                         val = compressedBytes[index++];
                     }
-                    bits |= (resb != 0 ? 1 : 0) << power++;
+                    bits |= (resb != 0 ? 1 << power : 0);
+                    power++;
                 }
                 c = String.valueOf(bits);
                 break;
@@ -116,7 +118,8 @@ public final class LZBDecompression {
                         position = resetValue;
                         val = compressedBytes[index++];
                     }
-                    bits |= (resb != 0 ? 1 : 0) << power++;
+                    bits |= (resb != 0 ? 1 << power : 0);
+                    power++;
                 }
                 c = String.valueOf(bits);
                 break;
@@ -140,7 +143,8 @@ public final class LZBDecompression {
                     position = resetValue;
                     val = compressedBytes[index++];
                 }
-                cc |= (resb != 0 ? 1 : 0) << power++;
+                cc |= (resb != 0 ? 1 << power : 0);
+                power++;
             }
             switch (cc) {
                 case 0:
@@ -154,7 +158,8 @@ public final class LZBDecompression {
                             position = resetValue;
                             val = compressedBytes[index++];
                         }
-                        bits |= (resb != 0 ? 1 : 0) << power++;
+                        bits |= (resb != 0 ? 1 << power : 0);
+                        power++;
                     }
 
                     dictionary.add(String.valueOf(bits));
@@ -172,7 +177,8 @@ public final class LZBDecompression {
                             position = resetValue;
                             val = compressedBytes[index++];
                         }
-                        bits |= (resb != 0 ? 1 : 0) << power++;
+                        bits |= (resb != 0 ? 1 << power : 0);
+                        power++;
                     }
                     dictionary.add(String.valueOf(bits));
                     cc = dictSize++;

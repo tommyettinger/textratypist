@@ -32,7 +32,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.github.tommyettinger.textra.utils.LZBCompression;
 
 /**
- * Doesn't currently run because the assets were removed. They were large.
+ * Tests binary LZ (String) compression, both to and from.
  */
 public class LZBTest extends ApplicationAdapter {
     Stage stage;
@@ -43,8 +43,8 @@ public class LZBTest extends ApplicationAdapter {
     String compressedText = "";
     @Override
     public void create() {
-        FileHandle uncompressedFile = Gdx.files.local("knownFonts/fontwriter/DejaVu-Sans-Condensed-sdf.json");
-        FileHandle compressedFile = Gdx.files.local("knownFonts/fontwriter/DejaVu-Sans-Condensed-sdf.dat");
+        FileHandle uncompressedFile = Gdx.files.local("src/test/resources/experimental/Gentium-standard.json");
+        FileHandle compressedFile = Gdx.files.local("src/test/resources/experimental/Gentium-standard.dat");
         if(!compressedFile.exists()){
             ByteArray ba = LZBCompression.compressToByteArray(uncompressedFile.readString("UTF-8"));
             compressedFile.writeBytes(ba.items, 0, ba.size, false);
@@ -58,9 +58,9 @@ public class LZBTest extends ApplicationAdapter {
         uncompressedButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                uncompressedStartTime = System.currentTimeMillis();
+                uncompressedStartTime = System.nanoTime();
                 uncompressedText = uncompressedFile.readString("UTF-8");
-                String script = (System.currentTimeMillis() - uncompressedStartTime) + " ms";
+                String script = (System.nanoTime() - uncompressedStartTime) + " ns";
                 System.out.println(script);
                 uncompressedTime.setText(script);
                 uncompressedTime.layout();
@@ -71,9 +71,9 @@ public class LZBTest extends ApplicationAdapter {
         compressedButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                compressedStartTime = System.currentTimeMillis();
+                compressedStartTime = System.nanoTime();
                 compressedText = compressedFile.readString("UTF-8");
-                String script = (System.currentTimeMillis() - compressedStartTime) + " ms";
+                String script = (System.nanoTime() - compressedStartTime) + " ns";
                 System.out.println(script);
                 compressedTime.setText(script);
                 compressedTime.layout();
