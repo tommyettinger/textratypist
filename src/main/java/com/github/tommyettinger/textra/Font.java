@@ -2413,7 +2413,7 @@ public class Font implements Disposable {
      * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      */
     protected void loadFNT(FileHandle fntHandle, float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
-        String fnt = fntHandle.readString();
+        String fnt = fntHandle.readString("UTF-8");
         this.xAdjust = xAdjust;
         this.yAdjust = yAdjust;
         this.widthAdjust = widthAdjust;

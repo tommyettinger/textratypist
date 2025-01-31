@@ -46,7 +46,7 @@ public class LZBTest extends ApplicationAdapter {
         FileHandle uncompressedFile = Gdx.files.local("knownFonts/fontwriter/DejaVu-Sans-Condensed-sdf.json");
         FileHandle compressedFile = Gdx.files.local("knownFonts/fontwriter/DejaVu-Sans-Condensed-sdf.dat");
         if(!compressedFile.exists()){
-            ByteArray ba = LZBCompression.compressToByteArray(uncompressedFile.readString("UTF8"));
+            ByteArray ba = LZBCompression.compressToByteArray(uncompressedFile.readString("UTF-8"));
             compressedFile.writeBytes(ba.items, 0, ba.size, false);
         }
         stage = new Stage();
@@ -59,7 +59,7 @@ public class LZBTest extends ApplicationAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 uncompressedStartTime = System.currentTimeMillis();
-                uncompressedText = uncompressedFile.readString("UTF8");
+                uncompressedText = uncompressedFile.readString("UTF-8");
                 String script = (System.currentTimeMillis() - uncompressedStartTime) + " ms";
                 System.out.println(script);
                 uncompressedTime.setText(script);
@@ -72,7 +72,7 @@ public class LZBTest extends ApplicationAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 compressedStartTime = System.currentTimeMillis();
-                compressedText = compressedFile.readString("UTF8");
+                compressedText = compressedFile.readString("UTF-8");
                 String script = (System.currentTimeMillis() - compressedStartTime) + " ms";
                 System.out.println(script);
                 compressedTime.setText(script);
