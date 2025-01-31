@@ -31,12 +31,18 @@ gwt {
 }
 
 dependencies {
+  implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
   implementation "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
-  implementation "com.github.tommyettinger:gdx-backend-gwt:1.1210.1"
-  implementation "com.github.tommyettinger:gdx-backend-gwt:1.1210.1:sources"
+  implementation "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
+  implementation "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
+//	implementation "com.github.tommyettinger:gdx-backend-gwt:1.1210.1"
+//	implementation "com.github.tommyettinger:gdx-backend-gwt:1.1210.1:sources"
+  implementation "com.google.jsinterop:jsinterop-annotations:2.0.2:sources"
+
+//  implementation "com.github.tommyettinger:gdx-backend-gwt:1.1210.1"
+//  implementation "com.github.tommyettinger:gdx-backend-gwt:1.1210.1:sources"
   implementation "com.github.tommyettinger:regexodus:$regExodusVersion:sources"
   implementation "com.github.tommyettinger:textratypist:$textratypistVersion:sources"
-  implementation "com.google.jsinterop:jsinterop-annotations:2.0.2:sources"
 
   implementation project(':core')
 }

@@ -34,6 +34,14 @@ public class Main extends ApplicationAdapter {
 [CASE] isUpperCase() total: 1164
 [CASE] toLow.cardinality(): 1159
 [CASE] toUp .cardinality(): 1158
+
+        GWT:
+CASE: LOWER_CASE_LETTERS.cardinality(): 1438
+CASE: UPPER_CASE_LETTERS.cardinality(): 1122
+CASE: isLowerCase() total: 26
+CASE: isUpperCase() total: 26
+CASE: toLow.cardinality(): 1164
+CASE: toUp .cardinality(): 1137
          */
 
 
@@ -45,12 +53,12 @@ public class Main extends ApplicationAdapter {
         BitSet toUp = new BitSet(65536);
         for (int i = 0; i < 65536; i++){
 //        for (int i = letters.nextSetBit(0); i >= 0; i = letters.nextSetBit(i+1)){
-            if(Character.isLowerCase(i)) isLow++;
-            if(Character.isUpperCase(i)) isUp ++;
-            to = Character.toLowerCase(i);
-            if(to != i) toLow.set(to);
-            to = Character.toUpperCase(i);
-            if(to != i) toUp .set(to);
+            if(Character.isLowerCase((char)i)) isLow++;
+            if(Character.isUpperCase((char)i)) isUp ++;
+            to = Character.toLowerCase((char)i);
+            if(to != (char)i) toLow.set(to);
+            to = Character.toUpperCase((char)i);
+            if(to != (char)i) toUp .set(to);
         }
         Gdx.app.log("CASE", "isLowerCase() total: " + isLow);
         Gdx.app.log("CASE", "isUpperCase() total: " + isUp );
