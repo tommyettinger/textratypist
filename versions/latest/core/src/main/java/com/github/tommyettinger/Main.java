@@ -65,15 +65,18 @@ CASE: toUp .cardinality(): 1137
         Gdx.app.log("CASE", "toLow.cardinality(): " + toLow.cardinality());
         Gdx.app.log("CASE", "toUp .cardinality(): " + toUp .cardinality());
         stage = new Stage();
-        FWSkin skin = new FWSkin(Gdx.files.internal("stripped/stripped.json"), new TextureAtlas("stripped/stripped.atlas"));
-//        FWSkin skin = new FWSkin(Gdx.files.internal("changa.json"), new TextureAtlas("changa.atlas"));
+//        FWSkin skin = new FWSkin(Gdx.files.internal("stripped/stripped.json"), new TextureAtlas("stripped/stripped.atlas"));
+        FWSkin skin = new FWSkin(Gdx.files.internal("changa.json"), new TextureAtlas("changa.atlas"));
         BitmapFont bmfont = skin.getFont("one-50");
 //        BitmapFont bmfont = new BitmapFont(Gdx.files.internal("one-50.fnt"));
         bmfont.getData().markupEnabled = true;
-        font = new Font(bmfont);
-//        font = new Font("one-50.fnt");
+//        bmfont.getData().scale(0.1f);
+//        font = new Font(bmfont);
+        font = skin.get("one-50", Font.class);
+
+
         Array<TypingLabel> labels = new Array<>(new TypingLabel[]{
-                new TypingLabel("{RAINBOW}Ads Challenge...{ENDRAINBOW}", new Styles.LabelStyle(bmfont, null))
+                new TypingLabel("{RAINBOW}Ads Challenge...{ENDRAINBOW}", new Styles.LabelStyle(font, null))
         });
         TypingLabel label = labels.get(0);
         label.setWrap(true);

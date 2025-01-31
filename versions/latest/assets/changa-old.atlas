@@ -1,13 +1,13 @@
 
-Changa-One-standard.png
-size: 2048, 2048
+changa.png
+size: 1024, 1024
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
 one-50
   rotate: false
-  xy: 0, 0
-  size: 2048, 2048
-  orig: 2048, 2048
+  xy: 1, 1
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: -1

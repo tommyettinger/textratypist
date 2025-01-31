@@ -1,10 +1,11 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	one-50: {
-		file: one-50.fnt
-		scaledSize: -1
-		markupEnabled: true
-		flip: false
+//		file: one-50.fnt
+        file: Changa-One-standard.dat
+        scaledSize: 48
+        markupEnabled: true
+        flip: false
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
