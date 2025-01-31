@@ -16,7 +16,7 @@ public class GwtLauncher extends GwtApplication {
             cfg.padVertical = 0;
             cfg.padHorizontal = 0;
             cfg.antialiasing = true;
-            cfg.useGL30 = true;
+//            cfg.useGL30 = true;
             return cfg;
             // If you want a fixed size application, comment out the above resizable section,
             // and uncomment below:
@@ -25,8 +25,8 @@ public class GwtLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-            return new Main();
-//            return new TypingUITest();
+//            return new Main();
+            return new TypingUITest();
 //            return new StandardUITest();
         }
 }
