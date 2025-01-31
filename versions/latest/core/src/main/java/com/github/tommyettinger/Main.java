@@ -42,6 +42,14 @@ CASE: isLowerCase() total: 26
 CASE: isUpperCase() total: 26
 CASE: toLow.cardinality(): 1164
 CASE: toUp .cardinality(): 1137
+
+        TeaVM:
+CASE: LOWER_CASE_LETTERS.cardinality(): 1438
+CASE: UPPER_CASE_LETTERS.cardinality(): 1122
+CASE: isLowerCase() total: 1448
+CASE: isUpperCase() total: 1132
+CASE: toLow.cardinality(): 1210
+CASE: toUp .cardinality(): 1200
          */
 
 
@@ -70,7 +78,6 @@ CASE: toUp .cardinality(): 1137
         BitmapFont bmfont = skin.getFont("one-50");
 //        BitmapFont bmfont = new BitmapFont(Gdx.files.internal("one-50.fnt"));
         bmfont.getData().markupEnabled = true;
-//        bmfont.getData().scale(0.1f);
 //        font = new Font(bmfont);
         font = skin.get("one-50", Font.class);
 
