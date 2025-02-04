@@ -82,7 +82,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
         final StringBuilder text = new StringBuilder();
         text.append("{SLOWER}{GRADIENT=FF70F1;light exciting pink orange with ignored words;-0.5;5}{EASE=-8;2;1}{SHRINK=2;5}[@Medieval]Welcome,{ENDSHRINK}[%] [@]{WAIT}");
         text.append("{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}[%^SHADOW]{VAR=title}[%]{STYLE=;}{STYLE=/}{ENDSPIRAL}![ ] ");
-        text.append("{TRIGGER=lightest violet}[lightest violet][+🤔][ ]{WAIT=0.8}");
+        text.append("{TRIGGER=lightest violet}{SPIN=0.5;-1}[+🤔]{ENDSPIN}[ ]{WAIT=0.8}");
         text.append("{NORMAL}\n\n");
         text.append("{RESET}[@Sans]{MEET}This is{ENDMEET} a [*][MAROON][%?SHINY]simple[WHITE][*] [%?blacken]test[%][@]{ENDATTENTION} to {SPIN}show you{ENDSPIN}");
         text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {CROWD=20;1;forever}how to make dialogues{ENDCROWD} {JUMP}{SLOW}[*][/]fun[/][*] again! ");
@@ -139,9 +139,10 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
                 QualityPalette pal = new QualityPalette();
                 pal.analyze(pms);
                 gif.setPalette(pal);
-                gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE);
-                gif.setDitherStrength(0.5f);
-                gif.write(Gdx.files.local("preview.gif"), pms, FRAMERATE);
+                gif.setDitherAlgorithm(Dithered.DitherAlgorithm.LOAF);
+                gif.setDitherStrength(0.2f);
+                gif.write(Gdx.files.local("preview-noto.gif"), pms, FRAMERATE);
+//                gif.write(Gdx.files.local("preview.gif"), pms, FRAMERATE);
                 Gdx.app.exit();
             }
         });
