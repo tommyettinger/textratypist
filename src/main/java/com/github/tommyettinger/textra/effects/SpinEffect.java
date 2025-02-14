@@ -28,7 +28,7 @@ import com.github.tommyettinger.textra.TypingLabel;
  * Parameters: {@code extent;rotations;elastic}
  * <br>
  * The {@code extent} affects how long the animation should be extended by (not in any unit); defaults to 1.0 .
- * The {@code rotations} affects how many times each glyph should fully rotate before stopping; defaults to 1.0 .
+ * The {@code rotations} affects how many times each glyph should fully rotate before stopping; defaults to 1.0 . Negative values rotate the same amount as positive, but do so clockwise.
  * If {@code elastic} is true, the glyphs will wiggle into their final rotation; defaults to false, which uses linear movement.
  * <br>
  * Example usage:

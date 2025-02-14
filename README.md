@@ -243,8 +243,8 @@ preventing you from adding your own images to the `mapping` of a Font, as long a
 be used as a textual glyph, and then placing those images in with your text. This is used to implement emoji, as one
 example, and can be used for custom icons and emoji.
 
-Textratypist supports standard bitmap
-fonts and also distance field fonts, using SDF or MSDF. `TypingLabel` will automatically enable the ShaderProgram that
+Textratypist supports standard bitmap fonts and also distance field fonts, using SDF or MSDF. `TypingLabel` and
+`TextraLabel` will automatically enable the ShaderProgram that
 the appropriate distance field type needs (if it needs one) and disable it after rendering itself. You can change this
 behavior by manually calling the `Font.enableShader(Batch)` method on your Font, and changing the Batch back to your
 other ShaderProgram of choice with its `Batch.setShader()` method (often, you just pass null here to reset the shader).
@@ -255,7 +255,9 @@ currently rendering needs to have its distance field resized when the window res
 
 There are several preconfigured font settings in `KnownFonts`; the documentation for each font getter says what files
 are needed to use that font. **[The old .fnt files have been moved here](https://github.com/tommyettinger/fonts)**.
-[You can see previews and descriptions of all known fonts here.](https://tommyettinger.github.io/textratypist/apidocs/com/github/tommyettinger/textra/KnownFonts.html)
+[You can see previews and descriptions of most known fonts here.](https://tommyettinger.github.io/textratypist/apidocs/com/github/tommyettinger/textra/KnownFonts.html)
+That list can sometimes be outdated, and the latest fonts (that use the `.dat` format here)
+[can be previewed here](https://tommyettinger.github.io/fontwriter/).
 Having KnownFonts isn't necessary for many fonts since version 1.0.0, because the `.dat` fonts are now made all by the
 same tool ([fontwriter](https://github.com/tommyettinger/fontwriter)), and tend to be configured correctly
 out-of-the-box. The variety of font types isn't amazing, but it should be a good starting point. One nice thing to note
@@ -267,11 +269,15 @@ The fonts here use the .dat file extension (which just means it's binary data wi
 compressed versions of larger .json fonts produced by fontwriter. The compression they use is GWT-compatible, so these
 .dat files can be used on any platform libGDX targets. You can still use the older .fnt files without issue, and some
 .fnt files are still used here (mostly for pixel fonts). You also generally need a .png with each font, though it can be
-in an atlas.
+in an atlas. These .dat fonts can be used to load regular BitmapFont objects too, if you aren't using TextraTypist
+(such as for TextArea and TextField, which have proven quite challenging to get working...).
+[You can use these 3 files to load .dat or .json fonts in a non-TextraTypist project](https://github.com/tommyettinger/textratypist/tree/main/src/test/java/com/github/tommyettinger/fontwriter);
+you would normally just copy those three files in their package to your own project.
 
 The license files for each font are included in the same folder, in `knownFonts` here. All fonts provided here were
 checked to ensure their licenses permit commercial use without fees, and all do. Most require attribution; check the
-licenses for details.
+licenses for details. The needed files are listed in [KnownFonts documentation](https://tommyettinger.github.io/textratypist/apidocs/com/github/tommyettinger/textra/KnownFonts.html)
+and, for .dat fonts, [in the fontwriter previews](https://tommyettinger.github.io/fontwriter/). 
 
 KnownFonts includes several other ways to configure existing Font instances by adding a TextureAtlas to the glyphs they
 know. This includes a few existing TextureAtlases of icons and... emoji!
@@ -299,7 +305,8 @@ fonts. While Twemoji has simple requirements for attribution, Game-Icons require
 contributors; see the end of this document for the list, which you can and should copy to give credit to everyone.
 
 There are also line-art emoji from [OpenMoji](https://openmoji.org/), and full-color versions of the same emoji. These
-may be a better fit for certain projects' art styles.
+may be a better fit for certain projects' art styles. More recently, the detailed full-color
+[Noto Emoji](https://fonts.google.com/noto/specimen/Noto+Color+Emoji) have been added, too.
 
 ## Act now and get these features, free of charge!
 
@@ -317,7 +324,9 @@ without smudging where two underscores or hyphens overlap each other. `Font` att
 it can be set with a parameter, but if it fails then it falls back to using underscores for underline and hyphens for
 strikethrough. All the fonts in `KnownFonts` either are configured to use a solid block or to specifically avoid it
 because that font renders better without it. Note that if you create a `Font` from a libGDX `BitmapFont`, this defaults
-to not even trying to make grid glyphs, because BitmapFonts rarely have a suitable solid block char.
+to not even trying to make grid glyphs, because BitmapFonts rarely have a suitable solid block char. The underscore and
+hyphen method doesn't necessarily position the lines where they should be, because it depends on how `_` and `-` look
+in the font, but it's usually sufficient.
 
 Some extra configuration is possible for box drawing characters that are actually used for that purpose (not just
 underline or strikethrough). You can set `boxDrawingBreadth` on a `Font` to some multiplier to make box-drawing lines
@@ -395,7 +404,7 @@ Stripe and use them with FreeTypist.
 You can get it via Gradle, but it's probably a better option to just copy in the two files from
 [this folder in freetypist](https://github.com/tommyettinger/freetypist/tree/main/src/main/java/com/github/tommyettinger/freetypist)
 into your own code. Regardless of how you depend on FreeTypist, it needs a dependency on FreeType (including appropriate
-"platform" dependencies) and on TextraTypist (currently 1.0.0). When features are added to FWSkin and TextraTypist in
+"platform" dependencies) and on TextraTypist (currently 1.1.0). When features are added to FWSkin and TextraTypist in
 general, FreeTypist should be updated also.
 
 ## How do I get it?
@@ -451,10 +460,10 @@ Current gdx-liftoff and gdx-setup projects all can use JitPack dependencies with
 You would use this dependency in your core module:
 
 ```groovy
-implementation 'com.github.tommyettinger:textratypist:de5a52f340'
+implementation 'com.github.tommyettinger:textratypist:9398933c48'
 ```
 
-You can change `de5a52f340` to any commit in the Commits tab of https://jitpack.io/#tommyettinger/textratypist ,
+You can change `9398933c48` to any commit in the Commits tab of https://jitpack.io/#tommyettinger/textratypist ,
 but you should not use `-SNAPSHOT` -- it can change without your requesting it to, which is not what you want!
 
 You can also depend on FreeTypist using:
@@ -510,8 +519,8 @@ for compatibility. Using `.gitattributes` from the start is a good idea, and sho
 current OSes. Older Windows programs (like Notepad from Windows 7) aren't able to read `\n` line endings, but the
 versions distributed with recent Windows can use `\n` easily, as can almost all code-oriented text editors.
 
-Colors can be written out as hex strings, like `#FF7700` or `#9783EDFF`, given by name, or described using a simple
-syntax. The full list of (case-sensitive!) names can be seen ordered
+Colors can be written out as hex strings, like `#FF7700`, `#9783EDFF`, or the short form `#F70`, given by name, or 
+described using a simple syntax. The full list of (case-sensitive!) names can be seen ordered
 [by hue](https://tommyettinger.github.io/textratypist/ColorTableHue.html),
 [by lightness](https://tommyettinger.github.io/textratypist/ColorTableLightness.html),
 or [by name](https://tommyettinger.github.io/textratypist/ColorTableAlphabetical.html). You can take one or more of
@@ -678,6 +687,9 @@ ideal just to credit all the contributors, period. The list is [in the license](
 OpenMoji is also not a font, but it clearly has a CC-BY-SA 4.0 license, and the BY clause should be satisfied by
 attributing [the OpenMoji Project](https://openmoji.org/). The SA clause should be satisfied by any users of OpenMoji
 continuing to provide attribution. There isn't a non-commercial clause for any assets here.
+
+[Noto Color Emoji also have their own license](knownFonts/Noto-Emoji-License.txt), which is very permissive (OFL) and
+should probably be shown with any other legal texts when distributed. 
 
 The logo was made by Raymond "raeleus" Buckley and contributed to this project. It can be used freely for any purpose,
 but I request that it only be used to refer to this project unless substantially modified.

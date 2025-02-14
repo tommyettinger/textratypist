@@ -3752,8 +3752,10 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
-     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
+     * Preview:<br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * Uses the font {@link #getAStarry()} and {@code [%?blacken]} mode.
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
@@ -3797,8 +3799,10 @@ public final class KnownFonts implements LifecycleListener {
      * If you aren't sure what to use, the simplest overload uses the parameters {@code -4f, -2f, 4f}, which pushes each
      * emoji to the left, a little down, and gives more room between it and the next glyph.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
-     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
+     * Preview:<br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * Uses the font {@link #getAStarry()} and {@code [%?blacken]} mode.
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
@@ -3846,8 +3850,10 @@ public final class KnownFonts implements LifecycleListener {
      * emoji to the left, a little down, and gives more room between it and the next glyph. It also
      * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png">Image link</a> (uses
-     * the font {@link #getAStarry()} and {@code [%?blacken]} mode)
+     * Preview:<br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * Uses the font {@link #getAStarry()} and {@code [%?blacken]} mode.
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
@@ -3922,8 +3928,11 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #addGameIcons(Font)}. You can, however, make two copies of a Font, add emoji to one and icons to the
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png">Image link</a> (uses
-     * white lines, the font {@link #getInconsolata()}, and {@code [%?whiten]} mode)
+     * Preview:<br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * Uses the font {@link #getInconsolata()} and {@code [%?whiten]} mode, with the emoji set to color=false and tints
+     * applied to each emoji.
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/openmoji-atlas/">at this GitHub Pages site</a>.
@@ -3980,8 +3989,11 @@ public final class KnownFonts implements LifecycleListener {
      * If you aren't sure what to use, the simplest overload uses the parameters {@code -4f, -4f, 4f}, which pushes each
      * emoji to the left, down, and gives more room between it and the next glyph.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png">Image link</a> (uses
-     * white lines, the font {@link #getInconsolata()}, and {@code [%?whiten]} mode)
+     * Preview:<br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * Uses the font {@link #getInconsolata()} and {@code [%?whiten]} mode, with the emoji set to color=false and tints
+     * applied to each emoji.
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/openmoji-atlas/">at this GitHub Pages site</a>.
@@ -4044,8 +4056,11 @@ public final class KnownFonts implements LifecycleListener {
      * emoji to the left, down, and gives more room between it and the next glyph. It also
      * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png">Image link</a> (uses
-     * white lines, the font {@link #getInconsolata()}, and {@code [%?whiten]} mode)
+     * Preview:<br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * Uses the font {@link #getInconsolata()} and {@code [%?whiten]} mode, with the emoji set to color=false and tints
+     * applied to each emoji.
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/openmoji-atlas/">at this GitHub Pages site</a>.
@@ -4153,8 +4168,10 @@ public final class KnownFonts implements LifecycleListener {
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">at this GitHub Pages site</a>.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/NotoEmojiPreview.png">Image link</a>
-     * (uses the font {@link #getAStarry()} and {@code [%?blacken]} mode)
+     * Preview:<br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/NotoEmojiPreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * Uses the font {@link #getAStarry()} and {@code [%?blacken]} mode.
      * <br>
      * Needs files:
      * <ul>
@@ -4210,8 +4227,10 @@ public final class KnownFonts implements LifecycleListener {
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">at this GitHub Pages site</a>.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/NotoEmojiPreview.png">Image link</a>
-     * (uses the font {@link #getAStarry()} and {@code [%?blacken]} mode)
+     * Preview:<br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/NotoEmojiPreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * Uses the font {@link #getAStarry()} and {@code [%?blacken]} mode.
      * <br>
      * Needs files:
      * <ul>
@@ -4270,8 +4289,10 @@ public final class KnownFonts implements LifecycleListener {
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">at this GitHub Pages site</a>.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/NotoEmojiPreview.png">Image link</a>
-     * (uses the font {@link #getAStarry()} and {@code [%?blacken]} mode)
+     * Preview:<br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/NotoEmojiPreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * Uses the font {@link #getAStarry()} and {@code [%?blacken]} mode.
      * <br>
      * Needs files:
      * <ul>
@@ -4332,8 +4353,10 @@ public final class KnownFonts implements LifecycleListener {
      * with this. You can, however, make two copies of a Font, add emoji to one and icons to the other, and put both in
      * a FontFamily, so you can access both atlases in the same block of text.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png">Image link</a> (uses
-     * the font {@link #getNowAlt()} and {@code [%?blacken]} mode)
+     * Preview:<br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * Uses the font {@link #getNowAlt()} and {@code [%?blacken]} mode.
      * <br>
      * You can see all icons and the names they use
      * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">at this GitHub Pages site</a>.
@@ -4374,8 +4397,10 @@ public final class KnownFonts implements LifecycleListener {
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every icon this puts in a Font.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png">Image link</a> (uses
-     * the font {@link #getNowAlt()} and {@code [%?blacken]} mode)
+     * Preview:<br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * Uses the font {@link #getNowAlt()} and {@code [%?blacken]} mode.
      * <br>
      * You can see all icons and the names they use
      * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">at this GitHub Pages site</a>.
@@ -4421,8 +4446,10 @@ public final class KnownFonts implements LifecycleListener {
      * This overload allows customizing the x/y offsets and x-advance for every icon this puts in a Font. It also
      * allows specifying Strings to prepend before and append after each name in the font.
      * <br>
-     * Preview: <a href="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png">Image link</a> (uses
-     * the font {@link #getNowAlt()} and {@code [%?blacken]} mode)
+     * Preview:<br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * Uses the font {@link #getNowAlt()} and {@code [%?blacken]} mode.
      * <br>
      * You can see all icons and the names they use
      * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">at this GitHub Pages site</a>.
