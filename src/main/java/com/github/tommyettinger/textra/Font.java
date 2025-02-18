@@ -31,12 +31,17 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.compression.Lzma;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.textra.utils.*;
 import regexodus.Category;
 import regexodus.Pattern;
 import regexodus.Replacer;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.IdentityHashMap;
 
@@ -2842,13 +2847,36 @@ public class Font implements Disposable {
 
         JsonValue fnt;
         JsonReader reader = new JsonReader();
-        if("dat".equalsIgnoreCase(jsonHandle.extension())) {
+        if("lzma".equalsIgnoreCase(jsonHandle.extension())) {
+            BufferedInputStream bais = jsonHandle.read(4096);
+            StreamUtils.OptimizedByteArrayOutputStream baos = new StreamUtils.OptimizedByteArrayOutputStream(4096);
+            try {
+                Lzma.decompress(bais, baos);
+                if (jsonHandle.nameWithoutExtension().endsWith(".json"))
+                    fnt = new JsonReader().parse(baos.toString("UTF-8"));
+                else if (jsonHandle.nameWithoutExtension().endsWith(".ubj")) {
+                    StreamUtils.closeQuietly(bais);
+                    bais = new BufferedInputStream(new ByteArrayInputStream(baos.toByteArray()));
+                    fnt = new UBJsonReader().parse(bais);
+                } else {
+                    throw new UnsupportedOperationException("Unsupported file type inside compressed file: " + jsonHandle.path());
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Error reading compressed file: " + jsonHandle.path() + "\n" + e);
+            } finally {
+                StreamUtils.closeQuietly(bais);
+                StreamUtils.closeQuietly(baos);
+            }
+        }
+        else if (jsonHandle.nameWithoutExtension().endsWith(".ubj")) {
+            fnt = new UBJsonReader().parse(jsonHandle.read());
+        } else if("dat".equalsIgnoreCase(jsonHandle.extension())) {
             fnt = reader.parse(LZBDecompression.decompressFromBytes(jsonHandle.readBytes()));
         } else {
             fnt = reader.parse(jsonHandle);
         }
 
-        name = jsonHandle.nameWithoutExtension();
+        name = jsonHandle.name().substring(0, jsonHandle.name().indexOf('.'));
 
         JsonValue atlas = fnt.get("atlas");
         String dfType = atlas.getString("type", "");
