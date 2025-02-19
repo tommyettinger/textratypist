@@ -2241,9 +2241,9 @@ public class Font implements Disposable {
 //        yAdjust += descent + bmFont.getLineHeight() * 0.5f;
 
         // SHOULD USE metrics ?
-        underY = -0.05f;//0.5f * metrics.getFloat("underlineY", -0.1f);
+        underY = 0.05f;//0.5f * metrics.getFloat("underlineY", -0.1f);
         // SHOULD USE metrics ?
-        strikeY = 0.05f;//metrics.getFloat("strikeY", 0f);
+        strikeY = 0.15f;//metrics.getFloat("strikeY", 0f);
         strikeBreadth = underBreadth = -0.375f;
         if(makeGridGlyphs){
             underLength = strikeLength = 0.05f;
@@ -2253,7 +2253,7 @@ public class Font implements Disposable {
             underX = strikeX = 0.0f;
         }
 
-        fancyY -= descent / size;
+        fancyY = 2f;
 
 //        fancyY += 0.5f;
 
@@ -2903,9 +2903,9 @@ public class Font implements Disposable {
         originalCellHeight = cellHeight = heightAdjust - descent + size;// * metrics.getFloat("lineHeight", 1f);
 
         // SHOULD USE metrics ?
-        underY = -0.05f;//0.5f * metrics.getFloat("underlineY", -0.1f);
+        underY = 0.05f;//0.5f * metrics.getFloat("underlineY", -0.1f);
         // SHOULD USE metrics ?
-        strikeY = 0.05f;//metrics.getFloat("strikeY", 0f);
+        strikeY = 0.15f;//metrics.getFloat("strikeY", 0f);
         strikeBreadth = underBreadth = -0.375f;
         if(makeGridGlyphs){
             underLength = strikeLength = 0.05f;
@@ -2915,7 +2915,7 @@ public class Font implements Disposable {
             underX = strikeX = 0.0f;
         }
 
-        fancyY -= descent / size;
+        fancyY = 2f;
 
         JsonValue glyphs = fnt.get("glyphs"), planeBounds, atlasBounds;
         int count = glyphs.size;
