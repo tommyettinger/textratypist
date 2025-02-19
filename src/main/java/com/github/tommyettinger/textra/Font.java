@@ -2789,7 +2789,7 @@ public class Font implements Disposable {
      */
     public Font(FileHandle jsonHandle, TextureRegion textureRegion, boolean ignoredStructuredJsonFlag) {
         if (jsonHandle.exists()) {
-            loadJSON(jsonHandle, textureRegion, 0f, 0f, 0f, 0f, false);
+            loadJSON(jsonHandle, textureRegion, 0f, 0f, 0f, 0f, true);
         } else {
             throw new RuntimeException("Missing font file: " + jsonHandle);
         }
@@ -2846,7 +2846,6 @@ public class Font implements Disposable {
         this.heightAdjust = heightAdjust;
 
         JsonValue fnt;
-        JsonReader reader = new JsonReader();
         if("lzma".equalsIgnoreCase(jsonHandle.extension())) {
             BufferedInputStream bais = jsonHandle.read(4096);
             StreamUtils.OptimizedByteArrayOutputStream baos = new StreamUtils.OptimizedByteArrayOutputStream(4096);
@@ -2867,13 +2866,12 @@ public class Font implements Disposable {
                 StreamUtils.closeQuietly(bais);
                 StreamUtils.closeQuietly(baos);
             }
-        }
-        else if (jsonHandle.nameWithoutExtension().endsWith(".ubj")) {
+        } else if (jsonHandle.nameWithoutExtension().endsWith(".ubj")) {
             fnt = new UBJsonReader().parse(jsonHandle.read());
         } else if("dat".equalsIgnoreCase(jsonHandle.extension())) {
-            fnt = reader.parse(LZBDecompression.decompressFromBytes(jsonHandle.readBytes()));
+            fnt = new JsonReader().parse(LZBDecompression.decompressFromBytes(jsonHandle.readBytes()));
         } else {
-            fnt = reader.parse(jsonHandle);
+            fnt = new JsonReader().parse(jsonHandle);
         }
 
         name = jsonHandle.name().substring(0, jsonHandle.name().indexOf('.'));
