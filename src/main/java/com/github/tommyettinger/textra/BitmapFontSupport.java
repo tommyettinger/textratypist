@@ -19,7 +19,11 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.StreamUtils;
+import com.badlogic.gdx.utils.UBJsonReader;
 import com.badlogic.gdx.utils.compression.Lzma;
 
 import java.io.BufferedInputStream;
@@ -32,9 +36,12 @@ import static com.badlogic.gdx.math.MathUtils.round;
 
 /**
  * A utility class for loading {@link BitmapFont} instances from Structured JSON files (which use .json, .dat, .ubj,
- * .json.lzma, or .ubj.lzma as their file extension).
- * {@link Font} instances can already be loaded using
+ * .json.lzma, or .ubj.lzma as their file extension). {@link Font} instances can already be loaded using
  * {@link Font#Font(FileHandle, TextureRegion, boolean) some of the constructors there}.
+ * <br>
+ * Note: While .ubj and .ubj.lzma files are supported by this on most platforms, libGDX 1.13.1 and older do not parse
+ * many UBJSON files correctly on GWT. Even though .ubj.lzma is typically the format that gets the best compression
+ * ratios here, .json.lzma is preferred because it compresses almost as well and works on GWT.
  */
 public class BitmapFontSupport {
 
@@ -148,22 +155,22 @@ public class BitmapFontSupport {
                                 bais = new BufferedInputStream(new ByteArrayInputStream(baos.toByteArray()));
                                 fnt = new UBJsonReader().parse(bais);
                             } else {
-                                throw new UnsupportedOperationException("Unsupported file type inside compressed file: " + jsonFont.path());
+                                throw new GdxRuntimeException("Unsupported file type inside compressed file: " + jsonFont.path());
                             }
                         } catch (IOException e) {
-                            throw new RuntimeException("Error reading compressed file: " + jsonFont.path() + "\n" + e);
+                            throw new GdxRuntimeException("Error reading compressed file: " + jsonFont.path() + "\n" + e);
                         } finally {
                             StreamUtils.closeQuietly(bais);
                             StreamUtils.closeQuietly(baos);
                         }
                     }
                     else {
-                        throw new RuntimeException("Not a .json, .dat, .ubj, .json.lzma, or .ubj.lzma font file: " + jsonFont);
+                        throw new GdxRuntimeException("Not a .json, .dat, .ubj, .json.lzma, or .ubj.lzma font file: " + jsonFont.path());
                     }
                 } else {
-                    throw new RuntimeException("Missing font file: " + jsonFont);
+                    throw new GdxRuntimeException("Missing font file: " + jsonFont.path());
                 }
-                if (fnt.isEmpty()) throw new GdxRuntimeException("File is empty.");
+                if (fnt.isEmpty()) throw new GdxRuntimeException("File is empty: " + jsonFont.path());
 
                 JsonValue atlas = fnt.get("atlas");
 
@@ -291,6 +298,7 @@ public class BitmapFontSupport {
             }
         }
     }
+
     /**
      * Decompresses a byte array compressed with LZB, getting the original
      * String back that was given to a compression method.

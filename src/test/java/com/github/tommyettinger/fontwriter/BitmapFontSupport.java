@@ -22,21 +22,36 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.StreamUtils;
+import com.badlogic.gdx.utils.UBJsonReader;
+import com.badlogic.gdx.utils.compression.Lzma;
+import com.github.tommyettinger.textra.Font;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.lang.StringBuilder;
 import java.util.ArrayList;
 
 import static com.badlogic.gdx.math.MathUtils.round;
 
 /**
- * A utility class for loading {@link BitmapFont} instances from Structured JSON files (which use .json or .dat).
+ * A utility class for loading {@link BitmapFont} instances from Structured JSON files (which use .json, .dat, .ubj,
+ * .json.lzma, or .ubj.lzma as their file extension). {@link Font} instances can already be loaded using
+ * {@link Font#Font(FileHandle, TextureRegion, boolean) some of the constructors there}.
+ * <br>
+ * Note: While .ubj and .ubj.lzma files are supported by this on most platforms, libGDX 1.13.1 and older do not parse
+ * many UBJSON files correctly on GWT. Even though .ubj.lzma is typically the format that gets the best compression
+ * ratios here, .json.lzma is preferred because it compresses almost as well and works on GWT.
  */
 public class BitmapFontSupport {
 
     /**
-     * Creates a BitmapFont by loading it from a Structured JSON Font, which is typically a .json file produced by
-     * <a href="https://github.com/tommyettinger/fontwriter">FontWriter</a> or a related tool. This overload takes
-     * a TextureRegion for the image the JSON needs; this region is often part of an atlas.
-     * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json file)
+     * Creates a BitmapFont by loading it from a Structured JSON Font, which is typically a .json, .dat, .ubj,
+     * .json.lzma, or .ubj.lzma file produced by <a href="https://github.com/tommyettinger/fontwriter">FontWriter</a>
+     * or a related tool. This overload takes a TextureRegion for the image the JSON needs; this region is often part
+     * of an atlas.
+     * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json.lzma file)
      * @param region a TextureRegion, often part of a shared atlas, holding the image the JSON needs
      * @return a new BitmapFont loaded from {@code jsonFont}
      */
@@ -46,10 +61,11 @@ public class BitmapFontSupport {
     }
 
     /**
-     * Creates a BitmapFont by loading it from a Structured JSON Font, which is typically a .json file produced by
-     * <a href="https://github.com/tommyettinger/fontwriter">FontWriter</a> or a related tool. This overload takes
-     * a TextureRegion for the image the JSON needs; this region is often part of an atlas.
-     * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json file)
+     * Creates a BitmapFont by loading it from a Structured JSON Font, which is typically a .json, .dat, .ubj,
+     * .json.lzma, or .ubj.lzma file produced by <a href="https://github.com/tommyettinger/fontwriter">FontWriter</a>
+     * or a related tool. This overload takes a TextureRegion for the image the JSON needs; this region is often part
+     * of an atlas.
+     * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json.lzma file)
      * @param region a TextureRegion, often part of a shared atlas, holding the image the JSON needs
      * @param flip true if this BitmapFont has been flipped for use with a y-down coordinate system
      * @return a new BitmapFont loaded from {@code jsonFont}
@@ -60,10 +76,11 @@ public class BitmapFontSupport {
     }
 
     /**
-     * Creates a BitmapFont by loading it from a Structured JSON Font, which is typically a .json file produced by
-     * <a href="https://github.com/tommyettinger/fontwriter">FontWriter</a> or a related tool. This overload takes
-     * a relative path (from {@code jsonFont}) to the necessary image file, with the path as a String.
-     * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json file)
+     * Creates a BitmapFont by loading it from a Structured JSON Font, which is typically a .json, .dat, .ubj,
+     * .json.lzma, or .ubj.lzma file produced by <a href="https://github.com/tommyettinger/fontwriter">FontWriter</a>
+     * or a related tool. This overload takes a relative path (from {@code jsonFont}) to the necessary image file, with
+     * the path as a String.
+     * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json.lzma file)
      * @param imagePath a String holding the relative path from {@code jsonFont} to the image file the JSON needs
      * @return a new BitmapFont loaded from {@code jsonFont}
      */
@@ -73,16 +90,17 @@ public class BitmapFontSupport {
     }
 
     /**
-     * Creates a BitmapFont by loading it from a Structured JSON Font, which is typically a .json file produced by
-     * <a href="https://github.com/tommyettinger/fontwriter">FontWriter</a> or a related tool. This overload takes
-     * a relative path (from {@code jsonFont}) to the necessary image file, with the path as a String.
-     * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json file)
+     * Creates a BitmapFont by loading it from a Structured JSON Font, which is typically a .json, .dat, .ubj,
+     * .json.lzma, or .ubj.lzma file produced by <a href="https://github.com/tommyettinger/fontwriter">FontWriter</a>
+     * or a related tool. This overload takes a relative path (from {@code jsonFont}) to the necessary image file, with
+     * the path as a String.
+     * @param jsonFont a FileHandle with the path to a Structured JSON Font (typically a .json.lzma file)
      * @param imagePath a String holding the relative path from {@code jsonFont} to the image file the JSON needs
      * @param flip true if this BitmapFont has been flipped for use with a y-down coordinate system
      * @return a new BitmapFont loaded from {@code jsonFont}
      */
     public static BitmapFont loadStructuredJson(FileHandle jsonFont, String imagePath, boolean flip) {
-        JsonFontData data = new JsonFontData(jsonFont, imagePath, flip);
+        BitmapFontSupport.JsonFontData data = new JsonFontData(jsonFont, imagePath, flip);
         return new BitmapFont(data, (TextureRegion) null, false);
     }
 
@@ -117,27 +135,45 @@ public class BitmapFontSupport {
             try {
                 name = jsonFont.nameWithoutExtension();
 
-
                 JsonValue fnt;
-                JsonReader reader = new JsonReader();
                 if (jsonFont.exists()) {
-                    if("json".equalsIgnoreCase(jsonFont.extension())) {
-                        fnt = reader.parse(jsonFont);
-                    } else if("dat".equalsIgnoreCase(jsonFont.extension())) {
-                        fnt = reader.parse(decompressFromBytes(jsonFont.readBytes()));
-                    } else {
-                        throw new RuntimeException("Not a .json or .dat font file: " + jsonFont);
+                    String ext = jsonFont.extension();
+                    if("json".equalsIgnoreCase(ext)) {
+                        fnt = new JsonReader().parse(jsonFont);
+                    } else if("dat".equalsIgnoreCase(ext)) {
+                        fnt = new JsonReader().parse(decompressFromBytes(jsonFont.readBytes()));
+                    } else if("ubj".equalsIgnoreCase(ext)) {
+                        fnt = new UBJsonReader().parse(jsonFont);
+                    } else if("lzma".equalsIgnoreCase(ext)) {
+                        BufferedInputStream bais = jsonFont.read(4096);
+                        StreamUtils.OptimizedByteArrayOutputStream baos = new StreamUtils.OptimizedByteArrayOutputStream(4096);
+                        try {
+                            Lzma.decompress(bais, baos);
+                            if (".json.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 10)))
+                                fnt = new JsonReader().parse(baos.toString("UTF-8"));
+                            else if (".ubj.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 9))) {
+                                StreamUtils.closeQuietly(bais);
+                                bais = new BufferedInputStream(new ByteArrayInputStream(baos.toByteArray()));
+                                fnt = new UBJsonReader().parse(bais);
+                            } else {
+                                throw new GdxRuntimeException("Unsupported file type inside compressed file: " + jsonFont.path());
+                            }
+                        } catch (IOException e) {
+                            throw new GdxRuntimeException("Error reading compressed file: " + jsonFont.path() + "\n" + e);
+                        } finally {
+                            StreamUtils.closeQuietly(bais);
+                            StreamUtils.closeQuietly(baos);
+                        }
+                    }
+                    else {
+                        throw new GdxRuntimeException("Not a .json, .dat, .ubj, .json.lzma, or .ubj.lzma font file: " + jsonFont.path());
                     }
                 } else {
-                    throw new RuntimeException("Missing font file: " + jsonFont);
+                    throw new GdxRuntimeException("Missing font file: " + jsonFont.path());
                 }
-                if (fnt.isEmpty()) throw new GdxRuntimeException("File is empty.");
+                if (fnt.isEmpty()) throw new GdxRuntimeException("File is empty: " + jsonFont.path());
 
                 JsonValue atlas = fnt.get("atlas");
-//                String dfType = atlas.getString("type", "");
-//                if("msdf".equals(dfType) || "mtsdf".equals(dfType) || "sdf".equals(dfType) || "psdf".equals(dfType)) {
-//                    throw new RuntimeException("Distance field fonts cannot be loaded; use a 'standard' font.");
-//                }
 
                 float size = atlas.getFloat("size", 16f);
                 int width = atlas.getInt("width", 2048);
@@ -149,20 +185,19 @@ public class BitmapFontSupport {
                 padLeft = 1;
                 float padY = padTop + padBottom;
 
-                JsonValue metrics = fnt.get("metrics");
+//                JsonValue metrics = fnt.get("metrics");
 
-                size *= metrics.getFloat("emSize", 1f);
-                lineHeight = size * metrics.getFloat("lineHeight", 1f);
+                descent = size * -0.25f;//metrics.getFloat("descender", -0.25f);
+
+//                size *= metrics.getFloat("emSize", 1f);
+                lineHeight = size - descent;// * metrics.getFloat("lineHeight", 1f);
 //                ascent = size * metrics.getFloat("ascender", 0.8f) - lineHeight;
-                descent = size * metrics.getFloat("descender", -0.25f);
-
-                descent += padBottom;
+//                float baseLine = lineHeight + descent;
 
                 if (path != null)
                     imagePaths = new String[]{jsonFont.sibling(path).path().replaceAll("\\\\", "/")};
 
                 JsonValue glyphs = fnt.get("glyphs"), planeBounds, atlasBounds;
-                int count = glyphs.size;
 
                 for (JsonValue.JsonIterator it = glyphs.iterator(); it.hasNext(); ) {
                     JsonValue current = it.next();
@@ -191,7 +226,7 @@ public class BitmapFontSupport {
                         glyph.xoffset = round(planeBounds.getFloat("left", 0f) * size);
                         glyph.yoffset = flip
                                 ? round(-size - planeBounds.getFloat("top", 0f) * size)
-                                :  round(size + planeBounds.getFloat("bottom", 0f) * size);
+                                : round(-size + planeBounds.getFloat("bottom", 0f) * size);
                     } else {
                         glyph.xoffset = glyph.yoffset = 0;
                     }
@@ -252,7 +287,7 @@ public class BitmapFontSupport {
                     capHeight = capGlyph.height;
                 capHeight -= padY;
 
-                ascent = -lineHeight - capHeight;
+                ascent = lineHeight + descent - capHeight;
                 down = -lineHeight;
                 if (flip) {
                     ascent = -ascent;
@@ -264,6 +299,7 @@ public class BitmapFontSupport {
             }
         }
     }
+
     /**
      * Decompresses a byte array compressed with LZB, getting the original
      * String back that was given to a compression method.
@@ -425,8 +461,6 @@ public class BitmapFontSupport {
                 enlargeIn = 1 << numBits;
                 numBits++;
             }
-
         }
     }
-
 }
