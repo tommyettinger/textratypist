@@ -20,9 +20,8 @@ public class DebugPreviewGenerator extends ApplicationAdapter {
     Font font;
     SpriteBatch batch;
     Viewport viewport;
-    Layout layout = new Layout().setTargetWidth(800);
+    Layout layout = new Layout().setTargetWidth(1200);
     long startTime;
-    String distanceField = "\nNo emoji here!";
     String emojiSupport = "\nEmoji! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿] [_][+🥰] hm[~]m... [+🤯][ ]";
 /*
 AStarry-standard.fnt has descent: -12
@@ -54,7 +53,7 @@ YanoneKaffeesatz-standard.fnt has descent: -19
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Font Preview Generator");
-        config.setWindowedMode(800, 450);
+        config.setWindowedMode(1200, 675);
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
@@ -84,20 +83,17 @@ YanoneKaffeesatz-standard.fnt has descent: -19
         for (int i = 0; i < fonts.length; i++) {
             font = fonts[i];
 //            if(!font.integerPosition) continue;
-            font.setFamily(new Font.FontFamily(new String[]{"Main", "G"}, new Font[]{font, KnownFonts.getGentium().scale(font.cellHeight / 35f, font.cellHeight / 35f)}));
+            font.setFamily(new Font.FontFamily(new String[]{"Main", "G"}, new Font[]{font, KnownFonts.getGentium()}));
             KnownFonts.addEmoji(font);
+            viewport.update(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), viewport);
             layout.setBaseColor(Color.DARK_GRAY);
             layout.setMaxLines(20);
-            layout.targetWidth = Gdx.graphics.getWidth() * 0.95f;
             layout.setEllipsis(" and so on and so forth...");
-//            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
-//                    , layout);
             font.markup("[_]Font[ ] [~]name[ ] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%] [*]bold[ ] [/]oblique[ ]): " + font.name +
-                    (font.getDistanceField() != Font.DistanceFieldType.MSDF ?
-                            ",\n[@Main]Do I... [@G]Do I..." +
-                            ",\n[@Main]line up... [@G]line up..." +
-                            ",\n[@Main]with Gentium? [@G]with Gentium?[@Main]" : "") +
+                    ",\n[@Main]Do I... [@G]Do I..." +
+                    ",\n[@Main]line up... [@G]line up..." +
+                    ",\n[@Main]with Gentium? [@G]with Gentium?[@Main]" +
                     ",\noriginalCellWidth: " + font.originalCellWidth +
                     ", originalCellHeight: " + font.originalCellHeight +
                     ",\ncellWidth: " + font.cellWidth +
@@ -111,15 +107,15 @@ YanoneKaffeesatz-standard.fnt has descent: -19
                     ",\nwidthAdjust: " + font.widthAdjust +
                     ", heightAdjust: " + font.heightAdjust +
                     "\n" +
-                    (font.getDistanceField() != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout);
+                    emojiSupport, layout);
 //            System.out.println(layout);
 
             ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
-//            ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
-//        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
-            float x = 400, y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f - font.descent * font.scaleY;
+            float x = Gdx.graphics.getBackBufferWidth() * 0.5f;
+            float y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f;
             batch.begin();
             font.enableShader(batch);
+            font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), viewport);
             font.drawGlyphs(batch, layout, x, y, Align.center);
             batch.end();
 
@@ -131,45 +127,43 @@ YanoneKaffeesatz-standard.fnt has descent: -19
             // End Pixmap.createFromFrameBuffer() modified code
 
 //            Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-            PixmapIO.writePNG(Gdx.files.local("out/debug/debug" + (index++) + font.name + ".png"), pm, 6, true);
+            PixmapIO.writePNG(Gdx.files.local("out/debug/debug" + (index++) + font.name + ".png"), pm, 2, true);
         }
         font = fnt;
 //        System.out.println(layout);
         startTime = TimeUtils.millis();
-        font.markup("[_]Font[ ] [~]name[ ] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%] [*]bold[ ] [/]oblique[ ]):  " + font.name +
-                ",\noriginalCellWidth: " + font.originalCellWidth +
-                ", originalCellHeight: " + font.originalCellHeight +
-                ",\ncellWidth: " + font.cellWidth +
-                ", cellHeight: " + font.cellHeight +
-                ",\nscaleX: " + font.scaleX +
-                ", scaleY: " + font.scaleY +
-                ",\nintegerPosition: " + font.integerPosition +
-                ", descent: " + font.descent +
-                ",\nxAdjust: " + font.xAdjust +
-                ", yAdjust: " + font.yAdjust +
-                ",\nwidthAdjust: " + font.widthAdjust +
-                ", heightAdjust: " + font.heightAdjust +
-                "\n" +
-                (font.getDistanceField() != Font.DistanceFieldType.MSDF ? emojiSupport : distanceField), layout.clear());
-//        System.out.println(layout);
+//        font.markup("[_]Font[ ] [~]name[ ] ([%?error]error[%] [%?warn]warn[%] [%?note]note[%] [*]bold[ ] [/]oblique[ ]):  " + font.name +
+//                ",\noriginalCellWidth: " + font.originalCellWidth +
+//                ", originalCellHeight: " + font.originalCellHeight +
+//                ",\ncellWidth: " + font.cellWidth +
+//                ", cellHeight: " + font.cellHeight +
+//                ",\nscaleX: " + font.scaleX +
+//                ", scaleY: " + font.scaleY +
+//                ",\nintegerPosition: " + font.integerPosition +
+//                ", descent: " + font.descent +
+//                ",\nxAdjust: " + font.xAdjust +
+//                ", yAdjust: " + font.yAdjust +
+//                ",\nwidthAdjust: " + font.widthAdjust +
+//                ", heightAdjust: " + font.heightAdjust +
+//                "\n" +
+//                emojiSupport, layout.clear());
+////        System.out.println(layout);
 
         Gdx.app.exit();
     }
 
-    @Override
-    public void render() {
-        ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
-//        ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1f);
-//        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
-        float x = 400, y = (450 + layout.getHeight()) * 0.5f - font.descent * font.scaleY;
-        viewport.apply();
-        batch.begin();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-        font.enableShader(batch);
-        font.drawGlyphs(batch, layout, x, y, Align.center);
-        batch.end();
-        Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
-    }
+//    @Override
+//    public void render() {
+//        ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
+//        float x = 400, y = (450 + layout.getHeight()) * 0.5f - font.descent * font.scaleY;
+//        viewport.apply();
+//        batch.begin();
+//        batch.setProjectionMatrix(viewport.getCamera().combined);
+//        font.enableShader(batch);
+//        font.drawGlyphs(batch, layout, x, y, Align.center);
+//        batch.end();
+//        Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
+//    }
 
     @Override
     public void resize(int width, int height) {

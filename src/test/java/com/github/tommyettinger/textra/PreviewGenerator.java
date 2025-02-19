@@ -150,7 +150,7 @@ public class PreviewGenerator extends ApplicationAdapter {
 
             ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
             float x = Gdx.graphics.getBackBufferWidth() * 0.5f;
-            float y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f;// - font.descent * font.scaleY;
+            float y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight()) * 0.5f;
             batch.begin();
             font.enableShader(batch);
             font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), viewport);
