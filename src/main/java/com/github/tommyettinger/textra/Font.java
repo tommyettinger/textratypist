@@ -2435,8 +2435,6 @@ public class Font implements Disposable {
 //        descent = baseline - rawLineHeight;
         descent = 0;
 
-//        int chosenDescender = -1;
-
         // The SDF and MSDF fonts have essentially garbage for baseline, since Glamer can't accurately guess it.
         // For standard fonts, we incorporate the descender into yAdjust, which seems to be reliable.
 //        if(distanceField == DistanceFieldType.STANDARD)
@@ -2509,8 +2507,9 @@ public class Font implements Disposable {
                 mapping.put(2, gr);
             }
         }
-        descent += padBottom;
-//        System.out.println("Using descender from " + chosenDescender);
+        // TODO: Do we want this?
+//        descent += padBottom;
+
         idx = StringUtils.indexAfter(fnt, "\nkernings count=", 0);
         if (idx < fnt.length()) {
             int kernings = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "\nkerning first=", idx));
@@ -2581,11 +2580,17 @@ public class Font implements Disposable {
         originalCellHeight = cellHeight -= descent * 0.25f;
         isMono = minWidth == cellWidth && kerning == null;
 
-//        underY = 0.5f + descent / rawLineHeight;
-//        strikeY = 0.5f + descent / rawLineHeight;
-
-//        underY -=  descent / originalCellHeight - 0.25f;
-//        strikeY -= descent / originalCellHeight;
+        underY = 0.05f;
+        strikeY = 0.15f;
+        strikeBreadth = underBreadth = -0.375f;
+        if(makeGridGlyphs){
+            underLength = strikeLength = 0.05f;
+            underX = strikeX = -0.05f;
+        } else {
+            underLength = strikeLength = 0.0f;
+            underX = strikeX = 0.0f;
+        }
+        fancyY = 2f;
 
 
         inlineImageOffsetX = 0f;
