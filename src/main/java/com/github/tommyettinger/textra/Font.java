@@ -2914,7 +2914,6 @@ public class Font implements Disposable {
             underLength = strikeLength = 0.0f;
             underX = strikeX = 0.0f;
         }
-
         fancyY = 2f;
 
         JsonValue glyphs = fnt.get("glyphs"), planeBounds, atlasBounds;
@@ -5281,7 +5280,7 @@ public class Font implements Disposable {
 //            yt =  - ych - stretchShift - font.descent * fsy * scale * sizingY + sin * centerX - centerY;
             if(squashed) yt -= font.descent * font.scaleY * scale * sizingY * 0.175f;
 //            yt -= ych + stretchShift;
-            y = oy + (scaledHeight * 0.5f) - ych + font.descent * font.scaleY * scale * sizingY;
+            y = oy + (scaledHeight * 0.5f) - ych;// + font.descent * font.scaleY * scale * sizingY;
 
 //            y += ych - stretchShift + font.descent * fsy * scale * sizingY;
 
@@ -6167,7 +6166,7 @@ public class Font implements Disposable {
                         if (len >= 0) {
                             c = font.nameLookup.get(StringUtils.safeSubstring(text, i + 1, i + len), '+');
                             i += len;
-                            scaleX = (scale + 1) * 0.25f * font.cellHeight / font.mapping.get(c, font.defaultValue).xAdvance * font.inlineImageStretch;
+                            scaleX = (scale + 1) * 0.25f * font.cellHeight / font.mapping.get(c, font.defaultValue).getRegionHeight() * font.inlineImageStretch;
                         }
                     }
                     if (font.kerning == null) {
@@ -6342,7 +6341,7 @@ public class Font implements Disposable {
                 }
                 showCh = (current & SMALL_CAPS) == SMALL_CAPS ? Category.caseUp(ch) : ch;
                 if(ch >= 0xE000 && ch < 0xF800){
-                    scaleX = (scale + 1) * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).xAdvance * font.inlineImageStretch;
+                    scaleX = (scale + 1) * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).getRegionHeight() * font.inlineImageStretch;
                 }
                 float w;
                 if (font.kerning == null) {
@@ -7315,7 +7314,7 @@ public class Font implements Disposable {
                     scale = extractIntScale(glyph);
                     line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = scale * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).xAdvance * font.inlineImageStretch;
+                        scaleX = scale * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).getRegionHeight() * font.inlineImageStretch;
                     else
                         scaleX = font.scaleX * scale * 0.25f;
 
@@ -7403,7 +7402,7 @@ public class Font implements Disposable {
                     scale = extractIntScale(glyph);
                     line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = scale * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).xAdvance * font.inlineImageStretch;
+                        scaleX = scale * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).getRegionHeight() * font.inlineImageStretch;
                     else
                         scaleX = font.scaleX * scale * 0.25f;
                     kern = kern << 16 | ch;
