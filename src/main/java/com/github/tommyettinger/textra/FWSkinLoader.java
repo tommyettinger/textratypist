@@ -23,8 +23,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 /**
  * An {@link com.badlogic.gdx.assets.loaders.AssetLoader} to load a {@link FWSkin}. This enables you to deserialize
- * .dat and .json fonts from a Skin JSON, then load it through an {@link AssetManager}. It also allows scene2d.ui
- * styles in a skin JSON file to load as both their expected scene2d.ui form and a TextraTypist widget style.
+ * .json, .dat, .ubj, .json.lzma, and .ubj.lzma fonts from a Skin JSON, then load it through an {@link AssetManager}.
+ * It also allows scene2d.ui styles in a skin JSON file to load as both their expected scene2d.ui form and a
+ * TextraTypist widget style.
  * <br>
  * Example code:
  * <code>

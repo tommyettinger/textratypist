@@ -65,9 +65,12 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
 //        font = KnownFonts.getGrenze().scaleHeightTo(16f);
 //        BitmapFont gdx = new BitmapFont(Gdx.files.internal("grenze-angelcode.fnt"));
 //        font = new Font(gdx, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true);
-        font = KnownFonts.getGrenze();
-        BitmapFont support = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Grenze-standard.dat"), "Grenze-standard.png");
-        font2 = new Font(support, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true);
+
+//        font = KnownFonts.getGrenze();
+//        BitmapFont support = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Grenze-standard.dat"), "Grenze-standard.png");
+        font = new Font("experimental/Grenze-standard.json.lzma", true).scaleHeightTo(32).setName("Grenze").setDistanceField(Font.DistanceFieldType.STANDARD);
+        BitmapFont support = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("experimental/Grenze-standard.ubj.lzma"), "Grenze-standard.png");
+        font2 = new Font(support, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true).scaleHeightTo(32);
 //                .setDescent(-12f).setLineMetrics(0f, -0.25f, 0f, 0f)
 //                .setDescent(font.descent)
 //                .setInlineImageMetrics(font.inlineImageOffsetX, font.inlineImageOffsetY, font.inlineImageXAdvance)

@@ -149,9 +149,9 @@ public class BitmapFontSupport {
                         StreamUtils.OptimizedByteArrayOutputStream baos = new StreamUtils.OptimizedByteArrayOutputStream(4096);
                         try {
                             Lzma.decompress(bais, baos);
-                            if (".json.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 10)))
+                            if (".json.lzma".equalsIgnoreCase(jsonFont.name().substring(jsonFont.name().length() - 10)))
                                 fnt = new JsonReader().parse(baos.toString("UTF-8"));
-                            else if (".ubj.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 9))) {
+                            else if (".ubj.lzma".equalsIgnoreCase(jsonFont.name().substring(jsonFont.name().length() - 9))) {
                                 StreamUtils.closeQuietly(bais);
                                 bais = new BufferedInputStream(new ByteArrayInputStream(baos.toByteArray()));
                                 fnt = new UBJsonReader().parse(bais);
