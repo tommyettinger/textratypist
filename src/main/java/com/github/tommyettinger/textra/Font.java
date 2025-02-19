@@ -2939,7 +2939,7 @@ public class Font implements Disposable {
             }
             if(planeBounds != null) {
                 xo = planeBounds.getFloat("left", 0f) * size;
-                yo = size - planeBounds.getFloat("top", 0f) * size - descent * 0.5f;
+                yo = size - planeBounds.getFloat("top", 0f) * size;
             } else {
                 xo = yo = 0f;
             }
