@@ -2580,18 +2580,17 @@ public class Font implements Disposable {
         originalCellHeight = cellHeight -= descent * 0.25f;
         isMono = minWidth == cellWidth && kerning == null;
 
-        underY = 0.05f;
-        strikeY = 0.15f;
-        strikeBreadth = underBreadth = -0.375f;
-        if(makeGridGlyphs){
-            underLength = strikeLength = 0.05f;
-            underX = strikeX = -0.05f;
-        } else {
-            underLength = strikeLength = 0.0f;
-            underX = strikeX = 0.0f;
-        }
-        fancyY = 2f;
-
+//        underY = 0.05f;
+//        strikeY = 0.15f;
+//        strikeBreadth = underBreadth = -0.375f;
+//        if(makeGridGlyphs){
+//            underLength = strikeLength = 0.05f;
+//            underX = strikeX = -0.05f;
+//        } else {
+//            underLength = strikeLength = 0.0f;
+//            underX = strikeX = 0.0f;
+//        }
+//        fancyY = 2f;
 
         inlineImageOffsetX = 0f;
         inlineImageOffsetY = 0f;
