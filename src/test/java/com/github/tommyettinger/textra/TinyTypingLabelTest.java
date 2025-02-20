@@ -216,7 +216,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         label.layout.maxLines = 15;
 //        label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth() - 100);
 
-        // Set variable replacements for the {VAR} and {IF} tokens
+        // Set variable replacements for the {VAR} and {IF} tokens; needs label.parseTokens() to be called later.
         label.setVariable("gender", "f");
         label.setVariable("lad", "'un");
         label.setVariable("he makes", "they make");
@@ -235,7 +235,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         });
 
         // Finally parse tokens in the label text.
-//        label.parseTokens();
+        label.parseTokens();
 
         return label;
     }

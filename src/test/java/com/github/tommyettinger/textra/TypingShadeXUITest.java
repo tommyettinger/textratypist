@@ -67,7 +67,7 @@ public class TypingShadeXUITest extends InputAdapter implements ApplicationListe
 		// For unknown reasons, emoji added to this particular font default to being offset by -1/2 an emoji width (-16)
 		// on x, and a little up on height.
 		// Using the extra three float arguments for offsetX, offsetY, and xAdvance changes helps a lot here.
-		KnownFonts.addEmoji(font, -16f, -4f, 0f);
+		KnownFonts.addEmoji(font);
 		final Font title = skin.get("title", Styles.LabelStyle.class).font
 //				.adjustLineHeight(1.5f)
 				.useIntegerPositions(true);

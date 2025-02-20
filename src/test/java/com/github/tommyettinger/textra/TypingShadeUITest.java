@@ -70,9 +70,9 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		// For unknown reasons, emoji added to this particular font are too rightward before adjustment.
 		// Using the extra three float arguments for offsetX, offsetY, and xAdvance changes helps a lot here.
 //		KnownFonts.addEmoji(font, 0f, 4f, 0f);
-		KnownFonts.addEmoji(skin.get("font-button", Font.class), -24f, 0f, 0f);
-		KnownFonts.addEmoji(skin.get("font-label", Font.class),  -24f, 0f, 0f);
-		KnownFonts.addEmoji(skin.get("font-title", Font.class).scaleHeightTo(24f),  -24f, 0f, 0f);
+		KnownFonts.addEmoji(skin.get("font-button", Font.class));
+		KnownFonts.addEmoji(skin.get("font-label", Font.class));
+		KnownFonts.addEmoji(skin.get("font-title", Font.class).scaleHeightTo(24f));
 		final Font title = skin.get("title", Styles.LabelStyle.class).font
 				.useIntegerPositions(false);
 
