@@ -5249,7 +5249,7 @@ public class Font implements Disposable {
 //        float xc = (font.cellWidth * -0.5f) * sizingX;// + (tr.offsetX * scaleX * sizingX);
         float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - font.cellWidth * 0.5f;
 
-        float trrh = tr.getMaxDimension();
+        float trrh = tr.getRegionHeight();
         float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * scaleY * sizingY + sin * centerX - centerY;
         if(squashed) yt -= font.descent * scaleY * sizingY * 0.175f;
 
@@ -5602,7 +5602,7 @@ public class Font implements Disposable {
             } else {
                 under = font.mapping.get('_');
                 if (under != null) {
-                    trrh = under.getMaxDimension();
+                    trrh = under.getRegionHeight();
                     h = trrh * osy * sizingY + cellHeight * font.underBreadth * scale * sizingY;
                     yt = (centerY - (trrh + under.offsetY) * font.scaleY) * scale * sizingY
                             + cellHeight * font.underY * scale * sizingY;
@@ -5694,7 +5694,7 @@ public class Font implements Disposable {
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
-                    trrh = dash.getMaxDimension();
+                    trrh = dash.getRegionHeight();
                     h = trrh * osy * sizingY * (1f + font.strikeBreadth);
 
                     yt = (centerY - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY
