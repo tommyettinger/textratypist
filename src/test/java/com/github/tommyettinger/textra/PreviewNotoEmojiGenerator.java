@@ -46,20 +46,25 @@ public class PreviewNotoEmojiGenerator extends ApplicationAdapter {
         viewport = new StretchViewport(1200, 600);
 
         Gdx.files.local("out/").mkdirs();
-        font = KnownFonts.addNotoEmoji(KnownFonts.getAStarry(Font.DistanceFieldType.MSDF).scaleHeightTo(20), -4f, -8f, 4f).fitCell(24, 24, true);
+        font = KnownFonts.addNotoEmoji(KnownFonts.getAStarry(Font.DistanceFieldType.MSDF).scaleHeightTo(24)).fitCell(32, 32, false);
         layout.setBaseColor(Color.WHITE);
         StringBuilder sb = new StringBuilder(4000);
         sb.append("[%?blacken]");
         RandomXS128 random = new RandomXS128(23, 42);
         IntArray keys = font.mapping.keys().toArray();
         int ks = keys.size;
-        for (int y = 0; y < 24; y++) {
-            for (int x = 0; x < 49; x++) {
-                sb.append((char)keys.get(random.nextInt(ks)));
+        for (int y = 0; y < 18; y++) {
+            for (int x = 0; x < 35; x++) {
+                char c = (char)keys.get(random.nextInt(ks));
+                while (font.breakChars.contains(c) || !font.mapping.containsKey(c))
+                    c = (char)keys.get(random.nextInt(ks));
+                sb.append(c);
             }
             sb.append('\n');
         }
         font.markup(sb.toString(), layout);
+        font.calculateSize(layout);
+        System.out.println(layout.toString());
 
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
         x = Gdx.graphics.getBackBufferWidth() * 0.5f;
