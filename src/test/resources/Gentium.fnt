@@ -1,4 +1,4 @@
-info face="Gentium Plus" size=72 bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 padding=2,2,2,2 spacing=0,0
+info face="Gentium Plus" size=72 bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=0,0
 common lineHeight=111 base=80 scaleW=2048 scaleH=2048 pages=2 packed=0
 page id=0 file="Gentium1.png"
 page id=1 file="Gentium2.png"

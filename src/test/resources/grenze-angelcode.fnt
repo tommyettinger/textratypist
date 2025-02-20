@@ -1,4 +1,4 @@
-info face="Grenze Medium" size=-141 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=2,2,2,2 spacing=0,0 outline=0
+info face="Grenze Medium" size=-141 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=0,0 outline=0
 common lineHeight=210 base=156 scaleW=2048 scaleH=2048 pages=1 packed=0 alphaChnl=0 redChnl=4 greenChnl=4 blueChnl=4
 page id=0 file="grenze-angelcode.png"
 chars count=608
