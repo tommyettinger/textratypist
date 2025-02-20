@@ -509,7 +509,7 @@ public class TextraLabel extends Widget {
      * @param wrap whether to wrap or not
      */
     public TextraLabel setWrap(boolean wrap) {
-        if (this.wrap != (this.wrap = wrap))
+        if (this.wrap != (this.wrap = wrap)) // this means "if setting this.wrap changes it from its old value, do..."
         {
             invalidateHierarchy();
             if(this.wrap) {
@@ -518,6 +518,23 @@ public class TextraLabel extends Widget {
             }
         }
         return this;
+    }
+
+    @Override
+    public void setWidth(float width) {
+        super.setWidth(width);
+        if (wrap) {
+            layout.setTargetWidth(width);
+        }
+        font.calculateSize(layout);
+        invalidateHierarchy();
+    }
+
+    @Override
+    public void setHeight(float height) {
+        super.setHeight(height);
+        font.calculateSize(layout);
+        invalidateHierarchy();
     }
 
     @Override
