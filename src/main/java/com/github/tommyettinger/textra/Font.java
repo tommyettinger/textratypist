@@ -1577,7 +1577,7 @@ public class Font implements Disposable {
      * Font may wrap slightly sooner than BitmapFont if they both are on the threshold of filling a line entirely.
      */
     public Font() {
-        this(new BitmapFont(), 0f, 1f, 0f, -1f);
+        this(new BitmapFont(), 0f, 2f, 0f, 0f);
     }
 
     /**
@@ -2261,7 +2261,7 @@ public class Font implements Disposable {
             if (page == null) continue;
             for (BitmapFont.Glyph glyph : page) {
                 if (glyph != null) {
-                    float x = glyph.srcX, y = glyph.srcY, w = glyph.width, h = glyph.height, a = glyph.xadvance,
+                    float x = glyph.srcX + data.padLeft, y = glyph.srcY + data.padTop, w = glyph.width - data.padLeft, h = glyph.height - data.padTop, a = glyph.xadvance,
                             yOffset = glyph.yoffset;
 
                     // More of this may need to be copied in from BitmapFontData.setGlyphRegion() .

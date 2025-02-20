@@ -38,10 +38,10 @@ public class WelcomeScreen extends ApplicationAdapter {
   @Override
   public void create() {
     stage = new Stage(new ScreenViewport());
-    BitmapFont font = new BitmapFont(Gdx.files.internal("Cozette-standard.fnt"));
+    BitmapFont font = new BitmapFont();
     font.setUseIntegerPositions(false);
     Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
-    Styles.LabelStyle style2 = new Styles.LabelStyle(font, Color.RED);
+    Styles.LabelStyle style2 = new Styles.LabelStyle(new Font(), Color.RED);
     String text = "To pay homage to the great GBTK and a celebration of reaching the tenth one, I have created this masterpiece to reflect upon the happy times we've had together.\n" +
             "\n" +
             "Prepare yourself for a sensuous journey, in which you will have to grab the games from the previous nine GBTKs and categorise them into the appropriate jam. Once all games have been categorised, you shall be automatically whisked away to view how well you did without a chance to rethink your final placement.\n" +
