@@ -314,7 +314,7 @@ public class TypingLabel extends TextraLabel {
         } else {
             workingLayout.setTargetWidth(0f);
             font.markup(newText, workingLayout.clear());
-            setWidth(workingLayout.getWidth() + (style != null && style.background != null ?
+            setSuperWidth(workingLayout.getWidth() + (style != null && style.background != null ?
                     style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
         }
         if (modifyOriginalText) saveOriginalText(newText);
@@ -839,11 +839,11 @@ public class TypingLabel extends TextraLabel {
         // it changes layout, where we only want to change workingLayout.
         boolean changed = false;
         if (this.getWidth() != width) {
-            this.setWidth(width);
+            this.setSuperWidth(width);
             changed = true;
         }
         if(this.getHeight() != height) {
-            this.setHeight(height);
+            this.setSuperHeight(height);
             changed = true;
         }
         if(changed) {

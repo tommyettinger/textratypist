@@ -519,7 +519,7 @@ public class TextraLabel extends Widget {
         }
         return this;
     }
-
+    
     @Override
     public void setWidth(float width) {
         super.setWidth(width);
@@ -547,6 +547,24 @@ public class TextraLabel extends Widget {
         invalidateHierarchy();
     }
 
+    /**
+     * This only exists so code that needs to use {@link com.badlogic.gdx.scenes.scene2d.Actor#setWidth(float)} still
+     * can, even with setWidth() implemented here.
+     * @param width the new width, in world units as a float
+     */
+    public void setSuperWidth(float width) {
+        super.setWidth(width);
+    }
+    
+    /**
+     * This only exists so code that needs to use {@link com.badlogic.gdx.scenes.scene2d.Actor#setHeight(float)} still
+     * can, even with setHeight() implemented here.
+     * @param height the new height, in world units as a float
+     */
+    public void setSuperHeight(float height) {
+        super.setHeight(height);
+    }
+    
     @Override
     public void layout() {
         float width = getWidth();
