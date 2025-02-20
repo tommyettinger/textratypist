@@ -56,8 +56,8 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.enable();
-//		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
-		skin = new FWSkin(Gdx.files.internal("uiskin3.json"));
+		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
+//		skin = new FWSkin(Gdx.files.internal("uiskin3.json"));
 //		skin = new FWSkin(Gdx.files.internal("uiskin4.json"));
 //		skin = new Skin(Gdx.files.internal("uiskin.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
@@ -256,7 +256,7 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 	public static void main(String[] args){
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("TypingLabel UI test");
-		config.setWindowedMode(640, 480);
+		config.setWindowedMode(760, 640);
 		config.disableAudio(true);
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
 		config.useVsync(false);

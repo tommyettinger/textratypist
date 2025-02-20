@@ -62,7 +62,7 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 
 		for(Font f : font.family.connected) {
 			if(f != null)
-				KnownFonts.addEmoji(f, 8, -8, -16);
+				KnownFonts.addEmoji(f);
 		}
 
 		stage = new Stage(new ScreenViewport());

@@ -150,7 +150,7 @@ public class RotationTest extends ApplicationAdapter {
 
             font.drawGlyph(batch, 0xBB0011FE00000000L | '&',//0xBB0011FE00200000L
 //                    2f * font.cellWidth,
-                    (MathUtils.sinDeg(10f * g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length, g,
+                    (int)((MathUtils.sinDeg(10f * g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length), g,
 //                    (MathUtils.sinDeg(since * 0.01f + g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length, g,
                     since * 0.0625f);
         }
