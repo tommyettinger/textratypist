@@ -52,6 +52,7 @@ public class StateTest extends ApplicationAdapter {
 
 //// Also works!
         TypingLabel label = new TypingLabel(text.toString(), skin);
+        label.font.setLineMetrics(0.1f, 0.25f, -0.1f, 0f);
         label.setWrap(true);
         label.setSelectable(true);
         label.setTypingListener(new TypingAdapter(){

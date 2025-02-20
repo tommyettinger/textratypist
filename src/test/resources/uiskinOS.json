@@ -9,7 +9,7 @@ Color: {
 "com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator": {
 	default-font: {
 		font: OpenSans-standard.ttf,
-		size: 13,
+		size: 64,
 		mono: false,
 		color: white,
 		gamma: 1.8,
@@ -29,18 +29,18 @@ Color: {
 		genMipMaps: true,
 		incremental: false,
 		hinting: Medium,
-		minFilter: Linear,
+		minFilter: MipMapLinearLinear,
 		magFilter: Linear,
 		characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890\"!`?'.,;:()[]{}<>|/@\\^$€-%+=#_&~* ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿżźłćąęńśŻŹŁĆĄĘŃŚ"
 	},
 	outline-font: {
 		font: OpenSans-standard.ttf,
-		size: 13,
+		size: 64,
 		mono: false,
 		color: white,
 		gamma: 1.8,
 		renderCount: 2,
-		borderWidth: 1,
+		borderWidth: 4,
 		borderColor: black,
 		borderStraight: false,
 		borderGamma: 1.8,
@@ -55,7 +55,7 @@ Color: {
 		genMipMaps: true,
 		incremental: false,
 		hinting: Medium,
-		minFilter: Linear,
+		minFilter: MipMapLinearLinear,
 		magFilter: Linear,
 		characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890\"!`?'.,;:()[]{}<>|/@\\^$€-%+=#_&~* ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿżźłćąęńśŻŹŁĆĄĘŃŚ"
 	}

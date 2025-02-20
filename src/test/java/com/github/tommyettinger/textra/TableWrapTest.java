@@ -41,7 +41,7 @@ public class TableWrapTest extends ApplicationAdapter {
         Table root = new Table(skin);
         root.setSize(780, 600);
 
-        final Font font = new Font(skin.getFont("outline-font"), 0, -7, 0, 2);
+        final Font font = skin.get("outline-font", Font.class).scaleHeightTo(18).useIntegerPositions(true);//new Font(, 0, -7, 0, 2);
         final Table labels = new Table();
         labels.defaults().pad(5);
         labels.defaults().width(540).growY();
@@ -50,9 +50,10 @@ public class TableWrapTest extends ApplicationAdapter {
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                final float change = 0.7f + MathUtils.random(0.65f);
+                final float change = 18 * (0.7f + MathUtils.random(0.65f));
                 // Changing the Font's scale doesn't automatically resize widgets.
-                font.scale(change, change);
+                font.scaleHeightTo(change);
+                System.out.println("Using height " + change);
                 // So we can resize any widgets that are children of "labels" here.
                 for(Actor a : labels.getChildren()) {
                     // Note that Button and TextraButton don't extend Widget, but they do implement Layout.
