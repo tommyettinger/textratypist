@@ -46,7 +46,7 @@ public class PreviewNotoEmojiGenerator extends ApplicationAdapter {
         viewport = new StretchViewport(1200, 600);
 
         Gdx.files.local("out/").mkdirs();
-        font = KnownFonts.addNotoEmoji(KnownFonts.getAStarry(Font.DistanceFieldType.MSDF).scaleHeightTo(24)).fitCell(32, 32, false);
+        font = KnownFonts.addNotoEmoji(KnownFonts.getAStarry(Font.DistanceFieldType.MSDF).scaleHeightTo(24)).fitCell(32, 32, true);
         layout.setBaseColor(Color.WHITE);
         StringBuilder sb = new StringBuilder(4000);
         sb.append("[%?blacken]");
