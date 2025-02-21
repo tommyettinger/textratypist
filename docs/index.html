@@ -5,1004 +5,150 @@
     <title>TextraTypist Known Fonts</title>
 </head>
 <body>
+<h1>TextraTypist</h1>
+<p>
+    A text-display library centered around a label that prints over time, with both effects and styles.
+    In other words, this brings more features to text rendering in libGDX.
+    <a href="https://github.com/tommyettinger/textratypist">The main repo page is here</a>.
+    <a href="https://tommyettinger.github.io/fontwriter/knownFonts/apidocs/">The JavaDocs are here</a>.
+</p>
+<p>
+    This page has the list of all fonts the library ships with, in the
+    <a href="https://github.com/tommyettinger/textratypist/tree/main/knownFonts">knownFonts</a> folder, which can be
+    accessed via the KnownFonts class. You can make your own fonts using Hiero, Skin Composer, AngelCode BMFont, or
+    <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a>; you aren't limited to these fonts alone.
+</p>
+<p>
+    To use a Font, you need a .png image and another file that tells TextraTypist how to locate each glyph in that
+    image, as well as the metrics like how far a 'g' or 'j' extends below the baseline, or how far 'Y' goes above it.
+    These files can be .fnt files and usually are for pixel fonts, but the newer fonts generally look better by using a
+    JSON-based generator, <a href="https://github.com/Chlumsky/msdf-atlas-gen">msdf-atlas-gen</a>. The JSON files it
+    generates are technically-human-readable, but tend to be rather large. TextraTypist 1.0.0 and newer can read in
+    ".dat" files as compressed ".json" files, and TextraTypist 2.0.0 and newer prefers ".json.lzma" files, which are
+    compressed much more tightly. If you take any of the links to ".json" fonts and add ".lzma" to the end, that should
+    be a valid link to the 2.0.0-compatible font data. The ".dat" files are probably fine also.
+</p>
 <h1>Known Fonts</h1>
 <br>
-<h2>A Starry</h2>
-<br>
-<img src="previews/A-Starry.png" alt="A Starry"/>
-<br>
-(uses width=8, height=8)
-<br>
-A very large fixed-width Font already configured to use a square font with 45-degree angled sections,
-based on the typeface used on the Atari ST console. This font only supports ASCII, but it supports all of it.
-Caches the result for later calls. The font is "a-starry", based on "Atari ST (low-res)" by Damien Guard; it is
-available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
-Ettinger, because he made changes in a-starry) if you use it.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.fnt">AStarry-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.png">AStarry-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-License.txt">AStarry-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>A Starry Tall</h2>
-<br>
-<img src="previews/A-Starry-Tall.png" alt="A Starry Tall"/>
-<br>
-(uses width=8, height=16)
-<br>
-The above A Starry also looks good if you scale it so its height is twice its width. For small sizes, you should stick to
-multiples of 8. This "A Starry Tall" version is present in getAll() and getAllStandard(). This font only supports ASCII,
-but it supports all of it. Caches the result for later calls. The font is "a-starry", based on "Atari ST (low-res)" by
-Damien Guard; it is available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
-Ettinger, because he made changes in a-starry) if you use it.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.fnt">AStarry-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-standard.png">AStarry-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-License.txt">AStarry-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>A Starry using MSDF</h2>
-<br>
-<img src="previews/A-Starry (MSDF).png" alt="A Starry using MSDF"/>
-<br>
-(uses width=10, height=10, crispness=2.0)
-<br>
-A Font already configured to use a square font with 45-degree angled sections, based on the
-typeface used on the Atari ST console, that should scale cleanly to many sizes. This font only supports ASCII,
-but it supports all of it. Caches the result for later calls. The font is "a-starry", based on "Atari ST
-(low-res)" by Damien Guard; it is available under a CC-BY-SA-3.0 license, which requires attribution to Damien
-Guard (and technically Tommy Ettinger, because he made changes in a-starry) if you use it. This uses the
-Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
-which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
-<br>
-If you only need sizes in small integer multiples of 8 pixels, you might get sharper-looking results from
-getAStarry().
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-msdf.fnt">AStarry-msdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-msdf.png">AStarry-msdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/AStarry-License.txt">AStarry-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Bitter</h2>
-<br>
-<img src="previews/Bitter.png" alt="Bitter"/>
-<br>
-(uses width=33, height=30)
-<br>
-A Font already configured to use a light-weight variable-width slab serif font with good Latin and
-Cyrillic script support, that should scale pretty well from a height of about 160 down to a height of maybe 30.
-Caches the result for later calls. The font used is Bitter, a free (OFL) typeface by <a href="https://github.com/solmatas/BitterPro">The Bitter Project</a>.
-It supports quite a lot of Latin-based scripts and Cyrillic, but does not really cover Greek or any other
-scripts. This font can look good at its natural size, which uses width roughly equal to height,
-or squashed so height is slightly smaller. Bitter looks very similar to Gentium, except that Bitter
-is quite a bit lighter, with thinner strokes and stylistic flourishes on some glyphs.
-This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-standard.fnt">Bitter-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-standard.png">Bitter-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bitter-License.txt">Bitter-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Canada1500</h2>
-<br>
-<img src="previews/Canada1500.png" alt="Canada1500"/>
-<br>
-(uses width=30, height=35)
-<br>
-A Font already configured to use a very-legible variable-width font with strong support for Canadian
-Aboriginal Syllabic, that should scale pretty well from a height of about 86 down to a height of maybe 30.
-Caches the result for later calls. The font used is Canada1500, a free (public domain, via CC0) typeface by Ray
-Larabie. It supports quite a lot of Latin-based scripts, Greek, Cyrillic, Canadian Aboriginal Syllabic, arrows,
-many dingbats, and more. This font can look good at its natural size, which uses width roughly equal to height,
-or narrowed down so width is smaller.
-This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.fnt">Canada1500-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-standard.png">Canada1500-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Canada1500-License.txt">Canada1500-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Cascadia Code Mono</h2>
-<br>
-<img src="previews/Cascadia-Mono.png" alt="Cascadia Code Mono"/>
-<br>
-(uses width=10, height=20)
-<br>
-A Font already configured to use a quirky fixed-width font with good Unicode support
-and a humanist style, that should scale well from a height of about 60 pixels to about 15 pixels.
-Caches the result for later calls. The font used is Cascadia Code Mono, an open-source (SIL Open Font
-License) typeface by Microsoft (see <a href="https://github.com/microsoft/cascadia-code">Microsoft's page</a>).
-It supports a lot of glyphs, including most extended Latin, Greek, Braille, and Cyrillic.
-This uses a fairly-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-standard.fnt">CascadiaMono-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-standard.png">CascadiaMono-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Cascadia Code Mono using MSDF</h2>
-<br>
-<img src="previews/Cascadia-Mono (MSDF).png" alt="Cascadia Code Mono using MSDF"/>
-<br>
-(uses width=10, height=20)
-<br>
-A Font already configured to use a quirky fixed-width font with good Unicode support
-and a humanist style, that should scale cleanly to even very large sizes (using an MSDF technique).
-Caches the result for later calls. The font used is Cascadia Code Mono, an open-source (SIL Open Font
-License) typeface by Microsoft (see <a href="https://github.com/microsoft/cascadia-code">Microsoft's page</a>).
-It supports a lot of glyphs,
-including most extended Latin, Greek, Braille, and Cyrillic. This uses the Multi-channel Signed Distance
-Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
-sharper edges and precise corners instead of rounded tips on strokes.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-msdf.fnt">CascadiaMono-msdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/CascadiaMono-msdf.png">CascadiaMono-msdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Caveat</h2>
-<br>
-<img src="previews/Caveat.png" alt="Caveat"/>
-<br>
-(uses width=32, height=32)
-<br>
-A Font already configured to use a variable-width handwriting font with support for extended Latin and
-Cyrillic, that should scale pretty well from a height of about 160 down to a height of maybe 20. It will look
-sharper and more aliased at smaller sizes, but should be relatively smooth at a height of 32 or so. This is a
-sort of natural handwriting, as opposed to the formal script in Tangerine.
-Caches the result for later calls. The font used is Caveat, a free (OFL) typeface designed by Pablo Impallari.
-This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-standard.fnt">Caveat-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-standard.png">Caveat-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Caveat-License.txt">Caveat-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Cozette</h2>
-<br>
-<img src="previews/Cozette.png" alt="Cozette"/>
-<br>
-(uses width=6, height=17, useIntegerPositions(true); this size is small enough to make the scaled text unreadable in some places)
-<br>
-Returns a Font configured to use a cozy fixed-width bitmap font,
-<a href="https://github.com/slavfox/Cozette">Cozette by slavfox</a>. Cozette has broad coverage of Unicode,
-including Greek, Cyrillic, Braille, and tech-related icons. This does not scale well except to integer
-multiples, but it should look very crisp at its default size of 6x17 pixels. This defaults to having
-integerPosition set to true, which currently does nothing (the code that enforces integer positions
-seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-standard.fnt">Cozette-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-standard.png">Cozette-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cozette-License.txt">Cozette-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>DejaVu Sans Mono using MSDF</h2>
-<br>
-<img src="previews/DejaVu-Sans-Mono (MSDF).png" alt="DejaVu Sans Mono using MSDF"/>
-<br>
-(uses width=9, height=20, crispness=2.0)
-<br>
-A nice old standby font with very broad language support, DejaVu Sans Mono is fixed-width and can be clearly
-readable but doesn't do anything unusual stylistically. It really does handle a lot of glyphs; not only does this
-have practically all Latin glyphs in Unicode (enough to support everything from Icelandic to Vietnamese), it has
-Greek (including Extended), Cyrillic (including some optional glyphs), IPA, Armenian (maybe the only font here to
-do so), Georgian (which won't be treated correctly by some case-insensitive code, so it should only be used if
-case doesn't matter), and Lao. It has full box drawing and Braille support, handles a wide variety of math
-symbols, technical marks, and dingbats, etc. This uses the Multi-channel Signed Distance
-Field (MSDF) technique as opposed to the normal Signed Distance Field technique, which gives the rendered font
-sharper edges and precise corners instead of rounded tips on strokes.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-msdf.fnt">DejaVuSansMono-msdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-msdf.png">DejaVuSansMono-msdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DejaVuSansMono-License.txt">DejaVuSansMono-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Gentium</h2>
-<br>
-<img src="previews/Gentium.png" alt="Gentium"/>
-<br>
-(uses width=31, height=35)
-<br>
-A Font already configured to use a variable-width serif font with excellent Unicode support, that should
-scale well from a height of about 132 down to a height of 34. Caches the result for later calls. The font used is
-Gentium, an open-source (SIL Open Font License) typeface by SIL (see
-<a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It supports a lot of glyphs,
-including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
-real languages. This does not use a distance field effect, as opposed to Gentium SDF or MSDF. You may want
-to stick using just fonts that avoid distance fields if you have a family of fonts.
-You can also use KnownFonts.getStandardFamily() to obtain a variant on this Font that has a FontFamily already.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-standard.fnt">Gentium-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-standard.png">Gentium-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Gentium using MSDF</h2>
-<br>
-<img src="previews/Gentium (MSDF).png" alt="Gentium using MSDF"/>
-<br>
-(uses width=50, height=45, crispness=3, adjustLineHeight(0.625f))
-<br>
-A Font already configured to use a variable-width serif font with excellent Unicode support, that should
-scale cleanly to even very large sizes (using an MSDF technique). You usually will want to reduce the line height
-of this Font after you scale it; using <pre>KnownFonts.getGentiumMSDF().scaleTo(55, 45).adjustLineHeight(0.8f)</pre>
-usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
-License) typeface by SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It
-supports a lot of glyphs, including quite a
-bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. This
-uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
-technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-msdf.fnt">Gentium-msdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-msdf.png">Gentium-msdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Gentium using SDF</h2>
-<br>
-<img src="previews/Gentium (SDF).png" alt="Gentium using SDF"/>
-<br>
-(uses width=50, height=45, crispness=1.5, adjustLineHeight(0.625f))
-<br>
-A Font already configured to use a variable-width serif font with excellent Unicode support, that should
-scale cleanly to even very large sizes (using an SDF technique). You usually will want to reduce the line height
-of this Font after you scale it; using <pre>KnownFonts.getGentiumSDF().scaleTo(55, 45).adjustLineHeight(0.625f)</pre>
-usually works. Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font
-License) typeface by SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>). It
-supports a lot of glyphs, including quite a
-bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. This
-uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but should be
-crisp enough when zoomed out.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.fnt">Gentium-sdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-sdf.png">Gentium-sdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Gentium Un-Italic</h2>
-<br>
-<img src="previews/Gentium-Un-Italic.png" alt="Gentium Un-Italic"/>
-<br>
-(uses width=60, height=36)
-<br>
-Returns a Font already configured to use a variable-width "italic-like" serif font with excellent Unicode
-support, that should scale well from a height of about 97 down to a height of 30.
-Caches the result for later calls. The font used is Gentium, an open-source (SIL Open Font License) typeface by
-SIL (see <a href="https://software.sil.org/gentium/">SIL's page on Gentium here</a>), but this took Gentium
-Italic and removed the 8-degree slant it had, so it looks like a regular face but with the different serif style
-and the "flow" of an italic font. This helps it look closer to carefully-hand-written text mixed with a serif
-typeface, and may fit well as a main-text font for medieval or Renaissance-period games while something like
-Kingthings Foundation is used for titles or headers. It supports a lot of glyphs, including quite a
-bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various real languages. Even
-though glyphs are not especially wide here, this Font does need to be configured with a much larger width than
-height to be readable. This does not use a distance field effect. You may want to stick using just fonts that
-avoid distance fields if you have a family of fonts.
-<br>
-Thanks to Siavash Ranbar, who came up with the idea to take an italic version of a serif font and remove its
-slant, keeping the different flow from a simple oblique font.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GentiumUnItalic-standard.fnt">GentiumUnItalic-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GentiumUnItalic-standard.png">GentiumUnItalic-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Go Noto Universal</h2>
-<br>
-<img src="previews/Go-Noto-Universal.png" alt="Go Noto Universal"/>
-<br>
-(uses width=66, height=33)
-<br>
-Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support, that
-should scale cleanly to medium-small sizes (but not large sizes). Caches the result for later calls. The
-font used is Go Noto Universal, an open-source (SIL Open Font License) typeface that modifies Noto Sans by Google
-(see <a href="https://github.com/satbyy/go-noto-universal">Go Noto Universal's page is here</a>, and
-<a href="https://notofonts.github.io/">Noto Fonts have a page here</a>). It supports... most glyphs, from many
-languages, including essentially all extended Latin, Greek, Cyrillic, Chinese, Japanese, Armenian, Ethiopic,
-Cherokee, Javanese... Most scripts are here, though not Hangul (used for Korean). This also has symbols for math,
-music, and other usage. Unlike getGoNotoUniversalSDF(), the SDF version, the standard version should have
-a stable baseline. The texture this uses is larger than many of the others here, at 4096x4096 pixels, but the
-file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and Twemoji.png are each larger than
-GoNotoUniversal-standard.png . The .fnt has 21274 glyphs plus extensive kerning info, though, so it is large.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-standard.fnt">GoNotoUniversal-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-standard.png">GoNotoUniversal-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-License.txt">GoNotoUniversal-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Go Noto Universal using SDF</h2>
-<br>
-<img src="previews/Go-Noto-Universal (SDF).png" alt="Go Noto Universal using SDF"/>
-<br>
-(uses width=43.25, height=34, setCrispness(1.8f))
-<br>
-Returns a Font already configured to use a variable-width sans-serif font with extreme pan-Unicode support, that
-should scale cleanly to even very large sizes (using an SDF technique). Caches the result for later calls. The
-font used is Go Noto Universal, an open-source (SIL Open Font License) typeface that modifies Noto Sans by Google
-(see <a href="https://github.com/satbyy/go-noto-universal">Go Noto Universal's page is here</a>, and
-<a href="https://notofonts.github.io/">Noto Fonts have a page here</a>). It supports... most glyphs, from all
-languages, including essentially all extended Latin, Greek, Cyrillic, Chinese, Japanese, Korean, Armenian,
-Ethiopic, Canadian Aboriginal scripts, Yi, Javanese... Pretty much every script is here, plus symbols for math,
-music, and other usage. The baseline may be slightly uneven at larger sizes, but should even out when height is
-less than 40 or so. This uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed
-in heavily, but should be crisp enough when zoomed out. The texture this uses is larger than many of the others
-here, at 4096x4096 pixels, but the file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and
-Twemoji.png are each larger than GoNotoUniversal-sdf.png . The .fnt has 24350 glyphs plus extensive kerning info,
-though, so it is quite large.
-<br>
-A quirk of this particular .fnt file is that it uses features specific to TextraTypist; as far as I know, it
-cannot be read by the libGDX BitmapFont class. These features are simply how it stores metric values -- as float,
-rather than only as int. You should probably not try to load GoNotoUniversal-sdf.fnt with BitmapFont or
-DistanceFieldFont in libGDX. Using floats is very helpful for the distance field effect; without them, most
-glyphs would render slightly off from the intended position, due to rounding to an int instead of using a float.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-sdf.fnt">GoNotoUniversal-sdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-sdf.png">GoNotoUniversal-sdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/GoNotoUniversal-License.txt">GoNotoUniversal-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Hanazono</h2>
-<br>
-<img src="previews/Hanazono.png" alt="Hanazono"/>
-<br>
-(uses width=16, height=20)
-<br>
-Returns a Font already configured to use a variable-width, narrow font with nearly-complete CJK character
-coverage, plus Latin, Greek, and Cyrillic, that shouldm scale pretty well down, but not up.
-Caches the result for later calls. The font used is Hanazono (HanMinA, specifically), a free (OFL) typeface.
-This uses a somewhat-small standard bitmap font because of how many glyphs are present (over 34000); it might not
-scale as well as other standard bitmap fonts here. You may want to consider getGoNotoUniversalSDF() if
-you can use an SDF font, since it scales up with higher quality.
-Otherwise, this may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-standard.fnt">Hanazono-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-standard.png">Hanazono-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Hanazono-License.txt">Hanazono-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>IBM 8x16</h2>
-<br>
-<img src="previews/IBM-8x16.png" alt="IBM 8x16"/>
-<br>
-(uses width=8, height=16)
-<br>
-Returns a Font configured to use a classic, nostalgic fixed-width bitmap font,
-IBM 8x16 from the early, oft-beloved computer line. This font is notably loaded
-from a SadConsole format file, which shouldn't affect how it looks (but in reality,
-it might). This does not scale except to integer multiples, but it should look very
-crisp at its default size of 8x16 pixels. This supports some extra characters, but
-not at the typical Unicode codepoints. This defaults to having
-integerPosition set to true, which currently does nothing (the code that enforces integer positions
-seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-This does not include a license because the source, <a href="https://github.com/Thraka/SadConsole/tree/master/Fonts">SadConsole's fonts</a>,
-did not include one. It is doubtful that IBM would have any issues with respectful use
-of their signature font throughout the 1980s, but if the legality is concerning, you
-can use Cozette or QuanPixel for a different bitmap font. There
-is also A Starry for a non-pixel font styled after a font from the same era.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-standard.font">IBM-8x16-standard.font</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-standard.png">IBM-8x16-standard.png</a></li>
-</ul>
-<br>
-<br>
-<h2>Inconsolata LGC</h2>
-<br>
-<img src="previews/Inconsolata-LGC.png" alt="Inconsolata LGC"/>
-<br>
-(uses width=10, height=26)
-<br>
-A customized version of Inconsolata LGC, a fixed-width geometric font that supports a large range of Latin,
-Greek, and Cyrillic glyphs, plus box drawing and some dingbat characters (like zodiac signs). The original font
-Inconsolata is by Raph Levien, and various other contributors added support for other languages. This does not
-use a distance field effect, as opposed to Inconsolata MSDF.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-standard.fnt">Inconsolata-LGC-Custom-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-standard.png">Inconsolata-LGC-Custom-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Inconsolata LGC using MSDF</h2>
-<br>
-<img src="previews/Inconsolata-LGC (MSDF).png" alt="Inconsolata LGC using MSDF"/>
-<br>
-(uses width=12, height=26, crispness=1.2)
-<br>
-A customized version of Inconsolata LGC, a fixed-width geometric font that supports a large range of Latin,
-Greek, and Cyrillic glyphs, plus box drawing and some dingbat characters (like zodiac signs). The original font
-Inconsolata is by Raph Levien, and various other contributors added support for other languages. This uses the
-Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field technique,
-which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-msdf.fnt">Inconsolata-LGC-Custom-msdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-Custom-msdf.png">Inconsolata-LGC-Custom-msdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Iosevka</h2>
-<br>
-<img src="previews/Iosevka.png" alt="Iosevka"/>
-<br>
-(uses .scaleTo(10, 24).fitCell(10, 24, false))
-<br>
-A Font already configured to use a highly-legible fixed-width font with good Unicode support
-and a sans-serif geometric style. Does not use a distance field effect, and is sized best at 9x25 pixels.
-Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font License) typeface by
-<a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several customizations
-thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
-Greek, and Cyrillic.
-This Font is already configured with Font.fitCell(float, float, boolean), and repeated calls to fitCell()
-have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-standard.fnt">Iosevka-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-standard.png">Iosevka-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
-</ul>
-<br>
-<br>
-<h2>Iosevka using MSDF</h2>
-<br>
-<img src="previews/Iosevka (MSDF).png" alt="Iosevka using MSDF"/>
-<br>
-(uses .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false))
-<br>
-A Font already configured to use a highly-legible fixed-width font with good Unicode support
-and a sans-serif geometric style, that should scale cleanly to even very large sizes (using an MSDF technique).
-Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font License) typeface by
-<a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several customizations
-thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
-Greek, and Cyrillic.
-This Font is already configured with Font.fitCell(float, float, boolean), and repeated calls to fitCell()
-have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
-This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
-technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
-However, using a distance field makes it effectively impossible to mix fonts using a FontFamily (any variation in
-distance field settings would make some fonts in the family blurry and others too sharp).
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-msdf.fnt">Iosevka-msdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-msdf.png">Iosevka-msdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
-</ul>
-<br>
-<br>
-<h2>Iosevka using SDF</h2>
-<br>
-<img src="previews/Iosevka (SDF).png" alt="Iosevka using SDF"/>
-<br>
-(uses .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false))
-<br>
-A Font already configured to use a highly-legible fixed-width font with good Unicode support
-and a sans-serif geometric style, that should scale cleanly to fairly large sizes (using an SDF technique).
-Caches the result for later calls. The font used is Iosevka, an open-source (SIL Open Font License) typeface by
-<a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several customizations
-thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
-Greek, and Cyrillic.
-This Font is already configured with Font.fitCell(float, float, boolean), and repeated calls to fitCell()
-have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
-This uses the Signed Distance Field (SDF) technique as opposed to the Multi-channel Signed Distance Field
-technique that Iosevka MSDF uses, which isn't as sharp at large sizes but can look a little better
-at small sizes. However, using a distance field makes it effectively impossible to mix fonts using a FontFamily
-(any variation in distance field settings would make some fonts in the family blurry and others too sharp).
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-sdf.fnt">Iosevka-sdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-sdf.png">Iosevka-sdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
-</ul>
-<br>
-<br>
-<h2>Iosevka Slab</h2>
-<br>
-<img src="previews/Iosevka-Slab.png" alt="Iosevka Slab"/>
-<br>
-(uses .scaleTo(10, 24).fitCell(10, 24, false))
-<br>
-A Font already configured to use a highly-legible fixed-width font with good Unicode support
-and a slab-serif geometric style. Does not use a distance field effect, and is sized best at 9x25 pixels.
-Caches the result for later calls. The font used is Iosevka with Slab style, an open-source (SIL Open Font
-License) typeface by <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several
-customizations thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of
-extended Latin, Greek, and Cyrillic.
-This Font is already configured with Font.fitCell(float, float, boolean), and repeated calls to fitCell()
-have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-standard.fnt">Iosevka-Slab-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-standard.png">Iosevka-Slab-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
-</ul>
-<br>
-<br>
-<h2>Iosevka Slab using MSDF</h2>
-<br>
-<img src="previews/Iosevka-Slab (MSDF).png" alt="Iosevka Slab using MSDF"/>
-<br>
-(uses .setCrispness(2.5f).scaleTo(12, 26).fitCell(10, 25, false))
-<br>
-A Font already configured to use a highly-legible fixed-width font with good Unicode support
-and a slab-serif geometric style, that should scale cleanly to even very large sizes (using an MSDF technique).
-Caches the result for later calls. The font used is Iosevka with Slab style, an open-source (SIL Open Font
-License) typeface by <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several
-customizations thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of
-extended Latin, Greek, and Cyrillic.
-This Font is already configured with Font.fitCell(float, float, boolean), and repeated calls to fitCell()
-have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
-This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
-technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.fnt">Iosevka-Slab-msdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-msdf.png">Iosevka-Slab-msdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
-</ul>
-<br>
-<br>
-<h2>Iosevka Slab using SDF</h2>
-<br>
-<img src="previews/Iosevka-Slab (SDF).png" alt="Iosevka Slab using SDF"/>
-<br>
-(uses .setCrispness(0.75f).scaleTo(12, 26).fitCell(10, 25, false))
-<br>
-A Font already configured to use a highly-legible fixed-width font with good Unicode support
-and a slab-serif geometric style, that should scale cleanly to fairly large sizes (using an SDF technique).
-Caches the result for later calls. The font used is Iosevka with Slab style, an open-source (SIL Open Font
-License) typeface by <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>, and it uses several
-customizations thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of
-extended Latin, Greek, and Cyrillic.
-This Font is already configured with Font.fitCell(float, float, boolean), and repeated calls to fitCell()
-have an unknown effect; you may want to stick to scaling this and not re-fitting if you encounter issues.
-This uses the Signed Distance Field (SDF) technique as opposed to the Multi-channel Signed Distance Field
-technique that Iosevka Slab MSDF uses, which isn't as sharp at large sizes but can look a little
-better at small sizes.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-sdf.fnt">Iosevka-Slab-sdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Slab-sdf.png">Iosevka-Slab-sdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li>
-</ul>
-<br>
-<br>
-<h2>Kingthings Foundation</h2>
-<br>
-<img src="previews/Kingthings-Foundation.png" alt="Kingthings Foundation"/>
-<br>
-(uses scaleTo(23, 31))
-<br>
-A Font already configured to use a fairly-legible variable-width ornamental/medieval font, that should
-scale pretty well from a height of about 90 down to a height of maybe 30.
-Caches the result for later calls. The font used is Kingthings Foundation, a free (custom permissive license)
-typeface; this has faux-bold applied already in order to make some ornamental curls visible at more sizes. You
-can still apply bold again using markup. It supports only ASCII. You may want to also look at
-Kingthings Petrock; where Petrock is less-ornamented, Foundation is heavily
-ornamented, and Foundation may make sense for text associated with writers of high social status.
-This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.fnt">KingthingsFoundation-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-standard.png">KingthingsFoundation-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
-</ul>
-<br>
-You may instead want the non-bold version, but this doesn't have a pre-made instance in KnownFonts:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-Light-standard.fnt">KingthingsFoundation-Light-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsFoundation-Light-standard.png">KingthingsFoundation-Light-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Kingthings Petrock</h2>
-<br>
-<img src="previews/Kingthings-Petrock.png" alt="Kingthings Petrock"/>
-<br>
-(uses scaleTo(25, 32))
-<br>
-Returns a Font already configured to use a clearly-legible variable-width medieval font, that should
-scale pretty well from a height of about 90 down to a height of maybe 30.
-Caches the result for later calls. The font used is Kingthings Petrock, a free (custom permissive license)
-typeface; it has a visual style similar to one used by some popular classic rock bands. It supports only ASCII
-and a small amount of extended Latin. Kingthings Petrock is similar to
-Kingthings Foundation, but Petrock isn't as heavily-ornamented, and looks more
-like "every-day usable" medieval or maybe Renaissance text.
-This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-This may work well in a font family with other fonts that do not use a distance field effect.<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsPetrock-standard.fnt">KingthingsPetrock-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/KingthingsPetrock-standard.png">KingthingsPetrock-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>LanaPixel</h2>
-<br>
-<img src="previews/LanaPixel.png" alt="LanaPixel"/>
-<br>
-(uses width=20, height=15)
-<br>
-Returns a Font already configured to use a variable-width pixel font with excellent Unicode support, that
-probably should only be used at integer multiples of its normal size.
-Caches the result for later calls. The font used is LanaPixel, an open-source (dual-licensed under the SIL Open
-Font License and Creative Commons Attribution License) typeface. It supports an incredible amount of glyphs,
-and is meant to allow localizing to just about any widely-used language.
-This uses a tiny standard bitmap font, and it can only be used as-is or scaled up by integer multiples.
-This defaults to having integerPosition set to true, which currently does nothing (the code that
-enforces integer positions seems to ruin the appearance of any font that uses it, so that code isn't ever used
-now). This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LanaPixel-standard.fnt">LanaPixel-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LanaPixel-standard.png">LanaPixel-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LanaPixel-CCBYLicense.txt">LanaPixel-CCBYLicense.txt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LanaPixel-OpenFontLicense.txt">LanaPixel-OpenFontLicense.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>LibertinusSerif</h2>
-<br>
-<img src="previews/Libertinus-Serif.png" alt="LibertinusSerif"/>
-<br>
-(uses width=40, height=34)
-<br>
-A Font already configured to use a variable-width serif font with good Unicode support, that should
-scale cleanly to fairly large sizes or down to about 20 pixels.
-Caches the result for later calls. The font used is Libertinus Serif, an open-source (SIL Open Font
-License) typeface. It supports a lot of glyphs, including quite a bit of extended Latin, Greek, and Cyrillic.
-This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-This may work well in a font family with other fonts that do not use a distance field effect. Earlier versions of
-this font used an MSDF effect, but that doesn't work well with kerning, so the spacing between letters was odd,
-and in general the font just didn't look as good as the similar Gentium SDF or even Gentium. The MSDF files are still
-present in the same directory where they were, but they are no longer used by TextraTypist.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-standard.fnt">LibertinusSerif-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-standard.png">LibertinusSerif-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/LibertinusSerif-License.txt">LibertinusSerif-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Now Alt</h2>
-<br>
-<img src="previews/Now-Alt.png" alt="Now Alt"/>
-<br>
-(uses width=29, height=33)
-<br>
-Returns a Font already configured to use a variable-width geometric sans-serif font, that should
-scale cleanly to fairly large sizes or down to about 20 pixels.
-Caches the result for later calls. The font used is Now Alt, an open-source (SIL Open Font License) typeface by
-Hanken Design Co. It has decent glyph coverage for most European languages, but doesn't fully support Greek or
-Cyrillic. This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
-well. This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-standard.fnt">Now-Alt-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-standard.png">Now-Alt-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Now-Alt-License.txt">Now-Alt-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>OpenSans</h2>
-<br>
-<img src="previews/Open-Sans.png" alt="OpenSans"/>
-<br>
-(uses width=20, height=28)
-<br>
-A Font configured to use a clean variable-width font, Open Sans. It has good extended-Latin coverage, but
-does not support Greek, Cyrillic, or other scripts. This makes an especially large font by default, but can be
-scaled down nicely.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-standard.fnt">OpenSans-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-standard.png">OpenSans-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/OpenSans-License.txt">OpenSans-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Oxanium</h2>
-<br>
-<img src="previews/Oxanium.png" alt="Oxanium"/>
-<br>
-(uses width=31, height=35)
-<br>
-A Font already configured to use a variable-width "science-fiction/high-tech" font, that should
-scale pretty well down, but not up.
-Caches the result for later calls. The font used is Oxanium, a free (OFL) typeface. It supports a lot of Latin
-and extended Latin, but not Greek or Cyrillic.
-This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.fnt">Oxanium-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-standard.png">Oxanium-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Oxanium-License.txt">Oxanium-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>QuanPixel</h2>
-<br>
-<img src="previews/QuanPixel.png" alt="QuanPixel"/>
-<br>
-(uses width=12, height=12; this size is small enough to make the scaled text unreadable in some places)
-<br>
-A Font configured to use a small variable-width bitmap font with extensive coverage of Asian scripts,
-<a href="https://diaowinner.itch.io/galmuri-extended">QuanPixel</a>. QuanPixel has good coverage of Unicode,
-including all of Greek, at least most of Cyrillic, a good amount of extended Latin, all of Katakana and Hiragana,
-many Hangul syllables, and literally thousands of CJK ideograms. This does not scale well except to integer
-multiples, but it should look very crisp at its default size of about 8 pixels tall with variable width. This
-defaults to having Font.integerPosition set to true, which helps keep it pixel-perfect if 1 world unit is
-1 pixel, but can cause major visual issues if 1 world unit corresponds to much more than 1 pixel.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/QuanPixel-standard.fnt">QuanPixel-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/QuanPixel-standard.png">QuanPixel-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/QuanPixel-License.txt">QuanPixel-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>RobotoCondensed</h2>
-<br>
-<img src="previews/Roboto-Condensed.png" alt="RobotoCondensed"/>
-<br>
-(uses width=20, height=32)
-<br>
-A Font already configured to use a very-legible condensed variable-width font with excellent Unicode
-support, that should scale pretty well from a height of about 62 down to a height of maybe 20.
-Caches the result for later calls. The font used is Roboto Condensed, a free (Apache 2.0) typeface by Christian
-Robertson. It supports Latin-based scripts almost entirely, plus Greek, (extended) Cyrillic, and more.
-This font is meant to be condensed in its natural appearance, but can be scaled to be wider if desired.
-This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-standard.fnt">RobotoCondensed-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-standard.png">RobotoCondensed-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/RobotoCondensed-License.txt">RobotoCondensed-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Tangerine</h2>
-<br>
-<img src="previews/Tangerine.png" alt="Tangerine"/>
-<br>
-(uses width=48, height=32)
-<br>
-A Font already configured to use a variable-width script font, that should scale pretty well down, but not up.
-Caches the result for later calls. The font used is Tangerine, a free (OFL) typeface. It supports Latin only,
-with a little support for Western European languages, but not really anything else. It looks elegant, though.
-This uses a very-large standard bitmap font, which lets it be scaled down OK but not scaled up very well.
-Some sizes may look very sharply-aliased with this version of Tangerine, but Tangerine SDF doesn't
-seem to have that problem.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-standard.fnt">Tangerine-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-standard.png">Tangerine-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Tangerine using SDF</h2>
-<br>
-<img src="previews/Tangerine (SDF).png" alt="Tangerine using SDF"/>
-<br>
-(uses width=48, height=32, setCrispness(0.375f))
-<br>
-A Font already configured to use a variable-width script font, that should
-scale pretty well down, but not up.
-Caches the result for later calls. The font used is Tangerine, a free (OFL) typeface. It supports Latin only,
-with a little support for Western European languages, but not really anything else. It looks elegant, though.
-This uses the Signed Distance Field (SDF) technique, which may be slightly fuzzy when zoomed in heavily, but
-should be crisp enough when zoomed out. If you need to mix in images such as with KnownFonts.addEmoji(Font), you
-may be better off with Tangerine, the standard-bitmap-font version.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-sdf.fnt">Tangerine-sdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-sdf.png">Tangerine-sdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>YanoneKaffeesatz</h2>
-<br>
-<img src="previews/Yanone-Kaffeesatz.png" alt="YanoneKaffeesatz"/>
-<br>
-(uses width=26, height=30)
-<br>
-A Font already configured to use a variable-width, narrow, humanist font, that should
-scale pretty well down, but not up.
-Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
-of Latin, Cyrillic, and some extended Latin, but not Greek.
-This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
-This may work well in a font family with other fonts that do not use a distance field effect.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-standard.fnt">YanoneKaffeesatz-standard.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-standard.png">YanoneKaffeesatz-standard.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-License.txt">YanoneKaffeesatz-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>YanoneKaffeesatz using MSDF</h2>
-<br>
-<img src="previews/Yanone-Kaffeesatz (MSDF).png" alt="YanoneKaffeesatz using MSDF"/>
-<br>
-(uses width=26, height=30, crispness=2.5)
-<br>
-A Font already configured to use a variable-width, narrow, humanist font, that should
-scale very well up or down, but isn't compatible with inline images such as addEmoji().
-Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
-of Latin, Cyrillic, and some extended Latin, but not Greek.
-This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
-technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-msdf.fnt">YanoneKaffeesatz-msdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-msdf.png">YanoneKaffeesatz-msdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/YanoneKaffeesatz-License.txt">YanoneKaffeesatz-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Yataghan using MSDF</h2>
-<br>
-<img src="previews/Yataghan (MSDF).png" alt="Yataghan using MSDF"/>
-<br>
-(uses width=20, height=32)
-<br>
-A Font already configured to use a variable-width, narrow, "dark fantasy" font, that should
-scale very well up or down, but isn't compatible with inline images such as addEmoji().
-Caches the result for later calls. The font used is Yataghan, a widely-distributed typeface. It supports ASCII
-and some extended Latin, but not much else.
-This uses the Multi-channel Signed Distance Field (MSDF) technique as opposed to the normal Signed Distance Field
-technique, which gives the rendered font sharper edges and precise corners instead of rounded tips on strokes.
-<br>
-I don't know who the original author of Yataghan was; if you are the original author and want attribution or want
-this font removed, please post an issue on the tommyettinger/textratypist GitHub repo, or email tommyettinger.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-msdf.fnt">Yataghan-msdf.fnt</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-msdf.png">Yataghan-msdf.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Emoji for fonts (using Twemoji)</h2>
-<br>
-<img src="previews/EmojiPreview.png" alt="Emoji Preview"/>
-<br>
-You can add emoji to a font as inline images with KnownFonts.addEmoji(Font).
-Emoji don't work at all with MSDF fonts, and don't have as-smooth edges with SDF fonts, but work as intended
-with "standard" fonts (without a distance field effect). They can scale reasonably well down, and less-reasonably well
-up, but at typical text sizes (12-30 pixels in height) they tend to be legible. There are over 3000 emoji in the Twemoji
-set, and they are accessible both by name, using the syntax <code>[+clown face]</code>, and by entering the actual
-emoji, using the syntax <code>[+🤡]</code>. You can search for names in Twemoji.atlas, use the emoji picker in
-<a href="https://github.com/raeleus/skin-composer">Skin Composer</a> to navigate by category, or browse/Ctrl+F through
-<a href="https://tommyettinger.github.io/twemoji-atlas/">this GitHub Pages site</a>. You can also use the
-emoji picker present in some OSes, such as how Win+. allows selecting an emoji on Windows 10 and up.
-Programmatically, you can use Font.nameLookup to look up the internal char this uses for a given
-name or emoji, and Font.namesByCharCode to go from such an internal code to an emoji (as UTF-8).
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Twemoji.atlas">Twemoji.atlas</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Twemoji.png">Twemoji.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Twemoji-License.txt">Twemoji-License.txt</a></li>
-</ul>
-<br>
-<br>
-<h2>Game Icons for fonts (using Game-Icons.net)</h2>
-<br>
-<img src="previews/GameIconsPreview.png" alt="Game-Icons Preview"/>
-<br>
-You can add a large set of square icons to a font as inline images with KnownFonts.addGameIcons(Font).
-Icons don't work at all with MSDF fonts, and don't have as-smooth edges with SDF fonts, but work as intended
-with "standard" fonts (without a distance field effect). They can scale reasonably well down, and less-reasonably well
-up, but at many text sizes (12-90 pixels in height) they tend to be legible. There are 4131 icons in this edition of the
-<a href="https://game-icons.net/">Game-Icons.net</a> icons, from December 20, 2022, and
-<a href="https://game-icons.net/faq.html">it requires attribution to use</a>. Icons are always retrieved by name (unlike
-how addEmoji() allows looking up with an emoji char), and names are always all-lower-case, separated by dashes ('-').
-You can search for names in Game-Icons.atlas or browse/Ctrl+F through
-<a href="https://tommyettinger.github.io/game-icons-net-atlas/">this GitHub Pages site</a>. A future version of
-<a href="https://github.com/raeleus/skin-composer">Skin Composer</a> may be able to preview these like it can preview
-emoji. Programmatically, you can use Font.nameLookup to look up the internal char this uses for a given
-name, and Font.namesByCharCode to go from such an internal code to a name.
-<br>
-Needs files:
-<ul>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.atlas">Game-Icons.atlas</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons.png">Game-Icons.png</a></li>
-    <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Game-Icons-License.txt">Game-Icons-License.txt</a></li>
-</ul>
-<br>
+<h2>A-Starry-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-msdf.png" alt="A-Starry-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/A-Starry-msdf.png">A-Starry-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/A-Starry-msdf.dat">A-Starry-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/A-Starry-msdf.json">A-Starry-msdf.json</a> (readable text)</li></ul>
+<h2>A-Starry-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-sdf.png" alt="A-Starry-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/A-Starry-sdf.png">A-Starry-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/A-Starry-sdf.dat">A-Starry-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/A-Starry-sdf.json">A-Starry-sdf.json</a> (readable text)</li></ul>
+<h2>A-Starry-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-standard.png" alt="A-Starry-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/A-Starry-License.txt">A-Starry-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/A-Starry-standard.png">A-Starry-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/A-Starry-standard.dat">A-Starry-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/A-Starry-standard.json">A-Starry-standard.json</a> (readable text)</li></ul>
+<h2>Birdland-Aeroplane-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Birdland-Aeroplane-msdf.png" alt="Birdland-Aeroplane-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Birdland-Aeroplane-License.txt">Birdland-Aeroplane-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Birdland-Aeroplane-msdf.png">Birdland-Aeroplane-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Birdland-Aeroplane-msdf.dat">Birdland-Aeroplane-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Birdland-Aeroplane-msdf.json">Birdland-Aeroplane-msdf.json</a> (readable text)</li></ul>
+<h2>Birdland-Aeroplane-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Birdland-Aeroplane-sdf.png" alt="Birdland-Aeroplane-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Birdland-Aeroplane-License.txt">Birdland-Aeroplane-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Birdland-Aeroplane-sdf.png">Birdland-Aeroplane-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Birdland-Aeroplane-sdf.dat">Birdland-Aeroplane-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Birdland-Aeroplane-sdf.json">Birdland-Aeroplane-sdf.json</a> (readable text)</li></ul>
+<h2>Birdland-Aeroplane-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Birdland-Aeroplane-standard.png" alt="Birdland-Aeroplane-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Birdland-Aeroplane-License.txt">Birdland-Aeroplane-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Birdland-Aeroplane-standard.png">Birdland-Aeroplane-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Birdland-Aeroplane-standard.dat">Birdland-Aeroplane-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Birdland-Aeroplane-standard.json">Birdland-Aeroplane-standard.json</a> (readable text)</li></ul>
+<h2>Bitter-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bitter-msdf.png" alt="Bitter-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Bitter-License.txt">Bitter-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Bitter-msdf.png">Bitter-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Bitter-msdf.dat">Bitter-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Bitter-msdf.json">Bitter-msdf.json</a> (readable text)</li></ul>
+<h2>Bitter-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bitter-sdf.png" alt="Bitter-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Bitter-License.txt">Bitter-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Bitter-sdf.png">Bitter-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Bitter-sdf.dat">Bitter-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Bitter-sdf.json">Bitter-sdf.json</a> (readable text)</li></ul>
+<h2>Bitter-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bitter-standard.png" alt="Bitter-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Bitter-License.txt">Bitter-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Bitter-standard.png">Bitter-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Bitter-standard.dat">Bitter-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Bitter-standard.json">Bitter-standard.json</a> (readable text)</li></ul>
+<h2>Canada1500-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Canada1500-msdf.png" alt="Canada1500-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Canada1500-License.txt">Canada1500-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Canada1500-msdf.png">Canada1500-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Canada1500-msdf.dat">Canada1500-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Canada1500-msdf.json">Canada1500-msdf.json</a> (readable text)</li></ul>
+<h2>Canada1500-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Canada1500-sdf.png" alt="Canada1500-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Canada1500-License.txt">Canada1500-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Canada1500-sdf.png">Canada1500-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Canada1500-sdf.dat">Canada1500-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Canada1500-sdf.json">Canada1500-sdf.json</a> (readable text)</li></ul>
+<h2>Canada1500-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Canada1500-standard.png" alt="Canada1500-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Canada1500-License.txt">Canada1500-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Canada1500-standard.png">Canada1500-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Canada1500-standard.dat">Canada1500-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Canada1500-standard.json">Canada1500-standard.json</a> (readable text)</li></ul>
+<h2>Cascadia-Mono-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-msdf.png" alt="Cascadia-Mono-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cascadia-Mono-msdf.png">Cascadia-Mono-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cascadia-Mono-msdf.dat">Cascadia-Mono-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cascadia-Mono-msdf.json">Cascadia-Mono-msdf.json</a> (readable text)</li></ul>
+<h2>Cascadia-Mono-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-sdf.png" alt="Cascadia-Mono-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cascadia-Mono-sdf.png">Cascadia-Mono-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cascadia-Mono-sdf.dat">Cascadia-Mono-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cascadia-Mono-sdf.json">Cascadia-Mono-sdf.json</a> (readable text)</li></ul>
+<h2>Cascadia-Mono-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-standard.png" alt="Cascadia-Mono-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cascadia-License.txt">Cascadia-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cascadia-Mono-standard.png">Cascadia-Mono-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cascadia-Mono-standard.dat">Cascadia-Mono-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cascadia-Mono-standard.json">Cascadia-Mono-standard.json</a> (readable text)</li></ul>
+<h2>Caveat-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Caveat-msdf.png" alt="Caveat-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Caveat-License.txt">Caveat-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Caveat-msdf.png">Caveat-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Caveat-msdf.dat">Caveat-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Caveat-msdf.json">Caveat-msdf.json</a> (readable text)</li></ul>
+<h2>Caveat-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Caveat-sdf.png" alt="Caveat-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Caveat-License.txt">Caveat-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Caveat-sdf.png">Caveat-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Caveat-sdf.dat">Caveat-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Caveat-sdf.json">Caveat-sdf.json</a> (readable text)</li></ul>
+<h2>Caveat-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Caveat-standard.png" alt="Caveat-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Caveat-License.txt">Caveat-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Caveat-standard.png">Caveat-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Caveat-standard.dat">Caveat-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Caveat-standard.json">Caveat-standard.json</a> (readable text)</li></ul>
+<h2>Changa-One-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Changa-One-msdf.png" alt="Changa-One-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Changa-One-License.txt">Changa-One-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Changa-One-msdf.png">Changa-One-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Changa-One-msdf.dat">Changa-One-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Changa-One-msdf.json">Changa-One-msdf.json</a> (readable text)</li></ul>
+<h2>Changa-One-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Changa-One-sdf.png" alt="Changa-One-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Changa-One-License.txt">Changa-One-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Changa-One-sdf.png">Changa-One-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Changa-One-sdf.dat">Changa-One-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Changa-One-sdf.json">Changa-One-sdf.json</a> (readable text)</li></ul>
+<h2>Changa-One-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Changa-One-standard.png" alt="Changa-One-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Changa-One-License.txt">Changa-One-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Changa-One-standard.png">Changa-One-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Changa-One-standard.dat">Changa-One-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Changa-One-standard.json">Changa-One-standard.json</a> (readable text)</li></ul>
+<h2>Comic-Mono-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Comic-Mono-msdf.png" alt="Comic-Mono-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Comic-Mono-License.txt">Comic-Mono-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Comic-Mono-msdf.png">Comic-Mono-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Comic-Mono-msdf.dat">Comic-Mono-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Comic-Mono-msdf.json">Comic-Mono-msdf.json</a> (readable text)</li></ul>
+<h2>Comic-Mono-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Comic-Mono-sdf.png" alt="Comic-Mono-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Comic-Mono-License.txt">Comic-Mono-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Comic-Mono-sdf.png">Comic-Mono-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Comic-Mono-sdf.dat">Comic-Mono-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Comic-Mono-sdf.json">Comic-Mono-sdf.json</a> (readable text)</li></ul>
+<h2>Comic-Mono-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Comic-Mono-standard.png" alt="Comic-Mono-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Comic-Mono-License.txt">Comic-Mono-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Comic-Mono-standard.png">Comic-Mono-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Comic-Mono-standard.dat">Comic-Mono-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Comic-Mono-standard.json">Comic-Mono-standard.json</a> (readable text)</li></ul>
+<h2>Computer-Says-No-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Computer-Says-No-msdf.png" alt="Computer-Says-No-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Computer-Says-No-License.txt">Computer-Says-No-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Computer-Says-No-msdf.png">Computer-Says-No-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Computer-Says-No-msdf.dat">Computer-Says-No-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Computer-Says-No-msdf.json">Computer-Says-No-msdf.json</a> (readable text)</li></ul>
+<h2>Computer-Says-No-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Computer-Says-No-sdf.png" alt="Computer-Says-No-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Computer-Says-No-License.txt">Computer-Says-No-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Computer-Says-No-sdf.png">Computer-Says-No-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Computer-Says-No-sdf.dat">Computer-Says-No-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Computer-Says-No-sdf.json">Computer-Says-No-sdf.json</a> (readable text)</li></ul>
+<h2>Computer-Says-No-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Computer-Says-No-standard.png" alt="Computer-Says-No-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Computer-Says-No-License.txt">Computer-Says-No-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Computer-Says-No-standard.png">Computer-Says-No-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Computer-Says-No-standard.dat">Computer-Says-No-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Computer-Says-No-standard.json">Computer-Says-No-standard.json</a> (readable text)</li></ul>
+<h2>Cordata-PPC-16x26-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cordata-PPC-16x26-msdf.png" alt="Cordata-PPC-16x26-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cordata-PPC-16x26-License.txt">Cordata-PPC-16x26-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cordata-PPC-16x26-msdf.png">Cordata-PPC-16x26-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cordata-PPC-16x26-msdf.dat">Cordata-PPC-16x26-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cordata-PPC-16x26-msdf.json">Cordata-PPC-16x26-msdf.json</a> (readable text)</li></ul>
+<h2>Cordata-PPC-16x26-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cordata-PPC-16x26-sdf.png" alt="Cordata-PPC-16x26-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cordata-PPC-16x26-License.txt">Cordata-PPC-16x26-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cordata-PPC-16x26-sdf.png">Cordata-PPC-16x26-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cordata-PPC-16x26-sdf.dat">Cordata-PPC-16x26-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cordata-PPC-16x26-sdf.json">Cordata-PPC-16x26-sdf.json</a> (readable text)</li></ul>
+<h2>Cordata-PPC-16x26-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cordata-PPC-16x26-standard.png" alt="Cordata-PPC-16x26-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cordata-PPC-16x26-License.txt">Cordata-PPC-16x26-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cordata-PPC-16x26-standard.png">Cordata-PPC-16x26-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cordata-PPC-16x26-standard.dat">Cordata-PPC-16x26-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Cordata-PPC-16x26-standard.json">Cordata-PPC-16x26-standard.json</a> (readable text)</li></ul>
+<h2>DejaVu-Sans-Condensed-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Condensed-msdf.png" alt="DejaVu-Sans-Condensed-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Condensed-msdf.png">DejaVu-Sans-Condensed-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Condensed-msdf.dat">DejaVu-Sans-Condensed-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Condensed-msdf.json">DejaVu-Sans-Condensed-msdf.json</a> (readable text)</li></ul>
+<h2>DejaVu-Sans-Condensed-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Condensed-sdf.png" alt="DejaVu-Sans-Condensed-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Condensed-sdf.png">DejaVu-Sans-Condensed-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Condensed-sdf.dat">DejaVu-Sans-Condensed-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Condensed-sdf.json">DejaVu-Sans-Condensed-sdf.json</a> (readable text)</li></ul>
+<h2>DejaVu-Sans-Condensed-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Condensed-standard.png" alt="DejaVu-Sans-Condensed-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Condensed-standard.png">DejaVu-Sans-Condensed-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Condensed-standard.dat">DejaVu-Sans-Condensed-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Condensed-standard.json">DejaVu-Sans-Condensed-standard.json</a> (readable text)</li></ul>
+<h2>DejaVu-Sans-Mono-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Mono-msdf.png" alt="DejaVu-Sans-Mono-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Mono-msdf.png">DejaVu-Sans-Mono-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Mono-msdf.dat">DejaVu-Sans-Mono-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Mono-msdf.json">DejaVu-Sans-Mono-msdf.json</a> (readable text)</li></ul>
+<h2>DejaVu-Sans-Mono-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Mono-sdf.png" alt="DejaVu-Sans-Mono-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Mono-sdf.png">DejaVu-Sans-Mono-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Mono-sdf.dat">DejaVu-Sans-Mono-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Mono-sdf.json">DejaVu-Sans-Mono-sdf.json</a> (readable text)</li></ul>
+<h2>DejaVu-Sans-Mono-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Mono-standard.png" alt="DejaVu-Sans-Mono-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Mono-standard.png">DejaVu-Sans-Mono-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Mono-standard.dat">DejaVu-Sans-Mono-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-Mono-standard.json">DejaVu-Sans-Mono-standard.json</a> (readable text)</li></ul>
+<h2>DejaVu-Sans-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-msdf.png" alt="DejaVu-Sans-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-msdf.png">DejaVu-Sans-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-msdf.dat">DejaVu-Sans-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-msdf.json">DejaVu-Sans-msdf.json</a> (readable text)</li></ul>
+<h2>DejaVu-Sans-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-sdf.png" alt="DejaVu-Sans-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-sdf.png">DejaVu-Sans-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-sdf.dat">DejaVu-Sans-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-sdf.json">DejaVu-Sans-sdf.json</a> (readable text)</li></ul>
+<h2>DejaVu-Sans-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-standard.png" alt="DejaVu-Sans-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-standard.png">DejaVu-Sans-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-standard.dat">DejaVu-Sans-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Sans-standard.json">DejaVu-Sans-standard.json</a> (readable text)</li></ul>
+<h2>DejaVu-Serif-Condensed-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-Condensed-msdf.png" alt="DejaVu-Serif-Condensed-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-Condensed-msdf.png">DejaVu-Serif-Condensed-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-Condensed-msdf.dat">DejaVu-Serif-Condensed-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-Condensed-msdf.json">DejaVu-Serif-Condensed-msdf.json</a> (readable text)</li></ul>
+<h2>DejaVu-Serif-Condensed-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-Condensed-sdf.png" alt="DejaVu-Serif-Condensed-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-Condensed-sdf.png">DejaVu-Serif-Condensed-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-Condensed-sdf.dat">DejaVu-Serif-Condensed-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-Condensed-sdf.json">DejaVu-Serif-Condensed-sdf.json</a> (readable text)</li></ul>
+<h2>DejaVu-Serif-Condensed-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-Condensed-standard.png" alt="DejaVu-Serif-Condensed-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-Condensed-standard.png">DejaVu-Serif-Condensed-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-Condensed-standard.dat">DejaVu-Serif-Condensed-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-Condensed-standard.json">DejaVu-Serif-Condensed-standard.json</a> (readable text)</li></ul>
+<h2>DejaVu-Serif-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-msdf.png" alt="DejaVu-Serif-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-msdf.png">DejaVu-Serif-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-msdf.dat">DejaVu-Serif-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-msdf.json">DejaVu-Serif-msdf.json</a> (readable text)</li></ul>
+<h2>DejaVu-Serif-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-sdf.png" alt="DejaVu-Serif-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-sdf.png">DejaVu-Serif-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-sdf.dat">DejaVu-Serif-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-sdf.json">DejaVu-Serif-sdf.json</a> (readable text)</li></ul>
+<h2>DejaVu-Serif-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-standard.png" alt="DejaVu-Serif-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-License.txt">DejaVu-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-standard.png">DejaVu-Serif-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-standard.dat">DejaVu-Serif-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/DejaVu-Serif-standard.json">DejaVu-Serif-standard.json</a> (readable text)</li></ul>
+<h2>Gentium-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-msdf.png" alt="Gentium-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-msdf.png">Gentium-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-msdf.dat">Gentium-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-msdf.json">Gentium-msdf.json</a> (readable text)</li></ul>
+<h2>Gentium-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-sdf.png" alt="Gentium-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-sdf.png">Gentium-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-sdf.dat">Gentium-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-sdf.json">Gentium-sdf.json</a> (readable text)</li></ul>
+<h2>Gentium-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-standard.png" alt="Gentium-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-standard.png">Gentium-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-standard.dat">Gentium-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-standard.json">Gentium-standard.json</a> (readable text)</li></ul>
+<h2>Gentium-Un-Italic-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-Un-Italic-msdf.png" alt="Gentium-Un-Italic-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-Un-Italic-msdf.png">Gentium-Un-Italic-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-Un-Italic-msdf.dat">Gentium-Un-Italic-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-Un-Italic-msdf.json">Gentium-Un-Italic-msdf.json</a> (readable text)</li></ul>
+<h2>Gentium-Un-Italic-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-Un-Italic-sdf.png" alt="Gentium-Un-Italic-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-Un-Italic-sdf.png">Gentium-Un-Italic-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-Un-Italic-sdf.dat">Gentium-Un-Italic-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-Un-Italic-sdf.json">Gentium-Un-Italic-sdf.json</a> (readable text)</li></ul>
+<h2>Gentium-Un-Italic-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-Un-Italic-standard.png" alt="Gentium-Un-Italic-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-License.txt">Gentium-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-Un-Italic-standard.png">Gentium-Un-Italic-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-Un-Italic-standard.dat">Gentium-Un-Italic-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Gentium-Un-Italic-standard.json">Gentium-Un-Italic-standard.json</a> (readable text)</li></ul>
+<h2>Glacial-Indifference-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Glacial-Indifference-msdf.png" alt="Glacial-Indifference-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Glacial-Indifference-License.txt">Glacial-Indifference-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Glacial-Indifference-msdf.png">Glacial-Indifference-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Glacial-Indifference-msdf.dat">Glacial-Indifference-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Glacial-Indifference-msdf.json">Glacial-Indifference-msdf.json</a> (readable text)</li></ul>
+<h2>Glacial-Indifference-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Glacial-Indifference-sdf.png" alt="Glacial-Indifference-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Glacial-Indifference-License.txt">Glacial-Indifference-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Glacial-Indifference-sdf.png">Glacial-Indifference-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Glacial-Indifference-sdf.dat">Glacial-Indifference-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Glacial-Indifference-sdf.json">Glacial-Indifference-sdf.json</a> (readable text)</li></ul>
+<h2>Glacial-Indifference-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Glacial-Indifference-standard.png" alt="Glacial-Indifference-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Glacial-Indifference-License.txt">Glacial-Indifference-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Glacial-Indifference-standard.png">Glacial-Indifference-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Glacial-Indifference-standard.dat">Glacial-Indifference-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Glacial-Indifference-standard.json">Glacial-Indifference-standard.json</a> (readable text)</li></ul>
+<h2>Go-Noto-Universal-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-msdf.png" alt="Go-Noto-Universal-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Go-Noto-Universal-License.txt">Go-Noto-Universal-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Go-Noto-Universal-msdf.png">Go-Noto-Universal-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Go-Noto-Universal-msdf.dat">Go-Noto-Universal-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Go-Noto-Universal-msdf.json">Go-Noto-Universal-msdf.json</a> (readable text)</li></ul>
+<h2>Go-Noto-Universal-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-sdf.png" alt="Go-Noto-Universal-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Go-Noto-Universal-License.txt">Go-Noto-Universal-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Go-Noto-Universal-sdf.png">Go-Noto-Universal-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Go-Noto-Universal-sdf.dat">Go-Noto-Universal-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Go-Noto-Universal-sdf.json">Go-Noto-Universal-sdf.json</a> (readable text)</li></ul>
+<h2>Go-Noto-Universal-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-standard.png" alt="Go-Noto-Universal-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Go-Noto-Universal-License.txt">Go-Noto-Universal-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Go-Noto-Universal-standard.png">Go-Noto-Universal-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Go-Noto-Universal-standard.dat">Go-Noto-Universal-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Go-Noto-Universal-standard.json">Go-Noto-Universal-standard.json</a> (readable text)</li></ul>
+<h2>Grenze-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Grenze-msdf.png" alt="Grenze-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Grenze-License.txt">Grenze-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Grenze-msdf.png">Grenze-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Grenze-msdf.dat">Grenze-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Grenze-msdf.json">Grenze-msdf.json</a> (readable text)</li></ul>
+<h2>Grenze-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Grenze-sdf.png" alt="Grenze-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Grenze-License.txt">Grenze-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Grenze-sdf.png">Grenze-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Grenze-sdf.dat">Grenze-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Grenze-sdf.json">Grenze-sdf.json</a> (readable text)</li></ul>
+<h2>Grenze-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Grenze-standard.png" alt="Grenze-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Grenze-License.txt">Grenze-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Grenze-standard.png">Grenze-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Grenze-standard.dat">Grenze-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Grenze-standard.json">Grenze-standard.json</a> (readable text)</li></ul>
+<h2>IBM-8x16-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/IBM-8x16-msdf.png" alt="IBM-8x16-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/IBM-8x16-License.txt">IBM-8x16-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/IBM-8x16-msdf.png">IBM-8x16-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/IBM-8x16-msdf.dat">IBM-8x16-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/IBM-8x16-msdf.json">IBM-8x16-msdf.json</a> (readable text)</li></ul>
+<h2>IBM-8x16-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/IBM-8x16-sdf.png" alt="IBM-8x16-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/IBM-8x16-License.txt">IBM-8x16-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/IBM-8x16-sdf.png">IBM-8x16-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/IBM-8x16-sdf.dat">IBM-8x16-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/IBM-8x16-sdf.json">IBM-8x16-sdf.json</a> (readable text)</li></ul>
+<h2>IBM-8x16-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/IBM-8x16-standard.png" alt="IBM-8x16-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/IBM-8x16-License.txt">IBM-8x16-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/IBM-8x16-standard.png">IBM-8x16-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/IBM-8x16-standard.dat">IBM-8x16-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/IBM-8x16-standard.json">IBM-8x16-standard.json</a> (readable text)</li></ul>
+<h2>Inconsolata-LGC-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-msdf.png" alt="Inconsolata-LGC-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Inconsolata-LGC-msdf.png">Inconsolata-LGC-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Inconsolata-LGC-msdf.dat">Inconsolata-LGC-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Inconsolata-LGC-msdf.json">Inconsolata-LGC-msdf.json</a> (readable text)</li></ul>
+<h2>Inconsolata-LGC-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-sdf.png" alt="Inconsolata-LGC-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Inconsolata-LGC-sdf.png">Inconsolata-LGC-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Inconsolata-LGC-sdf.dat">Inconsolata-LGC-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Inconsolata-LGC-sdf.json">Inconsolata-LGC-sdf.json</a> (readable text)</li></ul>
+<h2>Inconsolata-LGC-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-standard.png" alt="Inconsolata-LGC-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Inconsolata-LGC-License.txt">Inconsolata-LGC-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Inconsolata-LGC-standard.png">Inconsolata-LGC-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Inconsolata-LGC-standard.dat">Inconsolata-LGC-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Inconsolata-LGC-standard.json">Inconsolata-LGC-standard.json</a> (readable text)</li></ul>
+<h2>Iosevka-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-msdf.png" alt="Iosevka-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-msdf.png">Iosevka-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-msdf.dat">Iosevka-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-msdf.json">Iosevka-msdf.json</a> (readable text)</li></ul>
+<h2>Iosevka-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-sdf.png" alt="Iosevka-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-sdf.png">Iosevka-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-sdf.dat">Iosevka-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-sdf.json">Iosevka-sdf.json</a> (readable text)</li></ul>
+<h2>Iosevka-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-standard.png" alt="Iosevka-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-standard.png">Iosevka-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-standard.dat">Iosevka-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-standard.json">Iosevka-standard.json</a> (readable text)</li></ul>
+<h2>Iosevka-Slab-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-msdf.png" alt="Iosevka-Slab-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-Slab-msdf.png">Iosevka-Slab-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-Slab-msdf.dat">Iosevka-Slab-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-Slab-msdf.json">Iosevka-Slab-msdf.json</a> (readable text)</li></ul>
+<h2>Iosevka-Slab-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-sdf.png" alt="Iosevka-Slab-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-Slab-sdf.png">Iosevka-Slab-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-Slab-sdf.dat">Iosevka-Slab-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-Slab-sdf.json">Iosevka-Slab-sdf.json</a> (readable text)</li></ul>
+<h2>Iosevka-Slab-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-standard.png" alt="Iosevka-Slab-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-License.md">Iosevka-License.md</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-Slab-standard.png">Iosevka-Slab-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-Slab-standard.dat">Iosevka-Slab-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Iosevka-Slab-standard.json">Iosevka-Slab-standard.json</a> (readable text)</li></ul>
+<h2>Kingthings-Foundation-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Foundation-msdf.png" alt="Kingthings-Foundation-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Foundation-msdf.png">Kingthings-Foundation-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Foundation-msdf.dat">Kingthings-Foundation-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Foundation-msdf.json">Kingthings-Foundation-msdf.json</a> (readable text)</li></ul>
+<h2>Kingthings-Foundation-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Foundation-sdf.png" alt="Kingthings-Foundation-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Foundation-sdf.png">Kingthings-Foundation-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Foundation-sdf.dat">Kingthings-Foundation-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Foundation-sdf.json">Kingthings-Foundation-sdf.json</a> (readable text)</li></ul>
+<h2>Kingthings-Foundation-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Foundation-standard.png" alt="Kingthings-Foundation-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Foundation-standard.png">Kingthings-Foundation-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Foundation-standard.dat">Kingthings-Foundation-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Foundation-standard.json">Kingthings-Foundation-standard.json</a> (readable text)</li></ul>
+<h2>Kingthings-Petrock-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Petrock-msdf.png" alt="Kingthings-Petrock-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Petrock-msdf.png">Kingthings-Petrock-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Petrock-msdf.dat">Kingthings-Petrock-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Petrock-msdf.json">Kingthings-Petrock-msdf.json</a> (readable text)</li></ul>
+<h2>Kingthings-Petrock-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Petrock-sdf.png" alt="Kingthings-Petrock-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Petrock-sdf.png">Kingthings-Petrock-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Petrock-sdf.dat">Kingthings-Petrock-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Petrock-sdf.json">Kingthings-Petrock-sdf.json</a> (readable text)</li></ul>
+<h2>Kingthings-Petrock-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Petrock-standard.png" alt="Kingthings-Petrock-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-License.txt">Kingthings-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Petrock-standard.png">Kingthings-Petrock-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Petrock-standard.dat">Kingthings-Petrock-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Kingthings-Petrock-standard.json">Kingthings-Petrock-standard.json</a> (readable text)</li></ul>
+<h2>Libertinus-Serif-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-msdf.png" alt="Libertinus-Serif-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-msdf.png">Libertinus-Serif-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-msdf.dat">Libertinus-Serif-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-msdf.json">Libertinus-Serif-msdf.json</a> (readable text)</li></ul>
+<h2>Libertinus-Serif-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-sdf.png" alt="Libertinus-Serif-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-sdf.png">Libertinus-Serif-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-sdf.dat">Libertinus-Serif-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-sdf.json">Libertinus-Serif-sdf.json</a> (readable text)</li></ul>
+<h2>Libertinus-Serif-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-standard.png" alt="Libertinus-Serif-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-standard.png">Libertinus-Serif-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-standard.dat">Libertinus-Serif-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-standard.json">Libertinus-Serif-standard.json</a> (readable text)</li></ul>
+<h2>Libertinus-Serif-Semibold-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-Semibold-msdf.png" alt="Libertinus-Serif-Semibold-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-Semibold-msdf.png">Libertinus-Serif-Semibold-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-Semibold-msdf.dat">Libertinus-Serif-Semibold-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-Semibold-msdf.json">Libertinus-Serif-Semibold-msdf.json</a> (readable text)</li></ul>
+<h2>Libertinus-Serif-Semibold-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-Semibold-sdf.png" alt="Libertinus-Serif-Semibold-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-Semibold-sdf.png">Libertinus-Serif-Semibold-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-Semibold-sdf.dat">Libertinus-Serif-Semibold-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-Semibold-sdf.json">Libertinus-Serif-Semibold-sdf.json</a> (readable text)</li></ul>
+<h2>Libertinus-Serif-Semibold-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-Semibold-standard.png" alt="Libertinus-Serif-Semibold-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-License.txt">Libertinus-Serif-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-Semibold-standard.png">Libertinus-Serif-Semibold-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-Semibold-standard.dat">Libertinus-Serif-Semibold-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Libertinus-Serif-Semibold-standard.json">Libertinus-Serif-Semibold-standard.json</a> (readable text)</li></ul>
+<h2>Now-Alt-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Now-Alt-msdf.png" alt="Now-Alt-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Now-Alt-License.txt">Now-Alt-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Now-Alt-msdf.png">Now-Alt-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Now-Alt-msdf.dat">Now-Alt-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Now-Alt-msdf.json">Now-Alt-msdf.json</a> (readable text)</li></ul>
+<h2>Now-Alt-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Now-Alt-sdf.png" alt="Now-Alt-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Now-Alt-License.txt">Now-Alt-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Now-Alt-sdf.png">Now-Alt-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Now-Alt-sdf.dat">Now-Alt-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Now-Alt-sdf.json">Now-Alt-sdf.json</a> (readable text)</li></ul>
+<h2>Now-Alt-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Now-Alt-standard.png" alt="Now-Alt-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Now-Alt-License.txt">Now-Alt-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Now-Alt-standard.png">Now-Alt-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Now-Alt-standard.dat">Now-Alt-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Now-Alt-standard.json">Now-Alt-standard.json</a> (readable text)</li></ul>
+<h2>Open-Sans-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Open-Sans-msdf.png" alt="Open-Sans-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Open-Sans-License.txt">Open-Sans-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Open-Sans-msdf.png">Open-Sans-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Open-Sans-msdf.dat">Open-Sans-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Open-Sans-msdf.json">Open-Sans-msdf.json</a> (readable text)</li></ul>
+<h2>Open-Sans-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Open-Sans-sdf.png" alt="Open-Sans-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Open-Sans-License.txt">Open-Sans-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Open-Sans-sdf.png">Open-Sans-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Open-Sans-sdf.dat">Open-Sans-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Open-Sans-sdf.json">Open-Sans-sdf.json</a> (readable text)</li></ul>
+<h2>Open-Sans-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Open-Sans-standard.png" alt="Open-Sans-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Open-Sans-License.txt">Open-Sans-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Open-Sans-standard.png">Open-Sans-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Open-Sans-standard.dat">Open-Sans-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Open-Sans-standard.json">Open-Sans-standard.json</a> (readable text)</li></ul>
+<h2>Ostrich-Black-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ostrich-Black-msdf.png" alt="Ostrich-Black-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Ostrich-License.md">Ostrich-License.md</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Ostrich-Black-msdf.png">Ostrich-Black-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Ostrich-Black-msdf.dat">Ostrich-Black-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Ostrich-Black-msdf.json">Ostrich-Black-msdf.json</a> (readable text)</li></ul>
+<h2>Ostrich-Black-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ostrich-Black-sdf.png" alt="Ostrich-Black-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Ostrich-License.md">Ostrich-License.md</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Ostrich-Black-sdf.png">Ostrich-Black-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Ostrich-Black-sdf.dat">Ostrich-Black-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Ostrich-Black-sdf.json">Ostrich-Black-sdf.json</a> (readable text)</li></ul>
+<h2>Ostrich-Black-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ostrich-Black-standard.png" alt="Ostrich-Black-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Ostrich-License.md">Ostrich-License.md</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Ostrich-Black-standard.png">Ostrich-Black-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Ostrich-Black-standard.dat">Ostrich-Black-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Ostrich-Black-standard.json">Ostrich-Black-standard.json</a> (readable text)</li></ul>
+<h2>Overlock-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-msdf.png" alt="Overlock-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-msdf.png">Overlock-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-msdf.dat">Overlock-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-msdf.json">Overlock-msdf.json</a> (readable text)</li></ul>
+<h2>Overlock-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-sdf.png" alt="Overlock-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-sdf.png">Overlock-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-sdf.dat">Overlock-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-sdf.json">Overlock-sdf.json</a> (readable text)</li></ul>
+<h2>Overlock-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-standard.png" alt="Overlock-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-standard.png">Overlock-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-standard.dat">Overlock-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-standard.json">Overlock-standard.json</a> (readable text)</li></ul>
+<h2>Overlock-Un-Italic-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-Un-Italic-msdf.png" alt="Overlock-Un-Italic-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-Un-Italic-msdf.png">Overlock-Un-Italic-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-Un-Italic-msdf.dat">Overlock-Un-Italic-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-Un-Italic-msdf.json">Overlock-Un-Italic-msdf.json</a> (readable text)</li></ul>
+<h2>Overlock-Un-Italic-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-Un-Italic-sdf.png" alt="Overlock-Un-Italic-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-Un-Italic-sdf.png">Overlock-Un-Italic-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-Un-Italic-sdf.dat">Overlock-Un-Italic-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-Un-Italic-sdf.json">Overlock-Un-Italic-sdf.json</a> (readable text)</li></ul>
+<h2>Overlock-Un-Italic-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-Un-Italic-standard.png" alt="Overlock-Un-Italic-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-License.txt">Overlock-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-Un-Italic-standard.png">Overlock-Un-Italic-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-Un-Italic-standard.dat">Overlock-Un-Italic-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Overlock-Un-Italic-standard.json">Overlock-Un-Italic-standard.json</a> (readable text)</li></ul>
+<h2>Oxanium-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Oxanium-msdf.png" alt="Oxanium-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Oxanium-License.txt">Oxanium-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Oxanium-msdf.png">Oxanium-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Oxanium-msdf.dat">Oxanium-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Oxanium-msdf.json">Oxanium-msdf.json</a> (readable text)</li></ul>
+<h2>Oxanium-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Oxanium-sdf.png" alt="Oxanium-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Oxanium-License.txt">Oxanium-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Oxanium-sdf.png">Oxanium-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Oxanium-sdf.dat">Oxanium-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Oxanium-sdf.json">Oxanium-sdf.json</a> (readable text)</li></ul>
+<h2>Oxanium-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Oxanium-standard.png" alt="Oxanium-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Oxanium-License.txt">Oxanium-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Oxanium-standard.png">Oxanium-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Oxanium-standard.dat">Oxanium-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Oxanium-standard.json">Oxanium-standard.json</a> (readable text)</li></ul>
+<h2>Roboto-Condensed-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Roboto-Condensed-msdf.png" alt="Roboto-Condensed-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Roboto-Condensed-License.txt">Roboto-Condensed-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Roboto-Condensed-msdf.png">Roboto-Condensed-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Roboto-Condensed-msdf.dat">Roboto-Condensed-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Roboto-Condensed-msdf.json">Roboto-Condensed-msdf.json</a> (readable text)</li></ul>
+<h2>Roboto-Condensed-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Roboto-Condensed-sdf.png" alt="Roboto-Condensed-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Roboto-Condensed-License.txt">Roboto-Condensed-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Roboto-Condensed-sdf.png">Roboto-Condensed-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Roboto-Condensed-sdf.dat">Roboto-Condensed-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Roboto-Condensed-sdf.json">Roboto-Condensed-sdf.json</a> (readable text)</li></ul>
+<h2>Roboto-Condensed-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Roboto-Condensed-standard.png" alt="Roboto-Condensed-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Roboto-Condensed-License.txt">Roboto-Condensed-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Roboto-Condensed-standard.png">Roboto-Condensed-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Roboto-Condensed-standard.dat">Roboto-Condensed-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Roboto-Condensed-standard.json">Roboto-Condensed-standard.json</a> (readable text)</li></ul>
+<h2>Selawik-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-msdf.png" alt="Selawik-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-License.txt">Selawik-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-msdf.png">Selawik-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-msdf.dat">Selawik-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-msdf.json">Selawik-msdf.json</a> (readable text)</li></ul>
+<h2>Selawik-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-sdf.png" alt="Selawik-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-License.txt">Selawik-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-sdf.png">Selawik-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-sdf.dat">Selawik-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-sdf.json">Selawik-sdf.json</a> (readable text)</li></ul>
+<h2>Selawik-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-standard.png" alt="Selawik-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-License.txt">Selawik-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-standard.png">Selawik-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-standard.dat">Selawik-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-standard.json">Selawik-standard.json</a> (readable text)</li></ul>
+<h2>Selawik-Bold-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-Bold-msdf.png" alt="Selawik-Bold-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-License.txt">Selawik-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-Bold-msdf.png">Selawik-Bold-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-Bold-msdf.dat">Selawik-Bold-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-Bold-msdf.json">Selawik-Bold-msdf.json</a> (readable text)</li></ul>
+<h2>Selawik-Bold-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-Bold-sdf.png" alt="Selawik-Bold-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-License.txt">Selawik-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-Bold-sdf.png">Selawik-Bold-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-Bold-sdf.dat">Selawik-Bold-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-Bold-sdf.json">Selawik-Bold-sdf.json</a> (readable text)</li></ul>
+<h2>Selawik-Bold-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-Bold-standard.png" alt="Selawik-Bold-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-License.txt">Selawik-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-Bold-standard.png">Selawik-Bold-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-Bold-standard.dat">Selawik-Bold-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Selawik-Bold-standard.json">Selawik-Bold-standard.json</a> (readable text)</li></ul>
+<h2>Tangerine-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-msdf.png" alt="Tangerine-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Tangerine-msdf.png">Tangerine-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Tangerine-msdf.dat">Tangerine-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Tangerine-msdf.json">Tangerine-msdf.json</a> (readable text)</li></ul>
+<h2>Tangerine-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-sdf.png" alt="Tangerine-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Tangerine-sdf.png">Tangerine-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Tangerine-sdf.dat">Tangerine-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Tangerine-sdf.json">Tangerine-sdf.json</a> (readable text)</li></ul>
+<h2>Tangerine-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-standard.png" alt="Tangerine-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Tangerine-License.txt">Tangerine-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Tangerine-standard.png">Tangerine-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Tangerine-standard.dat">Tangerine-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Tangerine-standard.json">Tangerine-standard.json</a> (readable text)</li></ul>
+<h2>Yanone-Kaffeesatz-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-msdf.png" alt="Yanone-Kaffeesatz-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yanone-Kaffeesatz-License.txt">Yanone-Kaffeesatz-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yanone-Kaffeesatz-msdf.png">Yanone-Kaffeesatz-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yanone-Kaffeesatz-msdf.dat">Yanone-Kaffeesatz-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yanone-Kaffeesatz-msdf.json">Yanone-Kaffeesatz-msdf.json</a> (readable text)</li></ul>
+<h2>Yanone-Kaffeesatz-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-sdf.png" alt="Yanone-Kaffeesatz-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yanone-Kaffeesatz-License.txt">Yanone-Kaffeesatz-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yanone-Kaffeesatz-sdf.png">Yanone-Kaffeesatz-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yanone-Kaffeesatz-sdf.dat">Yanone-Kaffeesatz-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yanone-Kaffeesatz-sdf.json">Yanone-Kaffeesatz-sdf.json</a> (readable text)</li></ul>
+<h2>Yanone-Kaffeesatz-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-standard.png" alt="Yanone-Kaffeesatz-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yanone-Kaffeesatz-License.txt">Yanone-Kaffeesatz-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yanone-Kaffeesatz-standard.png">Yanone-Kaffeesatz-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yanone-Kaffeesatz-standard.dat">Yanone-Kaffeesatz-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yanone-Kaffeesatz-standard.json">Yanone-Kaffeesatz-standard.json</a> (readable text)</li></ul>
+<h2>Yataghan-msdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yataghan-msdf.png" alt="Yataghan-msdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yataghan-msdf.png">Yataghan-msdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yataghan-msdf.dat">Yataghan-msdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yataghan-msdf.json">Yataghan-msdf.json</a> (readable text)</li></ul>
+<h2>Yataghan-sdf:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yataghan-sdf.png" alt="Yataghan-sdf" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yataghan-sdf.png">Yataghan-sdf.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yataghan-sdf.dat">Yataghan-sdf.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yataghan-sdf.json">Yataghan-sdf.json</a> (readable text)</li></ul>
+<h2>Yataghan-standard:</h2><br><img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yataghan-standard.png" alt="Yataghan-standard" width="1200" height="675" /><p>Needs files:</p><ul><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yataghan-License.txt">Yataghan-License.txt</a></li><li><a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yataghan-standard.png">Yataghan-standard.png</a></li><li>EITHER <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yataghan-standard.dat">Yataghan-standard.dat</a> (smaller file)</li><li>OR <a href="https://tommyettinger.github.io/fontwriter/knownFonts/Yataghan-standard.json">Yataghan-standard.json</a> (readable text)</li></ul>
 </body>
 </html>
