@@ -48,7 +48,7 @@ public class PreviewIconGenerator extends ApplicationAdapter {
         viewport = new StretchViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
 
         Gdx.files.local("out/").mkdirs();
-        font = KnownFonts.addGameIcons(KnownFonts.getNowAlt(Font.DistanceFieldType.MSDF).fitCell(40, 40, true), 16f, -8f, 0f);
+        font = KnownFonts.addGameIcons(KnownFonts.getNowAlt(Font.DistanceFieldType.MSDF).fitCell(40, 40, true), 16f, -4f, 0f);
         layout.setBaseColor(Color.WHITE);
         StringBuilder sb = new StringBuilder(4000);
         sb.append("[%?blacken]");

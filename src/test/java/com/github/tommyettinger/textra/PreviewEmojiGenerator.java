@@ -46,7 +46,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
         viewport = new StretchViewport(1200, 600);
 
         Gdx.files.local("out/").mkdirs();
-        font = KnownFonts.addEmoji(KnownFonts.getAStarry(Font.DistanceFieldType.MSDF).scaleHeightTo(20), -4f, -8f, 4f).fitCell(24, 24, true);
+        font = KnownFonts.addEmoji(KnownFonts.getAStarry(Font.DistanceFieldType.MSDF).scaleHeightTo(20)).fitCell(24, 24, true);
         layout.setBaseColor(Color.WHITE);
         StringBuilder sb = new StringBuilder(4000);
         sb.append("[%?blacken]");
@@ -54,7 +54,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
         IntArray keys = font.mapping.keys().toArray();
         int ks = keys.size;
         for (int y = 0; y < 24; y++) {
-            for (int x = 0; x < 49; x++) {
+            for (int x = 0; x < 50; x++) {
                 char rc;
                 do {
                     rc = (char)keys.get(random.nextInt(ks));
