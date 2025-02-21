@@ -35,7 +35,7 @@ public class Issue23Test extends ApplicationAdapter {
         stage.setDebugAll(true);
         font = KnownFonts.getRobotoCondensed(Font.DistanceFieldType.MSDF).scaleHeightTo(32);
         TextureAtlas atlas = new TextureAtlas("controller_white.atlas");
-        font.addAtlas(atlas, 0, 0, 0);
+        font.addAtlas(atlas, 0, 8, 0);
         font.addImage("\uE777", atlas.findRegion("white"));
         font.addImage(";", atlas.findRegion("white"));
         Styles.LabelStyle style = new Styles.LabelStyle(font, Color.WHITE);
@@ -60,7 +60,8 @@ public class Issue23Test extends ApplicationAdapter {
         label3.setPosition(100, 700);
         label3.setWrap(true);
         label3.setDebug(true);
-        stage.addActor(label3);    }
+        stage.addActor(label3);
+    }
 
     @Override
     public void resize(int width, int height) {

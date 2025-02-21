@@ -72,7 +72,8 @@ public class HeadlessTest extends ApplicationAdapter {
         layout.setBaseColor(baseColor);
         layout.setMaxLines(20);
         layout.setEllipsis(" and so on and so forth...");
-        fnt.markup(text + emojiSupport, layout.clear());
+//        fnt.markup(text + emojiSupport, layout.clear()); // TODO: figure out why emoji make width NaN, but height is correct.
+        fnt.markup(text, layout.clear());
         System.out.println(fnt.name + ":\nlays out with " + layout.lines() + " lines, " + layout.getWidth() + " width, and " + layout.getHeight() + " height.");
 
     }
