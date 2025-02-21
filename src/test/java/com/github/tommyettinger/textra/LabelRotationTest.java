@@ -77,8 +77,8 @@ public class LabelRotationTest extends ApplicationAdapter {
 //        BitmapFont font = new BitmapFont();
 //        BitmapFont font = new BitmapFont(Gdx.files.internal("GoNotoUniversal-standard.fnt"), Gdx.files.internal("GoNotoUniversal-standard.png"), false);
         BitmapFont font = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("DejaVu-Sans-Condensed-standard.dat"), "DejaVu-Sans-Condensed-standard.png");
-        Font tFont = new Font("DejaVu-Sans-Condensed-standard.dat", new TextureRegion(new Texture("DejaVu-Sans-Condensed-standard.png")), 0, 0, 0, 0, false, true);
-        Font tFont2 = new Font(font);
+        Font tFont = new Font("DejaVu-Sans-Condensed-standard.dat", new TextureRegion(new Texture("DejaVu-Sans-Condensed-standard.png")), 0, 0, 0, 0, true, true);
+        Font tFont2 = new Font(font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true);
         tFont.scale(0.5f, 0.5f);
         tFont2.scale(0.5f, 0.5f);
         tFont.useIntegerPositions(false);

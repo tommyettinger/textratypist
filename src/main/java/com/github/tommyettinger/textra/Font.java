@@ -2347,39 +2347,23 @@ public class Font implements Disposable {
             // U+200B is the zero-width space
             mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
         }
-        solidBlock = mapping.containsKey(0x2588) ? '\u2588' : '\uFFFF';
+        solidBlock = '█';
+
         if (makeGridGlyphs) {
-            GlyphRegion block = mapping.get(solidBlock, null);
-            if(block == null) {
-                Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
-                temp.setColor(Color.WHITE);
-                temp.fill();
-                // This is only OK because a BitmapFont requires a Texture anyway, so the headless case is impossible.
-                whiteBlock = new Texture(3, 3, Pixmap.Format.RGBA8888);
-                whiteBlock.draw(temp, 0, 0);
-                solidBlock = '\u2588';
-                mapping.put(solidBlock, block = new GlyphRegion(new TextureRegion(whiteBlock, 1, 1, 1, 1)));
-                temp.dispose();
-            }
-            for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
-                if(BlockUtils.isBlockGlyph(i)) {
-                    GlyphRegion gr = new GlyphRegion(block);
-                    gr.offsetX = Float.NaN;
-                    gr.xAdvance = cellWidth;
-                    gr.offsetY = cellHeight;
-                    mapping.put(i, gr);
-                }
-            }
-        } else if (!mapping.containsKey(solidBlock)) {
+            GlyphRegion block;
             Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
             temp.setColor(Color.WHITE);
             temp.fill();
             // This is only OK because a BitmapFont requires a Texture anyway, so the headless case is impossible.
             whiteBlock = new Texture(3, 3, Pixmap.Format.RGBA8888);
             whiteBlock.draw(temp, 0, 0);
-            solidBlock = '\u2588';
-            mapping.put(solidBlock, new GlyphRegion(new TextureRegion(whiteBlock, 1, 1, 1, 1)));
+            mapping.put(solidBlock, block = new GlyphRegion(new TextureRegion(whiteBlock, 1, 1, 1, 1)));
             temp.dispose();
+            for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
+                if (BlockUtils.isBlockGlyph(i)) {
+                    mapping.put(i, new GlyphRegion(block, Float.NaN, cellHeight, cellWidth));
+                }
+            }
         }
         defaultValue = mapping.get(data.missingGlyph == null ? ' ' : data.missingGlyph.id, mapping.get(' ', mapping.values().next()));
         originalCellWidth = cellWidth;
