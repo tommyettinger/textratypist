@@ -2371,9 +2371,6 @@ public class Font implements Disposable {
         isMono = minWidth == cellWidth && kerning == null;
         integerPosition = bmFont.usesIntegerPositions();
 
-        underX -= 0.5f;
-        strikeX -= 0.5f;
-
         inlineImageOffsetX = 0f;
         inlineImageOffsetY = 0f;
         inlineImageXAdvance = 0f;

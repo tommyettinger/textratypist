@@ -47,9 +47,9 @@ public class LabelRotationTest extends ApplicationAdapter {
     TextraLabel textraLabel1;
     TextraLabel textraLabel2;
     TextraLabel textraLabel3;
-    TypingLabel typingLabel1;
-    TypingLabel typingLabel2;
-    TypingLabel typingLabel3;
+    TextraLabel typingLabel1;
+    TextraLabel typingLabel2;
+    TextraLabel typingLabel3;
     Label label1;
     Label label2;
     Label label3;
@@ -119,7 +119,7 @@ public class LabelRotationTest extends ApplicationAdapter {
         textraLabel3.pack();
         textraLabel3.setOrigin(center);
 
-        typingLabel1 = new TypingLabel("สวัสดีครับ", tFont2);
+        typingLabel1 = new TextraLabel("สวัสดีครับ", tFont2);
 //        typingLabel1 = new TypingLabel("Test", tFont);
 //        typingLabel1.setText("Test");
         typingLabel1.setText("สวัสดีครับ");
@@ -127,13 +127,13 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel1.style = style;
         typingLabel1.pack();
         typingLabel1.setOrigin(center);
-        typingLabel2 = new TypingLabel("Test", tFont2);
+        typingLabel2 = new TextraLabel("Test", tFont2);
         typingLabel2.setText("Check check, [_]one two[_], [~]one two[~]...");
         typingLabel2.setPosition(400,200);
         typingLabel2.style = style;
         typingLabel2.pack();
         typingLabel2.setOrigin(center);
-        typingLabel3 = new TypingLabel("Test", tFont2);
+        typingLabel3 = new TextraLabel("Test", tFont2);
         typingLabel3.setText("We're no strangers to love...\nYou [_]know[_] the [_]rules[_],\nand [~]so do I[~]!");
         typingLabel3.setPosition(600,300);
         typingLabel3.style = style;
@@ -192,11 +192,11 @@ public class LabelRotationTest extends ApplicationAdapter {
         typingLabel2.setAlignment(alignment);
         typingLabel3.setAlignment(alignment);
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.PRINT_SCREEN)) {
-            typingLabel1.restart();
-            typingLabel2.restart();
-            typingLabel3.restart();
-        }
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.PRINT_SCREEN)) {
+//            typingLabel1.restart();
+//            typingLabel2.restart();
+//            typingLabel3.restart();
+//        }
         stage.act();
         stage.draw();
 
