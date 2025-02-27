@@ -88,13 +88,18 @@ public class JsonSkin extends Skin {
                 if (!fontFile.exists()) throw new SerializationException("Font file not found: " + fontFile);
 
                 boolean lzb = "dat".equalsIgnoreCase(fontFile.extension());
-                boolean fw = "json".equalsIgnoreCase(fontFile.extension());
+                boolean js = "json".equalsIgnoreCase(fontFile.extension());
+                boolean ubj = "ubj".equalsIgnoreCase(fontFile.extension());
+                boolean jslzma = ".json.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 10));
+                boolean ublzma = ".ubj.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 9));
+                boolean fw = lzb || js || ubj || jslzma || ublzma;
 
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
                 Boolean flip = json.readValue("flip", Boolean.class, false, jsonData);
                 Boolean markupEnabled = json.readValue("markupEnabled", Boolean.class, false, jsonData);
-                // This defaults to true if loading from .fnt, or false if loading from .json :
-                Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, !(fw || lzb), jsonData);
+                // This defaults to false, which is not what Skin normally defaults to.
+                // You can set it to true if you expect a BitmapFont to be used at pixel-perfect 100% zoom only.
+                Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, false, jsonData);
 
                 // Use a region with the same name as the font, else use a PNG file in the same directory as the FNT file.
                 String regionName = fontFile.nameWithoutExtension();
@@ -102,7 +107,7 @@ public class JsonSkin extends Skin {
                     BitmapFont bitmapFont;
                     Array<TextureRegion> regions = skin.getRegions(regionName);
                     if (regions != null && regions.notEmpty()) {
-                        if(fw || lzb) {
+                        if(fw) {
                             bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, regions.first(), flip);
                         }
                         else {
@@ -112,7 +117,7 @@ public class JsonSkin extends Skin {
                         TextureRegion region = skin.optional(regionName, TextureRegion.class);
                         if (region != null)
                         {
-                            if(fw || lzb) {
+                            if(fw) {
                                 bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
                             }
                             else {
@@ -123,13 +128,13 @@ public class JsonSkin extends Skin {
                             FileHandle imageFile = fontFile.sibling(regionName + ".png");
                             if (imageFile.exists()) {
                                 region = new TextureRegion(new Texture(imageFile));
-                                if(fw || lzb) {
+                                if(fw) {
                                     bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
                                 } else {
                                     bitmapFont = new BitmapFont(fontFile, region, flip);
                                 }
                             } else {
-                                if(fw || lzb)
+                                if(fw)
                                     throw new RuntimeException("Missing image file or TextureRegion.");
                                 else {
                                     bitmapFont = new BitmapFont(fontFile, flip);
@@ -140,7 +145,7 @@ public class JsonSkin extends Skin {
                     bitmapFont.getData().markupEnabled = markupEnabled;
                     bitmapFont.setUseIntegerPositions(useIntegerPositions);
                     // For BitmapFont, scaled size is the desired cap height to scale the font to.
-                    // But we scale it based on line height here because that's what Font does.
+                    // But we scale it based on the line height here because that's what Font does.
                     if (scaledSize != -1) {
                         bitmapFont.getData().setScale(scaledSize / bitmapFont.getLineHeight());
                     }
