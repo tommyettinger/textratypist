@@ -5232,7 +5232,9 @@ public class Font implements Disposable {
 
         float trrh = tr.getRegionHeight();
         float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * scaleY * sizingY + sin * centerX - centerY;
-        if(squashed) yt -= font.descent * scaleY * sizingY * 0.175f;
+
+// The next line makes small-caps letters go part-way up in the line.
+        if(squashed) yt -= font.descent * scaleY * sizingY * (3f/7f);
 
         float h = trrh * scaleY * sizingY;
 
@@ -5270,14 +5272,9 @@ public class Font implements Disposable {
             float ych = tr.offsetY * scaleY * sizingY;
             yt = (sin * scaledHeight - scaledHeight) * 0.5f - ych - stretchShift;
 
-
-//            yt =  - ych - stretchShift - font.descent * fsy * scale * sizingY + sin * centerX - centerY;
-            if(squashed) yt -= font.descent * font.scaleY * scale * sizingY * 0.175f;
-//            yt -= ych + stretchShift;
+// The next line makes small-caps letters go part-way up in the line.
+            if(squashed) yt -= font.descent * font.scaleY * scale * sizingY * (3f/7f);
             y = oy + (scaledHeight * 0.5f) - ych;// + font.descent * font.scaleY * scale * sizingY;
-
-//            y += ych - stretchShift + font.descent * fsy * scale * sizingY;
-
         }
         // when this is removed, rotations for icons go around the bottom center.
         // but, with it here, the rotations go around the bottom left corner.
@@ -5587,7 +5584,7 @@ public class Font implements Disposable {
                     h = trrh * osy * sizingY + cellHeight * font.underBreadth * scale * sizingY;
                     yt = (centerY - (trrh + under.offsetY) * font.scaleY) * scale * sizingY
                             + cellHeight * font.underY * scale * sizingY;
-                    if(squashed) yt -= font.descent * scaleY * 0.175f;
+                    if(squashed) yt -= font.descent * scaleY * sizingY * (3f/7f);
                     final float underU = (under.getU() + under.getU2()) * 0.5f - iw,
                             underV = under.getV(),
                             underU2 = underU + iw,
@@ -5680,7 +5677,7 @@ public class Font implements Disposable {
 
                     yt = (centerY - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY
                             + font.cellHeight * font.strikeY * scale * sizingY;
-                    if(squashed) yt -= font.descent * scaleY * 0.175f;
+                    if(squashed) yt -= font.descent * scaleY * sizingY * (3f/7f);
 
                     final float dashU = (dash.getU() + dash.getU2()) * 0.5f - iw,
                             dashV = dash.getV(),
