@@ -40,7 +40,6 @@ import regexodus.Replacer;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.IdentityHashMap;
@@ -50,28 +49,33 @@ import java.util.IdentityHashMap;
  * This includes the commonly-requested "faux bold" and oblique mode using one font image; you don't need a bold and
  * italic/oblique image separate from the book face. This also supports underline, strikethrough, subscript/superscript
  * (and "midscript," for a height between the two), color markup, scale/size markup, and the option to switch to other
- * Fonts from a family of several.
+ * Fonts from a family of several. You can add images from a {@link TextureAtlas} to any Font, which is commonly used
+ * with emoji (see {@link KnownFonts#addEmoji(Font)}, which calls {@link #addAtlas(TextureAtlas)} here).
  * <br>
  * A Font represents either one size of a "standard" bitmap font (which can be drawn scaled up or down), or many sizes
  * of a distance field font (using either the commonly-used SDF format or newer MSDF format). The same class is used for
  * standard, SDF, and MSDF fonts, but you call {@link #enableShader(Batch)} before rendering with SDF or MSDF fonts, and
  * can switch back to a normal SpriteBatch shader with {@code batch.setShader(null);}. The {@link TextraLabel} and
  * {@link TypingLabel} classes handle the calls to enableShader() for you. You don't have to use SDF or MSDF
- * fonts, but they can scale more cleanly. MSDF looks the sharpest in general, but SDF can display inline with emoji or
- * other colorful icons, without changing the shader. "Standard" fonts look the best when mixing different Fonts in one
- * piece of text, and also have the best compatibility with emoji and other icons. There's also the
- * {@link DistanceFieldType#SDF_OUTLINE} distance field mode, which you can change an SDF font to use; it draws fairly
- * sharply, but also adds a thick black outline around everything that uses SDF.
+ * fonts, but they can scale more cleanly. MSDF looks the sharpest in general, but uses larger-sized PNG files, while
+ * SDF typically looks the same as MSDF at all but the largest sizes, but enabled either the standard smooth lines or an
+ * {@link DistanceFieldType#SDF_OUTLINE outlined mode} to be used. "Standard" fonts look the best when mixing different
+ * Fonts in one piece of text. Standard fonts usually need the smallest PNG files, SDF in second, and MSDF thge largest.
  * <br>
  * You can generate SDF fonts with Hiero or
  * <a href="https://github.com/libgdx/libgdx/wiki/Distance-field-fonts#using-distance-fields-for-arbitrary-images">a related tool</a>
  * that is part of libGDX; MSDF fonts need a different tool, like
- * <a href="https://github.com/maltaisn/msdf-gdx-gen">maltaisn's msdf-gdx-gen</a> (good for fonts with few chars) or
+ * <a href="https://github.com/maltaisn/msdf-gdx-gen">maltaisn's msdf-gdx-gen</a> (decent for fonts with few chars) or
  * <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (recommended, but Windows-only). Using
  * fontwriter means you get Structured JSON Font files instead of AngelCode BMFont files; these can be loaded with
  * {@link #Font(String, TextureRegion, float, float, float, float, boolean, boolean)}. Structured JSON Fonts can be SDF,
  * MSDF, standard (no distance field), or some other kinds of font; the information about this is stored in the font.
  * You can also load a libGDX BitmapFont with a Structured JSON Font using the {@link BitmapFontSupport} class.
+ * Structured JSON files are often compressed because they have a repetitive structure that shrinks greatly when
+ * compressed. The earliest method for this produced ".dat" fonts using {@link LZBCompression}, but better compression
+ * is now available using the libGDX built-in {@link Lzma} code (usually in the form of ".json.lzma" files). A handy
+ * quirk of these files is that some general-use decompression programs, like 7-zip, can turn a ".json.lzma" file into
+ * its decompressed, readable ".json" format just by extracting that ".lzma" file as if it is an archive.
  * If you want a .fnt file instead for an MSDF font, msdf-gdx-gen does work, but has an uneven baseline if you put too
  * many chars in a font, or use too small of a texture size.
  * <br>
@@ -2844,9 +2848,9 @@ public class Font implements Disposable {
             StreamUtils.OptimizedByteArrayOutputStream baos = new StreamUtils.OptimizedByteArrayOutputStream(4096);
             try {
                 Lzma.decompress(bais, baos);
-                if (jsonHandle.nameWithoutExtension().endsWith(".json"))
+                if (".json.lzma".equalsIgnoreCase(jsonHandle.name().substring(jsonHandle.name().length() - 10)))
                     fnt = new JsonReader().parse(baos.toString("UTF-8"));
-                else if (jsonHandle.nameWithoutExtension().endsWith(".ubj")) {
+                else if (".ubj.lzma".equalsIgnoreCase(jsonHandle.name().substring(jsonHandle.name().length() - 10))) {
                     StreamUtils.closeQuietly(bais);
                     bais = new BufferedInputStream(new ByteArrayInputStream(baos.toByteArray()));
                     fnt = new UBJsonReader().parse(bais);

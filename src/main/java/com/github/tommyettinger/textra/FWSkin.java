@@ -120,11 +120,11 @@ public class FWSkin extends Skin {
 
                 path = fontFile.path();
 
-                boolean lzb = path.endsWith(".dat");
-                boolean js = path.endsWith(".json");
-                boolean ubj = path.endsWith(".ubj");
-                boolean jslzma = path.endsWith(".json.lzma");
-                boolean ublzma = path.endsWith(".ubj.lzma");
+                boolean lzb = "dat".equalsIgnoreCase(fontFile.extension());
+                boolean js = "json".equalsIgnoreCase(fontFile.extension());
+                boolean ubj = "ubj".equalsIgnoreCase(fontFile.extension());
+                boolean jslzma = ".json.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 10));
+                boolean ublzma = ".ubj.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 9));
                 boolean fw = lzb || js || ubj || jslzma || ublzma;
 
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
