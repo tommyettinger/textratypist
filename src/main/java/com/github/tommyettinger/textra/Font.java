@@ -2389,12 +2389,12 @@ public class Font implements Disposable {
      * effect, and always tries to load one image by the path specified in the .font file.
      *
      * @param prefix                a String to prepend to any filenames looked up for this Font (typically a .font file and a .png file)
-     * @param fntName               the path and filename of a .font file this will load; may be internal or local
+     * @param fontName              the path and filename of a .font file this will load; may be internal or local
      * @param ignoredSadConsoleFlag the value is ignored here; the presence of this parameter says to load a SadConsole .font file
      */
-    public Font(String prefix, String fntName, boolean ignoredSadConsoleFlag) {
+    public Font(String prefix, String fontName, boolean ignoredSadConsoleFlag) {
         this.setDistanceField(DistanceFieldType.STANDARD);
-        loadSad(prefix == null ? "" : prefix, fntName);
+        loadSad(prefix == null ? "" : prefix, fontName);
     }
 
     /**
@@ -2627,7 +2627,7 @@ public class Font implements Disposable {
         int padding = fnt.getInt("GlyphPadding");
         cellHeight = fnt.getInt("GlyphHeight");
         cellWidth = fnt.getInt("GlyphWidth");
-        descent = Math.round(cellHeight * -0.375f);
+        descent = Math.round(cellHeight * -0.25f);
         int rows = (parent.getRegionHeight() - padding) / ((int) cellHeight + padding);
         int size = rows * columns;
         mapping = new IntMap<>(size + 1);
@@ -2635,7 +2635,7 @@ public class Font implements Disposable {
             for (int x = 0; x < columns; x++, c++) {
                 GlyphRegion gr = new GlyphRegion(parent, x * ((int) cellWidth + padding) + padding, y * ((int) cellHeight + padding) + padding, (int) cellWidth, (int) cellHeight);
                 gr.offsetX = 0;
-                gr.offsetY = cellHeight * 0.5f + descent;
+                gr.offsetY = descent;
                 if (c == 10) {
                     gr.xAdvance = 0;
                 } else {

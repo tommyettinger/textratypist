@@ -56,16 +56,19 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         // font but not publishing them. I can also reproduce with Cozette and QuanPixel.
 //        font = new Font("moss/Quicksand_Medium.fnt", "moss/Quicksand_Medium.png");
 
-        // with bug, left outline is missing.
-        // with bug "fixed" all outlines work.
-//        font = KnownFonts.getCozette();
-//        font = KnownFonts.getCozette().setOutlineStrength(2f);
-        // worst-case with bug; outlines appear inconsistently.
-        // still bad with bug "fixed" (outline is above only).
-        font = KnownFonts.getQuanPixel();
-//        font = KnownFonts.getQuanPixel().setOutlineStrength(2f);
+//        font = KnownFonts.getCozette(); // works with integer positions false only
+//        font = KnownFonts.getCozette().setOutlineStrength(2f); // same as the current default
+//        font = KnownFonts.getQuanPixel(); // works with integer positions false only
+//        font = KnownFonts.getQuanPixel().setOutlineStrength(2f); // same as the current default
+//        font = KnownFonts.getLanaPixel(); // doesn't care about integer positions, both work
+//        font = KnownFonts.getIBM8x16(); // lines were too thick
+//        font = KnownFonts.getIBM8x16().setOutlineStrength(1.6f); // why 1.6??? it works regardless of int position.
+//        font = KnownFonts.getIBM8x16Sad(); // char-to-char spacing is bizarre.
+//        font = KnownFonts.getCordata16x26(); // works by default now... needed outlineStrength 0.8f
+        font = KnownFonts.getHanazono();
+
         // toggle between the next two lines to make the outline partly disappear or reappear.
-        font.useIntegerPositions(false); // currently does not have bug, for Container. It still does for Group.
+//        font.useIntegerPositions(false); // currently does not have bug, for Container. It still does for Group.
 //        font.useIntegerPositions(true); // sometimes still has outline bug, at least for QuanPixel.
 
         Sprite bg = new Sprite(font.mapping.get(font.solidBlock));
@@ -131,7 +134,7 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) typingLabel2.setRotation(MathUtils.round(angle += Gdx.graphics.getDeltaTime() * 25f));
         else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) typingLabel2.setRotation(MathUtils.round(angle -= Gdx.graphics.getDeltaTime() * 25f));
 
-        viewport.apply(false);
+        viewport.apply(true);
         stage.act();
         Camera camera = viewport.getCamera();
         camera.update();
@@ -156,7 +159,7 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        viewport.update(width, height, true);
     }
 
     @Override

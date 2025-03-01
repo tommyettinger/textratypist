@@ -1060,10 +1060,11 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(CORDATA_16X26, STANDARD)
                 .scaleHeightTo(40f)
                 .setLineMetrics(0f, 0.05f, 0f, -0.5f)
-//                .setBoldStrength(0.5f).setOutlineStrength(2f)
+//                .setBoldStrength(0.5f)
+                .setOutlineStrength(0.8f)
                 .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
                 .setInlineImageMetrics(-4f, -3f, -8f, 0.75f)
-                .useIntegerPositions(true);
+                .useIntegerPositions(false);
     }
     /**
      * Returns a Font configured to use a cozy fixed-width bitmap font,
@@ -1877,13 +1878,12 @@ public final class KnownFonts implements LifecycleListener {
         String rootName = baseName + distanceField.filePart;
         Font found = instance.loaded.get(rootName);
         if(found == null){
-            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 1, 5, 0, 0, true);
+            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 1, 0, 0, 0, true);
             found
-                    .setDescent(-6f).scaleTo(16, 20).setFancyLinePosition(0f, 0.125f)
+                    .setDescent(-6f).scaleTo(22f, 27.25f).setFancyLinePosition(0f, 0.125f).setOutlineStrength(1.6f)
                     .setLineMetrics(-0.25f, 0f, 0f, -0.5f).setInlineImageMetrics(-4f, -5f, -8f, 0.75f)
                     .setTextureFilter()
                     .setName(baseName + distanceField.namePart);
-            ;
             instance.loaded.put(rootName, found);
         }
         return new Font(found);
@@ -1920,7 +1920,7 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getIBM8x16() {
         return getFont(IBM_8X16, STANDARD)
-                .scaleHeightTo(20).setLineMetrics(0f, 0.05f, 0f, -0.5f).setBoldStrength(0.5f).setOutlineStrength(2f)
+                .scaleHeightTo(20).setLineMetrics(0f, 0.05f, 0f, -0.5f).setBoldStrength(0.5f).setOutlineStrength(1.6f)
                 .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
                 .setInlineImageMetrics(-4f, -3f, -8f, 0.75f)
                 .useIntegerPositions(true);
