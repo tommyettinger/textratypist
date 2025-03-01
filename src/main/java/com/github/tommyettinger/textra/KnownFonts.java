@@ -1095,11 +1095,12 @@ public final class KnownFonts implements LifecycleListener {
         if(found == null){
             found = new Font(instance.prefix + rootName + ".fnt", distanceField, 1, 5, 0, 0, false);
             found
-                    .useIntegerPositions(true)
+                    .useIntegerPositions(false)
                     .setDescent(-3f)
                     .setUnderlinePosition(0f, -0.125f)
                     .setStrikethroughPosition(0f, 0f)
                     .setInlineImageMetrics(-8f, -2f, -8f, 0.75f)
+                    .setOutlineStrength(2f)
                     .setName(baseName + STANDARD.namePart);
             ;
             instance.loaded.put(rootName, found);
@@ -2989,7 +2990,7 @@ public final class KnownFonts implements LifecycleListener {
             found = new Font(instance.prefix + rootName + ".fnt", distanceField, 0, 2, 0, 2, false);
             found
                     .setDescent(-4f).setInlineImageMetrics(0f, 2f, -4f, 0.875f).setFancyLinePosition(0f, 3f)
-                    .useIntegerPositions(true).setBoldStrength(0.5f).setOutlineStrength(2f)
+                    .useIntegerPositions(false).setBoldStrength(0.5f).setOutlineStrength(2f)
                     .setUnderlineMetrics(0.0625f, 0.125f, -0.25f, 0f).setStrikethroughMetrics(0.0625f, 0.125f, -0.25f, 0f)
                     .setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, found);

@@ -28,6 +28,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
@@ -58,12 +59,14 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         // with bug, left outline is missing.
         // with bug "fixed" all outlines work.
 //        font = KnownFonts.getCozette();
+//        font = KnownFonts.getCozette().setOutlineStrength(2f);
         // worst-case with bug; outlines appear inconsistently.
         // still bad with bug "fixed" (outline is above only).
         font = KnownFonts.getQuanPixel();
+//        font = KnownFonts.getQuanPixel().setOutlineStrength(2f);
         // toggle between the next two lines to make the outline partly disappear or reappear.
-//        font.useIntegerPositions(false); // has bug
-        font.useIntegerPositions(true); // should not have bug
+        font.useIntegerPositions(false); // currently does not have bug, for Container. It still does for Group.
+//        font.useIntegerPositions(true); // sometimes still has outline bug, at least for QuanPixel.
 
         Sprite bg = new Sprite(font.mapping.get(font.solidBlock));
         bg.getColor().set(Color.FOREST);
@@ -78,7 +81,7 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         typingLabel.style.background = new SpriteDrawable(bg).tint(Color.FOREST);
         typingLabel.setText("[WHITE][%?blacken]Roll a ball. When the ball gets into a slot, adjacent slots freeze and become unavailable.");
         typingLabel.setZIndex(0);
-        typingLabel.setPosition((Gdx.graphics.getWidth() - typingLabel.layout.getWidth()) / 2f, Gdx.graphics.getHeight() / 2f + 30f);
+        typingLabel.setPosition(MathUtils.round((Gdx.graphics.getWidth() - typingLabel.layout.getWidth()) / 2f), MathUtils.round(Gdx.graphics.getHeight() / 2f + 30f));
         // Normally we could use the next line, but the label doesn't have its size set yet, because it hasn't
         // been added to the Stage yet.
 //        typingLabel.setOrigin(typingLabel.getWidth()/2f, typingLabel.getHeight()/2f);
@@ -93,22 +96,28 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
 //        stage.addActor(container);
 
         typingLabel2=new TypingLabel();
-//        typingLabel2.setAlignment(Align.center);
+        typingLabel2.setAlignment(Align.center);
         typingLabel2.setFont(font);
         typingLabel2.style.background = new SpriteDrawable(bg).tint(Color.FOREST);
         typingLabel2.setText("[WHITE][%?blacken]Jump around. When the ball gets into a slot,\njoined slots freeze and become unavailable.");
         typingLabel2.setZIndex(0);
-        typingLabel2.setPosition((Gdx.graphics.getWidth() - typingLabel2.layout.getWidth()) / 2f, Gdx.graphics.getHeight() / 2f - 30);
-        typingLabel2.setOrigin(typingLabel2.layout.getWidth() / 2f, typingLabel2.layout.getHeight() / 2f);
+        typingLabel.setPosition(MathUtils.round((Gdx.graphics.getWidth() - typingLabel.layout.getWidth()) / 2f), MathUtils.round(Gdx.graphics.getHeight() / 2f + 30f));
+//        typingLabel2.setOrigin(typingLabel2.layout.getWidth() / 2f, typingLabel2.layout.getHeight() / 2f);
         typingLabel2.setSize(typingLabel2.layout.getWidth(), typingLabel2.layout.getHeight());
         typingLabel2.layout();
 
-        Group group = new Group();
+//        Group group = new Group();
 //        group.setFillParent(true);
 //        group.align(Align.center);
 //        group.addActor(typingLabel);
-        group.addActor(typingLabel2);
-        stage.addActor(group);
+//        group.addActor(typingLabel2);
+//        stage.addActor(typingLabel2);
+
+        Container<TypingLabel> container=new Container<>(typingLabel2);
+        container.setFillParent(true);
+        stage.addActor(container);
+
+//        viewport.getCamera().position.set(typingLabel2.getX(), typingLabel2.getY(), 0);
 
     }
 
@@ -122,6 +131,7 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) typingLabel2.setRotation(MathUtils.round(angle += Gdx.graphics.getDeltaTime() * 25f));
         else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) typingLabel2.setRotation(MathUtils.round(angle -= Gdx.graphics.getDeltaTime() * 25f));
 
+        viewport.apply(false);
         stage.act();
         Camera camera = viewport.getCamera();
         camera.update();
@@ -130,8 +140,8 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
-        float x = Gdx.graphics.getWidth() / 2f;
-        float y = Gdx.graphics.getHeight() / 2f;
+        float x = Gdx.graphics.getWidth() / 2;
+        float y = Gdx.graphics.getHeight() / 2;
 
         stage.getRoot().draw(batch, 1);
 
@@ -146,6 +156,7 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
+        viewport.update(width, height);
     }
 
     @Override
