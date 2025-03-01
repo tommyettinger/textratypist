@@ -2848,9 +2848,9 @@ public class Font implements Disposable {
             StreamUtils.OptimizedByteArrayOutputStream baos = new StreamUtils.OptimizedByteArrayOutputStream(4096);
             try {
                 Lzma.decompress(bais, baos);
-                if (".json.lzma".equalsIgnoreCase(jsonHandle.name().substring(jsonHandle.name().length() - 10)))
+                if (jsonHandle.name().length() > 10 && ".json.lzma".equalsIgnoreCase(jsonHandle.name().substring(jsonHandle.name().length() - 10)))
                     fnt = new JsonReader().parse(baos.toString("UTF-8"));
-                else if (".ubj.lzma".equalsIgnoreCase(jsonHandle.name().substring(jsonHandle.name().length() - 10))) {
+                else if (jsonHandle.name().length() > 9 && ".ubj.lzma".equalsIgnoreCase(jsonHandle.name().substring(jsonHandle.name().length() - 9))) {
                     StreamUtils.closeQuietly(bais);
                     bais = new BufferedInputStream(new ByteArrayInputStream(baos.toByteArray()));
                     fnt = new UBJsonReader().parse(bais);

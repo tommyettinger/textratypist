@@ -123,8 +123,8 @@ public class FWSkin extends Skin {
                 boolean lzb = "dat".equalsIgnoreCase(fontFile.extension());
                 boolean js = "json".equalsIgnoreCase(fontFile.extension());
                 boolean ubj = "ubj".equalsIgnoreCase(fontFile.extension());
-                boolean jslzma = ".json.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 10));
-                boolean ublzma = ".ubj.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 9));
+                boolean jslzma = fontFile.name().length() > 10 && ".json.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 10));
+                boolean ublzma = fontFile.name().length() > 9 && ".ubj.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 9));
                 boolean fw = lzb || js || ubj || jslzma || ublzma;
 
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
@@ -191,8 +191,8 @@ public class FWSkin extends Skin {
                 boolean lzb = "dat".equalsIgnoreCase(fontFile.extension());
                 boolean js = "json".equalsIgnoreCase(fontFile.extension());
                 boolean ubj = "ubj".equalsIgnoreCase(fontFile.extension());
-                boolean jslzma = ".json.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 10));
-                boolean ublzma = ".ubj.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 9));
+                boolean jslzma = fontFile.name().length() > 10 && ".json.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 10));
+                boolean ublzma = fontFile.name().length() > 9 && ".ubj.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 9));
                 boolean fw = lzb || js || ubj || jslzma || ublzma;
 
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
