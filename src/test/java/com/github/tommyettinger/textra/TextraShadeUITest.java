@@ -70,13 +70,13 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 
 				// below, 4 is -bmpFont.getDescent(); it is used because this particular font gets moved too high.
 				// the y adjustment can be seen as, rather than moving the text, moving the lines (a la Planet Express).
-				new Font("RaeleusScriptius-standard.fnt", 0, 4, 0, 0);
+				new Font("RaeleusScriptius-standard.fnt", 0, 12, 0, 8).setLineMetrics(-0.25f, -0.1f, 0f, 0.1f);
 //				new Font(new BitmapFont(Gdx.files.internal("RaeleusScriptius-standard.fnt")), 0, 4, 0, 0);
 		//skin.get(Styles.LabelStyle.class).font
 //				.adjustLineHeight(0.75f)
 //				.useIntegerPositions(true);
 //		font.setDescent(0);
-		KnownFonts.addEmoji(font);
+		KnownFonts.addEmoji(font, 0, -3, 0);
 //		final Font title = new Font(skin.get("title", Styles.LabelStyle.class).font, 0, 2, 0, 0, )
 		final Font title = skin.get("title", Styles.LabelStyle.class).font
 //				.adjustLineHeight(1.5f)

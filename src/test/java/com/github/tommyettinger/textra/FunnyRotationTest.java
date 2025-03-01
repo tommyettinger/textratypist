@@ -67,8 +67,7 @@ public class FunnyRotationTest extends ApplicationAdapter {
         stage = new Stage(viewport);
         FWSkin skin = new FWSkin(Gdx.files.internal("shadeui/uiskin.json"));
 
-        Font tFont = new Font("RaeleusScriptius-standard.fnt", 0, 8, 0, 0);
-        tFont.setLineMetrics(-0.25f, -0.1f, 0f, 0f);
+        Font tFont = new Font("RaeleusScriptius-standard.fnt", 0, 12, 0, 8).setLineMetrics(-0.25f, -0.1f, 0f, 0.1f);
 //        BitmapFont font = new BitmapFont();
 //        Font tFont = new Font(font);
         textraLabel1 = new TextraLabel("Test", skin.get("subtitle", Styles.LabelStyle.class), tFont);
