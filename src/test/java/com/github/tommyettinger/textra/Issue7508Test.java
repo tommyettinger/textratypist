@@ -34,11 +34,11 @@ import java.lang.management.ManagementFactory;
 /*
 [MEMORY] text size: 10000000 bytes
 [MEMORY] ThreadMXBean reports font16 uses
-1535128 bytes.
+1513792 bytes.
 [MEMORY] ThreadMXBean reports label uses
-284331416 bytes.
+284326856 bytes.
 [MEMORY] Java heap:
-1554732232, Native heap: 1554732232
+1541253304, Native heap: 1541253304
  */
 public class Issue7508Test extends ApplicationAdapter {
   private static final long OFFSET = measureInternal(() -> { });

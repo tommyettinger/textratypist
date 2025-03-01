@@ -514,7 +514,7 @@ public class TextraLabel extends Widget {
             invalidateHierarchy();
             if(this.wrap) {
                 layout();
-                setText(storedText);
+//                setText(storedText);
             }
         }
         return this;
