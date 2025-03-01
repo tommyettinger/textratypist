@@ -65,8 +65,13 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
         b.drawPixel(0, 0, 0x808080FF);
         blank = new Texture(b);
         font = new ColorfulFont("Cozette-standard.fnt",
-                "Cozette-standard.png", STANDARD, 0, 0, 0, 0, false)
+                "Cozette-standard.png", STANDARD, 1, -5, 0, 0, false)
                 .useIntegerPositions(true)
+                .setDescent(-3f)
+                .setUnderlinePosition(0f, -0.125f)
+                .setStrikethroughPosition(0f, 0f)
+                .setInlineImageMetrics(-8f, -2f, -8f, 0.75f)
+                .setOutlineStrength(1.5f)
                 .setName("Cozette");
         font.PACKED_BLACK = Palette.BLACK;
 //        font.setColor(1f, 0.5f, 0.5f, 1f);
@@ -140,7 +145,18 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
     public void handleInput() {
         if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
-        else if (TimeUtils.timeSinceMillis(lastProcessedTime) > 180) {
+        else if (input.isKeyJustPressed(Input.Keys.C)) // CHAOS!
+        {
+            selectedIndex = MathUtils.random(Palette.NAMES_BY_HUE.size-1);
+            selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
+            selected = Palette.NAMED.get(selectedName, Palette.GRAY);
+        } else if (input.isKeyJustPressed(Input.Keys.P)) // print
+        {
+            System.out.println("Using color " + selectedName
+                    + " with L=" + ColorTools.channelL(selected) + ",A=" + ColorTools.channelA(selected)
+                    + ",B=" + ColorTools.channelB(selected) + ",alpha=1.0 ."
+            );
+        } else if (TimeUtils.timeSinceMillis(lastProcessedTime) > 180) {
             lastProcessedTime = TimeUtils.millis();
             if (input.isKeyPressed(Input.Keys.RIGHT) || input.isKeyPressed(Input.Keys.DOWN)) {
                 selectedIndex = (selectedIndex + 1) % Palette.NAMES_BY_HUE.size;
@@ -150,17 +166,6 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
                 selectedIndex = (selectedIndex + Palette.NAMES_BY_HUE.size - 1) % Palette.NAMES_BY_HUE.size;
                 selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
                 selected = Palette.NAMED.get(selectedName, Palette.GRAY);
-            } else if (input.isKeyJustPressed(Input.Keys.C)) // CHAOS!
-            {
-                selectedIndex = MathUtils.random(Palette.NAMES_BY_HUE.size);
-                selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
-                selected = Palette.NAMED.get(selectedName, Palette.GRAY);
-            } else if (input.isKeyJustPressed(Input.Keys.P)) // print
-            {
-                System.out.println("Using color " + selectedName
-                        + " with L=" + ColorTools.channelL(selected) + ",A=" + ColorTools.channelA(selected)
-                        + ",B=" + ColorTools.channelB(selected) + ",alpha=1.0 ."
-                );
             }
         }
     }

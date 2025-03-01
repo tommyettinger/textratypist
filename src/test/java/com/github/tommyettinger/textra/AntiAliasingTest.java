@@ -37,7 +37,7 @@ public class AntiAliasingTest extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
-        msdf = KnownFonts.getRobotoCondensed(Font.DistanceFieldType.MSDF).scaleHeightTo(30);
+        msdf = KnownFonts.getRobotoCondensed(Font.DistanceFieldType.MSDF).scaleHeightTo(30).multiplyCrispness(0.75f);
 
         String content = "libGDX is a free and open-source game-development application framework written in the " +
                 "Java programming language with some C and C++ components for performance dependent code.";
