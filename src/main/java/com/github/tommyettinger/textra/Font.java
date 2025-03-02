@@ -7330,7 +7330,7 @@ public class Font implements Disposable {
                     }
 
 
-                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW) > targetWidth) {
+                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW) > (targetWidth + 1f)) {
                         cutoff = breakPoint + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
@@ -7364,7 +7364,12 @@ public class Font implements Disposable {
                         if (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0) {
                             spacingPoint = i;
                             visibleWidth -= changedW;
+                        } else {
+                            visibleWidth = drawn;
                         }
+                    }
+                    else {
+                        visibleWidth = drawn;
                     }
                     drawn += changedW;
                     visibleWidth += changedW;
@@ -7449,7 +7454,7 @@ public class Font implements Disposable {
                             spacingPoint = i;
                             visibleWidth -= changedW + amt;
                         }
-                        else{
+                        else {
                             visibleWidth = drawn;
                         }
                     }
