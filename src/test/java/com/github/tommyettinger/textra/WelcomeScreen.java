@@ -69,12 +69,13 @@ public class WelcomeScreen extends ApplicationAdapter {
   @Override
   public void resize(int width, int height) {
     stage.getViewport().update(width, height);
+//    System.out.println(width);
   }
 
   public static void main(String[] args){
     Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
     config.setTitle("TextraLabel vs. Label test");
-    config.setWindowedMode(660, 500);
+    config.setWindowedMode(600, 500);
     config.disableAudio(true);
     config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
     config.useVsync(true);

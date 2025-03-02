@@ -7270,7 +7270,7 @@ public class Font implements Disposable {
         for (int ln = 0; ln < changing.lines(); ln++) {
             Line line = changing.getLine(ln);
             line.height = 0;
-            float drawn = 0f;
+            float drawn = 0f, visibleWidth = 0f;
             int cutoff, breakPoint = -2, spacingPoint = -2, spacingSpan = 0;
             int scale;
             LongArray glyphs = line.glyphs;
@@ -7330,7 +7330,7 @@ public class Font implements Disposable {
                     }
 
 
-                    if (breakPoint >= 0 && drawn + (breakPoint == spacingPoint ? 0 : changedW) > targetWidth) {
+                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW) > targetWidth) {
                         cutoff = breakPoint - spacingSpan + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
@@ -7363,6 +7363,7 @@ public class Font implements Disposable {
                             spacingSpan++;
                         }
                         spacingPoint = i;
+                        visibleWidth -= changedW;
                     } else if (Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0) {
                         breakPoint = i;
                         if (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0) {
@@ -7372,9 +7373,11 @@ public class Font implements Disposable {
                                 spacingSpan++;
                             }
                             spacingPoint = i;
+                            visibleWidth -= changedW;
                         }
                     }
                     drawn += changedW;
+                    visibleWidth += changedW;
                 } else {
 
                     //// font has kerning
@@ -7420,7 +7423,7 @@ public class Font implements Disposable {
                         changedW = 0;
                         if(ch == '}') curly = false;
                     }
-                    if (breakPoint >= 0 && drawn + (breakPoint == spacingPoint ? 0 : changedW) + amt > targetWidth) {
+                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW + amt) > (targetWidth + 1f)) {
                         cutoff = breakPoint - spacingSpan + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
@@ -7453,6 +7456,7 @@ public class Font implements Disposable {
                             spacingSpan++;
                         }
                         spacingPoint = i;
+                        visibleWidth -= changedW + amt;
                     }
                     else if (Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0) {
                         breakPoint = i;
@@ -7463,9 +7467,17 @@ public class Font implements Disposable {
                                 spacingSpan++;
                             }
                             spacingPoint = i;
+                            visibleWidth -= changedW + amt;
+                        }
+                        else{
+                            visibleWidth = drawn;
                         }
                     }
+                    else {
+                        visibleWidth = drawn;
+                    }
                     drawn += changedW + amt;
+                    visibleWidth += changedW + amt;
                 }
             }
         }
