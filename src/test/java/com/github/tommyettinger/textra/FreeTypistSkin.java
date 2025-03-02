@@ -162,7 +162,7 @@ public class FreeTypistSkin extends FWSkin {
 
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
                 Boolean flip = json.readValue("flip", Boolean.class, false, jsonData);
-                Boolean markupEnabled = json.readValue("markupEnabled", Boolean.class, false, jsonData);
+                Boolean markupEnabled = json.readValue("markupEnabled", Boolean.class, true, jsonData);
                 // This defaults to false, which is not what Skin normally defaults to.
                 // You can set it to true if you expect a BitmapFont to be used at pixel-perfect 100% zoom only.
                 Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, false, jsonData);
@@ -261,6 +261,23 @@ public class FreeTypistSkin extends FWSkin {
                         json.readValue("magFilter", String.class, "Linear", jsonData));
                 jsonData.remove("magFilter");
 
+                Boolean markupEnabled = json.readValue("markupEnabled", Boolean.class, true, jsonData);
+                jsonData.remove("markupEnabled");
+                // This defaults to false, which is not what Skin normally defaults to.
+                // You can set it to true if you expect a BitmapFont to be used at pixel-perfect 100% zoom only.
+                Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, false, jsonData);
+                jsonData.remove("useIntegerPositions");
+                float xAdjust = json.readValue("xAdjust", float.class, 0f, jsonData);
+                jsonData.remove("xAdjust");
+                float yAdjust = json.readValue("yAdjust", float.class, 0f, jsonData);
+                jsonData.remove("yAdjust");
+                float widthAdjust = json.readValue("widthAdjust", float.class, 0f, jsonData);
+                jsonData.remove("widthAdjust");
+                float heightAdjust = json.readValue("heightAdjust", float.class, 0f, jsonData);
+                jsonData.remove("heightAdjust");
+                Boolean makeGridGlyphs = json.readValue("makeGridGlyphs", Boolean.class, true, jsonData);
+                jsonData.remove("makeGridGlyphs");
+
                 FreeTypeFontGenerator.FreeTypeFontParameter parameter = json.readValue(FreeTypeFontGenerator.FreeTypeFontParameter.class, jsonData);
                 parameter.hinting = hinting;
                 parameter.minFilter = minFilter;
@@ -268,8 +285,10 @@ public class FreeTypistSkin extends FWSkin {
                 FreeTypeFontGenerator generator = new FreeTypeFontGenerator(skinFile.sibling(path));
                 FreeTypeFontGenerator.setMaxTextureSize(FreeTypeFontGenerator.NO_MAXIMUM);
                 BitmapFont font = generator.generateFont(parameter);
+                font.getData().markupEnabled = markupEnabled;
+                font.setUseIntegerPositions(useIntegerPositions);
                 skin.add(jsonData.name, font);
-                skin.add(jsonData.name, new Font(font));
+                skin.add(jsonData.name, new Font(font, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs));
                 if (parameter.incremental) {
                     generator.dispose();
                     return null;
