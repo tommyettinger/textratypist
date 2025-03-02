@@ -7271,7 +7271,7 @@ public class Font implements Disposable {
             Line line = changing.getLine(ln);
             line.height = 0;
             float drawn = 0f, visibleWidth = 0f;
-            int cutoff, breakPoint = -2, spacingPoint = -2, spacingSpan = 0;
+            int cutoff, breakPoint = -2, spacingPoint = -2;
             int scale;
             LongArray glyphs = line.glyphs;
             int kern = -1;
@@ -7331,7 +7331,7 @@ public class Font implements Disposable {
 
 
                     if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW) > targetWidth) {
-                        cutoff = breakPoint - spacingSpan + 1;
+                        cutoff = breakPoint + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLine();
@@ -7357,21 +7357,11 @@ public class Font implements Disposable {
                     }
                     if (glyph >>> 32 == 0L) {
                         breakPoint = i;
-                        if (spacingPoint + 1 < i) {
-                            spacingSpan = 0;
-                        } else {
-                            spacingSpan++;
-                        }
                         spacingPoint = i;
                         visibleWidth -= changedW;
                     } else if (Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0) {
                         breakPoint = i;
                         if (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0) {
-                            if (spacingPoint + 1 < i) {
-                                spacingSpan = 0;
-                            } else {
-                                spacingSpan++;
-                            }
                             spacingPoint = i;
                             visibleWidth -= changedW;
                         }
@@ -7424,7 +7414,7 @@ public class Font implements Disposable {
                         if(ch == '}') curly = false;
                     }
                     if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW + amt) > (targetWidth + 1f)) {
-                        cutoff = breakPoint - spacingSpan + 1;
+                        cutoff = breakPoint + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLine();
@@ -7450,22 +7440,12 @@ public class Font implements Disposable {
                     }
                     if (glyph >>> 32 == 0L) {
                         breakPoint = i;
-                        if (spacingPoint + 1 < i) {
-                            spacingSpan = 0;
-                        } else {
-                            spacingSpan++;
-                        }
                         spacingPoint = i;
                         visibleWidth -= changedW + amt;
                     }
                     else if (Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) glyph) >= 0) {
                         breakPoint = i;
                         if (Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) glyph) >= 0) {
-                            if (spacingPoint + 1 < i) {
-                                spacingSpan = 0;
-                            } else {
-                                spacingSpan++;
-                            }
                             spacingPoint = i;
                             visibleWidth -= changedW + amt;
                         }

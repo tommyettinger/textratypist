@@ -42,11 +42,13 @@ public class WelcomeScreen extends ApplicationAdapter {
     font.setUseIntegerPositions(false);
     Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
     Styles.LabelStyle style2 = new Styles.LabelStyle(new Font(), Color.RED);
-    String text = "To pay homage to the great GBTK and a celebration of reaching the tenth one, I have created this masterpiece to reflect upon the happy times we've had together.\n" +
+    String text = (
+            "To pay homage to the great GBTK and a celebration of reaching the tenth one, I have created this masterpiece to reflect upon the happy times we've had together.\n" +
             "\n" +
             "Prepare yourself for a sensuous journey, in which you will have to grab the games from the previous nine GBTKs and categorise them into the appropriate jam. Once all games have been categorised, you shall be automatically whisked away to view how well you did without a chance to rethink your final placement.\n" +
             "\n" +
-            "I am legally required to inform you that this tribute has been linked with hearing loss, seizures, and birth defects.";
+            "I am legally required to inform you that this tribute has been linked with hearing loss, seizures, and birth defects."
+    ).replace(" ", "  ");
     Label label = new Label(text, style);
     TextraLabel textraLabel = new TextraLabel(text, style2);
 
