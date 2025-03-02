@@ -26,6 +26,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class AnimatedPreviewGenerator extends ApplicationAdapter {
     public static final int FRAMERATE = 30;
+    public static final boolean NOTO = false;
     Skin        skin;
     Stage       stage;
     SpriteBatch batch;
@@ -42,7 +43,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
 
         batch = new SpriteBatch();
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
-        stage = new Stage(new StretchViewport(720, 480), batch);
+        stage = new Stage(new StretchViewport(800, 480), batch);
         Gdx.input.setInputProcessor(stage);
 
         final Table table = new Table();
@@ -100,8 +101,11 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
         text.append("[lighter blue violet]{CAROUSEL}Imagine{ENDCAROUSEL}[] the [rich green]{SLAM}[~]bugs[][]!{ENDSLAM} I mean, {RAINBOW=1;1;0.7}possibilities{ENDRAINBOW}! ");
         text.append("{SPEED=0.1}{CANNON}[+🔥][+😁][+👏]{WAIT=2} {RESET}");
 
-//        Font font = KnownFonts.addEmoji(KnownFonts.getStandardFamily());
-        Font font = KnownFonts.addNotoEmoji(KnownFonts.getStandardFamily());
+        Font font;
+        if(NOTO)
+            font = KnownFonts.addNotoEmoji(KnownFonts.getStandardFamily());
+        else
+            font = KnownFonts.addEmoji(KnownFonts.getStandardFamily());
         final TypingLabel label = new TypingLabel(text.toString(), font);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
@@ -139,10 +143,12 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
                 QualityPalette pal = new QualityPalette();
                 pal.analyze(pms);
                 gif.setPalette(pal);
-                gif.setDitherAlgorithm(Dithered.DitherAlgorithm.LOAF);
+                gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GOURD);
                 gif.setDitherStrength(0.2f);
-                gif.write(Gdx.files.local("preview-noto.gif"), pms, FRAMERATE);
-//                gif.write(Gdx.files.local("preview.gif"), pms, FRAMERATE);
+                if(NOTO)
+                    gif.write(Gdx.files.local("preview-noto.gif"), pms, FRAMERATE);
+                else
+                    gif.write(Gdx.files.local("preview.gif"), pms, FRAMERATE);
                 Gdx.app.exit();
             }
         });
@@ -189,7 +195,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TypingLabel Test");
-        config.setWindowedMode(720, 480);
+        config.setWindowedMode(800, 480);
         config.setResizable(true);
         config.setForegroundFPS(FRAMERATE);
         config.useVsync(true);
