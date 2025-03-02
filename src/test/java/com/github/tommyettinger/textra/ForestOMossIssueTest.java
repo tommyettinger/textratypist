@@ -58,14 +58,14 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
 
 //        font = KnownFonts.getCozette(); // works with integer positions false only
 //        font = KnownFonts.getCozette().setOutlineStrength(2f); // same as the current default
-//        font = KnownFonts.getQuanPixel(); // works with integer positions false only
+        font = KnownFonts.getQuanPixel(); // works with integer positions false only
 //        font = KnownFonts.getQuanPixel().setOutlineStrength(2f); // same as the current default
 //        font = KnownFonts.getLanaPixel(); // doesn't care about integer positions, both work
 //        font = KnownFonts.getIBM8x16(); // lines were too thick
 //        font = KnownFonts.getIBM8x16().setOutlineStrength(1.6f); // why 1.6??? it works regardless of int position.
 //        font = KnownFonts.getIBM8x16Sad(); // char-to-char spacing is bizarre.
 //        font = KnownFonts.getCordata16x26(); // works by default now... needed outlineStrength 0.8f
-        font = KnownFonts.getHanazono();
+//        font = KnownFonts.getHanazono();
 
         // toggle between the next two lines to make the outline partly disappear or reappear.
 //        font.useIntegerPositions(false); // currently does not have bug, for Container. It still does for Group.

@@ -29,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import static com.badlogic.gdx.utils.Align.left;
 import static com.badlogic.gdx.utils.Align.topLeft;
 
 public class AntiAliasingTest extends ApplicationAdapter {
@@ -57,7 +58,8 @@ public class AntiAliasingTest extends ApplicationAdapter {
 
         TextraLabel textra = new TextraLabel("Stretched TextraLabel:\n" + content, new Styles.LabelStyle(lightRoboto));
         textra.setWrap(true);
-        textra.setAlignment(topLeft);
+        textra.setAlignment(left);
+        textra.getFont().scaleHeightTo(30);
         textra.getFont().adjustLineHeight(1.2f);
         textra.getFont().useIntegerPositions(true);
 
@@ -65,19 +67,20 @@ public class AntiAliasingTest extends ApplicationAdapter {
         label.setAlignment(topLeft);
         label.setWrap(true);
 
-        TextraLabel textra2 = new TextraLabel("TextraLabel:\n" + content, new Styles.LabelStyle(msdf, Color.WHITE));
+        TextraLabel textra2 = new TextraLabel("TextraLabel:\n" + content, new Styles.LabelStyle(lightRoboto));
         textra2.setWrap(true);
-        textra2.setAlignment(topLeft);
-        msdf.useIntegerPositions(true);
+        textra2.setAlignment(left);
+        textra2.getFont().scaleHeightTo(30);
+        textra2.getFont().useIntegerPositions(true);
 
         Table table = new Table();
         table.setFillParent(true);
         // trying to figure out what offsets might cause AA
 //        table.padTop(0.35f).padLeft(0.35f);
 
-        table.add(textra).width(Gdx.graphics.getWidth() * 0.3f - 40).top().pad(20);
-        table.add(label).width(Gdx.graphics.getWidth() * 0.3f - 40).top().pad(20);
-        table.add(textra2).width(Gdx.graphics.getWidth()  * 0.3f - 40).top().pad(20);
+        table.add(textra).width(Gdx.graphics.getWidth() * 3 / 10 - 40).top().pad(20);
+        table.add(label).width(Gdx.graphics.getWidth() * 3 / 10 - 40).top().pad(20);
+        table.add(textra2).width(Gdx.graphics.getWidth() * 3 / 10 - 40).top().pad(20);
 
         stage.addActor(table);
     }
