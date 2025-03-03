@@ -247,7 +247,11 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #OPEN_SANS}) and a DistanceFieldType (which is usually {@link DistanceFieldType#STANDARD}, but could also
      * be {@link DistanceFieldType#SDF}, {@link DistanceFieldType#MSDF}, or even {@link DistanceFieldType#SDF_OUTLINE}).
      * It looks up the appropriate file name, respecting asset prefix (see {@link #setAssetPrefix(String)}), creates the
-     * Font if necessary, then returns a copy of it.
+     * Font if necessary, then returns a copy of it. This uses {@link Font#getJsonExtension(String)} to try a variety of
+     * file extensions for Structured JSON fonts (listed in {@link #JSON_NAMES} and {@link #LIMITED_JSON_NAMES}). This
+     * also scales Structured JSON fonts to have height 32 using {@link Font#scaleHeightTo(float)}, but does not scale
+     * .fnt or .font fonts because those are usually pixel fonts that require very specific sizes. You can always scale
+     * width, height, or both on any Font this returns.
      * <br>
      * If a more specialized method modifies a Font in the {@link #loaded} cache when it runs, its effects will not
      * necessarily be shown here.
@@ -265,7 +269,7 @@ public final class KnownFonts implements LifecycleListener {
         Font known = instance.loaded.get(rootName);
         if(known == null){
             if(JSON_NAMES.contains(baseName) || LIMITED_JSON_NAMES.contains(baseName))
-                known = new Font(instance.prefix + rootName + ".dat", true).scaleHeightTo(32);
+                known = new Font(Font.getJsonExtension(instance.prefix + rootName), true).scaleHeightTo(32);
             else if(FNT_NAMES.contains(baseName))
                 known = new Font(instance.prefix + rootName + ".fnt", distanceField);
             else if(distanceField == STANDARD && SAD_NAMES.contains(baseName))
@@ -282,11 +286,12 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #JSON_NAMES} or {@link #FNT_NAMES}, but is more likely from a constant such as {@link #OPEN_SANS}).
      * It looks up the appropriate file name, respecting asset prefix (see {@link #setAssetPrefix(String)}), creates a
      * new instance of that BitmapFont, and returns it. This works even for fonts that don't have known .fnt files, but
-     * do have known .dat files (which is the case for most fonts here). Like {@link #getFont(String)}, this scales anu
-     * returned font that was loaded from a .dat file to have a height of 32 units, so that fonts can be mixed without
-     * too much effort. This doesn't scale .fnt fonts because (here) those are often pixel fonts that don't scale well.
-     * For .dat fonts, it also sets the (first) Texture the BitmapFont uses to use linear min-filtering, and sets
-     * {@link BitmapFont#setUseIntegerPositions(boolean)} to false, since these are generally expected for the .dat
+     * do have known .json files (or any compressed forms of .json, like .dat, .json.lzma, .ubj, or .ubj.lzma). Like
+     * {@link #getFont(String)}, this scales any returned font that was loaded from a Structured JSON file to have a
+     * height of 32 units, so that fonts can be mixed without too much effort. This doesn't scale .fnt fonts because
+     * (here) those are often pixel fonts that don't scale well.
+     * For Structured JSON fonts, it also sets the (first) Texture the BitmapFont uses to use linear min-filtering, and
+     * sets {@link BitmapFont#setUseIntegerPositions(boolean)} to false, since these are generally expected for the JSON
      * fonts here.
      *
      * @param baseName typically a constant such as {@link #OPEN_SANS} or {@link #LIBERTINUS_SERIF}
@@ -301,19 +306,21 @@ public final class KnownFonts implements LifecycleListener {
         FileHandle fh;
         if (JSON_NAMES.contains(baseName)) {
             known = BitmapFontSupport.loadStructuredJson(
-                    (fh = Gdx.files.local(instance.prefix + rootName + ".dat")).exists()
+                    (fh = Gdx.files.local(Font.getJsonExtension(instance.prefix + rootName))).exists()
                             ? fh
-                            : Gdx.files.internal(instance.prefix + rootName + ".dat"), rootName + ".png");
+                            : Gdx.files.internal(Font.getJsonExtension(instance.prefix + rootName)), rootName + ".png");
             known.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
             known.setUseIntegerPositions(false);
             known.getData().setScale(32f / (known.getData().lineHeight - known.getDescent()));
         }
-        else if (FNT_NAMES.contains(baseName))
-            known = BitmapFontSupport.loadStructuredJson(
-                    (fh = Gdx.files.local(instance.prefix + rootName + ".fnt")).exists()
-                            ? fh
-                            : Gdx.files.internal(instance.prefix + rootName + ".fnt"), rootName + ".png");
-        else
+        else if (FNT_NAMES.contains(baseName)) {
+            if ((fh = Gdx.files.local(instance.prefix + rootName + ".fnt")).exists())
+                known = new BitmapFont(fh, Gdx.files.local(instance.prefix + rootName + ".png"), false, false);
+            else if ((fh = Gdx.files.internal(instance.prefix + rootName + ".fnt")).exists())
+                known = new BitmapFont(fh, Gdx.files.internal(instance.prefix + rootName + ".png"), false, false);
+            else
+                throw new RuntimeException("Unknown BitmapFont name: " + baseName);
+        } else
             throw new RuntimeException("Unknown BitmapFont name: " + baseName);
         known.getData().name = baseName + STANDARD.namePart;
         return known;
@@ -341,7 +348,7 @@ public final class KnownFonts implements LifecycleListener {
         Font known = instance.loaded.get(rootName);
         if(known == null){
             if(JSON_NAMES.contains(baseName) || LIMITED_JSON_NAMES.contains(baseName))
-                known = new Font(instance.prefix + rootName + ".dat", true);
+                known = new Font(Font.getJsonExtension(instance.prefix + rootName), true);
             else if(FNT_NAMES.contains(baseName))
                 known = new Font(instance.prefix + rootName + ".fnt", distanceField);
             else if(distanceField == STANDARD && SAD_NAMES.contains(baseName))
@@ -472,6 +479,10 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it. This is an extended-height version of a-starry,
      * making it half the width relative to its height, instead of having equal width and height.
+     * <br>
+     * This doesn't look as good when using {@link DistanceFieldType#SDF_OUTLINE}, because the outlines won't extend as
+     * far to the left and right as they will up and down. The {@code [%?blacken]} mode should still outline this
+     * correctly with an approximately 1-pixel black outline.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview" width="1200" height="675" />
      * <br>

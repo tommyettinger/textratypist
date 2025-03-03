@@ -108,6 +108,35 @@ import java.util.IdentityHashMap;
  */
 public class Font implements Disposable {
     /**
+     * Given a partial filename (with a path that can be internal or local), this checks the range of possible file
+     * extensions that TextraTypist understands for fonts, and returns {@code jsonName} with one of the five possible
+     * extensions added if a file by that name exists as internal or local. This tries the extensions {@code .ubj.lzma},
+     * {@code .json.lzma}, {@code .ubj}, {@code .dat}, and then {@code .json}, in order. If no such file exists, this
+     * throws a {@link GdxRuntimeException}.
+     * @param jsonName a partial filename that can contain a path (internal or local) but does not contain an extension
+     * @return a complete filename with an extension, for a file that does exist
+     * @throws GdxRuntimeException if no file was found with an appropriate extension
+     */
+    public static String getJsonExtension(String jsonName) {
+        if ((Gdx.files.internal(jsonName + ".ubj.lzma")).exists()
+                || (Gdx.files.local(jsonName + ".ubj.lzma")).exists())
+            return jsonName + ".ubj.lzma";
+        if ((Gdx.files.internal(jsonName + ".json.lzma")).exists()
+                || (Gdx.files.local(jsonName + ".json.lzma")).exists())
+            return jsonName + ".json.lzma";
+        if ((Gdx.files.internal(jsonName + ".ubj")).exists()
+                || (Gdx.files.local(jsonName + ".ubj")).exists())
+            return jsonName + ".ubj";
+        if ((Gdx.files.internal(jsonName + ".dat")).exists()
+                || (Gdx.files.local(jsonName + ".dat")).exists())
+            return jsonName + ".dat";
+        if ((Gdx.files.internal(jsonName + ".json")).exists()
+                || (Gdx.files.local(jsonName + ".json")).exists())
+            return jsonName + ".json";
+        throw new GdxRuntimeException("No file was found with an appropriate extension appended to " + jsonName);
+    }
+
+    /**
      * Describes the region of a glyph in a larger TextureRegion, carrying a little more info about the offsets that
      * apply to where the glyph is rendered.
      */
@@ -2698,7 +2727,7 @@ public class Font implements Disposable {
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
      * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
      * produce is fairly full-featured. Its handling of metrics seems significantly better than the tools that work with
-     * AngelCode BMFont .fnt files, so all the fonts in {@link KnownFonts} use JSON. A specialized version
+     * AngelCode BMFont .fnt files, so all but a few fonts in {@link KnownFonts} use JSON. A specialized version
      * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
      * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
@@ -2722,7 +2751,7 @@ public class Font implements Disposable {
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
      * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
      * produce is fairly full-featured. Its handling of metrics seems significantly better than the tools that work with
-     * AngelCode BMFont .fnt files, so all the fonts in {@link KnownFonts} use JSON. A specialized version
+     * AngelCode BMFont .fnt files, all but a few fonts in {@link KnownFonts} use JSON. A specialized version
      * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
      * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
@@ -2744,7 +2773,7 @@ public class Font implements Disposable {
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
      * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
      * produce is fairly full-featured. Its handling of metrics seems significantly better than the tools that work with
-     * AngelCode BMFont .fnt files, so all the fonts in {@link KnownFonts} use JSON. A specialized version
+     * AngelCode BMFont .fnt files, all but a few fonts in {@link KnownFonts} use JSON. A specialized version
      * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
      * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
@@ -2776,7 +2805,7 @@ public class Font implements Disposable {
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
      * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
      * produce is fairly full-featured. Its handling of metrics seems significantly better than the tools that work with
-     * AngelCode BMFont .fnt files, so all the fonts in {@link KnownFonts} use JSON. A specialized version
+     * AngelCode BMFont .fnt files, all but a few fonts in {@link KnownFonts} use JSON. A specialized version
      * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
      * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
@@ -2799,7 +2828,7 @@ public class Font implements Disposable {
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
      * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
      * produce is fairly full-featured. Its handling of metrics seems significantly better than the tools that work with
-     * AngelCode BMFont .fnt files, so all the fonts in {@link KnownFonts} use JSON. A specialized version
+     * AngelCode BMFont .fnt files, all but a few fonts in {@link KnownFonts} use JSON. A specialized version
      * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
      * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
