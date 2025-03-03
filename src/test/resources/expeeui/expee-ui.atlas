@@ -258,35 +258,35 @@ checkbox
   rotate: false
   xy: 821, 607
   size: 17, 13
-  orig: 17, 13
+  orig: 17, 15
   offset: 0, 0
   index: -1
 checkbox-disabled
   rotate: false
   xy: 573, 442
   size: 17, 13
-  orig: 17, 13
+  orig: 17, 15
   offset: 0, 0
   index: -1
 checkbox-hover
   rotate: false
   xy: 936, 867
   size: 17, 13
-  orig: 17, 13
+  orig: 17, 15
   offset: 0, 0
   index: -1
 checkbox-pressed
   rotate: false
   xy: 891, 673
   size: 17, 13
-  orig: 17, 13
+  orig: 17, 15
   offset: 0, 0
   index: -1
 checkbox-pressed-hover
   rotate: false
   xy: 840, 607
   size: 17, 13
-  orig: 17, 13
+  orig: 17, 15
   offset: 0, 0
   index: -1
 cursor
@@ -338,7 +338,7 @@ label-drive
   xy: 643, 546
   size: 20, 13
   split: 16, 0, 12, 0
-  pad: 19, 0, 0, 0
+  pad: 19, 0, -2, 0
   orig: 20, 13
   offset: 0, 0
   index: -1
@@ -347,7 +347,7 @@ label-file
   xy: 573, 457
   size: 19, 16
   split: 12, 0, 15, 0
-  pad: 18, 0, 0, 0
+  pad: 18, 0, -2, 0
   orig: 19, 16
   offset: 0, 0
   index: -1
@@ -356,7 +356,7 @@ label-folder
   xy: 665, 546
   size: 19, 13
   split: 15, 0, 12, 0
-  pad: 18, 0, 0, 0
+  pad: 18, 0, -2, 0
   orig: 19, 13
   offset: 0, 0
   index: -1
@@ -597,35 +597,35 @@ radio
   rotate: false
   xy: 800, 605
   size: 19, 15
-  orig: 19, 15
+  orig: 19, 17
   offset: 0, 0
   index: -1
 radio-disabled
   rotate: false
   xy: 936, 902
   size: 19, 15
-  orig: 19, 15
+  orig: 19, 17
   offset: 0, 0
   index: -1
 radio-hover
   rotate: false
   xy: 477, 202
   size: 19, 15
-  orig: 19, 15
+  orig: 19, 17
   offset: 0, 0
   index: -1
 radio-pressed
   rotate: false
   xy: 891, 706
   size: 19, 15
-  orig: 19, 15
+  orig: 19, 17
   offset: 0, 0
   index: -1
 radio-pressed-hover
   rotate: false
   xy: 412, 65
   size: 19, 15
-  orig: 19, 15
+  orig: 19, 17
   offset: 0, 0
   index: -1
 scroll-background-h

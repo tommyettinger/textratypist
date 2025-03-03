@@ -1,5 +1,5 @@
 info face="font-export" size=32 bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=1,1
-common lineHeight=12 base=12 scaleW=77 scaleH=78 pages=1 packed=0 alphaChnl=1 redChnl=0 greenChnl=0 blueChnl=0
+common lineHeight=10 base=10 scaleW=77 scaleH=78 pages=1 packed=0 alphaChnl=1 redChnl=0 greenChnl=0 blueChnl=0
 page id=0 file="font-export.png"
 chars count=98
 char id=33 x=75 y=0 width=1 height=9 xoffset=0 yoffset=3 xadvance=2 page=0 chnl=0 letter="!"
