@@ -18,12 +18,10 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -38,7 +36,7 @@ public class RotationTest extends ApplicationAdapter {
     Layout layout;
     long startTime;
 
-    GLProfiler profiler;
+//    GLProfiler profiler;
 
     static final int PIXEL_WIDTH = 800, PIXEL_HEIGHT = 640;
 
@@ -54,8 +52,8 @@ public class RotationTest extends ApplicationAdapter {
 
     @Override
     public void create() {
-        profiler = new GLProfiler(Gdx.graphics);
-        profiler.enable();
+//        profiler = new GLProfiler(Gdx.graphics);
+//        profiler.enable();
 
         batch = new SpriteBatch();
 //        font = new Font("RaeleusScriptius-standard.fnt", 0, 14, 0, 0).scale(0.75f, 0.75f);
@@ -136,7 +134,7 @@ public class RotationTest extends ApplicationAdapter {
 
     @Override
     public void render() {
-        profiler.reset();
+//        profiler.reset();
         ScreenUtils.clear(0.4f, 0.5f, 0.9f, 1);
         
         float x = 0, y = layout.getHeight() + font.cellHeight * 2;
@@ -175,11 +173,11 @@ public class RotationTest extends ApplicationAdapter {
         font.drawText(batch, Gdx.graphics.getFramesPerSecond() + " FPS",
                 font.cellWidth, Gdx.graphics.getHeight() - font.cellHeight * 2, 0x227711FE);
         batch.end();
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
-            System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d, FPS: %d\n",
-                    profiler.getCalls(), profiler.getDrawCalls(),
-                    profiler.getShaderSwitches(), profiler.getTextureBindings(),
-                    Gdx.graphics.getFramesPerSecond());
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+//            System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d, FPS: %d\n",
+//                    profiler.getCalls(), profiler.getDrawCalls(),
+//                    profiler.getShaderSwitches(), profiler.getTextureBindings(),
+//                    Gdx.graphics.getFramesPerSecond());
 
     }
 

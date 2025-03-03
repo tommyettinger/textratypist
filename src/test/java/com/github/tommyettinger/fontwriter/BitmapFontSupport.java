@@ -30,7 +30,6 @@ import com.github.tommyettinger.textra.Font;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.lang.StringBuilder;
 import java.util.ArrayList;
 
 import static com.badlogic.gdx.math.MathUtils.round;

@@ -27,7 +27,6 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -51,12 +50,12 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 	Texture texture1;
 	Texture texture2;
 	TypingLabel fpsLabel;
-	GLProfiler profiler;
+//	GLProfiler profiler;
 
 	@Override
 	public void create () {
-		profiler = new GLProfiler(Gdx.graphics);
-		profiler.disable();
+//		profiler = new GLProfiler(Gdx.graphics);
+//		profiler.disable();
 		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
@@ -114,9 +113,10 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 		TextField textfield = new TextField("", skin);
 		textfield.setMessageText("Click here!");
 		textfield.setAlignment(Align.center);
-		final SelectBox<String> selectBox = new SelectBox<>(skin);
+		final TypingSelectBox selectBox = new TypingSelectBox(skin);
 		selectBox.setAlignment(Align.right);
 		selectBox.getList().setAlignment(Align.right);
+		selectBox.getStyle().font = font;
 		selectBox.getStyle().listStyle.selection.setRightWidth(10);
 		selectBox.getStyle().listStyle.selection.setLeftWidth(20);
 		selectBox.addListener(new ChangeListener() {
@@ -124,10 +124,11 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 				System.out.println(selectBox.getSelected());
 			}
 		});
-		selectBox.setItems("Android1", "Windows1 long text in item", "Linux1", "OSX1", "Android2", "Windows2", "Linux2", "OSX2",
-			"Android3", "Windows3", "Linux3", "OSX3", "Android4", "Windows4", "Linux4", "OSX4", "Android5", "Windows5", "Linux5",
-			"OSX5", "Android6", "Windows6", "Linux6", "OSX6", "Android7", "Windows7", "Linux7", "OSX7");
-		selectBox.setSelected("Linux6");
+		String[] items = {"[+🤖]Android1", "[+🪟]Windows1 long text in item", "[+🐧]Linux1", "[+🍎]macOS1", "[+🤖]Android2", "[+🪟]Windows2", "[+🐧]Linux2", "[+🍎]macOS2",
+				"[+🤖]Android3", "[+🪟]Windows3", "[+🐧]Linux3", "[+🍎]macOS3", "[+🤖]Android4", "[+🪟]Windows4", "[+🐧]Linux4", "[+🍎]macOS4", "[+🤖]Android5", "[+🪟]Windows5", "[+🐧]Linux5",
+				"[+🍎]macOS5", "[+🤖]Android6", "[+🪟]Windows6", "[+🐧]Linux6", "[+🍎]macOS6", "[+🤖]Android7", "[+🪟]Windows7", "[+🐧]Linux7", "[+🍎]macOS7"};
+		selectBox.setItemTexts(items);
+		selectBox.setSelectedIndex(20);
 		Image imageActor = new Image(image2);
 		ScrollPane scrollPane = new ScrollPane(imageActor);
 		List<String> list = new List<>(skin);
@@ -181,7 +182,7 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 		window.add(checkBox);
 		window.add(slider).minWidth(100).fillX().colspan(3);
 		window.row();
-		window.add(selectBox).maxWidth(100);
+		window.add(selectBox);
 		window.add(textfield).minWidth(100).expandX().fillX().colspan(3);
 		window.row();
 		window.add(splitPane).fill().expand().colspan(4).maxHeight(200);
@@ -227,8 +228,8 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 
 	@Override
 	public void render () {
-		if(profiler.isEnabled())
-			profiler.reset();
+//		if(profiler.isEnabled())
+//			profiler.reset();
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
@@ -242,10 +243,10 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 		fpsLabel.setRotation(20f + 20f * MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f));
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
-		if(Gdx.input.isKeyJustPressed(Keys.SPACE) && profiler.isEnabled())
-			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
-					profiler.getCalls(), profiler.getDrawCalls(),
-					profiler.getShaderSwitches(), profiler.getTextureBindings());
+//		if(Gdx.input.isKeyJustPressed(Keys.SPACE) && profiler.isEnabled())
+//			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
+//					profiler.getCalls(), profiler.getDrawCalls(),
+//					profiler.getShaderSwitches(), profiler.getTextureBindings());
 
 	}
 

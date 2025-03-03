@@ -2,7 +2,6 @@ package com.github.tommyettinger.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.github.tommyettinger.AtlasTest;
 import com.github.tommyettinger.Main;
 
 /** Launches the desktop (LWJGL3) application. */

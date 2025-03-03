@@ -24,7 +24,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -48,12 +47,12 @@ public class TypingShadeXUITest extends InputAdapter implements ApplicationListe
 	Texture texture2;
 	TypingLabel fpsLabel;
 	TypingLabel passwordLabel;
-	GLProfiler profiler;
+//	GLProfiler profiler;
 
 	@Override
 	public void create () {
-		profiler = new GLProfiler(Gdx.graphics);
-		profiler.enable();
+//		profiler = new GLProfiler(Gdx.graphics);
+//		profiler.enable();
 		skin = new FWSkin(Gdx.files.internal("shadeui/standard/uiskin-standard.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
@@ -198,7 +197,7 @@ public class TypingShadeXUITest extends InputAdapter implements ApplicationListe
 
 	@Override
 	public void render () {
-		profiler.reset();
+//		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
 		
 		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
@@ -212,10 +211,10 @@ public class TypingShadeXUITest extends InputAdapter implements ApplicationListe
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
-		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
-			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
-					profiler.getCalls(), profiler.getDrawCalls(),
-					profiler.getShaderSwitches(), profiler.getTextureBindings());
+//		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
+//			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
+//					profiler.getCalls(), profiler.getDrawCalls(),
+//					profiler.getShaderSwitches(), profiler.getTextureBindings());
 
 	}
 

@@ -33,7 +33,6 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 
-import java.lang.StringBuilder;
 import java.util.Arrays;
 import java.util.Map;
 

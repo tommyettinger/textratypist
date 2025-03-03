@@ -1,7 +1,5 @@
 package com.github.tommyettinger.teavm;
 
-import com.github.tommyettinger.StandardUITest;
-import com.github.tommyettinger.TypingUITest;
 import com.github.xpenatan.gdx.backends.teavm.TeaApplicationConfiguration;
 import com.github.xpenatan.gdx.backends.teavm.TeaApplication;
 import com.github.tommyettinger.Main;

@@ -142,7 +142,7 @@ public class TextureArraySpriteBatch implements Batch {
         usedTextures = new Texture[maxTextureUnits];
         usedTexturesLFU = new int[maxTextureUnits];
 
-        // This contains the numbers 0 ... maxTextureUnits - 1. We send these to the shader as an uniform.
+        // This contains the numbers 0 ... maxTextureUnits - 1. We send these to the shader as a uniform.
         textureUnitIndicesBuffer = BufferUtils.newIntBuffer(maxTextureUnits);
         for (int i = 0; i < maxTextureUnits; i++) {
             textureUnitIndicesBuffer.put(i);

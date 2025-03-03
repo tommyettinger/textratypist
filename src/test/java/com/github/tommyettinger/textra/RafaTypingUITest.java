@@ -24,7 +24,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -50,12 +49,12 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 	Texture texture2;
 	com.rafaskoberg.gdx.typinglabel.TypingLabel fpsLabel;
 	TextTooltip ttt;
-	GLProfiler profiler;
+//	GLProfiler profiler;
 
 	@Override
 	public void create () {
-		profiler = new GLProfiler(Gdx.graphics);
-		profiler.enable();
+//		profiler = new GLProfiler(Gdx.graphics);
+//		profiler.enable();
 		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 //		skin = new FWSkin(Gdx.files.internal("uiskin3.json"));
 //		skin = new FWSkin(Gdx.files.internal("uiskin4.json"));
@@ -204,7 +203,7 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 
 	@Override
 	public void render () {
-		profiler.reset();
+//		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
 		
 		fpsLabel.restart(String.valueOf(Gdx.graphics.getFramesPerSecond()));
@@ -222,11 +221,11 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 //		}
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
-		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
-			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d, FPS: %d\n",
-					profiler.getCalls(), profiler.getDrawCalls(),
-					profiler.getShaderSwitches(), profiler.getTextureBindings(),
-					Gdx.graphics.getFramesPerSecond());
+//		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
+//			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d, FPS: %d\n",
+//					profiler.getCalls(), profiler.getDrawCalls(),
+//					profiler.getShaderSwitches(), profiler.getTextureBindings(),
+//					Gdx.graphics.getFramesPerSecond());
 
 	}
 
