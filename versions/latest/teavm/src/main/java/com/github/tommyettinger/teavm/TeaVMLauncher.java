@@ -1,5 +1,6 @@
 package com.github.tommyettinger.teavm;
 
+import com.github.tommyettinger.TypingUITest;
 import com.github.xpenatan.gdx.backends.teavm.TeaApplicationConfiguration;
 import com.github.xpenatan.gdx.backends.teavm.TeaApplication;
 import com.github.tommyettinger.Main;
@@ -15,8 +16,8 @@ public class TeaVMLauncher {
         config.height = 640;
         config.antialiasing = true;
 //        config.useGL30 = true;
-        new TeaApplication(new Main(), config);
-//        new TeaApplication(new TypingUITest(), config);
+//        new TeaApplication(new Main(), config);
+        new TeaApplication(new TypingUITest(), config);
 //        new TeaApplication(new StandardUITest(), config);
     }
 }

@@ -31,6 +31,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.tommyettinger.textra.*;
@@ -71,28 +72,11 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 		final Font.FontFamily family = getStandardFamily().family;
-//		final Font font =
-//				//KnownFonts.getYanoneKaffeesatz();
-//				new Font(skin.getFont("outline-font"), 0f, 12f, 0f, 0f);//.adjustLineHeight(1.2f);
-//		KnownFonts.getStandardFamily()
-//				new Font(skin.get(Styles.LabelStyle.class).font)
-//				.useIntegerPositions(true);
-//		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		family.connected[2] =
-//				font;
-				KnownFonts.getYanoneKaffeesatz()
-//				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
-				.scaleHeightTo(32);
-//				.setName("Yanone Kaffeesatz");
-//		family.connected[0] = KnownFonts.getNowAlt();
+				KnownFonts.getYanoneKaffeesatz();
 		family.connected[0] = KnownFonts.getNowAlt().scaleHeightTo(30);
-//		family.connected[11].originalCellHeight *= 0.75f;
-//		family.connected[0].originalCellHeight *= 0.75f;
 		font = family.connected[0];
-//		font.descent *= 0.5f; // seems to help position a little.
-//		font.adjustLineHeight((font.originalCellHeight - font.descent) / font.originalCellHeight);
 		font.family = family;
-//		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
 		for(Font f : font.family.connected) {
 			if(f != null)
 				KnownFonts.addEmoji(f);
@@ -189,9 +173,6 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 
 		// window.debug();
 		window = new TypingWindow("TypingWindow", skin, "default", new Font(font).scaleHeightTo(16), false);
-//		window.font.adjustLineHeight(0.75f);
-//		float ratio = window.getPadTop() / font.cellHeight;
-//		Font baby = new Font(font).scaleTo(font.cellWidth * ratio, window.getPadTop());//.scale(ratio, ratio);
 		window.getTitleTable().add(new TextraButton("X", skin, window.getTitleLabel().getFont())).height(window.getPadTop());
 		window.getTitleTable().add(new TypingButton("X", skin, window.getTitleLabel().getFont())).height(window.getPadTop());
 		window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
@@ -256,8 +237,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	@Override
 	public void render () {
 //		profiler.reset();
-		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
 		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
 		int i;
 		for (i = 0; i < s.length() && i < 5; i++) {

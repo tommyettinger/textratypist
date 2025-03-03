@@ -82,7 +82,7 @@ CASE: toUp .cardinality(): 1228
 
 
         Array<TypingLabel> labels = new Array<>(new TypingLabel[]{
-                new TypingLabel("{RAINBOW}Ads Challenge...{ENDRAINBOW}", new Styles.LabelStyle(font, null))
+                new TypingLabel("{RAINBOW}Ads Challenge!{ENDRAINBOW}", new Styles.LabelStyle(font, null))
         });
         TypingLabel label = labels.get(0);
         label.setWrap(true);
@@ -90,7 +90,7 @@ CASE: toUp .cardinality(): 1228
 
         Table table = new Table();
         table.setFillParent(true);
-        table.add(label).size(200, 100).row();
+        table.add(label).row();
 
 //        bmfont.getData().markupEnabled = false;
 //        Label s2dLabel = new Label("I can do it!", new Label.LabelStyle(bmfont, Color.WHITE));
