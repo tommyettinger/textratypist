@@ -456,7 +456,7 @@ public final class KnownFonts implements LifecycleListener {
      * Ettinger, because he made changes in a-starry) if you use it. This is an extended-height version of a-starry,
      * making it half the width relative to its height, instead of having equal width and height.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A-Starry-Tall.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -484,7 +484,7 @@ public final class KnownFonts implements LifecycleListener {
      * far to the left and right as they will up and down. The {@code [%?blacken]} mode should still outline this
      * correctly with an approximately 1-pixel black outline.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A%20Starry%20Tall.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A-Starry-Tall-msdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1052,7 +1052,7 @@ public final class KnownFonts implements LifecycleListener {
      * crisp at its default size of 16x26 pixels. This might not match the actual height you
      * get with {@link Font#scaleHeightTo(float)}! A height of 40f or a multiple thereof seems
      * correct for this Font at this point in time. This defaults to having
-     * {@link Font#integerPosition} set to true.
+     * {@link Font#integerPosition} set to false, which is the usual default.
      * This may work well in a font family with other fonts that do not use a distance field
      * effect, though they all could have different sizes.
      * <br>
@@ -1082,8 +1082,7 @@ public final class KnownFonts implements LifecycleListener {
      * <a href="https://github.com/slavfox/Cozette">Cozette by slavfox</a>. Cozette has broad coverage of Unicode,
      * including Greek, Cyrillic, Braille, and tech-related icons. This does not scale well except to integer
      * multiples, but it should look very crisp at its default size of 6x17 pixels. This defaults to having
-     * {@link Font#integerPosition} set to true, which currently does nothing (the code that enforces integer positions
-     * seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
+     * {@link Font#integerPosition} set to false, which is the usual default.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Cozette.png" alt="Image preview" width="1200" height="675" />
@@ -1973,7 +1972,7 @@ public final class KnownFonts implements LifecycleListener {
         if(found == null){
             found = new Font(instance.prefix, rootName + ".font", true);
             found
-                    .setBoldStrength(0.5f).setOutlineStrength(2f)
+                    .setBoldStrength(0.5f).setOutlineStrength(2f).useIntegerPositions(true)
                     .setLineMetrics(-0.25f, 0.25f, 0f, 0f)
                     .setInlineImageMetrics(-4f, -2f, -8f, 0.8f).fitCell(8, 16, false).setDescent(-6f)
                     .setName(baseName + distanceField.namePart);
@@ -2975,8 +2974,7 @@ public final class KnownFonts implements LifecycleListener {
      * including all of Greek, at least most of Cyrillic, a good amount of extended Latin, all of Katakana and Hiragana,
      * many Hangul syllables, and literally thousands of CJK ideograms. This does not scale well except to integer
      * multiples, but it should look very crisp at its default size of about 8 pixels tall with variable width. This
-     * defaults to having {@link Font#integerPosition} set to true, which currently does nothing (the code that enforces
-     * integer positions seems to ruin the appearance of any font that uses it, so that code isn't ever used now).
+     * defaults to having {@link Font#integerPosition} set to false, which is the usual default.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/QuanPixel.png" alt="Image preview" width="1200" height="675" />
@@ -3941,7 +3939,9 @@ public final class KnownFonts implements LifecycleListener {
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
      * Preview:<br>
-     * <img src="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png" alt="Image preview" width="1200" height="600" />
+     * <img src="https://tommyettinger.github.io/textratypist/previews/OpenMojiLinePreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/OpenMojiColorPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
      * Uses the font {@link #getInconsolata()} and {@code [%?whiten]} mode, with the emoji set to color=false and tints
      * applied to each emoji.
@@ -4002,7 +4002,9 @@ public final class KnownFonts implements LifecycleListener {
      * emoji to the left, down, and gives more room between it and the next glyph.
      * <br>
      * Preview:<br>
-     * <img src="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png" alt="Image preview" width="1200" height="600" />
+     * <img src="https://tommyettinger.github.io/textratypist/previews/OpenMojiLinePreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/OpenMojiColorPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
      * Uses the font {@link #getInconsolata()} and {@code [%?whiten]} mode, with the emoji set to color=false and tints
      * applied to each emoji.
@@ -4069,7 +4071,9 @@ public final class KnownFonts implements LifecycleListener {
      * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
      * <br>
      * Preview:<br>
-     * <img src="https://tommyettinger.github.io/textratypist/previews/OpenMojiPreview.png" alt="Image preview" width="1200" height="600" />
+     * <img src="https://tommyettinger.github.io/textratypist/previews/OpenMojiLinePreview.png" alt="Image preview" width="1200" height="600" />
+     * <br>
+     * <img src="https://tommyettinger.github.io/textratypist/previews/OpenMojiColorPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
      * Uses the font {@link #getInconsolata()} and {@code [%?whiten]} mode, with the emoji set to color=false and tints
      * applied to each emoji.
