@@ -306,17 +306,13 @@ public final class KnownFonts implements LifecycleListener {
         FileHandle fh;
         if (JSON_NAMES.contains(baseName)) {
             known = BitmapFontSupport.loadStructuredJson(
-                    (fh = Gdx.files.local(Font.getJsonExtension(instance.prefix + rootName))).exists()
-                            ? fh
-                            : Gdx.files.internal(Font.getJsonExtension(instance.prefix + rootName)), rootName + ".png");
+                    Gdx.files.internal(Font.getJsonExtension(instance.prefix + rootName)), rootName + ".png");
             known.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
             known.setUseIntegerPositions(false);
             known.getData().setScale(32f / (known.getData().lineHeight - known.getDescent()));
         }
         else if (FNT_NAMES.contains(baseName)) {
-            if ((fh = Gdx.files.local(instance.prefix + rootName + ".fnt")).exists())
-                known = new BitmapFont(fh, Gdx.files.local(instance.prefix + rootName + ".png"), false, false);
-            else if ((fh = Gdx.files.internal(instance.prefix + rootName + ".fnt")).exists())
+            if ((fh = Gdx.files.internal(instance.prefix + rootName + ".fnt")).exists())
                 known = new BitmapFont(fh, Gdx.files.internal(instance.prefix + rootName + ".png"), false, false);
             else
                 throw new RuntimeException("Unknown BitmapFont name: " + baseName);
@@ -3888,10 +3884,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.twemoji == null) {
             try {
                 FileHandle atlas = Gdx.files.internal(instance.prefix + "Twemoji.atlas");
-                if (!atlas.exists() && Gdx.files.isLocalStorageAvailable()) atlas = Gdx.files.local(instance.prefix + "Twemoji.atlas");
                 if (Gdx.files.internal(instance.prefix + "Twemoji.png").exists())
-                    instance.twemoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
-                else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + "Twemoji.png").exists())
                     instance.twemoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -4107,11 +4100,7 @@ public final class KnownFonts implements LifecycleListener {
             if (instance.openMojiColor == null) {
                 try {
                     FileHandle atlas = Gdx.files.internal(instance.prefix + baseName + ".atlas");
-                    if (!atlas.exists() && Gdx.files.isLocalStorageAvailable())
-                        atlas = Gdx.files.local(instance.prefix + baseName + ".atlas");
                     if (Gdx.files.internal(instance.prefix + baseName + ".png").exists())
-                        instance.openMojiColor = loadUnicodeAtlas(atlas, atlas.parent(), false);
-                    else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + baseName + ".png").exists())
                         instance.openMojiColor = loadUnicodeAtlas(atlas, atlas.parent(), false);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -4128,11 +4117,7 @@ public final class KnownFonts implements LifecycleListener {
             if (instance.openMojiWhite == null) {
                 try {
                     FileHandle atlas = Gdx.files.internal(instance.prefix + baseName + ".atlas");
-                    if (!atlas.exists() && Gdx.files.isLocalStorageAvailable())
-                        atlas = Gdx.files.local(instance.prefix + baseName + ".atlas");
                     if (Gdx.files.internal(instance.prefix + baseName + ".png").exists())
-                        instance.openMojiWhite = loadUnicodeAtlas(atlas, atlas.parent(), false);
-                    else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + baseName + ".png").exists())
                         instance.openMojiWhite = loadUnicodeAtlas(atlas, atlas.parent(), false);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -4330,10 +4315,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.notoEmoji == null) {
             try {
                 FileHandle atlas = Gdx.files.internal(instance.prefix + "Noto-Emoji.atlas");
-                if (!atlas.exists() && Gdx.files.isLocalStorageAvailable()) atlas = Gdx.files.local(instance.prefix + "Noto-Emoji.atlas");
                 if (Gdx.files.internal(instance.prefix + "Noto-Emoji.png").exists())
-                    instance.notoEmoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
-                else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + "Noto-Emoji.png").exists())
                     instance.notoEmoji = loadUnicodeAtlas(atlas, atlas.parent(), false);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -4490,10 +4472,7 @@ public final class KnownFonts implements LifecycleListener {
         if (instance.gameIcons == null) {
             try {
                 FileHandle atlas = Gdx.files.internal(instance.prefix + "Game-Icons.atlas");
-                if (!atlas.exists() && Gdx.files.isLocalStorageAvailable()) atlas = Gdx.files.local(instance.prefix + "Game-Icons.atlas");
                 if (Gdx.files.internal(instance.prefix + "Game-Icons.png").exists())
-                    instance.gameIcons = new TextureAtlas(atlas, atlas.parent(), false);
-                else if (Gdx.files.isLocalStorageAvailable() && Gdx.files.local(instance.prefix + "Game-Icons.png").exists())
                     instance.gameIcons = new TextureAtlas(atlas, atlas.parent(), false);
             } catch (Exception e) {
                 e.printStackTrace();

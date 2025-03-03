@@ -108,30 +108,25 @@ import java.util.IdentityHashMap;
  */
 public class Font implements Disposable {
     /**
-     * Given a partial filename (with a path that can be internal or local), this checks the range of possible file
+     * Given a partial filename (which can have an internal path), this checks the range of possible file
      * extensions that TextraTypist understands for fonts, and returns {@code jsonName} with one of the five possible
-     * extensions added if a file by that name exists as internal or local. This tries the extensions {@code .ubj.lzma},
+     * extensions added if a file by that name exists as an internal asset. This tries the extensions {@code .ubj.lzma},
      * {@code .json.lzma}, {@code .ubj}, {@code .dat}, and then {@code .json}, in order. If no such file exists, this
      * throws a {@link GdxRuntimeException}.
-     * @param jsonName a partial filename that can contain a path (internal or local) but does not contain an extension
+     * @param jsonName a partial filename that can contain an internal path but does not contain an extension
      * @return a complete filename with an extension, for a file that does exist
      * @throws GdxRuntimeException if no file was found with an appropriate extension
      */
     public static String getJsonExtension(String jsonName) {
-        if ((Gdx.files.internal(jsonName + ".ubj.lzma")).exists()
-                || (Gdx.files.local(jsonName + ".ubj.lzma")).exists())
+        if ((Gdx.files.internal(jsonName + ".ubj.lzma")).exists())
             return jsonName + ".ubj.lzma";
-        if ((Gdx.files.internal(jsonName + ".json.lzma")).exists()
-                || (Gdx.files.local(jsonName + ".json.lzma")).exists())
+        if ((Gdx.files.internal(jsonName + ".json.lzma")).exists())
             return jsonName + ".json.lzma";
-        if ((Gdx.files.internal(jsonName + ".ubj")).exists()
-                || (Gdx.files.local(jsonName + ".ubj")).exists())
+        if ((Gdx.files.internal(jsonName + ".ubj")).exists())
             return jsonName + ".ubj";
-        if ((Gdx.files.internal(jsonName + ".dat")).exists()
-                || (Gdx.files.local(jsonName + ".dat")).exists())
+        if ((Gdx.files.internal(jsonName + ".dat")).exists())
             return jsonName + ".dat";
-        if ((Gdx.files.internal(jsonName + ".json")).exists()
-                || (Gdx.files.local(jsonName + ".json")).exists())
+        if ((Gdx.files.internal(jsonName + ".json")).exists())
             return jsonName + ".json";
         throw new GdxRuntimeException("No file was found with an appropriate extension appended to " + jsonName);
     }
@@ -1618,8 +1613,8 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a Font by reading in the given .fnt file and loading any images it specifies. Tries an internal handle
-     * first, then a local handle. Does not use a distance field effect.
+     * Constructs a Font by reading in the given .fnt file and loading any images it specifies. Tries an internal
+     * handle. Does not use a distance field effect.
      *
      * @param fntName the file path and name to a .fnt file this will load
      */
@@ -1628,8 +1623,8 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a Font by reading in the given .fnt file and loading any images it specifies. Tries an internal handle
-     * first, then a local handle. Uses the specified distance field effect.
+     * Constructs a Font by reading in the given .fnt file and loading any images it specifies. Tries an internal
+     * handle. Uses the specified distance field effect.
      *
      * @param fntName       the file path and name to a .fnt file this will load
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
@@ -1639,8 +1634,8 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a Font by reading in the given .fnt file and the given Texture by filename. Tries an internal handle
-     * first, then a local handle. Does not use a distance field effect.
+     * Constructs a Font by reading in the given .fnt file and the given Texture by filename. Tries an internal
+     * handle. Does not use a distance field effect.
      *
      * @param fntName the file path and name to a .fnt file this will load
      */
@@ -1649,8 +1644,8 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a Font by reading in the given .fnt file and the given Texture by filename. Tries an internal handle
-     * first, then a local handle. Uses the specified distance field effect.
+     * Constructs a Font by reading in the given .fnt file and the given Texture by filename. Tries an internal
+     * handle. Uses the specified distance field effect.
      *
      * @param fntName       the file path and name to a .fnt file this will load
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
@@ -1763,8 +1758,8 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried first, then a
-     * local handle) and loading any images specified in that file. No distance field effect is used.
+     * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried) and loading any
+     * images specified in that file. No distance field effect is used.
      * This allows globally adjusting the x and y positions of glyphs in the font, as well as
      * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
      * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
@@ -1772,7 +1767,7 @@ public class Font implements Disposable {
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
      *
-     * @param fntName      the path and filename of a .fnt file this will load; may be internal or local
+     * @param fntName      the path and filename of a .fnt file this will load as an internal asset
      * @param xAdjust      how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust      how many pixels to offset each character's y-position by, moving up
      * @param widthAdjust  how many pixels to add to the used width of each character, using more to the right
@@ -1784,8 +1779,8 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried first, then a
-     * local handle) and loading any images specified in that file. The specified distance field effect is used.
+     * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried)
+     * and loading any images specified in that file. The specified distance field effect is used.
      * This allows globally adjusting the x and y positions of glyphs in the font, as well as
      * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
      * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
@@ -1793,7 +1788,7 @@ public class Font implements Disposable {
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
      *
-     * @param fntName       the path and filename of a .fnt file this will load; may be internal or local
+     * @param fntName       the path and filename of a .fnt file this will load as an internal asset
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust       how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust       how many pixels to offset each character's y-position by, moving up
@@ -1806,8 +1801,8 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried first, then a
-     * local handle) and loading any images specified in that file. The specified distance field effect is used.
+     * Constructs a new Font by reading in a .fnt file with the given name (an internal handle is tried)
+     * and loading any images specified in that file. The specified distance field effect is used.
      * This allows globally adjusting the x and y positions of glyphs in the font, as well as
      * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
      * can drastically improve the appearance of text, but has to be manually edited; every font is quite different.
@@ -1815,7 +1810,7 @@ public class Font implements Disposable {
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
      *
-     * @param fntName        the path and filename of a .fnt file this will load; may be internal or local
+     * @param fntName        the path and filename of a .fnt file this will load as an internal asset
      * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust        how many pixels to offset each character's y-position by, moving up
@@ -1827,8 +1822,7 @@ public class Font implements Disposable {
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
         this.setDistanceField(distanceField);
         FileHandle fntHandle;
-        if ((fntHandle = Gdx.files.internal(fntName)).exists()
-                || (fntHandle = Gdx.files.local(fntName)).exists()) {
+        if ((fntHandle = Gdx.files.internal(fntName)).exists()) {
             loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
         } else {
             throw new RuntimeException("Missing font file: " + fntName);
@@ -1864,7 +1858,7 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then local),
+     * Constructs a new Font by reading in a Texture from the given named path (internal is tried),
      * and no distance field effect.
      * This allows globally adjusting the x and y positions of glyphs in the font, as well as
      * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
@@ -1873,8 +1867,8 @@ public class Font implements Disposable {
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
      *
-     * @param fntName      the path and filename of a .fnt file this will load; may be internal or local
-     * @param textureName  the path and filename of a texture file this will load; may be internal or local
+     * @param fntName      the path and filename of a .fnt file this will load as an internal asset
+     * @param textureName  the path and filename of a texture file this will load as an internal asset
      * @param xAdjust      how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust      how many pixels to offset each character's y-position by, moving up
      * @param widthAdjust  how many pixels to add to the used width of each character, using more to the right
@@ -1886,7 +1880,7 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then local),
+     * Constructs a new Font by reading in a Texture from the given named path (internal is tried),
      * and the specified distance field effect.
      * This allows globally adjusting the x and y positions of glyphs in the font, as well as
      * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
@@ -1895,8 +1889,8 @@ public class Font implements Disposable {
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
      *
-     * @param fntName       the path and filename of a .fnt file this will load; may be internal or local
-     * @param textureName   the path and filename of a texture file this will load; may be internal or local
+     * @param fntName       the path and filename of a .fnt file this will load as an internal asset
+     * @param textureName   the path and filename of a texture file this will load as an internal asset
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust       how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust       how many pixels to offset each character's y-position by, moving up
@@ -1909,7 +1903,7 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a new Font by reading in a Texture from the given named path (internal is tried, then local),
+     * Constructs a new Font by reading in a Texture from the given named path (internal is tried),
      * and the specified distance field effect.
      * This allows globally adjusting the x and y positions of glyphs in the font, as well as
      * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
@@ -1918,8 +1912,8 @@ public class Font implements Disposable {
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
      *
-     * @param fntName        the path and filename of a .fnt file this will load; may be internal or local
-     * @param textureName    the path and filename of a texture file this will load; may be internal or local
+     * @param fntName        the path and filename of a .fnt file this will load as an internal asset
+     * @param textureName    the path and filename of a texture file this will load as an internal asset
      * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust        how many pixels to offset each character's y-position by, moving up
@@ -1934,8 +1928,7 @@ public class Font implements Disposable {
         if(textureName == null) {
             parents = Array.of(true, 1, TextureRegion.class);
             parents.add(new TexturelessRegion());
-        } else if ((textureHandle = Gdx.files.internal(textureName)).exists()
-                || (textureHandle = Gdx.files.local(textureName)).exists()) {
+        } else if ((textureHandle = Gdx.files.internal(textureName)).exists()) {
             parents = Array.with(new TextureRegion(new Texture(textureHandle)));
             if (distanceField != DistanceFieldType.STANDARD) {
                 parents.first().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -1944,8 +1937,7 @@ public class Font implements Disposable {
             throw new RuntimeException("Missing texture file: " + textureName);
         }
         FileHandle fntHandle;
-        if ((fntHandle = Gdx.files.internal(fntName)).exists()
-                || (fntHandle = Gdx.files.local(fntName)).exists()) {
+        if ((fntHandle = Gdx.files.internal(fntName)).exists()) {
             loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
         } else {
             throw new RuntimeException("Missing font file: " + fntName);
@@ -1961,7 +1953,7 @@ public class Font implements Disposable {
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
      *
-     * @param fntName       the path and filename of a .fnt file this will load; may be internal or local
+     * @param fntName       the path and filename of a .fnt file this will load as an internal asset
      * @param textureRegion an existing TextureRegion, typically inside a larger TextureAtlas
      * @param xAdjust       how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust       how many pixels to offset each character's y-position by, moving up
@@ -1983,7 +1975,7 @@ public class Font implements Disposable {
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
      *
-     * @param fntName       the path and filename of a .fnt file this will load; may be internal or local
+     * @param fntName       the path and filename of a .fnt file this will load as an internal asset
      * @param textureRegion an existing TextureRegion, typically inside a larger TextureAtlas
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust       how many pixels to offset each character's x-position by, moving to the right
@@ -2006,7 +1998,7 @@ public class Font implements Disposable {
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
      *
-     * @param fntName        the path and filename of a .fnt file this will load; may be internal or local
+     * @param fntName        the path and filename of a .fnt file this will load as an internal asset
      * @param textureRegion  an existing TextureRegion, typically inside a larger TextureAtlas
      * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
@@ -2023,8 +2015,7 @@ public class Font implements Disposable {
             textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
         FileHandle fntHandle;
-        if ((fntHandle = Gdx.files.internal(fntName)).exists()
-                || (fntHandle = Gdx.files.local(fntName)).exists()) {
+        if ((fntHandle = Gdx.files.internal(fntName)).exists()) {
             loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
         } else {
             throw new RuntimeException("Missing font file: " + fntName);
@@ -2073,7 +2064,7 @@ public class Font implements Disposable {
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
      *
-     * @param fntName        the path and filename of a .fnt file this will load; may be internal or local
+     * @param fntName        the path and filename of a .fnt file this will load as an internal asset
      * @param textureRegions an Array of TextureRegions that will be used in order as the .fnt file uses more pages
      * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust        how many pixels to offset each character's y-position by, moving up
@@ -2094,7 +2085,7 @@ public class Font implements Disposable {
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
      *
-     * @param fntName        the path and filename of a .fnt file this will load; may be internal or local
+     * @param fntName        the path and filename of a .fnt file this will load as an internal asset
      * @param textureRegions an Array of TextureRegions that will be used in order as the .fnt file uses more pages
      * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
@@ -2116,7 +2107,7 @@ public class Font implements Disposable {
      * {@link #originalCellWidth} to widthAdjust and about half that to xAdjust; this can be used to make the glyphs fit
      * in square cells.
      *
-     * @param fntName        the path and filename of a .fnt file this will load; may be internal or local
+     * @param fntName        the path and filename of a .fnt file this will load as an internal asset
      * @param textureRegions an Array of TextureRegions that will be used in order as the .fnt file uses more pages
      * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
      * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
@@ -2135,8 +2126,7 @@ public class Font implements Disposable {
                     parent.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
         FileHandle fntHandle;
-        if ((fntHandle = Gdx.files.internal(fntName)).exists()
-                || (fntHandle = Gdx.files.local(fntName)).exists()) {
+        if ((fntHandle = Gdx.files.internal(fntName)).exists()) {
             loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
         } else {
             throw new RuntimeException("Missing font file: " + fntName);
@@ -2413,12 +2403,12 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a new Font by reading in a SadConsole .font file with the given name (an internal handle is tried
-     * first, then a local handle) and loading any images specified in that file. This never uses a distance field
+     * Constructs a new Font by reading in a SadConsole .font file with the given name (an internal handle is tried)
+     * and loading any images specified in that file. This never uses a distance field
      * effect, and always tries to load one image by the path specified in the .font file.
      *
      * @param prefix                a String to prepend to any filenames looked up for this Font (typically a .font file and a .png file)
-     * @param fontName              the path and filename of a .font file this will load; may be internal or local
+     * @param fontName              the path and filename of a .font file this will load as an internal asset
      * @param ignoredSadConsoleFlag the value is ignored here; the presence of this parameter says to load a SadConsole .font file
      */
     public Font(String prefix, String fontName, boolean ignoredSadConsoleFlag) {
@@ -2469,8 +2459,7 @@ public class Font implements Disposable {
                 if(!canUseTextures){
                     parents = Array.of(true, 1, TextureRegion.class);
                     parents.add(new TexturelessRegion());
-                } else if ((textureHandle = Gdx.files.internal(textureName)).exists()
-                        || (textureHandle = Gdx.files.local(textureName)).exists()) {
+                } else if ((textureHandle = Gdx.files.internal(textureName)).exists()) {
                     parents.add(new TextureRegion(new Texture(textureHandle)));
                     if (getDistanceField() != DistanceFieldType.STANDARD)
                         parents.peek().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -2624,14 +2613,13 @@ public class Font implements Disposable {
      * The parsing code that pulls relevant info from a SadConsole .font configuration file and uses it to assemble the
      * many {@link GlyphRegion}s this has for each glyph.
      *
-     * @param fntName the name of a font file this will load from an internal or local file handle (tried in that order)
+     * @param fntName the name of a font file this will load from an internal file handle
      */
     protected void loadSad(String prefix, String fntName) {
         FileHandle fntHandle;
         JsonValue fnt;
         JsonReader reader = new JsonReader();
-        if ((fntHandle = Gdx.files.internal(prefix + fntName)).exists()
-                || (fntHandle = Gdx.files.local(prefix + fntName)).exists()) {
+        if ((fntHandle = Gdx.files.internal(prefix + fntName)).exists()) {
             fnt = reader.parse(fntHandle);
         } else {
             throw new RuntimeException("Missing font file: " + prefix + fntName);
@@ -2644,8 +2632,7 @@ public class Font implements Disposable {
             String textureName = fnt.getString("FilePath");
             if (!canUseTextures) {
                 parents.add(parent = new TextureRegion(null, 1, 1));
-            } else if ((textureHandle = Gdx.files.internal(prefix + textureName)).exists()
-                    || (textureHandle = Gdx.files.local(prefix + textureName)).exists()) {
+            } else if ((textureHandle = Gdx.files.internal(prefix + textureName)).exists()) {
                 parents.add(parent = new TextureRegion(new Texture(textureHandle)));
             } else {
                 throw new RuntimeException("Missing texture file: " + prefix + textureName);
@@ -2720,8 +2707,8 @@ public class Font implements Disposable {
      * Creates a Font from a "Structured JSON" file produced by Chlumsky's msdf-atlas-gen tool, and uses it to assemble
      * the many {@link GlyphRegion}s this has for each glyph. Reads the distance field type from the JSON. This always
      * tries to load a PNG file with the same filename as (and different extension from) the JSON file, trying an
-     * internal file path first, and a local file path if that fails. No matter what extension the JSON font uses, this
-     * will be able to load it (so this can load compressed .dat fonts as well as .json or .js).
+     * internal file path. No matter what extension the JSON font uses, this will be able to load it
+     * (so this can load compressed .dat fonts as well as .json, .json.lzma, .ubj, and .ubj.lzma).
      * This always makes grid glyphs.
      * <br>
      * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
@@ -2731,16 +2718,13 @@ public class Font implements Disposable {
      * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
      * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
-     * @param jsonName the name of a structured JSON font file this will load from an internal or local file handle (tried in that order)
+     * @param jsonName the name of a structured JSON font file this will load from an internal file handle
      * @param ignoredStructuredJsonFlag only present to distinguish this from other constructors; ignored
      */
     public Font(String jsonName, boolean ignoredStructuredJsonFlag) {
         this(jsonName, !canUseTextures
                 ? new TexturelessRegion((TextureRegion) null, 0, 0, 2048, 2048)
-                : new TextureRegion(new Texture(
-                        Gdx.files.internal(jsonName = jsonName.replaceFirst("\\..+$", ".png")).exists()
-                                ? Gdx.files.internal(jsonName)
-                                : Gdx.files.local(jsonName)
+                : new TextureRegion(new Texture(Gdx.files.internal(jsonName.replaceFirst("\\..+$", ".png"))
         )), 0f, 0f, 0f, 0f, true, ignoredStructuredJsonFlag);
     }
 
@@ -2755,7 +2739,7 @@ public class Font implements Disposable {
      * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
      * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
-     * @param jsonName the name of a structured JSON font file this will load from an internal or local file handle (tried in that order)
+     * @param jsonName the name of a structured JSON font file this will load from an internal file handle
      * @param textureRegion a non-null TextureRegion, often taking up all of a Texture, that stores the images of the glyphs
      * @param makeGridGlyphs true if this should use its own way of rendering box-drawing/block-element glyphs, ignoring any in the font file
      * @param ignoredStructuredJsonFlag only present to distinguish this from other constructors; ignored
@@ -2777,7 +2761,7 @@ public class Font implements Disposable {
      * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
      * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
      *
-     * @param jsonName the name of a structured JSON font file this will load from an internal or local file handle (tried in that order)
+     * @param jsonName the name of a structured JSON font file this will load from an internal file handle
      * @param textureRegion  a non-null TextureRegion, often taking up all of a Texture, that stores the images of the glyphs
      * @param xAdjust        how many pixels to offset each character's x-position by, moving to the right
      * @param yAdjust        how many pixels to offset each character's y-position by, moving up
@@ -2789,9 +2773,8 @@ public class Font implements Disposable {
     public Font(String jsonName, TextureRegion textureRegion,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs,
                 boolean ignoredStructuredJsonFlag) {
-        FileHandle fntHandle;
-        if ((fntHandle = Gdx.files.internal(jsonName)).exists()
-            || (fntHandle = Gdx.files.local(jsonName)).exists()) {
+        FileHandle fntHandle = Gdx.files.internal(jsonName);
+        if (fntHandle.exists()) {
             loadJSON(fntHandle, textureRegion, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
         } else {
             throw new RuntimeException("Missing font file: " + jsonName);
