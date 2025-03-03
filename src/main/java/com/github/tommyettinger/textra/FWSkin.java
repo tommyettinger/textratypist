@@ -132,12 +132,16 @@ public class FWSkin extends Skin {
                 float yAdjust = json.readValue("yAdjust", float.class, 0f, jsonData);
                 float widthAdjust = json.readValue("widthAdjust", float.class, 0f, jsonData);
                 float heightAdjust = json.readValue("heightAdjust", float.class, 0f, jsonData);
+                // This defaults to false, which is not what Skin normally defaults to.
+                // You can set it to true if you expect a BitmapFont to be used at pixel-perfect 100% zoom only.
                 Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, false, jsonData);
+                // This defaults to true, because anything FontWriter produces is compatible with makeGridGlyphs.
                 Boolean makeGridGlyphs = json.readValue("makeGridGlyphs", Boolean.class, true, jsonData);
 
 
-                // Use a region with the same name as the font, else use a PNG file in the same directory as the FNT file.
-                String regionName = path.substring(Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\'))+1, path.lastIndexOf('.'));
+                // Use a region with the same name as the font, else use a PNG file in the same directory as the font file.
+                int nameStart = Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\'))+1;
+                String regionName = path.substring(nameStart, Math.max(0, path.indexOf('.', nameStart)));
                 try {
                     Font font;
                     Array<TextureRegion> regions = skin.getRegions(regionName);
@@ -205,10 +209,12 @@ public class FWSkin extends Skin {
                 float yAdjust = json.readValue("yAdjust", float.class, 0f, jsonData);
                 float widthAdjust = json.readValue("widthAdjust", float.class, 0f, jsonData);
                 float heightAdjust = json.readValue("heightAdjust", float.class, 0f, jsonData);
+                // This defaults to true, because anything FontWriter produces is compatible with makeGridGlyphs.
                 Boolean makeGridGlyphs = json.readValue("makeGridGlyphs", Boolean.class, true, jsonData);
 
-                // Use a region with the same name as the font, else use a PNG file in the same directory as the FNT file.
-                String regionName = fontFile.nameWithoutExtension();
+                // Use a region with the same name as the font, else use a PNG file in the same directory as the font file.
+                int nameStart = Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\'))+1;
+                String regionName = path.substring(nameStart, Math.max(0, path.indexOf('.', nameStart)));
                 try {
                     BitmapFont bitmapFont;
                     Font font;

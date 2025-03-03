@@ -101,8 +101,9 @@ public class JsonSkin extends Skin {
                 // You can set it to true if you expect a BitmapFont to be used at pixel-perfect 100% zoom only.
                 Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, false, jsonData);
 
-                // Use a region with the same name as the font, else use a PNG file in the same directory as the FNT file.
-                String regionName = fontFile.nameWithoutExtension();
+                // Use a region with the same name as the font, else use a PNG file in the same directory as the font file.
+                int nameStart = Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\'))+1;
+                String regionName = path.substring(nameStart, Math.max(0, path.indexOf('.', nameStart)));
                 try {
                     BitmapFont bitmapFont;
                     Array<TextureRegion> regions = skin.getRegions(regionName);

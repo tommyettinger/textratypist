@@ -31,12 +31,12 @@ import com.badlogic.gdx.utils.SerializationException;
 
 /**
  * A sublass of {@link Skin} (via {@link FWSkin}) that includes a serializer for FreeType fonts from JSON. These JSON
- * files are typically exported by Skin Composer. This can also load Font and BitmapFont objects from .fnt, .json, or
- * .dat files made by FontWriter. Because this extends FWSkin, it is also important when using the styles in
- * {@link Styles}, since it allows reading in a skin JSON's styles both as the scene2d.ui format and as styles for
- * TextraTypist widgets. See the
+ * files are typically exported by Skin Composer. This can also load Font and BitmapFont objects from .fnt, .json, .dat,
+ * .ubj, .json.lzma, and .ubj.lzma files made by FontWriter. Because this extends FWSkin, it is also important when
+ * using the styles in {@link Styles}, since it allows reading in a skin JSON's styles both as the scene2d.ui format and
+ * as styles for TextraTypist widgets. See the
  * <a href="https://github.com/raeleus/skin-composer/wiki/Creating-FreeType-Fonts#using-a-custom-serializer">Skin Composer documentation</a>.
- * If you are using Asset Manager, use {@link FreeTypistSkinLoader}
+ * If you are using Asset Manager, use {@link FreeTypistSkinLoader}.
  */
 public class FreeTypistSkin extends FWSkin {
     /** Creates an empty skin. */
@@ -94,24 +94,32 @@ public class FreeTypistSkin extends FWSkin {
 
                 path = fontFile.path();
 
-                boolean lzb = path.endsWith(".dat");
-                boolean fw = path.endsWith(".json");
+                boolean lzb = "dat".equalsIgnoreCase(fontFile.extension());
+                boolean js = "json".equalsIgnoreCase(fontFile.extension());
+                boolean ubj = "ubj".equalsIgnoreCase(fontFile.extension());
+                boolean jslzma = fontFile.name().length() > 10 && ".json.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 10));
+                boolean ublzma = fontFile.name().length() > 9 && ".ubj.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 9));
+                boolean fw = lzb || js || ubj || jslzma || ublzma;
+
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
                 float xAdjust = json.readValue("xAdjust", float.class, 0f, jsonData);
                 float yAdjust = json.readValue("yAdjust", float.class, 0f, jsonData);
                 float widthAdjust = json.readValue("widthAdjust", float.class, 0f, jsonData);
                 float heightAdjust = json.readValue("heightAdjust", float.class, 0f, jsonData);
+                // This defaults to false, which is not what Skin normally defaults to.
                 Boolean useIntegerPositions = json.readValue("useIntegerPositions", Boolean.class, false, jsonData);
+                // This defaults to true, because anything FontWriter produces is compatible with makeGridGlyphs.
                 Boolean makeGridGlyphs = json.readValue("makeGridGlyphs", Boolean.class, true, jsonData);
 
 
-                // Use a region with the same name as the font, else use a PNG file in the same directory as the FNT file.
-                String regionName = path.substring(Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\'))+1, path.lastIndexOf('.'));
+                // Use a region with the same name as the font, else use a PNG file in the same directory as the font file.
+                int nameStart = Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\'))+1;
+                String regionName = path.substring(nameStart, Math.max(0, path.indexOf('.', nameStart)));
                 try {
                     Font font;
                     Array<TextureRegion> regions = skin.getRegions(regionName);
                     if (regions != null && regions.notEmpty()) {
-                        if(fw || lzb)
+                        if(fw)
                             font = new Font(fontFile, regions.first(), xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
                         else
                             font = new Font(path, regions, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
@@ -119,7 +127,7 @@ public class FreeTypistSkin extends FWSkin {
                         TextureRegion region = skin.optional(regionName, TextureRegion.class);
                         if (region != null)
                         {
-                            if(fw || lzb)
+                            if(fw)
                                 font = new Font(fontFile, region, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
                             else
                                 font = new Font(path, region, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
@@ -127,12 +135,12 @@ public class FreeTypistSkin extends FWSkin {
                         else {
                             FileHandle imageFile = Gdx.files.internal(path).sibling(regionName + ".png");
                             if (imageFile.exists()) {
-                                if(fw || lzb)
+                                if(fw)
                                     font = new Font(fontFile, new TextureRegion(new Texture(imageFile)), xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
                                 else
                                     font = new Font(path, new TextureRegion(new Texture(imageFile)), Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
                             } else {
-                                if(fw || lzb)
+                                if(fw)
                                     throw new RuntimeException("Missing image file or TextureRegion.");
                                 else
                                     font = new Font(path);
@@ -158,7 +166,11 @@ public class FreeTypistSkin extends FWSkin {
                 if (!fontFile.exists()) throw new SerializationException("Font file not found: " + fontFile);
 
                 boolean lzb = "dat".equalsIgnoreCase(fontFile.extension());
-                boolean fw = "json".equalsIgnoreCase(fontFile.extension());
+                boolean js = "json".equalsIgnoreCase(fontFile.extension());
+                boolean ubj = "ubj".equalsIgnoreCase(fontFile.extension());
+                boolean jslzma = fontFile.name().length() > 10 && ".json.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 10));
+                boolean ublzma = fontFile.name().length() > 9 && ".ubj.lzma".equalsIgnoreCase(fontFile.name().substring(fontFile.name().length() - 9));
+                boolean fw = lzb || js || ubj || jslzma || ublzma;
 
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
                 Boolean flip = json.readValue("flip", Boolean.class, false, jsonData);
@@ -170,16 +182,18 @@ public class FreeTypistSkin extends FWSkin {
                 float yAdjust = json.readValue("yAdjust", float.class, 0f, jsonData);
                 float widthAdjust = json.readValue("widthAdjust", float.class, 0f, jsonData);
                 float heightAdjust = json.readValue("heightAdjust", float.class, 0f, jsonData);
+                // This defaults to true, because anything FontWriter produces is compatible with makeGridGlyphs.
                 Boolean makeGridGlyphs = json.readValue("makeGridGlyphs", Boolean.class, true, jsonData);
 
-                // Use a region with the same name as the font, else use a PNG file in the same directory as the FNT file.
-                String regionName = fontFile.nameWithoutExtension();
+                // Use a region with the same name as the font, else use a PNG file in the same directory as the font file.
+                int nameStart = Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\'))+1;
+                String regionName = path.substring(nameStart, Math.max(0, path.indexOf('.', nameStart)));
                 try {
                     BitmapFont bitmapFont;
                     Font font;
                     Array<TextureRegion> regions = skin.getRegions(regionName);
                     if (regions != null && regions.notEmpty()) {
-                        if(fw || lzb) {
+                        if(fw) {
                             bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, regions.first(), flip);
                             font = new Font(fontFile, regions.first(), xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
                         }
@@ -191,7 +205,7 @@ public class FreeTypistSkin extends FWSkin {
                         TextureRegion region = skin.optional(regionName, TextureRegion.class);
                         if (region != null)
                         {
-                            if(fw || lzb) {
+                            if(fw) {
                                 bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
                                 font = new Font(fontFile, region, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
                             }
@@ -204,7 +218,7 @@ public class FreeTypistSkin extends FWSkin {
                             FileHandle imageFile = fontFile.sibling(regionName + ".png");
                             if (imageFile.exists()) {
                                 region = new TextureRegion(new Texture(imageFile));
-                                if(fw || lzb) {
+                                if(fw) {
                                     bitmapFont = BitmapFontSupport.loadStructuredJson(fontFile, region, flip);
                                     font = new Font(fontFile, region, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs, true);
                                 } else {
@@ -212,7 +226,7 @@ public class FreeTypistSkin extends FWSkin {
                                     font = new Font(path, region, Font.DistanceFieldType.STANDARD, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
                                 }
                             } else {
-                                if(fw || lzb)
+                                if(fw)
                                     throw new RuntimeException("Missing image file or TextureRegion.");
                                 else {
                                     bitmapFont = new BitmapFont(fontFile, flip);
