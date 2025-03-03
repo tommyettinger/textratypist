@@ -103,8 +103,9 @@ skin
 
         tt2Area = new TextraArea(longText, ttField.style);
 
-        s2dField = new TextField(text, skin
-        //new TextField.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background)
+        s2dField = new TextField(text,
+                skin
+//        new TextField.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background)
                  );
         s2dField.setWidth(500);
         s2dField.setPasswordMode(false);
