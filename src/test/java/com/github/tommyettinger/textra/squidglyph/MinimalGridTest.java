@@ -59,7 +59,7 @@ public class MinimalGridTest extends ApplicationAdapter {
         config.setTitle("Traditional Roguelike Map Demo");
         config.setWindowedMode(GRID_WIDTH * CELL_WIDTH, GRID_HEIGHT * CELL_HEIGHT);
         config.disableAudio(true);
-        config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
+        config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate + 1);
         config.useVsync(true);
         new Lwjgl3Application(new MinimalGridTest(), config);
     }

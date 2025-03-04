@@ -129,18 +129,11 @@ public class GlyphGrid extends Group {
         this.font = font;
         font.useIntegerPositions(false);
         if (squareCenter) {
-//            if (font.distanceField == Font.DistanceFieldType.MSDF)
-//                font.distanceFieldCrispness *= Math.sqrt(font.cellWidth) + Math.sqrt(font.cellHeight) + 2f;
             viewport.setScreenWidth((int) (gridWidth * font.cellWidth));
             viewport.setScreenHeight((int) (gridHeight * font.cellHeight));
             float larger = Math.max(font.cellWidth, font.cellHeight);
             font.scaleTo(font.cellWidth / larger, font.cellHeight / larger).fitCell(1f, 1f, true);
         } else {
-//            if (font.distanceField == Font.DistanceFieldType.MSDF)
-//                font.distanceFieldCrispness *= Math.sqrt(font.cellWidth) + Math.sqrt(font.cellHeight) + 2f;
-// not sure if we want this code or the above.
-//            if (this.font.distanceField != Font.DistanceFieldType.STANDARD)
-//                this.font.distanceFieldCrispness *= Math.sqrt(font.cellWidth) + Math.sqrt(font.cellHeight) + 1;
             viewport.setScreenWidth((int) (gridWidth * font.cellWidth));
             viewport.setScreenHeight((int) (gridHeight * font.cellHeight));
             font.scaleTo(1f, 1f);
@@ -236,7 +229,6 @@ public class GlyphGrid extends Group {
         if (backgrounds != null)
             font.drawBlocks(batch, backgrounds, x, y);
         y -= font.descent * font.scaleY * 2f;
-//        x += font.cellWidth * 0.5f;
         for(ObjectLongMap.Entry<GridPoint2> e : map.entries()) {
             font.drawGlyph(batch, e.value, x + e.key.x, y + e.key.y);
         }
