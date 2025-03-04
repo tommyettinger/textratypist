@@ -7,7 +7,7 @@ In other words, this brings more features to text rendering in libGDX.
 
 What does this look like? A little something like this...
 
-![Still preview](https://i.imgur.com/wZ9NhJ2.png)
+![Still preview](docs/previews/Gentium%20(MSDF).png)
 
 Or perhaps like this...
 
@@ -31,12 +31,12 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 Yes, it has more than the typewriter mode! Text can hang above and then drop into place. It can jump up and down in a
 long wave. It can waver and shudder, as if it is sick. It can blink in different colors, move in a gradient smoothly
 between two colors, or go across a whole rainbow. Lots of options; lots of fun. Effects are almost the same as in
-typing-label, but there have been some changes and additions. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
+typing-label, but there have been some changes and many additions. You can check [the TextraTypist wiki](https://github.com/tommyettinger/textratypist/wiki/Examples)
 for more information.
 
 As of 0.10.0, there are many new effects. Jolt, Spiral, Spin, Crowd, Shrink, Emerge, Heartbeat, Carousel, Squash, Scale,
-Rotate, Attention, Highlight, Link, Trigger, Stylist, Cannon, Ocean, Sputter, and Instant are all new to TextraTypist
-(not in typing-label). You can see usage instructions and sample GIFs at
+Rotate, Attention, Highlight, Link, Trigger, Stylist, Cannon, Ocean, Sputter, Instant, Meet, Zipper, and Slam are all
+new to TextraTypist (not in typing-label). You can see usage instructions and sample GIFs at
 [the TextraTypist wiki's Tokens page](https://github.com/tommyettinger/textratypist/wiki/Tokens). Most of these effects
 make use of the smooth scaling and rotation options that effects can use starting in TextraTypist 0.5.1 . Some make use
 of mouse tracking, new in 0.7.0, such as how Link only responds to a click on a range of text.
@@ -101,7 +101,7 @@ The full list of styles and related square-bracket tags:
   - This acts much like `[]` does in libGDX BitmapFont markup, but works on more than colors. 
 - `[ ]` resets all styles/colors/formatting and effects to the initial state.
   - This used different syntax before version 0.10.0; if updating from an older version, you probably want to change the
-    old `[]` to the new `[ ]`. 
+    old `[]` to the new `[ ]` , with a space inside the brackets. 
 - `[(label)]` temporarily stores the current formatting state as `label`, so it can be re-applied later.
   - This can be useful if you want to insert a formatted snippet into an outer piece of text, without losing the
     formatting the outer text had before the insertion.
@@ -156,6 +156,12 @@ The full list of styles and related square-bracket tags:
   - Another option is `KnownFonts.addGameIcons()`, which adds icons from
     [the game-icons.net collection](https://game-icons.net). These use the same syntax: `[+crystal-wand]`.
     - The game icons [can be previewed here](https://tommyettinger.github.io/game-icons-net-atlas/).
+  - There are also [OpenMoji](https://openmoji.org)'s emoji in either single-color line-art or full-color modes, and
+  - [Noto Color Emoji](https://github.com/googlefonts/noto-emoji/tree/main) (which tends to use different textual names,
+    but the syntax with a literal emoji, `[+💖]`, still works the same).
+      - OpenMoji [can be previewed here for full-color](https://tommyettinger.github.io/openmoji-atlas/) or
+        [here for the line-art version](https://tommyettinger.github.io/openmoji-atlas/black.html).
+    - Noto Color Emoji [can be previewed here](https://tommyettinger.github.io/noto-emoji-atlas/).
 - `[-SOME_EFFECT]` is equivalent to using curly braces around `SOME_EFFECT`; note the added dash.
 
 The special modes that can be used in place of scaling are:
@@ -256,7 +262,7 @@ currently rendering needs to have its distance field resized when the window res
 There are several preconfigured font settings in `KnownFonts`; the documentation for each font getter says what files
 are needed to use that font. **[The old .fnt files have been moved here](https://github.com/tommyettinger/fonts)**.
 [You can see previews and descriptions of most known fonts here.](https://tommyettinger.github.io/textratypist/apidocs/com/github/tommyettinger/textra/KnownFonts.html)
-That list can sometimes be outdated, and the latest fonts (that use the `.dat` format here)
+That list can sometimes be outdated, and the latest fonts (that currently use the `.dat` format here)
 [can be previewed here](https://tommyettinger.github.io/fontwriter/).
 Having KnownFonts isn't necessary for many fonts since version 1.0.0, because the `.dat` fonts are now made all by the
 same tool ([fontwriter](https://github.com/tommyettinger/fontwriter)), and tend to be configured correctly
@@ -269,15 +275,22 @@ The fonts here use the .dat file extension (which just means it's binary data wi
 compressed versions of larger .json fonts produced by fontwriter. The compression they use is GWT-compatible, so these
 .dat files can be used on any platform libGDX targets. You can still use the older .fnt files without issue, and some
 .fnt files are still used here (mostly for pixel fonts). You also generally need a .png with each font, though it can be
-in an atlas. These .dat fonts can be used to load regular BitmapFont objects too, if you aren't using TextraTypist
-(such as for TextArea and TextField, which have proven quite challenging to get working...).
-[You can use these 3 files to load .dat or .json fonts in a non-TextraTypist project](https://github.com/tommyettinger/textratypist/tree/main/src/test/java/com/github/tommyettinger/fontwriter);
+in an atlas. In version 2.0.0, more types of compression for font files are available, and these almost always produce
+smaller files than the .dat files from the 1.x.x series of releases. In particular, `.json.lzma` is recommended and will
+probably be the default going forward, but also newly working are `.ubj`, `.ubj.lzma`, and `.json`. `.dat` still works.
+While `.ubj.lzma` files are slightly smaller, they don't work on GWT in libGDX 1.13.1 (and neither to .ubj files). The
+`.json.lzma` files have the additional advantage that you can extract a valid, human-readable `.json` file from any
+`.json.lzma` file using a compatible tool such as [7-Zip](https://www.7-zip.org).
+
+These .dat fonts (and other compressed modes) can be used to load regular BitmapFont objects too, if you aren't using
+TextraTypist (such as for TextArea and TextField, which have proven quite challenging to get working...).
+[You can use these 3 files to load .dat or other Structured JSON fonts in a non-TextraTypist project](https://github.com/tommyettinger/textratypist/tree/main/src/test/java/com/github/tommyettinger/fontwriter);
 you would normally just copy those three files in their package to your own project.
 
 The license files for each font are included in the same folder, in `knownFonts` here. All fonts provided here were
 checked to ensure their licenses permit commercial use without fees, and all do. Most require attribution; check the
 licenses for details. The needed files are listed in [KnownFonts documentation](https://tommyettinger.github.io/textratypist/apidocs/com/github/tommyettinger/textra/KnownFonts.html)
-and, for .dat fonts, [in the fontwriter previews](https://tommyettinger.github.io/fontwriter/). 
+and, for .dat fonts, [in the fontwriter previews](https://tommyettinger.github.io/fontwriter/).
 
 KnownFonts includes several other ways to configure existing Font instances by adding a TextureAtlas to the glyphs they
 know. This includes a few existing TextureAtlases of icons and... emoji!
@@ -404,7 +417,7 @@ Stripe and use them with FreeTypist.
 You can get it via Gradle, but it's probably a better option to just copy in the two files from
 [this folder in freetypist](https://github.com/tommyettinger/freetypist/tree/main/src/main/java/com/github/tommyettinger/freetypist)
 into your own code. Regardless of how you depend on FreeTypist, it needs a dependency on FreeType (including appropriate
-"platform" dependencies) and on TextraTypist (currently 1.1.0). When features are added to FWSkin and TextraTypist in
+"platform" dependencies) and on TextraTypist (currently 2.0.0). When features are added to FWSkin and TextraTypist in
 general, FreeTypist should be updated also.
 
 ## How do I get it?
@@ -412,19 +425,19 @@ general, FreeTypist should be updated also.
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:1.1.0"
+implementation "com.github.tommyettinger:textratypist:2.0.0"
 ```
 
-This assumes you already depend on libGDX; TextraTypist depends on version 1.12.1 or higher. A requirement for 1.11.0
+This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 or higher. A requirement for 1.11.0
 was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code in libGDX. The requirement for 1.12.1
-was added in 1.0.0 because some things probably changed, but 1.12.1 (or the subsequent SNAPSHOT releases) should be
-pretty easy to update to.
+was added in 1.0.0 because some things probably changed, and 1.13.1 in TextraTypist 2.0.0, but 1.13.1 (or the subsequent
+SNAPSHOT releases) should be pretty easy to update to.
 
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:1.1.0:sources"
-implementation "com.github.tommyettinger:regexodus:0.1.16:sources"
+implementation "com.github.tommyettinger:textratypist:2.0.0:sources"
+implementation "com.github.tommyettinger:regexodus:0.1.17:sources"
 ```
 
 GWT also needs this in the GdxDefinition.gwt.xml file (since version 0.7.7):
@@ -460,24 +473,24 @@ Current gdx-liftoff and gdx-setup projects all can use JitPack dependencies with
 You would use this dependency in your core module:
 
 ```groovy
-implementation 'com.github.tommyettinger:textratypist:9398933c48'
+implementation 'com.github.tommyettinger:textratypist:ccfc7eaecf'
 ```
 
-You can change `9398933c48` to any commit in the Commits tab of https://jitpack.io/#tommyettinger/textratypist ,
+You can change `ccfc7eaecf` to any commit in the Commits tab of https://jitpack.io/#tommyettinger/textratypist ,
 but you should not use `-SNAPSHOT` -- it can change without your requesting it to, which is not what you want!
 
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:1.1.0"
+implementation "com.github.tommyettinger:freetypist:2.0.0"
 ```
 
-(Now, FreeTypist 1.1.0 uses TextraTypist 1.1.0 .)
+(Now, FreeTypist 2.0.0 uses TextraTypist 2.0.0 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:1.1.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.0.0:sources"
 ```
 
 And this inherits line:
@@ -487,6 +500,34 @@ And this inherits line:
 ```
 
 FreeType doesn't work out-of-the-box on GWT, though [there is this](https://github.com/intrigus/gdx-freetype-gwt)].
+
+## Hey, a new version!
+
+Updating to 2.0.0 from the 1.x series of releases should be straightforward, but it is backwards-incompatible in some
+ways. Mostly, this involves changing any minor adjustments for font x/y/width/height, emoji placement, and other fiddly
+tweaks that 1.x needed -- but this change is usually just removing those adjustments. Many more parts of TextraTypist
+have defaults that "just work," though `.fnt` files are still as finicky as ever. Using `.dat`, or preferably
+`.json.lzma` files pulled from
+[fontwriter's knownFonts](https://github.com/tommyettinger/fontwriter/tree/main/docs/knownFonts), is a better option.
+
+Rotation may still have issues with underline and strikethrough moving a little. Underline, strikethrough, and "fancy
+underlines" now don't apply to emoji or other icons, because they were consistently wrong no matter what I tried, and
+because other major users of Twemoji, like Discord, don't draw lines over emoji at all.
+
+Fallbacks to `Gdx.files.local()` have all been removed because they actually could cause the app to stop on GWT if they
+ever were run. On desktop, using `Gdx.files.internal()` will check local files (in the same folder) first anyway, so the
+local fallback wasn't even very useful.
+
+Wrapping a `Font` in a `TextraLabel` should now behave nearly identically to wrapping a `BitmapFont` in a `Label`. The
+few exceptions I've noticed is that some `BitmapFont`s won't consider drop shadow as part of the text for wrapping, or
+won't wrap identically when `'.'` or `','` is the last character on a line. I have no idea why that happens.
+
+Many more aspects of font display are configurable now! Things like the black or white outline modes can have their
+outline thickness modified using `Font.setOutlineStrength()`. The oblique angle can be configured using
+`Font.setObliqueStrength()`, the heaviness of bold styles can be changed with `Font.setBoldStrength()` (typically to
+`0.5f` if the bold covers up too much, or `1.5f`, `2f`, or more if it isn't noticeable enough). Just as importantly,
+`descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
+as it is for Structured JSON fonts!
 
 ## Why doesn't something work?
 
@@ -498,14 +539,16 @@ results of creating a `Font` with `new Font("MyFont.fnt")` can be different from
 incorrectly according to the BMFont spec](https://github.com/libgdx/libgdx/pull/4297)), where `Font` ignores padding
 information entirely. Some `.fnt` files have been made so they look right in libGDX by using padding, but they will look
 wrong in other frameworks/engines without that padding. `Font` compromises by allowing manual adjustment of x and y
-position for all glyphs (y often needs to be adjusted, either to a positive or negative value), as well as the width and
+position for all glyphs (y often needs to be adjusted, either to a positive or negative value, for `.fnt` fonts, but
+usually doesn't for Structured JSON fonts), as well as the width and
 height of glyphs (these are useful less frequently, but can be helpful to stretch or squash a font). It may take some
 tweaking to get a Font made from a BitmapFont to line up correctly with other widgets. You also may need to adjust the
 offsetX, offsetY, and maybe xAdvance parameters if you load an atlas (such as with `addEmoji()` or `addGameIcons()`),
 and the adjustments may be quite different for a Font made from a BitmapFont vs. a Font made directly from a .fnt file.
 Since 0.8.1, `Font` can parse an extended version of the .fnt format that permits floats for any spatial metrics, and
 not just ints. No files actually use this here and now, because the Structured JSON files produced by fontwriter all use
-floats internally for everything.
+floats internally for everything. In general, Structured JSON fonts in version 2.0.0 and later solve a lot of the
+configuration tweaking needed in earlier versions.
 
 If you load text from a file and display it, you can sometimes get different results from creating that text in code, or
 loading it on a different machine. This should only happen if the file actually is different -- that is, the files' line
@@ -621,7 +664,11 @@ an extreme value, or sometimes other metrics. Lining up underline/strikethrough 
 
 Word wrap periodically seems to break and need fixing across different releases. The most recent time this happened was
 in 0.7.9, which also affected 0.8.0 and was fixed (I hope) in 0.8.1. A different wrapping-related bug was fixed more
-recently, in 0.8.3 ; this was rare, and only affected TypingLabel when some effects were present.
+recently, in 0.8.3 ; this was rare, and only affected TypingLabel when some effects were present. Word wrap should
+behave identically to BitmapFont when the metrics line up exactly, with some key exceptions in version 2.0.0: the chars
+`'.'` and `','` (at least those, and likely more) will sometimes wrap earlier with `Font` by about 1 pixel than with
+`BitmapFont`. This can affect when things wrap in practice, though not always, and it would add an extra line or a few
+when it does happen.
 
 There's other issues with word wrap if you expect it to behave exactly like `Label` in libGDX. Here, we don't break
 words, even if a single word is longer than the width of a `TextraLabel` or `TypingLabel`. The reason for this is
