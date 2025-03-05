@@ -25,7 +25,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.LongArray;
 import com.badlogic.gdx.utils.NumberUtils;
@@ -33,6 +32,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -58,7 +58,7 @@ public class TypingLabel extends TextraLabel {
 
     // Collections
     private final ObjectMap<String, String> variables = new ObjectMap<>();
-    final Array<TokenEntry> tokenEntries = new Array<>();
+    final ArrayList<TokenEntry> tokenEntries = new ArrayList<>();
 
     // Config
     private final Color clearColor = new Color(TypingConfig.DEFAULT_CLEAR_COLOR);
@@ -126,7 +126,7 @@ public class TypingLabel extends TextraLabel {
     private final Vector2 temp = new Vector2(0f, 0f);
 
     protected boolean dragging = false;
-    protected final Array<Effect> activeEffects = new Array<>(Effect.class);
+    protected final ArrayList<Effect> activeEffects = new ArrayList<>();
     private float textSpeed = TypingConfig.DEFAULT_SPEED_PER_CHAR;
     private float charCooldown = textSpeed;
     private int rawCharIndex = -2; // All chars, including color codes
@@ -658,7 +658,7 @@ public class TypingLabel extends TextraLabel {
         // Apply effects
         if (!ignoringEffects) {
 
-            for (int i = activeEffects.size - 1; i >= 0; i--) {
+            for (int i = activeEffects.size() - 1; i >= 0; i--) {
                 Effect effect = activeEffects.get(i);
                 effect.update(delta);
                 int start = effect.indexStart;
@@ -666,7 +666,7 @@ public class TypingLabel extends TextraLabel {
 
                 // If effect is finished, remove it
                 if (effect.isFinished()) {
-                    activeEffects.removeIndex(i);
+                    activeEffects.remove(i);
                     continue;
                 }
 
@@ -738,8 +738,8 @@ public class TypingLabel extends TextraLabel {
             }
 
             // Process tokens according to the current index
-            if (tokenEntries.size > 0 && tokenEntries.peek().index == rawCharIndex) {
-                TokenEntry entry = tokenEntries.pop();
+            if (tokenEntries.size() > 0 && tokenEntries.get(tokenEntries.size() - 1).index == rawCharIndex) {
+                TokenEntry entry = tokenEntries.remove(tokenEntries.size() - 1);
                 String token = entry.token;
                 TokenCategory category = entry.category;
                 rawCharIndex = entry.endIndex - 1;
@@ -764,7 +764,7 @@ public class TypingLabel extends TextraLabel {
                         String effectName = isStart ? token : token.substring(3);
 
                         // End all effects of the same type
-                        for (int i = 0; i < activeEffects.size; i++) {
+                        for (int i = 0, s = activeEffects.size(); i < s; i++) {
                             Effect effect = activeEffects.get(i);
                             if (effect.indexEnd < 0) {
                                 if (effectName.equals(effect.name)) {

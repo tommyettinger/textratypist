@@ -26,6 +26,8 @@ import regexodus.Pattern;
 import regexodus.REFlags;
 import regexodus.Replacer;
 
+import java.util.Collections;
+
 /**
  * Utility class to parse tokens from a {@link TypingLabel}; not intended for external use in most situations.
  */
@@ -113,7 +115,7 @@ public class Parser {
         label.setText(label.getIntermediateText().toString(), false, false);
 
         // Sort token entries
-        label.tokenEntries.sort();
+        Collections.sort(label.tokenEntries);
 //        label.tokenEntries.reverse();
     }
 
