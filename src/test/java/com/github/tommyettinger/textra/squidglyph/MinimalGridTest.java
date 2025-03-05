@@ -186,7 +186,7 @@ public class MinimalGridTest extends ApplicationAdapter {
             usedGlyph.addAction(Actions.moveTo(x, y, 0.2f));
         }
         else {
-                usedGlyph.addAction(Actions.rotateBy(360f, 1f));
+            usedGlyph.addAction(Actions.rotateBy(360f, 1f));
         }
         int hash = NumberUtils.floatToRawIntBits(x);
         hash = (hash ^ hash >>> 19) * 0x9BA55;
