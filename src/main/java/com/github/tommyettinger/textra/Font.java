@@ -29,6 +29,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.compression.Lzma;
@@ -988,6 +989,15 @@ public class Font implements Disposable {
      * {@code ╔} are two normal lines, 0.1f of a cell apart; double lines are not affected by this field.
      */
     public float boxDrawingBreadth = 1f;
+
+    /**
+     * The offset added to the position of the drop shadow when {@code [%?shadow]} mode is enabled. This defaults to
+     * {@code (1.0f, -2.0f)}, which makes the shadow cast down and slightly to the right, and can be set in-place using
+     * {@link Vector2#set(float, float)}. The shadow is currently not sized differently from the text that casts it.
+     * The color of the shadow is determined by {@link #PACKED_SHADOW_COLOR}, a packed float color obtainable via
+     * {@link Color#toFloatBits(float, float, float, float)}, typically with fractional alpha.
+     */
+    public final Vector2 dropShadowOffset = new Vector2(1f, -2f);
 
     /**
      * The name of the Font, for display purposes. This is not necessarily the same as the name of the font used in any
@@ -5415,8 +5425,8 @@ public class Font implements Disposable {
             vertices[12] = shadow;
             vertices[17] = shadow;
 
-            vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + 1)) - (vertices[5] = (x + cos * p1x - sin * p1y + 1)) + (vertices[10] = (x + cos * p2x - sin * p2y + 1)));
-            vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y - 2)) - (vertices[6] = (y + sin * p1x + cos * p1y - 2)) + (vertices[11] = (y + sin * p2x + cos * p2y - 2)));
+            vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + dropShadowOffset.x)) - (vertices[5] = (x + cos * p1x - sin * p1y + dropShadowOffset.x)) + (vertices[10] = (x + cos * p2x - sin * p2y + dropShadowOffset.x)));
+            vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + dropShadowOffset.y)) - (vertices[6] = (y + sin * p1x + cos * p1y + dropShadowOffset.y)) + (vertices[11] = (y + sin * p2x + cos * p2y + dropShadowOffset.y)));
 
             drawVertices(batch, tex, vertices);
         }
@@ -7074,13 +7084,14 @@ public class Font implements Disposable {
      *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
      *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
      *     the nearest 25% mark). This also disables any alternate mode.</li>
-     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
-     *     "drop shadow"/"shadow", "error", "warn", "note", or "jostle", will disable scaling and enable that alternate
-     *     mode. If MODE is empty or not recognized, this considers it equivalent to "jostle".</li>
-     *     <li>{@code [%^MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
-     *     "drop shadow"/"shadow", "error", "warn", "note", or "small caps", will disable scaling and enable that
-     *     alternate mode along with small caps mode at the same time. If MODE is empty or not recognized, this
-     *     considers it equivalent to "small caps" (without another mode).</li>
+     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline"/"blacken",
+     *     "white outline"/"whiten", "shiny", "drop shadow"/"shadow", "error", "warn", "note", or "jostle", will disable
+     *     scaling and enable that alternate mode. If MODE is empty or not recognized, this considers it equivalent to
+     *     "jostle".</li>
+     *     <li>{@code [%^MODE]}, where MODE can be (case-insensitive) one of "black outline"/"blacken",
+     *     "white outline"/"whiten", "shiny", "drop shadow"/"shadow", "error", "warn", "note", or "small caps", will
+     *     disable scaling and enable that alternate mode along with small caps mode at the same time. If MODE is empty
+     *     or not recognized, this considers it equivalent to "small caps" (without another mode).</li>
      *     <li>{@code [%]}, with no number just after it, resets scale to 100% and disables any alternate mode.</li>
      *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
      *     in this.family by that name. This is ignored if family is null.</li>
