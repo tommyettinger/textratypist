@@ -1118,7 +1118,7 @@ public class TypingLabel extends TextraLabel {
                         if ((char) glyph >= 0xE000 && (char) glyph < 0xF800) {
                             scaleX = scale * font.cellHeight / (f.mapping.get((int) glyph & 0xFFFF, f.defaultValue).xAdvance);
                         } else
-                            scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & Font.SUPERSCRIPT) >> 63));
+                            scaleX = font.scaleX * scale;// * (1f + 0.5f * (-(glyph & Font.SUPERSCRIPT) >> 63));
 
                         single = Font.xAdvance(f, scaleX, glyph);
                         if(selectionWidth == 0f)
