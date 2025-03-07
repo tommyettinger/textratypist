@@ -46,13 +46,15 @@ public class StateTest extends ApplicationAdapter {
                 "[_]down[_], throughout the town, [/]we").append(wikipedia).append(" all think[/], 'What was that? Did it happen " +
                 "again (that [*]thunderous[*] din)? What could ever make, such a [_]powerful[_] quake, but " +
                 "a [brown]cat[ ] with a [~][_]double[_][~] chin?'");
+
+        Font lana = KnownFonts.getLanaPixel().scale(2);
 //// Does work!
 //        TextraLabel label = new TextraLabel(text.toString(), skin);
 //        label.setWrap(true);
 
 //// Also works!
-        TypingLabel label = new TypingLabel(text.toString(), skin);
-        label.font.setLineMetrics(0.1f, 0.25f, -0.1f, 0f);
+        TypingLabel label = new TypingLabel(text.toString(), skin, lana);
+//        label.font.setLineMetrics(0.1f, 0.25f, -0.1f, 0f);
         label.setWrap(true);
         label.setSelectable(true);
         label.setTypingListener(new TypingAdapter(){
@@ -65,7 +67,7 @@ public class StateTest extends ApplicationAdapter {
         });
 
         Table table = new Table();
-        table.add(label).prefWidth(100).row();
+        table.add(label).prefWidth(300).row();
 
         Stack stack = new Stack(table);
         stack.setFillParent(true);

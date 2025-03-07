@@ -2466,11 +2466,11 @@ public final class KnownFonts implements LifecycleListener {
         String rootName = baseName + distanceField.filePart;
         Font found = instance.loaded.get(rootName);
         if(found == null){
-            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 0, 0, 0, 0, false);
+            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 0, 0, 0, 0, true);
             found
                     .setInlineImageMetrics(0f, 3f, -8f, 0.75f).setFancyLinePosition(0f, 4f)
                     .useIntegerPositions(true).setBoldStrength(0.5f).setOutlineStrength(2f)
-                    .setUnderlineMetrics(0f, -0.0625f, 0f, 0f).setStrikethroughMetrics(0f, 0.0625f, 0f, 0f)
+                    .setUnderlineMetrics(0.125f, 0.5f, -0.125f, -0.4f).setStrikethroughMetrics(0.125f, 0.35f, -0.125f, -0.4f)
                     .setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, found);
         }
