@@ -19,10 +19,13 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.FloatArray;
@@ -1572,12 +1575,19 @@ public class TypingLabel extends TextraLabel {
      * is true. Otherwise, this makes the label not-selectable and doesn't change {@link #trackingInput}. The
      * application should usually be set to copy the selected text using {@link #copySelectedText()} when the user
      * expects it to be copied. Often, a {@link TypingListener} that checks for the event {@code "*SELECTED"} works.
+     * This also sets the {@link #selectionDrawable} to something nicer-looking than the default, but it can only do
+     * this if {@link #font} has a {@link Font#solidBlock}.
      * @param selectable true if the text of this label should be selectable
      * @return this, for chaining
      */
     public TypingLabel setSelectable(boolean selectable) {
         this.selectable = selectable;
         this.trackingInput |= selectable;
+        if(selectable && font.mapping.containsKey(font.solidBlock)){
+            Sprite spr = new Sprite(font.mapping.get(font.solidBlock));
+            spr.setColor(0.5f, 0.5f, 0.5f, 0.5f);
+            selectionDrawable = new SpriteDrawable(spr);
+        }
         return this;
     }
 
