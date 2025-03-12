@@ -2369,16 +2369,27 @@ public class Font implements Disposable {
                 }
             }
         }
-        // Newlines shouldn't render.
+        if (!mapping.containsKey(' ')) {
+            Gdx.app.error("FONT", "Font is missing a space character! Aborting!");
+            throw new RuntimeException("Cannot create a font withoit a space character.");
+        }
+        else {
+            mapping.put('\r', mapping.get(' '));
+            // U+200B is the zero-width space
+            mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
+        }
+        // Newlines should be equivalent to zero-width spaces in terms of rendering.
         if (mapping.containsKey('\n')) {
             GlyphRegion gr = mapping.get('\n');
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
-        }
-        if (mapping.containsKey(' ')) {
-            mapping.put('\r', mapping.get(' '));
-            // U+200B is the zero-width space
-            mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
+            gr.xAdvance = 0;
+        } else {
+            GlyphRegion newline = new GlyphRegion(mapping.get('\u200B'));
+            newline.setRegionWidth(0);
+            newline.setRegionHeight(0);
+            newline.xAdvance = 0;
+            mapping.put('\n', newline);
         }
         solidBlock = '█';
 
@@ -2548,17 +2559,27 @@ public class Font implements Disposable {
                 }
             }
         }
-        // Newlines shouldn't render.
+        if (!mapping.containsKey(' ')) {
+            Gdx.app.error("FONT", "Font is missing a space character! Aborting!");
+            throw new RuntimeException("Cannot create a font withoit a space character.");
+        }
+        else {
+            mapping.put('\r', mapping.get(' '));
+            // U+200B is the zero-width space
+            mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
+        }
+        // Newlines should be equivalent to zero-width spaces in terms of rendering.
         if (mapping.containsKey('\n')) {
             GlyphRegion gr = mapping.get('\n');
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
-            gr.xAdvance = 0;
-        }
-        if (mapping.containsKey(' ')) {
-            mapping.put('\r', mapping.get(' '));
-            // U+200B is the zero-width space
-            mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
+            gr.xAdvance = 0f;
+        } else {
+            GlyphRegion newline = new GlyphRegion(mapping.get('\u200B'));
+            newline.setRegionWidth(0);
+            newline.setRegionHeight(0);
+            newline.xAdvance = 0;
+            mapping.put('\n', newline);
         }
         solidBlock =
                 mapping.containsKey(9608) ? '\u2588' : '\uFFFF';
@@ -2676,27 +2697,27 @@ public class Font implements Disposable {
             }
         }
         solidBlock = (char) fnt.getInt("SolidGlyphIndex");
-//        GlyphRegion block = mapping.get(solidBlock, null);
-//        if(block != null) {
-//            for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
-//                GlyphRegion gr = new GlyphRegion(block);
-//                gr.offsetX = Float.NaN;
-//                gr.xAdvance = cellWidth;
-//                gr.offsetY = cellHeight;
-//                mapping.put(i, gr);
-//            }
-//        }
-        // Newlines shouldn't render.
+        if (!mapping.containsKey(' ')) {
+            Gdx.app.error("FONT", "Font is missing a space character! Aborting!");
+            throw new RuntimeException("Cannot create a font withoit a space character.");
+        }
+        else {
+            mapping.put('\r', mapping.get(' '));
+            // U+200B is the zero-width space
+            mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
+        }
+        // Newlines should be equivalent to zero-width spaces in terms of rendering.
         if (mapping.containsKey('\n')) {
             GlyphRegion gr = mapping.get('\n');
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
-            gr.xAdvance = 0;
-        }
-        if (mapping.containsKey(' ')) {
-            mapping.put('\r', mapping.get(' '));
-            // U+200B is the zero-width space
-            mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
+            gr.xAdvance = 0f;
+        } else {
+            GlyphRegion newline = new GlyphRegion(mapping.get('\u200B'));
+            newline.setRegionWidth(0);
+            newline.setRegionHeight(0);
+            newline.xAdvance = 0;
+            mapping.put('\n', newline);
         }
         defaultValue = mapping.get(' ', mapping.get(0));
         originalCellWidth = this.cellWidth;
@@ -3002,17 +3023,27 @@ public class Font implements Disposable {
 
             }
         }
-        // Newlines shouldn't render.
+        if (!mapping.containsKey(' ')) {
+            Gdx.app.error("FONT", "Font is missing a space character! Aborting!");
+            throw new RuntimeException("Cannot create a font withoit a space character.");
+        }
+        else {
+            mapping.put('\r', mapping.get(' '));
+            // U+200B is the zero-width space
+            mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
+        }
+        // Newlines should be equivalent to zero-width spaces in terms of rendering.
         if (mapping.containsKey('\n')) {
             GlyphRegion gr = mapping.get('\n');
             gr.setRegionWidth(0);
             gr.setRegionHeight(0);
-            gr.xAdvance = 0;
-        }
-        if (mapping.containsKey(' ')) {
-            mapping.put('\r', mapping.get(' '));
-            // U+200B is the zero-width space
-            mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
+            gr.xAdvance = 0f;
+        } else {
+            GlyphRegion newline = new GlyphRegion(mapping.get('\u200B'));
+            newline.setRegionWidth(0);
+            newline.setRegionHeight(0);
+            newline.xAdvance = 0;
+            mapping.put('\n', newline);
         }
         solidBlock = '█';
         if (makeGridGlyphs) {
@@ -7318,25 +7349,6 @@ public class Font implements Disposable {
                     else
                         scaleX = font.scaleX * scale * 0.25f;
 
-                    if (ch == '\n') {
-                        Line next;
-                        next = changing.pushLine();
-                        glyphs.pop();
-                        if (next == null) {
-                            if(handleEllipsis(changing)) {
-                                calculateSize(changing);
-                                return changing;
-                            }
-                            break;
-                        }
-                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
-
-                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
-                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
-                        glyphs.truncate(i);
-                        glyphs.add(applyChar(glyphs.isEmpty() ? 0L : glyphs.peek(), '\n'));
-                        break;
-                    }
                     GlyphRegion tr = font.mapping.get(ch);
                     if (tr == null) continue;
                     float changedW = xAdvance(font, scaleX, glyph);
@@ -7378,6 +7390,25 @@ public class Font implements Disposable {
                         glyphs.truncate(cutoff);
                         break;
                     }
+                    if (ch == '\n') {
+                        Line next;
+                        next = changing.pushLine();
+                        glyphs.pop();
+                        if (next == null) {
+                            if(handleEllipsis(changing)) {
+                                calculateSize(changing);
+                                return changing;
+                            }
+                            break;
+                        }
+                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
+
+                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
+                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
+                        glyphs.truncate(i);
+                        glyphs.add(applyChar(glyphs.isEmpty() ? 0L : glyphs.peek(), '\n'));
+                        break;
+                    }
                     if (glyph >>> 32 == 0L) {
                         breakPoint = i;
                         spacingPoint = i;
@@ -7408,25 +7439,6 @@ public class Font implements Disposable {
                         scaleX = font.scaleX * scale * 0.25f;
                     kern = kern << 16 | ch;
                     amt = font.kerning.get(kern, 0) * scaleX;
-                    if (ch == '\n') {
-                        Line next;
-                        next = changing.pushLine();
-                        glyphs.pop();
-                        if (next == null) {
-                            if(handleEllipsis(changing)) {
-                                calculateSize(changing);
-                                return changing;
-                            }
-                            break;
-                        }
-                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
-
-                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
-                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
-                        glyphs.truncate(i);
-                        glyphs.add(applyChar(glyphs.isEmpty() ? 0L : glyphs.peek(), '\n'));
-                        break;
-                    }
                     GlyphRegion tr = font.mapping.get(ch);
                     if (tr == null) continue;
                     float changedW = xAdvance(font, scaleX, glyph);
@@ -7464,6 +7476,25 @@ public class Font implements Disposable {
                         System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
                         System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
                         glyphs.truncate(cutoff);
+                        break;
+                    }
+                    if (ch == '\n') {
+                        Line next;
+                        next = changing.pushLine();
+                        glyphs.pop();
+                        if (next == null) {
+                            if(handleEllipsis(changing)) {
+                                calculateSize(changing);
+                                return changing;
+                            }
+                            break;
+                        }
+                        next.height = Math.max(next.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale * 0.25f);
+
+                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
+                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
+                        glyphs.truncate(i);
+                        glyphs.add(applyChar(glyphs.isEmpty() ? 0L : glyphs.peek(), '\n'));
                         break;
                     }
                     if (glyph >>> 32 == 0L) {
