@@ -5203,8 +5203,14 @@ public class Font implements Disposable {
             sizingY *= 0.7f;
         }
 
+
+        float batchAlpha = batch.getColor().a;
+        float batchAlpha2 = batchAlpha * batchAlpha;
+        float batchAlpha3 = batchAlpha2 * batchAlpha;
+        float batchAlpha4 = batchAlpha2 * batchAlpha2;
+
         float color = NumberUtils.intBitsToFloat(
-                  (int) (batch.getColor().a * (glyph >>> 33 & 127)) << 25
+                  (int) ((((glyph & BOLD) != 0L) ? batchAlpha2 : batchAlpha) * (glyph >>> 33 & 127)) << 25
                 | (int)(batch.getColor().r * (glyph >>> 56))
                 | (int)(batch.getColor().g * (glyph >>> 48 & 0xFF)) << 8
                 | (int)(batch.getColor().b * (glyph >>> 40 & 0xFF)) << 16);
@@ -5450,7 +5456,7 @@ public class Font implements Disposable {
 
         if((glyph & ALTERNATE_MODES_MASK) == DROP_SHADOW) {
 //            float shadow = Color.toFloatBits(0.1333f, 0.1333f, 0.1333f, 0.5f);// (dark transparent gray, as batch alpha is lowered, this gets more transparent)
-            float shadow = ColorUtils.multiplyAlpha(PACKED_SHADOW_COLOR, batch.getColor().a);// (dark transparent gray, as batch alpha is lowered, this gets more transparent)
+            float shadow = ColorUtils.multiplyAlpha(PACKED_SHADOW_COLOR, batchAlpha2);// (dark transparent gray, as batch alpha is lowered, this gets more transparent)
             vertices[2] = shadow;
             vertices[7] = shadow;
             vertices[12] = shadow;
@@ -5462,18 +5468,18 @@ public class Font implements Disposable {
             drawVertices(batch, tex, vertices);
         }
         else if((glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE || (glyph & ALTERNATE_MODES_MASK) == WHITE_OUTLINE) {
+            int widthAdj = ((glyph & BOLD) != 0L) ? 2 : 1;
             float outline = ColorUtils.multiplyAlpha((glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE
-                    ? PACKED_BLACK // black
-                    : PACKED_WHITE, batch.getColor().a); // white
+                    ? PACKED_BLACK  // black
+                    : PACKED_WHITE, // white
+                    widthAdj == 1 ? batchAlpha3 : batchAlpha4);
             vertices[2] = outline;
             vertices[7] = outline;
             vertices[12] = outline;
             vertices[17] = outline;
-//            System.out.println("blackening " + c + " , xPx is " + xPx + " , yPx is " + yPx);
-            int widthAdj = ((glyph & BOLD) != 0L) ? 2 : 1;
             for (int xi = -widthAdj; xi <= widthAdj; xi++) {
                 float xa = xi * xOutline;
-                if(widthAdj == 2 && (xi > 0 || boldStrength >= 1f)) xa *= boldStrength;
+                if(widthAdj == 2 && (xi > 0 || boldStrength > 1f)) xa *= boldStrength;
                 for (int yi = -1; yi <= 1; yi++) {
                     if(xi == 0 && yi == 0) continue;
                     float ya = yi * yOutline;
@@ -5487,12 +5493,12 @@ public class Font implements Disposable {
             }
         }
         else if((glyph & ALTERNATE_MODES_MASK) == SHINY) {
-            float shine = ColorUtils.multiplyAlpha(PACKED_WHITE, batch.getColor().a);
+            int widthAdj = ((glyph & BOLD) != 0L) ? 1 : 0;
+            float shine = ColorUtils.multiplyAlpha(PACKED_WHITE, widthAdj == 0 ? batchAlpha2 : batchAlpha3);
             vertices[2] = shine;
             vertices[7] = shine;
             vertices[12] = shine;
             vertices[17] = shine;
-            int widthAdj = ((glyph & BOLD) != 0L) ? 1 : 0;
             for (int xi = -widthAdj; xi <= widthAdj; xi++) {
                 float xa = xi * xOutline;
                 if(widthAdj == 1 && (xi > 0 || boldStrength >= 1f)) xa *= boldStrength;
