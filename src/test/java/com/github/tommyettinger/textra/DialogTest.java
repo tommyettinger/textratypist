@@ -41,7 +41,8 @@ public class DialogTest extends ApplicationAdapter {
         Font gentium = KnownFonts.getGentium();
         Styles.WindowStyle style = new Styles.WindowStyle();
         style.titleFont = gentium;
-        style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.MAROON);
+        style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.CLEAR);
+//        style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.MAROON);
         dialog = new TextraDialog("", style, gentium);
         stage.setDebugAll(true);
 
@@ -52,7 +53,7 @@ public class DialogTest extends ApplicationAdapter {
         ok.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                dialog.hide();
+                dialog.hide(1.5f);
             }
         });
 //        TextraLabel tl = new TextraLabel(
@@ -62,8 +63,10 @@ public class DialogTest extends ApplicationAdapter {
 
         ok.setVisible(false);
         TypingLabel tl = new TypingLabel(
-                "{GRADIENT=CYAN;WHITE;1;1}Come on... The Magical Mystery Tour!{ENDGRADIENT}\n" +
+                "[%?blacken]{GRADIENT=CYAN;WHITE;1;1}Come on... The Magical Mystery Tour!{ENDGRADIENT}\n" +
                         "The magical mystery tour:\nIs coming\nTo take you away\nDying to take you away!\nTake you,\nToday...",
+//                "{GRADIENT=CYAN;WHITE;1;1}Come on... The Magical Mystery Tour!{ENDGRADIENT}\n" +
+//                        "The magical mystery tour:\nIs coming\nTo take you away\nDying to take you away!\nTake you,\nToday...",
                 gentium);
         tl.setTypingListener(new TypingAdapter() {
             @Override
@@ -102,7 +105,7 @@ public class DialogTest extends ApplicationAdapter {
 
     @Override
     public void render() {
-        ScreenUtils.clear(Color.DARK_GRAY);
+        ScreenUtils.clear(Color.GRAY);
 
         stage.act();
         stage.draw();

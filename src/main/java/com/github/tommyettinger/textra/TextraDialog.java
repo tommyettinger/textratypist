@@ -36,8 +36,8 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 /**
- * Displays a dialog, which is a window with a title, a content table, and a button table. Methods are provided to add a label to
- * the content table and buttons to the button table, but any widgets can be added. When a button is clicked,
+ * Displays a dialog, which is a window with a title, a content table, and a button table. Methods are provided to add a
+ * label to the content table and buttons to the button table, but any widgets can be added. When a button is clicked,
  * {@link #result(Object)} is called and the dialog is removed from the stage.
  *
  * @author Nathan Sweet
@@ -364,11 +364,20 @@ public class TextraDialog extends TextraWindow {
     }
 
     /**
-     * Hides the dialog. Called automatically when a button is clicked. The default implementation fades out the dialog over 400
-     * milliseconds.
+     * Hides the dialog. Called automatically when a button is clicked. The default implementation fades out the dialog
+     * over 400 milliseconds.
      */
     public void hide() {
         hide(fadeOut(0.4f, Interpolation.fade));
+    }
+
+    /**
+     * Hides the dialog. Called automatically when a button is clicked. The default implementation fades out the dialog
+     * over {@code durationSeconds} seconds.
+     * @param durationSeconds how many seconds for the fade Action to last before this completely disappears
+     */
+    public void hide(float durationSeconds) {
+        hide(fadeOut(durationSeconds, Interpolation.fade));
     }
 
     public void setObject(Actor actor, @Null Object object) {
@@ -400,7 +409,8 @@ public class TextraDialog extends TextraWindow {
     }
 
     /**
-     * Called when a button is clicked. The dialog will be hidden after this method returns unless {@link #cancel()} is called.
+     * Called when a button is clicked. The dialog will be hidden after this method returns unless {@link #cancel()} is
+     * called.
      *
      * @param object The object specified when the button was added.
      */

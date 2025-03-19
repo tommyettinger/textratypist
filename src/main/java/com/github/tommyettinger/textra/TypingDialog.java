@@ -368,11 +368,20 @@ public class TypingDialog extends TypingWindow {
     }
 
     /**
-     * Hides the dialog. Called automatically when a button is clicked. The default implementation fades out the dialog over 400
-     * milliseconds.
+     * Hides the dialog. Called automatically when a button is clicked. The default implementation fades out the dialog
+     * over 400 milliseconds.
      */
     public void hide() {
         hide(fadeOut(0.4f, Interpolation.fade));
+    }
+
+    /**
+     * Hides the dialog. Called automatically when a button is clicked. The default implementation fades out the dialog
+     * over {@code durationSeconds} seconds.
+     * @param durationSeconds how many seconds for the fade Action to last before this completely disappears
+     */
+    public void hide(float durationSeconds) {
+        hide(fadeOut(durationSeconds, Interpolation.fade));
     }
 
     public void setObject(Actor actor, @Null Object object) {
