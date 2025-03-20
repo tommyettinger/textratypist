@@ -69,7 +69,7 @@ public class TransparencyProcessor extends ApplicationAdapter {
         config.setWindowedMode(600, 400);
         config.disableAudio(true);
         config.useVsync(true);
-        new Lwjgl3Application(new TransparencyProcessor(args), config);
+        new Lwjgl3Application(new TransparencyProcessor(new String[]{"cloud.png"}), config);
     }
 
 
@@ -161,18 +161,20 @@ public class TransparencyProcessor extends ApplicationAdapter {
 
                 int color;
                 final int w = pixmap.getWidth(), h = pixmap.getHeight();
-                boolean noWarningNeeded = false;
+//                boolean noWarningNeeded = false;
                 for (int y = 0; y < h; y++) {
                     for (int x = 0; x < w; x++) {
                         color = pixmap.getPixel(x, y);
+                        curLine[x] = (byte) (color >>> 24);
+//                        color = pixmap.getPixel(x, y);
                         // this block may need to be commented out if a font uses non-white grayscale colors.
-                        if(noWarningNeeded || ((color & 255) != 0 && (color & 0xFFFFFF00) != 0xFFFFFF00)) {
-                            System.out.println("PROBLEM WITH " + file);
-                            System.out.printf("Problem color: 0x%08X\n", color);
-                            System.out.println("Position: " + x + "," + y);
-                            noWarningNeeded = true;
-                        }
-                        curLine[x] = (byte) (color & 255);
+//                        if(noWarningNeeded || ((color & 255) != 0 && (color & 0xFFFFFF00) != 0xFFFFFF00)) {
+//                            System.out.println("PROBLEM WITH " + file);
+//                            System.out.printf("Problem color: 0x%08X\n", color);
+//                            System.out.println("Position: " + x + "," + y);
+//                            noWarningNeeded = true;
+//                        }
+//                        curLine[x] = (byte) (color & 255);
                     }
 
                     deflaterOutput.write(FILTER_NONE);
