@@ -275,7 +275,7 @@ The fonts here use the .dat file extension (which just means it's binary data wi
 compressed versions of larger .json fonts produced by fontwriter. The compression they use is GWT-compatible, so these
 .dat files can be used on any platform libGDX targets. You can still use the older .fnt files without issue, and some
 .fnt files are still used here (mostly for pixel fonts). You also generally need a .png with each font, though it can be
-in an atlas. In version 2.0.0, more types of compression for font files are available, and these almost always produce
+in an atlas. In version 2.0.0 onward, more types of compression for font files are available, and these almost always produce
 smaller files than the .dat files from the 1.x.x series of releases. In particular, `.json.lzma` is recommended and will
 probably be the default going forward, but also newly working are `.ubj`, `.ubj.lzma`, and `.json`. `.dat` still works.
 While `.ubj.lzma` files are slightly smaller, they don't work on GWT in libGDX 1.13.1 (and neither to .ubj files). The
@@ -417,7 +417,7 @@ Stripe and use them with FreeTypist.
 You can get it via Gradle, but it's probably a better option to just copy in the two files from
 [this folder in freetypist](https://github.com/tommyettinger/freetypist/tree/main/src/main/java/com/github/tommyettinger/freetypist)
 into your own code. Regardless of how you depend on FreeTypist, it needs a dependency on FreeType (including appropriate
-"platform" dependencies) and on TextraTypist (currently 2.0.0). When features are added to FWSkin and TextraTypist in
+"platform" dependencies) and on TextraTypist (currently 2.0.1). When features are added to FWSkin and TextraTypist in
 general, FreeTypist should be updated also.
 
 ## How do I get it?
@@ -425,18 +425,18 @@ general, FreeTypist should be updated also.
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.0.0"
+implementation "com.github.tommyettinger:textratypist:2.0.1"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 or higher. A requirement for 1.11.0
 was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code in libGDX. The requirement for 1.12.1
-was added in 1.0.0 because some things probably changed, and 1.13.1 in TextraTypist 2.0.0, but 1.13.1 (or the subsequent
+was added in 1.0.0 because some things probably changed, and 1.13.1 in TextraTypist 2.0.1, but 1.13.1 (or the subsequent
 SNAPSHOT releases) should be pretty easy to update to.
 
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.0.0:sources"
+implementation "com.github.tommyettinger:textratypist:2.0.1:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.17:sources"
 ```
 
@@ -482,15 +482,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.0.0"
+implementation "com.github.tommyettinger:freetypist:2.0.1"
 ```
 
-(Now, FreeTypist 2.0.0 uses TextraTypist 2.0.0 .)
+(Now, FreeTypist 2.0.1 uses TextraTypist 2.0.1 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.0.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.0.1:sources"
 ```
 
 And this inherits line:
@@ -503,12 +503,19 @@ FreeType doesn't work out-of-the-box on GWT, though [there is this](https://gith
 
 ## Hey, a new version!
 
-Updating to 2.0.0 from the 1.x series of releases should be straightforward, but it is backwards-incompatible in some
+Updating to 2.0.1 from the 1.x series of releases should be straightforward, but it is backwards-incompatible in some
 ways. Mostly, this involves changing any minor adjustments for font x/y/width/height, emoji placement, and other fiddly
 tweaks that 1.x needed -- but this change is usually just removing those adjustments. Many more parts of TextraTypist
 have defaults that "just work," though `.fnt` files are still as finicky as ever. Using `.dat`, or preferably
 `.json.lzma` files pulled from
 [fontwriter's knownFonts](https://github.com/tommyettinger/fontwriter/tree/main/docs/knownFonts), is a better option.
+
+In this version and some earlier versions, SDF rendering has improved quite a bit, and now MSDF fonts usually will look
+indistinguishable from SDF fonts. The .png files used for MSDF are larger than those for SDF, and SDF fonts can be used
+with the normal mode or `SDF_OUTLINE` to give a black outline around all text, so there's generally more upsides to
+using SDF than MSDF currently. There are also, rarely, some filtering artifacts that show up in MSDF fonts, but not in
+SDF fonts. A major user of TextraTypist, [SquidSquad](https://github.com/yellowstonegames/SquidSquad), now just
+distributes standard and SDF fonts, without MSDF fonts included in that repo to save some space.
 
 Rotation may still have issues with underline and strikethrough moving a little. Underline, strikethrough, and "fancy
 underlines" now don't apply to emoji or other icons, because they were consistently wrong no matter what I tried, and
@@ -707,9 +714,14 @@ can output SDF and MSDF distance field fonts, as well as standard bitmap fonts, 
 been processed how TextraTypist prefers them (they need a small white square in the lower right to use for block drawing
 and underline/strikethrough, plus a specific transparency change makes certain overlapping renders with alpha keep their
 intended colors). These processing changes could be done by running `BlockStamper` and `TransparencyProcessor` in the
-TextraTypist tests, but that's a hassle, so using FontWriter is preferred. It outputs .json and .dat font files, as well
-as a .png texture. You only need the .png file AND (the .dat file OR the .json file), but the .dat file is smaller, so
-it is usually preferred. The .json file can be hand-edited, but it isn't very easy to do that given how it is inside.
+TextraTypist tests, but that's a hassle, so using FontWriter is preferred. It outputs .json and .dat font files in
+earlier versions, as well as .json.lzma, .ubj, and .ubj.lzma files in the current version, plus a vital .png texture.
+The .json file is uncompressed, and the .dat, .json.lzma, .ubj, and .ubj.lzma files are all different ways of
+compressing that same .json file.
+You only need the .png file AND (either the .json file or one of its compressed versions, like .json.lzma), but the
+.json.lzma file is small and can be extracted with a program like [7-Zip](https://www.7-zip.org) to get the original
+plaint-text JSON file, so it is usually preferred.
+The .json file can be hand-edited, but it isn't very easy to do that given how it is inside.
 
 ## License
 
