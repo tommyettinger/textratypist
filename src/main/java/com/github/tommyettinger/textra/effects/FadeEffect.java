@@ -84,7 +84,9 @@ public class FadeEffect extends Effect {
         // Calculate initial color
         if (this.color1 == 256) {
             label.setInWorkingLayout(globalIndex,
-                    glyph = (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha1 * 255, 1f - progress) << 32);
+                    glyph = (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255,
+                            this.alpha1 * (label.getInLayout(label.layout, globalIndex) >>> 32 & 255),
+                            1f - progress) << 32);
         } else {
             label.setInWorkingLayout(globalIndex,
                     glyph = (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors((int) (glyph >>> 32), this.color1, 1f - progress) << 32);
@@ -93,7 +95,9 @@ public class FadeEffect extends Effect {
         // Calculate final color
         if (this.color2 == 256) {
             label.setInWorkingLayout(globalIndex,
-                    (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255, this.alpha2 * 255, progress) << 32);
+                    (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255,
+                            this.alpha2 * (label.getInLayout(label.layout, globalIndex) >>> 32 & 255),
+                            progress) << 32);
         } else {
             label.setInWorkingLayout(globalIndex,
                     (glyph & 0xFFFFFFFFL) | (long) ColorUtils.lerpColors((int) (glyph >>> 32), this.color2, progress) << 32);
