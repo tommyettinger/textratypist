@@ -179,43 +179,20 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                        "Retro", "Slab", "Handwriting", "Canada", "Cozette", "Iosevka",
 //                        "Medieval", "Future", "Console", "Code"
 
-                "{VAR=SHOWIFA}A is enabled! Press A on your controller to confirm!{VAR=ENDSHOWIFA}{VAR=SHOWIFNOTA}A is disabled! Click to confirm!{VAR=ENDSHOWIFNOTA}\n" +
+//                "{VAR=SHOWIFA}A is enabled! Press A on your controller to confirm!{VAR=ENDSHOWIFA}{VAR=SHOWIFNOTA}A is disabled! Click to confirm!{VAR=ENDSHOWIFNOTA}\n" +
+                "{IF=controller;yes=A is enabled! Press A on your controller to confirm!;=A is disabled! Click to confirm!}\n"
+                        ,
+/*                        +
 
                 "{SLAM}There's a [/][@Medieval]STORM{RESET} on {MEET=2;1;n;y}[@Future][GREEN]the way[][][-ENDMEET], " +
-//                "{JOLT=1;1.2;inf;0.3;dull lavender;light butter}There's a [/][@Medieval]STORM{RESET} on [@Future][green]the way[][], " +
-//                "{OCEAN=0.7;1.25;0.11;1.0;0.65}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
-//                "she's{WIND=3;2;0.2;0.2} blowin' on down{RESET}, " +
                 "{INSTANT}she's{VAR=SHIVERINGBLIZZARD} blowin' on down{ENDINSTANT}{RESET}, " +
                 "[@Handwriting]whippin'[] her [@Slab]way[] through the [*]{FONT=Sans}whole dang[][] town! " +
                 "{ZIPPER}[@Iosevka]Sure[@] as [/]I reckon{ENDZIPPER}[ ], if we [@Mono]meet our [@Cozette]{HANG}fate[@]{RESET}, " +
-//                "[@Iosevka]Sure[@] as [/]I reckon[ ], if we [@Mono]meet our [@Cozette]{HANG}fate[@]{RESET}, " +
                 "this [light grey black][%125]storm[ ] will be [@Canada]there[@] on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%150]eight[%]{ENDSPIN}! " +
-//                "Should a young 'un go out, in the wind and the thunder, " +
-//                "if they make it back, it will be a [%^]true wonder[%]!",
                 "Should a [@Retro]young[@] {IF=gender;m=lad;f=lass;t='un;e=[+🧒]} go [@Code]out[@], in the [@Humanist]wind[@] and [@Geometric]the {SHAKE=;;2}thunder{ENDSHAKE}[@], " +
                 "if {IF=gender;m=he makes;f=she makes;t=they make;e=[+🧒] makes} it [@Condensed]back[@], it [@Console]will[@] be a [;][%^]true wonder[%][;]!",
-//                "Should a young {VAR=lad} go out, in the wind and the thunder, " +
-//                "if {VAR=he makes} it back, it will be a [%^]true wonder[%]!",
-
-//                "{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM[/]{ENDJOLT} on the way, " +
-//                "she's {WIND=3;2;0.2;0.2}blowin' on down{ENDWIND}, " +
-//                "whippin' her way through the [*]whole dang[*] town! " +
-//                "Sure as [/]I reckon[], if we meet our {HANG}fate{RESET}, " +
-//                "this [%150]storm[%] will be there on clouds [%75]one[%] through [%200]eight[%]!",
-//
-//                "[@Gentium]{JOLT=1;1.2;inf;0.3;9944aa;fff0cc}There's a [/]STORM{RESET}[@Gentium] on the way, " +
-//                "she's {WIND=3;2;0.2;0.2} blowin' on down{ENDWIND}, " +
-//                "whippin' her way through the [*]whole dang[*] town! " +
-//                "Sure as [/]I reckon[][@Gentium], if we meet our {HANG}fate{RESET}, " +
-//                "this [%150]storm[%] will be there on clouds [%75]one[%] through [%200]eight[%]!",
-
-//        final TypingLabel label = new TypingLabel("[/][*][GREEN]JUNGLE[*][WHITE] TO THE[/] WELCOME!",
-//        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!",
+*/
                 font);
-//        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!", skin);
-//        final TypingLabel label = new TypingLabel("{WAIT=1}{SLOWER}Welcome, {VAR=title}!", skin);
-
-//        label.setDefaultToken("{EASE}{SLOW}");
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOWER}");
         label.align = Align.topLeft;
 
@@ -229,6 +206,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         label.setVariable("lad", "'un");
         label.setVariable("he makes", "they make");
         label.setVariable("A", "show");
+        label.setVariable("controller", "yes");
 
         // Set an event listener for when the {EVENT} token is reached and for the char progression ends.
         label.setTypingListener(new TypingAdapter() {
@@ -240,6 +218,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
             @Override
             public void end() {
                 label.setVariable("A", "hide");
+                label.setVariable("controller", "no");
+
                 label.parseTokens();
                 System.out.println(label);
             }
