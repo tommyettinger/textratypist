@@ -120,6 +120,12 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 
         // Create some global variables to handle style
         TypingConfig.GLOBAL_VARS.put("ICE_WIND", "{GRADIENT=88ccff;eef8ff;-0.5;5}{WIND=2;4;0.25;0.1}{JOLT=1;0.6;inf;0.1;;}");
+
+        TypingConfig.GLOBAL_VARS.put("SHOWIFA", "{IF=A;show=;=[ (FormatA)][#00ff0000]}");
+        TypingConfig.GLOBAL_VARS.put("ENDSHOWIFA", "{IF=A;show=;=[ FormatA]}");
+        TypingConfig.GLOBAL_VARS.put("SHOWIFNOTA", "{IF=A;show=[ (FormatNotA)][#ff000000];=}");
+        TypingConfig.GLOBAL_VARS.put("ENDSHOWIFNOTA", "{IF=A;show=[ FormatNotA];=}");
+
     }
 
     public TypingLabel createTypingLabel() {
@@ -173,6 +179,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                        "Retro", "Slab", "Handwriting", "Canada", "Cozette", "Iosevka",
 //                        "Medieval", "Future", "Console", "Code"
 
+                "{VAR=SHOWIFA}A is enabled! Press A on your controller to confirm!{VAR=ENDSHOWIFA}{VAR=SHOWIFNOTA}A is disabled! Click to confirm!{VAR=ENDSHOWIFNOTA}\n" +
+
                 "{SLAM}There's a [/][@Medieval]STORM{RESET} on {MEET=2;1;n;y}[@Future][GREEN]the way[][][-ENDMEET], " +
 //                "{JOLT=1;1.2;inf;0.3;dull lavender;light butter}There's a [/][@Medieval]STORM{RESET} on [@Future][green]the way[][], " +
 //                "{OCEAN=0.7;1.25;0.11;1.0;0.65}There's a [/][@Medieval]STORM{RESET} on [@Future]the way[@], " +
@@ -220,6 +228,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         label.setVariable("gender", "f");
         label.setVariable("lad", "'un");
         label.setVariable("he makes", "they make");
+        label.setVariable("A", "show");
 
         // Set an event listener for when the {EVENT} token is reached and for the char progression ends.
         label.setTypingListener(new TypingAdapter() {
@@ -230,6 +239,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 
             @Override
             public void end() {
+                label.setVariable("A", "hide");
+                label.parseTokens();
                 System.out.println(label);
             }
         });

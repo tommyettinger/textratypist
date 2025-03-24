@@ -36,7 +36,7 @@ public class Parser {
     private static final Matcher MATCHER_MARKUP_STRIP = PATTERN_MARKUP_STRIP.matcher();
     private static final Replacer RESET_TAG = new Replacer(Pattern.compile("((?<!\\[)\\[ (?:\\]))"), "{RESET}");
     private static final Replacer UNDO_TAG =  new Replacer(Pattern.compile("((?<!\\[)\\[(?:\\]))"), "{UNDO}");
-    private static final Replacer COLOR_MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[(?:(?:#({=m}[A-Fa-f0-9]{3,8}))|(?:\\|?)({=m}[\\pL\\pN][^\\[\\]]*))(\\])"), "{COLOR=${\\m}}");
+    private static final Replacer COLOR_MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[(?:(?:#({=m}[A-Fa-f0-9]{3,8}))|(?:\\|?({=m}[\\pL\\pN][^\\[\\]]*)))(\\])"), "{COLOR=${\\m}}");
     private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\])"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{3,8}");
     private static final Matcher MATCHER_COLOR_HEX_NO_HASH = PATTERN_COLOR_HEX_NO_HASH.matcher();
