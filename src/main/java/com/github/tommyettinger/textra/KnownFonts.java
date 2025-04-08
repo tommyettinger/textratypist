@@ -1100,7 +1100,7 @@ public final class KnownFonts implements LifecycleListener {
         String rootName = baseName + distanceField.filePart;
         Font found = instance.loaded.get(rootName);
         if(found == null){
-            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 1, 5, 0, 0, false);
+            found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, 1, 5, 0, 0, false);
             found
                     .useIntegerPositions(false)
                     .setDescent(-3f)
@@ -1884,7 +1884,7 @@ public final class KnownFonts implements LifecycleListener {
         String rootName = baseName + distanceField.filePart;
         Font found = instance.loaded.get(rootName);
         if(found == null){
-            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 1, 0, 0, 0, true);
+            found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, 1, 0, 0, 0, true);
             found
                     .setDescent(-6f).scaleTo(22f, 27.25f).setFancyLinePosition(0f, 0.125f).setOutlineStrength(1.6f)
                     .setLineMetrics(-0.25f, 0f, 0f, -0.5f).setInlineImageMetrics(-4f, -5f, -8f, 0.75f)
@@ -2466,7 +2466,7 @@ public final class KnownFonts implements LifecycleListener {
         String rootName = baseName + distanceField.filePart;
         Font found = instance.loaded.get(rootName);
         if(found == null){
-            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 0, 0, 0, 0, true);
+            found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, 0, 0, 0, 0, true);
             found
                     .setInlineImageMetrics(0f, 3f, -8f, 0.75f).setFancyLinePosition(0f, 4f)
                     .useIntegerPositions(true).setBoldStrength(0.5f).setOutlineStrength(2f)
@@ -2992,7 +2992,7 @@ public final class KnownFonts implements LifecycleListener {
         String rootName = baseName + distanceField.filePart;
         Font found = instance.loaded.get(rootName);
         if(found == null){
-            found = new Font(instance.prefix + rootName + ".fnt", distanceField, 0, 2, 0, 2, false);
+            found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, 0, 2, 0, 2, false);
             found
                     .setDescent(-4f).setInlineImageMetrics(0f, 2f, -4f, 0.875f).setFancyLinePosition(0f, 3f)
                     .useIntegerPositions(false).setBoldStrength(0.5f).setOutlineStrength(2f)
