@@ -231,8 +231,8 @@ public class TypingLabelTest extends ApplicationAdapter {
 //            System.out.println(name);
 
         // Create label
-        Font font = KnownFonts.getStandardFamily();
-//        Font fam = KnownFonts.getStandardFamily();
+//        Font font = KnownFonts.getStandardFamily();
+        Font font = KnownFonts.getFamily(Font.DistanceFieldType.SDF);
 //        Font font = KnownFonts.getRobotoCondensed();
 //        fam.family.connected[0] = font;
 //        font.setFamily(fam.family);
@@ -316,7 +316,7 @@ public class TypingLabelTest extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        label.getFont().resizeDistanceField(width, height, stage.getViewport());
+        label.getFont().family.resizeDistanceFields(width, height, stage.getViewport());
     }
 
     @Override

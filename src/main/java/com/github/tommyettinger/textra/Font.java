@@ -16,6 +16,7 @@
 
 package com.github.tommyettinger.textra;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -1484,6 +1485,37 @@ public class Font implements Disposable {
                     + "}\n";
     /**
      * A modified version of the fragment shader for SDF fonts from
+     * <a href="https://jvm-gaming.org/t/solved-signed-distance-field-fonts-look-crappy-at-small-pt-sizes/49617/8">this JVM-Gaming forum post</a>,
+     * now supporting RGB colors other than white (but with
+     * limited support for partial transparency). This is automatically used when {@link #enableShader(Batch)} is
+     * called, the {@link #distanceField} is {@link DistanceFieldType#SDF}, and the application is running on desktop
+     * OpenGL (so it has derivative functions available). This shader can be used with inline
+     * images, but won't behave 100% correctly if they use partial transparency, such as to anti-alias edges.
+     */
+    public static final String sdfFragmentShaderDesktopOpenGL =
+            "#ifdef GL_ES\n"
+                    + "	precision mediump float;\n"
+                    + "	precision mediump int;\n"
+                    + "#endif\n"
+                    + "\n"
+                    + "uniform sampler2D u_texture;\n"
+                    + "uniform float u_smoothing; /* Unused except to enable or disable the shader. */\n"
+                    + "varying vec4 v_color;\n"
+                    + "varying vec2 v_texCoords;\n"
+                    + "\n"
+                    + "void main() {\n"
+                    + "	if (u_smoothing > 0.0) {\n"
+                    + "		vec4 color = texture2D(u_texture, v_texCoords);\n"
+                    + "     //float smoothing = fwidth(color.a);\n"
+                    + "     float smoothing = 0.7 * length(vec2(dFdx(color.a), dFdy(color.a)));\n"
+                    + "		float alpha = smoothstep(0.5 - smoothing, 0.5 + smoothing, color.a);\n"
+                    + "		gl_FragColor = vec4(v_color.rgb * color.rgb, alpha * v_color.a);\n"
+                    + "  } else {\n"
+                    + "	    gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n"
+                    + "  }\n"
+                    + "}\n";
+    /**
+     * A modified version of the fragment shader for SDF fonts from
      * {@link com.badlogic.gdx.graphics.g2d.DistanceFieldFont}, this draws a moderately thick black outline around
      * each glyph, with the outline respecting the transparency of the glyph (unlike {@link #BLACK_OUTLINE} mode).
      * This also supports RGB colors other than white (but with limited support for partial transparency).
@@ -1502,8 +1534,8 @@ public class Font implements Disposable {
                     "const float closeness = 0.015625; // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline\n" +
                     "void main() {\n" +
                     "  if (u_smoothing > 0.0) {\n" +
-                    "    float smoothing = 0.5 / u_smoothing;\n" +
                     "    vec4 image = texture2D(u_texture, v_texCoords);\n" +
+                    "    float smoothing = 0.5 / u_smoothing;\n" +
                     "    float outlineFactor = smoothstep(0.5 - smoothing, 0.5 + smoothing, image.a);\n" +
                     "    vec3 color = image.rgb * v_color.rgb * outlineFactor;\n" +
                     "    float alpha = smoothstep(closeness, closeness + smoothing, image.a);\n" +
@@ -1513,6 +1545,36 @@ public class Font implements Disposable {
                     "  }\n" +
                     "}";
 
+    /**
+     * A modified version of the fragment shader for SDF fonts from
+     * {@link com.badlogic.gdx.graphics.g2d.DistanceFieldFont}, this draws a moderately thick black outline around
+     * each glyph, with the outline respecting the transparency of the glyph (unlike {@link #BLACK_OUTLINE} mode).
+     * This also supports RGB colors other than white (but with limited support for partial transparency).
+     * This is automatically used when {@link #enableShader(Batch)} is called and the {@link #distanceField} is
+     * {@link DistanceFieldType#SDF_OUTLINE}. This shader can be used with inline images, but won't behave 100%
+     * correctly if they use partial transparency, such as to anti-alias edges.
+     */
+    public static final String sdfBlackOutlineFragmentShaderDesktopOpenGL =
+            "#ifdef GL_ES\n" +
+                    "precision mediump float;\n" +
+                    "#endif\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "uniform float u_smoothing;\n" +
+                    "varying vec4 v_color;\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "const float closeness = 0.015625; // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline\n" +
+                    "void main() {\n" +
+                    "  if (u_smoothing > 0.0) {\n" +
+                    "    vec4 image = texture2D(u_texture, v_texCoords);\n" +
+                    "    float smoothing = 0.7 * length(vec2(dFdx(image.a), dFdy(image.a)));\n" +
+                    "    float outlineFactor = smoothstep(0.5 - smoothing, 0.5 + smoothing, image.a);\n" +
+                    "    vec3 color = image.rgb * v_color.rgb * outlineFactor;\n" +
+                    "    float alpha = smoothstep(closeness, closeness + smoothing, image.a);\n" +
+                    "    gl_FragColor = vec4(color, v_color.a * alpha);\n" +
+                    "  } else {\n" +
+                    "    gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n" +
+                    "  }\n" +
+                    "}";
 
     /**
      * Fragment shader source meant for MSDF fonts. This is automatically used when {@link #enableShader(Batch)} is
@@ -3152,11 +3214,17 @@ public class Font implements Disposable {
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
         } else if (this.distanceField == DistanceFieldType.SDF) {
-            shader = new ShaderProgram(vertexShader, sdfFragmentShader);
+            shader = new ShaderProgram(vertexShader,
+                    Gdx.app.getType() == Application.ApplicationType.Desktop
+                            ? sdfFragmentShaderDesktopOpenGL
+                            : sdfFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         } else if (this.distanceField == DistanceFieldType.SDF_OUTLINE) {
-            shader = new ShaderProgram(vertexShader, sdfBlackOutlineFragmentShader);
+            shader = new ShaderProgram(vertexShader,
+                    Gdx.app.getType() == Application.ApplicationType.Desktop
+                    ? sdfBlackOutlineFragmentShaderDesktopOpenGL
+                    : sdfBlackOutlineFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
         } else shader = null;
@@ -3914,11 +3982,12 @@ public class Font implements Disposable {
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
                 batch.setShader(shader);
-//                float smoothing = 0.2f * actualCrispness * Math.max(cellHeight, cellWidth);
-                float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
-                batch.flush();
-                shader.setUniformf("u_smoothing", smoothing);
-                smoothingValues.put(batch, smoothing);
+//                if(Gdx.app.getType() != Application.ApplicationType.Desktop || smoothingValues.get(batch) == null || smoothingValues.get(batch) <= 0) {
+                    float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                    batch.flush();
+                    shader.setUniformf("u_smoothing", smoothing);
+                    smoothingValues.put(batch, smoothing);
+//                }
             } else {
                 batch.setShader(null);
                 smoothingValues.put(batch, 0f);
@@ -3955,11 +4024,12 @@ public class Font implements Disposable {
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
-//                float smoothing = 0.2f * actualCrispness * Math.max(cellHeight, cellWidth);
-                float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
-                batch.flush();
-                shader.setUniformf("u_smoothing", smoothing);
-                smoothingValues.put(batch, smoothing);
+//                if(Gdx.app.getType() != Application.ApplicationType.Desktop || smoothingValues.get(batch) == null || smoothingValues.get(batch) <= 0) {
+                    float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                    batch.flush();
+                    shader.setUniformf("u_smoothing", smoothing);
+                    smoothingValues.put(batch, smoothing);
+//                }
             }
         } else if(shader == null) {
             batch.flush();
@@ -3974,10 +4044,12 @@ public class Font implements Disposable {
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
-                float smoothing = 0.2f * actualCrispness * Math.max(cellHeight, cellWidth);
-                batch.flush();
-                shader.setUniformf("u_smoothing", smoothing);
-                smoothingValues.put(batch, smoothing);
+//                if(Gdx.app.getType() != Application.ApplicationType.Desktop || smoothingValues.get(batch) == null || smoothingValues.get(batch) <= 0) {
+                    float smoothing = 0.2f * actualCrispness * Math.max(cellHeight, cellWidth);
+                    batch.flush();
+                    shader.setUniformf("u_smoothing", smoothing);
+                    smoothingValues.put(batch, smoothing);
+//                }
             }
         }
     }
