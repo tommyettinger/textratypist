@@ -10,7 +10,7 @@
     A text-display library centered around a label that prints over time, with both effects and styles.
     In other words, this brings more features to text rendering in libGDX.
     <a href="https://github.com/tommyettinger/textratypist">The main repo page is here</a>.
-    <a href="https://tommyettinger.github.io/fontwriter/knownFonts/apidocs/">The JavaDocs are here</a>.
+    <a href="https://tommyettinger.github.io/fontwriter/docs/apidocs/">The JavaDocs are here</a>.
 </p>
 <p>
     This page has the list of all fonts the library ships with, in the
@@ -27,6 +27,16 @@
     ".dat" files as compressed ".json" files, and TextraTypist 2.0.0 and newer prefers ".json.lzma" files, which are
     compressed much more tightly. If you take any of the links to ".json" fonts and add ".lzma" to the end, that should
     be a valid link to the 2.0.0-compatible font data. The ".dat" files are probably fine also.
+</p>
+<p>
+    The newer types of JSON-based font, such as .dat and .json, must be read in by one of TextraTypist's Skin
+    subclasses, such as FWSkin, or a related subclass, such as FreeTypistSkin from the FreeTypist library. Not only do
+    these Skin variants handle more than just the .fnt format, they also handle the different Styles that TextraTypist
+    widgets use to avoid frequently creating copied Font objects. The "FW" in FWSkin is short for
+    <a href="https://github.com/tommyettinger/fontwriter/">FontWriter</a>, which also provides every format of every
+    Font provided by TextraTypist, plus even more, in its
+    <a href="https://github.com/tommyettinger/fontwriter/tree/main/docs/knownFonts">knownFonts</a> directory. In the
+    future, the saved files in FontWriter's repo may become the definitive source.
 </p>
 <h1>Known Fonts</h1>
 <br>
