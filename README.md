@@ -262,8 +262,10 @@ currently rendering needs to have its distance field resized when the window res
 There are several preconfigured font settings in `KnownFonts`; the documentation for each font getter says what files
 are needed to use that font. **[The old .fnt files have been moved here](https://github.com/tommyettinger/fonts)**.
 [You can see previews and descriptions of most known fonts here.](https://tommyettinger.github.io/textratypist/apidocs/com/github/tommyettinger/textra/KnownFonts.html)
-That list can sometimes be outdated, and the latest fonts (that currently use the `.dat` format here)
-[can be previewed here](https://tommyettinger.github.io/fontwriter/).
+That list can sometimes be outdated, and the latest fonts (that currently use the `.json.lzma` format here)
+[can be previewed here for SDF fonts](https://tommyettinger.github.io/textratypist/index.html),
+[here for standard fonts](https://tommyettinger.github.io/textratypist/standard.html), or
+[here for MSDF fonts](https://tommyettinger.github.io/textratypist/msdf.html).
 Having KnownFonts isn't necessary for many fonts since version 1.0.0, because the `.dat` fonts are now made all by the
 same tool ([fontwriter](https://github.com/tommyettinger/fontwriter)), and tend to be configured correctly
 out-of-the-box. The variety of font types isn't amazing, but it should be a good starting point. One nice thing to note
