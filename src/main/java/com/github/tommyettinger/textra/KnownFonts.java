@@ -116,6 +116,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String BIRDLAND_AEROPLANE = "Birdland-Aeroplane";
     /** Base name for a variable-width thin-weight serif font. */
     public static final String BITTER = "Bitter";
+    /** Base name for a variable-width, thin, elegant handwriting font. */
+    public static final String BONHEUR_ROYALE = "Bonheur-Royale";
     /** Base name for a variable-width sans font. */
     public static final String CANADA1500 = "Canada1500";
     /** Base name for a fixed-width programming font. */
@@ -124,12 +126,14 @@ public final class KnownFonts implements LifecycleListener {
     public static final String CAVEAT = "Caveat";
     /** Base name for a variable-width extra-heavy-weight "attention-getting" font. */
     public static final String CHANGA_ONE = "Changa-One";
-    /** Base name for a fixed-width, tall, thin pixel font. */
-    public static final String CORDATA_16X26 = "Cordata-16x26";
     /** Base name for a fixed-width dyslexia-friendly handwriting-like font. */
     public static final String COMIC_MONO = "Comic-Mono";
     /** Base name for a fixed-width octagonal font, possibly usable as "college-style" lettering. */
     public static final String COMPUTER_SAYS_NO = "Computer-Says-No";
+    /** Base name for a fixed-width, tall, thin pixel font. */
+    public static final String CORDATA_16X26 = "Cordata-16x26";
+    /** Base name for a variable-width, sturdy, slab-serif font with slightly rounded corners. */
+    public static final String CRETE_ROUND = "Crete-Round";
     /** Base name for a variable-width narrow sans font. */
     public static final String DEJAVU_SANS_CONDENSED = "DejaVu-Sans-Condensed";
     /** Base name for a fixed-width programming font. */
@@ -162,12 +166,20 @@ public final class KnownFonts implements LifecycleListener {
     public static final String KINGTHINGS_FOUNDATION = "Kingthings-Foundation";
     /** Base name for a variable-width legible medieval font. */
     public static final String KINGTHINGS_PETROCK = "Kingthings-Petrock";
+    /** Base name for a variable-width, high-weight, very tall sans-serif font. */
+    public static final String LEAGUE_GOTHIC = "League-Gothic";
     /** Base name for a variable-width medium-weight serif font. */
     public static final String LIBERTINUS_SERIF = "Libertinus-Serif";
     /** Base name for a variable-width heavy-weight serif font. */
     public static final String LIBERTINUS_SERIF_SEMIBOLD = "Libertinus-Serif-Semibold";
     /** Base name for a variable-width geometric font. */
     public static final String NOW_ALT = "Now-Alt";
+    /** Base name for a variable-width brush-stroke font with support for many CJK glyphs. */
+    public static final String MA_SHAN_ZHENG = "Ma-Shan-Zheng";
+    /** Base name for a variable-width, sweeping, legible handwriting font. */
+    public static final String MOON_DANCE = "Moon-Dance";
+    /** Base name for a variable-width, legible, modern-style Fraktur font. */
+    public static final String NUGOTHUC = "Nugothic";
     /** Base name for a variable-width sans font. */
     public static final String OPEN_SANS = "Open-Sans";
     /** Base name for a variable-width all-caps geometric sans font. */
@@ -178,14 +190,26 @@ public final class KnownFonts implements LifecycleListener {
     public static final String OVERLOCK_UN_ITALIC = "Overlock-Un-Italic";
     /** Base name for a variable-width "sci-fi" display font. */
     public static final String OXANIUM = "Oxanium";
+    /** Base name for a variable-width "crayon-drawn" display font supporting LGC glyphs. */
+    public static final String PANGOLIN = "Pangolin";
+    /** Base name for a variable-width brush-stroke font with a paint-like texture. */
+    public static final String PROTEST_REVOLUTION = "Protest-Revolution";
     /** Base name for a variable-width narrow sans font. */
     public static final String ROBOTO_CONDENSED = "Roboto-Condensed";
+    /** Base name for a variable-width "Wild West" display font. */
+    public static final String SANCREEK = "Sancreek";
     /** Base name for a variable-width sans-serif font. */
     public static final String SELAWIK = "Selawik";
     /** Base name for a variable-width bold sans-serif font. */
     public static final String SELAWIK_BOLD = "Selawik-Bold";
+    /** Base name for a variable-width, child-like, "blobby" display font. */
+    public static final String SOUR_GUMMY = "Sour-Gummy";
+    /** Base name for a fixed-width distressed typewriter font. */
+    public static final String SPECIAL_ELITE = "Special-Elite";
     /** Base name for a variable-width formal script font. */
     public static final String TANGERINE = "Tangerine";
+    /** Base name for a variable-width partial-serif font with bowed edges and some Devanagari script support. */
+    public static final String TILLANA = "Tillana";
     /** Base name for a variable-width humanist sans font. */
     public static final String YANONE_KAFFEESATZ = "Yanone-Kaffeesatz";
     /** Base name for a variable-width "dark fantasy" display font. */
@@ -204,14 +228,16 @@ public final class KnownFonts implements LifecycleListener {
     public static final String IBM_8X16_SAD = "IBM-8x16-Sad";
 
     public static final OrderedSet<String> JSON_NAMES = OrderedSet.with(
-            A_STARRY, BIRDLAND_AEROPLANE, BITTER, CANADA1500, CASCADIA_MONO, CAVEAT, CHANGA_ONE,
-            COMIC_MONO, COMPUTER_SAYS_NO, DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO,
+            A_STARRY, ABYSSINICA_SIL, ASUL, AUBREY, BIRDLAND_AEROPLANE, BITTER,
+            BONHEUR_ROYALE, CANADA1500, CASCADIA_MONO, CAVEAT, CHANGA_ONE,
+            COMIC_MONO, COMPUTER_SAYS_NO, CRETE_ROUND, DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO,
             DEJAVU_SANS, DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF, GENTIUM, GENTIUM_UN_ITALIC,
             GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE, INCONSOLATA_LGC, IOSEVKA,
-            IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LIBERTINUS_SERIF,
-            LIBERTINUS_SERIF_SEMIBOLD, NOW_ALT, OPEN_SANS, OVERLOCK, OVERLOCK_UN_ITALIC,
-            OSTRICH_BLACK, OXANIUM, ROBOTO_CONDENSED, SELAWIK, SELAWIK_BOLD, TANGERINE,
-            YANONE_KAFFEESATZ, YATAGHAN);
+            IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
+            LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MOON_DANCE, NOW_ALT, NUGOTHUC, OPEN_SANS,
+            OSTRICH_BLACK, OVERLOCK, OVERLOCK_UN_ITALIC, OXANIUM, PANGOLIN, PROTEST_REVOLUTION,
+            ROBOTO_CONDENSED, SANCREEK, SELAWIK, SELAWIK_BOLD, SOUR_GUMMY, SPECIAL_ELITE, TANGERINE,
+            TILLANA, YANONE_KAFFEESATZ, YATAGHAN);
 
     public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, HANAZONO, LANAPIXEL, QUANPIXEL);
 
