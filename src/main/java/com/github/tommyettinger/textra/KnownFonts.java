@@ -542,7 +542,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width serif font, that should scale
-     * pretty well from a height of about 160 down to a height of maybe 40.
+     * pretty well from a height of about 160 down to a height of maybe 20.
      * This font covers most European languages and the Ge'ez script, used for Ethiopic and related languages. Caches
      * the result for later calls. The font used is Abyssinica SIL, an OFL-licensed typeface by SIL International.
      * Ge'ez glyphs tend to be very decorative in this font and may be useful when "fantastic" text needs to look very
@@ -606,7 +606,7 @@ public final class KnownFonts implements LifecycleListener {
 
     /**
      * Returns a Font already configured to use a variable-width, bowed-edge, slight-serif font, that should scale
-     * pretty well from a height of about 160 down to a height of maybe 40.
+     * pretty well from a height of about 160 down to a height of maybe 16.
      * This font covers most Western European languages. Caches the result for later calls.
      * The font used is Asul, an OFL-licensed typeface by Mariela Monsalve.
      * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
@@ -631,7 +631,8 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Returns a Font already configured to use a variable-width, bowed-edge, slight-serif font.     * Uses the given distance field type.
+     * Returns a Font already configured to use a variable-width, bowed-edge, slight-serif font.
+     * Uses the given distance field type.
      * This font covers most Western European languages. Caches the result for later calls.
      * The font used is Asul, an OFL-licensed typeface by Mariela Monsalve.
      * <br>
@@ -661,6 +662,68 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getAsul(DistanceFieldType dft) {
         return getFont(ASUL, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width font with an odd mix of angles and curves, that
+     * should scale pretty well from a height of about 160 down to a height of maybe 20.
+     * This font covers most Western European languages. Caches the result for later calls.
+     * The font used is Aubrey, an OFL-licensed typeface by
+     * <a href="https://github.com/cyrealtype/Aubrey">The Aubrey Project</a>.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.AUBREY, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Aubrey-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Aubrey-standard.json.lzma">Aubrey-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Aubrey-standard.png">Aubrey-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Aubrey-License.txt">Aubrey-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Aubrey
+     */
+    public static Font getAubrey() {
+        return getFont(AUBREY, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width font with an odd mix of angles and curves.
+     * Uses the given distance field type.
+     * This font covers most Western European languages. Caches the result for later calls.
+     * The font used is Aubrey, an OFL-licensed typeface by
+     * <a href="https://github.com/cyrealtype/Aubrey">The Aubrey Project</a>.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Aubrey-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Aubrey-standard.json.lzma">Aubrey-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Aubrey-standard.png">Aubrey-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Aubrey-License.txt">Aubrey-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Aubrey-sdf.json.lzma">Aubrey-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Aubrey-sdf.png">Aubrey-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Aubrey-License.txt">Aubrey-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Aubrey-msdf.json.lzma">Aubrey-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Aubrey-msdf.png">Aubrey-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Aubrey-License.txt">Aubrey-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Aubrey using the given DistanceFieldType
+     */
+    public static Font getAubrey(DistanceFieldType dft) {
+        return getFont(AUBREY, dft);
     }
 
     /**
@@ -794,6 +857,71 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getBitter(DistanceFieldType dft) {
         return getFont(BITTER, dft);
+    }
+    /**
+     * Returns a Font already configured to use a variable-width, thin, elegant handwriting font, that should scale
+     * pretty well from a height of about 160 down to a height of maybe 40. This font only covers ASCII and some (mostly
+     * Western European) other languages that use the Latin script. Caches the result for later calls.
+     * The font used is Bonheur Royale, an OFL typeface by
+     * <a href="https://github.com/googlefonts/bonheur-royale">The Bonheur Royale Project</a>.
+     * This font generally looks better if you use SDF or MSDF, especially at small font sizes. There's just too much
+     * resizing this has to do with STANDARD mode to look good unless displayed at a rather large size. You can use SDF
+     * with {@code KnownFonts.getFont(KnownFonts.BONHEUR_ROYALE, Font.DistanceFieldType.SDF)}, or MSDF by changing
+     * SDF to... MSDF. They should look similar in most cases.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.BONHEUR_ROYALE, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bonheur-Royale-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bonheur-Royale-standard.json.lzma">Bonheur-Royale-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bonheur-Royale-standard.png">Bonheur-Royale-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bonheur-Royale-License.txt">Bonheur-Royale-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Bonheur Royale
+     */
+    public static Font getBonheurRoyale() {
+        return getFont(BONHEUR_ROYALE, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, thin, elegant handwriting font.
+     * Uses the given distance field type.
+     * This font only covers ASCII and some (mostly Western European) other languages that use the Latin script. Caches
+     * the result for later calls. The font used is Bonheur Royale, an OFL typeface by
+     * <a href="https://github.com/googlefonts/bonheur-royale">The Bonheur Royale Project</a>.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bonheur-Royale-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bonheur-Royale-standard.json.lzma">Bonheur-Royale-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bonheur-Royale-standard.png">Bonheur-Royale-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bonheur-Royale-License.txt">Bonheur-Royale-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bonheur-Royale-sdf.json.lzma">Bonheur-Royale-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bonheur-Royale-sdf.png">Bonheur-Royale-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bonheur-Royale-License.txt">Bonheur-Royale-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bonheur-Royale-msdf.json.lzma">Bonheur-Royale-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bonheur-Royale-msdf.png">Bonheur-Royale-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Bonheur-Royale-License.txt">Bonheur-Royale-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Bonheur Royale using the given DistanceFieldType
+     */
+    public static Font getBonheurRoyale(DistanceFieldType dft) {
+        return getFont(BONHEUR_ROYALE, dft);
     }
 
     /**
