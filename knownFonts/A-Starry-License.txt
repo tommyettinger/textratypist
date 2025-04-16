@@ -6,3 +6,5 @@ licensed under a Creative Commons Attribution Share Alike license
 (low-res)” (https://fontstruct.com/fontstructions/show/464053) by Damien
 Guard, which is licensed under a Creative Commons Attribution Share Alike
 license (http://creativecommons.org/licenses/by-sa/3.0/).
+
+The terms of this license require attribution to Damien Guard and Tommy Ettinger (who used the pen name Elementalist).

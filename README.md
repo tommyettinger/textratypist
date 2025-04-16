@@ -266,33 +266,33 @@ That list can sometimes be outdated, and the latest fonts (that currently use th
 [can be previewed here for SDF fonts](https://tommyettinger.github.io/textratypist/index.html),
 [here for standard fonts](https://tommyettinger.github.io/textratypist/standard.html), or
 [here for MSDF fonts](https://tommyettinger.github.io/textratypist/msdf.html).
-Having KnownFonts isn't necessary for many fonts since version 1.0.0, because the `.dat` fonts are now made all by the
-same tool ([fontwriter](https://github.com/tommyettinger/fontwriter)), and tend to be configured correctly
+Having KnownFonts isn't necessary for many fonts since version 1.0.0, because the `.json.lzma` fonts are now made all by
+the same tool ([fontwriter](https://github.com/tommyettinger/fontwriter)), and tend to be configured correctly
 out-of-the-box. The variety of font types isn't amazing, but it should be a good starting point. One nice thing to note
 is the`KnownFonts.getStandardFamily()` method, which requires having 16 fonts in your assets, but naturally lets you
 switch between any of those 16 fonts using the `[@Medieval]` syntax (where Medieval is one of the names it knows, in
 this case for "KingThings Foundation").
 
-The fonts here use the .dat file extension (which just means it's binary data with no particular file format). They are
-compressed versions of larger .json fonts produced by fontwriter. The compression they use is GWT-compatible, so these
-.dat files can be used on any platform libGDX targets. You can still use the older .fnt files without issue, and some
-.fnt files are still used here (mostly for pixel fonts). You also generally need a .png with each font, though it can be
-in an atlas. In version 2.0.0 onward, more types of compression for font files are available, and these almost always produce
-smaller files than the .dat files from the 1.x.x series of releases. In particular, `.json.lzma` is recommended and will
-probably be the default going forward, but also newly working are `.ubj`, `.ubj.lzma`, and `.json`. `.dat` still works.
-While `.ubj.lzma` files are slightly smaller, they don't work on GWT in libGDX 1.13.1 (and neither to .ubj files). The
-`.json.lzma` files have the additional advantage that you can extract a valid, human-readable `.json` file from any
-`.json.lzma` file using a compatible tool such as [7-Zip](https://www.7-zip.org).
+The fonts here use the .json.lzma file extension (which are human-readable .json files inside LZMA compression). They
+are compressed versions of larger .json fonts produced by fontwriter. The compression they use is GWT-compatible, so
+these .json.lzma files can be used on any platform libGDX targets. You can still use the older .fnt files without issue,
+and some .fnt files are still used here (mostly for pixel fonts). You also generally need a .png with each font, though
+it can be in an atlas. In version 2.0.0 onward, more types of compression for font files are available, and these almost
+always produce smaller files than the .dat files from the 1.x.x series of releases. In particular, `.json.lzma` is
+recommended and is the default going forward, but also newly working are `.ubj`, `.ubj.lzma`, and `.json`. `.dat` still
+works. While `.ubj.lzma` files are slightly smaller, they don't work on GWT in libGDX 1.13.1 (and neither do .ubj
+files). The`.json.lzma` files have the additional advantage that you can extract a valid, human-readable `.json` file
+from any `.json.lzma` file using a compatible tool such as [7-Zip](https://www.7-zip.org).
 
-These .dat fonts (and other compressed modes) can be used to load regular BitmapFont objects too, if you aren't using
-TextraTypist (such as for TextArea and TextField, which have proven quite challenging to get working...).
-[You can use these 3 files to load .dat or other Structured JSON fonts in a non-TextraTypist project](https://github.com/tommyettinger/textratypist/tree/main/src/test/java/com/github/tommyettinger/fontwriter);
+These .json.lzma fonts (and other compressed modes) can be used to load regular BitmapFont objects too, if you aren't
+using TextraTypist (such as for TextArea and TextField, which have proven quite challenging to get working...).
+[You can use these 3 files to load .json.lzma or other Structured JSON fonts in a non-TextraTypist project](https://github.com/tommyettinger/textratypist/tree/main/src/test/java/com/github/tommyettinger/fontwriter);
 you would normally just copy those three files in their package to your own project.
 
 The license files for each font are included in the same folder, in `knownFonts` here. All fonts provided here were
 checked to ensure their licenses permit commercial use without fees, and all do. Most require attribution; check the
 licenses for details. The needed files are listed in [KnownFonts documentation](https://tommyettinger.github.io/textratypist/apidocs/com/github/tommyettinger/textra/KnownFonts.html)
-and, for .dat fonts, [in the fontwriter previews](https://tommyettinger.github.io/fontwriter/).
+and, for .json.lzma fonts, [in the fontwriter previews](https://tommyettinger.github.io/fontwriter/).
 
 KnownFonts includes several other ways to configure existing Font instances by adding a TextureAtlas to the glyphs they
 know. This includes a few existing TextureAtlases of icons and... emoji!
@@ -407,7 +407,8 @@ more easily, though, so using `FWSkin` where possible is a good idea.
 Why is it called `FWSkin`, you wonder? Well, it can load both Font and BitmapFont instances from `.fnt` files (needing
 skin configuration only for `BitmapFont`), and can do the same for Structured JSON fonts, which here are usually created
 by [fontwriter](https://github.com/tommyettinger/fontwriter), or FW. The initial purpose of `FWSkin` was just to load
-from .fnt and .json/.dat font files equally well, but its scope expanded to include the new styles.
+from .fnt and .json/.dat font files equally well, but its scope expanded to include the new styles, as well as the newer
+compressed JSON file types such as `.json.lzma`.
 
 If you're used to using [Stripe](https://github.com/raeleus/stripe), there's a drop-in replacement that does both what
 `FWSkin` does and the FreeType handling that Stripe does. This is the extra `FreeTypist` dependency, available in

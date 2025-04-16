@@ -106,6 +106,12 @@ public final class KnownFonts implements LifecycleListener {
 
     /** Base name for a fixed-width octagonal font with square dimensions. */
     public static final String A_STARRY = "A-Starry";
+    /** Base name for a variable-width serif font that supports the Ethiopic script. */
+    public static final String ABYSSINICA_SIL = "Abyssinica-SIL";
+    /** Base name for a variable-width font with slight serifs and bowed edges. */
+    public static final String ASUL = "Asul";
+    /** Base name for a variable-width font with odd, alien-like angles and curves. */
+    public static final String AUBREY = "Aubrey";
     /** Base name for a variable-width "sloppy" or "grungy" display font. */
     public static final String BIRDLAND_AEROPLANE = "Birdland-Aeroplane";
     /** Base name for a variable-width thin-weight serif font. */
