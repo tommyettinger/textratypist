@@ -858,6 +858,7 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getBitter(DistanceFieldType dft) {
         return getFont(BITTER, dft);
     }
+
     /**
      * Returns a Font already configured to use a variable-width, thin, elegant handwriting font, that should scale
      * pretty well from a height of about 160 down to a height of maybe 40. This font only covers ASCII and some (mostly
@@ -1396,6 +1397,69 @@ public final class KnownFonts implements LifecycleListener {
             instance.loaded.put(rootName, found);
         }
         return new Font(found);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, sturdy, slab-serif font, that should scale
+     * pretty well from a height of about 160 down to a height of maybe 20. This font covers ASCII and enough Latin
+     * script for most Western and Eastern European languages. Caches the result for later calls.
+     * The font used is Crete Round, an OFL typeface by
+     * <a href="https://www.type-together.com">TypeTogether</a>.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CRETE_ROUND, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Crete-Round-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Crete-Round-standard.json.lzma">Crete-Round-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Crete-Round-standard.png">Crete-Round-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Crete-Round-License.txt">Crete-Round-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Crete Round
+     */
+    public static Font getCreteRound() {
+        return getFont(CRETE_ROUND, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, sturdy, slab-serif font.
+     * Uses the given distance field type.
+     * This font covers ASCII and enough Latin
+     * script for most Western and Eastern European languages. Caches the result for later calls.
+     * The font used is Crete Round, an OFL typeface by
+     * <a href="https://www.type-together.com">TypeTogether</a>.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Crete-Round-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Crete-Round-standard.json.lzma">Crete-Round-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Crete-Round-standard.png">Crete-Round-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Crete-Round-License.txt">Crete-Round-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Crete-Round-sdf.json.lzma">Crete-Round-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Crete-Round-sdf.png">Crete-Round-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Crete-Round-License.txt">Crete-Round-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Crete-Round-msdf.json.lzma">Crete-Round-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Crete-Round-msdf.png">Crete-Round-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Crete-Round-License.txt">Crete-Round-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Crete Round using the given DistanceFieldType
+     */
+    public static Font getCreteRound(DistanceFieldType dft) {
+        return getFont(CRETE_ROUND, dft);
     }
 
     /**
@@ -2758,6 +2822,69 @@ public final class KnownFonts implements LifecycleListener {
             instance.loaded.put(rootName, found);
         }
         return new Font(found);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, heavy-weight, very tall, sans-serif font, that should
+     * scale pretty well from a height of about 160 down to a height of maybe 20. This font covers ASCII and enough
+     * Latin script for most Western and Eastern European languages. Caches the result for later calls.
+     * The font used is League Gothic, an OFL typeface by
+     * <a href="https://github.com/theleagueof/league-gothic">The League of Movable Type</a>.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.LEAGUE_GOTHIC, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/League-Gothic-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/League-Gothic-standard.json.lzma">League-Gothic-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/League-Gothic-standard.png">League-Gothic-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/League-Gothic-License.txt">League-Gothic-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font League Gothic
+     */
+    public static Font getLeagueGothic() {
+        return getFont(LEAGUE_GOTHIC, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, heavy-weight, very tall, sans-serif font.
+     * Uses the given distance field type.
+     * This font covers ASCII and enough
+     * Latin script for most Western and Eastern European languages. Caches the result for later calls.
+     * The font used is League Gothic, an OFL typeface by
+     * <a href="https://github.com/theleagueof/league-gothic">The League of Movable Type</a>.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/League-Gothic-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/League-Gothic-standard.json.lzma">League-Gothic-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/League-Gothic-standard.png">League-Gothic-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/League-Gothic-License.txt">League-Gothic-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/League-Gothic-sdf.json.lzma">League-Gothic-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/League-Gothic-sdf.png">League-Gothic-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/League-Gothic-License.txt">League-Gothic-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/League-Gothic-msdf.json.lzma">League-Gothic-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/League-Gothic-msdf.png">League-Gothic-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/League-Gothic-License.txt">League-Gothic-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font League Gothic using the given DistanceFieldType
+     */
+    public static Font getLeagueGothic(DistanceFieldType dft) {
+        return getFont(LEAGUE_GOTHIC, dft);
     }
 
     /**
