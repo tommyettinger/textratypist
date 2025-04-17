@@ -99,23 +99,23 @@ public class PreviewGenerator extends ApplicationAdapter {
         Font[] all = new Font[jsonFiles.length * 4 + 4 + 7];
         int idx = 0;
         for (int i = 0; i < jsonFiles.length; i++) {
-            all[idx++] = KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).useIntegerPositions(false);
-            all[idx++] = KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.MSDF).scaleHeightTo(32f).useIntegerPositions(false);
-            all[idx++] = KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.SDF).scaleHeightTo(32f).useIntegerPositions(false);
-            all[idx++] = KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).useIntegerPositions(false);
+            all[idx++] = KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).useIntegerPositions(false).setName(jsonFiles[i] + Font.DistanceFieldType.STANDARD.filePart);
+            all[idx++] = KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.MSDF).scaleHeightTo(32f).useIntegerPositions(false).setName(jsonFiles[i] + Font.DistanceFieldType.MSDF.filePart);
+            all[idx++] = KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.SDF).scaleHeightTo(32f).useIntegerPositions(false).setName(jsonFiles[i] + Font.DistanceFieldType.SDF.filePart);
+            all[idx++] = KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).useIntegerPositions(false).setName(jsonFiles[i] + "-sdf-outline");
         }
-        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).useIntegerPositions(false);
-        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).useIntegerPositions(false);
-        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF).scaleHeightTo(32f).useIntegerPositions(false);
-        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).useIntegerPositions(false);
+        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).useIntegerPositions(false).setName("A-Starry-Tall" + Font.DistanceFieldType.STANDARD.filePart);
+        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).useIntegerPositions(false).setName("A-Starry-Tall" + Font.DistanceFieldType.MSDF.filePart);
+        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF).scaleHeightTo(32f).useIntegerPositions(false).setName("A-Starry-Tall" + Font.DistanceFieldType.SDF.filePart);
+        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).useIntegerPositions(false).setName("A-Starry-Tall" + "-sdf-outline");
 
-        all[idx++] = KnownFonts.getCordata16x26();
-        all[idx++] = KnownFonts.getIBM8x16();
-        all[idx++] = KnownFonts.getCozette();
-        all[idx++] = KnownFonts.getHanazono();
-        all[idx++] = KnownFonts.getIBM8x16Sad();
-        all[idx++] = KnownFonts.getLanaPixel();
-        all[idx++] = KnownFonts.getQuanPixel();
+        all[idx++] = KnownFonts.getCordata16x26().setName(KnownFonts.CORDATA_16X26 + "-standard");
+        all[idx++] = KnownFonts.getIBM8x16().setName(KnownFonts.IBM_8X16 + "-standard");
+        all[idx++] = KnownFonts.getCozette().setName(KnownFonts.COZETTE + "-standard");
+        all[idx++] = KnownFonts.getHanazono().setName(KnownFonts.HANAZONO + "-standard");
+        all[idx++] = KnownFonts.getIBM8x16Sad().setName(KnownFonts.IBM_8X16_SAD + "-standard");
+        all[idx++] = KnownFonts.getLanaPixel().setName(KnownFonts.LANAPIXEL + "-standard");
+        all[idx++] = KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard");
         // DEBUG
 //        Font[] all = new Font[]{KnownFonts.getQuanPixel()};
 
