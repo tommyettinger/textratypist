@@ -421,7 +421,7 @@ public final class KnownFonts implements LifecycleListener {
      * available under a CC-BY-SA-3.0 license, which requires attribution to Damien Guard (and technically Tommy
      * Ettinger, because he made changes in a-starry) if you use it.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/A-Starry-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -512,7 +512,7 @@ public final class KnownFonts implements LifecycleListener {
      * far to the left and right as they will up and down. The {@code [%?blacken]} mode should still outline this
      * correctly with an approximately 1-pixel black outline.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A-Starry-Tall-msdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A-Starry-Tall-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -831,7 +831,7 @@ public final class KnownFonts implements LifecycleListener {
      * or squashed so height is slightly smaller. Bitter looks very similar to {@link #getGentium()}, except that Bitter
      * is quite a bit lighter, with thinner strokes and stylistic flourishes on some glyphs.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bitter-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Bitter-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -961,7 +961,7 @@ public final class KnownFonts implements LifecycleListener {
      * many dingbats, and more. This font can look good at its natural size, which uses width roughly equal to height,
      * or narrowed down so width is smaller.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Canada1500-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Canada1500-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1023,7 +1023,7 @@ public final class KnownFonts implements LifecycleListener {
      * License) typeface by Microsoft (see <a href="https://github.com/microsoft/cascadia-code">Microsoft's page</a>).
      * It supports a lot of glyphs, including most extended Latin, Greek, Braille, and Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cascadia-Mono-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1111,7 +1111,7 @@ public final class KnownFonts implements LifecycleListener {
      * sort of natural handwriting, as opposed to the formal script in {@link #getTangerine()}.
      * Caches the result for later calls. The font used is Caveat, a free (OFL) typeface designed by Pablo Impallari.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Caveat-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Caveat-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1171,7 +1171,7 @@ public final class KnownFonts implements LifecycleListener {
      * support for extended Latin Uses the given distance field type.
      * Caches the result for later calls. The font used is Changa One, a free (OFL) typeface designed by Eduardo Tunni.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Changa-One-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Changa-One-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1232,7 +1232,7 @@ public final class KnownFonts implements LifecycleListener {
      * by Thai Pangsakulyanont (see <a href="https://dtinth.github.io/comic-mono-font/">the GitHub Page</a>).
      * It supports only ASCII.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Comic-Mono-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Comic-Mono-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1293,7 +1293,7 @@ public final class KnownFonts implements LifecycleListener {
      * It supports Latin (including a very large span of extended Latin), Greek, and Cyrillic, Cherokee, Armenian, IPA
      * symbols (and probably more phonetic symbols), Runic, etc.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Computer-Says-No-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Computer-Says-No-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1495,7 +1495,7 @@ public final class KnownFonts implements LifecycleListener {
      * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
      * real languages.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1556,7 +1556,7 @@ public final class KnownFonts implements LifecycleListener {
      * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
      * real languages.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Condensed-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Condensed-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1636,7 +1636,7 @@ public final class KnownFonts implements LifecycleListener {
      * {@code KnownFonts.getDejaVuSansMono(Font.DistanceFieldType.MSDF).setCrispness(0.5f)} if you want significantly
      * smoother edges.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Mono-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Sans-Mono-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1696,7 +1696,7 @@ public final class KnownFonts implements LifecycleListener {
      * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
      * real languages.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1757,7 +1757,7 @@ public final class KnownFonts implements LifecycleListener {
      * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
      * real languages.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-Condensed-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DejaVu-Serif-Condensed-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1878,6 +1878,8 @@ public final class KnownFonts implements LifecycleListener {
      * including quite a bit of extended Latin, Greek, and Cyrillic, as well as some less-common glyphs from various
      * real languages.
      * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
      * Needs files:
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Gentium-standard.json.lzma">Gentium-standard.json.lzma</a></li>
@@ -1956,7 +1958,7 @@ public final class KnownFonts implements LifecycleListener {
      * Thanks to Siavash Ranbar, who came up with the idea to take an italic version of a serif font and remove its
      * slant, keeping the different flow from a simple oblique font.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-Un-Italic-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Gentium-Un-Italic-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2016,7 +2018,7 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Glacial Indifference, an open-source (SIL Open Font License)
      * typeface.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Glacial-Indifference-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Glacial-Indifference-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2119,7 +2121,7 @@ public final class KnownFonts implements LifecycleListener {
      * the file isn't too large; in fact, the 2048x2048 textures Gentium-msdf.png and Twemoji.png are each larger than
      * Go-Noto-Universal-standard.png . The .json.lzma has 21274 glyphs plus extensive kerning info, though, so it is large.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Go-Noto-Universal-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2176,7 +2178,7 @@ public final class KnownFonts implements LifecycleListener {
      * Uses the given distance field type. Caches the result for later calls. The font used is Grenze, a free
      * (OFL) typeface designed by the Manuale Project.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Grenze-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Grenze-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2381,7 +2383,7 @@ public final class KnownFonts implements LifecycleListener {
      * Uses the given distance field type. The original font
      * Inconsolata is by Raph Levien, and various other contributors added support for other languages.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Inconsolata-LGC-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2501,7 +2503,7 @@ public final class KnownFonts implements LifecycleListener {
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
      * Greek, and Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2600,7 +2602,7 @@ public final class KnownFonts implements LifecycleListener {
      * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.IOSEVKA_SLAB, Font.DistanceFieldType.SDF)};
      * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-msdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2623,7 +2625,7 @@ public final class KnownFonts implements LifecycleListener {
      * thanks to Iosevka's special build process. It supports a lot of glyphs, including quite a bit of extended Latin,
      * Greek, and Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Slab-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2689,7 +2691,7 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #getKingthingsPetrock() Kingthings Petrock}; where Petrock is less-ornamented, Foundation is heavily
      * ornamented, and Foundation may make sense for text associated with writers of high social status.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Foundation-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Foundation-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2755,7 +2757,7 @@ public final class KnownFonts implements LifecycleListener {
      * {@link #getKingthingsFoundation() Kingthings Foundation}, but Petrock isn't as heavily-ornamented, and looks more
      * like "every-day usable" medieval or maybe Renaissance text.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Petrock-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Kingthings-Petrock-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2919,7 +2921,7 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Libertinus Serif, an open-source (SIL Open Font
      * License) typeface. It supports a lot of glyphs, including quite a bit of extended Latin, Greek, and Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2979,7 +2981,7 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Libertinus Serif Semibold, an open-source (SIL Open Font
      * License) typeface. It supports a lot of glyphs, including quite a bit of extended Latin, Greek, and Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-Semibold-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Libertinus-Serif-Semibold-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -3109,7 +3111,7 @@ public final class KnownFonts implements LifecycleListener {
      * typeface. It has good glyph coverage for most European languages, but doesn't fully support Greek or
      * Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Moon-Dance-standard.png" dance="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Moon-Dance-sdf.png" dance="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -3288,7 +3290,7 @@ public final class KnownFonts implements LifecycleListener {
      * does not support Greek, Cyrillic, or other scripts. This makes an especially large font by default, but can be
      * scaled down nicely.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Open-Sans-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Open-Sans-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -3342,7 +3344,7 @@ public final class KnownFonts implements LifecycleListener {
      * Returns a Font configured to use an ALL-CAPS, variable-width, tall, very-heavy-weight sans-serif font, Ostrich
      * Black, using the given distance field type. It is OFL-licensed and was made by Tyler Fink.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ostrich-Black-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ostrich-Black-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -3402,7 +3404,7 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Overlock, a free (OFL) typeface by Dario Manuel Muhafara.
      * It supports a little more than ASCII and Latin-1, but not much Greek and no Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -3475,7 +3477,7 @@ public final class KnownFonts implements LifecycleListener {
      * Thanks to Siavash Ranbar, who came up with the idea to take an italic version of a font and remove its
      * slant, keeping the different flow from a simple oblique font.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-Un-Italic-msdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Overlock-Un-Italic-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -3535,7 +3537,7 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Oxanium, a free (OFL) typeface. It supports a lot of Latin
      * and extended Latin, but not Greek or Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Oxanium-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Oxanium-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -3626,6 +3628,68 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font already configured to use a variable-width brush-stroke font with a paint-like texture, that
+     * should scale pretty well from a height of about 100 down to a height of maybe 25. This font only covers ASCII and
+     * some other languages that use the Latin script. Caches the result for later calls.
+     * The font used is Protest Revolution, an OFL typeface by
+     * <a href="https://github.com/octaviopardo/Protest">The Protest Project</a>.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.PROTEST_REVOLUTION, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Protest-Revolution-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Protest-Revolution-standard.json.lzma">Protest-Revolution-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Protest-Revolution-standard.png">Protest-Revolution-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Protest-Revolution-License.txt">Protest-Revolution-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Protest Revolution
+     */
+    public static Font getProtestRevolution() {
+        return getFont(PROTEST_REVOLUTION, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width brush-stroke font with a paint-like texture.
+     * Uses the given distance field type. This font only covers ASCII and
+     * some other languages that use the Latin script. Caches the result for later calls.
+     * The font used is Protest Revolution, an OFL typeface by
+     * <a href="https://github.com/octaviopardo/Protest">The Protest Project</a>.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Protest-Revolution-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Protest-Revolution-standard.json.lzma">Protest-Revolution-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Protest-Revolution-standard.png">Protest-Revolution-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Protest-Revolution-License.txt">Protest-Revolution-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Protest-Revolution-sdf.json.lzma">Protest-Revolution-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Protest-Revolution-sdf.png">Protest-Revolution-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Protest-Revolution-License.txt">Protest-Revolution-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Protest-Revolution-msdf.json.lzma">Protest-Revolution-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Protest-Revolution-msdf.png">Protest-Revolution-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Protest-Revolution-License.txt">Protest-Revolution-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Protest Revolution using the given DistanceFieldType
+     */
+    public static Font getProtestRevolution(DistanceFieldType dft) {
+        return getFont(PROTEST_REVOLUTION, dft);
+    }
+
+    /**
      * Returns a Font configured to use a small variable-width bitmap font with extensive coverage of Asian scripts,
      * <a href="https://diaowinner.itch.io/galmuri-extended">QuanPixel</a>. QuanPixel has good coverage of Unicode,
      * including all of Greek, at least most of Cyrillic, a good amount of extended Latin, all of Katakana and Hiragana,
@@ -3698,7 +3762,7 @@ public final class KnownFonts implements LifecycleListener {
      * Robertson. It supports Latin-based scripts almost entirely, plus Greek, (extended) Cyrillic, and more.
      * This font is meant to be condensed in its natural appearance, but can be scaled to be wider if desired.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Roboto-Condensed-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Roboto-Condensed-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -3724,6 +3788,64 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getRobotoCondensed(DistanceFieldType dft) {
         return getFont(ROBOTO_CONDENSED, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width "Wild West" display font, that should
+     * scale pretty well down, but not up.
+     * Caches the result for later calls. The font used is Sancreek, a free (OFL) typeface by vernon adams.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.SANCREEK, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Sancreek-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sancreek-standard.json.lzma">Sancreek-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sancreek-standard.png">Sancreek-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sancreek-License.txt">Sancreek-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Sancreek
+     */
+    public static Font getSancreek() {
+        return getFont(SANCREEK, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width "Wild West" display font.
+     * Uses the given distance field type.
+     * Caches the result for later calls. The font used is Sancreek, a free (OFL) typeface by vernon adams.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Sancreek-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sancreek-standard.json.lzma">Sancreek-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sancreek-standard.png">Sancreek-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sancreek-License.txt">Sancreek-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sancreek-msdf.json.lzma">Sancreek-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sancreek-msdf.png">Sancreek-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sancreek-License.txt">Sancreek-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sancreek-sdf.json.lzma">Sancreek-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sancreek-sdf.png">Sancreek-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sancreek-License.txt">Sancreek-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Sancreek using the given DistanceFieldType
+     */
+    public static Font getSancreek(DistanceFieldType dft) {
+        return getFont(SANCREEK, dft);
     }
     
     /**
@@ -3756,7 +3878,7 @@ public final class KnownFonts implements LifecycleListener {
      * using the given distance field type. This font is metric-compatible with Segoe UI.
      * Caches the result for later calls. The font used is Selawik, a free (OFL) typeface released by Microsoft.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -3783,6 +3905,7 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getSelawik(DistanceFieldType dft) {
         return getFont(SELAWIK, dft);
     }
+    
     /**
      * Returns a Font already configured to use a variable-width humanist bold sans-serif font, that should
      * scale pretty well down, but not up. This font is metric-compatible with Segoe UI.
@@ -3813,7 +3936,7 @@ public final class KnownFonts implements LifecycleListener {
      * using the given distance field type. This font is metric-compatible with Segoe UI.
      * Caches the result for later calls. The font used is Selawik Bold, a free (OFL) typeface released by Microsoft.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-Bold-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Selawik-Bold-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -3900,7 +4023,7 @@ public final class KnownFonts implements LifecycleListener {
      * with a little support for Western European languages, but not really anything else. It looks elegant, though.
      * Using MSDF is currently recommended.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-msdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tangerine-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -3985,7 +4108,7 @@ public final class KnownFonts implements LifecycleListener {
      * Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
      * of Latin, Cyrillic, and some extended Latin, but not Greek.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yanone-Kaffeesatz-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -4076,7 +4199,7 @@ public final class KnownFonts implements LifecycleListener {
      * I don't know who the original author of Yataghan was; if you are the original author and want attribution or want
      * this font removed, please post an issue on the tommyettinger/textratypist GitHub repo, or email tommyettinger.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yataghan-msdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Yataghan-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
