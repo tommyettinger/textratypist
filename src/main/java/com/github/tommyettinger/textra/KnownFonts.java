@@ -4177,6 +4177,70 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font already configured to use a variable-width, bowed-edge, slight-serif font that supports the
+     * Devanagari script in addition to Latin, that should scale
+     * pretty well from a height of about 160 down to a height of maybe 16.
+     * This font covers extended Latin as well as Devanagari, the script used by Hindi and Sanskrit among many others.
+     * Caches the result for later calls.
+     * The font used is Tillana, an OFL-licensed typeface by Indian Type Foundry.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.TILLANA, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tillana-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tillana-standard.json.lzma">Tillana-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tillana-standard.png">Tillana-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tillana-License.txt">Tillana-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Tillana
+     */
+    public static Font getTillana() {
+        return getFont(TILLANA, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, bowed-edge, slight-serif font that supports the
+     * Devanagari script in addition to Latin.
+     * Uses the given distance field type.
+     * This font covers extended Latin as well as Devanagari, the script used by Hindi and Sanskrit among many others.
+     * Caches the result for later calls.
+     * The font used is Tillana, an OFL-licensed typeface by Indian Type Foundry.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Tillana-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tillana-standard.json.lzma">Tillana-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tillana-standard.png">Tillana-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tillana-License.txt">Tillana-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tillana-sdf.json.lzma">Tillana-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tillana-sdf.png">Tillana-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tillana-License.txt">Tillana-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tillana-msdf.json.lzma">Tillana-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tillana-msdf.png">Tillana-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Tillana-License.txt">Tillana-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Tillana using the given DistanceFieldType
+     */
+    public static Font getTillana(DistanceFieldType dft) {
+        return getFont(TILLANA, dft);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width, narrow, humanist font, that should
      * scale pretty well down, but not up.
      * Caches the result for later calls. The font used is Yanone Kaffeesatz, a free (OFL) typeface. It supports a lot
