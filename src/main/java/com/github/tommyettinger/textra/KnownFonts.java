@@ -2946,8 +2946,7 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getLibertinusSerif(DistanceFieldType dft) {
         return getFont(LIBERTINUS_SERIF, dft);
     }
-
-
+    
     /**
      * Returns a Font already configured to use a variable-width heavy-weight serif font with good Unicode support, that
      * should scale cleanly to fairly large sizes or down to about 20 pixels.
@@ -3006,6 +3005,136 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getLibertinusSerifSemibold(DistanceFieldType dft) {
         return getFont(LIBERTINUS_SERIF_SEMIBOLD, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width brush-stroke font with excellent CJK glyph support,
+     * that should scale cleanly to fairly large sizes or down to about 20 pixels.
+     * Caches the result for later calls. The font used is
+     * <a href="https://github.com/googlefonts/mashanzheng">Ma Shan Zheng</a>, an open-source (SIL Open Font
+     * License) typeface. It supports an absolutely tremendous 7015 glyphs, all detailed-looking and most CJK glyphs,
+     * to support the Chinese, Japanese, and Korean languages.
+     * This uses an unusually-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
+     * well. This may work well in a font family with other fonts that do not use a distance field effect.
+     * Note, the .png for this Font is 4096x4096 instead of the 2048x2048 image most other Fonts use.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.MA_SHAN_ZHENG, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ma-Shan-Zheng-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-standard.json.lzma">Ma-Shan-Zheng-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-standard.png">Ma-Shan-Zheng-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-License.txt">Ma-Shan-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Ma Shan Zheng
+     */
+    public static Font getMaShanZheng() {
+        return getFont(MA_SHAN_ZHENG, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width brush-stroke font with excellent CJK glyph support.
+     * Uses the given distance field type.
+     * Caches the result for later calls. The font used is
+     * <a href="https://github.com/googlefonts/mashanzheng">Ma Shan Zheng</a>, an open-source (SIL Open Font
+     * License) typeface. It supports an absolutely tremendous 7015 glyphs, all detailed-looking and most CJK glyphs,
+     * to support the Chinese, Japanese, and Korean languages.
+     * This uses an unusually-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
+     * well. This may work well in a font family with other fonts that do not use a distance field effect.
+     * Note, the .png for this Font is 4096x4096 instead of the 2048x2048 image most other Fonts use.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ma-Shan-Zheng-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-standard.json.lzma">Ma-Shan-Zheng-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-standard.png">Ma-Shan-Zheng-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-License.txt">Ma-Shan-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-msdf.json.lzma">Ma-Shan-Zheng-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-msdf.png">Ma-Shan-Zheng-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-License.txt">Ma-Shan-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-sdf.json.lzma">Ma-Shan-Zheng-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-sdf.png">Ma-Shan-Zheng-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-License.txt">Ma-Shan-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Ma Shan Zheng using the given DistanceFieldType
+     */
+    public static Font getMaShanZheng(DistanceFieldType dft) {
+        return getFont(MA_SHAN_ZHENG, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, sweeping, legible handwriting font, that should
+     * scale cleanly to fairly large sizes or down to about 25 pixels.
+     * Caches the result for later calls. The font used is
+     * <a href="https://github.com/googlefonts/moondance">Moon Dance</a>, an open-source (SIL Open Font License)
+     * typeface. It has good glyph coverage for most European languages, but doesn't fully support Greek or
+     * Cyrillic. This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
+     * well. This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.MOON_DANCE, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Moon-Dance-standard.png" dance="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Moon-Dance-standard.json.lzma">Moon-Dance-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Moon-Dance-standard.png">Moon-Dance-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Moon-Dance-License.txt">Moon-Dance-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Moon Dance
+     */
+    public static Font getMoonDance() {
+        return getFont(MOON_DANCE, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, sweeping, legible handwriting font.
+     * Uses the given distance field type.
+     * <a href="https://github.com/googlefonts/moondance">Moon Dance</a>, an open-source (SIL Open Font License)
+     * typeface. It has good glyph coverage for most European languages, but doesn't fully support Greek or
+     * Cyrillic.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Moon-Dance-standard.png" dance="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Moon-Dance-standard.json.lzma">Moon-Dance-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Moon-Dance-standard.png">Moon-Dance-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Moon-Dance-License.txt">Moon-Dance-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Moon-Dance-msdf.json.lzma">Moon-Dance-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Moon-Dance-msdf.png">Moon-Dance-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Moon-Dance-License.txt">Moon-Dance-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Moon-Dance-sdf.json.lzma">Moon-Dance-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Moon-Dance-sdf.png">Moon-Dance-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Moon-Dance-License.txt">Moon-Dance-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Moon Dance using the given DistanceFieldType
+     */
+    public static Font getMoonDance(DistanceFieldType dft) {
+        return getFont(MOON_DANCE, dft);
     }
 
     /**
