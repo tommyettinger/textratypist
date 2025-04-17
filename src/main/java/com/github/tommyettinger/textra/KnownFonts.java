@@ -3965,6 +3965,132 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font already configured to use a variable-width child-like "blobby" font, that
+     * should scale pretty well from a height of about 100 down to a height of maybe 16.
+     * This font covers ASCII and a good amount of Latin used by European languages.
+     * Caches the result for later calls.
+     * The font used is Sour Gummy, an OFL typeface by
+     * <a href="https://github.com/eifetx/Sour-Gummy-Fonts">The Sour Gummy Project</a>.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.SOUR_GUMMY, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Sour-Gummy-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sour-Gummy-standard.json.lzma">Sour-Gummy-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sour-Gummy-standard.png">Sour-Gummy-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sour-Gummy-License.txt">Sour-Gummy-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Sour Gummy
+     */
+    public static Font getSourGummy() {
+        return getFont(SOUR_GUMMY, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width child-like "blobby" font.
+     * Uses the given distance field type.
+     * This font covers ASCII and a good amount of Latin used by European languages.
+     * Caches the result for later calls.
+     * The font used is Sour Gummy, an OFL typeface by
+     * <a href="https://github.com/eifetx/Sour-Gummy-Fonts">The Sour Gummy Project</a>.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Sour-Gummy-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sour-Gummy-standard.json.lzma">Sour-Gummy-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sour-Gummy-standard.png">Sour-Gummy-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sour-Gummy-License.txt">Sour-Gummy-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sour-Gummy-sdf.json.lzma">Sour-Gummy-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sour-Gummy-sdf.png">Sour-Gummy-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sour-Gummy-License.txt">Sour-Gummy-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sour-Gummy-msdf.json.lzma">Sour-Gummy-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sour-Gummy-msdf.png">Sour-Gummy-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Sour-Gummy-License.txt">Sour-Gummy-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Sour Gummy using the given DistanceFieldType
+     */
+    public static Font getSourGummy(DistanceFieldType dft) {
+        return getFont(SOUR_GUMMY, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a fixed-width distressed "hard-boiled" typewriter font, that
+     * should scale pretty well from a height of about 100 down to a height of maybe 16.
+     * This font covers ASCII and a good amount of Latin used by European languages.
+     * Caches the result for later calls.
+     * The font used is Special Elite, an Apache-2.0-licensed typeface.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.SPECIAL_ELITE, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Special-Elite-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Special-Elite-standard.json.lzma">Special-Elite-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Special-Elite-standard.png">Special-Elite-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Special-Elite-License.txt">Special-Elite-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Special Elite
+     */
+    public static Font getSpecialElite() {
+        return getFont(SPECIAL_ELITE, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a fixed-width distressed "hard-boiled" typewriter font.
+     * Uses the given distance field type.
+     * This font covers ASCII and a good amount of Latin used by European languages.
+     * Caches the result for later calls.
+     * The font used is Special Elite, an Apache-2.0-licensed typeface.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Special-Elite-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Special-Elite-standard.json.lzma">Special-Elite-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Special-Elite-standard.png">Special-Elite-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Special-Elite-License.txt">Special-Elite-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Special-Elite-sdf.json.lzma">Special-Elite-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Special-Elite-sdf.png">Special-Elite-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Special-Elite-License.txt">Special-Elite-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Special-Elite-msdf.json.lzma">Special-Elite-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Special-Elite-msdf.png">Special-Elite-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Special-Elite-License.txt">Special-Elite-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Special Elite using the given DistanceFieldType
+     */
+    public static Font getSpecialElite(DistanceFieldType dft) {
+        return getFont(SPECIAL_ELITE, dft);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width script font, that should
      * scale pretty well down, but not up.
      * Caches the result for later calls. The font used is Tangerine, a free (OFL) typeface. It supports Latin only,
