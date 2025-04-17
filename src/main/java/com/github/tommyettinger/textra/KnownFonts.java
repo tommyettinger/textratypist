@@ -179,7 +179,7 @@ public final class KnownFonts implements LifecycleListener {
     /** Base name for a variable-width, sweeping, legible handwriting font. */
     public static final String MOON_DANCE = "Moon-Dance";
     /** Base name for a variable-width, legible, modern-style Fraktur font. */
-    public static final String NUGOTHUC = "Nugothic";
+    public static final String NUGOTHIC = "Nugothic";
     /** Base name for a variable-width sans font. */
     public static final String OPEN_SANS = "Open-Sans";
     /** Base name for a variable-width all-caps geometric sans font. */
@@ -234,7 +234,7 @@ public final class KnownFonts implements LifecycleListener {
             DEJAVU_SANS, DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF, GENTIUM, GENTIUM_UN_ITALIC,
             GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE, INCONSOLATA_LGC, IOSEVKA,
             IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
-            LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MOON_DANCE, NOW_ALT, NUGOTHUC, OPEN_SANS,
+            LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MOON_DANCE, NOW_ALT, NUGOTHIC, OPEN_SANS,
             OSTRICH_BLACK, OVERLOCK, OVERLOCK_UN_ITALIC, OXANIUM, PANGOLIN, PROTEST_REVOLUTION,
             ROBOTO_CONDENSED, SANCREEK, SELAWIK, SELAWIK_BOLD, SOUR_GUMMY, SPECIAL_ELITE, TANGERINE,
             TILLANA, YANONE_KAFFEESATZ, YATAGHAN);
@@ -3170,7 +3170,7 @@ public final class KnownFonts implements LifecycleListener {
      * Hanken Design Co. It has decent glyph coverage for most European languages, but doesn't fully support Greek or
      * Cyrillic.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Now-Alt-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Now-Alt-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -3196,6 +3196,66 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getNowAlt(DistanceFieldType dft) {
         return getFont(NOW_ALT, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, legible, modern-style Fraktur font, that should
+     * scale pretty well down, but not up.
+     * Caches the result for later calls. The font used is Nugothic, a free (CC-BY-ND) typeface by Axel Leyer.
+     * It supports a little more than ASCII and Latin-1, but no Greek or Cyrillic.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.NUGOTHIC, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Nugothic-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nugothic-standard.json.lzma">Nugothic-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nugothic-standard.png">Nugothic-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nugothic-License.txt">Nugothic-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Nugothic
+     */
+    public static Font getNugothic() {
+        return getFont(NUGOTHIC, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, legible, modern-style Fraktur font.
+     * Uses the given distance field type.
+     * Caches the result for later calls. The font used is Nugothic, a free (CC-BY-ND) typeface by Axel Leyer.
+     * It supports a little more than ASCII and Latin-1, but no Greek or Cyrillic.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Nugothic-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nugothic-standard.json.lzma">Nugothic-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nugothic-standard.png">Nugothic-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nugothic-License.txt">Nugothic-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nugothic-msdf.json.lzma">Nugothic-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nugothic-msdf.png">Nugothic-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nugothic-License.txt">Nugothic-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nugothic-sdf.json.lzma">Nugothic-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nugothic-sdf.png">Nugothic-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nugothic-License.txt">Nugothic-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Nugothic using the given DistanceFieldType
+     */
+    public static Font getNugothic(DistanceFieldType dft) {
+        return getFont(NUGOTHIC, dft);
     }
 
     /**
@@ -3501,6 +3561,68 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getOxanium(DistanceFieldType dft) {
         return getFont(OXANIUM, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width "crayon writing" font, that should
+     * scale pretty well down, but not up.
+     * Caches the result for later calls. The font used is
+     * <a href="https://github.com/googlefonts/pangolin">Pangolin</a>, a free (OFL) typeface. It supports a lot of Latin
+     * and Cyrillic, plus some extended Latin and Greek.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.PANGOLIN, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Pangolin-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Pangolin-standard.json.lzma">Pangolin-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Pangolin-standard.png">Pangolin-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Pangolin-License.txt">Pangolin-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Pangolin
+     */
+    public static Font getPangolin() {
+        return getFont(PANGOLIN, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width "crayon writing" font.
+     * Uses the given distance field type.
+     * Caches the result for later calls. The font used is
+     * <a href="https://github.com/googlefonts/pangolin">Pangolin</a>, a free (OFL) typeface. It supports a lot of Latin
+     * and Cyrillic, plus some extended Latin and Greek.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Pangolin-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Pangolin-standard.json.lzma">Pangolin-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Pangolin-standard.png">Pangolin-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Pangolin-License.txt">Pangolin-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Pangolin-msdf.json.lzma">Pangolin-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Pangolin-msdf.png">Pangolin-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Pangolin-License.txt">Pangolin-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Pangolin-sdf.json.lzma">Pangolin-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Pangolin-sdf.png">Pangolin-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Pangolin-License.txt">Pangolin-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Pangolin using the given DistanceFieldType
+     */
+    public static Font getPangolin(DistanceFieldType dft) {
+        return getFont(PANGOLIN, dft);
     }
 
     /**
