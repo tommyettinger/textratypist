@@ -4415,11 +4415,18 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
-     * Horribly duplicated because this is private in TextureAtlas.
-     * This can be entirely replaced by Consumer from JDK 8 once RoboVM supports it.
+     * A functional interface that can process a {@code T} typed object and do something with it.
+     * This is essentially the same thing as a Consumer of T objects from Java 8.
+     * The functional method of this type is {@link #parse(Object)}.
+     * <br>
+     * This has to be horribly duplicated, because this is private in TextureAtlas.
      * @param <T> the type that this can parse
      */
-    private interface Field<T> {
+    public interface Field<T> {
+        /**
+         * Read in a {@code T} object and do some processing with it, usually having side effects.
+         * @param object any object of the type this Field can process
+         */
         void parse(T object);
     }
 

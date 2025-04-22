@@ -258,6 +258,9 @@ Note that SDF and MSDF fonts need to be told about changes to the screen size, u
 of various other places' methods that call `resizeDistanceField()`. Since 1.0.0, you typically want to use the overload
 that takes a `Viewport`; if you don't have a `Viewport`, you don't need that overload. Every distance field font you are
 currently rendering needs to have its distance field resized when the window resizes, in `ApplicationListener.resize()`.
+Since version 2.0.2, if a FontFamily uses SDF fonts (not MSDF), then the shader will automatically render each Font in
+that family with the right settings... except this feature needs a shader function that only exists on desktop OpenGL,
+not mobile OpenGL ES or HTML's WebGL. That feature is automatically enabled on desktop for SDF fonts.
 
 There are several preconfigured font settings in `KnownFonts`; the documentation for each font getter says what files
 are needed to use that font. **[The old .fnt files have been moved here](https://github.com/tommyettinger/fonts)**.
@@ -420,7 +423,7 @@ Stripe and use them with FreeTypist.
 You can get it via Gradle, but it's probably a better option to just copy in the two files from
 [this folder in freetypist](https://github.com/tommyettinger/freetypist/tree/main/src/main/java/com/github/tommyettinger/freetypist)
 into your own code. Regardless of how you depend on FreeTypist, it needs a dependency on FreeType (including appropriate
-"platform" dependencies) and on TextraTypist (currently 2.0.1). When features are added to FWSkin and TextraTypist in
+"platform" dependencies) and on TextraTypist (currently 2.0.2). When features are added to FWSkin and TextraTypist in
 general, FreeTypist should be updated also.
 
 ## How do I get it?
@@ -428,19 +431,19 @@ general, FreeTypist should be updated also.
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.0.1"
+implementation "com.github.tommyettinger:textratypist:2.0.2"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 or higher. A requirement for 1.11.0
 was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code in libGDX. The requirement for 1.12.1
-was added in 1.0.0 because some things probably changed, and 1.13.1 in TextraTypist 2.0.1, but 1.13.1 (or the subsequent
+was added in 1.0.0 because some things probably changed, and 1.13.1 in TextraTypist 2.0.0, but 1.13.1 (or the subsequent
 SNAPSHOT releases) should be pretty easy to update to.
 
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.0.1:sources"
-implementation "com.github.tommyettinger:regexodus:0.1.17:sources"
+implementation "com.github.tommyettinger:textratypist:2.0.2:sources"
+implementation "com.github.tommyettinger:regexodus:0.1.18:sources"
 ```
 
 GWT also needs this in the GdxDefinition.gwt.xml file (since version 0.7.7):
@@ -485,15 +488,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.0.1"
+implementation "com.github.tommyettinger:freetypist:2.0.2"
 ```
 
-(Now, FreeTypist 2.0.1 uses TextraTypist 2.0.1 .)
+(Now, FreeTypist 2.0.2 uses TextraTypist 2.0.2 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.0.1:sources"
+implementation "com.github.tommyettinger:freetypist:2.0.2:sources"
 ```
 
 And this inherits line:
@@ -506,12 +509,11 @@ FreeType doesn't work out-of-the-box on GWT, though [there is this](https://gith
 
 ## Hey, a new version!
 
-Updating to 2.0.1 from the 1.x series of releases should be straightforward, but it is backwards-incompatible in some
-ways. Mostly, this involves changing any minor adjustments for font x/y/width/height, emoji placement, and other fiddly
-tweaks that 1.x needed -- but this change is usually just removing those adjustments. Many more parts of TextraTypist
-have defaults that "just work," though `.fnt` files are still as finicky as ever. Using `.dat`, or preferably
-`.json.lzma` files pulled from
-[fontwriter's knownFonts](https://github.com/tommyettinger/fontwriter/tree/main/docs/knownFonts), is a better option.
+Updating to 2.0.0 or higher from the 1.x series of releases should be straightforward, but it is backwards-incompatible
+in some ways. Mostly, this involves changing any minor adjustments for font x/y/width/height, emoji placement, and other
+fiddly tweaks that 1.x needed -- but this change is usually just removing those adjustments. Many more parts of
+TextraTypist have defaults that "just work," though `.fnt` files are still as finicky as ever. Using `.dat`, or
+preferably `.json.lzma` files from the current [knownFonts](knownFonts) folder, is a better option.
 
 In this version and some earlier versions, SDF rendering has improved quite a bit, and now MSDF fonts usually will look
 indistinguishable from SDF fonts. The .png files used for MSDF are larger than those for SDF, and SDF fonts can be used
