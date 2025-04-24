@@ -423,7 +423,7 @@ Stripe and use them with FreeTypist.
 You can get it via Gradle, but it's probably a better option to just copy in the two files from
 [this folder in freetypist](https://github.com/tommyettinger/freetypist/tree/main/src/main/java/com/github/tommyettinger/freetypist)
 into your own code. Regardless of how you depend on FreeTypist, it needs a dependency on FreeType (including appropriate
-"platform" dependencies) and on TextraTypist (currently 2.0.2). When features are added to FWSkin and TextraTypist in
+"platform" dependencies) and on TextraTypist (currently 2.0.3). When features are added to FWSkin and TextraTypist in
 general, FreeTypist should be updated also.
 
 ## How do I get it?
@@ -431,7 +431,7 @@ general, FreeTypist should be updated also.
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.0.2"
+implementation "com.github.tommyettinger:textratypist:2.0.3"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 or higher. A requirement for 1.11.0
@@ -442,8 +442,8 @@ SNAPSHOT releases) should be pretty easy to update to.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.0.2:sources"
-implementation "com.github.tommyettinger:regexodus:0.1.18:sources"
+implementation "com.github.tommyettinger:textratypist:2.0.3:sources"
+implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
 ```
 
 GWT also needs this in the GdxDefinition.gwt.xml file (since version 0.7.7):
@@ -488,15 +488,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.0.2"
+implementation "com.github.tommyettinger:freetypist:2.0.3"
 ```
 
-(Now, FreeTypist 2.0.2 uses TextraTypist 2.0.2 .)
+(Now, FreeTypist 2.0.3 uses TextraTypist 2.0.3 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.0.2:sources"
+implementation "com.github.tommyettinger:freetypist:2.0.3:sources"
 ```
 
 And this inherits line:
