@@ -120,7 +120,7 @@ public class WindEffect extends Effect {
         x = Math.abs(x) * -Math.signum(distanceX);
 
         // Apply changes
-        label.offsets.incr(globalIndex << 1, x);
-        label.offsets.incr(globalIndex << 1 | 1, y);
+        label.getOffsets().incr(globalIndex << 1, x);
+        label.getOffsets().incr(globalIndex << 1 | 1, y);
     }
 }

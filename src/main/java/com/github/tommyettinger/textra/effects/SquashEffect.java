@@ -76,18 +76,18 @@ public class SquashEffect extends Effect {
         if (progress < 0.4f) {
             float interpolatedValue = 1f - Interpolation.sine.apply(progress * 2.5f) * 0.5f;
             float xOff = lineHeight * (-0.25f * (1.0f - interpolatedValue));
-            label.offsets.incr(globalIndex << 1, xOff);
-            label.offsets.incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * lineHeight);
-            label.sizing.incr(globalIndex << 1, 1.0f - interpolatedValue);
-            label.sizing.incr(globalIndex << 1 | 1, interpolatedValue - 1f);
+            label.getOffsets().incr(globalIndex << 1, xOff);
+            label.getOffsets().incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * lineHeight);
+            label.getSizing().incr(globalIndex << 1, 1.0f - interpolatedValue);
+            label.getSizing().incr(globalIndex << 1 | 1, interpolatedValue - 1f);
         } else {
             Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;
             float interpolatedValue = interpolation.apply((progress - 0.4f) * 1.666f) * 0.5f + 0.5f;
             float xOff = lineHeight * (-0.25f * (1.0f - interpolatedValue));
-            label.offsets.incr(globalIndex << 1, xOff);
-            label.offsets.incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * lineHeight);
-            label.sizing.incr(globalIndex << 1, 1.0f - interpolatedValue);
-            label.sizing.incr(globalIndex << 1 | 1, interpolatedValue - 1f);
+            label.getOffsets().incr(globalIndex << 1, xOff);
+            label.getOffsets().incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * lineHeight);
+            label.getSizing().incr(globalIndex << 1, 1.0f - interpolatedValue);
+            label.getSizing().incr(globalIndex << 1 | 1, interpolatedValue - 1f);
         }
     }
 

@@ -86,7 +86,7 @@ public class WaveEffect extends Effect {
         y *= fadeout;
 
         // Apply changes
-        label.offsets.incr(globalIndex << 1 | 1, y);
+        label.getOffsets().incr(globalIndex << 1 | 1, y);
     }
 
 }

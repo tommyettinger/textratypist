@@ -78,7 +78,7 @@ public class SpinEffect extends Effect {
         Interpolation interpolation = elastic ? Interpolation.bounceOut : Interpolation.pow3Out;
         float interpolatedValue = interpolation.apply(progress) * 360.0f * rotations;
 
-        label.rotations.incr(globalIndex, interpolatedValue);
+        label.getRotations().incr(globalIndex, interpolatedValue);
     }
 
 }

@@ -105,7 +105,7 @@ public class SlamEffect extends Effect {
             float yMove = interpolation.apply(label.getLineHeight(globalIndex) * height * DEFAULT_HEIGHT, 0, progress * progress);
 
             // Apply changes
-            label.offsets.incr(globalIndex << 1 | 1, yMove);
+            label.getOffsets().incr(globalIndex << 1 | 1, yMove);
         }
         else {
             // Make sure we can hold enough entries for the current index
@@ -138,8 +138,8 @@ public class SlamEffect extends Effect {
             lastOffsets.set(localIndex * 2 + 1, y);
 
             // Apply changes
-            label.offsets.incr(globalIndex << 1, x);
-            label.offsets.incr(globalIndex << 1 | 1, y);
+            label.getOffsets().incr(globalIndex << 1, x);
+            label.getOffsets().incr(globalIndex << 1 | 1, y);
 
         }
     }

@@ -80,8 +80,8 @@ public class SpiralEffect extends Effect {
         float y = lineHeight * distance * DEFAULT_DISTANCE * MathUtils.sinDeg(spin) * (1f - progress);
 
         // Apply changes
-        label.offsets.incr(globalIndex << 1, x);
-        label.offsets.incr(globalIndex << 1 | 1, y);
+        label.getOffsets().incr(globalIndex << 1, x);
+        label.getOffsets().incr(globalIndex << 1 | 1, y);
     }
 
 }

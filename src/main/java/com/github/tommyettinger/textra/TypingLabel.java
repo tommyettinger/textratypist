@@ -25,7 +25,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.FloatArray;
@@ -71,23 +70,13 @@ public class TypingLabel extends TextraLabel {
     private final StringBuilder originalText = new StringBuilder();
     private final StringBuilder intermediateText = new StringBuilder();
     protected final Layout workingLayout = new Layout();
-    /**
-     * Contains two floats per glyph; even items are x offsets, odd items are y offsets.
-     */
-    public final FloatArray offsets = new FloatArray();
-    /**
-     * Contains two floats per glyph, as size multipliers; even items apply to x, odd items apply to y.
-     */
-    public final FloatArray sizing = new FloatArray();
-    /**
-     * Contains one float per glyph; each is a rotation in degrees to apply to that glyph (around its center).
-     */
-    public final FloatArray rotations = new FloatArray();
+
     /**
      * If true, this will attempt to track which glyph the user's mouse or other pointer is over (see {@link #overIndex}
      * and {@link #lastTouchedIndex}).
      */
     public boolean trackingInput = false;
+
     /**
      * If true, this label will allow clicking and dragging to select a range of text, if {@link #trackingInput} is also
      * true. This does not allow the text to be edited unless so implemented by another class. If text can be selected,
@@ -533,9 +522,9 @@ public class TypingLabel extends TextraLabel {
         first.width = first.height = 0;
         workingLayout.lines.clear();
         workingLayout.lines.add(first);
-        offsets.clear();
-        sizing.clear();
-        rotations.clear();
+        getOffsets().clear();
+        getSizing().clear();
+        getRotations().clear();
         activeEffects.clear();
 
         // Reset state
@@ -651,12 +640,12 @@ public class TypingLabel extends TextraLabel {
         }
         font.calculateSize(workingLayout);
         int glyphCount = workingLayout.countGlyphs();
-        offsets.setSize(glyphCount + glyphCount);
-        Arrays.fill(offsets.items, 0, glyphCount + glyphCount, 0f);
-        sizing.setSize(glyphCount + glyphCount);
-        Arrays.fill(sizing.items, 0, glyphCount + glyphCount, 1f);
-        rotations.setSize(glyphCount);
-        Arrays.fill(rotations.items, 0, glyphCount, 0f);
+        getOffsets().setSize(glyphCount + glyphCount);
+        Arrays.fill(getOffsets().items, 0, glyphCount + glyphCount, 0f);
+        getSizing().setSize(glyphCount + glyphCount);
+        Arrays.fill(getSizing().items, 0, glyphCount + glyphCount, 1f);
+        getRotations().setSize(glyphCount);
+        Arrays.fill(getRotations().items, 0, glyphCount, 0f);
 
         // Apply effects
         if (!ignoringEffects) {
@@ -1065,7 +1054,7 @@ public class TypingLabel extends TextraLabel {
                             start = (toSkip - glyphs.glyphs.size < startIndex) ? startIndex - (toSkip - glyphs.glyphs.size) : 0,
                             end = endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex - 1);
                     for (int i = start, n = glyphs.glyphs.size,
-                         lim = Math.min(Math.min(rotations.size, offsets.size >> 1), sizing.size >> 1);
+                         lim = Math.min(Math.min(getRotations().size, getOffsets().size >> 1), getSizing().size >> 1);
                          i < n && r < lim; i++, gi++) {
                         if (gi > end) break SELECTION_LINE;
                         long glyph = glyphs.glyphs.get(i);
@@ -1108,7 +1097,7 @@ public class TypingLabel extends TextraLabel {
                         ++globalIndex;
                         if (selectionEnd < globalIndex)
                             break;
-                        float xx = x + xChange + offsets.get(o++), yy = y + yChange + offsets.get(o++);
+                        float xx = x + xChange + getOffsets().get(o++), yy = y + yChange + getOffsets().get(o++);
                         if (font.integerPosition) {
                             xx = (int) xx;
                             yy = (int) yy;
@@ -1177,7 +1166,7 @@ public class TypingLabel extends TextraLabel {
                     start = (toSkip - glyphs.glyphs.size < startIndex) ? startIndex - (toSkip - glyphs.glyphs.size) : 0,
                     end = endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex - 1);
             for (int i = start, n = glyphs.glyphs.size,
-                 lim = Math.min(Math.min(rotations.size, offsets.size >> 1), sizing.size >> 1);
+                 lim = Math.min(Math.min(getRotations().size, getOffsets().size >> 1), getSizing().size >> 1);
                  i < n && r < lim; i++, gi++) {
                 if (gi > end) break EACH_LINE;
                 long glyph = glyphs.glyphs.get(i);
@@ -1223,13 +1212,13 @@ public class TypingLabel extends TextraLabel {
                     bgc = ColorUtils.offsetLightness((int)(glyph >>> 32), 0.5f);
                 else
                     bgc = 0;
-                float xx = x + xChange + offsets.get(o++), yy = y + yChange + offsets.get(o++);
+                float xx = x + xChange + getOffsets().get(o++), yy = y + yChange + getOffsets().get(o++);
                 if(font.integerPosition){
                     xx = (int)xx;
                     yy = (int)yy;
                 }
 
-                single = f.drawGlyph(batch, glyph, xx, yy, rotations.get(r++) + rot, sizing.get(s++), sizing.get(s++), bgc);
+                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(r++) + rot, getSizing().get(s++), getSizing().get(s++), bgc);
                 if(trackingInput){
                     if(xx <= inX && inX <= xx + single && yy - glyphs.height * 0.5f <= inY && inY <= yy + glyphs.height * 0.5f) {
                         overIndex = globalIndex;
@@ -1349,7 +1338,9 @@ public class TypingLabel extends TextraLabel {
      * Returns the meant-for-internal-use-only Layout that is frequently changed as this label is displayed. The working
      * layout may be useful to have, even if treated as read-only, so it is exposed here. Still, be very careful with
      * this method and the Layout it returns. The working layout is the one that gets shown, where {@link #layout} is
-     * used as the ideal text before wrapping or other requirements edit it.
+     * used as the ideal text before wrapping or other requirements edit it. The getters {@link #getRotations()},
+     * {@link #getSizing()}, and {@link #getOffsets()} refer to the working layout's fields {@link Layout#rotations},
+     * {@link Layout#sizing}, and {@link Layout#offsets}, respectively.
      *
      * @return the mostly-internal working layout, which is the layout that gets displayed.
      */
@@ -1601,4 +1592,32 @@ public class TypingLabel extends TextraLabel {
     }
 
 
+    /**
+     * Contains one float per glyph; each is a rotation in degrees to apply to that glyph (around its center).
+     * This should not be confused with {@link #getRotation()}, which refers to the rotation of the label itself.
+     * This getter accesses the rotation of each glyph around its center instead.
+     * This is a direct reference to the current {@link #getWorkingLayout() working layout}'s {@link Layout#rotations}.
+     */
+    public FloatArray getRotations() {
+        return workingLayout.rotations;
+    }
+
+    /**
+     * Contains two floats per glyph; even items are x offsets, odd items are y offsets.
+     * This getter accesses the x- and y-offsets of each glyph from its normal position.
+     * This is a direct reference to the current {@link #getWorkingLayout() working layout}'s {@link Layout#offsets}.
+     */
+    public FloatArray getOffsets() {
+        return workingLayout.offsets;
+    }
+
+    /**
+     * Contains two floats per glyph, as size multipliers; even items apply to x, odd items apply to y.
+     * This getter accesses the x-and y-scaling of each glyph in its normal location, without changing line height or
+     * the x-advance of each glyph. It is usually meant for temporary or changing effects, not permanent scaling.
+     * This is a direct reference to the current {@link #getWorkingLayout() working layout}'s {@link Layout#sizing}.
+     */
+    public FloatArray getSizing() {
+        return workingLayout.sizing;
+    }
 }

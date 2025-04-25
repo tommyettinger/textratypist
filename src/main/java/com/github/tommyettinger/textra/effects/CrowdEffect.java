@@ -74,7 +74,7 @@ public class CrowdEffect extends Effect {
         rot *= fadeout;
 
         // Apply changes
-        label.rotations.incr(globalIndex, rot);
+        label.getRotations().incr(globalIndex, rot);
     }
 
 }

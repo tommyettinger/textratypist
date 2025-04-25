@@ -73,8 +73,8 @@ public class CarouselEffect extends Effect {
         Font font = label.getFont();
 
         // Apply changes
-        label.sizing.incr(globalIndex << 1, s - 1.0f);
-        label.offsets.incr(globalIndex << 1, font.mapping.get((char) glyph, font.defaultValue).xAdvance * (0.125f * s));
+        label.getSizing().incr(globalIndex << 1, s - 1.0f);
+        label.getOffsets().incr(globalIndex << 1, font.mapping.get((char) glyph, font.defaultValue).xAdvance * (0.125f * s));
     }
 
 }

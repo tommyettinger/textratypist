@@ -58,7 +58,7 @@ public class AttentionEffect extends Effect {
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         int distance = Math.abs(globalIndex - label.overIndex);
         if(label.overIndex >= 0 && distance <= spread){
-            label.sizing.incr(globalIndex << 1 | 1, (stretchY - 1f) * MathUtils.cosDeg((90f * distance) / spread));
+            label.getSizing().incr(globalIndex << 1 | 1, (stretchY - 1f) * MathUtils.cosDeg((90f * distance) / spread));
         }
     }
 

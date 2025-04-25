@@ -106,11 +106,11 @@ public class CannonEffect extends Effect {
                     0f, progress);
             float arcHeight = MathUtils.sin(MathUtils.PI * progress) * label.getLineHeight(globalIndex) * height * DEFAULT_HEIGHT;
 
-            label.sizing.incr(globalIndex << 1, interpolatedValue);
-            label.sizing.incr(globalIndex << 1 | 1, interpolatedValue);
+            label.getSizing().incr(globalIndex << 1, interpolatedValue);
+            label.getSizing().incr(globalIndex << 1 | 1, interpolatedValue);
 
             // Apply changes
-            label.offsets.incr(globalIndex << 1 | 1, arcHeight);
+            label.getOffsets().incr(globalIndex << 1 | 1, arcHeight);
         }
         else {
             // Make sure we can hold enough entries for the current index
@@ -143,8 +143,8 @@ public class CannonEffect extends Effect {
             lastOffsets.set(localIndex * 2 + 1, y);
 
             // Apply changes
-            label.offsets.incr(globalIndex << 1, x);
-            label.offsets.incr(globalIndex << 1 | 1, y);
+            label.getOffsets().incr(globalIndex << 1, x);
+            label.getOffsets().incr(globalIndex << 1 | 1, y);
 
         }
     }

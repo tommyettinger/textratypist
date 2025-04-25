@@ -89,8 +89,8 @@ public class SputterEffect extends Effect {
         vSharp *= fadeout;
 
         // Apply changes
-        label.sizing.incr(globalIndex << 1, hSharp);
-        label.sizing.incr(globalIndex << 1 | 1, vSharp);
+        label.getSizing().incr(globalIndex << 1, hSharp);
+        label.getSizing().incr(globalIndex << 1 | 1, vSharp);
 
     }
 

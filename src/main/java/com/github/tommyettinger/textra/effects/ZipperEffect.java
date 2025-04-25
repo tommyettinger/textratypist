@@ -81,7 +81,7 @@ public class ZipperEffect extends Effect {
         float interpolatedValue = interpolation.apply(1, 0, progress);
         float y = label.getLineHeight(globalIndex) * distance * interpolatedValue * DEFAULT_DISTANCE * ((globalIndex & 1) - 0.5f);
 
-        label.offsets.incr(globalIndex << 1 | 1, y);
+        label.getOffsets().incr(globalIndex << 1 | 1, y);
     }
 
 }

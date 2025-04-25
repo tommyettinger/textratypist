@@ -46,7 +46,7 @@ public class RotateEffect extends Effect {
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
-        label.rotations.incr(globalIndex, rotation);
+        label.getRotations().incr(globalIndex, rotation);
     }
 
 }

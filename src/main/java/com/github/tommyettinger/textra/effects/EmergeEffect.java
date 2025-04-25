@@ -71,8 +71,8 @@ public class EmergeEffect extends Effect {
         Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;
         float interpolatedValue = interpolation.apply(progress) - 1f;
 
-        label.sizing.incr(globalIndex << 1 | 1, interpolatedValue);
-        label.offsets.incr(globalIndex << 1 | 1, interpolatedValue * 0.5f * label.getLineHeight(globalIndex));
+        label.getSizing().incr(globalIndex << 1 | 1, interpolatedValue);
+        label.getOffsets().incr(globalIndex << 1 | 1, interpolatedValue * 0.5f * label.getLineHeight(globalIndex));
     }
 
 }

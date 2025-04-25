@@ -55,8 +55,8 @@ public class ScaleEffect extends Effect {
 
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
-        label.sizing.incr(globalIndex << 1, sizeX - 1f);
-        label.sizing.incr(globalIndex << 1 | 1, sizeY - 1f);
+        label.getSizing().incr(globalIndex << 1, sizeX - 1f);
+        label.getSizing().incr(globalIndex << 1 | 1, sizeY - 1f);
     }
 
 }

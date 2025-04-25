@@ -49,7 +49,6 @@ public class Issue14Test extends ApplicationAdapter {
     stage.act();
     stage.getViewport().apply(true);
     stage.draw();
-
   }
 
   @Override

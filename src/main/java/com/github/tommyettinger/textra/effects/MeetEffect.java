@@ -93,8 +93,8 @@ public class MeetEffect extends Effect {
         float y = MathUtils.sin(angle) * dist;
 
         // Apply changes
-        label.offsets.incr(globalIndex << 1, x * interpolatedValue);
-        label.offsets.incr(globalIndex << 1 | 1, y * interpolatedValue);
+        label.getOffsets().incr(globalIndex << 1, x * interpolatedValue);
+        label.getOffsets().incr(globalIndex << 1 | 1, y * interpolatedValue);
     }
 
 }

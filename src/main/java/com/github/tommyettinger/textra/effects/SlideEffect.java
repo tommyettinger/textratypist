@@ -82,7 +82,7 @@ public class SlideEffect extends Effect {
         float x = label.getLineHeight(globalIndex) * distance * interpolatedValue * DEFAULT_DISTANCE;
 
         // Apply changes
-        label.offsets.incr(globalIndex << 1, x);
+        label.getOffsets().incr(globalIndex << 1, x);
     }
 
 }

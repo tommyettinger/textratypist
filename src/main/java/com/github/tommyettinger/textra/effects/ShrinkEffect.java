@@ -80,8 +80,8 @@ public class ShrinkEffect extends Effect {
         float interpolatedValue = interpolation.apply(expansion * DEFAULT_EXPANSION,
                 0f, progress);
 
-        label.sizing.incr(globalIndex << 1, interpolatedValue);
-        label.sizing.incr(globalIndex << 1 | 1, interpolatedValue);
+        label.getSizing().incr(globalIndex << 1, interpolatedValue);
+        label.getSizing().incr(globalIndex << 1 | 1, interpolatedValue);
     }
 
 }

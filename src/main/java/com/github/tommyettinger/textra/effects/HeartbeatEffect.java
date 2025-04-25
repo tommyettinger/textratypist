@@ -77,14 +77,14 @@ public class HeartbeatEffect extends Effect {
 //        y *= fadeout;
 
         // Apply changes
-        label.sizing.incr(globalIndex << 1, x);
-        label.sizing.incr(globalIndex << 1 | 1, x);
+        label.getSizing().incr(globalIndex << 1, x);
+        label.getSizing().incr(globalIndex << 1 | 1, x);
         float lineHeight = label.getLineHeight(globalIndex);
 //        label.offsets.incr(globalIndex << 1, label.font.mapping.get((char)glyph, label.font.defaultValue).xAdvance * (-0.25f * x));
 //        label.offsets.incr(globalIndex << 1 | 1, lineHeight * (-0.5f * x));
         float xOff = lineHeight * -0.25f * x;
-        label.offsets.incr(globalIndex << 1, xOff);
-        label.offsets.incr(globalIndex << 1 | 1, xOff);
+        label.getOffsets().incr(globalIndex << 1, xOff);
+        label.getOffsets().incr(globalIndex << 1 | 1, xOff);
     }
 
 }

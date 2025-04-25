@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.LongArray;
 
 /**
@@ -37,6 +38,18 @@ public class Layout {
     protected String ellipsis = null;
     protected float targetWidth = 0f;
     protected float baseColor = Color.WHITE_FLOAT_BITS;
+    /**
+     * Contains two floats per glyph; even items are x offsets, odd items are y offsets.
+     */
+    public final FloatArray offsets = new FloatArray();
+    /**
+     * Contains two floats per glyph, as size multipliers; even items apply to x, odd items apply to y.
+     */
+    public final FloatArray sizing = new FloatArray();
+    /**
+     * Contains one float per glyph; each is a rotation in degrees to apply to that glyph (around its center).
+     */
+    public final FloatArray rotations = new FloatArray();
 
     public Layout() {
         lines.add(new Line());
