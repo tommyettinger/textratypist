@@ -67,7 +67,7 @@ public class SlipEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate offset
-        float slip = (1f + NoiseUtils.octaveNoise1D((TimeUtils.millis() & 0xFFFFFF) * speed * DEFAULT_SPEED + globalIndex * 0.42f, globalIndex)) * expansionAmount * DEFAULT_EXPANSION_STRENGTH;
+        float slip = (1f + NoiseUtils.octaveNoise1D((TimeUtils.millis() & 0xFFFFFF) * speed * DEFAULT_SPEED + globalIndex * 0.47f, globalIndex ^ 0x12345678)) * expansionAmount * DEFAULT_EXPANSION_STRENGTH;
 
         // Calculate fadeout
         float fadeout = calculateFadeout();
