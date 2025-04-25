@@ -25,7 +25,7 @@ import com.github.tommyettinger.textra.TypingLabel;
  * Parameters: {@code sizeX;sizeY}
  * <br>
  * The {@code sizeX} is multiplied with the width of a cell. If sizeY is not specified, this is multiplied with the
- * height of a cell as well. Defaults to 1.0 .
+ * height of a cell as well. Defaults to 0.75 .
  * The {@code sizeY} is multiplied with the height of a cell. If sizeY is present, then sizeX only affects width.
  * Defaults to 2.0 .
  * <br>
@@ -36,7 +36,7 @@ import com.github.tommyettinger.textra.TypingLabel;
  * </code>
  */
 public class ScaleEffect extends Effect {
-    private float sizeX = 1; // How much of their width they should start expanded by on x
+    private float sizeX = 0.75f; // How much of their width they should start expanded by on x
     private float sizeY = 2; // How much of their height they should start expanded by on y
 
     public ScaleEffect(TypingLabel label, String[] params) {
@@ -57,6 +57,7 @@ public class ScaleEffect extends Effect {
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         label.getSizing().incr(globalIndex << 1, sizeX - 1f);
         label.getSizing().incr(globalIndex << 1 | 1, sizeY - 1f);
+        label.getOffsets().incr(globalIndex << 1 | 1, label.getLineHeight(globalIndex) * -0.5f * (sizeY - 1f));
     }
 
 }
