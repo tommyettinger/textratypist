@@ -299,6 +299,17 @@ public class TypingLabel extends TextraLabel {
         final boolean hasEnded = this.hasEnded();
         newText = Parser.handleBracketMinusMarkup(newText);
         font.markup(newText, layout.clear());
+
+        int glyphCount = layout.countGlyphs();
+        layout.offsets.setSize(glyphCount + glyphCount);
+        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
+        layout.sizing.setSize(glyphCount + glyphCount);
+        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
+        layout.rotations.setSize(glyphCount);
+        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
+        layout.advances.setSize(glyphCount);
+        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
+
         if (wrap) {
             workingLayout.setTargetWidth(getWidth());
             font.markup(newText, workingLayout.clear());
@@ -309,6 +320,17 @@ public class TypingLabel extends TextraLabel {
                     style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
         }
         if (modifyOriginalText) saveOriginalText(newText);
+
+        glyphCount = workingLayout.countGlyphs();
+        getOffsets().setSize(glyphCount + glyphCount);
+        Arrays.fill(getOffsets().items, 0, glyphCount + glyphCount, 0f);
+        getSizing().setSize(glyphCount + glyphCount);
+        Arrays.fill(getSizing().items, 0, glyphCount + glyphCount, 1f);
+        getRotations().setSize(glyphCount);
+        Arrays.fill(getRotations().items, 0, glyphCount, 0f);
+        getAdvances().setSize(glyphCount);
+        Arrays.fill(getAdvances().items, 0, glyphCount, 1f);
+
         if (restart) {
             this.restart();
         }
@@ -522,11 +544,18 @@ public class TypingLabel extends TextraLabel {
         first.width = first.height = 0;
         workingLayout.lines.clear();
         workingLayout.lines.add(first);
-        getOffsets().clear();
-        getSizing().clear();
-        getRotations().clear();
-        getAdvances().clear();
         activeEffects.clear();
+
+        int glyphCount = layout.countGlyphs();
+        layout.offsets.setSize(glyphCount + glyphCount);
+        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
+        layout.sizing.setSize(glyphCount + glyphCount);
+        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
+        layout.rotations.setSize(glyphCount);
+        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
+        layout.advances.setSize(glyphCount);
+        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
+
 
         // Reset state
         textSpeed = TypingConfig.DEFAULT_SPEED_PER_CHAR;
@@ -640,16 +669,18 @@ public class TypingLabel extends TextraLabel {
             }
         }
         font.calculateSize(workingLayout);
-        int glyphCount = workingLayout.countGlyphs();
-        //TODO: This should copy these per-glyph values from `layout` rather than clearing to defaults
-        getOffsets().setSize(glyphCount + glyphCount);
-        Arrays.fill(getOffsets().items, 0, glyphCount + glyphCount, 0f);
-        getSizing().setSize(glyphCount + glyphCount);
-        Arrays.fill(getSizing().items, 0, glyphCount + glyphCount, 1f);
-        getRotations().setSize(glyphCount);
-        Arrays.fill(getRotations().items, 0, glyphCount, 0f);
-        getAdvances().setSize(glyphCount);
-        Arrays.fill(getAdvances().items, 0, glyphCount, 1f);
+        int glyphCount = layout.countGlyphs();
+        int iLay = 0, iWork = 0;
+        for (; iLay < glyphCount; iLay++, iWork++) {
+            if(getInLayout(layout, iLay) != getInWorkingLayout(iWork)) continue;
+            int e = iLay << 1, o = iLay | 1, ew = iWork << 1, ow = ew | 1;
+            getOffsets().set(ew, layout.offsets.get(e));
+            getOffsets().set(ow, layout.offsets.get(o));
+            getSizing().set(ew, layout.sizing.get(e));
+            getSizing().set(ow, layout.sizing.get(o));
+            getRotations().set(iWork, layout.sizing.get(iLay));
+            getAdvances().set(iWork, layout.advances.get(iLay));
+        }
 
         // Apply effects
         if (!ignoringEffects) {
