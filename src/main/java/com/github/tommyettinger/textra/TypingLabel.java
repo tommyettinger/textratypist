@@ -641,6 +641,7 @@ public class TypingLabel extends TextraLabel {
         }
         font.calculateSize(workingLayout);
         int glyphCount = workingLayout.countGlyphs();
+        //TODO: This should copy these per-glyph values from `layout` rather than clearing to defaults
         getOffsets().setSize(glyphCount + glyphCount);
         Arrays.fill(getOffsets().items, 0, glyphCount + glyphCount, 0f);
         getSizing().setSize(glyphCount + glyphCount);
@@ -1110,9 +1111,9 @@ public class TypingLabel extends TextraLabel {
                         if ((char) glyph >= 0xE000 && (char) glyph < 0xF800) {
                             scaleX = scale * font.cellHeight / (f.mapping.get((int) glyph & 0xFFFF, f.defaultValue).xAdvance);
                         } else
-                            scaleX = font.scaleX * scale;// * (1f + 0.5f * (-(glyph & Font.SUPERSCRIPT) >> 63));
+                            scaleX = font.scaleX * scale;
 
-                        single = Font.xAdvance(f, scaleX, glyph);
+                        single = Font.xAdvance(f, scaleX, glyph) * getAdvances().get(r++);
                         if(selectionWidth == 0f)
                         {
                             selectionDrawStartX = xx;
@@ -1132,6 +1133,7 @@ public class TypingLabel extends TextraLabel {
 
 
         o = 0;
+        r = 0;
         gi = 0;
         globalIndex = startIndex - 1;
 
@@ -1182,9 +1184,6 @@ public class TypingLabel extends TextraLabel {
                     x += cs * f.cellWidth * 0.5f;
                     y += sn * f.cellWidth * 0.5f;
 
-//                    x += sn * descent * 0.5f;
-//                    y -= cs * descent * 0.5f;
-
                     y += descent;
                     x += sn * (descent - 0.5f * glyphs.height);
                     y -= cs * (descent - 0.5f * glyphs.height);
@@ -1198,7 +1197,6 @@ public class TypingLabel extends TextraLabel {
                             yChange -= sn * ox;
                         }
                     }
-
                 }
 
                 if (f.kerning != null) {

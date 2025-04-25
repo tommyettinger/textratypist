@@ -76,7 +76,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
 //        final TextraLabel label = new TextraLabel(
         final TextraLabel label = new TextraLabel(
                 "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
-                        + "But... {COLOR=#79c353ff}{SICK}U. Nitty{ENDSICK}{ENDCOLOR} doesn't. {CROWD}{SLIP}[#BB1100][~][+skull][~][#55AA22FF][_][+🤡][ ]\n"
+                        + "But... {COLOR=#79c353ff}{SICK}U. Nitty{ENDSICK}{ENDCOLOR} doesn't. {CROWD}{SLIP}[#BB1100][+skull][#55AA22FF][+🤡][ ]\n"
                         + "That's OK, I don't like loot crates anyway. {CROWD}{SLIP}[#B10F][+party popper][#5A2][+🥳][ ]\n"
                         +"[+⚖️][~][_][+⚖️][ ] testing: [_][~]\n"
                         // the u200B is a zero-width space, which is invisible but gets the 100% line height we want after this.

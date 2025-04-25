@@ -26,7 +26,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.LongArray;
+
+import java.util.Arrays;
 
 import static com.github.tommyettinger.textra.Font.ALTERNATE;
 
@@ -236,6 +239,16 @@ public class TextraLabel extends Widget {
         font.markup(text, layout);
         invalidateHierarchy();
         setSize(layout.getWidth(), layout.getHeight());
+
+        int glyphCount = layout.countGlyphs();
+        layout.offsets.setSize(glyphCount + glyphCount);
+        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
+        layout.sizing.setSize(glyphCount + glyphCount);
+        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
+        layout.rotations.setSize(glyphCount);
+        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
+        layout.advances.setSize(glyphCount);
+        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
     }
 
     /**
@@ -246,11 +259,7 @@ public class TextraLabel extends Widget {
      * @param font a Font from this library, such as one obtained from {@link KnownFonts}
      */
     public TextraLabel(String text, Font font) {
-        this.font = font;
-        layout = new Layout();
-        this.style = new Styles.LabelStyle();
-        storedText = text;
-        font.markup(text, layout);
+        this(text, font, Color.WHITE);
     }
 
     /**
@@ -268,6 +277,15 @@ public class TextraLabel extends Widget {
         if (color != null) layout.setBaseColor(color);
         storedText = text;
         font.markup(text, layout);
+        int glyphCount = layout.countGlyphs();
+        layout.offsets.setSize(glyphCount + glyphCount);
+        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
+        layout.sizing.setSize(glyphCount + glyphCount);
+        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
+        layout.rotations.setSize(glyphCount);
+        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
+        layout.advances.setSize(glyphCount);
+        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
     }
 
     @Override
@@ -437,9 +455,15 @@ public class TextraLabel extends Widget {
                     kern = -1;
                 }
                 bgc = 0;
-                float xx = x + xChange;
-                float yy = y + yChange;
-                single = f.drawGlyph(batch, glyph, xx, yy, rot, 1f, 1f, bgc);
+                int even = i << 1, odd = even | 1;
+                float xx = x + xChange + getOffsets().get(even), yy = y + yChange + getOffsets().get(odd);
+                if(font.integerPosition){
+                    xx = (int)xx;
+                    yy = (int)yy;
+                }
+
+                float a = getAdvances().get(i);
+                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(i) + rot, getSizing().get(even), getSizing().get(odd), bgc) * a;
                 xChange += cs * single;
                 yChange += sn * single;
             }
@@ -638,6 +662,17 @@ public class TextraLabel extends Widget {
 //        else
 //            layout.setTargetWidth(0f);
         font.markup(markupText, layout.clear());
+
+        int glyphCount = layout.countGlyphs();
+        layout.offsets.setSize(glyphCount + glyphCount);
+        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
+        layout.sizing.setSize(glyphCount + glyphCount);
+        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
+        layout.rotations.setSize(glyphCount);
+        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
+        layout.advances.setSize(glyphCount);
+        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
+
 //        setWidth(layout.getWidth() + (style != null && style.background != null ?
 //                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
         invalidateHierarchy();
@@ -801,6 +836,45 @@ public class TextraLabel extends Widget {
                 index -= glyphs.size;
         }
         return font.cellHeight;
+    }
+
+    /**
+     * Contains one float per glyph; each is a rotation in degrees to apply to that glyph (around its center).
+     * This should not be confused with {@link #getRotation()}, which refers to the rotation of the label itself.
+     * This getter accesses the rotation of each glyph around its center instead.
+     * This is a direct reference to the current {@link #layout}'s {@link Layout#rotations}.
+     */
+    public FloatArray getRotations() {
+        return layout.rotations;
+    }
+
+    /**
+     * Contains two floats per glyph; even items are x offsets, odd items are y offsets.
+     * This getter accesses the x- and y-offsets of each glyph from its normal position.
+     * This is a direct reference to the current {@link #layout}'s {@link Layout#offsets}.
+     */
+    public FloatArray getOffsets() {
+        return layout.offsets;
+    }
+
+    /**
+     * Contains two floats per glyph, as size multipliers; even items apply to x, odd items apply to y.
+     * This getter accesses the x-and y-scaling of each glyph in its normal location, without changing line height or
+     * the x-advance of each glyph. It is usually meant for temporary or changing effects, not permanent scaling.
+     * This is a direct reference to the current {@link #layout}'s {@link Layout#sizing}.
+     */
+    public FloatArray getSizing() {
+        return layout.sizing;
+    }
+
+    /**
+     * Contains one float per glyph; each is a multiplier that affects the x-advance of that glyph.
+     * This getter uses the same types of values as {@link #getSizing()}, so if you change the x-scaling of a glyph with
+     * that variable, you can also change its x-advance here by assigning the same value for that glyph here.
+     * This is a direct reference to the current {@link #layout}'s {@link Layout#rotations}.
+     */
+    public FloatArray getAdvances() {
+        return layout.advances;
     }
 
 }
