@@ -525,6 +525,7 @@ public class TypingLabel extends TextraLabel {
         getOffsets().clear();
         getSizing().clear();
         getRotations().clear();
+        getAdvances().clear();
         activeEffects.clear();
 
         // Reset state
@@ -646,6 +647,8 @@ public class TypingLabel extends TextraLabel {
         Arrays.fill(getSizing().items, 0, glyphCount + glyphCount, 1f);
         getRotations().setSize(glyphCount);
         Arrays.fill(getRotations().items, 0, glyphCount, 0f);
+        getAdvances().setSize(glyphCount);
+        Arrays.fill(getAdvances().items, 0, glyphCount, 1f);
 
         // Apply effects
         if (!ignoringEffects) {
@@ -1054,7 +1057,7 @@ public class TypingLabel extends TextraLabel {
                             start = (toSkip - glyphs.glyphs.size < startIndex) ? startIndex - (toSkip - glyphs.glyphs.size) : 0,
                             end = endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex - 1);
                     for (int i = start, n = glyphs.glyphs.size,
-                         lim = Math.min(Math.min(getRotations().size, getOffsets().size >> 1), getSizing().size >> 1);
+                         lim = Math.min(Math.min(Math.min(getRotations().size, getAdvances().size), getOffsets().size >> 1), getSizing().size >> 1);
                          i < n && r < lim; i++, gi++) {
                         if (gi > end) break SELECTION_LINE;
                         long glyph = glyphs.glyphs.get(i);
@@ -1166,7 +1169,7 @@ public class TypingLabel extends TextraLabel {
                     start = (toSkip - glyphs.glyphs.size < startIndex) ? startIndex - (toSkip - glyphs.glyphs.size) : 0,
                     end = endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex - 1);
             for (int i = start, n = glyphs.glyphs.size,
-                 lim = Math.min(Math.min(getRotations().size, getOffsets().size >> 1), getSizing().size >> 1);
+                 lim = Math.min(Math.min(Math.min(getRotations().size, getAdvances().size), getOffsets().size >> 1), getSizing().size >> 1);
                  i < n && r < lim; i++, gi++) {
                 if (gi > end) break EACH_LINE;
                 long glyph = glyphs.glyphs.get(i);
@@ -1218,7 +1221,8 @@ public class TypingLabel extends TextraLabel {
                     yy = (int)yy;
                 }
 
-                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(r++) + rot, getSizing().get(s++), getSizing().get(s++), bgc);
+                float a = getAdvances().get(r);
+                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(r++) + rot, getSizing().get(s++), getSizing().get(s++), bgc) * a;
                 if(trackingInput){
                     if(xx <= inX && inX <= xx + single && yy - glyphs.height * 0.5f <= inY && inY <= yy + glyphs.height * 0.5f) {
                         overIndex = globalIndex;
@@ -1339,8 +1343,9 @@ public class TypingLabel extends TextraLabel {
      * layout may be useful to have, even if treated as read-only, so it is exposed here. Still, be very careful with
      * this method and the Layout it returns. The working layout is the one that gets shown, where {@link #layout} is
      * used as the ideal text before wrapping or other requirements edit it. The getters {@link #getRotations()},
-     * {@link #getSizing()}, and {@link #getOffsets()} refer to the working layout's fields {@link Layout#rotations},
-     * {@link Layout#sizing}, and {@link Layout#offsets}, respectively.
+     * {@link #getSizing()}, {@link #getOffsets()}, and {@link #getAdvances()} refer to the working layout's fields
+     * {@link Layout#rotations}, {@link Layout#sizing}, and {@link Layout#offsets}, and {@link Layout#advances},
+     * respectively.
      *
      * @return the mostly-internal working layout, which is the layout that gets displayed.
      */
@@ -1591,7 +1596,6 @@ public class TypingLabel extends TextraLabel {
 //        this.charCooldown = textSpeed;
     }
 
-
     /**
      * Contains one float per glyph; each is a rotation in degrees to apply to that glyph (around its center).
      * This should not be confused with {@link #getRotation()}, which refers to the rotation of the label itself.
@@ -1619,5 +1623,15 @@ public class TypingLabel extends TextraLabel {
      */
     public FloatArray getSizing() {
         return workingLayout.sizing;
+    }
+
+    /**
+     * Contains one float per glyph; each is a multiplier that affects the x-advance of that glyph.
+     * This getter uses the same types of values as {@link #getSizing()}, so if you change the x-scaling of a glyph with
+     * that variable, you can also change its x-advance here by assigning the same value for that glyph here.
+     * This is a direct reference to the current {@link #getWorkingLayout() working layout}'s {@link Layout#rotations}.
+     */
+    public FloatArray getAdvances() {
+        return workingLayout.advances;
     }
 }

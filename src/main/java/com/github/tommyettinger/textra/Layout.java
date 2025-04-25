@@ -39,17 +39,25 @@ public class Layout {
     protected float targetWidth = 0f;
     protected float baseColor = Color.WHITE_FLOAT_BITS;
     /**
-     * Contains two floats per glyph; even items are x offsets, odd items are y offsets.
+     * Contains two floats per glyph; even items are x offsets (0-indexed), odd items are y offsets.
+     * The neutral value for a glyph (the value that this defaults to, and means no change should be made) is 0.0f.
      */
     public final FloatArray offsets = new FloatArray();
     /**
-     * Contains two floats per glyph, as size multipliers; even items apply to x, odd items apply to y.
+     * Contains two floats per glyph, as size multipliers; even items (0-indexed) apply to x, odd items apply to y.
+     * The neutral value for a glyph (the value that this defaults to, and means no change should be made) is 1.0f.
      */
     public final FloatArray sizing = new FloatArray();
     /**
      * Contains one float per glyph; each is a rotation in degrees to apply to that glyph (around its center).
+     * The neutral value for a glyph (the value that this defaults to, and means no change should be made) is 0.0f.
      */
     public final FloatArray rotations = new FloatArray();
+    /**
+     * Contains one float per glyph; each is a multiplier to the x-advance of that glyph.
+     * The neutral value for a glyph (the value that this defaults to, and means no change should be made) is 1.0f.
+     */
+    public final FloatArray advances = new FloatArray();
 
     public Layout() {
         lines.add(new Line());
@@ -72,6 +80,10 @@ public class Layout {
             ln.glyphs.addAll(o.glyphs);
             lines.add(ln.size(o.width, o.height));
         }
+        rotations.addAll(other.rotations);
+        offsets.addAll(other.offsets);
+        sizing.addAll(other.sizing);
+        advances.addAll(other.advances);
     }
     /**
      * One of the ways to set the font on a Layout; this one returns this Layout for chaining.
