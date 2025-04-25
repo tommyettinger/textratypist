@@ -150,9 +150,10 @@ public class TypingConfig {
     static {
         // Generate default char intervals
         INTERVAL_MULTIPLIERS_BY_CHAR.put(' ', 0.0f);
-        INTERVAL_MULTIPLIERS_BY_CHAR.put(':', 1.5f);
-        INTERVAL_MULTIPLIERS_BY_CHAR.put(',', 2.5f);
-        INTERVAL_MULTIPLIERS_BY_CHAR.put('.', 2.5f);
+        INTERVAL_MULTIPLIERS_BY_CHAR.put(',', 2.0f);
+        INTERVAL_MULTIPLIERS_BY_CHAR.put(';', 2.5f);
+        INTERVAL_MULTIPLIERS_BY_CHAR.put(':', 2.5f);
+        INTERVAL_MULTIPLIERS_BY_CHAR.put('.', 3.0f);
         INTERVAL_MULTIPLIERS_BY_CHAR.put('!', 5.0f);
         INTERVAL_MULTIPLIERS_BY_CHAR.put('?', 5.0f);
         INTERVAL_MULTIPLIERS_BY_CHAR.put('\n', 2.5f);
@@ -193,6 +194,7 @@ public class TypingConfig {
         registerEffect("SLAM", SlamEffect::new);
         registerEffect("MEET", MeetEffect::new);
         registerEffect("ZIPPER", ZipperEffect::new);
+        registerEffect("SLIP", SlipEffect::new);
 
         initializeGlobalVars();
     }
