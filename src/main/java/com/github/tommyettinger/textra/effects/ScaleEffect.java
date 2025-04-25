@@ -20,7 +20,9 @@ import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /**
- * Permanently sets the size of text. Doesn't change over time.
+ * Permanently sets the size of text. Doesn't change over time. Note, this does not affect line height,
+ * but does affect y-offset so it centers the scaling effect in the cell, and does affect x-advance by the same amount
+ * as x-scaling.
  * <br>
  * Parameters: {@code sizeX;sizeY}
  * <br>
@@ -58,6 +60,7 @@ public class ScaleEffect extends Effect {
         label.getSizing().incr(globalIndex << 1, sizeX - 1f);
         label.getSizing().incr(globalIndex << 1 | 1, sizeY - 1f);
         label.getOffsets().incr(globalIndex << 1 | 1, label.getLineHeight(globalIndex) * -0.5f * (sizeY - 1f));
+        label.getAdvances().incr(globalIndex, sizeX - 1f);
     }
 
 }
