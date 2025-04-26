@@ -668,19 +668,31 @@ public class TypingLabel extends TextraLabel {
                 processCharProgression();
             }
         }
-        font.calculateSize(workingLayout);
         int glyphCount = layout.countGlyphs();
-        int iLay = 0, iWork = 0;
-        for (; iLay < glyphCount; iLay++, iWork++) {
-            if(getInLayout(layout, iLay) != getInWorkingLayout(iWork)) continue;
-            int e = iLay << 1, o = iLay | 1, ew = iWork << 1, ow = ew | 1;
-            getOffsets().set(ew, layout.offsets.get(e));
-            getOffsets().set(ow, layout.offsets.get(o));
-            getSizing().set(ew, layout.sizing.get(e));
-            getSizing().set(ow, layout.sizing.get(o));
-            getRotations().set(iWork, layout.sizing.get(iLay));
-            getAdvances().set(iWork, layout.advances.get(iLay));
-        }
+
+        getOffsets().setSize(glyphCount + glyphCount);
+        System.arraycopy(layout.offsets.items, 0, workingLayout.offsets.items, 0, glyphCount + glyphCount);
+        getSizing().setSize(glyphCount + glyphCount);
+        System.arraycopy(layout.sizing.items, 0, workingLayout.sizing.items, 0, glyphCount + glyphCount);
+        getRotations().setSize(glyphCount);
+        System.arraycopy(layout.rotations.items, 0, workingLayout.rotations.items, 0, glyphCount);
+        getAdvances().setSize(glyphCount);
+        System.arraycopy(layout.advances.items, 0, workingLayout.advances.items, 0, glyphCount);
+
+        font.calculateSize(workingLayout);
+
+        // do we want this instead?
+//        int iLay = 0, iWork = 0;
+//        for (; iLay < glyphCount; iLay++, iWork++) {
+//            if(getInLayout(layout, iLay) != getInWorkingLayout(iWork)) continue;
+//            int e = iLay << 1, o = iLay | 1, ew = iWork << 1, ow = ew | 1;
+//            getOffsets().set(ew, layout.offsets.get(e));
+//            getOffsets().set(ow, layout.offsets.get(o));
+//            getSizing().set(ew, layout.sizing.get(e));
+//            getSizing().set(ow, layout.sizing.get(o));
+//            getRotations().set(iWork, layout.sizing.get(iLay));
+//            getAdvances().set(iWork, layout.advances.get(iLay));
+//        }
 
         // Apply effects
         if (!ignoringEffects) {
