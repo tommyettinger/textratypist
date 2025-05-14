@@ -63,11 +63,11 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-		final Font.FontFamily family = KnownFonts.getStandardFamily().family;
+		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.STANDARD).family;
 		family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz()
+				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.STANDARD)
 				.scaleTo(30, 35);
-		family.connected[0] = KnownFonts.getNowAlt();
+		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.STANDARD);
 		Font font = family.connected[0];
 		font.family = family;
 		for(Font f : font.family.connected) {

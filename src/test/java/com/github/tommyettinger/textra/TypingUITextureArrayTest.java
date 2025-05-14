@@ -33,6 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -48,6 +49,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 	Texture texture1;
 	Texture texture2;
 	TypingLabel fpsLabel;
+	Font font;
 //	GLProfiler profiler;
 
 	@Override
@@ -61,12 +63,12 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-		final Font.FontFamily family = KnownFonts.getStandardFamily().family;
+		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.STANDARD).family;
 		family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz()
+				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.STANDARD)
 						.scaleTo(30, 35);
-		family.connected[0] = KnownFonts.getNowAlt();
-		Font font = family.connected[0];
+		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.STANDARD);
+		font = family.connected[0];
 		font.family = family;
 		for(Font f : font.family.connected) {
 			if(f != null)
@@ -227,8 +229,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 	public void render () {
 //		if(profiler.isEnabled())
 //			profiler.reset();
-		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1f);
 		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
 		int i;
 		for (i = 0; i < s.length() && i < 5; i++) {
@@ -260,6 +261,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 	@Override
 	public void resize (int width, int height) {
 		stage.getViewport().update(width, height, true);
+//		font.family.resizeDistanceFields(width, height, stage.getViewport());
 	}
 
 	@Override
@@ -275,6 +277,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 		config.setTitle("TypingLabel UI test");
 		config.setWindowedMode(760, 640);
 		config.disableAudio(true);
+//		config.setBackBufferConfig(8, 8, 8, 8, 16, 0, 2);
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
 		config.useVsync(false);
 		config.setForegroundFPS(0);
