@@ -148,7 +148,7 @@ public class TextureArraySpriteBatch implements Batch {
         }
         textureUnitIndicesBuffer.flip();
 
-        VertexDataType vertexDataType = (Gdx.gl30 != null) ? VertexDataType.VertexBufferObjectWithVAO : VertexDataType.VertexArray;
+        VertexDataType vertexDataType = (Gdx.gl30 != null) ? VertexDataType.VertexBufferObjectWithVAO : VertexDataType.VertexBufferObject;
 
         // The vertex data is extended with one float for the texture index.
         mesh = new Mesh(vertexDataType, false, size * 4, size * 6,
@@ -247,9 +247,9 @@ public class TextureArraySpriteBatch implements Batch {
         Gdx.gl.glDepthMask(false);
 
         if (customShader != null) {
-            customShader.begin();
+            customShader.bind();
         } else {
-            shader.begin();
+            shader.bind();
         }
 
         setupMatrices();
@@ -271,12 +271,6 @@ public class TextureArraySpriteBatch implements Batch {
 
         if (isBlendingEnabled()) {
             gl.glDisable(GL20.GL_BLEND);
-        }
-
-        if (customShader != null) {
-            customShader.end();
-        } else {
-            shader.end();
         }
     }
 
@@ -1085,9 +1079,6 @@ public class TextureArraySpriteBatch implements Batch {
 
         mesh.setVertices(vertices, 0, idx);
 
-        mesh.getIndicesBuffer().position(0);
-        mesh.getIndicesBuffer().limit(count);
-
         if (blendingDisabled) {
             Gdx.gl.glDisable(GL20.GL_BLEND);
         } else {
@@ -1351,21 +1342,15 @@ public class TextureArraySpriteBatch implements Batch {
     public void setShader (ShaderProgram shader) {
         if (drawing) {
             flush();
-
-            if (customShader != null) {
-                customShader.end();
-            } else {
-                this.shader.end();
-            }
         }
 
         customShader = shader;
 
         if (drawing) {
             if (customShader != null) {
-                customShader.begin();
+                customShader.bind();
             } else {
-                this.shader.begin();
+                this.shader.bind();
             }
 
             setupMatrices();

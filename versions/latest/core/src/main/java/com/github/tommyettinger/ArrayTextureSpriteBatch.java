@@ -410,9 +410,9 @@ public class ArrayTextureSpriteBatch implements Batch {
 		Gdx.gl30.glBindTexture(GL30.GL_TEXTURE_2D_ARRAY, arrayTextureHandle);
 
 		if (customShader != null) {
-			customShader.begin();
+			customShader.bind();
 		} else {
-			shader.begin();
+			shader.bind();
 		}
 
 		setupMatrices();
@@ -433,12 +433,6 @@ public class ArrayTextureSpriteBatch implements Batch {
 
 		if (isBlendingEnabled()) {
 			Gdx.gl30.glDisable(GL30.GL_BLEND);
-		}
-
-		if (customShader != null) {
-			customShader.end();
-		} else {
-			shader.end();
 		}
 	}
 
@@ -1258,9 +1252,6 @@ public class ArrayTextureSpriteBatch implements Batch {
 
 		mesh.setVertices(vertices, 0, idx);
 
-		mesh.getIndicesBuffer().position(0);
-		mesh.getIndicesBuffer().limit(count);
-
 		if (blendingDisabled) {
 			Gdx.gl.glDisable(GL30.GL_BLEND);
 		} else {
@@ -1569,25 +1560,17 @@ public class ArrayTextureSpriteBatch implements Batch {
 	@Override
 	public void setShader (ShaderProgram shader) {
 
-		if (drawing) {
-
+		if (drawing)
 			flush();
-
-			if (customShader != null) {
-				customShader.end();
-			} else {
-				this.shader.end();
-			}
-		}
 
 		customShader = shader;
 
 		if (drawing) {
 
 			if (customShader != null) {
-				customShader.begin();
+				customShader.bind();
 			} else {
-				this.shader.begin();
+				this.shader.bind();
 			}
 
 			setupMatrices();
