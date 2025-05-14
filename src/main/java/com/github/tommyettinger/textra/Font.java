@@ -1998,7 +1998,7 @@ public class Font implements Disposable {
         this.setDistanceField(distanceField);
         FileHandle textureHandle;
         if(textureName == null) {
-            parents = Array.of(true, 1, TextureRegion.class);
+            parents = Array.of(true, 1, TextureRegion[]::new);
             parents.add(new TexturelessRegion());
         } else if ((textureHandle = Gdx.files.internal(textureName)).exists()) {
             parents = Array.with(new TextureRegion(new Texture(textureHandle)));
@@ -2534,13 +2534,13 @@ public class Font implements Disposable {
 //            yAdjust += descent;
         int pages = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "\npage id=", idx));
         if (parents == null || parents.size < pages) {
-            if (parents == null) parents = new Array<>(true, pages, TextureRegion.class);
+            if (parents == null) parents = new Array<>(true, pages, TextureRegion[]::new);
             else parents.clear();
             FileHandle textureHandle;
             for (int i = 0; i < pages; i++) {
                 String textureName = fnt.substring(idx = StringUtils.indexAfter(fnt, "file=\"", idx), idx = fnt.indexOf('"', idx));
                 if(!canUseTextures){
-                    parents = Array.of(true, 1, TextureRegion.class);
+                    parents = Array.of(true, 1, TextureRegion[]::new);
                     parents.add(new TexturelessRegion());
                 } else if ((textureHandle = Gdx.files.internal(textureName)).exists()) {
                     parents.add(new TextureRegion(new Texture(textureHandle)));
@@ -2720,7 +2720,7 @@ public class Font implements Disposable {
         int pages = 1;
         TextureRegion parent;
         if (parents == null || parents.size == 0) {
-            if (parents == null) parents = new Array<>(true, pages, TextureRegion.class);
+            if (parents == null) parents = new Array<>(true, pages, TextureRegion[]::new);
             FileHandle textureHandle;
             String textureName = fnt.getString("FilePath");
             if (!canUseTextures) {
