@@ -120,12 +120,31 @@ public class Layout {
      * @return this Layout, for chaining
      */
     public Layout add(long glyph) {
+        return add(glyph, 1f, 1f, 0f, 0f, 0f);
+    }
+
+    /**
+     * Adds a {@code long} glyph as processed by {@link Font} to store color and style info with the char.
+     *
+     * @param glyph usually produced by {@link Font} to store color and style info with the char
+     * @param scale    1.0f if unchanged; multiplies the size of the glyph
+     * @param advance  1.0f if unchanged; multiplies the x-advance of the glyph, and is usually related to scale
+     * @param offsetX  0.0f if unchanged; added to the initial x-position of the glyph
+     * @param offsetY  0.0f if unchanged; added to the y-position of the glyph (with descenders lower than ascenders)
+     * @param rotation 0.0f if unchanged; added to the rotation of the glyph, in degrees
+     * @return this Layout, for chaining
+     */
+    public Layout add(long glyph, float scale, float advance, float offsetX, float offsetY, float rotation) {
         if (!atLimit) {
             if ((glyph & 0xFFFFL) == 10L) {
                 pushLine();
             } else {
                 lines.peek().glyphs.add(glyph);
             }
+            sizing.add(scale, scale);
+            advances.add(advance);
+            offsets.add(offsetX, offsetY);
+            rotations.add(rotation);
         }
 
         return this;

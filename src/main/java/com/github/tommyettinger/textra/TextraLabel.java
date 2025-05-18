@@ -240,15 +240,15 @@ public class TextraLabel extends Widget {
         invalidateHierarchy();
         setSize(layout.getWidth(), layout.getHeight());
 
-        int glyphCount = layout.countGlyphs();
-        layout.offsets.setSize(glyphCount + glyphCount);
-        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
-        layout.sizing.setSize(glyphCount + glyphCount);
-        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
-        layout.rotations.setSize(glyphCount);
-        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
-        layout.advances.setSize(glyphCount);
-        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
+//        int glyphCount = layout.countGlyphs();
+//        layout.offsets.setSize(glyphCount + glyphCount);
+//        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
+//        layout.sizing.setSize(glyphCount + glyphCount);
+//        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
+//        layout.rotations.setSize(glyphCount);
+//        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
+//        layout.advances.setSize(glyphCount);
+//        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
     }
 
     /**
@@ -277,15 +277,6 @@ public class TextraLabel extends Widget {
         if (color != null) layout.setBaseColor(color);
         storedText = text;
         font.markup(text, layout);
-        int glyphCount = layout.countGlyphs();
-        layout.offsets.setSize(glyphCount + glyphCount);
-        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
-        layout.sizing.setSize(glyphCount + glyphCount);
-        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
-        layout.rotations.setSize(glyphCount);
-        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
-        layout.advances.setSize(glyphCount);
-        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
     }
 
     @Override
@@ -663,15 +654,6 @@ public class TextraLabel extends Widget {
 //            layout.setTargetWidth(0f);
         font.markup(markupText, layout.clear());
 
-        int glyphCount = layout.countGlyphs();
-        layout.offsets.setSize(glyphCount + glyphCount);
-        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
-        layout.sizing.setSize(glyphCount + glyphCount);
-        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
-        layout.rotations.setSize(glyphCount);
-        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
-        layout.advances.setSize(glyphCount);
-        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
 
 //        setWidth(layout.getWidth() + (style != null && style.background != null ?
 //                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));

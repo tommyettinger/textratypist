@@ -5937,8 +5937,8 @@ public class Font implements Disposable {
      *     in libGDX, any names from {@link com.github.tommyettinger.textra.utils.Palette}, or mixes of one or
      *     more color names with adjectives like "dark". The name can optionally be preceded by {@code |}, which allows
      *     looking up colors with names that contain punctuation. This doesn't do much if using the default ColorLookup,
-     *     {@link ColorLookup#DESCRIPTIVE}, because it only evaluates ASCII letters, and treats everything else as a
-     *     separator.</li>
+     *     {@link ColorLookup#DESCRIPTIVE}, because it only evaluates ASCII letters and numbers, and treats everything
+     *     else as a separator.</li>
      * </ul>
      * You can render {@code appendTo} using {@link #drawGlyphs(Batch, Layout, float, float)}.
      *
@@ -5949,9 +5949,10 @@ public class Font implements Disposable {
     public Layout markup(String text, Layout appendTo) {
         boolean capitalize = false, previousWasLetter = false,
                 capsLock = false, lowerCase = false, initial = true;
-        int c, scale = 3, fontIndex = -1;
+        int c, fontIndex = -1;
+        float scale = 1f, rotation = 0f;
         Font font = this;
-        float scaleX;
+        float sclX;
         final long COLOR_MASK = 0xFFFFFFFF00000000L;
         long baseColor = Long.reverseBytes(NumberUtils.floatToIntBits(appendTo.getBaseColor())) & 0xFFFFFFFE00000000L;
         long color = baseColor;
@@ -5968,7 +5969,7 @@ public class Font implements Disposable {
         labeledStates.putAll(storedStates);
 
         for (int i = 0, n = text.length(); i < n; i++) {
-            scaleX = font.scaleX * (scale + 1) * 0.25f;
+            sclX = font.scaleX * scale;
 
             //// CURLY BRACKETS
 
@@ -5981,7 +5982,7 @@ public class Font implements Disposable {
                 for (; i < n && i <= end; i++) {
                     c = text.charAt(i);
                     if (enableSquareBrackets && c == '[' && i + 1 < end && text.charAt(i + 1) == '+') innerSquareStart = i;
-                    else if (innerSquareStart == -1) appendTo.add(current | c);
+                    else if (innerSquareStart == -1) appendTo.add(current | c, scale, scale, 0f, 0f, rotation);
                     if (enableSquareBrackets && c == ']') {
                         innerSquareEnd = i;
                         if (innerSquareStart != -1 && font.nameLookup != null) {
@@ -5989,7 +5990,7 @@ public class Font implements Disposable {
                             if (len >= 2) {
                                 c = font.nameLookup.get(StringUtils.safeSubstring(text, innerSquareStart + 2, innerSquareEnd), '+');
                                 innerSquareStart = -1;
-                                appendTo.add(current | c);
+                                appendTo.add(current | c, scale, scale, 0f, 0f, rotation);
                             }
                         }
                     }
@@ -6004,7 +6005,7 @@ public class Font implements Disposable {
                 char after = eq + 1 >= end ? '\u0000' : text.charAt(eq + 1);
                 if (start + 1 == end || "RESET".equalsIgnoreCase(StringUtils.safeSubstring(text, start + 1, end))) {
                     historyBuffer.add(current);
-                    scale = 3;
+                    scale = 1f;
                     font = this;
                     fontIndex = 0;
                     current &= ~SUPERSCRIPT;
@@ -6044,15 +6045,15 @@ public class Font implements Disposable {
                 } else if (sizeChange >= 0) {
                     if (sizeChange + 1 == end) {
                         if (eq + 1 == sizeChange) {
-                            scale = 3;
+                            scale = 1f;
                         } else {
-                            scale = ((StringUtils.intFromDec(text, eq + 1, sizeChange) - 24) / 25) & 15;
+                            scale = StringUtils.floatFromDec(text, eq + 1, sizeChange) * 0.01f;
                         }
                     } else {
-                        scale = ((StringUtils.intFromDec(text, sizeChange + 1, end) - 24) / 25) & 15;
+                        scale = StringUtils.floatFromDec(text, sizeChange + 1, end) * 0.01f;
                     }
                 }
-                long next = (current & 0xFFFFFFFFFF00FFFFL) | (scale - 3 & 15) << 20 | (fontIndex & 15) << 16;
+                long next = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15) << 16;
                 if(current != next) historyBuffer.add(current);
                 current = next;
                 i--;
@@ -6065,14 +6066,12 @@ public class Font implements Disposable {
                         if(historyBuffer.isEmpty()) {
                             color = baseColor;
                             current = color & ~SUPERSCRIPT;
-                            scale = 3;
                             font = this;
                             capitalize = false;
                             capsLock = false;
                             lowerCase = false;
                         } else {
                             current = historyBuffer.pop();
-                            scale = (int)((current & 0x1f00000L) >>> 20);
                             if (family == null) {
                                 font = this;
                                 fontIndex = 0;
@@ -6174,15 +6173,13 @@ public class Font implements Disposable {
                                     // small caps can be enabled or disabled separately from the other modes, except
                                     // for jostle, which requires no other modes to be used
                                     current = ((current & (0xFFFFFFFFFE0FFFFFL ^ (current & 0x1000000L) >>> 4)) ^ modes);
-                                    scale = 3;
                                 } else {
-                                    current = (current & 0xFFFFFFFFFE0FFFFFL) |
-                                            ((scale = ((StringUtils.intFromDec(text, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                                    scale = StringUtils.floatFromDec(text, i + 1, i + len) * 0.01f;
                                 }
                             }
                             else {
-                                current = (current & 0xFFFFFFFFFE0FFFFFL);
-                                scale = 3;
+//                                current = (current & 0xFFFFFFFFFE0FFFFFL);
+                                scale = 1f;
                             }
                             break;
                         case '#':
@@ -6234,7 +6231,6 @@ public class Font implements Disposable {
                             if(len > 1) {
                                 // jump to labeled state
                                 current = labeledStates.get(StringUtils.safeSubstring(text, i + 1, i + len), current);
-                                scale = (int)((current >>> 20 & 15) + 3);
                                 if(family != null){
                                     font = family.connected[(int)(current >>> 16 & 15)];
                                     if(font == null) font = this;
@@ -6243,7 +6239,7 @@ public class Font implements Disposable {
                                 // reset current state
                                 color = baseColor;
                                 current = color & ~SUPERSCRIPT;
-                                scale = 3;
+                                scale = 1f;
                                 font = this;
                             }
                             break;
@@ -6266,34 +6262,34 @@ public class Font implements Disposable {
                         if (len >= 0) {
                             c = font.nameLookup.get(StringUtils.safeSubstring(text, i + 1, i + len), '+');
                             i += len;
-                            scaleX = (scale + 1) * 0.25f * font.cellHeight / font.mapping.get(c, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
+                            sclX = scale * font.cellHeight / font.mapping.get(c, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
                         }
                     }
                     if (font.kerning == null) {
-                        w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | c));
+                        w = (appendTo.peekLine().width += xAdvance(font, sclX, current | c));
                         if(initial && !isMono && !(c >= '\uE000' && c < '\uF800')){
                             float ox = font.mapping.get(c, font.defaultValue).offsetX;
                             if(Float.isNaN(ox)) ox = 0;
-                            else ox *= scaleX;
+                            else ox *= sclX;
                             if(ox < 0) w = (appendTo.peekLine().width -= ox);
                         }
                         initial = false;
                     } else {
                         kern = kern << 16 | c;
-                        w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | c) + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63)));
+                        w = (appendTo.peekLine().width += xAdvance(font, sclX, current | c) + font.kerning.get(kern, 0) * sclX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63)));
                         if(initial && !isMono && !(c >= '\uE000' && c < '\uF800')){
                             float ox = font.mapping.get(c, font.defaultValue).offsetX;
                             if(Float.isNaN(ox)) ox = 0;
-                            else ox *= scaleX;
+                            else ox *= sclX;
                             ox *= (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                             if (ox < 0) w = (appendTo.peekLine().width -= ox);
                         }
                         initial = false;
                     }
                     if(c == '[')
-                        appendTo.add(current | 2);
+                        appendTo.add(current | 2, scale, scale, 0f, 0f, rotation);
                     else
-                        appendTo.add(current | c);
+                        appendTo.add(current | c, scale, scale, 0f, 0f, rotation);
 
                     if (targetWidth > 0 && w > targetWidth) {
                         Line earlier = appendTo.peekLine();
@@ -6340,7 +6336,7 @@ public class Font implements Disposable {
                                                 continue;
                                             }
 
-                                            float adv = xAdvance(font, scaleX, curr);
+                                            float adv = xAdvance(font, sclX, curr);
                                             change += adv;
                                             if (--leading < 0) {
                                                 glyphBuffer.add(curr);
@@ -6349,7 +6345,7 @@ public class Font implements Disposable {
                                                     if(!isMono && !(c >= '\uE000' && c < '\uF800')) {
                                                         float ox = font.mapping.get((char) curr, font.defaultValue).offsetX;
                                                         if (Float.isNaN(ox)) ox = 0;
-                                                        else ox *= scaleX;
+                                                        else ox *= sclX;
                                                         ox *= (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                                                         if (ox < 0) changeNext -= ox;
                                                     }
@@ -6382,17 +6378,17 @@ public class Font implements Disposable {
                                                 continue;
                                             }
                                             k2 = k2 << 16 | (char) curr;
-                                            float adv = xAdvance(font, scaleX, curr);
-                                            change += adv + font.kerning.get(k2, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
+                                            float adv = xAdvance(font, sclX, curr);
+                                            change += adv + font.kerning.get(k2, 0) * sclX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                             if (--leading < 0) {
                                                 k3 = k3 << 16 | (char) curr;
-                                                changeNext += adv + font.kerning.get(k3, 0) * scaleX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
+                                                changeNext += adv + font.kerning.get(k3, 0) * sclX * (1f + 0.5f * (-(curr & SUPERSCRIPT) >> 63));
                                                 glyphBuffer.add(curr);
                                                 if(glyphBuffer.size == 1){
                                                     if(!isMono && !(c >= '\uE000' && c < '\uF800')) {
                                                         float ox = font.mapping.get((char) curr, font.defaultValue).offsetX;
                                                         if (Float.isNaN(ox)) ox = 0;
-                                                        else ox *= scaleX;
+                                                        else ox *= sclX;
                                                         ox *= (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                                                         if (ox < 0) changeNext -= ox;
                                                     }
@@ -6409,7 +6405,7 @@ public class Font implements Disposable {
                                     later.width = changeNext;
                                     earlier.width -= change;
                                     later.glyphs.addAll(glyphBuffer);
-                                    later.height = Math.max(later.height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                                    later.height = Math.max(later.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
                                     break;
                                 }
                             }
@@ -6418,7 +6414,7 @@ public class Font implements Disposable {
                             }
                         }
                     } else {
-                        appendTo.peekLine().height = Math.max(appendTo.peekLine().height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                        appendTo.peekLine().height = Math.max(appendTo.peekLine().height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
                     }
                 }
             } else {
@@ -6441,29 +6437,29 @@ public class Font implements Disposable {
                 }
                 showCh = (current & SMALL_CAPS) == SMALL_CAPS ? Category.caseUp(ch) : ch;
                 if(ch >= 0xE000 && ch < 0xF800){
-                    scaleX = (scale + 1) * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
+                    sclX = (scale + 1) * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
                 }
                 float w;
                 if (font.kerning == null) {
-                    w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | showCh));
+                    w = (appendTo.peekLine().width += xAdvance(font, sclX, current | showCh));
                 } else {
                     kern = kern << 16 | showCh;
-                    w = (appendTo.peekLine().width += xAdvance(font, scaleX, current | showCh) + font.kerning.get(kern, 0) * scaleX * (1f + 0.5f * (-((current | showCh) & SUPERSCRIPT) >> 63)));
+                    w = (appendTo.peekLine().width += xAdvance(font, sclX, current | showCh) + font.kerning.get(kern, 0) * sclX * (1f + 0.5f * (-((current | showCh) & SUPERSCRIPT) >> 63)));
                 }
                 if(initial && !isMono && !(showCh >= '\uE000' && showCh < '\uF800')) {
                     float ox = font.mapping.get(showCh, font.defaultValue).offsetX;
                     if (Float.isNaN(ox)) ox = 0;
-                    else ox *= scaleX;
+                    else ox *= sclX;
                     ox *= (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                     if (ox < 0) w = (appendTo.peekLine().width -= ox);
                 }
                 initial = false;
                 if (ch == '\n')
                 {
-                    appendTo.peekLine().height = Math.max(appendTo.peekLine().height, font.cellHeight * (scale + 1) * 0.25f);
+                    appendTo.peekLine().height = Math.max(appendTo.peekLine().height, font.cellHeight * scale);
                     initial = true;
                 }
-                appendTo.add(current | ch);
+                appendTo.add(current | ch, scale, scale, 0f, 0f, rotation);
                 if ((targetWidth > 0 && w > targetWidth) || appendTo.atLimit) {
                     Line earlier = appendTo.peekLine();
                     Line later;
@@ -6521,7 +6517,7 @@ public class Font implements Disposable {
                                             continue;
                                         }
 
-                                        float adv = xAdvance(font, scaleX, curr);
+                                        float adv = xAdvance(font, sclX, curr);
                                         change += adv;
                                         if (--leading < 0) {
                                             glyphBuffer.add(curr);
@@ -6530,7 +6526,7 @@ public class Font implements Disposable {
                                                 if(!isMono && !(showCh >= '\uE000' && showCh < '\uF800')) {
                                                     float ox = font.mapping.get(showCh, font.defaultValue).offsetX;
                                                     if (Float.isNaN(ox)) ox = 0;
-                                                    else ox *= scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
+                                                    else ox *= sclX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                                                     if (ox < 0) changeNext -= ox;
                                                 }
                                                 initial = false;
@@ -6565,17 +6561,17 @@ public class Font implements Disposable {
                                             continue;
                                         }
                                         k2 = k2 << 16 | showCh;
-                                        float adv = xAdvance(font, scaleX, curr);
-                                        change += adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+                                        float adv = xAdvance(font, sclX, curr);
+                                        change += adv + font.kerning.get(k2, 0) * sclX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
                                         if (--leading < 0) {
                                             kern = kern << 16 | showCh;
-                                            changeNext += adv + font.kerning.get(kern, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+                                            changeNext += adv + font.kerning.get(kern, 0) * sclX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
                                             glyphBuffer.add(curr);
                                             if(glyphBuffer.size == 1){
                                                 if(!isMono && !(showCh >= '\uE000' && showCh < '\uF800')) {
                                                     float ox = font.mapping.get(showCh, font.defaultValue).offsetX;
                                                     if (Float.isNaN(ox)) ox = 0;
-                                                    else ox *= scaleX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
+                                                    else ox *= sclX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                                                     if (ox < 0) changeNext -= ox;
                                                 }
                                                 initial = false;

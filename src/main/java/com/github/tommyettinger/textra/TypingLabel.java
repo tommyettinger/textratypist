@@ -300,15 +300,15 @@ public class TypingLabel extends TextraLabel {
         newText = Parser.handleBracketMinusMarkup(newText);
         font.markup(newText, layout.clear());
 
-        int glyphCount = layout.countGlyphs();
-        layout.offsets.setSize(glyphCount + glyphCount);
-        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
-        layout.sizing.setSize(glyphCount + glyphCount);
-        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
-        layout.rotations.setSize(glyphCount);
-        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
-        layout.advances.setSize(glyphCount);
-        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
+//        int glyphCount = layout.countGlyphs();
+//        layout.offsets.setSize(glyphCount + glyphCount);
+//        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
+//        layout.sizing.setSize(glyphCount + glyphCount);
+//        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
+//        layout.rotations.setSize(glyphCount);
+//        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
+//        layout.advances.setSize(glyphCount);
+//        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
 
         if (wrap) {
             workingLayout.setTargetWidth(getWidth());
@@ -321,15 +321,15 @@ public class TypingLabel extends TextraLabel {
         }
         if (modifyOriginalText) saveOriginalText(newText);
 
-        glyphCount = workingLayout.countGlyphs();
-        getOffsets().setSize(glyphCount + glyphCount);
-        Arrays.fill(getOffsets().items, 0, glyphCount + glyphCount, 0f);
-        getSizing().setSize(glyphCount + glyphCount);
-        Arrays.fill(getSizing().items, 0, glyphCount + glyphCount, 1f);
-        getRotations().setSize(glyphCount);
-        Arrays.fill(getRotations().items, 0, glyphCount, 0f);
-        getAdvances().setSize(glyphCount);
-        Arrays.fill(getAdvances().items, 0, glyphCount, 1f);
+//        glyphCount = workingLayout.countGlyphs();
+//        getOffsets().setSize(glyphCount + glyphCount);
+//        Arrays.fill(getOffsets().items, 0, glyphCount + glyphCount, 0f);
+//        getSizing().setSize(glyphCount + glyphCount);
+//        Arrays.fill(getSizing().items, 0, glyphCount + glyphCount, 1f);
+//        getRotations().setSize(glyphCount);
+//        Arrays.fill(getRotations().items, 0, glyphCount, 0f);
+//        getAdvances().setSize(glyphCount);
+//        Arrays.fill(getAdvances().items, 0, glyphCount, 1f);
 
         if (restart) {
             this.restart();
@@ -546,15 +546,15 @@ public class TypingLabel extends TextraLabel {
         workingLayout.lines.add(first);
         activeEffects.clear();
 
-        int glyphCount = layout.countGlyphs();
-        layout.offsets.setSize(glyphCount + glyphCount);
-        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
-        layout.sizing.setSize(glyphCount + glyphCount);
-        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
-        layout.rotations.setSize(glyphCount);
-        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
-        layout.advances.setSize(glyphCount);
-        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
+//        int glyphCount = layout.countGlyphs();
+//        layout.offsets.setSize(glyphCount + glyphCount);
+//        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
+//        layout.sizing.setSize(glyphCount + glyphCount);
+//        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
+//        layout.rotations.setSize(glyphCount);
+//        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
+//        layout.advances.setSize(glyphCount);
+//        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
 
 
         // Reset state
