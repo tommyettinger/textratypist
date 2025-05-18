@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -49,7 +50,7 @@ public class IncongruityTest extends ApplicationAdapter {
             Font font = fonts[i];
 //            Font font = fonts[i].setDescent(fonts[i].getDescent() * 2);
             labels.add(new Label(font.name, skin)).left();
-            TypingLabel label = new TypingLabel("Dummy Text 123", skin, font);
+            TypingLabel label = new TypingLabel("Lorem ipsum etc. 123, TT", skin, font);
 //            label.align = Align.bottom;
             labels.add(label).expandX().left();
 //            label.validate();
@@ -60,10 +61,10 @@ public class IncongruityTest extends ApplicationAdapter {
                 Label.LabelStyle style = new Label.LabelStyle();
                 style.font = bf;
                 style.fontColor = Color.WHITE;
-                Label bmLabel = new Label("Dummy Text 123", style);
+                Label bmLabel = new Label("Lorem ipsum etc. 123, BM", style);
                 bmLabel.validate();
-                float scaleY = label.getPrefHeight()/bmLabel.getPrefHeight();
-                float scaleX = label.getPrefWidth()/bmLabel.getPrefWidth();
+                float scaleX = fonts[i].scaleX;//label.getPrefWidth()/bmLabel.getPrefWidth();
+                float scaleY = fonts[i].scaleY;//label.getPrefHeight()/bmLabel.getPrefHeight();
                 bmLabel.setFontScale(bf.getScaleX() * Math.min(scaleX, scaleY), bf.getScaleY() * Math.min(scaleX, scaleY));
                 Gdx.app.log("BMFont", font.name + ", " + bmLabel.getPrefWidth() + ", " + bmLabel.getPrefHeight()
                         + ", " + scaleX + ", " + scaleY);
@@ -71,14 +72,15 @@ public class IncongruityTest extends ApplicationAdapter {
             } else {
                 labels.add(new Label("MISSING!", skin)).expandX().left();
             }
-            if((i & 1) == 1)
-                labels.row();
+            labels.row();
         }
         root.setFillParent(true);
-        root.add(labels);
-        root.pack();
+        ScrollPane pane = new ScrollPane(labels);
+        root.add(pane);
+        labels.pack();
         labels.debugAll();
         stage.addActor(root);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
