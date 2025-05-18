@@ -52,7 +52,7 @@ public class WrappingTest extends ApplicationAdapter {
             }
         });
 
-        BitmapFont bmfont = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Roboto-Condensed-standard.dat"), "Roboto-Condensed-standard.png");
+        BitmapFont bmfont = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Roboto-Condensed-standard.json.lzma"), "Roboto-Condensed-standard.png");
         // new BitmapFont(Gdx.files.internal("RobotoCondensed-standard.fnt"));
         bmfont.getData().markupEnabled = true;
         Label s2dLabel = new Label("I [SKY]can [ROYAL]do[] it!", new Label.LabelStyle(bmfont, Color.WHITE));

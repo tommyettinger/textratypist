@@ -108,7 +108,7 @@ public class IncongruityTest extends ApplicationAdapter {
 
     private BitmapFont getFont (String name) {
 //        BitmapFont bf = new BitmapFont(Gdx.files.internal(name + "-standard.fnt"));
-        BitmapFont bf = BitmapFontSupport.loadStructuredJson(Gdx.files.internal(name + "-standard.dat"), name + "-standard.png");
+        BitmapFont bf = BitmapFontSupport.loadStructuredJson(Gdx.files.internal(name + "-standard.json.lzma"), name + "-standard.png");
         bf.setUseIntegerPositions(false);
         return bf;
     }
