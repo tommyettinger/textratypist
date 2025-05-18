@@ -126,7 +126,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		final Font font = KnownFonts.getStandardFamily();
 		for(Font f : font.family.connected) {
 			if(f != null)
-				KnownFonts.addEmoji(f);
+				KnownFonts.addEmoji(f, 0f, -1f, 0f).setInlineImageStretch(0.9f);
 		}
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
@@ -138,7 +138,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		Styles.ImageTextButtonStyle style = new Styles.ImageTextButtonStyle(skin.get(Styles.TextButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-		ImageTextraButton iconButton = new ImageTextraButton("[/]a e s t h e t i c", style, font);
+		ImageTextraButton iconButton = new ImageTextraButton("[%60]a [%70]e [%80]s [%90]t [%100]h [%110]e [%120]t [%130]i [%140]c", style, font);
 
 		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
 		Button imgButton = new Button(new Image(image), skin);
