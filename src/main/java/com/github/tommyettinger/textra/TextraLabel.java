@@ -16,6 +16,7 @@
 
 package com.github.tommyettinger.textra;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
@@ -532,6 +533,8 @@ public class TextraLabel extends Widget {
     
     @Override
     public void setWidth(float width) {
+        // If the window is minimized, we have invalid dimensions and shouldn't process resizing.
+        if((Gdx.graphics.getWidth() & Gdx.graphics.getHeight()) <= 0) return;
         super.setWidth(width);
         if (wrap) {
             layout.setTargetWidth(width);
@@ -542,6 +545,8 @@ public class TextraLabel extends Widget {
 
     @Override
     public void setHeight(float height) {
+        // If the window is minimized, we have invalid dimensions and shouldn't process resizing.
+        if((Gdx.graphics.getWidth() & Gdx.graphics.getHeight()) <= 0) return;
         super.setHeight(height);
         font.calculateSize(layout);
         invalidateHierarchy();
@@ -549,6 +554,8 @@ public class TextraLabel extends Widget {
 
     @Override
     public void setSize(float width, float height) {
+        // If the window is minimized, we have invalid dimensions and shouldn't process resizing.
+        if((Gdx.graphics.getWidth() & Gdx.graphics.getHeight()) <= 0) return;
         super.setSize(width, height);
         if (wrap) {
             layout.setTargetWidth(width);
@@ -577,6 +584,8 @@ public class TextraLabel extends Widget {
     
     @Override
     public void layout() {
+        // If the window is minimized, we have invalid dimensions and shouldn't process resizing.
+        if((Gdx.graphics.getWidth() & Gdx.graphics.getHeight()) <= 0) return;
         float width = getWidth();
         if (style != null && style.background != null) {
             width = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
