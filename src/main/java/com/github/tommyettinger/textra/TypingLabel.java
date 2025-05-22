@@ -890,8 +890,9 @@ public class TypingLabel extends TextraLabel {
             sizeChanged();
             if (wrap) {
                 workingLayout.setTargetWidth(width);
-                font.regenerateLayout(workingLayout); // TODO: should this be calculateSize or regenerateLayout ?
-                invalidateHierarchy();
+                font.regenerateLayout(workingLayout);
+                //FIXME: do we want to call this at all?
+//                invalidateHierarchy();
             }
         }
     }
@@ -933,7 +934,8 @@ public class TypingLabel extends TextraLabel {
             if(width != 0f)
                 workingLayout.setTargetWidth(width);
             font.regenerateLayout(workingLayout);
-            invalidateHierarchy();
+            //FIXME: do we want to call this at all?
+//            invalidateHierarchy();
         }
     }
 
