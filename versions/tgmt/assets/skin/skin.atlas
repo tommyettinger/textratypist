@@ -1,0 +1,419 @@
+
+skin.png
+size: 512, 512
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+white-pixel
+  rotate: false
+  xy: 1, 1
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+bg
+  rotate: false
+  xy: 105, 220
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+bg-transparent
+  rotate: false
+  xy: 207, 224
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+button-delete
+  rotate: false
+  xy: 207, 174
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-delete-pressed
+  rotate: false
+  xy: 207, 124
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-delete-text
+  rotate: false
+  xy: 467, 352
+  size: 7, 8
+  orig: 7, 8
+  offset: 0, 0
+  index: -1
+button-delete-text-pressed
+  rotate: false
+  xy: 357, 192
+  size: 7, 8
+  orig: 7, 8
+  offset: 0, 0
+  index: -1
+button-folder
+  rotate: false
+  xy: 399, 312
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-folder-pressed
+  rotate: false
+  xy: 447, 362
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-home
+  rotate: false
+  xy: 255, 174
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-home-pressed
+  rotate: false
+  xy: 207, 74
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-image
+  rotate: false
+  xy: 255, 124
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-image-pressed
+  rotate: false
+  xy: 207, 24
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-menu
+  rotate: false
+  xy: 1, 4
+  size: 18, 15
+  orig: 18, 15
+  offset: 0, 0
+  index: -1
+button-menu-pressed
+  rotate: false
+  xy: 447, 345
+  size: 18, 15
+  orig: 18, 15
+  offset: 0, 0
+  index: -1
+button-menu-pressed_1
+  rotate: false
+  xy: 303, 33
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-menu_1
+  rotate: false
+  xy: 303, 83
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-move-down
+  rotate: false
+  xy: 359, 411
+  size: 8, 6
+  orig: 8, 6
+  offset: 0, 0
+  index: -1
+button-move-down-pressed
+  rotate: false
+  xy: 207, 16
+  size: 8, 6
+  orig: 8, 6
+  offset: 0, 0
+  index: -1
+button-move-up
+  rotate: false
+  xy: 303, 25
+  size: 8, 6
+  orig: 8, 6
+  offset: 0, 0
+  index: -1
+button-move-up-pressed
+  rotate: false
+  xy: 447, 337
+  size: 8, 6
+  orig: 8, 6
+  offset: 0, 0
+  index: -1
+button-music
+  rotate: false
+  xy: 255, 74
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-music-pressed
+  rotate: false
+  xy: 255, 24
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-normal
+  rotate: false
+  xy: 1, 441
+  size: 231, 70
+  orig: 231, 70
+  offset: 0, 0
+  index: -1
+button-normal-pressed
+  rotate: false
+  xy: 1, 369
+  size: 231, 70
+  orig: 231, 70
+  offset: 0, 0
+  index: -1
+button-save
+  rotate: false
+  xy: 351, 133
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-save-pressed
+  rotate: false
+  xy: 351, 83
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-small
+  rotate: false
+  xy: 1, 322
+  size: 133, 45
+  orig: 133, 45
+  offset: 0, 0
+  index: -1
+button-small-disabled
+  rotate: false
+  xy: 234, 419
+  size: 133, 45
+  orig: 133, 45
+  offset: 0, 0
+  index: -1
+button-small-pressed
+  rotate: false
+  xy: 234, 466
+  size: 133, 45
+  orig: 133, 45
+  offset: 0, 0
+  index: -1
+button-sound
+  rotate: false
+  xy: 351, 33
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-sound-pressed
+  rotate: false
+  xy: 399, 362
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-text
+  rotate: false
+  xy: 309, 283
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-text-pressed
+  rotate: false
+  xy: 309, 233
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-zoom-out
+  rotate: false
+  xy: 309, 183
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+button-zoom-out-pressed
+  rotate: false
+  xy: 303, 133
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+connector-bg
+  rotate: false
+  xy: 338, 395
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+connector-fg
+  rotate: false
+  xy: 21, 7
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+icon-key
+  rotate: false
+  xy: 338, 409
+  size: 19, 8
+  orig: 19, 8
+  offset: 0, 0
+  index: -1
+icon-left-arrow
+  rotate: false
+  xy: 479, 500
+  size: 15, 11
+  orig: 15, 11
+  offset: 0, 0
+  index: -1
+icon-right-arrow
+  rotate: false
+  xy: 496, 500
+  size: 15, 11
+  orig: 15, 11
+  offset: 0, 0
+  index: -1
+panel
+  rotate: false
+  xy: 105, 118
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+pop-table
+  rotate: false
+  xy: 105, 16
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+scroll-pane-horizontal
+  rotate: false
+  xy: 240, 326
+  size: 16, 5
+  orig: 16, 5
+  offset: 0, 0
+  index: -1
+scroll-pane-vertical
+  rotate: false
+  xy: 338, 377
+  size: 5, 16
+  orig: 5, 16
+  offset: 0, 0
+  index: -1
+split-pane-horizontal
+  rotate: false
+  xy: 357, 202
+  size: 13, 108
+  orig: 13, 108
+  offset: 0, 0
+  index: -1
+split-pane-vertical
+  rotate: false
+  xy: 369, 498
+  size: 108, 13
+  orig: 108, 13
+  offset: 0, 0
+  index: -1
+text-field-action-name
+  rotate: false
+  xy: 1, 64
+  size: 102, 41
+  orig: 102, 41
+  offset: 0, 0
+  index: -1
+text-field-audio
+  rotate: false
+  xy: 1, 279
+  size: 102, 41
+  orig: 102, 41
+  offset: 0, 0
+  index: -1
+text-field-banned-keys
+  rotate: false
+  xy: 1, 21
+  size: 102, 41
+  orig: 102, 41
+  offset: 0, 0
+  index: -1
+text-field-give-keys
+  rotate: false
+  xy: 136, 326
+  size: 102, 41
+  orig: 102, 41
+  offset: 0, 0
+  index: -1
+text-field-image
+  rotate: false
+  xy: 234, 376
+  size: 102, 41
+  orig: 102, 41
+  offset: 0, 0
+  index: -1
+text-field-music
+  rotate: false
+  xy: 1, 150
+  size: 102, 41
+  orig: 102, 41
+  offset: 0, 0
+  index: -1
+text-field-remove-keys
+  rotate: false
+  xy: 369, 412
+  size: 102, 41
+  orig: 102, 41
+  offset: 0, 0
+  index: -1
+text-field-required-keys
+  rotate: false
+  xy: 240, 333
+  size: 102, 41
+  orig: 102, 41
+  offset: 0, 0
+  index: -1
+text-field-room-name
+  rotate: false
+  xy: 369, 455
+  size: 102, 41
+  orig: 102, 41
+  offset: 0, 0
+  index: -1
+text-field-sound
+  rotate: false
+  xy: 1, 193
+  size: 102, 41
+  orig: 102, 41
+  offset: 0, 0
+  index: -1
+text-field-target-room
+  rotate: false
+  xy: 1, 107
+  size: 102, 41
+  orig: 102, 41
+  offset: 0, 0
+  index: -1
+text-field-text
+  rotate: false
+  xy: 1, 236
+  size: 102, 41
+  orig: 102, 41
+  offset: 0, 0
+  index: -1

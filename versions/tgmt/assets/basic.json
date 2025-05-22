@@ -1,0 +1,63 @@
+{
+"Start": {
+	"x": -43,
+	"y": -50.000057,
+	"story": [
+		"text:::To pay homage to the great GBTK and a celebration of reaching the tenth one, I have created this masterpiece to reflect upon the happy times we've had together.\n\nPrepare yourself for a sensuous journey, in which you will have to grab the games from the previous nine GBTKs and categorise them into the appropriate jam. Once all games have been categorised, you shall be automatically whisked away to view how well you did without a chance to rethink your final placement.\n\n[*]I am legally required to inform you that this tribute has been linked with hearing loss, seizures, and birth defects.",
+		"image:::Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg"
+	],
+	"actions": {
+		"Meow": {
+			"targetRoom": "Cat",
+			"requiredKeys": [],
+			"bannedKeys": [],
+			"giveKeys": [],
+			"removeKeys": [],
+			"removeAllKeys": false
+		}
+	}
+},
+"Cat": {
+	"x": 212.00006,
+	"y": -168.00002,
+	"story": [
+		"text:::Oh lawd, he comin'! Satchmo, you are so big and round! Such a tubby kitty, what a big ol chonker! There's just oh-so-much more of you to love!",
+		"image:::satchmo.jpg"
+	],
+	"actions": {
+		"Back": {
+			"targetRoom": "Start",
+			"requiredKeys": [],
+			"bannedKeys": [],
+			"giveKeys": [],
+			"removeKeys": [],
+			"removeAllKeys": false
+		},
+		"Credits": {
+			"targetRoom": "Credits",
+			"requiredKeys": [],
+			"bannedKeys": [],
+			"giveKeys": [],
+			"removeKeys": [],
+			"removeAllKeys": false
+		}
+	}
+},
+"Credits": {
+	"x": 581.00006,
+	"y": 67.99998,
+	"story": [
+		"image:::credits-page.png"
+	],
+	"actions": {
+		"Go Back": {
+			"targetRoom": "Start",
+			"requiredKeys": [],
+			"bannedKeys": [],
+			"giveKeys": [],
+			"removeKeys": [],
+			"removeAllKeys": false
+		}
+	}
+}
+}

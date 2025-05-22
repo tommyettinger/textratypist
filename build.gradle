@@ -116,7 +116,7 @@ dependencies {
     testImplementation "com.rafaskoberg.gdx:typing-label:1.4.0"
     testImplementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     testImplementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-    testImplementation "com.github.raeleus.stripe:freetype:1.4.5"
+    testImplementation "com.github.raeleus.stripe:freetype:2.0.0"
     testImplementation "com.github.raeleus.TenPatch:tenpatch:5.2.3"
     testImplementation "com.github.tommyettinger:anim8-gdx:$anim8Version"
     testImplementation 'com.github.tommyettinger:colorful:0.9.0'
