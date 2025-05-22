@@ -49,7 +49,7 @@ public class WelcomeScreen extends ApplicationAdapter {
             "I am legally required to inform you that this tribute has been linked with hearing loss, seizures, and birth defects."
     ).replace(" ", "  ");
     Label label = new Label(text, style);
-    TextraLabel textraLabel = new TextraLabel(text, style2);
+    TypingLabel textraLabel = new TypingLabel(text, style2);
 
     Stack stack = new Stack(label, textraLabel);
     stack.setFillParent(true);

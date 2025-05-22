@@ -891,7 +891,7 @@ public class TypingLabel extends TextraLabel {
             if (wrap) {
                 workingLayout.setTargetWidth(width);
                 font.regenerateLayout(workingLayout);
-                //FIXME: do we want to call this at all?
+                // It looks like we don't benefit from invalidating here, but I'm not sure.
 //                invalidateHierarchy();
             }
         }
@@ -934,7 +934,7 @@ public class TypingLabel extends TextraLabel {
             if(width != 0f)
                 workingLayout.setTargetWidth(width);
             font.regenerateLayout(workingLayout);
-            //FIXME: do we want to call this at all?
+            // It looks like we don't benefit from invalidating here, but I'm not sure.
 //            invalidateHierarchy();
         }
     }
