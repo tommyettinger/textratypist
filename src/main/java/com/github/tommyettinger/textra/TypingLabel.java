@@ -891,8 +891,8 @@ public class TypingLabel extends TextraLabel {
             if (wrap) {
                 workingLayout.setTargetWidth(width);
                 font.regenerateLayout(workingLayout);
-                // It looks like we don't benefit from invalidating here, but I'm not sure.
-//                invalidateHierarchy();
+                // This needs to work on the hierarchy; see TableWrapTest for evidence.
+                invalidateHierarchy();
             }
         }
     }
