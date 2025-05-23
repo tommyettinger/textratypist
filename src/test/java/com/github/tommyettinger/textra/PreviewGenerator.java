@@ -95,7 +95,7 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        FileHandle[] sdfFiles = new FileHandle[0];
 
         // WHAT WE NORMALLY USE
-        String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String[]::new);
+        String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String.class);
         Font[] all = new Font[jsonFiles.length * 4 + 4 + 7];
         int idx = 0;
         for (int i = 0; i < jsonFiles.length; i++) {

@@ -654,7 +654,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 
 		/** Returns a new array containing the remaining keys. */
 		public Array<String> toArray () {
-			return toArray(new Array<String>(true, map.size, String[]::new));
+			return toArray(new Array<String>(true, map.size, String.class));
 		}
 
 		/** Adds the remaining keys to the array. */
