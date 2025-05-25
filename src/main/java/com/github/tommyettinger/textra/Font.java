@@ -6437,7 +6437,7 @@ public class Font implements Disposable {
                 }
                 showCh = (current & SMALL_CAPS) == SMALL_CAPS ? Category.caseUp(ch) : ch;
                 if(ch >= 0xE000 && ch < 0xF800){
-                    sclX = (scale + 1) * 0.25f * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
+                    sclX = scale * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
                 }
                 float w;
                 if (font.kerning == null) {
@@ -6587,7 +6587,7 @@ public class Font implements Disposable {
                                 later.width = changeNext;
                                 earlier.width -= change;
                                 later.glyphs.addAll(glyphBuffer);
-                                later.height = Math.max(later.height, font.cellHeight * (scale + 1) * 0.25f);
+                                later.height = Math.max(later.height, font.cellHeight * scale);
                                 break;
                             }
                         }
@@ -6596,7 +6596,7 @@ public class Font implements Disposable {
                         }
                     }
                 } else {
-                    appendTo.peekLine().height = Math.max(appendTo.peekLine().height, (font.cellHeight /* - font.descent * font.scaleY */) * (scale + 1) * 0.25f);
+                    appendTo.peekLine().height = Math.max(appendTo.peekLine().height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
                 }
             }
         }
