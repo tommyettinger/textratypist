@@ -51,7 +51,7 @@ public class SimpleTypingUITest extends InputAdapter implements ApplicationListe
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		final Font font = skin.get("outline-font", Font.class);
-		font.setLineMetrics(-0.5f, 0f, 0.25f, 0f);
+		font.setLineMetrics(0f, 0.25f, 0f, 0f);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz();
