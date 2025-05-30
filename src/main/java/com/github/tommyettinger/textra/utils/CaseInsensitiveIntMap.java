@@ -50,27 +50,29 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 	protected float loadFactor;
 	protected int threshold;
 
-	/** Used by {@link #place(String)} to bit shift the upper bits of a {@code long} into a usable range (&gt;= 0 and &lt;=
-	 * {@link #mask}). The shift can be negative, which is convenient to match the number of bits in mask: if mask is a 7-bit
-	 * number, a shift of -7 shifts the upper 7 bits into the lowest 7 positions. This class sets the shift &gt; 32 and &lt; 64,
-	 * which if used with an int will still move the upper bits of an int to the lower bits due to Java's implicit modulus on
-	 * shifts.
+	/**
+	 * Used by {@link #place(String)} to bit shift the upper bits of a {@code long} into a usable range (&gt;= 0 and
+	 * &lt;= {@link #mask}). This class expects the shift to be &gt; 32 and &lt; 64, which, if used with an int, will
+	 * still move the upper bits of an int to the lower bits due to Java's implicit modulus on shifts.
 	 * <p>
-	 * {@link #mask} can also be used to mask the low bits of a number, which may be faster for some hashcodes, if
-	 * {@link #place(String)} is overridden. */
+	 * Currently, shift isn't used to move bits in hashes, but it is updated and used to select different values for
+	 * {@link #hashSeed}, with the value changing when the map resizes.
+	 */
 	protected int shift;
 
-	/** A bitmask used to confine hashcodes to the size of the table. Must be all 1 bits in its low positions, ie a power of two
-	 * minus 1. If {@link #place(String)} is overriden, this can be used instead of {@link #shift} to isolate usable bits of a
-	 * hash. */
+	/**
+	 * A bitmask used to confine hashcodes to the size of the table. Must be all 1-bits in its low positions, ie a
+	 * power of two minus 1. In {@link #place(String)}, this is used to get the relevant low bits of a hash.
+	 */
 	protected int mask;
 	/**
 	 * Used by {@link #place(String)} to modify {@link #hashCodeIgnoreCase(CharSequence, int)} results.
 	 * Changes on every call to {@link #resize(int)} by default.
-	 * This only needs to be serialized if the full key and value tables are serialized, or if the iteration order
-	 * should be the same before and after serialization.
+	 * This only needs to be serialized if the full key and value tables are serialized. Unless this is changed by some
+	 * other code (which would need to be a subclass), hashSeed is fully determined by the {@link #shift} when the map
+	 * was constructed or last resized.
 	 */
-	protected int hashSeed = 0x9E3779B9;
+	protected int hashSeed;
 
 	protected transient Entries entries1, entries2;
 	protected transient Values values1, values2;
@@ -119,6 +121,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		threshold = (int)(tableSize * loadFactor);
 		mask = tableSize - 1;
 		shift = Integer.numberOfLeadingZeros(mask) + 32;
+		hashSeed = GOOD_MULTIPLIERS[shift] * GOOD_MULTIPLIERS[256 - shift] ^ 0x9E3779B9;
 
 		keyTable = new String[tableSize];
 		valueTable = new int[tableSize];
@@ -135,6 +138,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		threshold = (int)(tableSize * loadFactor);
 		mask = tableSize - 1;
 		shift = Integer.numberOfLeadingZeros(mask) + 32;
+		hashSeed = GOOD_MULTIPLIERS[shift] * GOOD_MULTIPLIERS[256 - shift] ^ 0x9E3779B9;
 
 		keyTable = new String[tableSize];
 		valueTable = new int[tableSize];
@@ -158,12 +162,6 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 	/** Returns an index &gt;= 0 and &lt;= {@link #mask} for the specified {@code item}.
 	 */
 	protected int place (String item) {
-//		final int n = item.length();
-//		int h = n;
-//		for (int i = 0; i < n; i++) {
-//			h = 1003 * h ^ Category.caseFold(item.charAt(i));
-//		}
-//		return (int)(h * hashMultiplier >>> shift);
 		return hashCodeIgnoreCase(item, hashSeed) & mask;
 	}
 
@@ -359,7 +357,7 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		mask = newSize - 1;
 		shift = Integer.numberOfLeadingZeros(mask) + 32;
 
-		hashSeed = hashSeed * GOOD_MULTIPLIERS[hashSeed >>> 23 ^ shift] ^ mask;
+		hashSeed = GOOD_MULTIPLIERS[shift] * GOOD_MULTIPLIERS[256 - shift] ^ 0x9E3779B9;
 
 		String[] oldKeyTable = keyTable;
 		int[] oldValueTable = valueTable;
@@ -665,6 +663,9 @@ public class CaseInsensitiveIntMap implements Iterable<CaseInsensitiveIntMap.Ent
 		}
 	}
 
+	/**
+	 * 512 multipliers, each 21 bits, that were tested and had few enough collisions here.
+	 */
 	private static final int[] GOOD_MULTIPLIERS = {
 			0x00110427, 0x00144057, 0x001AFB2F, 0x001F1753, 0x00135205, 0x00176C45, 0x001E3A15, 0x001F406D,
 			0x001DEF1D, 0x0018BD49, 0x001DE7A9, 0x00117949, 0x001BDC1D, 0x00190A37, 0x0014A839, 0x00108EB9,
