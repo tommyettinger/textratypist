@@ -41,7 +41,7 @@ public class ResizeTestApplication extends ApplicationAdapter {
     private Stage ui;
     private Table background;
 
-    TextraLabel itemDesc;
+    TypingLabel itemDesc;
     Font nowAlt;
 
     public static void main(String[] args) {
@@ -79,18 +79,17 @@ public class ResizeTestApplication extends ApplicationAdapter {
         background.setFillParent(true);
         ui.addActor(background);
 
-        TextraLabel instructions = new TextraLabel("Try with/without maximizing the window.\n\nPress [*]G[*] to refresh /*Typing*/TextraLabel's text ", nowAlt);
+        TypingLabel instructions = new TypingLabel("Try with/without maximizing the window.\n\nPress [*]G[*] to refresh TypingLabel's text ", nowAlt);
         background.add(instructions).top().left().row();
 
         Table description = new Table();
 
-        itemDesc = new /*Typing*/TextraLabel("", nowAlt);
+        itemDesc = new TypingLabel("", nowAlt);
         itemDesc.setWrap(true);
         itemDesc.setDebug(true);
         description.add(itemDesc).padTop(20).growX().left().row();
         description.add(new Table()).expandY().row();
-
-        background.add(new /*Typing*/TextraLabel("|", nowAlt) {
+        background.add(new TypingLabel("|", nowAlt) {
 
             boolean first = false;
 
@@ -104,17 +103,18 @@ public class ResizeTestApplication extends ApplicationAdapter {
                                             Actions.moveBy(150, 150, time),
                                             Actions.fadeOut(time)
                                     ),
+//                                    Actions.delay(time),
                                     Actions.run(() -> {
                                         if (!first) {
                                             // the first char of each line isn't getting sized correctly.
-                                            setText("[%250][*]Oh no, monsters!");
+                                            restart("[%250][*]Oh no, monsters!");
                                             first = true;
                                         } else {
                                             first = false;
                                             // also, the scale information stored in the Layout isn't getting written
                                             // over correctly, at all... The end of this sentence gets the right
                                             // smaller size, but the start is still at the "monsters" message size.
-                                            setText("[%70][*]What kinda stuff do you have in there?");
+                                            restart("[%70][*]What kinda stuff do you have in there?");
                                         }
                                         skipToTheEnd();
                                     }),

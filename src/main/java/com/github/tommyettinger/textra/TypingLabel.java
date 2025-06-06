@@ -468,7 +468,7 @@ public class TypingLabel extends TextraLabel {
         skipping = true;
         ignoringEvents = ignoreEvents;
         ignoringEffects = ignoreEffects;
-        act(Float.MIN_VALUE);
+//        act(Float.MIN_VALUE);
         return this;
     }
 
