@@ -41,9 +41,9 @@ public class DialogTest extends ApplicationAdapter {
         Font gentium = KnownFonts.getGentium();
         Styles.WindowStyle style = new Styles.WindowStyle();
         style.titleFont = gentium;
-        style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.CLEAR);
-//        style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.MAROON);
-        dialog = new TextraDialog("", style, gentium);
+//        style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.CLEAR);
+        style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.MAROON);
+        dialog = new TextraDialog("SING ALONG!", style, gentium);
         stage.setDebugAll(true);
 
         dialog.getButtonTable().clear();
@@ -72,6 +72,7 @@ public class DialogTest extends ApplicationAdapter {
             @Override
             public void end() {
                 ok.setVisible(true);
+                dialog.pack();
             }
         });
         tl.setWrap(true);
