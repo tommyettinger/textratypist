@@ -23,6 +23,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -32,7 +33,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class DialogTest extends ApplicationAdapter {
     ScreenViewport viewport;
     Stage stage;
-    TextraDialog dialog;
+    TextraWindow dialog;
     @Override
     public void create() {
         viewport = new ScreenViewport();
@@ -43,17 +44,19 @@ public class DialogTest extends ApplicationAdapter {
         style.titleFont = gentium;
 //        style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.CLEAR);
         style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.MAROON);
-        dialog = new TextraDialog("SING ALONG!", style, gentium);
+        dialog = new TextraWindow("SING ALONG!", style, gentium);
         stage.setDebugAll(true);
+        Table contentTable = new Table();
+        dialog.add(contentTable).expandY().row();
+        Table buttonTable = new Table();
+        dialog.add(buttonTable);
 
-        dialog.getButtonTable().clear();
-        dialog.getContentTable().clear();
         dialog.clearListeners();
         TextraButton ok = new TextraButton("OK", new Styles.TextButtonStyle(), gentium);
         ok.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                dialog.hide(1.5f);
+                dialog.addAction(Actions.fadeOut(1.5f));
             }
         });
 //        TextraLabel tl = new TextraLabel(
@@ -91,17 +94,19 @@ public class DialogTest extends ApplicationAdapter {
         });
 
         // This was necessary in versions 7.5 through 7.7, and shouldn't be needed later. It can't hurt, though.
-        dialog.getContentTable().clear();
+        contentTable.clear();
 
-        dialog.getButtonTable().add(ok).width(240f);
-        dialog.getContentTable().add(tl).width(250f);
+        buttonTable.add(ok).width(240f);
+        contentTable.add(tl).width(250f);
         dialog.setKeepWithinStage(true);
-        dialog.show(stage);
+        stage.addActor(dialog);
+        dialog.pack();
 
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
+        System.out.println(dialog);
     }
 
     @Override
