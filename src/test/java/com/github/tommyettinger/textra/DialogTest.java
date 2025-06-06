@@ -44,12 +44,22 @@ public class DialogTest extends ApplicationAdapter {
         style.titleFont = gentium;
 //        style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.CLEAR);
         style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.MAROON);
-        dialog = new TextraWindow("SING ALONG!", style, gentium);
+        style.background.setTopHeight(40f);
+
+        // okay... things wrong here so far:
+        // the titleLabel is wrapped, despite that seeming wrong, and never being requested.
+        // the title wraps to 3 lines, but one is above the window, and before the typing completes,
+        // the second line overlaps with the TypingLabel in content.
+        // only after the typing completes, which calls dialog.pack(), is any line in the right position,
+        // taking up the right amount of vertical space... And it's the second one only.
+        dialog = new TextraWindow("SING ALONG, FRIENDS!", style, gentium, true);
+        dialog.titleLabel.setWidth(100f);
         stage.setDebugAll(true);
         Table contentTable = new Table();
         dialog.add(contentTable).expandY().row();
         Table buttonTable = new Table();
         dialog.add(buttonTable);
+        dialog.pack();
 
         dialog.clearListeners();
         TextraButton ok = new TextraButton("OK", new Styles.TextButtonStyle(), gentium);
