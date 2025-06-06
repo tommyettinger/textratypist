@@ -22,15 +22,18 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class ResizeTestApplication extends ApplicationAdapter {
@@ -66,7 +69,7 @@ public class ResizeTestApplication extends ApplicationAdapter {
         Gdx.input.setInputProcessor(ui);
 
         //KnownFonts.setAssetPrefix("knownFonts/");
-        nowAlt = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF);
+        nowAlt = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF_OUTLINE);
 
         backgroundImage = new Texture(Gdx.files.internal("Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg"));
 
@@ -154,6 +157,7 @@ public class ResizeTestApplication extends ApplicationAdapter {
             System.out.println(itemDesc.layout);
             System.out.println("" + itemDesc.getWidth());
         }
+        itemDesc.setColor(1f, 1f, 1f, MathUtils.sinDeg(TimeUtils.millis() >>> 2 & 0xFFFFFL) * 0.5f + 0.5f);
         ui.getViewport().apply(true);
         ui.act();
         ui.draw();
