@@ -152,6 +152,11 @@ public class Layout {
 
     public Layout clear() {
         lines.clear();
+        sizing.clear();
+        advances.clear();
+        offsets.clear();
+        rotations.clear();
+
         lines.add(new Line());
         atLimit = false;
         return this;

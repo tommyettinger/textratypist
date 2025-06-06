@@ -79,7 +79,7 @@ public class ResizeTestApplication extends ApplicationAdapter {
         background.setFillParent(true);
         ui.addActor(background);
 
-        TypingLabel instructions = new TypingLabel("Try with/without maximizing the window.\n\nPress [*]G[*] to refresh TypingLabel's text ", nowAlt);
+        TypingLabel instructions = new TypingLabel("[%150]Try with/without maximizing the window.\n\nPress [*]G[*] to refresh TypingLabel's text ", nowAlt);
         background.add(instructions).top().left().row();
 
         Table description = new Table();
