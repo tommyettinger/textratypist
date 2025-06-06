@@ -41,7 +41,7 @@ public class ResizeTestApplication extends ApplicationAdapter {
     private Stage ui;
     private Table background;
 
-    /*Typing*/TextraLabel itemDesc;
+    TextraLabel itemDesc;
     Font nowAlt;
 
     public static void main(String[] args) {
@@ -66,9 +66,9 @@ public class ResizeTestApplication extends ApplicationAdapter {
         Gdx.input.setInputProcessor(ui);
 
         //KnownFonts.setAssetPrefix("knownFonts/");
-        nowAlt = KnownFonts.getNowAlt();
+        nowAlt = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF);
 
-        backgroundImage = new Texture(Gdx.files.internal("gs/TitleBackground.png"));
+        backgroundImage = new Texture(Gdx.files.internal("Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg"));
 
         createUI();
     }
@@ -144,14 +144,14 @@ public class ResizeTestApplication extends ApplicationAdapter {
 //        batch.setColor(Color.WHITE);
 //        batch.end();
 
-        ui.act();
         if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
-            System.out.println("" + itemDesc.getWidth());
             itemDesc.setText("[DARK-bright-raspberry-magenta-rose-red-ember]"
                     + "So juicy and red! You could probably collect them on a mountain..");
             System.out.println(itemDesc.layout);
+            System.out.println("" + itemDesc.getWidth());
         }
         ui.getViewport().apply(true);
+        ui.act();
         ui.draw();
     }
 
@@ -162,5 +162,6 @@ public class ResizeTestApplication extends ApplicationAdapter {
 //        ui.addActor(background);
         // fixed, maybe, for FitViewport, but not ScreenViewport...
         ui.getViewport().update(width, height, true);
+        nowAlt.resizeDistanceField(width, height, ui.getViewport());
     }
 }
