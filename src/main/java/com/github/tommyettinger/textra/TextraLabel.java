@@ -657,10 +657,7 @@ public class TextraLabel extends Widget {
      */
     public void setText(String markupText) {
         storedText = markupText;
-//        if(wrap)
-//            layout.setTargetWidth(getWidth());
-//        else
-//            layout.setTargetWidth(0f);
+        layout.setTargetWidth(getWidth());
         font.markup(markupText, layout.clear());
 
 

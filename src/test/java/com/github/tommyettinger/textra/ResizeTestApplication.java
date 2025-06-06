@@ -106,11 +106,15 @@ public class ResizeTestApplication extends ApplicationAdapter {
                                     ),
                                     Actions.run(() -> {
                                         if (!first) {
-                                            setText("[%150][*]Bestiary");
+                                            // the first char of each line isn't getting sized correctly.
+                                            setText("[%250][*]Oh no, monsters!");
                                             first = true;
                                         } else {
                                             first = false;
-                                            setText("[%150][*]Inventory");
+                                            // also, the scale information stored in the Layout isn't getting written
+                                            // over correctly, at all... The end of this sentence gets the right
+                                            // smaller size, but the start is still at the "monsters" message size.
+                                            setText("[%70][*]What kinda stuff do you have in there?");
                                         }
                                         skipToTheEnd();
                                     }),
