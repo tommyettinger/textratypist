@@ -23,17 +23,16 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class DialogTest extends ApplicationAdapter {
+public class TextraDialogTest extends ApplicationAdapter {
     ScreenViewport viewport;
     Stage stage;
-    TextraWindow dialog;
+    TextraDialog dialog;
     @Override
     public void create() {
         viewport = new ScreenViewport();
@@ -42,31 +41,36 @@ public class DialogTest extends ApplicationAdapter {
         Font gentium = KnownFonts.getGentium();
         Styles.WindowStyle style = new Styles.WindowStyle();
         style.titleFont = gentium;
-//        style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.CLEAR);
         style.background = new TextureRegionDrawable(gentium.mapping.get(gentium.solidBlock)).tint(Color.MAROON);
         style.background.setTopHeight(40f);
 
-        // okay... things wrong here so far:
+        // okay... things wrong here when we used TextraWindow:
         // the titleLabel is wrapped, despite that seeming wrong, and never being requested.
         // the title wraps to 3 lines, but one is above the window, and before the typing completes,
         // the second line overlaps with the TypingLabel in content.
         // only after the typing completes, which calls dialog.pack(), is any line in the right position,
         // taking up the right amount of vertical space... And it's the second one only.
-        dialog = new TextraWindow("SING ALONG, FRIENDS!", style, gentium, true);
-        dialog.titleLabel.setWidth(100f);
+
+        // But, now we're back to using TextraDialog.
+        // This shows the title bar mostly correctly, except that it overlaps with the content's first line or so.
+        // Apparently scene2d.ui Dialog does the same, so it might not be a bug in TextraDialog...
+        dialog = new TextraDialog("SING ALONG, FRIENDS!", style, gentium);
         stage.setDebugAll(true);
-        Table contentTable = new Table();
-        dialog.add(contentTable).expandY().row();
-        Table buttonTable = new Table();
-        dialog.add(buttonTable);
-        dialog.pack();
+        Table contentTable = dialog.getContentTable();
+        Table buttonTable = dialog.getButtonTable();
+//        Table contentTable = new Table();
+//        dialog.add(contentTable).expandY().row();
+//        Table buttonTable = new Table();
+//        dialog.add(buttonTable);
+//        dialog.pack();
 
         dialog.clearListeners();
         TextraButton ok = new TextraButton("OK", new Styles.TextButtonStyle(), gentium);
         ok.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                dialog.addAction(Actions.fadeOut(1.5f));
+                dialog.hide(1.5f);
+//                dialog.addAction(Actions.fadeOut(1.5f));
             }
         });
 //        TextraLabel tl = new TextraLabel(
@@ -74,7 +78,7 @@ public class DialogTest extends ApplicationAdapter {
 //                        "The magical mystery tour:\nIs coming\nTo take you away\nDying to take you away!\nTake you,\nToday...",
 //                gentium);
 
-        ok.setVisible(false);
+        ok.setColor(Color.CLEAR);
         TypingLabel tl = new TypingLabel(
                 "[%?blacken]{GRADIENT=CYAN;WHITE;1;1}Come on... The Magical Mystery Tour!{ENDGRADIENT}\n" +
                         "The magical mystery tour:\nIs coming\nTo take you away\nDying to take you away!\nTake you,\nToday...",
@@ -84,7 +88,7 @@ public class DialogTest extends ApplicationAdapter {
         tl.setTypingListener(new TypingAdapter() {
             @Override
             public void end() {
-                ok.setVisible(true);
+                ok.setColor(Color.WHITE);
                 dialog.pack();
             }
         });
@@ -109,7 +113,8 @@ public class DialogTest extends ApplicationAdapter {
         buttonTable.add(ok).width(240f);
         contentTable.add(tl).width(250f);
         dialog.setKeepWithinStage(true);
-        stage.addActor(dialog);
+//        stage.addActor(dialog);
+        dialog.show(stage);
         dialog.pack();
 
         Table table = new Table();
@@ -153,7 +158,7 @@ public class DialogTest extends ApplicationAdapter {
         config.disableAudio(true);
         config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
-        new Lwjgl3Application(new DialogTest(), config);
+        new Lwjgl3Application(new TextraDialogTest(), config);
     }
 
 }
