@@ -50,9 +50,9 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 		TextureRegion image = new TextureRegion(texture1);
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
-		final Font font = skin.get("outline-font", Font.class);
+		final Font font = skin.get("outline-cozette", Font.class);
 //		final Font font = new Font(skin.getFont("outline-font"), 0f, 0f, 0f, 0f);
-		font.setLineMetrics(-0.5f, 0f, 0.25f, 0f);
+//		font.setLineMetrics(-0.5f, 0f, 0.25f, 0f);
 		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		font.family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz();
@@ -98,7 +98,7 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		TextraWindow window = new TextraWindow("TextraWindow", skin, "default", font, true);
+		TextraWindow window = new TextraWindow("TextraWindow", skin, "default", font, false);
 		window.getTitleTable().add(new TextraButton("X", skin, window.titleLabel.font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);

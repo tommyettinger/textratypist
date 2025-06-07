@@ -236,7 +236,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 
 		iconButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				new TextraDialog("Some TextraDialog", skin, "dialog", font) {
+				new TextraDialog("Some TextraDialog", skin, "dialog") {
 					protected void result (Object object) {
 						System.out.println("Chosen: " + object);
 					}
