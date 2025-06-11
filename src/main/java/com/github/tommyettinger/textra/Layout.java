@@ -256,8 +256,9 @@ public class Layout {
      *
      * @param baseColor the float bits of a Color, as obtainable via {@link Color#toFloatBits()}
      */
-    public void setBaseColor(float baseColor) {
+    public Layout setBaseColor(float baseColor) {
         this.baseColor = baseColor;
+        return this;
     }
 
     /**
@@ -267,8 +268,9 @@ public class Layout {
      *
      * @param baseColor a Color to use for text that hasn't been formatted; if null, will be treated as white
      */
-    public void setBaseColor(Color baseColor) {
+    public Layout setBaseColor(Color baseColor) {
         this.baseColor = baseColor == null ? Color.WHITE_FLOAT_BITS : baseColor.toFloatBits();
+        return this;
     }
 
     /**
@@ -286,8 +288,9 @@ public class Layout {
      *
      * @param maxLines the limit for how many Line objects this Layout can contain; always 1 or more
      */
-    public void setMaxLines(int maxLines) {
+    public Layout setMaxLines(int maxLines) {
         this.maxLines = Math.max(1, maxLines);
+        return this;
     }
 
     /**
@@ -308,8 +311,18 @@ public class Layout {
      *
      * @param ellipsis a String for a Layout to end with if its max lines are exceeded, or null to avoid such truncation
      */
-    public void setEllipsis(String ellipsis) {
+    public Layout setEllipsis(String ellipsis) {
         this.ellipsis = ellipsis;
+        return this;
+    }
+
+    public Justify getJustification() {
+        return justification;
+    }
+
+    public Layout setJustification(Justify justification) {
+        this.justification = justification == null ? Justify.NONE : justification;
+        return this;
     }
 
     /**
