@@ -38,6 +38,7 @@ public class Layout {
     protected String ellipsis = null;
     protected float targetWidth = 0f;
     protected float baseColor = Color.WHITE_FLOAT_BITS;
+    protected Justify justification = Justify.NONE;
     /**
      * Contains two floats per glyph; even items are x offsets (0-indexed), odd items are y offsets.
      * The neutral value for a glyph (the value that this defaults to, and means no change should be made) is 0.0f.
@@ -84,6 +85,7 @@ public class Layout {
         offsets.addAll(other.offsets);
         sizing.addAll(other.sizing);
         advances.addAll(other.advances);
+        justification = other.justification;
     }
     /**
      * One of the ways to set the font on a Layout; this one returns this Layout for chaining.
@@ -163,6 +165,7 @@ public class Layout {
     }
 
     public float getWidth() {
+        if(justification != Justify.NONE && (lines.size > 1 && !justification.ignoreLastLine)) return targetWidth;
         float w = 0;
         for (int i = 0, n = lines.size; i < n; i++) {
             w = Math.max(w, lines.get(i).width);
@@ -322,10 +325,12 @@ public class Layout {
         return layoutSize;
     }
     /**
-     * Resets the object for reuse. The font is nulled, but the lines are freed, cleared, and then one blank line is
+     * Resets the object for reuse. The font is nullified, but the lines are cleared and then one blank line is
      * re-added to lines so it can be used normally later.
      */
     public void reset() {
+        clear();
+        justification = Justify.NONE;
         targetWidth = 0f;
         baseColor = Color.WHITE_FLOAT_BITS;
         maxLines = Integer.MAX_VALUE;
