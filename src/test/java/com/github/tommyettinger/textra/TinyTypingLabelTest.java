@@ -180,8 +180,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                        "Medieval", "Future", "Console", "Code"
 
 //                "{VAR=SHOWIFA}A is enabled! Press A on your controller to confirm!{VAR=ENDSHOWIFA}{VAR=SHOWIFNOTA}A is disabled! Click to confirm!{VAR=ENDSHOWIFNOTA}\n" +
-                "{IF=controller;yes=A is enabled! Press A on your controller to confirm!;=A is disabled! Click to confirm!}\n"
-                        ,
+
+//                "{IF=controller;yes=A is enabled! Press A on your controller to confirm!;=A is disabled! Click to confirm!}\n",
 /*                        +
 
                 "{SLAM}There's a [/][@Medieval]STORM{RESET} on {MEET=2;1;n;y}[@Future][GREEN]the way[][][-ENDMEET], " +
@@ -192,9 +192,15 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 "Should a [@Retro]young[@] {IF=gender;m=lad;f=lass;t='un;e=[+🧒]} go [@Code]out[@], in the [@Humanist]wind[@] and [@Geometric]the {SHAKE=;;2}thunder{ENDSHAKE}[@], " +
                 "if {IF=gender;m=he makes;f=she makes;t=they make;e=[+🧒] makes} it [@Condensed]back[@], it [@Console]will[@] be a [;][%^]true wonder[%][;]!",
 */
+                "Welcome back {VAR=check case}, how are you doing?",
                 font);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOWER}");
         label.align = Align.topLeft;
+        TypingConfig.GLOBAL_VARS.put("CHECK CASE", "Bob"); //all caps works
+//        TypingConfig.GLOBAL_VARS.put("player", "Bob"); //not working
+        label.setVariable("player", "Bob"); //working
+        label.parseTokens();
+        label.skipToTheEnd();
 
         // Make the label wrap to new lines, respecting the table's layout.
         label.setWrap(true);

@@ -605,8 +605,12 @@ public class TypingLabel extends TextraLabel {
      * @param var the String name of a variable to remove
      */
     public void removeVariable(String var) {
-        if(var != null)
-            variables.remove(var.toUpperCase());
+        if(var != null) {
+            String old = variables.remove(var.toUpperCase());
+            if(old != null && (old.contains("[") || old.contains("{"))){
+                parsed = false;
+            }
+        }
     }
 
     /**
@@ -617,7 +621,11 @@ public class TypingLabel extends TextraLabel {
         this.variables.clear();
         if (variableMap != null) {
             for (Entry<String, String> entry : variableMap.entries()) {
-                this.variables.put(entry.key.toUpperCase(), entry.value);
+                String value = entry.value;
+                String old = this.variables.put(entry.key.toUpperCase(), value);
+                if(value.contains("[") || value.contains("{") || (old != null && (old.contains("[") || old.contains("{")))) {
+                    parsed = false;
+                }
             }
         }
     }
@@ -636,14 +644,14 @@ public class TypingLabel extends TextraLabel {
                     if(value.contains("[") || value.contains("{") || (old != null && (old.contains("[") || old.contains("{")))) {
                         parsed = false;
                     }
-
                 }
             }
         }
     }
 
     /**
-     * Removes all variables from this label.
+     * Removes all variables from this label. May require {@link #parseTokens()} to be called after, if any values for
+     * variables present in this Label used square-bracket or curly-brace markup. This doesn't check.
      */
     public void clearVariables() {
         this.variables.clear();

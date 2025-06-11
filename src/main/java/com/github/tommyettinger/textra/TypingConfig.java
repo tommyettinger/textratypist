@@ -67,7 +67,10 @@ public class TypingConfig {
     public static IntFloatMap INTERVAL_MULTIPLIERS_BY_CHAR = new IntFloatMap();
 
     /**
-     * Map of global variables that affect all {@link TypingLabel} instances at once.
+     * Map of global variables that affect all {@link TypingLabel} instances at once. Keys should always be UPPERCASE.
+     * They can be looked up with any case in the String markup, but they must be entered here as upper-case. The
+     * convention here is to avoid any separators, but underscores, dashes, and even sometimes spaces can be used
+     * in user-defined key Strings.
      */
     public static final ObjectMap<String, String> GLOBAL_VARS = new ObjectMap<>();
 
