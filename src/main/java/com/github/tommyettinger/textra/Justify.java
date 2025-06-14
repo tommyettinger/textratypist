@@ -2,18 +2,16 @@ package com.github.tommyettinger.textra;
 
 /**
  * Determines line justification behavior in a Layout.
- * Besides {@link #NONE}, each constant applies justification to some glyphs on a typical {@link Line}.
+ * Besides {@link #NONE}, which makes no changes, each constant applies justification to some glyphs on a typical
+ * {@link Line}.
  * <br>
- * The simplest behavior is that of {@link #COMPLETE_ALL_GLYPHS}; it adds extra space to every glyph so the text fills
- * all the way to the right edge. {@link #PARAGRAPH_ALL_GLYPHS} acts the same except on the last Line (or only Line)
+ * The simplest behavior is that of {@link #FULL_ON_ALL_LINES}; it adds extra space to every glyph so the text fills
+ * all the way to the right edge. {@link #FULL_ON_PARAGRAPH} acts the same except on the last Line (or only Line)
  * of a paragraph; it will not justify the last line at all.
  * <br>
- * Other constants can cause Lines to justify only spaces, or spaces more than other glyphs while still adding to all.
- * {@link #COMPLETE_ONLY_SPACES} and {@link #PARAGRAPH_ONLY_SPACES} only increase the width of the ASCII space character
- * {@code ' '}, or decimal 32, hex 0020, and so on. "COMPLETE" affects all Lines, while "PARAGRAPH" doesn't affect the
- * last (or only) Line. {@link #COMPLETE_BONUS_SPACES} and {@link #PARAGRAPH_BONUS_SPACES} affect all characters, but
- * treat spaces as "counting for double" and add more space to them.
- *
+ * The other constants cause Lines to justify only spaces. {@link #SPACES_ON_ALL_LINES} and {@link #SPACES_ON_PARAGRAPH}
+ * only increase the width of the ASCII space character {@code ' '}, or decimal 32, hex 0020, and so on. "ALL_LINES"
+ * affects all Lines, while "PARAGRAPH" doesn't affect the last (or only) Line.
  */
 public enum Justify {
     /**
@@ -23,31 +21,21 @@ public enum Justify {
     /**
      * Adds extra x-advance to every space (the char {@code ' '}) so the text fills all the way to the right edge.
      */
-    COMPLETE_ONLY_SPACES(false, true, false),
+    SPACES_ON_ALL_LINES(false, true, false),
     /**
      * Adds extra x-advance to every glyph so the text fills all the way to the right edge.
      */
-    COMPLETE_ALL_GLYPHS(false, false, true),
-    /**
-     * Adds extra x-advance to every glyph, with more applied to every space (the char {@code ' '}), so the text fills
-     * all the way to the right edge.
-     */
-    COMPLETE_BONUS_SPACES(false, true, true),
+    FULL_ON_ALL_LINES(false, false, true),
     /**
      * Adds extra x-advance to every space (the char {@code ' '}) so the text fills all the way to the right edge,
      * except for the last Line (or only Line) of a paragraph.
      */
-    PARAGRAPH_ONLY_SPACES(true, true, false),
+    SPACES_ON_PARAGRAPH(true, true, false),
     /**
      * Adds extra space to every glyph so the text fills all the way to the right edge, except for the last Line (or
      * only Line) of a paragraph.
      */
-    PARAGRAPH_ALL_GLYPHS(true, false, true),
-    /**
-     * Adds extra x-advance to every glyph, with more applied to every space (the char {@code ' '}), so the text fills
-     * all the way to the right edge, except for the last Line (or only Line) of a paragraph.
-     */
-    PARAGRAPH_BONUS_SPACES(true, true, true),
+    FULL_ON_PARAGRAPH(true, false, true),
     ;
     public final boolean ignoreLastLine;
     public final boolean affectSpaces;
