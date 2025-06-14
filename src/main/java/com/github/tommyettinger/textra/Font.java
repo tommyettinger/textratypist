@@ -5056,15 +5056,17 @@ public class Font implements Disposable {
                 a += currentLine.glyphs.size;
                 continue;
             }
+            int startA = a;
             if(layout.justification.affectAllGlyphs) {
                 float multiplier = layout.targetWidth / currentLine.width;
                 for (int g = 0, n = currentLine.glyphs.size; g < n; g++, a++) {
                     layout.advances.mul(a, multiplier);
                 }
+                if(a != startA) currentLine.width = layout.targetWidth;
             }
             else if(layout.justification.affectSpaces) {
                 float sumWidth = 0f;
-                for (int g = 0, n = currentLine.glyphs.size; g < n; g++, a++) {
+                for (int g = 0, n = currentLine.glyphs.size; g < n; g++) {
                     long glyph = currentLine.glyphs.get(g);
                     char ch = (char)glyph;
                     if(ch == ' ') {
@@ -5073,19 +5075,20 @@ public class Font implements Disposable {
                         if (font == null) font = this;
                         GlyphRegion tr = font.mapping.get(ch);
                         if (tr == null) continue; // if space cannot be rendered, don't use it!
-                        float advance = tr.xAdvance * layout.advances.get(a);
+                        float advance = xAdvance(font, layout.advances.get(startA + g), glyph);
                         sumWidth += advance;
                     }
                 }
-                float multiplier = (layout.targetWidth - currentLine.width) / sumWidth;
+                float multiplier = sumWidth / (layout.targetWidth - currentLine.width);
                 for (int g = 0, n = currentLine.glyphs.size; g < n; g++, a++) {
                     if((char)currentLine.glyphs.get(g) == ' ')
                         layout.advances.mul(a, multiplier);
                 }
-
+                if(!MathUtils.isZero(sumWidth))
+                    currentLine.width = layout.targetWidth;
             }
         }
-        return layout.targetWidth;
+        return layout.getWidth();
     }
 
     /**

@@ -244,6 +244,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 //        Font condensed = font.family.connected[font.family.fontAliases.get("Condensed", 0)];
 //        condensed.scaleTo(font.cellWidth, font.cellHeight);
         final TypingLabel label = new TypingLabel(text.toString(), font);
+        label.getWorkingLayout().setJustification(Justify.FULL_ON_ALL_LINES);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 //        label.setVariable("MUTATE", "[GREEN]Oh yeah!");
