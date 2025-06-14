@@ -4878,86 +4878,6 @@ public class Font implements Disposable {
     }
 
     /**
-     * Measures the actual width that the given Line will use when drawn, and sets it into the Line's {@link Line#width}
-     * field.
-     *
-     * @param line a Line, as from inside a Layout
-     * @return the width in world units
-     */
-    public float calculateSize(Line line) {
-        float drawn = 0f;
-        float scaleX;
-        float scale;
-        LongArray glyphs = line.glyphs;
-        boolean curly = false, initial = true;
-        int kern = -1;
-        float amt;
-        line.height = 0f;
-        for (int i = 0, n = glyphs.size; i < n; i++) {
-            long glyph = glyphs.get(i);
-            char ch = (char) glyph;
-            if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
-            if(omitCurlyBraces) {
-                if (curly) {
-                    if (ch == '}') {
-                        curly = false;
-                        continue;
-                    } else if (ch == '{')
-                        curly = false;
-                    else continue;
-                } else if (ch == '{') {
-                    curly = true;
-                    continue;
-                }
-            }
-            Font font = null;
-            if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
-            if (font == null) font = this;
-            GlyphRegion tr = font.mapping.get(ch);
-            if (tr == null) continue;
-            scale = font.isMono ? 1f : extractScale(glyph);
-
-            if (font.kerning != null) {
-                kern = kern << 16 | ch;
-                if(ch >= 0xE000 && ch < 0xF800) {
-                    scaleX = scale * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
-                }
-                else
-                    scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
-                line.height = Math.max(line.height, font.cellHeight * scale); // * (StringUtils.SPACE_CHARS.get(ch) ? 0f : 1f)
-                amt = font.kerning.get(kern, 0) * scaleX;
-                float changedW = tr.xAdvance * scaleX;
-                if(Float.isNaN(tr.offsetX))
-                    changedW = font.cellWidth * scale;
-                else if(initial && !isMono && !(ch >= '\uE000' && ch < '\uF800')){
-                    float ox = tr.offsetX * scaleX;
-                    if(ox < 0) changedW -= ox;
-                }
-                initial = false;
-                drawn += changedW + amt;
-            } else {
-                line.height = Math.max(line.height, font.cellHeight * scale);
-                if((char)glyph >= 0xE000 && (char)glyph < 0xF800) {
-                    scaleX = scale * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
-                }
-                else
-                    scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
-                float changedW = tr.xAdvance * scaleX;
-                if(Float.isNaN(tr.offsetX))
-                    changedW = font.cellWidth * scale;
-                else if(initial && !isMono && !(ch >= '\uE000' && ch < '\uF800')){
-                    float ox = tr.offsetX * scaleX;
-                    if(ox < 0) changedW -= ox;
-                }
-                initial = false;
-                drawn += changedW;
-            }
-        }
-        line.width = drawn;
-        return drawn;
-    }
-
-    /**
      * Given a Layout that uses this Font, this will recalculate the width and height of each Line in layout, changing
      * the values in layout if they are incorrect. This returns the total width of the measured Layout. Most usage will
      * not necessarily need the return value; either this is called to fix incorrect size information on a Layout, or
@@ -4968,10 +4888,11 @@ public class Font implements Disposable {
     public float calculateSize(Layout layout) {
         float w = 0f;
         float currentHeight = 0f;
+        int a = 0;
         for (int ln = 0; ln < layout.lines(); ln++) {
             float drawn = 0f;
             float scaleX;
-            float scale;
+            float advance;
             Line line = layout.getLine(ln);
             LongArray glyphs = line.glyphs;
             boolean curly = false, initial = true;
@@ -4981,6 +4902,7 @@ public class Font implements Disposable {
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
+                advance = layout.advances.get(a++);
                 if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
                 if(omitCurlyBraces) {
                     if (curly) {
@@ -5000,18 +4922,17 @@ public class Font implements Disposable {
                 if (font == null) font = this;
                 GlyphRegion tr = font.mapping.get(ch);
                 if (tr == null) continue;
-                scale = font.isMono ? 1f : extractScale(glyph);
                 if (font.kerning != null) {
                     kern = kern << 16 | ch;
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = scale * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
+                        scaleX = (font.isMono ? 1f : advance) * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
                     else
-                        scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
-                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * scale));
+                        scaleX = font.scaleX * (font.isMono ? 1f : advance) * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
+                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * advance));
                     amt = font.kerning.get(kern, 0) * scaleX;
                     float changedW = tr.xAdvance * scaleX;
                     if(Float.isNaN(tr.offsetX))
-                        changedW = font.cellWidth * scale;
+                        changedW = font.cellWidth * advance;
                     else if(initial && !font.isMono /* && !(ch >= '\uE000' && ch < '\uF800') */ ){
                         float ox = tr.offsetX * scaleX;
                         if(ox < 0) changedW -= ox;
@@ -5019,14 +4940,14 @@ public class Font implements Disposable {
                     initial = false;
                     drawn += changedW + amt;
                 } else {
-                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * scale));
+                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * advance));
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = scale * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
+                        scaleX = (font.isMono ? 1f : advance) * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
                     else
-                        scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
+                        scaleX = font.scaleX * (font.isMono ? 1f : advance) * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
                     float changedW = tr.xAdvance * scaleX;
                     if(Float.isNaN(tr.offsetX))
-                        changedW = font.cellWidth * scale;
+                        changedW = font.cellWidth * advance;
                     else if(initial && !font.isMono /* && !(ch >= '\uE000' && ch < '\uF800') */ ){
                         float ox = tr.offsetX * scaleX;
                         if(ox < 0) changedW -= ox;
