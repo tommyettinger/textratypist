@@ -5038,7 +5038,54 @@ public class Font implements Disposable {
             line.width = drawn;
             w = Math.max(w, drawn);
         }
-        return w;
+        return justify(layout);
+    }
+
+    /**
+     * Uses the given Layout's {@link Layout#getJustification()} setting to justify all applicable Lines.
+     * @param layout a Layout that will be modified if its {@link Layout#getJustification()} was set
+     * @return {@code layout}, for chaining
+     */
+    public float justify(Layout layout) {
+        if(layout.justification == Justify.NONE) return layout.getWidth();
+        int lineCount = layout.lines();
+        int a = 0;
+        for (int l = 0; l < lineCount; l++) {
+            Line currentLine = layout.getLine(l);
+            if(layout.justification.ignoreLastLine && (l + 1 == lineCount || (char)currentLine.glyphs.peek() == '\n')) {
+                a += currentLine.glyphs.size;
+                continue;
+            }
+            if(layout.justification.affectAllGlyphs) {
+                float multiplier = layout.targetWidth / currentLine.width;
+                for (int g = 0, n = currentLine.glyphs.size; g < n; g++, a++) {
+                    layout.advances.mul(a, multiplier);
+                }
+            }
+            else if(layout.justification.affectSpaces) {
+                float sumWidth = 0f;
+                for (int g = 0, n = currentLine.glyphs.size; g < n; g++, a++) {
+                    long glyph = currentLine.glyphs.get(g);
+                    char ch = (char)glyph;
+                    if(ch == ' ') {
+                        Font font = null;
+                        if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
+                        if (font == null) font = this;
+                        GlyphRegion tr = font.mapping.get(ch);
+                        if (tr == null) continue; // if space cannot be rendered, don't use it!
+                        float advance = tr.xAdvance * layout.advances.get(a);
+                        sumWidth += advance;
+                    }
+                }
+                float multiplier = (layout.targetWidth - currentLine.width) / sumWidth;
+                for (int g = 0, n = currentLine.glyphs.size; g < n; g++, a++) {
+                    if((char)currentLine.glyphs.get(g) == ' ')
+                        layout.advances.mul(a, multiplier);
+                }
+
+            }
+        }
+        return layout.targetWidth;
     }
 
     /**
@@ -6295,8 +6342,10 @@ public class Font implements Disposable {
                         Line earlier = appendTo.peekLine();
                         Line later = appendTo.pushLine();
                         if (later == null) {
-                            if(handleEllipsis(appendTo))
+                            if(handleEllipsis(appendTo)) {
+                                justify(appendTo);
                                 return appendTo;
+                            }
                         } else {
                             for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
                                 long curr;
@@ -6472,8 +6521,10 @@ public class Font implements Disposable {
                         initial = true;
                     }
                     if (later == null) {
-                        if(handleEllipsis(appendTo))
+                        if(handleEllipsis(appendTo)) {
+                            justify(appendTo);
                             return appendTo;
+                        }
                     } else {
 
                         //// WRAP VISIBLE
@@ -6600,6 +6651,7 @@ public class Font implements Disposable {
                 }
             }
         }
+        justify(appendTo);
         return appendTo;
     }
 
