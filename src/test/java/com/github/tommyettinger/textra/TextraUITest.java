@@ -22,6 +22,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -144,11 +145,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
-		TextraLabel myLabel = new TextraLabel("This is some text.", skin, font);
-
 		Table t = new Table();
-//		t.row();
-//		t.add(myLabel);
 
 		t.layout();
 
@@ -206,9 +203,9 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
 		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[ ] password mode..." +
-				" Wait, I need more text. DEVELOPERS, DEVELOPERS, DEVELOPERS, DEVELOPERS. I LOVE THIS COMPANY!!!!!", skin, font);
+				" Wait, I need more text. DEVELOPERS, DEVELOPERS, DEVELOPERS, DEVELOPERS. I LOVE THIS COMPANY!!!!!", new Font(font).scale(0.5f), Color.WHITE, Justify.FULL_ON_ALL_LINES);
+		passwordLabel.layout.setTargetWidth(imageActor.getWidth());
 		passwordLabel.setWrap(true);
-		passwordLabel.layout();
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');

@@ -272,12 +272,24 @@ public class TextraLabel extends Widget {
      * @param color the color to use for the font when unspecified (at the start and when reset)
      */
     public TextraLabel(String text, Font font, Color color) {
+        this(text, font, color, Justify.NONE);
+    }
+    /**
+     * Creates a TextraLabel with the given text (which may be multi-line), using the given Font, and using the given
+     * default color. This does not require a Skin to be available.
+     *
+     * @param text  the text to use; may be multi-line, but will default to not wrapping
+     * @param font  a Font from this library, such as one obtained from {@link KnownFonts}
+     * @param color the color to use for the font when unspecified (at the start and when reset)
+     */
+    public TextraLabel(String text, Font font, Color color, Justify justify) {
         this.font = font;
         layout = new Layout();
         this.style = new Styles.LabelStyle();
         if (color != null) layout.setBaseColor(color);
         storedText = text;
         font.markup(text, layout);
+        layout.setJustification(justify);
     }
 
     @Override
@@ -659,7 +671,6 @@ public class TextraLabel extends Widget {
         storedText = markupText;
         layout.setTargetWidth(getWidth());
         font.markup(markupText, layout.clear());
-
 
 //        setWidth(layout.getWidth() + (style != null && style.background != null ?
 //                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
