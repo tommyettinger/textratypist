@@ -4972,54 +4972,41 @@ public class Font implements Disposable {
         int lineCount = layout.lines();
         int a = 0;
         for (int l = 0; l < lineCount; l++) {
-            Line line = layout.getLine(l);
-            if(layout.justification.ignoreLastLine && (l + 1 == lineCount || (line.glyphs.isEmpty() || (char)line.glyphs.peek() == '\n'))) {
-                a += line.glyphs.size;
+            Line currentLine = layout.getLine(l);
+            if(layout.justification.ignoreLastLine && (l + 1 == lineCount || (currentLine.glyphs.isEmpty() || (char)currentLine.glyphs.peek() == '\n'))) {
+                a += currentLine.glyphs.size;
                 continue;
             }
             int startA = a;
             if(layout.justification.affectAllGlyphs) {
-                float multiplier = layout.targetWidth / (line.width - layout.advances.get(a + line.glyphs.size - 1));
-                for (int g = 0, n = line.glyphs.size; g < n; g++, a++) {
-                    long glyph = line.glyphs.get(g);
-                    char ch = (char)glyph;
-                    Font font = null;
-                    if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
-                    if (font == null) font = this;
-                    GlyphRegion tr = font.mapping.get(ch);
-                    if (tr == null) continue; // if a glyph cannot be rendered, don't use it!
-                    float advance = xAdvance(font, layout.advances.get(startA + g), glyph);
-
-//                    line.height = Math.max(line.height, font.cellHeight * advance);
-
-                    if(n + 1 != line.glyphs.size)
-                        layout.advances.mul(a, multiplier);
+                float multiplier = layout.targetWidth / (currentLine.width - layout.advances.get(a + currentLine.glyphs.size - 1));
+                for (int g = 0, n = currentLine.glyphs.size - 1; g < n; g++, a++) {
+                    layout.advances.mul(a, multiplier);
                 }
-                if(a != startA) line.width = layout.targetWidth;
+                if(a != startA) currentLine.width = layout.targetWidth;
             }
             else if(layout.justification.affectSpaces) {
                 float sumWidth = 0f;
-                for (int g = 0, n = line.glyphs.size; g < n; g++) {
-                    long glyph = line.glyphs.get(g);
+                for (int g = 0, n = currentLine.glyphs.size; g < n; g++) {
+                    long glyph = currentLine.glyphs.get(g);
                     char ch = (char)glyph;
-                    Font font = null;
-                    if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
-                    if (font == null) font = this;
-                    GlyphRegion tr = font.mapping.get(ch);
-                    if (tr == null) continue; // if a glyph cannot be rendered, don't use it!
-                    float advance = xAdvance(font, layout.advances.get(startA + g), glyph);
                     if(ch == ' ') {
+                        Font font = null;
+                        if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
+                        if (font == null) font = this;
+                        GlyphRegion tr = font.mapping.get(ch);
+                        if (tr == null) continue; // if space cannot be rendered, don't use it!
+                        float advance = xAdvance(font, layout.advances.get(startA + g), glyph);
                         sumWidth += advance;
                     }
-//                    line.height = Math.max(line.height, font.cellHeight * advance);
                 }
-                float multiplier = sumWidth / (layout.targetWidth - (line.width - layout.advances.get(a + line.glyphs.size - 1)));
-                for (int g = 0, n = line.glyphs.size - 1; g < n; g++, a++) {
-                    if((char)line.glyphs.get(g) == ' ')
+                float multiplier = sumWidth / (layout.targetWidth - (currentLine.width - layout.advances.get(a + currentLine.glyphs.size - 1)));
+                for (int g = 0, n = currentLine.glyphs.size - 1; g < n; g++, a++) {
+                    if((char)currentLine.glyphs.get(g) == ' ')
                         layout.advances.mul(a, multiplier);
                 }
                 if(!MathUtils.isZero(sumWidth))
-                    line.width = layout.targetWidth;
+                    currentLine.width = layout.targetWidth;
             }
         }
         return layout.getWidth();
@@ -7380,7 +7367,7 @@ public class Font implements Disposable {
             Line line = changing.getLine(ln);
             line.height = 0;
             int a = changing.countGlyphsBeforeLine(ln);
-            System.out.println("On line " + ln + ", advances.size = " + changing.advances.size + " and layout size = " + changing.countGlyphs());
+//            System.out.println("On line " + ln + ", advances.size = " + changing.advances.size + " and layout size = " + changing.countGlyphs());
             float drawn = 0f, visibleWidth = 0f;
             int cutoff, breakPoint = -2, spacingPoint = -2;
             LongArray glyphs = line.glyphs;
@@ -7572,12 +7559,12 @@ public class Font implements Disposable {
                     visibleWidth += changedW + amt;
                 }
             }
-            System.out.println("Line " + ln + " has height " + line.height + ", with " + line.glyphs.size + " glyphs.");
+//            System.out.println("Line " + ln + " has height " + line.height + ", with " + line.glyphs.size + " glyphs.");
         }
         calculateSize(changing);
-        for (int ln = 0; ln < changing.lines(); ln++) {
-            System.out.println("Line " + ln + " has height " + changing.getLine(ln).height);
-        }
+//        for (int ln = 0; ln < changing.lines(); ln++) {
+//            System.out.println("Line " + ln + " has height " + changing.getLine(ln).height);
+//        }
         return changing;
     }
 
