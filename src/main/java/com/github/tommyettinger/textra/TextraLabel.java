@@ -607,6 +607,7 @@ public class TextraLabel extends Widget {
             if(width != 0f)
                 layout.setTargetWidth(width);
             font.regenerateLayout(layout);
+            System.out.println("Regenerating TextraLabel layout; targetWidth = " + layout.getTargetWidth());
             // This was used earlier, but regenerateLayout() seems to work better in its place.
 //            font.markup(storedText, layout.clear());
 

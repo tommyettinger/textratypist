@@ -203,9 +203,11 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
 		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[ ] password mode..." +
-				" Wait, I need more text. DEVELOPERS, DEVELOPERS, DEVELOPERS, DEVELOPERS. I LOVE THIS COMPANY!!!!!", new Font(font).scale(0.5f), Color.WHITE, Justify.FULL_ON_ALL_LINES);
+				" Wait, I need more text. DEVELOPERS, DEVELOPERS, DEVELOPERS, DEVELOPERS. I LOVE THIS COMPANY!",
+				new Font(font).scale(0.5f), Color.WHITE, Justify.SPACES_ON_ALL_LINES);
 		passwordLabel.layout.setTargetWidth(imageActor.getWidth());
 		passwordLabel.setWrap(true);
+		passwordLabel.font.justify(passwordLabel.layout);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
