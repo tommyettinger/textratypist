@@ -139,7 +139,14 @@ public class Layout {
     public Layout add(long glyph, float scale, float advance, float offsetX, float offsetY, float rotation) {
         if (!atLimit) {
             if ((glyph & 0xFFFFL) == 10L) {
-                pushLine();
+                if (lines.size >= maxLines) {
+                    atLimit = true;
+                    return null;
+                }
+                Line line = new Line(), prev = lines.peek();
+                prev.glyphs.add('\n');
+                line.height = 0;
+                lines.add(line);
             } else {
                 lines.peek().glyphs.add(glyph);
             }
@@ -207,7 +214,10 @@ public class Layout {
         }
 
         Line line = new Line(), prev = lines.peek();
-        prev.glyphs.add('\n');
+        if(advances.isEmpty())
+            add('\n');
+        else
+            add('\n', sizing.peek(), advances.peek(), offsets.get(offsets.size - 2), offsets.peek(), rotations.peek());
         line.height = 0;
         lines.add(line);
         return line;
