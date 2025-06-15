@@ -71,6 +71,8 @@ public class TypingLabel extends TextraLabel {
     private final StringBuilder intermediateText = new StringBuilder();
     protected final Layout workingLayout = new Layout();
 
+    protected Justify defaultJustify = Justify.NONE;
+
     /**
      * If true, this will attempt to track which glyph the user's mouse or other pointer is over (see {@link #overIndex}
      * and {@link #lastTouchedIndex}).
@@ -298,7 +300,7 @@ public class TypingLabel extends TextraLabel {
     public void setText(String newText, boolean modifyOriginalText, boolean restart) {
         final boolean hasEnded = this.hasEnded();
         newText = Parser.handleBracketMinusMarkup(newText);
-        font.markup(newText, layout.clear());
+        font.markup(newText, layout.clear().setJustification(defaultJustify));
 
 //        int glyphCount = layout.countGlyphs();
 //        layout.offsets.setSize(glyphCount + glyphCount);
@@ -312,10 +314,10 @@ public class TypingLabel extends TextraLabel {
 
         if (wrap) {
             workingLayout.setTargetWidth(getWidth());
-            font.markup(newText, workingLayout.clear());
+            font.markup(newText, workingLayout.clear().setJustification(defaultJustify));
         } else {
             workingLayout.setTargetWidth(0f);
-            font.markup(newText, workingLayout.clear());
+            font.markup(newText, workingLayout.clear().setJustification(defaultJustify));
             setSuperWidth(workingLayout.getWidth() + (style != null && style.background != null ?
                     style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
         }
@@ -871,7 +873,6 @@ public class TypingLabel extends TextraLabel {
             float actualWidth = getWidth();
             if(actualWidth != 0f)
                 workingLayout.setTargetWidth(actualWidth);
-//            font.regenerateLayout(workingLayout);
         }
         font.calculateSize(workingLayout);
 
@@ -898,6 +899,7 @@ public class TypingLabel extends TextraLabel {
             sizeChanged();
             if (wrap) {
                 workingLayout.setTargetWidth(width);
+                workingLayout.justification = defaultJustify;
                 font.regenerateLayout(workingLayout);
                 // This needs to work on the hierarchy; see TableWrapTest for evidence.
                 invalidateHierarchy();
@@ -941,6 +943,7 @@ public class TypingLabel extends TextraLabel {
         if (wrap && (width == 0f || workingLayout.getTargetWidth() != width || actualWidth > width)) {
             if(width != 0f)
                 workingLayout.setTargetWidth(width);
+            workingLayout.justification = defaultJustify;
             font.regenerateLayout(workingLayout);
             // It looks like we don't benefit from invalidating here, but I'm not sure.
 //            invalidateHierarchy();

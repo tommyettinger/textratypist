@@ -4892,7 +4892,7 @@ public class Font implements Disposable {
         for (int ln = 0; ln < layout.lines(); ln++) {
             float drawn = 0f;
             float scaleX;
-            float advance;
+            float advance, sizingY;
             Line line = layout.getLine(ln);
             LongArray glyphs = line.glyphs;
             boolean curly = false, initial = true;
@@ -4902,7 +4902,9 @@ public class Font implements Disposable {
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
-                advance = layout.advances.get(a++);
+                advance = layout.advances.get(a);
+                sizingY = layout.sizing.get(a << 1 | 1);
+                a++;
                 if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
                 if(omitCurlyBraces) {
                     if (curly) {
@@ -4928,7 +4930,7 @@ public class Font implements Disposable {
                         scaleX = (font.isMono ? 1f : advance) * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
                     else
                         scaleX = font.scaleX * (font.isMono ? 1f : advance) * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
-                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * advance));
+                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * sizingY));
                     amt = font.kerning.get(kern, 0) * scaleX;
                     float changedW = tr.xAdvance * scaleX;
                     if(Float.isNaN(tr.offsetX))
@@ -4940,7 +4942,7 @@ public class Font implements Disposable {
                     initial = false;
                     drawn += changedW + amt;
                 } else {
-                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * advance));
+                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * sizingY));
                     if(ch >= 0xE000 && ch < 0xF800)
                         scaleX = (font.isMono ? 1f : advance) * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
                     else
@@ -6267,7 +6269,6 @@ public class Font implements Disposable {
                         Line later = appendTo.pushLine();
                         if (later == null) {
                             if(handleEllipsis(appendTo)) {
-                                justify(appendTo);
                                 return appendTo;
                             }
                         } else {
@@ -6378,7 +6379,7 @@ public class Font implements Disposable {
                                     later.width = changeNext;
                                     earlier.width -= change;
                                     later.glyphs.addAll(glyphBuffer);
-                                    later.height = Math.max(later.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
+                                    later.height = Math.max(later.height, font.cellHeight * scale);
                                     break;
                                 }
                             }
@@ -6387,7 +6388,7 @@ public class Font implements Disposable {
                             }
                         }
                     } else {
-                        appendTo.peekLine().height = Math.max(appendTo.peekLine().height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
+                        appendTo.peekLine().height = Math.max(appendTo.peekLine().height, font.cellHeight * scale);
                     }
                 }
             } else {
@@ -6446,7 +6447,6 @@ public class Font implements Disposable {
                     }
                     if (later == null) {
                         if(handleEllipsis(appendTo)) {
-                            justify(appendTo);
                             return appendTo;
                         }
                     } else {
@@ -6575,7 +6575,6 @@ public class Font implements Disposable {
                 }
             }
         }
-        justify(appendTo);
         return appendTo;
     }
 
@@ -7376,7 +7375,10 @@ public class Font implements Disposable {
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
-                float advance = changing.advances.get(a++);
+                float advance = changing.advances.get(a);
+                float sizingY = changing.sizing.get(a << 1 | 1);
+//                float advance = Math.min(changing.advances.get(a), changing.sizing.get(a << 1 | 1));
+                a++;
                 if(ch == '{' && !curly) curly = true;
                 if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
                 if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
@@ -7386,7 +7388,7 @@ public class Font implements Disposable {
 
                     //// no kerning
 
-                    line.height = Math.max(line.height, font.cellHeight * advance);
+                    line.height = Math.max(line.height, font.cellHeight * sizingY);
                     if(ch >= 0xE000 && ch < 0xF800)
                         scaleX = (font.isMono ? 1f : advance) * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
                     else
@@ -7423,7 +7425,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = Math.max(next.height, font.cellHeight * advance);
+                        next.height = Math.max(next.height, font.cellHeight * sizingY);
 
                         int nextSize = next.glyphs.size;
                         long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
@@ -7441,7 +7443,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = Math.max(next.height, font.cellHeight * advance);
+                        next.height = Math.max(next.height, font.cellHeight * sizingY);
 
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
@@ -7471,7 +7473,7 @@ public class Font implements Disposable {
 
                     //// font has kerning
 
-                    line.height = Math.max(line.height, font.cellHeight * advance);
+                    line.height = Math.max(line.height, font.cellHeight * sizingY);
                     if(ch >= 0xE000 && ch < 0xF800)
                         scaleX = (font.isMono ? 1f : advance) * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
                     else
@@ -7507,7 +7509,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = Math.max(next.height, font.cellHeight * advance);
+                        next.height = Math.max(next.height, font.cellHeight * sizingY);
 
                         int nextSize = next.glyphs.size;
                         long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
@@ -7525,7 +7527,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = Math.max(next.height, font.cellHeight * advance);
+                        next.height = Math.max(next.height, font.cellHeight * sizingY);
 
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
