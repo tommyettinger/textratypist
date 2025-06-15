@@ -4973,7 +4973,7 @@ public class Font implements Disposable {
         int a = 0;
         for (int l = 0; l < lineCount; l++) {
             Line currentLine = layout.getLine(l);
-            if(layout.justification.ignoreLastLine && (l + 1 == lineCount || (char)currentLine.glyphs.peek() == '\n')) {
+            if(layout.justification.ignoreLastLine && (l + 1 == lineCount || (currentLine.glyphs.isEmpty() || (char)currentLine.glyphs.peek() == '\n'))) {
                 a += currentLine.glyphs.size;
                 continue;
             }
@@ -7363,10 +7363,10 @@ public class Font implements Disposable {
         }
         changing.lines.truncate(1);
         boolean curly = false;
-        int a = 0;
         for (int ln = 0; ln < changing.lines(); ln++) {
             Line line = changing.getLine(ln);
             line.height = 0;
+            int a = changing.countGlyphsBeforeLine(ln);
             float drawn = 0f, visibleWidth = 0f;
             int cutoff, breakPoint = -2, spacingPoint = -2;
             LongArray glyphs = line.glyphs;
@@ -7375,7 +7375,7 @@ public class Font implements Disposable {
             for (int i = 0, n = glyphs.size; i < n; i++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
-                float advance = 1f;//changing.advances.get(a++);
+                float advance = changing.advances.get(a++);
                 if(ch == '{' && !curly) curly = true;
                 if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
                 if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
@@ -7411,8 +7411,7 @@ public class Font implements Disposable {
                         cutoff = breakPoint + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
-                            next = changing.pushLine();
-                            glyphs.pop();
+                            next = changing.pushLineBare();
                         } else
                             next = changing.getLine(ln + 1);
                         if (next == null) {
@@ -7433,9 +7432,7 @@ public class Font implements Disposable {
                         break;
                     }
                     if (ch == '\n') {
-                        Line next;
-                        next = changing.pushLine();
-                        glyphs.pop();
+                        Line next = changing.pushLineBare();
                         if (next == null) {
                             if(handleEllipsis(changing)) {
                                 calculateSize(changing);
@@ -7498,8 +7495,7 @@ public class Font implements Disposable {
                         cutoff = breakPoint + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
-                            next = changing.pushLine();
-                            glyphs.pop();
+                            next = changing.pushLineBare();
                         } else
                             next = changing.getLine(ln + 1);
                         if (next == null) {
@@ -7520,9 +7516,7 @@ public class Font implements Disposable {
                         break;
                     }
                     if (ch == '\n') {
-                        Line next;
-                        next = changing.pushLine();
-                        glyphs.pop();
+                        Line next = changing.pushLineBare();
                         if (next == null) {
                             if(handleEllipsis(changing)) {
                                 calculateSize(changing);
@@ -7535,7 +7529,11 @@ public class Font implements Disposable {
                         long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
                         System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
                         glyphs.truncate(i);
-                        glyphs.add(applyChar(glyphs.isEmpty() ? 0L : glyphs.peek(), '\n'));
+                        if(glyphs.isEmpty())
+                            glyphs.add('\n');
+                        else {
+                            glyphs.add(applyChar(glyphs.peek(), '\n'));
+                        }
                         break;
                     }
                     if (glyph >>> 32 == 0L) {

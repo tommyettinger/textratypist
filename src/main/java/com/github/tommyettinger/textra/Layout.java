@@ -213,11 +213,23 @@ public class Layout {
             return null;
         }
 
-        Line line = new Line(), prev = lines.peek();
+        Line line = new Line();
         if(advances.isEmpty())
             add('\n');
         else
             add('\n', sizing.peek(), advances.peek(), offsets.get(offsets.size - 2), offsets.peek(), rotations.peek());
+        line.height = 0;
+        lines.add(line);
+        return line;
+    }
+
+    public Line pushLineBare() {
+        if (lines.size >= maxLines) {
+            atLimit = true;
+            return null;
+        }
+
+        Line line = new Line();
         line.height = 0;
         lines.add(line);
         return line;
