@@ -337,6 +337,24 @@ public class Layout {
         }
         return layoutSize;
     }
+
+    /**
+     * Calculates how many {@code long} glyphs are currently in this layout before the start of the Line with the given
+     * {@code lineIndex}, and returns that count. This is mainly useful for mapping an index into a Line to an index in
+     * a Layout's non-Line-based FloatArray fields, such as {@link #advances} or {@link #rotations}. Some FloatArray
+     * fields use two floats per glyph, such as {@link #offsets} and {@link #sizing}; see their docs for more.
+     * <br>
+     * This takes time proportional to the value of {@code lineIndex}, not the number of glyphs.
+     * @return how many {@code long} glyphs exist in this Layout before the start of the given Line
+     */
+    public int countGlyphsBeforeLine(int lineIndex){
+        int layoutSize = 0;
+        for (int i = 0, n = Math.min(lines.size, lineIndex); i < n; i++) {
+            layoutSize += lines.get(i).glyphs.size;
+        }
+        return layoutSize;
+    }
+
     /**
      * Resets the object for reuse. The font is nullified, but the lines are cleared and then one blank line is
      * re-added to lines so it can be used normally later.
