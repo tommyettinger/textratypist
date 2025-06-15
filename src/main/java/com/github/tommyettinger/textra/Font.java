@@ -4979,8 +4979,8 @@ public class Font implements Disposable {
             }
             int startA = a;
             if(layout.justification.affectAllGlyphs) {
-                float multiplier = layout.targetWidth / currentLine.width;
-                for (int g = 0, n = currentLine.glyphs.size; g < n; g++, a++) {
+                float multiplier = layout.targetWidth / (currentLine.width - layout.advances.get(a + currentLine.glyphs.size - 1));
+                for (int g = 0, n = currentLine.glyphs.size - 1; g < n; g++, a++) {
                     layout.advances.mul(a, multiplier);
                 }
                 if(a != startA) currentLine.width = layout.targetWidth;
@@ -5000,8 +5000,8 @@ public class Font implements Disposable {
                         sumWidth += advance;
                     }
                 }
-                float multiplier = sumWidth / (layout.targetWidth - currentLine.width);
-                for (int g = 0, n = currentLine.glyphs.size; g < n; g++, a++) {
+                float multiplier = sumWidth / (layout.targetWidth - (currentLine.width - layout.advances.get(a + currentLine.glyphs.size - 1)));
+                for (int g = 0, n = currentLine.glyphs.size - 1; g < n; g++, a++) {
                     if((char)currentLine.glyphs.get(g) == ' ')
                         layout.advances.mul(a, multiplier);
                 }
@@ -7367,6 +7367,7 @@ public class Font implements Disposable {
             Line line = changing.getLine(ln);
             line.height = 0;
             int a = changing.countGlyphsBeforeLine(ln);
+//            System.out.println("On line " + ln + ", advances.size = " + changing.advances.size + " and layout size = " + changing.countGlyphs());
             float drawn = 0f, visibleWidth = 0f;
             int cutoff, breakPoint = -2, spacingPoint = -2;
             LongArray glyphs = line.glyphs;
@@ -7558,8 +7559,12 @@ public class Font implements Disposable {
                     visibleWidth += changedW + amt;
                 }
             }
+//            System.out.println("Line " + ln + " has height " + line.height + ", with " + line.glyphs.size + " glyphs.");
         }
         calculateSize(changing);
+//        for (int ln = 0; ln < changing.lines(); ln++) {
+//            System.out.println("Line " + ln + " has height " + changing.getLine(ln).height);
+//        }
         return changing;
     }
 
