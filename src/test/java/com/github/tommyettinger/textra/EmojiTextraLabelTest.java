@@ -45,6 +45,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         table.row().uniform().expand().growX().space(40).center();
 
         table.pack();
+        label.font.justify(label.layout);
     }
 
     public void adjustTypingConfigs() {
@@ -78,7 +79,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
                 "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
                         + "But... {COLOR=#79c353ff}{SICK}U. Nitty{ENDSICK}{ENDCOLOR} doesn't. {CROWD}{SLIP}[#BB1100][+skull][#55AA22FF][+🤡][ ]\n"
                         + "That's OK, I don't like loot crates anyway. {CROWD}{SLIP}[#B10F][+party popper][#5A2][+🥳][ ]\n"
-                        +"[+⚖️][~][_][+⚖️][ ] testing: [_][~]\n"
+                        +"[+⚖️][~][_][+⚖️][ ] testing: \n" //[_][~]
                         // the u200B is a zero-width space, which is invisible but gets the 100% line height we want after this.
                         + "[%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\u200B\n\n"
                         + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
@@ -110,16 +111,18 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         // Make the label wrap to new lines, respecting the table's layout.
         label.setWrap(true);
 
-        Action action = Actions.repeat(1,
-                Actions.sequence(
-                        delay(1.5f),
-                        moveBy(0, 100, 0.4f, Interpolation.pow2Out),
-                        moveBy(0, -100, 0.3f, Interpolation.pow2In),
-                        moveBy(0, 100 * .5f, 0.4f, Interpolation.pow2Out),
-                        moveBy(0, -100 * .5f, 0.3f, Interpolation.pow2In)
-                )
-        );
-        label.addAction(action);
+        label.layout.setJustification(Justify.FULL_ON_ALL_LINES);
+
+//        Action action = Actions.repeat(1,
+//                Actions.sequence(
+//                        delay(1.5f),
+//                        moveBy(0, 100, 0.4f, Interpolation.pow2Out),
+//                        moveBy(0, -100, 0.3f, Interpolation.pow2In),
+//                        moveBy(0, 100 * .5f, 0.4f, Interpolation.pow2Out),
+//                        moveBy(0, -100 * .5f, 0.3f, Interpolation.pow2In)
+//                )
+//        );
+//        label.addAction(action);
 
         return label;
     }

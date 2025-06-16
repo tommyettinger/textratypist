@@ -32,7 +32,7 @@ public class PreviewSimpleTest extends ApplicationAdapter {
             + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[ ],"
             + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[ ], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
             + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[ ],"
-            + "\n[%^small caps][*]Special[*][%] [%^whiten][/]Effects[/][%]: [%?shadow]drop shadow[%], [%?jostle]RaNsoM nOtE[%], [%?error]spell check[%]...",
+            + "\n[%^small caps][*]Special[][] [%^whiten][/]Effects[][]: [%?shadow]drop shadow[], [%?jostle]RaNsoM nOtE[], [%?error]spell check[]...",
 //    distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[ ]!",
     emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[ ] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
 
@@ -87,8 +87,8 @@ public class PreviewSimpleTest extends ApplicationAdapter {
         layout.setMaxLines(20);
         layout.setEllipsis(" and so on and so forth...");
         fnt.markup(text + emojiSupport, layout.clear());
-
     }
+    
     @Override
     public void render() {
         if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.MINUS)){

@@ -413,6 +413,7 @@ public class TextraLabel extends Widget {
             Font f = null;
             int kern = -1;
             boolean curly = false;
+            int start = layout.countGlyphsBeforeLine(ln);
             for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
                 long glyph = glyphs.glyphs.get(i);
                 char ch = (char) glyph;
@@ -459,15 +460,15 @@ public class TextraLabel extends Widget {
                     kern = -1;
                 }
                 bgc = 0;
-                int even = i << 1, odd = even | 1;
+                int even = start + i << 1, odd = even | 1;
                 float xx = x + xChange + getOffsets().get(even), yy = y + yChange + getOffsets().get(odd);
                 if(font.integerPosition){
                     xx = (int)xx;
                     yy = (int)yy;
                 }
 
-                float a = getAdvances().get(i);
-                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(i) + rot, getSizing().get(even), getSizing().get(odd), bgc) * a;
+                float a = getAdvances().get(start + i);
+                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(start + i) + rot, getSizing().get(even), getSizing().get(odd), bgc) * a;
                 xChange += cs * single;
                 yChange += sn * single;
             }
