@@ -4972,24 +4972,40 @@ public class Font implements Disposable {
     public float justify(Layout layout) {
         if(layout.justification == Justify.NONE) return layout.getWidth();
         int lineCount = layout.lines();
-        int a;
+        PER_LINE:
         for (int l = 0; l < lineCount; l++) {
             Line currentLine = layout.getLine(l);
             if(layout.justification.ignoreLastLine && (l + 1 == lineCount || (currentLine.glyphs.isEmpty() || (char)currentLine.glyphs.peek() == '\n'))) {
                 continue;
             }
-            int startA = layout.countGlyphsBeforeLine(l);
-            a = startA;
+            int start = layout.countGlyphsBeforeLine(l);
             if(layout.justification.affectAllGlyphs) {
-                float multiplier = layout.targetWidth / (currentLine.width - layout.advances.get(a + currentLine.glyphs.size - 1));
-                for (int g = 0, n = currentLine.glyphs.size - 1; g < n; g++) {
-                    layout.advances.mul(startA + g, multiplier);
+                Font font = null;
+                int lastIndex = currentLine.glyphs.size - 1;
+                long glyph = currentLine.glyphs.get(lastIndex);
+                while ((char)glyph == '\n' || (char)glyph == ' ') {
+                    --lastIndex;
+                    if(lastIndex < 0) continue PER_LINE;
+                    glyph = currentLine.glyphs.get(lastIndex);
                 }
+                if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
+                if (font == null) font = this;
+                float lastAdvance = xAdvance(font, font.scaleX * layout.advances.get(start + lastIndex), glyph);
+                float multiplier = (layout.targetWidth - lastAdvance) / (currentLine.width - lastAdvance);
+                for (int g = 0, n = lastIndex; g < n; g++) {
+                    layout.advances.mul(start + g, multiplier);
+                }
+//                System.out.println("last used char is " + (char)currentLine.glyphs.get(lastIndex) + " with advance " + layout.advances.get(start + lastIndex));
+//                System.out.println("last real char is " + (char)currentLine.glyphs.get(currentLine.glyphs.size - 1) + " with advance " + layout.advances.get(start + currentLine.glyphs.size - 1));
+
+//                for (int g = lastIndex + 1, n = currentLine.glyphs.size; g < n; g++) {0
+//                    layout.advances.mul(start + g, 0f);
+//                }
                 if(currentLine.glyphs.size > 1) currentLine.width = layout.targetWidth;
             }
             else if(layout.justification.affectSpaces) {
                 float sumWidth = 0f;
-                for (int g = 0, n = currentLine.glyphs.size; g < n; g++) {
+                for (int g = 0, n = currentLine.glyphs.size - 1; g < n; g++) {
                     long glyph = currentLine.glyphs.get(g);
                     char ch = (char) glyph;
                     if (ch == ' ') {
@@ -4998,7 +5014,7 @@ public class Font implements Disposable {
                         if (font == null) font = this;
                         GlyphRegion tr = font.mapping.get(ch);
                         if (tr == null) continue; // if space cannot be rendered, don't use it!
-                        float advance = xAdvance(font, font.scaleX * layout.advances.get(startA + g), glyph);
+                        float advance = xAdvance(font, font.scaleX * layout.advances.get(start + g), glyph);
                         sumWidth += advance;
                     }
                 }
@@ -5007,10 +5023,11 @@ public class Font implements Disposable {
                     long glyph = currentLine.glyphs.peek();
                     if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
                     if (font == null) font = this;
-                    float multiplier = (layout.targetWidth - xAdvance(font, font.scaleX * layout.advances.get(startA + currentLine.glyphs.size - 1), glyph)) / sumWidth;
+                    float lastAdvance = xAdvance(font, font.scaleX * layout.advances.get(start + currentLine.glyphs.size - 1), glyph);
+                    float multiplier = (layout.targetWidth - currentLine.width + lastAdvance) / sumWidth;
                     for (int g = 0, n = currentLine.glyphs.size - 1; g < n; g++) {
                         if ((char) currentLine.glyphs.get(g) == ' ')
-                            layout.advances.mul(startA + g, multiplier);
+                            layout.advances.mul(start + g, multiplier);
                     }
                     currentLine.width = layout.targetWidth;
                 }
