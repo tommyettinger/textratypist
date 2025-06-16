@@ -111,7 +111,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         // Make the label wrap to new lines, respecting the table's layout.
         label.setWrap(true);
 
-        label.layout.setJustification(Justify.FULL_ON_ALL_LINES);
+        label.layout.setJustification(Justify.SPACES_ON_ALL_LINES);
 
 //        Action action = Actions.repeat(1,
 //                Actions.sequence(

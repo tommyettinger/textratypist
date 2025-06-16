@@ -5019,13 +5019,15 @@ public class Font implements Disposable {
                     }
                 }
                 if (!MathUtils.isZero(sumWidth) && currentLine.glyphs.size > 1) {
-                    Font font = null;
-                    long glyph = currentLine.glyphs.peek();
-                    if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
-                    if (font == null) font = this;
-                    float lastAdvance = xAdvance(font, font.scaleX * layout.advances.get(start + currentLine.glyphs.size - 1), glyph);
-                    float multiplier = (layout.targetWidth - currentLine.width + lastAdvance) / sumWidth;
-                    for (int g = 0, n = currentLine.glyphs.size - 1; g < n; g++) {
+                    int lastIndex = currentLine.glyphs.size - 1;
+                    long glyph = currentLine.glyphs.get(lastIndex);
+                    while ((char)glyph == '\n' || (char)glyph == ' ') {
+                        --lastIndex;
+                        if(lastIndex < 0) continue PER_LINE;
+                        glyph = currentLine.glyphs.get(lastIndex);
+                    }
+                    float multiplier = (layout.targetWidth - currentLine.width + sumWidth) / (sumWidth);
+                    for (int g = 0, n = lastIndex; g < n; g++) {
                         if ((char) currentLine.glyphs.get(g) == ' ')
                             layout.advances.mul(start + g, multiplier);
                     }
