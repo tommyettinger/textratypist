@@ -5527,9 +5527,9 @@ public final class KnownFonts implements LifecycleListener {
      * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.
      * <br>
      * Preview:<br>
-     * None yet.
+     * <img src="https://tommyettinger.github.io/textratypist/previews/MaterialDesignPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
-     *
+     * Uses a font with {@code font.scaleHeightTo(20).fitCell(24, 24, true);} to ensure 24x24 square cells.
      * <br>
      * You can see all icons and the names they use
      * <a href="https://fonts.google.com/icons?icon.set=Material+Icons">on Google's page for this set</a>.
@@ -5567,9 +5567,9 @@ public final class KnownFonts implements LifecycleListener {
      * This overload allows customizing the x/y offsets and x-advance for every icon this puts in a Font.
      * <br>
      * Preview:<br>
-     * None yet.
+     * <img src="https://tommyettinger.github.io/textratypist/previews/MaterialDesignPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
-     *
+     * Uses a font with {@code font.scaleHeightTo(20).fitCell(24, 24, true);} to ensure 24x24 square cells.
      * <br>
      * You can see all icons and the names they use
      * <a href="https://fonts.google.com/icons?icon.set=Material+Icons">on Google's page for this set</a>.
@@ -5612,9 +5612,9 @@ public final class KnownFonts implements LifecycleListener {
      * allows specifying Strings to prepend before and append after each name in the font.
      * <br>
      * Preview:<br>
-     * None yet.
+     * <img src="https://tommyettinger.github.io/textratypist/previews/MaterialDesignPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
-     *
+     * Uses a font with {@code font.scaleHeightTo(20).fitCell(24, 24, true);} to ensure 24x24 square cells.
      * <br>
      * You can see all icons and the names they use
      * <a href="https://fonts.google.com/icons?icon.set=Material+Icons">on Google's page for this set</a>.
