@@ -94,11 +94,13 @@ public class PreviewSimpleTest extends ApplicationAdapter {
         if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.MINUS)){
             idx = (idx + limit - 1) % limit;
             fnt = all[idx];
+            Gdx.graphics.setTitle(fnt.getName());
             generateLayout();
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) || Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.EQUALS)){
             idx = (idx + 1) % limit;
             fnt = all[idx];
+            Gdx.graphics.setTitle(fnt.getName());
             generateLayout();
         }
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);

@@ -5506,6 +5506,152 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets for getGameIconsFont() not found.");
     }
 
+
+    private TextureAtlas materialDesign;
+
+    /**
+     * Takes a Font and adds the <a href="https://fonts.google.com/icons?icon.set=Material+Icons">Material Design</a>
+     * icon set (made by Google and used in Android) to it, making the glyphs available using {@code [+name]} syntax.
+     * Unlike the emoji used by {@link #addEmoji(Font)}, icons here are always retrieved by name, and names are always
+     * all-lower-case, separated by underscores ({@code '_'}). This caches the
+     * Material Design atlas for later calls. This tries to load the files "Material-Design.atlas" and
+     * "Material-Design.png" from the internal storage. There are 1424 images in this edition of Material Design (the
+     * final release), and it is licensed under Apache 2.0, so it does not require attribution, even for commercial use.
+     * <br>
+     * Since TextraTypist 1.0.0, icons display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
+     * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
+     * All icons use only the color white with various levels of transparency, so they can be
+     * colored like normal text glyphs. You can search for names in {@code Material-Design.atlas}.
+     * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
+     * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.
+     * <br>
+     * Preview:<br>
+     * None yet.
+     * <br>
+     *
+     * <br>
+     * You can see all icons and the names they use
+     * <a href="https://fonts.google.com/icons?icon.set=Material+Icons">on Google's page for this set</a>.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Material-Design.atlas">Material-Design.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Material-Design.png">Material-Design.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Material-Design-License.txt">Material-Design-License.txt</a></li>
+     * </ul>
+     *
+     * @param changing a Font that will have over 1400 icons added to it
+     * @return {@code changing}, after the icon atlas has been added
+     */
+    public static Font addMaterialDesignIcons(Font changing) {
+        return addMaterialDesignIcons(changing, 0f, 0f, 0f);
+    }
+    /**
+     * Takes a Font and adds the <a href="https://fonts.google.com/icons?icon.set=Material+Icons">Material Design</a>
+     * icon set (made by Google and used in Android) to it, making the glyphs available using {@code [+name]} syntax.
+     * Unlike the emoji used by {@link #addEmoji(Font)}, icons here are always retrieved by name, and names are always
+     * all-lower-case, separated by underscores ({@code '_'}). This caches the
+     * Material Design atlas for later calls. This tries to load the files "Material-Design.atlas" and
+     * "Material-Design.png" from the internal storage. There are 1424 images in this edition of Material Design (the
+     * final release), and it is licensed under Apache 2.0, so it does not require attribution, even for commercial use.
+     * <br>
+     * Since TextraTypist 1.0.0, icons display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
+     * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
+     * All icons use only the color white with various levels of transparency, so they can be
+     * colored like normal text glyphs. You can search for names in {@code Material-Design.atlas}.
+     * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
+     * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.
+     * <br>
+     * This overload allows customizing the x/y offsets and x-advance for every icon this puts in a Font.
+     * <br>
+     * Preview:<br>
+     * None yet.
+     * <br>
+     *
+     * <br>
+     * You can see all icons and the names they use
+     * <a href="https://fonts.google.com/icons?icon.set=Material+Icons">on Google's page for this set</a>.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Material-Design.atlas">Material-Design.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Material-Design.png">Material-Design.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Material-Design-License.txt">Material-Design-License.txt</a></li>
+     * </ul>
+     *
+     * @param changing a Font that will have over 1400 icons added to it
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push icons to the right
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push icons up
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; positive values make icons push later glyphs away more
+     * @return {@code changing}, after the icon atlas has been added
+     */
+    public static Font addMaterialDesignIcons(Font changing, float offsetXChange, float offsetYChange, float xAdvanceChange) {
+        return addMaterialDesignIcons(changing, "", "", offsetXChange, offsetYChange, xAdvanceChange);
+    }
+
+    /**
+     * Takes a Font and adds the <a href="https://fonts.google.com/icons?icon.set=Material+Icons">Material Design</a>
+     * icon set (made by Google and used in Android) to it, making the glyphs available using {@code [+name]} syntax.
+     * Unlike the emoji used by {@link #addEmoji(Font)}, icons here are always retrieved by name, and names are always
+     * all-lower-case, separated by underscores ({@code '_'}). This caches the
+     * Material Design atlas for later calls. This tries to load the files "Material-Design.atlas" and
+     * "Material-Design.png" from the internal storage. There are 1424 images in this edition of Material Design (the
+     * final release), and it is licensed under Apache 2.0, so it does not require attribution, even for commercial use.
+     * <br>
+     * Since TextraTypist 1.0.0, icons display correctly with standard, SDF, and MSDF fonts, though they always look how
+     * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
+     * less-reasonably well up, but at typical text sizes (12-30 pixels in height) they tend to be legible.
+     * All icons use only the color white with various levels of transparency, so they can be
+     * colored like normal text glyphs. You can search for names in {@code Material-Design.atlas}.
+     * Programmatically, you can use {@link Font#nameLookup} to look up the internal {@code char} this uses for a given
+     * name, and {@link Font#namesByCharCode} to go from such an internal code to the corresponding name.
+     * <br>
+     * This overload allows customizing the x/y offsets and x-advance for every icon this puts in a Font. It also
+     * allows specifying Strings to prepend before and append after each name in the font.
+     * <br>
+     * Preview:<br>
+     * None yet.
+     * <br>
+     *
+     * <br>
+     * You can see all icons and the names they use
+     * <a href="https://fonts.google.com/icons?icon.set=Material+Icons">on Google's page for this set</a>.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Material-Design.atlas">Material-Design.atlas</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Material-Design.png">Material-Design.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Material-Design-License.txt">Material-Design-License.txt</a></li>
+     * </ul>
+     *
+     * @param changing a Font that will have over 1400 icons added to it
+     * @param prepend will be prepended before each name in the atlas; if null, will be treated as ""
+     * @param append will be appended after each name in the atlas; if null, will be treated as ""
+     * @param offsetXChange will be added to the {@link Font.GlyphRegion#offsetX} of each added glyph; in practice, positive values push icons to the right
+     * @param offsetYChange will be added to the {@link Font.GlyphRegion#offsetY} of each added glyph; in practice, positive values push icons up
+     * @param xAdvanceChange will be added to the {@link Font.GlyphRegion#xAdvance} of each added glyph; positive values make icons push later glyphs away more
+     * @return {@code changing}, after the icon atlas has been added
+     */
+    public static Font addMaterialDesignIcons(Font changing, String prepend, String append, float offsetXChange, float offsetYChange, float xAdvanceChange) {
+        initialize();
+        if (instance.materialDesign == null) {
+            try {
+                FileHandle atlas = Gdx.files.internal(instance.prefix + "Material-Design.atlas");
+                if (Gdx.files.internal(instance.prefix + "Material-Design.png").exists())
+                    instance.materialDesign = new TextureAtlas(atlas, atlas.parent(), false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (instance.materialDesign != null) {
+            return changing.addAtlas(instance.materialDesign, prepend, append,
+                    offsetXChange, offsetYChange, xAdvanceChange);
+        }
+        throw new RuntimeException("Assets 'Material-Design.atlas' and 'Material-Design.png' not found.");
+    }
+
     @Override
     public void pause() {
 
