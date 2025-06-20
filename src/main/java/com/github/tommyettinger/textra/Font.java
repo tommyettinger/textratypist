@@ -4903,7 +4903,6 @@ public class Font implements Disposable {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
                 advance = layout.advances.get(a);
-                sizingY = layout.sizing.get(a << 1 | 1);
                 a++;
                 if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
                 if(omitCurlyBraces) {
@@ -4930,7 +4929,7 @@ public class Font implements Disposable {
                         scaleX = (font.isMono ? 1f : advance) * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
                     else
                         scaleX = font.scaleX * (font.isMono ? 1f : advance) * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
-                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * sizingY));
+                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * advance));
                     amt = font.kerning.get(kern, 0) * scaleX;
                     float changedW = tr.xAdvance * scaleX;
                     if(Float.isNaN(tr.offsetX))
@@ -4942,7 +4941,7 @@ public class Font implements Disposable {
                     initial = false;
                     drawn += changedW + amt;
                 } else {
-                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * sizingY));
+                    line.height = Math.max(line.height, (currentHeight = font.cellHeight * advance));
                     if(ch >= 0xE000 && ch < 0xF800)
                         scaleX = (font.isMono ? 1f : advance) * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
                     else
