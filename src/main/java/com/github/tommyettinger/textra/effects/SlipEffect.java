@@ -22,13 +22,13 @@ import com.github.tommyettinger.textra.TypingLabel;
 import com.github.tommyettinger.textra.utils.NoiseUtils;
 
 /**
- * Adds a small value to each glyph's x-advance, each one independently and randomly based on the current time.
- * This also centers each glyph in its expanded x-advance area.
+ * Adds a small value to each glyph's x-offset, each one independently and randomly based on the current time.
  * <br>
- * Parameters: {@code expansionAmount;speed;duration}
+ * Parameters: {@code distance;speed;duration}
  * <br>
- * The {@code expansionAmount} determines how much higher a glyph's x-advance can be than normal; defaults to 0.75.
- * The {@code speed} affects how fast the glyphs should change width; defaults to 1.0 .
+ * The {@code distance} determines how far a glyph can be offset from its original position, in viewport units;
+ * defaults to 5.
+ * The {@code speed} affects how fast the glyphs should change position; defaults to 1.0 .
  * The {@code duration} is how many seconds the effect should repeat, or {@code _} to repeat forever; defaults to
  * positive infinity.
  * <br>
@@ -39,10 +39,10 @@ import com.github.tommyettinger.textra.utils.NoiseUtils;
  * </code>
  */
 public class SlipEffect extends Effect {
-    private static final float DEFAULT_EXPANSION_STRENGTH = 0.5f;
+    private static final float DEFAULT_DISTANCE = 0.5f;
     private static final float DEFAULT_SPEED = 0.001f;
 
-    private float expansionAmount = 0.75f; // The multiple of a glyph's actual x-advance that the glyph can expand by
+    private float distance = 5f; // How far a glyph can be offset on x from its original position, in viewport units
     private float speed = 1; // How fast the glyphs should move
 
     public SlipEffect(TypingLabel label, String[] params) {
@@ -50,7 +50,7 @@ public class SlipEffect extends Effect {
 
         // Expansion Amount
         if (params.length > 0) {
-            this.expansionAmount = paramAsFloat(params[0], 0.75f);
+            this.distance = paramAsFloat(params[0], 5f);
         }
 
         // Speed
@@ -67,15 +67,14 @@ public class SlipEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate offset
-        float slip = (1f + NoiseUtils.octaveNoise1D((TimeUtils.millis() & 0xFFFFFF) * speed * DEFAULT_SPEED + globalIndex * 0.47f, globalIndex ^ 0x12345678)) * expansionAmount * DEFAULT_EXPANSION_STRENGTH;
+        float slip = (1f + NoiseUtils.octaveNoise1D((TimeUtils.millis() & 0xFFFFFF) * speed * DEFAULT_SPEED + globalIndex * 0.2357f, 0x12345678)) * distance * DEFAULT_DISTANCE;
 
         // Calculate fadeout
         float fadeout = calculateFadeout();
         slip *= fadeout;
 
         // Apply changes
-        label.getAdvances().incr(globalIndex, slip);
-        label.getOffsets().incr(globalIndex << 1, slip * 0.5f * label.getFont().xAdvance(glyph));
+        label.getOffsets().incr(globalIndex << 1, slip);
     }
 
 }
