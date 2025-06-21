@@ -189,7 +189,7 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //        );
 //        label.addAction(action);
 
-        label.skipToTheEnd();
+//        label.skipToTheEnd();
         return label;
     }
 

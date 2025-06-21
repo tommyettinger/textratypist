@@ -71,7 +71,7 @@ public class MinimalGridTest extends ApplicationAdapter {
 //        Font gentium = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF));
         Font mainFont = KnownFonts.addEmoji(KnownFonts.getComicMono(Font.DistanceFieldType.SDF));//.setInlineImageStretch(0.5f);
 //        Font mainFont = KnownFonts.addEmoji(KnownFonts.getIosevka(Font.DistanceFieldType.MSDF));
-        Font supportFont = KnownFonts.addEmoji(KnownFonts.getComputerSaysNo(Font.DistanceFieldType.SDF));//.setInlineImageStretch(0.5f);
+        Font supportFont = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF));//.setInlineImageStretch(0.5f);
 
 //        varWidthFont = KnownFonts.getGentium();
         varWidthFont = KnownFonts.getComicMono(Font.DistanceFieldType.SDF_OUTLINE)
