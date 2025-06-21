@@ -178,17 +178,18 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //        });
 //        // Finally parse tokens in the label text.
 //        label.parseTokens();
-        Action action = Actions.repeat(1,
-                Actions.sequence(
-                        delay(1.5f),
-                        moveBy(0, 100, 0.4f, Interpolation.pow2Out),
-                        moveBy(0, -100, 0.3f, Interpolation.pow2In),
-                        moveBy(0, 100 * .5f, 0.4f, Interpolation.pow2Out),
-                        moveBy(0, -100 * .5f, 0.3f, Interpolation.pow2In)
-                )
-        );
-        label.addAction(action);
+//        Action action = Actions.repeat(1,
+//                Actions.sequence(
+//                        delay(1.5f),
+//                        moveBy(0, 100, 0.4f, Interpolation.pow2Out),
+//                        moveBy(0, -100, 0.3f, Interpolation.pow2In),
+//                        moveBy(0, 100 * .5f, 0.4f, Interpolation.pow2Out),
+//                        moveBy(0, -100 * .5f, 0.3f, Interpolation.pow2In)
+//                )
+//        );
+//        label.addAction(action);
 
+        label.skipToTheEnd();
         return label;
     }
 

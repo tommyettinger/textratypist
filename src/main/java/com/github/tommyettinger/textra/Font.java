@@ -5758,14 +5758,15 @@ public class Font implements Disposable {
             centerX = oCenterX + xShift * 0.5f;
             centerY = oCenterY + yShift * 0.5f;
             x += font.cellWidth * 0.5f;
+            y -= font.cellHeight;
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && Float.isNaN(dash.offsetX)) {
-                p0x = font.cellWidth * -0.5f + xAdvance * font.strikeX * font.scaleX * sizingX;
+                p0x = -0.5f * font.cellWidth + xAdvance * font.strikeX * font.scaleX * sizingX;
                 // later version
 //                p0y = ((font.strikeY) * font.cellHeight * scale * 0.5f) * sizingY + font.descent * scale * font.scaleY * sizingY;
                 // june 29 version
-                p0y = centerY + (font.strikeY - 0.45F) * font.cellHeight * sizingY + font.descent * font.scaleY;
+                p0y = centerY - (font.strikeY - 0.55f) * font.cellHeight * sizingY - font.descent * font.scaleY * sizingY;
                 p0x += centerX - cos * centerX + xPx * 4f;
                 p0y += sin * centerX;
 
@@ -5792,7 +5793,7 @@ public class Font implements Disposable {
 //                }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        xAdvance * (font.strikeLength + 2) * scaleX + xPx,
+                        xAdvance * (font.strikeLength + 1.25f) * scaleX * sizingX + xPx,
                         (1f + font.strikeBreadth) * font.cellHeight * sizingY, rotation);
             } else {
                 dash = font.mapping.get('-');
