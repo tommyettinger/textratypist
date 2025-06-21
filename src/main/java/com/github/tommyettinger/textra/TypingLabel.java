@@ -536,6 +536,7 @@ public class TypingLabel extends TextraLabel {
      * may need to call {@code label.setSize(0, 0);} before calling this. This does not change its size by itself,
      * because restarting is also performed internally and changing the size internally could cause unexpected (read:
      * very buggy) behavior for code using this library.
+     * @param newText the String, StringBuilder, or other CharSequence that this TypingLabel will start displaying
      */
     public void restart(CharSequence newText) {
         workingLayout.atLimit = false;
@@ -547,17 +548,6 @@ public class TypingLabel extends TextraLabel {
         workingLayout.lines.clear();
         workingLayout.lines.add(first);
         activeEffects.clear();
-
-//        int glyphCount = layout.countGlyphs();
-//        layout.offsets.setSize(glyphCount + glyphCount);
-//        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
-//        layout.sizing.setSize(glyphCount + glyphCount);
-//        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
-//        layout.rotations.setSize(glyphCount);
-//        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
-//        layout.advances.setSize(glyphCount);
-//        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
-
 
         // Reset state
         textSpeed = TypingConfig.DEFAULT_SPEED_PER_CHAR;
@@ -575,6 +565,49 @@ public class TypingLabel extends TextraLabel {
         // Set new text
         invalidate();
         saveOriginalText(newText);
+
+        // Parse tokens
+        parseTokens();
+    }
+
+
+    /**
+     * Continues this label's typing effect after it has previously ended, appending the given text and starting the
+     * char progression (again) right away. All tokens are automatically parsed. If this TypingLabel has not yet ended
+     * when this is called, then this calls {@code skipToTheEnd(false, false)}.
+     * @param newText a String, StringBuilder, or other CharSequence that will be appended to the finished text
+     */
+    public void appendText(CharSequence newText) {
+        if(newText == null || newText.length() == 0) return;
+
+        if(!ended) skipToTheEnd(false, false);
+
+        workingLayout.atLimit = false;
+
+//        // Reset cache collections
+//        Line first = workingLayout.lines.first();
+//        first.glyphs.clear();
+//        first.width = first.height = 0;
+//        workingLayout.lines.clear();
+//        workingLayout.lines.add(first);
+//        activeEffects.clear();
+
+        // Reset state
+//        textSpeed = TypingConfig.DEFAULT_SPEED_PER_CHAR;
+        charCooldown = textSpeed;
+//        rawCharIndex = -2;
+//        glyphCharIndex = -1;
+//        glyphCharCompensation = 0;
+        parsed = false;
+        paused = false;
+        ended = false;
+        skipping = false;
+        ignoringEvents = false;
+        ignoringEffects = false;
+
+        // Set new text
+        invalidate();
+        saveOriginalText(originalText.append(newText));
 
         // Parse tokens
         parseTokens();
@@ -742,7 +775,7 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * Proccess char progression according to current cooldown and process all tokens in the current index.
+     * Process char progression according to current cooldown and process all tokens in the current index.
      */
     private void processCharProgression() {
         // Keep a counter of how many chars we're processing in this tick.
