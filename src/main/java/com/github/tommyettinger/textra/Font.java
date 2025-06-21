@@ -4501,42 +4501,21 @@ public class Font implements Disposable {
         Layout layout = tempLayout;
         layout.clear();
         markup(text, tempLayout);
-        final int lines = layout.lines();
-        int drawn = 0;
-        for (int ln = 0; ln < lines; ln++) {
-            Line line = layout.getLine(ln);
-            int n = line.glyphs.size;
-            drawn += n;
-            if (kerning != null) {
-                int kern = -1;
-                float amt;
-                long glyph;
-                for (int i = 0; i < n; i++) {
-                    kern = kern << 16 | (int) ((glyph = line.glyphs.get(i)) & 0xFFFF);
-                    amt = kerning.get(kern, 0);
-                    x += drawGlyph(batch, glyph, x + amt, y) + amt;
-                }
-            } else {
-                for (int i = 0; i < n; i++) {
-                    x += drawGlyph(batch, line.glyphs.get(i), x, y);
-                }
-            }
-            y -= cellHeight;
-        }
-        return drawn;
+        drawGlyphs(batch, tempLayout, x, y);
+        return tempLayout.countGlyphs();
     }
 
     /**
      * Draws the specified Layout of glyphs with a Batch at a given x, y position, drawing the full layout.
      *
      * @param batch  typically a SpriteBatch
-     * @param glyphs typically returned as part of {@link #markup(String, Layout)}
+     * @param layout typically returned as part of {@link #markup(String, Layout)}
      * @param x      the x position in world space to start drawing the glyph at (lower left corner)
      * @param y      the y position in world space to start drawing the glyph at (lower left corner)
      * @return the total distance in world units all drawn Lines use up from left to right
      */
-    public float drawGlyphs(Batch batch, Layout glyphs, float x, float y) {
-        return drawGlyphs(batch, glyphs, x, y, Align.left);
+    public float drawGlyphs(Batch batch, Layout layout, float x, float y) {
+        return drawGlyphs(batch, layout, x, y, Align.left);
     }
 
     /**
@@ -4546,31 +4525,27 @@ public class Font implements Disposable {
      * lower-right corner, respectively.
      *
      * @param batch  typically a SpriteBatch
-     * @param glyphs typically returned by {@link #markup(String, Layout)}
+     * @param layout typically returned by {@link #markup(String, Layout)}
      * @param x      the x position in world space to start drawing the glyph at (where this is depends on align)
      * @param y      the y position in world space to start drawing the glyph at (where this is depends on align)
      * @param align  an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
      * @return the total distance in world units all drawn Lines use up from left to right
      */
-    public float drawGlyphs(Batch batch, Layout glyphs, float x, float y, int align) {
-        float drawn = 0;
-        final int lines = glyphs.lines();
-        Line l;
-        for (int ln = 0; ln < lines; ln++) {
-            l = glyphs.getLine(ln);
-            y -= l.height;
-            drawn += drawGlyphs(batch, l, x, y, align);
-        }
-        return drawn;
+    public float drawGlyphs(Batch batch, Layout layout, float x, float y, int align) {
+        return drawGlyphs(batch, layout, x, y, align, 0,
+                0, 0
+//                x + (Align.isRight(align) ? glyphs.getWidth() : Align.isCenterHorizontal(align) ? glyphs.getWidth() * 0.5f : 0f),
+//                y + (Align.isTop(align) ? glyphs.getHeight() : Align.isCenterVertical(align) ? glyphs.getHeight() * 0.5f : 0f)
+        );
     }
 
     /**
-     * Draws the specified Layout of glyphs with a Batch at a given x, y position, rotated using dedegrees around the
+     * Draws the specified Layout of glyphs with a Batch at a given x, y position, rotated using degrees around the
      * given origin point, using {@code align} to determine how to position the text. Typically, align is
      * {@link Align#left}, {@link Align#center}, or {@link Align#right}, but it can have a vertical component as well.
      *
      * @param batch    typically a SpriteBatch
-     * @param glyphs   typically returned by {@link #markup(String, Layout)}
+     * @param layout   typically returned by {@link #markup(String, Layout)}
      * @param x        the x position in world space to start drawing the glyph at (where this is depends on align)
      * @param y        the y position in world space to start drawing the glyph at (where this is depends on align)
      * @param align    an {@link Align} constant; if {@link Align#left}, x and y refer to the left edge of the first Line
@@ -4579,167 +4554,102 @@ public class Font implements Disposable {
      * @param originY the y position in world space of the point to rotate around
      * @return the total distance in world units all drawn Lines use up from lines along the given rotation
      */
-    public float drawGlyphs(Batch batch, Layout glyphs, float x, float y, int align, float rotation, float originX, float originY) {
+    public float drawGlyphs(Batch batch, Layout layout, float x, float y, int align, float rotation, float originX, float originY) {
+        if(layout == null || layout.countGlyphs() == 0) return 0f;
         float drawn = 0;
         float sn = MathUtils.sinDeg(rotation);
         float cs = MathUtils.cosDeg(rotation);
-        final int lines = glyphs.lines();
-        Line l;
-//        x -= sn * 0.5f * cellHeight;
-//        y += cs * 0.5f * cellHeight;
-//        x += cs * 0.5f * cellWidth;
-//        y += sn * 0.5f * cellWidth;
-
-
+        final int lines = layout.lines();
+        int a = 0;
         for (int ln = 0; ln < lines; ln++) {
-            l = glyphs.getLine(ln);
-            y -= cs * l.height;
-            x += sn * l.height;
-            drawn += drawGlyphs(batch, l, x, y, align, rotation, originX, originY);
-        }
-        return drawn;
-    }
+            Line line = layout.getLine(ln);
+            y -= cs * line.height;
+            x += sn * line.height;
 
-    /**
-     * Draws the specified Line of glyphs with a Batch at a given x, y position, drawing the full Line using left
-     * alignment.
-     *
-     * @param batch  typically a SpriteBatch
-     * @param glyphs typically returned as part of {@link #markup(String, Layout)}
-     * @param x      the x position in world space to start drawing the glyph at (lower left corner)
-     * @param y      the y position in world space to start drawing the glyph at (lower left corner)
-     * @return the distance in world units the drawn Line uses, left to right
-     */
-    public float drawGlyphs(Batch batch, Line glyphs, float x, float y) {
-        if (glyphs == null) return 0;
-        return drawGlyphs(batch, glyphs, x, y, Align.left);
-    }
+            final float worldOriginX = x + originX;
+            final float worldOriginY = y + originY;
+            float fx = -originX;
+            float fy = -originY;
+            x = cs * fx - sn * fy + worldOriginX;
+            y = sn * fx + cs * fy + worldOriginY;
 
-    /**
-     * Draws the specified Line of glyphs with a Batch at a given x, y position, using {@code align} to
-     * determine how to position the text. Typically, align is {@link Align#left}, {@link Align#center}, or
-     * {@link Align#right}, which make the given x,y point refer to the lower-left corner, center-bottom edge point, or
-     * lower-right corner, respectively.
-     *
-     * @param batch  typically a SpriteBatch
-     * @param glyphs typically returned as part of {@link #markup(String, Layout)}
-     * @param x      the x position in world space to start drawing the glyph at (where this is depends on align)
-     * @param y      the y position in world space to start drawing the glyph at (where this is depends on align)
-     * @param align  an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
-     * @return the distance in world units the drawn Line uses, left to right
-     */
-    public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align) {
-        final float originX = x + (Align.isRight(align) ? glyphs.width : Align.isCenterHorizontal(align) ? glyphs.width * 0.5f : 0f);
-        final float originY = y + (Align.isTop(align) ? glyphs.height : Align.isCenterVertical(align) ? glyphs.height * 0.5f : 0f);
-        return drawGlyphs(batch, glyphs, x, y, align, 0f, originX, originY);
-    }
+            if (Align.isCenterHorizontal(align)) {
+                x -= cs * (line.width * 0.5f);
+                y -= sn * (line.width * 0.5f);
+            } else if (Align.isRight(align)) {
+                x -= cs * line.width;
+                y -= sn * line.width;
+            }
 
-    /**
-     * Draws the specified Line of glyphs with a Batch at a given x, y position, rotated using degrees around the given
-     * origin point, using {@code align} to determine how to position the text. Typically, align is {@link Align#left},
-     * {@link Align#center}, or {@link Align#right}, but it can have a vertical component as well.
-     *
-     * @param batch    typically a SpriteBatch
-     * @param glyphs   typically returned as part of {@link #markup(String, Layout)}
-     * @param x        the x position in world space to start drawing the glyph at (where this is depends on align)
-     * @param y        the y position in world space to start drawing the glyph at (where this is depends on align)
-     * @param align    an {@link Align} constant; if {@link Align#left}, x and y refer to the lower left corner
-     * @param rotation measured in degrees counterclockwise and applied to the whole Line
-     * @param originX the x position in world space of the point to rotate around
-     * @param originY the y position in world space of the point to rotate around
-     * @return the distance in world units the drawn Line uses up out of a line along the given rotation
-     */
-    public float drawGlyphs(Batch batch, Line glyphs, float x, float y, int align, float rotation, float originX, float originY) {
-        if (glyphs == null || glyphs.glyphs.size == 0) return 0;
-        float drawn = 0f, cs = MathUtils.cosDeg(rotation), sn = MathUtils.sinDeg(rotation);
+            int kern = -1;
+            long glyph;
+            float single, xChange = 0f, yChange = 0f;
 
-        final float worldOriginX = x + originX;
-        final float worldOriginY = y + originY;
-        float fx = -originX;
-        float fy = -originY;
-        x = cs * fx - sn * fy + worldOriginX;
-        y = sn * fx + cs * fy + worldOriginY;
-
-        if (Align.isCenterHorizontal(align)) {
-            x -= cs * (glyphs.width * 0.5f);
-            y -= sn * (glyphs.width * 0.5f);
-        } else if (Align.isRight(align)) {
-            x -= cs * glyphs.width;
-            y -= sn * glyphs.width;
-        }
-
-        int kern = -1;
-        long glyph;
-        float single, xChange = 0f, yChange = 0f;
-
-        boolean curly = false, initial = true;
-        for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
-            glyph = glyphs.glyphs.get(i);
-            char ch = (char) glyph;
-            if(omitCurlyBraces) {
-                if (curly) {
-                    if (ch == '}') {
-                        curly = false;
+            boolean curly = false, initial = true;
+            for (int i = 0, n = line.glyphs.size; i < n; i++) {
+                glyph = line.glyphs.get(i);
+                char ch = (char) glyph;
+                float advance = layout.advances.get(a);
+                float sizingX = layout.sizing.get(a << 1);
+                float sizingY = layout.sizing.get(a << 1 | 1);
+                a++;
+                if(omitCurlyBraces) {
+                    if (curly) {
+                        if (ch == '}') {
+                            curly = false;
+                            continue;
+                        } else if (ch == '{')
+                            curly = false;
+                        else continue;
+                    } else if (ch == '{') {
+                        curly = true;
                         continue;
-                    } else if (ch == '{')
-                        curly = false;
-                    else continue;
-                } else if (ch == '{') {
-                    curly = true;
-                    continue;
-                }
-            }
-            Font font = null;
-            if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
-            if (font == null) font = this;
-
-            // These affect each glyph by the same amount; unrelated to per-glyph wobble.
-//            float xx = x + 0.25f * (-(sn * font.cellHeight) + (cs * font.cellWidth));
-//            float yy = y + 0.25f * (+(cs * font.cellHeight) + (sn * font.cellWidth));
-
-//            GlyphRegion gr = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue);
-//            float xx = x + 0.5f * ((cs * gr.xAdvance) + (sn * font.cellHeight));
-//            float yy = y + 0.5f * (-(sn * gr.xAdvance)+ (cs * font.cellHeight));
-
-            if (font.kerning != null) {
-                kern = kern << 16 | (int) (glyph & 0xFFFF);
-                float amt = font.kerning.get(kern, 0)
-                        * font.scaleX * extractScale(glyph);
-                xChange += cs * amt;
-                yChange += sn * amt;
-            }
-            if(initial){
-
-                xChange -= font.cellWidth * 0.5f;
-                yChange += font.cellHeight * 0.5f;
-
-                xChange += cs * font.cellWidth * 0.5f;
-                yChange += sn * font.cellWidth * 0.5f;
-
-                xChange += sn * font.descent * font.scaleY * 0.5f;
-                yChange -= cs * font.descent * font.scaleY * 0.5f;
-
-//                yChange += font.cellHeight * 0.5f;
-                xChange -= sn * glyphs.height * 0.5f;
-                yChange += cs * glyphs.height * 0.5f;
-
-                final Font.GlyphRegion reg = font.mapping.get((int) (glyph & 0xFFFF));
-                if(!isMono && reg != null && !(ch >= '\uE000' && ch < '\uF800')) {
-                    float ox = reg.offsetX;
-                    if (Float.isNaN(ox)) ox = 0f;
-                    else
-                        ox *= font.scaleX * (extractScale(glyph));
-                    if (ox < 0) {
-                        xChange -= cs * ox;
-                        yChange -= sn * ox;
                     }
                 }
-                initial = false;
+                Font font = null;
+                if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
+                if (font == null) font = this;
+
+                if (font.kerning != null) {
+                    kern = kern << 16 | (int) (glyph & 0xFFFF);
+                    float amt = font.kerning.get(kern, 0)
+                            * font.scaleX * advance;
+                    xChange += cs * amt;
+                    yChange += sn * amt;
+                }
+                if(initial){
+
+                    xChange -= font.cellWidth * 0.5f;
+                    yChange += font.cellHeight * 0.5f;
+
+                    xChange += cs * font.cellWidth * 0.5f;
+                    yChange += sn * font.cellWidth * 0.5f;
+
+                    xChange += sn * font.descent * font.scaleY * 0.5f;
+                    yChange -= cs * font.descent * font.scaleY * 0.5f;
+
+                    xChange -= sn * line.height * 0.5f;
+                    yChange += cs * line.height * 0.5f;
+
+                    final Font.GlyphRegion reg = font.mapping.get((int) (glyph & 0xFFFF));
+                    if(!isMono && reg != null && !(ch >= '\uE000' && ch < '\uF800')) {
+                        float ox = reg.offsetX;
+                        if (Float.isNaN(ox)) ox = 0f;
+                        else
+                            ox *= font.scaleX * advance;
+                        if (ox < 0) {
+                            xChange -= cs * ox;
+                            yChange -= sn * ox;
+                        }
+                    }
+                    initial = false;
+                }
+                single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation, sizingX, sizingY, 0);
+                xChange += cs * single;
+                yChange += sn * single;
+                drawn += single;
             }
-            single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation);
-            xChange += cs * single;
-            yChange += sn * single;
-            drawn += single;
+
         }
         return drawn;
     }
@@ -4770,111 +4680,6 @@ public class Font implements Disposable {
             }
         }
         return changedW;
-    }
-
-    /**
-     * Gets the distance to advance the cursor after drawing {@code glyph}, scaled by {@link #scaleX} as if drawing.
-     * This handles monospaced fonts correctly and ensures that for variable-width fonts, subscript, midscript, and
-     * superscript halve the advance amount. This does not consider kerning, if the font has it. If the glyph is fully
-     * transparent, this does not draw it at all, and treats its x advance as 0. This only uses the current font, and
-     * will not consider swapped-out fonts from a family.
-     *
-     * @param glyph a long encoding the color, style information, and char of a glyph, as from a {@link Line}
-     * @return the (possibly non-integer) amount to advance the cursor when you draw the given glyph, not counting kerning
-     */
-    public float xAdvance(long glyph) {
-        if (glyph >>> 32 == 0L) return 0;
-        char ch = (char) glyph;
-        if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
-        GlyphRegion tr = mapping.get(ch);
-        if (tr == null) return 0f;
-        float scale;
-        if(ch >= 0xE000 && ch < 0xF800)
-            scale = (extractScale(glyph)) * cellHeight / tr.getMaxDimension() * inlineImageStretch;
-        else
-            scale = scaleX * (extractScale(glyph));
-        float changedW = tr.xAdvance * scale;
-        if (!isMono) {
-            changedW += tr.offsetX * scale;
-            if ((glyph & SUPERSCRIPT) != 0L) {
-                changedW *= 0.5f;
-            }
-        }
-        return changedW;
-    }
-
-    /**
-     * Measures the actual width that the given Line will use when drawn.
-     *
-     * @param line a Line, as from inside a Layout
-     * @return the width in world units
-     */
-    public float measureWidth(Line line) {
-        float drawn = 0f;
-        float scaleX;
-        float scale;
-        LongArray glyphs = line.glyphs;
-        boolean curly = false, initial = true;
-        int kern = -1;
-        float amt;
-        for (int i = 0, n = glyphs.size; i < n; i++) {
-            long glyph = glyphs.get(i);
-            char ch = (char) glyph;
-            if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
-            if(omitCurlyBraces) {
-                if (curly) {
-                    if (ch == '}') {
-                        curly = false;
-                        continue;
-                    } else if (ch == '{')
-                        curly = false;
-                    else continue;
-                } else if (ch == '{') {
-                    curly = true;
-                    continue;
-                }
-            }
-            Font font = null;
-            if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
-            if (font == null) font = this;
-            GlyphRegion tr = font.mapping.get(ch);
-            if (tr == null) continue;
-            if (font.kerning != null) {
-                kern = kern << 16 | ch;
-                scale = extractScale(glyph);
-                if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
-                    scaleX = scale * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
-                else
-                    scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
-                amt = font.kerning.get(kern, 0) * scaleX;
-                float changedW = tr.xAdvance * scaleX;
-                if(Float.isNaN(tr.offsetX))
-                    changedW = font.cellWidth * scale;
-                else if(initial && !isMono && !(ch >= '\uE000' && ch < '\uF800')){
-                    float ox = tr.offsetX * scaleX;
-                    if(ox < 0) changedW -= ox;
-                }
-                initial = false;
-                drawn += changedW + amt;
-            } else {
-                scale = extractScale(glyph);
-                if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
-                    scaleX = scale * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
-                else
-                    scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
-
-                float changedW = tr.xAdvance * scaleX;
-                if(Float.isNaN(tr.offsetX))
-                    changedW = font.cellWidth * scale;
-                else if(initial && !font.isMono && !(ch >= '\uE000' && ch < '\uF800')){
-                    float ox = tr.offsetX * scaleX;
-                    if(ox < 0) changedW -= ox;
-                }
-                initial = false;
-                drawn += changedW;
-            }
-        }
-        return drawn;
     }
 
     /**
