@@ -5655,52 +5655,18 @@ public class Font implements Disposable {
             centerX = oCenterX + xShift * 0.5f;
             centerY = oCenterY + yShift * 0.5f;
             x += font.cellWidth * 0.5f;
-            y += font.cellHeight * 0.5f;
+            y -= font.cellHeight;
 
             GlyphRegion under = font.mapping.get(0x2500);
 
             if (under != null && Float.isNaN(under.offsetX)) {
                 p0x = font.cellWidth * -0.5f + xAdvance * font.underX * font.scaleX * sizingX;
-                // this seems to have been changed while making changes for inline images, which are no longer used.
-//                p0y = ((font.underY - 1f) * font.cellHeight * scale * 0.5f) * sizingY + font.descent * font.scaleY * scale * sizingY;
-                // faithful to an earlier commit, not sure from when...
-//                p0y = (font.underY - 0.5f) * font.cellHeight * scale * 0.5f * sizingY + font.descent * font.scaleY * scale * sizingY;
-
-                // June 29 version, evaluating again
-                p0y = (font.underY - 0.8125F) * font.cellHeight * sizingY + centerY + font.descent * font.scaleY;
-
+                p0y = 0.5f * centerY - ((font.underY - 0.25f) * font.cellHeight + font.descent * font.scaleY) * sizingY;
                 p0x += centerX - cos * centerX + xPx * 4f;
                 p0y += sin * centerX;
-//                if (c >= 0xE000 && c < 0xF800) {
-//                    p0x += changedW * 0.5f;// + cos * centerX;
-//                    p0y -= sin * centerX;
-////                    // for inline images, this does two things.
-////                    // it moves the changes from the inline image's offsetX and offsetY from the
-////                    // rotating xc and yt variables, to the position-only x and y variables.
-////                    // it also offsets x by a half-cell to the right, and moves the origin for y.
-////
-////                    float stretchShift = 0.5f * (trrh * font.inlineImageStretch - trrh);
-////
-////                    float xch = tr.offsetX * scale * fsx * sizingX;
-////                    p0x -= xch;
-////                    x += xch + changedW * 0.5f - stretchShift * scale * sizingX;
-////
-////                    p0y = sin * centerX;
-////                    if(squashed) p0y -= font.cellHeight * scale * 0.15f;
-////
-////                    p0y -= scaledHeight * 0.5f;
-////                    y += (font.descent * font.scaleY - stretchShift) * scale * sizingY;
-//                }
-
-//                p0x = centerX - cos * centerX - cellWidth * 0.5f - scale * fsx + xAdvance * font.underX * scaleX;
-//                p0y = ((font.underY - 0.8125f) * font.cellHeight) * scale * sizingY + centerY + sin * centerX
-//                        + font.descent * font.scaleY;
-
-//                    p0x = xc + (changedW * 0.5f) + cellWidth * font.underX * scale;
-//                    p0y = font.handleIntegerPosition(yt + font.underY * font.cellHeight * scale * sizingY);
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
-                        xAdvance * (font.underLength+2) * scaleX + xPx,
+                        xAdvance * (font.strikeLength + 1.25f) * scaleX * sizingX + xPx,
                         font.cellHeight * sizingY * (1f + font.underBreadth), rotation);
             } else {
                 under = font.mapping.get('_');
@@ -5763,34 +5729,10 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && Float.isNaN(dash.offsetX)) {
                 p0x = -0.5f * font.cellWidth + xAdvance * font.strikeX * font.scaleX * sizingX;
-                // later version
-//                p0y = ((font.strikeY) * font.cellHeight * scale * 0.5f) * sizingY + font.descent * scale * font.scaleY * sizingY;
-                // june 29 version
-                p0y = centerY - (font.strikeY - 0.55f) * font.cellHeight * sizingY - font.descent * font.scaleY * sizingY;
+                p0y = centerY * 0.65f - ((font.strikeY - 0.65f) * font.cellHeight + font.descent * font.scaleY) * sizingY;
                 p0x += centerX - cos * centerX + xPx * 4f;
                 p0y += sin * centerX;
 
-//                if (c >= 0xE000 && c < 0xF800) {
-//                    p0x += changedW * 0.5f;
-////                    p0y += centerY * sizingY;
-//                    // for inline images, this does two things.
-//                    // it moves the changes from the inline image's offsetX and offsetY from the
-//                    // rotating xc and yt variables, to the position-only x and y variables.
-//                    // it also moves the origin for y by a full cell height.
-////                    float xch = changedW * -0.5f;
-////                    float ych = scaledHeight * -0.5f;
-////                    p0x -= xch;
-////                    x += xch + changedW * 0.5f;
-////                    p0y -= ych;
-////                    y += ych;
-//
-////                    float xch = tr.offsetX * scaleX * sizingX;
-////                    float ych = scaledHeight -tr.offsetY * fsy * scale * sizingY;
-////                    p0x -= xch;
-////                    x += xch;
-////                    p0y -= ych;
-////                    y += ych;// - font.descent * font.scaleY * 2f;
-//                }
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         xAdvance * (font.strikeLength + 1.25f) * scaleX * sizingX + xPx,
