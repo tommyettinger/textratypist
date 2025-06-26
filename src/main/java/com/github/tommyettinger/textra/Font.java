@@ -7505,39 +7505,51 @@ public class Font implements Disposable {
     }
 
     /**
-     * Given a glyph as a long, this returns the float multiplier it uses for scale. If alternate mode is enabled, then
-     * this always returns 1.0f , because scale is ignored when alternate mode is on.
-     *
-     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
-     * @return the float scale used by the given glyph, from 0.0f to 3.75f
+     * This no longer does anything because scale is no longer stored inside each glyph.
+     * This allows scales to smoothly change from 0.001f to 123456.789f, or whatever the user requests.
+     * The scale is now stored in {@link Layout#sizing} and a similar value (that changes less often when
+     * TypingLabel effects are in use) in {@link Layout#advances}. These both store multipliers to the
+     * GlyphRegion's already-stored-per-region metrics.
+     * @param glyph ignored
+     * @return 1.0f, always; you need to get the scale from a Layout directly
+     * @deprecated use the {@link Layout#sizing} or {@link Layout#advances} fields in a Layout instead
      */
+    @Deprecated
     public static float extractScale(long glyph) {
-        return (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f;
+        return 1f;
     }
 
     /**
-     * Given a glyph as a long, this returns an int from 1 to 16 used internally for scale. Each increment corresponds
-     * to a 25% increase in scale, so 1 is 25% scale, 4 is 100% scale, and 16 is 400% scale. If alternate mode is
-     * enabled, then this always returns 4, because scale is ignored when alternate mode is on, and 4 corresponds to
-     * 100% scale.
+     * This no longer does anything because scale is no longer stored inside each glyph, and isn't an int.
+     * This allows scales to smoothly change from 0.001f to 123456.789f, or whatever the user requests.
+     * The scale is now stored in {@link Layout#sizing} and a similar value (that changes less often when
+     * TypingLabel effects are in use) in {@link Layout#advances}. These both store multipliers to the
+     * GlyphRegion's already-stored-per-region metrics.
      *
-     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
-     * @return the int scale used by the given glyph, from 1 to 16
+     * @param glyph ignored
+     * @return 4, always; you need to get the scale from a Layout directly
+     * @deprecated use the {@link Layout#sizing} or {@link Layout#advances} fields in a Layout instead
      */
+    @Deprecated
     public static int extractIntScale(long glyph) {
-        return (int) ((glyph & ALTERNATE) != 0L ? 4 : (glyph + 0x300000L >>> 20 & 15) + 1);
+        return 4;
     }
     /**
-     * Replaces the section of glyph that stores its scale with the given float multiplier, rounded to a multiple of
-     * 0.25 and (if out of bounds) wrapped to within 0.25 to 4.0, both inclusive. This also disables alternate mode,
-     * enabling scaling.
+     * This no longer does anything because scale is no longer stored inside each glyph; this returns
+     * {@code glyph} without changes.
+     * The scale is now stored in {@link Layout#sizing} and a similar value (that changes less often when
+     * TypingLabel effects are in use) in {@link Layout#advances}. These both store multipliers to the
+     * GlyphRegion's already-stored-per-region metrics.
      *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
-     * @param scale the float scale to use, which should be between 0.25 and 4.0, both inclusive
-     * @return another long glyph that uses the specified scale
+     * @param scale ignored
+     * @return glyph, without changes
+     * @deprecated scaling is now stored in both the {@link Layout#sizing}and {@link Layout#advances} fields in a Layout
      */
+    @Deprecated
     public static long applyScale(long glyph, float scale) {
-        return (glyph & 0xFFFFFFFFFE0FFFFFL) | ((long) Math.floor(scale * 4.0 - 4.0) & 15L) << 20;
+        return glyph;
+//        return (glyph & 0xFFFFFFFFFF0FFFFFL) | ((long) Math.floor(scale * 4.0 - 4.0) & 15L) << 20;
     }
 
 
