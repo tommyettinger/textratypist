@@ -4843,98 +4843,6 @@ public class Font implements Disposable {
     }
 
     /**
-     * Not meant for general use; calculates the x-positions before every glyph in {@code line}, including invisible
-     * ones. Appends to {@code advances} with the (usually never-decreasing) position values. Position values may
-     * decrease for right-to-left text or combining marks, neither of which are currently fully supported.
-     * @param line a Line to measure the contents
-     * @param advances will have the positions of each glyph in line appended to it
-     * @return the x-position after the last glyph
-     */
-    public float calculateXAdvances(Line line, FloatArray advances) {
-        float scaleX;
-        float scale;
-        LongArray glyphs = line.glyphs;
-        advances.ensureCapacity(line.glyphs.size + 1);
-        boolean curly = false, initial = true;
-        int kern = -1;
-        float amt, total = 0f;
-        line.height = 0f;
-        for (int i = 0, n = glyphs.size; i < n; i++) {
-            long glyph = glyphs.get(i);
-            char ch = (char) glyph;
-            if(omitCurlyBraces) {
-                if (curly) {
-                    if (ch == '}') {
-                        curly = false;
-                        advances.add(0f);
-                        continue;
-                    } else if (ch == '{')
-                        curly = false;
-                    else {
-                        advances.add(0f);
-                        continue;
-                    }
-                } else if (ch == '{') {
-                    curly = true;
-                    advances.add(0f);
-                    continue;
-                }
-            }
-            Font font = null;
-            if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
-            if (font == null) font = this;
-            GlyphRegion tr = font.mapping.get(ch);
-            if (tr == null) {
-                advances.add(0f);
-                continue;
-            }
-            if (font.kerning != null) {
-                kern = kern << 16 | ch;
-                scale = extractScale(glyph);
-                if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
-                    scaleX = scale * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
-                else
-                    scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
-                line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
-                amt = font.kerning.get(kern, 0) * scaleX;
-                float changedW = xAdvance(font, scaleX, glyph);
-                if(initial) {
-                    if (!(ch >= '\uE000' && ch < '\uF800')) {
-                        float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
-                                * scaleX;
-                        if (ox < 0) changedW -= ox;
-                    }
-                    initial = false;
-                }
-                advances.add(total);
-                total += changedW + amt;
-            } else {
-                scale = extractScale(glyph);
-                line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
-                if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
-                    scaleX = scale * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
-                }
-                else
-                    scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
-                float changedW = xAdvance(font, scaleX, glyph);
-                if (font.isMono)
-                    changedW += tr.offsetX * scaleX;
-                else if(initial){
-                    if(!(ch >= '\uE000' && ch < '\uF800')) {
-                        float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
-                                * scaleX;
-                        if (ox < 0) changedW -= ox;
-                    }
-                    initial = false;
-                }
-                advances.add(total);
-                total += changedW;
-            }
-        }
-        return total;
-    }
-
-    /**
      * Not meant for general use; calculates the x-positions before every glyph in {@code layout}, including invisible
      * ones. Appends to {@code advances} with the position values, which can go up and down as lines change.
      * @param layout will have each line processed and appended to advances
@@ -4943,8 +4851,91 @@ public class Font implements Disposable {
      */
     public float calculateXAdvances(Layout layout, FloatArray advances) {
         float max = -1e30f;
-        for (int i = 0, len = layout.lines(); i < len; i++) {
-            max = Math.max(max, calculateXAdvances(layout.getLine(i), advances));
+        int a = 0;
+        for (int ln = 0, len = layout.lines(); ln < len; ln++) {
+            Line line = layout.getLine(ln);
+            float scaleX;
+            float scale;
+            LongArray glyphs = line.glyphs;
+            advances.ensureCapacity(line.glyphs.size + 1);
+            boolean curly = false, initial = true;
+            int kern = -1;
+            float amt, total = 0f;
+            line.height = 0f;
+            for (int i = 0, n = glyphs.size; i < n; i++) {
+                long glyph = glyphs.get(i);
+                char ch = (char) glyph;
+                float advance = layout.advances.get(a++);
+                if(omitCurlyBraces) {
+                    if (curly) {
+                        if (ch == '}') {
+                            curly = false;
+                            advances.add(0f);
+                            continue;
+                        } else if (ch == '{')
+                            curly = false;
+                        else {
+                            advances.add(0f);
+                            continue;
+                        }
+                    } else if (ch == '{') {
+                        curly = true;
+                        advances.add(0f);
+                        continue;
+                    }
+                }
+                Font font = null;
+                if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
+                if (font == null) font = this;
+                GlyphRegion tr = font.mapping.get(ch);
+                if (tr == null) {
+                    advances.add(0f);
+                    continue;
+                }
+                if (font.kerning != null) {
+                    kern = kern << 16 | ch;
+                    scale = advance;
+                    if((char)glyph >= 0xE000 && (char)glyph < 0xF800)
+                        scaleX = scale * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
+                    else
+                        scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
+                    line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
+                    amt = font.kerning.get(kern, 0) * scaleX;
+                    float changedW = xAdvance(font, scaleX, glyph);
+                    if(initial) {
+                        if (!(ch >= '\uE000' && ch < '\uF800')) {
+                            float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
+                                    * scaleX;
+                            if (ox < 0) changedW -= ox;
+                        }
+                        initial = false;
+                    }
+                    advances.add(total);
+                    total += changedW + amt;
+                } else {
+                    scale = advance;
+                    line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
+                    if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
+                        scaleX = scale * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
+                    }
+                    else
+                        scaleX = font.scaleX * scale * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
+                    float changedW = xAdvance(font, scaleX, glyph);
+                    if (font.isMono)
+                        changedW += tr.offsetX * scaleX;
+                    else if(initial){
+                        if(!(ch >= '\uE000' && ch < '\uF800')) {
+                            float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
+                                    * scaleX;
+                            if (ox < 0) changedW -= ox;
+                        }
+                        initial = false;
+                    }
+                    advances.add(total);
+                    total += changedW;
+                }
+            }
+            max = Math.max(max, total);
         }
         return max;
     }
