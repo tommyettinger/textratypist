@@ -1047,87 +1047,105 @@ public class Font implements Disposable {
      * Bit flag for alternate mode, as a long.
      * The behavior of the scale bits changes if alternate mode is enabled.
      */
+    //FIXME: Alternate modes no longer replace scale!
     public static final long ALTERNATE = 1L << 24;
     /**
      * Bit flag for matching alternate modes, as a long.
      * If a glyph is masked with this ({@code (glyph & ALTERNATE_MODES_MASK)}), and that equals one of the alternate
-     * mode bit flags exactly ({@link #BLACK_OUTLINE}, {@link #WHITE_OUTLINE}, {@link #DROP_SHADOW}, and so on), then
-     * that mode is enabled. This does not match {@link #SMALL_CAPS}, because small caps mode can be enabled separately
-     * from the outline/shadow/etc. modes.
-     * <br>
-     * You should generally check both this mask and SMALL_CAPS because as modes are added, there could be a mode that
-     * requires {@link #SMALL_CAPS} to be disabled and, when a glyph is masked with this field, that mask to be exactly
-     * equal to {@link #ALTERNATE}. In other words, that is a case where the alternate bit flag is enabled, but all the
-     * bits that normally affect it are disabled.
+     * mode bit flags exactly ({@link #SMALL_CAPS}, {@link #WHITE_OUTLINE}, {@link #DROP_SHADOW}, and so on), then
+     * that mode is enabled.
      */
-    public static final long ALTERNATE_MODES_MASK = 30L << 20;
+    public static final long ALTERNATE_MODES_MASK = 15L << 20;
     /**
-     * Bit flag for small caps mode, as a long.
-     * This only has its intended effect if alternate mode is enabled.
-     * This can overlap with other alternate modes, but cannot be used at the same time as scaling.
-     * If {@link #ALTERNATE} is set, and bits 20 (small caps), 21, 22, and 23 are all not set, then a special mode is
-     * enabled, {@link #JOSTLE}, which moves affected characters around in a stationary random pattern.
-     */
-    public static final long SMALL_CAPS = 1L << 20 | ALTERNATE;
-    /**
-     * Bit flag for "jostle" mode, as a long. This moves characters around in a stationary random pattern, but keeps
-     * their existing metrics (width and height).
-     * This only has its intended effect if alternate mode is enabled <i>and</i> {@link #SMALL_CAPS} is disabled.
-     * This cannot be used at the same time as scaling, and cannot overlap with other alternate modes.
-     * This requires {@link #ALTERNATE} to be set, but bits 20 (small caps), 21, 22, and 23 to all be not set.
-     */
-    public static final long JOSTLE = ALTERNATE;
-    /**
-     * Bit flag for black outline mode, as a long.
-     * This only has its intended effect if alternate mode is enabled.
-     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     * Bit flag for black outline, as a long.
+     * This can be enabled at the same time as alternate modes, and some alternate modes will both enable this and
+     * affect its color temporarily.
      * This can be configured to use a different color in place of black by changing {@link #PACKED_BLACK}.
      */
-    public static final long BLACK_OUTLINE = 2L << 20 | ALTERNATE;
+    public static final long BLACK_OUTLINE = 1L << 24;
     /**
      * Bit flag for white outline mode, as a long.
-     * This only has its intended effect if alternate mode is enabled.
      * If the Font being outlined uses some other color in its texture, this will draw the outline in the color used by
      * the outer edge of each glyph drawn. For images in an atlas, like {@link KnownFonts#addEmoji(Font)}, this will
      * typically color the outline in the same color used by the edge of the image. This can be avoided by tinting the
      * glyph with a darker color and still using this white outline.
-     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      * This can be configured to use a different color in place of white by changing {@link #PACKED_WHITE}.
      */
-    public static final long WHITE_OUTLINE = 4L << 20 | ALTERNATE;
+    public static final long WHITE_OUTLINE = 15L << 20;
     /**
-     * Bit flag for drop shadow mode, as a long.
-     * This only has its intended effect if alternate mode is enabled.
-     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     * Bit flag for yellow outline mode, as a long.
+     * This changes the color used for the outline when {@link #BLACK_OUTLINE} is enabled.
      */
-    public static final long DROP_SHADOW = 6L << 20 | ALTERNATE;
+    public static final long YELLOW_OUTLINE = 14L << 20;
     /**
-     * Bit flag for shiny mode, as a long.
-     * This only has its intended effect if alternate mode is enabled.
-     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
+     * Bit flag for red outline mode, as a long.
+     * This changes the color used for the outline when {@link #BLACK_OUTLINE} is enabled.
      */
-    public static final long SHINY = 8L << 20 | ALTERNATE;
+    public static final long RED_OUTLINE = 13L << 20;
+    /**
+     * Bit flag for blue outline mode, as a long.
+     * This changes the color used for the outline when {@link #BLACK_OUTLINE} is enabled.
+     */
+    public static final long BLUE_OUTLINE = 12L << 20;
+    /**
+     * Bit flag for small caps mode, as a long. This draws capital letters normally, but makes lower-case letters
+     * render as reduced-height versions of their capitalized forms.
+     */
+    public static final long SMALL_CAPS = 1L << 20;
+    /**
+     * Bit flag for "jostle" mode, as a long. This moves characters around in a stationary random pattern, but keeps
+     * their existing metrics (width and height).
+     */
+    public static final long JOSTLE = 2L << 20;
+    /**
+     * Bit flag for shiny mode, as a long. This draws the glyph once in white and up one pixel earlier, then draws
+     * over it with the normal glyph in its normal color.
+     */
+    public static final long SHINY = 3L << 20;
+    /**
+     * Bit flag for neon mode, as a long. This draws the glyph multiple times with offsets in all directions, in its
+     * normal color but at reduced alpha, then draws over those with the normal glyph in white.
+     */
+    public static final long NEON = 4L << 20;
+    /**
+     * Bit flag for halo mode, as a long. This draws the glyph multiple times with offsets in all directions, drawing
+     * with low-alpha white, then draws over those with the normal glyph in its normal color (typically darker
+     * than white).
+     */
+    public static final long HALO = 5L << 20;
+    /**
+     * Bit flag for drop shadow mode, as a long. This draws the glyph in dark gray with low alpha and offset to the
+     * lower right, then draws over that with the normal glyph in its normal color.
+     * This can be configured to use a different color in place of gray by changing {@link #PACKED_SHADOW_COLOR}.
+     */
+    public static final long DROP_SHADOW = 6L << 20;
     /**
      * Bit flag for error mode, shown as a red wiggly-underline, as a long.
-     * This only has its intended effect if alternate mode is enabled.
-     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      * This can be configured to use a different color in place of red by changing {@link #PACKED_ERROR_COLOR}.
      */
-    public static final long ERROR = 10L << 20 | ALTERNATE;
+    public static final long ERROR = 7L << 20;
+    /**
+     * Bit flag for context mode, shown as a green series of diagonal ticks with large gaps, as a long.
+     * This can be configured to use a different color in place of green by changing {@link #PACKED_WARN_COLOR}.
+     */
+    //FIXME: PACKED_CONTEXT_COLOR
+    public static final long CONTEXT = 8L << 20;
     /**
      * Bit flag for warning mode, shown as a yellow barred-underline, as a long.
-     * This only has its intended effect if alternate mode is enabled.
-     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      * This can be configured to use a different color in place of yellow by changing {@link #PACKED_WARN_COLOR}.
      */
-    public static final long WARN = 12L << 20 | ALTERNATE;
+    public static final long WARN = 9L << 20;
+    /**
+     * Bit flag for suggest mode, shown as a gray series of right angles with small gaps, as a long.
+     * This can be configured to use a different color in place of gray by changing {@link #PACKED_WARN_COLOR}.
+     */
+    //FIXME: PACKED_SUGGEST_COLOR
+    public static final long SUGGEST = 10L << 20;
     /**
      * Bit flag for note mode, shown as a blue wavy-underline, as a long.
-     * This only has its intended effect if alternate mode is enabled.
-     * This can overlap with {@link #SMALL_CAPS}, but cannot be used at the same time as scaling.
      * This can be configured to use a different color in place of blue by changing {@link #PACKED_NOTE_COLOR}.
      */
-    public static final long NOTE = 14L << 20 | ALTERNATE;
+    public static final long NOTE = 11L << 20;
 
     /**
      * The color black, as a packed float using the default RGBA color space.
@@ -5654,18 +5672,26 @@ public class Font implements Disposable {
      *     <li>{@code [;]} toggles capitalize each word mode.</li>
      *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
      *     the nearest 25% mark). This also disables any alternate mode.</li>
-     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
-     *     "drop shadow"/"shadow", "error", "warn", "note", or "jostle", will disable scaling and enable that alternate
-     *     mode. If MODE is empty or not recognized, this considers it equivalent to "jostle".</li>
-     *     <li>{@code [%^MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
-     *     "drop shadow"/"shadow", "error", "warn", "note", or "small caps", will disable scaling and enable that
-     *     alternate mode along with small caps mode at the same time. If MODE is empty or not recognized, this
-     *     considers it equivalent to "small caps" (without another mode).</li>
-     *     <li>{@code [%]}, with no number just after it, resets scale to 100% and disables any alternate mode.</li>
+     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline",
+     *     "red outline", "blue outline", "yellow outline", "shiny", "drop shadow"/"shadow", "neon", "halo",
+     *     "error", "warn", "note", "context", "suggest", "jostle", or "small caps",
+     *     will enable that alternate mode. If MODE is empty or not recognized, this will disable any current active
+     *     mode. If any mode is non-empty and recognized, it will be enabled and replace any current active mode.
+     *     Disabling a mode should always use the empty string for MODE. The "black outline" mode isn't actually a mode,
+     *     and internally enables the same feature as {@code [#]}; it is still recognized for compatibility. Note that
+     *     this means it can be enabled at the same time as any other mode, and that it will not be disabled by
+     *     {@code [%?]}, though it can be toggled off or back on by {@code [#]} (which is the preferred way to use the
+     *     outline). Other "outline" modes also enable the outline if it isn't active, but change its color. The outline
+     *     can always be toggled on or off, regardless of color, by {@code [#]}.</li>
+     *     <li>{@code [%^MODE]} is a synonym for the preceding {@code [%?MODE]} markup for compatibility.</li>
+     *     <li>{@code [%?]} and {@code [%^]} are equivalent ways to disable a special mode, if it is active.</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100%.</li>
      *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
      *     in this.family by that name. This is ignored if family is null.</li>
      *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
      *     if family is non-null).</li>
+     *     <li>{@code [#]} toggles a black outline around text. This can have its color changed by some special
+     *     modes.</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a color name or description that will be looked up in
      *     {@link #getColorLookup()}, changes the color. By default, this can receive ALL_CAPS names from {@link Colors}
