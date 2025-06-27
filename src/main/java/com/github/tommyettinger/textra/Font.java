@@ -7543,27 +7543,27 @@ public class Font implements Disposable {
     /**
      * Given a glyph as a long, this returns the style bits it uses. You can cross-reference these with
      * {@link #BOLD}, {@link #OBLIQUE}, {@link #UNDERLINE}, {@link #STRIKETHROUGH}, {@link #SUBSCRIPT},
-     * {@link #MIDSCRIPT}, and {@link #SUPERSCRIPT}.
+     * {@link #MIDSCRIPT}, {@link #SUPERSCRIPT}, and {@link #BLACK_OUTLINE}.
      *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @return the style bits used by the given glyph
      */
     public static long extractStyle(long glyph) {
-        return glyph & 0x7E000000L;
+        return glyph & 0x7F000000L;
     }
 
     /**
      * Replaces the section of glyph that stores its style with the given long bits.You can get the bit constants with
      * {@link #BOLD}, {@link #OBLIQUE}, {@link #UNDERLINE}, {@link #STRIKETHROUGH}, {@link #SUBSCRIPT},
-     * {@link #MIDSCRIPT}, and {@link #SUPERSCRIPT}. Because only a small section is used from style, you can pass an
-     * existing styled glyph as the second parameter to copy its style information into glyph.
+     * {@link #MIDSCRIPT}, {@link #SUPERSCRIPT}, and {@link #BLACK_OUTLINE}. Because only a small section is used from
+     * style, you can pass an existing styled glyph as the second parameter to copy its style information into glyph.
      *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @param style the long style bits to use, which should usually be bits from the aforementioned constants
      * @return another long glyph that uses the specified style
      */
     public static long applyStyle(long glyph, long style) {
-        return (glyph & 0xFFFFFFFF81FFFFFFL) | (style & 0x7E000000L);
+        return (glyph & 0xFFFFFFFF80FFFFFFL) | (style & 0x7F000000L);
     }
 
     /**
@@ -7616,41 +7616,50 @@ public class Font implements Disposable {
 
 
     /**
-     * Given a glyph as a long, this returns the bit flags for the current mode, if alternate mode is enabled. The flags
-     * may include {@link #SMALL_CAPS} separately from any other flags except for {@link #JOSTLE} (SMALL_CAPS and JOSTLE
-     * cannot overlap). To check whether a given mode is present, use one of:
+     * Given a glyph as a long, this returns the bit flags for the current mode, if alternate mode is enabled. Note that
+     * while BLACK_OUTLINE can be enabled like a mode, it is considered a style, so it can overlap with any mode, and
+     * can be checked with {@link #extractStyle(long)}. To check whether a given mode is present, use one of:
      * <ul>
-     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == BLACK_OUTLINE}</li>
      *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == WHITE_OUTLINE}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == YELLOW_OUTLINE}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == RED_OUTLINE}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == BLUE_OUTLINE}</li>
      *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == DROP_SHADOW}</li>
      *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == SHINY}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == NEON}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == HALO}</li>
      *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == ERROR}</li>
      *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == WARN}</li>
      *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == NOTE}</li>
-     *     <li>{@code (extractMode(glyph) & SMALL_CAPS) == SMALL_CAPS}</li>
-     *     <li>{@code (extractMode(glyph) & (ALTERNATE_MODES_MASK | SMALL_CAPS)) == JOSTLE}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == CONTEXT}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == SUGGEST}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == SMALL_CAPS}</li>
+     *     <li>{@code (extractMode(glyph) & ALTERNATE_MODES_MASK) == JOSTLE}</li>
      * </ul>
      * The last constant of each line is the mode that line checks for. Each constant is defined in Font.
-     * If alternate mode is not enabled, this always returns 0.
+     * If no alternate mode is not enabled, this returns 0.
      *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @return the bit flags for the current alternate mode, if enabled; see docs
      */
     public static long extractMode(long glyph) {
-        return (glyph & ALTERNATE) == 0L ? 0L : (glyph & (ALTERNATE_MODES_MASK | SMALL_CAPS));
+        return (glyph & ALTERNATE_MODES_MASK);
     }
 
     /**
      * Replaces the section of glyph that stores its alternate mode (which is the same section that stores its scale)
      * with the given bit flags representing a mode (or lack of one). These bit flags are generally obtained using
-     * {@link #extractMode(long)}, though you could acquire or create them in any number of ways.
+     * {@link #extractMode(long)}, though you could acquire or create them in any number of ways. If any of the outline
+     * color modes are applied using this, that doesn't mean an outline is enabled, just that if an outline is drawn,
+     * it will use a different color. You can make an outline present with {@link #applyStyle(long, long)} and
+     * {@link #BLACK_OUTLINE}; if the mode {@link #RED_OUTLINE} is also present, the outline will be drawn in red.
      *
      * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
      * @param modeFlags bit flags typically obtained from {@link #extractMode(long)}
      * @return another long glyph that uses the specified mode
      */
     public static long applyMode(long glyph, long modeFlags) {
-        return (glyph & 0xFFFFFFFFFE0FFFFFL) | (0x1F00000L & modeFlags);
+        return (glyph & 0xFFFFFFFFFF0FFFFFL) | (0xF00000L & modeFlags);
     }
 
     /**
