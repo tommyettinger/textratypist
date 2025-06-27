@@ -1128,7 +1128,6 @@ public class Font implements Disposable {
      * Bit flag for context mode, shown as a green series of diagonal ticks with large gaps, as a long.
      * This can be configured to use a different color in place of green by changing {@link #PACKED_WARN_COLOR}.
      */
-    //FIXME: PACKED_CONTEXT_COLOR
     public static final long CONTEXT = 8L << 20;
     /**
      * Bit flag for warning mode, shown as a yellow barred-underline, as a long.
@@ -1139,7 +1138,6 @@ public class Font implements Disposable {
      * Bit flag for suggest mode, shown as a gray series of right angles with small gaps, as a long.
      * This can be configured to use a different color in place of gray by changing {@link #PACKED_WARN_COLOR}.
      */
-    //FIXME: PACKED_SUGGEST_COLOR
     public static final long SUGGEST = 10L << 20;
     /**
      * Bit flag for note mode, shown as a blue wavy-underline, as a long.
@@ -1160,6 +1158,24 @@ public class Font implements Disposable {
      */
     public float PACKED_WHITE = Color.WHITE_FLOAT_BITS;
     /**
+     * The color red, as a packed float using the default RGBA color space.
+     * This can be edited for Fonts that either use a different color space,
+     * or want to use a different color in place of red for effects like {@link #RED_OUTLINE}.
+     */
+    public float PACKED_RED = NumberUtils.intBitsToFloat(0xFE0000FF);
+    /**
+     * The color yellow, as a packed float using the default RGBA color space.
+     * This can be edited for Fonts that either use a different color space,
+     * or want to use a different color in place of yellow for effects like {@link #YELLOW_OUTLINE}.
+     */
+    public float PACKED_YELLOW = NumberUtils.intBitsToFloat(0xFE00FFFF);
+    /**
+     * The color blue, as a packed float using the default RGBA color space.
+     * This can be edited for Fonts that either use a different color space,
+     * or want to use a different color in place of blue for effects like {@link #BLUE_OUTLINE}.
+     */
+    public float PACKED_BLUE = NumberUtils.intBitsToFloat(0xFEFF0000);
+    /**
      * The color to use for {@link #ERROR}'s underline, as a packed float using the default RGBA color space.
      * Defaults to red.
      * This can be edited for Fonts that either use a different color space,
@@ -1168,7 +1184,7 @@ public class Font implements Disposable {
      * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
      * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
      */
-    public float PACKED_ERROR_COLOR = -0x1.0001fep125F; // red
+    public float PACKED_ERROR_COLOR = NumberUtils.intBitsToFloat(0xFE0000FF); // ABGR red
     /**
      * The color to use for {@link #WARN}'s underline, as a packed float using the default RGBA color space.
      * Defaults to yellow or gold.
@@ -1178,7 +1194,7 @@ public class Font implements Disposable {
      * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
      * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
      */
-    public float PACKED_WARN_COLOR = -0x1.21abfep125F; // yellow
+    public float PACKED_WARN_COLOR = NumberUtils.intBitsToFloat(0xFE10D5FF); // ABGR yellow
     /**
      * The color to use for {@link #NOTE}'s underline, as a packed float using the default RGBA color space.
      * Defaults to blue.
@@ -1188,7 +1204,27 @@ public class Font implements Disposable {
      * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
      * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
      */
-    public float PACKED_NOTE_COLOR = -0x1.71106p126F; // blue
+    public float PACKED_NOTE_COLOR = NumberUtils.intBitsToFloat(0xFEB88830); // ABGR blue
+    /**
+     * The color to use for {@link #CONTEXT}'s underline, as a packed float using the default RGBA color space.
+     * Defaults to forest green.
+     * This can be edited for Fonts that either use a different color space,
+     * or want to use a different color in place of green for {@link #CONTEXT}.
+     * In RGBA8888 format, this is the color {@code 0x228B22FF}.
+     * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
+     * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
+     */
+    public float PACKED_CONTEXT_COLOR = NumberUtils.intBitsToFloat(0xFE228B22); // ABGR green
+    /**
+     * The color to use for {@link #SUGGEST}'s underline, as a packed float using the default RGBA color space.
+     * Defaults to light gray.
+     * This can be edited for Fonts that either use a different color space,
+     * or want to use a different color in place of gray for {@link #SUGGEST}.
+     * In RGBA8888 format, this is the color {@code 0x999999FF}.
+     * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
+     * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
+     */
+    public float PACKED_SUGGEST_COLOR = NumberUtils.intBitsToFloat(0xFE999999); // ABGR gray
 
     /**
      * The color to use for {@link #DROP_SHADOW}, as a packed float using the default RGBA color space.
@@ -1199,7 +1235,7 @@ public class Font implements Disposable {
      * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
      * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
      */
-    public float PACKED_SHADOW_COLOR = 0x1.424242p125F; // half-transparent dark gray
+    public float PACKED_SHADOW_COLOR = NumberUtils.intBitsToFloat(0x7E212121); // half-transparent dark gray
     //Color.toFloatBits(0.1333f, 0.1333f, 0.1333f, 0.5f);
 
     /**
