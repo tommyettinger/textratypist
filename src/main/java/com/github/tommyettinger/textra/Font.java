@@ -1100,17 +1100,20 @@ public class Font implements Disposable {
     /**
      * Bit flag for shiny mode, as a long. This draws the glyph once in white and up one pixel earlier, then draws
      * over it with the normal glyph in its normal color.
+     * If {@link #PACKED_WHITE} has changed, this will use its changes for the shiny part of the glyph.
      */
     public static final long SHINY = 3L << 20;
     /**
      * Bit flag for neon mode, as a long. This draws the glyph multiple times with offsets in all directions, in its
      * normal color but at reduced alpha, then draws over those with the normal glyph in white.
+     * If {@link #PACKED_WHITE} has changed, this will use its changes for the white center of the glyph.
      */
     public static final long NEON = 4L << 20;
     /**
      * Bit flag for halo mode, as a long. This draws the glyph multiple times with offsets in all directions, drawing
      * with low-alpha white, then draws over those with the normal glyph in its normal color (typically darker
      * than white).
+     * This can be configured to use a different color in place of white by changing {@link #PACKED_HALO_COLOR}.
      */
     public static final long HALO = 5L << 20;
     /**
@@ -1125,8 +1128,8 @@ public class Font implements Disposable {
      */
     public static final long ERROR = 7L << 20;
     /**
-     * Bit flag for context mode, shown as a green series of diagonal ticks with large gaps, as a long.
-     * This can be configured to use a different color in place of green by changing {@link #PACKED_WARN_COLOR}.
+     * Bit flag for context mode, shown as a green series of diagonal tick marks with large gaps, as a long.
+     * This can be configured to use a different color in place of green by changing {@link #PACKED_CONTEXT_COLOR}.
      */
     public static final long CONTEXT = 8L << 20;
     /**
@@ -1136,7 +1139,7 @@ public class Font implements Disposable {
     public static final long WARN = 9L << 20;
     /**
      * Bit flag for suggest mode, shown as a gray series of right angles with small gaps, as a long.
-     * This can be configured to use a different color in place of gray by changing {@link #PACKED_WARN_COLOR}.
+     * This can be configured to use a different color in place of gray by changing {@link #PACKED_SUGGEST_COLOR}.
      */
     public static final long SUGGEST = 10L << 20;
     /**
@@ -1227,6 +1230,17 @@ public class Font implements Disposable {
     public float PACKED_SUGGEST_COLOR = NumberUtils.intBitsToFloat(0xFE999999); // ABGR gray
 
     /**
+     * The color to use for {@link #HALO}, as a packed float using the default RGBA color space.
+     * Defaults to 100% lightness, 25% alpha white.
+     * This can be edited for Fonts that either use a different color space,
+     * or want to use a different color in place of quarter-transparent white for {@link #HALO}.
+     * In RGBA8888 format, this is the color {@code 0xFFFFFF3E}.
+     * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
+     * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
+     */
+    public float PACKED_HALO_COLOR = NumberUtils.intBitsToFloat(0x3EFFFFFF); // quarter-transparent white
+
+    /**
      * The color to use for {@link #DROP_SHADOW}, as a packed float using the default RGBA color space.
      * Defaults to 13% lightness, 50% alpha gray.
      * This can be edited for Fonts that either use a different color space,
@@ -1236,6 +1250,7 @@ public class Font implements Disposable {
      * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
      */
     public float PACKED_SHADOW_COLOR = NumberUtils.intBitsToFloat(0x7E212121); // half-transparent dark gray
+
     //Color.toFloatBits(0.1333f, 0.1333f, 0.1333f, 0.5f);
 
     /**
@@ -5706,9 +5721,11 @@ public class Font implements Disposable {
      *     <li>{@code [!]} toggles all upper case mode.</li>
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode.</li>
-     *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
-     *     the nearest 25% mark). This also disables any alternate mode.</li>
-     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline",
+     *     <li>{@code [%P]}, where P is any decimal number, changes the scale to that percentage.
+     *     {@code [%100]} is the initial value and sets to 100% scale, as in "not scaled at all."
+     *     Note that this is not restricted to any increments; even {@code [%0.0123]} is technically valid.</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100%.</li>
+     *     <li>{@code [?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline",
      *     "red outline", "blue outline", "yellow outline", "shiny", "drop shadow"/"shadow", "neon", "halo",
      *     "error", "warn", "note", "context", "suggest", "jostle", or "small caps",
      *     will enable that alternate mode. If MODE is empty or not recognized, this will disable any current active
@@ -5716,12 +5733,12 @@ public class Font implements Disposable {
      *     Disabling a mode should always use the empty string for MODE. The "black outline" mode isn't actually a mode,
      *     and internally enables the same feature as {@code [#]}; it is still recognized for compatibility. Note that
      *     this means it can be enabled at the same time as any other mode, and that it will not be disabled by
-     *     {@code [%?]}, though it can be toggled off or back on by {@code [#]} (which is the preferred way to use the
+     *     {@code [?]}, though it can be toggled off or back on by {@code [#]} (which is the preferred way to use the
      *     outline). Other "outline" modes also enable the outline if it isn't active, but change its color. The outline
      *     can always be toggled on or off, regardless of color, by {@code [#]}.</li>
-     *     <li>{@code [%^MODE]} is a synonym for the preceding {@code [%?MODE]} markup for compatibility.</li>
-     *     <li>{@code [%?]} and {@code [%^]} are equivalent ways to disable a special mode, if it is active.</li>
-     *     <li>{@code [%]}, with no number just after it, resets scale to 100%.</li>
+     *     <li>{@code [%?MODE]} is a synonym for the preceding {@code [?MODE]} markup for compatibility.</li>
+     *     <li>{@code [%^MODE]} is a synonym for the preceding {@code [?MODE]} markup for compatibility.</li>
+     *     <li>{@code [?]}, {@code [%?]} and {@code [%^]} are equivalent ways to disable a special mode, if it is active.</li>
      *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
      *     in this.family by that name. This is ignored if family is null.</li>
      *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
@@ -5729,6 +5746,8 @@ public class Font implements Disposable {
      *     <li>{@code [#]} toggles a black outline around text. This can have its color changed by some special
      *     modes.</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
+     *     <li>{@code [#HHH]} is also a valid way to set the color using CSS-style 3 hex digits, each of which is
+     *     effectively duplicated to make a 6-digit RGB888 code. {@code [#HHHH]} is a way to do this with alpha.</li>
      *     <li>{@code [COLORNAME]}, where "COLORNAME" is a color name or description that will be looked up in
      *     {@link #getColorLookup()}, changes the color. By default, this can receive ALL_CAPS names from {@link Colors}
      *     in libGDX, any names from {@link com.github.tommyettinger.textra.utils.Palette}, or mixes of one or
@@ -5992,7 +6011,12 @@ public class Font implements Disposable {
                                 color = StringUtils.longFromHex(text, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
                                 color = StringUtils.longFromHex(text, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
-                            else
+                            else if(len == 1){
+                                // [#] is used to toggle the outline.
+                                current ^= BLACK_OUTLINE;
+                            } else
+                                // any other length, such as [#0] or [#12] is invalid and resets the color.
+                                // this doesn't care what the other chars are, so [##] is a good way to reset the color.
                                 color = baseColor;
                             current = (current & ~COLOR_MASK) | color;
                             break;
