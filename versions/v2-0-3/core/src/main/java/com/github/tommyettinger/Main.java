@@ -16,10 +16,10 @@ public class Main extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
-        font = new Font("unicode/LanaPixel.fnt", "unicode/LanaPixel.png");
+        font = new Font("unicode/LanaPixel.fnt", "unicode/LanaPixel.png").setOutlineStrength(2f);
 
         Array<TextraLabel> labels = new Array<>(new TextraLabel[]{
-                new TextraLabel("[%99][RED][%?whiten]＊[WHITE]", new Styles.LabelStyle(font, null))
+                new TextraLabel("[%600][RED][%?whiten]Guaranteed to work!＊[WHITE]", new Styles.LabelStyle(font, null))
         });
         TextraLabel label = labels.get(0);
         label.setWrap(true);
