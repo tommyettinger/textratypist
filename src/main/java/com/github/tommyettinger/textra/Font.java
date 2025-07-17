@@ -5952,43 +5952,63 @@ public class Font implements Disposable {
                             break;
                         case '%':
                             if (len >= 2) {
-                                // alternate mode, takes [%?] to enable JOSTLE mode, [%^] to enable just SMALL_CAPS, or
-                                // a question mark followed by the name of the mode, like [%?Black Outline], to enable
-                                // BLACK_OUTLINE mode, OR a caret followed by the name of a mode, like [%^shadow], to
-                                // enable SMALL_CAPS and DROP_SHADOW modes.
+                                // alternate mode, takes [%?mode name]
+                                // "black outline", "white outline", "red outline", "blue outline", "yellow outline",
+                                // "shiny", "drop shadow"/"shadow", "neon", "halo",
+                                // "error", "warn", "note", "context", "suggest",
+                                // "jostle", "small caps"
                                 if (text.charAt(i + 1) == '?' || text.charAt(i + 1) == '^') {
-                                    long modes = (text.charAt(i + 1) == '^' ? SMALL_CAPS : ALTERNATE);
-                                    if(len >= 5) {
+                                    long modes = 0L;
+                                    if(len >= 7) {
                                         char ch = Category.caseUp(text.charAt(i+2));
                                         if(ch == 'B') {
                                             modes |= BLACK_OUTLINE;
+                                            if(Category.caseUp(text.charAt(i+4)) == 'U')
+                                                modes |= BLUE_OUTLINE;
                                         } else if(ch == 'W') {
                                             if(Category.caseUp(text.charAt(i+3)) == 'H') {
-                                                modes |= WHITE_OUTLINE;
+                                                modes |= WHITE_OUTLINE | BLACK_OUTLINE;
                                             }
                                             else {
                                                 modes |= WARN;
                                             }
                                         } else if(ch == 'S') {
-                                            if(Category.caseUp(text.charAt(i+4)) == 'I') {
+                                            if(Category.caseUp(text.charAt(i+3)) == 'U') {
+                                                modes |= SUGGEST;
+                                            }
+                                            else if(Category.caseUp(text.charAt(i+3)) == 'M') {
+                                                modes |= SMALL_CAPS;
+                                            }
+                                            else if(Category.caseUp(text.charAt(i+4)) == 'I') {
                                                 modes |= SHINY;
                                             }
                                             else if(Category.caseUp(text.charAt(i+3)) == 'H'){
                                                 modes |= DROP_SHADOW;
                                             }
                                             // unrecognized falls back to small caps or jostle
+                                        } else if(ch == 'C'){
+                                            modes |= CONTEXT;
                                         } else if(ch == 'D'){
                                             modes |= DROP_SHADOW;
                                         } else if(ch == 'E'){
                                             modes |= ERROR;
+                                        } else if(ch == 'H'){
+                                            modes |= HALO;
+                                        } else if(ch == 'J'){
+                                            modes |= JOSTLE;
                                         } else if(ch == 'N'){
-                                            modes |= NOTE;
+                                            if(Category.caseUp(text.charAt(i+3)) == 'O')
+                                                modes |= NOTE;
+                                            else if(Category.caseUp(text.charAt(i+3)) == 'E')
+                                                modes |= NEON;
+                                        } else if(ch == 'R') {
+                                            modes |= RED_OUTLINE | BLACK_OUTLINE;
+                                        } else if(ch == 'Y') {
+                                            modes |= YELLOW_OUTLINE | BLACK_OUTLINE;
                                         }
                                     }
-                                    // unrecognized falls back to small caps or jostle
-                                    // small caps can be enabled or disabled separately from the other modes, except
-                                    // for jostle, which requires no other modes to be used
-                                    current = ((current & (0xFFFFFFFFFE0FFFFFL ^ (current & 0x1000000L) >>> 4)) ^ modes);
+                                    // unrecognized falls back to no mode
+                                    current = ((current & 0xFFFFFFFFFF0FFFFFL) ^ modes);
                                 } else {
                                     scale = StringUtils.floatFromDec(text, i + 1, i + len) * 0.01f;
                                 }
