@@ -4420,7 +4420,8 @@ public class Font implements Disposable {
      * are usually sized to one pixel each), repeating in a pattern to fill the given width and part of the given
      * height, in the given packed color, rotating by the specified amount in degrees.
      * @param batch    typically a SpriteBatch
-     * @param mode     currently must be {@link #ERROR}, {@link #WARN}, or {@link #NOTE}, determining the pattern
+     * @param mode     currently must be {@link #ERROR}, {@link #CONTEXT}, {@link #WARN}, {{@link #SUGGEST}, or
+     * {@link #NOTE}, determining the pattern
      * @param x        the x position to draw at
      * @param y        the y position to draw at
      * @param width    the width of one cell in world units
@@ -4440,11 +4441,15 @@ public class Font implements Disposable {
                 v2 = v + iph;
         final float sn = MathUtils.sinDeg(rotation);
         final float cs = MathUtils.cosDeg(rotation);
-        float color;// = -0X1.0P125f; // black
+        float color;
         if(mode == ERROR)
-            color = PACKED_ERROR_COLOR; // red for error, 0xFF0000FF
+            color = PACKED_ERROR_COLOR; // red, 0xFF0000FF
+        else if(mode == CONTEXT)
+            color = PACKED_CONTEXT_COLOR; // forest green, 0x228B22FF
         else if(mode == WARN)
             color = PACKED_WARN_COLOR; // gold/saffron/yellow, 0xFFD510FF
+        else if(mode == SUGGEST)
+            color = PACKED_SUGGEST_COLOR; // light gray/silver, 0x999999FF
         else// if(mode == NOTE)
             color = PACKED_NOTE_COLOR; // cyan/denim, 0x3088B8FF
         color = ColorUtils.multiplyAlpha(color, batch.getColor().a);
@@ -4459,30 +4464,24 @@ public class Font implements Disposable {
             float shiftX = startX;
             if(mode == ERROR) {
                 shiftY = (index & 1) * yPx;
-                p0x = shiftX;
-                p0y = shiftY + yPx;
-                p1x = shiftX;
-                p1y = shiftY;
-                p2x = shiftX + xPx;
-                p2y = shiftY;
+            } else if(mode == CONTEXT) {
+                shiftX -= (index & 2) * xPx;
+                shiftY = -(index & 1) * yPx;
             } else if(mode == WARN) {
                 shiftX += (~index & 1) * xPx;
                 shiftY = (~index & 1) * yPx;
-                p0x = shiftX;
-                p0y = shiftY + yPx;
-                p1x = shiftX;
-                p1y = shiftY;
-                p2x = shiftX + xPx;
-                p2y = shiftY;
+            } else if(mode == SUGGEST) {
+                shiftX -= (index & index >>> 1 & 1) * xPx;
+                shiftY = -(index & index >>> 1 & 1) * yPx;
             } else {
                 shiftY = (index >>> 1 & 1) * yPx;
-                p0x = shiftX;
-                p0y = shiftY + yPx;
-                p1x = shiftX;
-                p1y = shiftY;
-                p2x = shiftX + xPx;
-                p2y = shiftY;
             }
+            p0x = shiftX;
+            p0y = shiftY + yPx;
+            p1x = shiftX;
+            p1y = shiftY;
+            p2x = shiftX + xPx;
+            p2y = shiftY;
 //            else {
 //                long time = TimeUtils.millis() >>> 5 & 0x7FFFFFL;
 //                shiftX = NoiseUtils.octaveNoise1D(time * 0x1p-4f, index);
