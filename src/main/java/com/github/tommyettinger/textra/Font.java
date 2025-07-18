@@ -5532,7 +5532,7 @@ public class Font implements Disposable {
 
         oy = y + (scaleCorrection * sizingY + scaledHeight) * -0.5f + centerY * 0.25f;
         oy += scaleCorrection;// - font.descent * osy;
-        if ((glyph & UNDERLINE) != 0L && !(c >= 0xE000 && c < 0xF800)) {
+        if ((glyph & UNDERLINE) != 0L && (c < 0xE000 || c >= 0xF800)) {
             ix = font.handleIntegerPosition(ox + oCenterX);
             iy = font.handleIntegerPosition(oy + oCenterY);
             xShift = (ox + oCenterX) - (ix);
@@ -5600,7 +5600,7 @@ public class Font implements Disposable {
                 }
             }
         }
-        if ((glyph & STRIKETHROUGH) != 0L && !(c >= 0xE000 && c < 0xF800)) {
+        if ((glyph & STRIKETHROUGH) != 0L && (c < 0xE000 || c >= 0xF800)) {
             ix = font.handleIntegerPosition(ox + oCenterX);
             iy = font.handleIntegerPosition(oy + oCenterY);
             xShift = (ox + oCenterX) - (ix);
@@ -5673,8 +5673,8 @@ public class Font implements Disposable {
                 }
             }
         }
-        // checks for error, warn, and note modes
-        if((glyph & ALTERNATE_MODES_MASK) >= ERROR && c < 0xE000 || c >= 0xF800) {
+        // checks for fancy underline modes
+        if((glyph & ALTERNATE_MODES_MASK) >= ERROR && (glyph & ALTERNATE_MODES_MASK) <= NOTE && (c < 0xE000 || c >= 0xF800)) {
             ix = font.handleIntegerPosition(ox + oCenterX);
             iy = font.handleIntegerPosition(oy + oCenterY);
             xShift = (ox + oCenterX) - (ix);
