@@ -1105,15 +1105,17 @@ public class Font implements Disposable {
     public static final long SHINY = 3L << 20;
     /**
      * Bit flag for neon mode, as a long. This draws the glyph multiple times with offsets in all directions, in its
-     * normal color but at reduced alpha, then draws over those with the normal glyph in white.
+     * normal color but at reduced alpha, then draws over those with the normal glyph in white. Using a white text color
+     * will mostly make the NEON text look blurry, so using a bright, saturated color for the text color is suggested.
      * If {@link #PACKED_WHITE} has changed, this will use its changes for the white center of the glyph.
      */
     public static final long NEON = 4L << 20;
     /**
      * Bit flag for halo mode, as a long. This draws the glyph multiple times with offsets in all directions, drawing
-     * with low-alpha white, then draws over those with the normal glyph in its normal color (typically darker
-     * than white).
-     * This can be configured to use a different color in place of white by changing {@link #PACKED_HALO_COLOR}.
+     * with a low-alpha edit of the normal text color, then draws over those with the normal glyph with
+     * {@link #PACKED_HALO_COLOR} as its actual text color. The text color is typically light or bright when HALO mode
+     * is in use, to contrast best with the dark text color.
+     * This can be configured to use a different color in place of black text by changing {@link #PACKED_HALO_COLOR}.
      */
     public static final long HALO = 5L << 20;
     /**
@@ -1230,15 +1232,16 @@ public class Font implements Disposable {
     public float PACKED_SUGGEST_COLOR = NumberUtils.intBitsToFloat(0xFE999999); // ABGR gray
 
     /**
-     * The color to use for {@link #HALO}, as a packed float using the default RGBA color space.
-     * Defaults to 100% lightness, 25% alpha white.
+     * The color to use for the text when {@link #HALO} mode is used, as a packed float using the default RGBA color
+     * space. Defaults to opaque black. The normal text color is faded to a reduced alpha and used as the color for
+     * the surrounding "halo" or "aura" effect, which is usually a light or bright color.
      * This can be edited for Fonts that either use a different color space,
-     * or want to use a different color in place of quarter-transparent white for {@link #HALO}.
-     * In RGBA8888 format, this is the color {@code 0xFFFFFF3E}.
+     * or want to use a different color in place of opaque black for {@link #HALO} text.
+     * In RGBA8888 format, this is the color {@code 0x000000FF}.
      * You can generate packed float colors using {@link Color#toFloatBits} or {@link NumberUtils#intToFloatColor(int)},
      * among other methods. Make sure that the order the method expects RGBA channels is what you provide.
      */
-    public float PACKED_HALO_COLOR = NumberUtils.intBitsToFloat(0x3EFFFFFF); // quarter-transparent white
+    public float PACKED_HALO_COLOR = NumberUtils.intBitsToFloat(0xFE000000); // opaque black
 
     /**
      * The color to use for {@link #DROP_SHADOW}, as a packed float using the default RGBA color space.
@@ -5108,7 +5111,7 @@ public class Font implements Disposable {
         if (font == null) font = this;
         char c = (char) glyph;
         boolean squashed = false, jostled = false;
-        if((glyph & SMALL_CAPS) == SMALL_CAPS) {
+        if((glyph & ALTERNATE_MODES_MASK) == SMALL_CAPS) {
             squashed = (c != (c = Category.caseUp(c)));
             glyph = (glyph & 0xFFFFFFFFFFFF0000L) | c;
         } else {
@@ -5147,6 +5150,25 @@ public class Font implements Disposable {
                 | (int)(batch.getColor().r * (glyph >>> 56))
                 | (int)(batch.getColor().g * (glyph >>> 48 & 0xFF)) << 8
                 | (int)(batch.getColor().b * (glyph >>> 40 & 0xFF)) << 16);
+        float secondaryColor;
+        if((glyph & ALTERNATE_MODES_MASK) == HALO) {
+            secondaryColor = ColorUtils.multiplyAlpha(color, 0.25f);
+            color = PACKED_HALO_COLOR;
+        }
+        else if((glyph & ALTERNATE_MODES_MASK) == NEON) {
+            secondaryColor = ColorUtils.multiplyAlpha(color, 0.25f);
+            color = PACKED_WHITE;
+        } else if((glyph & ALTERNATE_MODES_MASK) == BLUE_OUTLINE) {
+            secondaryColor = PACKED_BLUE;
+        } else if((glyph & ALTERNATE_MODES_MASK) == RED_OUTLINE) {
+            secondaryColor = PACKED_RED;
+        } else if((glyph & ALTERNATE_MODES_MASK) == YELLOW_OUTLINE) {
+            secondaryColor = PACKED_YELLOW;
+        } else if((glyph & ALTERNATE_MODES_MASK) == WHITE_OUTLINE) {
+            secondaryColor = PACKED_WHITE;
+        } else {
+            secondaryColor = PACKED_BLACK;
+        }
         float scale = 1f;
         float scaleX, fsx, osx;
         float scaleY, fsy, osy;
