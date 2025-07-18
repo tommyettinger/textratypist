@@ -192,7 +192,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 "Should a [@Retro]young[@] {IF=gender;m=lad;f=lass;t='un;e=[+🧒]} go [@Code]out[@], in the [@Humanist]wind[@] and [@Geometric]the {SHAKE=;;2}thunder{ENDSHAKE}[@], " +
                 "if {IF=gender;m=he makes;f=she makes;t=they make;e=[+🧒] makes} it [@Condensed]back[@], it [@Console]will[@] be a [;][%^]true wonder[%][;]!",
 */
-                "Welcome back {VAR=check case}, how are you doing?\nI hear those controllers are making a comeback...",
+//                "Welcome back {VAR=check case}, how are you doing?\nI hear those controllers are making a comeback...",
+                "Error: [%?error]oh no[%?], Warn: [%?warn]uh oh[%?], Note: [%?note]huh[%?], Context: [%?context]interesting[%?], Suggest: [%?suggest]neat[%?]",
                 font);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOWER}");
         label.align = Align.topLeft;

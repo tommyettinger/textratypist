@@ -5980,7 +5980,7 @@ public class Font implements Disposable {
                                 // "jostle", "small caps"
                                 if (text.charAt(i + 1) == '?' || text.charAt(i + 1) == '^') {
                                     long modes = 0L;
-                                    if(len >= 7) {
+                                    if(len >= 5) {
                                         char ch = Category.caseUp(text.charAt(i+2));
                                         if(ch == 'B') {
                                             modes |= BLACK_OUTLINE;
