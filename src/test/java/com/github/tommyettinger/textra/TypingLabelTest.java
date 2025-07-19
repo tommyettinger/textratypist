@@ -197,7 +197,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
         final StringBuilder text = new StringBuilder();
         text.append("{SLOWER}[-GRADIENT=FF70F1;light exciting pink orange with ignored words;-0.5;5]{EASE=-8;2;1}{SHRINK=2;5}[@Medieval]Welcome,{ENDSHRINK}[%] [@]{WAIT}");
-        text.append("{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}[%^SHADOW]{VAR=title}[%]{STYLE=;}{STYLE=/}{ENDSPIRAL}![ ] {TRIGGER=lightest violet}{SPIN=0.5;-1}[+🤔][ ]{WAIT=0.8}");
+        text.append("{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}[%^small caps]{VAR=title}[%]{STYLE=;}{STYLE=/}{ENDSPIRAL}![ ] {TRIGGER=lightest violet}{SPIN=0.5;-1}[+🤔][ ]{WAIT=0.8}");
         text.append("{FAST}\n\n");
         text.append("{RESET}[@Sans]{ATTENTION=1000;70}This is a [*][#b03060ff][%?SHINY]simple[WHITE][*][%] [%?blacken]test[%][@]{ENDATTENTION} [blacken]to[%] {SPIN}show you{ENDSPIN}");
         text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {CROWD=20;1;forever}how to make dialogues{ENDCROWD} {JUMP}{SLOW}[*][/]fun[/][*] again! {ENDGRADIENT}[+🥳]{ENDJUMP}{WAIT}\n");
