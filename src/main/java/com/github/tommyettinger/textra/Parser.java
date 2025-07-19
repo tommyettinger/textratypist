@@ -561,7 +561,7 @@ public class Parser {
             if (str.equals("@") || str.equalsIgnoreCase("NOFONT") || str.equalsIgnoreCase("ENDFONT"))
                 return "[@]";
             if (str.equalsIgnoreCase("JOSTLE") || str.equalsIgnoreCase("WOBBLE") || str.equalsIgnoreCase("SCATTER"))
-                return "[%?]";
+                return "[%?jostle]";
             if (str.equalsIgnoreCase("BLACK OUTLINE") || str.equalsIgnoreCase("BLACKEN"))
                 return "[%?black outline]";
             if (str.equalsIgnoreCase("WHITE OUTLINE") || str.equalsIgnoreCase("WHITEN"))
@@ -577,9 +577,10 @@ public class Parser {
             if (str.equalsIgnoreCase("NOTE") || str.equalsIgnoreCase("INFO") || str.equalsIgnoreCase("BLUELINE") || str.equalsIgnoreCase("BLUE LINE"))
                 return "[%?note]";
             if (str.equalsIgnoreCase("SMALLCAPS") || str.equalsIgnoreCase("SMALL CAPS"))
-                return "[%^]";
-            if (str.equals("%") || str.equalsIgnoreCase("NOSCALE") || str.equalsIgnoreCase("ENDSCALE")
-                    || str.equalsIgnoreCase("NOMODE") || str.equalsIgnoreCase("ENDMODE"))
+                return "[%?small caps]";
+            if (str.equals("?") || str.equals("%?") || str.equals("%^") || str.equalsIgnoreCase("NOMODE") || str.equalsIgnoreCase("ENDMODE"))
+                return "[%?]";
+            if (str.equals("%") || str.equalsIgnoreCase("NOSCALE") || str.equalsIgnoreCase("ENDSCALE"))
                 return "[%]";
             if (str.startsWith("@"))
                 return "[@" + str.substring(1) + "]";
@@ -587,6 +588,8 @@ public class Parser {
                 return "[%" + str.substring(0, str.length() - 1) + "]";
             if (str.startsWith("%"))
                 return "[%" + str.substring(1) + "]";
+            if (str.startsWith("?"))
+                return "[" + str + "]";
             if (str.startsWith("("))
                 return "[" + str + "]";
             if (str.startsWith(" "))
