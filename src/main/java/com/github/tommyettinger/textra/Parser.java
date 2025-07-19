@@ -560,7 +560,7 @@ public class Parser {
                 return "[;]";
             if (str.equals("@") || str.equalsIgnoreCase("NOFONT") || str.equalsIgnoreCase("ENDFONT"))
                 return "[@]";
-            if (str.equalsIgnoreCase("OUTLINE") || str.equalsIgnoreCase("BLACK OUTLINE") || str.equalsIgnoreCase("BLACKEN"))
+            if (str.equals("#") || str.equalsIgnoreCase("OUTLINE") || str.equalsIgnoreCase("BLACK OUTLINE") || str.equalsIgnoreCase("BLACKEN"))
                 return "[#]";
             if (str.equalsIgnoreCase("JOSTLE") || str.equalsIgnoreCase("WOBBLE") || str.equalsIgnoreCase("SCATTER"))
                 return "[?jostle]";
