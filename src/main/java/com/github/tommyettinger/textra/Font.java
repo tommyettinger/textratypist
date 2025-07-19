@@ -5151,11 +5151,11 @@ public class Font implements Disposable {
                 | (int)(batch.getColor().b * (glyph >>> 40 & 0xFF)) << 16);
         float secondaryColor;
         if((glyph & ALTERNATE_MODES_MASK) == HALO) {
-            secondaryColor = ColorUtils.multiplyAlpha(color, 0.25f);
+            secondaryColor = color;
             color = PACKED_HALO_COLOR;
         }
         else if((glyph & ALTERNATE_MODES_MASK) == NEON) {
-            secondaryColor = ColorUtils.multiplyAlpha(color, 0.25f);
+            secondaryColor = color;
             color = PACKED_WHITE;
         } else if((glyph & ALTERNATE_MODES_MASK) == BLUE_OUTLINE) {
             secondaryColor = PACKED_BLUE;
@@ -5421,7 +5421,7 @@ public class Font implements Disposable {
 
             drawVertices(batch, tex, vertices);
         }
-        else if((glyph & BLACK_OUTLINE) == BLACK_OUTLINE) {
+        else if((glyph & BLACK_OUTLINE) == BLACK_OUTLINE && (((glyph & ALTERNATE_MODES_MASK) != HALO) && ((glyph & ALTERNATE_MODES_MASK) != NEON))) {
             int widthAdj = ((glyph & BOLD) != 0L) ? 2 : 1;
             float outline = ColorUtils.multiplyAlpha(secondaryColor,
                     widthAdj == 1 ? batchAlpha1_5 : batchAlpha2);
@@ -5434,6 +5434,29 @@ public class Font implements Disposable {
                 if(widthAdj == 2 && (xi > 0 || boldStrength > 1f)) xa *= boldStrength;
                 for (int yi = -1; yi <= 1; yi++) {
                     if(xi == 0 && yi == 0) continue;
+                    float ya = yi * yOutline;
+//                    vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
+//                    vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));
+                    vertices[15] = (vertices[0] = font.handleIntegerPosition(x + cos * p0x - sin * p0y + xa)) - (vertices[5] = font.handleIntegerPosition(x + cos * p1x - sin * p1y + xa)) + (vertices[10] = font.handleIntegerPosition(x + cos * p2x - sin * p2y + xa));
+                    vertices[16] = (vertices[1] = font.handleIntegerPosition(y + sin * p0x + cos * p0y + ya)) - (vertices[6] = font.handleIntegerPosition(y + sin * p1x + cos * p1y + ya)) + (vertices[11] = font.handleIntegerPosition(y + sin * p2x + cos * p2y + ya));
+
+                    drawVertices(batch, tex, vertices);
+                }
+            }
+        }
+        else if(((glyph & ALTERNATE_MODES_MASK) == HALO) || ((glyph & ALTERNATE_MODES_MASK) == NEON)) {
+            int widthAdj = ((glyph & BOLD) != 0L) ? 5 : 3;
+            float outline = ColorUtils.multiplyAlpha(secondaryColor,
+                    widthAdj == 3 ? batchAlpha * 0.2f : batchAlpha * 0.1f);
+            vertices[2] = outline;
+            vertices[7] = outline;
+            vertices[12] = outline;
+            vertices[17] = outline;
+            for (int xi = -widthAdj; xi <= widthAdj; xi++) {
+                float xa = xi * xOutline;
+                if(widthAdj == 5 && (xi > 0 || boldStrength > 1f)) xa *= boldStrength;
+                for (int yi = -3; yi <= 3; yi++) {
+                    if((xi == 0 && yi == 0) || (Math.abs(yi) + Math.abs(xi) > widthAdj + 1)) continue;
                     float ya = yi * yOutline;
 //                    vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y + xa)) - (vertices[5] = (x + cos * p1x - sin * p1y + xa)) + (vertices[10] = (x + cos * p2x - sin * p2y + xa)));
 //                    vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + ya)) - (vertices[6] = (y + sin * p1x + cos * p1y + ya)) + (vertices[11] = (y + sin * p2x + cos * p2y + ya)));

@@ -540,11 +540,11 @@ public class Parser {
                 return "[ ]";
             if (str.equals("*") || str.equalsIgnoreCase("B") || str.equalsIgnoreCase("BOLD") || str.equalsIgnoreCase("STRONG"))
                 return "[*]";
-            if (str.equals("/") || str.equalsIgnoreCase("I") || str.equalsIgnoreCase("OBLIQUE") || str.equalsIgnoreCase("ITALIC"))
+            if (str.equals("/") || str.equalsIgnoreCase("I") || str.equalsIgnoreCase("OBLIQUE") || str.equalsIgnoreCase("ITALIC") || str.equalsIgnoreCase("EM"))
                 return "[/]";
             if (str.equals("_") || str.equalsIgnoreCase("U") || str.equalsIgnoreCase("UNDER") || str.equalsIgnoreCase("UNDERLINE"))
                 return "[_]";
-            if (str.equals("~") || str.equalsIgnoreCase("STRIKE") || str.equalsIgnoreCase("STRIKETHROUGH"))
+            if (str.equals("~") || str.equalsIgnoreCase("STRIKE") || str.equalsIgnoreCase("STRIKETHROUGH") || str.equalsIgnoreCase("CROSSED"))
                 return "[~]";
             if (str.equals(".") || str.equalsIgnoreCase("SUB") || str.equalsIgnoreCase("SUBSCRIPT"))
                 return "[.]";

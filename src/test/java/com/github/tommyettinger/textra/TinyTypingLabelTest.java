@@ -194,7 +194,8 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 */
 //                "Welcome back {VAR=check case}, how are you doing?\nI hear those controllers are making a comeback...",
                 "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[%?], Context: [%?context]interesting[%?], Suggest: [%?suggest]neat[%?]\n" +
-                "OUTLINES! [?blacken]Black[#], [?whiten]White[#], [?bluen]Blue[#], [?redden]Red[#], [?yellowen]Yellow[#]\n"
+                "OUTLINES! [?blacken]Black[#], [?whiten]White[#], [?bluen]Blue[#], [?redden]Red[#], [?yellowen]Yellow[#]\n" +
+                "RADIANT! [@Geometric][RED][?neon]Hot Food! [GREEN]Low Prices! [YELLOW][?halo]Believe it![ ]\n"
                 ,
                 font);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOWER}");
