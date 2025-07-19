@@ -5421,11 +5421,9 @@ public class Font implements Disposable {
 
             drawVertices(batch, tex, vertices);
         }
-        else if((glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE || (glyph & ALTERNATE_MODES_MASK) == WHITE_OUTLINE) {
+        else if((glyph & BLACK_OUTLINE) == BLACK_OUTLINE) {
             int widthAdj = ((glyph & BOLD) != 0L) ? 2 : 1;
-            float outline = ColorUtils.multiplyAlpha((glyph & ALTERNATE_MODES_MASK) == BLACK_OUTLINE
-                    ? PACKED_BLACK  // black
-                    : PACKED_WHITE, // white
+            float outline = ColorUtils.multiplyAlpha(secondaryColor,
                     widthAdj == 1 ? batchAlpha1_5 : batchAlpha2);
             vertices[2] = outline;
             vertices[7] = outline;

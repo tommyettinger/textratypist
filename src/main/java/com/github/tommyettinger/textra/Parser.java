@@ -578,7 +578,7 @@ public class Parser {
                 return "[?shiny]";
             if (str.equalsIgnoreCase("NEON") || str.equalsIgnoreCase("GLOW"))
                 return "[?neon]";
-            if (str.equalsIgnoreCase("HALO") || str.equalsIgnoreCase("RADIANT"))
+            if (str.equalsIgnoreCase("HALO") || str.equalsIgnoreCase("SURROUND") || str.equalsIgnoreCase("CLOAK"))
                 return "[?halo]";
             if (str.equalsIgnoreCase("SHADOW") || str.equalsIgnoreCase("DROPSHADOW") || str.equalsIgnoreCase("DROP SHADOW"))
                 return "[shadow]";
@@ -597,11 +597,11 @@ public class Parser {
             if (str.equals("%") || str.equalsIgnoreCase("NOSCALE") || str.equalsIgnoreCase("ENDSCALE"))
                 return "[%]";
             if (str.startsWith("@"))
-                return "[@" + str.substring(1) + "]";
+                return "[" + str + "]";
             if (str.endsWith("%"))
                 return "[%" + str.substring(0, str.length() - 1) + "]";
             if (str.startsWith("%"))
-                return "[%" + str.substring(1) + "]";
+                return "[" + str + "]";
             if (str.startsWith("?"))
                 return "[" + str + "]";
             if (str.startsWith("("))
