@@ -560,26 +560,40 @@ public class Parser {
                 return "[;]";
             if (str.equals("@") || str.equalsIgnoreCase("NOFONT") || str.equalsIgnoreCase("ENDFONT"))
                 return "[@]";
+            if (str.equalsIgnoreCase("OUTLINE") || str.equalsIgnoreCase("BLACK OUTLINE") || str.equalsIgnoreCase("BLACKEN"))
+                return "[#]";
             if (str.equalsIgnoreCase("JOSTLE") || str.equalsIgnoreCase("WOBBLE") || str.equalsIgnoreCase("SCATTER"))
-                return "[%?jostle]";
-            if (str.equalsIgnoreCase("BLACK OUTLINE") || str.equalsIgnoreCase("BLACKEN"))
-                return "[%?black outline]";
-            if (str.equalsIgnoreCase("WHITE OUTLINE") || str.equalsIgnoreCase("WHITEN"))
-                return "[%?white outline]";
-            if (str.equalsIgnoreCase("SHINY") || str.equalsIgnoreCase("SHINE") || str.equalsIgnoreCase("GLOSSY"))
-                return "[%?shiny]";
-            if (str.equalsIgnoreCase("SHADOW") || str.equalsIgnoreCase("DROPSHADOW") || str.equalsIgnoreCase("DROP SHADOW"))
-                return "[%?shadow]";
-            if (str.equalsIgnoreCase("ERROR") || str.equalsIgnoreCase("REDLINE") || str.equalsIgnoreCase("RED LINE"))
-                return "[%?error]";
-            if (str.equalsIgnoreCase("WARN") || str.equalsIgnoreCase("YELLOWLINE") || str.equalsIgnoreCase("YELLOW LINE"))
-                return "[%?warn]";
-            if (str.equalsIgnoreCase("NOTE") || str.equalsIgnoreCase("INFO") || str.equalsIgnoreCase("BLUELINE") || str.equalsIgnoreCase("BLUE LINE"))
-                return "[%?note]";
+                return "[?jostle]";
             if (str.equalsIgnoreCase("SMALLCAPS") || str.equalsIgnoreCase("SMALL CAPS"))
-                return "[%?small caps]";
+                return "[?small caps]";
+            if (str.equalsIgnoreCase("BLUE OUTLINE") || str.equalsIgnoreCase("BLUEN"))
+                return "[?blue outline]";
+            if (str.equalsIgnoreCase("RED OUTLINE") || str.equalsIgnoreCase("REDDEN"))
+                return "[?red outline]";
+            if (str.equalsIgnoreCase("YELLOW OUTLINE") || str.equalsIgnoreCase("YELLOWEN"))
+                return "[?yellow outline]";
+            if (str.equalsIgnoreCase("WHITE OUTLINE") || str.equalsIgnoreCase("WHITEN"))
+                return "[?white outline]";
+            if (str.equalsIgnoreCase("SHINY") || str.equalsIgnoreCase("SHINE") || str.equalsIgnoreCase("GLOSSY"))
+                return "[?shiny]";
+            if (str.equalsIgnoreCase("NEON") || str.equalsIgnoreCase("GLOW"))
+                return "[?neon]";
+            if (str.equalsIgnoreCase("HALO") || str.equalsIgnoreCase("RADIANT"))
+                return "[?halo]";
+            if (str.equalsIgnoreCase("SHADOW") || str.equalsIgnoreCase("DROPSHADOW") || str.equalsIgnoreCase("DROP SHADOW"))
+                return "[shadow]";
+            if (str.equalsIgnoreCase("ERROR") || str.equalsIgnoreCase("REDLINE") || str.equalsIgnoreCase("RED LINE"))
+                return "[?error]";
+            if (str.equalsIgnoreCase("CONTEXT") || str.equalsIgnoreCase("GRAMMAR") || str.equalsIgnoreCase("GREENLINE") || str.equalsIgnoreCase("GREEN LINE"))
+                return "[?context]";
+            if (str.equalsIgnoreCase("WARN") || str.equalsIgnoreCase("YELLOWLINE") || str.equalsIgnoreCase("YELLOW LINE"))
+                return "[?warn]";
+            if (str.equalsIgnoreCase("SUGGEST") || str.equalsIgnoreCase("GRAYLINE") || str.equalsIgnoreCase("GRAY LINE") || str.equalsIgnoreCase("GREYLINE") || str.equalsIgnoreCase("GREY LINE"))
+                return "[?suggest]";
+            if (str.equalsIgnoreCase("NOTE") || str.equalsIgnoreCase("INFO") || str.equalsIgnoreCase("BLUELINE") || str.equalsIgnoreCase("BLUE LINE"))
+                return "[?note]";
             if (str.equals("?") || str.equals("%?") || str.equals("%^") || str.equalsIgnoreCase("NOMODE") || str.equalsIgnoreCase("ENDMODE"))
-                return "[%?]";
+                return "[?]";
             if (str.equals("%") || str.equalsIgnoreCase("NOSCALE") || str.equalsIgnoreCase("ENDSCALE"))
                 return "[%]";
             if (str.startsWith("@"))
