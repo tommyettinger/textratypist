@@ -6039,6 +6039,63 @@ public class Font implements Disposable {
                                 scale = 1f;
                             }
                             break;
+                        case '?': {
+                            /*
+                               alternate mode, takes [?mode name]
+                               "black outline", "white outline", "red outline", "blue outline", "yellow outline",
+                               "shiny", "drop shadow"/"shadow", "neon", "halo",
+                               "error", "warn", "note", "context", "suggest",
+                               "jostle", "small caps"
+                                */
+                            long modes = 0L;
+                            if (len >= 4) {
+                                char ch = Category.caseUp(text.charAt(i + 1));
+                                if (ch == 'B') {
+                                    modes |= BLACK_OUTLINE;
+                                    if (Category.caseUp(text.charAt(i + 3)) == 'U')
+                                        modes |= BLUE_OUTLINE;
+                                } else if (ch == 'W') {
+                                    if (Category.caseUp(text.charAt(i + 2)) == 'H') {
+                                        modes |= WHITE_OUTLINE | BLACK_OUTLINE;
+                                    } else {
+                                        modes |= WARN;
+                                    }
+                                } else if (ch == 'S') {
+                                    if (Category.caseUp(text.charAt(i + 2)) == 'U') {
+                                        modes |= SUGGEST;
+                                    } else if (Category.caseUp(text.charAt(i + 2)) == 'M') {
+                                        modes |= SMALL_CAPS;
+                                    } else if (Category.caseUp(text.charAt(i + 3)) == 'I') {
+                                        modes |= SHINY;
+                                    } else if (Category.caseUp(text.charAt(i + 2)) == 'H') {
+                                        modes |= DROP_SHADOW;
+                                    }
+                                    // unrecognized falls back to small caps or jostle
+                                } else if (ch == 'C') {
+                                    modes |= CONTEXT;
+                                } else if (ch == 'D') {
+                                    modes |= DROP_SHADOW;
+                                } else if (ch == 'E') {
+                                    modes |= ERROR;
+                                } else if (ch == 'H') {
+                                    modes |= HALO;
+                                } else if (ch == 'J') {
+                                    modes |= JOSTLE;
+                                } else if (ch == 'N') {
+                                    if (Category.caseUp(text.charAt(i + 2)) == 'O')
+                                        modes |= NOTE;
+                                    else if (Category.caseUp(text.charAt(i + 2)) == 'E')
+                                        modes |= NEON;
+                                } else if (ch == 'R') {
+                                    modes |= RED_OUTLINE | BLACK_OUTLINE;
+                                } else if (ch == 'Y') {
+                                    modes |= YELLOW_OUTLINE | BLACK_OUTLINE;
+                                }
+                            }
+                            // unrecognized falls back to no mode
+                            current = ((current & 0xFFFFFFFFFF0FFFFFL) ^ modes);
+                        }
+                            break;
                         case '#':
                             if (len >= 4 && len < 7) {
                                 color = StringUtils.longFromHex(text, i + 1, i + 4);
