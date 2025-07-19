@@ -193,7 +193,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 "if {IF=gender;m=he makes;f=she makes;t=they make;e=[+🧒] makes} it [@Condensed]back[@], it [@Console]will[@] be a [;][%^]true wonder[%][;]!",
 */
 //                "Welcome back {VAR=check case}, how are you doing?\nI hear those controllers are making a comeback...",
-                "MODES! Error: [%?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[%?], Context: [%?context]interesting[%?], Suggest: [%?suggest]neat[%?]",
+                "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[%?], Context: [%?context]interesting[%?], Suggest: [%?suggest]neat[%?]",
                 font);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOWER}");
         label.align = Align.topLeft;

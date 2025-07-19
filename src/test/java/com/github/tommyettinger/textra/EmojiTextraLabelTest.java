@@ -76,6 +76,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         // wrapping to somehow break the ENDWIND token (or RESET).
 //        final TextraLabel label = new TextraLabel(
         final TextraLabel label = new TextraLabel(
+                "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?],\nNote: [?note]huh[%?], Context: [%?context]interesting[%?], Suggest: [%?suggest]neat[%?]\n" +
                 "I love TextraTypist! *[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
                         + "But... {COLOR=#79c353ff}U. Nitty doesn't. [~]They're[~] [+🤡] [~]anyway![~]\n"
                         + "That's OK, I don't like loot crates. [+party popper] [*]Whee[]!\n"
