@@ -4715,7 +4715,7 @@ public class Font implements Disposable {
                     }
                     initial = false;
                 }
-                single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation, sizingX, sizingY, 0);
+                single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation, sizingX, sizingY, 0, 1f);
                 xChange += cs * single;
                 yChange += sn * single;
                 drawn += single;
@@ -5040,7 +5040,7 @@ public class Font implements Disposable {
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text
      */
     public float drawGlyph(Batch batch, long glyph, float x, float y) {
-        return drawGlyph(batch, glyph, x, y, 0f, 1f, 1f, 0);
+        return drawGlyph(batch, glyph, x, y, 0f, 1f, 1f, 0, 1f);
     }
 
     /**
@@ -5058,7 +5058,7 @@ public class Font implements Disposable {
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text along the given rotation
      */
     public float drawGlyph(Batch batch, long glyph, float x, float y, float rotation) {
-        return drawGlyph(batch, glyph, x, y, rotation, 1f, 1f, 0);
+        return drawGlyph(batch, glyph, x, y, rotation, 1f, 1f, 0, 1f);
     }
 
     /**
@@ -5080,7 +5080,7 @@ public class Font implements Disposable {
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text along the given rotation
      */
     public float drawGlyph(Batch batch, long glyph, float x, float y, float rotation, float sizingX, float sizingY) {
-        return drawGlyph(batch, glyph, x, y, rotation, sizingX, sizingY, 0);
+        return drawGlyph(batch, glyph, x, y, rotation, sizingX, sizingY, 0, 1f);
     }
     /**
      * Draws the specified glyph with a Batch at the given x, y position, with the specified counterclockwise
@@ -5099,9 +5099,10 @@ public class Font implements Disposable {
      * @param sizingX  the multiple for the glyph to be stretched on x, where 1 is "no change"; does not affect metrics
      * @param sizingY  the multiple for the glyph to be stretched on y, where 1 is "no change"; does not affect metrics
      * @param backgroundColor an RGBA8888 color to use for a block background behind the glyph; won't be drawn if 0
+     * @param advanceMultiplier the multiplier applied to the amount of space the glyph will occupy on a line, where 1 is "no change"
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text along the given rotation
      */
-    public float drawGlyph(Batch batch, long glyph, float x, float y, float rotation, float sizingX, float sizingY, int backgroundColor) {
+    public float drawGlyph(Batch batch, long glyph, float x, float y, float rotation, float sizingX, float sizingY, int backgroundColor, float advanceMultiplier) {
         final float sin = MathUtils.sinDeg(rotation);
         final float cos = MathUtils.cosDeg(rotation);
 
@@ -5237,7 +5238,7 @@ public class Font implements Disposable {
         final float iw = 1f / tex.getWidth();
         float w = tr.getRegionWidth() * scaleX * sizingX;
         float xAdvance = tr.xAdvance;
-        float changedW = xAdvance * scaleX;
+        float changedW = xAdvance * scaleX * advanceMultiplier;
 
         //        float xc = ((tr.getRegionWidth() + tr.offsetX) * fsx - font.cellWidth) * scale * sizingX;
         //// This rotates around the center, but fails with box drawing. Underlines are also off, unless adjusted.

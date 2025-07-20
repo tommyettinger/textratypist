@@ -468,7 +468,7 @@ public class TextraLabel extends Widget {
                 }
 
                 float a = getAdvances().get(start + i);
-                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(start + i) + rot, getSizing().get(even), getSizing().get(odd), bgc) * a;
+                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(start + i) + rot, getSizing().get(even), getSizing().get(odd), bgc, a);
                 xChange += cs * single;
                 yChange += sn * single;
             }

@@ -1313,7 +1313,7 @@ public class TypingLabel extends TextraLabel {
                 }
 
                 float a = getAdvances().get(r);
-                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(r++) + rot, getSizing().get(s++), getSizing().get(s++), bgc) * a;
+                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(r++) + rot, getSizing().get(s++), getSizing().get(s++), bgc, a);
                 if(trackingInput){
                     if(xx <= inX && inX <= xx + single && yy - glyphs.height * 0.5f <= inY && inY <= yy + glyphs.height * 0.5f) {
                         overIndex = globalIndex;
