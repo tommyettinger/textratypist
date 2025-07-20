@@ -198,7 +198,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 "RADIANT! [@Geometric][RED][?neon]Hot Food! [GREEN]Low Prices! [YELLOW][?halo]Believe it![ ]\n"
                 ,
                 font);
-        label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOWER}[%120]");
+        label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOWER}[%90]");
         label.align = Align.topLeft;
         TypingConfig.GLOBAL_VARS.put("CHECK CASE", "Bob"); //all caps works
 //        TypingConfig.GLOBAL_VARS.put("player", "Bob"); //not working
