@@ -1001,6 +1001,18 @@ public class Font implements Disposable {
     public final Vector2 dropShadowOffset = new Vector2(1f, -2f);
 
     /**
+     * A multiplier that applies to the alpha of the surrounding, typically colorful ring around text using NEON or HALO
+     * mode. The NEON and HALO modes each draw a glowing area by repeatedly drawing an offset version of the text with a
+     * low alpha before drawing the non-offset text in white (for NEON) or black (for HALO).
+     * <br>
+     * By changing glowStrength to between 0.0 and 1.0, you can make the glow effect for both NEON and HALO fade out, or
+     * by raising it above 1.0, you can make it stronger. This may work well with {@link NoiseUtils#noise1D(float, int)}
+     * to determine the strength, adding 1f to that noise result to keep glowStrength in the 0f to 2f range while
+     * semi-randomly changing it over time (if the seconds elapsed are given as x).
+     */
+    public float glowStrength = 1f;
+
+    /**
      * The name of the Font, for display purposes. This is not necessarily the same as the name of the font used in any
      * particular {@link FontFamily}.
      */
@@ -5448,7 +5460,7 @@ public class Font implements Disposable {
         else if(((glyph & ALTERNATE_MODES_MASK) == HALO) || ((glyph & ALTERNATE_MODES_MASK) == NEON)) {
             int widthAdj = ((glyph & BOLD) != 0L) ? 5 : 3;
             float outline = ColorUtils.multiplyAlpha(secondaryColor,
-                    widthAdj == 3 ? batchAlpha * 0.2f : batchAlpha * 0.1f);
+                    widthAdj == 3 ? batchAlpha * 0.2f * glowStrength : batchAlpha * 0.1f * glowStrength);
             vertices[2] = outline;
             vertices[7] = outline;
             vertices[12] = outline;

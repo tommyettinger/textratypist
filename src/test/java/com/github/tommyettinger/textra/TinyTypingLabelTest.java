@@ -16,7 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.github.tommyettinger.textra.utils.NoiseUtils;
 
 public class TinyTypingLabelTest extends ApplicationAdapter {
     Skin        skin;
@@ -29,9 +31,11 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     TextButton  buttonRebuild;
     TextButton  buttonSkip;
     int adj = 0;
+    long startTime;
 
     @Override
     public void create() {
+        startTime = TimeUtils.millis();
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
@@ -198,7 +202,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 "RADIANT! [@Geometric][RED][?neon]Hot Food! [GREEN]Low Prices! [YELLOW][?halo]Believe it![ ]\n"
                 ,
                 font);
-        label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOWER}[%90]");
+        label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOWER}[%130]");
         label.align = Align.topLeft;
         TypingConfig.GLOBAL_VARS.put("CHECK CASE", "Bob"); //all caps works
 //        TypingConfig.GLOBAL_VARS.put("player", "Bob"); //not working
@@ -250,7 +254,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     @Override
     public void render() {
         update(Gdx.graphics.getDeltaTime());
-
+        label.font.family.get("Geometric").glowStrength = (NoiseUtils.octaveNoise1D(TimeUtils.timeSinceMillis(startTime) * 0.002f, 12345) + 1f) * 0.8f;
         ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1);
         if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
         {
