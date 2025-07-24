@@ -20,7 +20,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -34,7 +33,21 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.github.tommyettinger.textra.*;
+import com.github.tommyettinger.textra.FWSkin;
+import com.github.tommyettinger.textra.Font;
+import com.github.tommyettinger.textra.ImageTypingButton;
+import com.github.tommyettinger.textra.KnownFonts;
+import com.github.tommyettinger.textra.Styles;
+import com.github.tommyettinger.textra.TextraButton;
+import com.github.tommyettinger.textra.TextraDialog;
+import com.github.tommyettinger.textra.TextraField;
+import com.github.tommyettinger.textra.TypingButton;
+import com.github.tommyettinger.textra.TypingCheckBox;
+import com.github.tommyettinger.textra.TypingLabel;
+import com.github.tommyettinger.textra.TypingListBox;
+import com.github.tommyettinger.textra.TypingSelectBox;
+import com.github.tommyettinger.textra.TypingTooltip;
+import com.github.tommyettinger.textra.TypingWindow;
 
 public class TypingUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
@@ -55,8 +68,9 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
     public static Font getStandardFamily() {
         Font.FontFamily family = new Font.FontFamily(
             new String[]{"Serif", "Humanist", "Medieval", },
-            new Font[]{KnownFonts.getGentium(), KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.SDF).multiplyCrispness(0.4f),
-                KnownFonts.getKingthingsFoundation(),});
+            new Font[]{KnownFonts.getGentium(), KnownFonts.getYanoneKaffeesatz(), KnownFonts.getKingthingsFoundation()});
+//            new Font[]{KnownFonts.getGentium(), KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.SDF).multiplyCrispness(0.4f),
+//                KnownFonts.getKingthingsFoundation(),});
         return family.connected[0].setFamily(family);
     }
 
@@ -73,8 +87,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		TextureRegion image2 = new TextureRegion(texture2);
 		final Font.FontFamily family = getStandardFamily().family;
 		family.connected[2] =
-				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.SDF);
-		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF).scaleHeightTo(30);
+				KnownFonts.getYanoneKaffeesatz();
+		family.connected[0] = KnownFonts.getNowAlt().scaleHeightTo(30);
 		font = family.connected[0];
 		font.family = family;
 		for(Font f : font.family.connected) {
@@ -269,8 +283,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	@Override
 	public void resize (int width, int height) {
 		stage.getViewport().update(width, height, true);
-		font.resizeDistanceField(width, height, stage.getViewport());
-		window.getTitleLabel().getFont().resizeDistanceField(width, height, stage.getViewport());
+//		font.resizeDistanceField(width, height, stage.getViewport());
+//		window.getTitleLabel().getFont().resizeDistanceField(width, height, stage.getViewport());
 	}
 
 	@Override
