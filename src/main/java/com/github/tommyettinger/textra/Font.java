@@ -838,7 +838,7 @@ public class Font implements Disposable {
      * Effectively used to attach a Float value to each Batch that might be used to draw a Font, where the Float is the
      * current {@code u_smoothing} uniform value used by that Batch.
      */
-    private static final IdentityHashMap<Batch, Float> smoothingValues = new IdentityHashMap<>(8);
+    private static final ObjectFloatMap<Batch> smoothingValues = new ObjectFloatMap<>(8);
 
     /**
      * The last Texture drawn, which may be null if nothing has drawn before. This is used to tell when to enable or
@@ -2628,7 +2628,7 @@ public class Font implements Disposable {
                     parents.add(new TexturelessRegion());
                 } else if ((textureHandle = Gdx.files.internal(textureName)).exists()) {
                     parents.add(new TextureRegion(new Texture(textureHandle)));
-                    if (getDistanceField() != DistanceFieldType.STANDARD)
+                    if (distanceField != DistanceFieldType.STANDARD)
                         parents.peek().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
                 } else {
                     throw new RuntimeException("Missing texture file: " + textureName);
@@ -4064,7 +4064,7 @@ public class Font implements Disposable {
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
-            } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
+            } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
                 batch.setShader(shader);
 //                if(Gdx.app.getType() != Application.ApplicationType.Desktop || smoothingValues.get(batch) == null || smoothingValues.get(batch) <= 0) {
                     float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
@@ -4107,7 +4107,7 @@ public class Font implements Disposable {
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
-            } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
+            } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
 //                if(Gdx.app.getType() != Application.ApplicationType.Desktop || smoothingValues.get(batch) == null || smoothingValues.get(batch) <= 0) {
                     float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                     batch.flush();
@@ -4127,7 +4127,7 @@ public class Font implements Disposable {
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
-            } else if (distanceField == DistanceFieldType.SDF || getDistanceField() == DistanceFieldType.SDF_OUTLINE) {
+            } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
 //                if(Gdx.app.getType() != Application.ApplicationType.Desktop || smoothingValues.get(batch) == null || smoothingValues.get(batch) <= 0) {
                     float smoothing = 0.2f * actualCrispness * Math.max(cellHeight, cellWidth);
                     batch.flush();
@@ -4155,8 +4155,8 @@ public class Font implements Disposable {
      */
     public void pauseDistanceFieldShader(Batch batch) {
         if(batch.getShader() == shader){// && distanceField != DistanceFieldType.STANDARD) {
-            Float smoothing = smoothingValues.get(batch);
-            if(smoothing == null || smoothing == 0f) return;
+            float smoothing = smoothingValues.get(batch, 0f);
+            if(smoothing == 0f) return;
             batch.flush();
             shader.setUniformf("u_smoothing", 0f);
             smoothingValues.put(batch, 0f);
@@ -7627,7 +7627,7 @@ public class Font implements Disposable {
      * @param height the new window height; usually a parameter in {@link com.badlogic.gdx.ApplicationListener#resize(int, int)}
      */
     public void resizeDistanceField(float width, float height) {
-        if (getDistanceField() != DistanceFieldType.STANDARD) {
+        if (distanceField != DistanceFieldType.STANDARD) {
             if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
                 actualCrispness = distanceFieldCrispness;
             } else {
@@ -7667,7 +7667,7 @@ public class Font implements Disposable {
      * @param viewport the current Viewport, after it has been updated using {@link Viewport#update(int, int)}
      */
     public void resizeDistanceField(float width, float height, Viewport viewport) {
-        if (getDistanceField() != DistanceFieldType.STANDARD) {
+        if (distanceField != DistanceFieldType.STANDARD) {
             if (Gdx.graphics.getBackBufferWidth() == 0 || Gdx.graphics.getBackBufferHeight() == 0) {
                 actualCrispness = distanceFieldCrispness;
             } else {
@@ -7877,7 +7877,7 @@ public class Font implements Disposable {
 
     public String debugString() {
         return "Font{" +
-                "distanceField=" + getDistanceField() +
+                "distanceField=" + distanceField +
                 ", isMono=" + isMono +
                 ", kerning=" + (kerning == null ? "null" : kerning.size + " pairs") +
                 ", actualCrispness=" + actualCrispness +
