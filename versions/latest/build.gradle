@@ -9,7 +9,7 @@ buildscript {
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
   dependencies {
-    classpath "com.android.tools.build:gradle:$androidPluginVersion"
+    classpath 'com.android.tools.build:gradle:8.9.3'
     classpath "org.docstr:gwt-gradle-plugin:$gwtPluginVersion"
 
   }
