@@ -1232,13 +1232,13 @@ public class TypingLabel extends TextraLabel {
 
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
-            Line glyphs = workingLayout.getLine(ln);
+            Line line = workingLayout.getLine(ln);
 
-            if(glyphs.glyphs.size == 0 || (toSkip += glyphs.glyphs.size) < startIndex)
+            if(line.glyphs.size == 0 || (toSkip += line.glyphs.size) < startIndex)
                 continue;
 
-            baseX += sn * glyphs.height;
-            baseY -= cs * glyphs.height;
+            baseX += sn * line.height;
+            baseY -= cs * line.height;
 
             float x = baseX, y = baseY;
 
@@ -1252,22 +1252,22 @@ public class TypingLabel extends TextraLabel {
             float xChange = 0, yChange = 0;
 
             if (Align.isCenterHorizontal(align)) {
-                x -= cs * (glyphs.width * 0.5f);
-                y -= sn * (glyphs.width * 0.5f);
+                x -= cs * (line.width * 0.5f);
+                y -= sn * (line.width * 0.5f);
             } else if (Align.isRight(align)) {
-                x -= cs * glyphs.width;
-                y -= sn * glyphs.width;
+                x -= cs * line.width;
+                y -= sn * line.width;
             }
 
             Font f = null;
             int kern = -1,
-                    start = (toSkip - glyphs.glyphs.size < startIndex) ? startIndex - (toSkip - glyphs.glyphs.size) : 0,
+                    start = (toSkip - line.glyphs.size < startIndex) ? startIndex - (toSkip - line.glyphs.size) : 0,
                     end = endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex - 1);
-            for (int i = start, n = glyphs.glyphs.size,
+            for (int i = start, n = line.glyphs.size,
                  lim = Math.min(Math.min(Math.min(getRotations().size, getAdvances().size), getOffsets().size >> 1), getSizing().size >> 1);
                  i < n && r < lim; i++, gi++) {
                 if (gi > end) break EACH_LINE;
-                long glyph = glyphs.glyphs.get(i);
+                long glyph = line.glyphs.get(i);
                 if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                 if (f == null) f = font;
                 float descent = f.descent * f.scaleY;
@@ -1278,8 +1278,8 @@ public class TypingLabel extends TextraLabel {
                     y += sn * f.cellWidth * 0.5f;
 
                     y += descent;
-                    x += sn * (descent - 0.5f * glyphs.height);
-                    y -= cs * (descent - 0.5f * glyphs.height);
+                    x += sn * (descent - 0.5f * line.height);
+                    y -= cs * (descent - 0.5f * line.height);
 
                     Font.GlyphRegion reg = font.mapping.get((char) glyph);
                     if (reg != null && reg.offsetX < 0 && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {
@@ -1293,7 +1293,7 @@ public class TypingLabel extends TextraLabel {
                 }
 
                 if (f.kerning != null) {
-                    kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
+                    kern = kern << 16 | (int) ((glyph = line.glyphs.get(i)) & 0xFFFF);
                     float amt = f.kerning.get(kern, 0) * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
                     xChange += cs * amt;
                     yChange += sn * amt;
@@ -1315,7 +1315,7 @@ public class TypingLabel extends TextraLabel {
                 float a = getAdvances().get(r);
                 single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(r++) + rot, getSizing().get(s++), getSizing().get(s++), bgc, a);
                 if(trackingInput){
-                    if(xx <= inX && inX <= xx + single && yy - glyphs.height * 0.5f <= inY && inY <= yy + glyphs.height * 0.5f) {
+                    if(xx <= inX && inX <= xx + single && yy - line.height * 0.5f <= inY && inY <= yy + line.height * 0.5f) {
                         overIndex = globalIndex;
                         if (isTouchable()) {
                             if (Gdx.input.justTouched()) {

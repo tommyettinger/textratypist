@@ -380,13 +380,13 @@ public class TextraLabel extends Widget {
         float single;
 
         for (int ln = 0; ln < lines; ln++) {
-            Line glyphs = layout.getLine(ln);
+            Line line = layout.getLine(ln);
 
-            baseX += sn * glyphs.height;
-            baseY -= cs * glyphs.height;
-
-            if (glyphs.glyphs.size == 0)
+            if (line.glyphs.size == 0)
                 continue;
+
+            baseX += sn * line.height;
+            baseY -= cs * line.height;
 
             float x = baseX, y = baseY;
 
@@ -397,25 +397,23 @@ public class TextraLabel extends Widget {
             x = cs * fx - sn * fy + worldOriginX;
             y = sn * fx + cs * fy + worldOriginY;
 
+            if (Align.isCenterHorizontal(align)) {
+                x -= cs * (line.width * 0.5f);
+                y -= sn * (line.width * 0.5f);
+            } else if (Align.isRight(align)) {
+                x -= cs * line.width;
+                y -= sn * line.width;
+            }
+            x -= sn * (0.5f * line.height);
+            y += cs * (0.5f * line.height);
 
             float xChange = 0, yChange = 0;
-
-            if (Align.isCenterHorizontal(align)) {
-                x -= cs * (glyphs.width * 0.5f);
-                y -= sn * (glyphs.width * 0.5f);
-            } else if (Align.isRight(align)) {
-                x -= cs * glyphs.width;
-                y -= sn * glyphs.width;
-            }
-            x -= sn * (0.5f * glyphs.height);
-            y += cs * (0.5f * glyphs.height);
-
             Font f = null;
             int kern = -1;
             boolean curly = false;
             int start = layout.countGlyphsBeforeLine(ln);
-            for (int i = 0, n = glyphs.glyphs.size; i < n; i++) {
-                long glyph = glyphs.glyphs.get(i);
+            for (int i = 0, n = line.glyphs.size; i < n; i++) {
+                long glyph = line.glyphs.get(i);
                 char ch = (char) glyph;
                 if(font.omitCurlyBraces) {
                     if (curly) {
@@ -452,7 +450,7 @@ public class TextraLabel extends Widget {
                 }
 
                 if (f.kerning != null) {
-                    kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
+                    kern = kern << 16 | (int) ((glyph = line.glyphs.get(i)) & 0xFFFF);
                     float amt = f.kerning.get(kern, 0) * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
                     xChange += cs * amt;
                     yChange += sn * amt;

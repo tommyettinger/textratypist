@@ -32,6 +32,8 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.compression.Lzma;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -4546,7 +4548,7 @@ public class Font implements Disposable {
      *     <li>{@code [[} escapes a literal left bracket, producing it without changing state.</li>
      *     <li>{@code [+name]}, where name is the name of a TextureRegion from an atlas added to this Font with
      *     {@link #addAtlas(TextureAtlas)}, produces the corresponding TextureRegion (scaled when drawn) without
-     *     changing state. If no atlas has been added, this emits a {@code +} character instead.</li>
+     *     changing state. If no atlas has been added, this emits undefined character(s) instead.</li>
      *     <li>{@code [*]} toggles bold mode.</li>
      *     <li>{@code [/]} toggles italic (technically, oblique) mode.</li>
      *     <li>{@code [^]} toggles superscript mode (and turns off subscript or midscript mode).</li>
@@ -4557,17 +4559,39 @@ public class Font implements Disposable {
      *     <li>{@code [!]} toggles all upper case mode.</li>
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode.</li>
-     *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
-     *     the nearest 25% mark).</li>
+     *     <li>{@code [%P]}, where P is any decimal number, changes the scale to that percentage.
+     *     {@code [%100]} is the initial value and sets to 100% scale, as in "not scaled at all."
+     *     Note that this is not restricted to any increments; even {@code [%0.0123]} is technically valid.</li>
      *     <li>{@code [%]}, with no number just after it, resets scale to 100%.</li>
+     *     <li>{@code [?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline",
+     *     "red outline", "blue outline", "yellow outline", "shiny", "drop shadow"/"shadow", "neon", "halo",
+     *     "error", "warn", "note", "context", "suggest", "jostle", or "small caps",
+     *     will enable that alternate mode. If MODE is empty or not recognized, this will disable any current active
+     *     mode. If any mode is non-empty and recognized, it will be enabled and replace any current active mode.
+     *     Disabling a mode should always use the empty string for MODE. The "black outline" mode isn't actually a mode,
+     *     and internally enables the same feature as {@code [#]}; it is still recognized for compatibility. Note that
+     *     this means it can be enabled at the same time as any other mode, and that it will not be disabled by
+     *     {@code [?]}, though it can be toggled off or back on by {@code [#]} (which is the preferred way to use the
+     *     outline). Other "outline" modes also enable the outline if it isn't active, but change its color. The outline
+     *     can always be toggled on or off, regardless of color, by {@code [#]}.</li>
+     *     <li>{@code [%?MODE]} is a synonym for the preceding {@code [?MODE]} markup for compatibility.</li>
+     *     <li>{@code [%^MODE]} is a synonym for the preceding {@code [?MODE]} markup for compatibility.</li>
+     *     <li>{@code [?]}, {@code [%?]} and {@code [%^]} are equivalent ways to disable a special mode, if it is active.</li>
      *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
      *     in this.family by that name. This is ignored if family is null.</li>
      *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
      *     if family is non-null).</li>
+     *     <li>{@code [#]} toggles a black outline around text. This can have its color changed by some special modes.</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
-     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up with
-     *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
-     *     looking up colors with names that contain punctuation.</li>
+     *     <li>{@code [#HHH]} is also a valid way to set the color using CSS-style 3 hex digits, each of which is
+     *     effectively duplicated to make a 6-digit RGB888 code. {@code [#HHHH]} is a way to do this with alpha.</li>
+     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a color name or description that will be looked up in
+     *     {@link #getColorLookup()}, changes the color. By default, this can receive ALL_CAPS names from {@link Colors}
+     *     in libGDX, any names from {@link com.github.tommyettinger.textra.utils.Palette}, or mixes of one or
+     *     more color names with adjectives like "dark". The name can optionally be preceded by {@code |}, which allows
+     *     looking up colors with names that contain punctuation. This doesn't do much if using the default ColorLookup,
+     *     {@link ColorLookup#DESCRIPTIVE}, because it only evaluates ASCII letters and numbers, and treats everything
+     *     else as a separator.</li>
      * </ul>
      * <br>
      * Parsing markup for a full screen every frame typically isn't necessary, and you may want to store the most recent
@@ -4643,11 +4667,16 @@ public class Font implements Disposable {
         float sn = MathUtils.sinDeg(rotation);
         float cs = MathUtils.cosDeg(rotation);
         final int lines = layout.lines();
+        float baseX = x, baseY = y;
         int a = 0;
+
         for (int ln = 0; ln < lines; ln++) {
             Line line = layout.getLine(ln);
-            y -= cs * line.height;
-            x += sn * line.height;
+            baseX += sn * line.height;
+            baseY -= cs * line.height;
+
+            x = baseX;
+            y = baseY;
 
             final float worldOriginX = x + originX;
             final float worldOriginY = y + originY;
@@ -4663,6 +4692,8 @@ public class Font implements Disposable {
                 x -= cs * line.width;
                 y -= sn * line.width;
             }
+            x -= sn * (0.5f * line.height);
+            y += cs * (0.5f * line.height);
 
             int kern = -1;
             long glyph;
