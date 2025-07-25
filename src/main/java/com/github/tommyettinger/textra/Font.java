@@ -4692,8 +4692,8 @@ public class Font implements Disposable {
                 x -= cs * line.width;
                 y -= sn * line.width;
             }
-            x -= sn * (0.5f * line.height);
-            y += cs * (0.5f * line.height);
+//            x -= sn * (0.5f * line.height);
+//            y += cs * (0.5f * line.height);
 
             int kern = -1;
             long glyph;
