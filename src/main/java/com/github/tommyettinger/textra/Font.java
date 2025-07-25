@@ -5798,8 +5798,7 @@ public class Font implements Disposable {
      *     in this.family by that name. This is ignored if family is null.</li>
      *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
      *     if family is non-null).</li>
-     *     <li>{@code [#]} toggles a black outline around text. This can have its color changed by some special
-     *     modes.</li>
+     *     <li>{@code [#]} toggles a black outline around text. This can have its color changed by some special modes.</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
      *     <li>{@code [#HHH]} is also a valid way to set the color using CSS-style 3 hex digits, each of which is
      *     effectively duplicated to make a 6-digit RGB888 code. {@code [#HHHH]} is a way to do this with alpha.</li>
@@ -6689,24 +6688,39 @@ public class Font implements Disposable {
      *     <li>{@code [!]} toggles all upper case mode.</li>
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
-     *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
-     *     the nearest 25% mark). This also disables any alternate mode.</li>
-     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
-     *     "drop shadow"/"shadow", "error", "warn", "note", or "jostle", will disable scaling and enable that alternate
-     *     mode. If MODE is empty or not recognized, this considers it equivalent to "jostle".</li>
-     *     <li>{@code [%^MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
-     *     "drop shadow"/"shadow", "error", "warn", "note", or "small caps", will disable scaling and enable that
-     *     alternate mode along with small caps mode at the same time. If MODE is empty or not recognized, this
-     *     considers it equivalent to "small caps" (without another mode).</li>
-     *     <li>{@code [%]}, with no number just after it, resets scale to 100% and disables any alternate mode.</li>
+     *     <li>{@code [%P]}, where P is any decimal number, changes the scale to that percentage.
+     *     {@code [%100]} is the initial value and sets to 100% scale, as in "not scaled at all."
+     *     Note that this is not restricted to any increments; even {@code [%0.0123]} is technically valid.</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100%.</li>
+     *     <li>{@code [?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline",
+     *     "red outline", "blue outline", "yellow outline", "shiny", "drop shadow"/"shadow", "neon", "halo",
+     *     "error", "warn", "note", "context", "suggest", "jostle", or "small caps",
+     *     will enable that alternate mode. If MODE is empty or not recognized, this will disable any current active
+     *     mode. If any mode is non-empty and recognized, it will be enabled and replace any current active mode.
+     *     Disabling a mode should always use the empty string for MODE. The "black outline" mode isn't actually a mode,
+     *     and internally enables the same feature as {@code [#]}; it is still recognized for compatibility. Note that
+     *     this means it can be enabled at the same time as any other mode, and that it will not be disabled by
+     *     {@code [?]}, though it can be toggled off or back on by {@code [#]} (which is the preferred way to use the
+     *     outline). Other "outline" modes also enable the outline if it isn't active, but change its color. The outline
+     *     can always be toggled on or off, regardless of color, by {@code [#]}.</li>
+     *     <li>{@code [%?MODE]} is a synonym for the preceding {@code [?MODE]} markup for compatibility.</li>
+     *     <li>{@code [%^MODE]} is a synonym for the preceding {@code [?MODE]} markup for compatibility.</li>
+     *     <li>{@code [?]}, {@code [%?]} and {@code [%^]} are equivalent ways to disable a special mode, if it is active.</li>
      *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
      *     in this.family by that name. This is ignored if family is null.</li>
      *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
      *     if family is non-null).</li>
+     *     <li>{@code [#]} toggles a black outline around text. This can have its color changed by some special modes.</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
-     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
-     *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
-     *     looking up colors with names that contain punctuation.</li>
+     *     <li>{@code [#HHH]} is also a valid way to set the color using CSS-style 3 hex digits, each of which is
+     *     effectively duplicated to make a 6-digit RGB888 code. {@code [#HHHH]} is a way to do this with alpha.</li>
+     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a color name or description that will be looked up in
+     *     {@link #getColorLookup()}, changes the color. By default, this can receive ALL_CAPS names from {@link Colors}
+     *     in libGDX, any names from {@link com.github.tommyettinger.textra.utils.Palette}, or mixes of one or
+     *     more color names with adjectives like "dark". The name can optionally be preceded by {@code |}, which allows
+     *     looking up colors with names that contain punctuation. This doesn't do much if using the default ColorLookup,
+     *     {@link ColorLookup#DESCRIPTIVE}, because it only evaluates ASCII letters and numbers, and treats everything
+     *     else as a separator.</li>
      * </ul>
      * This does not automatically understand the {@code [+🔬]} syntax; you can use {@link #atlasLookup(String)} to get
      * the internal character code that refers to an atlas glyph such as an emoji, or you can just use
@@ -6752,24 +6766,39 @@ public class Font implements Disposable {
      *     <li>{@code [!]} toggles all upper case mode.</li>
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
-     *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
-     *     the nearest 25% mark). This also disables any alternate mode.</li>
-     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
-     *     "drop shadow"/"shadow", "error", "warn", "note", or "jostle", will disable scaling and enable that alternate
-     *     mode. If MODE is empty or not recognized, this considers it equivalent to "jostle".</li>
-     *     <li>{@code [%^MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
-     *     "drop shadow"/"shadow", "error", "warn", "note", or "small caps", will disable scaling and enable that
-     *     alternate mode along with small caps mode at the same time. If MODE is empty or not recognized, this
-     *     considers it equivalent to "small caps" (without another mode).</li>
-     *     <li>{@code [%]}, with no number just after it, resets scale to 100% and disables any alternate mode.</li>
+     *     <li>{@code [%P]}, where P is any decimal number, changes the scale to that percentage.
+     *     {@code [%100]} is the initial value and sets to 100% scale, as in "not scaled at all."
+     *     Note that this is not restricted to any increments; even {@code [%0.0123]} is technically valid.</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100%.</li>
+     *     <li>{@code [?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline",
+     *     "red outline", "blue outline", "yellow outline", "shiny", "drop shadow"/"shadow", "neon", "halo",
+     *     "error", "warn", "note", "context", "suggest", "jostle", or "small caps",
+     *     will enable that alternate mode. If MODE is empty or not recognized, this will disable any current active
+     *     mode. If any mode is non-empty and recognized, it will be enabled and replace any current active mode.
+     *     Disabling a mode should always use the empty string for MODE. The "black outline" mode isn't actually a mode,
+     *     and internally enables the same feature as {@code [#]}; it is still recognized for compatibility. Note that
+     *     this means it can be enabled at the same time as any other mode, and that it will not be disabled by
+     *     {@code [?]}, though it can be toggled off or back on by {@code [#]} (which is the preferred way to use the
+     *     outline). Other "outline" modes also enable the outline if it isn't active, but change its color. The outline
+     *     can always be toggled on or off, regardless of color, by {@code [#]}.</li>
+     *     <li>{@code [%?MODE]} is a synonym for the preceding {@code [?MODE]} markup for compatibility.</li>
+     *     <li>{@code [%^MODE]} is a synonym for the preceding {@code [?MODE]} markup for compatibility.</li>
+     *     <li>{@code [?]}, {@code [%?]} and {@code [%^]} are equivalent ways to disable a special mode, if it is active.</li>
      *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
      *     in this.family by that name. This is ignored if family is null.</li>
-     *     <li>{@code [@]}, with no text just after the @, resets the font to this one (which should be item 0 in
-     *     family, if family is non-null).</li>
+     *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
+     *     if family is non-null).</li>
+     *     <li>{@code [#]} toggles a black outline around text. This can have its color changed by some special modes.</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
-     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
-     *     {@link ColorLookup#DESCRIPTIVE}, changes the color. The name can optionally be preceded by {@code |}, which
-     *     allows looking up colors with names that contain punctuation.</li>
+     *     <li>{@code [#HHH]} is also a valid way to set the color using CSS-style 3 hex digits, each of which is
+     *     effectively duplicated to make a 6-digit RGB888 code. {@code [#HHHH]} is a way to do this with alpha.</li>
+     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a color name or description that will be looked up in
+     *     {@link #getColorLookup()}, changes the color. By default, this can receive ALL_CAPS names from {@link Colors}
+     *     in libGDX, any names from {@link com.github.tommyettinger.textra.utils.Palette}, or mixes of one or
+     *     more color names with adjectives like "dark". The name can optionally be preceded by {@code |}, which allows
+     *     looking up colors with names that contain punctuation. This doesn't do much if using the default ColorLookup,
+     *     {@link ColorLookup#DESCRIPTIVE}, because it only evaluates ASCII letters and numbers, and treats everything
+     *     else as a separator.</li>
      * </ul>
      * You can render the result using {@link #drawGlyph(Batch, long, float, float)}. It is recommended that you avoid
      * calling this method every frame, because the color lookups usually allocate some memory, and because this can
@@ -6935,52 +6964,124 @@ public class Font implements Disposable {
                             break;
                         case '%':
                             if (len >= 2) {
-                                // alternate mode, takes [%?] to enable JOSTLE mode, [%^] to enable just SMALL_CAPS, or
-                                // a question mark followed by the name of the mode, like [%?Black Outline], to enable
-                                // BLACK_OUTLINE mode, OR a caret followed by the name of a mode, like [%^shadow], to
-                                // enable SMALL_CAPS and DROP_SHADOW modes.
+                                // alternate mode, takes [%?mode name]
+                                // "black outline", "white outline", "red outline", "blue outline", "yellow outline",
+                                // "shiny", "drop shadow"/"shadow", "neon", "halo",
+                                // "error", "warn", "note", "context", "suggest",
+                                // "jostle", "small caps"
                                 if (markup.charAt(i + 1) == '?' || markup.charAt(i + 1) == '^') {
-                                    long modes = (markup.charAt(i + 1) == '^' ? SMALL_CAPS : ALTERNATE);
+                                    long modes = 0L;
                                     if(len >= 5) {
                                         char ch = Category.caseUp(markup.charAt(i+2));
                                         if(ch == 'B') {
                                             modes |= BLACK_OUTLINE;
+                                            if(Category.caseUp(markup.charAt(i+4)) == 'U')
+                                                modes |= BLUE_OUTLINE;
                                         } else if(ch == 'W') {
                                             if(Category.caseUp(markup.charAt(i+3)) == 'H') {
-                                                modes |= WHITE_OUTLINE;
+                                                modes |= WHITE_OUTLINE | BLACK_OUTLINE;
                                             }
                                             else {
                                                 modes |= WARN;
                                             }
                                         } else if(ch == 'S') {
-                                            if(Category.caseUp(markup.charAt(i+4)) == 'I') {
+                                            if(Category.caseUp(markup.charAt(i+3)) == 'U') {
+                                                modes |= SUGGEST;
+                                            }
+                                            else if(Category.caseUp(markup.charAt(i+3)) == 'M') {
+                                                modes |= SMALL_CAPS;
+                                            }
+                                            else if(Category.caseUp(markup.charAt(i+4)) == 'I') {
                                                 modes |= SHINY;
                                             }
                                             else if(Category.caseUp(markup.charAt(i+3)) == 'H'){
                                                 modes |= DROP_SHADOW;
                                             }
                                             // unrecognized falls back to small caps or jostle
+                                        } else if(ch == 'C'){
+                                            modes |= CONTEXT;
                                         } else if(ch == 'D'){
                                             modes |= DROP_SHADOW;
                                         } else if(ch == 'E'){
                                             modes |= ERROR;
+                                        } else if(ch == 'H'){
+                                            modes |= HALO;
+                                        } else if(ch == 'J'){
+                                            modes |= JOSTLE;
                                         } else if(ch == 'N'){
-                                            modes |= NOTE;
+                                            if(Category.caseUp(markup.charAt(i+3)) == 'O')
+                                                modes |= NOTE;
+                                            else if(Category.caseUp(markup.charAt(i+3)) == 'E')
+                                                modes |= NEON;
+                                        } else if(ch == 'R') {
+                                            modes |= RED_OUTLINE | BLACK_OUTLINE;
+                                        } else if(ch == 'Y') {
+                                            modes |= YELLOW_OUTLINE | BLACK_OUTLINE;
                                         }
                                     }
-                                    // unrecognized falls back to small caps or jostle
-                                    // small caps can be enabled or disabled separately from the other modes, except
-                                    // for jostle, which requires no other modes to be used
-                                    current = ((current & (0xFFFFFFFFFE0FFFFFL ^ (current & 0x1000000L) >>> 4)) ^ modes);
-                                    scale = 3;
-                                } else {
-                                    current = (current & 0xFFFFFFFFFE0FFFFFL) |
-                                            ((scale = ((StringUtils.intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                                    // unrecognized falls back to no mode
+                                    current = ((current & 0xFFFFFFFFFF0FFFFFL) ^ modes);
                                 }
                             }
-                            else {
-                                current = (current & 0xFFFFFFFFFE0FFFFFL);
-                                scale = 3;
+                            break;
+                        case '?':
+                            if(len > 1) {
+                            /*
+                               alternate mode, takes [?mode name]
+                               "black outline", "white outline", "red outline", "blue outline", "yellow outline",
+                               "shiny", "drop shadow"/"shadow", "neon", "halo",
+                               "error", "warn", "note", "context", "suggest",
+                               "jostle", "small caps"
+                                */
+                                long modes = 0L;
+                                if (len >= 4) {
+                                    char ch = Category.caseUp(markup.charAt(i + 1));
+                                    if (ch == 'B') {
+                                        modes |= BLACK_OUTLINE;
+                                        if (Category.caseUp(markup.charAt(i + 3)) == 'U')
+                                            modes |= BLUE_OUTLINE;
+                                    } else if (ch == 'W') {
+                                        if (Category.caseUp(markup.charAt(i + 2)) == 'H') {
+                                            modes |= WHITE_OUTLINE | BLACK_OUTLINE;
+                                        } else {
+                                            modes |= WARN;
+                                        }
+                                    } else if (ch == 'S') {
+                                        if (Category.caseUp(markup.charAt(i + 2)) == 'U') {
+                                            modes |= SUGGEST;
+                                        } else if (Category.caseUp(markup.charAt(i + 2)) == 'M') {
+                                            modes |= SMALL_CAPS;
+                                        } else if (Category.caseUp(markup.charAt(i + 3)) == 'I') {
+                                            modes |= SHINY;
+                                        } else if (Category.caseUp(markup.charAt(i + 2)) == 'H') {
+                                            modes |= DROP_SHADOW;
+                                        }
+                                        // unrecognized falls back to small caps or jostle
+                                    } else if (ch == 'C') {
+                                        modes |= CONTEXT;
+                                    } else if (ch == 'D') {
+                                        modes |= DROP_SHADOW;
+                                    } else if (ch == 'E') {
+                                        modes |= ERROR;
+                                    } else if (ch == 'H') {
+                                        modes |= HALO;
+                                    } else if (ch == 'J') {
+                                        modes |= JOSTLE;
+                                    } else if (ch == 'N') {
+                                        if (Category.caseUp(markup.charAt(i + 2)) == 'O')
+                                            modes |= NOTE;
+                                        else if (Category.caseUp(markup.charAt(i + 2)) == 'E')
+                                            modes |= NEON;
+                                    } else if (ch == 'R') {
+                                        modes |= RED_OUTLINE | BLACK_OUTLINE;
+                                    } else if (ch == 'Y') {
+                                        modes |= YELLOW_OUTLINE | BLACK_OUTLINE;
+                                    }
+                                }
+                                // unrecognized falls back to no mode
+                                current = ((current & 0xFFFFFFFFFF0FFFFFL) ^ modes);
+                            } else {
+                                current &= 0xFFFFFFFFFF0FFFFFL;
                             }
                             break;
                         case '#':
@@ -6996,7 +7097,12 @@ public class Font implements Disposable {
                                 color = StringUtils.longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
                                 color = StringUtils.longFromHex(markup, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
-                            else
+                            else if(len == 1){
+                                // [#] is used to toggle the outline.
+                                current ^= BLACK_OUTLINE;
+                            } else
+                                // any other length, such as [#0] or [#12] is invalid and resets the color.
+                                // this doesn't care what the other chars are, so [##] is a good way to reset the color.
                                 color = baseColor;
                             current = (current & ~COLOR_MASK) | color;
                             break;
@@ -7082,24 +7188,39 @@ public class Font implements Disposable {
      *     <li>{@code [!]} toggles all upper case mode.</li>
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
-     *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
-     *     the nearest 25% mark). This also disables any alternate mode.</li>
-     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
-     *     "drop shadow"/"shadow", "error", "warn", "note", or "jostle", will disable scaling and enable that alternate
-     *     mode. If MODE is empty or not recognized, this considers it equivalent to "jostle".</li>
-     *     <li>{@code [%^MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline", "shiny",
-     *     "drop shadow"/"shadow", "error", "warn", "note", or "small caps", will disable scaling and enable that
-     *     alternate mode along with small caps mode at the same time. If MODE is empty or not recognized, this
-     *     considers it equivalent to "small caps" (without another mode).</li>
-     *     <li>{@code [%]}, with no number just after it, resets scale to 100% and disables any alternate mode.</li>
+     *     <li>{@code [%P]}, where P is any decimal number, changes the scale to that percentage.
+     *     {@code [%100]} is the initial value and sets to 100% scale, as in "not scaled at all."
+     *     Note that this is not restricted to any increments; even {@code [%0.0123]} is technically valid.</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100%.</li>
+     *     <li>{@code [?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline",
+     *     "red outline", "blue outline", "yellow outline", "shiny", "drop shadow"/"shadow", "neon", "halo",
+     *     "error", "warn", "note", "context", "suggest", "jostle", or "small caps",
+     *     will enable that alternate mode. If MODE is empty or not recognized, this will disable any current active
+     *     mode. If any mode is non-empty and recognized, it will be enabled and replace any current active mode.
+     *     Disabling a mode should always use the empty string for MODE. The "black outline" mode isn't actually a mode,
+     *     and internally enables the same feature as {@code [#]}; it is still recognized for compatibility. Note that
+     *     this means it can be enabled at the same time as any other mode, and that it will not be disabled by
+     *     {@code [?]}, though it can be toggled off or back on by {@code [#]} (which is the preferred way to use the
+     *     outline). Other "outline" modes also enable the outline if it isn't active, but change its color. The outline
+     *     can always be toggled on or off, regardless of color, by {@code [#]}.</li>
+     *     <li>{@code [%?MODE]} is a synonym for the preceding {@code [?MODE]} markup for compatibility.</li>
+     *     <li>{@code [%^MODE]} is a synonym for the preceding {@code [?MODE]} markup for compatibility.</li>
+     *     <li>{@code [?]}, {@code [%?]} and {@code [%^]} are equivalent ways to disable a special mode, if it is active.</li>
      *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
      *     in this.family by that name. This is ignored if family is null.</li>
      *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
      *     if family is non-null).</li>
+     *     <li>{@code [#]} toggles a black outline around text. This can have its color changed by some special modes.</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
-     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
-     *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
-     *     looking up colors with names that contain punctuation.</li>
+     *     <li>{@code [#HHH]} is also a valid way to set the color using CSS-style 3 hex digits, each of which is
+     *     effectively duplicated to make a 6-digit RGB888 code. {@code [#HHHH]} is a way to do this with alpha.</li>
+     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a color name or description that will be looked up in
+     *     {@link #getColorLookup()}, changes the color. By default, this can receive ALL_CAPS names from {@link Colors}
+     *     in libGDX, any names from {@link com.github.tommyettinger.textra.utils.Palette}, or mixes of one or
+     *     more color names with adjectives like "dark". The name can optionally be preceded by {@code |}, which allows
+     *     looking up colors with names that contain punctuation. This doesn't do much if using the default ColorLookup,
+     *     {@link ColorLookup#DESCRIPTIVE}, because it only evaluates ASCII letters and numbers, and treats everything
+     *     else as a separator.</li>
      * </ul>
      * You can render the result using {@link #drawGlyph(Batch, long, float, float)}. It is recommended that you avoid
      * calling this method every frame, because the color lookups usually allocate some memory, and because this can
@@ -7140,25 +7261,39 @@ public class Font implements Disposable {
      *     <li>{@code [!]} toggles all upper case mode.</li>
      *     <li>{@code [,]} toggles all lower case mode.</li>
      *     <li>{@code [;]} toggles capitalize each word mode (this is the same as upper case mode here).</li>
-     *     <li>{@code [%P]}, where P is a percentage from 0 to 375, changes the scale to that percentage (rounded to
-     *     the nearest 25% mark). This also disables any alternate mode.</li>
-     *     <li>{@code [%?MODE]}, where MODE can be (case-insensitive) one of "black outline"/"blacken",
-     *     "white outline"/"whiten", "shiny", "drop shadow"/"shadow", "error", "warn", "note", or "jostle", will disable
-     *     scaling and enable that alternate mode. If MODE is empty or not recognized, this considers it equivalent to
-     *     "jostle".</li>
-     *     <li>{@code [%^MODE]}, where MODE can be (case-insensitive) one of "black outline"/"blacken",
-     *     "white outline"/"whiten", "shiny", "drop shadow"/"shadow", "error", "warn", "note", or "small caps", will
-     *     disable scaling and enable that alternate mode along with small caps mode at the same time. If MODE is empty
-     *     or not recognized, this considers it equivalent to "small caps" (without another mode).</li>
-     *     <li>{@code [%]}, with no number just after it, resets scale to 100% and disables any alternate mode.</li>
+     *     <li>{@code [%P]}, where P is any decimal number, changes the scale to that percentage.
+     *     {@code [%100]} is the initial value and sets to 100% scale, as in "not scaled at all."
+     *     Note that this is not restricted to any increments; even {@code [%0.0123]} is technically valid.</li>
+     *     <li>{@code [%]}, with no number just after it, resets scale to 100%.</li>
+     *     <li>{@code [?MODE]}, where MODE can be (case-insensitive) one of "black outline", "white outline",
+     *     "red outline", "blue outline", "yellow outline", "shiny", "drop shadow"/"shadow", "neon", "halo",
+     *     "error", "warn", "note", "context", "suggest", "jostle", or "small caps",
+     *     will enable that alternate mode. If MODE is empty or not recognized, this will disable any current active
+     *     mode. If any mode is non-empty and recognized, it will be enabled and replace any current active mode.
+     *     Disabling a mode should always use the empty string for MODE. The "black outline" mode isn't actually a mode,
+     *     and internally enables the same feature as {@code [#]}; it is still recognized for compatibility. Note that
+     *     this means it can be enabled at the same time as any other mode, and that it will not be disabled by
+     *     {@code [?]}, though it can be toggled off or back on by {@code [#]} (which is the preferred way to use the
+     *     outline). Other "outline" modes also enable the outline if it isn't active, but change its color. The outline
+     *     can always be toggled on or off, regardless of color, by {@code [#]}.</li>
+     *     <li>{@code [%?MODE]} is a synonym for the preceding {@code [?MODE]} markup for compatibility.</li>
+     *     <li>{@code [%^MODE]} is a synonym for the preceding {@code [?MODE]} markup for compatibility.</li>
+     *     <li>{@code [?]}, {@code [%?]} and {@code [%^]} are equivalent ways to disable a special mode, if it is active.</li>
      *     <li>{@code [@Name]}, where Name is a key in family, changes the current Font used for rendering to the Font
      *     in this.family by that name. This is ignored if family is null.</li>
      *     <li>{@code [@]}, with no text just after it, resets the font to this one (which should be item 0 in family,
      *     if family is non-null).</li>
+     *     <li>{@code [#]} toggles a black outline around text. This can have its color changed by some special modes.</li>
      *     <li>{@code [#HHHHHHHH]}, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color.</li>
-     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a typically-upper-case color name that will be looked up in
-     *     {@link #getColorLookup()}, changes the color. The name can optionally be preceded by {@code |}, which allows
-     *     looking up colors with names that contain punctuation.</li>
+     *     <li>{@code [#HHH]} is also a valid way to set the color using CSS-style 3 hex digits, each of which is
+     *     effectively duplicated to make a 6-digit RGB888 code. {@code [#HHHH]} is a way to do this with alpha.</li>
+     *     <li>{@code [COLORNAME]}, where "COLORNAME" is a color name or description that will be looked up in
+     *     {@link #getColorLookup()}, changes the color. By default, this can receive ALL_CAPS names from {@link Colors}
+     *     in libGDX, any names from {@link com.github.tommyettinger.textra.utils.Palette}, or mixes of one or
+     *     more color names with adjectives like "dark". The name can optionally be preceded by {@code |}, which allows
+     *     looking up colors with names that contain punctuation. This doesn't do much if using the default ColorLookup,
+     *     {@link ColorLookup#DESCRIPTIVE}, because it only evaluates ASCII letters and numbers, and treats everything
+     *     else as a separator.</li>
      * </ul>
      * You can render the result using {@link #drawGlyph(Batch, long, float, float)}. It is recommended that you avoid
      * calling this method every frame, because the color lookups usually allocate some memory, and because this can
@@ -7235,57 +7370,125 @@ public class Font implements Disposable {
                             break;
                         case '%':
                             if (len >= 2) {
-                                // alternate mode, takes [%?] to enable JOSTLE mode, [%^] to enable just SMALL_CAPS, or
-                                // a question mark followed by the name of the mode, like [%?Black Outline], to enable
-                                // BLACK_OUTLINE mode, OR a caret followed by the name of a mode, like [%^shadow], to
-                                // enable SMALL_CAPS and DROP_SHADOW modes.
+                                // alternate mode, takes [%?mode name]
+                                // "black outline", "white outline", "red outline", "blue outline", "yellow outline",
+                                // "shiny", "drop shadow"/"shadow", "neon", "halo",
+                                // "error", "warn", "note", "context", "suggest",
+                                // "jostle", "small caps"
                                 if (markup.charAt(i + 1) == '?' || markup.charAt(i + 1) == '^') {
-                                    long modes = (markup.charAt(i + 1) == '^' ? SMALL_CAPS : ALTERNATE);
+                                    long modes = 0L;
                                     if(len >= 5) {
                                         char ch = Category.caseUp(markup.charAt(i+2));
                                         if(ch == 'B') {
                                             modes |= BLACK_OUTLINE;
+                                            if(Category.caseUp(markup.charAt(i+4)) == 'U')
+                                                modes |= BLUE_OUTLINE;
                                         } else if(ch == 'W') {
                                             if(Category.caseUp(markup.charAt(i+3)) == 'H') {
-                                                modes |= WHITE_OUTLINE;
+                                                modes |= WHITE_OUTLINE | BLACK_OUTLINE;
                                             }
                                             else {
                                                 modes |= WARN;
                                             }
                                         } else if(ch == 'S') {
-                                            if(Category.caseUp(markup.charAt(i+4)) == 'I') {
+                                            if(Category.caseUp(markup.charAt(i+3)) == 'U') {
+                                                modes |= SUGGEST;
+                                            }
+                                            else if(Category.caseUp(markup.charAt(i+3)) == 'M') {
+                                                modes |= SMALL_CAPS;
+                                            }
+                                            else if(Category.caseUp(markup.charAt(i+4)) == 'I') {
                                                 modes |= SHINY;
                                             }
                                             else if(Category.caseUp(markup.charAt(i+3)) == 'H'){
                                                 modes |= DROP_SHADOW;
                                             }
                                             // unrecognized falls back to small caps or jostle
+                                        } else if(ch == 'C'){
+                                            modes |= CONTEXT;
                                         } else if(ch == 'D'){
                                             modes |= DROP_SHADOW;
                                         } else if(ch == 'E'){
                                             modes |= ERROR;
+                                        } else if(ch == 'H'){
+                                            modes |= HALO;
+                                        } else if(ch == 'J'){
+                                            modes |= JOSTLE;
                                         } else if(ch == 'N'){
-                                            modes |= NOTE;
+                                            if(Category.caseUp(markup.charAt(i+3)) == 'O')
+                                                modes |= NOTE;
+                                            else if(Category.caseUp(markup.charAt(i+3)) == 'E')
+                                                modes |= NEON;
+                                        } else if(ch == 'R') {
+                                            modes |= RED_OUTLINE | BLACK_OUTLINE;
+                                        } else if(ch == 'Y') {
+                                            modes |= YELLOW_OUTLINE | BLACK_OUTLINE;
                                         }
                                     }
-                                    // unrecognized falls back to small caps or jostle
-                                    // small caps can be enabled or disabled separately from the other modes, except
-                                    // for jostle, which requires no other modes to be used
-                                    current = ((current & (0xFFFFFFFFFE0FFFFFL ^ (current & 0x1000000L) >>> 4)) ^ modes);
-                                } else {
-                                    current = (current & 0xFFFFFFFFFE0FFFFFL) | ((((StringUtils.intFromDec(markup, i + 1, i + len) - 24) / 25) & 15) - 3 & 15) << 20;
+                                    // unrecognized falls back to no mode
+                                    current = ((current & 0xFFFFFFFFFF0FFFFFL) ^ modes);
                                 }
                             }
-                            else {
-                                current = (current & 0xFFFFFFFFFE0FFFFFL);
-                            }
                             break;
-                        case '@':
-                            if (family == null) {
-                                break;
+                        case '?':
+                            if(len > 1) {
+                            /*
+                               alternate mode, takes [?mode name]
+                               "black outline", "white outline", "red outline", "blue outline", "yellow outline",
+                               "shiny", "drop shadow"/"shadow", "neon", "halo",
+                               "error", "warn", "note", "context", "suggest",
+                               "jostle", "small caps"
+                                */
+                                long modes = 0L;
+                                if (len >= 4) {
+                                    char ch = Category.caseUp(markup.charAt(i + 1));
+                                    if (ch == 'B') {
+                                        modes |= BLACK_OUTLINE;
+                                        if (Category.caseUp(markup.charAt(i + 3)) == 'U')
+                                            modes |= BLUE_OUTLINE;
+                                    } else if (ch == 'W') {
+                                        if (Category.caseUp(markup.charAt(i + 2)) == 'H') {
+                                            modes |= WHITE_OUTLINE | BLACK_OUTLINE;
+                                        } else {
+                                            modes |= WARN;
+                                        }
+                                    } else if (ch == 'S') {
+                                        if (Category.caseUp(markup.charAt(i + 2)) == 'U') {
+                                            modes |= SUGGEST;
+                                        } else if (Category.caseUp(markup.charAt(i + 2)) == 'M') {
+                                            modes |= SMALL_CAPS;
+                                        } else if (Category.caseUp(markup.charAt(i + 3)) == 'I') {
+                                            modes |= SHINY;
+                                        } else if (Category.caseUp(markup.charAt(i + 2)) == 'H') {
+                                            modes |= DROP_SHADOW;
+                                        }
+                                        // unrecognized falls back to small caps or jostle
+                                    } else if (ch == 'C') {
+                                        modes |= CONTEXT;
+                                    } else if (ch == 'D') {
+                                        modes |= DROP_SHADOW;
+                                    } else if (ch == 'E') {
+                                        modes |= ERROR;
+                                    } else if (ch == 'H') {
+                                        modes |= HALO;
+                                    } else if (ch == 'J') {
+                                        modes |= JOSTLE;
+                                    } else if (ch == 'N') {
+                                        if (Category.caseUp(markup.charAt(i + 2)) == 'O')
+                                            modes |= NOTE;
+                                        else if (Category.caseUp(markup.charAt(i + 2)) == 'E')
+                                            modes |= NEON;
+                                    } else if (ch == 'R') {
+                                        modes |= RED_OUTLINE | BLACK_OUTLINE;
+                                    } else if (ch == 'Y') {
+                                        modes |= YELLOW_OUTLINE | BLACK_OUTLINE;
+                                    }
+                                }
+                                // unrecognized falls back to no mode
+                                current = ((current & 0xFFFFFFFFFF0FFFFFL) ^ modes);
+                            } else {
+                                current &= 0xFFFFFFFFFF0FFFFFL;
                             }
-                            int fontIndex = family.fontAliases.get(StringUtils.safeSubstring(markup, i + 1, i + len), 0);
-                            current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
                             break;
                         case '#':
                             if (len >= 4 && len < 7) {
@@ -7300,9 +7503,21 @@ public class Font implements Disposable {
                                 color = StringUtils.longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
                                 color = StringUtils.longFromHex(markup, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
-                            else
+                            else if(len == 1){
+                                // [#] is used to toggle the outline.
+                                current ^= BLACK_OUTLINE;
+                            } else
+                                // any other length, such as [#0] or [#12] is invalid and resets the color.
+                                // this doesn't care what the other chars are, so [##] is a good way to reset the color.
                                 color = baseColor;
                             current = (current & ~COLOR_MASK) | color;
+                            break;
+                        case '@':
+                            if (family == null) {
+                                break;
+                            }
+                            int fontIndex = family.fontAliases.get(StringUtils.safeSubstring(markup, i + 1, i + len), 0);
+                            current = (current & 0xFFFFFFFFFFF0FFFFL) | (fontIndex & 15L) << 16;
                             break;
                         case '|':
                             // attempt to look up a known Color name with a ColorLookup
