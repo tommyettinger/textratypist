@@ -5337,31 +5337,6 @@ public class Font implements Disposable {
             if(squashed) yt -= font.descent * font.scaleY * scale * sizingY * (3f/7f);
             y = oy + (scaledHeight * 0.5f) - ych;// + font.descent * font.scaleY * scale * sizingY;
         }
-        // when this is removed, rotations for icons go around the bottom center.
-        // but, with it here, the rotations go around the bottom left corner.
-//            xc += (changedW * 0.5f);
-
-        // This seems to rotate icons around their centers.
-//            x += changedW * 0.5f;
-//            y += scaledHeight * 0.5f;
-//            yt -= scaledHeight * 0.5f;
-
-//            yt = font.handleIntegerPosition(yt - font.descent * osy * 0.5f);
-
-
-
-//        if (c >= 0xE000 && c < 0xF800) {
-//            yt = (font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy) * scale * sizingY;
-
-//            yt = (font.cellHeight) * scale * sizingY * -0.5f;
-
-//            yt = (font.cellHeight * -0.5f + (font.cellHeight - tr.offsetY) * font.scaleY) * scale * sizingY;
-
-
-//            yt = -font.descent * scale * font.scaleY - font.cellHeight * scale * sizingY * 0.5f;
-//            h = (font.cellHeight * scale) * sizingY;
-//            yt = handleIntegerPosition((font.cellHeight * 0.5f - (trrh + tr.offsetY) * fsy + font.descent * font.scaleY) * scale * sizingY);
-//        }
 
         // leaving this in commented because it can be useful to quickly get info on a particular char
 //        if(c == 57863) // floppy disk
@@ -5377,9 +5352,7 @@ public class Font implements Disposable {
         if (script == SUPERSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = yt * 0.625f; //scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
-
-            //(originalCellHeight * 0.5f - trrh - tr.offsetY) * scaleY * sizingY;
+            yt = yt * 0.625f;
 
             y1 += scaledHeight * 0.375f;
             y2 += scaledHeight * 0.375f;
@@ -5389,7 +5362,7 @@ public class Font implements Disposable {
         } else if (script == SUBSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = yt * 0.625f; //scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
+            yt = yt * 0.625f;
             y1 -= scaledHeight * 0.375f;
             y2 -= scaledHeight * 0.375f;
             y0 -= scaledHeight * 0.375f;
@@ -5398,7 +5371,7 @@ public class Font implements Disposable {
         } else if (script == MIDSCRIPT) {
             w *= 0.5f;
             h *= 0.5f;
-            yt = yt * 0.625f; //scaledHeight * 0.625f - h - tr.offsetY * scaleY * 0.5f - centerY * scale * sizingY;
+            yt = yt * 0.625f;
 //            y0 += scaledHeight * 0.125f;
 //            y1 += scaledHeight * 0.125f;
 //            y2 += scaledHeight * 0.125f;

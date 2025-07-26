@@ -1025,7 +1025,7 @@ public class TypingLabel extends TextraLabel {
 
         // These two blocks use different height measurements, so center vertical is offset once by half the layout
         // height, and once by half the widget height.
-        float layoutHeight = layout.getHeight();
+        float layoutHeight = workingLayout.getHeight();
         if (Align.isBottom(align)) {
             baseX -= sn * layoutHeight;
             baseY += cs * layoutHeight;
