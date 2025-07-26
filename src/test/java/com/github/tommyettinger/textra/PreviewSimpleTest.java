@@ -32,9 +32,14 @@ public class PreviewSimpleTest extends ApplicationAdapter {
             + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[ ],"
             + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[ ], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
             + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[ ],"
-            + "\n[%^small caps][*]Special[][] [%^whiten][/]Effects[][]: [%?shadow]drop shadow[], [%?jostle]RaNsoM nOtE[], [%?error]spell check[]...",
+            // Tracking down a bug here... some modes seem to contribute too much to line width.
+            // It seems to be either even-valued or odd-valued modes, since they alternate taking too much.
+//            + "\n[?shiny][*]Special[*][?] [?whiten][/]Effects[/][?][#]...",
+            + "\n[?small caps][*]Special[*][?] [?whiten][/]Effects[/][?][#]: [?shadow]drop shadow[?], [?jostle]RaNsoM nOtE[?], [?error]spell check[?]...",
+//            + "\n[?suggest]Just some normal text...[?]",
+//            + "\n[?shadow]drop shadow[?], [?jostle]RaNsoM nOtE[?], [?error]spell check[?]...",
 //    distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[ ]!",
-    emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[ ] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
+    emojiSupport = "\nPlus, there's [?neon][TEAL]emoji[ ] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
 
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -72,7 +77,7 @@ public class PreviewSimpleTest extends ApplicationAdapter {
         all[idx] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF)).scaleHeightTo(32f).useIntegerPositions(false).setTextureFilter();
         all[idx++ + limit] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE)).scaleHeightTo(32f).useIntegerPositions(false).setTextureFilter();
         limit += idx;
-        idx = 0;
+        idx = 6;
 
         fnt = all[idx];
         generateLayout();
