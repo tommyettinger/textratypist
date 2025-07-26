@@ -5292,7 +5292,7 @@ public class Font implements Disposable {
         float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - font.cellWidth * 0.5f;
 
         float trrh = tr.getRegionHeight();
-        float yt = (font.originalCellHeight - (trrh + tr.offsetY)) * scaleY * sizingY + sin * centerX - centerY;
+        float yt = ((font.originalCellHeight - (trrh + tr.offsetY) + font.descent) * sizingY - font.descent) * scaleY + sin * centerX - centerY;
 
 // The next line makes small-caps letters go part-way up in the line.
         if(squashed) yt -= font.descent * scaleY * sizingY * (3f/7f);
