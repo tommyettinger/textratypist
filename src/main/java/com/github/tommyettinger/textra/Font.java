@@ -5584,7 +5584,7 @@ public class Font implements Disposable {
 
             if (under != null && Float.isNaN(under.offsetX)) {
                 p0x = font.cellWidth * -0.5f + xAdvance * font.underX * font.scaleX * sizingX;
-                p0y = 0.5f * centerY - cellHeight - ((font.underY - 0.25f) * font.cellHeight + font.descent * font.scaleY) * sizingY;
+                p0y = 0.5f * centerY - font.cellHeight - (((font.underY - 0.75f) * font.cellHeight - font.descent) * sizingY + font.descent) * font.scaleY;
                 p0x += centerX - cos * centerX + xPx * 4f;
                 p0y += sin * centerX;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
@@ -5651,7 +5651,7 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && Float.isNaN(dash.offsetX)) {
                 p0x = -0.5f * font.cellWidth + xAdvance * font.strikeX * font.scaleX * sizingX;
-                p0y = centerY * 0.65f - cellHeight - ((font.strikeY - 0.65f) * font.cellHeight + font.descent * font.scaleY) * sizingY;
+                p0y = centerY * 0.65f - font.cellHeight - (((font.strikeY - 1.5f) * font.cellHeight - font.descent) * sizingY + font.descent) * font.scaleY;
                 p0x += centerX - cos * centerX + xPx * 4f;
                 p0y += sin * centerX;
 
