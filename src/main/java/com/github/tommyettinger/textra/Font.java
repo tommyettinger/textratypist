@@ -5583,13 +5583,13 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
 
             if (under != null && Float.isNaN(under.offsetX)) {
-                p0x = font.cellWidth * -0.5f + xAdvance * font.underX * font.scaleX * sizingX;
+                p0x = (0.125f * font.cellWidth + xAdvance * font.underX * font.scaleX) * sizingX - 0.625f * font.cellWidth;
                 p0y = 0.5f * centerY - font.cellHeight - (((font.underY - 0.75f) * font.cellHeight - font.descent) * sizingY + font.descent) * font.scaleY;
                 p0x += centerX - cos * centerX + xPx * 4f;
                 p0y += sin * centerX;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
-                        xAdvance * (font.strikeLength + 1.25f) * scaleX * sizingX + xPx,
+                        (xAdvance * (font.underLength + 1.5f) * sizingX - xAdvance * (font.underLength + 0.25f)) * scaleX + xPx,
                         font.cellHeight * sizingY * (1f + font.underBreadth), rotation);
             } else {
                 under = font.mapping.get('_');
@@ -5650,14 +5650,14 @@ public class Font implements Disposable {
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && Float.isNaN(dash.offsetX)) {
-                p0x = -0.5f * font.cellWidth + xAdvance * font.strikeX * font.scaleX * sizingX;
+                p0x = (0.125f * font.cellWidth + xAdvance * font.strikeX * font.scaleX) * sizingX - 0.625f * font.cellWidth;
                 p0y = centerY * 0.65f - font.cellHeight - (((font.strikeY - 1.5f) * font.cellHeight - font.descent) * sizingY + font.descent) * font.scaleY;
                 p0x += centerX - cos * centerX + xPx * 4f;
                 p0y += sin * centerX;
 
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        xAdvance * (font.strikeLength + 1.25f) * scaleX * sizingX + xPx,
+                        (xAdvance * (font.strikeLength + 1.5f) * sizingX - xAdvance * (font.strikeLength + 0.25f)) * scaleX + xPx,
                         (1f + font.strikeBreadth) * font.cellHeight * sizingY, rotation);
             } else {
                 dash = font.mapping.get('-');
