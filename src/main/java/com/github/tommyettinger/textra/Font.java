@@ -5123,7 +5123,7 @@ public class Font implements Disposable {
      * @return the distance in world units the drawn glyph uses up for width, as in a line of text along the given rotation
      */
     public float drawGlyph(Batch batch, long glyph, float x, float y, float rotation, float sizingX, float sizingY) {
-        return drawGlyph(batch, glyph, x, y, rotation, sizingX, sizingY, 0, 1f);
+        return drawGlyph(batch, glyph, x, y, rotation, sizingX, sizingY, 0, sizingX);
     }
     /**
      * Draws the specified glyph with a Batch at the given x, y position, with the specified counterclockwise

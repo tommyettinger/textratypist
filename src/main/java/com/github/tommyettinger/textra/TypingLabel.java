@@ -1023,31 +1023,34 @@ public class TypingLabel extends TextraLabel {
         final int lines = workingLayout.lines();
         float baseX = getX(), baseY = getY();
 
-        float height = workingLayout.getHeight();
+        // These two blocks use different height measurements, so center vertical is offset once by half the layout
+        // height, and once by half the widget height.
+        float layoutHeight = layout.getHeight();
         if (Align.isBottom(align)) {
-            baseX -= sn * height;
-            baseY += cs * height;
+            baseX -= sn * layoutHeight;
+            baseY += cs * layoutHeight;
         } else if (Align.isCenterVertical(align)) {
-            baseX -= sn * height * 0.5f;
-            baseY += cs * height * 0.5f;
+            baseX -= sn * layoutHeight * 0.5f;
+            baseY += cs * layoutHeight * 0.5f;
         }
-        float width = getWidth();
-        height = getHeight();
-        if (Align.isRight(align)) {
-            baseX += cs * width;
-            baseY += sn * width;
-        } else if (Align.isCenterHorizontal(align)) {
-            baseX += cs * width * 0.5f;
-            baseY += sn * width * 0.5f;
+        float widgetHeight = getHeight();
+        if (Align.isTop(align)) {
+            baseX -= sn * widgetHeight;
+            baseY += cs * widgetHeight;
+        } else if (Align.isCenterVertical(align)) {
+            baseX -= sn * widgetHeight * 0.5f;
+            baseY += cs * widgetHeight * 0.5f;
         }
 
-        if (Align.isTop(align)) {
-            baseX -= sn * height;
-            baseY += cs * height;
-        } else if (Align.isCenterVertical(align)) {
-            baseX -= sn * height * 0.5f;
-            baseY += cs * height * 0.5f;
+        float widgetWidth = getWidth();
+        if (Align.isRight(align)) {
+            baseX += cs * widgetWidth;
+            baseY += sn * widgetWidth;
+        } else if (Align.isCenterHorizontal(align)) {
+            baseX += cs * widgetWidth * 0.5f;
+            baseY += sn * widgetWidth * 0.5f;
         }
+
         if (style != null && style.background != null) {
             Drawable background = style.background;
             if (Align.isLeft(align)) {
