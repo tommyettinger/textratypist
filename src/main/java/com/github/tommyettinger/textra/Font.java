@@ -4758,7 +4758,7 @@ public class Font implements Disposable {
                     }
                     initial = false;
                 }
-                single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation, sizingX, sizingY, 0, 1f);
+                single = drawGlyph(batch, glyph, x + xChange, y + yChange, rotation, sizingX, sizingY, 0, advance);
                 xChange += cs * single;
                 yChange += sn * single;
                 drawn += single;
