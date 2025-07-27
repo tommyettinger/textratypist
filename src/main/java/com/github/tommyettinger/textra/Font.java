@@ -4784,7 +4784,7 @@ public class Font implements Disposable {
     public static float xAdvance(Font font, float scale, long glyph) {
         if (glyph >>> 32 == 0L) return 0;
         char ch = (char) glyph;
-        if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
+        if((glyph & ALTERNATE_MODES_MASK) == SMALL_CAPS) ch = Category.caseUp(ch);
         GlyphRegion tr = font.mapping.get(ch);
         if (tr == null) return 0f;
         float changedW = tr.xAdvance * scale;
@@ -4823,7 +4823,7 @@ public class Font implements Disposable {
                 char ch = (char) glyph;
                 advance = layout.advances.get(a);
                 a++;
-                if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
+                if((glyph & ALTERNATE_MODES_MASK) == SMALL_CAPS) ch = Category.caseUp(ch);
                 if(omitCurlyBraces) {
                     if (curly) {
                         if (ch == '}') {
@@ -6396,7 +6396,7 @@ public class Font implements Disposable {
                 } else {
                     previousWasLetter = false;
                 }
-                showCh = (current & SMALL_CAPS) == SMALL_CAPS ? Category.caseUp(ch) : ch;
+                showCh = (current & ALTERNATE_MODES_MASK) == SMALL_CAPS ? Category.caseUp(ch) : ch;
                 if(ch >= 0xE000 && ch < 0xF800){
                     sclX = scale * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
                 }
@@ -6462,7 +6462,7 @@ public class Font implements Disposable {
                                     boolean curly = false;
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
-                                        showCh = (curr & SMALL_CAPS) == SMALL_CAPS ? Category.caseUp((char)curr) : (char)curr;
+                                        showCh = (curr & ALTERNATE_MODES_MASK) == SMALL_CAPS ? Category.caseUp((char)curr) : (char)curr;
                                         if(omitCurlyBraces) {
                                             if (curly) {
                                                 glyphBuffer.add(curr);
@@ -6506,7 +6506,7 @@ public class Font implements Disposable {
                                     boolean curly = false;
                                     for (int k = j + 1; k < earlier.glyphs.size; k++) {
                                         curr = earlier.glyphs.get(k);
-                                        showCh = (curr & SMALL_CAPS) == SMALL_CAPS ? Category.caseUp((char)curr) : (char)curr;
+                                        showCh = (curr & ALTERNATE_MODES_MASK) == SMALL_CAPS ? Category.caseUp((char)curr) : (char)curr;
                                         if(omitCurlyBraces){
                                             if (curly) {
                                                 glyphBuffer.add(curr);
@@ -7585,7 +7585,7 @@ public class Font implements Disposable {
 //                float advance = Math.min(changing.advances.get(a), changing.sizing.get(a << 1 | 1));
                 a++;
                 if(ch == '{' && !curly) curly = true;
-                if((glyph & SMALL_CAPS) == SMALL_CAPS) ch = Category.caseUp(ch);
+                if((glyph & ALTERNATE_MODES_MASK) == SMALL_CAPS) ch = Category.caseUp(ch);
                 if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
                 if (font == null) font = this;
 
