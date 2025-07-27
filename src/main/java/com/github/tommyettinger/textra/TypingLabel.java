@@ -52,6 +52,13 @@ import static com.github.tommyettinger.textra.Font.ALTERNATE;
  * <br>
  * This is meant to work with {@link FWSkin} or one of its subclasses, such as {@code FreeTypistSkin}, and isn't
  * guaranteed to work with a regular {@link Skin}. FWSkin can load the same JSON files Skin uses, and it extends Skin.
+ * If you encounter an unusually high amount of native memory being used, the cause is most likely Font objects being
+ * created from BitmapFont objects repeatedly, <em>which FWSkin is designed to avoid</em>. When using any scene2d.ui
+ * widget from TextraTypist with an FWSkin, the correct and optimal style from {@link Styles} is used, and that avoids
+ * creating more and more Font objects as widgets are created and destroyed. Subclasses of FWSkin are also perfectly
+ * fine to use, such as the subclass in <a href="https://github.com/tommyettinger/freetypist">FreeTypist</a> that allows
+ * using FreeType to generate a Font from skin JSON configuration.
+ * <em>Using a regular libGDX Skin object, not an FWSkin, will be a problem.</em>
  */
 public class TypingLabel extends TextraLabel {
     ///////////////////////
@@ -141,6 +148,8 @@ public class TypingLabel extends TextraLabel {
     /**
      * Creates a TypingLabel that uses the libGDX default font (lsans-15) and starts with no text.
      * The default font will not look very good when scaled, so this should usually stay its default font size.
+     * This allocates a new Font every time it is called, so you should avoid this constructor in code that is called
+     * more than a handful of times. Its only valid use is in debugging.
      */
     public TypingLabel() {
         super();
@@ -150,6 +159,7 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
+     * Do not use scene2d.ui's {@link Skin} unless you are prepared to dispose of Fonts manually, without any help.
      * @param text markup text that can contain square-bracket tags and curly-brace tokens
      * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
      *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered as "default"
@@ -160,6 +170,7 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
+     * Do not use scene2d.ui's {@link Skin} unless you are prepared to dispose of Fonts manually, without any help.
      * @param text markup text that can contain square-bracket tags and curly-brace tokens
      * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
      *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered as "default"
@@ -171,6 +182,7 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
+     * Do not use scene2d.ui's {@link Skin} unless you are prepared to dispose of Fonts manually, without any help.
      * @param text markup text that can contain square-bracket tags and curly-brace tokens
      * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
      *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered with the given styleName
@@ -182,6 +194,7 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
+     * Do not use scene2d.ui's {@link Skin} unless you are prepared to dispose of Fonts manually, without any help.
      * @param text markup text that can contain square-bracket tags and curly-brace tokens
      * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
      *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered with the given styleName
@@ -194,6 +207,8 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Creates a TypingLabel with the given markup text and style, without needing a skin.
+     * Note that you can obtain widget styles in {@link Styles} either by manually constructing the appropriate style,
+     * or by loading a skin JSON file with {@link FWSkin} or one of its subclasses.
      * @param text markup text that can contain square-bracket tags and curly-brace tokens
      * @param style a style from {@link Styles} and not from scene2d.ui; often made manually
      */
@@ -207,6 +222,8 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Creates a TypingLabel with the given markup text, style, and Font, without needing a skin.
+     * Note that you can obtain widget styles in {@link Styles} either by manually constructing the appropriate style,
+     * or by loading a skin JSON file with {@link FWSkin} or one of its subclasses.
      * @param text markup text that can contain square-bracket tags and curly-brace tokens
      * @param style a style from {@link Styles} and not from scene2d.ui; often made manually
      * @param replacementFont will be used instead of the Font from the style

@@ -45,6 +45,13 @@ import static com.github.tommyettinger.textra.Font.ALTERNATE;
  * <br>
  * This is meant to work with {@link FWSkin} or one of its subclasses, such as {@code FreeTypistSkin}, and isn't
  * guaranteed to work with a regular {@link Skin}. FWSkin can load the same JSON files Skin uses, and it extends Skin.
+ * If you encounter an unusually high amount of native memory being used, the cause is most likely Font objects being
+ * created from BitmapFont objects repeatedly, <em>which FWSkin is designed to avoid</em>. When using any scene2d.ui
+ * widget from TextraTypist with an FWSkin, the correct and optimal style from {@link Styles} is used, and that avoids
+ * creating more and more Font objects as widgets are created and destroyed. Subclasses of FWSkin are also perfectly
+ * fine to use, such as the subclass in <a href="https://github.com/tommyettinger/freetypist">FreeTypist</a> that allows
+ * using FreeType to generate a Font from skin JSON configuration.
+ * <em>Using a regular libGDX Skin object, not an FWSkin, will be a problem.</em>
  */
 public class TextraLabel extends Widget {
     public Layout layout;
@@ -63,11 +70,13 @@ public class TextraLabel extends Widget {
 
     /**
      * Creates a TextraLabel that uses the default libGDX font (lsans-15 in the current version) with white color.
+     * This allocates a new Font every time it is called, so you should avoid this constructor in code that is called
+     * more than a handful of times. Its only valid use is in debugging.
      */
     public TextraLabel() {
         layout = new Layout();
         font = new Font();
-        style = new Styles.LabelStyle();
+        style = new Styles.LabelStyle(font, null);
     }
 
     /**
@@ -151,6 +160,7 @@ public class TextraLabel extends Widget {
      */
     public TextraLabel(String text, Skin skin, String styleName, String colorName) {
         this(text, skin.get(styleName, Styles.LabelStyle.class));
+        if(colorName == null) return;
         Color color = skin.get(colorName, Color.class);
         if(color != null) layout.setBaseColor(color);
     }
@@ -260,7 +270,7 @@ public class TextraLabel extends Widget {
      * @param font a Font from this library, such as one obtained from {@link KnownFonts}
      */
     public TextraLabel(String text, Font font) {
-        this(text, font, Color.WHITE);
+        this(text, font, null);
     }
 
     /**
