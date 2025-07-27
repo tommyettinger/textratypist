@@ -401,7 +401,7 @@ public class FWSkin extends Skin {
                 json.readFields(s2d, jsonData);
                 String labelStyleName = json.readValue("label", String.class, "default", jsonData);
                 if (labelStyleName == null) {
-                    Label.LabelStyle style = json.readValue("label", Label.LabelStyle.class, jsonData);
+                    Styles.LabelStyle style = json.readValue("label", Styles.LabelStyle.class, jsonData);
                     Styles.TextTooltipStyle tt = new Styles.TextTooltipStyle(style, s2d.background);
                     tt.wrapWidth = s2d.wrapWidth;
                     skin.add(jsonData.name, tt, Styles.TextTooltipStyle.class);

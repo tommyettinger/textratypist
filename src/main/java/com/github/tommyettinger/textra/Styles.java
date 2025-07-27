@@ -27,6 +27,13 @@ import com.badlogic.gdx.utils.Null;
  * such as {@link Styles.LabelStyle} matching {@link Label.LabelStyle}. These styles are typically loaded from a skin
  * JSON file using {@link FWSkin} or one of its subclasses, but can also be created on their own. When reading in a
  * skin JSON file, no changes need to be made for TextraTypist styles if using FWSkin to load in the JSON.
+ * <br>
+ * Since TextraTypist version 2.1.0, any style constructors that take and copy {@link BitmapFont} or scene2d.ui styles
+ * that contain one or more BitmapFonts are deprecated and are intended to be removed. These constructors have a
+ * tendency to be called many times (often once per label, which can happen many times in some widgets), allocating a
+ * {@link Font} every time by copying data from the given BitmapFont. It is not at all easy to dispose these Font
+ * objects, especially if they share information with a currently-used BitmapFont, and the Font instances can overwhelm
+ * the memory available to an app over not very much time.
  */
 public final class Styles {
     private Styles() {
@@ -54,6 +61,14 @@ public final class Styles {
             this.background = background;
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given BitmapFont), and it isn't easy to dispose the created Font.
+         * @param font a BitmapFont that will be copied into a new Font
+         * @param fontColor the color to tint the given BitmapFont
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public LabelStyle(BitmapFont font, @Null Color fontColor) {
             this.font = new Font(font);
             this.fontColor = fontColor;
@@ -65,6 +80,13 @@ public final class Styles {
             background = style.background;
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given style), and it isn't easy to dispose the created Font.
+         * @param style a Label.LabelStyle that will have its data and BitmapFont copied into this and its Font
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public LabelStyle(Label.LabelStyle style) {
             font = new Font(style.font);
             if (style.fontColor != null) fontColor = new Color(style.fontColor);
@@ -95,6 +117,16 @@ public final class Styles {
             this.font = font;
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given BitmapFont), and it isn't easy to dispose the created Font.
+         * @param up may be null; drawn when the button is "up"
+         * @param down may be null; drawn when the button is "down"
+         * @param checked may be null; drawn when the button is "checked"
+         * @param font a BitmapFont that will be copied into a new Font
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public TextButtonStyle(@Null Drawable up, @Null Drawable down, @Null Drawable checked, @Null BitmapFont font) {
             super(up, down, checked);
             this.font = new Font(font);
@@ -117,6 +149,13 @@ public final class Styles {
                 checkedFocusedFontColor = new Color(style.checkedFocusedFontColor);
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given style), and it isn't easy to dispose the created Font.
+         * @param style a Label.LabelStyle that will have its data and BitmapFont copied into this and its Font
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public TextButtonStyle(TextButton.TextButtonStyle style) {
             super(style);
             font = new Font(style.font);
@@ -149,6 +188,15 @@ public final class Styles {
             super(up, down, checked, font);
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given BitmapFont), and it isn't easy to dispose the created Font.
+         * @param up may be null; drawn when the button is "up"
+         * @param down may be null; drawn when the button is "down"
+         * @param checked may be null; drawn when the button is "checked"
+         * @param font a BitmapFont that will be copied into a new Font
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
         public ImageTextButtonStyle(@Null Drawable up, @Null Drawable down, @Null Drawable checked, BitmapFont font) {
             super(up, down, checked, font);
         }
@@ -164,7 +212,13 @@ public final class Styles {
             imageCheckedDown = style.imageCheckedDown;
             imageCheckedOver = style.imageCheckedOver;
         }
-
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given style), and it isn't easy to dispose the created Font.
+         * @param style a Label.LabelStyle that will have its data and BitmapFont copied into this and its Font
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public ImageTextButtonStyle(ImageTextButton.ImageTextButtonStyle style) {
             super(style);
             imageUp = style.imageUp;
@@ -180,7 +234,13 @@ public final class Styles {
         public ImageTextButtonStyle(TextButtonStyle style) {
             super(style);
         }
-
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given style), and it isn't easy to dispose the created Font.
+         * @param style a Label.LabelStyle that will have its data and BitmapFont copied into this and its Font
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public ImageTextButtonStyle(TextButton.TextButtonStyle style) {
             super(style);
         }
@@ -207,6 +267,16 @@ public final class Styles {
             this.fontColor = fontColor;
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given BitmapFont), and it isn't easy to dispose the created Font.
+         * @param checkboxOff drawn when the checkbox state is "off"
+         * @param checkboxOn drawn when the checkbox state is "on"
+         * @param font a BitmapFont that will be copied into a new Font
+         * @param fontColor the color to tint the given BitmapFont
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public CheckBoxStyle(Drawable checkboxOff, Drawable checkboxOn, BitmapFont font, @Null Color fontColor) {
             this.checkboxOff = checkboxOff;
             this.checkboxOn = checkboxOn;
@@ -225,6 +295,13 @@ public final class Styles {
             checkboxOffDisabled = style.checkboxOffDisabled;
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given style), and it isn't easy to dispose the created Font.
+         * @param style a Label.LabelStyle that will have its data and BitmapFont copied into this and its Font
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public CheckBoxStyle(CheckBox.CheckBoxStyle style) {
             super(style);
             checkboxOff = style.checkboxOff;
@@ -262,6 +339,15 @@ public final class Styles {
             this.stageBackground = stageBackground;
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given BitmapFont), and it isn't easy to dispose the created Font.
+         * @param titleFont a BitmapFont that will be copied into a new Font
+         * @param titleFontColor the color to tint the given BitmapFont
+         * @param background may be null; otherwise, drawn in the back of the window
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public WindowStyle(BitmapFont titleFont, Color titleFontColor, @Null Drawable background) {
             this.titleFont = new Font(titleFont);
             this.titleFontColor.set(titleFontColor);
@@ -275,6 +361,13 @@ public final class Styles {
             stageBackground = style.stageBackground;
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given style), and it isn't easy to dispose the created Font.
+         * @param style a Label.LabelStyle that will have its data and BitmapFont copied into this and its Font
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public WindowStyle(Window.WindowStyle style) {
             titleFont = new Font(style.titleFont);
             if (style.titleFontColor != null) titleFontColor = new Color(style.titleFontColor);
@@ -303,6 +396,16 @@ public final class Styles {
             this.selection = selection;
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given BitmapFont), and it isn't easy to dispose the created Font.
+         * @param font a BitmapFont that will be copied into a new Font
+         * @param fontColorSelected the color to tint the given BitmapFont when it is selected
+         * @param fontColorUnselected the color to tint the given BitmapFont when it is not selected
+         * @param selection typically a solid box that will be drawn behind a selected item
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public ListStyle(BitmapFont font, Color fontColorSelected, Color fontColorUnselected, Drawable selection) {
             this.font = new Font(font);
             this.fontColorSelected.set(fontColorSelected);
@@ -332,6 +435,13 @@ public final class Styles {
             background = style.background;
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given style), and it isn't easy to dispose the created Font.
+         * @param style a Label.LabelStyle that will have its data and BitmapFont copied into this and its Font
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public ListStyle(List.ListStyle style) {
             font = new Font(style.font);
             fontColorSelected.set(style.fontColorSelected);
@@ -345,7 +455,7 @@ public final class Styles {
     }
 
     /**
-     * The style for a select box, see {@code TextraSelectBox}.
+     * The style for a select box, see {@code TextraSelectBox} or {@link TypingSelectBox}.
      */
     public static class SelectBoxStyle {
         public Font font;
@@ -368,6 +478,17 @@ public final class Styles {
             this.listStyle = listStyle;
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given BitmapFont), and it isn't easy to dispose the created Font.
+         * @param font a BitmapFont that will be copied into a new Font
+         * @param fontColor the color to tint the given BitmapFont
+         * @param background may be null; otherwise, drawn behind the widget as its background
+         * @param scrollStyle will not be copied, and will be referenced directly
+         * @param listStyle will be copied into a new {@link Styles.ListStyle}
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public SelectBoxStyle(BitmapFont font, Color fontColor, @Null Drawable background, ScrollPane.ScrollPaneStyle scrollStyle,
                               List.ListStyle listStyle) {
             this.font = new Font(font);
@@ -393,6 +514,13 @@ public final class Styles {
             backgroundDisabled = style.backgroundDisabled;
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given style), and it isn't easy to dispose the created Font.
+         * @param style a Label.LabelStyle that will have its data and BitmapFont copied into this and its Font
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public SelectBoxStyle(SelectBox.SelectBoxStyle style) {
             font = new Font(style.font);
             fontColor.set(style.fontColor);
@@ -424,13 +552,20 @@ public final class Styles {
         public TextTooltipStyle() {
         }
 
-        public TextTooltipStyle(LabelStyle label, @Null Drawable background) {
-            this.label = label;
+        public TextTooltipStyle(LabelStyle style, @Null Drawable background) {
+            this.label = style;
             this.background = background;
         }
 
-        public TextTooltipStyle(Label.LabelStyle label, @Null Drawable background) {
-            this.label = new LabelStyle(label);
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given style), and it isn't easy to dispose the created Font.
+         * @param style a Label.LabelStyle that will have its data and BitmapFont copied into this and its Font
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
+        public TextTooltipStyle(Label.LabelStyle style, @Null Drawable background) {
+            this.label = new LabelStyle(style);
             this.background = background;
         }
 
@@ -440,6 +575,13 @@ public final class Styles {
             wrapWidth = style.wrapWidth;
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given style), and it isn't easy to dispose the created Font.
+         * @param style a Label.LabelStyle that will have its data and BitmapFont copied into this and its Font
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public TextTooltipStyle(TextTooltip.TextTooltipStyle style) {
             label = new LabelStyle(style.label);
             background = style.background;
@@ -470,7 +612,17 @@ public final class Styles {
             this.background = background;
         }
 
-
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given BitmapFont), and it isn't easy to dispose the created Font.
+         * @param font a BitmapFont that will be copied into a new Font
+         * @param fontColor the color to tint the given BitmapFont
+         * @param cursor may be null to show no cursor; otherwise this will be drawn where text will be entered
+         * @param selection may be null, but is usually a solid block that will be stretched behind a selected area
+         * @param background may be null; otherwise, drawn behind the widget as its background
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public TextFieldStyle(BitmapFont font, Color fontColor, @Null Drawable cursor, @Null Drawable selection,
                               @Null Drawable background) {
             this.font = new Font(font);
@@ -496,6 +648,13 @@ public final class Styles {
             if (style.messageFontColor != null) messageFontColor = new Color(style.messageFontColor);
         }
 
+        /**
+         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
+         * every time (copying information from the given style), and it isn't easy to dispose the created Font.
+         * @param style a Label.LabelStyle that will have its data and BitmapFont copied into this and its Font
+         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
+         */
+        @Deprecated
         public TextFieldStyle(TextField.TextFieldStyle style) {
             font = new Font(style.font);
             if (style.fontColor != null) fontColor = new Color(style.fontColor);
