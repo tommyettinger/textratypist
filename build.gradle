@@ -3,13 +3,13 @@ import com.vanniktech.maven.publish.JavadocJar
 
 buildscript {
     repositories {
-        mavenLocal()
+//        mavenLocal()
         mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+//        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.31.0'
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.34.0'
     }
 }
 
@@ -38,7 +38,7 @@ mavenPublishing {
     configure(new JavaLibrary(new JavadocJar.Javadoc(), true))
 }
 
-mavenPlainJavadocJar.archiveBaseName.set(projectName)
+plainJavadocJar.archiveBaseName.set(projectName)
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -99,7 +99,7 @@ jar {
 repositories {
 //    mavenLocal()
     mavenCentral()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+//    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://jitpack.io' }
 }
 
