@@ -509,7 +509,7 @@ public final class KnownFonts implements LifecycleListener {
      * making it half the width relative to its height, instead of having equal width and height.
      * <br>
      * This doesn't look as good when using {@link DistanceFieldType#SDF_OUTLINE}, because the outlines won't extend as
-     * far to the left and right as they will up and down. The {@code [%?blacken]} mode should still outline this
+     * far to the left and right as they will up and down. The {@code [#]} outline style should still outline this
      * correctly with an approximately 1-pixel black outline.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A-Starry-Tall-sdf.png" alt="Image preview" width="1200" height="675" />
@@ -4742,7 +4742,7 @@ public final class KnownFonts implements LifecycleListener {
      * Preview:<br>
      * <img src="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
-     * Uses the font {@link #getAStarry()} and {@code [%?blacken]} mode.
+     * Uses the font {@link #getAStarry()} and {@code [#]} to add a black outline.
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
@@ -4758,7 +4758,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addEmoji(Font changing) {
-        return addEmoji(changing, 0f, 0f, 0f);
+        return addEmoji(changing, 2f, -1f, 4f);
     }
     /**
      * Takes a Font and adds the Twemoji icon set to it, making the glyphs available using {@code [+name]} syntax.
@@ -4783,13 +4783,13 @@ public final class KnownFonts implements LifecycleListener {
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
-     * If you aren't sure what to use, the simplest overload uses the parameters {@code -4f, -2f, 4f}, which pushes each
-     * emoji to the left, a little down, and gives more room between it and the next glyph.
+     * If you aren't sure what to use, the simplest overload uses the parameters {@code 2f, -1f, 4f}, which pushes each
+     * emoji to the right, a little down, and gives more room between it and the next glyph.
      * <br>
      * Preview:<br>
      * <img src="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
-     * Uses the font {@link #getAStarry()} and {@code [%?blacken]} mode.
+     * Uses the font {@link #getAStarry()} and {@code [#]} to add a black outline.
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
@@ -4833,14 +4833,14 @@ public final class KnownFonts implements LifecycleListener {
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
-     * If you aren't sure what to use, the simplest overload uses the parameters {@code -4f, -2f, 4f}, which pushes each
-     * emoji to the left, a little down, and gives more room between it and the next glyph. It also
+     * If you aren't sure what to use, the simplest overload uses the parameters {@code 2f, -1f, 4f}, which pushes each
+     * emoji to the right, a little down, and gives more room between it and the next glyph. It also
      * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
      * <br>
      * Preview:<br>
      * <img src="https://tommyettinger.github.io/textratypist/previews/EmojiPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
-     * Uses the font {@link #getAStarry()} and {@code [%?blacken]} mode.
+     * Uses the font {@link #getAStarry()} and {@code [#]} to add a black outline.
      * <br>
      * You can see all emoji and the names they use
      * <a href="https://tommyettinger.github.io/twemoji-atlas/">at this GitHub Pages site</a>.
@@ -5153,7 +5153,7 @@ public final class KnownFonts implements LifecycleListener {
      * Preview:<br>
      * <img src="https://tommyettinger.github.io/textratypist/previews/NotoEmojiPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
-     * Uses the font {@link #getAStarry()} and {@code [%?blacken]} mode.
+     * Uses the font {@link #getAStarry()} and {@code [#]} to add a black outline.
      * <br>
      * Needs files:
      * <ul>
@@ -5212,7 +5212,7 @@ public final class KnownFonts implements LifecycleListener {
      * Preview:<br>
      * <img src="https://tommyettinger.github.io/textratypist/previews/NotoEmojiPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
-     * Uses the font {@link #getAStarry()} and {@code [%?blacken]} mode.
+     * Uses the font {@link #getAStarry()} and {@code [#]} to add a black outline.
      * <br>
      * Needs files:
      * <ul>
@@ -5274,7 +5274,7 @@ public final class KnownFonts implements LifecycleListener {
      * Preview:<br>
      * <img src="https://tommyettinger.github.io/textratypist/previews/NotoEmojiPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
-     * Uses the font {@link #getAStarry()} and {@code [%?blacken]} mode.
+     * Uses the font {@link #getAStarry()} and {@code [#]} to add a black outline.
      * <br>
      * Needs files:
      * <ul>
@@ -5335,7 +5335,7 @@ public final class KnownFonts implements LifecycleListener {
      * Preview:<br>
      * <img src="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
-     * Uses the font {@link #getNowAlt()} and {@code [%?blacken]} mode.
+     * Uses the font {@link #getNowAlt()} and {@code [#]} to add a black outline.
      * <br>
      * You can see all icons and the names they use
      * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">at this GitHub Pages site</a>.
@@ -5379,7 +5379,7 @@ public final class KnownFonts implements LifecycleListener {
      * Preview:<br>
      * <img src="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
-     * Uses the font {@link #getNowAlt()} and {@code [%?blacken]} mode.
+     * Uses the font {@link #getNowAlt()} and {@code [#]} to add a black outline.
      * <br>
      * You can see all icons and the names they use
      * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">at this GitHub Pages site</a>.
@@ -5428,7 +5428,7 @@ public final class KnownFonts implements LifecycleListener {
      * Preview:<br>
      * <img src="https://tommyettinger.github.io/textratypist/previews/GameIconsPreview.png" alt="Image preview" width="1200" height="600" />
      * <br>
-     * Uses the font {@link #getNowAlt()} and {@code [%?blacken]} mode.
+     * Uses the font {@link #getNowAlt()} and {@code [#]} to add a black outline.
      * <br>
      * You can see all icons and the names they use
      * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">at this GitHub Pages site</a>.
