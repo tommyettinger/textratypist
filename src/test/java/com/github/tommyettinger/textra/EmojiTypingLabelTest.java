@@ -122,10 +122,11 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //                        + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
                 //[+⚖️]
 
-                "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
-                        + "But... {COLOR=#79c353ff}{SICK}U. Nitty{ENDSICK}{ENDCOLOR} doesn't. {CROWD}{SLIP}[#BB1100][+skull][#55AA22FF][+🤡][ ]\n"
-                        + "That's OK, I don't like loot crates anyway. {CROWD}{SLIP}[#B10F][+party popper][#5A2][+🥳][ ]\n"
-                        + "[+balance scale][~][_][+balance scale][ ] testing: [_][~]\n"
+//                "I love TextraTypist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
+//                        + "But... {COLOR=#79c353ff}{SICK}U. Nitty{ENDSICK}{ENDCOLOR} doesn't. {CROWD}{SLIP}[#BB1100][+skull][#55AA22FF][+🤡][ ]\n"
+//                        + "That's OK, I don't like loot crates anyway. {CROWD}{SLIP}[#B10F][+party popper][#5A2][+🥳][ ]\n"
+//                        +
+                        "[+balance scale][~][_][+balance scale][ ] testing: [_][~]\n"
                         // the u200B is a zero-width space, which is invisible but gets the 100% line height we want after this.
                         + "[%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\u200B\n\n"
                         + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."

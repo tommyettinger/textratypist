@@ -5583,9 +5583,9 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
 
             if (under != null && Float.isNaN(under.offsetX)) {
-                p0x = (0.125f * font.cellWidth + xAdvance * font.underX * font.scaleX) * sizingX - 0.625f * font.cellWidth;
+                p0x = (xAdvance * (font.underX + 1f) * sizingX - xAdvance * (font.underX + 1f)) * font.scaleX - font.cellWidth * 0.5f;
                 p0y = 0.5f * centerY - font.cellHeight - (((font.underY - 0.5f) * font.cellHeight - font.descent * font.scaleY) * sizingY + font.descent * font.scaleY);
-                p0x += centerX - cos * centerX + xPx * 4f;
+                p0x += centerX - cos * centerX + xPx;
                 p0y += sin * centerX;
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
