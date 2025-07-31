@@ -777,7 +777,7 @@ tecksup, and Siavash Ranbar helped track down some maddening bugs affecting word
 with those kinds of bug! IgorApplications has helped track down various SDF-related bugs and pointed out that a feature
 (full-color emoji in SDF fonts) was possible, so thanks as well!
 
-Of course, I have to thank Rafa Skoberg for writing quite a lot of the code here! About 2/3 of the effects are almost
+Of course, I have to thank Rafa Skoberg for writing quite a lot of the code here! About 1/3 of the effects are almost
 purely by Rafa, much of the TypingLabel-related code is nearly unchanged from his work, and in general he showed what
 libGDX UIs could be just by making the initial code.
 
@@ -786,7 +786,8 @@ service to the people who depend on them.
 
 Thanks to Twitter for generously contributing Twemoji to the world of open source; having broadly available emoji makes
 them much more usable. Note that because this was a generous action by Twitter, it happened before its
-acquisition/change to "X".
+acquisition/change to "X". Additional thanks to the several hard-working contributors who have continued working on
+Twemoji even after exiting their former employer! We use the [jdecked/twemoji](https://github.com/jdecked/twemoji) fork.
 
 Thanks to the many contributors to game-icons.net for producing high-quality free icons to game developers everywhere.
 The icons in Game-Icons.png were made by:
@@ -829,8 +830,15 @@ The icons in Game-Icons.png were made by:
 (Projects that use TextraTypist can copy the above list of Game-Icons.png contributors to comply with its license.)
 
 Thanks again to [the OpenMoji project](https://openmoji.org/)! That was clearly a lot of work. OpenMoji is licensed as
-[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/#).
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/#), so it requires attribution if you use it by distributing OpenMoji assets with your product (the
+"BY" clause). The "SA" (share-alike) clause is also a requirement for TextraTypist itself; because TextraTypist edited
+and built upon the icons while compiling them into an atlas, the icon atlas is licensed under CC BY-SA 4.0 as well. 
 
 Thanks also to the developers of the [Noto Fonts and Emoji](https://fonts.google.com/noto/specimen/Noto+Color+Emoji)!
 They are OFL 1.1 licensed. The Noto Color Emoji here also used data from the MIT-licensed
-[EmojiBase](https://github.com/milesj/emojibase/tree/master) project to create the atlas.
+[EmojiBase](https://github.com/milesj/emojibase/tree/master) project to create the atlas. Both OFL and MIT do not require attribution to use.
+
+The [Material Design](https://fonts.google.com/icons?icon.set=Material+Icons) icon set, made by Google for use in
+Android, is also present here, and has many icons that have no equivalent in Unicode's emoji set. Material icons are an
+especially good fit for user interfaces in productivity apps or editors. The Material Design icons are licensed as
+Apache 2.0, and as such do not require attribution to use.

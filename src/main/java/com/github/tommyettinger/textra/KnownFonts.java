@@ -58,7 +58,7 @@ import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
  * <br>
  * There are some special features in Font that are easier to use with parts of this class. {@link #getStandardFamily()}
  * pre-populates a FontFamily so you can switch between different fonts with the {@code [@Sans]} syntax.
- * {@link #addEmoji(Font)} adds all of Twitter's emoji from the <a href="https://github.com/twitter/twemoji">Twemoji</a>
+ * {@link #addEmoji(Font)} adds all of Twitter's emoji from the <a href="https://github.com/jdecked/twemoji">Twemoji</a>
  * project to a given font, which lets you enter emoji with the {@code [+man scientist, dark skin tone]} syntax or the
  * generally-easier {@code [+👨🏿‍🔬]} syntax. If you want to use names for emoji, you may want to consult "Twemoji.atlas"
  * for the exact names used; some names changed from the standard because of technical restrictions. Other types of
@@ -4723,7 +4723,7 @@ public final class KnownFonts implements LifecycleListener {
      * Twemoji atlas for later calls. This tries to load the files "Twemoji.atlas" and "Twemoji.png" from the internal
      * storage first, and if that fails, it tries to load them from local storage in the current working directory.
      * There are over 3000 emoji in the Twemoji set;
-     * <a href="https://github.com/twitter/twemoji#attribution-requirements">it requires attribution to use</a>.
+     * <a href="https://github.com/jdecked/twemoji?tab=readme-ov-file#attribution-requirements">it requires attribution to use</a>.
      * <br>
      * You can add emoji to a font as inline images with {@code KnownFonts.addEmoji(myFont)}.
      * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
@@ -4767,7 +4767,7 @@ public final class KnownFonts implements LifecycleListener {
      * Twemoji atlas for later calls. This tries to load the files "Twemoji.atlas" and "Twemoji.png" from the internal
      * storage first, and if that fails, it tries to load them from local storage in the current working directory.
      * There are over 3000 emoji in the Twemoji set;
-     * <a href="https://github.com/twitter/twemoji#attribution-requirements">it requires attribution to use</a>.
+     * <a href="https://github.com/jdecked/twemoji?tab=readme-ov-file#attribution-requirements">it requires attribution to use</a>.
      * <br>
      * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
      * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
@@ -4817,7 +4817,7 @@ public final class KnownFonts implements LifecycleListener {
      * Twemoji atlas for later calls. This tries to load the files "Twemoji.atlas" and "Twemoji.png" from the internal
      * storage first, and if that fails, it tries to load them from local storage in the current working directory.
      * There are over 3000 emoji in the Twemoji set;
-     * <a href="https://github.com/twitter/twemoji#attribution-requirements">it requires attribution to use</a>.
+     * <a href="https://github.com/jdecked/twemoji?tab=readme-ov-file#attribution-requirements">it requires attribution to use</a>.
      * <br>
      * Since TextraTypist 1.0.0, emoji display correctly with standard, SDF, and MSDF fonts, though they always look how
      * they do with standard fonts and don't use any distance field themselves. They can scale reasonably well down, and
