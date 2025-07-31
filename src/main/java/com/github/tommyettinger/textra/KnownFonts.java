@@ -4938,7 +4938,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addOpenMoji(Font changing, boolean color) {
-        return addOpenMoji(changing, color, 0f, 0f, 0f);
+        return addOpenMoji(changing, color, 0f, -1f, 0f);
     }
     /**
      * Takes a Font and adds the OpenMoji icon set to it, making the glyphs available using {@code [+name]} syntax.
@@ -4972,8 +4972,8 @@ public final class KnownFonts implements LifecycleListener {
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
-     * If you aren't sure what to use, the simplest overload uses the parameters {@code -4f, -4f, 4f}, which pushes each
-     * emoji to the left, down, and gives more room between it and the next glyph.
+     * If you aren't sure what to use, the simplest overload uses the parameters {@code 0f, -1f, 0f}, which pushes each
+     * emoji just a little down.
      * <br>
      * Preview:<br>
      * <img src="https://tommyettinger.github.io/textratypist/previews/OpenMojiLinePreview.png" alt="Image preview" width="1200" height="600" />
@@ -5040,8 +5040,8 @@ public final class KnownFonts implements LifecycleListener {
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
-     * If you aren't sure what to use, the simplest overload uses the parameters {@code -4f, -4f, 4f}, which pushes each
-     * emoji to the left, down, and gives more room between it and the next glyph. It also
+     * If you aren't sure what to use, the simplest overload uses the parameters {@code 0f, -1f, 0f}, which pushes each
+     * emoji just a little down. It also
      * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
      * <br>
      * Preview:<br>

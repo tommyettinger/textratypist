@@ -81,7 +81,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //				KnownFonts.addNotoEmoji(f, -4f, -3f, 4f);
 				// Just using the defaults on Dec 26, 2024.
 //				KnownFonts.addEmoji(f);
-				KnownFonts.addNotoEmoji(f);
+//				KnownFonts.addNotoEmoji(f);
+				KnownFonts.addOpenMoji(f, false);
 		}
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
