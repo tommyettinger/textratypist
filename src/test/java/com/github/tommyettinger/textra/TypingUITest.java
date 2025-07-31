@@ -63,28 +63,12 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 		final Font.FontFamily family = KnownFonts.getStandardFamily().family;
-//		final Font font =
-//				//KnownFonts.getYanoneKaffeesatz();
-//				new Font(skin.getFont("outline-font"), 0f, 12f, 0f, 0f);//.adjustLineHeight(1.2f);
-//		KnownFonts.getStandardFamily()
-//				new Font(skin.get(Styles.LabelStyle.class).font)
-//				.useIntegerPositions(true);
-//		font.family = new Font.FontFamily(KnownFonts.getStandardFamily().family);
 		family.connected[11] =
-//				font;
 				KnownFonts.getYanoneKaffeesatz()
-//				new Font(new BitmapFont(Gdx.files.internal("YanoneKaffeesatz-standard.fnt")))
 				.scaleHeightTo(32);
-//				.setName("Yanone Kaffeesatz");
-//		family.connected[0] = KnownFonts.getNowAlt();
-		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF).scaleHeightTo(30);
-//		family.connected[11].originalCellHeight *= 0.75f;
-//		family.connected[0].originalCellHeight *= 0.75f;
+		family.connected[0] = KnownFonts.getNowAlt().scaleHeightTo(30);
 		font = family.connected[0];
-//		font.descent *= 0.5f; // seems to help position a little.
-//		font.adjustLineHeight((font.originalCellHeight - font.descent) / font.originalCellHeight);
 		font.family = family;
-//		font.family.connected[11].scaleTo(font.family.connected[11].originalCellWidth, font.family.connected[11].originalCellHeight);
 		for(Font f : font.family.connected) {
 			if(f != null)
 //				KnownFonts.addEmoji(f, -4f, -4f, 4f);
@@ -96,7 +80,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 				// as of Dec 17, 2024, this seems to work! Negative offsetY pushes emoji down, which makes more sense.
 //				KnownFonts.addNotoEmoji(f, -4f, -3f, 4f);
 				// Just using the defaults on Dec 26, 2024.
-				KnownFonts.addEmoji(f);
+//				KnownFonts.addEmoji(f);
+				KnownFonts.addNotoEmoji(f);
 		}
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
