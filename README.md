@@ -31,7 +31,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.1.0"
+implementation "com.github.tommyettinger:textratypist:2.1.1"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 (and not 1.13.5).
@@ -44,7 +44,7 @@ be compatible by the time 1.14.0 is released.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.1.0:sources"
+implementation "com.github.tommyettinger:textratypist:2.1.1:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
 ```
 
@@ -75,15 +75,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.1.0.0"
+implementation "com.github.tommyettinger:freetypist:2.1.1.0"
 ```
 
-(Now, FreeTypist 2.1.0.0 uses TextraTypist 2.1.0 .)
+(Now, FreeTypist 2.1.1.0 uses TextraTypist 2.1.1 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.1.0.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.1.1.0:sources"
 ```
 
 And this inherits line:
@@ -528,8 +528,8 @@ outline thickness modified using `Font.setOutlineStrength()`. The oblique angle 
 `descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
 as it is for Structured JSON fonts!
 
-Version 2.1.0 should be out now, and while it has fewer breaking changes, there are still several of them. Notably, the
-syntax for modes is no longer linked (at all) to the syntax for scaling, and you can set modes independently of both the
+Version 2.1.0 and 2.1.1 are out, and while they have fewer breaking changes, there are still several of them. Notably,
+the syntax for modes is no longer linked to the syntax for scaling, and you can set modes independently of both the
 current scale and the current status of an outline around text. Some modes enable the outline and set its color; if you
 disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`, or
 clear all formatting, `[ ]`, may help here, along with being able to save a full formatting state with `[(save1)]` and
@@ -558,9 +558,12 @@ Various bugs have been fixed, like one where all Unicode characters after `0xF80
 underline", and underline/strikethrough have been reworked, again, to behave better with scaled text. Scaling text now
 does a better job at respecting a common baseline, rather than the baseline sliding up as text got larger.
 
+2.1.1 is only a tiny single-issue bug-fix release. It changes the copy constructor for Font so it now copies all fields
+that should be copied. In 2.1.0, a few newly-added fields would not have changes propagated into copied Fonts.
+
 ## Why doesn't something work?
 
-The quick checklist for the latest code:
+The quick checklist for the latest code (version 2.1.1 or newer commits from JitPack):
 
 - Use FWSkin or one of its subclasses, not a plain scene2d.ui Skin. FreeTypistSkin is fine. Skin is not!
   - You can assign a FWSkin to a Skin, but it still really needs to be an FWSkin internally, or one of its subclasses. 
