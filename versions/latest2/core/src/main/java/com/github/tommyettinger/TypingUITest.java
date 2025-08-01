@@ -149,11 +149,11 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		selectBox.getStyle().font = font;
 		selectBox.getStyle().listStyle.selection.setRightWidth(10);
 		selectBox.getStyle().listStyle.selection.setLeftWidth(20);
-		selectBox.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println(selectBox.getSelected());
-			}
-		});
+//		selectBox.addListener(new ChangeListener() {
+//			public void changed (ChangeEvent event, Actor actor) {
+//				System.out.println(selectBox.getSelected());
+//			}
+//		});
 		String[] items = {"[+🤖]Android1", "[+🪟]Windows1 long text in item", "[+🐧]Linux1", "[+🍎]macOS1", "[+🤖]Android2", "[+🪟]Windows2", "[+🐧]Linux2", "[+🍎]macOS2",
 				"[+🤖]Android3", "[+🪟]Windows3", "[+🐧]Linux3", "[+🍎]macOS3", "[+🤖]Android4", "[+🪟]Windows4", "[+🐧]Linux4", "[+🍎]macOS4", "[+🤖]Android5", "[+🪟]Windows5", "[+🐧]Linux5",
 				"[+🍎]macOS5", "[+🤖]Android6", "[+🪟]Windows6", "[+🐧]Linux6", "[+🍎]macOS6", "[+🤖]Android7", "[+🪟]Windows7", "[+🐧]Linux7", "[+🍎]macOS7"};
@@ -243,7 +243,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 			public void changed (ChangeEvent event, Actor actor) {
 				new TextraDialog("Some TextraDialog", skin, "dialog", font) {
 					protected void result (Object object) {
-						System.out.println("Chosen: " + object);
+//						System.out.println("Chosen: " + object);
 					}
 				}.text("Are you enjoying this demo?").button("Yes", true).button("No", false).key(Keys.ENTER, true)
 					.key(Keys.ESCAPE, false).show(stage);

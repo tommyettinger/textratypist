@@ -7571,7 +7571,7 @@ public class Font implements Disposable {
             Line line = changing.getLine(ln);
             line.height = 0;
             int a = changing.countGlyphsBeforeLine(ln);
-            System.out.println("On line " + ln + ", advances.size = " + changing.advances.size + " and layout size = " + changing.countGlyphs());
+//            System.out.println("On line " + ln + ", advances.size = " + changing.advances.size + " and layout size = " + changing.countGlyphs());
             float drawn = 0f, visibleWidth = 0f;
             int cutoff, breakPoint = -2, spacingPoint = -2;
             LongArray glyphs = line.glyphs;
@@ -7766,12 +7766,12 @@ public class Font implements Disposable {
                     visibleWidth += changedW + amt;
                 }
             }
-            System.out.println("Line " + ln + " has height " + line.height + ", with " + line.glyphs.size + " glyphs.");
+//            System.out.println("Line " + ln + " has height " + line.height + ", with " + line.glyphs.size + " glyphs.");
         }
         calculateSize(changing);
-        for (int ln = 0; ln < changing.lines(); ln++) {
-            System.out.println("Line " + ln + " has height " + changing.getLine(ln).height);
-        }
+//        for (int ln = 0; ln < changing.lines(); ln++) {
+//            System.out.println("Line " + ln + " has height " + changing.getLine(ln).height);
+//        }
         return changing;
     }
 

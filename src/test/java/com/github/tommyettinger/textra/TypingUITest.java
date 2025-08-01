@@ -71,18 +71,9 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		font.family = family;
 		for(Font f : font.family.connected) {
 			if(f != null)
-//				KnownFonts.addEmoji(f, -4f, -4f, 4f);
-			// as of Dec 16, 2024, the above and below lines look identical. offsetY is ignored!
-//				KnownFonts.addEmoji(f, -4f, 4f, 4f);
-
-//				KnownFonts.addEmoji(f, -4f, 0f, 4f);
-
-				// as of Dec 17, 2024, this seems to work! Negative offsetY pushes emoji down, which makes more sense.
-//				KnownFonts.addNotoEmoji(f, -4f, -3f, 4f);
-				// Just using the defaults on Dec 26, 2024.
-//				KnownFonts.addEmoji(f);
+				KnownFonts.addEmoji(f);
 //				KnownFonts.addNotoEmoji(f);
-				KnownFonts.addOpenMoji(f, false);
+//				KnownFonts.addOpenMoji(f, false);
 		}
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);

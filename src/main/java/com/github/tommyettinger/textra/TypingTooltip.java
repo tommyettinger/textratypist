@@ -131,7 +131,7 @@ public class TypingTooltip extends Tooltip<TypingLabel> {
     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
         super.enter(event, x, y, pointer, fromActor);
         getContainer().getActor().restart();
-        System.out.println("TypingTooltip has size " + getActor().getWidth() + "," + getActor().getHeight());
-        System.out.println("Container has size " + getContainer().getWidth() + "," + getContainer().getHeight());
+//        System.out.println("TypingTooltip has size " + getActor().getWidth() + "," + getActor().getHeight());
+//        System.out.println("Container has size " + getContainer().getWidth() + "," + getContainer().getHeight());
     }
 }
