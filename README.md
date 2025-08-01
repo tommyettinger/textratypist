@@ -507,7 +507,7 @@ And this inherits line:
 
 FreeType doesn't work out-of-the-box on GWT, though [there is this](https://github.com/intrigus/gdx-freetype-gwt)].
 
-## Hey, a new version!
+## Hey, a new major version!
 
 Updating to 2.0.0 or higher from the 1.x series of releases should be straightforward, but it is backwards-incompatible
 in some ways. Mostly, this involves changing any minor adjustments for font x/y/width/height, emoji placement, and other
@@ -540,6 +540,36 @@ outline thickness modified using `Font.setOutlineStrength()`. The oblique angle 
 `0.5f` if the bold covers up too much, or `1.5f`, `2f`, or more if it isn't noticeable enough). Just as importantly,
 `descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
 as it is for Structured JSON fonts!
+
+Version 2.1.0 should be out now, and while it has fewer breaking changes, there are still several of them. Notably, the
+syntax for modes is no longer linked (at all) to the syntax for scaling, and you can set modes independently of both the
+current scale and the current status of an outline around text. Some modes enable the outline and set its color; if you
+disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`, or
+clear all formatting, `[ ]`, may help here, along with being able to save a full formatting state with `[(save1)]` and
+revert back to it with `[ save1]`. A big new thing is that all scales are now valid, even tiny ones like `[%0.0001]`,
+huge ones like `[%9999]`, or unusual ones like `[%456.123]`. Scales are stored in the Layout now, not per-glyph, and
+most APIs that dealt with individual Line objects have been removed because they simply wouldn't work without the Layout
+that contained that Line and all scaling data for all glyphs. Note that scales are no longer tracked as part of full
+formatting state saved with `[(savedState)]`.
+
+There are new modes, like neon and halo, and a mode is now usually enabled with `[?neon]` syntax, even though the older
+`[%?neon]` and `[%^neon]` modes are equivalent and present for backwards-compatibility. Small caps mode now has no
+special syntax to enable it, nor does Jostle mode, and they are normal modes that have the normal limit of only one mode
+being active at a time. Outlining is no longer a mode, though, because it was used so heavily in practice. You can
+toggle a black outline on or off with `[#]`, and modes like `[?red outline]` will both enable the outline and set its
+color to red (white, blue, and yellow are also alternate options, in addition to the usual black). **Disabling a special
+mode** is done with `[?]` now, not `[%]`. You can also revert the full saved state to the default using `[ ]` or to a
+named saved state using `[ namedSavedState]`, or just revert one change using `[]`.
+
+You can optionally justify a Layout by setting its
+justification and targetWidth, then calling `Font.justify(Layout)`. There are various options for justification, based
+roughly on [this libGDX PR by StartsMercury](https://github.com/libgdx/libgdx/pull/7609). Justification is still
+considered an experimental feature here, and you have to justify Layouts yourself by calling justify(). It is expected
+to work better on a TextraLabel than a TypingLabel.
+
+Various bugs have been fixed, like one where all Unicode characters after `0xF800` would be treated as having a "fancy
+underline", and underline/strikethrough have been reworked, again, to behave better with scaled text. Scaling text now
+does a better job at respecting a common baseline, rather than the baseline sliding up as text got larger.
 
 ## Why doesn't something work?
 
