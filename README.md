@@ -728,6 +728,13 @@ You only need the .png file AND (either the .json file or one of its compressed 
 plaint-text JSON file, so it is usually preferred.
 The .json file can be hand-edited, but it isn't very easy to do that given how it is inside.
 
+I'm not happy with FontWriter being Windows-only right now, and I'm looking at ways to automatically build it on Linux
+and macOS. In the meantime, if you have a freely-usable font (one with a commercially-usable license), feel free to post
+an issue on [FontWriter's repo](https://github.com/tommyettinger/fontwriter/issues) with links to the font and its
+distributor, and I can make a Structured JSON version of it to host in FontWriter's known fonts. I like this approach
+because it helps me better understand what types of fonts people want supplied, and making a new font with FontWriter
+doesn't take me more than a few minutes once the license is clear and I have a .ttf or .otf file to work with.
+
 ## License
 
 This is based very closely on [typing-label](https://github.com/rafaskb/typing-label), by Rafa Skoberg.
@@ -735,14 +742,20 @@ Typing-label is MIT-licensed according to its repo `LICENSE` file, but (almost c
 include any license headers in any files. Since the only requirement of the MIT license is to leave any license text
 as-is, this Apache-licensed project is fully compliant with MIT. The full MIT license text is in the file
 `typing-label.LICENSE`, and the Apache 2 license for this project is in the file `LICENSE`. Apache license headers are
-also present in all library source files here. The Apache license does not typically apply to non-code resources in the
-`src/test/resources` folder; individual fonts have their own licenses stored in that directory.
+also present in all library source files here.
+
+The Apache license does not typically apply to non-code resources in the
+`src/test/resources` folder; individual fonts have their own licenses stored in that directory. If you copy a font into
+your project from the knownFonts folder, you should also copy its license and display it where appropriate for your
+project, such as with legal files distributed with your project. If a license requires attribution, you must credit the
+author(s) requiring attribution appropriately, such as in your project's credits page.
 
 Twemoji isn't a font, so it might be best to mention it separately. It's licensed under CC-BY 4.0, and requires
 attribution to Twitter if used.
 [Twemoji's guidelines for attribution are here](https://github.com/jdecked/twemoji/tree/v15.0.3?tab=readme-ov-file#attribution-requirements).
-(The documentation still says Twitter, not X, and to my knowledge X doesn't employ any of the active Twemoji team, so...
-I would link back to the Twemoji repo, so that it is up to them).
+(The documentation still says Twitter, not X, and to my knowledge X doesn't employ any of the active Twemoji team, nor
+do they update Twemoji or have an official page for it, so... I would link back to the Twemoji repo, so that it is up to
+its developers).
 
 Like Twemoji, Game-Icons.png isn't a font, and it has quite a few contributors to the project. Because all icons in the
 project are on one PNG file, you must credit all the contributors who licensed their art under CC-BY, and it may be
@@ -754,6 +767,10 @@ continuing to provide attribution. There isn't a non-commercial clause for any a
 
 [Noto Color Emoji also have their own license](knownFonts/Noto-Emoji-License.txt), which is very permissive (OFL) and
 should probably be shown with any other legal texts when distributed. 
+
+The [Material Design](https://fonts.google.com/icons?icon.set=Material+Icons) icon set was made by Google and is made
+available under [Apache 2.0](knownFonts/Material-Design-License.txt), the same license that TextraTypist uses.
+It does not require attribution to use.
 
 The logo was made by Raymond "raeleus" Buckley and contributed to this project. It can be used freely for any purpose,
 but I request that it only be used to refer to this project unless substantially modified.
