@@ -26,6 +26,74 @@ TypingLabel is a fairly normal scene2d.ui widget, and extends TextraLabel. Howev
 the screen one at a time, unless it is told to skip ahead. This is a nostalgic effect found in many older text-heavy
 games, and it looks like a typewriter is putting up each letter at some slower-than-instantaneous rate.
 
+## How do I get it?
+
+You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
+
+```groovy
+implementation "com.github.tommyettinger:textratypist:2.1.0"
+```
+
+This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 (and not 1.13.5).
+A requirement for 1.11.0 was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code in libGDX.
+The requirement for 1.12.1 was added in 1.0.0 because some things probably changed, and 1.13.1 in TextraTypist 2.0.0,
+but 1.13.1 should be pretty easy to update to. There are breaking changes in 1.13.5 that are expected to be reverted by
+the time of the release after it, so using 1.13.1 or 1.14.0 (what name the version will have, I do not know) should both
+be compatible by the time 1.14.0 is released.
+
+If you use GWT, this should be compatible. It needs these dependencies in the html module:
+
+```groovy
+implementation "com.github.tommyettinger:textratypist:2.1.0:sources"
+implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
+```
+
+GWT also needs this in the GdxDefinition.gwt.xml file (since version 0.7.7):
+```xml
+<inherits name="regexodus.regexodus" />
+<inherits name="com.github.tommyettinger.textratypist" />
+```
+
+RegExodus is the GWT-compatible regular-expression library this uses to match some complex patterns internally. Other
+than libGDX itself, RegExodus is the only dependency this project has. The GWT inherits changed for TextraTypist and for
+RegExodus because it turns out using the default package can cause real problems.
+
+There is at least one release in the [Releases](https://github.com/tommyettinger/textratypist/releases) section of this
+repo, but you're still encouraged to use Gradle to handle this library and its dependencies.
+
+You can also use JitPack to get a current commit, which can be handy if there's a long span between releases.
+Current gdx-liftoff and gdx-setup projects all can use JitPack dependencies without needing any extra configuration.
+You would use this dependency in your core module:
+
+```groovy
+implementation 'com.github.tommyettinger:textratypist:d74c474fff'
+```
+
+You can change `d74c474fff` to any commit in the Commits tab of https://jitpack.io/#tommyettinger/textratypist ,
+but you should not use `-SNAPSHOT` -- it can change without your requesting it to, which is not what you want!
+
+You can also depend on FreeTypist using:
+
+```groovy
+implementation "com.github.tommyettinger:freetypist:2.1.0.0"
+```
+
+(Now, FreeTypist 2.1.0.0 uses TextraTypist 2.1.0 .)
+
+And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
+
+```groovy
+implementation "com.github.tommyettinger:freetypist:2.1.0.0:sources"
+```
+
+And this inherits line:
+
+```xml
+<inherits name="com.github.tommyettinger.freetypist" />
+```
+
+FreeType doesn't work out-of-the-box on GWT, though [there is this](https://github.com/intrigus/gdx-freetype-gwt)].
+
 ## It's got effects!
 
 Yes, it has more than the typewriter mode! Text can hang above and then drop into place. It can jump up and down in a
@@ -426,87 +494,6 @@ into your own code. Regardless of how you depend on FreeTypist, it needs a depen
 "platform" dependencies) and on TextraTypist (currently 2.0.3). When features are added to FWSkin and TextraTypist in
 general, FreeTypist should be updated also.
 
-## How do I get it?
-
-You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
-
-```groovy
-implementation "com.github.tommyettinger:textratypist:2.0.3"
-```
-
-This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 or higher. A requirement for 1.11.0
-was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code in libGDX. The requirement for 1.12.1
-was added in 1.0.0 because some things probably changed, and 1.13.1 in TextraTypist 2.0.0, but 1.13.1 (or the subsequent
-SNAPSHOT releases) should be pretty easy to update to.
-
-If you use GWT, this should be compatible. It needs these dependencies in the html module:
-
-```groovy
-implementation "com.github.tommyettinger:textratypist:2.0.3:sources"
-implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
-```
-
-GWT also needs this in the GdxDefinition.gwt.xml file (since version 0.7.7):
-```xml
-<inherits name="regexodus.regexodus" />
-<inherits name="com.github.tommyettinger.textratypist" />
-```
-
-~~In version 0.7.4 and earlier, you would an earlier version of both dependencies (note, **this is an old version**):~~
-
-```groovy
-// OLD VERSION
-implementation "com.github.tommyettinger:textratypist:0.7.4:sources"
-implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
-```
-
-~~and would use these GWT inherits instead:~~
-```xml
-<!-- OLD VERSION -->
-<inherits name="regexodus" />
-<inherits name="textratypist" />
-```
-
-RegExodus is the GWT-compatible regular-expression library this uses to match some complex patterns internally. Other
-than libGDX itself, RegExodus is the only dependency this project has. The GWT inherits changed for TextraTypist and for
-RegExodus because it turns out using the default package can cause real problems.
-
-There is at least one release in the [Releases](https://github.com/tommyettinger/textratypist/releases) section of this
-repo, but you're still encouraged to use Gradle to handle this library and its dependencies.
-
-You can also use JitPack to get a current commit, which can be handy if there's a long span between releases.
-Current gdx-liftoff and gdx-setup projects all can use JitPack dependencies without needing any extra configuration.
-You would use this dependency in your core module:
-
-```groovy
-implementation 'com.github.tommyettinger:textratypist:ccfc7eaecf'
-```
-
-You can change `ccfc7eaecf` to any commit in the Commits tab of https://jitpack.io/#tommyettinger/textratypist ,
-but you should not use `-SNAPSHOT` -- it can change without your requesting it to, which is not what you want!
-
-You can also depend on FreeTypist using:
-
-```groovy
-implementation "com.github.tommyettinger:freetypist:2.0.3"
-```
-
-(Now, FreeTypist 2.0.3 uses TextraTypist 2.0.3 .)
-
-And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
-
-```groovy
-implementation "com.github.tommyettinger:freetypist:2.0.3:sources"
-```
-
-And this inherits line:
-
-```xml
-<inherits name="com.github.tommyettinger.freetypist" />
-```
-
-FreeType doesn't work out-of-the-box on GWT, though [there is this](https://github.com/intrigus/gdx-freetype-gwt)].
-
 ## Hey, a new major version!
 
 Updating to 2.0.0 or higher from the 1.x series of releases should be straightforward, but it is backwards-incompatible
@@ -583,6 +570,10 @@ The quick checklist for the latest code:
   - Yes, it is still in need of serious work!
 - If a known font can't be found, you should probably copy in the latest version, which likely has changed to a 
   .json.lzma file and has a different .png as well.
+- TextraTypist depends on libGDX 1.13.1, and breaking changes in 1.13.5 make that release incompatible.
+  - The release expected after 1.13.5 should roll back 1.13.5's breaking changes in most places, making it (hopefully) compatible again.
+  - You should avoid depending on 1.13.5 at this point in time, or any dependencies that pull in 1.13.5 .
+    - These problematic dependency versions include GDX-TeaVM 1.2.1 and VisUI 1.5.7 . Use earlier versions! 
 
 Some parts of TextraTypist act differently from their counterparts in scene2d.ui and Rafa Skoberg's typing-label.
 
@@ -926,3 +917,19 @@ behave identically to BitmapFont when the metrics line up exactly, with some key
 `'.'` and `','` (at least those, and likely more) will sometimes wrap earlier with `Font` by about 1 pixel than with
 `BitmapFont`. This can affect when things wrap in practice, though not always, and it would add an extra line or a few
 when it does happen.
+
+~~In version 0.7.4 and earlier, you would an earlier version of both dependencies (note, **this is an old version**):~~
+
+```groovy
+// OLD VERSION
+implementation "com.github.tommyettinger:textratypist:0.7.4:sources"
+implementation "com.github.tommyettinger:regexodus:0.1.13:sources"
+```
+
+~~and would use these GWT inherits instead:~~
+```xml
+<!-- OLD VERSION -->
+<inherits name="regexodus" />
+<inherits name="textratypist" />
+```
+
