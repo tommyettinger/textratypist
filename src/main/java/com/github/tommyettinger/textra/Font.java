@@ -1845,6 +1845,7 @@ public class Font implements Disposable {
         fancyX = toCopy.fancyX;
         fancyY = toCopy.fancyY;
         boxDrawingBreadth = toCopy.boxDrawingBreadth;
+        glowStrength = toCopy.glowStrength;
 
         xAdjust =      toCopy.xAdjust;
         yAdjust =      toCopy.yAdjust;
@@ -1905,7 +1906,13 @@ public class Font implements Disposable {
         PACKED_ERROR_COLOR = toCopy.PACKED_ERROR_COLOR;
         PACKED_WARN_COLOR = toCopy.PACKED_WARN_COLOR;
         PACKED_NOTE_COLOR = toCopy.PACKED_NOTE_COLOR;
+        PACKED_CONTEXT_COLOR = toCopy.PACKED_CONTEXT_COLOR;
+        PACKED_SUGGEST_COLOR = toCopy.PACKED_SUGGEST_COLOR;
         PACKED_SHADOW_COLOR = toCopy.PACKED_SHADOW_COLOR;
+        PACKED_HALO_COLOR = toCopy.PACKED_HALO_COLOR;
+        PACKED_BLUE = toCopy.PACKED_BLUE;
+        PACKED_RED = toCopy.PACKED_RED;
+        PACKED_YELLOW = toCopy.PACKED_YELLOW;
 
         // shader, colorLookup, and whiteBlock are not copied, because there isn't much point in having different copies
         // of a ShaderProgram, stateless ColorLookup, or always-identical Texture. They are referenced directly.
