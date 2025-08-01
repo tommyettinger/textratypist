@@ -543,6 +543,17 @@ as it is for Structured JSON fonts!
 
 ## Why doesn't something work?
 
+The quick checklist for the latest code:
+
+- Use FWSkin or one of its subclasses, not a plain scene2d.ui Skin. FreeTypistSkin is fine. Skin is not!
+  - You can assign a FWSkin to a Skin, but it still really needs to be an FWSkin internally, or one of its subclasses. 
+- Avoid deprecated methods that allocate Font objects without a good way to dispose them.
+- Double-check syntax changes for outlined text, which is now an option everywhere, and scaling text using `[%1234]`.
+- TextraField is not ready yet! Don't use it. Use a scene2d.ui TextField with a BitmapFont for now.
+  - Yes, it is still in need of serious work!
+- If a known font can't be found, you should probably copy in the latest version, which likely has changed to a 
+  .json.lzma file and has a different .png as well.
+
 Some parts of TextraTypist act differently from their counterparts in scene2d.ui and Rafa Skoberg's typing-label.
 
 A big quirk is that `Font` and `BitmapFont` have some core disagreements about how to parse a `.fnt` file, and the
@@ -615,22 +626,35 @@ ensure the `com.github.tommyettinger.textra.Effect` class is kept. Keeping all o
 for obfuscation purposes because this is an open-source library, but it does add a small amount to the size of the final
 JAR or APK. Right now, that appears to be 202 KB if you don't include any assets, so I wouldn't worry about it.
 
+If you're upgrading to TextraTypist 1.0.0 or later, and you haven't changed Skin usage at all, you'll probably encounter
+some bugs. These are quick to fix by changing `Skin` to `FWSkin`, or if you used Stripe, `FreeTypistSkin` from
+FreeTypist. There is also a `FWSkinLoader` for use with `AssetManager`, and FreeTypist has a `FreeTypistSkinLoader`.
+FWSkin allows loading the new types of scene2d.ui styles that reuse Font instances rather than making new ones often.
+It also allows loading BitmapFont and Font objects from .fnt, .json, and .dat files (where .dat is the compressed JSON
+format this repo uses), requiring only configuration for BitmapFont in the skin .json .
+
+If you're upgrading to TextraTypist 2.1.0 or later, more data is stored in `Layout` and scaling information is no longer
+stored in each glyph. This allows new features, like how `[%110]` will actually make text use 110% scale instead of
+rounding to 100%. It also allows quite a few new special modes, and changes which modes can overlap. Now any mode can be
+used at the same time as an outline, and some modes change the color of the outline. `[#]` on its own toggles a black
+outline. Special modes are no longer linked to scaling, and even though the old `[%?shadow]` syntax works, the new
+`[?shadow]` syntax without a percent sign is preferred. Small caps no longer is "special", and is enabled like any other
+mode: `[?small caps]`. Disabling the current mode can be done with `[?]`, though if a mode also changed an outline
+color, you will need to disable the outline separately with `[#]` unless you want to only change its color back to
+black. There are various new modes, like `[?neon]` and `[?halo]`, plus new `[?suggest]` and `[?context]` fancy underline
+modes, and new `[?yellow outline]` `[?red outline]` `[?blue outline]` to change the outline color.
+`[?jostle]` is also a special mode, now without any extra special treatment. In addition to mode and scaling changes in
+2.1.0, there are options to specify a layout's justification settings, and to justify a Layout using a Font's justify()
+method. This is unlikely to work well for a TypingLabel that is still typing out, and this is still pretty much an
+experimental feature. You must call `Font.justify(Layout)` manually on a Layout you want to fit edge-to-edge in its
+targetWidth, and as such its targetWidth must already be set to the desired value. For a TextraLabel and its `layout`,
+this should work reasonably well, and there are several options for how to justify text in the `Justify` enum.
+
 Distance field fonts might not be worth the hassle of resizing each font's distance field, but they do look much better
 at very large sizes than standard fonts. Using a standard font
 actually can look better for small-to-moderate size adjustments. The best approach when you don't need large
 text seems to be to use a large standard font texture, without SDF or MSDF, and scale it down as needed. Since 1.0.0,
 all fonts support emoji. Older versions did not support emoji in MSDF fonts.
-
-If you happen to use both tommyettinger's TextraTypist library and tommyettinger's
-[colorful-gdx](https://github.com/tommyettinger/colorful-gdx) library, you may encounter various issues. `ColorfulBatch`
-appeared to be incompatible because it uses an extra attribute per-vertex (compared to SpriteBatch), but an adjustment
-it already does seems to make it compatible without changes. Color description can be done by both
-colorful-gdx's `SimplePalette` and `ColorUtils.describe()` here, but descriptions would really need to use the RGBA
-color space to work as expected. Alternative shaders from colorful-gdx's `Shaders` class generally won't work correctly
-with the known fonts here and the defaults for neutral colors (here, white is the neutral color, but in most shaders
-that allow lightening, 50% gray is the neutral color). The easiest solution for all this is to use a normal, vanilla
-`SpriteBatch` for TextraTypist rendering, and whatever `ShaderProgram` or `ColorfulBatch` you want for colorful-gdx
-rendering.
 
 Games that use custom `Batch` classes with additional attributes don't work out-of-the-box with `Font`, but it provides
 an extension point to allow subclasses to function with whatever attributes the `Batch` needs. Overriding
@@ -641,46 +665,17 @@ make copies using your subclass. The JavaDocs for `Font.drawVertices()` detail w
 an array to drawVertices are expected to do; custom Batches could have 24 or more floats and so would need to put the 20
 existing floats in the positions their Batch expects.
 
-Sometimes, you may need to enable or disable integer positioning for certain fonts to avoid a strange GPU-related visual
-artifact that seems to only happen on some Nvidia GPUs. When this happens, glyphs may appear a half-pixel or so away
-from where they should be, in seemingly randomly-picked directions. It looks awful, and the integer position code at
-least should resolve it most of the time. Integer positions don't work well if you use world units that span multiple
-pixels in length, but this bug is an absolute mystery, and also doesn't happen at all on integrated GPUs, and may not
-happen on AMD GPUs. How it behaves on Apple Silicon graphics, I also do not know. The Issues tab is always available for
-anyone who wants to try to debug this! It is possible that some fixes introduced in the 0.7.x releases may have already
-eliminated this bug, but I'm not especially optimistic that it is always gone.
-
 The gdx-freetype extension produces BitmapFont outputs, and you can create a Font from a BitmapFont without any issues.
 However, FreeType's "Auto" hinting settings both look worse than they normally should with Font, and can trigger the GPU
 artifact covered immediately above. Instead of "AutoSlight", "AutoMedium", or "AutoFull" hinting, you can choose
 "Slight", "Medium", or "Full", which makes the font look more legible and avoids the GPU half-pixel-offset issue. I
 don't have any idea why this happens, but because hinting can be set either in the FreeType generator parameters or (if
-you use [Stripe](https://github.com/raeleus/stripe) or FreeTypist from this repo) set in a Skin file with
+you use [Stripe](https://github.com/raeleus/stripe) or [FreeTypist](https://github.com/tommyettinger/freetypist)) set in a Skin file with
 `"hinting": "Full"`, it isn't hard to fix.
 
-There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 through 0.9.0. You may see labels
-slide a little relatively to their backgrounds when rotated smoothly, and some (typically very small) fonts may need
-integer positions enabled to keep a stable baseline. Font debug lines may be quite incorrect in some of these versions,
-also, even if the text displays correctly to users. Scaling has improved significantly in 0.7.8, as has the handling of
-debug lines, but rotation still has some subtle bugs. A bug was fixed starting in 0.8.0 that made extra images in a Font
-(such as emoji) scale differently and drift when the Font they were mixed with scaled. That same bug also made an
-ordinary Font drift slightly as its scale changed; this is also fixed. Positions and sizes for background color and for
-images from an atlas have improved in 0.8.2, so selecting text shouldn't cover up text as badly with the background, and
-emoji should be fully surrounded by their selection background. Positions along the line vertically, while the text is
-scaled, improved in 0.8.3 so that the scaling is relative to the center of the line, rather than the bottom of the line.
-Some other code already expected scaling to be centered like that, so this change makes scaling look better, usually.
-In 0.9.0, integer positioning can still be set, but it does nothing; in practice, setting it was causing more problems
-than improvements. The few fonts that one would think would need integer positions (pixel fonts) actually look better
-without it. There are still some rotation issues in 0.9.0, though they mostly happen when the descent is configured to
-an extreme value, or sometimes other metrics. Lining up underline/strikethrough with rotated text is also a challenge.
-
-Word wrap periodically seems to break and need fixing across different releases. The most recent time this happened was
-in 0.7.9, which also affected 0.8.0 and was fixed (I hope) in 0.8.1. A different wrapping-related bug was fixed more
-recently, in 0.8.3 ; this was rare, and only affected TypingLabel when some effects were present. Word wrap should
-behave identically to BitmapFont when the metrics line up exactly, with some key exceptions in version 2.0.0: the chars
-`'.'` and `','` (at least those, and likely more) will sometimes wrap earlier with `Font` by about 1 pixel than with
-`BitmapFont`. This can affect when things wrap in practice, though not always, and it would add an extra line or a few
-when it does happen.
+Underline, strikethrough, and "fancy underlines" like error mode don't apply to emoji or other inline images. This is
+the same behavior that some apps that are also heavy emoji users, like Discord, use, and because inline images display
+with such different code, simply avoiding the tricky line-through code for them is by far the best solution.
 
 There's other issues with word wrap if you expect it to behave exactly like `Label` in libGDX. Here, we don't break
 words, even if a single word is longer than the width of a `TextraLabel` or `TypingLabel`. The reason for this is
@@ -704,14 +699,7 @@ to remove some nasty reflection-based code, and that in turn helps usage on plat
 as GWT and Graal Native Image. GWT was able to work before, but Graal Native Image would have needed a lot of
 configuration to be added for every game/app that used TextraTypist. The other issue is that if TextraTypist continued
 to target Java 7 for its library code, it wouldn't compile with Java 20 or later, and the LTS release 21 has been out
-for almost a year.
-
-If you're upgrading to TextraTypist 1.0.0 or later, and you haven't changed Skin usage at all, you'll probably encounter
-some bugs. These are quick to fix by changing `Skin` to `FWSkin`, or if you used Stripe, `FreeTypistSkin` from
-FreeTypist. There is also a `FWSkinLoader` for use with `AssetManager`, and FreeTypist has a `FreeTypistSkinLoader`.
-FWSkin allows loading the new types of scene2d.ui styles that reuse Font instances rather than making new ones often.
-It also allows loading BitmapFont and Font objects from .fnt, .json, and .dat files (where .dat is the compressed JSON
-format this repo uses), requiring only configuration for BitmapFont in the skin .json .
+for over a year.
 
 If you want to make your own Fonts, you can use Hiero or AngelCode BMFont as you always have been able to, but now you
 can also use [FontWriter](https://github.com/tommyettinger/fontwriter) (though it is Windows-only for now). FontWriter
@@ -859,3 +847,52 @@ The [Material Design](https://fonts.google.com/icons?icon.set=Material+Icons) ic
 Android, is also present here, and has many icons that have no equivalent in Unicode's emoji set. Material icons are an
 especially good fit for user interfaces in productivity apps or editors. The Material Design icons are licensed as
 Apache 2.0, and as such do not require attribution to use.
+
+## Historical and Special-Case Troubleshooting
+
+If you happen to use both tommyettinger's TextraTypist library and tommyettinger's
+[colorful-gdx](https://github.com/tommyettinger/colorful-gdx) library, you may encounter various issues. `ColorfulBatch`
+appeared to be incompatible because it uses an extra attribute per-vertex (compared to SpriteBatch), but an adjustment
+it already does seems to make it compatible without changes. Color description can be done by both
+colorful-gdx's `SimplePalette` and `ColorUtils.describe()` here, but descriptions would really need to use the RGBA
+color space to work as expected. Alternative shaders from colorful-gdx's `Shaders` class generally won't work correctly
+with the known fonts here and the defaults for neutral colors (here, white is the neutral color, but in most shaders
+that allow lightening, 50% gray is the neutral color). The easiest solution for all this is to use a normal, vanilla
+`SpriteBatch` for TextraTypist rendering, and whatever `ShaderProgram` or `ColorfulBatch` you want for colorful-gdx
+rendering.
+
+Sometimes, you may need to enable or disable integer positioning for certain fonts to avoid a strange GPU-related visual
+artifact that seems to only happen on some Nvidia GPUs. When this happens, glyphs may appear a half-pixel or so away
+from where they should be, in seemingly randomly-picked directions. It looks awful, and the integer position code at
+least should resolve it most of the time. Integer positions don't work well if you use world units that span multiple
+pixels in length, but this bug is an absolute mystery, and also doesn't happen at all on integrated GPUs, and may not
+happen on AMD GPUs. How it behaves on Apple Silicon graphics, I also do not know. The Issues tab is always available for
+anyone who wants to try to debug this! It is possible that some fixes introduced in the 0.7.x releases may have already
+eliminated this bug, but I'm not especially optimistic that it is always gone.
+
+There are some known issues with scaling, rotation, and integer-positioning in 0.7.5 onward. You may see labels
+slide a little relatively to their backgrounds when rotated smoothly, and some (typically very small) fonts may need
+integer positions enabled to keep a stable baseline. Font debug lines may be quite incorrect in some of these versions,
+also, even if the text displays correctly to users. Scaling has improved significantly in 0.7.8, as has the handling of
+debug lines, but rotation still has some subtle bugs. A bug was fixed starting in 0.8.0 that made extra images in a Font
+(such as emoji) scale differently and drift when the Font they were mixed with scaled. That same bug also made an
+ordinary Font drift slightly as its scale changed; this is also fixed. Positions and sizes for background color and for
+images from an atlas have improved in 0.8.2, so selecting text shouldn't cover up text as badly with the background, and
+emoji should be fully surrounded by their selection background. Positions along the line vertically, while the text is
+scaled, improved in 0.8.3 so that the scaling is relative to the center of the line, rather than the bottom of the line.
+Some other code already expected scaling to be centered like that, so this change makes scaling look better, usually.
+In 0.9.0, integer positioning can still be set, but it does nothing; in practice, setting it was causing more problems
+than improvements. The few fonts that one would think would need integer positions (pixel fonts) actually look better
+without it. There are still some rotation issues in 0.9.0, though they mostly happen when the descent is configured to
+an extreme value, or sometimes other metrics. Lining up underline/strikethrough with rotated text is also a challenge,
+and it doesn't work fully even in the most recent versions. The underline and strikethrough glide slightly around where
+they should be for correctly rotated text, and fixing this in all cases has been just about impossible. The gliding is,
+at least, very subtle now.
+
+Word wrap periodically seems to break and need fixing across different releases. The most recent time this happened was
+in 0.7.9, which also affected 0.8.0 and was fixed (I hope) in 0.8.1. A different wrapping-related bug was fixed more
+recently, in 0.8.3 ; this was rare, and only affected TypingLabel when some effects were present. Word wrap should
+behave identically to BitmapFont when the metrics line up exactly, with some key exceptions in version 2.0.0: the chars
+`'.'` and `','` (at least those, and likely more) will sometimes wrap earlier with `Font` by about 1 pixel than with
+`BitmapFont`. This can affect when things wrap in practice, though not always, and it would add an extra line or a few
+when it does happen.

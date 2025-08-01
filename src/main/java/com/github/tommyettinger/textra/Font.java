@@ -4884,6 +4884,11 @@ public class Font implements Disposable {
 
     /**
      * Uses the given Layout's {@link Layout#getJustification()} setting to justify all applicable Lines.
+     * This is not called automatically. It uses the justification setting on the Layout to determine how it works.
+     * It must be called after the Layout's target width has been set to the desired value. This is much more likely
+     * to work well with a {@link TextraLabel#layout} than a {@link TypingLabel#getWorkingLayout()} in the process of
+     * being typed out.
+     *
      * @param layout a Layout that will be modified if its {@link Layout#getJustification()} was set
      * @return {@code layout}, for chaining
      */
