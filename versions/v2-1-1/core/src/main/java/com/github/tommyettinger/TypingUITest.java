@@ -87,7 +87,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	public void create () {
 //		profiler = new GLProfiler(Gdx.graphics);
 //		profiler.enable();
-		skin = new FWSkin(Gdx.files.internal("uiskin.json"));
+		skin = new FWSkin(Gdx.files.internal("glassy-ui.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
 		TextureRegion image = new TextureRegion(texture1);
@@ -190,7 +190,8 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 			"This is a tooltip! [_]This is a tooltip! [~]This is a tooltip! [/]This is a tooltip! [_]This is a tooltip! [~]This is a tooltip!",
 			skin, font));
 		Table tooltipTable = new Table(skin);
-		tooltipTable.pad(10).background("default-round");
+		tooltipTable.pad(10).background("window");
+//		tooltipTable.pad(10).background("default-round");
 		tooltipTable.add(new TextraButton("Fancy tooltip!", skin, font));
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 

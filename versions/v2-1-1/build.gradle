@@ -58,7 +58,7 @@ configure(subprojects - project(':android')) {
 
 subprojects {
   version = "$projectVersion"
-  ext.appName = 'latest2'
+  ext.appName = 'v2-1-1'
   repositories {
     mavenCentral()
 //    maven { url 'https://s01.oss.sonatype.org' }
@@ -71,4 +71,4 @@ subprojects {
   }
 }
 
-eclipse.project.name = 'latest2' + '-parent'
+eclipse.project.name = 'v2-1-1' + '-parent'
