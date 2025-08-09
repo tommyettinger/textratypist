@@ -933,7 +933,7 @@ public class TypingLabel extends TextraLabel {
     @Override
     public void setSize(float width, float height) {
         // If the window is minimized, we have invalid dimensions and shouldn't process resizing.
-        if((Gdx.graphics.getWidth() & Gdx.graphics.getHeight()) <= 0) return;
+        if(Gdx.graphics.getWidth() <= 0 || Gdx.graphics.getHeight() <= 0) return;
         // unfortunately, we can't call super.setSize(width, height) because
         // it changes layout, where we only want to change workingLayout.
         boolean changed = false;
@@ -984,7 +984,7 @@ public class TypingLabel extends TextraLabel {
     @Override
     public void layout() {
         // If the window is minimized, we have invalid dimensions and shouldn't process layout.
-        if((Gdx.graphics.getWidth() & Gdx.graphics.getHeight()) <= 0) return;
+        if(Gdx.graphics.getWidth() <= 0 || Gdx.graphics.getHeight() <= 0) return;
         float width = getWidth();
         if (style != null && style.background != null) {
             width = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
