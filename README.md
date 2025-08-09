@@ -31,7 +31,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.1.1"
+implementation "com.github.tommyettinger:textratypist:2.1.2"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 (and not 1.13.5).
@@ -44,7 +44,7 @@ be compatible by the time 1.14.0 is released.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.1.1:sources"
+implementation "com.github.tommyettinger:textratypist:2.1.2:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
 ```
 
@@ -75,15 +75,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.1.1.0"
+implementation "com.github.tommyettinger:freetypist:2.1.2.0"
 ```
 
-(Now, FreeTypist 2.1.1.0 uses TextraTypist 2.1.1 .)
+(Now, FreeTypist 2.1.2.0 uses TextraTypist 2.1.2 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.1.1.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.1.2.0:sources"
 ```
 
 And this inherits line:
@@ -528,12 +528,12 @@ outline thickness modified using `Font.setOutlineStrength()`. The oblique angle 
 `descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
 as it is for Structured JSON fonts!
 
-Version 2.1.0 and 2.1.1 are out, and while they have fewer breaking changes, there are still several of them. Notably,
-the syntax for modes is no longer linked to the syntax for scaling, and you can set modes independently of both the
-current scale and the current status of an outline around text. Some modes enable the outline and set its color; if you
-disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`, or
-clear all formatting, `[ ]`, may help here, along with being able to save a full formatting state with `[(save1)]` and
-revert back to it with `[ save1]`. A big new thing is that all scales are now valid, even tiny ones like `[%0.0001]`,
+Version 2.1.0 through 2.1.2 are out, and while they have fewer breaking changes, there are still several of them.
+Notably, the syntax for modes is no longer linked to the syntax for scaling, and you can set modes independently of both
+the current scale and the current status of an outline around text. Some modes enable the outline and set its color; if
+you disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`,
+or clear all formatting, `[ ]`, may help here, along with being able to save a full formatting state with `[(save1)]`
+and revert back to it with `[ save1]`. A nice thing is that all scales are now valid, even tiny ones like `[%0.0001]`,
 huge ones like `[%9999]`, or unusual ones like `[%456.123]`. Scales are stored in the Layout now, not per-glyph, and
 most APIs that dealt with individual Line objects have been removed because they simply wouldn't work without the Layout
 that contained that Line and all scaling data for all glyphs. Note that scales are no longer tracked as part of full
@@ -558,8 +558,9 @@ Various bugs have been fixed, like one where all Unicode characters after `0xF80
 underline", and underline/strikethrough have been reworked, again, to behave better with scaled text. Scaling text now
 does a better job at respecting a common baseline, rather than the baseline sliding up as text got larger.
 
-2.1.1 is only a tiny single-issue bug-fix release. It changes the copy constructor for Font so it now copies all fields
-that should be copied. In 2.1.0, a few newly-added fields would not have changes propagated into copied Fonts.
+2.1.1 and 2.1.2 are only tiny single-issue bug-fix releases. 2.1.1 changes the copy constructor for Font so it now
+copies all fields that should be copied. In 2.1.0, a few newly-added fields would not have changes propagated into
+copied Fonts. 2.1.2 fixes checks for when the window is minimized, which could have checked incorrectly before.
 
 ## Why doesn't something work?
 
@@ -804,7 +805,8 @@ managed to track down a very elusive ProGuard issue, which is now documented in 
 helping debug a variety of issues with code that I had no idea people were already using. Sanda Moen, fourlastor,
 tecksup, and Siavash Ranbar helped track down some maddening bugs affecting word wrap; thanks to everyone who's put up
 with those kinds of bug! IgorApplications has helped track down various SDF-related bugs and pointed out that a feature
-(full-color emoji in SDF fonts) was possible, so thanks as well!
+(full-color emoji in SDF fonts) was possible, so thanks as well! Thanks to trurl101 for finding the (rather serious)
+bug fixed by version 2.1.2 !
 
 Of course, I have to thank Rafa Skoberg for writing quite a lot of the code here! About 1/3 of the effects are almost
 purely by Rafa, much of the TypingLabel-related code is nearly unchanged from his work, and in general he showed what
