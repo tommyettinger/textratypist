@@ -366,12 +366,21 @@ public class TextraLabel extends Widget {
                 baseX -= sn * (background.getBottomHeight() - background.getTopHeight()) * 0.5f;
                 baseY += cs * (background.getBottomHeight() - background.getTopHeight()) * 0.5f;
             }
-            ((TransformDrawable) background).draw(batch,
-                    getX(), getY(),             // position
-                    originX, originY,           // origin
-                    getWidth(), getHeight(),    // size
-                    1f, 1f,                     // scale
-                    rot);                       // rotation
+            try {
+                ((TransformDrawable) background).draw(batch,
+                        getX(), getY(),             // position
+                        originX, originY,           // origin
+                        getWidth(), getHeight(),    // size
+                        1f, 1f,                     // scale
+                        rot);                       // rotation
+            } catch (UnsupportedOperationException | ClassCastException itIsJustADrawable) {
+                // TenPatch drawables do not support rotation, scale, or an origin, so we can use the
+                // standard Drawable draw method and just assume people aren't trying to rotate TenPatches.
+                // This also works in case the background is not a TransformDrawable.
+                background.draw(batch,
+                        getX(), getY(),             // position
+                        getWidth(), getHeight());   // size
+            }
         }
 
         if (layout.lines.isEmpty() || parentAlpha <= 0f) return;
