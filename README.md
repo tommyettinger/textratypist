@@ -31,7 +31,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.1.2"
+implementation "com.github.tommyettinger:textratypist:2.1.3"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 (and not 1.13.5).
@@ -44,7 +44,7 @@ be compatible by the time 1.14.0 is released.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.1.2:sources"
+implementation "com.github.tommyettinger:textratypist:2.1.3:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
 ```
 
@@ -75,15 +75,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.1.2.0"
+implementation "com.github.tommyettinger:freetypist:2.1.3.0"
 ```
 
-(Now, FreeTypist 2.1.2.0 uses TextraTypist 2.1.2 .)
+(Now, FreeTypist 2.1.3.0 uses TextraTypist 2.1.3 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.1.2.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.1.3.0:sources"
 ```
 
 And this inherits line:
@@ -562,6 +562,9 @@ does a better job at respecting a common baseline, rather than the baseline slid
 copies all fields that should be copied. In 2.1.0, a few newly-added fields would not have changes propagated into
 copied Fonts. 2.1.2 fixes checks for when the window is minimized, which could have checked incorrectly before.
 
+2.1.3 fixes two bugs: a wrapping/width issue in TextraLabel, and a compatibility issue when a `Drawable` background
+either isn't a `TransformDrawable` or doesn't implement all of its methods (such as with the TenPatch library).
+
 ## Why doesn't something work?
 
 The quick checklist for the latest code (version 2.1.1 or newer commits from JitPack):
@@ -806,7 +809,9 @@ helping debug a variety of issues with code that I had no idea people were alrea
 tecksup, and Siavash Ranbar helped track down some maddening bugs affecting word wrap; thanks to everyone who's put up
 with those kinds of bug! IgorApplications has helped track down various SDF-related bugs and pointed out that a feature
 (full-color emoji in SDF fonts) was possible, so thanks as well! Thanks to trurl101 for finding the (rather serious)
-bug fixed by version 2.1.2 !
+bug fixed by version 2.1.2, and another bug fixed in 2.1.3 ! Thanks to Darzington for tracking down a compatibility
+issue when TextraTypist is used with a TenPatch background, or really many kinds of Drawable background. I'm probably
+forgetting several people who helped out!
 
 Of course, I have to thank Rafa Skoberg for writing quite a lot of the code here! About 1/3 of the effects are almost
 purely by Rafa, much of the TypingLabel-related code is nearly unchanged from his work, and in general he showed what
