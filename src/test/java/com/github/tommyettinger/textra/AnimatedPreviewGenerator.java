@@ -43,7 +43,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
 
         batch = new SpriteBatch();
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
-        stage = new Stage(new StretchViewport(800, 480), batch);
+        stage = new Stage(new StretchViewport(720, 400), batch);
         Gdx.input.setInputProcessor(stage);
 
         final Table table = new Table();
@@ -93,7 +93,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
         text.append("of {SLOWER}{ZIPPER}the text{ENDZIPPER}{NORMAL} with {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
         text.append("{SPEED=2.50}{COLOR=lighter dull GREEN} making the text go {SHAKE=1.1;0.6;inf}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5} ");
         text.append("{SPEED=0.25}{COLOR=jade fern}{WAVE=0.66;1;0.5;∞}[@Mono] or extremely slow.[@]{ENDWAVE}");
-        text.append("{RESET}\nYou {HEARTBEAT}[dark red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}[black][?whiten]second[ ]{ENDEASE}{WAIT=1} ");
+        text.append("{RESET} You {HEARTBEAT}[dark red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}[black][?whiten]second[ ]{ENDEASE}{WAIT=1} ");
         text.append("{EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2}, ");
         text.append("[?Error]jussst[?][.][red][@Canada] spelling[ ] to [?WARN]catching[?][.][#FFD510FF][@Canada] grammar[ ] an ");
         text.append("[@Console][;]event[;][@] in [?note]code[?][.][#3088B8FF][@Canada] cool[ ]{EVENT=example}!{WAIT} ");
@@ -107,6 +107,11 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
             font = KnownFonts.addNotoEmoji(KnownFonts.getFamily(Font.DistanceFieldType.SDF));
         else
             font = KnownFonts.addEmoji(KnownFonts.getFamily(Font.DistanceFieldType.SDF));
+        for(Font f : font.family.connected) {
+            if(f != null) {
+                f.scale(0.875f, 0.875f);
+            }
+        }
         final TypingLabel label = new TypingLabel(text.toString(), font);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
@@ -196,7 +201,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TypingLabel Test");
-        config.setWindowedMode(800, 480);
+        config.setWindowedMode(720, 400);
         config.setResizable(true);
         config.setForegroundFPS(FRAMERATE);
         config.useVsync(true);
