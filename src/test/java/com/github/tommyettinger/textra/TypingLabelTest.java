@@ -196,17 +196,17 @@ public class TypingLabelTest extends ApplicationAdapter {
 //        text.append("Imagine the possibilities! =D");
 
         final StringBuilder text = new StringBuilder();
-        text.append("{SLOWER}[-GRADIENT=FF70F1;light exciting pink orange with ignored words;-0.5;5]{EASE=-8;2;1}{SHRINK=2;5}[@Medieval]Welcome,{ENDSHRINK}[%] [@]{WAIT}");
-        text.append("{SPIRAL=2;0.5;-2.5}{STYLE=/}{STYLE=;}[%^small caps]{VAR=title}[%]{STYLE=;}{STYLE=/}{ENDSPIRAL}![ ] {TRIGGER=lightest violet}{SPIN=0.5;-1}[+🤔][ ]{WAIT=0.8}");
+        text.append("{SLOWER}[%130][-GRADIENT=FF70F1;light exciting pink orange with ignored words;-0.5;5]{EASE=-8;2;1}{SHRINK=2;5}[@Medieval]Welcome,{ENDSHRINK} [@]{WAIT}");
+        text.append("{SPIRAL=2;0.5;-2.5}{STYLE=;}[?shadow]{VAR=title}{STYLE=;}{ENDSPIRAL}![ ] {TRIGGER=lightest violet}{SPIN=0.5;-1}[+🤔][ ]{WAIT=0.8}");
         text.append("{FAST}\n\n");
-        text.append("{RESET}[@Sans]{ATTENTION=1000;70}This is a [*][#b03060ff][%?SHINY]simple[WHITE][*][%] [%?blacken]test[%][@]{ENDATTENTION} [blacken]to[%] {SPIN}show you{ENDSPIN}");
+        text.append("{RESET}[@Sans]{ATTENTION=1000;70}This is a [*][#b03060ff][?SHINY]simple[WHITE][*][?] [#]test[#][@]{ENDATTENTION} to {SPIN}show you{ENDSPIN}");
         text.append("{GRADIENT=27C1F5;2776E7;-0.5;5} {CROWD=20;1;forever}how to make dialogues{ENDCROWD} {JUMP}{SLOW}[*][/]fun[/][*] again! {ENDGRADIENT}[+🥳]{ENDJUMP}{WAIT}\n");
         text.append("{NORMAL}{CLEARCOLOR}{JOLT=1;0.8;inf;0.25;dddddd;fff0cc}With this library{ENDJOLT} [LIGHTER RICH gold]you[WHITE] can {SQUASH}{SIZE=150%}[_]control[_]{ENDSQUASH} {SIZE=%75}the{SIZE=150%} flow[^][SKY] [[citation needed][ ] of the text with");
         text.append(" {BLINK=FF6BF3;FF0582;3}tokens{ENDBLINK},{WAIT=0.7}");
         text.append("{SPEED=2.50}{COLOR=lighter dull GREEN} making the text go {SHAKE=1.1;0.6;inf}[@Future]really fast[@]{ENDSHAKE}{WAIT=0.5}");
         text.append("{SPEED=0.25}{COLOR=jade fern}{WAVE=0.66;1;0.5;∞}[@Mono] or extremely slow.[@]{ENDWAVE}");
-        text.append("{RESET} You {HEARTBEAT}[darker red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}[black][%?whiten]second[ ]{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2}, ");
-        text.append("[%?Error]jussst[%?][.][red][@Canada] spelling[ ] to [%?CONTEXT]catching[%?][.][#228B22FF][@Canada] grammar[ ] an {RAINBOW=1;1;0.7}[@Console][;]event[;][@]{ENDRAINBOW} in [%^NOTE]code[%^][.][#3088B8FF][@Canada] cool[ ]{EVENT=example}!{WAIT} ");
+        text.append("{RESET} You {HEARTBEAT}[dark red]can also wait[#FFFFFF]{ENDHEARTBEAT} for a {EASE=-15;2;1}[black][?whiten]second[ ]{ENDEASE}{WAIT=1} {EASE=15;8;1}{COLOR=#E6DB74}or two{CLEARCOLOR}{ENDEASE}{WAIT=2}, ");
+        text.append("[?Error]jussst[?][.][red][@Canada] spelling[ ] to [?CONTEXT]catching[?][.][#228B22FF][@Canada] grammar[ ] an {RAINBOW=1;1;0.7}[@Console][;]event[;][@]{ENDRAINBOW} in [?NOTE]code[?][.][#3088B8FF][@Canada] cool[ ]{EVENT=example}!{WAIT} ");
         text.append("{NORMAL}\n\n");
         text.append("{VAR=FIRE_WIND}Imagine the [~]bugs[~]! I mean, possibilities! {ENDGRADIENT}{SPEED=0.1}{CANNON}[+🔥][+😁][+👏] {RESET}");
 
@@ -244,7 +244,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 //        Font condensed = font.family.connected[font.family.fontAliases.get("Condensed", 0)];
 //        condensed.scaleTo(font.cellWidth, font.cellHeight);
         final TypingLabel label = new TypingLabel(text.toString(), font);
-        label.getWorkingLayout().setJustification(Justify.FULL_ON_PARAGRAPH);
+//        label.getWorkingLayout().setJustification(Justify.FULL_ON_PARAGRAPH);
         label.setAlignment(Align.left);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 //        label.setVariable("MUTATE", "[GREEN]Oh yeah!");
@@ -307,7 +307,7 @@ public class TypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void render() {
-        ScreenUtils.clear(0.4f, 0.4f, 0.4f, 1);
+        ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1);
 
         update(Gdx.graphics.getDeltaTime());
 
