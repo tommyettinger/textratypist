@@ -5280,7 +5280,6 @@ public class Font implements Disposable {
                     c < 0x2580 ? boxDrawingBreadth : 1f);
             return font.cellWidth;
         }
-        x += font.cellWidth * 0.5f;
 
         Texture tex = tr.getTexture();
         float scaledHeight = font.cellHeight * scale * sizingY;
@@ -5295,13 +5294,15 @@ public class Font implements Disposable {
         float xAdvance = tr.xAdvance;
         float changedW = xAdvance * scaleX * advanceMultiplier;
 
+        x += changedW * 0.5f;
+
         //        float xc = ((tr.getRegionWidth() + tr.offsetX) * fsx - font.cellWidth) * scale * sizingX;
         //// This rotates around the center, but fails with box drawing. Underlines are also off, unless adjusted.
 //        float xc = (font.cellWidth * 0.5f - (tr.getRegionWidth() + tr.offsetX) * fsx) * scale * sizingX;
         //// This works(*) with box-drawing chars, but rotates around halfway up the left edge, not the center.
         //// It does have the same sliding issue as the other methods so far.
 //        float xc = (font.cellWidth * -0.5f) * sizingX;// + (tr.offsetX * scaleX * sizingX);
-        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - font.cellWidth * 0.5f;
+        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - changedW * 0.5f;
 
         float trrh = tr.getRegionHeight();
         float yt = ((font.originalCellHeight - (trrh + tr.offsetY) + font.descent) * sizingY - font.descent) * scaleY + sin * centerX - centerY;
