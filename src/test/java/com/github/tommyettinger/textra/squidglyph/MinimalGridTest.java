@@ -171,11 +171,11 @@ public class MinimalGridTest extends ApplicationAdapter {
         regenerate();
         stage.addActor(gg);
 
-        markupMessages.add("[-%?blacken]Grumbles Sludgenugget got {VAR=FIRE}{CANNON}obliterated!{RESET}");
-        markupMessages.add("[-%?blacken]Crammage Cribbage-Babbage got {VAR=FIRE}{CANNON}obliterated!{RESET}");
-        markupMessages.add("[-%?blacken]Hawke 'The Sock' Locke got {VAR=SPUTTERINGFIRE}obliterated!{RESET}");
-        markupMessages.add("[-%?blacken]Hyperdeath Slaykiller got {VAR=ZOMBIE}zombified!{RESET}");
-        markupMessages.add("[-%?blacken][*]WELCOME[*] to your [/]DOOM[/]!");
+        markupMessages.add("[-?blacken]Grumbles Sludgenugget got {VAR=FIRE}{CANNON}obliterated!{RESET}");
+        markupMessages.add("[-?blacken]Crammage Cribbage-Babbage got {JOLT=1;0.5;inf;0.4;BRIGHT GREEN; LIGHTEST PURPLE}{CANNON=1;1;1;4;10}nuked!{RESET}");
+        markupMessages.add("[-?blacken]Hawke 'The Sock' Locke got {VAR=SPUTTERINGFIRE}annihilated!{RESET}");
+        markupMessages.add("[-?blacken]Hyperdeath Slaykiller got {VAR=ZOMBIE}zombified!{RESET}");
+        markupMessages.add("[-?blacken][*]WELCOME[*] to your [/]DOOM[/]!");
     }
 
     public void move(int x, int y){
@@ -207,6 +207,12 @@ public class MinimalGridTest extends ApplicationAdapter {
 
     public void regenerate(){
         //[SEED] Initial seed is -2701817898995387683
+
+        // Hardcoded box-drawing layout.
+        // We use x,y indices later... and this is y,x...
+        // so the lines are all transposed, pointing horizontally when they should connect vertically, and so on.
+        // The right way to do this would be to use y,x in both places, probably,
+        // or to have a method that can transpose a y,x array to x,y.
         dungeon = new char[][]{
                 "└│││││││┌ └│││││││├││┌   ".toCharArray(),
                 "─.......┘│┐.......─..─   ".toCharArray(),
@@ -292,6 +298,8 @@ public class MinimalGridTest extends ApplicationAdapter {
                 "#########################".toCharArray(),
         };
 
+        // From SquidSquad, which generated the above arrays...
+        
 //        dungeonProcessor.setPlaceGrid(dungeon = LineTools.hashesToLines(dungeonProcessor.generate(), true));
 //        System.out.println("new char[][]{");
 //        for (int x = 0; x < dungeon.length; x++) {
@@ -318,22 +326,27 @@ public class MinimalGridTest extends ApplicationAdapter {
 //        int idx = 0;
         for (int y = 0; y < GRID_HEIGHT; y++) {
             for (int x = 0; x < GRID_WIDTH; x++) {
+//                char c = bare[x][y];
                 char c = dungeon[x][y];
                 switch (c){
                     case ' ':
                         gg.backgrounds[x][y] = 0;
                         break;
                     case '.':
-                        gg.backgrounds[x][y] = 0xFF | //0x808080FF |
+                        gg.backgrounds[x][y] =
+//                        0xCCCCCCFF;
+                                0x808080FF |
                                 (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
                                         * 0x01010100;
                         gg.put(x, y, '.', 0x444444FF);
 //                        gg.put(x, y, VALID_CHARS.charAt(idx++ * idx % VALID_CHARS.length()), 0x444444FF);
                         break;
                     default:
-                        gg.backgrounds[x][y] = 0xFF | //0x808080FF |
-                                (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
-                                        * 0x01010100;
+                        gg.backgrounds[x][y] =
+//                                0x000000FF;
+//                                0xFF | //0x808080FF |
+                                ((int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
+                                        * 0x01010100 & 0x1F1F1F00) | 0xFF;
                         gg.put(x, y, c, 0x444444FF);
                 }
             }
