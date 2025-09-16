@@ -924,8 +924,6 @@ public class TypingLabel extends TextraLabel {
             if(actualWidth != 0f)
                 workingLayout.setTargetWidth(actualWidth);
         }
-        font.calculateSize(workingLayout);
-
 
         invalidate();
     }
