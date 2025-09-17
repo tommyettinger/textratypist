@@ -1,0 +1,57 @@
+skin.png
+	size: 2048, 1024
+	repeat: none
+artifactOfferCard
+	bounds: 1295, 307, 262, 351
+background
+	bounds: 2, 94, 985, 564
+backgroundSmall
+	bounds: 1678, 815, 299, 171
+backgroundStar
+	bounds: 546, 82, 10, 10
+button_small
+	bounds: 248, 29, 117, 43
+button_small_disabled
+	bounds: 1678, 689, 117, 43
+card
+	bounds: 989, 309, 304, 349
+cardOffer
+	bounds: 1290, 125, 166, 180
+checkboxOff
+	bounds: 367, 36, 60, 36
+checkboxOn
+	bounds: 989, 98, 61, 36
+confirmationMenuBackground
+	bounds: 989, 136, 299, 171
+cursor
+	bounds: 1546, 135, 46, 64
+deckViewerHighlight
+	bounds: 1559, 553, 105, 105
+faithIcon
+	bounds: 1559, 265, 76, 88
+lockIcon
+	bounds: 1819, 724, 77, 89
+longStar
+	bounds: 2, 2, 244, 70
+metalIcon
+	bounds: 1458, 121, 86, 85
+ninepatch
+	bounds: 1678, 734, 139, 79
+ninepatchSmall
+	bounds: 1557, 201, 62, 62
+powerIcon
+	bounds: 1979, 899, 59, 87
+settings1
+	bounds: 1458, 208, 97, 97
+settings2
+	bounds: 1559, 355, 97, 97
+settings3
+	bounds: 1559, 454, 97, 97
+sliderBase
+	bounds: 2, 74, 542, 18
+sliderKnob
+	bounds: 1979, 833, 64, 64
+textbox
+	bounds: 2, 660, 1674, 326
+unlockIcon
+	bounds: 1898, 712, 77, 101
