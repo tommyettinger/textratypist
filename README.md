@@ -31,7 +31,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.1.3"
+implementation "com.github.tommyettinger:textratypist:2.1.4"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 (and not 1.13.5).
@@ -44,7 +44,7 @@ be compatible by the time 1.14.0 is released.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.1.3:sources"
+implementation "com.github.tommyettinger:textratypist:2.1.4:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
 ```
 
@@ -75,15 +75,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.1.3.0"
+implementation "com.github.tommyettinger:freetypist:2.1.4.0"
 ```
 
-(Now, FreeTypist 2.1.3.0 uses TextraTypist 2.1.3 .)
+(Now, FreeTypist 2.1.4.0 uses TextraTypist 2.1.4 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.1.3.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.1.4.0:sources"
 ```
 
 And this inherits line:
@@ -565,6 +565,13 @@ copied Fonts. 2.1.2 fixes checks for when the window is minimized, which could h
 2.1.3 fixes two bugs: a wrapping/width issue in TextraLabel, and a compatibility issue when a `Drawable` background
 either isn't a `TransformDrawable` or doesn't implement all of its methods (such as with the TenPatch library).
 
+2.1.4 fixes a crashing bug that could occur if a TypingLabel wrapped under certain rare contexts with an inline image
+(such as an emoji) as the last character on a line, typically during window resizes but not necessarily limited to them.
+It also changes the behavior and appearance of rotating glyphs in non-monospace fonts, which previously and incorrectly
+used the "cell width" of that font (the width of its widest glyph, typically) instead of the actual width of the
+rotating glyph. This is noticeable in the animated preview at the top of the page, in the emoji on the first line.
+Before, it would rotate from an origin that wasn't in its center, leading to more movement, and now it rotates in-place.
+
 ## Why doesn't something work?
 
 The quick checklist for the latest code (version 2.1.1 or newer commits from JitPack):
@@ -810,8 +817,9 @@ tecksup, and Siavash Ranbar helped track down some maddening bugs affecting word
 with those kinds of bug! IgorApplications has helped track down various SDF-related bugs and pointed out that a feature
 (full-color emoji in SDF fonts) was possible, so thanks as well! Thanks to trurl101 for finding the (rather serious)
 bug fixed by version 2.1.2, and another bug fixed in 2.1.3 ! Thanks to Darzington for tracking down a compatibility
-issue when TextraTypist is used with a TenPatch background, or really many kinds of Drawable background. I'm probably
-forgetting several people who helped out!
+issue when TextraTypist is used with a TenPatch background, or really many kinds of Drawable background, and then again
+for contributing a bug-reproducer case that resulted in a fix for version 2.1.4 . I'm probably forgetting several people
+who helped out!
 
 Of course, I have to thank Rafa Skoberg for writing quite a lot of the code here! About 1/3 of the effects are almost
 purely by Rafa, much of the TypingLabel-related code is nearly unchanged from his work, and in general he showed what
