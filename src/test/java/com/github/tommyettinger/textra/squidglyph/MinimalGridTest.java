@@ -333,14 +333,17 @@ public class MinimalGridTest extends ApplicationAdapter {
                     case ' ':
                         gg.backgrounds[x][y] = 0;
                         break;
-//                    case '.':
-//                        gg.backgrounds[x][y] =
-////                        0xCCCCCCFF;
+                    case '.':
+                        gg.backgrounds[x][y] =
+                                0x000000FF |
+//                                0xFF | //0x808080FF |
+//                                ((int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
+//                                        * 0x01010100 & 0x1F1F1F00) | 0xFF;
 //                                0x808080FF |
-//                                (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
-//                                        * 0x01010100;
-//                        gg.put(x, y, 0x666666FE00000000L | Font.BLACK_OUTLINE | c);
-//                        break;
+                                        (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
+                                                * 0x01010100;
+                        gg.put(x, y, 0xCCBB33FE00000000L | Font.BLACK_OUTLINE | Font.YELLOW_OUTLINE | '$');
+                        break;
                     default:
                         gg.backgrounds[x][y] =
                                 0x000000FF |
@@ -350,7 +353,7 @@ public class MinimalGridTest extends ApplicationAdapter {
 //                                0x808080FF |
                                 (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
                                         * 0x01010100;
-                        gg.put(x, y, 0xFF1133FE00000000L | Font.NEON | c);
+                        gg.put(x, y, 0xFF1133FE00000000L | Font.HALO | c);
                 }
             }
         }
