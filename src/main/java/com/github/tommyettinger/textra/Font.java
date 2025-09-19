@@ -5701,10 +5701,27 @@ public class Font implements Disposable {
                 p0x += centerX - cos * centerX + xPx;
                 p0y += sin * centerX;
 
+                if(((glyph & ALTERNATE_MODES_MASK) == HALO) || ((glyph & ALTERNATE_MODES_MASK) == NEON)) {
+                    for (int xi = 3; xi >= 1; xi--) {
+                        drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr),
+                                ColorUtils.lerpColorsMultiplyAlpha(secondaryColor, color, Math.min(font.glowStrength * 0.4f / (xi * xi), 1f), batchAlpha1_5),
+                                x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
+                                (xAdvance * (font.strikeLength + 1.5f) * sizingX - xAdvance * (font.strikeLength + 0.25f)) * scaleX + xPx,
+                                font.cellHeight * sizingY * (1f + font.strikeBreadth + xi * 0.5f), rotation);
+                    }
+                } else if ((glyph & BLACK_OUTLINE) == BLACK_OUTLINE) {
+                    // This block is also used when an outline ([#] token) is active, and so is an outline color mode.
+                    drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr),
+                            ColorUtils.multiplyAlpha(secondaryColor, batchAlpha1_5),
+                            x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
+                            (xAdvance * (font.strikeLength + 1.5f) * sizingX - xAdvance * (font.strikeLength + 0.25f)) * scaleX + xPx,
+                            font.cellHeight * sizingY * (1.5f + font.strikeBreadth), rotation);
+                }
+
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
                         (xAdvance * (font.strikeLength + 1.5f) * sizingX - xAdvance * (font.strikeLength + 0.25f)) * scaleX + xPx,
-                        (1f + font.strikeBreadth) * font.cellHeight * sizingY, rotation);
+                        font.cellHeight * sizingY * (1f + font.strikeBreadth), rotation);
             } else {
                 dash = font.mapping.get('-');
                 if (dash != null) {
