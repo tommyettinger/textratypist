@@ -5274,6 +5274,21 @@ public class Font implements Disposable {
                         font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation);
             }
             float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
+
+            if(c < 0x2580) {
+                if ((glyph & ALTERNATE_MODES_MASK) == HALO) {
+                    //TODO: draw multiple levels of translucent secondaryColor widening lines
+                } else if ((glyph & ALTERNATE_MODES_MASK) == NEON) {
+                    //TODO: draw multiple levels of translucent secondaryColor widening lines
+                } else if ((glyph & BLACK_OUTLINE) == BLACK_OUTLINE) {
+                    // This block is also used when an outline ([#] token) is active, and so is an outline color mode.
+                    drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), secondaryColor,
+                            x, y,// - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
+                            font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation,
+                            boxDrawingBreadth * 1.5f);
+                }
+            }
+
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
                     x, y,// - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
                     font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation,
