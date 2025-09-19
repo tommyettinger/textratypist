@@ -297,6 +297,27 @@ public class ColorUtils {
     }
 
     /**
+     * Interpolates from the packed float color start towards white by change. While change should be between 0f (return
+     * start as-is) and 1f (return white), start should be a packed float (ABGR8888) color. The alpha will not change.
+     *
+     * @see #darken(float, float) the counterpart method that darkens a packed float color
+     * @param start the starting color as an ABGR8888 packed float color
+     * @param change how much to go from start toward white, as a float between 0 and 1; higher means closer to white
+     * @return a packed float that represents a color between start and white
+     */
+    public static float lighten(final float start, final float change) {
+        final int
+                u = NumberUtils.floatToIntBits(start),
+                r = u & 0xFF, g = u >>> 8 & 0xFF, b = u >>> 16 & 0xFF,
+                a = u & 0xFE000000;
+        return NumberUtils.intBitsToFloat(
+                ((int) (r + (0xFF - r) * change) & 0xFF) |
+                ((int) (g + (0xFF - g) * change) & 0xFF) << 8 |
+                ((int) (b + (0xFF - b) * change) & 0xFF) << 16 |
+                a);
+    }
+
+    /**
      * Interpolates from the int color start towards black by change. While change should be between 0f (return
      * start as-is) and 1f (return black), start should be an RGBA8888 color.
      * This is a good way to reduce allocations of temporary Colors, and is a little more efficient and clear than
@@ -315,6 +336,28 @@ public class ColorUtils {
                 ((int) (g * ch) & 0xFF) << 16 |
                 ((int) (b * ch) & 0xFF) << 8 |
                 a;
+    }
+
+    /**
+     * Interpolates from the packed float color start towards black by change. While change should be between 0f (return
+     * start as-is) and 1f (return black), start should be a packed float (ABGR8888) color. The alpha will not change.
+     *
+     * @see #lighten(float, float) the counterpart method that lightens a packed float color
+     * @param start the starting color as an ABGR8888 packed float color
+     * @param change how much to go from start toward black, as a float between 0 and 1; higher means closer to black
+     * @return a packed float that represents a color between start and black
+     */
+    public static float darken(final float start, final float change) {
+        final int
+                u = NumberUtils.floatToIntBits(start),
+                r = u & 0xFF, g = u >>> 8 & 0xFF, b = u >>> 16 & 0xFF,
+                a = u & 0xFE000000;
+        final float ch = 1f - change;
+        return NumberUtils.intBitsToFloat(
+                ((int) (r * ch) & 0xFF) |
+                        ((int) (g * ch) & 0xFF) << 8 |
+                        ((int) (b * ch) & 0xFF) << 16 |
+                        a);
     }
 
     /**
