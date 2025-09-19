@@ -91,12 +91,12 @@ public class MinimalGridTest extends ApplicationAdapter {
 
         //use Ă to test glyph height
         emojiGlyph = new GlyphActor("[_][~][%?blacken][+😁]", gg.font);
-        atGlyph = new GlyphActor("[red orange][~][_][%?blacken]@", gg.font);
-        usedGlyph = emojiGlyph;
+        atGlyph = new GlyphActor("[red orange][~][_][?neon]@", gg.font);
+        usedGlyph = atGlyph;
         gg.addActor(usedGlyph);
         emojiGlyph2 = new GlyphActor("[_][~][%?blacken][+😁]", supportFont);
-        atGlyph2 = new GlyphActor("[red orange][~][_][%?blacken]@", supportFont);
-        usedGlyph2 = emojiGlyph2;
+        atGlyph2 = new GlyphActor("[red orange][~][_][#]@", supportFont);
+        usedGlyph2 = atGlyph2;
         gg.addActor(usedGlyph2);
 
         input.setInputProcessor(new InputAdapter(){
