@@ -5285,7 +5285,7 @@ public class Font implements Disposable {
                     drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), secondaryColor,
                             x, y,// - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
                             font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation,
-                            boxDrawingBreadth * 1.5f);
+                            boxDrawingBreadth + 1f);
                 }
             }
 
