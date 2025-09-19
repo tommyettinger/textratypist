@@ -193,6 +193,50 @@ public class ColorUtils {
     }
 
     /**
+     * Interpolates from the RGBA8888 packed float color start towards end by change. Both start and end should be
+     * ABGR8888 packed floats, and change can be between 0f (keep start) and 1f (only use end).
+     *
+     * @param start  the starting color as a packed float
+     * @param end    the end/target color as a packed float
+     * @param change how much to go from start toward end, as a float between 0 and 1; higher means closer to end
+     * @return a packed float that represents an ABGR8888 color between start and end
+     */
+    public static float lerpColors(final float start, final float end, final float change) {
+        final int s = NumberUtils.floatToIntBits(start), e = NumberUtils.floatToIntBits(end),
+                sA = (s >>> 25), sB = (s >>> 16) & 0xFF, sG = (s >>> 8) & 0xFF, sR = s & 0xFF,
+                eA = (e >>> 25), eB = (e >>> 16) & 0xFF, eG = (e >>> 8) & 0xFF, eR = e & 0xFF;
+        return NumberUtils.intBitsToFloat(
+                  (((int) (sR + change * (eR - sR)) & 0xFF))
+                | (((int) (sG + change * (eG - sG)) & 0xFF) << 8)
+                | (((int) (sB + change * (eB - sB)) & 0xFF) << 16)
+                | (((int) (sA + change * (eA - sA)) & 0x7F) << 25));
+    }
+
+    /**
+     * Interpolates from the RGBA8888 packed float color start towards end by change. Both start and end should be
+     * ABGR8888 packed floats, and change can be between 0f (keep start) and 1f (only use end). This does not use the
+     * alpha of {@code end}, and instead multiplies the alpha of {@code start} by {@code alphaMultiplier} in the result.
+     * This is a specialized method meant to reduce the number of conversions needed between packed floats and int bits.
+     *
+     * @param start  the starting color as a packed float
+     * @param end    the end/target color as a packed float
+     * @param change how much to go from start toward end, as a float between 0 and 1; higher means closer to end
+     * @param alphaMultiplier between 0f and 1f; will be multiplied by the alpha of start and used in the final color
+     * @return a packed float that represents an ABGR8888 color between start and end
+     */
+    public static float lerpColorsMultiplyAlpha(final float start, final float end, final float change,
+                                              final float alphaMultiplier) {
+        final int s = NumberUtils.floatToIntBits(start), e = NumberUtils.floatToIntBits(end),
+                sA = (s >>> 25), sB = (s >>> 16) & 0xFF, sG = (s >>> 8) & 0xFF, sR = s & 0xFF,
+                                 eB = (e >>> 16) & 0xFF, eG = (e >>> 8) & 0xFF, eR = e & 0xFF;
+        return NumberUtils.intBitsToFloat(
+                          (((int) (sR + change * (eR - sR)) & 0xFF))
+                        | (((int) (sG + change * (eG - sG)) & 0xFF) << 8)
+                        | (((int) (sB + change * (eB - sB)) & 0xFF) << 16)
+                        | (((int) (sA * alphaMultiplier) & 0x7F) << 25));
+    }
+
+    /**
      * Given several colors, this gets an even mix of all colors in equal measure.
      * If {@code colors} is null or has no items, this returns 256 (a transparent placeholder used by
      * {@link com.github.tommyettinger.textra.ColorLookup} for "no color found").
