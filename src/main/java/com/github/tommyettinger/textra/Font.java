@@ -5276,21 +5276,27 @@ public class Font implements Disposable {
             float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
 
             if(c < 0x2580) {
-                if ((glyph & ALTERNATE_MODES_MASK) == HALO) {
-                    //TODO: draw multiple levels of translucent secondaryColor widening lines
-                } else if ((glyph & ALTERNATE_MODES_MASK) == NEON) {
-                    //TODO: draw multiple levels of translucent secondaryColor widening lines
+                if(((glyph & ALTERNATE_MODES_MASK) == HALO) || ((glyph & ALTERNATE_MODES_MASK) == NEON)) {
+                    float outline = ColorUtils.multiplyAlpha(secondaryColor, batchAlpha * 0.5f * glowStrength);
+                    for (int xi = 1; xi <= 3; xi++) {
+                            drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr),
+                                    outline,
+                                    x, y,
+                                    font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation,
+                                    boxDrawingBreadth + xi);
+                    }
                 } else if ((glyph & BLACK_OUTLINE) == BLACK_OUTLINE) {
                     // This block is also used when an outline ([#] token) is active, and so is an outline color mode.
-                    drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), secondaryColor,
-                            x, y,// - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
+                    drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr),
+                            ColorUtils.multiplyAlpha(secondaryColor, batchAlpha1_5),
+                            x, y,
                             font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation,
                             boxDrawingBreadth + 1f);
                 }
             }
 
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
-                    x, y,// - font.descent * scaleY - font.cellHeight * scale * sizingY * 0.5f,
+                    x, y,
                     font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation,
                     c < 0x2580 ? boxDrawingBreadth : 1f);
             return font.cellWidth;
@@ -5465,11 +5471,9 @@ public class Font implements Disposable {
             vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y + dropShadowOffset.y)) - (vertices[6] = (y + sin * p1x + cos * p1y + dropShadowOffset.y)) + (vertices[11] = (y + sin * p2x + cos * p2y + dropShadowOffset.y)));
 
             drawVertices(batch, tex, vertices);
-        }
-        else if((glyph & BLACK_OUTLINE) == BLACK_OUTLINE && (((glyph & ALTERNATE_MODES_MASK) != HALO) && ((glyph & ALTERNATE_MODES_MASK) != NEON))) {
+        } else if((glyph & BLACK_OUTLINE) == BLACK_OUTLINE && (((glyph & ALTERNATE_MODES_MASK) != HALO) && ((glyph & ALTERNATE_MODES_MASK) != NEON))) {
             int widthAdj = ((glyph & BOLD) != 0L) ? 2 : 1;
-            float outline = ColorUtils.multiplyAlpha(secondaryColor,
-                    widthAdj == 1 ? batchAlpha1_5 : batchAlpha2);
+            float outline = ColorUtils.multiplyAlpha(secondaryColor, widthAdj == 1 ? batchAlpha1_5 : batchAlpha2);
             vertices[2] = outline;
             vertices[7] = outline;
             vertices[12] = outline;
@@ -5488,11 +5492,9 @@ public class Font implements Disposable {
                     drawVertices(batch, tex, vertices);
                 }
             }
-        }
-        else if(((glyph & ALTERNATE_MODES_MASK) == HALO) || ((glyph & ALTERNATE_MODES_MASK) == NEON)) {
+        } else if(((glyph & ALTERNATE_MODES_MASK) == HALO) || ((glyph & ALTERNATE_MODES_MASK) == NEON)) {
             int widthAdj = ((glyph & BOLD) != 0L) ? 5 : 3;
-            float outline = ColorUtils.multiplyAlpha(secondaryColor,
-                    widthAdj == 3 ? batchAlpha * 0.2f * glowStrength : batchAlpha * 0.1f * glowStrength);
+            float outline = ColorUtils.multiplyAlpha(secondaryColor, widthAdj == 3 ? batchAlpha * 0.2f * glowStrength : batchAlpha * 0.1f * glowStrength);
             vertices[2] = outline;
             vertices[7] = outline;
             vertices[12] = outline;
@@ -5511,8 +5513,7 @@ public class Font implements Disposable {
                     drawVertices(batch, tex, vertices);
                 }
             }
-        }
-        else if((glyph & ALTERNATE_MODES_MASK) == SHINY) {
+        } else if((glyph & ALTERNATE_MODES_MASK) == SHINY) {
             int widthAdj = ((glyph & BOLD) != 0L) ? 1 : 0;
             float shine = ColorUtils.multiplyAlpha(PACKED_WHITE, widthAdj == 0 ? batchAlpha1_5 : batchAlpha2);
             vertices[2] = shine;
