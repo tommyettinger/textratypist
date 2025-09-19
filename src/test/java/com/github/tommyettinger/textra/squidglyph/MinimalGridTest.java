@@ -76,7 +76,7 @@ public class MinimalGridTest extends ApplicationAdapter {
         Font supportFont = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF), 0f, 0f, 0f);//.setInlineImageStretch(0.5f);
 
 //        varWidthFont = KnownFonts.getGentium();
-        varWidthFont = KnownFonts.getComicMono(Font.DistanceFieldType.SDF_OUTLINE)
+        varWidthFont = KnownFonts.getComicMono(Font.DistanceFieldType.SDF)
                 .scaleHeightTo(30f);//.setOutlineStrength(1.5f);
 //        mainFont.adjustCellWidth(0.5f);
 //        mainFont.originalCellHeight *= 0.5f;
@@ -342,14 +342,14 @@ public class MinimalGridTest extends ApplicationAdapter {
 //                        break;
                     default:
                         gg.backgrounds[x][y] =
-//                                0x000000FF;
+                                0x000000FF |
 //                                0xFF | //0x808080FF |
 //                                ((int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
 //                                        * 0x01010100 & 0x1F1F1F00) | 0xFF;
-                                0x808080FF |
+//                                0x808080FF |
                                 (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
                                         * 0x01010100;
-                        gg.put(x, y, 0x666666FE00000000L | Font.BLACK_OUTLINE | c);
+                        gg.put(x, y, 0xFF1133FE00000000L | Font.NEON | c);
                 }
             }
         }
