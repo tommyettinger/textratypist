@@ -164,7 +164,8 @@ public class MinimalGridTest extends ApplicationAdapter {
         root.setFillParent(true);
         Table nest = new Table();
         nest.add(messageGroup).size(screenStage.getWidth() * 0.5f, 8 * varWidthFont.cellHeight);
-        root.add(nest).bottom().expand().padBottom(25f);
+        // To remove the silly effect testing with sillier names, make sure the below line is commented out.
+//        root.add(nest).bottom().expand().padBottom(25f);
         root.pack();
         screenStage.addActor(root);
 
@@ -430,6 +431,7 @@ public class MinimalGridTest extends ApplicationAdapter {
 
     @Override
     public void render() {
+//        gg.font.glowStrength = 1f + MathUtils.sinDeg(TimeUtils.millis() >>> 1 & 0xFFFFFL) * 0.75f;
         gg.font.boxDrawingBreadth = 1.5f + MathUtils.sinDeg(TimeUtils.millis() >>> 1 & 0xFFFFFL) * 0.75f;
         processQueue();
         recolor();

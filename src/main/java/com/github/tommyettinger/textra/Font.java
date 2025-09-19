@@ -5279,7 +5279,7 @@ public class Font implements Disposable {
                 if(((glyph & ALTERNATE_MODES_MASK) == HALO) || ((glyph & ALTERNATE_MODES_MASK) == NEON)) {
                     for (int xi = 3; xi >= 1; xi--) {
                             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr),
-                                    ColorUtils.multiplyAlpha(ColorUtils.lighten(secondaryColor, 0.6f / (xi * xi)), batchAlpha1_5),
+                                    ColorUtils.lerpColorsMultiplyAlpha(secondaryColor, color, Math.min(font.glowStrength * 0.6f / (xi * xi), 1f), batchAlpha1_5),
                                     x, y,
                                     font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation,
                                     boxDrawingBreadth + xi);
