@@ -198,6 +198,7 @@ public class TypingConfig {
         registerEffect("MEET", MeetEffect::new);
         registerEffect("ZIPPER", ZipperEffect::new);
         registerEffect("SLIP", SlipEffect::new);
+        registerEffect("THINKING", ThinkingEffect::new);
 
         initializeGlobalVars();
     }

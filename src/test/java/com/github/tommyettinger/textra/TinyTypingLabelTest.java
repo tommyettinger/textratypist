@@ -197,12 +197,14 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 "if {IF=gender;m=he makes;f=she makes;t=they make;e=[+🧒] makes} it [@Condensed]back[@], it [@Console]will[@] be a [;][%^]true wonder[%][;]!",
 */
 //                "Welcome back {VAR=check case}, how are you doing?\nI hear those controllers are making a comeback...",
-                "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[?], Context: [?context]interesting[?], Suggest: [?suggest]neat[?]\n" +
+//                "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[?], Context: [?context]interesting[?], Suggest: [?suggest]neat[?]\n" +
 //                "OUTLINES! [?blacken]Black[#], [?whiten]White[#], [?bluen]Blue[#], [?redden]Red[#], [?yellowen]Yellow[#]\n" +
-                "RADIANT! [@Geometric][RED][?neon]Hot Food! [GREEN]Low Prices! [YELLOW][?halo]Believe it![ ]\n"
+//                "RADIANT! [@Geometric][RED][?neon]Hot Food! [GREEN]Low Prices! [YELLOW][?halo]Believe it![ ]\n"
+                "{THINKING=5;10;1;y}1 + 1 = [~]3?[~] [*]2[*]{ENDTHINKING}\n" +
+                "{THINKING=-3;0.3;0}2 + 2 = [~]5?[~] [*]4[*]{ENDTHINKING}\n"
                 ,
                 font);
-        label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOWER}[%130]");
+        label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SPEED=0.1}[%130]");
         label.align = Align.topLeft;
         TypingConfig.GLOBAL_VARS.put("CHECK CASE", "Bob"); //all caps works
 //        TypingConfig.GLOBAL_VARS.put("player", "Bob"); //not working
