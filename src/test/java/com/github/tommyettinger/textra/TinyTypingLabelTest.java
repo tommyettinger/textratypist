@@ -200,11 +200,11 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[?], Context: [?context]interesting[?], Suggest: [?suggest]neat[?]\n" +
 //                "OUTLINES! [?blacken]Black[#], [?whiten]White[#], [?bluen]Blue[#], [?redden]Red[#], [?yellowen]Yellow[#]\n" +
 //                "RADIANT! [@Geometric][RED][?neon]Hot Food! [GREEN]Low Prices! [YELLOW][?halo]Believe it![ ]\n"
-                "{THINKING=5;10;1;y}1 + 1 = [~]3?[~] [*]2[*]{ENDTHINKING}\n" +
-                "{THINKING=-3;0.3;0}2 + 2 = [~]5?[~] [*]4[*]{ENDTHINKING}\n"
+                "{THINKING=3;5;1;y}1 + 1 = [~]3?[~] [*]2[*]{ENDTHINKING}\n" +
+                "{THINKING=-3;1;0}2 + 2 = [~]5?[~] [*]4[*]{ENDTHINKING}\n"
                 ,
                 font);
-        label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SPEED=0.1}[%130]");
+        label.setDefaultToken("{EASE}{SPEED=0.1}[%130]");
         label.align = Align.topLeft;
         TypingConfig.GLOBAL_VARS.put("CHECK CASE", "Bob"); //all caps works
 //        TypingConfig.GLOBAL_VARS.put("player", "Bob"); //not working

@@ -85,8 +85,8 @@ public class ThinkingEffect extends Effect {
         float progress = MathUtils.clamp(timePassed / realExtent, 0, 1);
 
         // Calculate offset
-        Interpolation interpolation = Interpolation.linear;
-        float interpolatedValue = interpolation.apply(1, 0, progress);
+//        Interpolation interpolation = Interpolation.linear;
+//        float interpolatedValue = interpolation.apply(1, 0, progress);
         // randomized angles
         int random = ((globalIndex ^ 0xDE82EF95) * 0xD1343 ^ 0xDE82EF95) * 0xD1343;
         float angle = (random >>> 9) * 0x1p-23f * MathUtils.PI2;
@@ -94,12 +94,13 @@ public class ThinkingEffect extends Effect {
         // more random values, used for inside distance and drif amount
         int random2 = ((random ^ 0xDE82EF95) * 0xD1343 ^ 0xDE82EF95) * 0xD1343;
 
-        // takes progress from 0 to 1 and raises it to a random power between 0 and 1, which makes lower values take
+        // takes progress from 0 to 1 and raises it to a random power between 1.25 and 2.25, which makes lower values take
         // up randomly more of the used time
-        float randomizedProgress = (float) Math.pow(progress, (((random2 ^ 0xDE82EF95) * 0xD1343 ^ 0xDE82EF95) * 0xD1343 >>> 9) * 0x1p-23f);
-        // We use cos here because between 0 and PI, it goes from 1, to -1, to 1 again; while it's negative, the glyph
-        // will have alpha 2f/255f .
-        float alpha = Math.max(0f, MathUtils.cos(randomizedProgress * MathUtils.PI));
+        float randomizedProgress =
+                (float) Math.pow(progress, (((random2 ^ 0xDE82EF95) * 0xD1343 ^ 0xDE82EF95) * 0xD1343 >>> 9) * 0x1p-23f + 1.25f);
+        // We use cos here because between 0 and PI2, it goes from 1, to -1, to 1 again; while it's negative, the glyph
+        // will have alpha 0f .
+        float alpha = Math.max(0f, MathUtils.cos(randomizedProgress * MathUtils.PI2));
 
         float lineHeight = label.getLineHeight(globalIndex);
         // if the glyph has already gone past halfway through the blink, we move it to its final position
@@ -110,7 +111,7 @@ public class ThinkingEffect extends Effect {
         // if the glyph has already gone past halfway through the blink, we don't drift it anymore
         float driftAmount = (randomizedProgress > 0.5f || drift == 0f)
                 ? 0f
-                : lineHeight * drift * DEFAULT_DRIFT * ((random2 & 0x7FFFFF) * 0x1p-23f) * interpolatedValue;
+                : lineHeight * drift * DEFAULT_DRIFT * ((random2 & 0x7FFFFF) * 0x1p-23f) * progress;
         // starting offsets plus drift offsets, with drift potentially changing
         float x = MathUtils.cos(angle) * dist + MathUtils.cos(driftAngle) * driftAmount;
         float y = MathUtils.sin(angle) * dist + MathUtils.sin(driftAngle) * driftAmount;
@@ -119,9 +120,8 @@ public class ThinkingEffect extends Effect {
         label.getOffsets().incr(globalIndex << 1, x);
         label.getOffsets().incr(globalIndex << 1 | 1, y);
 
-        // handle the fade out and in; alpha doesn't go below 2/255, which is nearly invisible
+        // handle the fade out and in
         label.setInWorkingLayout(globalIndex,
-                (glyph & 0xFFFFFF00FFFFFFFFL) | (long) MathUtils.lerp(glyph >>> 32 & 255,
-                        2, alpha) << 32);
+                (glyph & 0xFFFFFF00FFFFFFFFL) | (long) (255 * alpha) << 32);
     }
 }
