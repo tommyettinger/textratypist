@@ -120,7 +120,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard");
          */
         // DEBUG
-        Font[] all = new Font[]{KnownFonts.getMonogram().setName(KnownFonts.MONOGRAM + "-standard")};
+        Font[] all = new Font[]{KnownFonts.getMonogram().scale(2).setName(KnownFonts.MONOGRAM + "-standard")};
 
         fnt = all[0];
 //        fnt = fonts[fonts.length - 1];
