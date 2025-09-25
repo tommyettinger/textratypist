@@ -69,7 +69,7 @@ public class TransparencyProcessor extends ApplicationAdapter {
         config.setWindowedMode(600, 400);
         config.disableAudio(true);
         config.useVsync(true);
-        new Lwjgl3Application(new TransparencyProcessor(new String[]{"cloud.png"}), config);
+        new Lwjgl3Application(new TransparencyProcessor(null), config);
     }
 
 
@@ -89,7 +89,7 @@ public class TransparencyProcessor extends ApplicationAdapter {
         if(parameters == null) {
 //            FileHandle[] files = {Gdx.files.local("knownFonts/" + "LanaPixel-standard.png")};
 //            FileHandle[] files = Gdx.files.local("knownFonts").list((dir, name) -> name.endsWith(".png") && !name.endsWith("-msdf.png"));
-            FileHandle fontsHandle = Gdx.files.local("input");
+            FileHandle fontsHandle = Gdx.files.local("src/test/resources/");
 //            FileHandle[] files = fontsHandle.list((dir, name) -> name.endsWith(".png") && !name.endsWith("-msdf.png"));
             FileHandle[] files = fontsHandle.list((dir, name) ->
                     name.startsWith(BlockStamper.PREFIX) && name.endsWith(".png") && !name.endsWith("-msdf.png"));
@@ -108,6 +108,7 @@ public class TransparencyProcessor extends ApplicationAdapter {
             System.out.println("The specified file " + file + " does not exist; skipping.");
             return;
         }
+        System.out.println("Processing " + file.name());
         Pixmap pixmap = new Pixmap(file);
         OutputStream output = file.write(false);
         try {
@@ -164,9 +165,9 @@ public class TransparencyProcessor extends ApplicationAdapter {
 //                boolean noWarningNeeded = false;
                 for (int y = 0; y < h; y++) {
                     for (int x = 0; x < w; x++) {
-                        color = pixmap.getPixel(x, y);
-                        curLine[x] = (byte) (color >>> 24);
 //                        color = pixmap.getPixel(x, y);
+//                        curLine[x] = (byte) (color >>> 24);
+                        color = pixmap.getPixel(x, y);
                         // this block may need to be commented out if a font uses non-white grayscale colors.
 //                        if(noWarningNeeded || ((color & 255) != 0 && (color & 0xFFFFFF00) != 0xFFFFFF00)) {
 //                            System.out.println("PROBLEM WITH " + file);
@@ -174,7 +175,7 @@ public class TransparencyProcessor extends ApplicationAdapter {
 //                            System.out.println("Position: " + x + "," + y);
 //                            noWarningNeeded = true;
 //                        }
-//                        curLine[x] = (byte) (color & 255);
+                        curLine[x] = (byte) (color & 255);
                     }
 
                     deflaterOutput.write(FILTER_NONE);

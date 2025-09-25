@@ -36,7 +36,7 @@ import java.io.IOException;
  * their images automatically.
  */
 public class BlockStamper  extends ApplicationAdapter {
-    public static final String PREFIX = "Libertinus";
+    public static final String PREFIX = "Monogram";
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Block Stamper Tool");
@@ -54,7 +54,7 @@ public class BlockStamper  extends ApplicationAdapter {
         PixmapIO.PNG png = new PixmapIO.PNG();
         png.setFlipY(false);
 //        FileHandle fontsHandle = Gdx.files.local("knownFonts");
-        FileHandle fontsHandle = Gdx.files.local("src/test/resources/experimental");
+        FileHandle fontsHandle = Gdx.files.local("src/test/resources/");
         FileHandle[] children = fontsHandle.list((dir, name) -> name.startsWith(PREFIX) && name.endsWith(".png"));
 //        FileHandle[] children = fontsHandle.list("-standard.png");
 //        FileHandle[] children = {Gdx.files.local("Tangerine-sdf.png"), Gdx.files.local("Tangerine-standard.png"), };
@@ -100,6 +100,10 @@ public class BlockStamper  extends ApplicationAdapter {
                 } else if (text.contains("char id=0 ")) {
                     fnt.writeString(text.replaceFirst(
                                     "char id=0 .+", "char id=9608 x=" + (w - 2) + " y=" + (h - 2) + " width=1 height=1 xoffset=0 yoffset=0 xadvance=1 page=0 chnl=15"),
+                            false, "UTF-8");
+                } else if (text.contains("char id=-1 ")) {
+                    fnt.writeString(text.replaceFirst(
+                                    "char id=-1 .+", "char id=9608 x=" + (w - 2) + " y=" + (h - 2) + " width=1 height=1 xoffset=0 yoffset=0 xadvance=1 page=0 chnl=15"),
                             false, "UTF-8");
                 } else {
                     fnt.writeString(text.replaceFirst(
