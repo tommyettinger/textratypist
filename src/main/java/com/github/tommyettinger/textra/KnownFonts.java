@@ -487,7 +487,7 @@ public final class KnownFonts implements LifecycleListener {
      * Ettinger, because he made changes in a-starry) if you use it. This is an extended-height version of a-starry,
      * making it half the width relative to its height, instead of having equal width and height.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A-Starry-Tall.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/A-Starry-Tall-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1339,7 +1339,7 @@ public final class KnownFonts implements LifecycleListener {
      * This may work well in a font family with other fonts that do not use a distance field
      * effect, though they all could have different sizes.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Cordata-16x26.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Cordata-16x26-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1368,7 +1368,7 @@ public final class KnownFonts implements LifecycleListener {
      * {@link Font#integerPosition} set to false, which is the usual default.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Cozette.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Cozette-standard.png" alt="Image preview" width="1200" height="675" />
      * (uses width=6, height=17; this size is small enough to make the scaled text unreadable in some places)
      * <br>
      * Needs files:
@@ -2218,7 +2218,7 @@ public final class KnownFonts implements LifecycleListener {
      * you can use an SDF font, since it scales up with higher quality.
      * Otherwise, this may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Hanazono.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Hanazono-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2265,7 +2265,7 @@ public final class KnownFonts implements LifecycleListener {
      * original font, and loads from a different file format. This method should probably be
      * preferred, if only because the licensing is clear here.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/IBM-8x16.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/IBM-8x16-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2301,7 +2301,7 @@ public final class KnownFonts implements LifecycleListener {
      * can use {@link #getCozette()} or {@link #getQuanPixel()} for a different bitmap font. There
      * is also {@link #getAStarry()} for a non-pixel font styled after a font from the same era.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/IBM-8x16-Sad.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/IBM-8x16-Sad-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2799,7 +2799,7 @@ public final class KnownFonts implements LifecycleListener {
      * enforces integer positions seems to ruin the appearance of any font that uses it, so that code isn't ever used
      * now). This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/LanaPixel.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/LanaPixel-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -3088,6 +3088,9 @@ public final class KnownFonts implements LifecycleListener {
      * This defaults to having {@link Font#integerPosition} set to false, which is the usual default.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Monogram-standard.png" alt="Image preview" width="1200" height="675" />
+     * (uses width=12, height=24, which is double the normal size)
+     * <br>
      * Needs files:
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Monogram-standard.fnt">Monogram-standard.fnt</a></li>
@@ -3096,11 +3099,6 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @return the Font object that represents the 12px tall font Monogram
-     */
-    /*
-     * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Monogram.png" alt="Image preview" width="1200" height="675" />
-     * (uses width=6, height=12; this size is small enough to make the scaled text unreadable in some places)
      */
     public static Font getMonogram() {
         initialize();
@@ -3742,7 +3740,7 @@ public final class KnownFonts implements LifecycleListener {
      * defaults to having {@link Font#integerPosition} set to false, which is the usual default.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/QuanPixel.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/QuanPixel-standard.png" alt="Image preview" width="1200" height="675" />
      * (uses width=12, height=12; this size is small enough to make the scaled text unreadable in some places)
      * <br>
      * Needs files:
