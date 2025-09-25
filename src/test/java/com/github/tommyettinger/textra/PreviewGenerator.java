@@ -30,7 +30,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[ ],"
             + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[ ], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
             + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[ ],"
-            + "\n[%^small caps][*]Special[*][%] [%^whiten][/]Effects[/][%]: [%?shadow]drop shadow[%], [%?jostle]RaNsoM nOtE[%], [%?error]spell check[%]...",
+            + "\n[?small caps][*]Special[*][?] [?whiten][/]Effects[/][?][#]: [?shadow]drop shadow[?], [?jostle]RaNsoM nOtE[?], [?error]spell check[?]...",
 //    distanceField = "\nWelcome to the [_][*][TEAL]Textra Zone[ ]!",
     emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[ ] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
 
@@ -95,6 +95,7 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        FileHandle[] sdfFiles = new FileHandle[0];
 
         // WHAT WE NORMALLY USE
+        /*
         String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String.class);
         Font[] all = new Font[jsonFiles.length * 4 + 4 + 7];
         int idx = 0;
@@ -115,9 +116,11 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getHanazono().setName(KnownFonts.HANAZONO + "-standard");
         all[idx++] = KnownFonts.getIBM8x16Sad().setName(KnownFonts.IBM_8X16_SAD + "-standard");
         all[idx++] = KnownFonts.getLanaPixel().setName(KnownFonts.LANAPIXEL + "-standard");
+        all[idx++] = KnownFonts.getMonogram().setName(KnownFonts.MONOGRAM + "-standard");
         all[idx++] = KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard");
+         */
         // DEBUG
-//        Font[] all = new Font[]{KnownFonts.getQuanPixel()};
+        Font[] all = new Font[]{KnownFonts.getMonogram().setName(KnownFonts.MONOGRAM + "-standard")};
 
         fnt = all[0];
 //        fnt = fonts[fonts.length - 1];
@@ -131,22 +134,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             layout.setBaseColor(baseColor);
             layout.setMaxLines(20);
             layout.setEllipsis(" and so on and so forth...");
-//            font.markup("[%300][#44DD22]digital[%]\n[#66EE55]just numeric things \n"
-//                    , layout);
             font.markup(text + emojiSupport, layout);
-//        font.markup("I wanna thank you all for coming here tonight..."
-//                + "\n[#22BB22FF]Hello, [~]World[~]Universe[.]$[=]$[^]$[^]!"
-//                + "\nThe [RED]MAW[] of the [/][CYAN]wendigo[/] (wendigo)[] [*]appears[*]!"
-//                + "\nThe [_][GRAY]BLADE[] of [*][/][YELLOW]DYNAST-KINGS[] strikes!"
-//                + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[], [?]Unknown[]?"
-//                + "\n[GOLD]phi[] = (1 + 5[^]0.5[^]) * 0.5"
-//                + "\n[ORANGE][*]Mister Bond[*]! This is my right-hand man, Jojo Jimjam."
-//                + "\nPchnąć[] w tę łódź [TAN]jeża[] lub ośm skrzyń [PURPLE]fig[]."
-//                , layout);
-//        layout.clear();
-//        font.markup("Good day to you all, sirs and madams!"
-//                + "\n[*]Водяно́й[] — в славянской мифологии дух, обитающий в воде, хозяин вод[^][BLUE][[2][]."
-//                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][].", layout);
 
             ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
             float x = Gdx.graphics.getBackBufferWidth() * 0.5f;
@@ -163,7 +151,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             ByteBuffer pixels = pm.getPixels();
             Gdx.gl.glReadPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), GL20.GL_RGB, GL20.GL_UNSIGNED_BYTE, pixels);
             // End Pixmap.createFromFrameBuffer() modified code
-
+            // Above is the same as the line below, but works with an RGB back buffer
 //            Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
             PixmapIO.writePNG(Gdx.files.local("out/" + font.name + ".png"), pm, 2, true);
 

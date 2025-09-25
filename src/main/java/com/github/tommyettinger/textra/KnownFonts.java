@@ -221,6 +221,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String HANAZONO = "Hanazono";
     /** Base name for a variable-width Unicode-heavy pixel font. */
     public static final String LANAPIXEL = "LanaPixel";
+    /** Base name for a fixed-width pan-European-script pixel font. */
+    public static final String MONOGRAM = "Monogram";
     /** Base name for a tiny variable-width Unicode-heavy pixel font. */
     public static final String QUANPIXEL = "QuanPixel";
 
@@ -239,7 +241,8 @@ public final class KnownFonts implements LifecycleListener {
             ROBOTO_CONDENSED, SANCREEK, SELAWIK, SELAWIK_BOLD, SOUR_GUMMY, SPECIAL_ELITE, TANGERINE,
             TILLANA, YANONE_KAFFEESATZ, YATAGHAN);
 
-    public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, HANAZONO, LANAPIXEL, QUANPIXEL);
+    public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, HANAZONO, LANAPIXEL, MONOGRAM,
+            QUANPIXEL);
 
     public static final OrderedSet<String> SAD_NAMES = OrderedSet.with(IBM_8X16_SAD);
 
@@ -3078,6 +3081,46 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font configured to use a small variable-width bitmap font with extensive coverage of European scripts,
+     * <a href="https://datagoblin.itch.io/monogram">Monogram</a>. Monogram has good coverage of Unicode, including all
+     * of Greek, at least most of Cyrillic, and a good amount of extended Latin. This does not scale well except to
+     * integer multiples, but it should look very crisp at its default size of about 12 pixels tall with variable width.
+     * This defaults to having {@link Font#integerPosition} set to false, which is the usual default.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Monogram-standard.fnt">Monogram-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Monogram-standard.png">Monogram-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Monogram-License.txt">Monogram-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that represents the 12px tall font Monogram
+     */
+    /*
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Monogram.png" alt="Image preview" width="1200" height="675" />
+     * (uses width=6, height=12; this size is small enough to make the scaled text unreadable in some places)
+     */
+    public static Font getMonogram() {
+        initialize();
+        final String baseName = MONOGRAM;
+        final DistanceFieldType distanceField = STANDARD;
+        String rootName = baseName + distanceField.filePart;
+        Font found = instance.loaded.get(rootName);
+        if(found == null){
+            found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, 0, 0, 0, 0, true);
+            found
+                    .setDescent(-2f).setInlineImageMetrics(0f, 2f, -4f, 0.875f).setFancyLinePosition(0f, 1f)
+                    .useIntegerPositions(false).setBoldStrength(0.5f).setOutlineStrength(2f)
+//                    .setUnderlineMetrics(0.0625f, 0.125f, -0.25f, 0f).setStrikethroughMetrics(0.0625f, 0.125f, -0.25f, 0f)
+                    .setName(baseName + distanceField.namePart);
+            instance.loaded.put(rootName, found);
+        }
+        return new Font(found);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width, sweeping, legible handwriting font, that should
      * scale cleanly to fairly large sizes or down to about 25 pixels.
      * Caches the result for later calls. The font used is
@@ -5673,19 +5716,26 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all Font instances this knows
      */
     public static Font[] getAll() {
-        return new Font[]{getAStarry(), getAStarryMSDF(), getAStarryTall(), getBirdlandAeroplane(), getBitter(),
+        return new Font[]{
+                getAStarry(), getAStarryMSDF(), getAStarryTall(), getAbyssinicaSIL(), getAsul(), getAubrey(),
+                getBirdlandAeroplane(), getBitter(), getBonheurRoyale(),
                 getCanada(), getCascadiaMono(), getCascadiaMonoMSDF(), getCaveat(), getChangaOne(), getComicMono(),
-                getComputerSaysNo(), getCordata16x26(), getCozette(),
+                getComputerSaysNo(), getCordata16x26(), getCozette(), getCreteRound(),
                 getDejaVuSans(), getDejaVuSansCondensed(), getDejaVuSansMono(), getDejaVuSerif(), getDejaVuSerifCondensed(),
                 getGentium(), getGentiumMSDF(), getGentiumSDF(), getGentiumUnItalic(),
-                getGlacialIndifference(), getGoNotoUniversal(), getGoNotoUniversalSDF(),
-                getGrenze(), getHanazono(), getIBM8x16(), getIBM8x16Sad(), getInconsolata(), getInconsolataMSDF(),
-                getIosevka(), getIosevkaMSDF(), getIosevkaSDF(), getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(),
-                getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(),
-                getLibertinusSerif(), getLibertinusSerifSemibold(), getNowAlt(), getOpenSans(), getOstrichBlack(),
-                getOverlock(), getOverlockUnItalic(), getOxanium(), getQuanPixel(), getRobotoCondensed(), getSelawik(),
-                getSelawikBold(), getTangerine(), getTangerineSDF(), getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(),
-                getYataghan(), getYataghanMSDF()};
+                getGlacialIndifference(), getGoNotoUniversal(), getGoNotoUniversalSDF(), getGrenze(),
+                getHanazono(),
+                getIBM8x16(), getIBM8x16Sad(), getInconsolata(), getInconsolataMSDF(),
+                getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
+                getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(),
+                getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(), getLeagueGothic(),
+                getLibertinusSerif(), getLibertinusSerifSemibold(), getMaShanZheng(), getMonogram(), getMoonDance(),
+                getNowAlt(), getNugothic(),
+                getOpenSans(), getOstrichBlack(), getOverlock(), getOverlockUnItalic(), getOxanium(),
+                getPangolin(), getProtestRevolution(), getQuanPixel(), getRobotoCondensed(),
+                getSancreek(), getSelawik(), getSelawikBold(), getSourGummy(), getSpecialElite(),
+                getTangerine(), getTangerineSDF(), getTillana(),
+                getYanoneKaffeesatz(), getYanoneKaffeesatzMSDF(), getYataghan(), getYataghanMSDF()};
     }
 
     /**
@@ -5713,6 +5763,7 @@ public final class KnownFonts implements LifecycleListener {
         found[i++] = getCozette();
         found[i++] = getHanazono();
         found[i++] = getLanaPixel();
+        found[i++] = getMonogram();
         found[i++] = getQuanPixel();
         // SadConsole format
         found[i++] = getIBM8x16Sad();
