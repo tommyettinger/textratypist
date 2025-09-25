@@ -223,6 +223,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String LANAPIXEL = "LanaPixel";
     /** Base name for a fixed-width pan-European-script pixel font. */
     public static final String MONOGRAM = "Monogram";
+    /** Base name for a fixed-width true-italic pan-European-script pixel font. */
+    public static final String MONOGRAM_ITALIC = "Monogram-Italic";
     /** Base name for a tiny variable-width Unicode-heavy pixel font. */
     public static final String QUANPIXEL = "QuanPixel";
 
@@ -241,8 +243,8 @@ public final class KnownFonts implements LifecycleListener {
             ROBOTO_CONDENSED, SANCREEK, SELAWIK, SELAWIK_BOLD, SOUR_GUMMY, SPECIAL_ELITE, TANGERINE,
             TILLANA, YANONE_KAFFEESATZ, YATAGHAN);
 
-    public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, HANAZONO, LANAPIXEL, MONOGRAM,
-            QUANPIXEL);
+    public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, HANAZONO, LANAPIXEL,
+            MONOGRAM, MONOGRAM_ITALIC, QUANPIXEL);
 
     public static final OrderedSet<String> SAD_NAMES = OrderedSet.with(IBM_8X16_SAD);
 
@@ -3085,6 +3087,9 @@ public final class KnownFonts implements LifecycleListener {
      * <a href="https://datagoblin.itch.io/monogram">Monogram</a>. Monogram has good coverage of Unicode, including all
      * of Greek, at least most of Cyrillic, and a good amount of extended Latin. This does not scale well except to
      * integer multiples, but it should look very crisp at its default size of about 12 pixels tall with variable width.
+     * This should have equivalent metrics to {@link #getMonogramItalic()}.
+     * The Texture used for this is an unusual (and unusually small) size, 250x180, so that it is easier to pack into a
+     * scene2d.ui Skin's atlas.
      * This defaults to having {@link Font#integerPosition} set to false, which is the usual default.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
@@ -3103,6 +3108,50 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getMonogram() {
         initialize();
         final String baseName = MONOGRAM;
+        final DistanceFieldType distanceField = STANDARD;
+        String rootName = baseName + distanceField.filePart;
+        Font found = instance.loaded.get(rootName);
+        if(found == null){
+            found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, 0, 0, 0, 0, true);
+            found
+                    .setDescent(-2.5f).setInlineImageMetrics(0f, 2f, -4f, 0.875f).setFancyLinePosition(0f, 3f)
+                    .useIntegerPositions(false).setBoldStrength(0.5f).setOutlineStrength(2.5f).setTextureFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest)
+                    .setUnderlineMetrics(-0.17f, 0.1f, -0.1f, -0.35f)
+                    .setStrikethroughMetrics(-0.17f, 0.18f, -0.1f, -0.2f)
+                    .setName(baseName + distanceField.namePart);
+            instance.loaded.put(rootName, found);
+        }
+        return new Font(found);
+    }
+
+    /**
+     * Returns a Font configured to use a small variable-width true-italic bitmap font with extensive coverage of
+     * European scripts, <a href="https://datagoblin.itch.io/monogram">Monogram Italic</a>. Monogram (including Italic)
+     * has good coverage of Unicode, including all of Greek, at least most of Cyrillic, and a good amount of extended
+     * Latin. This does not scale well except to integer multiples, but it should look very crisp at its default size of
+     * about 12 pixels tall with variable width. This should have equivalent metrics to {@link #getMonogram()}.
+     * The Texture used for this is an unusual (and unusually small) size, 250x180, so that it is easier to pack into a
+     * scene2d.ui Skin's atlas.
+     * This defaults to having {@link Font#integerPosition} set to false, which is the usual default.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Monogram-Italic-standard.fnt">Monogram-Italic-standard.fnt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Monogram-Italic-standard.png">Monogram-Italic-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Monogram-License.txt">Monogram-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that represents the 12px tall font Monogram Italic
+     */
+    /*
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Monogram-Italic-standard.png" alt="Image preview" width="1200" height="675" />
+     * (uses width=12, height=24, which is double the normal size)
+     */
+    public static Font getMonogramItalic() {
+        initialize();
+        final String baseName = MONOGRAM_ITALIC;
         final DistanceFieldType distanceField = STANDARD;
         String rootName = baseName + distanceField.filePart;
         Font found = instance.loaded.get(rootName);
@@ -5728,7 +5777,8 @@ public final class KnownFonts implements LifecycleListener {
                 getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(),
                 getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(), getLeagueGothic(),
-                getLibertinusSerif(), getLibertinusSerifSemibold(), getMaShanZheng(), getMonogram(), getMoonDance(),
+                getLibertinusSerif(), getLibertinusSerifSemibold(), getMaShanZheng(),
+                getMonogram(), getMonogramItalic(), getMoonDance(),
                 getNowAlt(), getNugothic(),
                 getOpenSans(), getOstrichBlack(), getOverlock(), getOverlockUnItalic(), getOxanium(),
                 getPangolin(), getProtestRevolution(), getQuanPixel(), getRobotoCondensed(),
@@ -5763,6 +5813,7 @@ public final class KnownFonts implements LifecycleListener {
         found[i++] = getHanazono();
         found[i++] = getLanaPixel();
         found[i++] = getMonogram();
+        found[i++] = getMonogramItalic();
         found[i++] = getQuanPixel();
         // SadConsole format
         found[i++] = getIBM8x16Sad();
