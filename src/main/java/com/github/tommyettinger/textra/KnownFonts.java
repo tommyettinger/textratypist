@@ -5866,7 +5866,6 @@ public final class KnownFonts implements LifecycleListener {
         return family.connected[0].setFamily(family);
     }
 
-
     /**
      * Returns a Font ({@link #getGentium()}) with a FontFamily configured so that 15 Fonts with the given
      * {@link DistanceFieldType} can be used with syntax like {@code [@Sans]}. The names this supports can be accessed
@@ -5913,6 +5912,35 @@ public final class KnownFonts implements LifecycleListener {
         family.fontAliases.put("Canada", 15); // Canada1500 is... sort-of close... to Now Alt...
         family.fontAliases.put("Retro", 13); // A Starry Tall is similar to IBM 8x16.
         family.fontAliases.put("Cozette", 13); // A Starry Tall is similar to Cozette.
+        return family.connected[0].setFamily(family);
+    }
+
+    /**
+     * Returns a Font ({@link #getMonogram()}) with a FontFamily configured so that {@link #getMonogramItalic()} can be
+     * used with syntax like {@code [@i]} and switched back with {@code [@]}. The names this supports can be accessed
+     * with code using {@code getStandardFamily().family.fontAliases.keys()}. These names are:
+     * <ul>
+     *     <li>{@code Regular}, which is {@link #getMonogram()}, with the alias {@code r}, and</li>
+     *     <li>{@code Italic}, which is {@link #getMonogramItalic()}, with the aliases {@code i} and {@code em}.</li>
+     * </ul>
+     * You can also always use the full name of one of these fonts, which can be obtained using {@link Font#getName()}.
+     * {@code Regular}, which is {@link #getMonogram()}, will always be the default font used after a reset.
+     * <br>
+     * This method may be more useful than other families because the metrics should be the same between the two Fonts.
+     * Both are monospaced, and should have identical line-height, baseline, and so on.
+     * <br>
+     * This will only function at all if both Monogram and Monogram Italic are present and load-able.
+     * You should store the result of this method, rather than calling it often, because each call copies many Fonts.
+     *
+     * @return a Font that can switch between 2 different Fonts in its FontFamily
+     */
+    public static Font getMonogramFamily() {
+        Font.FontFamily family = new Font.FontFamily(
+                new String[]{"Regular", "Italic"},
+                new Font[]{getMonogram(), getMonogramItalic()});
+        family.fontAliases.put("r", 0); // regular
+        family.fontAliases.put("i", 1); // italic
+        family.fontAliases.put("em", 1); // emphasis
         return family.connected[0].setFamily(family);
     }
 
