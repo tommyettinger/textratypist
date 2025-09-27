@@ -177,6 +177,7 @@ public class FreeTypistSkin extends FWSkin {
 
                 float scaledSize = json.readValue("scaledSize", float.class, -1f, jsonData);
                 Boolean flip = json.readValue("flip", Boolean.class, false, jsonData);
+                // The markup flag defaults to true here; in a typical BitmapFont it defaults to false.
                 Boolean markupEnabled = json.readValue("markupEnabled", Boolean.class, true, jsonData);
                 // This defaults to false, which is not what Skin normally defaults to.
                 // You can set it to true if you expect a BitmapFont to be used at pixel-perfect 100% zoom only.
@@ -278,6 +279,7 @@ public class FreeTypistSkin extends FWSkin {
                         json.readValue("magFilter", String.class, "Linear", jsonData));
                 jsonData.remove("magFilter");
 
+                // The markup flag defaults to true here; in a typical BitmapFont it defaults to false.
                 Boolean markupEnabled = json.readValue("markupEnabled", Boolean.class, true, jsonData);
                 jsonData.remove("markupEnabled");
                 // This defaults to false, which is not what Skin normally defaults to.
