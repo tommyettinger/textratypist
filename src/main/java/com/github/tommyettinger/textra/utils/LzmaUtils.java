@@ -29,4 +29,19 @@ public final class LzmaUtils {
                     " because of the IOException: " + e.getMessage());
         }
     }
+
+    /**
+     * Given an {@code input} FileHandle and an {@code output} FileHandle that will be overwritten, compresses input
+     * using {@link Lzma} and writes the result into output.
+     * @param input the FileHandle to read; will not be modified
+     * @param output the FileHandle to write Lzma-compressed output to; typically the file extension ends in ".lzma"
+     */
+    public static void compress(FileHandle input, FileHandle output) {
+        try (BufferedInputStream is = input.read(4096); OutputStream os = output.write(false)) {
+            Lzma.compress(is, os);
+        } catch (IOException e) {
+            System.out.println("Compression failed! " + input + " could not be compressed to " + output +
+                    " because of the IOException: " + e.getMessage());
+        }
+    }
 }
