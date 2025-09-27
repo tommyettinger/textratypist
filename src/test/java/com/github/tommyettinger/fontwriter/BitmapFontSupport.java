@@ -43,7 +43,12 @@ import static com.badlogic.gdx.math.MathUtils.round;
  * many UBJSON files correctly on GWT. Even though .ubj.lzma is typically the format that gets the best compression
  * ratios here, .json.lzma is preferred because it compresses almost as well and works on GWT.
  */
-public class BitmapFontSupport {
+public final class BitmapFontSupport {
+    /**
+     * No need to instantiate.
+     */
+    private BitmapFontSupport() {
+    }
 
     /**
      * Creates a BitmapFont by loading it from a Structured JSON Font, which is typically a .json, .dat, .ubj,

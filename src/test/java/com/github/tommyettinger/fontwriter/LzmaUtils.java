@@ -1,4 +1,4 @@
-package com.github.tommyettinger.textra.utils;
+package com.github.tommyettinger.fontwriter;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
