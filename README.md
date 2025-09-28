@@ -377,12 +377,13 @@ always produce smaller files than the .dat files from the 1.x.x series of releas
 recommended and is the default going forward, but also newly working are `.ubj`, `.ubj.lzma`, and `.json`. `.dat` still
 works. While `.ubj.lzma` files are slightly smaller, they don't work on GWT in libGDX 1.13.1 (and neither do .ubj
 files). The`.json.lzma` files have the additional advantage that you can extract a valid, human-readable `.json` file
-from any `.json.lzma` file using a compatible tool such as [7-Zip](https://www.7-zip.org).
+from any `.json.lzma` file using a compatible tool such as [7-Zip](https://www.7-zip.org). There's also the simple, tiny class `LzmaUtils`
+here that can compress a file to a `.lzma` file, or decompress a `.json.lzma` file to a readable `.json` one.
 
 These .json.lzma fonts (and other compressed modes) can be used to load regular BitmapFont objects too, if you aren't
 using TextraTypist (such as for TextArea and TextField, which have proven quite challenging to get working...).
-[You can use these 3 files to load .json.lzma or other Structured JSON fonts in a non-TextraTypist project](https://github.com/tommyettinger/textratypist/tree/main/src/test/java/com/github/tommyettinger/fontwriter);
-you would normally just copy those three files in their package to your own project.
+[You can use BitmapFontBridge to load .json.lzma or other Structured JSON fonts in a non-TextraTypist project](https://github.com/tommyettinger/BitmapFontBridge);
+you could also just copy its four source files from their package into your own project.
 
 The license files for each font are included in the same folder, in `knownFonts` here. All fonts provided here were
 checked to ensure their licenses permit commercial use without fees, and all do. Most require attribution; check the
