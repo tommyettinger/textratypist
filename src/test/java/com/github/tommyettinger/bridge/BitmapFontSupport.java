@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 See AUTHORS file.
+ * Copyright (c) 2025 See AUTHORS file.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.tommyettinger.fontwriter;
+package com.github.tommyettinger.bridge;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

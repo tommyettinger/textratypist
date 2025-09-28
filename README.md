@@ -175,22 +175,25 @@ The full list of styles and related square-bracket tags:
     formatting the outer text had before the insertion.
   - `label` can be any alphanumeric String. It probably shouldn't have spaces in it, but can have underscores.
 - `[ label]` re-applies the formatting state stored as `label`, if there is one.
-- `[*]` toggles bold mode. Can use style names `*`, `B`, `BOLD`, `STRONG`.
-- `[/]` toggles oblique mode (like italics). Can use style names `/`, `I`, `OBLIQUE`, `ITALIC`.
-- `[^]` toggles superscript mode (and turns off subscript or midscript mode). Can use style names `^`, `SUPER`, `SUPERSCRIPT`.
-- `[=]` toggles midscript mode (and turns off superscript or subscript mode). Can use style names `=`, `MID`, `MIDSCRIPT`.
-- `[.]` toggles subscript mode (and turns off superscript or midscript mode). Can use style names `.`, `SUB`, `SUBSCRIPT`.
-- `[_]` toggles underline mode. Can use style names `_`, `U`, `UNDER`, `UNDERLINE`.
-- `[~]` toggles strikethrough mode. Can use style names `~`, `STRIKE`, `STRIKETHROUGH`.
-- `[!]` toggles all upper case mode (replacing any other case mode). Can use style names `!`, `UP`, `UPPER`.
-- `[,]` toggles all lower case mode (replacing any other case mode). Can use style names `,`, `LOW`, `LOWER`.
-- `[;]` toggles capitalize each word mode (replacing any other case mode). Can use style names `;`, `EACH`, `TITLE`.
-- `[%DDD]`, where DDD is a percentage from 0 to 375, scales text to that multiple. Can be used with `{SIZE=150%}`, `{SIZE=%25}`, or similarly, `{STYLE=200%}` or `{STYLE=%125}`. Removes any special mode.
-- `[%]` on its own sets text to the default 100% scale and removes any special mode. Can be used with `{STYLE=%}`.
-- `[%?MODE]` removes the scale and sets a special mode; modes are listed below.
-- `[%^MODE]` removes the scale and sets a special mode at the same time as small-caps mode; modes are listed below.
+- `[*]` toggles bold state. Can use style names `*`, `B`, `BOLD`, `STRONG`.
+- `[/]` toggles oblique state (like italics). Can use style names `/`, `I`, `OBLIQUE`, `ITALIC`.
+- `[^]` toggles superscript state (and turns off subscript or midscript state). Can use style names `^`, `SUPER`, `SUPERSCRIPT`.
+- `[=]` toggles midscript state (and turns off superscript or subscript state). Can use style names `=`, `MID`, `MIDSCRIPT`.
+- `[.]` toggles subscript state (and turns off superscript or midscript state). Can use style names `.`, `SUB`, `SUBSCRIPT`.
+- `[_]` toggles underline state. Can use style names `_`, `U`, `UNDER`, `UNDERLINE`.
+- `[~]` toggles strikethrough state. Can use style names `~`, `STRIKE`, `STRIKETHROUGH`.
+- `[#]` toggles outline state. Can use style names `#`, `OUTLINE`, `BLACK OUTLINE`, `BLACKEN`. This state is turned on by several special modes, and can be turned on and off independently of any special mode. 
+- `[!]` toggles all upper case state (replacing any other case state). Can use style names `!`, `UP`, `UPPER`.
+- `[,]` toggles all lower case state (replacing any other case state). Can use style names `,`, `LOW`, `LOWER`.
+- `[;]` toggles capitalize each word state (replacing any other case state). Can use style names `;`, `EACH`, `TITLE`.
+- `[%DDD]`, where DDD is a float percentage 0 or larger, scales text to that multiple. Can be used with `{SIZE=150%}`, `{SIZE=%31.25}`, or similarly, `{STYLE=800%}` or `{STYLE=%137.5}`.
+- `[%]` on its own sets text to the default 100% scale. Can be used with `{STYLE=%}`, `{STYLE=NOSCALE}`, `{STYLE=ENDSCALE}`.
+- `[?MODE]` sets a special mode; modes are listed below.
+- `[?]` on its own turns off any special mode. Can be used with `{STYLE=?}`, `{STYLE=%?}`, `{STYLE=%^}`, `{STYLE=NOMODE}`, `{STYLE=ENDMODE}`. 
+- `[%?MODE]` sets a special mode; modes are listed below. This is a compatibility alias for `[?MODE]`.
+- `[%^MODE]` sets a special mode; modes are listed below. This is a compatibility alias for `[?MODE]`.
 - `[@Name]`, where Name is a key/name in this Font's `family` variable, switches the current typeface to the named one. Can be used with `{STYLE=@Name}`.
-- `[@]` on its own resets the typeface to this Font, ignoring its family. Can be used with `{STYLE=@}`.
+- `[@]` on its own resets the typeface to this Font, ignoring its family. Can be used with `{STYLE=@}`, `{STYLE=NOFONT}`, `{STYLE=ENDFONT}`.
 - `[#HHHHHHHH]`, where HHHHHHHH is a hex RGB888 or RGBA8888 int color, changes the color. This is a normal `{COLOR=#HHHHHHHH}` tag.
 - `[COLORNAME]`, where COLORNAME is a color name or description that will be looked up externally, changes the color.
   - By default, this looks up COLORNAME with `ColorUtils.describe()`, which tries to find any colors from `Palette` by
@@ -234,36 +237,57 @@ The full list of styles and related square-bracket tags:
 
 The special modes that can be used in place of scaling are:
 
-- `black outline` or `blacken`, which can be used with the style names `BLACK OUTLINE` or `BLACKEN`.
-- `white outline` or `whiten`, which can be used with the style names `WHITE OUTLINE` or `WHITEN`.
-- `shiny`, which can be used with the style names `SHINY`, `SHINE`, or `GLOSSY`.
+- `neon`, which can be used with the style names `NEON` or `GLOW`.
+  - This makes the text white by default and uses its normal color as a surrounding glow. The text color can be changed from white to anything else by changing `PACKED_WHITE` in `Font`.
+- `halo`, which can be used with the style names `HALO`, `SURROUND`, or `CLOAK`.
+  - This makes the text black by default and uses its normal color as a surrounding glow. The text color can be changed from black to anything else by changing `PACKED_HALO_COLOR` in `Font`.
 - `drop shadow` or `shadow`, which can be used with the style names `SHADOW`, `DROPSHADOW`, or `DROP SHADOW`.
+  - This adds a translucent gray shadow below and to the right of text; `PACKED_SHADOW_COLOR` is configurable in `Font`.
+- `shiny`, which can be used with the style names `SHINY`, `SHINE`, or `GLOSSY`.
+  - This makes the top part of the glyph white, and `PACKED_WHITE` is configurable in `Font`.
 - `error`, which can be used with the style names `ERROR`, `REDLINE`, or `RED LINE`.
   - This adds a zigzag red line below text; the color can be changed using `Font.PACKED_ERROR_COLOR`.
 - `warn`, which can be used with the style names `WARN`, `YELLOWLINE`, or `YELLOW LINE`.
   - This adds a dashed yellow line below text; the color can be changed using `Font.PACKED_WARN_COLOR`.
 - `note`, which can be used with the style names `NOTE`, `INFO`, `BLUELINE`, or `BLUE LINE`.
   - This adds a wavy blue line below text; the color can be changed using `Font.PACKED_NOTE_COLOR`.
+- `suggest`, which can be used with the style names `SUGGEST`, `GRAYLINE`, `GREYLINE`, `GRAY LINE`, or `GREY LINE`.
+  - This adds a line of gray right angles below text; the color can be changed using `Font.PACKED_SUGGEST_COLOR`.
+- `context`, which can be used with the style names `CONTEXT`, `GRAMMAR`, `GREENLINE`, or `GREEN LINE`.
+  - This adds a line of green tick marks below text; the color can be changed using `Font.PACKED_CONTEXT_COLOR`.
 - `jostle`, which can be used with the style names `JOSTLE`, `WOBBLE`, or `SCATTER`.
-  - The jostle mode can also be used with `[%?]`.
 - `small caps`, which can be used with the style names `SMALLCAPS` or `SMALL CAPS`.
-  - The small caps mode can also be used with `[%^]`. It cannot be used with the `[%?small caps]` syntax; it needs a caret.
+- `white outline` or `whiten`, which can be used with the style names `WHITE OUTLINE` or `WHITEN`.
+  - This enables outline state; turning off whiten mode doesn't turn off outlines, it just changes them back to black.
+- `blue outline` or `bluen`, which can be used with the style names `BLUE OUTLINE` or `BLUEN`.
+  - This enables outline state; turning off bluen mode doesn't turn off outlines, it just changes them back to black.
+- `yellow outline` or `yellowen`, which can be used with the style names `YELLOW OUTLINE` or `YELLOWEN`.
+  - This enables outline state; turning off yellowen mode doesn't turn off outlines, it just changes them back to black.
+- `red outline` or `redden`, which can be used with the style names `RED OUTLINE` or `REDDEN`.
+  - This enables outline state; turning off redden mode doesn't turn off outlines, it just changes them back to black.
+- `black outline` or `blacken`, which can be used with the style names `BLACK OUTLINE` or `BLACKEN`.
+    - This is a special case because it is an alias for the `[#]` state, and doesn't actually set a special mode. It can use the mode syntax for backwards compatibility.
 
-The small caps mode can be used with any of the other modes except for jostle, by changing `%?` to `%^`. Other than
-that, no two modes can be active at the same time, and no modes can be used at the same time as scaling.
+No two modes can be active at the same time, but a mode can be used at the same time as other states. Some modes have a
+special effect on outline state, and enabling those outline modes also enables outline state.
 
 Note that modes use slightly different syntax to avoid being confused with color names. When using square brackets, each
-of the names given here in lower-case should be preceded by `%?` most of the time (small caps and jostle are special).
-That means to enable the red-underline mode "error", you use the square-bracket tag `[%?error]`. If using the
+of the names given here in lower-case should be preceded by `?` most of the time.
+That means to enable the red-underline mode "error", you use the square-bracket tag `[?error]`. If using the
 curly-brace markup for TypingLabel, you would use the names given here in upper-case, and can use them like other style
-names:`{STYLE=ERROR}`, for example. Small caps mode is, as mentioned, special; it is usually enabled with
-`[%^small caps]`, but can also be enabled with `[%^]`, and can also be mixed with any other mode except jostle by
-changing the normal `%?` to `%^`. Whenever small caps is active, the square-bracket tag uses `%^` instead of `%?`.
-Jostle mode is also special; it is usually enabled with `[%?jostle]`, but can also be enabled with `[%?]` on its own.
-Jostle can't be mixed with small caps.
+names:`{STYLE=ERROR}`, for example. For historical reasons, `[%?mode]` and `[%^mode]` are aliases for `[?mode]`. They no
+longer have special behavior for jostle and small caps.
 
-The special modes are a bit overcomplicated in terms of syntax because I ran out of punctuation I could use.
-The common example of a black outline around white text can be achieved with `[WHITE][%?blacken]Outlined![%][GRAY]`.
+Outlines are a little special because they are so commonly requested. You should typically enable a black outline with
+`[#]`, but `[?black outline]` or `[?blacken]` also does the same thing. You can change the color of the outline at the
+same time the outline is enabled by using `[?white outline]`, `[?red outline]`, `[?blue outline]`, `[?yellow outline]`,
+or their aliases like whiten, redden, bluen, or yellowen. These don't disable the outline when the mode is turned off
+with `[?]`, but the outline will change back to black. You can disable both the mode and the outline state with `[ ]`,
+which happens to also reset every state, mode, color, font, effect, and so on. You can save the current state and mode
+to a name with `[(myNamedState)]`, and can return to it later with `[ myNamedState]`; this can be useful to switch
+between combinations of outline, mode, and other states.
+
+The common example of a black outline around white text can be achieved with `[WHITE][#]Outlined![#][GRAY]`.
 (The example uses `GRAY` as the normal color, but you could also use `[ ]` to reset the color to whatever base color was
 configured on a `Layout` or the label that holds it. Note that `[ ]` also resets size, mode, and, well, everything.)
 
