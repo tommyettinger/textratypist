@@ -31,7 +31,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.1.4"
+implementation "com.github.tommyettinger:textratypist:2.1.5"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 (and not 1.13.5).
@@ -44,7 +44,7 @@ be compatible by the time 1.14.0 is released.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.1.4:sources"
+implementation "com.github.tommyettinger:textratypist:2.1.5:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
 ```
 
@@ -75,15 +75,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.1.4.0"
+implementation "com.github.tommyettinger:freetypist:2.1.5.0"
 ```
 
-(Now, FreeTypist 2.1.4.0 uses TextraTypist 2.1.4 .)
+(Now, FreeTypist 2.1.5.0 uses TextraTypist 2.1.5 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.1.4.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.1.5.0:sources"
 ```
 
 And this inherits line:
@@ -553,7 +553,7 @@ outline thickness modified using `Font.setOutlineStrength()`. The oblique angle 
 `descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
 as it is for Structured JSON fonts!
 
-Version 2.1.0 through 2.1.2 are out, and while they have fewer breaking changes, there are still several of them.
+Version 2.1.0 through 2.1.5 are out, and while they have fewer breaking changes, there are still several of them.
 Notably, the syntax for modes is no longer linked to the syntax for scaling, and you can set modes independently of both
 the current scale and the current status of an outline around text. Some modes enable the outline and set its color; if
 you disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`,
@@ -596,6 +596,19 @@ It also changes the behavior and appearance of rotating glyphs in non-monospace 
 used the "cell width" of that font (the width of its widest glyph, typically) instead of the actual width of the
 rotating glyph. This is noticeable in the animated preview at the top of the page, in the emoji on the first line.
 Before, it would rotate from an origin that wasn't in its center, leading to more movement, and now it rotates in-place.
+
+2.1.5 is mostly a feature update, for once! The biggest change is that underline, strikethrough, and box drawing
+characters now make use of outline state (as well as outline color modes, neon mode, and halo mode) over the extra line.
+This tends to look better than the old case, where white text with black outlines would have an un-outlined white
+strikethrough or underline drawn over it. Another change is the new ThinkingEffect, which makes letters pop up in
+random locations, drift around, and then fade in to their intended position. There's also two new fonts (with the option
+to use them both as one FontFamily), Monogram and Monogram Italic. These are small fixed-width pixel fonts with great
+coverage of the Unicode for European languages (Latin, Greek, and Cyrillic scripts are complete or close to it). The
+italic font is a "true italic," which we don't have many of here. Using `[/]` on a pixel font usually doesn't look very
+good, so the FontFamily option in `KnownFonts.getMonogramFamily()` allows switching to the italic font with `[@i]` or
+back with `[@r]` (or just `[@]` to reset the font). The behavior of NoiseUtils was adjusted to behave the same on GWT as
+on other platforms, though this should matter very rarely. There's some added utility code for colors and dealing with
+Lzma compression, but that's about it for this release.
 
 ## Why doesn't something work?
 
