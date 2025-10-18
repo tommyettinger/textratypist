@@ -17,6 +17,18 @@ If you'd rather watch a video than read this text,
 [Raymond "raeleus" Buckley made a video covering most of TextraTypist](https://www.youtube.com/watch?v=4rLoa_jycN8)!
 It covers some things this file doesn't, such as usage of Skin Composer, so it's a good watch regardless.
 
+There are [JavaDocs here](https://tommyettinger.github.io/textratypist/docs/apidocs/) for TextraTypist's latest version.
+You can find docs for earlier versions on
+[javadoc.io](https://javadoc.io/doc/com.github.tommyettinger/textratypist/2.0.3/index.html) (the link is for the
+slightly older version 2.0.3, for instance).
+
+Other docs hosted in this repo include some
+[huge lists of known fonts](https://tommyettinger.github.io/textratypist/docs/all.html) and information about the
+colors you can mix and alter when writing a color by name (sorted by
+[name](https://tommyettinger.github.io/textratypist/docs/ColorTableAlphabetical.html),
+[hue](https://tommyettinger.github.io/textratypist/docs/ColorTableHue.html), and
+[lightness](https://tommyettinger.github.io/textratypist/docs/ColorTableLightness.html)).
+
 ## It's got labels!
 
 There's a "normal" label here in the form of TextraLabel, which acts almost exactly like Label in scene2d.ui, but
