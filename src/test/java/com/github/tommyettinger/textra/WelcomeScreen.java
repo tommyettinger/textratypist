@@ -64,13 +64,11 @@ public class WelcomeScreen extends ApplicationAdapter {
     stage.act();
     stage.getViewport().apply(true);
     stage.draw();
-
   }
 
   @Override
   public void resize(int width, int height) {
     stage.getViewport().update(width, height);
-//    System.out.println(width);
   }
 
   public static void main(String[] args){
