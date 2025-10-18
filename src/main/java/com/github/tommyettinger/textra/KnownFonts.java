@@ -23,7 +23,13 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.Null;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.OrderedSet;
+import com.badlogic.gdx.utils.StreamUtils;
 import com.github.tommyettinger.textra.Font.DistanceFieldType;
 
 import java.io.BufferedReader;
@@ -4712,8 +4718,8 @@ public final class KnownFonts implements LifecycleListener {
                                 region.originalHeight = region.height;
                             }
                             if (names != null && names.size > 0) {
-                                region.names = names.toArray(String.class);
-                                region.values = values.toArray(int[].class);
+                                region.names = names.toArray(String[]::new);
+                                region.values = values.toArray(int[][]::new);
                                 names.clear();
                                 values.clear();
                             }

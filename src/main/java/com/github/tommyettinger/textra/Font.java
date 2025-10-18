@@ -32,12 +32,33 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.CharArray;
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.FloatArray;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.IntFloatMap;
+import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.LongArray;
+import com.badlogic.gdx.utils.NumberUtils;
+import com.badlogic.gdx.utils.ObjectFloatMap;
+import com.badlogic.gdx.utils.ObjectLongMap;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.OrderedMap;
+import com.badlogic.gdx.utils.StreamUtils;
+import com.badlogic.gdx.utils.UBJsonReader;
 import com.badlogic.gdx.utils.compression.Lzma;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.tommyettinger.textra.utils.*;
+import com.github.tommyettinger.textra.utils.BlockUtils;
+import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
+import com.github.tommyettinger.textra.utils.ColorUtils;
+import com.github.tommyettinger.textra.utils.LZBCompression;
+import com.github.tommyettinger.textra.utils.LZBDecompression;
+import com.github.tommyettinger.textra.utils.NoiseUtils;
+import com.github.tommyettinger.textra.utils.StringUtils;
 import regexodus.Category;
 import regexodus.Pattern;
 import regexodus.Replacer;
@@ -46,7 +67,6 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.IdentityHashMap;
 
 /**
  * A replacement for libGDX's BitmapFont class, supporting additional markup to allow styling text with various effects.
@@ -2091,7 +2111,7 @@ public class Font implements Disposable {
         this.setDistanceField(distanceField);
         FileHandle textureHandle;
         if(textureName == null) {
-            parents = Array.of(true, 1, TextureRegion.class);
+            parents = Array.of(true, 1, TextureRegion[]::new);
             parents.add(new TexturelessRegion());
         } else if ((textureHandle = Gdx.files.internal(textureName)).exists()) {
             parents = Array.with(new TextureRegion(new Texture(textureHandle)));
@@ -2627,13 +2647,13 @@ public class Font implements Disposable {
 //            yAdjust += descent;
         int pages = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "\npage id=", idx));
         if (parents == null || parents.size < pages) {
-            if (parents == null) parents = new Array<>(true, pages, TextureRegion.class);
+            if (parents == null) parents = new Array<>(true, pages, TextureRegion[]::new);
             else parents.clear();
             FileHandle textureHandle;
             for (int i = 0; i < pages; i++) {
                 String textureName = fnt.substring(idx = StringUtils.indexAfter(fnt, "file=\"", idx), idx = fnt.indexOf('"', idx));
                 if(!canUseTextures){
-                    parents = Array.of(true, 1, TextureRegion.class);
+                    parents = Array.of(true, 1, TextureRegion[]::new);
                     parents.add(new TexturelessRegion());
                 } else if ((textureHandle = Gdx.files.internal(textureName)).exists()) {
                     parents.add(new TextureRegion(new Texture(textureHandle)));
@@ -2813,7 +2833,7 @@ public class Font implements Disposable {
         int pages = 1;
         TextureRegion parent;
         if (parents == null || parents.size == 0) {
-            if (parents == null) parents = new Array<>(true, pages, TextureRegion.class);
+            if (parents == null) parents = new Array<>(true, pages, TextureRegion[]::new);
             FileHandle textureHandle;
             String textureName = fnt.getString("FilePath");
             if (!canUseTextures) {
