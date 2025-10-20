@@ -43,7 +43,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.1.5"
+implementation "com.github.tommyettinger:textratypist:2.2.0"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 (and not 1.13.5).
@@ -56,7 +56,7 @@ be compatible by the time 1.14.0 is released.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.1.5:sources"
+implementation "com.github.tommyettinger:textratypist:2.2.0:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
 ```
 
@@ -87,15 +87,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.1.5.0"
+implementation "com.github.tommyettinger:freetypist:2.2.0.0"
 ```
 
-(Now, FreeTypist 2.1.5.0 uses TextraTypist 2.1.5 .)
+(Now, FreeTypist 2.2.0.0 uses TextraTypist 2.2.0 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.1.5.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.2.0.0:sources"
 ```
 
 And this inherits line:
@@ -565,7 +565,7 @@ outline thickness modified using `Font.setOutlineStrength()`. The oblique angle 
 `descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
 as it is for Structured JSON fonts!
 
-Version 2.1.0 through 2.1.5 are out, and while they have fewer breaking changes, there are still several of them.
+Version 2.1.0 through 2.2.0 are out, and while they have fewer breaking changes, there are still several of them.
 Notably, the syntax for modes is no longer linked to the syntax for scaling, and you can set modes independently of both
 the current scale and the current status of an outline around text. Some modes enable the outline and set its color; if
 you disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`,
@@ -621,6 +621,13 @@ good, so the FontFamily option in `KnownFonts.getMonogramFamily()` allows switch
 back with `[@r]` (or just `[@]` to reset the font). The behavior of NoiseUtils was adjusted to behave the same on GWT as
 on other platforms, though this should matter very rarely. There's some added utility code for colors and dealing with
 Lzma compression, but that's about it for this release.
+
+2.2.0 updates libGDX to 1.14.0, which has several breaking changes of its own, but relatively few that affect
+TextraTypist. The `StringBuilder` class in libGDX was removed and replaced by expansions on `CharArray`'s API, which is
+unlikely to affect TextraTypist usage, but does break the earlier typing-label library's most recent version (at the
+time this was written). Some calls to Array's constructor that take a Class, such as `Thing.class`, should be changed to
+use `Thing[]::new` instead, to avoid deprecation. `Pools` has been deprecated, and a `PoolManager` is suggested in its
+place. Currently in TextraTypist, only TextraField, which isn't ready for any kind of usage anyway, uses `Pools`.
 
 ## Why doesn't something work?
 
