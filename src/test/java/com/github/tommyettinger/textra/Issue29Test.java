@@ -24,8 +24,9 @@ public class Issue29Test extends ApplicationAdapter {
   public void create() {
     stage = new Stage(new ScreenViewport());
 
-    Font font = new Font();
-//    Font font = KnownFonts.getDejaVuSans();
+//    Font font = new Font();
+    Font font = KnownFonts.getDejaVuSans();
+      font.omitCurlyBraces = false;
 
 //    TypingLabel label = new TypingLabel("icula nisl a diam felada urna nec magna dapibus", font);
     // The initial bracket starts an effect, which gets fully ignored by Font. That also means it won't wrap.
@@ -35,12 +36,16 @@ public class Issue29Test extends ApplicationAdapter {
     // When an effect isn't recognized, the {icula} still appears in the text.
 //    TypingLabel label = new TypingLabel("{icula} nisl a diam felada urna nec magna dapibus", font);
     // If an Effect is valid (in any case), it works with DejaVu Sans, and with `new Font()`. Markup can be ruled out.
-    TypingLabel label = new TypingLabel("{rainbow} nisl a diam felada urna nec magna dapibus", font);
+//    TypingLabel label = new TypingLabel("{rainbow} nisl a diam felada urna nec magna dapibus", font);
+    // Using TextraLabel does "correctly" omit the effect-like text if omitCurlyBraces is true.
+    // If it is false, it still doesn't wrap correctly.
+    TextraLabel label = new TextraLabel("{icula }nisl a diam felada urna nec magna dapibus", font);
     label.setWrap(true);
     label.skipToTheEnd();
 
     Table table = new Table();
     table.add(label).prefWidth(300).row();
+    table.pack();
     table.debugAll();
 
     stage.addActor(new Stack(table));
