@@ -26,7 +26,7 @@ public class Issue29Test extends ApplicationAdapter {
 
 //    Font font = new Font();
     Font font = KnownFonts.getDejaVuSans();
-      font.omitCurlyBraces = false;
+      font.omitCurlyBraces = true;
 
 //    TypingLabel label = new TypingLabel("icula nisl a diam felada urna nec magna dapibus", font);
     // The initial bracket starts an effect, which gets fully ignored by Font. That also means it won't wrap.
@@ -39,7 +39,15 @@ public class Issue29Test extends ApplicationAdapter {
 //    TypingLabel label = new TypingLabel("{rainbow} nisl a diam felada urna nec magna dapibus", font);
     // Using TextraLabel does "correctly" omit the effect-like text if omitCurlyBraces is true.
     // If it is false, it still doesn't wrap correctly.
-    TextraLabel label = new TextraLabel("{icula }nisl a diam felada urna nec magna dapibus", font);
+//    TextraLabel label = new TextraLabel("{icula }nisl a diam felada urna nec magna dapibus", font);
+      // Escaping a single curly brace already works with TextraLabel...
+//    TextraLabel label = new TextraLabel("{{icula nisl a diam felada urna nec magna dapibus", font);
+      // But not TypingLabel!
+//    TypingLabel label = new TypingLabel("{{icula nisl a diam felada urna nec magna dapibus", font);
+    // Wrap is still broken even if TextraLabel correctly escapes a brace and (unescaped) curly braces are omitted.
+//    TextraLabel label = new TextraLabel("{{icula nisl a diam felada urna nec magna dapibus", font);
+      // Escaping a brace isn't detected by wrap logic; it still checks for a closing brace.
+    TextraLabel label = new TextraLabel("{{icula nisl} a diam felada urna nec magna dapibus", font);
     label.setWrap(true);
     label.skipToTheEnd();
 
