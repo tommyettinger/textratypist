@@ -2712,8 +2712,6 @@ public class Font implements Disposable {
                 mapping.put(2, gr);
             }
         }
-        // TODO: Do we want this?
-//        descent += padBottom;
 
         idx = StringUtils.indexAfter(fnt, "\nkernings count=", 0);
         if (idx < fnt.length()) {
@@ -7680,9 +7678,15 @@ public class Font implements Disposable {
                 char ch = (char) glyph;
                 float advance = changing.advances.get(a);
                 float sizingY = changing.sizing.get(a << 1 | 1);
-//                float advance = Math.min(changing.advances.get(a), changing.sizing.get(a << 1 | 1));
                 a++;
-                if(ch == '{' && !curly) curly = true;
+                if(omitCurlyBraces && ch == '{'){
+                    if (curly) {
+                        curly = false;
+                        continue;
+                    } else {
+                        curly = true;
+                    }
+                }
                 if((glyph & ALTERNATE_MODES_MASK) == SMALL_CAPS) ch = Category.caseUp(ch);
                 if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
                 if (font == null) font = this;
