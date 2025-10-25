@@ -1,6 +1,8 @@
 package com.github.tommyettinger.textra;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
@@ -22,6 +24,7 @@ public class Issue29Test extends ApplicationAdapter {
 
   @Override
   public void create() {
+      Gdx.app.setLogLevel(Application.LOG_DEBUG);
     stage = new Stage(new ScreenViewport());
 
 //    Font font = new Font();
@@ -77,7 +80,7 @@ public class Issue29Test extends ApplicationAdapter {
     config.setTitle("Label wrapping test");
     config.setWindowedMode(400, 300);
     config.disableAudio(true);
-    config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
+    config.setForegroundFPS(10);
     config.useVsync(true);
     new Lwjgl3Application(new Issue29Test(), config);
   }
