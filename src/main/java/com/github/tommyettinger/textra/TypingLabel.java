@@ -1138,6 +1138,7 @@ public class TypingLabel extends TextraLabel {
 
         float single, tempBaseX = baseX, tempBaseY = baseY;
         int toSkip = 0;
+        boolean curly = false;
 
         if(selectable && selectionDrawable != null) {
             if(selectionStart != selectionEnd) {
@@ -1182,9 +1183,30 @@ public class TypingLabel extends TextraLabel {
                          i < n && r < lim; i++, gi++) {
                         if (gi > end) break SELECTION_LINE;
                         long glyph = glyphs.glyphs.get(i);
+                        char ch = (char) glyph;
                         if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                         if (f == null) f = font;
                         float descent = f.descent * f.scaleY;
+
+                        if(font.omitCurlyBraces) {
+                            if (curly) {
+                                if(i == start)
+                                    start++;
+                                if (ch == '}') {
+                                    curly = false;
+                                    continue;
+                                } else if (ch == '{') {
+                                    curly = false;
+                                }
+                                else continue;
+                            } else if (ch == '{') {
+                                curly = true;
+                                if(i == start)
+                                    start++;
+                                continue;
+                            }
+                        }
+
                         if (i == start) {
                             x -= f.cellWidth * 0.5f;
 
@@ -1256,6 +1278,7 @@ public class TypingLabel extends TextraLabel {
         r = 0;
         gi = 0;
         globalIndex = startIndex - 1;
+        curly = false;
 
         EACH_LINE:
         for (int ln = 0; ln < lines; ln++) {
@@ -1285,7 +1308,6 @@ public class TypingLabel extends TextraLabel {
                 x -= cs * line.width;
                 y -= sn * line.width;
             }
-
             Font f = null;
             int kern = -1,
                     start = (toSkip - line.glyphs.size < startIndex) ? startIndex - (toSkip - line.glyphs.size) : 0,
@@ -1295,9 +1317,31 @@ public class TypingLabel extends TextraLabel {
                  i < n && r < lim; i++, gi++) {
                 if (gi > end) break EACH_LINE;
                 long glyph = line.glyphs.get(i);
+                char ch = (char) glyph;
                 if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                 if (f == null) f = font;
                 float descent = f.descent * f.scaleY;
+
+                if(font.omitCurlyBraces) {
+                    if (curly) {
+                        if(i == start)
+                            start++;
+                        if (ch == '}') {
+                            curly = false;
+                            continue;
+                        } else if (ch == '{') {
+                            curly = false;
+                            --start;
+                        }
+                        else continue;
+                    } else if (ch == '{') {
+                        curly = true;
+                        if(i == start)
+                            start++;
+                        continue;
+                    }
+                }
+
                 if(i == start){
                     x -= f.cellWidth * 0.5f;
 

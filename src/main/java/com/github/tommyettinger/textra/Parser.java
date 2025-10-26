@@ -623,7 +623,7 @@ public class Parser {
      */
     private static Pattern compileTokenPattern() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\\{(");
+        sb.append("(?<!\\{)\\{(");
         Array<String> tokens = new Array<>();
         TypingConfig.EFFECT_START_TOKENS.keys().toArray(tokens);
         TypingConfig.EFFECT_END_TOKENS.keys().toArray(tokens);

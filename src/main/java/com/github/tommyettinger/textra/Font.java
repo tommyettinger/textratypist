@@ -4836,7 +4836,7 @@ public class Font implements Disposable {
         for (int ln = 0; ln < layout.lines(); ln++) {
             float drawn = 0f;
             float scaleX;
-            float advance, sizingY;
+            float advance;
             Line line = layout.getLine(ln);
             LongArray glyphs = line.glyphs;
             boolean curly = false, initial = true;

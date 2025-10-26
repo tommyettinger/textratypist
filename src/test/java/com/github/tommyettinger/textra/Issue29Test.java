@@ -46,11 +46,11 @@ public class Issue29Test extends ApplicationAdapter {
       // Escaping a single curly brace already works with TextraLabel...
 //    TextraLabel label = new TextraLabel("{{icula nisl a diam felada urna nec magna dapibus", font);
       // But not TypingLabel!
-//    TypingLabel label = new TypingLabel("{{icula nisl a diam felada urna nec magna dapibus", font);
+    TypingLabel label = new TypingLabel("{{icula nisl a diam felada urna nec magna dapibus", font);
     // Wrap is still broken even if TextraLabel correctly escapes a brace and (unescaped) curly braces are omitted.
 //    TextraLabel label = new TextraLabel("{{icula nisl a diam felada urna nec magna dapibus", font);
       // Escaping a brace isn't detected by wrap logic; it still checks for a closing brace.
-    TextraLabel label = new TextraLabel("{{icula nisl} a diam felada urna nec magna dapibus", font);
+//    TextraLabel label = new TextraLabel("{{icula nisl} a diam felada urna nec magna dapibus", font);
     label.setWrap(true);
     label.skipToTheEnd();
 
