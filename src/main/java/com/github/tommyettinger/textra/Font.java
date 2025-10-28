@@ -3996,7 +3996,8 @@ public class Font implements Disposable {
         namesByCharCode.put(start, name);
         for (int i = start, a = 1; i < 0xF800 && a < regions.size; a++) {
             TextureAtlas.AtlasRegion region = regions.get(a);
-            if (previous.getRegionX() == region.getRegionX() && previous.getRegionY() == region.getRegionY()) {
+            if (previous.getRegionX() == region.getRegionX() && previous.getRegionY() == region.getRegionY()
+                    && previous.getTexture() == region.getTexture()) {
                 name = prepend + region.name + append;
                 nameLookup.put(name, i);
                 char f = previous.name.charAt(0);
