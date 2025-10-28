@@ -38,11 +38,17 @@ public class Issue30Test extends ApplicationAdapter {
         final String iconB = "b";
         final String iconC = "c";
 
-        final TextureAtlas textureAtlas = new TextureAtlas();
-        textureAtlas.addRegion(iconA, new TextureRegion(new Texture(Gdx.files.internal(iconA + ".png"))));
-        textureAtlas.addRegion(iconB, new TextureRegion(new Texture(Gdx.files.internal(iconB + ".png"))));
-        textureAtlas.addRegion(iconC, new TextureRegion(new Texture(Gdx.files.internal(iconC + ".png"))));
-        font.addAtlas(textureAtlas);
+//        final TextureAtlas textureAtlas = new TextureAtlas();
+//        textureAtlas.addRegion(iconA, new TextureRegion(new Texture(Gdx.files.internal(iconA + ".png"))));
+//        textureAtlas.addRegion(iconB, new TextureRegion(new Texture(Gdx.files.internal(iconB + ".png"))));
+//        textureAtlas.addRegion(iconC, new TextureRegion(new Texture(Gdx.files.internal(iconC + ".png"))));
+//        font.addAtlas(textureAtlas);
+
+        PixmapPacker packer = new PixmapPacker(1024, 1024, Pixmap.Format.RGBA8888, 2, false);
+        packer.pack(iconA, new Pixmap(Gdx.files.internal(iconA + ".png")));
+        packer.pack(iconB, new Pixmap(Gdx.files.internal(iconB + ".png")));
+        packer.pack(iconC, new Pixmap(Gdx.files.internal(iconC + ".png")));
+        font.addAtlas(packer.generateTextureAtlas(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear, false));
 
         final TypingLabel label = new TypingLabel("Press [+a]  to equip, [+b]  to drop item", font);
 
