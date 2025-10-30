@@ -27,7 +27,9 @@ public class TeaVMBuilder {
         TeaReflectionSupplier.addReflectionClass("com.badlogic.gdx.scenes.scene2d.ui");
         TeaReflectionSupplier.addReflectionClass("com.github.tommyettinger.textra.Styles");
 
-        TeaVMTool tool = TeaBuilder.config(teaBuildConfiguration);
+        TeaBuilder.config(teaBuildConfiguration);
+        TeaVMTool tool = new TeaVMTool();
+
         tool.setMainClass(TeaVMLauncher.class.getName());
         // For many (or most) applications, using the highest optimization won't add much to build time.
         // If your builds take too long, and runtime performance doesn't matter, you can change FULL to SIMPLE .
