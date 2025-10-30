@@ -42,8 +42,6 @@ public class Issue30Test extends ApplicationAdapter {
         textureAtlas.addRegion(iconA, new TextureRegion(new Texture(Gdx.files.internal(iconA + ".png"))));
         textureAtlas.addRegion(iconB, new TextureRegion(new Texture(Gdx.files.internal(iconB + ".png"))));
         textureAtlas.addRegion(iconC, new TextureRegion(new Texture(Gdx.files.internal(iconC + ".png"))));
-//        textureAtlas.addRegion(iconB, new Texture(Gdx.files.internal(iconB + ".png")), 0, 0, 72, 72);
-//        textureAtlas.addRegion(iconC, new Texture(Gdx.files.internal(iconC + ".png")), 0, 0, 72, 72);
         font.addAtlas(textureAtlas);
 
 //        PixmapPacker packer = new PixmapPacker(1024, 1024, Pixmap.Format.RGBA8888, 2, false);

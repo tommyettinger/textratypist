@@ -43,7 +43,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.0"
+implementation "com.github.tommyettinger:textratypist:2.2.1"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 (and not 1.13.5).
@@ -56,7 +56,7 @@ be compatible by the time 1.14.0 is released.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.0:sources"
+implementation "com.github.tommyettinger:textratypist:2.2.1:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
 ```
 
@@ -87,15 +87,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.0.0"
+implementation "com.github.tommyettinger:freetypist:2.2.1.0"
 ```
 
-(Now, FreeTypist 2.2.0.0 uses TextraTypist 2.2.0 .)
+(Now, FreeTypist 2.2.1.0 uses TextraTypist 2.2.1 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.0.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.2.1.0:sources"
 ```
 
 And this inherits line:
@@ -565,7 +565,7 @@ outline thickness modified using `Font.setOutlineStrength()`. The oblique angle 
 `descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
 as it is for Structured JSON fonts!
 
-Version 2.1.0 through 2.2.0 are out, and while they have fewer breaking changes, there are still several of them.
+Version 2.1.0 through 2.2.1 are out, and while they have fewer breaking changes, there are still several of them.
 Notably, the syntax for modes is no longer linked to the syntax for scaling, and you can set modes independently of both
 the current scale and the current status of an outline around text. Some modes enable the outline and set its color; if
 you disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`,
@@ -628,6 +628,14 @@ unlikely to affect TextraTypist usage, but does break the earlier typing-label l
 time this was written). Some calls to Array's constructor that take a Class, such as `Thing.class`, should be changed to
 use `Thing[]::new` instead, to avoid deprecation. `Pools` has been deprecated, and a `PoolManager` is suggested in its
 place. Currently in TextraTypist, only TextraField, which isn't ready for any kind of usage anyway, uses `Pools`.
+
+2.2.1 has some small but significant bugfixes. Adding a TextureAtlas with more than one Texture page works now. The
+escape for a single opening curly brace also works: `{{` becomes a single `{` when printed, and doesn't start an effect.
+If you have a TypingLabel with unescaped curly braces, it may (according to Font specs) treat the span between `{` and
+`}` as an invalid effect, and ignore its internal text (which is what TextraLabel almost always does). The difference
+here is that wrapping won't be broken by the ignored text anymore. Also, escaping curly braces didn't fully work before,
+and it's an important feature to have. No escape is necessary for `}` because it only has meaning when an
+unescaped curly brace has started an effect block, and `}` is invalid inside an effect block (it always ends it).
 
 ## Why doesn't something work?
 

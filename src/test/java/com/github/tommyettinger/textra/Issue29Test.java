@@ -37,7 +37,7 @@ public class Issue29Test extends ApplicationAdapter {
     // What I thought would work as an escape for curly brackets... doesn't work.
 //    TypingLabel label = new TypingLabel("{{icula nisl a diam felada urna nec magna dapibus", font);
     // When an effect isn't recognized, the {icula} still appears in the text.
-//    TypingLabel label = new TypingLabel("{icula} nisl a diam felada urna nec magna dapibus", font);
+    TypingLabel label = new TypingLabel("{icula} nisl a diam felada urna nec magna dapibus", font);
     // If an Effect is valid (in any case), it works with DejaVu Sans, and with `new Font()`. Markup can be ruled out.
 //    TypingLabel label = new TypingLabel("{rainbow} nisl a diam felada urna nec magna dapibus", font);
     // Using TextraLabel does "correctly" omit the effect-like text if omitCurlyBraces is true.
@@ -46,7 +46,7 @@ public class Issue29Test extends ApplicationAdapter {
       // Escaping a single curly brace already works with TextraLabel...
 //    TextraLabel label = new TextraLabel("{{icula nisl a diam felada urna nec magna dapibus", font);
       // But not TypingLabel!
-    TypingLabel label = new TypingLabel("{{icula nisl a diam felada urna nec magna dapibus", font);
+//    TypingLabel label = new TypingLabel("{{icula nisl a diam felada urna nec magna dapibus", font);
     // Wrap is still broken even if TextraLabel correctly escapes a brace and (unescaped) curly braces are omitted.
 //    TextraLabel label = new TextraLabel("{{icula nisl a diam felada urna nec magna dapibus", font);
       // Escaping a brace isn't detected by wrap logic; it still checks for a closing brace.
