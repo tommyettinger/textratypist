@@ -204,7 +204,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		// configures an example of a TextField in password mode.
 		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[ ] password mode..." +
 				" Wait, I need more text. DEVELOPERS, DEVELOPERS, DEVELOPERS, DEVELOPERS. I LOVE THIS COMPANY!",
-				new Font(font).scale(0.5f), Color.WHITE, Justify.SPACES_ON_ALL_LINES);
+				new Font(font).scale(0.5f), Color.WHITE, Justify.SPACES_ON_PARAGRAPH);
 		passwordLabel.layout.setTargetWidth(imageActor.getWidth());
 		passwordLabel.setWrap(true);
 		passwordLabel.font.justify(passwordLabel.layout);
@@ -228,7 +228,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		tooltipTable.add(new TextraButton("Fancy tooltip!", skin, font));
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
-		System.out.println("Before layout(): " + passwordLabel.getHeight() + " with lines: " + passwordLabel.layout.lines());
+		System.out.println("Before layout(), height: " + passwordLabel.getHeight() + " with lines: " + passwordLabel.layout.lines());
 
 		TextraWindow window = new TextraWindow("TextraWindow", skin, "default", new Font(font).scale(0.75f, 0.75f), false);
 //		window.getTitleTable().debug();
@@ -255,7 +255,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		window.add(fpsLabel).left().colspan(4);
 		window.pack();
 
-		System.out.println("After layout(): " + passwordLabel.getHeight() + " with lines: " + passwordLabel.layout.lines());
+		System.out.println("After layout(), height: " + passwordLabel.getHeight() + " with lines: " + passwordLabel.layout.lines());
 
 		// stage.addActor(new Button("Behind Window", skin));
 		stage.addActor(window);
