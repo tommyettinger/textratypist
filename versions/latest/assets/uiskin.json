@@ -8,7 +8,7 @@ Color: {
 },
 BitmapFont: {
   default-font: {
-    file: Yanone-Kaffeesatz-standard.json.lzma
+    file: Yanone-Kaffeesatz-standard.ubj.lzma
   }
 },
 "com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator": {
