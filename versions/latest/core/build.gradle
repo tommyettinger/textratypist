@@ -5,4 +5,6 @@ dependencies {
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
   api "com.github.tommyettinger:regexodus:$regExodusVersion"
   api "com.github.tommyettinger:textratypist:$textratypistVersion"
+  api "com.github.tommyettinger:freetypist:2.2.0.0"
+  api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
 }

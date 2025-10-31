@@ -23,10 +23,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.github.tommyettinger.freetypist.FreeTypistSkin;
 import com.github.tommyettinger.textra.*;
 
 public class StressTest extends ApplicationAdapter {
@@ -37,20 +37,27 @@ public class StressTest extends ApplicationAdapter {
         Gdx.app.setLogLevel(Application.LOG_INFO);
         long startMillis = TimeUtils.millis();
         stage = new Stage();
-        Skin skin = new FWSkin(Gdx.files.internal("uiskin.json"));
+        FreeTypistSkin skin = new FreeTypistSkin(Gdx.files.internal("uiskin.json"));
         Table root = new Table(skin);
 
         Table labels = new Table();
         labels.defaults().pad(5);
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 300; i++) {
             // intentionally doing the wrong thing!
             TypingLabel label = new TypingLabel("Lorem ipsum etc. " + i, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));
-            // this would be better
+            // this would be better, but makes very little difference
 //            TypingLabel label = new TypingLabel("Lorem ipsum etc. " + i, skin);
             labels.add(label).expandX().left();
             // wrong thing again
             TypingLabel label2 = new TypingLabel("Lorem ipsum etc. " + ++i, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));
-            labels.add(label2).expandX().right();
+            // this would be better
+//            TypingLabel label2 = new TypingLabel("Lorem ipsum etc. " + ++i, skin);
+            labels.add(label2).expandX().center();
+            // wrong thing again
+            TypingLabel label3 = new TypingLabel("Lorem ipsum etc. " + ++i, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));
+            // this would be better
+//            TypingLabel label3 = new TypingLabel("Lorem ipsum etc. " + ++i, skin);
+            labels.add(label3).expandX().right();
             labels.row();
         }
         root.setFillParent(true);
