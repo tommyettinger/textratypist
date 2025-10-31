@@ -60,7 +60,7 @@ public class PreviewSimpleTest extends ApplicationAdapter {
         viewport = new StretchViewport(1200, 675);
 
         // WHAT WE NORMALLY USE
-        jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String.class);
+        jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String[]::new);
         limit = jsonFiles.length + 1;
         all = new Font[limit * 2];
         int idx = 0;
