@@ -3079,7 +3079,7 @@ public class Font implements Disposable {
                 StreamUtils.closeQuietly(bais);
                 StreamUtils.closeQuietly(baos);
             }
-        } else if (jsonHandle.name().endsWith(".ubj")) {
+        } else if ("ubj".equalsIgnoreCase(jsonHandle.extension())) {
             fnt = new UBJsonReader().parse(jsonHandle.read());
         } else if("dat".equalsIgnoreCase(jsonHandle.extension())) {
             fnt = new JsonReader().parse(LZBDecompression.decompressFromBytes(jsonHandle.readBytes()));
