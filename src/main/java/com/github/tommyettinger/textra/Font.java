@@ -5905,8 +5905,7 @@ public class Font implements Disposable {
      * @return appendTo, for chaining
      */
     public Layout markup(String text, Layout appendTo) {
-        // TODO: Remove debug print
-        Gdx.app.debug("TextraTypist", "In markup, operating on:\n" + text);
+//        Gdx.app.debug("TextraTypist", "In markup, operating on:\n" + text);
 
         boolean capitalize = false, previousWasLetter = false,
                 capsLock = false, lowerCase = false, initial = true;
@@ -7650,8 +7649,7 @@ public class Font implements Disposable {
         if (changing.font == null) {
             return changing;
         }
-        // TODO: Remove debug print
-        Gdx.app.debug("TextraTypist", "In regenerateLayout, operating on:\n" + changing);
+//        Gdx.app.debug("TextraTypist", "In regenerateLayout, operating on:\n" + changing);
 
         if(!changing.font.equals(this)){
             changing.font = this;
