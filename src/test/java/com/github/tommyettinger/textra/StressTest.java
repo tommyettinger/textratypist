@@ -37,7 +37,7 @@ public class StressTest extends ApplicationAdapter {
         Gdx.app.setLogLevel(Application.LOG_INFO);
         long startMillis = TimeUtils.millis();
         stage = new Stage();
-        FreeTypistSkin skin = new FreeTypistSkin(Gdx.files.internal("uiskin.json"));
+        FreeTypistSkin skin = new FreeTypistSkin(Gdx.files.internal("uiskin3.json"));
         Table root = new Table(skin);
 
         Table labels = new Table();
