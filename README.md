@@ -43,7 +43,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.1"
+implementation "com.github.tommyettinger:textratypist:2.2.2"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 (and not 1.13.5).
@@ -56,7 +56,7 @@ be compatible by the time 1.14.0 is released.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.1:sources"
+implementation "com.github.tommyettinger:textratypist:2.2.2:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
 ```
 
@@ -87,15 +87,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.1.0"
+implementation "com.github.tommyettinger:freetypist:2.2.2.0"
 ```
 
-(Now, FreeTypist 2.2.1.0 uses TextraTypist 2.2.1 .)
+(Now, FreeTypist 2.2.2.0 uses TextraTypist 2.2.2 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.1.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.2.2.0:sources"
 ```
 
 And this inherits line:
@@ -565,7 +565,7 @@ outline thickness modified using `Font.setOutlineStrength()`. The oblique angle 
 `descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
 as it is for Structured JSON fonts!
 
-Version 2.1.0 through 2.2.1 are out, and while they have fewer breaking changes, there are still several of them.
+Version 2.1.0 through 2.2.2 are out, and while they have fewer breaking changes, there are still several of them.
 Notably, the syntax for modes is no longer linked to the syntax for scaling, and you can set modes independently of both
 the current scale and the current status of an outline around text. Some modes enable the outline and set its color; if
 you disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`,
@@ -636,6 +636,19 @@ If you have a TypingLabel with unescaped curly braces, it may (according to Font
 here is that wrapping won't be broken by the ignored text anymore. Also, escaping curly braces didn't fully work before,
 and it's an important feature to have. No escape is necessary for `}` because it only has meaning when an
 unescaped curly brace has started an effect block, and `}` is invalid inside an effect block (it always ends it).
+
+2.2.2 includes a few fixes. Using .ubj files works now, but counterintuitively, .ubj.lzma files tend to be faster to
+load despite being compressed. The LZMA files are smaller enough that loading them from storage should be faster, and
+decompression happens in memory, so if memory and processor speed are fast enough, the compression seems to help both
+file size and loading time. Justifying text with spaces-only modes now doesn't cause weird changes to line height. Debug
+prints that snuck into an earlier release are gone, though they only appeared when Gdx.app's log level was set to debug.
+Most importantly, the scaling of any Font created from a BitmapFont, including using BitmapFont configuration in a Skin,
+has been adjusted so setting scaledSize in a Skin actually sets capHeight (the same as BitmapFont), and sets it
+correctly now. Before, the scaling was effectively applied twice, so any decrease in size made a tiny font, and any
+increase in size made an extra-huge font. That also depended on the size of the font in the associated Texture, which
+isn't especially predictable, and changes a lot based on how many glyphs it has. Some fonts created from Skin won't see
+any change; if they didn't use scaledSize, they shouldn't be different, though a few pixels might be off. Mixing Font
+and BitmapFont should have more consistent sizing now, though the baseline position is different for many fonts.
 
 ## Why doesn't something work?
 
