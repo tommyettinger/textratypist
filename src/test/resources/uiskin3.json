@@ -1,6 +1,6 @@
 {
 BitmapFont: {
-	default-font: { file: Gentium-standard.json.lzma, scaledSize: 48 }
+	default-font: { file: Gentium-standard.json.lzma, scaledSize: 16 }
 },
 Color: {
 	green: { a: 1, b: 0, g: 1, r: 0 },

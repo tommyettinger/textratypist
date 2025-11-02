@@ -37,7 +37,7 @@ public class StressTest extends ApplicationAdapter {
         Gdx.app.setLogLevel(Application.LOG_INFO);
         long startMillis = TimeUtils.millis();
         stage = new Stage();
-        FreeTypistSkin skin = new FreeTypistSkin(Gdx.files.internal("uiskin3.json"));
+        FWSkin skin = new FWSkin(Gdx.files.internal("uiskin3.json"));
         Table root = new Table(skin);
 
         Table labels = new Table();
@@ -70,6 +70,7 @@ public class StressTest extends ApplicationAdapter {
         Gdx.app.log("TIMING", "create() took   : " + TimeUtils.timeSinceMillis(startMillis) + " ms");
         Gdx.app.log("HEAP",   "native heap used: " + Gdx.app.getNativeHeap());
         Gdx.app.log("HEAP",   "java heap used  : " + Gdx.app.getJavaHeap());
+        Gdx.app.log("HEIGHT", "label height    : " + labels.getCells().first().getActorHeight());
     }
 
     @Override

@@ -2436,9 +2436,12 @@ public class Font implements Disposable {
         this.widthAdjust = widthAdjust;
         this.heightAdjust = heightAdjust;
 
-        float size = data.lineHeight * 0.8f;
-        descent = size * -0.25f;//metrics.getFloat("descender", -0.25f);
-        originalCellHeight = cellHeight = heightAdjust - descent + size;// * metrics.getFloat("lineHeight", 1f);
+        float size = data.lineHeight;
+//        descent = 0f;
+//        descent = size * -0.25f;
+//        descent = size * -0.333f;
+        descent = data.descent;
+        originalCellHeight = cellHeight = heightAdjust + data.lineHeight - data.descent;// * metrics.getFloat("lineHeight", 1f);
 
 //        descent = data.capHeight + data.ascent - data.lineHeight;
 //        cellHeight = heightAdjust + data.lineHeight - descent * 0.25f;
