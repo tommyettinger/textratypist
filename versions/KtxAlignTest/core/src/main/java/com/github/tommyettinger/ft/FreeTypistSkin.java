@@ -148,7 +148,8 @@ public class FreeTypistSkin extends FWSkin {
                         }
                     }
                     font.useIntegerPositions(useIntegerPositions);
-                    // Scaled size is the desired cap height to scale the font to.
+                    // Scaled size is the desired line height to scale the font to.
+                    // This is different from with BitmapFont, which has a desired cap height.
                     if (scaledSize != -1) font.scaleHeightTo(scaledSize);
                     return font;
                 } catch (RuntimeException ex) {
@@ -240,12 +241,16 @@ public class FreeTypistSkin extends FWSkin {
                     bitmapFont.setUseIntegerPositions(useIntegerPositions);
                     font.useIntegerPositions(useIntegerPositions);
                     // For BitmapFont, scaled size is the desired cap height to scale the font to.
+                    // If we're going to be compliant with scaled BitmapFonts, we need to scale
+                    // relative to cap height.
                     // For Font, scaled size is the desired line height to scale the font to.
+                    // Font doesn't track cap height, only line height (from the lowest point to
+                    // the highest point, on all glyphs).
                     // These generally do not exactly agree, but we can get close enough by using a
                     // smaller scale for the BitmapFont.
                     if (scaledSize != -1) {
-                        bitmapFont.getData().setScale(scaledSize / bitmapFont.getLineHeight());
-                        font.scaleHeightTo(scaledSize);
+                        bitmapFont.getData().setScale(scaledSize / (bitmapFont.getCapHeight()));
+                        font.scaleHeightTo(scaledSize * bitmapFont.getCapHeight() / bitmapFont.getLineHeight());
                     }
 
                     skin.add(jsonData.name, font, Font.class);

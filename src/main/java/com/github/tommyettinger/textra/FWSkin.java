@@ -175,7 +175,8 @@ public class FWSkin extends Skin {
                         }
                     }
                     font.useIntegerPositions(useIntegerPositions);
-                    // Scaled size is the desired cap height to scale the font to.
+                    // Scaled size is the desired line height to scale the font to.
+                    // This is different from with BitmapFont, which has a desired cap height.
                     if (scaledSize != -1) font.scaleHeightTo(scaledSize);
                     return font;
                 } catch (RuntimeException ex) {

@@ -28,13 +28,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class IncongruityTest extends ApplicationAdapter {
     Stage stage;
 
     @Override
     public void create() {
-        stage = new Stage();
+        stage = new Stage(new ScreenViewport());
         Skin skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
         Table root = new Table(skin);
 
@@ -48,7 +49,6 @@ public class IncongruityTest extends ApplicationAdapter {
         labels.defaults().pad(5);
         for (int i = 0; i < fonts.length; i++) {
             Font font = fonts[i];
-//            Font font = fonts[i].setDescent(fonts[i].getDescent() * 2);
             labels.add(new Label(font.name, skin)).left();
             TypingLabel label = new TypingLabel("Lorem ipsum etc. 123, TT", skin, font);
 //            label.align = Align.bottom;
@@ -86,7 +86,7 @@ public class IncongruityTest extends ApplicationAdapter {
     @Override
     public void render() {
         ScreenUtils.clear(Color.BLACK);
-
+        stage.getViewport().apply();
         stage.act();
         stage.draw();
     }
