@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -37,7 +38,7 @@ public class StressTest extends ApplicationAdapter {
         Gdx.app.setLogLevel(Application.LOG_INFO);
         long startMillis = TimeUtils.millis();
         stage = new Stage();
-        FWSkin skin = new FWSkin(Gdx.files.internal("uiskin3.json"));
+        Skin skin = new FreeTypistSkin(Gdx.files.internal("uiskin3.json"));
         Table root = new Table(skin);
 
         Table labels = new Table();
@@ -49,9 +50,9 @@ public class StressTest extends ApplicationAdapter {
 //            TextraLabel label = new TextraLabel("Lorem ipsum etc. " + i, skin);
             labels.add(label).expandX().left();
             // wrong thing again
-            TextraLabel label2 = new TextraLabel("Lorem ipsum etc. " + ++i, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));
+//            TextraLabel label2 = new TextraLabel("Lorem ipsum etc. " + ++i, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));
             // this would be better
-//            TextraLabel label2 = new TextraLabel("Lorem ipsum etc. " + ++i, skin);
+            TextraLabel label2 = new TextraLabel("Lorem ipsum etc. " + ++i, skin);
             labels.add(label2).expandX().center();
             // wrong thing again
             TextraLabel label3 = new TextraLabel("Lorem ipsum etc. " + ++i, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));

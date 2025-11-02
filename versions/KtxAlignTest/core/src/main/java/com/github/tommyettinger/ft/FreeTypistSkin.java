@@ -250,7 +250,7 @@ public class FreeTypistSkin extends FWSkin {
                     // smaller scale for the BitmapFont.
                     if (scaledSize != -1) {
                         bitmapFont.getData().setScale(scaledSize / (bitmapFont.getCapHeight()));
-                        font.scaleHeightTo(scaledSize * bitmapFont.getCapHeight() / bitmapFont.getLineHeight());
+                        font.scaleHeightTo(scaledSize * bitmapFont.getLineHeight() / bitmapFont.getCapHeight());
                     }
 
                     skin.add(jsonData.name, font, Font.class);
