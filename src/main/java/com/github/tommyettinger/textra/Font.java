@@ -2436,12 +2436,12 @@ public class Font implements Disposable {
         this.widthAdjust = widthAdjust;
         this.heightAdjust = heightAdjust;
 
-        float size = data.lineHeight;
-//        descent = 0f;
-//        descent = size * -0.25f;
-//        descent = size * -0.333f;
-        descent = data.descent;
-        originalCellHeight = cellHeight = heightAdjust + data.lineHeight - data.descent;// * metrics.getFloat("lineHeight", 1f);
+        float originalScaleX = data.scaleX;
+        float originalScaleY = data.scaleY;
+        data.setScale(1f);
+
+        descent = data.lineHeight * -0.2f; // lines up exactly for the default BitmapFont, and scales the same
+        originalCellHeight = cellHeight = heightAdjust + data.lineHeight;// * metrics.getFloat("lineHeight", 1f);
 
 //        descent = data.capHeight + data.ascent - data.lineHeight;
 //        cellHeight = heightAdjust + data.lineHeight - descent * 0.25f;
@@ -2598,7 +2598,8 @@ public class Font implements Disposable {
         inlineImageXAdvance = 0f;
         inlineImageStretch = 1f;
 
-        scale(bmFont.getScaleX(), bmFont.getScaleY());
+        data.setScale(originalScaleX, originalScaleY);
+        scale(originalScaleX, originalScaleY);
     }
 
     /**
