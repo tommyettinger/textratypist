@@ -44,21 +44,26 @@ public class Issue33Test extends ApplicationAdapter {
         Table root = new Table(skin);
 
         Table labels = new Table();
-        labels.defaults().pad(5);
+        // growX seems to trigger a bug where the height doesn't set correctly after wrapping.
+//        labels.defaults().pad(5).minWidth(800).growX().center().top();
+        // expandX (on its own) has correct height, but doesn't fill the cell.
+        labels.defaults().pad(5).minWidth(800).expandX().center().top();
+        // fillX() is sized correctly on height, but isn't centered (it is all on the left side) and is too thin.
+//        labels.defaults().pad(5).minWidth(800).fillX().center().top();
         for (int i = 0; i < 100; i++) {
             // intentionally doing the wrong thing!
 //            TextraLabel label = new TextraLabel(longText, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));
             // this would be better, but makes very little difference
             TextraLabel label = new TextraLabel(longText, skin);
             label.setWrap(true);
-            labels.add(label).width(800).top();
+            labels.add(label);
             labels.row();
         }
         root.setFillParent(true);
-        labels.pack();
         ScrollPane pane = new ScrollPane(labels);
-        root.add(pane);
+        root.add(pane).minWidth(1000);
         labels.debugAll();
+        labels.pack();
         stage.addActor(root);
         Gdx.input.setInputProcessor(stage);
         Gdx.app.log("TIMING", "create() took   : " + TimeUtils.timeSinceMillis(startMillis) + " ms");
