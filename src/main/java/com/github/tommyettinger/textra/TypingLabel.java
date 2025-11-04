@@ -987,15 +987,25 @@ public class TypingLabel extends TextraLabel {
         if (style != null && style.background != null) {
             width = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
         }
+        float originalHeight = workingLayout.getHeight();
         float actualWidth = font.calculateSize(workingLayout);
+
         if (wrap && (width == 0f || workingLayout.getTargetWidth() != width || actualWidth > width)) {
             if(width != 0f)
                 workingLayout.setTargetWidth(width);
             workingLayout.justification = defaultJustify;
             font.regenerateLayout(workingLayout);
-            // It looks like we don't benefit from invalidating here, but I'm not sure.
-//            invalidateHierarchy();
+// We definitely don't want to invalidateHierarchy() here, because it would invalidate a lot every frame!
         }
+
+// If the call to calculateSize() changed workingLayout's height, we want to update height and invalidateHierarchy().
+        float newHeight = workingLayout.getHeight();
+        if(!MathUtils.isEqual(originalHeight, newHeight)) {
+            setSuperHeight(newHeight);
+            invalidateHierarchy();
+            // We don't want to call setHeight() because it would calculateSize() again, which isn't needed.
+        }
+
     }
 
     /**

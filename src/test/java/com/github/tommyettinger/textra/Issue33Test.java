@@ -54,9 +54,9 @@ public class Issue33Test extends ApplicationAdapter {
             // intentionally doing the wrong thing!
 //            TextraLabel label = new TextraLabel(longText, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));
             // this would be better, but makes very little difference
-            TextraLabel label = new TextraLabel(longText, skin);
+//            TextraLabel label = new TextraLabel(longText, skin);
             // TypingLabel is also affected by growX() bugs that affect height.
-//            TypingLabel label = new TypingLabel(longText, skin);
+            TypingLabel label = new TypingLabel(longText, skin);
             label.setWrap(true);
             labels.add(label);
             labels.row();
