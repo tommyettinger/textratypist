@@ -624,20 +624,22 @@ public class TextraLabel extends Widget {
         float originalHeight = layout.getHeight();
         float actualWidth = font.calculateSize(layout);
 
-        if (wrap && (width == 0 || layout.getTargetWidth() != width || actualWidth > width)) {
-            if(width != 0f)
-                layout.setTargetWidth(width);
-            font.regenerateLayout(layout);
+        if (wrap) {
+            if (width == 0 || layout.getTargetWidth() != width || actualWidth > width) {
+                if (width != 0f)
+                    layout.setTargetWidth(width);
+                font.regenerateLayout(layout);
 
 // We do not want to call invalidateHierarchy() here! It would force regeneration every frame.
-        }
+            }
 
-        // If the call to calculateSize() changed layout's height, we want to update height and invalidateHierarchy().
-        float newHeight = layout.getHeight();
-        if(!MathUtils.isEqual(originalHeight, newHeight)) {
-            setSuperHeight(newHeight);
-            invalidateHierarchy();
-            // We don't want to call setHeight() because it would calculateSize() again, which isn't needed.
+            // If the call to calculateSize() changed layout's height, we want to update height and invalidateHierarchy().
+            float newHeight = layout.getHeight();
+            if (!MathUtils.isEqual(originalHeight, newHeight)) {
+                setSuperHeight(newHeight);
+                invalidateHierarchy();
+                // We don't want to call setHeight() because it would calculateSize() again, which isn't needed.
+            }
         }
     }
 
