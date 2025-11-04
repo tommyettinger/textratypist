@@ -30,8 +30,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.LongArray;
 
-import java.util.Arrays;
-
 import static com.github.tommyettinger.textra.Font.ALTERNATE;
 
 /**
@@ -623,13 +621,23 @@ public class TextraLabel extends Widget {
         if (style != null && style.background != null) {
             width = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
         }
+        float originalHeight = layout.getHeight();
         float actualWidth = font.calculateSize(layout);
+
         if (wrap && (width == 0 || layout.getTargetWidth() != width || actualWidth > width)) {
             if(width != 0f)
                 layout.setTargetWidth(width);
             font.regenerateLayout(layout);
 
 // We do not want to call invalidateHierarchy() here! It would force regeneration every frame.
+        }
+
+        // If the call to calculateSize() changed layout's height, we want to update height and invalidateHierarchy().
+        float newHeight = layout.getHeight();
+        if(!MathUtils.isEqual(originalHeight, newHeight)) {
+            setSuperHeight(newHeight);
+            invalidateHierarchy();
+            // We don't want to call setHeight() because it would calculateSize() again, which isn't needed.
         }
     }
 

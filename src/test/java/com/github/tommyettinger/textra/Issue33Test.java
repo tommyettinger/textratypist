@@ -45,9 +45,9 @@ public class Issue33Test extends ApplicationAdapter {
 
         Table labels = new Table();
         // growX seems to trigger a bug where the height doesn't set correctly after wrapping.
-//        labels.defaults().pad(5).minWidth(800).growX().center().top();
+        labels.defaults().pad(5).minWidth(800).growX().center().top();
         // expandX (on its own) has correct height, but doesn't fill the cell.
-        labels.defaults().pad(5).minWidth(800).expandX().center().top();
+//        labels.defaults().pad(5).minWidth(800).expandX().center().top();
         // fillX() is sized correctly on height, but isn't centered (it is all on the left side) and is too thin.
 //        labels.defaults().pad(5).minWidth(800).fillX().center().top();
         for (int i = 0; i < 100; i++) {
@@ -55,6 +55,8 @@ public class Issue33Test extends ApplicationAdapter {
 //            TextraLabel label = new TextraLabel(longText, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));
             // this would be better, but makes very little difference
             TextraLabel label = new TextraLabel(longText, skin);
+            // TypingLabel is also affected by growX() bugs that affect height.
+//            TypingLabel label = new TypingLabel(longText, skin);
             label.setWrap(true);
             labels.add(label);
             labels.row();
@@ -65,6 +67,7 @@ public class Issue33Test extends ApplicationAdapter {
         labels.debugAll();
         labels.pack();
         stage.addActor(root);
+
         Gdx.input.setInputProcessor(stage);
         Gdx.app.log("TIMING", "create() took   : " + TimeUtils.timeSinceMillis(startMillis) + " ms");
         Gdx.app.log("HEAP",   "native heap used: " + Gdx.app.getNativeHeap());
