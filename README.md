@@ -7,7 +7,7 @@ In other words, this brings more features to text rendering in libGDX.
 
 What does this look like? A little something like this...
 
-![Still preview](docs/previews/Gentium%20(MSDF).png)
+![Still preview](docs/previews/Gentium-msdf.png)
 
 Or perhaps like this...
 
