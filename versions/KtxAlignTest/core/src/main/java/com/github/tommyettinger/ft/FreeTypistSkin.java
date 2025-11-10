@@ -350,6 +350,20 @@ public class FreeTypistSkin extends FWSkin {
                 if (s2d.checkedDownFontColor != null) stt.checkedDownFontColor = new Color(s2d.checkedDownFontColor);
                 if (s2d.checkedOverFontColor != null) stt.checkedOverFontColor = new Color(s2d.checkedOverFontColor);
                 if (s2d.checkedFocusedFontColor != null) stt.checkedFocusedFontColor = new Color(s2d.checkedFocusedFontColor);
+
+                stt.checkedDown = s2d.checkedDown;
+                stt.checkedFocused = s2d.checkedFocused;
+                stt.checkedOver = s2d.checkedOver;
+                stt.disabled = s2d.disabled;
+                stt.focused = s2d.focused;
+                stt.over = s2d.over;
+                stt.checkedOffsetX = s2d.checkedOffsetX;
+                stt.checkedOffsetY = s2d.checkedOffsetY;
+                stt.pressedOffsetX = s2d.pressedOffsetX;
+                stt.pressedOffsetY = s2d.pressedOffsetY;
+                stt.unpressedOffsetX = s2d.unpressedOffsetX;
+                stt.unpressedOffsetY = s2d.unpressedOffsetY;
+
                 skin.add(jsonData.name, stt, Styles.TextButtonStyle.class);
                 return s2d;
             }
@@ -381,6 +395,19 @@ public class FreeTypistSkin extends FWSkin {
                 stt.imageCheckedDown = s2d.imageCheckedDown;
                 stt.imageCheckedOver = s2d.imageCheckedOver;
 
+                stt.checkedDown = s2d.checkedDown;
+                stt.checkedFocused = s2d.checkedFocused;
+                stt.checkedOver = s2d.checkedOver;
+                stt.disabled = s2d.disabled;
+                stt.focused = s2d.focused;
+                stt.over = s2d.over;
+                stt.checkedOffsetX = s2d.checkedOffsetX;
+                stt.checkedOffsetY = s2d.checkedOffsetY;
+                stt.pressedOffsetX = s2d.pressedOffsetX;
+                stt.pressedOffsetY = s2d.pressedOffsetY;
+                stt.unpressedOffsetX = s2d.unpressedOffsetX;
+                stt.unpressedOffsetY = s2d.unpressedOffsetY;
+
                 skin.add(jsonData.name, stt, Styles.ImageTextButtonStyle.class);
                 return s2d;
             }
@@ -410,6 +437,23 @@ public class FreeTypistSkin extends FWSkin {
                 stt.checkboxOver = s2d.checkboxOver;
                 stt.checkboxOnDisabled = s2d.checkboxOnDisabled;
                 stt.checkboxOffDisabled = s2d.checkboxOffDisabled;
+
+                stt.checkedDown = s2d.checkedDown;
+                stt.checkedFocused = s2d.checkedFocused;
+                stt.checkedOver = s2d.checkedOver;
+                stt.disabled = s2d.disabled;
+                stt.focused = s2d.focused;
+                stt.over = s2d.over;
+                stt.checkedOffsetX = s2d.checkedOffsetX;
+                stt.checkedOffsetY = s2d.checkedOffsetY;
+                stt.pressedOffsetX = s2d.pressedOffsetX;
+                stt.pressedOffsetY = s2d.pressedOffsetY;
+                stt.unpressedOffsetX = s2d.unpressedOffsetX;
+                stt.unpressedOffsetY = s2d.unpressedOffsetY;
+
+                stt.down = s2d.down;
+                stt.up = s2d.up;
+                stt.checked = s2d.checked;
 
                 skin.add(jsonData.name, stt, Styles.CheckBoxStyle.class);
                 return s2d;
