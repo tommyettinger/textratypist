@@ -42,9 +42,9 @@ public class IssueButtonsTest extends ApplicationAdapter {
         stage = new Stage(viewport);
 //        stage.setDebugAll(true);
 
-        Skin skin = new FWSkin(Gdx.files.internal("paafomir/Homestuck_Skin.json"));
+        Skin skin = new FWSkin(Gdx.files.internal("paafomir/Homestuck_Skin/Homestuck_Skin.json"));
         test1 = new TextButton("TextButton", skin);
-        test2 = new TypingButton("TextraButton", skin);
+        test2 = new TypingButton("[_]Textra[_][~]Button[~]", skin);
 
         Table table = new Table();
         table.add(test1).row();
