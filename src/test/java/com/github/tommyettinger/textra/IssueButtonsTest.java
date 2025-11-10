@@ -44,7 +44,7 @@ public class IssueButtonsTest extends ApplicationAdapter {
 
         Skin skin = new FWSkin(Gdx.files.internal("paafomir/Homestuck_Skin.json"));
         test1 = new TextButton("TextButton", skin);
-        test2 = new TextraButton("[_]Textra[_]Button", skin);
+        test2 = new TextraButton("TextraButton", skin);
 
         Table table = new Table();
         table.add(test1).row();
