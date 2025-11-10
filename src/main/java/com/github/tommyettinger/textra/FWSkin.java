@@ -320,6 +320,20 @@ public class FWSkin extends Skin {
                 if (s2d.checkedDownFontColor != null) stt.checkedDownFontColor = new Color(s2d.checkedDownFontColor);
                 if (s2d.checkedOverFontColor != null) stt.checkedOverFontColor = new Color(s2d.checkedOverFontColor);
                 if (s2d.checkedFocusedFontColor != null) stt.checkedFocusedFontColor = new Color(s2d.checkedFocusedFontColor);
+
+                stt.checkedDown = s2d.checkedDown;
+                stt.checkedFocused = s2d.checkedFocused;
+                stt.checkedOver = s2d.checkedOver;
+                stt.disabled = s2d.disabled;
+                stt.focused = s2d.focused;
+                stt.over = s2d.over;
+                stt.checkedOffsetX = s2d.checkedOffsetX;
+                stt.checkedOffsetY = s2d.checkedOffsetY;
+                stt.pressedOffsetX = s2d.pressedOffsetX;
+                stt.pressedOffsetY = s2d.pressedOffsetY;
+                stt.unpressedOffsetX = s2d.unpressedOffsetX;
+                stt.unpressedOffsetY = s2d.unpressedOffsetY;
+
                 skin.add(jsonData.name, stt, Styles.TextButtonStyle.class);
                 return s2d;
             }
@@ -350,6 +364,19 @@ public class FWSkin extends Skin {
                 stt.imageChecked = s2d.imageChecked;
                 stt.imageCheckedDown = s2d.imageCheckedDown;
                 stt.imageCheckedOver = s2d.imageCheckedOver;
+
+                stt.checkedDown = s2d.checkedDown;
+                stt.checkedFocused = s2d.checkedFocused;
+                stt.checkedOver = s2d.checkedOver;
+                stt.disabled = s2d.disabled;
+                stt.focused = s2d.focused;
+                stt.over = s2d.over;
+                stt.checkedOffsetX = s2d.checkedOffsetX;
+                stt.checkedOffsetY = s2d.checkedOffsetY;
+                stt.pressedOffsetX = s2d.pressedOffsetX;
+                stt.pressedOffsetY = s2d.pressedOffsetY;
+                stt.unpressedOffsetX = s2d.unpressedOffsetX;
+                stt.unpressedOffsetY = s2d.unpressedOffsetY;
 
                 skin.add(jsonData.name, stt, Styles.ImageTextButtonStyle.class);
                 return s2d;
