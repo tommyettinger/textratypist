@@ -22,14 +22,14 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -37,69 +37,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class TextraUITest extends InputAdapter implements ApplicationListener {
-
-//	TestWindow tw;
-//	static class TestWindow extends Window
-//	{
-//		Table labelTable;
-//		Table textraTable;
-//		Table textraTopTable;
-//		TextraLabel textraLabel;
-//		TextraLabel textraTopLabel;
-//		Label label;
-//		public TestWindow(Skin skin)
-//		{
-//			super("", skin);
-//
-//			this.setResizable(true);
-//
-//			this.textraLabel = new TextraLabel("TextraLabel", skin);
-//			this.textraLabel.setAlignment(Align.center);
-//			this.textraTopLabel = new TextraLabel("TextraLabel Align Top", skin);
-//			this.textraTopLabel.setAlignment(Align.top);
-//			this.label = new Label("Label", skin);
-//
-//			this.textraTable = new Table();
-//			this.textraTable.add(textraLabel);
-//
-//			this.textraTopTable = new Table();
-//			this.textraTopTable.add(textraTopLabel);
-//
-//			this.labelTable = new Table();
-//			this.labelTable.add(label);
-//
-//			add(this.textraTable).pad(50);
-//			add(this.textraTopTable).pad(50);
-//			add(this.labelTable).pad(50);
-//
-//			resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//		}
-//
-//		public void resize(float width, float height)
-//		{
-//			setSize(width / 2f, height / 3f);
-//
-//			label.layout();
-//			float scale = height / 500f;
-//			label.setFontScale(scale);
-//			textraLabel.font.scale(
-//					scale / this.textraLabel.font.scaleX,
-//					scale / this.textraLabel.font.scaleY
-//			);
-//			textraTopLabel.font.scale(
-//					scale / this.textraTopLabel.font.scaleX,
-//					scale / this.textraTopLabel.font.scaleY
-//			);
-//			textraTopTable.top();
-//			textraTopLabel.setAlignment(Align.top);
-//			textraTopTable.getCell(textraTopLabel).top().align(Align.top);
-//
-//			invalidateHierarchy();
-//			pack();
-//		}
-//	}
-
+public class StandardDarkerUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
 		"And another one3", "The meaning of life3", "Is hard to come by3", "This is a list entry4", "And another one4",
@@ -110,122 +48,101 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 	Stage stage;
 	Texture texture1;
 	Texture texture2;
-	TextraLabel fpsLabel;
+	Label fpsLabel;
 //	GLProfiler profiler;
 
 	@Override
 	public void create () {
 //		profiler = new GLProfiler(Gdx.graphics);
 //		profiler.enable();
-		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
+		skin = new FWSkin(Gdx.files.internal("uiskinDarker.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
+		Label.LabelStyle ls = skin.get(Label.LabelStyle.class);
+		ls.font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		ls.font.setUseIntegerPositions(false);
+		ls.font.getData().scale(-0.07f);
 		TextureRegion image = new TextureRegion(texture1);
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-
-		final Font font = KnownFonts.getStandardFamily();
-		for(Font f : font.family.connected) {
-			if(f != null)
-				KnownFonts.addEmoji(f, 0f, -1f, 0f).setInlineImageStretch(0.9f);
-		}
-
-		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
-//		 stage.setDebugAll(true);
+		// stage.setDebugAll(true);
 
-		Styles.ImageTextButtonStyle style = new Styles.ImageTextButtonStyle(skin.get(Styles.TextButtonStyle.class));
+		ImageButtonStyle style = new ImageButtonStyle(skin.get(ButtonStyle.class));
 		style.imageUp = new TextureRegionDrawable(image);
 		style.imageDown = new TextureRegionDrawable(imageFlipped);
-		ImageTextraButton iconButton = new ImageTextraButton("[%60]a [%70]e [%80]s [%90]t [%100]h [%110]e [%120]t [%130]i [%140]c", style, font);
+		ImageButton iconButton = new ImageButton(style);
 
-		Button buttonMulti = new TextraButton("Multi\nLine\nToggle", skin, "toggle", font);
+		Button buttonMulti = new TextButton("Multi\nLine\nToggle", skin, "toggle");
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
-		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering[+saxophone][+clown face][+saxophone]", skin, font);
+		Label myLabel = new Label("This is some text.", skin);
+
+		Table t = new Table();
+		t.row();
+		t.add(myLabel);
+
+		t.layout();
+
+		final CheckBox checkBox = new CheckBox(" Continuous rendering", skin);
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
 		TextField textfield = new TextField("", skin);
 		textfield.setMessageText("Click here!");
 		textfield.setAlignment(Align.center);
-		final TextraSelectBox selectBox = new TextraSelectBox(skin);
+		final SelectBox<String> selectBox = new SelectBox<>(skin);
 		selectBox.setAlignment(Align.right);
 		selectBox.getList().setAlignment(Align.right);
-		selectBox.getStyle().font = font;
-		selectBox.getStyle().listStyle.selection.setRightWidth(20);
+		selectBox.getStyle().listStyle.selection.setRightWidth(10);
 		selectBox.getStyle().listStyle.selection.setLeftWidth(20);
 		selectBox.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println(selectBox.getSelected());
 			}
 		});
-		String[] items = {"[+🤖]Android1", "[+🪟]Windows1 long text in item", "[+🐧]Linux1", "[+🍎]macOS1", "[+🤖]Android2", "[+🪟]Windows2", "[+🐧]Linux2", "[+🍎]macOS2",
-				"[+🤖]Android3", "[+🪟]Windows3", "[+🐧]Linux3", "[+🍎]macOS3", "[+🤖]Android4", "[+🪟]Windows4", "[+🐧]Linux4", "[+🍎]macOS4", "[+🤖]Android5", "[+🪟]Windows5", "[+🐧]Linux5",
-				"[+🍎]macOS5", "[+🤖]Android6", "[+🪟]Windows6", "[+🐧]Linux6", "[+🍎]macOS6", "[+🤖]Android7", "[+🪟]Windows7", "[+🐧]Linux7", "[+🍎]macOS7"};
-		selectBox.setItemTexts(items);
-		selectBox.setSelectedIndex(20);
-		selectBox.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println(selectBox.getSelected());
-			}
-		});
+		selectBox.setItems("Android1", "Windows1 long text in item", "Linux1", "OSX1", "Android2", "Windows2", "Linux2", "OSX2",
+			"Android3", "Windows3", "Linux3", "OSX3", "Android4", "Windows4", "Linux4", "OSX4", "Android5", "Windows5", "Linux5",
+			"OSX5", "Android6", "Windows6", "Linux6", "OSX6", "Android7", "Windows7", "Linux7", "OSX7");
+		selectBox.setSelected("Linux6");
 		Image imageActor = new Image(image2);
 		ScrollPane scrollPane = new ScrollPane(imageActor);
-		TextraListBox<TextraLabel> list = new TextraListBox<>(skin);
-		TextraLabel[] entriesArray = new TextraLabel[listEntries.length];
-		for (int i = 0; i < listEntries.length; i++) {
-			entriesArray[i] = new TextraLabel(listEntries[i], skin);
-		}
-		list.setItems(entriesArray);
+		List<String> list = new List<>(skin);
+		list.setItems(listEntries);
 		list.getSelection().setMultiple(true);
 		list.getSelection().setRequired(false);
 		// list.getSelection().setToggle(true);
 		ScrollPane scrollPane2 = new ScrollPane(list, skin);
 		scrollPane2.setFlickScroll(false);
-		TextraLabel minSizeLabel = new TextraLabel("[@Medieval]ginWidth cell", skin, font); // demos SplitPane respecting widget's minWidth
+		Label minSizeLabel = new Label("minWidth cell", skin); // demos SplitPane respecting widget's minWidth
 		Table rightSideTable = new Table(skin);
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TextraLabel("fps:", font);
+		fpsLabel = new Label("fps:", skin);
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
-		final TextraLabel passwordLabel = new TextraLabel("[@Medieval]Textfield in [~]secure[ ] password mode..." +
-				" Wait, I need more text. DEVELOPERS, DEVELOPERS, DEVELOPERS, DEVELOPERS. I LOVE THIS COMPANY!",
-				new Font(font).scale(0.5f), Color.WHITE, Justify.SPACES_ON_PARAGRAPH);
-		passwordLabel.layout.setTargetWidth(imageActor.getWidth());
-		passwordLabel.setWrap(true);
-		passwordLabel.font.justify(passwordLabel.layout);
+		final Label passwordLabel = new Label("Textfield in secure password mode: ", skin);
 		final TextField passwordTextField = new TextField("", skin);
 		passwordTextField.setMessageText("password");
 		passwordTextField.setPasswordCharacter('*');
 		passwordTextField.setPasswordMode(true);
 
-		buttonMulti.addListener(new TextraTooltip(
-		"This is a tooltip! [~]This is a tooltip! [_]This is a tooltip! [/]This is a tooltip![~] This is a tooltip![_] This is a tooltip!",
-			skin, font));
-
-//		TypingLabel tl = new TypingLabel(
-//				"This is a tooltip! [~]This is a tooltip! [_]This is a tooltip! [/]This is a tooltip![~] This is a tooltip![_] This is a tooltip!",
-//				skin, font);
-//		tl.setWrap(true);
-//		Container<TypingLabel> c = new Container<>(tl).width(skin.get(Styles.TextTooltipStyle.class).wrapWidth).background(skin.getDrawable("default-pane"));
-//		buttonMulti.addListener(new Tooltip<>(c));
+		buttonMulti.addListener(makeTooltip(
+			"This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip! This is a tooltip!",
+			skin));
 		Table tooltipTable = new Table(skin);
 		tooltipTable.pad(10).background("default-round");
-		tooltipTable.add(new TextraButton("Fancy tooltip!", skin, font));
+		tooltipTable.add(new TextButton("Fancy tooltip!", skin));
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
-		System.out.println("Before layout(), height: " + passwordLabel.getHeight() + " with lines: " + passwordLabel.layout.lines());
-
-		TextraWindow window = new TextraWindow("TextraWindow", skin, "default", new Font(font).scale(0.75f, 0.75f), false);
-//		window.getTitleTable().debug();
-		window.getTitleTable().add(new TextraButton("X", skin, window.font)).height(window.getPadTop());
+		// window.debug();
+		Window window = new Window("Dialog", skin);
+		window.getTitleTable().add(new TextButton("X", skin)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
 		window.row().fill().expandX();
@@ -237,24 +154,19 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		window.add(checkBox);
 		window.add(slider).minWidth(100).fillX().colspan(3);
 		window.row();
-		window.add(selectBox).maxWidth(250);
+		window.add(selectBox).maxWidth(100);
 		window.add(textfield).minWidth(100).expandX().fillX().colspan(3);
 		window.row();
 		window.add(splitPane).fill().expand().colspan(4).maxHeight(200);
 		window.row();
-		window.add(passwordLabel).prefWidth(imageActor.getWidth()).left().colspan(2);
+		window.add(passwordLabel).left().colspan(2);
 		window.add(passwordTextField).minWidth(100).expandX().fillX().colspan(2);
 		window.row();
 		window.add(fpsLabel).left().colspan(4);
 		window.pack();
 
-		System.out.println("After layout(), height: " + passwordLabel.getHeight() + " with lines: " + passwordLabel.layout.lines());
-
 		// stage.addActor(new Button("Behind Window", skin));
 		stage.addActor(window);
-
-//		tw = new TestWindow(skin);
-//		stage.addActor(tw);
 
 		textfield.setTextFieldListener(new TextFieldListener() {
 			public void keyTyped (TextField textField, char key) {
@@ -270,7 +182,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 
 		iconButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				new TextraDialog("Some TextraDialog", skin, "dialog", font) {
+				new Dialog("Some Dialog", skin, "dialog") {
 					protected void result (Object object) {
 						System.out.println("Chosen: " + object);
 					}
@@ -290,15 +202,17 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 	public void render () {
 //		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
-		fpsLabel.getFont().markup("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]", fpsLabel.layout.clear());
-		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
-
+		
+		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[citation needed]");
+		// note, this does nothing here! it is present to contrast with other types of label.
+		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime());
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 //		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
 //			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
 //					profiler.getCalls(), profiler.getDrawCalls(),
 //					profiler.getShaderSwitches(), profiler.getTextureBindings());
+
 	}
 
 	@Override
@@ -314,7 +228,6 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 	@Override
 	public void resize (int width, int height) {
 		stage.getViewport().update(width, height, true);
-//		tw.resize(width, height);
 	}
 
 	@Override
@@ -327,16 +240,44 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 
 	public static void main(String[] args){
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setTitle("TextraLabel UI test");
-		config.setWindowedMode(760, 600);
+		config.setTitle("Label UI test");
+		config.setWindowedMode(640, 480);
 		config.disableAudio(true);
 		ShaderProgram.prependVertexCode = "#version 110\n";
 		ShaderProgram.prependFragmentCode = "#version 110\n";
 //		config.enableGLDebugOutput(true, System.out);
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
-		config.useVsync(true);
+		config.useVsync(false);
 		config.setForegroundFPS(0);
-		new Lwjgl3Application(new TextraUITest(), config);
+		new Lwjgl3Application(new StandardDarkerUITest(), config);
 	}
 
+	/**
+	 * Needed starting in libGDX 1.11.0 to create TextTooltip widgets that wrap correctly.
+	 * @param text the text to show
+	 * @param skin the Skin to load style info from
+	 * @return a new TextTooltip that should act correctly.
+	 */
+	public static TextTooltip makeTooltip(String text, Skin skin) {
+		// we use the style in two places here.
+		TextTooltip.TextTooltipStyle style = skin.get(TextTooltip.TextTooltipStyle.class);
+
+		// this calls setStyle() as its last line, but we need to run some code before that.
+		final TextTooltip tooltip = new TextTooltip(text, TooltipManager.getInstance(), style);
+
+		// in 1.10.0, tooltips were centered, but in 1.11.0... it doesn't seem like it.
+		tooltip.getActor().setAlignment(Align.center);
+
+		// this was used in libGDX 1.10.0, but was removed from 1.11.0, causing problems with some tooltips.
+		tooltip.getContainer().width(new Value() {
+			public float get (Actor context) {
+				return Math.min(tooltip.getManager().maxWidth, tooltip.getActor().getGlyphLayout().width);
+			}
+		});
+
+		// calling this last ensures we wrap text at the desired width.
+		tooltip.getContainer().maxWidth(style.wrapWidth);
+
+		return tooltip;
+	}
 }
