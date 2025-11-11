@@ -1395,7 +1395,7 @@ public final class KnownFonts implements LifecycleListener {
         String rootName = baseName + distanceField.filePart;
         Font found = instance.loaded.get(rootName);
         if(found == null){
-            found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, 1, 5, 0, 0, false);
+            found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, -1, 5, 0, 0, false);
             found
                     .useIntegerPositions(false)
                     .setDescent(-3f)

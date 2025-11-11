@@ -462,7 +462,7 @@ public class TextraLabel extends Widget {
                     }
 
                     Font.GlyphRegion reg = font.mapping.get((char) glyph);
-                    if (reg != null && reg.offsetX < 0) {
+                    if (reg != null && reg.offsetX < 0 && !font.isMono) {
                         float ox = reg.offsetX * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
                         xChange -= cs * ox;
                         yChange -= sn * ox;
