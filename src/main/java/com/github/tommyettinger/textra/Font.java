@@ -5053,7 +5053,7 @@ public class Font implements Disposable {
                     line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
                     amt = font.kerning.get(kern, 0) * scaleX;
                     float changedW = xAdvance(font, scaleX, glyph);
-                    if(initial) {
+                    if(initial && !font.isMono) {
                         if (!(ch >= '\uE000' && ch < '\uF800')) {
                             float ox = font.mapping.get((int) (glyph & 0xFFFF), font.defaultValue).offsetX
                                     * scaleX;
