@@ -256,15 +256,15 @@ public final class KnownFonts implements LifecycleListener {
 
     public static final OrderedSet<String> LIMITED_JSON_NAMES = OrderedSet.with(CORDATA_16X26, IBM_8X16);
 
-    public static final OrderedSet<String> STANDARD_NAMES = new OrderedSet<>(JSON_NAMES.size + FNT_NAMES.size + SAD_NAMES.size + LIMITED_JSON_NAMES.size);
+    public static final OrderedSet<String> STANDARD_NAMES = new OrderedSet<>(JSON_NAMES.size + LIMITED_JSON_NAMES.size + FNT_NAMES.size + SAD_NAMES.size);
     public static final OrderedSet<String> SDF_NAMES = new OrderedSet<>(JSON_NAMES);
     public static final OrderedSet<String> MSDF_NAMES = new OrderedSet<>(JSON_NAMES);
 
     static {
         STANDARD_NAMES.addAll(JSON_NAMES);
+        STANDARD_NAMES.addAll(LIMITED_JSON_NAMES);
         STANDARD_NAMES.addAll(FNT_NAMES);
         STANDARD_NAMES.addAll(SAD_NAMES);
-        STANDARD_NAMES.addAll(LIMITED_JSON_NAMES);
     }
 
     /**
@@ -347,12 +347,12 @@ public final class KnownFonts implements LifecycleListener {
         String rootName = baseName + STANDARD.filePart;
         BitmapFont known;
         FileHandle fh;
-        if (JSON_NAMES.contains(baseName)) {
+        if (JSON_NAMES.contains(baseName) || LIMITED_JSON_NAMES.contains(baseName)) {
             known = BitmapFontSupport.loadStructuredJson(
                     Gdx.files.internal(Font.getJsonExtension(instance.prefix + rootName)), rootName + ".png");
             known.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
             known.setUseIntegerPositions(false);
-            known.getData().setScale(32f / (known.getData().lineHeight - known.getDescent()));
+            known.getData().setScale(32f / (known.getData().lineHeight));
         }
         else if (FNT_NAMES.contains(baseName)) {
             if ((fh = Gdx.files.internal(instance.prefix + rootName + ".fnt")).exists())

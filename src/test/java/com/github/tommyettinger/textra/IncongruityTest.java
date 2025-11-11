@@ -39,10 +39,9 @@ public class IncongruityTest extends ApplicationAdapter {
         Skin skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
         Table root = new Table(skin);
 
-        Font[] fonts = new Font[KnownFonts.JSON_NAMES.size+1];
-        fonts[0] = KnownFonts.getAStarryTall();
-        for (int i = 1; i < fonts.length; i++) {
-            fonts[i] = KnownFonts.getFont(KnownFonts.JSON_NAMES.orderedItems().get(i-1));
+        Font[] fonts = new Font[KnownFonts.STANDARD_NAMES.size - 1];
+        for (int i = 0; i < fonts.length; i++) {
+            fonts[i] = KnownFonts.getFont(KnownFonts.STANDARD_NAMES.orderedItems().get(i));
         }
         BitmapFont[] bitmapFonts = getFonts();
         Table labels = new Table();
@@ -92,17 +91,9 @@ public class IncongruityTest extends ApplicationAdapter {
     }
 
     private BitmapFont[] getFonts () {
-        BitmapFont tall = getFont("A-Starry");
-        tall.getData().setScale(1, 2);
-        // getAStarry(), getAStarry().scaleTo(8, 16).setName("A Starry Tall"), getBitter(), getCanada(),
-        // getCascadiaMono(), getCaveat(), getCozette(), getGentium(), getGentiumUnItalic(), getGoNotoUniversal(),
-        // getHanazono(), getIBM8x16(), getInconsolata(), getIosevka(), getIosevkaSlab(),
-        // getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(), getLibertinusSerif(), getNowAlt(),
-        // getOpenSans(), getOxanium(), getQuanPixel(), getRobotoCondensed(), getTangerine(), getYanoneKaffeesatz()
-        BitmapFont[] fonts = new BitmapFont[KnownFonts.JSON_NAMES.size+1];
-        fonts[0] = tall;
-        for (int i = 1; i < fonts.length; i++) {
-            fonts[i] = getFont(KnownFonts.JSON_NAMES.orderedItems().get(i-1));
+        BitmapFont[] fonts = new BitmapFont[KnownFonts.STANDARD_NAMES.size - 1];
+        for (int i = 0; i < fonts.length; i++) {
+            fonts[i] = getFont(KnownFonts.STANDARD_NAMES.orderedItems().get(i));
         }
 
         return fonts;
@@ -110,7 +101,8 @@ public class IncongruityTest extends ApplicationAdapter {
 
     private BitmapFont getFont (String name) {
 //        BitmapFont bf = new BitmapFont(Gdx.files.internal(name + "-standard.fnt"));
-        BitmapFont bf = BitmapFontSupport.loadStructuredJson(Gdx.files.internal(name + "-standard.json.lzma"), name + "-standard.png");
+        BitmapFont bf = KnownFonts.getBitmapFont(name);
+        bf.getData().setScale(1);
         bf.setUseIntegerPositions(false);
         return bf;
     }

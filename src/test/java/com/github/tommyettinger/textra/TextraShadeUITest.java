@@ -130,8 +130,12 @@ public class TextraShadeUITest extends InputAdapter implements ApplicationListen
 		selectBox.setSelected("Linux6");
 		Image imageActor = new Image(image2);
 		ScrollPane scrollPane = new ScrollPane(imageActor);
-		List<String> list = new List<>(skin);
-		list.setItems(listEntries);
+		TextraListBox<TextraLabel> list = new TextraListBox<>(skin);
+        TextraLabel[] entriesArray = new TextraLabel[listEntries.length];
+        for (int i = 0; i < listEntries.length; i++) {
+            entriesArray[i] = new TextraLabel(listEntries[i], skin);
+        }
+        list.setItems(entriesArray);
 		list.getSelection().setMultiple(true);
 		list.getSelection().setRequired(false);
 		// list.getSelection().setToggle(true);
