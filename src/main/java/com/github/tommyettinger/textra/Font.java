@@ -2796,7 +2796,7 @@ public class Font implements Disposable {
         }
         defaultValue = mapping.get(' ', mapping.get(0));
         originalCellWidth = cellWidth;
-        originalCellHeight = cellHeight -= descent;
+        originalCellHeight = cellHeight -= descent * 0.25f;
         isMono = minWidth == cellWidth && kerning == null;
 
 //        underY = 0.05f;
