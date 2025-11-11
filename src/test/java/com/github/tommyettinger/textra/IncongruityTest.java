@@ -39,7 +39,9 @@ public class IncongruityTest extends ApplicationAdapter {
         Skin skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
         Table root = new Table(skin);
 
-        Font[] fonts = new Font[KnownFonts.STANDARD_NAMES.size - 1];
+
+        Font[] fonts = KnownFonts.getAllStandard();
+        fonts = new Font[KnownFonts.STANDARD_NAMES.size - 1];
         for (int i = 0; i < fonts.length; i++) {
             fonts[i] = KnownFonts.getFont(KnownFonts.STANDARD_NAMES.orderedItems().get(i));
         }
