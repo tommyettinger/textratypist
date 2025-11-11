@@ -1361,7 +1361,7 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getCordata16x26() {
         return getFont(CORDATA_16X26, STANDARD)
                 .scaleHeightTo(40f)
-                .setLineMetrics(0f, 0.2f, 0f, -0.5f)
+                .setLineMetrics(0f, 0.05f, 0f, -0.5f)
 //                .setBoldStrength(0.5f)
                 .setOutlineStrength(0.8f)
                 .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
@@ -2247,7 +2247,7 @@ public final class KnownFonts implements LifecycleListener {
             found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, 1, 0, 0, 0, true);
             found
                     .setDescent(-6f).scaleTo(22f, 27.25f).setFancyLinePosition(0f, 0.125f).setOutlineStrength(1.6f)
-                    .setLineMetrics(-0.25f, 0.125f, 0f, -0.5f).setInlineImageMetrics(-4f, -5f, -8f, 0.75f)
+                    .setLineMetrics(-0.25f, 0f, 0f, -0.5f).setInlineImageMetrics(-4f, -5f, -8f, 0.75f)
                     .setTextureFilter()
                     .setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, found);
@@ -2286,8 +2286,7 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getIBM8x16() {
         return getFont(IBM_8X16, STANDARD)
-                .scaleHeightTo(20).setUnderlineMetrics(0f, 0.05f, 0f, -0.5f)
-                .setStrikethroughMetrics(0f, 0.15f, 0f, -0.5f).setBoldStrength(0.5f).setOutlineStrength(1.6f)
+                .scaleHeightTo(20).setLineMetrics(0f, 0.05f, 0f, -0.5f).setBoldStrength(0.5f).setOutlineStrength(1.6f)
                 .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
                 .setInlineImageMetrics(-4f, -3f, -8f, 0.75f)
                 .useIntegerPositions(true);
@@ -2831,7 +2830,7 @@ public final class KnownFonts implements LifecycleListener {
             found
                     .setInlineImageMetrics(0f, 3f, -8f, 0.75f).setFancyLinePosition(0f, 4f)
                     .useIntegerPositions(true).setBoldStrength(0.5f).setOutlineStrength(2f)
-                    .setUnderlineMetrics(0.125f, -0.1f, -0.125f, -0.5f).setStrikethroughMetrics(0.125f, -0.05f, -0.125f, -0.5f)
+                    .setUnderlineMetrics(0.125f, 0.5f, -0.125f, -0.4f).setStrikethroughMetrics(0.125f, 0.35f, -0.125f, -0.4f)
                     .setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, found);
         }
@@ -3122,9 +3121,9 @@ public final class KnownFonts implements LifecycleListener {
             found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, 0, 0, 0, 0, true);
             found
                     .setDescent(-2.5f).setInlineImageMetrics(0f, 2f, -4f, 0.875f).setFancyLinePosition(0f, 3f)
-                    .useIntegerPositions(false).setBoldStrength(0.5f).setOutlineStrength(2.5f).setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
-                    .setUnderlineMetrics(0f, 0.15f, -0.2f, -0.35f)
-                    .setStrikethroughMetrics(0f, 0.18f, -0.2f, -0.35f)
+                    .useIntegerPositions(false).setBoldStrength(0.5f).setOutlineStrength(2.5f).setTextureFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest)
+                    .setUnderlineMetrics(-0.17f, 0.1f, -0.1f, -0.35f)
+                    .setStrikethroughMetrics(-0.17f, 0.18f, -0.1f, -0.2f)
                     .setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, found);
         }
@@ -3166,9 +3165,9 @@ public final class KnownFonts implements LifecycleListener {
             found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, 0, 0, 0, 0, true);
             found
                     .setDescent(-2.5f).setInlineImageMetrics(0f, 2f, -4f, 0.875f).setFancyLinePosition(0f, 3f)
-                    .useIntegerPositions(false).setBoldStrength(0.5f).setOutlineStrength(2.5f).setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
-                    .setUnderlineMetrics(0f, 0.15f, -0.2f, -0.35f)
-                    .setStrikethroughMetrics(0f, 0.18f, -0.2f, -0.35f)
+                    .useIntegerPositions(false).setBoldStrength(0.5f).setOutlineStrength(2.5f).setTextureFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest)
+                    .setUnderlineMetrics(-0.17f, 0.1f, -0.1f, -0.35f)
+                    .setStrikethroughMetrics(-0.17f, 0.18f, -0.1f, -0.2f)
                     .setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, found);
         }
