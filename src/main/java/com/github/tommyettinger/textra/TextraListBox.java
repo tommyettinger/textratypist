@@ -259,7 +259,8 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 
 		for (int i = 0; i < items.size; i++) {
 			T item = items.get(i);
-			if (cullingArea == null || (itemY - items.get(i).getPrefHeight() <= cullingArea.y + cullingArea.height && itemY >= cullingArea.y)) {
+			float itemHeight = item.getPrefHeight();
+			if (cullingArea == null || (itemY - itemHeight <= cullingArea.y + cullingArea.height && itemY >= cullingArea.y)) {
 				item.setColor(fontColorUnselected.r, fontColorUnselected.g, fontColorUnselected.b, fontColorUnselected.a * parentAlpha);
 				boolean selected = selection.contains(item);
 				Drawable drawable = null;
@@ -270,8 +271,8 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 					item.setColor(fontColorSelected.r, fontColorSelected.g, fontColorSelected.b, fontColorSelected.a * parentAlpha);
 				} else if (overIndex == i && style.over != null) //
 					drawable = style.over;
-				drawSelection(batch, drawable, x, y + itemY - item.getPrefHeight(), width, items.get(i).getPrefHeight());
-				item.setPosition(x + textOffsetX, y + itemY - textOffsetY - item.getPrefHeight() * 0.5f);
+				drawSelection(batch, drawable, x, y + itemY - textOffsetY - itemHeight, width, itemHeight);
+				item.setPosition(x + textOffsetX, y + itemY - textOffsetY - itemHeight);
 				item.draw(batch, 1f);
 				if (selected) {
 					item.setColor(fontColorUnselected.r, fontColorUnselected.g, fontColorUnselected.b,
