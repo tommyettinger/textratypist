@@ -95,9 +95,9 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        FileHandle[] sdfFiles = new FileHandle[0];
 
         // WHAT WE NORMALLY USE
-//        String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String.class);
-//        Font[] all = new Font[jsonFiles.length * 4 + 4 + 7];
-        /*
+        String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String.class);
+        Font[] all = new Font[jsonFiles.length * 4 + 4];
+        int idx = 0;
         for (int i = 0; i < jsonFiles.length; i++) {
             all[idx++] = KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).useIntegerPositions(false).setName(jsonFiles[i] + Font.DistanceFieldType.STANDARD.filePart);
             all[idx++] = KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.MSDF).scaleHeightTo(32f).useIntegerPositions(false).setName(jsonFiles[i] + Font.DistanceFieldType.MSDF.filePart);
@@ -108,7 +108,9 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).useIntegerPositions(false).setName("A-Starry-Tall" + Font.DistanceFieldType.MSDF.filePart);
         all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF).scaleHeightTo(32f).useIntegerPositions(false).setName("A-Starry-Tall" + Font.DistanceFieldType.SDF.filePart);
         all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).useIntegerPositions(false).setName("A-Starry-Tall" + "-sdf-outline");
-*/
+
+        // non-JSON standard-only fonts
+        /*
         Font[] all = new Font[9];
         int idx = 0;
         all[idx++] = KnownFonts.getCordata16x26().setName(KnownFonts.CORDATA_16X26 + "-standard");
@@ -120,6 +122,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getMonogram().setName(KnownFonts.MONOGRAM + "-standard");
         all[idx++] = KnownFonts.getMonogramItalic().setName(KnownFonts.MONOGRAM_ITALIC + "-standard");
         all[idx++] = KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard");
+         */
         // DEBUG
 //        Font[] all = new Font[]{};
 
