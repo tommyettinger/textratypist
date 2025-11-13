@@ -41,7 +41,10 @@ import static com.badlogic.gdx.math.MathUtils.round;
  * <br>
  * Note: While .ubj and .ubj.lzma files are supported by this on most platforms, libGDX 1.13.1 and older do not parse
  * many UBJSON files correctly on GWT. Even though .ubj.lzma is typically the format that gets the best compression
- * ratios here, .json.lzma is preferred because it compresses almost as well and works on GWT.
+ * ratios here, .json.lzma is preferred because it compresses almost as well and works on GWT. It is also easier to
+ * extract a human-readable .json file from a .json.lzma file; you can use
+ * {@link LzmaUtils#decompress(FileHandle, FileHandle)} to do this easily in code, and 7-Zip (likely among other
+ * programs that handle decompression) can extract the .json as well outside code.
  */
 public final class BitmapFontSupport {
     /**

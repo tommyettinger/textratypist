@@ -83,17 +83,17 @@ public class PreviewSimpleTest extends ApplicationAdapter {
         limit = 9;
         all = new Font[limit];
         int idx = 0;
-        all[idx++] = KnownFonts.getCordata16x26().setName(KnownFonts.CORDATA_16X26 + "-standard");
-        all[idx++] = KnownFonts.getIBM8x16().setName(KnownFonts.IBM_8X16 + "-standard");
-        all[idx++] = KnownFonts.getCozette().setName(KnownFonts.COZETTE + "-standard");
-        all[idx++] = KnownFonts.getHanazono().setName(KnownFonts.HANAZONO + "-standard");
-        all[idx++] = KnownFonts.getIBM8x16Sad().setName(KnownFonts.IBM_8X16_SAD + "-standard");
-        all[idx++] = KnownFonts.getLanaPixel().setName(KnownFonts.LANAPIXEL + "-standard");
-        all[idx++] = KnownFonts.getMonogram().setName(KnownFonts.MONOGRAM + "-standard");
-        all[idx++] = KnownFonts.getMonogramItalic().setName(KnownFonts.MONOGRAM_ITALIC + "-standard");
-        all[idx++] = KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard");
+        all[idx++] = KnownFonts.addEmoji(KnownFonts.getCordata16x26().setName(KnownFonts.CORDATA_16X26 + "-standard"));
+        all[idx++] = KnownFonts.addEmoji(KnownFonts.getIBM8x16().setName(KnownFonts.IBM_8X16 + "-standard"));
+        all[idx++] = KnownFonts.addEmoji(KnownFonts.getCozette().setName(KnownFonts.COZETTE + "-standard"));
+        all[idx++] = KnownFonts.addEmoji(KnownFonts.getHanazono().setName(KnownFonts.HANAZONO + "-standard"));
+        all[idx++] = KnownFonts.addEmoji(KnownFonts.getIBM8x16Sad().setName(KnownFonts.IBM_8X16_SAD + "-standard"));
+        all[idx++] = KnownFonts.addEmoji(KnownFonts.getLanaPixel().setName(KnownFonts.LANAPIXEL + "-standard"));
+        all[idx++] = KnownFonts.addEmoji(KnownFonts.getMonogram().setName(KnownFonts.MONOGRAM + "-standard"));
+        all[idx++] = KnownFonts.addEmoji(KnownFonts.getMonogramItalic().setName(KnownFonts.MONOGRAM_ITALIC + "-standard"));
+        all[idx++] = KnownFonts.addEmoji(KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard"));
 
-        fnt = all[idx = 0];
+        fnt = all[idx = 1];
         generateLayout();
     }
 

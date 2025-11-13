@@ -1339,7 +1339,7 @@ public final class KnownFonts implements LifecycleListener {
      * version of that font, with VileR making the extensions
      * <a href="https://int10h.org/oldschool-pc-fonts/">available here</a> under the
      * CC-BY-SA 4.0 license.
-     * This does not scale well except to integer multiples, but it should look very
+     * This does not scale well except to integer multiples, but it should look fairly
      * crisp at its default size of 16x26 pixels. This might not match the actual height you
      * get with {@link Font#scaleHeightTo(float)}! A height of 40f or a multiple thereof seems
      * correct for this Font at this point in time. This defaults to having
@@ -1359,15 +1359,23 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that represents a 16x26 font included with early Cordata and Corona computers
      */
     public static Font getCordata16x26() {
-        return getFont(CORDATA_16X26, STANDARD)
-                .scaleHeightTo(40f)
-                .setUnderlineMetrics(0f, 0.05f, 0f, -0.5f)
-                .setStrikethroughMetrics(0f, 0.2f, 0f, -0.5f)
-//                .setBoldStrength(0.5f)
-                .setOutlineStrength(0.8f)
-                .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
-                .setInlineImageMetrics(-4f, 0f, -8f, 0.75f)
-                .useIntegerPositions(true);
+        DistanceFieldType dft = STANDARD;
+        initialize();
+        String baseName = CORDATA_16X26;
+        String rootName = baseName + dft.filePart;
+        Font known = instance.loaded.get(rootName);
+        if(known == null) {
+            known = new Font(Font.getJsonExtension(instance.prefix + rootName), true)
+                    .scaleHeightTo(40f)
+                    .setUnderlineMetrics(0f, 0.05f, 0f, -0.5f)
+                    .setStrikethroughMetrics(0f, 0.2f, 0f, -0.5f)
+                    .setOutlineStrength(0.8f)
+                    .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
+                    .setInlineImageMetrics(-4f, 0f, -8f, 0.75f)
+                    .useIntegerPositions(true);
+            instance.loaded.put(rootName, known);
+        }
+        return new Font(known).setName(baseName + dft.namePart).setDistanceField(dft);
     }
     /**
      * Returns a Font configured to use a cozy fixed-width bitmap font,
@@ -2278,20 +2286,29 @@ public final class KnownFonts implements LifecycleListener {
      * <br>
      * Needs files:
      * <ul>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-License.txt">IBM-8x16-License.txt</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-standard.json.lzma">IBM-8x16-standard.json.lzma</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-standard.png">IBM-8x16-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/IBM-8x16-License.txt">IBM-8x16-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that represents an 8x16 font included with early IBM computers
      */
     public static Font getIBM8x16() {
-        return getFont(IBM_8X16, STANDARD)
-                .scaleHeightTo(20).setUnderlineMetrics(0f, 0.05f, 0f, -0.5f)
-                .setStrikethroughMetrics(0f, 0.15f, 0f, -0.5f).setBoldStrength(0.5f).setOutlineStrength(1.6f)
-                .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
-                .setInlineImageMetrics(-4f, 0f, -8f, 0.75f)
-                .useIntegerPositions(true);
+        DistanceFieldType dft = STANDARD;
+        initialize();
+        String baseName = IBM_8X16;
+        String rootName = baseName + dft.filePart;
+        Font known = instance.loaded.get(rootName);
+        if(known == null) {
+            known = new Font(Font.getJsonExtension(instance.prefix + rootName), true)
+                    .scaleHeightTo(20).setUnderlineMetrics(0f, 0.05f, 0f, -0.5f)
+                    .setStrikethroughMetrics(0f, 0.15f, 0f, -0.5f).setBoldStrength(0.5f).setOutlineStrength(1.6f)
+                    .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
+                    .setInlineImageMetrics(-4f, 0f, -8f, 0.75f)
+                    .useIntegerPositions(true);
+            instance.loaded.put(rootName, known);
+        }
+        return new Font(known).setName(baseName + dft.namePart).setDistanceField(dft);
     }
 
     /**
