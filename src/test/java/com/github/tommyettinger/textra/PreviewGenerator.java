@@ -97,8 +97,6 @@ public class PreviewGenerator extends ApplicationAdapter {
         // WHAT WE NORMALLY USE
 //        String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String.class);
 //        Font[] all = new Font[jsonFiles.length * 4 + 4 + 7];
-        Font[] all = new Font[9];
-        int idx = 0;
         /*
         for (int i = 0; i < jsonFiles.length; i++) {
             all[idx++] = KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).useIntegerPositions(false).setName(jsonFiles[i] + Font.DistanceFieldType.STANDARD.filePart);
@@ -111,6 +109,8 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF).scaleHeightTo(32f).useIntegerPositions(false).setName("A-Starry-Tall" + Font.DistanceFieldType.SDF.filePart);
         all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).useIntegerPositions(false).setName("A-Starry-Tall" + "-sdf-outline");
 */
+        Font[] all = new Font[9];
+        int idx = 0;
         all[idx++] = KnownFonts.getCordata16x26().setName(KnownFonts.CORDATA_16X26 + "-standard");
         all[idx++] = KnownFonts.getIBM8x16().setName(KnownFonts.IBM_8X16 + "-standard");
         all[idx++] = KnownFonts.getCozette().setName(KnownFonts.COZETTE + "-standard");

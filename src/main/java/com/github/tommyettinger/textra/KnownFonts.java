@@ -2246,8 +2246,8 @@ public final class KnownFonts implements LifecycleListener {
         if(found == null){
             found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, 1, 0, 0, 0, true);
             found
-                    .setDescent(-6f).scaleTo(22f, 27.25f).setFancyLinePosition(0f, 0.125f).setOutlineStrength(1.6f)
-                    .setLineMetrics(-0.25f, 0f, 0f, -0.5f).setInlineImageMetrics(-4f, -5f, -8f, 0.75f)
+                    .setDescent(-6f).scaleTo(22f, 27.25f).setFancyLinePosition(0f, 3f).setOutlineStrength(1.6f)
+                    .setLineMetrics(-0.25f, 0.1f, 0f, -0.5f).setInlineImageMetrics(-4f, -5f, -8f, 0.75f)
                     .setTextureFilter()
                     .setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, found);
@@ -2286,7 +2286,8 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getIBM8x16() {
         return getFont(IBM_8X16, STANDARD)
-                .scaleHeightTo(20).setLineMetrics(0f, 0.05f, 0f, -0.5f).setBoldStrength(0.5f).setOutlineStrength(1.6f)
+                .scaleHeightTo(20).setUnderlineMetrics(0f, 0.05f, 0f, -0.5f)
+                .setStrikethroughMetrics(0f, 0.15f, 0f, -0.5f).setBoldStrength(0.5f).setOutlineStrength(1.6f)
                 .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
                 .setInlineImageMetrics(-4f, -3f, -8f, 0.75f)
                 .useIntegerPositions(true);
@@ -2299,15 +2300,23 @@ public final class KnownFonts implements LifecycleListener {
      * it might). This does not scale except to integer multiples, but it should look very
      * crisp at its default size of 8x16 pixels. This supports some extra characters, but
      * not at the typical Unicode codepoints. This defaults to having
-     * {@link Font#integerPosition} set to true.
+     * {@link Font#integerPosition} set to true. Note that "fancy line" modes such as
+     * {@code [?error]} don't display for this font at this point in time; they might not
+     * work for any fonts loaded from SadConsole format files. Underline and strikethrough
+     * do still work. If you do want fancy lines with this font, {@link #getIBM8x16()},
+     * which doesn't use a SadConsole file, is full-featured.
      * This may work well in a font family with other fonts that do not use a distance field
      * effect, though they all could have different sizes, and this font is quite small.
      * <br>
      * This does not include a license because the source, <a href="https://github.com/Thraka/SadConsole/tree/master/Fonts">SadConsole's fonts</a>,
      * did not include one. It is doubtful that IBM would have any issues with respectful use
      * of their signature font throughout the 1980s, but if the legality is concerning, you
-     * can use {@link #getCozette()} or {@link #getQuanPixel()} for a different bitmap font. There
-     * is also {@link #getAStarry()} for a non-pixel font styled after a font from the same era.
+     * can use {@link #getCozette()}, {@link #getLanaPixel()}, {@link #getMonogram()}, or
+     * {@link #getQuanPixel()} for a different bitmap font. There
+     * is also {@link #getAStarry()} for a non-pixel (square) font styled after a font from
+     * the same era, and {@link #getAStarryTall()} for a taller version of that font. In the
+     * same vein as IBM 8x16 is {@link #getCordata16x26()}, from another early computer
+     * manufacturer, with a significantly larger size per glyph.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/IBM-8x16-Sad-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
@@ -2830,7 +2839,7 @@ public final class KnownFonts implements LifecycleListener {
             found
                     .setInlineImageMetrics(0f, 3f, -8f, 0.75f).setFancyLinePosition(0f, 4f)
                     .useIntegerPositions(true).setBoldStrength(0.5f).setOutlineStrength(2f)
-                    .setUnderlineMetrics(0.125f, 0.5f, -0.125f, -0.4f).setStrikethroughMetrics(0.125f, 0.35f, -0.125f, -0.4f)
+                    .setUnderlineMetrics(0.125f, -0.15f, -0.125f, -0.4f).setStrikethroughMetrics(0.125f, -0.1f, -0.125f, -0.4f)
                     .setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, found);
         }
