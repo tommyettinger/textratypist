@@ -1361,12 +1361,13 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getCordata16x26() {
         return getFont(CORDATA_16X26, STANDARD)
                 .scaleHeightTo(40f)
-                .setLineMetrics(0f, 0.05f, 0f, -0.5f)
+                .setUnderlineMetrics(0f, 0.05f, 0f, -0.5f)
+                .setStrikethroughMetrics(0f, 0.2f, 0f, -0.5f)
 //                .setBoldStrength(0.5f)
                 .setOutlineStrength(0.8f)
                 .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
-                .setInlineImageMetrics(-4f, -3f, -8f, 0.75f)
-                .useIntegerPositions(false);
+                .setInlineImageMetrics(-4f, 0f, -8f, 0.75f)
+                .useIntegerPositions(true);
     }
     /**
      * Returns a Font configured to use a cozy fixed-width bitmap font,
@@ -2247,7 +2248,7 @@ public final class KnownFonts implements LifecycleListener {
             found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, 1, 0, 0, 0, true);
             found
                     .setDescent(-6f).scaleTo(22f, 27.25f).setFancyLinePosition(0f, 3f).setOutlineStrength(1.6f)
-                    .setLineMetrics(-0.25f, 0.1f, 0f, -0.5f).setInlineImageMetrics(-4f, -5f, -8f, 0.75f)
+                    .setLineMetrics(-0.25f, 0.1f, 0f, -0.5f).setInlineImageMetrics(-4f, 0f, -8f, 0.75f)
                     .setTextureFilter()
                     .setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, found);
@@ -2289,7 +2290,7 @@ public final class KnownFonts implements LifecycleListener {
                 .scaleHeightTo(20).setUnderlineMetrics(0f, 0.05f, 0f, -0.5f)
                 .setStrikethroughMetrics(0f, 0.15f, 0f, -0.5f).setBoldStrength(0.5f).setOutlineStrength(1.6f)
                 .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
-                .setInlineImageMetrics(-4f, -3f, -8f, 0.75f)
+                .setInlineImageMetrics(-4f, 0f, -8f, 0.75f)
                 .useIntegerPositions(true);
     }
 
@@ -2337,9 +2338,9 @@ public final class KnownFonts implements LifecycleListener {
         if(found == null){
             found = new Font(instance.prefix, rootName + ".font", true);
             found
-                    .setBoldStrength(0.5f).setOutlineStrength(2f).useIntegerPositions(true)
+                    .setBoldStrength(0.5f).setOutlineStrength(1.6f).useIntegerPositions(true)
                     .setLineMetrics(-0.25f, 0.25f, 0f, 0f)
-                    .setInlineImageMetrics(-4f, -2f, -8f, 0.8f).fitCell(8, 16, false).setDescent(-6f)
+                    .setInlineImageMetrics(-4f, 6f, -8f, 0.75f).fitCell(8, 16, false).setDescent(-6f)
                     .setName(baseName + distanceField.namePart);
             ;
             instance.loaded.put(rootName, found);
@@ -3827,7 +3828,7 @@ public final class KnownFonts implements LifecycleListener {
             found
                     .setDescent(-4f).setInlineImageMetrics(0f, 2f, -4f, 0.875f).setFancyLinePosition(0f, 3f)
                     .useIntegerPositions(false).setBoldStrength(0.5f).setOutlineStrength(2f)
-                    .setUnderlineMetrics(0.0625f, 0.125f, -0.25f, 0f).setStrikethroughMetrics(0.0625f, 0.125f, -0.25f, 0f)
+                    .setUnderlineMetrics(-0.0625f, 0.125f, 0f, 0f).setStrikethroughMetrics(-0.0625f, 0.125f, 0f, 0f)
                     .setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, found);
         }

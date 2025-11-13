@@ -128,6 +128,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         Gdx.files.local("out/").mkdirs();
         for (int i = 0; i < all.length; i++) {
             Font font = all[i];
+            if(font.cellHeight <= 20) font.scale(2);
             Color baseColor = font.getDistanceField() == Font.DistanceFieldType.SDF_OUTLINE ? Color.WHITE : Color.DARK_GRAY;
             KnownFonts.addEmoji(font);
             viewport.update(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
