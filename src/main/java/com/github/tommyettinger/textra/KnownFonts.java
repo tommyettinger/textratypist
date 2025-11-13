@@ -2838,9 +2838,9 @@ public final class KnownFonts implements LifecycleListener {
         if(found == null){
             found = new Font(instance.prefix + rootName + ".fnt", instance.prefix + rootName + ".png", distanceField, 0, 0, 0, 0, true);
             found
-                    .setInlineImageMetrics(0f, 3f, -8f, 0.75f).setFancyLinePosition(0f, 4f)
-                    .useIntegerPositions(true).setBoldStrength(0.5f).setOutlineStrength(2f)
-                    .setUnderlineMetrics(0.125f, -0.15f, -0.125f, -0.4f).setStrikethroughMetrics(0.125f, -0.1f, -0.125f, -0.4f)
+                    .setInlineImageMetrics(0f, 5f, -8f, 0.625f).setFancyLinePosition(0f, 4f)
+                    .useIntegerPositions(true).setBoldStrength(0.5f).setOutlineStrength(2f).setDescent(-6f)
+                    .setUnderlineMetrics(0.125f, -0.3f, -0.125f, -0.4f).setStrikethroughMetrics(0.125f, -0.15f, -0.125f, -0.4f)
                     .setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, found);
         }

@@ -5353,7 +5353,7 @@ public class Font implements Disposable {
         float yt = ((font.originalCellHeight - (trrh + tr.offsetY) + font.descent) * sizingY - font.descent) * scaleY + sin * centerX - centerY;
 
 // The next line makes small-caps letters go part-way up in the line.
-        if(squashed) yt -= font.descent * scaleY * sizingY * (3f/7f);
+//        if(squashed) yt -= font.descent * scaleY * sizingY * (3f/7f);
 
         float h = trrh * scaleY * sizingY;
 
@@ -5392,7 +5392,7 @@ public class Font implements Disposable {
             yt = (sin * scaledHeight - scaledHeight) * 0.5f - ych - stretchShift;
 
 // The next line makes small-caps letters go part-way up in the line.
-            if(squashed) yt -= font.descent * font.scaleY * scale * sizingY * (3f/7f);
+//            if(squashed) yt -= font.descent * font.scaleY * scale * sizingY * (3f/7f);
             y = oy + (scaledHeight * 0.5f) - ych;// + font.descent * font.scaleY * scale * sizingY;
         }
 
@@ -5669,7 +5669,7 @@ public class Font implements Disposable {
                     h = trrh * osy * sizingY + cellHeight * font.underBreadth * sizingY;
                     yt = (centerY - (trrh + under.offsetY) * font.scaleY) * sizingY
                             + cellHeight * font.underY * sizingY;
-                    if(squashed) yt -= font.descent * scaleY * sizingY * (3f/7f);
+//                    if(squashed) yt -= font.descent * scaleY * sizingY * (3f/7f);
                     final float underU = (under.getU() + under.getU2()) * 0.5f - iw,
                             underV = under.getV(),
                             underU2 = underU + iw,
@@ -5755,7 +5755,7 @@ public class Font implements Disposable {
 
                     yt = (centerY - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY
                             + font.cellHeight * font.strikeY * scale * sizingY;
-                    if(squashed) yt -= font.descent * scaleY * sizingY * (3f/7f);
+//                    if(squashed) yt -= font.descent * scaleY * sizingY * (3f/7f);
 
                     final float dashU = (dash.getU() + dash.getU2()) * 0.5f - iw,
                             dashV = dash.getV(),
