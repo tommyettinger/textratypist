@@ -656,7 +656,7 @@ updated to reflect changes from wrapping. That could leave either large amounts 
 cause labels to overlap each other and not take up their correct amount of space.
 
 Because the 2.2.x line depends on libGDX 1.14.0, and not all libraries are compatible yet with this version (libKTX in
-particular), all changes in 2.2.4 have been backported to 2.1.9, which still only needs libGDX 1.13.1 .
+particular), all changes in 2.2.3 have been backported to 2.1.8, which still only needs libGDX 1.13.1 .
 
 2.2.4 is out now, and includes fixes for TextraButton and TextraListBox (as well as Typing variants). It also improves
 the appearance of Small Caps mode, and updates some .fnt files that had visual issues. In core label code, monospaced
