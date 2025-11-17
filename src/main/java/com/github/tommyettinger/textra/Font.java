@@ -2476,7 +2476,7 @@ public class Font implements Disposable {
             if (page == null) continue;
             for (BitmapFont.Glyph glyph : page) {
                 if (glyph != null) {
-                    float x = glyph.srcX + data.padLeft, y = glyph.srcY + data.padTop, w = glyph.width - data.padLeft, h = glyph.height - data.padTop, a = glyph.xadvance,
+                    float x = glyph.srcX, y = glyph.srcY, w = glyph.width, h = glyph.height, a = glyph.xadvance,
                             yOffset = glyph.yoffset;
 
                     // More of this may need to be copied in from BitmapFontData.setGlyphRegion() .

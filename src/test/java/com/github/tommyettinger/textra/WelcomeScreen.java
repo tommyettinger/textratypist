@@ -37,17 +37,22 @@ public class WelcomeScreen extends ApplicationAdapter {
   @Override
   public void create() {
     stage = new Stage(new ScreenViewport());
-    BitmapFont font = new BitmapFont();
-    font.setUseIntegerPositions(false);
-    Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
-    Styles.LabelStyle style2 = new Styles.LabelStyle(new Font(), Color.RED);
+
+    BitmapFont bitmapFont = new BitmapFont();
+    bitmapFont.setUseIntegerPositions(false);
+    Label.LabelStyle style = new Label.LabelStyle(bitmapFont, Color.WHITE);
+
+    Font font = new Font(bitmapFont, 0f, 2f, 0f, 0f);
+    Styles.LabelStyle style2 = new Styles.LabelStyle(font, Color.RED);
+
     String text = (
-            "To pay homage to the great GBTK and a celebration of reaching the tenth one, I have created this masterpiece to reflect upon the happy times we've had together.\n" +
+        "To pay homage to the great GBTK and a celebration of reaching the tenth one, I have created this masterpiece to reflect upon the happy times we've had together.\n" +
             "\n" +
             "Prepare yourself for a sensuous journey, in which you will have to grab the games from the previous nine GBTKs and categorise them into the appropriate jam. Once all games have been categorised, you shall be automatically whisked away to view how well you did without a chance to rethink your final placement.\n" +
             "\n" +
             "I am legally required to inform you that this tribute has been linked with hearing loss, seizures, and birth defects."
     ).replace(" ", "  ");
+
     Label label = new Label(text, style);
     TypingLabel textraLabel = new TypingLabel(text, style2);
 
