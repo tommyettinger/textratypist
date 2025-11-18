@@ -33,7 +33,12 @@ public class OutlineFontTest extends ApplicationAdapter {
 
 //        no outlines are cut off. font was generated with AngelCode BMFont with outline=1 and padding=2,2,2,2 .
 //        outlines have rounded corners.
-        BitmapFont font = new BitmapFont(Gdx.files.internal("Open-Sans-Extra-Bold-standard.fnt"));
+//        BitmapFont font = new BitmapFont(Gdx.files.internal("Open-Sans-Extra-Bold-standard.fnt"));
+
+//        larger font, outline works; should roughly match the size of openSans30.fnt. Made with AngelCode
+//        BMFont again. padding is 0,0,0,0 this time, outline is still 1. spacing is still 1.
+        BitmapFont font = new BitmapFont(Gdx.files.internal("Open-Sans-ExtraBold-standard.fnt"));
+
         font.setUseIntegerPositions(false);
 
         String text = "The quick brown fox jumps over the lazy dog.";
