@@ -46,21 +46,32 @@ public class OutlineFontTest extends ApplicationAdapter {
 
 //        FreeType works too with no padding changes.
         // https://i.imgur.com/4mbGVLo.png
-        FreeTypeFontGenerator ft = new FreeTypeFontGenerator(Gdx.files.internal("OpenSans-ExtraBold.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.borderColor = Color.BLACK;
-        parameter.color = Color.WHITE;
-        parameter.borderWidth = 1f;
-        parameter.borderStraight = true;
-        parameter.renderCount = 4;
-        parameter.characters = Gdx.files.internal("OpenSans-ExtraBold.txt").readString("UTF-8");
-        parameter.gamma = 2.2f;
-        parameter.hinting = FreeTypeFontGenerator.Hinting.Medium;
-        parameter.kerning = true;
-        parameter.size = 30;
-        parameter.minFilter = Texture.TextureFilter.Linear;
-        parameter.magFilter = Texture.TextureFilter.Linear;
-        BitmapFont font = ft.generateFont(parameter);
+//        FreeTypeFontGenerator ft = new FreeTypeFontGenerator(Gdx.files.internal("OpenSans-ExtraBold.ttf"));
+//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//        parameter.borderColor = Color.BLACK;
+//        parameter.color = Color.WHITE;
+//        parameter.borderWidth = 1f;
+//        parameter.borderStraight = true;
+//        parameter.renderCount = 4;
+//        parameter.characters = Gdx.files.internal("OpenSans-ExtraBold.txt").readString("UTF-8");
+//        parameter.gamma = 2.2f;
+//        parameter.hinting = FreeTypeFontGenerator.Hinting.Medium;
+//        parameter.kerning = true;
+//        parameter.size = 30;
+//        parameter.minFilter = Texture.TextureFilter.Linear;
+//        parameter.magFilter = Texture.TextureFilter.Linear;
+//        BitmapFont font = ft.generateFont(parameter);
+
+
+//        Top is still cut off.
+//        font was generated with Hiero, padding 2,2,2,2, spacing -4,-4
+        // https://i.imgur.com/eCULmhC.png
+//        BitmapFont font = new BitmapFont(Gdx.files.internal("openSans30pad2space-4.fnt"));
+
+//        Every glyph's outline works.
+//        This is the same font as directly above, but with its padding manually changed to 1,1,1,1
+        // https://i.imgur.com/mB9CMHL.png
+        BitmapFont font = new BitmapFont(Gdx.files.internal("OpenSans30PadChangedSpace-4.fnt"));
 
         font.setUseIntegerPositions(false);
 
