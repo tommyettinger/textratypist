@@ -2016,6 +2016,26 @@ public class Font implements Disposable {
 
     /**
      * Constructs a new Font by reading in a .fnt file from the given FileHandle and loading any images specified in
+     * that file. No distance field effect is used (this uses {@link DistanceFieldType#STANDARD}).
+     * This does no adjustments to x, y, width, or height. This creates "grid glyphs" from the glyph {@code u2588} if
+     * available, or whatever glyph is at uFFFF if it isn't, or a separate solid-white Texture if that isn't either.
+     * The grid glyphs are used to draw smooth underlines, strikethrough lines, "fancy underlines" like the red zigzag
+     * underline for {@code [?error]} mode, and their namesake box-drawing glyphs for grids.
+     *
+     *
+     * @param fntHandle      the FileHandle holding the path to a .fnt file
+     */
+    public Font(FileHandle fntHandle) {
+        this.setDistanceField(DistanceFieldType.STANDARD);
+        if (fntHandle.exists()) {
+            loadFNT(fntHandle, 0, 0, 0, 0, true);
+        } else {
+            throw new RuntimeException("Missing font file: " + fntHandle.name());
+        }
+    }
+
+    /**
+     * Constructs a new Font by reading in a .fnt file from the given FileHandle and loading any images specified in
      * that file. The specified distance field effect is used.
      * This allows globally adjusting the x and y positions of glyphs in the font, as well as
      * globally adjusting the horizontal and vertical space glyphs take up. Changing these adjustments by small values
@@ -2738,7 +2758,7 @@ public class Font implements Disposable {
         }
         if (!mapping.containsKey(' ')) {
             Gdx.app.error("FONT", "Font is missing a space character! Aborting!");
-            throw new RuntimeException("Cannot create a font withoit a space character.");
+            throw new RuntimeException("Cannot create a font without a space character.");
         }
         else {
             mapping.put('\r', mapping.get(' '));
