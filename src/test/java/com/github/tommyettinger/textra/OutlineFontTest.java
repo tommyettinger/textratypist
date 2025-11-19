@@ -29,18 +29,18 @@ public class OutlineFontTest extends ApplicationAdapter {
     public void create() {
         stage = new Stage(new ScreenViewport());
 
-//        top of the outline is cut off. font was generated with... not currently known, but
+//        Top of the outline is cut off. Font was generated with... not currently known, but
 //        the outlines have pointy corners rather than rounded ones.
         // https://i.imgur.com/5julXro.png
 //        BitmapFont font = new BitmapFont(Gdx.files.internal("openSans30.fnt"));
 
-//        no outlines are cut off. font was generated with AngelCode BMFont with outline=1 and padding=2,2,2,2 .
-//        outlines have rounded corners.
+//        No outlines are cut off. font was generated with AngelCode BMFont with outline=1 and padding=2,2,2,2 .
+//        Outlines have rounded corners.
         // https://i.imgur.com/KBmOFPT.png
 //        BitmapFont font = new BitmapFont(Gdx.files.internal("Open-Sans-Extra-Bold-standard.fnt"));
 
-//        larger font, outline works; should roughly match the size of openSans30.fnt. Made with AngelCode
-//        BMFont again. padding is 0,0,0,0 this time, outline is still 1. spacing is still 1.
+//        Larger font, outline works; should roughly match the size of openSans30.fnt. Made with AngelCode
+//        BMFont again. The padding is 0,0,0,0 this time, outline is still 1. spacing is still 1.
         // https://i.imgur.com/gJE61BC.png
 //        BitmapFont font = new BitmapFont(Gdx.files.internal("Open-Sans-ExtraBold-standard.fnt"));
 
@@ -64,14 +64,21 @@ public class OutlineFontTest extends ApplicationAdapter {
 
 
 //        Top is still cut off.
-//        font was generated with Hiero, padding 2,2,2,2, spacing -4,-4
+//        Font was generated with Hiero, padding 2,2,2,2, spacing -4,-4
         // https://i.imgur.com/eCULmhC.png
 //        BitmapFont font = new BitmapFont(Gdx.files.internal("openSans30pad2space-4.fnt"));
 
 //        Every glyph's outline works.
 //        This is the same font as directly above, but with its padding manually changed to 1,1,1,1
         // https://i.imgur.com/mB9CMHL.png
-        BitmapFont font = new BitmapFont(Gdx.files.internal("OpenSans30PadChangedSpace-4.fnt"));
+//        BitmapFont font = new BitmapFont(Gdx.files.internal("OpenSans30PadChangedSpace-4.fnt"));
+
+//        Everything works here, too. Font was generated with Hiero, and was edited from openSans30.fnt
+//        only by reducing padding to 0,0,0,0. If a font had padding 0,0,0,0 and an outline, it wouldn't be
+//        generated correctly by Hiero, but would be correct if BMFont was generating it.
+        // https://i.imgur.com/tEPTHZ1.png
+        BitmapFont font = new BitmapFont(Gdx.files.internal("openSans30Edit.fnt"));
+
 
         font.setUseIntegerPositions(false);
 
