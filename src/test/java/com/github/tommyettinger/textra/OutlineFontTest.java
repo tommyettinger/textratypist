@@ -83,7 +83,8 @@ public class OutlineFontTest extends ApplicationAdapter {
         font.setUseIntegerPositions(false);
 
         String text = "The quick brown fox jumps over the lazy dog.";
-        TextraLabel textraLabel = new TextraLabel(text, new Font(font));
+//        TextraLabel textraLabel = new TextraLabel(text, new Font(font));
+        TextraLabel textraLabel = new TextraLabel(text, new Font(Gdx.files.internal("openSans30.fnt")));
         textraLabel.setWrap(true);
 
         Stack stack = new Stack(textraLabel);

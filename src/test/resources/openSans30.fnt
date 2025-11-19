@@ -4,7 +4,8 @@ page id=0 file="openSans30.png"
 chars count=709
 char id=0       x=0    y=0    width=0    height=0    xoffset=-1   yoffset=0    xadvance=0    page=0    chnl=0 
 char id=13      x=0    y=0    width=0    height=0    xoffset=-1   yoffset=0    xadvance=0    page=0    chnl=0 
-char id=33      x=1009 y=215  width=10   height=24   xoffset=0    yoffset=10   xadvance=9    page=0    chnl=0 
+char id=32      x=0    y=0    width=0    height=0    xoffset=-1   yoffset=0    xadvance=8    page=0    chnl=0
+char id=33      x=1009 y=215  width=10   height=24   xoffset=0    yoffset=10   xadvance=9    page=0    chnl=0
 char id=34      x=443  y=380  width=16   height=11   xoffset=0    yoffset=10   xadvance=16   page=0    chnl=0 
 char id=35      x=211  y=241  width=23   height=24   xoffset=-1   yoffset=10   xadvance=20   page=0    chnl=0 
 char id=36      x=346  y=133  width=20   height=27   xoffset=-1   yoffset=8    xadvance=17   page=0    chnl=0 
