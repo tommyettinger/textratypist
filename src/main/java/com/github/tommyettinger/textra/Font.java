@@ -2098,10 +2098,8 @@ public class Font implements Disposable {
     /**
      * Constructs a new Font by reading in a .fnt file from the given FileHandle and loading any images specified in
      * that file. No distance field effect is used (this uses {@link DistanceFieldType#STANDARD}).
-     * This does no adjustments to x, y, width, or height. This creates "grid glyphs" from the glyph {@code u2588} if
-     * available, or whatever glyph is at uFFFF if it isn't, or a separate solid-white Texture if that isn't either.
-     * The grid glyphs are used to draw smooth underlines, strikethrough lines, "fancy underlines" like the red zigzag
-     * underline for {@code [?error]} mode, and their namesake box-drawing glyphs for grids.
+     * This does no adjustments to x, y, width, or height. This won't create "grid glyphs" by default; it will use the
+     * underscore to draw underlines and the hyphen to draw strikethrough.
      *
      *
      * @param fntHandle      the FileHandle holding the path to a .fnt file
@@ -2109,7 +2107,7 @@ public class Font implements Disposable {
     public Font(FileHandle fntHandle) {
         this.setDistanceField(DistanceFieldType.STANDARD);
         if (fntHandle.exists()) {
-            loadFNT(fntHandle, 0, 0, 0, 0, true);
+            loadFNT(fntHandle, 0, 0, 0, 0, false);
         } else {
             throw new RuntimeException("Missing font file: " + fntHandle.name());
         }
@@ -2455,8 +2453,14 @@ public class Font implements Disposable {
 
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
-     * without a distance field effect or any adjustments to position except for a y offset equal to
-     * {@link BitmapFont#getDescent()}.
+     * without a distance field effect or any adjustments to position.
+     * <br>
+     * If the BitmapFont has an outline or drop shadow that was created by Hiero, it likely has incorrect padding,
+     * relative to non-Hiero tools that handle outlines, or relative to FreeType. You can counter the padding difference
+     * Hiero causes by calling {@link Font#setPaddingForBitmapFont(int, int, int, int)} as a static method before using
+     * this constructor. If there's one pixel cut off on each edge because of a padding problem, call that method with
+     * {@code -1, -1, -1, -1}. If only the bottom edge is cut off on a drop shadow, just set the "bottom" parameter to
+     * -1, -2 or however many pixels are cut off, and leave the others at 0.
      *
      * @param bmFont an existing BitmapFont that will be copied in almost every way this can
      */
@@ -2466,7 +2470,14 @@ public class Font implements Disposable {
 
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
-     * without a distance field effect. Adds a value to {@code yAdjust} equal to {@link BitmapFont#getDescent()}.
+     * without a distance field effect.
+     * <br>
+     * If the BitmapFont has an outline or drop shadow that was created by Hiero, it likely has incorrect padding,
+     * relative to non-Hiero tools that handle outlines, or relative to FreeType. You can counter the padding difference
+     * Hiero causes by calling {@link Font#setPaddingForBitmapFont(int, int, int, int)} as a static method before using
+     * this constructor. If there's one pixel cut off on each edge because of a padding problem, call that method with
+     * {@code -1, -1, -1, -1}. If only the bottom edge is cut off on a drop shadow, just set the "bottom" parameter to
+     * -1, -2 or however many pixels are cut off, and leave the others at 0.
      *
      * @param bmFont       an existing BitmapFont that will be copied in almost every way this can
      * @param xAdjust      how many pixels to offset each character's x-position by, moving to the right
@@ -2481,8 +2492,14 @@ public class Font implements Disposable {
 
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
-     * with the specified distance field effect. Adds a value to {@code yAdjust} equal to
-     * {@link BitmapFont#getDescent()}.
+     * with the specified distance field effect.
+     * <br>
+     * If the BitmapFont has an outline or drop shadow that was created by Hiero, it likely has incorrect padding,
+     * relative to non-Hiero tools that handle outlines, or relative to FreeType. You can counter the padding difference
+     * Hiero causes by calling {@link Font#setPaddingForBitmapFont(int, int, int, int)} as a static method before using
+     * this constructor. If there's one pixel cut off on each edge because of a padding problem, call that method with
+     * {@code -1, -1, -1, -1}. If only the bottom edge is cut off on a drop shadow, just set the "bottom" parameter to
+     * -1, -2 or however many pixels are cut off, and leave the others at 0.
      *
      * @param bmFont        an existing BitmapFont that will be copied in almost every way this can
      * @param distanceField determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
@@ -2498,8 +2515,14 @@ public class Font implements Disposable {
 
     /**
      * Constructs a new Font from the existing BitmapFont, using its same Textures and TextureRegions for glyphs, and
-     * with the specified distance field effect. Adds a value to {@code yAdjust} equal to
-     * {@link BitmapFont#getDescent()}.
+     * with the specified distance field effect.
+     * <br>
+     * If the BitmapFont has an outline or drop shadow that was created by Hiero, it likely has incorrect padding,
+     * relative to non-Hiero tools that handle outlines, or relative to FreeType. You can counter the padding difference
+     * Hiero causes by calling {@link Font#setPaddingForBitmapFont(int, int, int, int)} as a static method before using
+     * this constructor. If there's one pixel cut off on each edge because of a padding problem, call that method with
+     * {@code -1, -1, -1, -1}. If only the bottom edge is cut off on a drop shadow, just set the "bottom" parameter to
+     * -1, -2 or however many pixels are cut off, and leave the others at 0.
      *
      * @param bmFont         an existing BitmapFont that will be copied in almost every way this can
      * @param distanceField  determines how edges are drawn; if unsure, you should use {@link DistanceFieldType#STANDARD}
