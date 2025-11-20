@@ -899,8 +899,55 @@ public class Font implements Disposable {
      * a BitmapFont until it is changed. Be aware that FreeType creates BitmapFont instances that do not need any
      * adjustment to padding, even if they have outlines or drop shadows. If you are loading a .fnt file directly with
      * a constructor that takes a .fnt file name or FileHandle, this shouldn't be needed, and won't have any effect.
+     * <br>
+     * Using {@link #setPaddingForBitmapFont(int, int, int, int)} is likely easier because its parameters have names.
+     * It is suggested that you call {@link #clearPaddingForBitmapFont()} immediately after loading one or more Fonts
+     * from (Hiero) BitmapFonts, to prevent later Font creation from unintentionally using older adjustments.
      */
     public static final int[] paddingForBitmapFont = new int[4];
+
+    /**
+     * Sets padding adjustments applied to constructors that take a BitmapFont. This takes named parameters that match
+     * the order libGDX uses, which is not the order other tools use that follow the .fnt file format specification.
+     * <br>
+     * This is typically needed only when loading a BitmapFont created by Hiero with an effect that extends past the
+     * normal glyph, such as an outline, when some or all of that extent is cut off during rendering. If one pixel is
+     * cut off on each side, you should have each parameter be -1, and the removed section will be counteracted. If two
+     * pixels are cut off from a drop shadow that extends to the bottom and right by 2px each, set parameters right and
+     * bottom to -2 each, while the other two can be 0. This method is static so it can affect
+     * constructors without needing extra arguments, and it will continue to affect any constructors that copy data from
+     * a BitmapFont until it is changed. Be aware that FreeType creates BitmapFont instances that do not need any
+     * adjustment to padding, even if they have outlines or drop shadows. If you are loading a .fnt file directly with
+     * a constructor that takes a .fnt file name or FileHandle, this shouldn't be needed, and won't have any effect.
+     * <br>
+     * It is suggested that you call {@link #clearPaddingForBitmapFont()} immediately after loading one or more Fonts
+     * from (Hiero) BitmapFonts, to prevent later Font creation from unintentionally using older adjustments. If you
+     * know all of your BitmapFonts in use were created by Hiero with the same outlines and drop shadow settings, you
+     * could leave this at the appropriate values to counteract cutoffs from those settings.
+     * <br>
+     * The current values used can be retrieved from the {@link #paddingForBitmapFont} field. They all start at 0.
+     *
+     * @param top added to the top padding of BitmapFont instances used in a constructor
+     * @param right added to the right padding of BitmapFont instances used in a constructor
+     * @param bottom added to the bottom padding of BitmapFont instances used in a constructor
+     * @param left added to the left padding of BitmapFont instances used in a constructor
+     */
+    public static void setPaddingForBitmapFont(int top, int right, int bottom, int left) {
+        paddingForBitmapFont[0] = top;
+        paddingForBitmapFont[1] = right;
+        paddingForBitmapFont[2] = bottom;
+        paddingForBitmapFont[3] = left;
+    }
+
+    /**
+     * Resets padding adjustments applied to constructors that take a BitmapFont, setting all adjustments to 0.
+     */
+    public static void clearPaddingForBitmapFont() {
+        paddingForBitmapFont[0] = 0;
+        paddingForBitmapFont[1] = 0;
+        paddingForBitmapFont[2] = 0;
+        paddingForBitmapFont[3] = 0;
+    }
 
     /**
      * If true, this is a fixed-width (monospace) font; if false, this is probably a variable-width font. This affects
