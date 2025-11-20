@@ -882,6 +882,11 @@ public class Font implements Disposable {
      * specification, and it uses a different order for the padding values than a .fnt file created by the original.
      * AngelCode BMFont tool.
      * <br>
+     * <a href="https://github.com/libgdx/libgdx/issues/4295">A reason for keeping the mistake was given here.</a>
+     * By the spec, padding shouldn't actually affect rendering, but libGDX does use it even if TextraTypist doesn't
+     * when it loads a .fnt file. This is another reason to use Structured JSON fonts where possible; their rendering
+     * here is unambiguous.
+     * <br>
      * The four elements in this correspond to, in order:
      * <ul>
      *     <li>0: top padding adjustment,</li>

@@ -32,7 +32,9 @@ public class OutlineFontTest extends ApplicationAdapter {
 //        Top of the outline is cut off. Font was generated with... not currently known, but
 //        the outlines have pointy corners rather than rounded ones.
         // https://i.imgur.com/5julXro.png
-//        BitmapFont font = new BitmapFont(Gdx.files.internal("openSans30.fnt"));
+        BitmapFont font = new BitmapFont(Gdx.files.internal("openSans30.fnt"));
+        // Newly added workaround for Hiero's lack of spec-conformance.
+        Font.setPaddingForBitmapFont(-1, -1, -1, -1);
 
 //        No outlines are cut off. font was generated with AngelCode BMFont with outline=1 and padding=2,2,2,2 .
 //        Outlines have rounded corners.
@@ -77,14 +79,14 @@ public class OutlineFontTest extends ApplicationAdapter {
 //        only by reducing padding to 0,0,0,0. If a font had padding 0,0,0,0 and an outline, it wouldn't be
 //        generated correctly by Hiero, but would be correct if BMFont was generating it.
         // https://i.imgur.com/tEPTHZ1.png
-        BitmapFont font = new BitmapFont(Gdx.files.internal("openSans30Edit.fnt"));
+//        BitmapFont font = new BitmapFont(Gdx.files.internal("openSans30Edit.fnt"));
 
 
         font.setUseIntegerPositions(false);
 
         String text = "The quick brown fox jumps over the lazy dog.";
-//        TextraLabel textraLabel = new TextraLabel(text, new Font(font));
-        TextraLabel textraLabel = new TextraLabel(text, new Font(Gdx.files.internal("openSans30.fnt")));
+        TextraLabel textraLabel = new TextraLabel(text, new Font(font));
+//        TextraLabel textraLabel = new TextraLabel(text, new Font(Gdx.files.internal("openSans30.fnt")));
         textraLabel.setWrap(true);
 
         Stack stack = new Stack(textraLabel);
