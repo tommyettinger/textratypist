@@ -874,6 +874,35 @@ public class Font implements Disposable {
     private static Texture latestTexture = null;
 
     /**
+     * Adjusts padding in BitmapFont objects this class copies, typically so fonts created by Hiero with outlines or
+     * drop shadow can have their margins reduced by the same number of pixels the outline/shadow extends out by.
+     * When {@link #Font(BitmapFont)} or any other constructor that takes a BitmapFont is called, the four ints in this
+     * array will be added to the corresponding values in the BitmapFont's padding fields, using the same order libGDX
+     * uses for the padding fields in a .fnt file. Note that libGDX does not abide by the AngelCode BMFont file format
+     * specification, and it uses a different order for the padding values than a .fnt file created by the original.
+     * AngelCode BMFont tool.
+     * <br>
+     * The four elements in this correspond to, in order:
+     * <ul>
+     *     <li>0: top padding adjustment,</li>
+     *     <li>1: right padding adjustment,</li>
+     *     <li>2: bottom padding adjustment,</li>
+     *     <li>3: left padding adjustment</li>
+     * </ul>
+     * <br>
+     * This is typically needed only when loading a BitmapFont created by Hiero with an effect that extends past the
+     * normal glyph, such as an outline, when some or all of that extent is cut off during rendering. If one pixel is
+     * cut off on each side, you should set each element in this to -1, and the removed section will be counteracted.
+     * If two pixels are cut off from a drop shadow that extends to the bottom and right by 2px each, set elements 1 and
+     * 2 to -2 each, while the other two can stay at their default, 0. This field is static so it can affect
+     * constructors without needing extra arguments, and it will continue to affect any constructors that copy data from
+     * a BitmapFont until it is changed. Be aware that FreeType creates BitmapFont instances that do not need any
+     * adjustment to padding, even if they have outlines or drop shadows. If you are loading a .fnt file directly with
+     * a constructor that takes a .fnt file name or FileHandle, this shouldn't be needed, and won't have any effect.
+     */
+    public static final int[] paddingForBitmapFont = new int[4];
+
+    /**
      * If true, this is a fixed-width (monospace) font; if false, this is probably a variable-width font. This affects
      * some rendering decisions Font makes, such as whether subscript chars should take up half-width (for variable
      * fonts) or full-width (for monospace).
@@ -2496,7 +2525,11 @@ public class Font implements Disposable {
             if (page == null) continue;
             for (BitmapFont.Glyph glyph : page) {
                 if (glyph != null) {
-                    float x = glyph.srcX + data.padLeft, y = glyph.srcY + data.padTop, w = glyph.width - data.padLeft, h = glyph.height - data.padTop, a = glyph.xadvance,
+                    float x = glyph.srcX + data.padLeft + paddingForBitmapFont[3],
+                            y = glyph.srcY + data.padTop + paddingForBitmapFont[0],
+                            w = glyph.width - data.padLeft - paddingForBitmapFont[3],
+                            h = glyph.height - data.padTop - paddingForBitmapFont[0],
+                            a = glyph.xadvance,
                             yOffset = glyph.yoffset;
 
                     // More of this may need to be copied in from BitmapFontData.setGlyphRegion() .
