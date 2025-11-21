@@ -133,7 +133,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		TypingListBox<TypingLabel> list = new TypingListBox<>(skin);
 		TypingLabel[] listEntryLabels = new TypingLabel[listEntries.length];
 		for (int i = 0; i < listEntries.length; i++) {
-			listEntryLabels[i] = new TypingLabel(listEntries[i], font);
+			listEntryLabels[i] = new TypingLabel(listEntries[i], skin, font);
 		}
 		list.setItems(listEntryLabels);
 		list.getSelection().setMultiple(true);
