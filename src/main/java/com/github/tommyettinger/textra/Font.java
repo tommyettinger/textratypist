@@ -2864,15 +2864,24 @@ public class Font implements Disposable {
                 }
             }
         }
-        if (!mapping.containsKey(' ')) {
-            Gdx.app.error("FONT", "Font is missing a space character! Aborting!");
-            throw new RuntimeException("Cannot create a font without a space character.");
+        GlyphRegion space = mapping.get(' ', null);
+        if (space == null) {
+            Gdx.app.log("FONT", "Warning! Font " + fntHandle.name() + " is missing a space character! Will guess space width from 'l'.");
+            GlyphRegion guess = mapping.get('l', null);
+            if(guess == null)
+                throw new RuntimeException("Cannot create a font without a space character, and without 'l' to guess at space metrics.");
+            space = new GlyphRegion(guess, 0, 0, 0, 0);
+            space.xAdvance = guess.xAdvance;
+            space.offsetX = 0;
+            space.offsetY = 0;
+            mapping.put(' ', space);
         }
-        else {
-            mapping.put('\r', mapping.get(' '));
-            // U+200B is the zero-width space
-            mapping.put('\u200B', new Font.GlyphRegion(mapping.get(' '), 0f, 0f, 0f));
-        }
+
+        mapping.put('\r', space);
+        // U+200B is the zero-width space
+        GlyphRegion zwSpace = new Font.GlyphRegion(space, 0f, 0f, 0f);
+        mapping.put('\u200B', zwSpace);
+
         // Newlines should be equivalent to zero-width spaces in terms of rendering.
         if (mapping.containsKey('\n')) {
             GlyphRegion gr = mapping.get('\n');
@@ -2880,7 +2889,7 @@ public class Font implements Disposable {
             gr.setRegionHeight(0);
             gr.xAdvance = 0f;
         } else {
-            GlyphRegion newline = new GlyphRegion(mapping.get('\u200B'));
+            GlyphRegion newline = new GlyphRegion(zwSpace);
             newline.setRegionWidth(0);
             newline.setRegionHeight(0);
             newline.xAdvance = 0;
