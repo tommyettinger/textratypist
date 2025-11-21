@@ -479,4 +479,19 @@ public class Layout {
     public String toString() {
         return appendInto(new StringBuilder()).toString();
     }
+
+    /**
+     * Mostly intended for internal use; when any of {@link #lines} have been reduced in size but the other fields here
+     * have not been changed, this will trim {@link #advances}, {@link #rotations}, {@link #sizing}, and
+     * {@link #offsets} to match the size of the total glyphs in all lines.
+     * @param i the length to truncate to; often {@link #countGlyphs()}
+     * @return this, for chaining
+     */
+    public Layout truncateExtra(int i) {
+        advances.truncate(i);
+        rotations.truncate(i);
+        sizing.truncate(i << 1);
+        offsets.truncate(i << 1);
+        return this;
+    }
 }

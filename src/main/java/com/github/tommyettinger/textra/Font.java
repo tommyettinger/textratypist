@@ -6939,9 +6939,10 @@ public class Font implements Disposable {
                 if (earlier.width - change > appendTo.targetWidth)
                     continue;
                 earlier.glyphs.truncate(j + 1);
+                appendTo.truncateExtra(appendTo.countGlyphs());
                 for (int e = 0; e < ellipsis.length(); e++) {
                     // 0xFFFFFFFF81FF0000L masks to include everything but style and char
-                    earlier.glyphs.add((curr & 0xFFFFFFFF81FF0000L) | ellipsis.charAt(e));
+                    appendTo.add((curr & 0xFFFFFFFF81FF0000L) | ellipsis.charAt(e));
                 }
                 earlier.width -= change;
                 return true;
