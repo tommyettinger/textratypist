@@ -29,7 +29,8 @@ public class WrapEmojiEllipsisCrashTest extends ApplicationAdapter {
 
     TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("the_works/crash.atlas"));
 
-    font = new Font(bitmapFont, 0, -22, 0, -16);
+//    font = new Font(bitmapFont, 0, -22, 0, -16);
+    font = new Font(Gdx.files.internal("the_works/open_sans_big.fnt"));
     font.setTextureFilter();
     font.addAtlas(atlas, 0, 6, 0);
     font.setInlineImageStretch(32 / font.cellHeight);

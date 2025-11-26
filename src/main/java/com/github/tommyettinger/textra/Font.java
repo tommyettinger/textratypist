@@ -2208,11 +2208,13 @@ public class Font implements Disposable {
     public Font(String fntName, String textureName, DistanceFieldType distanceField,
                 float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
         this.setDistanceField(distanceField);
+        FileHandle fntHandle = Gdx.files.internal(fntName);
+        if (!fntHandle.exists()) throw new RuntimeException("Missing font file: " + fntName);
         FileHandle textureHandle;
         if(textureName == null) {
             parents = Array.of(true, 1, TextureRegion[]::new);
             parents.add(new TexturelessRegion());
-        } else if ((textureHandle = Gdx.files.internal(textureName)).exists()) {
+        } else if ((textureHandle = fntHandle.sibling(textureName)).exists()) {
             parents = Array.with(new TextureRegion(new Texture(textureHandle)));
             if (distanceField != DistanceFieldType.STANDARD) {
                 parents.first().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -2220,12 +2222,7 @@ public class Font implements Disposable {
         } else {
             throw new RuntimeException("Missing texture file: " + textureName);
         }
-        FileHandle fntHandle;
-        if ((fntHandle = Gdx.files.internal(fntName)).exists()) {
-            loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
-        } else {
-            throw new RuntimeException("Missing font file: " + fntName);
-        }
+        loadFNT(fntHandle, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
     }
 
     /**
@@ -2800,7 +2797,7 @@ public class Font implements Disposable {
                 if(!canUseTextures){
                     parents = Array.of(true, 1, TextureRegion[]::new);
                     parents.add(new TexturelessRegion());
-                } else if ((textureHandle = Gdx.files.internal(textureName)).exists()) {
+                } else if ((textureHandle = fntHandle.sibling(textureName)).exists()) {
                     parents.add(new TextureRegion(new Texture(textureHandle)));
                     if (distanceField != DistanceFieldType.STANDARD)
                         parents.peek().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
