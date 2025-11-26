@@ -264,11 +264,9 @@ public class TextraSelectBox extends Widget implements Disableable {
         if (selected != null) {
             if (background != null) {
                 width -= background.getLeftWidth() + background.getRightWidth();
-                height -= background.getBottomHeight() + background.getTopHeight();
+//                height -= background.getBottomHeight() + background.getTopHeight();
                 x += background.getLeftWidth();
-                y += (int)(height * 0.5f + background.getBottomHeight());
-            } else {
-                y += (int)(height * 0.5f);
+                y += (int)(background.getBottomHeight() + background.getTopHeight());
             }
             selected.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * parentAlpha);
             drawItem(batch, selected, x, y, width);
@@ -434,7 +432,10 @@ public class TextraSelectBox extends Widget implements Disableable {
     }
 
     protected TextraLabel newLabel(String markupText, Font font, Color color) {
-        return new TextraLabel(markupText, font, color);
+        TextraLabel label = new TextraLabel(markupText, font, color);
+        // Enforces bottom alignment, and also disables top alignment to prevent top or center from being used.
+        label.align = (label.align | Align.bottom) & ~Align.top;
+        return label;
     }
 
     /** The scroll pane shown when a select box is open.
