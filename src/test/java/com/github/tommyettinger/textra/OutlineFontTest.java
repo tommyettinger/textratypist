@@ -48,21 +48,32 @@ public class OutlineFontTest extends ApplicationAdapter {
 
 //        FreeType works too with no padding changes.
         // https://i.imgur.com/4mbGVLo.png
-//        FreeTypeFontGenerator ft = new FreeTypeFontGenerator(Gdx.files.internal("OpenSans-ExtraBold.ttf"));
-//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-//        parameter.borderColor = Color.BLACK;
-//        parameter.color = Color.WHITE;
-//        parameter.borderWidth = 1f;
-//        parameter.borderStraight = true;
-//        parameter.renderCount = 4;
-//        parameter.characters = Gdx.files.internal("OpenSans-ExtraBold.txt").readString("UTF-8");
-//        parameter.gamma = 2.2f;
-//        parameter.hinting = FreeTypeFontGenerator.Hinting.Medium;
-//        parameter.kerning = true;
-//        parameter.size = 30;
-//        parameter.minFilter = Texture.TextureFilter.Linear;
-//        parameter.magFilter = Texture.TextureFilter.Linear;
-//        BitmapFont font = ft.generateFont(parameter);
+        FreeTypeFontGenerator ft = new FreeTypeFontGenerator(Gdx.files.internal("OpenSans-ExtraBold.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        // Using white is recommended because it can be tinted to any other color (tinting can't brighten a color).
+        parameter.color = Color.WHITE;
+        // Border configuration
+        parameter.borderColor = Color.BLACK;
+        parameter.borderWidth = 1f;
+        parameter.borderStraight = true;
+        parameter.renderCount = 4;
+        // This is a file with every char we need in the font. This could be all basic ASCII chars, or many more.
+        parameter.characters = Gdx.files.internal("OpenSans-ExtraBold.txt").readString("UTF-8");
+        // sharpens edges a little.
+        parameter.gamma = 2.2f;
+        parameter.minFilter = Texture.TextureFilter.Nearest;
+        parameter.magFilter = Texture.TextureFilter.Nearest;
+        parameter.hinting = FreeTypeFontGenerator.Hinting.Medium;
+        // improves space between letters sometimes.
+        parameter.kerning = true;
+        // This is what likely will need to change based on screen size.
+        parameter.size = 30;
+        // creates a normal BitmapFont based on the TTF we loaded when we created ft.
+        BitmapFont font = ft.generateFont(parameter);
+        // Only dispose the FreeTypeFontGenerator when you don't need to generate more BitmapFonts.
+        // You might want to keep the FreeTypeFontGenerator around for your whole program lifecycle if
+        // you need to generate new BitmapFonts when the window is resized.
+        ft.dispose();
 
 
 //        Top is still cut off.
@@ -85,8 +96,8 @@ public class OutlineFontTest extends ApplicationAdapter {
 //        font.setUseIntegerPositions(false);
 
         String text = "The quick brown fox jumps over the lazy dog.";
-//        TextraLabel textraLabel = new TextraLabel(text, new Font(font));
-        TextraLabel textraLabel = new TextraLabel(text, new Font(Gdx.files.internal("openSans30.fnt")));
+        TextraLabel textraLabel = new TextraLabel(text, new Font(font));
+//        TextraLabel textraLabel = new TextraLabel(text, new Font(Gdx.files.internal("openSans30.fnt")));
         textraLabel.setWrap(true);
 
         Stack stack = new Stack(textraLabel);

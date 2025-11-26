@@ -34,7 +34,7 @@ public class WrapEmojiEllipsisCrashTest extends ApplicationAdapter {
     font.setTextureFilter();
     font.addAtlas(atlas, 0, 6, 0);
     font.setInlineImageStretch(32 / font.cellHeight);
-    font.scaleTo(20.114286f, 13.257143f);
+    font.scaleHeightTo(18f);
 
     layout = new Layout();
     layout.setFont(font);
@@ -43,7 +43,7 @@ public class WrapEmojiEllipsisCrashTest extends ApplicationAdapter {
     // this is definitely causing some mismatch with layout.advances ...
     layout.setEllipsis("...");
 
-    font.markup("Testtt:\ntesting test [+emoji] haha hehe testing test [+emoji] haha hehe", layout);
+    font.markup("Testtt:\ntesting-test, W-i-n-n-e-r haha-hehe testing-t-t-t-test W-i-n haha-hehe", layout);
 
     batch = new SpriteBatch();
 

@@ -65,7 +65,7 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
         b.drawPixel(0, 0, 0x808080FF);
         blank = new Texture(b);
         font = new ColorfulFont("Cozette-standard.fnt",
-                "Cozette-standard.png", STANDARD, 1, -5, 0, 0, false)
+                "Cozette-standard.png", STANDARD, -1, -5, 0, -1, false)
                 .useIntegerPositions(true)
                 .setDescent(-3f)
                 .setUnderlinePosition(0f, -0.125f)
