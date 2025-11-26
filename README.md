@@ -43,7 +43,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.5"
+implementation "com.github.tommyettinger:textratypist:2.2.6"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 (and not 1.13.5).
@@ -56,7 +56,7 @@ be compatible by the time 1.14.0 is released.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.5:sources"
+implementation "com.github.tommyettinger:textratypist:2.2.6:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
 ```
 
@@ -87,15 +87,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.5.0"
+implementation "com.github.tommyettinger:freetypist:2.2.6.0"
 ```
 
-(Now, FreeTypist 2.2.5.0 uses TextraTypist 2.2.5 .)
+(Now, FreeTypist 2.2.6.0 uses TextraTypist 2.2.6 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.5.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.2.6.0:sources"
 ```
 
 And this inherits line:
@@ -565,7 +565,7 @@ outline thickness modified using `Font.setOutlineStrength()`. The oblique angle 
 `descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
 as it is for Structured JSON fonts!
 
-Version 2.1.0 through 2.2.5 are out, and while they have fewer breaking changes, there are still several of them.
+Version 2.1.0 through 2.2.6 are out, and while they have fewer breaking changes, there are still several of them.
 Notably, the syntax for modes is no longer linked to the syntax for scaling, and you can set modes independently of both
 the current scale and the current status of an outline around text. Some modes enable the outline and set its color; if
 you disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`,
@@ -655,12 +655,12 @@ or to both grow and fill. In that case, a label that wrapped differently due to 
 updated to reflect changes from wrapping. That could leave either large amounts of extra space, or in the worst case,
 cause labels to overlap each other and not take up their correct amount of space.
 
-Because the 2.2.x line depends on libGDX 1.14.0, and not all libraries are compatible yet with this version (libKTX in
-particular), all changes in 2.2.4 have been backported to 2.1.9, which still only needs libGDX 1.13.1 .
-
 2.2.4 includes fixes for TextraButton and TextraListBox (as well as Typing variants). It also improves
 the appearance of Small Caps mode, and updates some .fnt files that had visual issues. In core label code, monospaced
 fonts needed to stop offsetting the first character if its offsetX was negative; this mostly affects Cozette.
+
+Because the 2.2.x line depends on libGDX 1.14.0, and not all libraries are compatible yet with this version (libKTX in
+particular), all changes in 2.2.4 have been backported to 2.1.9, which still only needs libGDX 1.13.1 .
 
 2.2.5 fixes the behavior of malformed .fnt files created without a space char, and now matches the behavior of
 BitmapFont when given one of those (it now matches the width of space, if none is provided, to the width of `'l'`).
@@ -675,9 +675,14 @@ where those ignore padding in the .fnt and will read in outlined .fnt files usua
 also use FreeTypist to create an outlined and/or shadowed font in a skin JSON file, and load that to create a BitmapFont
 and a Font.
 
+2.2.6 fixes issue #36 , which was a crash when an ellipsis was inserted into wrapped text. It also fixes .fnt loading
+when both the .fnt file and the image it references are in the same subfolder, somewhere inside the assets root folder.
+There was a visual bug in TextraSelectBox and TypingSelectBox, where the labels displayed too low in their rows when the
+list and scroll pane appeared, but that should be fixed now.
+
 ## Why doesn't something work?
 
-The quick checklist for the latest code (version 2.1.1 or newer commits from JitPack):
+The quick checklist for the latest code (version 2.2.6 or newer commits from JitPack):
 
 - Use FWSkin or one of its subclasses, not a plain scene2d.ui Skin. FreeTypistSkin is fine. Skin is not!
   - You can assign a FWSkin to a Skin, but it still really needs to be an FWSkin internally, or one of its subclasses. 
@@ -687,10 +692,10 @@ The quick checklist for the latest code (version 2.1.1 or newer commits from Jit
   - Yes, it is still in need of serious work!
 - If a known font can't be found, you should probably copy in the latest version, which likely has changed to a 
   .json.lzma file and has a different .png as well.
-- TextraTypist depends on libGDX 1.13.1, and breaking changes in 1.13.5 make that release incompatible.
-  - The release expected after 1.13.5 should roll back 1.13.5's breaking changes in most places, making it (hopefully) compatible again.
+- TextraTypist 2.2.x depends on libGDX 1.14.0, but the 2.1.x line has backports for most 2.2.x features while depending
+  only on libGDX 1.13.1 .
   - You should avoid depending on 1.13.5 at this point in time, or any dependencies that pull in 1.13.5 .
-    - These problematic dependency versions include GDX-TeaVM 1.2.1 and VisUI 1.5.7 . Use earlier versions! 
+    - These problematic dependency versions include GDX-TeaVM 1.2.1 and VisUI 1.5.7 . Use earlier or later versions! 
 
 Some parts of TextraTypist act differently from their counterparts in scene2d.ui and Rafa Skoberg's typing-label.
 
@@ -711,9 +716,19 @@ not just ints. No files actually use this here and now, because the Structured J
 floats internally for everything. In general, Structured JSON fonts in version 2.0.0 and later solve a lot of the
 configuration tweaking needed in earlier versions.
 
+If you do need to copy a BitmapFont into a Font, any outlines or drop
+shadow on the BitmapFont may be stored differently depending on whether the BitmapFont was made by Hiero, or by any
+other tool (most of which are more compliant with the file format specification). If Hiero created the outline, drop
+shadow, or another effect that extends beyond the normal glyph boundary, and some of that effect is cut off when you
+render, you can call `Font.setPaddingForBitmapFont()` with the amount of cut-off pixels (such as `-1, -1, -1, -1` when
+1 pixel of outline isn't shown on all sides) before creating a Font from a BitmapFont. This will account for how Hiero
+handles padding differently from other tools (though anything that uses gdx-tools likely uses Hiero's code, like Skin
+Composer). Notably, FreeType creates a BitmapFont, but doesn't need `setPaddingForBitmapFont()` called because the
+`BitmapFont`s it generates are correct even if they have an outline and/or shadow.
+
 If you load text from a file and display it, you can sometimes get different results from creating that text in code, or
 loading it on a different machine. This should only happen if the file actually is different -- that is, the files' line
-endings use `\r\n` when checked out with Git on a Windows machine, or `\n` on MacOS or Linux machines. TextraTypist uses
+endings use `\r\n` when checked out with Git on a Windows machine, or `\n` on macOS or Linux machines. TextraTypist uses
 `\r` to mark some kinds of "soft" line breaks that can be re-wrapped, and `\n` for "hard" line breaks that must always
 create a new line. Having `\r\n` present generally shows up as two lines for every line break. A simple solution that
 works for many projects is to include a `.gitattributes` file in your project root, [like the one here](.gitattributes).
@@ -753,12 +768,12 @@ applies changes from the adjectives. There are some tricky things here:
     retroactively make that color name parse correctly. You may have to call methods like `Font.markup()` again, so it's
     best if you can change colors before using them.
 
-If you encounter issues with TypingLabel tokens, and you use ProGuard, the configuration for that tool needs a small
+If you encounter issues with TypingLabel tokens, and you use ProGuard, the configuration for that tool may need a small
 addition:
 ```
 -keep class com.github.tommyettinger.textra.** { *; }
 ```
-There may be more strict versions of this ProGuard instruction possible, but at the very least, the
+There may be more strict versions of this ProGuard instruction possible, but at least in older versions, the
 `com.github.tommyettinger.textra.effects` package needs to be kept as-is, for reflection reasons. You may also need to
 ensure the `com.github.tommyettinger.textra.Effect` class is kept. Keeping all of TextraTypist should be perfectly fine
 for obfuscation purposes because this is an open-source library, but it does add a small amount to the size of the final
@@ -790,9 +805,11 @@ this should work reasonably well, and there are several options for how to justi
 
 Distance field fonts might not be worth the hassle of resizing each font's distance field, but they do look much better
 at very large sizes than standard fonts. Using a standard font
-actually can look better for small-to-moderate size adjustments. The best approach when you don't need large
-text seems to be to use a large standard font texture, without SDF or MSDF, and scale it down as needed. Since 1.0.0,
-all fonts support emoji. Older versions did not support emoji in MSDF fonts.
+sometimes can look better for small-to-moderate size adjustments. The best approach when you don't need large
+text seems to be to use a large standard font texture, without SDF or MSDF, and scale it down as needed. This looks
+different for different fonts; the size of a glyph in the associated .png file can only shrink so far without artifacts.
+Since 1.0.0, all fonts support emoji. Older versions did not support emoji in MSDF fonts. Recent versions also can let
+SDF fonts use either the `SDF` or `SDF_OUTLINE` modes, with the latter adding a thick black outline around everything.
 
 Games that use custom `Batch` classes with additional attributes don't work out-of-the-box with `Font`, but it provides
 an extension point to allow subclasses to function with whatever attributes the `Batch` needs. Overriding
@@ -826,18 +843,18 @@ by being in a Container. You may need to add a label to a Table or Container, th
 Cell or Container, to get wrap to act correctly.
 
 A possibly-frequent issue (with an easy fix) that may start occurring with version 0.9.0 and later is that TextraTypist
-now requires Java 8 or higher. All modern desktop OSes support Java 8, and this has been true for 9 years. Android has
-supported Java 8 (language level, though only some APIs) for several years, and older versions can use "desugaring" to
-translate more-recent Java code to be compatible with (much) older Android versions. GWT has supported language level 8
-for years, as well; 2.8.2, which libGDX is built with, allows using Java 8 features, and 2.11.0, which
-[an alternate libGDX backend](https://github.com/tommyettinger/gdx-backends) supports, allows using even more. RoboVM
+now requires Java 8 or higher. All modern desktop OSes support Java 8, and this has been true for about a decade.
+Android has supported Java 8 (language level, though only some APIs) for several years, and older versions can use
+"desugaring" to translate more-recent Java code to be compatible with (much) older Android versions. GWT has supported
+language level 8 for years, as well; 2.8.2, which older libGDX used, allows using Java 8 features, and 2.11.0, which
+the latest libGDX uses, allows using even more. RoboVM
 doesn't support any new APIs added in Java 8, but it has supported language level 8 from the start. TextraTypist doesn't
 use any APIs from Java 8, but does now use functional interfaces and method references. Having these features allows us
 to remove some nasty reflection-based code, and that in turn helps usage on platforms where reflection is limited, such
 as GWT and Graal Native Image. GWT was able to work before, but Graal Native Image would have needed a lot of
 configuration to be added for every game/app that used TextraTypist. The other issue is that if TextraTypist continued
 to target Java 7 for its library code, it wouldn't compile with Java 20 or later, and the LTS release 21 has been out
-for over a year.
+for over three years.
 
 If you want to make your own Fonts, you can use Hiero or AngelCode BMFont as you always have been able to, but now you
 can also use [FontWriter](https://github.com/tommyettinger/fontwriter) (though it is Windows-only for now). FontWriter
@@ -921,8 +938,9 @@ with those kinds of bug! IgorApplications has helped track down various SDF-rela
 (full-color emoji in SDF fonts) was possible, so thanks as well! Thanks to trurl101 for finding the (rather serious)
 bug fixed by version 2.1.2, and another bug fixed in 2.1.3 ! Thanks to Darzington for tracking down a compatibility
 issue when TextraTypist is used with a TenPatch background, or really many kinds of Drawable background, and then again
-for contributing a bug-reproducer case that resulted in a fix for version 2.1.4 . I'm probably forgetting several people
-who helped out!
+for contributing a bug-reproducer case that resulted in a fix for version 2.1.4 . Users michaeloa and lucas-viva posted
+quite a few issues and made reproducer-cases that made them easier to fix; thanks! I'm probably forgetting several
+people who helped out!
 
 Of course, I have to thank Rafa Skoberg for writing quite a lot of the code here! About 1/3 of the effects are almost
 purely by Rafa, much of the TypingLabel-related code is nearly unchanged from his work, and in general he showed what

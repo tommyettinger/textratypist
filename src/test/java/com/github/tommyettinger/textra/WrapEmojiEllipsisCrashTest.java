@@ -38,7 +38,7 @@ public class WrapEmojiEllipsisCrashTest extends ApplicationAdapter {
 
     layout = new Layout();
     layout.setFont(font);
-    layout.setTargetWidth(115.20001f);
+    layout.setTargetWidth(115f);
     layout.setMaxLines(4);
     // this is definitely causing some mismatch with layout.advances ...
     layout.setEllipsis("...");
