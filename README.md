@@ -659,9 +659,6 @@ cause labels to overlap each other and not take up their correct amount of space
 the appearance of Small Caps mode, and updates some .fnt files that had visual issues. In core label code, monospaced
 fonts needed to stop offsetting the first character if its offsetX was negative; this mostly affects Cozette.
 
-Because the 2.2.x line depends on libGDX 1.14.0, and not all libraries are compatible yet with this version (libKTX in
-particular), all changes in 2.2.4 have been backported to 2.1.9, which still only needs libGDX 1.13.1 .
-
 2.2.5 fixes the behavior of malformed .fnt files created without a space char, and now matches the behavior of
 BitmapFont when given one of those (it now matches the width of space, if none is provided, to the width of `'l'`).
 It also provides a way to handle Hiero's non-standard padding usage when it creates a .fnt with an outline or shadow,
@@ -679,6 +676,10 @@ and a Font.
 when both the .fnt file and the image it references are in the same subfolder, somewhere inside the assets root folder.
 There was a visual bug in TextraSelectBox and TypingSelectBox, where the labels displayed too low in their rows when the
 list and scroll pane appeared, but that should be fixed now.
+
+Because the 2.2.x line depends on libGDX 1.14.0, and not all libraries are compatible yet with this version (libKTX in
+particular), all changes in 2.2.6 have been backported to 2.1.10, which still only needs libGDX 1.13.1 . Changing the
+dependency from 2.2.6 to 2.1.10 is really all that needs to be done if you still need to use libGDX 1.13.1 . 
 
 ## Why doesn't something work?
 
