@@ -33,7 +33,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
     TypingLabel label;
     TypingLabel labelEvent;
     AnimatedGif gif;
-    Array<Pixmap> pms = new Array<>(Pixmap[]::new);
+    Array<Pixmap> pms = new Array<>(Pixmap.class);
 
     @Override
     public void create() {
