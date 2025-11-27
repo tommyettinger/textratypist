@@ -65,8 +65,9 @@ public class TextraCheckBox extends TextraButton {
         image = newImage();
         image.setDrawable(style.checkboxOff);
 
-        addActorBefore(image, label);
-        imageCell = getCell(image);
+        clearChildren();
+        imageCell = add(image);
+        add(label);
         pack();
         setSize(getPrefWidth(), getPrefHeight());
     }
