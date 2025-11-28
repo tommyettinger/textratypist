@@ -43,7 +43,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.6"
+implementation "com.github.tommyettinger:textratypist:2.2.7"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 (and not 1.13.5).
@@ -56,7 +56,7 @@ be compatible by the time 1.14.0 is released.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.6:sources"
+implementation "com.github.tommyettinger:textratypist:2.2.7:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
 ```
 
@@ -87,15 +87,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.6.0"
+implementation "com.github.tommyettinger:freetypist:2.2.7.0"
 ```
 
-(Now, FreeTypist 2.2.6.0 uses TextraTypist 2.2.6 .)
+(Now, FreeTypist 2.2.7.0 uses TextraTypist 2.2.7 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.6.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.2.7.0:sources"
 ```
 
 And this inherits line:
@@ -565,7 +565,7 @@ outline thickness modified using `Font.setOutlineStrength()`. The oblique angle 
 `descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
 as it is for Structured JSON fonts!
 
-Version 2.1.0 through 2.2.6 are out, and while they have fewer breaking changes, there are still several of them.
+Version 2.1.0 through 2.2.7 are out, and while they have fewer breaking changes, there are still several of them.
 Notably, the syntax for modes is no longer linked to the syntax for scaling, and you can set modes independently of both
 the current scale and the current status of an outline around text. Some modes enable the outline and set its color; if
 you disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`,
@@ -677,13 +677,15 @@ when both the .fnt file and the image it references are in the same subfolder, s
 There was a visual bug in TextraSelectBox and TypingSelectBox, where the labels displayed too low in their rows when the
 list and scroll pane appeared, but that should be fixed now.
 
+2.2.7 fixes TextraCheckBox and TypingCheckBox, which both didn't display the actual box with the check before. Whoops.
+
 Because the 2.2.x line depends on libGDX 1.14.0, and not all libraries are compatible yet with this version (libKTX in
 particular), all changes in 2.2.6 have been backported to 2.1.10, which still only needs libGDX 1.13.1 . Changing the
 dependency from 2.2.6 to 2.1.10 is really all that needs to be done if you still need to use libGDX 1.13.1 . 
 
 ## Why doesn't something work?
 
-The quick checklist for the latest code (version 2.2.6 or newer commits from JitPack):
+The quick checklist for the latest code (version 2.2.7 or newer commits from JitPack):
 
 - Use FWSkin or one of its subclasses, not a plain scene2d.ui Skin. FreeTypistSkin is fine. Skin is not!
   - You can assign a FWSkin to a Skin, but it still really needs to be an FWSkin internally, or one of its subclasses. 
@@ -940,8 +942,9 @@ with those kinds of bug! IgorApplications has helped track down various SDF-rela
 bug fixed by version 2.1.2, and another bug fixed in 2.1.3 ! Thanks to Darzington for tracking down a compatibility
 issue when TextraTypist is used with a TenPatch background, or really many kinds of Drawable background, and then again
 for contributing a bug-reproducer case that resulted in a fix for version 2.1.4 . Users michaeloa and lucas-viva posted
-quite a few issues and made reproducer-cases that made them easier to fix; thanks! I'm probably forgetting several
-people who helped out!
+quite a few issues and made reproducer-cases that made them easier to fix; thanks! Flip found the bug fixed in 2.2.7 and
+suggested a good fix, which I forgot to implement for 2 months. Thanks, though! I'm probably forgetting several
+people who helped out, so if I did, just find another issue and report it; I'm sure there are some more... 😉
 
 Of course, I have to thank Rafa Skoberg for writing quite a lot of the code here! About 1/3 of the effects are almost
 purely by Rafa, much of the TypingLabel-related code is nearly unchanged from his work, and in general he showed what
