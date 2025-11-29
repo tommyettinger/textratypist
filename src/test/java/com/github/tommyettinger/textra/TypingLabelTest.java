@@ -81,7 +81,7 @@ public class TypingLabelTest extends ApplicationAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 label.restart();
                 Cell<TypingLabel> labelCell = table.getCell(label);
-//                label.skipToTheEnd(false, false);
+                label.skipToTheEnd();
                 labelEvent.setVisible(false);
                 labelEvent.restart();
                 labelEvent.pause();
@@ -246,7 +246,8 @@ public class TypingLabelTest extends ApplicationAdapter {
         final TypingLabel label = new TypingLabel(text.toString(), font);
 //        label.getWorkingLayout().setJustification(Justify.FULL_ON_PARAGRAPH);
         label.setAlignment(Align.left);
-        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
+        label.setDefaultToken("");
+//        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 //        label.setVariable("MUTATE", "[GREEN]Oh yeah!");
 
         // Make the label wrap to new lines, respecting the table's layout.
@@ -301,16 +302,14 @@ public class TypingLabelTest extends ApplicationAdapter {
         return label;
     }
 
-    public void update(float delta) {
-        stage.act(delta);
-    }
+//    public void update(float delta) {
+//        stage.act(delta);
+//    }
 
     @Override
     public void render() {
         ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1);
-
-        update(Gdx.graphics.getDeltaTime());
-
+        stage.act();
         stage.draw();
     }
 
