@@ -5,11 +5,10 @@ buildscript {
     repositories {
 //        mavenLocal()
         mavenCentral()
-//        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.34.0'
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.35.0'
     }
 }
 
@@ -55,8 +54,8 @@ compileJava {
 }
 
 compileTestJava {
-    sourceCompatibility = 8
-    targetCompatibility = 8
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
     if (JavaVersion.current().isJava9Compatible()) {
         options.release.set(8)
     }
@@ -86,8 +85,8 @@ sourceSets.test.resources.srcDirs = [file('src/test/resources').path, file('know
 
 javadoc.destinationDir = file('docs/apidocs')
 
-processResources.duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
-processTestResources.duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+processResources.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+processTestResources.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
 jar {
     archiveBaseName.set(projectName)
@@ -99,8 +98,8 @@ jar {
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url 'https://central.sonatype.com/repository/maven-snapshots/' }
-    maven { url 'https://jitpack.io' }
+    maven { url = 'https://central.sonatype.com/repository/maven-snapshots/' }
+    maven { url = 'https://jitpack.io' }
 }
 
 dependencies {
@@ -119,5 +118,5 @@ dependencies {
     testImplementation "com.github.raeleus.stripe:freetype:2.0.0"
     testImplementation "com.github.raeleus.TenPatch:tenpatch:5.2.3"
     testImplementation "com.github.tommyettinger:anim8-gdx:$anim8Version"
-    testImplementation 'com.github.tommyettinger:colorful:0.9.0'
+    testImplementation 'com.github.tommyettinger:colorful:0.10.0'
 }

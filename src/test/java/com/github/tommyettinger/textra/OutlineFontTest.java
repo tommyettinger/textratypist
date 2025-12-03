@@ -48,7 +48,10 @@ public class OutlineFontTest extends ApplicationAdapter {
 
 //        FreeType works too with no padding changes.
         // https://i.imgur.com/4mbGVLo.png
+
+        // You create a FreeTypeFontGenerator per TTF or OTF font file.
         FreeTypeFontGenerator ft = new FreeTypeFontGenerator(Gdx.files.internal("OpenSans-ExtraBold.ttf"));
+        // You can create more than one FreeTypeFontParameter, each one for a different size or look of the same TTF.
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         // Using white is recommended because it can be tinted to any other color (tinting can't brighten a color).
         parameter.color = Color.WHITE;

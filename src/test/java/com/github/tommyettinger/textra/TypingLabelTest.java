@@ -246,8 +246,8 @@ public class TypingLabelTest extends ApplicationAdapter {
         final TypingLabel label = new TypingLabel(text.toString(), font);
 //        label.getWorkingLayout().setJustification(Justify.FULL_ON_PARAGRAPH);
         label.setAlignment(Align.left);
-        label.setDefaultToken("");
-//        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
+//        label.setDefaultToken("");
+        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 //        label.setVariable("MUTATE", "[GREEN]Oh yeah!");
 
         // Make the label wrap to new lines, respecting the table's layout.
