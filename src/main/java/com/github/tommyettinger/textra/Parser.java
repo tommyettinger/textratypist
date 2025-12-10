@@ -126,7 +126,7 @@ public class Parser {
         // Get text
         CharSequence text = label.layout.appendIntoDirect(new StringBuilder());
 
-        if(label.font.omitCurlyBraces || label.font.enableSquareBrackets) {
+        if(label.font.omitCurlyBraces && label.font.enableSquareBrackets) {
             // Create string builder
             MATCHER_TOKEN_STRIP.setTarget(text);
             Matcher m = MATCHER_TOKEN_STRIP;
@@ -296,7 +296,7 @@ public class Parser {
         MATCHER_MARKUP_STRIP.setTarget(label.getIntermediateText());
         String text = MATCHER_MARKUP_STRIP.replaceAll("");
         CharSequence text2 = label.getIntermediateText();
-        if(label.font.omitCurlyBraces || label.font.enableSquareBrackets) {
+        if(label.font.omitCurlyBraces) {
             // Create matcher and StringBuilder
             MATCHER_TOKEN_STRIP.setTarget(text);
             MATCHER_TOKEN_STRIP_2.setTarget(text2);
