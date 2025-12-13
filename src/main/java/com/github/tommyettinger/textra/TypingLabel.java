@@ -35,10 +35,7 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
-
-import static com.github.tommyettinger.textra.Font.ALTERNATE;
 
 /**
  * An extension of {@link TextraLabel} that progressively shows the text as if it was being typed in real time, and
@@ -1224,6 +1221,8 @@ public class TypingLabel extends TextraLabel {
                             }
                         }
 
+                        float a = getAdvances().get(r);
+
                         if (i == start) {
                             x -= f.cellWidth * 0.5f;
 
@@ -1240,7 +1239,7 @@ public class TypingLabel extends TextraLabel {
                             Font.GlyphRegion reg = font.mapping.get((char) glyph);
                             if (reg != null && reg.offsetX < 0 && !font.isMono && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {
                                 float ox = reg.offsetX;
-                                ox *= f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
+                                ox *= f.scaleX * a;
                                 if (ox < 0) {
                                     xChange -= cs * ox;
                                     yChange -= sn * ox;
@@ -1251,7 +1250,7 @@ public class TypingLabel extends TextraLabel {
 
                         if (f.kerning != null) {
                             kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
-                            float amt = f.kerning.get(kern, 0) * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
+                            float amt = f.kerning.get(kern, 0) * f.scaleX * a;
                             xChange += cs * amt;
                             yChange += sn * amt;
                         } else {
@@ -1266,13 +1265,14 @@ public class TypingLabel extends TextraLabel {
                             yy = (int) yy;
                         }
 
-                        float scale = (glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f, scaleX;
+                        float scale = a, scaleX;
                         if ((char) glyph >= 0xE000 && (char) glyph < 0xF800) {
                             scaleX = scale * font.cellHeight / (f.mapping.get((int) glyph & 0xFFFF, f.defaultValue).xAdvance);
                         } else
                             scaleX = font.scaleX * scale;
 
-                        single = Font.xAdvance(f, scaleX, glyph) * getAdvances().get(r++);
+                        single = Font.xAdvance(f, scaleX, glyph) * a;
+                        r++;
                         if(selectionWidth == 0f)
                         {
                             selectionDrawStartX = xx;
@@ -1358,6 +1358,7 @@ public class TypingLabel extends TextraLabel {
                         continue;
                     }
                 }
+                float a = getAdvances().get(r);
 
                 if(i == start){
                     x -= f.cellWidth * 0.5f;
@@ -1372,7 +1373,7 @@ public class TypingLabel extends TextraLabel {
                     Font.GlyphRegion reg = font.mapping.get((char) glyph);
                     if (reg != null && reg.offsetX < 0 && !font.isMono && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {
                         float ox = reg.offsetX;
-                        ox *= f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
+                        ox *= f.scaleX * a;
                         if (ox < 0) {
                             xChange -= cs * ox;
                             yChange -= sn * ox;
@@ -1382,7 +1383,7 @@ public class TypingLabel extends TextraLabel {
 
                 if (f.kerning != null) {
                     kern = kern << 16 | (int) ((glyph = line.glyphs.get(i)) & 0xFFFF);
-                    float amt = f.kerning.get(kern, 0) * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
+                    float amt = f.kerning.get(kern, 0) * f.scaleX * a;
                     xChange += cs * amt;
                     yChange += sn * amt;
                 } else {
@@ -1400,8 +1401,8 @@ public class TypingLabel extends TextraLabel {
                     yy = (int)yy;
                 }
 
-                float a = getAdvances().get(r);
-                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(r++) + rot, getSizing().get(s++), getSizing().get(s++), bgc, a);
+                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(r) + rot, getSizing().get(s++), getSizing().get(s++), bgc, a);
+                r++;
                 if(trackingInput){
                     if(xx <= inX && inX <= xx + single && yy - line.height * 0.5f <= inY && inY <= yy + line.height * 0.5f) {
                         overIndex = globalIndex;

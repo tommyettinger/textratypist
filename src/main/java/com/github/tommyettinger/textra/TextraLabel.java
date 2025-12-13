@@ -30,8 +30,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.LongArray;
 
-import static com.github.tommyettinger.textra.Font.ALTERNATE;
-
 /**
  * A scene2d.ui Widget that displays text using a {@link Font} rather than a libGDX BitmapFont. This supports being
  * laid out in a Table just like the typical Label (when {@link #isWrap() wrap} is false, which is the default). This
@@ -451,6 +449,8 @@ public class TextraLabel extends Widget {
 
                 if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                 if (f == null) f = font;
+                int even = start + i << 1, odd = even | 1;
+                float a = getAdvances().get(start + i);
                 if (i == 0) {
                     x -= 0.5f * f.cellWidth;
                     x += cs * 0.5f * f.cellWidth;
@@ -463,7 +463,7 @@ public class TextraLabel extends Widget {
 
                     Font.GlyphRegion reg = font.mapping.get((char) glyph);
                     if (reg != null && reg.offsetX < 0 && !font.isMono) {
-                        float ox = reg.offsetX * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
+                        float ox = reg.offsetX * f.scaleX * a;
                         xChange -= cs * ox;
                         yChange -= sn * ox;
                     }
@@ -471,21 +471,19 @@ public class TextraLabel extends Widget {
 
                 if (f.kerning != null) {
                     kern = kern << 16 | (int) ((glyph = line.glyphs.get(i)) & 0xFFFF);
-                    float amt = f.kerning.get(kern, 0) * f.scaleX * ((glyph & ALTERNATE) != 0L ? 1f : ((glyph + 0x300000L >>> 20 & 15) + 1) * 0.25f);
+                    float amt = f.kerning.get(kern, 0) * f.scaleX * a;
                     xChange += cs * amt;
                     yChange += sn * amt;
                 } else {
                     kern = -1;
                 }
                 bgc = 0;
-                int even = start + i << 1, odd = even | 1;
                 float xx = x + xChange + getOffsets().get(even), yy = y + yChange + getOffsets().get(odd);
                 if(font.integerPosition){
                     xx = (int)xx;
                     yy = (int)yy;
                 }
 
-                float a = getAdvances().get(start + i);
                 single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(start + i) + rot, getSizing().get(even), getSizing().get(odd), bgc, a);
                 xChange += cs * single;
                 yChange += sn * single;

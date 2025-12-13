@@ -1159,12 +1159,6 @@ public class Font implements Disposable {
      */
     public static final long SUPERSCRIPT = 3L << 25;
     /**
-     * Bit flag for alternate mode, as a long.
-     * The behavior of the scale bits changes if alternate mode is enabled.
-     */
-    //FIXME: Alternate modes no longer replace scale!
-    public static final long ALTERNATE = 1L << 24;
-    /**
      * Bit flag for matching alternate modes, as a long.
      * If a glyph is masked with this ({@code (glyph & ALTERNATE_MODES_MASK)}), and that equals one of the alternate
      * mode bit flags exactly ({@link #SMALL_CAPS}, {@link #WHITE_OUTLINE}, {@link #DROP_SHADOW}, and so on), then
