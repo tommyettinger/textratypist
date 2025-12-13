@@ -79,6 +79,7 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
                 Cell<TypingLabel> labelCell = table.getCell(label);
                 label = createTypingLabel();
                 labelCell.setActor(label);
+                System.out.println("Rebuilt with width " + label.getWidth() + " and workingLayout target width " + label.workingLayout.targetWidth);
             }
         });
 
@@ -168,12 +169,12 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
         label.selectable = true;
         label.align = Align.topLeft;
 
+        label.setWrap(true);
         // Make the label wrap to new lines, respecting the table's layout.
-        label.wrap = true;
         label.setMaxLines(20);
-        label.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth() - 100);
+//        label.getWorkingLayout().setTargetWidth(Gdx.graphics.getBackBufferWidth() - 100);
 
-        // Set an event listener for when the {EVENT} token is reached and for the char progression ends.
+//         Set an event listener for when the {EVENT} token is reached and for the char progression ends.
         label.setTypingListener(new TypingAdapter() {
             @Override
             public void event(String event) {

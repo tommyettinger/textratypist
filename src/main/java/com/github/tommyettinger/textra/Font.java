@@ -7825,7 +7825,8 @@ public class Font implements Disposable {
         if (changing.font == null) {
             return changing;
         }
-//        Gdx.app.debug("TextraTypist", "In regenerateLayout, operating on:\n" + changing);
+        //TODO: remove debug print
+        System.out.println("In regenerateLayout, operating on:\n" + changing);
 
         if(!changing.font.equals(this)){
             changing.font = this;

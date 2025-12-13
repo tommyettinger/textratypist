@@ -571,11 +571,12 @@ public class TypingLabel extends TextraLabel {
         ignoringEffects = false;
 
         // Set new text
-        invalidate();
         saveOriginalText(newText);
+        invalidate();
 
         // Parse tokens
         parseTokens();
+        System.out.println("Restarted with width " + getWidth() + " and workingLayout target width " + workingLayout.targetWidth);
     }
 
 
@@ -992,13 +993,16 @@ public class TypingLabel extends TextraLabel {
         }
         float originalHeight = workingLayout.getHeight();
         float actualWidth = font.calculateSize(workingLayout);
+        
+        float wlTargetWidth = workingLayout.getTargetWidth();
 
         if (wrap) {
-            if (width == 0f || workingLayout.getTargetWidth() != width || actualWidth > width) {
+            if (width == 0f || wlTargetWidth != width || actualWidth > width) {
                 if (width != 0f)
                     workingLayout.setTargetWidth(width);
                 workingLayout.justification = defaultJustify;
                 font.regenerateLayout(workingLayout);
+                font.calculateSize(workingLayout);
 // We definitely don't want to invalidateHierarchy() here, because it would invalidate a lot every frame!
             }
 
