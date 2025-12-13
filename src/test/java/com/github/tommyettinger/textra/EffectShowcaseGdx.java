@@ -187,17 +187,11 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
         return label;
     }
 
-    public void update(float delta) {
-        stage.act(delta);
-    }
-
     @Override
     public void render() {
-        update(Gdx.graphics.getDeltaTime());
-
         ScreenUtils.clear(0.9f, 0.9f, 0.9f, 1);
-        
 
+        stage.act();
         stage.draw();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }

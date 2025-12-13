@@ -79,16 +79,15 @@ public class TypingLabelTest extends ApplicationAdapter {
         buttonRestart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+//                label.setDefaultToken("");
                 label.restart();
-                Cell<TypingLabel> labelCell = table.getCell(label);
-                label.skipToTheEnd();
+                // when checking if restarting "flickers", we want skipToTheEnd() called, and the Label's default
+                // token set to the empty String (just above).
+//                label.skipToTheEnd(false, false);
                 labelEvent.setVisible(false);
                 labelEvent.restart();
                 labelEvent.pause();
                 table.pack();
-//                System.out.println("Label height: " + labelCell.getActorHeight()
-//                        + ", cell max height: " + labelCell.getMaxHeight()
-//                        + ", cell pref height: " + labelCell.getPrefHeight());
 
             }
         });
@@ -330,7 +329,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         config.setTitle("TypingLabel Test");
         config.setWindowedMode(720, 400);
         config.setResizable(true);
-        config.setForegroundFPS(0);
+        config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate + 1);
         config.useVsync(true);
         config.disableAudio(true);
         new Lwjgl3Application(new TypingLabelTest(), config);
