@@ -154,9 +154,9 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
         ends.sort();
         for (int i = 0, n = starts.size; i < n; i++) {
             sb.append('{').append(starts.get(i)).append('}').append("[BLACK]lib[#e74a45]GDX")
-                    .append(" with ").append(starts.get(i))
+//                    .append(" with ").append(starts.get(i))
                     //FIXME: use this to test if the multiple-space wrapping bug is fixed
-//                    .append(" with ").append(starts.get(i)).append(' ')
+                    .append(" with ").append(starts.get(i)).append(' ')
                     .append('{').append(ends.get(i)).append("} {WAIT=0.8}");
         }
 

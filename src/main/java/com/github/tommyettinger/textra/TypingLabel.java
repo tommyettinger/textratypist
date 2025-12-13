@@ -1575,12 +1575,26 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Gets a String from the working layout of this label, made of only the char portions of the glyphs from start
-     * (inclusive) to end (exclusive). This can retrieve text from across multiple lines.
+     * (inclusive) to end (exclusive). This can retrieve text from across multiple lines. This delegates to
+     * {@link #substring(int, int, boolean)} with multiLine set to true.
      * @param start inclusive start index
      * @param end exclusive end index
      * @return a String made of only the char portions of the glyphs from start to end
      */
     public String substring(int start, int end) {
+        return substring(start, end, true);
+    }
+    /**
+     * Gets a String from the working layout of this label, made of only the char portions of the glyphs from start
+     * (inclusive) to end (exclusive). This can retrieve text from across multiple lines. If {@code multiLine} is true,
+     * each Line will be separated by a {@code '\n'} (newline) char; otherwise, this will return one line of text except
+     * where a newline was already present in the original text.
+     * @param start inclusive start index
+     * @param end exclusive end index
+     * @param multiLine if true, this will return a String that contains a newline between {@code Line}s
+     * @return a String made of only the char portions of the glyphs from start to end
+     */
+    public String substring(int start, int end, boolean multiLine) {
         start = Math.max(0, start);
         end = Math.min(Math.max(workingLayout.countGlyphs(), start), end);
         int index = start;
@@ -1607,6 +1621,7 @@ public class TypingLabel extends TextraLabel {
             }
             else
                 index -= glyphs.size;
+            if(multiLine) sb.append('\n');
         }
         return "";
     }
