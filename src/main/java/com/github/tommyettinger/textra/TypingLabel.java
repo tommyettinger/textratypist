@@ -451,8 +451,6 @@ public class TypingLabel extends TextraLabel {
     /**
      * Skips the char progression to the end, showing the entire label. Useful for when users don't want to wait for too
      * long. Ignores all subsequent events by default. Doesn't change running effects.
-     * This calls {@link #act(float)} with a delta of {@link Float#MIN_VALUE}, which allows the text to be skipped
-     * ahead without noticeably changing anything time-based.
      * @return this, for chaining
      */
     @Override
@@ -463,8 +461,6 @@ public class TypingLabel extends TextraLabel {
     /**
      * Skips the char progression to the end, showing the entire label. Useful for when users don't want to wait for too
      * long. This doesn't change running effects.
-     * This calls {@link #act(float)} with a delta of {@link Float#MIN_VALUE}, which allows the text to be skipped
-     * ahead without noticeably changing anything time-based.
      *
      * @param ignoreEvents If {@code true}, skipped events won't be reported to the listener.
      * @return this, for chaining
@@ -476,8 +472,6 @@ public class TypingLabel extends TextraLabel {
     /**
      * Skips the char progression to the end, showing the entire label. Useful for when users don't want to wait for too
      * long.
-     * This calls {@link #act(float)} with a delta of {@link Float#MIN_VALUE}, which allows the text to be skipped
-     * ahead without noticeably changing anything time-based.
      *
      * @param ignoreEvents  If {@code true}, skipped events won't be reported to the listener.
      * @param ignoreEffects If {@code true}, all text effects will be instantly cancelled.
@@ -487,7 +481,7 @@ public class TypingLabel extends TextraLabel {
         skipping = true;
         ignoringEvents = ignoreEvents;
         ignoringEffects = ignoreEffects;
-//        act(Float.MIN_VALUE);
+        subAct(0f);
         return this;
     }
 
@@ -716,7 +710,19 @@ public class TypingLabel extends TextraLabel {
     @Override
     public void act(float delta) {
         super.act(delta);
+        subAct(delta);
+    }
 
+    /**
+     * Performs the non-Action-related logic of parsing tokens, skipping/advancing (when needed), ensuring the layout
+     * and workingLayout fields match internally, calculating size changes, and handling all effects. This is called by
+     * {@link #act(float)} after it calls {@link com.badlogic.gdx.scenes.scene2d.Actor#act(float)}, which is what
+     * handles scene2d {@link com.badlogic.gdx.scenes.scene2d.Action}s. This is also called by {@link #skipToTheEnd()}
+     * (and all its overloads) with a delta of {@code 0f}, to ensure there isn't any
+     * span of time after starting to skip when the shown chars, size, and layout aren't up-to-date.
+     * @param delta the (typically fractional) amount of time, in seconds, since the last frame
+     */
+    protected void subAct(float delta) {
         // Force token parsing
         if (!parsed) {
             parseTokens();
