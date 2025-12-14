@@ -113,12 +113,6 @@ public class CheckBoxTest extends ApplicationAdapter {
         ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1f);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-
-        System.out.println("textra check box:");
-        System.out.println(checkBox.getImageCell());
-        System.out.println(checkBox.getImage());
-        System.out.println("scene 2d check box:");
-        System.out.println(checkBox2.getImageCell());
     }
 
     @Override

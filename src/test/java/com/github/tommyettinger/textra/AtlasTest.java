@@ -28,7 +28,7 @@ public class AtlasTest extends ApplicationAdapter {
 //                0f, 0f, 0f, 0f,
 //                true, true)
         KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.STANDARD)
-                .scaleHeightTo(15f).addAtlas(new TextureAtlas("controller.atlas"), 0, 8, 0);
+                .scaleHeightTo(25f).addAtlas(new TextureAtlas("controller.atlas"), 0, 8, 0);
         // I load the left-trigger image so we know what width we will need to offset by. Most buttons are probably similar.
         Font.GlyphRegion lt = font.mapping.get(font.nameLookup.get("controller_LT", ' ')),
             space = font.mapping.get(' '),

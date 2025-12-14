@@ -28,7 +28,6 @@ public class FontSwitchTest extends ApplicationAdapter {
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
-        config.enableGLDebugOutput(true, System.out);
         config.useVsync(true);
         new Lwjgl3Application(new FontSwitchTest(), config);
     }

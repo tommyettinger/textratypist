@@ -36,8 +36,8 @@ public class ColorWrappingTest extends ApplicationAdapter {
 //        String text = "Did you know orange is my favorite color? Did[+ok_hand_tone2] YOU know orange is my favorite color? Did YOU know orange is my favorite color?";
         String text = "Did you know orange is my favorite color? Did[+OK hand, medium-light skin tone] YOU know orange is my favorite color? Did YOU know orange is my favorite color?";
 
-        font = KnownFonts.getDejaVuSans();
-        KnownFonts.addEmoji(font);
+        font = KnownFonts.getDejaVuSans().setInlineImageStretch(0.75f);
+        KnownFonts.addEmoji(font, 0, 5, -8f);
 
         final TextraLabel label = new TextraLabel("[#ffff00ff][%50]" + text, font);
         label.setSize(300, 300);
