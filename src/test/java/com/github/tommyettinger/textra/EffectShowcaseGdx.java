@@ -79,7 +79,7 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
                 Cell<TypingLabel> labelCell = table.getCell(label);
                 label = createTypingLabel();
                 labelCell.setActor(label);
-                System.out.println("Rebuilt with width " + label.getWidth() + " and workingLayout target width " + label.workingLayout.targetWidth);
+//                System.out.println("Rebuilt with width " + label.getWidth() + " and workingLayout target width " + label.workingLayout.targetWidth);
             }
         });
 
@@ -213,7 +213,7 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TypingLabel Test");
-        config.setWindowedMode(720, 600);
+        config.setWindowedMode(720, 700);
         config.setResizable(false);
         config.setForegroundFPS(60);
         config.useVsync(true);

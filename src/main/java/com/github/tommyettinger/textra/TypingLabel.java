@@ -577,7 +577,6 @@ public class TypingLabel extends TextraLabel {
 
         // Parse tokens
         parseTokens();
-        System.out.println("Restarted with width " + getWidth() + " and workingLayout target width " + workingLayout.targetWidth);
     }
 
 

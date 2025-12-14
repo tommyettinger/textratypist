@@ -6080,9 +6080,6 @@ public class Font implements Disposable {
      * @return appendTo, for chaining
      */
     public Layout markup(String text, Layout appendTo) {
-        //TODO: remove debug print
-        System.out.println("In markup, operating on:\n  " + text);
-
         boolean capitalize = false, previousWasLetter = false,
                 capsLock = false, lowerCase = false, initial = true;
         int c, fontIndex = -1;
@@ -6535,7 +6532,7 @@ public class Font implements Disposable {
                                         Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                                     int leading = 0;
                                     boolean hyphenated = true;
-                                    while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                    if (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
                                             Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
                                         ++leading;
                                         --j;
@@ -6717,7 +6714,7 @@ public class Font implements Disposable {
                                     Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                                 int leading = 0;
                                 boolean hyphenated = true;
-                                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                if (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
                                         Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
                                     ++leading;
                                     --j;
@@ -7826,21 +7823,10 @@ public class Font implements Disposable {
         if (changing.font == null) {
             return changing;
         }
-        //TODO: remove debug print
-        System.out.println("In regenerateLayout, operating on:\n  width="
-                + changing.getWidth() + ", targetWidth=" + changing.getTargetWidth()
-                + "\n  " + changing);
-
         if(!changing.font.equals(this)){
             changing.font = this;
         }
-        else {
-            // I wanted to see if regenerateLayout() was responsible at all; it isn't!
-            System.out.println("SKIPPING THE REST OF REGENERATELAYOUT()");
-            return changing;
-        }
-        // This never prints in EffectShowcaseGdx, but might print elsewhere.
-        System.out.println("NOT SKIPPING REGENERATELAYOUT()");
+
         Font font = null;
         float scaleX;
         float targetWidth = changing.getTargetWidth();
