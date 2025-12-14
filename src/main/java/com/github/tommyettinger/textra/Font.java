@@ -7834,6 +7834,13 @@ public class Font implements Disposable {
         if(!changing.font.equals(this)){
             changing.font = this;
         }
+        else {
+            // I wanted to see if regenerateLayout() was responsible at all; it isn't!
+            System.out.println("SKIPPING THE REST OF REGENERATELAYOUT()");
+            return changing;
+        }
+        // This never prints in EffectShowcaseGdx, but might print elsewhere.
+        System.out.println("NOT SKIPPING REGENERATELAYOUT()");
         Font font = null;
         float scaleX;
         float targetWidth = changing.getTargetWidth();
