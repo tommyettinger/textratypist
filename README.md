@@ -679,6 +679,17 @@ list and scroll pane appeared, but that should be fixed now.
 
 2.2.7 fixes TextraCheckBox and TypingCheckBox, which both didn't display the actual box with the check before. Whoops.
 
+2.2.8 fixes several bugs, ranging from `Font.omitCurlyBraces` incorrectly still permitting curly-brace effects
+sometimes, to the width of `TypingLabel`s sometimes exceeding their right boundary by a word or so, to a rare bug where
+multiple spaces with wrap enabled on a `TypingLabel` could cause effects to be misaligned. There's also a split between
+`TypingLabel.act(float)`, which handles normal `Actor` behavior with `Action`s, and `TypingLabel.subAct(float)`, which
+handles TypingLabel-specific activity, and is called normally by `act(float)`. A breaking change here is that a
+`TypingLabel` that doesn't have any parent (so no `Table` or `Container` holding it in a `Stage`) now won't always wrap
+correctly, though they should act the same when wrapping is disabled. Lots of `TypingLabel` behavior needs to run
+multiple times as it participates in scene2d.ui layout, and now one phase of creation (for wrapped labels) is delayed
+until the TypingLabel has been added to a parent and its `layout()` method is called. This helps also because wrap is
+usually enabled after a TypingLabel has been constructed, and typically needs to know the desired width of the widget.
+
 Because the 2.2.x line depends on libGDX 1.14.0, and not all libraries are compatible yet with this version (libKTX in
 particular), all changes in 2.2.6 have been backported to 2.1.10, which still only needs libGDX 1.13.1 . Changing the
 dependency from 2.2.6 to 2.1.10 is really all that needs to be done if you still need to use libGDX 1.13.1 . 
@@ -880,6 +891,11 @@ an issue on [FontWriter's repo](https://github.com/tommyettinger/fontwriter/issu
 distributor, and I can make a Structured JSON version of it to host in FontWriter's known fonts. I like this approach
 because it helps me better understand what types of fonts people want supplied, and making a new font with FontWriter
 doesn't take me more than a few minutes once the license is clear and I have a .ttf or .otf file to work with.
+
+Starting in TextraTypist 2.2.8, a `TypingLabel` that doesn't have any parent (so no `Table` or `Container` holding it in
+a `Stage`) now won't always wrap correctly. TypingLabel now delays some of its laying-out until it has a parent widget
+and `layout()` is called, which scene2d.ui usually does on its own, and can be triggered by methods like `pack()` on a
+parent widget.
 
 ## License
 
