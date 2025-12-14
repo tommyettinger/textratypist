@@ -58,7 +58,7 @@ public class WrappingTest extends ApplicationAdapter {
         s2dLabel.setAlignment(Align.bottom);
         Table table = new Table();
         table.setFillParent(true);
-        table.add(label).row();
+        table.add(label).fill().row();
         table.add(s2dLabel).bottom();
         stage.addActor(table);
     }

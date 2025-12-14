@@ -58,8 +58,8 @@ public class Issue29Test extends ApplicationAdapter {
     table.add(label).prefWidth(300).row();
     table.pack();
     table.debugAll();
-
-    stage.addActor(new Stack(table));
+    table.setFillParent(true);
+    stage.addActor(table);
   }
 
   @Override

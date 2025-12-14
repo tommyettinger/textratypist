@@ -25,7 +25,7 @@ public class StrippedTest extends ApplicationAdapter {
         BitmapFont bmfont = skin.getFont("one-50");
 //        BitmapFont bmfont = new BitmapFont(Gdx.files.internal("one-50.fnt"));
         bmfont.getData().markupEnabled = true;
-        font = skin.get("one-50", Font.class).setLineMetrics(0, 0.5f, 0f, 0f).setInlineImageMetrics(0f, 4f, 0f, 0.75f);
+        font = skin.get("one-50", Font.class).setLineMetrics(0f, -0.125f, 0f, 0f).setInlineImageMetrics(0f, 4f, 0f, 0.75f);
 //        font = new Font(bmfont);
 //        font = new Font("one-50.fnt");
         KnownFonts.addEmoji(font);

@@ -2668,7 +2668,7 @@ public class Font implements Disposable {
         }
         GlyphRegion space = mapping.get(' ', null);
         if (space == null) {
-            Gdx.app.log("FONT", "Warning! BitmapFont " + bmFont.getData().name + " is missing a space character! Will guess space width from 'l'.");
+            Gdx.app.log("textratypist", "Warning! BitmapFont " + bmFont.getData().name + " is missing a space character! Will guess space width from 'l'.");
             GlyphRegion guess = mapping.get('l', null);
             if(guess == null)
                 throw new RuntimeException("Cannot create a font without a space character, and without 'l' to guess at space metrics.");
@@ -2870,7 +2870,7 @@ public class Font implements Disposable {
         }
         GlyphRegion space = mapping.get(' ', null);
         if (space == null) {
-            Gdx.app.log("FONT", "Warning! Font " + fntHandle.name() + " is missing a space character! Will guess space width from 'l'.");
+            Gdx.app.log("textratypist", "Warning! Font " + fntHandle.name() + " is missing a space character! Will guess space width from 'l'.");
             GlyphRegion guess = mapping.get('l', null);
             if(guess == null)
                 throw new RuntimeException("Cannot create a font without a space character, and without 'l' to guess at space metrics.");
@@ -3021,7 +3021,7 @@ public class Font implements Disposable {
         solidBlock = (char) fnt.getInt("SolidGlyphIndex");
         GlyphRegion space = mapping.get(' ', null);
         if (space == null) {
-            Gdx.app.log("FONT", "Warning! Font " + fntName + " is missing a space character! Will guess space width from 'l'.");
+            Gdx.app.log("textratypist", "Warning! Font " + fntName + " is missing a space character! Will guess space width from 'l'.");
             GlyphRegion guess = mapping.get('l', null);
             if(guess == null)
                 throw new RuntimeException("Cannot create a font without a space character, and without 'l' to guess at space metrics.");
@@ -3360,7 +3360,7 @@ public class Font implements Disposable {
         }
         GlyphRegion space = mapping.get(' ', null);
         if (space == null) {
-            Gdx.app.log("FONT", "Warning! Font " + jsonHandle.name() + " is missing a space character! Will guess space width from 'l'.");
+            Gdx.app.log("textratypist", "Warning! Font " + jsonHandle.name() + " is missing a space character! Will guess space width from 'l'.");
             GlyphRegion guess = mapping.get('l', null);
             if(guess == null)
                 throw new RuntimeException("Cannot create a font without a space character, and without 'l' to guess at space metrics.");
@@ -7841,7 +7841,6 @@ public class Font implements Disposable {
             Line line = changing.getLine(ln);
             line.height = 0;
             int a = changing.countGlyphsBeforeLine(ln);
-//            System.out.println("On line " + ln + ", advances.size = " + changing.advances.size + " and layout size = " + changing.countGlyphs());
             float drawn = 0f, visibleWidth = 0f;
             int cutoff, breakPoint = -2, spacingPoint = -2;
             LongArray glyphs = line.glyphs;

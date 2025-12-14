@@ -56,7 +56,7 @@ public class SetTextTest extends ApplicationAdapter {
 //                KnownFonts.getRobotoCondensed();
 
         text =
-                "[%150]Satchmo[%100] is a [%?blacken]{RAINBOW}cat{ENDRAINBOW}[%], [%50]who[%100] [%75]is[%100] extremely {SPEED=0.05}fat{NORMAL}; when he sits " +
+                "[%150]Satchmo[%] is a [#]{RAINBOW}cat{ENDRAINBOW}[#], [%50]who[%] [%75]is[%] extremely {SPEED=0.05}fat{NORMAL}; when he sits " +
                 "{SHAKE}down{ENDSHAKE}, throughout the town, we all {WAVE}think{ENDWAVE}, 'What was that? Did it happen " +
                 "again (that [*]thunderous[*] din)? What could ever make, such a [_]powerful[_] quake, but " +
                 "a cat with a [~][_]double[_][~] chin?'";
