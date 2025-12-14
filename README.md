@@ -43,7 +43,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.7"
+implementation "com.github.tommyettinger:textratypist:2.2.8"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 (and not 1.13.5).
@@ -56,7 +56,7 @@ be compatible by the time 1.14.0 is released.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.7:sources"
+implementation "com.github.tommyettinger:textratypist:2.2.8:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
 ```
 
@@ -87,15 +87,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.7.0"
+implementation "com.github.tommyettinger:freetypist:2.2.8.0"
 ```
 
-(Now, FreeTypist 2.2.7.0 uses TextraTypist 2.2.7 .)
+(Now, FreeTypist 2.2.8.0 uses TextraTypist 2.2.8 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.7.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.2.8.0:sources"
 ```
 
 And this inherits line:
@@ -104,7 +104,8 @@ And this inherits line:
 <inherits name="com.github.tommyettinger.freetypist" />
 ```
 
-FreeType doesn't work out-of-the-box on GWT, though [there is this](https://github.com/intrigus/gdx-freetype-gwt)].
+FreeType doesn't work out-of-the-box on GWT, though [there is this](https://github.com/intrigus/gdx-freetype-gwt) for
+libGDX 1.13.1 and older, or [this fork](https://github.com/tommyettinger/gdx-freetype-gwt) for 1.14.0 and newer.
 
 ## It's got effects!
 
@@ -696,7 +697,7 @@ dependency from 2.2.6 to 2.1.10 is really all that needs to be done if you still
 
 ## Why doesn't something work?
 
-The quick checklist for the latest code (version 2.2.7 or newer commits from JitPack):
+The quick checklist for the latest code (version 2.2.8 or newer commits from JitPack):
 
 - Use FWSkin or one of its subclasses, not a plain scene2d.ui Skin. FreeTypistSkin is fine. Skin is not!
   - You can assign a FWSkin to a Skin, but it still really needs to be an FWSkin internally, or one of its subclasses. 
