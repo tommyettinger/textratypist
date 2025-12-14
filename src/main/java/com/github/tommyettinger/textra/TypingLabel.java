@@ -136,6 +136,7 @@ public class TypingLabel extends TextraLabel {
     private boolean skipping = false;
     private boolean ignoringEvents = false;
     private boolean ignoringEffects = false;
+    private boolean onStage = false;
     private String defaultToken = "";
 
     ////////////////////////////
@@ -993,11 +994,9 @@ public class TypingLabel extends TextraLabel {
         }
         float originalHeight = workingLayout.getHeight();
         float actualWidth = font.calculateSize(workingLayout);
-        
-        float wlTargetWidth = workingLayout.getTargetWidth();
 
         if (wrap) {
-            if (width == 0f || wlTargetWidth != width || actualWidth > width) {
+            if (width == 0f || workingLayout.getTargetWidth() != width || actualWidth > width) {
                 if (width != 0f)
                     workingLayout.setTargetWidth(width);
                 workingLayout.justification = defaultJustify;
@@ -1013,6 +1012,15 @@ public class TypingLabel extends TextraLabel {
                 invalidateHierarchy();
                 // We don't want to call setHeight() because it would calculateSize() again, which isn't needed.
             }
+        }
+        // once a TypingLabel has been added to the Stage, somewhere, we can restart the effect and have it
+        // do more than what it could do before it knew its own dimensions. We only want to do this once, even if
+        // the label restarts at some later point, because this is only needed when layout() was called while the
+        // label was still not added to the Stage yet.
+        if(!onStage && hasParent()){
+            onStage = true;
+            if(!ended)
+                restart();
         }
     }
 

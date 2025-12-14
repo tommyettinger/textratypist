@@ -451,6 +451,7 @@ public class Layout {
             }
             else
                 index -= glyphs.size;
+            sb.append('\n');
         }
         return sb;
     }
