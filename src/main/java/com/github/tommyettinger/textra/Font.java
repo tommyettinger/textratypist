@@ -4747,6 +4747,7 @@ public class Font implements Disposable {
      *     <li>{@code [(label)]} temporarily stores the current formatting state as {@code label}.</li>
      *     <li>{@code [ label]} re-applies the formatting state stored as {@code label}, if there is one.</li>
      *     <li>{@code [[} escapes a literal left bracket, producing it without changing state.</li>
+     *     <li>{@code [+]} enters a zero-width space, which can be useful to induce wrapping.</li>
      *     <li>{@code [+name]}, where name is the name of a TextureRegion from an atlas added to this Font with
      *     {@link #addAtlas(TextureAtlas)}, produces the corresponding TextureRegion (scaled when drawn) without
      *     changing state. If no atlas has been added, this emits undefined character(s) instead.</li>
@@ -6026,6 +6027,7 @@ public class Font implements Disposable {
      *     <li>{@code [(label)]} temporarily stores the current formatting state as {@code label}.</li>
      *     <li>{@code [ label]} re-applies the formatting state stored as {@code label}, if there is one.</li>
      *     <li>{@code [[} escapes a literal left bracket, producing it without changing state.</li>
+     *     <li>{@code [+]} enters a zero-width space, which can be useful to induce wrapping.</li>
      *     <li>{@code [+name]}, where name is the name of a TextureRegion from an atlas added to this Font with
      *     {@link #addAtlas(TextureAtlas)}, produces the corresponding TextureRegion (scaled when drawn) without
      *     changing state. If no atlas has been added, this emits undefined character(s) instead.</li>
@@ -6121,10 +6123,12 @@ public class Font implements Disposable {
                         if (innerSquareStart != -1 && font.nameLookup != null) {
                             int len = innerSquareEnd - innerSquareStart;
                             if (len >= 2) {
-                                c = font.nameLookup.get(StringUtils.safeSubstring(text, innerSquareStart + 2, innerSquareEnd), '+');
-                                innerSquareStart = -1;
-                                appendTo.add(current | c, scale, scale, 0f, 0f, rotation);
+                                c = font.nameLookup.get(StringUtils.safeSubstring(text, innerSquareStart + 2, innerSquareEnd), '\u200B');
+                            } else {
+                                c = '\u200B';
                             }
+                            innerSquareStart = -1;
+                            appendTo.add(current | c, scale, scale, 0f, 0f, rotation);
                         }
                     }
                     // meaningful chars:
@@ -7104,17 +7108,19 @@ public class Font implements Disposable {
                         if(innerSquareStart != -1 && font.nameLookup != null) {
                             int len = innerSquareEnd - innerSquareStart;
                             if (len >= 2) {
-                                c = font.nameLookup.get(StringUtils.safeSubstring(markup, innerSquareStart + 2, innerSquareEnd), '+');
-                                innerSquareStart = -1;
-                                current = (current | c);
+                                c = font.nameLookup.get(StringUtils.safeSubstring(markup, innerSquareStart + 2, innerSquareEnd), '\u200B');
+                            } else {
+                                c = '\u200B';
                             }
+                            innerSquareStart = -1;
+                            current = (current | c);
                         }
                     }
 
                     if (c == '@') fontChange = i;
                     else if (c == '%') sizeChange = i;
-                    else if (c == '?') sizeChange = -1;
-                    else if (c == '^') sizeChange = -1;
+                    else if (c == '?' && sizeChange != -1) sizeChange = -1;
+                    else if (c == '^' && sizeChange != -1) sizeChange = -1;
                     else if (c == '=') eq = Math.min(eq, i);
                 }
                 char after = eq + 1 >= end ? '\u0000' : markup.charAt(eq + 1);
@@ -7406,7 +7412,9 @@ public class Font implements Disposable {
                     if(c == '+' && font.nameLookup != null) {
                         int len = markup.indexOf(']', i) - i;
                         if (len >= 0) {
-                            c = font.nameLookup.get(StringUtils.safeSubstring(markup, i + 1, i + len), '+');
+                            c = font.nameLookup.get(StringUtils.safeSubstring(markup, i + 1, i + len), '\u200B');
+                        } else {
+                            c = '\u200B';
                         }
                     }
                     if(c == '[')

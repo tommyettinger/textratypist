@@ -231,6 +231,8 @@ The full list of styles and related square-bracket tags:
       `ColorLookup.INSTANCE`, which looks up String names in the libGDX Colors class verbatim.
   - This also can be used with a color tag, such as `{COLOR=SKY}` (which Colors can handle right away) or
     with a description, such as `{COLOR=lighter orange-red}`, even inside a tag like `{GRADIENT}`.
+- `[+]` enters a zero-width space, which can also be entered with `\u200B` in a String.
+  - This can be useful to induce wrapping without showing any visual marker, such as a visible space. 
 - `[+region name]`, where region name is the name of a TextureRegion from a registered TextureAtlas, won't change the
   style, but will produce that TextureRegion in-line with the text.
   - This is commonly used with `KnownFonts.addEmoji()` to add the 3000+ Twemoji icons to a Font.
