@@ -77,7 +77,8 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
 //        final TextraLabel label = new TextraLabel(
         final TextraLabel label = new TextraLabel(
                 "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[+]whaaah?[%?], Context: [%?context]yes, interesting[%?], Suggest: [%?suggest]oh, neat[%?]\n" +
-                "I love Textra[+]Typist! *[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
+                        "...Underline, [_]can't forget[_], and Strike, [~]that too[~].\n" +
+                        "I love Textra[+]Typist! *[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
                         + "But... {COLOR=#79c353ff}U. Nitty doesn't. [~]They're[~] [+🤡] [~]anyway![~]\n"
                         + "That's OK, I don't like loot crates. [+party popper] [*]Whee[]!\n"
                         +"[+⚖️][~][_][+⚖️][ ] testing:\n" //[_][~]
