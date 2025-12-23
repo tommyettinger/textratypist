@@ -76,14 +76,14 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         // wrapping to somehow break the ENDWIND token (or RESET).
 //        final TextraLabel label = new TextraLabel(
         final TextraLabel label = new TextraLabel(
-                "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?],\nNote: [?note]huh[%?], Context: [%?context]interesting[%?], Suggest: [%?suggest]neat[%?]\n" +
-                "I love TextraTypist! *[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
+                "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[+]whaaah?[%?], Context: [%?context]interesting[%?], Suggest: [%?suggest]neat[%?]\n" +
+                "I love Textra[+]Typist! *[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
                         + "But... {COLOR=#79c353ff}U. Nitty doesn't. [~]They're[~] [+🤡] [~]anyway![~]\n"
                         + "That's OK, I don't like loot crates. [+party popper] [*]Whee[]!\n"
                         +"[+⚖️][~][_][+⚖️][ ] testing:\n" //[_][~]
                         // the u200B is a zero-width space, which is invisible but gets the 100% line height we want after this.
-                        + "[%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ]\u200B\n\n"
-                        + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog."
+                        + "[%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ][+]\n\n"
+                        + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog.[+"
 
                 ,
 //
@@ -146,6 +146,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        label.font.resizeDistanceField(width, height, stage.getViewport());
     }
 
     @Override

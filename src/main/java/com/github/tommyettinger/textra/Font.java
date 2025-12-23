@@ -6131,8 +6131,8 @@ public class Font implements Disposable {
                     // []{}@%?^=.
                     if (c == '@') fontChange = i;
                     else if (c == '%') sizeChange = i;
-                    else if (c == '?') sizeChange = -1;
-                    else if (c == '^') sizeChange = -1;
+                    else if (c == '?' && sizeChange != -1) sizeChange = -1;
+                    else if (c == '^' && sizeChange != -1) sizeChange = -1;
                     else if (c == '=') eq = Math.min(eq, i);
                 }
                 char after = eq + 1 >= end ? '\u0000' : text.charAt(eq + 1);
@@ -6478,32 +6478,27 @@ public class Font implements Disposable {
                     if(c == '+' && font.nameLookup != null) {
                         int len = text.indexOf(']', i) - i;
                         if (len >= 0) {
-                            c = font.nameLookup.get(StringUtils.safeSubstring(text, i + 1, i + len), '+');
+                            c = font.nameLookup.get(StringUtils.safeSubstring(text, i + 1, i + len), '\u200B'); // zero-width space
                             i += len;
                             sclX = scale * font.cellHeight / font.mapping.get(c, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
+                        } else {
+                            c = '\u200B';
                         }
                     }
                     if (font.kerning == null) {
                         w = (appendTo.peekLine().width += xAdvance(font, sclX, current | c));
-                        if(initial && !isMono && !(c >= '\uE000' && c < '\uF800')){
-                            float ox = font.mapping.get(c, font.defaultValue).offsetX;
-                            if(Float.isNaN(ox)) ox = 0;
-                            else ox *= sclX;
-                            if(ox < 0) w = (appendTo.peekLine().width -= ox);
-                        }
-                        initial = false;
                     } else {
                         kern = kern << 16 | c;
                         w = (appendTo.peekLine().width += xAdvance(font, sclX, current | c) + font.kerning.get(kern, 0) * sclX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63)));
-                        if(initial && !isMono && !(c >= '\uE000' && c < '\uF800')){
-                            float ox = font.mapping.get(c, font.defaultValue).offsetX;
-                            if(Float.isNaN(ox)) ox = 0;
-                            else ox *= sclX;
-                            ox *= (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
-                            if (ox < 0) w = (appendTo.peekLine().width -= ox);
-                        }
-                        initial = false;
                     }
+                    if(initial && !isMono && !(c >= '\uE000' && c < '\uF800')){
+                        float ox = font.mapping.get(c, font.defaultValue).offsetX;
+                        if(Float.isNaN(ox)) ox = 0;
+                        else ox *= sclX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
+                        if(ox < 0) w = (appendTo.peekLine().width -= ox);
+                    }
+                    initial = false;
+
                     if(c == '[')
                         appendTo.add(current | 2, scale, scale, 0f, 0f, rotation);
                     else
@@ -6573,8 +6568,7 @@ public class Font implements Disposable {
                                                     if(!isMono && !((char) curr >= '\uE000' && (char) curr  < '\uF800')) {
                                                         float ox = font.mapping.get((char) curr, font.defaultValue).offsetX;
                                                         if (Float.isNaN(ox)) ox = 0;
-                                                        else ox *= sclX;
-                                                        ox *= (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
+                                                        else ox *= sclX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                                                         if (ox < 0) changeNext -= ox;
                                                     }
                                                     initial = false;
