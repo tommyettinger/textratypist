@@ -121,8 +121,9 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
 //                        + "But... {SICK}U. Nitty{ENDSICK} doesn't."
 //                        + " {CROWD}[#BB1100][+skull][#55AA22][+🤡]"
                 //[+⚖️]
-                "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[+]whaaah?[%?], Context: [%?context]interesting[%?], Suggest: [%?suggest]neat[%?]\n" +
-                "I love Textra[+]Typist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
+                "[#]MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[+]whaaah?[%?], Context: [%?context]yes, interesting[%?], Suggest: [%?suggest]oh, neat[%?]\n" +
+                        "...Underline, [_]can't forget[_], and Strike, [~]that too[~].[#]\n" +
+                        "I love Textra[+]Typist! [+saxophone]{HEARTBEAT}[+😍]{ENDHEARTBEAT}[+🎷]\n"
                         + "But... {COLOR=#79c353ff}{SICK}U. Nitty{ENDSICK}{ENDCOLOR} doesn't. {CROWD}{SLIP}[#BB1100][+skull][#55AA22FF][+🤡][ ]\n"
                         + "That's OK, I don't like loot crates anyway. {CROWD}{SLIP}[#B10F][+party popper][#5A2][+🥳][ ]\n"
                         + "[+balance scale][~][_][+⚖️][ ] testing: [_][~]\n"

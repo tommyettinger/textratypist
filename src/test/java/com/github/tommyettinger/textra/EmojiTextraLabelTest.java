@@ -70,19 +70,15 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         // Create label
 //        final TypingLabel label = new TypingLabel("WELCOME {STYLE=OBLIQUE}TO THE {STYLE=bold}{COLOR=11bb00}JUNGLE{RESET}, WE'VE GOT A MAN, A PLAN, A CANAL: PANAMA!",
 
-        // There's a strange bug that can happen with the WIND effect, but it only seems to happen when the affected
-        // text wraps across lines... Not totally sure what's happening.
-        // OK, it is definitely not something that requires different fonts to trigger. Specific widths cause line
-        // wrapping to somehow break the ENDWIND token (or RESET).
 //        final TextraLabel label = new TextraLabel(
         final TextraLabel label = new TextraLabel(
-                "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[+]whaaah?[%?], Context: [%?context]yes, interesting[%?], Suggest: [%?suggest]oh, neat[%?]\n" +
-                        "...Underline, [_]can't forget[_], and Strike, [~]that too[~].\n" +
+                "[#]MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[+]whaaah?[%?], Context: [%?context]yes, interesting[%?], Suggest: [%?suggest]oh, neat[%?]\n" +
+                        "...Underline, [_]can't forget[_], and Strike, [~]that too[~].[#]\n" +
                         "I love Textra[+]Typist! *[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
                         + "But... {COLOR=#79c353ff}U. Nitty doesn't. [~]They're[~] [+🤡] [~]anyway![~]\n"
                         + "That's OK, I don't like loot crates. [+party popper] [*]Whee[]!\n"
                         +"[+⚖️][~][_][+⚖️][ ] testing:\n" //[_][~]
-                        // the u200B is a zero-width space, which is invisible but gets the 100% line height we want after this.
+                        // the [+] is a zero-width space, which is invisible but gets the 100% line height we want after this.
                         + "[%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ][+]\n\n"
                         + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog.[+"
 

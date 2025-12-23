@@ -5818,7 +5818,7 @@ public class Font implements Disposable {
                         drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr),
                                 ColorUtils.lerpColorsMultiplyAlpha(secondaryColor, color, Math.min(font.glowStrength * 0.4f / (xi * xi), 1f), batchAlpha1_5),
                                 x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
-                                (changedW * (font.underLength + 1.5f) * sizingX - xAdvance * (font.underLength + 0.25f)) + xPx,
+                                (changedW * (font.underLength + 1.5f) * sizingX - xAdvance * (font.underLength + 0.2f)) + xPx,
                                 font.cellHeight * sizingY * (1f + font.underBreadth + xi * 0.5f), rotation);
                     }
                 } else if ((glyph & BLACK_OUTLINE) == BLACK_OUTLINE) {
@@ -5826,13 +5826,13 @@ public class Font implements Disposable {
                     drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr),
                             ColorUtils.multiplyAlpha(secondaryColor, batchAlpha1_5),
                             x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
-                            (changedW * (font.underLength + 1.5f) * sizingX - xAdvance * (font.underLength + 0.25f)) + xPx,
+                            (changedW * (font.underLength + 1.5f) * sizingX - xAdvance * (font.underLength + 0.2f)) + xPx,
                             font.cellHeight * sizingY * (1.5f + font.underBreadth), rotation);
                 }
 
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
-                        (changedW * (font.underLength + 1.5f) * sizingX - xAdvance * (font.underLength + 0.25f)) + xPx,
+                        (changedW * (font.underLength + 1.5f) * sizingX - xAdvance * (font.underLength + 0.2f)) + xPx,
                         font.cellHeight * sizingY * (1f + font.underBreadth), rotation);
             } else {
                 under = font.mapping.get('_');
@@ -5903,7 +5903,7 @@ public class Font implements Disposable {
                         drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr),
                                 ColorUtils.lerpColorsMultiplyAlpha(secondaryColor, color, Math.min(font.glowStrength * 0.4f / (xi * xi), 1f), batchAlpha1_5),
                                 x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
-                                (changedW * (font.strikeLength + 1.5f) * sizingX - xAdvance * (font.strikeLength + 0.25f)) + xPx,
+                                (changedW * (font.strikeLength + 1.5f) * sizingX - xAdvance * (font.strikeLength + 0.2f)) + xPx,
                                 font.cellHeight * sizingY * (1f + font.strikeBreadth + xi * 0.5f), rotation);
                     }
                 } else if ((glyph & BLACK_OUTLINE) == BLACK_OUTLINE) {
@@ -5911,13 +5911,13 @@ public class Font implements Disposable {
                     drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(solidBlock, tr),
                             ColorUtils.multiplyAlpha(secondaryColor, batchAlpha1_5),
                             x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
-                            (changedW * (font.strikeLength + 1.5f) * sizingX - xAdvance * (font.strikeLength + 0.25f)) + xPx,
+                            (changedW * (font.strikeLength + 1.5f) * sizingX - xAdvance * (font.strikeLength + 0.2f)) + xPx,
                             font.cellHeight * sizingY * (1.5f + font.strikeBreadth), rotation);
                 }
 
                 drawBlockSequence(batch, BlockUtils.BOX_DRAWING[0], font.mapping.get(font.solidBlock, tr), color,
                         x + cos * p0x - sin * p0y, y + (sin * p0x + cos * p0y),
-                        (changedW * (font.strikeLength + 1.5f) * sizingX - xAdvance * (font.strikeLength + 0.25f)) + xPx,
+                        (changedW * (font.strikeLength + 1.5f) * sizingX - xAdvance * (font.strikeLength + 0.2f)) + xPx,
                         font.cellHeight * sizingY * (1f + font.strikeBreadth), rotation);
             } else {
                 dash = font.mapping.get('-');
