@@ -64,7 +64,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
 //        Font font = new Font("dawnlike/PlainAndSimplePlus-standard.fnt", atlas.findRegion("PlainAndSimplePlus-standard"), 0, 0, 2, 2);
 //        font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
 //        font.scale(2, 2);
-        Font font = KnownFonts.addEmoji(KnownFonts.getNowAlt(Font.DistanceFieldType.SDF));
+        Font font = KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.MSDF));
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
         // Create label
@@ -76,7 +76,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
         // wrapping to somehow break the ENDWIND token (or RESET).
 //        final TextraLabel label = new TextraLabel(
         final TextraLabel label = new TextraLabel(
-                "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[+]whaaah?[%?], Context: [%?context]interesting[%?], Suggest: [%?suggest]neat[%?]\n" +
+                "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[+]whaaah?[%?], Context: [%?context]yes, interesting[%?], Suggest: [%?suggest]oh, neat[%?]\n" +
                 "I love Textra[+]Typist! *[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
                         + "But... {COLOR=#79c353ff}U. Nitty doesn't. [~]They're[~] [+🤡] [~]anyway![~]\n"
                         + "That's OK, I don't like loot crates. [+party popper] [*]Whee[]!\n"
