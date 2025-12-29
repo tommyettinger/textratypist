@@ -5841,7 +5841,6 @@ public class Font implements Disposable {
                     h = trrh * osy * sizingY + cellHeight * font.underBreadth * sizingY;
                     yt = (centerY - (trrh + under.offsetY) * font.scaleY) * sizingY
                             + cellHeight * font.underY * sizingY;
-//                    if(squashed) yt -= font.descent * scaleY * sizingY * (3f/7f);
                     final float underU = (under.getU() + under.getU2()) * 0.5f - iw,
                             underV = under.getV(),
                             underU2 = underU + iw,
@@ -5927,7 +5926,6 @@ public class Font implements Disposable {
 
                     yt = (centerY - (trrh + dash.offsetY) * font.scaleY) * scale * sizingY
                             + font.cellHeight * font.strikeY * scale * sizingY;
-//                    if(squashed) yt -= font.descent * scaleY * sizingY * (3f/7f);
 
                     final float dashU = (dash.getU() + dash.getU2()) * 0.5f - iw,
                             dashV = dash.getV(),
@@ -5980,27 +5978,9 @@ public class Font implements Disposable {
             y = font.handleIntegerPosition(iy + yShift);
             centerX = oCenterX + xShift * 0.5f;
             centerY = oCenterY + yShift * 0.5f;
-//            x += cellWidth * 0.5f;
-//            if (c >= 0xE000 && c < 0xF800) {
-//                x += (changedW * 0.25f);
-//                y -= scaledHeight * 0.5f;
-//            }
 
             p0x = -cos * centerX + changedW * (font.fancyX);
             p0y = (font.descent * font.scaleY * 0.5f) * (scale * sizingY - font.fancyY) - centerY + sin * centerX;
-
-//            p0x = -cellWidth + xAdvance * font.underX * scaleX;
-//            p0y = ((font.underY - 0.75f) * font.cellHeight) * scale * sizingY + centerY;
-//            if (c >= 0xE000 && c < 0xF800)
-//            {
-//                p0x -= changedW * 0.25f - xPx * 2f;
-//                p0y -= scaledHeight * 0.5f;
-//            }
-//            else
-//            {
-//                p0x += xPx + centerX - cos * centerX;
-//                p0y += sin * centerX;
-//            }
 
             drawFancyLine(batch, (glyph & ALTERNATE_MODES_MASK),
                     x + (cos * p0x - sin * p0y), y + (sin * p0x + cos * p0y),
