@@ -5809,7 +5809,7 @@ public class Font implements Disposable {
 
             if (under != null && Float.isNaN(under.offsetX)) {
                 p0x = (changedW * (font.underX + 1f)) - font.cellWidth * 0.5f;
-                p0y = 0.5f * centerY - font.cellHeight - (((font.underY - 0.5f) * font.cellHeight - font.descent * font.scaleY) * sizingY + font.descent * font.scaleY);
+                p0y = -0.5f * centerY - (((font.underY) * font.cellHeight) * sizingY);
                 p0x -= changedW * 0.1f + cos * centerX + xPx;
                 p0y += sin * centerX;
 
@@ -5893,7 +5893,7 @@ public class Font implements Disposable {
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && Float.isNaN(dash.offsetX)) {
                 p0x = (changedW * (font.strikeX + 1f)) - font.cellWidth * 0.5f;
-                p0y = centerY * 0.65f - font.cellHeight - (((font.strikeY - 0.85f) * font.cellHeight - font.descent * font.scaleY) * sizingY + font.descent * font.scaleY);
+                p0y = -0.35f * font.cellHeight - (((font.strikeY - 0.5f) * font.cellHeight) * sizingY);
                 p0x -= changedW * 0.1f + cos * centerX + xPx;
                 p0y += sin * centerX;
 
