@@ -67,7 +67,8 @@ GWT also needs this in the GdxDefinition.gwt.xml file:
 RegExodus is the GWT-compatible regular-expression library this uses to match some complex patterns internally. Other
 than libGDX itself, RegExodus is the only dependency this project has.
 
-If you need compatibility with libGDX 1.13.1, change `2.2.9` to `2.1.10`; it should have feature parity with `2.2.6`.
+If you need compatibility with libGDX 1.13.1, change `2.2.9` to `2.1.11`; it should have feature parity with `2.2.9`.
+TextraTypist 2.1.11 depends on RegExodus 0.1.20, the same version used by TextraTypist 2.2.9 .
 
 There is at least one release in the [Releases](https://github.com/tommyettinger/textratypist/releases) section of this
 repo, but you're still encouraged to use Gradle to handle this library and its dependencies.
@@ -89,7 +90,8 @@ You can also depend on FreeTypist using:
 implementation "com.github.tommyettinger:freetypist:2.2.9.0"
 ```
 
-(Now, FreeTypist 2.2.9.0 uses TextraTypist 2.2.9 .)
+(Now, FreeTypist 2.2.9.0 uses TextraTypist 2.2.9, and that means it uses libGDX 1.14.0 . There's also FreeTypist
+2.1.11.0 that uses TextraTypist 2.1.11, and that means it uses libGDX 1.13.1 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
@@ -567,7 +569,7 @@ outline thickness modified using `Font.setOutlineStrength()`. The oblique angle 
 `descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
 as it is for Structured JSON fonts!
 
-Version 2.1.0 through 2.2.7 are out, and while they have fewer breaking changes, there are still several of them.
+Version 2.1.0 through 2.2.9 are out, and while they have fewer breaking changes, there are still several of them.
 Notably, the syntax for modes is no longer linked to the syntax for scaling, and you can set modes independently of both
 the current scale and the current status of an outline around text. Some modes enable the outline and set its color; if
 you disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`,
@@ -706,8 +708,8 @@ other target platforms (including TeaVM). TeaVM generally already uses faster/co
 clunky code, like multiplying two large integers doesn't need `Compatibility.imul()` to be correct.
 
 Because the 2.2.x line depends on libGDX 1.14.0, and not all libraries are compatible yet with this version (libKTX in
-particular), all changes in 2.2.6 have been backported to 2.1.10, which still only needs libGDX 1.13.1 . Changing the
-dependency from 2.2.6 to 2.1.10 is really all that needs to be done if you still need to use libGDX 1.13.1 . 
+particular), all changes in 2.2.9 have been backported to 2.1.11, which still only needs libGDX 1.13.1 . Changing the
+dependency from 2.2.9 to 2.1.11 is really all that needs to be done if you still need to use libGDX 1.13.1 . 
 
 ## Why doesn't something work?
 
