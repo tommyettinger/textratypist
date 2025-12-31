@@ -26,8 +26,8 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class AnimatedPreviewGenerator extends ApplicationAdapter {
     public static final int FRAMERATE = 30;
-    public static final boolean NOTO = false;
-    Skin        skin;
+    public static final boolean NOTO = true;
+    FWSkin      skin;
     Stage       stage;
     SpriteBatch batch;
     TypingLabel label;
@@ -53,7 +53,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
 
         label = createTypingLabel();
 
-        labelEvent = new TypingLabel("", KnownFonts.getOpenSans());
+        labelEvent = new TypingLabel("", KnownFonts.getOpenSans(Font.DistanceFieldType.SDF));
         labelEvent.setAlignment(Align.left);
         labelEvent.pause();
         labelEvent.setVisible(false);
@@ -188,8 +188,12 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-//        label.getFont().resizeDistanceField(width, height);
         stage.getViewport().update(width, height, true);
+        for(Font f : label.font.family.connected) {
+            if(f != null) {
+                f.resizeDistanceField(width, height, stage.getViewport());
+            }
+        }
     }
 
     @Override
@@ -202,7 +206,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TypingLabel Test");
         config.setWindowedMode(720, 400);
-        config.setResizable(true);
+        config.setResizable(false);
         config.setForegroundFPS(FRAMERATE);
         config.useVsync(true);
         config.disableAudio(true);
