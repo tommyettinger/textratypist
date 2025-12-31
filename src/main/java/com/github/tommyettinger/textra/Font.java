@@ -5511,15 +5511,12 @@ public class Font implements Disposable {
         float xAdvance = tr.xAdvance;
         float changedW = xAdvance * scaleX * advanceMultiplier;
 
+        // rotation isn't centered always, but rotating a label won't make every glyph slide differently.
         x += cellWidth * 0.5f;
-
-        //        float xc = ((tr.getRegionWidth() + tr.offsetX) * fsx - font.cellWidth) * scale * sizingX;
-        //// This rotates around the center, but fails with box drawing. Underlines are also off, unless adjusted.
-//        float xc = (font.cellWidth * 0.5f - (tr.getRegionWidth() + tr.offsetX) * fsx) * scale * sizingX;
-        //// This works(*) with box-drawing chars, but rotates around halfway up the left edge, not the center.
-        //// It does have the same sliding issue as the other methods so far.
-//        float xc = (font.cellWidth * -0.5f) * sizingX;// + (tr.offsetX * scaleX * sizingX);
         float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - cellWidth * 0.5f;
+        // rotation is centered for single glyphs, but looks terrible for multiple variable-width chars.
+//        x += changedW * 0.5f;
+//        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - changedW * 0.5f;
 
         float trrh = tr.getRegionHeight();
         float yt = ((font.originalCellHeight - (trrh + tr.offsetY) + font.descent) * sizingY - font.descent) * scaleY + sin * centerX - centerY;
@@ -5808,10 +5805,8 @@ public class Font implements Disposable {
             GlyphRegion under = font.mapping.get(0x2500);
 
             if (under != null && Float.isNaN(under.offsetX)) {
-                p0x = (changedW * (font.underX + 1f)) - font.cellWidth * 0.5f;
-                p0y = -0.5f * centerY - (((font.underY) * font.cellHeight) * sizingY);
-                p0x -= changedW * 0.1f + cos * centerX + xPx;
-                p0y += sin * centerX;
+                p0x = (changedW * (font.underX + 1f)) - font.cellWidth * 0.5f - changedW * 0.1f - cos * centerX - xPx;
+                p0y = -centerY - (((font.underY) * font.cellHeight + font.descent * scaleY) * sizingY) + sin * centerX;
 
                 if(((glyph & ALTERNATE_MODES_MASK) == HALO) || ((glyph & ALTERNATE_MODES_MASK) == NEON)) {
                     for (int xi = 3; xi >= 1; xi--) {
@@ -5892,10 +5887,8 @@ public class Font implements Disposable {
 
             GlyphRegion dash = font.mapping.get(0x2500);
             if (dash != null && Float.isNaN(dash.offsetX)) {
-                p0x = (changedW * (font.strikeX + 1f)) - font.cellWidth * 0.5f;
-                p0y = -0.35f * font.cellHeight - (((font.strikeY - 0.5f) * font.cellHeight) * sizingY);
-                p0x -= changedW * 0.1f + cos * centerX + xPx;
-                p0y += sin * centerX;
+                p0x = (changedW * (font.strikeX + 1f)) - font.cellWidth * 0.5f- changedW * 0.1f - cos * centerX - xPx;
+                p0y = sin * centerX - centerY - (((font.strikeY - 0.5f) * font.cellHeight + font.descent * scaleY) * sizingY);
 
                 if(((glyph & ALTERNATE_MODES_MASK) == HALO) || ((glyph & ALTERNATE_MODES_MASK) == NEON)) {
                     for (int xi = 3; xi >= 1; xi--) {
