@@ -43,32 +43,31 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.8"
+implementation "com.github.tommyettinger:textratypist:2.2.9"
 ```
 
-This assumes you already depend on libGDX; TextraTypist depends on version 1.13.1 (and not 1.13.5).
-A requirement for 1.11.0 was added in TextraTypist 0.5.0 because of some breaking changes in tooltip code in libGDX.
-The requirement for 1.12.1 was added in 1.0.0 because some things probably changed, and 1.13.1 in TextraTypist 2.0.0,
-but 1.13.1 should be pretty easy to update to. There are breaking changes in 1.13.5 that are expected to be reverted by
-the time of the release after it, so using 1.13.1 or 1.14.0 (what name the version will have, I do not know) should both
-be compatible by the time 1.14.0 is released.
+This assumes you already depend on libGDX; TextraTypist depends on either version 1.13.1 or 1.14.0 (never 1.13.5),
+depending on whether you are using the 2.1.x release series (compatible with libGDX 1.13.1) or the 2.2.x release series
+(which uses libGDX 1.14.0). If you have to use libGDX 1.12.1, you can use TextraTypist 1.x releases, which aren't
+receiving updates anymore.
 
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.8:sources"
-implementation "com.github.tommyettinger:regexodus:0.1.19:sources"
+implementation "com.github.tommyettinger:textratypist:2.2.9:sources"
+implementation "com.github.tommyettinger:regexodus:0.1.20:sources"
 ```
 
-GWT also needs this in the GdxDefinition.gwt.xml file (since version 0.7.7):
+GWT also needs this in the GdxDefinition.gwt.xml file:
 ```xml
 <inherits name="regexodus.regexodus" />
 <inherits name="com.github.tommyettinger.textratypist" />
 ```
 
 RegExodus is the GWT-compatible regular-expression library this uses to match some complex patterns internally. Other
-than libGDX itself, RegExodus is the only dependency this project has. The GWT inherits changed for TextraTypist and for
-RegExodus because it turns out using the default package can cause real problems.
+than libGDX itself, RegExodus is the only dependency this project has.
+
+If you need compatibility with libGDX 1.13.1, change `2.2.9` to `2.1.10`; it should have feature parity with `2.2.6`.
 
 There is at least one release in the [Releases](https://github.com/tommyettinger/textratypist/releases) section of this
 repo, but you're still encouraged to use Gradle to handle this library and its dependencies.
@@ -87,15 +86,15 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.8.0"
+implementation "com.github.tommyettinger:freetypist:2.2.9.0"
 ```
 
-(Now, FreeTypist 2.2.8.0 uses TextraTypist 2.2.8 .)
+(Now, FreeTypist 2.2.9.0 uses TextraTypist 2.2.9 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.8.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.2.9.0:sources"
 ```
 
 And this inherits line:
@@ -692,6 +691,15 @@ correctly, though they should act the same when wrapping is disabled. Lots of `T
 multiple times as it participates in scene2d.ui layout, and now one phase of creation (for wrapped labels) is delayed
 until the TypingLabel has been added to a parent and its `layout()` method is called. This helps also because wrap is
 usually enabled after a TypingLabel has been constructed, and typically needs to know the desired width of the widget.
+
+2.2.9 has a variety of changes, mostly relating to underline, strikethrough, and rotation, but it also updates RegExodus
+to a new version that has a smaller JAR. Various earlier versions of TextraTypist have had to tweak rotation because
+improving rotation for single glyphs sometimes breaks text with multiple glyphs with different widths. In 2.2.8, and
+likely also earlier versions, multiple-glyph text would slide badly in all directions when rotated. Now, it only slides
+a tiny bit, and all as one unit, which is an improvement. The only feature addition here is that entering `[+]` can be
+used as a shortcut to enter the somewhat-common zero-width space character, which can be useful to cause lines to break
+apart without visually entering a space. The zero-width space also allows wrapping between things like CJK ideograms,
+where each character is conceptually its own word and doesn't need spaces between it and the next CJK ideogram.
 
 Because the 2.2.x line depends on libGDX 1.14.0, and not all libraries are compatible yet with this version (libKTX in
 particular), all changes in 2.2.6 have been backported to 2.1.10, which still only needs libGDX 1.13.1 . Changing the
