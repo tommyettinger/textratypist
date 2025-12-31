@@ -33,7 +33,7 @@ public class HeadlessTest extends ApplicationAdapter {
     @Override
     public void create() {
         Font.canUseTextures = false;
-        jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String.class);
+        jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String[]::new);
         limit = jsonFiles.length + 1;
         all = new Font[limit];
         int idx = 0;
