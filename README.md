@@ -699,7 +699,11 @@ likely also earlier versions, multiple-glyph text would slide badly in all direc
 a tiny bit, and all as one unit, which is an improvement. The only feature addition here is that entering `[+]` can be
 used as a shortcut to enter the somewhat-common zero-width space character, which can be useful to cause lines to break
 apart without visually entering a space. The zero-width space also allows wrapping between things like CJK ideograms,
-where each character is conceptually its own word and doesn't need spaces between it and the next CJK ideogram.
+where each character is conceptually its own word and doesn't need spaces between it and the next CJK ideogram. The
+update to RegExodus also gives TextraTypist (and libraries that depend on it) access to the `Compatibility` class. That
+provides some GWT-compatibility methods that use faster or more correct techniques on GWT and use normal JDK code on
+other target platforms (including TeaVM). TeaVM generally already uses faster/correct techniques where GWT uses some
+clunky code, like multiplying two large integers doesn't need `Compatibility.imul()` to be correct.
 
 Because the 2.2.x line depends on libGDX 1.14.0, and not all libraries are compatible yet with this version (libKTX in
 particular), all changes in 2.2.6 have been backported to 2.1.10, which still only needs libGDX 1.13.1 . Changing the
@@ -707,7 +711,7 @@ dependency from 2.2.6 to 2.1.10 is really all that needs to be done if you still
 
 ## Why doesn't something work?
 
-The quick checklist for the latest code (version 2.2.8 or newer commits from JitPack):
+The quick checklist for the latest code (version 2.2.9 or newer commits from JitPack):
 
 - Use FWSkin or one of its subclasses, not a plain scene2d.ui Skin. FreeTypistSkin is fine. Skin is not!
   - You can assign a FWSkin to a Skin, but it still really needs to be an FWSkin internally, or one of its subclasses. 
