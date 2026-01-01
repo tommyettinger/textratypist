@@ -5963,7 +5963,7 @@ public final class KnownFonts implements LifecycleListener {
      * Both are monospaced, and should have identical line-height, baseline, and so on.
      * <br>
      * This will only function at all if both Monogram and Monogram Italic are present and load-able.
-     * You should store the result of this method, rather than calling it often, because each call copies many Fonts.
+     * You should store the result of this method, rather than calling it often, because each call copies two Fonts.
      *
      * @return a Font that can switch between 2 different Fonts in its FontFamily
      */
