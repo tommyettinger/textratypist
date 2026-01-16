@@ -55,7 +55,7 @@ If you use GWT, this should be compatible. It needs these dependencies in the ht
 
 ```groovy
 implementation "com.github.tommyettinger:textratypist:2.2.10:sources"
-implementation "com.github.tommyettinger:regexodus:0.1.20:sources"
+implementation "com.github.tommyettinger:regexodus:0.1.21:sources"
 ```
 
 GWT also needs this in the GdxDefinition.gwt.xml file:
@@ -68,7 +68,7 @@ RegExodus is the GWT-compatible regular-expression library this uses to match so
 than libGDX itself, RegExodus is the only dependency this project has.
 
 If you need compatibility with libGDX 1.13.1, change `2.2.10` to `2.1.11`; it should have feature parity with `2.2.9`.
-TextraTypist 2.1.11 depends on RegExodus 0.1.20, the same version used by TextraTypist 2.2.9 and higher .
+TextraTypist 2.1.11 depends on RegExodus 0.1.20, the same version used by TextraTypist 2.2.9 and 2.2.10 .
 
 There is at least one release in the [Releases](https://github.com/tommyettinger/textratypist/releases) section of this
 repo, but you're still encouraged to use Gradle to handle this library and its dependencies.
