@@ -28,8 +28,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.crowni.gdx.rtllang.support.ArFont;
 
-public class Issue6933Test extends ApplicationAdapter {
+public class Issue7751Test extends ApplicationAdapter {
     FitViewport viewport;
     Stage stage;
     Label label;
@@ -40,44 +41,20 @@ public class Issue6933Test extends ApplicationAdapter {
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
         stage = new Stage(viewport);
 
-//        BitmapFont font = new BitmapFont();
-//        label = new Label("Checking for updates...", new Styles.LabelStyle(font, Color.WHITE));
-//        label.setAlignment(Align.center);
-//        label.setFillParent(true);
-//        stage.addActor(label);
-
-//        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Montserrat-Regular.ttf"));
-//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-//        parameter.size = 40; // important! set this to the size you will display at!!!
-//
-//        // this section just ensures every printable character in ASCII will be in the font.
-//        StringBuilder sb = new StringBuilder(128).append(" \r\n\t");
-//        for (int i = 32; i < 127; i++) {
-//            sb.append((char) i);
-//        }
-//        // You can also give this any String that has all the characters you want to use.
-//        parameter.characters = sb.toString();
-//
-//        //FreeTypeFontGenerator.setMaxTextureSize(2048); // only needed for large font sizes or many glyphs
-//        BitmapFont bitmapFont = fontGenerator.generateFont(parameter);
-//
-//        Styles.LabelStyle labelStyle = new Styles.LabelStyle(bitmapFont, Color.WHITE);
-//        this.label = new Label("FPS: " + Gdx.graphics.getFramesPerSecond(), labelStyle);
-//        label.setSize(100f, 60f);
-//        label.setAlignment(Align.left, Align.bottom);
-//        label.setPosition(100f, 150f);
-//        stage.addActor(label);
-
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("TiroDevanagariHindi-Regular.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NotoSansArabic-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + "उच्चस्कोर";
-        parameter.incremental = true;
+        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS +
+                "ء آ أ ؤ إ ئ ا ب ة ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ـ ف ق ك ل م ن ه و ى ي ً ٌ ٍ َ ُ ِ ّ ْ ٓ ٔ ٕ ٠ ١ ٢ ٣ ٤ " +
+                "٥ ٦ ٧ ٨ ٩ ٪ ٫ ٬ ٭ ٰ ﱟ ﱠ ﱡ ﴾ ﴿ ﷲ ﺀ ﺁ ﺂ ﺃ ﺄ ﺅ ﺆ ﺇ ﺈ ﺉ ﺊ ﺋ ﺌ ﺍ ﺎ ﺏ ﺐ ﺑ ﺒ ﺓ ﺔ ﺕ ﺖ ﺗ ﺘ ﺙ ﺚ ﺛ ﺜ ﺝ ﺞ ﺟ ﺠ ﺡ ﺢ ﺣ ﺤ ﺥ " +
+                "ﺦ ﺧ ﺨ ﺩ ﺪ ﺫ ﺬ ﺭ ﺮ ﺯ ﺰ ﺱ ﺲ ﺳ ﺴ ﺵ ﺶ ﺷ ﺸ ﺹ ﺺ ﺻ ﺼ ﺽ ﺾ ﺿ ﻀ ﻁ ﻂ ﻃ ﻄ ﻅ ﻆ ﻇ ﻈ ﻉ ﻊ ﻋ ﻌ ﻍ " +
+                "ﻎ ﻏ ﻐ ﻑ ﻒ ﻓ ﻔ ﻕ ﻖ ﻗ ﻘ ﻙ ﻚ ﻛ ﻜ ﻝ ﻞ ﻟ ﻠ ﻡ ﻢ ﻣ ﻤ ﻥ ﻦ ﻧ ﻨ ﻩ ﻪ ﻫ ﻬ ﻭ ﻮ ﻯ ﻰ ﻱ ﻲ ﻳ ﻴ ﻵ ﻶ ﻷ ﻸ ﻹ ﻺ ﻻ ﻼ ";
 
         parameter.size = 40;
 
         BitmapFont bitmapFont = generator.generateFont(parameter);
         Label.LabelStyle labelStyle = new Label.LabelStyle(bitmapFont, Color.WHITE);
-        this.label = new Label("उच्च स्कोर", labelStyle); // Devanagari glyphs do not combine.
+        ArFont ar = new ArFont();
+        this.label = new Label(ar.getText("النص العربي"), labelStyle);
         label.setSize(100f, 60f);
         label.setAlignment(Align.left, Align.bottom);
         label.setPosition(100f, 150f);
@@ -112,13 +89,13 @@ public class Issue6933Test extends ApplicationAdapter {
     }
     public static void main(String[] args){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Issue 6933 test");
+        config.setTitle("Issue 7751 test");
         config.setWindowedMode(600, 480);
         config.disableAudio(true);
         config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
         config.setOpenGLEmulation(Lwjgl3ApplicationConfiguration.GLEmulation.GL32, 3, 2);
-        new Lwjgl3Application(new Issue6933Test(), config);
+        new Lwjgl3Application(new Issue7751Test(), config);
     }
 
 }
