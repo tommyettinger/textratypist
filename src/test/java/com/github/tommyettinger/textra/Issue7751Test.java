@@ -54,7 +54,7 @@ public class Issue7751Test extends ApplicationAdapter {
         BitmapFont bitmapFont = generator.generateFont(parameter);
         Label.LabelStyle labelStyle = new Label.LabelStyle(bitmapFont, Color.WHITE);
         ArFont ar = new ArFont();
-        this.label = new Label(ar.getText("النص العربي"), labelStyle);
+        this.label = new Label(ar.getText("النص العربي" + '\n' +"مرحبا بالعالم"), labelStyle);
         label.setSize(100f, 60f);
         label.setAlignment(Align.left, Align.bottom);
         label.setPosition(100f, 150f);

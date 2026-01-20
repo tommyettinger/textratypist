@@ -24,8 +24,6 @@ import com.badlogic.gdx.utils.Array;
 
 import java.awt.event.KeyEvent;
 
-import static com.crowni.gdx.rtllang.support.ArUtils.getIndividualChar;
-
 /**
  * Created by Crowni on 10/5/2017.
  **/
@@ -37,16 +35,23 @@ public class ArFont {
             popChar();
         else
             addChar(new ArGlyph(c, !ArUtils.isLTR(c)));
-        return getText();
+        return getText(new StringBuilder()).toString();
     }
 
     public String getText(String given) {
-        char[] chars = given.toCharArray();
-        for (char c : chars)
-            addChar(new ArGlyph(c, !ArUtils.isLTR(c)));
-        String text = getText();
-        this.glyphs.clear();
-        return text;
+        String[] split = given.split("\n");
+        StringBuilder text = new StringBuilder(given.length());
+        for(int ln = 0; ln < split.length; ln++) {
+            String line = split[ln];
+            for (int i = 0, n = line.length(); i < n; i++) {
+                char c = line.charAt(i);
+                addChar(new ArGlyph(c, !ArUtils.isLTR(c)));
+            }
+            getText(text);
+            if(ln + 1 < split.length) text.append('\n');
+            this.glyphs.clear();
+        }
+        return text.toString();
     }
 
     private void addChar(ArGlyph glyph) {
@@ -68,9 +73,7 @@ public class ArFont {
         }
     }
 
-    private String getText() {
-        StringBuilder text = new StringBuilder();
-
+    private StringBuilder getText(StringBuilder text) {
         boolean inserting = true;
         StringBuilder subtext = new StringBuilder();
         for (int i = glyphs.size - 1; i >= 0; i--) {
@@ -90,7 +93,7 @@ public class ArFont {
 
         text.append(subtext);
 
-        return text.toString();
+        return text;
     }
 
     /**
@@ -108,7 +111,7 @@ public class ArFont {
 
         /* CASE 1 */
         if (before == null && after == null)
-            glyph.setChar(getIndividualChar(glyph.getOriginalChar()));
+            glyph.setChar(glyph.getOriginalChar());
 
 
         /* CASE 2 */
