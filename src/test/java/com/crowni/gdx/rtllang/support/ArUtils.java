@@ -57,9 +57,9 @@ public class ArUtils {
     }
 
     public static int getCharType(char c) {
-        for (IndividualChar individualChar : chars)
-            if (individualChar.getChar() == c)
-                return individualChar.getType();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i].getChar() == c) return chars[i].getType();
+        }
         return 0;
     }
 
@@ -68,20 +68,23 @@ public class ArUtils {
     }
 
     public static char getStartChar(char c) {
-        for (int i = 0; i < chars.length; i++)
+        for (int i = 0; i < chars.length; i++) {
             if (chars[i].getChar() == c) return StartChar.getChar(i);
+        }
         return c;
     }
 
     public static char getCenterChar(char c) {
-        for (int i = 0; i < chars.length; i++)
+        for (int i = 0; i < chars.length; i++) {
             if (chars[i].getChar() == c) return CenterChar.getChar(i);
+        }
         return c;
     }
 
     public static char getEndChar(char c) {
-        for (int i = 0; i < chars.length; i++)
+        for (int i = 0; i < chars.length; i++) {
             if (chars[i].getChar() == c) return EndChar.getChar(i);
+        }
         return c;
     }
 

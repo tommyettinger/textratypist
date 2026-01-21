@@ -21,8 +21,6 @@ package com.crowni.gdx.rtllang.support;
 
 import com.badlogic.gdx.utils.Array;
 
-import java.awt.event.KeyEvent;
-
 /**
  * Created by Crowni on 10/5/2017.
  **/
@@ -30,11 +28,11 @@ public class ArFont {
     private final Array<ArGlyph> glyphs = new Array<>();
 
     public String typing(char c) {
-        if (c == KeyEvent.VK_BACK_SPACE)
+        if (c == '\b') // backspace
             popChar();
         else
             addChar(new ArGlyph(c, ArUtils.isArabicNonNumeric(c)));
-        return getText(new StringBuilder()).toString();
+        return reorder(new StringBuilder()).toString();
     }
 
     public String getText(String given) {
@@ -46,7 +44,7 @@ public class ArFont {
                 char c = line.charAt(i);
                 addChar(new ArGlyph(c, ArUtils.isArabicNonNumeric(c)));
             }
-            getText(text);
+            reorder(text);
             if(ln + 1 < split.length) text.append('\n');
             this.glyphs.clear();
         }
@@ -72,7 +70,7 @@ public class ArFont {
         }
     }
 
-    private StringBuilder getText(StringBuilder text) {
+    private StringBuilder reorder(StringBuilder text) {
         boolean inserting = true;
         StringBuilder subtext = new StringBuilder();
         for (int i = glyphs.size - 1; i >= 0; i--) {
