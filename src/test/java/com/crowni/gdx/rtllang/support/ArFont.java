@@ -100,6 +100,10 @@ public class ArFont {
 
 
     /**
+     * Attempts to modify the glyph stored at {@code index} to match the correct presentation form for its neighboring
+     * Arabic glyphs. This does nothing if the char at {@code index} is not a right-to-left char. This is permitted to
+     * replace two ArGlyph items with one ArGlyphComplex item if this is at the end of the text, a LAM char precedes
+     * the given index, and the glyph at index is an ALF char.
      * @param index index of the glyph that will be mutated in-place
      */
     private void filter(int index) {
