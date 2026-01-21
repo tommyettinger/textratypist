@@ -43,19 +43,23 @@ public class Issue7751Test extends ApplicationAdapter {
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NotoSansArabic-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS +
-                "ء آ أ ؤ إ ئ ا ب ة ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ـ ف ق ك ل م ن ه و ى ي ً ٌ ٍ َ ُ ِ ّ ْ ٓ ٔ ٕ ٠ ١ ٢ ٣ ٤ " +
-                "٥ ٦ ٧ ٨ ٩ ٪ ٫ ٬ ٭ ٰ ﱟ ﱠ ﱡ ﴾ ﴿ ﷲ ﺀ ﺁ ﺂ ﺃ ﺄ ﺅ ﺆ ﺇ ﺈ ﺉ ﺊ ﺋ ﺌ ﺍ ﺎ ﺏ ﺐ ﺑ ﺒ ﺓ ﺔ ﺕ ﺖ ﺗ ﺘ ﺙ ﺚ ﺛ ﺜ ﺝ ﺞ ﺟ ﺠ ﺡ ﺢ ﺣ ﺤ ﺥ " +
-                "ﺦ ﺧ ﺨ ﺩ ﺪ ﺫ ﺬ ﺭ ﺮ ﺯ ﺰ ﺱ ﺲ ﺳ ﺴ ﺵ ﺶ ﺷ ﺸ ﺹ ﺺ ﺻ ﺼ ﺽ ﺾ ﺿ ﻀ ﻁ ﻂ ﻃ ﻄ ﻅ ﻆ ﻇ ﻈ ﻉ ﻊ ﻋ ﻌ ﻍ " +
-                "ﻎ ﻏ ﻐ ﻑ ﻒ ﻓ ﻔ ﻕ ﻖ ﻗ ﻘ ﻙ ﻚ ﻛ ﻜ ﻝ ﻞ ﻟ ﻠ ﻡ ﻢ ﻣ ﻤ ﻥ ﻦ ﻧ ﻨ ﻩ ﻪ ﻫ ﻬ ﻭ ﻮ ﻯ ﻰ ﻱ ﻲ ﻳ ﻴ ﻵ ﻶ ﻷ ﻸ ﻹ ﻺ ﻻ ﻼ ";
+//        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS +
+//                "ء آ أ ؤ إ ئ ا ب ة ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ـ ف ق ك ل م ن ه و ى ي ً ٌ ٍ َ ُ ِ ّ ْ ٓ ٔ ٕ ٠ ١ ٢ ٣ ٤ " +
+//                "٥ ٦ ٧ ٨ ٩ ٪ ٫ ٬ ٭ ٰ ﱟ ﱠ ﱡ ﴾ ﴿ ﷲ ﺀ ﺁ ﺂ ﺃ ﺄ ﺅ ﺆ ﺇ ﺈ ﺉ ﺊ ﺋ ﺌ ﺍ ﺎ ﺏ ﺐ ﺑ ﺒ ﺓ ﺔ ﺕ ﺖ ﺗ ﺘ ﺙ ﺚ ﺛ ﺜ ﺝ ﺞ ﺟ ﺠ ﺡ ﺢ ﺣ ﺤ ﺥ " +
+//                "ﺦ ﺧ ﺨ ﺩ ﺪ ﺫ ﺬ ﺭ ﺮ ﺯ ﺰ ﺱ ﺲ ﺳ ﺴ ﺵ ﺶ ﺷ ﺸ ﺹ ﺺ ﺻ ﺼ ﺽ ﺾ ﺿ ﻀ ﻁ ﻂ ﻃ ﻄ ﻅ ﻆ ﻇ ﻈ ﻉ ﻊ ﻋ ﻌ ﻍ " +
+//                "ﻎ ﻏ ﻐ ﻑ ﻒ ﻓ ﻔ ﻕ ﻖ ﻗ ﻘ ﻙ ﻚ ﻛ ﻜ ﻝ ﻞ ﻟ ﻠ ﻡ ﻢ ﻣ ﻤ ﻥ ﻦ ﻧ ﻨ ﻩ ﻪ ﻫ ﻬ ﻭ ﻮ ﻯ ﻰ ﻱ ﻲ ﻳ ﻴ ﻵ ﻶ ﻷ ﻸ ﻹ ﻺ ﻻ ﻼ ";
 
+        parameter.incremental = true;
         parameter.size = 40;
 
         BitmapFont bitmapFont = generator.generateFont(parameter);
+        bitmapFont.getData().markupEnabled = true;
         Label.LabelStyle labelStyle = new Label.LabelStyle(bitmapFont, Color.WHITE);
         ArFont ar = new ArFont();
-        this.label = new Label(ar.getText("النص العربي" + "\nI don't know what this means!\n" +"مرحبا بالعالم"), labelStyle);
-        label.setSize(600f, 60f);
+        this.label = new Label(ar.getText("النص العربي" + "\nI don't know what this means!\n" +
+                "Pchnąć[] w tę łódź [TAN]jeża[] lub\nośm skrzyń [PURPLE]fig[].\n" +
+                "مرحبا بالعالم"), labelStyle);
+        label.setSize(600f, 150f);
         label.setAlignment(Align.center, Align.center);
         label.setPosition(0f, 150f);
         stage.addActor(label);

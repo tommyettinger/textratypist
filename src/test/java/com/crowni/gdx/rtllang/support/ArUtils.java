@@ -38,8 +38,22 @@ public class ArUtils {
         return getCharType(c) == EMPTY;
     }
 
-    public static boolean isLTR(char c) {
-        return Languages.inRange(Languages.ENGLISH, c) || Languages.inRange(Languages.ARABIC_NUMERIC, c) || Languages.inRange(Languages.EXTENDED_NUMERIC, c);
+    /**
+     * Checks if a char uses the Arabic script, and isn't a number. Numbers are written left-to-right in the Arabic
+     * script, but everything else is written right-to-left.
+     *
+     * @param c the char to evaluate
+     * @return if the given char is an Arabic-script glyph that isn't a number
+     */
+    public static boolean isArabicNonNumeric(char c) {
+        return Languages.inRange(Languages.ARABIC_A, c)
+                || Languages.inRange(Languages.ARABIC_B, c)
+                || Languages.inRange(Languages.ARABIC_C, c)
+                || Languages.inRange(Languages.ARABIC_SUPPLEMENT, c)
+                || Languages.inRange(Languages.ARABIC_EXTENDED, c)
+                || Languages.inRange(Languages.ARABIC_PRESENTATION_A, c)
+                || Languages.inRange(Languages.ARABIC_PRESENTATION_B, c)
+                ;
     }
 
     public static int getCharType(char c) {

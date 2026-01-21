@@ -55,4 +55,9 @@ public class ArGlyph {
     public int getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(rtl && modifiedChar != 0 ? modifiedChar : originalChar);
+    }
 }

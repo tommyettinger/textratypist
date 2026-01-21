@@ -19,7 +19,6 @@
 
 package com.crowni.gdx.rtllang.support;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
 import java.awt.event.KeyEvent;
@@ -34,7 +33,7 @@ public class ArFont {
         if (c == KeyEvent.VK_BACK_SPACE)
             popChar();
         else
-            addChar(new ArGlyph(c, !ArUtils.isLTR(c)));
+            addChar(new ArGlyph(c, ArUtils.isArabicNonNumeric(c)));
         return getText(new StringBuilder()).toString();
     }
 
@@ -45,7 +44,7 @@ public class ArFont {
             String line = split[ln];
             for (int i = 0, n = line.length(); i < n; i++) {
                 char c = line.charAt(i);
-                addChar(new ArGlyph(c, !ArUtils.isLTR(c)));
+                addChar(new ArGlyph(c, ArUtils.isArabicNonNumeric(c)));
             }
             getText(text);
             if(ln + 1 < split.length) text.append('\n');
@@ -56,8 +55,8 @@ public class ArFont {
 
     private void addChar(ArGlyph glyph) {
         glyphs.add(glyph);
-        for (int i = 1; i <= 2; i += 1)
-            filterLastChars(i);
+        filterLastChars(1);
+        filterLastChars(2);
     }
 
     private void popChar() {
@@ -97,12 +96,11 @@ public class ArFont {
     }
 
     /**
-     * @param glyph
-     * @return ArGlyph after filtering process.
+     * @param glyph will be mutated in-place
      */
-    private ArGlyph filter(ArGlyph glyph) {
+    private void filter(ArGlyph glyph) {
         if (!glyph.isRTL()) {
-            return glyph;
+            return;
         }
 
         ArGlyph before = getPositionGlyph(glyph, -1);
@@ -145,16 +143,15 @@ public class ArFont {
                     glyph.setChar(ArUtils.getEndChar(glyph.getOriginalChar()));
             }
 
-        return glyph;
     }
 
     /**
-     * @param arGlyph current glyph.
-     * @param pos     value always between [-1,1] : -1 is before arGlyph or +1 is after arGlyph.
-     * @return correct position of glyph.
+     * @param arGlyph current glyph
+     * @param pos     value is always either -1 or 1: -1 is before arGlyph or +1 is after arGlyph
+     * @return correct position of glyph
      */
     private ArGlyph getPositionGlyph(ArGlyph arGlyph, int pos) {
-        int i = glyphs.lastIndexOf(arGlyph, false) + (pos = MathUtils.clamp(pos, -1, 1));
+        int i = glyphs.lastIndexOf(arGlyph, true) + pos;
         ArGlyph glyph = (pos > 0 ? i < glyphs.size : i > -1) ? glyphs.get(i) : null;
         return glyph != null ? ArUtils.isInvalidChar(glyph.getOriginalChar()) ? null : glyph : null;
     }
