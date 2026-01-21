@@ -93,16 +93,23 @@ public class ArFont {
         return text;
     }
 
+    private void filterLastChars(int i) {
+        if (glyphs.size - i >= 0)
+            filter(glyphs.size - i);
+    }
+
+
     /**
-     * @param glyph will be mutated in-place
+     * @param index index of the glyph that will be mutated in-place
      */
-    private void filter(ArGlyph glyph) {
+    private void filter(int index) {
+        ArGlyph glyph = glyphs.get(index);
         if (!glyph.isRTL()) {
             return;
         }
 
-        ArGlyph before = getPositionGlyph(glyph, -1);
-        ArGlyph after = getPositionGlyph(glyph, +1);
+        ArGlyph before = getPositionGlyph(index - 1);
+        ArGlyph after = getPositionGlyph(index + 1);
 
 
         /* CASE 1 */
@@ -118,7 +125,7 @@ public class ArFont {
         /* CASE 3 */
         if (before != null && after == null)
             if (ArUtils.isALFChar(glyph.getOriginalChar()) && ArUtils.isLAMChar(before.getOriginalChar())) {
-                addComplexChars(glyph);
+                addComplexChars(index, glyph);
             } else {
                 if (before.getType() == ArCharCode.X2)
                     glyph.setChar(ArUtils.getIndividualChar(glyph.getOriginalChar()));
@@ -143,27 +150,23 @@ public class ArFont {
 
     }
 
-    /**
-     * @param arGlyph current glyph
-     * @param pos     value is always either -1 or 1: -1 is before arGlyph or +1 is after arGlyph
-     * @return correct position of glyph
-     */
-    private ArGlyph getPositionGlyph(ArGlyph arGlyph, int pos) {
-        int i = glyphs.lastIndexOf(arGlyph, true) + pos;
-        ArGlyph glyph = (pos > 0 ? i < glyphs.size : i > -1) ? glyphs.get(i) : null;
-        return glyph != null ? ArUtils.isInvalidChar(glyph.getOriginalChar()) ? null : glyph : null;
-    }
 
-    private void addComplexChars(ArGlyph arGlyph) {
+    private void addComplexChars(int index, ArGlyph arGlyph) {
         ArGlyphComplex glyph = new ArGlyphComplex(ArUtils.getLAM_ALF(arGlyph.getOriginalChar()));
-        glyph.setSimpleGlyphs(arGlyph, getPositionGlyph(arGlyph, -1));
-        for (int i = 0; i < glyph.getSimpleChars().size; i++) glyphs.pop();
+        glyph.setSimpleGlyphs(arGlyph, getPositionGlyph(index - 1));
+        glyphs.pop();
+        glyphs.pop();
         addChar(glyph);
     }
 
-    private void filterLastChars(int i) {
-        if (glyphs.size - i >= 0)
-            filter(glyphs.get(glyphs.size - i));
+    /**
+     * @param index index of current glyph
+     * @return correct position of glyph
+     */
+    private ArGlyph getPositionGlyph(int index) {
+        ArGlyph glyph = (index >= 0 && index < glyphs.size) ? glyphs.get(index) : null;
+        return (glyph != null) ? (ArUtils.isInvalidChar(glyph.getOriginalChar()) ? null : glyph) : null;
     }
+
 }
 

@@ -32,7 +32,7 @@ public class ArGlyphComplex extends ArGlyph {
     // originalChar is a complex
     public ArGlyphComplex(char complexChar) {
         super(complexChar, true);
-        simpleGlyphs = new Array<ArGlyph>();
+        simpleGlyphs = new Array<>();
     }
 
     public Array<ArGlyph> getSimpleChars() {
@@ -43,21 +43,9 @@ public class ArGlyphComplex extends ArGlyph {
         return simpleGlyphs.get(i);
     }
 
-    public char getComplexChar() {
-        return modifiedChar;
-    }
-
-    public void setComplexChar(char c) {
-        this.modifiedChar = c;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setSimpleGlyphs(ArGlyph... glyphs) {
+    public void setSimpleGlyphs(ArGlyph glyph0, ArGlyph glyph1) {
         if (simpleGlyphs.size == 0)
-            simpleGlyphs.addAll(glyphs);
+            simpleGlyphs.add(glyph0, glyph1);
     }
 
     public void setSimpleGlyphs(Array<ArGlyph> glyphs) {
