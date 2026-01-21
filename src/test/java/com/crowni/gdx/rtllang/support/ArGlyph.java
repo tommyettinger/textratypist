@@ -41,19 +41,11 @@ public class ArGlyph {
     }
 
     public char getChar() {
-        if (isSpace()) {
-            return this.originalChar;
-        } else {
-            return modifiedChar;
-        }
+        return modifiedChar;
     }
 
     public boolean isRTL() {
         return rtl;
-    }
-
-    public boolean isSpace() {
-        return this.originalChar == 32;
     }
 
     public void setChar(char c) {

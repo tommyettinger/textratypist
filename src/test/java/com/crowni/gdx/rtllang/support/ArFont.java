@@ -77,7 +77,7 @@ public class ArFont {
         boolean inserting = true;
         StringBuilder subtext = new StringBuilder();
         for (int i = glyphs.size - 1; i >= 0; i--) {
-            if (glyphs.get(i).isRTL() || glyphs.get(i).isSpace()) {
+            if (glyphs.get(i).isRTL()) {
                 if (!inserting) {
                     inserting = true;
                     text.append(subtext);
