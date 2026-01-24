@@ -70,6 +70,12 @@ public class ArFont {
         }
     }
 
+    private static void appendReversed(StringBuilder mainText, CharSequence reversing) {
+        for (int n = reversing.length(), i = n - 1; i >= 0; i--) {
+            mainText.append(reversing.charAt(i));
+        }
+    }
+
     private StringBuilder reorder(StringBuilder text) {
         boolean inserting = true;
         StringBuilder subtext = new StringBuilder();
@@ -77,18 +83,18 @@ public class ArFont {
             if (glyphs.get(i).isRTL()) {
                 if (!inserting) {
                     inserting = true;
-                    text.append(subtext);
+                    appendReversed(text, subtext);
                     subtext.setLength(0);
                 }
 
                 text.append(glyphs.get(i).getChar());
             } else {
                 inserting = false;
-                subtext.insert(0, glyphs.get(i).getOriginalChar());
+                subtext.append(glyphs.get(i).getOriginalChar());
             }
         }
 
-        text.append(subtext);
+        appendReversed(text, subtext);
 
         return text;
     }
