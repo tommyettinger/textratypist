@@ -20,6 +20,7 @@
 package com.crowni.gdx.rtllang.support;
 
 import com.badlogic.gdx.utils.CharArray;
+import com.badlogic.gdx.utils.IntIntMap;
 import com.crowni.gdx.rtllang.support.ArCharCode.*;
 
 /**
@@ -32,6 +33,21 @@ public class ArUtils {
 
     static {
         chars = IndividualChar.values();
+    }
+
+    private static final IntIntMap types = new IntIntMap(chars.length);
+    private static final IntIntMap startChars = new IntIntMap(chars.length);
+    private static final IntIntMap centerChars = new IntIntMap(chars.length);
+    private static final IntIntMap endChars = new IntIntMap(chars.length);
+
+    static {
+        for (int i = 0, n = chars.length; i < n; i++) {
+            int id = chars[i].id;
+            types.put(id, chars[i].type);
+            startChars.put(id, StartChar.getChar(i));
+            centerChars.put(id, CenterChar.getChar(i));
+            endChars.put(id, EndChar.getChar(i));
+        }
     }
 
     public static boolean isInvalidChar(char c) {
@@ -57,10 +73,7 @@ public class ArUtils {
     }
 
     public static int getCharType(char c) {
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i].getChar() == c) return chars[i].getType();
-        }
-        return 0;
+        return types.get(c, 0);
     }
 
     public static char getIndividualChar(char c) {
@@ -68,24 +81,15 @@ public class ArUtils {
     }
 
     public static char getStartChar(char c) {
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i].getChar() == c) return StartChar.getChar(i);
-        }
-        return c;
+        return (char)startChars.get(c, c);
     }
 
     public static char getCenterChar(char c) {
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i].getChar() == c) return CenterChar.getChar(i);
-        }
-        return c;
+        return (char)centerChars.get(c, c);
     }
 
     public static char getEndChar(char c) {
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i].getChar() == c) return EndChar.getChar(i);
-        }
-        return c;
+        return (char)endChars.get(c, c);
     }
 
     /*************** SPECIAL CASE *****************/

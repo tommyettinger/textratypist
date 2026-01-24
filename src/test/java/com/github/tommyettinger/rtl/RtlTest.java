@@ -45,8 +45,8 @@ public class RtlTest extends ApplicationAdapter {
 
     private static final String TAG = "RtlTest";
 
-    private static final String ARABIC_LANGUAGE = "اللغة العربية Arabic Languages";
-    private static final String INSERT_YOUR_NAME = "أدخل إسمك Insert Your Name";
+    private static final String ARABIC_LANGUAGE = "اللغة العربية Arabic Languages ";
+    private static final String INSERT_YOUR_NAME = "أدخل إسمك Insert Your Name: ";
     private static final String PERSIAN_LANGUAGE = "این متن جهت تست گچپژ می‌باشد.";
     private static final String PERSIAN_COMPLEX_TEXT = "اتوبوس ۱۲ نفره Bus است!";
 

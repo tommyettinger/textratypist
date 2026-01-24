@@ -115,8 +115,8 @@ public class ArCharCode {
         YAA(1610, X4),
         YEH(1740, X4),;
 
-        private final int id;
-        private final int type;
+        public final int id;
+        public final int type;
 
         private static final IndividualChar[] values = values();
 
@@ -225,8 +225,8 @@ public class ArCharCode {
         YAA(65266, X4),
         YEH(64509, X4),;
 
-        private final int id;
-        private final int type;
+        public final int id;
+        public final int type;
 
         private static final EndChar[] values = values();
 
@@ -334,8 +334,8 @@ public class ArCharCode {
         YAA(65267, X4),
         YEH(64510, X4),;
 
-        private final int id;
-        private final int type;
+        public final int id;
+        public final int type;
 
         private static final StartChar[] values = values();
 
@@ -443,8 +443,8 @@ public class ArCharCode {
         YAA(65268, X4),
         YEH(64511, X4),;
 
-        private final int id;
-        private final int type;
+        public final int id;
+        public final int type;
 
         private static final CenterChar[] values = values();
 
