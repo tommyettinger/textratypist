@@ -182,6 +182,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String NOW_ALT = "Now-Alt";
     /** Base name for a variable-width brush-stroke font with support for many CJK glyphs. */
     public static final String MA_SHAN_ZHENG = "Ma-Shan-Zheng";
+    /** Base name for a fixed-width sans-serif font with support for many CJK glyphs (mostly at double width). */
+    public static final String MAPLE_MONO = "Maple-Mono";
     /** Base name for a variable-width, sweeping, legible handwriting font. */
     public static final String MOON_DANCE = "Moon-Dance";
     /** Base name for a variable-width, legible, modern-style Fraktur font. */
@@ -3112,6 +3114,77 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getMaShanZheng(DistanceFieldType dft) {
         return getFont(MA_SHAN_ZHENG, dft);
+    }
+
+
+    /**
+     * Returns a Font already configured to use a "two-width" sans-serif font with excellent CJK glyph support.
+     * Here, "two-width" means that every CJK glyph is fixed-width, and every non-CJK glyph is half that width.
+     * This should scale cleanly to about 20 pixels, but has so many glyphs in a 4096x4096 image that it can't scale
+     * to larger sizes well. Caches the result for later calls. The font used is
+     * <a href="https://github.com/subframe7536/Maple-font">Maple Mono</a>, an open-source (SIL Open Font License)
+     * typeface. It supports an absolutely tremendous 22719 glyphs, all detailed-looking and most CJK glyphs,
+     * to support the Chinese, Japanese, and Korean languages. Specifically, this uses version 7.9 of Maple Mono with
+     * its "NL" (Normal) variant and without Nerd Font glyphs.
+     * This uses an unusually-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
+     * well. This may work well in a font family with other fonts that do not use a distance field effect.
+     * Note, the .png for this Font is 4096x4096 instead of the 2048x2048 image most other Fonts use.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.MAPLE_MONO, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Maple-Mono-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Maple-Mono-standard.json.lzma">Maple-Mono-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Maple-Mono-standard.png">Maple-Mono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Maple-Mono-License.txt">Maple-Mono-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Maple Mono
+     */
+    public static Font getMapleMono() {
+        return getFont(MAPLE_MONO, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a "two-width" sans-serif font with excellent CJK glyph support.
+     * Here, "two-width" means that every CJK glyph is fixed-width, and every non-CJK glyph is half that width.
+     * Uses the given distance field type. Caches the result for later calls. The font used is
+     * <a href="https://github.com/subframe7536/Maple-font">Maple Mono</a>, an open-source (SIL Open Font License)
+     * typeface. It supports an absolutely tremendous 22719 glyphs, all detailed-looking and most CJK glyphs,
+     * to support the Chinese, Japanese, and Korean languages. Specifically, this uses version 7.9 of Maple Mono with
+     * its "NL" (Normal) variant and without Nerd Font glyphs.
+     * This uses an unusually-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
+     * well. Note, the .png for this Font is 4096x4096 instead of the 2048x2048 image most other Fonts use.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Maple-Mono-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Maple-Mono-standard.json.lzma">Maple-Mono-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Maple-Mono-standard.png">Maple-Mono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Maple-Mono-License.txt">Maple-Mono-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Maple-Mono-msdf.json.lzma">Maple-Mono-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Maple-Mono-msdf.png">Maple-Mono-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Maple-Mono-License.txt">Maple-Mono-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Maple-Mono-sdf.json.lzma">Maple-Mono-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Maple-Mono-sdf.png">Maple-Mono-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Maple-Mono-License.txt">Maple-Mono-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Maple Mono using the given DistanceFieldType
+     */
+    public static Font getMapleMono(DistanceFieldType dft) {
+        return getFont(MAPLE_MONO, dft);
     }
 
     /**
