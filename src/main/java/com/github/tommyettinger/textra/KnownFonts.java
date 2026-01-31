@@ -246,7 +246,7 @@ public final class KnownFonts implements LifecycleListener {
             DEJAVU_SANS, DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF, GENTIUM, GENTIUM_UN_ITALIC,
             GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE, INCONSOLATA_LGC, IOSEVKA,
             IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
-            LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MOON_DANCE, NOW_ALT, NUGOTHIC, OPEN_SANS,
+            LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MAPLE_MONO, MOON_DANCE, NOW_ALT, NUGOTHIC, OPEN_SANS,
             OSTRICH_BLACK, OVERLOCK, OVERLOCK_UN_ITALIC, OXANIUM, PANGOLIN, PROTEST_REVOLUTION,
             ROBOTO_CONDENSED, SANCREEK, SELAWIK, SELAWIK_BOLD, SOUR_GUMMY, SPECIAL_ELITE, TANGERINE,
             TILLANA, YANONE_KAFFEESATZ, YATAGHAN);
@@ -5882,7 +5882,7 @@ public final class KnownFonts implements LifecycleListener {
                 getIosevka(), getIosevkaMSDF(), getIosevkaSDF(),
                 getIosevkaSlab(), getIosevkaSlabMSDF(), getIosevkaSlabSDF(),
                 getKingthingsFoundation(), getKingthingsPetrock(), getLanaPixel(), getLeagueGothic(),
-                getLibertinusSerif(), getLibertinusSerifSemibold(), getMaShanZheng(),
+                getLibertinusSerif(), getLibertinusSerifSemibold(), getMaShanZheng(), getMapleMono(),
                 getMonogram(), getMonogramItalic(), getMoonDance(),
                 getNowAlt(), getNugothic(),
                 getOpenSans(), getOstrichBlack(), getOverlock(), getOverlockUnItalic(), getOxanium(),
