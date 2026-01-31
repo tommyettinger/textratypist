@@ -1712,14 +1712,14 @@ public class Font implements Disposable {
                     "uniform float u_smoothing;\n" +
                     "varying vec4 v_color;\n" +
                     "varying vec2 v_texCoords;\n" +
-                    "const float closeness = 0.015625; // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline\n" +
+                    "const float closeness = 0.0625; // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline\n" +
                     "void main() {\n" +
                     "  if (u_smoothing > 0.0) {\n" +
                     "    vec4 image = texture2D(u_texture, v_texCoords);\n" +
-                    "    float smoothing = 0.25 / u_smoothing;\n" +
-                    "    float outlineFactor = smoothstep(0.5 - smoothing, smoothing + 0.5, image.a);\n" +
+                    "    float smoothing = 0.5 / u_smoothing;\n" +
+                    "    float outlineFactor = smoothstep(0.5 - smoothing, 0.4 * smoothing + 0.5, image.a);\n" +
                     "    vec3 color = image.rgb * v_color.rgb * outlineFactor;\n" +
-                    "    float alpha = smoothstep(closeness, closeness + smoothing + smoothing, image.a);\n" +
+                    "    float alpha = smoothstep(closeness, closeness + 0.1, image.a);\n" +
                     "    gl_FragColor = vec4(color, v_color.a * alpha);\n" +
                     "  } else {\n" +
                     "    gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n" +
