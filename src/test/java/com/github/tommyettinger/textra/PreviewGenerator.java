@@ -137,7 +137,7 @@ public class PreviewGenerator extends ApplicationAdapter {
             Color baseColor = font.getDistanceField() == Font.DistanceFieldType.SDF_OUTLINE ? Color.WHITE : Color.DARK_GRAY;
             KnownFonts.addEmoji(font);
             viewport.update(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
-            font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), viewport);
+//            font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), viewport);
             layout.setBaseColor(baseColor);
             layout.setMaxLines(20);
             layout.setEllipsis(" and so on and so forth...");

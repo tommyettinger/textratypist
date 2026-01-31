@@ -3509,7 +3509,7 @@ public class Font implements Disposable {
         } else if (this.distanceField == DistanceFieldType.SDF_OUTLINE) {
             shader = new ShaderProgram(vertexShader,
                     Gdx.app.getType() == Application.ApplicationType.Desktop
-                    ? sdfBlackOutlineFragmentShaderDesktopOpenGL
+                    ? sdfBlackOutlineFragmentShader//DesktopOpenGL
                     : sdfBlackOutlineFragmentShader);
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
