@@ -3067,7 +3067,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-standard.json.lzma">Ma-Shan-Zheng-standard.json.lzma</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-standard.png">Ma-Shan-Zheng-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-License.txt">Ma-Shan-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-License.txt">Ma-Shan-Zheng-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font Ma Shan Zheng
@@ -3084,8 +3084,7 @@ public final class KnownFonts implements LifecycleListener {
      * License) typeface. It supports an absolutely tremendous 7015 glyphs, all detailed-looking and most CJK glyphs,
      * to support the Chinese, Japanese, and Korean languages.
      * This uses an unusually-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
-     * well. This may work well in a font family with other fonts that do not use a distance field effect.
-     * Note, the .png for this Font is 4096x4096 instead of the 2048x2048 image most other Fonts use.
+     * well. Note, the .png for this Font is 4096x4096 instead of the 2048x2048 image most other Fonts use.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ma-Shan-Zheng-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
@@ -3093,19 +3092,19 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-standard.json.lzma">Ma-Shan-Zheng-standard.json.lzma</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-standard.png">Ma-Shan-Zheng-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-License.txt">Ma-Shan-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-License.txt">Ma-Shan-Zheng-License.txt</a></li>
      * </ul>
      * or,
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-msdf.json.lzma">Ma-Shan-Zheng-msdf.json.lzma</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-msdf.png">Ma-Shan-Zheng-msdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-License.txt">Ma-Shan-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-License.txt">Ma-Shan-Zheng-License.txt</a></li>
      * </ul>
      * or
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-sdf.json.lzma">Ma-Shan-Zheng-sdf.json.lzma</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-sdf.png">Ma-Shan-Zheng-sdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-License.txt">Ma-Shan-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Ma-Shan-Zheng-License.txt">Ma-Shan-Zheng-License.txt</a></li>
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
