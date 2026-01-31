@@ -1717,7 +1717,7 @@ public class Font implements Disposable {
                     "  if (u_smoothing > 0.0) {\n" +
                     "    vec4 image = texture2D(u_texture, v_texCoords);\n" +
                     "    float smoothing = 0.5 / u_smoothing;\n" +
-                    "    float outlineFactor = smoothstep(0.5 - smoothing, 0.5 + smoothing, image.a);\n" +
+                    "    float outlineFactor = smoothstep(0.5 - smoothing, 0.5 * smoothing + 0.5, image.a);\n" +
                     "    vec3 color = image.rgb * v_color.rgb * outlineFactor;\n" +
                     "    float alpha = smoothstep(closeness, closeness + smoothing, image.a);\n" +
                     "    gl_FragColor = vec4(color, v_color.a * alpha);\n" +
@@ -3508,9 +3508,11 @@ public class Font implements Disposable {
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         } else if (this.distanceField == DistanceFieldType.SDF_OUTLINE) {
             shader = new ShaderProgram(vertexShader,
-                    Gdx.app.getType() == Application.ApplicationType.Desktop
-                    ? sdfBlackOutlineFragmentShaderDesktopOpenGL
-                    : sdfBlackOutlineFragmentShader);
+                    sdfBlackOutlineFragmentShader
+//                    Gdx.app.getType() == Application.ApplicationType.Desktop
+//                    ? sdfBlackOutlineFragmentShaderDesktopOpenGL
+//                    : sdfBlackOutlineFragmentShader
+            );
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
         } else shader = null;
