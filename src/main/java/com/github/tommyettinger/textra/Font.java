@@ -1655,7 +1655,7 @@ public class Font implements Disposable {
                     + "varying vec2 v_texCoords;\n"
                     + "\n"
                     + "void main() {\n"
-                    + "	if (u_smoothing > 0.0) {\n"
+                    + "	 if (u_smoothing > 0.0) {\n"
                     + "		float smoothing = min(0.5 / u_smoothing, 0.125);\n"
                     + "		vec4 color = texture2D(u_texture, v_texCoords);\n"
                     + "		float alpha = smoothstep(0.5 - smoothing, 0.5 + smoothing, color.a);\n"
@@ -1685,7 +1685,7 @@ public class Font implements Disposable {
                     + "varying vec2 v_texCoords;\n"
                     + "\n"
                     + "void main() {\n"
-                    + "	if (u_smoothing > 0.0) {\n"
+                    + "	 if (u_smoothing > 0.0) {\n"
                     + "		vec4 color = texture2D(u_texture, v_texCoords);\n"
                     + "     //float smoothing = fwidth(color.a);\n"
                     + "     float smoothing = 0.7 * length(vec2(dFdx(color.a), dFdy(color.a)));\n"
@@ -1779,9 +1779,8 @@ public class Font implements Disposable {
                     "varying vec4 v_color;\n" +
                     "varying vec2 v_texCoords;\n" +
                     "uniform float u_smoothing;\n" +
-//                    "uniform float u_weight;\n" +
                     "float median(float r, float g, float b) {\n" +
-                    "    return max(min(r, g), min(max(r, g), b));\n" +
+                    "  return max(min(r, g), min(max(r, g), b));\n" +
                     "}\n" +
                     "void main() {\n" +
                     "  if (u_smoothing > 0.0) {\n" +

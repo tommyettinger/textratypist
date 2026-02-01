@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.CharArray;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.crowni.gdx.rtllang.support.ArFont;
@@ -64,7 +65,14 @@ public class RtlTest extends ApplicationAdapter {
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NotoSansArabic-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.characters += ArUtils.getAllChars().toString("");
+//        CharArray arChars = ArUtils.getAllChars();
+//        System.out.print("\"");
+//        for (int i = 0, n = arChars.size; i < n; i++) {
+//            int c = arChars.get(i) & 0xFFFF;
+//            System.out.printf("\\u%04X", c);
+//        }
+//        System.out.println("\"");
+        parameter.characters += ArUtils.getAllChars();
         parameter.size = 40;
         parameter.color = Color.GOLD;
 //        parameter.borderColor = Color.GOLD;

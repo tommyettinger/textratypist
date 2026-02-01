@@ -19,7 +19,6 @@
 
 package com.crowni.gdx.rtllang.support;
 
-import com.badlogic.gdx.utils.CharArray;
 import com.badlogic.gdx.utils.IntIntMap;
 import com.crowni.gdx.rtllang.support.ArCharCode.*;
 
@@ -28,12 +27,19 @@ import com.crowni.gdx.rtllang.support.ArCharCode.*;
  **/
 
 public class ArUtils {
-    private static final char EMPTY = 0;
+    private static final int EMPTY = 0;
     private static final IndividualChar[] chars;
 
     static {
         chars = IndividualChar.values();
     }
+
+    /**
+     * A String containing all Arabic-script characters this handles, plus the ASCII space.
+     * This can be useful to append to {@code FreeTypeFontGenerator.FreeTypeFontParameter.characters} to ensure every
+     * char this may need is present in a generated BitmapFont.
+     */
+    public static final String ALL_CHARS = "\u0020\u06F0\u06F1\u06F2\u06F3\u06F4\u06F5\u06F6\u06F7\u06F8\u06F9\u0660\u0661\u0662\u0663\u0664\u0665\u0666\u0667\u0668\u0669\u060C\u0627\u0622\u0623\u0625\u0649\uFEFB\uFEF5\uFEF7\uFEF9\u062F\u0630\u0631\u0632\u0698\u0648\u0624\u0629\u0626\u0628\u067E\u062A\u062B\u062C\u0686\u062D\u062E\u0633\u0634\u0635\u0636\u0637\u0638\u0639\u063A\u0641\u0642\u0643\u06A9\u06AF\u0644\u0645\u0646\u0647\u064A\u06CC\uFE8B\uFE91\uFB58\uFE97\uFE9B\uFE9F\uFB7C\uFEA3\uFEA7\uFEB3\uFEB7\uFEBB\uFEBF\uFEC3\uFEC7\uFECB\uFECF\uFED3\uFED7\uFEDB\uFB90\uFB94\uFEDF\uFEE3\uFEE7\uFEEB\uFEF3\uFBFE\uFE8E\uFE84\uFE88\uFEAA\uFEAC\uFEAE\uFEB0\uFB8B\uFEEE\uFE86\uFE94\uFE8C\uFE92\uFB59\uFE98\uFE9C\uFEA0\uFB7D\uFEA4\uFEA8\uFEB4\uFEB8\uFEBC\uFEC0\uFEC4\uFEC8\uFECC\uFED0\uFED4\uFED8\uFEDC\uFB91\uFB95\uFEE0\uFEE4\uFEE8\uFEEC\uFEF4\uFBFF\uFE82\uFEF0\uFEFC\uFEF6\uFEF8\uFEFA\uFE8A\uFE90\uFB57\uFE96\uFE9A\uFE9E\uFB7B\uFEA2\uFEA6\uFEB2\uFEB6\uFEBA\uFEBE\uFEC2\uFEC6\uFECA\uFECE\uFED2\uFED6\uFEDA\uFB8F\uFB93\uFEDE\uFEE2\uFEE6\uFEEA\uFEF2\uFBFD";
 
     private static final IntIntMap types = new IntIntMap(chars.length);
     private static final IntIntMap startChars = new IntIntMap(chars.length);
@@ -124,24 +130,7 @@ public class ArUtils {
         return glyph instanceof ArGlyphComplex;
     }
 
-    public static CharArray getAllChars() {
-        CharArray array = new CharArray();
-        for (int i = 0; i < chars.length; i++)
-            if (!array.contains(IndividualChar.getChar(i)))
-                array.add(IndividualChar.getChar(i));
-
-        for (int i = 0; i < chars.length; i++)
-            if (!array.contains(StartChar.getChar(i)))
-                array.add(StartChar.getChar(i));
-
-        for (int i = 0; i < chars.length; i++)
-            if (!array.contains(CenterChar.getChar(i)))
-                array.add(CenterChar.getChar(i));
-
-        for (int i = 0; i < chars.length; i++)
-            if (!array.contains(EndChar.getChar(i)))
-                array.add(EndChar.getChar(i));
-
-        return array;
+    public static String getAllChars() {
+        return ALL_CHARS;
     }
 }
