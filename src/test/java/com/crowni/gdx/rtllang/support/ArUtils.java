@@ -68,13 +68,13 @@ public class ArUtils {
      * @return if the given char is an Arabic-script glyph that isn't a number
      */
     public static boolean isArabicNonNumeric(char c) {
-        return Languages.inRange(Languages.ARABIC_A, c)
-                || Languages.inRange(Languages.ARABIC_B, c)
-                || Languages.inRange(Languages.ARABIC_C, c)
-                || Languages.inRange(Languages.ARABIC_SUPPLEMENT, c)
-                || Languages.inRange(Languages.ARABIC_EXTENDED, c)
-                || Languages.inRange(Languages.ARABIC_PRESENTATION_A, c)
-                || Languages.inRange(Languages.ARABIC_PRESENTATION_B, c)
+        return ArRanges.inRange(ArRanges.ARABIC_A, c)
+                || ArRanges.inRange(ArRanges.ARABIC_B, c)
+                || ArRanges.inRange(ArRanges.ARABIC_C, c)
+                || ArRanges.inRange(ArRanges.ARABIC_SUPPLEMENT, c)
+                || ArRanges.inRange(ArRanges.ARABIC_EXTENDED, c)
+                || ArRanges.inRange(ArRanges.ARABIC_PRESENTATION_A, c)
+                || ArRanges.inRange(ArRanges.ARABIC_PRESENTATION_B, c)
                 ;
     }
 

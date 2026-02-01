@@ -4,7 +4,7 @@ package com.crowni.gdx.rtllang.support;
  * Created by Crowni on 10/11/2017.
  **/
 
-public enum Languages {
+public enum ArRanges {
 /*
 Arabic (0600–06FF, 256 characters)
 Arabic Supplement (0750–077F, 48 characters)
@@ -26,12 +26,12 @@ Arabic Presentation Forms-B (FE70–FEFF, 141 characters)
     private final int from;
     private final int to;
 
-    Languages(int from, int to) {
+    ArRanges(int from, int to) {
         this.from = from;
         this.to = to;
     }
 
-    public static boolean inRange(Languages languages, char c) {
+    public static boolean inRange(ArRanges languages, char c) {
         return languages.from <= c && c <= languages.to;
     }
 }

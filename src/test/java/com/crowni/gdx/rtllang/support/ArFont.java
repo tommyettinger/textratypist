@@ -26,29 +26,31 @@ import com.badlogic.gdx.utils.Array;
  **/
 public class ArFont {
     private final Array<ArGlyph> glyphs = new Array<>();
+    private final StringBuilder workingText = new StringBuilder(128), subtext = new StringBuilder(16);
 
     public String typing(char c) {
         if (c == '\b') // backspace
             popChar();
         else
             addChar(new ArGlyph(c, ArUtils.isArabicNonNumeric(c)));
-        return reorder(new StringBuilder()).toString();
+        workingText.setLength(0);
+        return reorder(workingText).toString();
     }
 
     public String getText(String given) {
         String[] split = given.split("\n");
-        StringBuilder text = new StringBuilder(given.length());
+        workingText.setLength(0);
         for(int ln = 0; ln < split.length; ln++) {
             String line = split[ln];
             for (int i = 0, n = line.length(); i < n; i++) {
                 char c = line.charAt(i);
                 addChar(new ArGlyph(c, ArUtils.isArabicNonNumeric(c)));
             }
-            reorder(text);
-            if(ln + 1 < split.length) text.append('\n');
+            reorder(workingText);
+            if(ln + 1 < split.length) workingText.append('\n');
             this.glyphs.clear();
         }
-        return text.toString();
+        return workingText.toString();
     }
 
     private void addChar(ArGlyph glyph) {
@@ -61,10 +63,7 @@ public class ArFont {
         if (glyphs.size > 0) {
             ArGlyph aChar = glyphs.pop();
             if (aChar instanceof ArGlyphComplex) {
-                Array<ArGlyph> glyphComplex = ((ArGlyphComplex) aChar).getSimpleChars();
-                for (int i = glyphComplex.size - 1; i >= 0; i--)
-                    glyphs.add(glyphComplex.get(i));
-                glyphs.pop();
+                glyphs.add(((ArGlyphComplex) aChar).getAfterGlyph());
             }
             filterLastChars(1);
         }
@@ -78,7 +77,7 @@ public class ArFont {
 
     private StringBuilder reorder(StringBuilder text) {
         boolean inserting = true;
-        StringBuilder subtext = new StringBuilder();
+        subtext.setLength(0);
         for (int i = glyphs.size - 1; i >= 0; i--) {
             if (glyphs.get(i).isRTL()) {
                 if (!inserting) {
