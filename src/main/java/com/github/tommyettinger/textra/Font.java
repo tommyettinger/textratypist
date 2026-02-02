@@ -1687,8 +1687,8 @@ public class Font implements Disposable {
                     + "void main() {\n"
                     + "	 if (u_smoothing > 0.0) {\n"
                     + "    vec4 color = texture2D(u_texture, v_texCoords);\n"
-                    + "    float smoothing = 0.5 * fwidth(color.a);\n"
-                    + "    //float smoothing = 0.8 * length(vec2(dFdx(color.a), dFdy(color.a)));\n"
+                    + "    //float smoothing = 0.5 * fwidth(color.a);\n"
+                    + "    float smoothing = 0.8 * length(vec2(dFdx(color.a), dFdy(color.a)));\n"
                     + "	   float alpha = smoothstep(0.5 - smoothing, 0.5 + smoothing, color.a);\n"
                     + "	   gl_FragColor = vec4(v_color.rgb * color.rgb, alpha * v_color.a);\n"
                     + "  } else {\n"
@@ -1749,8 +1749,8 @@ public class Font implements Disposable {
                     "void main() {\n" +
                     "  if (u_smoothing > 0.0) {\n" +
                     "    vec4 image = texture2D(u_texture, v_texCoords);\n" +
-                    "    float smoothing = 0.5 * fwidth(color.a);\n" +
-                    "    //float smoothing = 0.8 * length(vec2(dFdx(image.a), dFdy(image.a)));\n" +
+                    "    //float smoothing = 0.5 * fwidth(color.a);\n" +
+                    "    float smoothing = 0.8 * length(vec2(dFdx(image.a), dFdy(image.a)));\n" +
                     "    float outlineFactor = smoothstep(0.5 - smoothing, 0.4 * smoothing + 0.5, image.a);\n" +
                     "    vec3 color = image.rgb * v_color.rgb * outlineFactor;\n" +
                     "    float alpha = smoothstep(closeness, closeness + 0.66 / u_smoothing, image.a);\n" +
