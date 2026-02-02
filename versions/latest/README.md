@@ -1,20 +1,19 @@
-# v1-1-0
+# latest
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/tommyettinger/gdx-liftoff).
+A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
 
 This project was generated with a template including simple application launchers and an empty `ApplicationAdapter` extension.
 
 ## Platforms
 
 - `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3.
-- `android`: Android mobile platform. Needs Android SDK.
+- `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
 - `html`: Web platform using GWT and WebGL. Supports only Java projects.
-- `teavm`: Experimental web platform using TeaVM and WebGL.
+- `teavm`: Web backend that supports most JVM languages.
 
 ## Gradle
 
-This project uses [Gradle](http://gradle.org/) to manage dependencies.
+This project uses [Gradle](https://gradle.org/) to manage dependencies.
 The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
 Useful Gradle tasks and flags:
 
@@ -22,7 +21,6 @@ Useful Gradle tasks and flags:
 - `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
 - `--offline`: when using this flag, cached dependency archives will be used.
 - `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `android:lint`: performs Android project validation.
 - `build`: builds sources and archives of every project.
 - `cleanEclipse`: removes Eclipse project data.
 - `cleanIdea`: removes IntelliJ project data.

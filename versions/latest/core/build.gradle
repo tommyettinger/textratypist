@@ -2,11 +2,13 @@
 eclipse.project.name = appName + '-core'
 
 dependencies {
+  api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
+  api "com.github.tommyettinger:freetypist:$freetypistVersion"
   api "com.github.tommyettinger:regexodus:$regExodusVersion"
   api "com.github.tommyettinger:textratypist:$textratypistVersion"
-  api("com.github.tommyettinger:freetypist:2.2.0.0") {
-    exclude group: 'com.github.tommyettinger', module: 'textratypist'
+
+  if(enableGraalNative == 'true') {
+    implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
   }
-  api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
 }

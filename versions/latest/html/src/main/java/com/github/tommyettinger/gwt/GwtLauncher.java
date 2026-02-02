@@ -3,8 +3,7 @@ package com.github.tommyettinger.gwt;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.github.tommyettinger.Main;
-import com.github.tommyettinger.TypingUITest;
+import com.github.tommyettinger.TypingLabelTest;
 
 /** Launches the GWT application. */
 public class GwtLauncher extends GwtApplication {
@@ -14,18 +13,14 @@ public class GwtLauncher extends GwtApplication {
             GwtApplicationConfiguration cfg = new GwtApplicationConfiguration(true);
             cfg.padVertical = 0;
             cfg.padHorizontal = 0;
-            cfg.antialiasing = true;
-//            cfg.useGL30 = true;
+            cfg.disableAudio = true;
             return cfg;
             // If you want a fixed size application, comment out the above resizable section,
             // and uncomment below:
             //return new GwtApplicationConfiguration(640, 480);
         }
-
         @Override
         public ApplicationListener createApplicationListener () {
-//            return new Main();
-            return new TypingUITest();
-//            return new StandardUITest();
+            return new TypingLabelTest();
         }
 }

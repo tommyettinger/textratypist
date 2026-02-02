@@ -1,7 +1,7 @@
 The Twemoji assets are licensed under the Creative Commons Attribution
 4.0 International Public License, and are Copyright (c) 2021 Twitter.
-Twitter provides options for attribution on the twitter/twemoji GitHub
-repo: https://github.com/twitter/twemoji#attribution-requirements
+The authors provide options for attribution on the jdecked/twemoji GitHub
+repo: https://github.com/jdecked/twemoji#attribution-requirements
 
 Attribution 4.0 International
 

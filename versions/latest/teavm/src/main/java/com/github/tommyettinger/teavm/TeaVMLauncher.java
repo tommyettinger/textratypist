@@ -1,9 +1,8 @@
 package com.github.tommyettinger.teavm;
 
-import com.github.tommyettinger.TypingUITest;
+import com.github.tommyettinger.TypingLabelTest;
 import com.github.xpenatan.gdx.backends.teavm.TeaApplicationConfiguration;
 import com.github.xpenatan.gdx.backends.teavm.TeaApplication;
-import com.github.tommyettinger.Main;
 
 /**
  * Launches the TeaVM/HTML application.
@@ -11,13 +10,12 @@ import com.github.tommyettinger.Main;
 public class TeaVMLauncher {
     public static void main(String[] args) {
         TeaApplicationConfiguration config = new TeaApplicationConfiguration("canvas");
-        // change these to both 0 to use all available space, or both -1 for the canvas size.
-        config.width = 760;
-        config.height = 640;
-        config.antialiasing = true;
-//        config.useGL30 = true;
-//        new TeaApplication(new Main(), config);
-        new TeaApplication(new TypingUITest(), config);
-//        new TeaApplication(new StandardUITest(), config);
+        //// If width and height are each greater than 0, then the app will use a fixed size.
+        //config.width = 640;
+        //config.height = 480;
+        //// If width and height are both 0, then the app will use all available space.
+        config.width = 0;
+        config.height = 0;
+        new TeaApplication(new TypingLabelTest(), config);
     }
 }
