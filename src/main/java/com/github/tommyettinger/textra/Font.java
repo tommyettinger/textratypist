@@ -16,7 +16,6 @@
 
 package com.github.tommyettinger.textra;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -1656,7 +1655,7 @@ public class Font implements Disposable {
                     + "\n"
                     + "void main() {\n"
                     + "	 if (u_smoothing > 0.0) {\n"
-                    + "		float smoothing = min(0.5 / u_smoothing, 0.125);\n"
+                    + "		float smoothing = 0.5 / u_smoothing;\n"
                     + "		vec4 color = texture2D(u_texture, v_texCoords);\n"
                     + "		float alpha = smoothstep(0.5 - smoothing, 0.5 + smoothing, color.a);\n"
                     + "		gl_FragColor = vec4(v_color.rgb * color.rgb, alpha * v_color.a);\n"
@@ -1669,14 +1668,16 @@ public class Font implements Disposable {
      * <a href="https://jvm-gaming.org/t/solved-signed-distance-field-fonts-look-crappy-at-small-pt-sizes/49617/8">this JVM-Gaming forum post</a>,
      * now supporting RGB colors other than white (but with
      * limited support for partial transparency). This is automatically used when {@link #enableShader(Batch)} is
-     * called, the {@link #distanceField} is {@link DistanceFieldType#SDF}, and the application is running on desktop
-     * OpenGL (so it has derivative functions available). This shader can be used with inline
-     * images, but won't behave 100% correctly if they use partial transparency, such as to anti-alias edges.
+     * called, the {@link #distanceField} is {@link DistanceFieldType#SDF}. This enables the extension
+     * {@code GL_OES_standard_derivatives}, which seems to be available almost everywhere. This shader can be used with
+     * inline images, but won't behave 100% correctly if they use partial transparency, such as to anti-alias edges.
      */
-    public static final String sdfFragmentShaderDesktopOpenGL =
+    public static final String sdfFragmentShaderUsingDerivatives =
             "#ifdef GL_ES\n"
                     + "	precision mediump float;\n"
                     + "	precision mediump int;\n"
+                    + "#else\n"
+                    + "#extension GL_OES_standard_derivatives : enable\n"
                     + "#endif\n"
                     + "\n"
                     + "uniform sampler2D u_texture;\n"
@@ -1688,7 +1689,7 @@ public class Font implements Disposable {
                     + "	 if (u_smoothing > 0.0) {\n"
                     + "		vec4 color = texture2D(u_texture, v_texCoords);\n"
                     + "     //float smoothing = fwidth(color.a);\n"
-                    + "     float smoothing = 0.7 * length(vec2(dFdx(color.a), dFdy(color.a)));\n"
+                    + "     float smoothing = 0.66 * length(vec2(dFdx(color.a), dFdy(color.a)));\n"
                     + "		float alpha = smoothstep(0.5 - smoothing, 0.5 + smoothing, color.a);\n"
                     + "		gl_FragColor = vec4(v_color.rgb * color.rgb, alpha * v_color.a);\n"
                     + "  } else {\n"
@@ -1733,24 +1734,27 @@ public class Font implements Disposable {
      * This also supports RGB colors other than white (but with limited support for partial transparency).
      * This is automatically used when {@link #enableShader(Batch)} is called and the {@link #distanceField} is
      * {@link DistanceFieldType#SDF_OUTLINE}. This shader can be used with inline images, but won't behave 100%
-     * correctly if they use partial transparency, such as to anti-alias edges.
+     * correctly if they use partial transparency, such as to anti-alias edges. This enables the extension
+     * {@code GL_OES_standard_derivatives}, which seems to be available almost everywhere.
      */
-    public static final String sdfBlackOutlineFragmentShaderDesktopOpenGL =
+    public static final String sdfBlackOutlineFragmentShaderUsingDerivatives =
             "#ifdef GL_ES\n" +
                     "precision mediump float;\n" +
+                    "#else\n" +
+                    "#extension GL_OES_standard_derivatives : enable\n" +
                     "#endif\n" +
                     "uniform sampler2D u_texture;\n" +
                     "uniform float u_smoothing;\n" +
                     "varying vec4 v_color;\n" +
                     "varying vec2 v_texCoords;\n" +
-                    "const float closeness = 0.015625; // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline\n" +
+                    "const float closeness = 0.0625; // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline\n" +
                     "void main() {\n" +
                     "  if (u_smoothing > 0.0) {\n" +
                     "    vec4 image = texture2D(u_texture, v_texCoords);\n" +
-                    "    float smoothing = 0.7 * length(vec2(dFdx(image.a), dFdy(image.a)));\n" +
-                    "    float outlineFactor = smoothstep(0.5 - smoothing, 0.5 + smoothing, image.a);\n" +
+                    "    float smoothing = 0.66 * length(vec2(dFdx(image.a), dFdy(image.a)));\n" +
+                    "    float outlineFactor = smoothstep(0.5 - smoothing, 0.4 * smoothing + 0.5, image.a);\n" +
                     "    vec3 color = image.rgb * v_color.rgb * outlineFactor;\n" +
-                    "    float alpha = smoothstep(closeness, closeness + smoothing, image.a);\n" +
+                    "    float alpha = smoothstep(closeness, closeness + 0.66 / u_smoothing, image.a);\n" +
                     "    gl_FragColor = vec4(color, v_color.a * alpha);\n" +
                     "  } else {\n" +
                     "    gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n" +
@@ -3500,7 +3504,8 @@ public class Font implements Disposable {
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
         } else if (this.distanceField == DistanceFieldType.SDF) {
             shader = new ShaderProgram(vertexShader,
-                    sdfFragmentShader
+//                    sdfFragmentShader
+                    sdfFragmentShaderUsingDerivatives
 //                    Gdx.app.getType() == Application.ApplicationType.Desktop
 //                            ? sdfFragmentShaderDesktopOpenGL
 //                            : sdfFragmentShader
@@ -3509,7 +3514,8 @@ public class Font implements Disposable {
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         } else if (this.distanceField == DistanceFieldType.SDF_OUTLINE) {
             shader = new ShaderProgram(vertexShader,
-                    sdfBlackOutlineFragmentShader
+//                    sdfBlackOutlineFragmentShader
+                    sdfBlackOutlineFragmentShaderUsingDerivatives
 //                    Gdx.app.getType() == Application.ApplicationType.Desktop
 //                    ? sdfBlackOutlineFragmentShaderDesktopOpenGL
 //                    : sdfBlackOutlineFragmentShader
