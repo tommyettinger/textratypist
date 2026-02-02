@@ -5391,7 +5391,7 @@ public class Font implements Disposable {
         }
 
         if(squashed) {
-            sizingY *= 0.7f;
+            sizingY *= 0.75f;
         }
 
 
