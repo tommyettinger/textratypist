@@ -21,6 +21,7 @@
   <!-- You can include a full package by not including the name of a type at the end. -->
   <!-- This is a feature of libGDX, so these lines go after the above "inherits" that brings in libGDX. -->
   <!-- <extend-configuration-property name="gdx.reflect.include" value="fully.qualified.TypeName" /> -->
+    <extend-configuration-property name="gdx.reflect.include" value="com.github.tommyettinger.textra.Styles"/>
 
   <!-- Rarely, projects may need to include files but do not have access to the complete assets. -->
   <!-- This happens for libraries and shared projects, typically, and the configuration goes in that project. -->
