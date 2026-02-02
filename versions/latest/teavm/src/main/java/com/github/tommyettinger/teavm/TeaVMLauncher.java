@@ -11,11 +11,12 @@ public class TeaVMLauncher {
     public static void main(String[] args) {
         TeaApplicationConfiguration config = new TeaApplicationConfiguration("canvas");
         //// If width and height are each greater than 0, then the app will use a fixed size.
-        //config.width = 640;
-        //config.height = 480;
+//        config.width = 720;
+//        config.height = 400;
         //// If width and height are both 0, then the app will use all available space.
         config.width = 0;
         config.height = 0;
+        config.antialiasing = true;
         new TeaApplication(new TypingLabelTest(), config);
     }
 }
