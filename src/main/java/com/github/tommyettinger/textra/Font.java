@@ -1674,10 +1674,9 @@ public class Font implements Disposable {
      */
     public static final String sdfFragmentShaderUsingDerivatives =
             "#ifdef GL_ES\n"
+                    + "#extension GL_OES_standard_derivatives : enable\n"
                     + "	precision mediump float;\n"
                     + "	precision mediump int;\n"
-                    + "#else\n"
-                    + "#extension GL_OES_standard_derivatives : enable\n"
                     + "#endif\n"
                     + "\n"
                     + "uniform sampler2D u_texture;\n"
@@ -1739,9 +1738,8 @@ public class Font implements Disposable {
      */
     public static final String sdfBlackOutlineFragmentShaderUsingDerivatives =
             "#ifdef GL_ES\n" +
-                    "precision mediump float;\n" +
-                    "#else\n" +
                     "#extension GL_OES_standard_derivatives : enable\n" +
+                    "precision mediump float;\n" +
                     "#endif\n" +
                     "uniform sampler2D u_texture;\n" +
                     "uniform float u_smoothing;\n" +
