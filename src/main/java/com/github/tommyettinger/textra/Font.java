@@ -16,6 +16,7 @@
 
 package com.github.tommyettinger.textra;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -1749,7 +1750,6 @@ public class Font implements Disposable {
                     "void main() {\n" +
                     "  if (u_smoothing > 0.0) {\n" +
                     "    vec4 image = texture2D(u_texture, v_texCoords);\n" +
-                    "    //float smoothing = 0.5 * fwidth(color.a);\n" +
                     "    float smoothing = 0.8 * length(vec2(dFdx(image.a), dFdy(image.a)));\n" +
                     "    float outlineFactor = smoothstep(0.5 - smoothing, 0.4 * smoothing + 0.5, image.a);\n" +
                     "    vec3 color = image.rgb * v_color.rgb * outlineFactor;\n" +
@@ -3504,20 +3504,20 @@ public class Font implements Disposable {
         } else if (this.distanceField == DistanceFieldType.SDF) {
             shader = new ShaderProgram(vertexShader,
 //                    sdfFragmentShader
-                    sdfFragmentShaderUsingDerivatives
-//                    Gdx.app.getType() == Application.ApplicationType.Desktop
-//                            ? sdfFragmentShaderDesktopOpenGL
-//                            : sdfFragmentShader
+//                    sdfFragmentShaderUsingDerivatives
+                    Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
+                            ? sdfFragmentShaderUsingDerivatives
+                            : sdfFragmentShader
             );
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
         } else if (this.distanceField == DistanceFieldType.SDF_OUTLINE) {
             shader = new ShaderProgram(vertexShader,
 //                    sdfBlackOutlineFragmentShader
-                    sdfBlackOutlineFragmentShaderUsingDerivatives
-//                    Gdx.app.getType() == Application.ApplicationType.Desktop
-//                    ? sdfBlackOutlineFragmentShaderDesktopOpenGL
-//                    : sdfBlackOutlineFragmentShader
+//                    sdfBlackOutlineFragmentShaderUsingDerivatives
+                    Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
+                    ? sdfBlackOutlineFragmentShaderUsingDerivatives
+                    : sdfBlackOutlineFragmentShader
             );
             if (!shader.isCompiled())
                 Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
@@ -4278,7 +4278,7 @@ public class Font implements Disposable {
             } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
                 batch.setShader(shader);
 //                if(Gdx.app.getType() != Application.ApplicationType.Desktop || smoothingValues.get(batch) == null || smoothingValues.get(batch) <= 0) {
-                    float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                    float smoothing = actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                     batch.flush();
                     shader.setUniformf("u_smoothing", smoothing);
                     smoothingValues.put(batch, smoothing);
@@ -4320,7 +4320,7 @@ public class Font implements Disposable {
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
 //                if(Gdx.app.getType() != Application.ApplicationType.Desktop || smoothingValues.get(batch) == null || smoothingValues.get(batch) <= 0) {
-                    float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                    float smoothing = actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                     batch.flush();
                     shader.setUniformf("u_smoothing", smoothing);
                     smoothingValues.put(batch, smoothing);
@@ -4334,17 +4334,17 @@ public class Font implements Disposable {
         } else {
             batch.setShader(shader);
             if (distanceField == DistanceFieldType.MSDF) {
-                float smoothing = 0.4f * actualCrispness * Math.max(cellHeight, cellWidth);
+                float smoothing = 8f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
-//                if(Gdx.app.getType() != Application.ApplicationType.Desktop || smoothingValues.get(batch) == null || smoothingValues.get(batch) <= 0) {
-                    float smoothing = 0.2f * actualCrispness * Math.max(cellHeight, cellWidth);
-                    batch.flush();
-                    shader.setUniformf("u_smoothing", smoothing);
-                    smoothingValues.put(batch, smoothing);
-//                }
+//              if(Gdx.app.getType() != Application.ApplicationType.Desktop || smoothingValues.get(batch) == null || smoothingValues.get(batch) <= 0) {
+                float smoothing = actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                batch.flush();
+                shader.setUniformf("u_smoothing", smoothing);
+                smoothingValues.put(batch, smoothing);
+//              }
             }
         }
     }
