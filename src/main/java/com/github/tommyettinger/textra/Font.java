@@ -4278,7 +4278,7 @@ public class Font implements Disposable {
             } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
                 batch.setShader(shader);
 //                if(Gdx.app.getType() != Application.ApplicationType.Desktop || smoothingValues.get(batch) == null || smoothingValues.get(batch) <= 0) {
-                    float smoothing = actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                    float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                     batch.flush();
                     shader.setUniformf("u_smoothing", smoothing);
                     smoothingValues.put(batch, smoothing);
@@ -4320,7 +4320,7 @@ public class Font implements Disposable {
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
 //                if(Gdx.app.getType() != Application.ApplicationType.Desktop || smoothingValues.get(batch) == null || smoothingValues.get(batch) <= 0) {
-                    float smoothing = actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                    float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                     batch.flush();
                     shader.setUniformf("u_smoothing", smoothing);
                     smoothingValues.put(batch, smoothing);
@@ -4340,7 +4340,7 @@ public class Font implements Disposable {
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
 //              if(Gdx.app.getType() != Application.ApplicationType.Desktop || smoothingValues.get(batch) == null || smoothingValues.get(batch) <= 0) {
-                float smoothing = actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
