@@ -43,7 +43,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.11"
+implementation "com.github.tommyettinger:textratypist:2.2.12"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on either version 1.13.1 or 1.14.0 (never 1.13.5),
@@ -54,7 +54,7 @@ receiving updates anymore.
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.2.11:sources"
+implementation "com.github.tommyettinger:textratypist:2.2.12:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.21:sources"
 ```
 
@@ -67,7 +67,7 @@ GWT also needs this in the GdxDefinition.gwt.xml file:
 RegExodus is the GWT-compatible regular-expression library this uses to match some complex patterns internally. Other
 than libGDX itself, RegExodus is the only dependency this project has.
 
-If you need compatibility with libGDX 1.13.1, change `2.2.11` to `2.1.11`; it should have feature parity with `2.2.9`.
+If you need compatibility with libGDX 1.13.1, change `2.2.12` to `2.1.11`; it should have feature parity with `2.2.9`.
 TextraTypist 2.1.11 should use RegExodus 0.1.21, the same version used by TextraTypist 2.2.11 and up. It may need this
 explicitly given as a dependency:
 
@@ -92,16 +92,16 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.11.0"
+implementation "com.github.tommyettinger:freetypist:2.2.12.0"
 ```
 
-(Now, FreeTypist 2.2.11.0 uses TextraTypist 2.2.11, and that means it uses libGDX 1.14.0 . There's also FreeTypist
+(Now, FreeTypist 2.2.12.0 uses TextraTypist 2.2.12, and that means it uses libGDX 1.14.0 . There's also FreeTypist
 2.1.11.0 that uses TextraTypist 2.1.11, and that means it uses libGDX 1.13.1 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.2.11.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.2.12.0:sources"
 ```
 
 And this inherits line:
@@ -574,7 +574,7 @@ outline thickness modified using `Font.setOutlineStrength()`. The oblique angle 
 `descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
 as it is for Structured JSON fonts!
 
-Version 2.1.0 through 2.2.11 are out, and while they have fewer breaking changes, there are still several of them.
+Version 2.1.0 through 2.2.12 are out, and while they have fewer breaking changes, there are still several of them.
 Notably, the syntax for modes is no longer linked to the syntax for scaling, and you can set modes independently of both
 the current scale and the current status of an outline around text. Some modes enable the outline and set its color; if
 you disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`,
@@ -717,13 +717,17 @@ wouldn't be able to find their image. Now they can! Structured JSON fonts weren'
 
 2.2.11 only updates RegExodus to a version that isn't broken on GWT.
 
+2.2.12 improves the appearance of SDF and SDF_OUTLINE fonts, sometimes significantly. It also adds the massive font
+Maple Mono to KnownFonts, which supports over 22,000 glyphs (mostly CJK chars)! Maple Mono looks significantly better
+at medium-to-large sizes with SDF or MSDF in use, so the improvement to SDF appearance also helps here.
+
 Because the 2.2.x line depends on libGDX 1.14.0, and not all libraries are compatible yet with this version (libKTX in
 particular), all changes in 2.2.9 have been backported to 2.1.11, which still only needs libGDX 1.13.1 . Changing the
 dependency from 2.2.9 to 2.1.11 is really all that needs to be done if you still need to use libGDX 1.13.1 . 
 
 ## Why doesn't something work?
 
-The quick checklist for the latest code (version 2.2.11 or newer commits from JitPack):
+The quick checklist for the latest code (version 2.2.12 or newer commits from JitPack):
 
 - Use FWSkin or one of its subclasses, not a plain scene2d.ui Skin. FreeTypistSkin is fine. Skin is not!
   - You can assign a FWSkin to a Skin, but it still really needs to be an FWSkin internally, or one of its subclasses. 
