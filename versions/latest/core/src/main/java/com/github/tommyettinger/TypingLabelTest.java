@@ -104,6 +104,8 @@ public class TypingLabelTest extends ApplicationAdapter {
                 labelEvent.restart();
                 labelEvent.pause();
                 table.pack();
+                label.getFont().family.resizeDistanceFields(
+                    Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), stage.getViewport());
 //                System.out.println("Label height: " + labelCell.getActorHeight()
 //                        + ", cell max height: " + labelCell.getMaxHeight()
 //                        + ", cell pref height: " + labelCell.getPrefHeight());
