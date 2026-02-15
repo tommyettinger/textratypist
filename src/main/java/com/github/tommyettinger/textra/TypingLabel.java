@@ -945,7 +945,7 @@ public class TypingLabel extends TextraLabel {
         if (this.getWidth() != width) {
             this.setSuperWidth(width);
             sizeChanged();
-            if (wrap) {
+            if (workingLayout != null) {
                 workingLayout.setTargetWidth(width);
                 workingLayout.justification = defaultJustify;
                 font.regenerateLayout(workingLayout);
@@ -962,7 +962,7 @@ public class TypingLabel extends TextraLabel {
         if(this.getHeight() != height) {
             this.setSuperHeight(height);
             sizeChanged();
-            if (wrap) {
+            if (workingLayout != null) {
                 workingLayout.justification = defaultJustify;
                 font.regenerateLayout(workingLayout);
                 // This needs to work on the hierarchy; see TableWrapTest for evidence.
@@ -989,7 +989,7 @@ public class TypingLabel extends TextraLabel {
         }
         if(changed) {
             sizeChanged();
-            if (wrap) {
+            if(workingLayout != null) {
                 workingLayout.setTargetWidth(width);
                 workingLayout.justification = defaultJustify;
                 font.regenerateLayout(workingLayout);
