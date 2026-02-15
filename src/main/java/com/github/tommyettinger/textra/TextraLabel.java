@@ -565,9 +565,7 @@ public class TextraLabel extends Widget {
         // If the window is minimized, we have invalid dimensions and shouldn't process resizing.
         if(Gdx.graphics.getWidth() <= 0 || Gdx.graphics.getHeight() <= 0) return;
         super.setWidth(width);
-        if (wrap) {
-            layout.setTargetWidth(width);
-        }
+        layout.setTargetWidth(width);
         font.calculateSize(layout);
         invalidateHierarchy();
     }
@@ -674,7 +672,7 @@ public class TextraLabel extends Widget {
      */
     public void setFont(Font font) {
         if(!this.font.equals(this.font = font))
-            font.regenerateLayout(layout);
+            regenerateLayout();
     }
 
     /**
@@ -686,7 +684,12 @@ public class TextraLabel extends Widget {
      */
     public void setFont(Font font, boolean regenerate) {
         if(!this.font.equals(this.font = font) && regenerate)
-            font.regenerateLayout(layout);
+            regenerateLayout();
+    }
+
+    public void regenerateLayout() {
+        font.regenerateLayout(layout);
+        font.calculateSize(layout);
     }
 
     /**

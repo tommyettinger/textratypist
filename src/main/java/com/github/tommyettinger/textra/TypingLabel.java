@@ -384,6 +384,12 @@ public class TypingLabel extends TextraLabel {
         this.parsed = false;
     }
 
+    @Override
+    public void regenerateLayout() {
+        font.regenerateLayout(workingLayout);
+        font.calculateSize(workingLayout);
+    }
+
     ////////////////////////////
     /// --- External API --- ///
     ////////////////////////////
@@ -930,6 +936,40 @@ public class TypingLabel extends TextraLabel {
         }
 
         invalidate();
+    }
+
+    @Override
+    public void setWidth(float width) {
+        // If the window is minimized, we have invalid dimensions and shouldn't process resizing.
+        if(Gdx.graphics.getWidth() <= 0 || Gdx.graphics.getHeight() <= 0) return;
+        if (this.getWidth() != width) {
+            this.setSuperWidth(width);
+            sizeChanged();
+            if (wrap) {
+                workingLayout.setTargetWidth(width);
+                workingLayout.justification = defaultJustify;
+                font.regenerateLayout(workingLayout);
+                // This needs to work on the hierarchy; see TableWrapTest for evidence.
+                invalidateHierarchy();
+            }
+        }
+    }
+
+    @Override
+    public void setHeight(float height) {
+        // If the window is minimized, we have invalid dimensions and shouldn't process resizing.
+        if(Gdx.graphics.getWidth() <= 0 || Gdx.graphics.getHeight() <= 0) return;
+        if(this.getHeight() != height) {
+            this.setSuperHeight(height);
+            sizeChanged();
+            if (wrap) {
+                workingLayout.justification = defaultJustify;
+                font.regenerateLayout(workingLayout);
+                // This needs to work on the hierarchy; see TableWrapTest for evidence.
+                invalidateHierarchy();
+            }
+        }
+
     }
 
     @Override

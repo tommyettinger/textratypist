@@ -117,7 +117,9 @@ public class ResizeWrapTest extends ApplicationAdapter {
 //         used to reproduce a word-wrap and line-break bug with TypingLabel.offsets , which is used by effects.
 //        typingLabelScaleFont.setText("{SICK}Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone Hero ice-clone");
         System.out.println("changeFontScale to " + typingLabelScaleFont.getFont().scaleY);
-        typingLabelScaleFont.layout();
+        typingLabelScaleFont.regenerateLayout();
+        typingLabelChangeFont.regenerateLayout();
+//        typingLabelScaleFont.getFont().regenerateLayout(typingLabelScaleFont.workingLayout);
         outer.pack();
     }
 
@@ -125,7 +127,6 @@ public class ResizeWrapTest extends ApplicationAdapter {
         System.out.println("changeFont");
         Font font = new Font(font28);
         typingLabelChangeFont.setFont(font);
-        typingLabelChangeFont.layout();
         outer.pack();
 
         // debugging info.
