@@ -584,9 +584,7 @@ public class TextraLabel extends Widget {
         // If the window is minimized, we have invalid dimensions and shouldn't process resizing.
         if(Gdx.graphics.getWidth() <= 0 || Gdx.graphics.getHeight() <= 0) return;
         super.setSize(width, height);
-        if (wrap) {
-            layout.setTargetWidth(width);
-        }
+        layout.setTargetWidth(width);
         font.calculateSize(layout);
         invalidateHierarchy();
     }
@@ -687,6 +685,12 @@ public class TextraLabel extends Widget {
             regenerateLayout();
     }
 
+    /**
+     * Re-calculates line breaks when wrapping is enabled, and always re-calculates the size of this label.
+     * When a label's Font is mutated (such as by {@link Font#scale(float)}, calling {@link #setFont(Font)} won't change
+     * anything, even if you want it to regenerate the layout for the new Font, but this can be used to regenerate the
+     * layout at any time.
+     */
     public void regenerateLayout() {
         font.regenerateLayout(layout);
         font.calculateSize(layout);
