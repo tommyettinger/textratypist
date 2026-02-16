@@ -18,6 +18,7 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
@@ -28,11 +29,23 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+/**
+ * This can be used to demonstrate how to use FreeType's incremental mode with BitmapFont (not Font).
+ * It can also be used to see what a BitmapFont looks like when drawn after it has been disposed, by pressing 'd'.
+ * It goes from this:
+ * <br>
+ * <img src="https://i.imgur.com/2lW3ooz.png" alt="Before dispose()" />
+ * <br>
+ * To this:
+ * <br>
+ * <img src="https://i.imgur.com/pOsbz6w.png" alt="After dispose()" />
+ */
 public class FreeTypeIncrementalTest extends ApplicationAdapter {
     FitViewport viewport;
     SpriteBatch batch;
     GlyphLayout layout;
     BitmapFont messageBoxFont, menuDesc, menuFont, menuLabel, titleLabel, battleLabel;
+    FreeTypeFontGenerator generator;
 
     @Override
     public void create() {
@@ -40,10 +53,11 @@ public class FreeTypeIncrementalTest extends ApplicationAdapter {
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
         batch = new SpriteBatch();
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NotoSansSC-Regular.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("NotoSansSC-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 42;
-        parameter.incremental = true;
+//        parameter.incremental = true;
+        parameter.characters = "Welcome to the world\nof tomorrow! 新游戏";
         messageBoxFont = generator.generateFont(parameter);
 
 
@@ -79,16 +93,20 @@ public class FreeTypeIncrementalTest extends ApplicationAdapter {
         // Exception in thread "main" com.badlogic.gdx.utils.GdxRuntimeException: Couldn't set size for font
 
         layout = new GlyphLayout();
-        layout.setText(messageBoxFont, "新游戏");
+        layout.setText(messageBoxFont, "Welcome to the world\nof tomorrow! 新游戏");
     }
 
     @Override
     public void render() {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.D)) // Use this to see what disposing a BitmapFont looks like.
+            messageBoxFont.dispose();
+        if(Gdx.input.isKeyJustPressed(Input.Keys.G)) // This will crash the program in native code!
+            generator.dispose();
         ScreenUtils.clear(Color.DARK_GRAY);
 
         viewport.apply();
         batch.begin();
-        messageBoxFont.draw(batch, layout, 100, 100);
+        messageBoxFont.draw(batch, layout, 10, 200);
         batch.end();
     }
 

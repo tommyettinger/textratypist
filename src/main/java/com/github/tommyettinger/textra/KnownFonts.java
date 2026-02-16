@@ -3240,6 +3240,9 @@ public final class KnownFonts implements LifecycleListener {
      * This defaults to having {@link Font#integerPosition} set to false, which is the usual default.
      * This may work well in a font family with other fonts that do not use a distance field effect.
      * <br>
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Monogram-Italic-standard.png" alt="Image preview" width="1200" height="675" />
+     * (uses width=12, height=24, which is double the normal size)
+     * <br>
      * Needs files:
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Monogram-Italic-standard.fnt">Monogram-Italic-standard.fnt</a></li>
@@ -3248,11 +3251,6 @@ public final class KnownFonts implements LifecycleListener {
      * </ul>
      *
      * @return the Font object that represents the 12px tall font Monogram Italic
-     */
-    /*
-     * <br>
-     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Monogram-Italic-standard.png" alt="Image preview" width="1200" height="675" />
-     * (uses width=12, height=24, which is double the normal size)
      */
     public static Font getMonogramItalic() {
         initialize();
