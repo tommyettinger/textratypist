@@ -25,6 +25,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -50,12 +51,12 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 	Texture texture2;
 	TypingLabel fpsLabel;
 	Font font;
-//	GLProfiler profiler;
+	GLProfiler profiler;
 
 	@Override
 	public void create () {
-//		profiler = new GLProfiler(Gdx.graphics);
-//		profiler.disable();
+		profiler = new GLProfiler(Gdx.graphics);
+		profiler.disable();
 		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
@@ -227,8 +228,8 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 
 	@Override
 	public void render () {
-//		if(profiler.isEnabled())
-//			profiler.reset();
+		if(profiler.isEnabled())
+			profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1f);
 		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
 		int i;
@@ -241,10 +242,12 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 		fpsLabel.setRotation(20f + 20f * MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f));
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
-//		if(Gdx.input.isKeyJustPressed(Keys.SPACE) && profiler.isEnabled())
-//			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
-//					profiler.getCalls(), profiler.getDrawCalls(),
-//					profiler.getShaderSwitches(), profiler.getTextureBindings());
+		if(Gdx.input.isKeyJustPressed(Keys.SPACE) && profiler.isEnabled())
+			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
+					profiler.getCalls(), profiler.getDrawCalls(),
+					profiler.getShaderSwitches(), profiler.getTextureBindings());
+		if(Gdx.input.isKeyJustPressed(Keys.P))
+			profiler.enable();
 
 	}
 

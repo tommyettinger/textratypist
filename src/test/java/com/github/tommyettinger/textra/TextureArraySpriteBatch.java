@@ -1072,10 +1072,11 @@ public class TextureArraySpriteBatch implements Batch {
         if (spritesInBatch > maxSpritesInBatch) maxSpritesInBatch = spritesInBatch;
         int count = spritesInBatch * 6;
 
-        // Bind the textures
-        for (int i = 0; i < currentTextureLFUSize; i++) {
-            usedTextures[i].bind(i);
-        }
+        // TODO: is the activateTexture change better than this?
+//        // Bind the textures
+//        for (int i = 0; i < currentTextureLFUSize; i++) {
+//            usedTextures[i].bind(i);
+//        }
 
         // Set TEXTURE0 as active again before drawing.
         Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
@@ -1126,6 +1127,9 @@ public class TextureArraySpriteBatch implements Batch {
         if (currentTextureLFUSize < maxTextureUnits) {
             // Put the texture into the next free slot
             usedTextures[currentTextureLFUSize] = texture;
+            // TODO: is this better than binding the texture in flush() ?
+            texture.bind(currentTextureLFUSize);
+
             // Increase the access counter.
             usedTexturesLFU[currentTextureLFUSize]++;
             return currentTextureLFUSize++;
@@ -1167,6 +1171,8 @@ public class TextureArraySpriteBatch implements Batch {
         usedTexturesLFU[slot] = average;
 
         usedTextures[slot] = texture;
+        // TODO: is this better than binding the texture in flush() ?
+        texture.bind(slot);
 
         // For statistics
         currentTextureLFUSwaps++;
