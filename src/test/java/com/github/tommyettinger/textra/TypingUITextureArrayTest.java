@@ -38,6 +38,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+/**
+ * This should be compared to {@link TypingUIArrayTextureTest} and {@link TypingUITest}.
+ * <br>
+ * Calls: 261, draw calls: 10, shader switches: 1, texture bindings: 6
+ */
 public class TypingUITextureArrayTest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",

@@ -25,6 +25,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -35,6 +36,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+/**
+ * This should be compared to {@link TypingUIArrayTextureTest} and {@link TypingUITextureArrayTest}.
+ * <br>
+ * Calls: 633, draw calls: 33, shader switches: 1, texture bindings: 33
+ */
 public class TypingUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
@@ -49,12 +55,12 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	Texture texture1;
 	Texture texture2;
 	TypingLabel fpsLabel;
-//	GLProfiler profiler;
+	GLProfiler profiler;
 
 	@Override
 	public void create () {
-//		profiler = new GLProfiler(Gdx.graphics);
-//		profiler.enable();
+		profiler = new GLProfiler(Gdx.graphics);
+		profiler.enable();
 		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
@@ -231,7 +237,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 
 	@Override
 	public void render () {
-//		profiler.reset();
+		profiler.reset();
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
@@ -245,10 +251,13 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		fpsLabel.setRotation(20f + 20f * MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f));
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
-//		if(Gdx.input.isKeyJustPressed(Keys.SPACE) && profiler.isEnabled())
-//			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
-//					profiler.getCalls(), profiler.getDrawCalls(),
-//					profiler.getShaderSwitches(), profiler.getTextureBindings());
+		if(Gdx.input.isKeyJustPressed(Keys.SPACE) && profiler.isEnabled())
+			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
+					profiler.getCalls(), profiler.getDrawCalls(),
+					profiler.getShaderSwitches(), profiler.getTextureBindings());
+		if(Gdx.input.isKeyJustPressed(Keys.P))
+			profiler.enable();
+
 	}
 
 	@Override
