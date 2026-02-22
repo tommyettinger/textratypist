@@ -60,8 +60,6 @@ import com.github.tommyettinger.textra.utils.LZBDecompression;
 import com.github.tommyettinger.textra.utils.NoiseUtils;
 import com.github.tommyettinger.textra.utils.StringUtils;
 import regexodus.Category;
-import regexodus.Pattern;
-import regexodus.Replacer;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -1597,12 +1595,6 @@ public class Font implements Disposable {
     );
 
     /**
-     * A RegExodus Replacer that replaces any CJK ideographic characters with themselves plus a zero-width space after.
-     * Meant to be used via {@link #insertZeroWidthSpacesInCJK(CharSequence)}, but can be used on its own.
-     */
-    public static final Replacer CJK_SPACE_INSERTER = new Replacer(Pattern.compile("([\u2E80-\u303F\u31C0-\u31EF\u3200-\u9FFF\uF900-\uFAFF\uFE30-\uFE4F])"), "$1\u200B");
-
-    /**
      * Inserts a zero-width space character (Unicode U+200B) after every CJK ideographic character in text. This is
      * meant to create word breaks where there might otherwise be none, to allow breaking lines up how at least written
      * Chinese expects them to be broken up. This assumes there won't be any ideograms in color markup or effects, and
@@ -1616,8 +1608,8 @@ public class Font implements Disposable {
      * @param text a CharSequence such as a String, typically containing CJK ideograms
      * @return a String where every CJK char has a zero-width space (U+200B) appended after it
      */
-    public static String insertZeroWidthSpacesInCJK(CharSequence text) {
-        return CJK_SPACE_INSERTER.replace(text);
+    public static String insertZeroWidthSpacesInCJK(String text) {
+        return text.replace("([\u2E80-\u303F\u31C0-\u31EF\u3200-\u9FFF\uF900-\uFAFF\uFE30-\uFE4F])", "$1\u200B");
     }
 
     /**
