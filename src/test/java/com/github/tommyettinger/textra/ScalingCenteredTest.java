@@ -20,9 +20,22 @@ public class ScalingCenteredTest extends ApplicationAdapter {
     TypingLabel label;
     Font font;
 
+    public static Font getMonogramFamilySized() {
+        Font.FontFamily family = new Font.FontFamily(
+                new String[]{"Regular", "Italic", "BigRegular", "BigItalic"},
+                new Font[]{KnownFonts.getMonogram().scale(2), KnownFonts.getMonogramItalic().scale(2),
+                        KnownFonts.getMonogram().scale(8).setName("Big Monogram"), KnownFonts.getMonogramItalic().scale(8).setName("Big Monogram Italic"), });
+        family.fontAliases.put("r", 0); // regular
+        family.fontAliases.put("i", 1); // italic
+        family.fontAliases.put("br", 2); // big regular
+        family.fontAliases.put("bi", 3); // big italic
+        return family.connected[0].setFamily(family);
+    }
+
     @Override
     public void create() {
-        font = KnownFonts.getMonogramFamily().scale(2);
+        font = getMonogramFamilySized();
+
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
@@ -36,8 +49,9 @@ public class ScalingCenteredTest extends ApplicationAdapter {
         table.setFillParent(true);
 
         // Scale with [%400] isn't considered somewhere for position.
-        label = createTypingLabel(400);
-        
+//        label = createTypingLabel(400);
+        label = createTypingLabel(100);
+
         table.pad(50f);
         table.add(label).colspan(5).growX();
         table.row();
@@ -59,7 +73,9 @@ public class ScalingCenteredTest extends ApplicationAdapter {
 
     public TypingLabel createTypingLabel(int scale) {
         final TypingLabel label = new TypingLabel(
-                "{EMERGE}[%" + scale + "][GOLD]Y U NOT{ENDEMERGE}{WAIT=0.5}[white]\n" +
+                "{EMERGE}[@r][GOLD]Y U NOT{ENDEMERGE}{WAIT=0.5}[white]\n" +
+                        "{VAR=FIRE}WORK!?!?{VAR=ENDFIRE}\n" +
+                "{EMERGE}[@br][GOLD]WAT Y U{ENDEMERGE}{WAIT=0.5}[white]\n" +
                         "{VAR=FIRE}WORK!?!?{VAR=ENDFIRE}",
                 font);
         label.setAlignment(Align.center);
