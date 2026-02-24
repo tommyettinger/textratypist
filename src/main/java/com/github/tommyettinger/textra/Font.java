@@ -5037,9 +5037,9 @@ public class Font implements Disposable {
                 if (font.kerning != null) {
                     kern = kern << 16 | ch;
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = (font.isMono ? 1f : advance) * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
+                        scaleX = advance * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
                     else
-                        scaleX = font.scaleX * (font.isMono ? 1f : advance) * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
+                        scaleX = font.scaleX * advance * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
                     if(ch != ' ')
                         line.height = Math.max(line.height, (currentHeight = font.cellHeight * advance));
                     amt = font.kerning.get(kern, 0) * scaleX;
@@ -5056,9 +5056,9 @@ public class Font implements Disposable {
                     if(ch != ' ')
                         line.height = Math.max(line.height, (currentHeight = font.cellHeight * advance));
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = (font.isMono ? 1f : advance) * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
+                        scaleX = advance * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
                     else
-                        scaleX = font.scaleX * (font.isMono ? 1f : advance) * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
+                        scaleX = font.scaleX * advance * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
                     float changedW = tr.xAdvance * scaleX;
                     if(Float.isNaN(tr.offsetX))
                         changedW = font.cellWidth * advance;
@@ -7835,9 +7835,9 @@ public class Font implements Disposable {
 
                     line.height = Math.max(line.height, font.cellHeight * sizingY);
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = (font.isMono ? 1f : advance) * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
+                        scaleX = advance * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
                     else
-                        scaleX = font.scaleX * (font.isMono ? 1f : advance);
+                        scaleX = font.scaleX * advance;
 
                     GlyphRegion tr = font.mapping.get(ch);
                     if (tr == null) continue;
@@ -7920,9 +7920,9 @@ public class Font implements Disposable {
 
                     line.height = Math.max(line.height, font.cellHeight * sizingY);
                     if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = (font.isMono ? 1f : advance) * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
+                        scaleX = advance * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
                     else
-                        scaleX = font.scaleX * (font.isMono ? 1f : advance);
+                        scaleX = font.scaleX * advance;
                     kern = kern << 16 | ch;
                     amt = font.kerning.get(kern, 0) * scaleX;
                     GlyphRegion tr = font.mapping.get(ch);

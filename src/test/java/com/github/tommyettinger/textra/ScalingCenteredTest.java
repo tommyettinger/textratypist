@@ -42,7 +42,7 @@ public class ScalingCenteredTest extends ApplicationAdapter {
         batch = new SpriteBatch();
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
         stage = new Stage(new ExtendViewport(720, 405), batch);
-        stage.setDebugAll(true);
+//        stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);
 
         final Table table = new Table();
@@ -72,15 +72,15 @@ public class ScalingCenteredTest extends ApplicationAdapter {
 
     public TypingLabel createTypingLabel(int scale) {
         final TypingLabel label = new TypingLabel(
-                "{EMERGE}[%" + scale + "][GOLD]Y U NOT{ENDEMERGE}{WAIT=0.5}[white]\n" +
-                        "{VAR=FIRE}WORK!?!?{VAR=ENDFIRE}",
+                "{EMERGE}[%" + scale + "][GOLD]YAY! IT{ENDEMERGE}{WAIT=0.5}[white]\n" +
+                        "{VAR=FIRE}WORKS?!?{VAR=ENDFIRE}",
 //                "{EMERGE}[@r][GOLD]Y U NOT{ENDEMERGE}{WAIT=0.5}[white]\n" +
 //                        "{VAR=FIRE}WORK!?!?{VAR=ENDFIRE}\n" +
 //                "{EMERGE}[@br][GOLD]WAT Y U{ENDEMERGE}{WAIT=0.5}[white]\n" +
 //                        "{VAR=FIRE}WORK!?!?{VAR=ENDFIRE}",
                 font);
         label.setAlignment(Align.center);
-        label.debug();
+//        label.debug();
         // Make the label wrap to new lines, respecting the table's layout.
         label.setWrap(true);
         label.setDefaultToken("{EASE=-0.5;0.25}[#]");
