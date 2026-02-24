@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -49,11 +50,12 @@ public class ScalingCenteredTest extends ApplicationAdapter {
         table.setFillParent(true);
 
         // Scale with [%400] isn't considered somewhere for position.
-//        label = createTypingLabel(400);
-        label = createTypingLabel(100);
+        label = createTypingLabel(400);
+        TypingLabel labelOver = createTypingLabel(100);
 
         table.pad(50f);
-        table.add(label).colspan(5).growX();
+        Stack stack = new Stack(label, labelOver);
+        table.add(stack).colspan(5).growX();
         table.row();
         table.row().uniform().expand().growX().space(40).center();
 
@@ -66,17 +68,16 @@ public class ScalingCenteredTest extends ApplicationAdapter {
 
         // Change color used by CLEARCOLOR token
         TypingConfig.DEFAULT_CLEAR_COLOR = Color.WHITE;
-
-        // Create some global variables to handle style
-        TypingConfig.GLOBAL_VARS.put("ICE_WIND", "{GRADIENT=88ccff;eef8ff;-0.5;5}{WIND=2;4;0.25;0.1}{JOLT=1;0.6;inf;0.1;;}");
     }
 
     public TypingLabel createTypingLabel(int scale) {
         final TypingLabel label = new TypingLabel(
-                "{EMERGE}[@r][GOLD]Y U NOT{ENDEMERGE}{WAIT=0.5}[white]\n" +
-                        "{VAR=FIRE}WORK!?!?{VAR=ENDFIRE}\n" +
-                "{EMERGE}[@br][GOLD]WAT Y U{ENDEMERGE}{WAIT=0.5}[white]\n" +
+                "{EMERGE}[%" + scale + "][GOLD]Y U NOT{ENDEMERGE}{WAIT=0.5}[white]\n" +
                         "{VAR=FIRE}WORK!?!?{VAR=ENDFIRE}",
+//                "{EMERGE}[@r][GOLD]Y U NOT{ENDEMERGE}{WAIT=0.5}[white]\n" +
+//                        "{VAR=FIRE}WORK!?!?{VAR=ENDFIRE}\n" +
+//                "{EMERGE}[@br][GOLD]WAT Y U{ENDEMERGE}{WAIT=0.5}[white]\n" +
+//                        "{VAR=FIRE}WORK!?!?{VAR=ENDFIRE}",
                 font);
         label.setAlignment(Align.center);
         label.debug();
