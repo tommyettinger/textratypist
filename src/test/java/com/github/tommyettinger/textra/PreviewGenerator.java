@@ -95,7 +95,7 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        FileHandle[] sdfFiles = new FileHandle[0];
 
         // WHAT WE NORMALLY USE
-
+/*
         String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String[]::new);
         Font[] all = new Font[jsonFiles.length * 4 + 4 + 9];
         int idx = 0;
@@ -112,10 +112,6 @@ public class PreviewGenerator extends ApplicationAdapter {
 
         // non-JSON standard-only fonts
 
-        /*
-        Font[] all = new Font[9];
-        int idx = 0;
-        */
         all[idx++] = KnownFonts.getCordata16x26().setName(KnownFonts.CORDATA_16X26 + "-standard");
         all[idx++] = KnownFonts.getIBM8x16().setName(KnownFonts.IBM_8X16 + "-standard");
         all[idx++] = KnownFonts.getCozette().setName(KnownFonts.COZETTE + "-standard");
@@ -125,9 +121,9 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getMonogram().setName(KnownFonts.MONOGRAM + "-standard");
         all[idx++] = KnownFonts.getMonogramItalic().setName(KnownFonts.MONOGRAM_ITALIC + "-standard");
         all[idx++] = KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard");
-        
+ */
         // DEBUG
-//        Font[] all = new Font[]{};
+        Font[] all = new Font[]{KnownFonts.getLanaPixel().setName(KnownFonts.LANAPIXEL + "-standard")};
 
         fnt = all[0];
 //        fnt = fonts[fonts.length - 1];

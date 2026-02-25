@@ -59,6 +59,8 @@ public class PreviewSimpleTest extends ApplicationAdapter {
         viewport = new StretchViewport(1200, 675);
 
         // WHAT WE NORMALLY USE
+        /*
+
         jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String[]::new);
         int limit = jsonFiles.length + 1; // + 1 is AStarryTall
         all = new Font[limit * 4 + 9]; // * 4 are the 4 DistanceFieldTypes, + 9 is for the 9 .fnt fonts.
@@ -73,13 +75,8 @@ public class PreviewSimpleTest extends ApplicationAdapter {
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.MSDF)).scaleHeightTo(32f).setTextureFilter();
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF)).scaleHeightTo(32f).setTextureFilter();
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE)).scaleHeightTo(32f).setTextureFilter();
-//        limit += idx;
-//        idx = 6;
 
         // just .fnt fonts
-//        limit = 9;
-//        all = new Font[limit];
-//        int idx = 0;
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getCordata16x26().setName(KnownFonts.CORDATA_16X26 + "-standard"));
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getIBM8x16().setName(KnownFonts.IBM_8X16 + "-standard"));
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getCozette().setName(KnownFonts.COZETTE + "-standard"));
@@ -89,8 +86,12 @@ public class PreviewSimpleTest extends ApplicationAdapter {
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getMonogram().setName(KnownFonts.MONOGRAM + "-standard"));
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getMonogramItalic().setName(KnownFonts.MONOGRAM_ITALIC + "-standard"));
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard"));
+        */
 
-        fnt = all[idx = 1];
+        // FOR DEBUGGING ONE FONT AT A TIME
+        Font[] all = new Font[]{KnownFonts.addEmoji(KnownFonts.getLanaPixel().setName(KnownFonts.LANAPIXEL + "-standard"))};
+
+        fnt = all[0];
         for (int i = 0; i < all.length; i++) {
             if(all[i].cellHeight <= 20) all[i].scale(2);
         }
