@@ -135,7 +135,7 @@ public class ArrayTextureSpriteBatch implements Batch {
 	/** The current number of textures in the LFU cache. **/
 	private int currentTextureLFUSize = 0;
 
-	/** The current number of texture swaps in the LFU cache. Gets reset when calling {@link#begin()} **/
+	/** The current number of texture swaps in the LFU cache. Gets reset when calling {@link #begin()} **/
 	private int currentTextureLFUSwaps = 0;
 
 	private final LifecycleListener contextRestoreListener;
