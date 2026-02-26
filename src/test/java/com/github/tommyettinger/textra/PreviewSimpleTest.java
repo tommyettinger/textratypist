@@ -89,7 +89,10 @@ public class PreviewSimpleTest extends ApplicationAdapter {
         */
 
         // FOR DEBUGGING ONE FONT AT A TIME
-        Font[] all = new Font[]{KnownFonts.addEmoji(KnownFonts.getLanaPixel().setName(KnownFonts.LANAPIXEL + "-standard"))};
+        Font[] all = new Font[]{
+//                KnownFonts.addEmoji(KnownFonts.getLanaPixel().setName(KnownFonts.LANAPIXEL + "-standard"))
+                KnownFonts.addEmoji(KnownFonts.getCozette().setName(KnownFonts.COZETTE + "-standard"))
+        };
 
         fnt = all[0];
         for (int i = 0; i < all.length; i++) {
