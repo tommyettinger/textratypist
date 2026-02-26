@@ -2859,7 +2859,7 @@ public final class KnownFonts implements LifecycleListener {
             found
                     .setInlineImageMetrics(0f, 5f, -8f, 0.625f).setFancyLinePosition(0f, 4f)
                     .useIntegerPositions(true).setBoldStrength(0.5f).setOutlineStrength(2f).setDescent(-5f)
-                    .setUnderlineMetrics(-0.2f, -0.1f, 0.2f, -0.4f).setStrikethroughMetrics(-0.2f, 0.05f, 0.2f, -0.4f)
+                    .setUnderlineMetrics(-0.2f, -0.1625f, 0.2f, -0.4f).setStrikethroughMetrics(-0.2f, 0.05f, 0.2f, -0.4f)
                     .setName(baseName + distanceField.namePart);
             instance.loaded.put(rootName, found);
         }
