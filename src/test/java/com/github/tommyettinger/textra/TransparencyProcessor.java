@@ -69,7 +69,7 @@ public class TransparencyProcessor extends ApplicationAdapter {
         config.setWindowedMode(600, 400);
         config.disableAudio(true);
         config.useVsync(true);
-        new Lwjgl3Application(new TransparencyProcessor(null), config);
+        new Lwjgl3Application(new TransparencyProcessor(new String[]{"src/test/resources/remake/Cozette-standard.png"}), config);
     }
 
 

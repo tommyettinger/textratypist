@@ -54,10 +54,10 @@ public class BlockStamper  extends ApplicationAdapter {
         PixmapIO.PNG png = new PixmapIO.PNG();
         png.setFlipY(false);
 //        FileHandle fontsHandle = Gdx.files.local("knownFonts");
-        FileHandle fontsHandle = Gdx.files.local("src/test/resources/");
-        FileHandle[] children = fontsHandle.list((dir, name) -> name.startsWith(PREFIX) && name.endsWith(".png"));
+        FileHandle fontsHandle = Gdx.files.local("src/test/resources/remake/");
+//        FileHandle[] children = fontsHandle.list((dir, name) -> name.startsWith(PREFIX) && name.endsWith(".png"));
 //        FileHandle[] children = fontsHandle.list("-standard.png");
-//        FileHandle[] children = {Gdx.files.local("Tangerine-sdf.png"), Gdx.files.local("Tangerine-standard.png"), };
+        FileHandle[] children = {Gdx.files.local("src/test/resources/remake/Cozette-standard.png"), };
         PER_CHILD:
         for(FileHandle fh : children) {
             System.out.println("Operating on " + fh.name());
@@ -67,6 +67,10 @@ public class BlockStamper  extends ApplicationAdapter {
             for (int x = w - 3; x < w; x++) {
                 for (int y = h - 3; y < h; y++) {
                     int color = pm.getPixel(x, y);
+                    if(color == -1) {
+                        System.out.println("Already stamped " + fh.name());
+                        break OUTER;
+                    }
                     if (!((color & 0xFF) == 0 || (color >>> 8) == 0)) {
                         for (x = w - 3; x < w; x++) {
                             for (y = 0; y < 3; y++) {
@@ -90,7 +94,7 @@ public class BlockStamper  extends ApplicationAdapter {
                 System.out.println("Had a file IO problem with " + fh.name());
                 e.printStackTrace();
             }
-            FileHandle fnt = fontsHandle.child(fh.nameWithoutExtension() + ".fnt");
+            FileHandle fnt = fh.sibling(fh.nameWithoutExtension() + ".fnt");
             if (fnt.exists()) {
                 String text = fnt.readString("UTF-8");
                 if (text.contains("char id=9608 ")) {
