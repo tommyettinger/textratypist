@@ -66,6 +66,41 @@ public class TypingConfig {
      */
     public static IntFloatMap INTERVAL_MULTIPLIERS_BY_CHAR = new IntFloatMap();
 
+    private static String DEFAULT_INITIAL_TEXT = "";
+
+    /**
+     * Gets the initial text used at the start of any TypingLabel by default. This typically is either an empty String,
+     * or one or more square-bracket or curly-bracket tokens. Common values include {@code [#]} to put an outline around
+     * all text by default, <code>{EASE}</code> to make characters pop vertically into position, or
+     * <code>{EASE}{FADE=0;1;0.33}</code> to make characters both pop vertically into position and quickly fade in from
+     * transparent to their final color.
+     * <br>
+     * You can override a TypingLabel's defaults to avoid using this with {@link TypingLabel#setDefaultToken(String)}.
+     *
+     * @return the initial text and/or tokens at the start of any TypingLabel by default
+     */
+    public static String getDefaultInitialText() {
+        return DEFAULT_INITIAL_TEXT;
+    }
+
+    /**
+     * Gets the initial text used at the start of any TypingLabel by default. This typically is either an empty String,
+     * or one or more square-bracket or curly-bracket tokens. Common values include {@code [#]} to put an outline around
+     * all text by default, <code>{EASE}</code> to make characters pop vertically into position, or
+     * <code>{EASE}{FADE=0;1;0.33}</code> to make characters both pop vertically into position and quickly fade in from
+     * transparent to their final color.
+     * <br>
+     * You can override a TypingLabel's defaults to avoid using this with {@link TypingLabel#setDefaultToken(String)}.
+     *
+     * @param defaultInitialText the initial text and/or tokens at the start of any TypingLabel by default; if null, will be treated as ""
+     */
+    public static void setDefaultInitialText(String defaultInitialText) {
+        if(defaultInitialText != null)
+            DEFAULT_INITIAL_TEXT = defaultInitialText;
+        else
+            DEFAULT_INITIAL_TEXT = "";
+    }
+
     /**
      * Map of global variables that affect all {@link TypingLabel} instances at once. Keys should always be UPPERCASE.
      * They can be looked up with any case in the String markup, but they must be entered here as upper-case. The

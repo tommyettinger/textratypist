@@ -137,7 +137,7 @@ public class TypingLabel extends TextraLabel {
     private boolean ignoringEvents = false;
     private boolean ignoringEffects = false;
     private boolean onStage = false;
-    private String defaultToken = "";
+    private String defaultToken = TypingConfig.getDefaultInitialText();
 
     ////////////////////////////
     /// --- Constructors --- ///
