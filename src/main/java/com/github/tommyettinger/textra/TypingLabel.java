@@ -137,7 +137,7 @@ public class TypingLabel extends TextraLabel {
     private boolean ignoringEvents = false;
     private boolean ignoringEffects = false;
     private boolean onStage = false;
-    private String defaultToken = TypingConfig.getDefaultInitialText();
+    private String defaultToken = "";
 
     ////////////////////////////
     /// --- Constructors --- ///
@@ -151,6 +151,7 @@ public class TypingLabel extends TextraLabel {
      */
     public TypingLabel() {
         super();
+        defaultToken = TypingConfig.getDefaultInitialText();
         workingLayout.font(super.font);
         setText("", true);
     }
@@ -212,6 +213,7 @@ public class TypingLabel extends TextraLabel {
      */
     public TypingLabel(String text, Styles.LabelStyle style) {
         super(text = Parser.handleBracketMinusMarkup(text), style);
+        defaultToken = TypingConfig.getDefaultInitialText();
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
         Color.abgr8888ToColor(clearColor, layout.getBaseColor());
@@ -228,6 +230,7 @@ public class TypingLabel extends TextraLabel {
      */
     public TypingLabel(String text, Styles.LabelStyle style, Font replacementFont) {
         super(text = Parser.handleBracketMinusMarkup(text), style, replacementFont);
+        defaultToken = TypingConfig.getDefaultInitialText();
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
         Color.abgr8888ToColor(clearColor, layout.getBaseColor());
@@ -241,6 +244,7 @@ public class TypingLabel extends TextraLabel {
      */
     public TypingLabel(String text, Font font) {
         super(text = Parser.handleBracketMinusMarkup(text), font);
+        defaultToken = TypingConfig.getDefaultInitialText();
         workingLayout.font(font);
         setText(text, true);
     }
@@ -253,6 +257,7 @@ public class TypingLabel extends TextraLabel {
      */
     public TypingLabel(String text, Font font, Color color) {
         super(text = Parser.handleBracketMinusMarkup(text), font, color);
+        defaultToken = TypingConfig.getDefaultInitialText();
         workingLayout.font(font);
         workingLayout.setBaseColor(layout.baseColor);
         Color.abgr8888ToColor(clearColor, layout.getBaseColor());
