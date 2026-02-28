@@ -210,11 +210,11 @@ public class TypingLabel extends TextraLabel {
      * @param style a style from {@link Styles} and not from scene2d.ui; often made manually
      */
     public TypingLabel(String text, Styles.LabelStyle style) {
-        super(text = Parser.handleBracketMinusMarkup(text), style);
+        super(Parser.handleBracketMinusMarkup(text), style);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
         Color.abgr8888ToColor(clearColor, layout.getBaseColor());
-        setText(text, true);
+        setText(storedText, true);
     }
 
     /**
@@ -226,11 +226,11 @@ public class TypingLabel extends TextraLabel {
      * @param replacementFont will be used instead of the Font from the style
      */
     public TypingLabel(String text, Styles.LabelStyle style, Font replacementFont) {
-        super(text = Parser.handleBracketMinusMarkup(text), style, replacementFont);
+        super(Parser.handleBracketMinusMarkup(text), style, replacementFont);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
         Color.abgr8888ToColor(clearColor, layout.getBaseColor());
-        setText(text, true);
+        setText(storedText, true);
     }
 
     /**
@@ -239,9 +239,9 @@ public class TypingLabel extends TextraLabel {
      * @param font will be used for all text
      */
     public TypingLabel(String text, Font font) {
-        super(text = Parser.handleBracketMinusMarkup(text), font);
+        super(Parser.handleBracketMinusMarkup(text), font);
         workingLayout.font(font);
-        setText(text, true);
+        setText(storedText, true);
     }
 
     /**
@@ -251,11 +251,11 @@ public class TypingLabel extends TextraLabel {
      * @param color the default foreground color for text
      */
     public TypingLabel(String text, Font font, Color color) {
-        super(text = Parser.handleBracketMinusMarkup(text), font, color);
+        super(Parser.handleBracketMinusMarkup(text), font, color);
         workingLayout.font(font);
         workingLayout.setBaseColor(layout.baseColor);
         Color.abgr8888ToColor(clearColor, layout.getBaseColor());
-        setText(text, true);
+        setText(storedText, true);
     }
 
     /////////////////////////////
