@@ -83,7 +83,7 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 				KnownFonts.addEmoji(f);
 		}
 //		stage = new Stage(new ScreenViewport(), new SpriteBatch());
-		stage = new Stage(new ScreenViewport(), new TextureArrayCpuPolygonSpriteBatch());
+		stage = new Stage(new ScreenViewport(), new TextureArrayCpuPolygonSpriteBatch(1000));
 		Gdx.input.setInputProcessor(stage);
 
 //		stage.setDebugAll(true);
