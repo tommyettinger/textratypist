@@ -63,6 +63,7 @@ public class TextraLabel extends Widget {
     public String storedText;
     public Styles.LabelStyle style;
     protected boolean prefSizeInvalid = true;
+    protected String defaultToken;
 
     /**
      * Creates a TextraLabel that uses the default libGDX font (lsans-15 in the current version) with white color.
@@ -73,6 +74,8 @@ public class TextraLabel extends Widget {
         layout = new Layout();
         font = new Font();
         style = new Styles.LabelStyle(font, null);
+        defaultToken = TypingConfig.getDefaultInitialText();
+        storedText = defaultToken;
     }
 
     /**
@@ -242,8 +245,9 @@ public class TextraLabel extends Widget {
         layout = new Layout();
         if (style.fontColor != null) layout.setBaseColor(style.fontColor);
         this.style = style;
-        storedText = text;
-        font.markup(text, layout);
+        defaultToken = TypingConfig.getDefaultInitialText();
+        storedText = defaultToken + text;
+        font.markup(storedText, layout);
         invalidateHierarchy();
         setSize(layout.getWidth(), layout.getHeight());
 
@@ -293,8 +297,9 @@ public class TextraLabel extends Widget {
         layout = new Layout();
         this.style = new Styles.LabelStyle();
         if (color != null) layout.setBaseColor(color);
-        storedText = text;
-        font.markup(text, layout);
+        defaultToken = TypingConfig.getDefaultInitialText();
+        storedText = defaultToken + text;
+        font.markup(storedText, layout);
         layout.setJustification(justify);
     }
 
@@ -702,10 +707,10 @@ public class TextraLabel extends Widget {
      * @param markupText a String that can contain Font markup
      */
     public void setText(String markupText) {
-        storedText = markupText;
+        storedText = defaultToken + markupText;
         if(wrap)
             layout.setTargetWidth(getWidth());
-        font.markup(markupText, layout.clear());
+        font.markup(storedText, layout.clear());
 
 //        setWidth(layout.getWidth() + (style != null && style.background != null ?
 //                style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
@@ -909,6 +914,28 @@ public class TextraLabel extends Widget {
      */
     public FloatArray getAdvances() {
         return layout.advances;
+    }
+
+    /**
+     * Returns the default token being used in this label. Defaults to {@link TypingConfig#getDefaultInitialText()}.
+     *
+     * @return initial text and/or tokens that will start this TextraLabel every time it resets
+     */
+    public String getDefaultToken() {
+        return defaultToken;
+    }
+
+    /**
+     * Sets the default token being used in this label. This token will be used before the label's text.
+     * Useful if you want a certain token to be active at all times without having to type it all the
+     * time. This can be set for all TextraLabels as a default using {@link TypingConfig#setDefaultInitialText(String)}.
+     * <br>
+     * If {@code defaultToken} is null, it is treated as an empty String instead.
+     *
+     * @param defaultToken initial text and/or tokens that will start this TextraLabel every time it resets
+     */
+    public void setDefaultToken(String defaultToken) {
+        this.defaultToken = defaultToken == null ? "" : defaultToken;
     }
 
 }

@@ -137,7 +137,6 @@ public class TypingLabel extends TextraLabel {
     private boolean ignoringEvents = false;
     private boolean ignoringEffects = false;
     private boolean onStage = false;
-    private String defaultToken = "";
 
     ////////////////////////////
     /// --- Constructors --- ///
@@ -151,7 +150,6 @@ public class TypingLabel extends TextraLabel {
      */
     public TypingLabel() {
         super();
-        defaultToken = TypingConfig.getDefaultInitialText();
         workingLayout.font(super.font);
         setText("", true);
     }
@@ -213,7 +211,6 @@ public class TypingLabel extends TextraLabel {
      */
     public TypingLabel(String text, Styles.LabelStyle style) {
         super(text = Parser.handleBracketMinusMarkup(text), style);
-        defaultToken = TypingConfig.getDefaultInitialText();
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
         Color.abgr8888ToColor(clearColor, layout.getBaseColor());
@@ -230,7 +227,6 @@ public class TypingLabel extends TextraLabel {
      */
     public TypingLabel(String text, Styles.LabelStyle style, Font replacementFont) {
         super(text = Parser.handleBracketMinusMarkup(text), style, replacementFont);
-        defaultToken = TypingConfig.getDefaultInitialText();
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
         Color.abgr8888ToColor(clearColor, layout.getBaseColor());
@@ -244,7 +240,6 @@ public class TypingLabel extends TextraLabel {
      */
     public TypingLabel(String text, Font font) {
         super(text = Parser.handleBracketMinusMarkup(text), font);
-        defaultToken = TypingConfig.getDefaultInitialText();
         workingLayout.font(font);
         setText(text, true);
     }
@@ -257,7 +252,6 @@ public class TypingLabel extends TextraLabel {
      */
     public TypingLabel(String text, Font font, Color color) {
         super(text = Parser.handleBracketMinusMarkup(text), font, color);
-        defaultToken = TypingConfig.getDefaultInitialText();
         workingLayout.font(font);
         workingLayout.setBaseColor(layout.baseColor);
         Color.abgr8888ToColor(clearColor, layout.getBaseColor());
@@ -270,7 +264,11 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Modifies the text of this label. If the char progression is already running, it's highly recommended to use
-     * {@link #restart(CharSequence)} instead.
+     * {@link #restart(CharSequence)} instead. If you do want to replace the current text after the typing effect has
+     * concluded, note that this will restart the typing effect, so you might want to follow this with a call to
+     * {@link #skipToTheEnd()}. This is preferred over the overloads {@link #setText(String, boolean)} and
+     * {@link #setText(String, boolean, boolean)}.
+     *
      * @param newText what to use as the new text (and original text) of this label
      */
     @Override
@@ -310,8 +308,15 @@ public class TypingLabel extends TextraLabel {
      * {@link #restart(CharSequence)} instead. This overload allows specifying if the original text, which is used when
      * parsing the tokens (with {@link #parseTokens()}), should be changed to match the given text. This will not ever
      * call {@link Parser#preprocess(String)}, which makes it different from {@link #setText(String, boolean)}.
+     * Though this doesn't perform the more elaborate changes of preprocess(), it does process {@code newText} to change
+     * {@code [-TOKEN]} markup to <code>{TOKEN}</code> markup.
+     * This does not include the {@link #getDefaultToken()} by default in the changed text.
      * You can also specify whether the text animation should restart or not here.
+     * <br>
+     * In most cases, this method should only be used internally by TypingLabel. There are very few use cases for it
+     * outside this class.
      *
+     * @param newText the new text to use, which will be processed to change {@code [-TOKEN]} markup to <code>{TOKEN}</code>, but otherwise unchanged
      * @param modifyOriginalText Flag determining if the original text should be modified as well. If {@code false},
      *                           only the display text is changed while the original text is untouched.
      * @param restart            Whether this label should restart. Defaults to true.
@@ -424,7 +429,9 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * Returns the default token being used in this label. Defaults to empty string.
+     * Returns the default token being used in this label. Defaults to {@link TypingConfig#getDefaultInitialText()}.
+     *
+     * @return initial text and/or tokens that will start this TypingLabel every time it resets
      */
     public String getDefaultToken() {
         return defaultToken;
@@ -433,11 +440,19 @@ public class TypingLabel extends TextraLabel {
     /**
      * Sets the default token being used in this label. This token will be used before the label's text, and after each
      * {RESET} call. Useful if you want a certain token to be active at all times without having to type it all the
-     * time.
+     * time. This can be set for all TypingLabels as a default using {@link TypingConfig#setDefaultInitialText(String)}.
+     * If the default token changes as a result of this call, this also sets an internal flag that will trigger
+     * {@link #parseTokens()} to be called automatically when this {@link #act(float) acts}.
+     * <br>
+     * If {@code defaultToken} is null, it is treated as an empty String instead.
+     *
+     * @param defaultToken initial text and/or tokens that will start this TypingLabel every time it resets
      */
     public void setDefaultToken(String defaultToken) {
-        this.defaultToken = defaultToken == null ? "" : defaultToken;
-        this.parsed = false;
+        defaultToken = defaultToken == null ? "" : defaultToken;
+        if (!this.defaultToken.equals(defaultToken))
+            this.parsed = false;
+        this.defaultToken = defaultToken;
     }
 
     /**
