@@ -52,6 +52,8 @@ public class GameIconTypingLabelTest extends ApplicationAdapter {
         // Change color used by CLEARCOLOR token
         TypingConfig.DEFAULT_CLEAR_COLOR = Color.WHITE;
 
+        TypingConfig.setDefaultInitialText("[#]{EASE}");
+
         // Create some global variables to handle style
         TypingConfig.GLOBAL_VARS.put("ICE_WIND", "{GRADIENT=88ccff;eef8ff;-0.5;5}{WIND=2;4;0.25;0.1}{JOLT=1;0.6;inf;0.1;;}");
     }
@@ -90,7 +92,7 @@ public class GameIconTypingLabelTest extends ApplicationAdapter {
 //                + "But...{SICK}[_][+⛎][_]. Nitty{ENDSICK} {CROWD}doesn't. [+🤮] [@Icons][#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}\n"
 //                + "\n{RAINBOW}[+pineapple][+raccoon-head][+pterodactylus][+raised-fist][+wolf-howl][+western-hat][@][%]\n"
 
-                "[%?blacken]I love TextraTypist! [@Icons][+keyboard] [gold][+saxophone]{HEARTBEAT}[deep pink][+heart-wings] OMG! [+heart-wings]{ENDHEARTBEAT}[rich apricot][+party-popper][white][@]\n"
+                "I love TextraTypist! [@Icons][+keyboard] [gold][+saxophone]{HEARTBEAT}[deep richer pink][+heart-wings] OMG! [+heart-wings]{ENDHEARTBEAT}[rich apricot][+party-popper][white][@]\n"
                 + "But...{SICK}[_][+⛎][_]. Nitty{ENDSICK} {CROWD}doesn't. [+🤮] [@Icons][#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}\n"
                 + "\n{RAINBOW}[+pineapple][+raccoon-head][+pterodactylus][+raised-fist][+wolf-howl][+western-hat][@][%]\n"
 
