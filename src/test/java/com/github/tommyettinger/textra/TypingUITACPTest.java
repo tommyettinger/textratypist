@@ -65,6 +65,7 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.disable();
+		TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
 		KnownFonts.initialize(DefaultShaders.DEFAULT_ARRAY_VERTEX_SHADER, DefaultShaders.DEFAULT_ARRAY_FRAGMENT_SHADER,
 				DefaultShaders.SDF_ARRAY_VERTEX_SHADER, DefaultShaders.SDF_ARRAY_FRAGMENT_SHADER,
 				DefaultShaders.SDF_OUTLINE_ARRAY_VERTEX_SHADER, DefaultShaders.SDF_OUTLINE_ARRAY_FRAGMENT_SHADER,
@@ -76,11 +77,11 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.STANDARD).family;
+		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.SDF).family;
 		family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.STANDARD)
+				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.SDF)
 						.scaleTo(30, 35);
-		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.STANDARD);
+		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF);
 		font = family.connected[0];
 		font.family = family;
 		for(Font f : font.family.connected) {
@@ -88,7 +89,7 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 				KnownFonts.addEmoji(f);
 		}
 //		stage = new Stage(new ScreenViewport(), new SpriteBatch());
-		stage = new Stage(new ScreenViewport(), new TextureArrayCpuPolygonSpriteBatch(1000));
+		stage = new Stage(new ScreenViewport(), batch);
 		Gdx.input.setInputProcessor(stage);
 
 //		stage.setDebugAll(true);
@@ -276,7 +277,7 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 	@Override
 	public void resize (int width, int height) {
 		stage.getViewport().update(width, height, true);
-//		font.family.resizeDistanceFields(width, height, stage.getViewport());
+		font.family.resizeDistanceFields(width, height, stage.getViewport());
 	}
 
 	@Override
