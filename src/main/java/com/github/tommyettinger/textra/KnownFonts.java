@@ -43,17 +43,24 @@ import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
  * disposal stage of the lifecycle is called, then all Font instances here will be disposed and assigned null. This may
  * do more regarding its LifecycleListener code in the future, if Android turns out to need more work.
  * <br>
+ * Note: Depending on TextraTypist as a library won't include <em>any</em> of the preconfigured font files used by this
+ * class. Check the Javadocs for each font you want to use; they include links to all files needed to use any given font
+ * in this class. This also applies for emoji and icon sets. You can browse previews of the available predefined fonts
+ * <a href="https://tommyettinger.github.io/textratypist/">here in TextraTypist's docs</a>, and can download individual files from
+ * <a href="https://github.com/tommyettinger/textratypist/tree/main/knownFonts">this folder in the TextraTypist repository</a>.
+ * <br>
  * Typical usage involves calling one of the static methods like {@link #getCozette()} or {@link #getGentiumSDF()} to
  * get a particular Font. You can also have some added flexibility by instead calling
- * {@link #getFont(String, DistanceFieldType)} and passing it one of the constants in this class, such as
+ * {@link #getFont(String, DistanceFieldType)}. This involves passing it one of the constants in this class, such as
  * {@link #GENTIUM} or {@link #INCONSOLATA_LGC}, with a {@link DistanceFieldType} of your choice (such as
  * {@link DistanceFieldType#STANDARD}, which is also used if you don't pass a DistanceFieldType, or
  * {@link DistanceFieldType#SDF_OUTLINE}, which is primarily accessible by this technique). This knows a fair amount of
- * fonts, but it doesn't require the image assets for all of those to be present in a game -- only the files mentioned
+ * fonts, but it doesn't require the image assets for all of those to be present in a game. Only the files mentioned
  * in the documentation for a method are needed, and only if you call that method. It's likely that many games would
- * only use one Font, and so would generally only need a .fnt file, a .png file, and some kind of license file. They
- * could ignore all other assets required by other fonts. The files this class needs are looked for in the assets root
- * folder by default, but you can change the names or locations of asset files with {@link #setAssetPrefix(String)}.
+ * only use one Font, and so would generally only need a .fnt or .json.lzma file (either of which tells a Font where
+ * glyphs are), a .png file, and some kind of license file. Those games could ignore all other assets required by other
+ * fonts. The files this class needs are looked for in the assets root folder by default, but you can change the names
+ * or locations of asset files with {@link #setAssetPrefix(String)}.
  * <br>
  * There's some documentation for every known Font, including a link to a preview image and a listing of all required
  * files to use a Font. The required files include any license you need to abide by; this doesn't necessarily belong in
@@ -71,13 +78,21 @@ import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
  * emoji are also available; {@link #addNotoEmoji(Font)} uses Noto Color Emoji instead of Twemoji, which may look better
  * with some art styles (especially more detailed ones), while {@link #addOpenMoji(Font, boolean)} adds either color or
  * monochrome (white lines only) emoji from the OpenMoji set, which has a more minimalist style. You can also add
- * the icons from <a href="https://game-icons.net">game-icons.net</a> using {@link #addGameIcons(Font)}. There is a
+ * the icons from <a href="https://game-icons.net">game-icons.net</a> using {@link #addGameIcons(Font)}, and the icons
+ * from the <a href="https://fonts.google.com/icons?icon.set=Material+Icons">Android Material Design set</a> using
+ * {@link #addMaterialDesignIcons(Font)}. There is a
  * <a href="https://tommyettinger.github.io/twemoji-atlas/">preview site for Twemoji, with names</a>, another
  * <a href="https://tommyettinger.github.io/noto-emoji-atlas/">preview site for Noto Emoji, with names</a>, another
  * <a href="https://tommyettinger.github.io/openmoji-atlas/">preview site for OpenMoji, with names</a>, and another
- * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">preview site for the game icons</a>. Note that the
- * names are different for Noto Emoji and the other emoji, but you can use the {@code [+👩🏽‍🚀]} syntax with a literal emoji
- * char for any of them.
+ * <a href="https://tommyettinger.github.io/game-icons-net-atlas/">preview site for the game icons</a>. Material Design
+ * icons can use Android's preview on fonts.google.com, linked earlier. Note that the names are different for Noto Emoji
+ * and the other emoji, but you can use the {@code [+👩🏽‍🚀]} syntax with a literal emoji char for any of them.
+ * <br>
+ * You can make your own fonts using <a href="https://angelcode.com/products/bmfont/">AngelCode BMFont</a>
+ * (recommended for making .fnt bitmap fonts), <a href="https://libgdx.com/wiki/tools/hiero">Hiero</a> (recommended only
+ * if you need to apply effects to a .fnt bitmap font), or
+ * <a href="https://github.com/tommyettinger/fontwriter">FontWriter</a> (required to generate SDF or MSDF fonts). If you
+ * have your own font made, you don't need any of this class, though you may still want it for emoji or icons.
  */
 @SuppressWarnings("CallToPrintStackTrace")
 public final class KnownFonts implements LifecycleListener {
