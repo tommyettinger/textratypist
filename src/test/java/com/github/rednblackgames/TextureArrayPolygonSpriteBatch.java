@@ -41,7 +41,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
     static final int VERTEX_SIZE = 2 + 1 + 2 + 1; //Position + Color + Texture Coordinates + Texture Index
     static final int SPRITE_SIZE = 4 * VERTEX_SIZE; //A Sprite has 4 Vertices
 
-    private Mesh mesh;
+    private final Mesh mesh;
 
     final float[] vertices;
     final short[] triangles;
@@ -63,9 +63,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
     private ShaderProgram customShader;
     private boolean ownsShader;
 
-    private final Color color = new Color(1, 1, 1, 1);
-    float colorPacked = Color.WHITE_FLOAT_BITS;
-    private final Color tint = new Color(1, 1, 1, 1);
+    protected float colorPacked = Color.WHITE_FLOAT_BITS;
 
     /** Number of render calls since the last {@link #begin()}. **/
     public int renderCalls = 0;
@@ -85,13 +83,13 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
     /** LFU Array (index: Texture Unit Index - value: Access frequency) */
     private final int[] usedTexturesLFU;
 
-    /** Gets sent to the fragment shader as an uniform "uniform sampler2d[X] u_textures" */
+    /** Gets sent to the fragment shader as a uniform {@code uniform sampler2d[X] u_textures} */
     private final IntBuffer textureUnitIndicesBuffer;
 
-    /** The current number of textures in the LFU cache. Gets reset when calling {@link#begin()} **/
+    /** The current number of textures in the LFU cache. Gets reset when calling {@link #begin()} **/
     private int currentTextureLFUSize = 0;
 
-    /** The current number of texture swaps in the LFU cache. Gets reset when calling {@link#begin()} **/
+    /** The current number of texture swaps in the LFU cache. Gets reset when calling {@link #begin()} **/
     private int currentTextureLFUSwaps = 0;
 
     private static String shaderErrorLog = null;
@@ -122,7 +120,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
      * x-axis point to the right and the origin being in the bottom left corner of the screen. The projection will be pixel perfect
      * with respect to the current screen resolution.
      * <p>
-     * The defaultShader specifies the shader to use. Note that the names for uniforms for this default shader are different than
+     * The defaultShader specifies the shader to use. Note that the names for uniforms for this default shader are different from
      * the ones expect for shaders set with {@link #setShader(ShaderProgram)}. See {@link SpriteBatch#createDefaultShader()}.
      * @param maxVertices The max number of vertices in a single batch. Max of 32767.
      * @param maxTriangles The max number of triangles in a single batch.
@@ -142,7 +140,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
         usedTextures = new Texture[maxTextureUnits];
         usedTexturesLFU = new int[maxTextureUnits];
 
-        // This contains the numbers 0 ... maxTextureUnits - 1. We send these to the shader as an uniform.
+        // This contains the numbers 0 ... maxTextureUnits - 1. We send these to the shader as a uniform.
         textureUnitIndicesBuffer = BufferUtils.newIntBuffer(maxTextureUnits);
         for (int i = 0; i < maxTextureUnits; i++) {
             textureUnitIndicesBuffer.put(i);
@@ -327,14 +325,14 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
             triangles[triangleIndex++] = (short)(polygonTriangles[i] + startVertex);
         this.triangleIndex = triangleIndex;
 
-        int vdin = vertexIndex;
-        for (int offsetin = verticesOffset; offsetin < verticesCount + verticesOffset; offsetin += 5, vdin += VERTEX_SIZE) {
-            vertices[vdin] = polygonVertices[offsetin]; // x
-            vertices[vdin + 1] = polygonVertices[offsetin + 1]; // y
-            vertices[vdin + 2] = polygonVertices[offsetin + 2]; // color
-            vertices[vdin + 3] = polygonVertices[offsetin + 3]; // u
-            vertices[vdin + 4] = polygonVertices[offsetin + 4]; // v
-            vertices[vdin + 5] = textureIndex; // texture
+        int vIn = vertexIndex;
+        for (int offsetIn = verticesOffset; offsetIn < verticesCount + verticesOffset; offsetIn += 5, vIn += VERTEX_SIZE) {
+            vertices[vIn] = polygonVertices[offsetIn]; // x
+            vertices[vIn + 1] = polygonVertices[offsetIn + 1]; // y
+            vertices[vIn + 2] = polygonVertices[offsetIn + 2]; // color
+            vertices[vIn + 3] = polygonVertices[offsetIn + 3]; // u
+            vertices[vIn + 4] = polygonVertices[offsetIn + 4]; // v
+            vertices[vIn + 5] = textureIndex; // texture
         }
 
         this.vertexIndex += vCount;
@@ -379,7 +377,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
             fy2 *= scaleY;
         }
 
-        // construct corner points, start from top left and go counter clockwise
+        // construct corner points, start from top left and go counterclockwise
         final float p1x = fx;
         final float p1y = fy;
         final float p2x = fx;
@@ -772,14 +770,14 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
         }
         this.triangleIndex = triangleIndex;
 
-        int vdin = vertexIndex;
-        for (int offsetin = offset; offsetin < count + offset; offsetin += 5, vdin += VERTEX_SIZE) {
-            vertices[vdin] = spriteVertices[offsetin]; // x
-            vertices[vdin + 1] = spriteVertices[offsetin + 1]; // y
-            vertices[vdin + 2] = spriteVertices[offsetin + 2]; // color
-            vertices[vdin + 3] = spriteVertices[offsetin + 3]; // u
-            vertices[vdin + 4] = spriteVertices[offsetin + 4]; // v
-            vertices[vdin + 5] = textureIndex; // texture index
+        int vIn = vertexIndex;
+        for (int offsetIn = offset; offsetIn < count + offset; offsetIn += 5, vIn += VERTEX_SIZE) {
+            vertices[vIn] = spriteVertices[offsetIn]; // x
+            vertices[vIn + 1] = spriteVertices[offsetIn + 1]; // y
+            vertices[vIn + 2] = spriteVertices[offsetIn + 2]; // color
+            vertices[vIn + 3] = spriteVertices[offsetIn + 3]; // u
+            vertices[vIn + 4] = spriteVertices[offsetIn + 4]; // v
+            vertices[vIn + 5] = textureIndex; // texture index
         }
         this.vertexIndex = (int) (vertexIndex + verticesCount);
     }
@@ -891,7 +889,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
             fy2 *= scaleY;
         }
 
-        // construct corner points, start from top left and go counter clockwise
+        // construct corner points, start from top left and go counterclockwise
         final float p1x = fx;
         final float p1y = fy;
         final float p2x = fx;
@@ -1025,7 +1023,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
             fy2 *= scaleY;
         }
 
-        // construct corner points, start from top left and go counter clockwise
+        // construct corner points, start from top left and go counterclockwise
         final float p1x = fx;
         final float p1y = fy;
         final float p2x = fx;
@@ -1240,44 +1238,16 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
     }
 
     @Override
-    public void setColor (Color tint) {
-        color.set(tint).mul(this.tint);
-        colorPacked = tint.toFloatBits();
-    }
-
-    @Override
-    public void setColor (float r, float g, float b, float a) {
-        color.set(r, g, b, a).mul(tint);
-        colorPacked = color.toFloatBits();
-    }
-
-    @Override
-    public void setPackedColor (float packedColor) {
-        Color.abgr8888ToColor(color, packedColor);
-        color.mul(tint);
-        colorPacked = color.toFloatBits();
-    }
-
-    public void setTintColor (Color tint) {
-        this.tint.set(tint);
-    }
-
-    @Override
-    public Color getColor () {
-        return color;
-    }
-
-    @Override
     public float getPackedColor () {
         return colorPacked;
     }
 
-    /** @return The number of texture swaps the LFU cache performed since calling {@link#begin()}. */
+    /** @return The number of texture swaps the LFU cache performed since calling {@link #begin()}. */
     public int getTextureLFUSwaps () {
         return currentTextureLFUSwaps;
     }
 
-    /** @return The current number of textures in the LFU cache. Gets reset when calling {@link#begin()}. */
+    /** @return The current number of textures in the LFU cache. Gets reset when calling {@link #begin()}. */
     public int getTextureLFUSize () {
         return currentTextureLFUSize;
     }
@@ -1523,7 +1493,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
         return drawing;
     }
 
-    /** Queries the number of supported textures in a texture array by trying the create the default shader.<br>
+    /** Queries the number of supported textures in a texture array by trying to create the default shader.<br>
      * The first call of this method is very expensive, after that it simply returns a cached value.
      * @return the number of supported textures in a texture array or zero if this feature is unsupported on this device.*/
     public static int getMaxTextureUnits () {
@@ -1567,6 +1537,6 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
     }
 
     protected void switchTexture (Texture texture) {
-        throw new GdxRuntimeException("Not implemented. Use TextureArrayPolygonSpriteBatch.activateTexture intead.");
+        throw new GdxRuntimeException("Not implemented. Use TextureArrayPolygonSpriteBatch.activateTexture instead.");
     }
 }

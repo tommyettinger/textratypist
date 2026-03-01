@@ -431,7 +431,7 @@ public class TextureArrayCpuPolygonSpriteBatch extends TextureArrayPolygonSprite
                 fy2 *= scaleY;
             }
 
-            // construct corner points, start from top left and go counter clockwise
+            // construct corner points, start from top left and go counterclockwise
             final float p1x = fx;
             final float p1y = fy;
             final float p2x = fx;
@@ -847,17 +847,17 @@ public class TextureArrayCpuPolygonSpriteBatch extends TextureArrayPolygonSprite
             this.triangleIndex = triangleIndex;
 
             Affine2 t = adjustAffine;
-            int vdin = vertexIndex;
-            for (int offsetin = verticesOffset; offsetin < verticesCount + verticesOffset; offsetin += 5, vdin += VERTEX_SIZE) {
-                float x = polygonVertices[offsetin];
-                float y = polygonVertices[offsetin + 1];
+            int vIn = vertexIndex;
+            for (int offsetIn = verticesOffset; offsetIn < verticesCount + verticesOffset; offsetIn += 5, vIn += VERTEX_SIZE) {
+                float x = polygonVertices[offsetIn];
+                float y = polygonVertices[offsetIn + 1];
 
-                vertices[vdin] = t.m00 * x + t.m01 * y + t.m02; // x
-                vertices[vdin + 1] = t.m10 * x + t.m11 * y + t.m12; // y
-                vertices[vdin + 2] = polygonVertices[offsetin + 2]; // color
-                vertices[vdin + 3] = polygonVertices[offsetin + 3]; // u
-                vertices[vdin + 4] = polygonVertices[offsetin + 4]; // v
-                vertices[vdin + 5] = textureIndex; // texture
+                vertices[vIn] = t.m00 * x + t.m01 * y + t.m02; // x
+                vertices[vIn + 1] = t.m10 * x + t.m11 * y + t.m12; // y
+                vertices[vIn + 2] = polygonVertices[offsetIn + 2]; // color
+                vertices[vIn + 3] = polygonVertices[offsetIn + 3]; // u
+                vertices[vIn + 4] = polygonVertices[offsetIn + 4]; // v
+                vertices[vIn + 5] = textureIndex; // texture
             }
             this.vertexIndex += vCount;
         }
@@ -896,15 +896,15 @@ public class TextureArrayCpuPolygonSpriteBatch extends TextureArrayPolygonSprite
 
             Affine2 t = adjustAffine;
             int idx = vertexIndex;
-            for (int offsetin = offset; offsetin < count + offset; offsetin += 5) {
-                float x = spriteVertices[offsetin];
-                float y = spriteVertices[offsetin + 1];
+            for (int offsetIn = offset; offsetIn < count + offset; offsetIn += 5) {
+                float x = spriteVertices[offsetIn];
+                float y = spriteVertices[offsetIn + 1];
 
                 vertices[idx++] = t.m00 * x + t.m01 * y + t.m02; // x
                 vertices[idx++] = t.m10 * x + t.m11 * y + t.m12; // y
-                vertices[idx++] = spriteVertices[offsetin + 2]; // color
-                vertices[idx++] = spriteVertices[offsetin + 3]; // u
-                vertices[idx++] = spriteVertices[offsetin + 4]; // v
+                vertices[idx++] = spriteVertices[offsetIn + 2]; // color
+                vertices[idx++] = spriteVertices[offsetIn + 3]; // u
+                vertices[idx++] = spriteVertices[offsetIn + 4]; // v
                 vertices[idx++] = textureIndex; // texture index
             }
             this.vertexIndex = idx;
@@ -1098,7 +1098,7 @@ public class TextureArrayCpuPolygonSpriteBatch extends TextureArrayPolygonSprite
                 fy2 *= scaleY;
             }
 
-            // construct corner points, start from top left and go counter clockwise
+            // construct corner points, start from top left and go counterclockwise
             final float p1x = fx;
             final float p1y = fy;
             final float p2x = fx;
@@ -1238,7 +1238,7 @@ public class TextureArrayCpuPolygonSpriteBatch extends TextureArrayPolygonSprite
                 fy2 *= scaleY;
             }
 
-            // construct corner points, start from top left and go counter clockwise
+            // construct corner points, start from top left and go counterclockwise
             final float p1x = fx;
             final float p1y = fy;
             final float p2x = fx;
