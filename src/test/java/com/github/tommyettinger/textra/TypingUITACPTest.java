@@ -37,6 +37,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.github.rednblackgames.DefaultShaders;
 import com.github.rednblackgames.TextureArrayCpuPolygonSpriteBatch;
 
 /**
@@ -64,6 +65,10 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 	public void create () {
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.disable();
+		KnownFonts.initialize(DefaultShaders.DEFAULT_ARRAY_VERTEX_SHADER, DefaultShaders.DEFAULT_ARRAY_FRAGMENT_SHADER,
+				DefaultShaders.SDF_ARRAY_VERTEX_SHADER, DefaultShaders.SDF_ARRAY_FRAGMENT_SHADER,
+				DefaultShaders.SDF_OUTLINE_ARRAY_VERTEX_SHADER, DefaultShaders.SDF_OUTLINE_ARRAY_FRAGMENT_SHADER,
+				DefaultShaders.MSDF_ARRAY_VERTEX_SHADER, DefaultShaders.MSDF_ARRAY_FRAGMENT_SHADER);
 		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));

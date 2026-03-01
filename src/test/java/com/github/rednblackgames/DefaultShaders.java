@@ -22,7 +22,8 @@ public class DefaultShaders {
             + "    v_texture_index = " + TextureArrayPolygonSpriteBatch.TEXTURE_INDEX_ATTRIBUTE + ";\n" //
             + "    gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
             + "}\n";
-    public static String DEFAULT_ARRAY_FRAGMENT_SHADER = "#ifdef GL_ES\n" //
+    public static String DEFAULT_ARRAY_FRAGMENT_SHADER = ShaderCompiler.processArrayTextureShader
+             ("#ifdef GL_ES\n" //
             + "#define LOWP lowp\n" //
             + "precision mediump float;\n" //
             + "#else\n" //
@@ -37,9 +38,10 @@ public class DefaultShaders {
             + "\n" //
             + "void main() {\n"//
             + "    gl_FragColor = v_color * getTextureFromArray(v_texCoords);\n" //
-            + "}\n";
+            + "}\n");
 
-    public static String SDF_ARRAY_FRAGMENT_SHADER = "#ifdef GL_ES\n" //
+    public static String SDF_ARRAY_FRAGMENT_SHADER = ShaderCompiler.processArrayTextureShader
+            ("#ifdef GL_ES\n" //
             + "precision mediump float;\n" //
             + "precision mediump int;\n" //
             + "#endif\n" //
@@ -61,10 +63,11 @@ public class DefaultShaders {
             + "    } else {\n" //
             + "        gl_FragColor = v_color * getTextureFromArray(v_texCoords);\n" //
             + "    }\n" //
-            + "}\n";
+            + "}\n");
     public static String SDF_ARRAY_VERTEX_SHADER = DEFAULT_ARRAY_VERTEX_SHADER;
 
-    public static String SDF_DERIVATIVE_ARRAY_FRAGMENT_SHADER = "#ifdef GL_ES\n" //
+    public static String SDF_DERIVATIVE_ARRAY_FRAGMENT_SHADER = ShaderCompiler.processArrayTextureShader
+            ("#ifdef GL_ES\n" //
             + "#extension GL_OES_standard_derivatives : enable\n" //
             + "precision mediump float;\n" //
             + "precision mediump int;\n" //
@@ -87,10 +90,11 @@ public class DefaultShaders {
             + "    } else {\n" //
             + "        gl_FragColor = v_color * getTextureFromArray(v_texCoords);\n" //
             + "    }\n" //
-            + "}\n";
+            + "}\n");
     public static String SDF_DERIVATIVE_ARRAY_VERTEX_SHADER = DEFAULT_ARRAY_VERTEX_SHADER;
 
-    public static String SDF_OUTLINE_ARRAY_FRAGMENT_SHADER = "#ifdef GL_ES\n" //
+    public static String SDF_OUTLINE_ARRAY_FRAGMENT_SHADER = ShaderCompiler.processArrayTextureShader
+            ("#ifdef GL_ES\n" //
             + "precision mediump float;\n" //
             + "precision mediump int;\n" //
             + "#endif\n" //
@@ -116,10 +120,11 @@ public class DefaultShaders {
             + "    } else {\n" //
             + "        gl_FragColor = v_color * getTextureFromArray(v_texCoords);\n" //
             + "    }\n" //
-            + "}\n";
+            + "}\n");
     public static String SDF_OUTLINE_ARRAY_VERTEX_SHADER = DEFAULT_ARRAY_VERTEX_SHADER;
 
-    public static String SDF_OUTLINE_DERIVATIVE_ARRAY_FRAGMENT_SHADER = "#ifdef GL_ES\n" //
+    public static String SDF_OUTLINE_DERIVATIVE_ARRAY_FRAGMENT_SHADER = ShaderCompiler.processArrayTextureShader
+            ("#ifdef GL_ES\n" //
             + "#extension GL_OES_standard_derivatives : enable\n" //
             + "precision mediump float;\n" //
             + "precision mediump int;\n" //
@@ -144,10 +149,11 @@ public class DefaultShaders {
             + "    } else {\n" //
             + "        gl_FragColor = v_color * getTextureFromArray(v_texCoords);\n" //
             + "    }\n" //
-            + "}\n";
+            + "}\n");
     public static String SDF_OUTLINE_DERIVATIVE_ARRAY_VERTEX_SHADER = DEFAULT_ARRAY_VERTEX_SHADER;
 
-    public static String MSDF_ARRAY_FRAGMENT_SHADER = "#ifdef GL_ES\n" //
+    public static String MSDF_ARRAY_FRAGMENT_SHADER = ShaderCompiler.processArrayTextureShader
+            ("#ifdef GL_ES\n" //
             + "precision mediump float;\n" //
             + "precision mediump int;\n" //
             + "#endif\n" //
@@ -173,6 +179,6 @@ public class DefaultShaders {
             + "    } else {\n" //
             + "        gl_FragColor = v_color * getTextureFromArray(v_texCoords);\n" //
             + "    }\n" //
-            + "}\n";
+            + "}\n");
     public static String MSDF_ARRAY_VERTEX_SHADER = DEFAULT_ARRAY_VERTEX_SHADER;
 }

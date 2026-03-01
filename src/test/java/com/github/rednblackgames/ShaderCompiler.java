@@ -22,15 +22,20 @@ public class ShaderCompiler {
     }
 
     public static ShaderProgram compileUnrolledArrayTextureShader(String vertex, String fragment) {
-        String funcConditional = "vec4 getTextureFromArray(vec2 uv) {\n";
+        return new ShaderProgram(vertex, processArrayTextureShader(fragment));
+    }
+
+    public static String processArrayTextureShader(String fragment) {
+        if(!fragment.contains(GET_TEXTURE_FROM_ARRAY_PLACEHOLDER))
+            return fragment;
+        StringBuilder funcConditional = new StringBuilder("vec4 getTextureFromArray(vec2 uv) {\n");
         for (int i = 0; i < MAX_TEXTURE_UNIT; i++) {
-            if (i != 0) funcConditional += " else ";
-            funcConditional += "if (v_texture_index < " + i + ".5) return texture2D(u_textures[" + i + "], uv);\n";
+            if (i != 0) funcConditional.append(" else ");
+            funcConditional.append("if (v_texture_index < ").append(i).append(".5) return texture2D(u_textures[").append(i).append("], uv);\n");
         }
-        funcConditional += "}\n";
+        funcConditional.append("}\n");
 
         fragment = "#define MAX_TEXTURE_UNITS " + MAX_TEXTURE_UNIT + "\n" + fragment;
-        fragment = fragment.replace(GET_TEXTURE_FROM_ARRAY_PLACEHOLDER, funcConditional);
-        return new ShaderProgram(vertex, fragment);
+        return fragment.replace(GET_TEXTURE_FROM_ARRAY_PLACEHOLDER, funcConditional.toString());
     }
 }
