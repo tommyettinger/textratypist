@@ -3490,26 +3490,14 @@ public class Font implements Disposable {
             return this;
         this.distanceField = distanceField == null ? DistanceFieldType.STANDARD : distanceField;
         if (this.distanceField == DistanceFieldType.MSDF) {
-            shader = new ShaderProgram(vertexShader, msdfFragmentShader);
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + shader.getLog());
+            shader = KnownFonts.getMsdfShader();
         } else if (this.distanceField == DistanceFieldType.SDF) {
-            shader = new ShaderProgram(vertexShader,
-                    Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.isGL30Available() || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
-                            ? sdfFragmentShaderUsingDerivatives
-                            : sdfFragmentShader
-            );
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF shader failed to compile: " + shader.getLog());
+            shader = KnownFonts.getSdfShader();
         } else if (this.distanceField == DistanceFieldType.SDF_OUTLINE) {
-            shader = new ShaderProgram(vertexShader,
-                    Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.isGL30Available() || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
-                    ? sdfBlackOutlineFragmentShaderUsingDerivatives
-                    : sdfBlackOutlineFragmentShader
-            );
-            if (!shader.isCompiled())
-                Gdx.app.error("textratypist", "SDF_OUTLINE shader failed to compile: " + shader.getLog());
-        } else shader = null;
+            shader = KnownFonts.getSdfOutlineShader();
+        } else {
+            shader = KnownFonts.getStandardShader(); // typically null, unless customized
+        }
         return this;
     }
 

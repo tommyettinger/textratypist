@@ -16,6 +16,7 @@
 
 package com.github.tommyettinger.textra;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.LifecycleListener;
 import com.badlogic.gdx.files.FileHandle;
@@ -23,6 +24,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Null;
@@ -104,12 +106,111 @@ public final class KnownFonts implements LifecycleListener {
         Gdx.app.addLifecycleListener(this);
     }
 
-    private static void initialize() {
-        if (instance == null)
+    /**
+     * This is called automatically by every method that uses the internal singleton instance of KnownFonts, to make
+     * sure that instance exists exactly once. If initialize() has been called at all during this run of an application,
+     * then the singleton will exist and have been initialized. This is public so user code can opt to initialize
+     * KnownFonts during a loading stage early on, instead of when Font instances are loaded.
+     */
+    public static void initialize() {
+        if (instance == null) {
             instance = new KnownFonts();
+            instance.standardShader = null;
+            instance.sdfShader = new ShaderProgram(Font.vertexShader,
+                    Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
+                            ? Font.sdfFragmentShaderUsingDerivatives
+                            : Font.sdfFragmentShader);
+            if (!instance.sdfShader.isCompiled())
+                Gdx.app.error("textratypist", "SDF shader failed to compile: " + instance.sdfShader.getLog());
+            instance.sdfOutlineShader = new ShaderProgram(Font.vertexShader,
+                    Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.isGL30Available() || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
+                            ? Font.sdfBlackOutlineFragmentShaderUsingDerivatives
+                            : Font.sdfBlackOutlineFragmentShader);
+            if (!instance.sdfOutlineShader.isCompiled())
+                Gdx.app.error("textratypist", "SDF Outline shader failed to compile: " + instance.sdfOutlineShader.getLog());
+            instance.msdfShader = new ShaderProgram(Font.vertexShader, Font.msdfFragmentShader);
+            if (!instance.msdfShader.isCompiled())
+                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + instance.msdfShader.getLog());
+        }
+    }
+
+    /**
+     * Allows initializing KnownFonts with different distance field shader code, or removing the option to use some
+     * distance field types. This can be useful if you use GL ES 3.0 compatibility, which isn't the default and needs
+     * some changes to shaders. It can also be useful if you're using a "Texture Array Batch", or any sort of Batch
+     * that needs alternative shaders with different attributes. This must be called before <em>any other methods</em>
+     * in KnownFonts, including before {@link #setAssetPrefix(String)} (if it is called at all).
+     */
+    public static void initialize(String standardVertex, String standardFragment,
+                                  String sdfVertex, String sdfFragment,
+                                  String sdfOutlineVertex, String sdfOutlineFragment,
+                                  String msdfVertex, String msdfFragment) {
+        if (instance == null) {
+            instance = new KnownFonts();
+            instance.standardShader = (standardVertex != null && standardFragment != null) ? new ShaderProgram(standardVertex, standardFragment) : null;
+            if (instance.standardShader != null && !instance.standardShader.isCompiled())
+                Gdx.app.error("textratypist", "Standard shader failed to compile: " + instance.standardShader.getLog());
+            instance.sdfShader = (sdfVertex != null && sdfFragment != null) ? new ShaderProgram(sdfVertex, sdfFragment) : null;
+            if (instance.sdfShader != null && !instance.sdfShader.isCompiled())
+                Gdx.app.error("textratypist", "SDF shader failed to compile: " + instance.sdfShader.getLog());
+            instance.sdfOutlineShader = (sdfOutlineVertex != null && sdfOutlineFragment != null) ? new ShaderProgram(sdfOutlineVertex, sdfOutlineFragment) : null;
+            if (instance.sdfOutlineShader != null && !instance.sdfOutlineShader.isCompiled())
+                Gdx.app.error("textratypist", "SDF Outline shader failed to compile: " + instance.sdfOutlineShader.getLog());
+            instance.msdfShader = (msdfVertex != null && msdfFragment != null) ? new ShaderProgram(msdfVertex, msdfFragment) : null;
+            if (instance.msdfShader != null && !instance.msdfShader.isCompiled())
+                Gdx.app.error("textratypist", "MSDF shader failed to compile: " + instance.msdfShader.getLog());
+        }
     }
 
     private String prefix = "";
+
+    private ShaderProgram standardShader = null;
+    private ShaderProgram sdfShader = null;
+    private ShaderProgram sdfOutlineShader = null;
+    private ShaderProgram msdfShader = null;
+
+    /**
+     * Gets the single ShaderProgram used to draw {@link DistanceFieldType#STANDARD} Fonts.
+     * This defaults to null, which makes SpriteBatch use its default shader.
+     * @return a potentially-null ShaderProgram used to draw standard Fonts.
+     */
+    public static ShaderProgram getStandardShader() {
+        initialize();
+        return instance.standardShader;
+    }
+
+    /**
+     * Gets the single ShaderProgram used to draw {@link DistanceFieldType#SDF} Fonts.
+     * This must have a uniform {@code u_smoothing}, which is used to control the sharpness of font edges, and to enable
+     * or disable the effect for images. If this returns null, SDF Fonts will not be usable.
+     * @return a potentially-null ShaderProgram used to draw SDF Fonts.
+     */
+    public static ShaderProgram getSdfShader() {
+        initialize();
+        return instance.sdfShader;
+    }
+
+    /**
+     * Gets the single ShaderProgram used to draw {@link DistanceFieldType#SDF_OUTLINE} Fonts.
+     * This must have a uniform {@code u_smoothing}, which is used to control the sharpness of font edges, and to enable
+     * or disable the effect for images. If this returns null, SDF_OUTLINE Fonts will not be usable.
+     * @return a potentially-null ShaderProgram used to draw SDF_OUTLINE Fonts.
+     */
+    public static ShaderProgram getSdfOutlineShader() {
+        initialize();
+        return instance.sdfOutlineShader;
+    }
+
+    /**
+     * Gets the single ShaderProgram used to draw {@link DistanceFieldType#MSDF} Fonts.
+     * This must have a uniform {@code u_smoothing}, which is used to control the sharpness of font edges, and to enable
+     * or disable the effect for images. If this returns null, MSDF Fonts will not be usable.
+     * @return a potentially-null ShaderProgram used to draw MSDF Fonts.
+     */
+    public static ShaderProgram getMsdfShader() {
+        initialize();
+        return instance.msdfShader;
+    }
 
     /**
      * Changes the String prepended to each filename this looks up. This should end in "/" if the files have the same
@@ -1430,7 +1531,6 @@ public final class KnownFonts implements LifecycleListener {
                     .setInlineImageMetrics(-8f, 2f, -8f, 0.75f)
                     .setOutlineStrength(2f)
                     .setName(baseName + STANDARD.namePart);
-            ;
             instance.loaded.put(rootName, found);
         }
         return new Font(found);
@@ -2376,7 +2476,6 @@ public final class KnownFonts implements LifecycleListener {
                     .setLineMetrics(-0.25f, 0.25f, 0f, 0f)
                     .setInlineImageMetrics(-4f, 6f, -8f, 0.75f).fitCell(8, 16, false).setDescent(-6f)
                     .setName(baseName + distanceField.namePart);
-            ;
             instance.loaded.put(rootName, found);
         }
         return new Font(found);
@@ -3901,7 +4000,7 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a Font configured to use a small variable-width bitmap font with extensive coverage of Asian scripts,
      * <a href="https://diaowinner.itch.io/galmuri-extended">QuanPixel</a>. QuanPixel has good coverage of Unicode,
-     * including all of Greek, at least most of Cyrillic, a good amount of extended Latin, all of Katakana and Hiragana,
+     * including all of Greek, at least most of Cyrillic, a good amount of extended Latin, all Katakana and Hiragana,
      * many Hangul syllables, and literally thousands of CJK ideograms. This does not scale well except to integer
      * multiples, but it should look very crisp at its default size of about 8 pixels tall with variable width. This
      * defaults to having {@link Font#integerPosition} set to false, which is the usual default.
@@ -6138,6 +6237,23 @@ public final class KnownFonts implements LifecycleListener {
         if(gameIconsFont != null) {
             gameIconsFont.dispose();
             gameIconsFont = null;
+        }
+
+        if(standardShader != null){
+            standardShader.dispose();
+            standardShader = null;
+        }
+        if(sdfShader != null){
+            sdfShader.dispose();
+            sdfShader = null;
+        }
+        if(sdfOutlineShader != null){
+            sdfOutlineShader.dispose();
+            sdfOutlineShader = null;
+        }
+        if(msdfShader != null){
+            msdfShader.dispose();
+            msdfShader = null;
         }
     }
 }
