@@ -6116,6 +6116,10 @@ public final class KnownFonts implements LifecycleListener {
             notoEmoji.dispose();
             notoEmoji = null;
         }
+        if(materialDesign != null) {
+            materialDesign.dispose();
+            materialDesign = null;
+        }
         if(gameIconsFont != null) {
             gameIconsFont.dispose();
             gameIconsFont = null;
