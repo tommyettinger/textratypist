@@ -1661,15 +1661,16 @@ public class Font implements Disposable {
      * <a href="https://jvm-gaming.org/t/solved-signed-distance-field-fonts-look-crappy-at-small-pt-sizes/49617/8">this JVM-Gaming forum post</a>,
      * now supporting RGB colors other than white (but with
      * limited support for partial transparency). This is automatically used when {@link #enableShader(Batch)} is
-     * called, the {@link #distanceField} is {@link DistanceFieldType#SDF}. This enables the extension
-     * {@code GL_OES_standard_derivatives}, which seems to be available almost everywhere. This shader can be used with
-     * inline images, but won't behave 100% correctly if they use partial transparency, such as to anti-alias edges.
+     * called, and the {@link #distanceField} is {@link DistanceFieldType#SDF}. This requires and enables the extension
+     * {@code GL_OES_standard_derivatives}, which seems to be available almost everywhere except web browsers. This
+     * shader can be used with inline images, but won't behave 100% correctly if they use partial transparency, such as
+     * to anti-alias edges.
      */
     public static final String sdfFragmentShaderUsingDerivatives =
             "#ifdef GL_ES\n"
                     + "#extension GL_OES_standard_derivatives : enable\n"
-                    + "	precision mediump float;\n"
-                    + "	precision mediump int;\n"
+                    + "precision mediump float;\n"
+                    + "precision mediump int;\n"
                     + "#endif\n"
                     + "\n"
                     + "uniform sampler2D u_texture;\n"
@@ -1783,7 +1784,7 @@ public class Font implements Disposable {
                     "    float glyphAlpha = clamp(distance + 0.5, 0.0, 1.0);\n" +
                     "    gl_FragColor = vec4(v_color.rgb, glyphAlpha * v_color.a);\n" +
                     "  } else {\n" +
-                    "    gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n" +
+                    "    gl_FragColor = v_color * TEXTURE(u_texture, v_texCoords);\n" +
                     "  }\n" +
                     "}";
 //            "#ifdef GL_ES\n"
