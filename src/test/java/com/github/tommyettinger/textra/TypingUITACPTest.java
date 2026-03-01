@@ -58,6 +58,7 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 	Texture texture1;
 	Texture texture2;
 	TypingLabel fpsLabel;
+	TypingWindow window;
 	Font font;
 	GLProfiler profiler;
 
@@ -174,7 +175,7 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		TypingWindow window = new TypingWindow("TypingWindow", skin, "default", font, true);
+		window = new TypingWindow("TypingWindow", skin, "default", font, true);
 //		window.font.adjustLineHeight(0.75f);
 //		float ratio = window.getPadTop() / font.cellHeight;
 //		Font baby = new Font(font).scaleTo(font.cellWidth * ratio, window.getPadTop());//.scale(ratio, ratio);
@@ -278,6 +279,7 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 	public void resize (int width, int height) {
 		stage.getViewport().update(width, height, true);
 		font.family.resizeDistanceFields(width, height, stage.getViewport());
+		window.titleLabel.font.resizeDistanceField(width, height, stage.getViewport());
 	}
 
 	@Override
