@@ -1,5 +1,7 @@
 package com.github.rednblackgames;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 /**
@@ -105,6 +107,17 @@ public final class DefaultShaders {
         return defaultArrayVertexShader();
     }
 
+    /**
+     * Returns either {@link #sdfArrayFragmentShader()} or {@link #sdfDerivativeArrayFragmentShader()}, depending on
+     * whether derivatives are supported. This shader has the uniform {@code u_smoothing} and expects to be used with
+     * {@link #defaultArrayVertexShader()} as its vertex shader (but any vertex shaders here are the same).
+     * @return a fragment shader String for an SDF shader
+     */
+    public static String sdfAdaptiveArrayFragmentShader() {
+        return Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
+                ? sdfDerivativeArrayFragmentShader() : sdfArrayFragmentShader();
+    }
+
     public static String sdfOutlineArrayFragmentShader() {
         return ShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
                 + "precision mediump float;\n" //
@@ -170,6 +183,17 @@ public final class DefaultShaders {
     }
     public static String sdfOutlineDerivativeArrayVertexShader() {
         return defaultArrayVertexShader();
+    }
+
+    /**
+     * Returns either {@link #sdfOutlineArrayFragmentShader()} or {@link #sdfOutlineDerivativeArrayFragmentShader()},
+     * depending on whether derivatives are supported. This shader has the uniform {@code u_smoothing} and expects to be
+     * used with {@link #defaultArrayVertexShader()} as its vertex shader (but any vertex shaders here are the same).
+     * @return a fragment shader String for an SDF shader
+     */
+    public static String sdfOutlineAdaptiveArrayFragmentShader() {
+        return Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
+                ? sdfOutlineDerivativeArrayFragmentShader() : sdfOutlineArrayFragmentShader();
     }
 
     public static String msdfArrayFragmentShader() {

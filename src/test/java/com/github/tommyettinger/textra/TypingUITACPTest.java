@@ -67,8 +67,8 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 		profiler.disable();
 		TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
 		KnownFonts.initialize(DefaultShaders.defaultArrayVertexShader(), DefaultShaders.defaultArrayFragmentShader(),
-				DefaultShaders.sdfArrayVertexShader(), DefaultShaders.sdfArrayFragmentShader(),
-				DefaultShaders.sdfOutlineArrayVertexShader(), DefaultShaders.sdfOutlineArrayFragmentShader(),
+				DefaultShaders.sdfArrayVertexShader(), DefaultShaders.sdfAdaptiveArrayFragmentShader(),
+				DefaultShaders.sdfOutlineArrayVertexShader(), DefaultShaders.sdfOutlineAdaptiveArrayFragmentShader(),
 				DefaultShaders.msdfArrayVertexShader(), DefaultShaders.msdfArrayFragmentShader());
 		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
