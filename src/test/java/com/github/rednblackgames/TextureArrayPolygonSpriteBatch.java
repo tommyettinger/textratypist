@@ -2,24 +2,32 @@ package com.github.rednblackgames;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.PolygonRegion;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.BufferUtils;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.github.tommyettinger.textra.Font;
+import com.github.tommyettinger.textra.KnownFonts;
 
 import java.nio.IntBuffer;
 import java.util.Arrays;
 
-/** Draws batched quads using indices.
+/**
+ * TextureArrayPolygonSpriteBatch behaves like a SpriteBatch with the polygon drawing features of a
+ * {@link PolygonSpriteBatch} and optimizations for Batches that switch between Textures frequently. This can be useful
+ * when you need either PolygonSpriteBatch methods for drawing PolygonSprites or drawing from multiple Textures. If you
+ * use transform matrices, such as from scene2d Groups with transform enabled, you should prefer the subclass
+ * {@link TextureArrayCpuPolygonSpriteBatch} instead.
  * <p>
- * This is an optimized version of the SpriteBatch that maintains an LFU texture-cache to combine draw calls with different
- * textures effectively.
+ * If you're using this Batch to draw {@link Font}s with a non-STANDARD {@link Font.DistanceFieldType}, you should read
+ * the documentation for {@link DefaultShaders} and use its {@link DefaultShaders#initializeTextureArrayShaders()}
+ * method after creating this Batch, but before using any {@link KnownFonts} methods.
+ * <p>
+ * This is an optimized version of the PolygonSpriteBatch that maintains an LFU texture-cache to combine draw calls with
+ * different textures effectively.
  * <p>
  * Use this Batch if you frequently utilize more than a single texture between calling {@link #begin()} and
  * {@link #end()}. An example would be if your Atlas is spread over multiple Textures or if you draw with individual
@@ -1511,7 +1519,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
             // so we take caution and test it first, reducing the number of slots if needed.
             // Will try to find the maximum amount of texture units supported.
             while (maxTextureUnitsLocal > 0) {
-                ShaderCompiler.MAX_TEXTURE_UNIT = maxTextureUnitsLocal;
+                TextureArrayShaderCompiler.MAX_TEXTURE_UNIT = maxTextureUnitsLocal;
                 try {
                     ShaderProgram tempProg = createDefaultShader();
                     tempProg.dispose();
@@ -1522,7 +1530,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
                 }
             }
 
-            ShaderCompiler.MAX_TEXTURE_UNIT = maxTextureUnitsLocal;
+            TextureArrayShaderCompiler.MAX_TEXTURE_UNIT = maxTextureUnitsLocal;
             maxTextureUnits = maxTextureUnitsLocal;
         }
 
@@ -1530,7 +1538,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
     }
 
     public static ShaderProgram createDefaultShader() {
-        ShaderProgram shader = ShaderCompiler.compileShader(DefaultShaders.defaultArrayVertexShader(), DefaultShaders.defaultArrayFragmentShader());
+        ShaderProgram shader = TextureArrayShaderCompiler.compileShader(DefaultShaders.defaultArrayVertexShader(), DefaultShaders.defaultArrayFragmentShader());
 
         if (!shader.isCompiled()) {
             throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());

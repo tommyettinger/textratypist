@@ -56,7 +56,7 @@ public final class DefaultShaders {
      * @return a fragment shader String that works with TextureArray batches
      */
     public static String defaultArrayFragmentShader() {
-        return ShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
+        return TextureArrayShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
                 + "#define LOWP lowp\n" //
                 + "precision mediump float;\n" //
                 + "#else\n" //
@@ -67,7 +67,7 @@ public final class DefaultShaders {
                 + "varying float v_texture_index;\n" //
                 + "uniform sampler2D u_textures[MAX_TEXTURE_UNITS];\n" //
                 + "\n" //
-                + ShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
+                + TextureArrayShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
                 + "\n" //
                 + "void main() {\n"//
                 + "    gl_FragColor = v_color * getTextureFromArray(v_texCoords);\n" //
@@ -83,7 +83,7 @@ public final class DefaultShaders {
      * @return a fragment shader String that works with TextureArray batches
      */
     public static String sdfArrayFragmentShader() {
-        return ShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
+        return TextureArrayShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
                 + "precision mediump float;\n" //
                 + "precision mediump int;\n" //
                 + "#endif\n" //
@@ -94,7 +94,7 @@ public final class DefaultShaders {
                 + "varying vec2 v_texCoords;\n" //
                 + "varying float v_texture_index;\n" //
                 + "\n" //
-                + ShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
+                + TextureArrayShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
                 + "\n" //
                 + "void main() {\n" //
                 + "	   if (u_smoothing > 0.0) {\n" //
@@ -128,7 +128,7 @@ public final class DefaultShaders {
      * @return a fragment shader String that works with TextureArray batches
      */
     public static String sdfDerivativeArrayFragmentShader() {
-        return ShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
+        return TextureArrayShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
                 + "#extension GL_OES_standard_derivatives : enable\n" //
                 + "precision mediump float;\n" //
                 + "precision mediump int;\n" //
@@ -140,7 +140,7 @@ public final class DefaultShaders {
                 + "varying vec2 v_texCoords;\n" //
                 + "varying float v_texture_index;\n" //
                 + "\n" //
-                + ShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
+                + TextureArrayShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
                 + "\n" //
                 + "void main() {\n" //
                 + "	   if (u_smoothing > 0.0) {\n" //
@@ -183,7 +183,7 @@ public final class DefaultShaders {
      * @return a fragment shader String that works with TextureArray batches
      */
     public static String sdfOutlineArrayFragmentShader() {
-        return ShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
+        return TextureArrayShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
                 + "precision mediump float;\n" //
                 + "precision mediump int;\n" //
                 + "#endif\n" //
@@ -194,7 +194,7 @@ public final class DefaultShaders {
                 + "varying vec2 v_texCoords;\n" //
                 + "varying float v_texture_index;\n" //
                 + "\n" //
-                + ShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
+                + TextureArrayShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
                 + "\n" //
                 + "const float closeness = 0.0625;\n" // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline
                 + "\n" //
@@ -232,7 +232,7 @@ public final class DefaultShaders {
      * @return a fragment shader String that works with TextureArray batches
      */
     public static String sdfOutlineDerivativeArrayFragmentShader() {
-        return ShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
+        return TextureArrayShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
                 + "#extension GL_OES_standard_derivatives : enable\n" //
                 + "precision mediump float;\n" //
                 + "precision mediump int;\n" //
@@ -244,7 +244,7 @@ public final class DefaultShaders {
                 + "varying vec2 v_texCoords;\n" //
                 + "varying float v_texture_index;\n" //
                 + "\n" //
-                + ShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
+                + TextureArrayShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
                 + "\n" //
                 + "const float closeness = 0.0625;\n" // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline
                 + "\n" //
@@ -290,7 +290,7 @@ public final class DefaultShaders {
      * @return a fragment shader String that works with TextureArray batches
      */
     public static String msdfArrayFragmentShader() {
-        return ShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
+        return TextureArrayShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
                 + "precision mediump float;\n" //
                 + "precision mediump int;\n" //
                 + "#endif\n" //
@@ -301,7 +301,7 @@ public final class DefaultShaders {
                 + "varying vec2 v_texCoords;\n" //
                 + "varying float v_texture_index;\n" //
                 + "\n" //
-                + ShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
+                + TextureArrayShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
                 + "\n" //
                 + "float median(float r, float g, float b) {\n" //
                 + "    return max(min(r, g), min(max(r, g), b));\n" //

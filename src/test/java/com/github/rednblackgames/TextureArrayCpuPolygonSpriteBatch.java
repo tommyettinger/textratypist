@@ -1,28 +1,34 @@
 package com.github.rednblackgames;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.PolygonRegion;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.github.tommyettinger.textra.Font;
+import com.github.tommyettinger.textra.KnownFonts;
 
-/** CpuSpriteBatch behaves like SpriteBatch, except it doesn't flush automatically whenever the transformation matrix changes.
- * Instead, the vertices get adjusted on subsequent draws to match the running batch. This can improve performance through longer
- * batches, for example when drawing Groups with transform enabled.
+/**
+ * TextureArrayCpuPolygonSpriteBatch behaves like a SpriteBatch with the polygon drawing features of a
+ * {@link PolygonSpriteBatch}, the transformation matrix optimizations of a {@link CpuSpriteBatch}, and optimizations
+ * for Batches that switch between Textures frequently. This can be useful when you need any of: PolygonSpriteBatch
+ * methods for drawing PolygonSprites, scene2d Groups with transform enabled, and/or drawing from multiple Textures.
  * <p>
- * This is an optimized version of the SpriteBatch that maintains an LFU texture-cache to combine draw calls with different
- * textures effectively.
+ * If you're using this Batch to draw {@link Font}s with a non-STANDARD {@link Font.DistanceFieldType}, you should read
+ * the documentation for {@link DefaultShaders} and use its {@link DefaultShaders#initializeTextureArrayShaders()}
+ * method after creating this Batch, but before using any {@link KnownFonts} methods.
+ * <p>
+ * This is an optimized version of the PolygonSpriteBatch that maintains an LFU texture-cache to combine draw calls with
+ * different textures effectively. It also uses CpuSpriteBatch's optimizations that avoid flushing when the transform
+ * matrix changes.
  * <p>
  * Use this Batch if you frequently utilize more than a single texture between calling {@link #begin()} and {@link #end()}. An
  * example would be if your Atlas is spread over multiple Textures or if you draw with individual Textures. This can be
  * a good "default" Batch implementation if you expect to use multiple Textures often, or use scene2d Groups often. In
  * TextraTypist, typically each Font has its own large Texture, and if you use emoji or icons, those typically use a
- * different large Texture. Switching between them has a small performance cost, which is essentially eliminated by this
+ * different large Texture. Switching between them has a performance cost, which is essentially eliminated by this
  * Batch. There is more logic in this Batch, and each vertex needs slightly more data, which counterbalances the
  * performance gains from more efficient Texture swaps. If you only use one Texture and don't use Groups where transform
  * is enabled, this Batch is expected to perform somewhat worse than a SpriteBatch. Using many Textures or using Group
