@@ -1527,7 +1527,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
     }
 
     public static ShaderProgram createDefaultShader() {
-        ShaderProgram shader = ShaderCompiler.compileShader(DefaultShaders.DEFAULT_ARRAY_VERTEX_SHADER, DefaultShaders.DEFAULT_ARRAY_FRAGMENT_SHADER);
+        ShaderProgram shader = ShaderCompiler.compileShader(DefaultShaders.defaultArrayVertexShader(), DefaultShaders.defaultArrayFragmentShader());
 
         if (!shader.isCompiled()) {
             throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());

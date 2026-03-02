@@ -23,7 +23,6 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureArraySpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.MathUtils;
@@ -67,10 +66,10 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.disable();
 		TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
-		KnownFonts.initialize(DefaultShaders.DEFAULT_ARRAY_VERTEX_SHADER, DefaultShaders.DEFAULT_ARRAY_FRAGMENT_SHADER,
-				DefaultShaders.SDF_ARRAY_VERTEX_SHADER, DefaultShaders.SDF_ARRAY_FRAGMENT_SHADER,
-				DefaultShaders.SDF_OUTLINE_ARRAY_VERTEX_SHADER, DefaultShaders.SDF_OUTLINE_ARRAY_FRAGMENT_SHADER,
-				DefaultShaders.MSDF_ARRAY_VERTEX_SHADER, DefaultShaders.MSDF_ARRAY_FRAGMENT_SHADER);
+		KnownFonts.initialize(DefaultShaders.defaultArrayVertexShader(), DefaultShaders.defaultArrayFragmentShader(),
+				DefaultShaders.sdfArrayVertexShader(), DefaultShaders.sdfArrayFragmentShader(),
+				DefaultShaders.sdfOutlineArrayVertexShader(), DefaultShaders.sdfOutlineArrayFragmentShader(),
+				DefaultShaders.msdfArrayVertexShader(), DefaultShaders.msdfArrayFragmentShader());
 		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
