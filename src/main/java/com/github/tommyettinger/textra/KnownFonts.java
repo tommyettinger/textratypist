@@ -123,7 +123,7 @@ public final class KnownFonts implements LifecycleListener {
             if (!instance.sdfShader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + instance.sdfShader.getLog());
             instance.sdfOutlineShader = new ShaderProgram(Font.vertexShader,
-                    Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.isGL30Available() || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
+                    Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
                             ? Font.sdfBlackOutlineFragmentShaderUsingDerivatives
                             : Font.sdfBlackOutlineFragmentShader);
             if (!instance.sdfOutlineShader.isCompiled())

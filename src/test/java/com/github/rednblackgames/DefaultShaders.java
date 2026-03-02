@@ -153,6 +153,8 @@ public final class DefaultShaders {
                 + "\n" //
                 + ShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
                 + "\n" //
+                + "const float closeness = 0.0625;\n" // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline
+                + "\n" //
                 + "void main() {\n" //
                 + "	   if (u_smoothing > 0.0) {\n" //
                 + "        vec4 image = getTextureFromArray(v_texCoords);\n" //
