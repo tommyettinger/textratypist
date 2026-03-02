@@ -3,14 +3,28 @@ package com.github.rednblackgames;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.github.tommyettinger.textra.Font.DistanceFieldType;
+import com.github.tommyettinger.textra.KnownFonts;
 
 /**
- * Taken from <a href="https://github.com/rednblackgames/hyperlap2d-runtime-libgdx/tree/master/src/main/java/games/rednblack/editor/renderer/utils">Hyperlap2D's GitHub repo</a>.
+ * Utility methods that return vertex or fragment shader source code to be used in
+ * {@link TextureArrayPolygonSpriteBatch} or {@link TextureArrayCpuPolygonSpriteBatch}. These methods all require one of
+ * those mentioned Batches to have been created before any shader source can be obtained, since creating either Texture
+ * Array Batch calculates the number of texture units the GPU can handle.
+ * <br>
+ * Mostly taken from <a href="https://github.com/rednblackgames/hyperlap2d-runtime-libgdx/tree/master/src/main/java/games/rednblack/editor/renderer/utils">Hyperlap2D's GitHub repo</a>.
  */
 public final class DefaultShaders {
     private DefaultShaders() {
 
     }
+
+    /**
+     * The vertex shader used for any rendering with a {@link TextureArrayPolygonSpriteBatch} or
+     * {@link TextureArrayCpuPolygonSpriteBatch}, regardless of distance field. The other vertex shaders here are simply
+     * aliases for this method.
+     * @return a vertex shader String that works with TextureArray batches
+     */
     public static String defaultArrayVertexShader() {
         return    "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
                 + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" //
@@ -29,6 +43,12 @@ public final class DefaultShaders {
                 + "    gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
                 + "}\n";
     }
+    /**
+     * The fragment shader used for any rendering with a {@link TextureArrayPolygonSpriteBatch} or
+     * {@link TextureArrayCpuPolygonSpriteBatch} when no distance field effect is in use (or for a STANDARD font).
+     *
+     * @return a fragment shader String that works with TextureArray batches
+     */
     public static String defaultArrayFragmentShader() {
         return ShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
                 + "#define LOWP lowp\n" //
@@ -48,6 +68,14 @@ public final class DefaultShaders {
                 + "}\n");
     }
 
+    /**
+     * The fragment shader used for any rendering with a {@link TextureArrayPolygonSpriteBatch} or
+     * {@link TextureArrayCpuPolygonSpriteBatch} when {@link DistanceFieldType#SDF} is used.
+     * This shader has the uniform {@code u_smoothing} and expects to be used with
+     * {@link #defaultArrayVertexShader()} as its vertex shader (but any vertex shaders here are the same).
+     *
+     * @return a fragment shader String that works with TextureArray batches
+     */
     public static String sdfArrayFragmentShader() {
         return ShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
                 + "precision mediump float;\n" //
@@ -73,10 +101,26 @@ public final class DefaultShaders {
                 + "    }\n" //
                 + "}\n");
     }
+    /**
+     * An alias for {@link #defaultArrayVertexShader()}; using that method is preferred.
+     *
+     * @return a vertex shader String that works with TextureArray batches
+     */
     public static String sdfArrayVertexShader() {
         return defaultArrayVertexShader();
     }
 
+    /**
+     * The fragment shader used for any rendering with a {@link TextureArrayPolygonSpriteBatch} or
+     * {@link TextureArrayCpuPolygonSpriteBatch} when {@link DistanceFieldType#SDF} is used.
+     * This particular shader uses the dFdx() and dFdy() methods from GLSL, which are only defined in desktop OpenGL or
+     * in mobile/browser OpenGL ES when the extension "GL_OES_standard_derivatives" is available and enabled.
+     * This tends to look a little fuzzy compared to {@link #sdfArrayFragmentShader()}, and isn't quite as fast.
+     * This shader has the uniform {@code u_smoothing} and expects to be used with
+     * {@link #defaultArrayVertexShader()} as its vertex shader (but any vertex shaders here are the same).
+     *
+     * @return a fragment shader String that works with TextureArray batches
+     */
     public static String sdfDerivativeArrayFragmentShader() {
         return ShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
                 + "#extension GL_OES_standard_derivatives : enable\n" //
@@ -103,6 +147,11 @@ public final class DefaultShaders {
                 + "    }\n" //
                 + "}\n");
     }
+    /**
+     * An alias for {@link #defaultArrayVertexShader()}; using that method is preferred.
+     *
+     * @return a vertex shader String that works with TextureArray batches
+     */
     public static String sdfDerivativeArrayVertexShader() {
         return defaultArrayVertexShader();
     }
@@ -111,6 +160,7 @@ public final class DefaultShaders {
      * Returns either {@link #sdfArrayFragmentShader()} or {@link #sdfDerivativeArrayFragmentShader()}, depending on
      * whether derivatives are supported. This shader has the uniform {@code u_smoothing} and expects to be used with
      * {@link #defaultArrayVertexShader()} as its vertex shader (but any vertex shaders here are the same).
+     *
      * @return a fragment shader String for an SDF shader
      */
     public static String sdfAdaptiveArrayFragmentShader() {
@@ -118,6 +168,14 @@ public final class DefaultShaders {
                 ? sdfDerivativeArrayFragmentShader() : sdfArrayFragmentShader();
     }
 
+    /**
+     * The fragment shader used for any rendering with a {@link TextureArrayPolygonSpriteBatch} or
+     * {@link TextureArrayCpuPolygonSpriteBatch} when {@link DistanceFieldType#SDF_OUTLINE} is used.
+     * This shader has the uniform {@code u_smoothing} and expects to be used with
+     * {@link #defaultArrayVertexShader()} as its vertex shader (but any vertex shaders here are the same).
+     *
+     * @return a fragment shader String that works with TextureArray batches
+     */
     public static String sdfOutlineArrayFragmentShader() {
         return ShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
                 + "precision mediump float;\n" //
@@ -147,10 +205,26 @@ public final class DefaultShaders {
                 + "    }\n" //
                 + "}\n");
     }
+    /**
+     * An alias for {@link #defaultArrayVertexShader()}; using that method is preferred.
+     *
+     * @return a vertex shader String that works with TextureArray batches
+     */
     public static String sdfOutlineArrayVertexShader() {
         return defaultArrayVertexShader();
     }
 
+    /**
+     * The fragment shader used for any rendering with a {@link TextureArrayPolygonSpriteBatch} or
+     * {@link TextureArrayCpuPolygonSpriteBatch} when {@link DistanceFieldType#SDF_OUTLINE} is used.
+     * This particular shader uses the dFdx() and dFdy() methods from GLSL, which are only defined in desktop OpenGL or
+     * in mobile/browser OpenGL ES when the extension "GL_OES_standard_derivatives" is available and enabled.
+     * This tends to look a little fuzzy compared to {@link #sdfOutlineArrayFragmentShader()}, and isn't quite as fast.
+     * This shader has the uniform {@code u_smoothing} and expects to be used with
+     * {@link #defaultArrayVertexShader()} as its vertex shader (but any vertex shaders here are the same).
+     *
+     * @return a fragment shader String that works with TextureArray batches
+     */
     public static String sdfOutlineDerivativeArrayFragmentShader() {
         return ShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
                 + "#extension GL_OES_standard_derivatives : enable\n" //
@@ -181,6 +255,11 @@ public final class DefaultShaders {
                 + "    }\n" //
                 + "}\n");
     }
+    /**
+     * An alias for {@link #defaultArrayVertexShader()}; using that method is preferred.
+     *
+     * @return a vertex shader String that works with TextureArray batches
+     */
     public static String sdfOutlineDerivativeArrayVertexShader() {
         return defaultArrayVertexShader();
     }
@@ -196,6 +275,14 @@ public final class DefaultShaders {
                 ? sdfOutlineDerivativeArrayFragmentShader() : sdfOutlineArrayFragmentShader();
     }
 
+    /**
+     * The fragment shader used for any rendering with a {@link TextureArrayPolygonSpriteBatch} or
+     * {@link TextureArrayCpuPolygonSpriteBatch} when {@link DistanceFieldType#MSDF} is used.
+     * This shader has the uniform {@code u_smoothing} and expects to be used with
+     * {@link #defaultArrayVertexShader()} as its vertex shader (but any vertex shaders here are the same).
+     *
+     * @return a fragment shader String that works with TextureArray batches
+     */
     public static String msdfArrayFragmentShader() {
         return ShaderCompiler.processArrayTextureShader("#ifdef GL_ES\n" //
                 + "precision mediump float;\n" //
@@ -225,6 +312,11 @@ public final class DefaultShaders {
                 + "    }\n" //
                 + "}\n");
     }
+    /**
+     * An alias for {@link #defaultArrayVertexShader()}; using that method is preferred.
+     *
+     * @return a vertex shader String that works with TextureArray batches
+     */
     public static String msdfArrayVertexShader() {
         return defaultArrayVertexShader();
     }
