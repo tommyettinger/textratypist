@@ -19,7 +19,16 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
  * textures effectively.
  * <p>
  * Use this Batch if you frequently utilize more than a single texture between calling {@link #begin()} and {@link #end()}. An
- * example would be if your Atlas is spread over multiple Textures or if you draw with individual Textures.
+ * example would be if your Atlas is spread over multiple Textures or if you draw with individual Textures. This can be
+ * a good "default" Batch implementation if you expect to use multiple Textures often, or use scene2d Groups often. In
+ * TextraTypist, typically each Font has its own large Texture, and if you use emoji or icons, those typically use a
+ * different large Texture. Switching between them has a small performance cost, which is essentially eliminated by this
+ * Batch. There is more logic in this Batch, and each vertex needs slightly more data, which counterbalances the
+ * performance gains from more efficient Texture swaps. If you only use one Texture and don't use Groups where transform
+ * is enabled, this Batch is expected to perform somewhat worse than a SpriteBatch. Using many Textures or using Group
+ * transformation makes this perform relatively better than SpriteBatch in those cases. This is also a
+ * PolygonSpriteBatch (and it extends {@link com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch}), which makes it suitable
+ * for Spine animations.
  * <p>
  * Taken from <a href="https://github.com/rednblackgames/hyperlap2d-runtime-libgdx/tree/master/src/main/java/games/rednblack/editor/renderer/utils">Hyperlap2D's GitHub repo</a>.
  *

@@ -21,10 +21,13 @@ import java.util.Arrays;
  * This is an optimized version of the SpriteBatch that maintains an LFU texture-cache to combine draw calls with different
  * textures effectively.
  * <p>
- * Use this Batch if you frequently utilize more than a single texture between calling {@link #begin()} and {@link #end()}. An
- * example would be if your Atlas is spread over multiple Textures or if you draw with individual Textures.
+ * Use this Batch if you frequently utilize more than a single texture between calling {@link #begin()} and
+ * {@link #end()}. An example would be if your Atlas is spread over multiple Textures or if you draw with individual
+ * Textures. This extends {@link com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch}), which makes it suitable for Spine
+ * animations.
  * <p>
  * Taken from <a href="https://github.com/rednblackgames/hyperlap2d-runtime-libgdx/tree/master/src/main/java/games/rednblack/editor/renderer/utils">Hyperlap2D's GitHub repo</a>.
+ * The tint field, which modified the Batch color, has been removed because it was unused in TextraTypist.
  *
  * @see Batch
  * @see SpriteBatch
