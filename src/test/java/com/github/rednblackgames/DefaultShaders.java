@@ -12,6 +12,12 @@ import com.github.tommyettinger.textra.KnownFonts;
  * those mentioned Batches to have been created before any shader source can be obtained, since creating either Texture
  * Array Batch calculates the number of texture units the GPU can handle.
  * <br>
+ * These shader sources can be passed to
+ * {@link com.github.tommyettinger.textra.KnownFonts#initialize(String, String, String, String, String, String, String, String)}
+ * if the only batch or batches you intend to use for Font types are Texture Array Batches. To do this more easily, make
+ * sure you have constructed a TextureArrayPolygonSpriteBatch or TextureArrayCpuPolygonSpriteBatch in create() or later,
+ * then call {@link #initializeTextureArrayShaders()} before using any methods from KnownFonts or creating any Font.
+ * <br>
  * Mostly taken from <a href="https://github.com/rednblackgames/hyperlap2d-runtime-libgdx/tree/master/src/main/java/games/rednblack/editor/renderer/utils">Hyperlap2D's GitHub repo</a>.
  */
 public final class DefaultShaders {
@@ -319,5 +325,36 @@ public final class DefaultShaders {
      */
     public static String msdfArrayVertexShader() {
         return defaultArrayVertexShader();
+    }
+
+    /**
+     * This is a convenience method to initialize the shaders in {@link KnownFonts} so they work with
+     * {@link TextureArrayPolygonSpriteBatch} and/or {@link TextureArrayCpuPolygonSpriteBatch}. This can only be called
+     * after one of those mentioned Batches has already been constructed, in create() or later.
+     */
+    public static void initializeTextureArrayShaders() {
+        final String vertexShader = defaultArrayVertexShader();
+        KnownFonts.initialize(
+                vertexShader, defaultArrayFragmentShader(),
+                vertexShader, sdfArrayFragmentShader(),
+                vertexShader, sdfOutlineArrayFragmentShader(),
+                vertexShader, msdfArrayFragmentShader());
+
+    }
+
+    /**
+     * This is a convenience method to initialize the shaders in {@link KnownFonts} so they work with
+     * {@link TextureArrayPolygonSpriteBatch} and/or {@link TextureArrayCpuPolygonSpriteBatch}. This can only be called
+     * after one of those mentioned Batches has already been constructed, in create() or later. This variant will adapt
+     * the SDF shaders depending on whether derivatives are available, and will use them if they are.
+     */
+    public static void initializeAdaptiveTextureArrayShaders() {
+        final String vertexShader = defaultArrayVertexShader();
+        KnownFonts.initialize(
+                vertexShader, defaultArrayFragmentShader(),
+                vertexShader, sdfAdaptiveArrayFragmentShader(),
+                vertexShader, sdfOutlineAdaptiveArrayFragmentShader(),
+                vertexShader, msdfArrayFragmentShader());
+
     }
 }

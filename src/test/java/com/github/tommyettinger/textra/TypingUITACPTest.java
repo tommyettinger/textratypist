@@ -66,10 +66,7 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.disable();
 		TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
-		KnownFonts.initialize(DefaultShaders.defaultArrayVertexShader(), DefaultShaders.defaultArrayFragmentShader(),
-				DefaultShaders.sdfArrayVertexShader(), DefaultShaders.sdfAdaptiveArrayFragmentShader(),
-				DefaultShaders.sdfOutlineArrayVertexShader(), DefaultShaders.sdfOutlineAdaptiveArrayFragmentShader(),
-				DefaultShaders.msdfArrayVertexShader(), DefaultShaders.msdfArrayFragmentShader());
+		DefaultShaders.initializeTextureArrayShaders();
 		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
@@ -77,11 +74,11 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.SDF).family;
+		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.STANDARD).family;
 		family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.SDF)
+				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.STANDARD)
 						.scaleTo(30, 35);
-		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF);
+		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.STANDARD);
 		font = family.connected[0];
 		font.family = family;
 		for(Font f : font.family.connected) {
