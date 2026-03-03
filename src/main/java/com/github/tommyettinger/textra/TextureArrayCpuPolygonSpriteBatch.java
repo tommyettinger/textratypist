@@ -1,4 +1,4 @@
-package com.github.rednblackgames;
+package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -7,8 +7,6 @@ import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.github.tommyettinger.textra.Font;
-import com.github.tommyettinger.textra.KnownFonts;
 
 /**
  * TextureArrayCpuPolygonSpriteBatch behaves like a SpriteBatch with the polygon drawing features of a
@@ -17,7 +15,7 @@ import com.github.tommyettinger.textra.KnownFonts;
  * methods for drawing PolygonSprites, scene2d Groups with transform enabled, and/or drawing from multiple Textures.
  * <p>
  * If you're using this Batch to draw {@link Font}s with a non-STANDARD {@link Font.DistanceFieldType}, you should read
- * the documentation for {@link DefaultShaders} and use its {@link DefaultShaders#initializeTextureArrayShaders()}
+ * the documentation for {@link TextureArrayShaders} and use its {@link TextureArrayShaders#initializeTextureArrayShaders()}
  * method after creating this Batch, but before using any {@link KnownFonts} methods.
  * <p>
  * This is an optimized version of the PolygonSpriteBatch that maintains an LFU texture-cache to combine draw calls with
@@ -37,6 +35,7 @@ import com.github.tommyettinger.textra.KnownFonts;
  * for Spine animations.
  * <p>
  * Taken from <a href="https://github.com/rednblackgames/hyperlap2d-runtime-libgdx/tree/master/src/main/java/games/rednblack/editor/renderer/utils">Hyperlap2D's GitHub repo</a>.
+ * Originally licensed under Apache 2.0, like TextraTypist and libGDX.
  *
  * @see Batch
  * @see SpriteBatch

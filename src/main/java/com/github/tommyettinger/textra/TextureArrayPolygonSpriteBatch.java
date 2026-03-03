@@ -1,4 +1,4 @@
-package com.github.rednblackgames;
+package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
@@ -9,8 +9,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.BufferUtils;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.github.tommyettinger.textra.Font;
-import com.github.tommyettinger.textra.KnownFonts;
 
 import java.nio.IntBuffer;
 import java.util.Arrays;
@@ -23,7 +21,7 @@ import java.util.Arrays;
  * {@link TextureArrayCpuPolygonSpriteBatch} instead.
  * <p>
  * If you're using this Batch to draw {@link Font}s with a non-STANDARD {@link Font.DistanceFieldType}, you should read
- * the documentation for {@link DefaultShaders} and use its {@link DefaultShaders#initializeTextureArrayShaders()}
+ * the documentation for {@link TextureArrayShaders} and use its {@link TextureArrayShaders#initializeTextureArrayShaders()}
  * method after creating this Batch, but before using any {@link KnownFonts} methods.
  * <p>
  * This is an optimized version of the PolygonSpriteBatch that maintains an LFU texture-cache to combine draw calls with
@@ -32,9 +30,10 @@ import java.util.Arrays;
  * Use this Batch if you frequently utilize more than a single texture between calling {@link #begin()} and
  * {@link #end()}. An example would be if your Atlas is spread over multiple Textures or if you draw with individual
  * Textures. This extends {@link com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch}), which makes it suitable for Spine
- * animations.
+ * animations. Consider using {@link TextureArrayCpuPolygonSpriteBatch} instead, which may perform better in GUIs.
  * <p>
  * Taken from <a href="https://github.com/rednblackgames/hyperlap2d-runtime-libgdx/tree/master/src/main/java/games/rednblack/editor/renderer/utils">Hyperlap2D's GitHub repo</a>.
+ * Originally licensed under Apache 2.0, like TextraTypist and libGDX.
  * The tint field, which modified the Batch color, has been removed because it was unused in TextraTypist.
  *
  * @see Batch
@@ -1538,7 +1537,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
     }
 
     public static ShaderProgram createDefaultShader() {
-        ShaderProgram shader = TextureArrayShaderCompiler.compileShader(DefaultShaders.defaultArrayVertexShader(), DefaultShaders.defaultArrayFragmentShader());
+        ShaderProgram shader = TextureArrayShaderCompiler.compileShader(TextureArrayShaders.defaultArrayVertexShader(), TextureArrayShaders.defaultArrayFragmentShader());
 
         if (!shader.isCompiled()) {
             throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());

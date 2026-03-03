@@ -1,4 +1,4 @@
-package com.github.rednblackgames;
+package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
  * any shaders can be processed correctly.
  * <br>
  * Mostly taken from <a href="https://github.com/rednblackgames/hyperlap2d-runtime-libgdx/tree/master/src/main/java/games/rednblack/editor/renderer/utils">Hyperlap2D's GitHub repo</a>.
+ * Originally licensed under Apache 2.0, like TextraTypist and libGDX.
  */
 public class TextureArrayShaderCompiler {
     /**

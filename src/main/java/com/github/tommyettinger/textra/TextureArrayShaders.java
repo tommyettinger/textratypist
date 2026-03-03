@@ -1,10 +1,9 @@
-package com.github.rednblackgames;
+package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.github.tommyettinger.textra.Font.DistanceFieldType;
-import com.github.tommyettinger.textra.KnownFonts;
 
 /**
  * Utility methods that return vertex or fragment shader source code to be used in
@@ -13,15 +12,16 @@ import com.github.tommyettinger.textra.KnownFonts;
  * Array Batch calculates the number of texture units the GPU can handle.
  * <br>
  * These shader sources can be passed to
- * {@link com.github.tommyettinger.textra.KnownFonts#initialize(String, String, String, String, String, String, String, String)}
+ * {@link KnownFonts#initialize(String, String, String, String, String, String, String, String)}
  * if the only batch or batches you intend to use for Font types are Texture Array Batches. To do this more easily, make
  * sure you have constructed a TextureArrayPolygonSpriteBatch or TextureArrayCpuPolygonSpriteBatch in create() or later,
  * then call {@link #initializeTextureArrayShaders()} before using any methods from KnownFonts or creating any Font.
  * <br>
  * Mostly taken from <a href="https://github.com/rednblackgames/hyperlap2d-runtime-libgdx/tree/master/src/main/java/games/rednblack/editor/renderer/utils">Hyperlap2D's GitHub repo</a>.
+ * Originally licensed under Apache 2.0, like TextraTypist and libGDX.
  */
-public final class DefaultShaders {
-    private DefaultShaders() {
+public final class TextureArrayShaders {
+    private TextureArrayShaders() {
 
     }
 
@@ -179,6 +179,12 @@ public final class DefaultShaders {
      * {@link TextureArrayCpuPolygonSpriteBatch} when {@link DistanceFieldType#SDF_OUTLINE} is used.
      * This shader has the uniform {@code u_smoothing} and expects to be used with
      * {@link #defaultArrayVertexShader()} as its vertex shader (but any vertex shaders here are the same).
+     * <br>
+     * This draws a black outline around any text with an SDF_OUTLINE distance field, and leaves the color inside the
+     * outlined area the same. If the outline's thickness isn't suitable for your purposes, you may want to adjust the
+     * "closeness" constant in this code. You can replace the text {@code "const float closeness =  0.0625  ;"} (with
+     * multiple spaces around the value to make distinguishing it easier), using any value between 0.0 and 0.5 to change
+     * the outline thickness. Lower values lead to thicker outlines, and values closer to 0.5 should lead to thinner.
      *
      * @return a fragment shader String that works with TextureArray batches
      */
@@ -196,7 +202,7 @@ public final class DefaultShaders {
                 + "\n" //
                 + TextureArrayShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
                 + "\n" //
-                + "const float closeness = 0.0625;\n" // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline
+                + "const float closeness =  0.0625  ;\n" // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline
                 + "\n" //
                 + "void main() {\n" //
                 + "	   if (u_smoothing > 0.0) {\n" //
@@ -228,6 +234,12 @@ public final class DefaultShaders {
      * This tends to look a little fuzzy compared to {@link #sdfOutlineArrayFragmentShader()}, and isn't quite as fast.
      * This shader has the uniform {@code u_smoothing} and expects to be used with
      * {@link #defaultArrayVertexShader()} as its vertex shader (but any vertex shaders here are the same).
+     * <br>
+     * This draws a black outline around any text with an SDF_OUTLINE distance field, and leaves the color inside the
+     * outlined area the same. If the outline's thickness isn't suitable for your purposes, you may want to adjust the
+     * "closeness" constant in this code. You can replace the text {@code "const float closeness =  0.0625  ;"} (with
+     * multiple spaces around the value to make distinguishing it easier), using any value between 0.0 and 0.5 to change
+     * the outline thickness. Lower values lead to thicker outlines, and values closer to 0.5 should lead to thinner.
      *
      * @return a fragment shader String that works with TextureArray batches
      */
@@ -246,7 +258,7 @@ public final class DefaultShaders {
                 + "\n" //
                 + TextureArrayShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
                 + "\n" //
-                + "const float closeness = 0.0625;\n" // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline
+                + "const float closeness =  0.0625  ;\n" // Between 0 and 0.5, 0 = thick outline, 0.5 = no outline
                 + "\n" //
                 + "void main() {\n" //
                 + "	   if (u_smoothing > 0.0) {\n" //
@@ -330,7 +342,11 @@ public final class DefaultShaders {
     /**
      * This is a convenience method to initialize the shaders in {@link KnownFonts} so they work with
      * {@link TextureArrayPolygonSpriteBatch} and/or {@link TextureArrayCpuPolygonSpriteBatch}. This can only be called
-     * after one of those mentioned Batches has already been constructed, in create() or later.
+     * after one of those mentioned Batches has already been constructed, in create() or later. Because this calls
+     * {@link KnownFonts#initialize(String, String, String, String, String, String, String, String)}, it can't be called
+     * after any methods from KnownFonts have already been called, or after any Font is created. Unlike
+     * {@link #initializeAdaptiveTextureArrayShaders()}, this always uses the same shaders on all platforms. It doesn't
+     * ever use derivatives in shaders.
      */
     public static void initializeTextureArrayShaders() {
         final String vertexShader = defaultArrayVertexShader();
@@ -345,8 +361,12 @@ public final class DefaultShaders {
     /**
      * This is a convenience method to initialize the shaders in {@link KnownFonts} so they work with
      * {@link TextureArrayPolygonSpriteBatch} and/or {@link TextureArrayCpuPolygonSpriteBatch}. This can only be called
-     * after one of those mentioned Batches has already been constructed, in create() or later. This variant will adapt
-     * the SDF shaders depending on whether derivatives are available, and will use them if they are.
+     * after one of those mentioned Batches has already been constructed, in create() or later. Because this calls
+     * {@link KnownFonts#initialize(String, String, String, String, String, String, String, String)}, it can't be called
+     * after any methods from KnownFonts have already been called, or after any Font is created. This variant will adapt
+     * the SDF shaders depending on whether derivatives are available, and will use them if they are. If used heavily,
+     * the shaders that use derivatives may not perform as well as the ones that don't. They may look better
+     * (subjectively) when used, which can only be on desktop and mobile platforms right now (no web browsers).
      */
     public static void initializeAdaptiveTextureArrayShaders() {
         final String vertexShader = defaultArrayVertexShader();
