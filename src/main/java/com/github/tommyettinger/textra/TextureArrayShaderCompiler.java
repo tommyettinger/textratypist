@@ -13,7 +13,9 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
  * Mostly taken from <a href="https://github.com/rednblackgames/hyperlap2d-runtime-libgdx/tree/master/src/main/java/games/rednblack/editor/renderer/utils">Hyperlap2D's GitHub repo</a>.
  * Originally licensed under Apache 2.0, like TextraTypist and libGDX.
  */
-public class TextureArrayShaderCompiler {
+public final class TextureArrayShaderCompiler {
+    private TextureArrayShaderCompiler() {
+    }
     /**
      * Will be modified when a {@link TextureArrayPolygonSpriteBatch} or {@link TextureArrayCpuPolygonSpriteBatch} is
      * constructed for the first time, typically in create(). Before one of those Batches has been created, this class
