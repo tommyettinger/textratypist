@@ -597,12 +597,19 @@ public final class Styles {
         public Color fontColor;
         public @Null Color focusedFontColor, disabledFontColor;
         public @Null Drawable background, focusedBackground, disabledBackground, cursor, selection;
-//        public @Null Font messageFont;
         public @Null Color messageFontColor;
 
         public TextFieldStyle() {
         }
 
+        /**
+         *
+         * @param font the non-null Font to use for text
+         * @param fontColor the color to tint the given Font by default
+         * @param cursor you probably want to use the predefined {@code skin.getDrawable("cursor")} for this
+         * @param selection may be null, but is usually a solid block that will be stretched behind a selected area
+         * @param background may be null; otherwise, drawn behind the widget as its background
+         */
         public TextFieldStyle(Font font, Color fontColor, @Null Drawable cursor, @Null Drawable selection,
                               @Null Drawable background) {
             this.font = new Font(font);
@@ -617,7 +624,7 @@ public final class Styles {
          * every time (copying information from the given BitmapFont), and it isn't easy to dispose the created Font.
          * @param font a BitmapFont that will be copied into a new Font
          * @param fontColor the color to tint the given BitmapFont
-         * @param cursor may be null to show no cursor; otherwise this will be drawn where text will be entered
+         * @param cursor you probably want to use the predefined {@code skin.getDrawable("cursor")} for this
          * @param selection may be null, but is usually a solid block that will be stretched behind a selected area
          * @param background may be null; otherwise, drawn behind the widget as its background
          * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
@@ -644,7 +651,6 @@ public final class Styles {
             cursor = style.cursor;
             selection = style.selection;
 
-//            messageFont = style.messageFont;
             if (style.messageFontColor != null) messageFontColor = new Color(style.messageFontColor);
         }
 
@@ -667,8 +673,6 @@ public final class Styles {
             cursor = style.cursor;
             selection = style.selection;
 
-//            if (style.messageFont != null)
-//                messageFont = style.font == style.messageFont ? font : new Font(style.messageFont);
             if (style.messageFontColor != null) messageFontColor = new Color(style.messageFontColor);
         }
     }

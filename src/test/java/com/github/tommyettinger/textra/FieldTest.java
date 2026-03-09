@@ -38,8 +38,8 @@ public class FieldTest extends ApplicationAdapter {
     Stage stage;
     TextraField ttField;
     TextField s2dField;
-    TextraAreaMessy ttArea;
-    TextraArea tt2Area;
+//    TextraAreaMessy ttArea;
+//    TextraArea tt2Area;
     TextArea s2dArea;
     FWSkin skin;
 
@@ -98,10 +98,10 @@ public class FieldTest extends ApplicationAdapter {
 
 //        ttField.setCursorBlinking(false);
 
-        ttArea = new TextraAreaMessy(longText, ttField.style);
+//        ttArea = new TextraAreaMessy(longText, ttField.style);
         //        ttArea.setCursorBlinking(false);
 
-        tt2Area = new TextraArea(longText, ttField.style);
+//        tt2Area = new TextraArea(longText, ttField.style);
 
         s2dField = new TextField(text,
                 skin
@@ -144,8 +144,8 @@ public class FieldTest extends ApplicationAdapter {
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
         ttField.label.font.resizeDistanceField(width, height, stage.getViewport());
-        ttArea.label.font.resizeDistanceField(width, height, stage.getViewport());
-        tt2Area.label.font.resizeDistanceField(width, height, stage.getViewport());
+//        ttArea.label.font.resizeDistanceField(width, height, stage.getViewport());
+//        tt2Area.label.font.resizeDistanceField(width, height, stage.getViewport());
     }
 
     @Override

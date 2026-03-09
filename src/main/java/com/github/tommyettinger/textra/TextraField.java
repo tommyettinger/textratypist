@@ -48,6 +48,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.github.tommyettinger.textra.Styles.TextFieldStyle;
 import com.github.tommyettinger.textra.utils.StringUtils;
+import regexodus.Replacer;
 
 import java.lang.StringBuilder;
 import java.util.Arrays;
@@ -144,6 +145,8 @@ public class TextraField extends Widget implements Disableable {
 	protected final KeyRepeatTask keyRepeatTask = new KeyRepeatTask();
 	protected boolean programmaticChangeEvents;
 
+	protected Replacer emojiReplacer = null;
+
 	/**
 	 * Only meant for subclasses; requires everything used in TextraField to be initialized by the subclass.
 	 */
@@ -215,6 +218,8 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	protected void initialize () {
+		if(label.font.nameLookup != null)
+			emojiReplacer = EmojiProcessor.getReplacer(label.font);
 		clipboard = Gdx.app.getClipboard();
 		addListener(inputListener = createInputListener());
 	}
@@ -552,6 +557,7 @@ public class TextraField extends Widget implements Disableable {
 
 	protected void paste (@Null String content, boolean fireChangeEvent) {
 		if (content == null) return;
+		if(emojiReplacer != null) content = emojiReplacer.replace(content);
 		StringBuilder buffer = new StringBuilder();
 		int textLength = label.length(); // was text.length()
 		if (label.hasSelection()) textLength -= Math.abs(cursor - label.selectionStart);
@@ -573,9 +579,11 @@ public class TextraField extends Widget implements Disableable {
 			changeText(cursor, buffer);
 		else
 			insert(cursor, buffer);
-		text = label.layout.toString();
+		int bLen = buffer.length();
+		buffer.setLength(0);
+		text = label.layout.appendIntoDirect(buffer).toString();
 		updateDisplayText();
-		cursor += buffer.length();
+		cursor += bLen;
 	}
 
 	protected boolean insert(int position, CharSequence inserting) {
@@ -697,6 +705,7 @@ public class TextraField extends Widget implements Disableable {
 	/** Sets the text that will be drawn in the text field if no text has been entered.
 	 * @param messageText may be null. */
 	public void setMessageText (@Null String messageText) {
+		if(messageText != null && emojiReplacer != null) messageText = emojiReplacer.replace(messageText);
 		this.messageText = messageText;
 	}
 
