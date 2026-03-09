@@ -1240,6 +1240,19 @@ public class TextraField extends Widget implements Disableable {
 		public boolean keyTyped (InputEvent event, char character) {
 			if (disabled) return false;
 
+			// Now we're hitting a problem in libGDX, where keyTyped is a character-based API
+			// and doesn't understand codepoints greater than 65535. Entering an emoji such as
+			// 👩🏾‍🎤
+			// will actually type 4 codepoints, where three need to be ints but are truncated to chars by libGDX.
+			// The codepoints are:
+			// U+1F469 U+1F3FE U+200D U+1F3A4
+			// But the keyTyped chars received are:
+			// U+F469 U+F3FE U+200D U+F3A4
+			// These are garbage chars in the Unicode PUA, not corresponding to anything.
+
+			// TODO: remove debug print
+//			System.out.printf("%c: u%04X\n", character, 0xFFFFF & character);
+
 			// Disallow "typing" most ASCII control characters, which would show up as a space when onlyFontChars is true.
 			switch (character) {
 			case BACKSPACE:
