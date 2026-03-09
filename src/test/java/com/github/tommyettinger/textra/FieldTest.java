@@ -116,15 +116,15 @@ skin
 
         Table table = new Table();
         table.setFillParent(true);
-        table.add(new TextraLabel("TTq  " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
+        table.add(new TextraLabel("TTf  " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
         table.add(ttField).width(200).height(font.cellHeight * 2).row();
-        table.add(new TextraLabel("S2Dq " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
+        table.add(new TextraLabel("S2Df " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
         table.add(s2dField).width(200).height(font.cellHeight * 2).row();
-        table.add(new TextraLabel("TTq  " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
+        table.add(new TextraLabel("TTa  " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
         table.add(ttArea).width(200).height(font.cellHeight * 5).row();
-        table.add(new TextraLabel("TT2q " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
+        table.add(new TextraLabel("TT2a " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
         table.add(tt2Area).width(200).height(font.cellHeight * 5).row();
-        table.add(new TextraLabel("S2Dq " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
+        table.add(new TextraLabel("S2Da " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
         table.add(s2dArea).width(200).height(font.cellHeight * 5).row();
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);

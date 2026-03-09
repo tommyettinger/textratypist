@@ -57,13 +57,16 @@ public final class EmojiProcessor {
     /**
      * Gets a RegExodus {@link Replacer} that will replace any standard Unicode 14 or lower emoji that can be displayed
      * by the given Font with the special Unicode PUA char used by that Font to show that emoji. The given Font must
-     * have a {@link Font#nameLookup}, typically by adding an atlas with {@link KnownFonts#addEmoji(Font)}.
+     * have a {@link Font#nameLookup}, typically by adding an atlas with {@link KnownFonts#addEmoji(Font)}. If there is
+     * no nameLookup in the given Font, this will replace any recognized emoji with the char {@code '?'}.
      *
      * @param font a Font that already has emoji added to it, typically Twemoji via {@link KnownFonts#addEmoji(Font)}
      * @return a Replacer that can be used to replace any readable Unicode emoji in text with their Font-specific char representations
      */
     public static Replacer getReplacer(final Font font) {
         initialize();
+        if(font.nameLookup == null)
+            return new Replacer(instance.emojiRegex, "?", false);
         return new Replacer(instance.emojiRegex, (match, dest) -> dest.append((char) font.nameLookup.get(match.group(), '?')));
     }
 }
