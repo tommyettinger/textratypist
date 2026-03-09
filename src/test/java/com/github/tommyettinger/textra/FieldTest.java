@@ -61,7 +61,7 @@ public class FieldTest extends ApplicationAdapter {
         Font font = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic()).scaleHeightTo(32);
 //        System.out.println("descent: "+font.descent + ", lineHeight: " + font.cellHeight);
         BitmapFont bmFont = KnownFonts.getBitmapFont(KnownFonts.GENTIUM_UN_ITALIC);
-        String text = "22";
+        String text = "Emoji: '🎉'";
         String longText =
                 "Satchmo is a cat, who is extremely fat; when he sits " +
                         "down, throughout the town, we all think, 'What was that? Did it happen " +
@@ -77,9 +77,9 @@ public class FieldTest extends ApplicationAdapter {
 //                "моё отношение, мои" +
 //                "действия)";
         Font.GlyphRegion solid = font.mapping.get(font.solidBlock);
-        Drawable pipe = new TextureRegionDrawable(solid),
+        Drawable pipe = new TextureRegionDrawable(solid), //font.mapping.get('|', solid)
                 selection = new TextureRegionDrawable(solid).tint(Color.GRAY),
-                background = new TextureRegionDrawable(solid).tint(Color.NAVY);
+                background = new TextureRegionDrawable(solid).tint(Color.CLEAR);
         pipe.setMinWidth(2);
         pipe.setMinHeight(font.cellHeight);
         selection.setMinWidth(font.cellWidth);
@@ -87,9 +87,9 @@ public class FieldTest extends ApplicationAdapter {
         background.setMinHeight(1);
         background.setMinWidth(1);
         ttField = new TextraField(text,
-skin
-//                new Styles.TextFieldStyle(font, Color.WHITE.cpy(), pipe,
-//                selection, background)
+//skin
+                new Styles.TextFieldStyle(font, Color.WHITE.cpy(), skin.getDrawable("cursor"),
+                selection, background)
         );
         ttField.setWidth(500);
         ttField.setPasswordMode(false);
@@ -116,16 +116,16 @@ skin
 
         Table table = new Table();
         table.setFillParent(true);
-        table.add(new TextraLabel("TTf  " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
+        table.add(new TextraLabel("TTf  ", font)).width(60).height(font.cellHeight * 2);
         table.add(ttField).width(200).height(font.cellHeight * 2).row();
-        table.add(new TextraLabel("S2Df " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
+        table.add(new TextraLabel("S2Df ", font)).width(60).height(font.cellHeight * 2);
         table.add(s2dField).width(200).height(font.cellHeight * 2).row();
-        table.add(new TextraLabel("TTa  " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
-        table.add(ttArea).width(200).height(font.cellHeight * 5).row();
-        table.add(new TextraLabel("TT2a " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
-        table.add(tt2Area).width(200).height(font.cellHeight * 5).row();
-        table.add(new TextraLabel("S2Da " + font.solidBlock, font)).width(60).height(font.cellHeight * 2);
-        table.add(s2dArea).width(200).height(font.cellHeight * 5).row();
+//        table.add(new TextraLabel("TTa  ", font)).width(60).height(font.cellHeight * 2);
+//        table.add(ttArea).width(200).height(font.cellHeight * 5).row();
+//        table.add(new TextraLabel("TT2a ", font)).width(60).height(font.cellHeight * 2);
+//        table.add(tt2Area).width(200).height(font.cellHeight * 5).row();
+//        table.add(new TextraLabel("S2Da ", font)).width(60).height(font.cellHeight * 2);
+//        table.add(s2dArea).width(200).height(font.cellHeight * 5).row();
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
