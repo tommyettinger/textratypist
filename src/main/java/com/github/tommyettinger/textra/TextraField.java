@@ -611,9 +611,9 @@ public class TextraField extends Widget implements Disableable {
 		if(glyphs.size > 0 && minIndex <= maxIndex)
 			glyphs.removeRange(minIndex, Math.max(Math.min(glyphs.size - 1, maxIndex), 0));
 		if (fireChangeEvent)
-			changeText(text, label.layout.toString());
+			changeText(text, label.layout.appendIntoDirect(new StringBuilder()).toString());
 		else
-			text = label.layout.toString();
+			text = label.layout.appendIntoDirect(new StringBuilder()).toString();
 		clearSelection();
 		return minIndex;
 	}
@@ -1290,7 +1290,7 @@ public class TextraField extends Widget implements Disableable {
 							cursor = delete(false);
 						String insertion = enter ? "\n" : String.valueOf(character);
 						insert(cursor++, insertion);
-						text = label.layout.toString();
+						text = label.layout.appendIntoDirect(new StringBuilder()).toString();
 					}
 					if (changeText(oldText, text)) {
 						long time = System.currentTimeMillis();
