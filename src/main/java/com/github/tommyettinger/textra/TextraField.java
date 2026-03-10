@@ -536,7 +536,7 @@ public class TextraField extends Widget implements Disableable {
 	/** Copies the contents of this TextraField to the {@link Clipboard} implementation set on this TextraField. */
 	public void copy () {
 		if (label.hasSelection() && !passwordMode) {
-			String toCopy = label.substring(Math.min(cursor, label.selectionStart), Math.max(cursor, label.selectionEnd)+1);
+			String toCopy = label.substring(Math.min(cursor, label.selectionStart), Math.max(cursor, label.selectionEnd + 1));
 			clipboard.setContents(toCopy);
 		}
 	}
@@ -778,7 +778,7 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	public int getSelectionEnd () {
-		return label.selectionStart;
+		return label.selectionEnd;
 	}
 
 	public String getSelection () {
@@ -792,20 +792,15 @@ public class TextraField extends Widget implements Disableable {
 			cursor = 0;
 			return;
 		}
-		selectionStart = Math.min(text.length(), selectionStart);
-		selectionEnd = Math.min(text.length(), selectionEnd);
+		selectionStart = Math.min(text.length() - 1, selectionStart);
+		selectionEnd = Math.min(text.length() - 1, selectionEnd);
 		if (selectionEnd == selectionStart) {
 			clearSelection();
 			return;
 		}
-		if (selectionEnd < selectionStart) {
-			int temp = selectionEnd;
-			selectionEnd = selectionStart;
-			selectionStart = temp;
-		}
 
 		label.selectionStart = selectionStart;
-		cursor = label.selectionEnd = selectionEnd;
+		cursor = (label.selectionEnd = selectionEnd - 1) + 1;
 	}
 
 	public void selectAll () {
