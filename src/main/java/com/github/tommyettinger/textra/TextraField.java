@@ -477,7 +477,7 @@ public class TextraField extends Widget implements Disableable {
 		final float lineHeight = label.getLineHeight(cursor);
 		cursorPatch.draw(batch,
 			x + textOffset + glyphPositions.get(cursor) - glyphPositions.get(visibleTextStart) + fontOffset,
-			y + lineHeight, cursorPatch.getMinWidth(), lineHeight);
+			y + lineHeight * 0.5f, cursorPatch.getMinWidth(), lineHeight);
 	}
 
 	void updateDisplayText () {
@@ -1248,10 +1248,11 @@ public class TextraField extends Widget implements Disableable {
 			// U+1F469 U+1F3FE U+200D U+1F3A4
 			// But the keyTyped chars received are:
 			// U+F469 U+F3FE U+200D U+F3A4
-			// These are garbage chars in the Unicode PUA, not corresponding to anything.
-
-			// TODO: remove debug print
-//			System.out.printf("%c: u%04X\n", character, 0xFFFFF & character);
+			// Three of these are garbage chars in the Unicode PUA, not corresponding to anything.
+			// Without the truncation the libGDX LWJGL3 backend's keyTyped() performs, each of the non-BMP chars
+			// should be represented as two Java chars typed, one a high surrogate and one a low surrogate.
+			// TextraTypist can handle the surrogate pairs, but can't do anything if data is being cut out of the
+			// codepoint ints that are entered.
 
 			// Disallow "typing" most ASCII control characters, which would show up as a space when onlyFontChars is true.
 			switch (character) {

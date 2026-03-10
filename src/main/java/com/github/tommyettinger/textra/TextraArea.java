@@ -77,11 +77,12 @@ public class TextraArea extends TextraField {
 
     @Override
     protected void drawCursor (Drawable cursorPatch, Batch batch, Font font, float x, float y) {
-        final float layoutHeight = label.getHeight(), linesHeight = label.getCumulativeLineHeight(cursor);
+        final float layoutHeight = label.getHeight(), linesHeight = label.getCumulativeLineHeight(cursor),
+                lineHeight = label.getLineHeight(cursor);
 //		System.out.println("layoutHeight: " + layoutHeight + ", linesHeight: " + linesHeight);
         cursorPatch.draw(batch,
                 x + textOffset + glyphPositions.get(cursor) - glyphPositions.get(visibleTextStart) + fontOffset,
-                y + layoutHeight - linesHeight, cursorPatch.getMinWidth(), label.getLineHeight(cursor));
+                y + layoutHeight - linesHeight - lineHeight * 0.5f, cursorPatch.getMinWidth(), lineHeight);
     }
 
     @Override
