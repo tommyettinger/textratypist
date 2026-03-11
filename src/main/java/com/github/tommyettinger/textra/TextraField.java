@@ -245,23 +245,22 @@ public class TextraField extends Widget implements Disableable {
 
 	protected long wordUnderCursor () {
 		TypingLabel lb = this.label;
-		if(label.overIndex == -1) return lb.length();
-		int start = label.overIndex, right = lb.length(), left = 0, index = start;
-		if (start >= lb.length()) {
-			left = lb.length();
-			right = 0;
+		if(label.overIndex == -1) return lb.length() - 1;
+		int len = lb.length(), start = label.overIndex, right = len, left = 0, index = start;
+		if (start >= len) {
+			right = len - 1;
 		} else {
-			for (; index < right; index++) {
+			for (; index < len; index++) {
 				if (isSpaceCharacter(lb.getInWorkingLayout(index))) {
-					right = index - 1;
 					break;
 				}
+				right = index;
 			}
 			for (index = start - 1; index > -1; index--) {
 				if (isSpaceCharacter(lb.getInWorkingLayout(index))) {
-					left = index + 1;
 					break;
 				}
+				left = index;
 			}
 		}
 		return (long) left << 32 | (right & 0xFFFFFFFFL);
@@ -536,7 +535,9 @@ public class TextraField extends Widget implements Disableable {
 	/** Copies the contents of this TextraField to the {@link Clipboard} implementation set on this TextraField. */
 	public void copy () {
 		if (label.hasSelection() && !passwordMode) {
-			String toCopy = label.substring(Math.min(cursor, label.selectionStart), Math.max(cursor, label.selectionEnd + 1));
+			int start = Math.min(label.selectionStart, label.selectionEnd),
+					end = Math.max(label.selectionStart, label.selectionEnd);
+			String toCopy = label.substring(Math.max(0, start), Math.min(label.length(), end + 1));
 			clipboard.setContents(toCopy);
 		}
 	}
@@ -800,7 +801,7 @@ public class TextraField extends Widget implements Disableable {
 		}
 
 		label.selectionStart = selectionStart;
-		cursor = (label.selectionEnd = selectionEnd - 1) + 1;
+		cursor = (label.selectionEnd = selectionEnd) + 1;
 	}
 
 	public void selectAll () {
