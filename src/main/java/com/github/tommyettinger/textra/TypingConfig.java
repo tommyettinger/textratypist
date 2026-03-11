@@ -236,6 +236,7 @@ public class TypingConfig {
         registerEffect("THINKING", ThinkingEffect::new);
         registerEffect("THROB", ThrobEffect::new);
         registerEffect("PINCH", PinchEffect::new);
+        registerEffect("SHOOT", ShootEffect::new);
 
         initializeGlobalVars();
     }
