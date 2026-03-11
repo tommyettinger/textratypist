@@ -75,10 +75,11 @@ public class SputterEffect extends Effect {
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate offset
 
+        float timing = (TimeUtils.millis() & 0xFFFFFF) * speed * DEFAULT_SPEED + globalIndex * 0.1f;
         // horizontal
-        float h = NoiseUtils.octaveNoise1D((TimeUtils.millis() & 0xFFFFFF) * speed * DEFAULT_SPEED + globalIndex * 0.1f, globalIndex);
+        float h = NoiseUtils.octaveNoise1D(timing, globalIndex);
         // vertical
-        float v = NoiseUtils.octaveNoise1D((TimeUtils.millis() & 0xFFFFFF) * speed * DEFAULT_SPEED + globalIndex * 0.1f, ~globalIndex);
+        float v = NoiseUtils.octaveNoise1D(timing, ~globalIndex);
 
         float hSharp = h * h * h * widen * DEFAULT_WIDEN - v * 0.25f;
         float vSharp = v * v * v * heighten * DEFAULT_HEIGHTEN - h * 0.25f;

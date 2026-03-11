@@ -127,7 +127,7 @@ public abstract class Effect {
     }
 
     /**
-     * Returns a boolean value parsed from the given String, or the default value if the string couldn't be parsed.
+     * Returns a boolean value parsed from the given String, or false if the string couldn't be parsed.
      */
     protected boolean paramAsBoolean(String str) {
         return Parser.stringToBoolean(str);

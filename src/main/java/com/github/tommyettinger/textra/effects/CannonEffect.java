@@ -123,8 +123,9 @@ public class CannonEffect extends Effect {
             float lastY = lastOffsets.get(localIndex * 2 + 1);
 
             // Calculate new offsets
-            float x = label.getLineHeight(globalIndex) * initialStretch * MathUtils.random(-0.125f, 0.125f);
-            float y = label.getLineHeight(globalIndex) * initialStretch * MathUtils.random(-0.125f, 0.125f);
+            float shakeMul = label.getLineHeight(globalIndex) * initialStretch;
+            float x = shakeMul * MathUtils.random(-0.125f, 0.125f);
+            float y = shakeMul * MathUtils.random(-0.125f, 0.125f);
 
             // Apply intensity
             float normalIntensity = MathUtils.clamp(shakePower * DEFAULT_POWER, 0, 1);

@@ -452,7 +452,7 @@ public class Parser {
     }
 
     /**
-     * Returns a boolean value parsed from the given String, or the default value if the string couldn't be parsed.
+     * Returns a boolean value parsed from the given String, or false if the string couldn't be parsed.
      * This can be useful in Effects.
      */
     public static boolean stringToBoolean(String str) {

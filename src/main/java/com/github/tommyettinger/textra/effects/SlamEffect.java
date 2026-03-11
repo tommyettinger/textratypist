@@ -118,8 +118,9 @@ public class SlamEffect extends Effect {
             float lastY = lastOffsets.get(localIndex * 2 + 1);
 
             // Calculate new offsets
-            float x = label.getLineHeight(globalIndex) * MathUtils.random(-0.125f, 0.125f);
-            float y = label.getLineHeight(globalIndex) * MathUtils.random(-0.125f, 0.125f);
+            float lineHeight = label.getLineHeight(globalIndex);
+            float x = lineHeight * MathUtils.random(-0.125f, 0.125f);
+            float y = lineHeight * MathUtils.random(-0.125f, 0.125f);
 
             // Apply intensity
             float normalIntensity = MathUtils.clamp(shakePower * DEFAULT_POWER, 0, 1);

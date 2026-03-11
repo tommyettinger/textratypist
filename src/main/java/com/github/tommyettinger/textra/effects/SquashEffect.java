@@ -69,7 +69,6 @@ public class SquashEffect extends Effect {
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
         float progress = MathUtils.clamp(timePassed / realSpeed, 0, 1);
 
-        Font font = label.getFont();
         float lineHeight = label.getLineHeight(globalIndex);
 
         // Calculate offset

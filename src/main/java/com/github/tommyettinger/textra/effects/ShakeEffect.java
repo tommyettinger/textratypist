@@ -78,8 +78,9 @@ public class ShakeEffect extends Effect {
         float lastY = lastOffsets.get(localIndex * 2 + 1);
 
         // Calculate new offsets
-        float x = label.getLineHeight(globalIndex) * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
-        float y = label.getLineHeight(globalIndex) * distance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
+        float shakeMul =label.getLineHeight(globalIndex) * distance * DEFAULT_DISTANCE;
+        float x = MathUtils.random(-1f, 1f) * shakeMul;
+        float y = MathUtils.random(-1f, 1f) * shakeMul;
 
         // Apply speed
         float normalSpeed = MathUtils.clamp(speed * DEFAULT_SPEED, 0, 1);

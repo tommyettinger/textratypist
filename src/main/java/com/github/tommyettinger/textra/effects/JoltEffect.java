@@ -108,8 +108,9 @@ public class JoltEffect extends Effect {
         // Calculate new offsets
         float x = 0f, y = 0f;
         if (likelihood > determineFloat((TimeUtils.millis() >>> 10) * globalIndex + localIndex)) {
-            x = label.getLineHeight(globalIndex) * shakeDistance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
-            y = label.getLineHeight(globalIndex) * shakeDistance * MathUtils.random(-1f, 1f) * DEFAULT_DISTANCE;
+            float shakeMul = label.getLineHeight(globalIndex) * shakeDistance * DEFAULT_DISTANCE;
+            x = shakeMul * MathUtils.random(-1f, 1f);
+            y = shakeMul * MathUtils.random(-1f, 1f);
 
             // Apply intensity
             float normalIntensity = MathUtils.clamp(shakeSpeed * DEFAULT_SPEED, 0, 1);
