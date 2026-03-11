@@ -234,6 +234,7 @@ public class TypingConfig {
         registerEffect("ZIPPER", ZipperEffect::new);
         registerEffect("SLIP", SlipEffect::new);
         registerEffect("THINKING", ThinkingEffect::new);
+        registerEffect("THROB", ThrobEffect::new);
 
         initializeGlobalVars();
     }
