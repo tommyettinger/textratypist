@@ -88,7 +88,7 @@ public class ThrobEffect extends Effect {
         float lastX = lastOffsets.get(localIndex * 2);
         float lastY = lastOffsets.get(localIndex * 2 + 1);
 
-        float wave = MathUtils.sin(TimeUtils.millis() * DEFAULT_FREQUENCY);
+        float wave = MathUtils.sin((TimeUtils.millis() & 0xFFFFFF) * DEFAULT_FREQUENCY);
         wave *= wave; // ensures wave is between 0 and 1.
 
         wave *= label.getLineHeight(globalIndex) * distance * DEFAULT_DISTANCE;
