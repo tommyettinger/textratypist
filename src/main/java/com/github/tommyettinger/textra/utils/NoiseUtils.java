@@ -126,6 +126,20 @@ public class NoiseUtils {
         return bicubicNoise1D(x, seed) * 0.6666667f + bicubicNoise1D(x * 1.9f, ~seed) * 0.33333333f;
     }
 
+    /**
+     * A standard <a href="https://en.wikipedia.org/wiki/Triangle_wave">triangle wave</a> with a period of 1 and a range
+     * of -1 to 1 (both inclusive). Every integer input given to this will produce -1 as its output. Every input that is
+     * exactly 0.5 plus an integer will produce 1 as its output. In between, the graph is a straight line between those
+     * two points, going up, down, up, down, etc. as the input increases.
+     * <br>
+     * This is in NoiseUtils, but isn't actually a noise function, at all. This is about as regular as it gets!
+     *
+     * @param t the input to the triangle wave; can be any float from -16384 to 4194304
+     * @return a float between -1f and 1f, both inclusive
+     */
+    public static float triangleWave(float t) {
+        return Math.abs(t - ((int) (t + 16384.5) - 16384)) * 4f - 1f;
+    }
 }
 
 //// double versions

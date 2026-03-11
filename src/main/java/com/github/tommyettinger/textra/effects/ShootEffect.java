@@ -16,10 +16,10 @@
 
 package com.github.tommyettinger.textra.effects;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.TypingLabel;
+import com.github.tommyettinger.textra.utils.NoiseUtils;
 
 /**
  * Moves an underline or strikethrough line through part of the affected text repeatedly.
@@ -28,7 +28,7 @@ import com.github.tommyettinger.textra.TypingLabel;
  * <br>
  * The {@code underline} should be true if an underline should be drawn; defaults to true.
  * The {@code strikethrough} should be true if a strikethrough line should be drawn; defaults to false.
- * The {@code distance} affects how long the line(s) should be; it should be between 0 and 1, and defaults to 0.1 .
+ * The {@code distance} affects how long the line(s) should be; it should be between 0 and 1, and defaults to 0.3 .
  * The {@code frequency} affects how fast the effect should move, and may be negative to reverse the direction; defaults to 1.0 .
  * <br>
  * Example usage:
@@ -38,11 +38,11 @@ import com.github.tommyettinger.textra.TypingLabel;
  * </code>
  */
 public class ShootEffect extends Effect {
-    private static final float DEFAULT_FREQUENCY = MathUtils.PI * 1.5f;
+    private static final float DEFAULT_FREQUENCY = 3f;
 
     private boolean underline = true; // whether an underline should be drawn
     private boolean strikethrough = false; // whether an underline should be drawn
-    private float distance = 0.2f; // How long each line should be
+    private float distance = 0.3f; // How long each line should be
     private float frequency = 1; // How frequently the line should move through the text.
 
     public ShootEffect(TypingLabel label, String[] params) {
@@ -60,7 +60,7 @@ public class ShootEffect extends Effect {
 
         // Distance
         if (params.length > 2) {
-            this.distance = paramAsFloat(params[2], 0.4f);
+            this.distance = paramAsFloat(params[2], 0.3f);
         }
 
         // Frequency
@@ -72,7 +72,7 @@ public class ShootEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate lines
-        float s = MathUtils.sin((totalTime - localIndex * 0.3f) * frequency * DEFAULT_FREQUENCY);
+        float s = NoiseUtils.triangleWave((totalTime - localIndex * 0.03f) * frequency * DEFAULT_FREQUENCY);
         if(s > 1f - distance)
             label.setInWorkingLayout(globalIndex, glyph | (underline ? Font.UNDERLINE : 0L) | (strikethrough ? Font.STRIKETHROUGH : 0L));
         else
