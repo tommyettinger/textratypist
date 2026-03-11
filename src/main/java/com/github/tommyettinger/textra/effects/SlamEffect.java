@@ -131,8 +131,6 @@ public class SlamEffect extends Effect {
             float fadeout = 1f - Interpolation.sineOut.apply(shakeProgress);
             x *= fadeout;
             y *= fadeout;
-            x = MathUtils.round(x);
-            y = MathUtils.round(y);
 
             // Store offsets for the next tick
             lastOffsets.set(localIndex * 2, x);

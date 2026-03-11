@@ -105,8 +105,6 @@ public class ThrobEffect extends Effect {
         float fadeout = calculateFadeout();
         x *= fadeout;
         y *= fadeout;
-        x = MathUtils.round(x);
-        y = MathUtils.round(y);
 
         // Store offsets for the next tick
         lastOffsets.set(localIndex * 2, x);

@@ -121,8 +121,6 @@ public class JoltEffect extends Effect {
             float fadeout = calculateFadeout();
             x *= fadeout;
             y *= fadeout;
-            x = MathUtils.round(x);
-            y = MathUtils.round(y);
             if (fadeout > 0) {
                 if(baseColor == 256)
                     label.setInWorkingLayout(globalIndex, glyph);
