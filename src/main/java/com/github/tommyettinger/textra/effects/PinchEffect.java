@@ -28,7 +28,7 @@ import com.github.tommyettinger.textra.TypingLabel;
  * <br>
  * The {@code strength} affects how much a selected glyph should be scaled in and up, as a fraction between 0 and 1; defaults to 0.5 .
  * The {@code duration} affects how long the effect will continue for, in seconds; defaults to positive infinity.
- * The {@code likelihood} affects how often a glyph is selected to be squeezed; defaults to 0.05 .
+ * The {@code likelihood} affects how often a glyph is selected to be squeezed; defaults to 0.1 .
  * If {@code elastic} is true, the glyphs will wiggle to their squashed and then full size; defaults to false, which uses linear movement.
  * <br>
  * Example usage:
@@ -41,7 +41,7 @@ import com.github.tommyettinger.textra.TypingLabel;
  */
 public class PinchEffect extends Effect {
     private static final float DEFAULT_STRENGTH = 0.5f;
-    private static final float DEFAULT_LIKELIHOOD = 0.05f;
+    private static final float DEFAULT_LIKELIHOOD = 0.1f;
 
     private float strength = DEFAULT_STRENGTH; // How far the glyphs should move
     private float likelihood = DEFAULT_LIKELIHOOD; // How likely it is that each glyph will shake; checked 1/second
@@ -84,15 +84,15 @@ public class PinchEffect extends Effect {
             // Calculate offset
             if (progress < 0.4f) {
                 float interpolatedValue = 1f - Interpolation.sine.apply(progress * 2.5f) * fadeout;
-                float xOff = lineHeight * (-0.25f * (1.0f - interpolatedValue));
+                float xOff = lineHeight * (0.25f * (1.0f - interpolatedValue));
                 label.getOffsets().incr(globalIndex << 1, xOff);
                 label.getOffsets().incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * lineHeight);
                 label.getSizing().incr(globalIndex << 1, interpolatedValue - 1f);
                 label.getSizing().incr(globalIndex << 1 | 1, 1.0f - interpolatedValue);
             } else {
-                Interpolation interpolation = elastic ? Interpolation.swingOut : Interpolation.sine;
+                Interpolation interpolation = elastic ? Interpolation.elasticOut : Interpolation.sine;
                 float interpolatedValue = interpolation.apply((progress - 0.4f) * 1.666f) * fadeout + 1f - fadeout;
-                float xOff = lineHeight * (-0.25f * (1.0f - interpolatedValue));
+                float xOff = lineHeight * (0.25f * (1.0f - interpolatedValue));
                 label.getOffsets().incr(globalIndex << 1, xOff);
                 label.getOffsets().incr(globalIndex << 1 | 1, (interpolatedValue - 1f) * 0.5f * lineHeight);
                 label.getSizing().incr(globalIndex << 1, interpolatedValue - 1f);
