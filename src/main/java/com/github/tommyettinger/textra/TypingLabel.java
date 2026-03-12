@@ -1719,6 +1719,7 @@ public class TypingLabel extends TextraLabel {
     /**
      * Gets the height of the Line containing the glyph at the given index, in the working layout. If the index is out
      * of bounds, this just returns {@link Font#cellHeight}.
+     *
      * @param index the 0-based index of the glyph to measure
      * @return the height of the Line containing the specified glyph
      */
@@ -1736,6 +1737,7 @@ public class TypingLabel extends TextraLabel {
      * Gets the height of the Line containing the glyph at the given index, plus the heights of all preceding lines, in
      * the working layout. If the index is out of bounds, this returns either 0 if index was too low, or the height of
      * all lines together if the index was too high.
+     *
      * @param index the 0-based index of the glyph to measure
      * @return the sum of the height of the Line containing the specified glyph and all preceding line heights
      */

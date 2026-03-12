@@ -246,18 +246,26 @@ public class TextraField extends Widget implements Disableable {
 	protected long wordUnderCursor () {
 		TypingLabel lb = this.label;
 		if(label.overIndex == -1) return lb.length() - 1;
-		int len = lb.length(), start = label.overIndex, right = len, left = 0, index = start;
+		int len = lb.length(), start = label.overIndex, right = len - 1, left = start, index = start;
 		if (start >= len) {
-			right = len - 1;
+			for (index = len - 1; index > -1; index--) {
+				if (isSpaceCharacter(lb.getInWorkingLayout(index))) {
+					left = Math.min(len - 1, index + 1);
+					break;
+				}
+				left = index;
+			}
 		} else {
 			for (; index < len; index++) {
 				if (isSpaceCharacter(lb.getInWorkingLayout(index))) {
+					right = Math.max(0, index - 1);
 					break;
 				}
 				right = index;
 			}
-			for (index = start - 1; index > -1; index--) {
+			for (index = start - 1; index >= 0; index--) {
 				if (isSpaceCharacter(lb.getInWorkingLayout(index))) {
+					left = Math.min(len - 1, index + 1);
 					break;
 				}
 				left = index;
@@ -529,7 +537,7 @@ public class TextraField extends Widget implements Disableable {
 		visibleTextStart = Math.min(visibleTextStart, glyphPositions.size - 1);
 		visibleTextEnd = MathUtils.clamp(visibleTextEnd, visibleTextStart, glyphPositions.size - 1);
 
-		label.selectionStart = Math.min(label.selectionStart, label.length());
+		label.selectionStart = Math.min(label.selectionStart, label.length() - 1);
 	}
 
 	/** Copies the contents of this TextraField to the {@link Clipboard} implementation set on this TextraField. */
@@ -789,16 +797,12 @@ public class TextraField extends Widget implements Disableable {
 	/** Sets the selected text. */
 	public void setSelection (int selectionStart, int selectionEnd) {
 		if (selectionStart < 0 || selectionEnd < 0) {
-			label.selectionStart = label.selectionEnd = -1;
 			cursor = 0;
+			clearSelection();
 			return;
 		}
 		selectionStart = Math.min(text.length() - 1, selectionStart);
 		selectionEnd = Math.min(text.length() - 1, selectionEnd);
-		if (selectionEnd == selectionStart) {
-			clearSelection();
-			return;
-		}
 
 		label.selectionStart = selectionStart;
 		cursor = (label.selectionEnd = selectionEnd) + 1;
@@ -1043,11 +1047,11 @@ public class TextraField extends Widget implements Disableable {
 				clearMessage();
 			int count = getTapCount() & 3;
 			if (count == 0) clearSelection();
-			if (count == 2) {
+			else if (count == 2) {
 				long pair = wordUnderCursor();
 				setSelection((int) (pair >>> 32), (int)pair);
 			}
-			if (count == 3) selectAll();
+			else if (count == 3) selectAll();
 		}
 
 		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
