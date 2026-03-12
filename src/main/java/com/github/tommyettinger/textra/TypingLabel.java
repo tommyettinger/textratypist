@@ -1294,21 +1294,21 @@ public class TypingLabel extends TextraLabel {
 
                         float a = getAdvances().get(r);
 
+                        Font.GlyphRegion reg = f.mapping.get((char) glyph);
+                        if(reg == null) reg = f.mapping.get(' ');
+                        if(reg == null) continue;
+
                         if (i == start) {
                             x -= f.cellWidth * 0.5f;
 
                             x += cs * f.cellWidth * 0.5f;
                             y += sn * f.cellWidth * 0.5f;
 
-//                    x += sn * descent * 0.5f;
-//                    y -= cs * descent * 0.5f;
-
                             y += descent;
                             x += sn * (descent /* - 0.5f * glyphs.height */);
                             y -= cs * (descent /* - 0.5f * glyphs.height */);
 
-                            Font.GlyphRegion reg = font.mapping.get((char) glyph);
-                            if (reg != null && reg.offsetX < 0 && !font.isMono && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {
+                            if (reg.offsetX < 0 && !f.isMono && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {
                                 float ox = reg.offsetX;
                                 ox *= f.scaleX * a;
                                 if (ox < 0) {
@@ -1320,7 +1320,7 @@ public class TypingLabel extends TextraLabel {
                         }
 
                         if (f.kerning != null) {
-                            kern = kern << 16 | (int) ((glyph = glyphs.glyphs.get(i)) & 0xFFFF);
+                            kern = kern << 16 | (ch & 0xFFFF);
                             float amt = f.kerning.get(kern, 0) * f.scaleX * a;
                             xChange += cs * amt;
                             yChange += sn * amt;
@@ -1331,18 +1331,25 @@ public class TypingLabel extends TextraLabel {
                         if (selectionEnd < globalIndex)
                             break;
                         float xx = x + xChange + getOffsets().get(o++), yy = y + yChange + getOffsets().get(o++);
-                        if (font.integerPosition) {
+                        if (f.integerPosition) {
                             xx = (int) xx;
                             yy = (int) yy;
                         }
 
-                        float scale = a, scaleX;
-                        if ((char) glyph >= 0xE000 && (char) glyph < 0xF800) {
-                            scaleX = scale * font.cellHeight / (f.mapping.get((int) glyph & 0xFFFF, f.defaultValue).xAdvance);
-                        } else
-                            scaleX = font.scaleX * scale;
+                        float scaleX;
+                        if(ch >= 0xE000 && ch < 0xF800)
+                            scaleX = a * f.cellHeight / reg.getMaxDimension() * f.inlineImageStretch;
+                        else
+                            scaleX = f.scaleX * a * ((glyph & Font.SUPERSCRIPT) != 0L && !f.isMono ? 0.5f : 1.0f);
+                        single = reg.xAdvance * scaleX;
+                        if(Float.isNaN(reg.offsetX))
+                            single = f.cellWidth * a;
+                        else if(i == start && !f.isMono){
+                            float ox = reg.offsetX * scaleX;
+                            if(ox < 0) single -= ox;
+                        }
 
-                        single = Font.xAdvance(f, scaleX, glyph) * a;
+
                         r++;
                         if(selectionWidth == 0f)
                         {
@@ -1441,8 +1448,8 @@ public class TypingLabel extends TextraLabel {
                     x += sn * (descent - 0.5f * line.height);
                     y -= cs * (descent - 0.5f * line.height);
 
-                    Font.GlyphRegion reg = font.mapping.get((char) glyph);
-                    if (reg != null && reg.offsetX < 0 && !font.isMono && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {
+                    Font.GlyphRegion reg = f.mapping.get((char) glyph);
+                    if (reg != null && reg.offsetX < 0 && !f.isMono && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {
                         float ox = reg.offsetX;
                         ox *= f.scaleX * a;
                         if (ox < 0) {
@@ -1466,8 +1473,9 @@ public class TypingLabel extends TextraLabel {
                     bgc = ColorUtils.offsetLightness((int)(glyph >>> 32), 0.5f);
                 else
                     bgc = 0;
+
                 float xx = x + xChange + getOffsets().get(o++), yy = y + yChange + getOffsets().get(o++);
-                if(font.integerPosition){
+                if(f.integerPosition){
                     xx = (int)xx;
                     yy = (int)yy;
                 }
