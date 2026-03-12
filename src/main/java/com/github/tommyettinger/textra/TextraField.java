@@ -43,7 +43,6 @@ import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.LongArray;
 import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.NumberUtils;
-import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.github.tommyettinger.textra.Styles.TextFieldStyle;
@@ -752,10 +751,10 @@ public class TextraField extends Widget implements Disableable {
 	boolean changeText (String oldText, String newText) {
 		if (newText.equals(oldText)) return false;
 		text = newText;
-		ChangeEvent changeEvent = Pools.obtain(ChangeEvent.class);
+		ChangeEvent changeEvent = POOLS.obtain(ChangeEvent.class);
 		boolean cancelled = fire(changeEvent);
 		if (cancelled) text = oldText;
-		Pools.free(changeEvent);
+		POOLS.free(changeEvent);
 		return !cancelled;
 	}
 
@@ -763,12 +762,12 @@ public class TextraField extends Widget implements Disableable {
 	boolean changeText (int position, CharSequence inserting) {
 		Layout oldText = new Layout(label.layout);
 		if (insert(position, inserting)) return false;
-		ChangeEvent changeEvent = Pools.obtain(ChangeEvent.class);
+		ChangeEvent changeEvent = POOLS.obtain(ChangeEvent.class);
 		boolean cancelled = fire(changeEvent);
 		if (cancelled) {
 			label.layout = oldText;
 		}
-		Pools.free(changeEvent);
+		POOLS.free(changeEvent);
 		return !cancelled;
 	}
 
