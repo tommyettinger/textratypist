@@ -804,12 +804,12 @@ public class TextraField extends Widget implements Disableable {
 		selectionStart = Math.min(text.length() - 1, selectionStart);
 		selectionEnd = Math.min(text.length() - 1, selectionEnd);
 
-		label.selectionStart = selectionStart;
-		cursor = (label.selectionEnd = selectionEnd) + 1;
+		label.selectionStart = Math.min(selectionStart, selectionEnd);
+		cursor = (label.selectionEnd = Math.max(selectionStart, selectionEnd)) + 1;
 	}
 
 	public void selectAll () {
-		setSelection(0, Math.max(0, text.length() - 1));
+		setSelection(0, text.length() - 1);
 	}
 
 	public void clearSelection () {
@@ -1183,8 +1183,8 @@ public class TextraField extends Widget implements Disableable {
 						else
 							label.selectionStart--;
 					} else {
-						int start = Math.min(label.selectionStart, label.selectionEnd);
-						int end = Math.max(label.selectionStart, label.selectionEnd);
+						int start = label.selectionStart;
+						int end = label.selectionEnd;
 						if (cursor < start) {
 							label.selectionStart = cursor;
 						} else if(cursor > end) {

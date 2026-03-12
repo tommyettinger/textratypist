@@ -110,14 +110,13 @@ public class TypingLabel extends TextraLabel {
     public int overIndex = -1;
     /**
      * The inclusive start index for the selected text, if there is a selection. This should be -1 if there is no
-     * selection, or sometimes -2 if the selection went past the end of the text. This is essentially interchangeable
-     * with {@link #selectionEnd}; as long as they are different, it doesn't matter which is higher or lower.
+     * selection, or sometimes -2 if the selection went past the end of the text.
      */
     public int selectionStart = -1;
     /**
      * The inclusive end index for the selected text, if there is a selection. This should be -1 if there is no
-     * selection, or sometimes -2 if the selection went past the end of the text. This is essentially interchangeable
-     * with {@link #selectionStart}; as long as they are different, it doesn't matter which is higher or lower.
+     * selection, or sometimes -2 if the selection went past the end of the text. If this is less than
+     * {@link #selectionStart} or less than 0, nothing is selected.
      */
     public int selectionEnd = -1;
 
@@ -1226,7 +1225,7 @@ public class TypingLabel extends TextraLabel {
         boolean curly = false;
 
         if(selectable && selectionDrawable != null) {
-            if(selectionStart >= 0) {
+            if(selectionEnd >= 0 && selectionEnd >= selectionStart) {
                 SELECTION_LINE:
                 for (int ln = 0; ln < lines; ln++) {
                     Line glyphs = workingLayout.getLine(ln);
@@ -1532,8 +1531,8 @@ public class TypingLabel extends TextraLabel {
      * @return the currently selected text, or the empty string if none is or can be selected
      */
     public String getSelectedText() {
-        if(!selectable || (selectionStart >= selectionEnd && selectionStart < 0)) return "";
-        return substring(selectionStart, selectionEnd+1);
+        if(!selectable || selectionStart < 0 || selectionEnd < 0) return "";
+        return substring(selectionStart, selectionEnd + 1);
     }
 
     /**
@@ -1542,8 +1541,8 @@ public class TypingLabel extends TextraLabel {
      * @return true if text was copied, or false if the clipboard hasn't received any text
      */
     public boolean copySelectedText() {
-        if(!selectable || (selectionStart >= selectionEnd && selectionStart < 0)) return false;
-        Gdx.app.getClipboard().setContents(substring(selectionStart, selectionEnd+1));
+        if(!selectable || selectionStart < 0 || selectionEnd < 0) return false;
+        Gdx.app.getClipboard().setContents(substring(selectionStart, selectionEnd + 1));
         return true;
     }
 
@@ -1553,7 +1552,7 @@ public class TypingLabel extends TextraLabel {
      * @return true if there is selected text, or false otherwise
      */
     public boolean hasSelection() {
-        return selectable && (selectionStart >= 0);
+        return selectable && selectionEnd >= 0 && selectionEnd >= selectionStart;
     }
 
     public void setIntermediateText(CharSequence text, boolean modifyOriginalText, boolean restart) {
