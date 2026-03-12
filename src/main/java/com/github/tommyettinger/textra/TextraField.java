@@ -1174,6 +1174,10 @@ public class TextraField extends Widget implements Disableable {
 					if (!label.hasSelection()) {
 						label.selectionStart = temp;
 						label.selectionEnd = cursor;
+						if(temp < cursor)
+							label.selectionEnd--;
+						else
+							label.selectionStart--;
 					} else {
 						int start = Math.min(label.selectionStart, label.selectionEnd);
 						int end = Math.max(label.selectionStart, label.selectionEnd);
