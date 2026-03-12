@@ -1226,7 +1226,7 @@ public class TypingLabel extends TextraLabel {
         boolean curly = false;
 
         if(selectable && selectionDrawable != null) {
-            if(selectionStart != selectionEnd) {
+            if(selectionStart >= 0) {
                 SELECTION_LINE:
                 for (int ln = 0; ln < lines; ln++) {
                     Line glyphs = workingLayout.getLine(ln);
@@ -1545,7 +1545,7 @@ public class TypingLabel extends TextraLabel {
      * @return true if there is selected text, or false otherwise
      */
     public boolean hasSelection() {
-        return selectable && (selectionStart < selectionEnd || selectionStart >= 0);
+        return selectable && (selectionStart >= 0);
     }
 
     public void setIntermediateText(CharSequence text, boolean modifyOriginalText, boolean restart) {
