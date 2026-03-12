@@ -1492,13 +1492,22 @@ public class TypingLabel extends TextraLabel {
                             }
                             else if(selectable) {
                                 if (Gdx.input.isTouched()) {
-                                    int adjustedIndex = (lastTouchedIndex == -2) ? workingLayout.countGlyphs() : lastTouchedIndex;
-                                    selectionStart = Math.min(adjustedIndex, globalIndex);
-                                    selectionEnd = Math.max(adjustedIndex, globalIndex);
-                                    dragging = true;
+                                    if((lastTouchedIndex == -2)) {
+                                        selectionStart = globalIndex;
+                                        selectionEnd = workingLayout.countGlyphs() - 1;
+                                    }
+                                    else
+                                    {
+                                        selectionStart = Math.min(lastTouchedIndex, globalIndex);
+                                        selectionEnd = Math.max(lastTouchedIndex, globalIndex);
+                                    }
+                                    if(overIndex != lastTouchedIndex)
+                                        dragging = true;
+                                    else if(!dragging)
+                                        selectionEnd--;
                                 } else if(dragging){
                                     dragging = false;
-                                    if(selectionStart != selectionEnd){
+                                    if(selectionEnd >= 0 && selectionEnd >= selectionStart){
                                         triggerEvent("*SELECTED", true);
                                     }
                                     else {
