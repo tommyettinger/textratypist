@@ -122,11 +122,51 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getMonogramItalic().setName(KnownFonts.MONOGRAM_ITALIC + "-standard");
         all[idx++] = KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard");
  */
+
+        Font[] all = new Font[36];
+        int idx = 0;
+        all[idx++] = KnownFonts.getDINish(Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).setName("DINish" + Font.DistanceFieldType.STANDARD.filePart);
+        all[idx++] = KnownFonts.getDINish(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).setName("DINish" + Font.DistanceFieldType.MSDF.filePart);
+        all[idx++] = KnownFonts.getDINish(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("DINish" + Font.DistanceFieldType.SDF.filePart);
+        all[idx++] = KnownFonts.getDINish(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("DINish" + "-sdf-outline");
+        all[idx++] = KnownFonts.getDINishLight(Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).setName("DINish-Light" + Font.DistanceFieldType.STANDARD.filePart);
+        all[idx++] = KnownFonts.getDINishLight(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).setName("DINish-Light" + Font.DistanceFieldType.MSDF.filePart);
+        all[idx++] = KnownFonts.getDINishLight(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("DINish-Light" + Font.DistanceFieldType.SDF.filePart);
+        all[idx++] = KnownFonts.getDINishLight(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("DINish-Light" + "-sdf-outline");
+        all[idx++] = KnownFonts.getDINishHeavy(Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).setName("DINish-Heavy" + Font.DistanceFieldType.STANDARD.filePart);
+        all[idx++] = KnownFonts.getDINishHeavy(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).setName("DINish-Heavy" + Font.DistanceFieldType.MSDF.filePart);
+        all[idx++] = KnownFonts.getDINishHeavy(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("DINish-Heavy" + Font.DistanceFieldType.SDF.filePart);
+        all[idx++] = KnownFonts.getDINishHeavy(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("DINish-Heavy" + "-sdf-outline");
+        all[idx++] = KnownFonts.getDINishCondensed(Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).setName("DINish-Condensed" + Font.DistanceFieldType.STANDARD.filePart);
+        all[idx++] = KnownFonts.getDINishCondensed(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).setName("DINish-Condensed" + Font.DistanceFieldType.MSDF.filePart);
+        all[idx++] = KnownFonts.getDINishCondensed(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("DINish-Condensed" + Font.DistanceFieldType.SDF.filePart);
+        all[idx++] = KnownFonts.getDINishCondensed(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("DINish-Condensed" + "-sdf-outline");
+        all[idx++] = KnownFonts.getDINishCondensedLight(Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).setName("DINish-Condensed-Light" + Font.DistanceFieldType.STANDARD.filePart);
+        all[idx++] = KnownFonts.getDINishCondensedLight(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).setName("DINish-Condensed-Light" + Font.DistanceFieldType.MSDF.filePart);
+        all[idx++] = KnownFonts.getDINishCondensedLight(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("DINish-Condensed-Light" + Font.DistanceFieldType.SDF.filePart);
+        all[idx++] = KnownFonts.getDINishCondensedLight(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("DINish-Condensed-Light" + "-sdf-outline");
+        all[idx++] = KnownFonts.getDINishCondensedHeavy(Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).setName("DINish-Condensed-Heavy" + Font.DistanceFieldType.STANDARD.filePart);
+        all[idx++] = KnownFonts.getDINishCondensedHeavy(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).setName("DINish-Condensed-Heavy" + Font.DistanceFieldType.MSDF.filePart);
+        all[idx++] = KnownFonts.getDINishCondensedHeavy(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("DINish-Condensed-Heavy" + Font.DistanceFieldType.SDF.filePart);
+        all[idx++] = KnownFonts.getDINishCondensedHeavy(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("DINish-Condensed-Heavy" + "-sdf-outline");
+        all[idx++] = KnownFonts.getDINishExpanded(Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).setName("DINish-Expanded" + Font.DistanceFieldType.STANDARD.filePart);
+        all[idx++] = KnownFonts.getDINishExpanded(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).setName("DINish-Expanded" + Font.DistanceFieldType.MSDF.filePart);
+        all[idx++] = KnownFonts.getDINishExpanded(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("DINish-Expanded" + Font.DistanceFieldType.SDF.filePart);
+        all[idx++] = KnownFonts.getDINishExpanded(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("DINish-Expanded" + "-sdf-outline");
+        all[idx++] = KnownFonts.getDINishExpandedLight(Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).setName("DINish-Expanded-Light" + Font.DistanceFieldType.STANDARD.filePart);
+        all[idx++] = KnownFonts.getDINishExpandedLight(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).setName("DINish-Expanded-Light" + Font.DistanceFieldType.MSDF.filePart);
+        all[idx++] = KnownFonts.getDINishExpandedLight(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("DINish-Expanded-Light" + Font.DistanceFieldType.SDF.filePart);
+        all[idx++] = KnownFonts.getDINishExpandedLight(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("DINish-Expanded-Light" + "-sdf-outline");
+        all[idx++] = KnownFonts.getDINishExpandedHeavy(Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).setName("DINish-Expanded-Heavy" + Font.DistanceFieldType.STANDARD.filePart);
+        all[idx++] = KnownFonts.getDINishExpandedHeavy(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).setName("DINish-Expanded-Heavy" + Font.DistanceFieldType.MSDF.filePart);
+        all[idx++] = KnownFonts.getDINishExpandedHeavy(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("DINish-Expanded-Heavy" + Font.DistanceFieldType.SDF.filePart);
+        all[idx++] = KnownFonts.getDINishExpandedHeavy(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("DINish-Expanded-Heavy" + "-sdf-outline");
+
         // DEBUG
-        Font[] all = new Font[]{
+//        Font[] all = new Font[]{
 //                KnownFonts.getLanaPixel().setName(KnownFonts.LANAPIXEL + "-standard")
-                KnownFonts.getCozette().setName(KnownFonts.COZETTE + "-standard")
-        };
+//                KnownFonts.getCozette().setName(KnownFonts.COZETTE + "-standard")
+//        };
 
         fnt = all[0];
 //        fnt = fonts[fonts.length - 1];

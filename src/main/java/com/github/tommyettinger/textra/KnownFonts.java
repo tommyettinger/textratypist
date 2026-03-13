@@ -1967,7 +1967,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish
      */
     public static Font getDINish() {
-        return getFont(DINISH, STANDARD).setLineMetrics(-0.1f, 0f, 0.2f, 0f);
+        return getFont(DINISH, STANDARD).setLineMetrics(-0.1f, 0.1f, 0.3f, -0.3f);
     }
 
     /**
@@ -2005,7 +2005,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish using the given DistanceFieldType
      */
     public static Font getDINish(DistanceFieldType dft) {
-        return getFont(DINISH, dft).setLineMetrics(-0.1f, 0f, 0.2f, 0f);
+        return getFont(DINISH, dft).setLineMetrics(-0.1f, 0.1f, 0.3f, -0.3f);
     }
 
     /**
@@ -2031,7 +2031,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Heavy
      */
     public static Font getDINishHeavy() {
-        return getFont(DINISH_HEAVY, STANDARD).setLineMetrics(0f, 0f, 0f, 0.4f);
+        return getFont(DINISH_HEAVY, STANDARD).setLineMetrics(-0.1f, 0.1f, 0.3f, 0.2f);
     }
 
     /**
@@ -2069,7 +2069,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Heavy using the given DistanceFieldType
      */
     public static Font getDINishHeavy(DistanceFieldType dft) {
-        return getFont(DINISH_HEAVY, dft).setLineMetrics(0f, 0f, 0f, 0.4f);
+        return getFont(DINISH_HEAVY, dft).setLineMetrics(-0.1f, 0.1f, 0.3f, 0.2f);
     }
 
     /**
@@ -2095,7 +2095,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Light
      */
     public static Font getDINishLight() {
-        return getFont(DINISH_LIGHT, STANDARD).setLineMetrics(0f, 0f, 0f, -0.4f);
+        return getFont(DINISH_LIGHT, STANDARD).setLineMetrics(-0.1f, 0.1f, 0.3f, -0.6f);
     }
 
     /**
@@ -2133,7 +2133,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Light using the given DistanceFieldType
      */
     public static Font getDINishLight(DistanceFieldType dft) {
-        return getFont(DINISH_LIGHT, dft).setLineMetrics(0f, 0f, 0f, -0.4f);
+        return getFont(DINISH_LIGHT, dft).setLineMetrics(-0.1f, 0.1f, 0.3f, -0.6f);
     }
     
     /**
