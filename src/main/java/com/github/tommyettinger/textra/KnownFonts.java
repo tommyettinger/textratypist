@@ -1967,7 +1967,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish
      */
     public static Font getDINish() {
-        return getFont(DINISH, STANDARD).setLineMetrics(-0.1f, 0.1f, 0.3f, -0.3f);
+        return getFont(DINISH, STANDARD).setLineMetrics(-0.1f, 0.15f, 0.3f, -0.3f);
     }
 
     /**
@@ -2005,7 +2005,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish using the given DistanceFieldType
      */
     public static Font getDINish(DistanceFieldType dft) {
-        return getFont(DINISH, dft).setLineMetrics(-0.1f, 0.1f, 0.3f, -0.3f);
+        return getFont(DINISH, dft).setLineMetrics(-0.1f, 0.15f, 0.3f, -0.3f);
     }
 
     /**
@@ -2031,7 +2031,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Heavy
      */
     public static Font getDINishHeavy() {
-        return getFont(DINISH_HEAVY, STANDARD).setLineMetrics(-0.1f, 0.1f, 0.3f, 0.2f);
+        return getFont(DINISH_HEAVY, STANDARD).setLineMetrics(-0.1f, 0.15f, 0.3f, 0.2f);
     }
 
     /**
@@ -2069,7 +2069,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Heavy using the given DistanceFieldType
      */
     public static Font getDINishHeavy(DistanceFieldType dft) {
-        return getFont(DINISH_HEAVY, dft).setLineMetrics(-0.1f, 0.1f, 0.3f, 0.2f);
+        return getFont(DINISH_HEAVY, dft).setLineMetrics(-0.1f, 0.15f, 0.3f, 0.2f);
     }
 
     /**
@@ -2095,7 +2095,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Light
      */
     public static Font getDINishLight() {
-        return getFont(DINISH_LIGHT, STANDARD).setLineMetrics(-0.1f, 0.1f, 0.3f, -0.6f);
+        return getFont(DINISH_LIGHT, STANDARD).setLineMetrics(-0.1f, 0.15f, 0.3f, -0.6f);
     }
 
     /**
@@ -2133,7 +2133,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Light using the given DistanceFieldType
      */
     public static Font getDINishLight(DistanceFieldType dft) {
-        return getFont(DINISH_LIGHT, dft).setLineMetrics(-0.1f, 0.1f, 0.3f, -0.6f);
+        return getFont(DINISH_LIGHT, dft).setLineMetrics(-0.1f, 0.15f, 0.3f, -0.6f);
     }
     
     /**
@@ -2159,7 +2159,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Condensed
      */
     public static Font getDINishCondensed() {
-        return getFont(DINISH_CONDENSED, STANDARD).setLineMetrics(-0.1f, 0f, 0.2f, 0f);
+        return getFont(DINISH_CONDENSED, STANDARD).setLineMetrics(-0.1f, 0.15f, 0.3f, -0.3f);
     }
 
     /**
@@ -2197,7 +2197,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Condensed using the given DistanceFieldType
      */
     public static Font getDINishCondensed(DistanceFieldType dft) {
-        return getFont(DINISH_CONDENSED, dft).setLineMetrics(-0.1f, 0f, 0.2f, 0f);
+        return getFont(DINISH_CONDENSED, dft).setLineMetrics(-0.1f, 0.15f, 0.3f, -0.3f);
     }
 
     /**
@@ -2223,7 +2223,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Condensed Heavy
      */
     public static Font getDINishCondensedHeavy() {
-        return getFont(DINISH_CONDENSED_HEAVY, STANDARD).setLineMetrics(-0.1f, 0f, 0.2f, 0.4f);
+        return getFont(DINISH_CONDENSED_HEAVY, STANDARD).setLineMetrics(-0.1f, 0.15f, 0.3f, 0.2f);
     }
 
     /**
@@ -2261,7 +2261,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Condensed Heavy using the given DistanceFieldType
      */
     public static Font getDINishCondensedHeavy(DistanceFieldType dft) {
-        return getFont(DINISH_CONDENSED_HEAVY, dft).setLineMetrics(-0.1f, 0f, 0.2f, 0.4f);
+        return getFont(DINISH_CONDENSED_HEAVY, dft).setLineMetrics(-0.1f, 0.15f, 0.3f, 0.2f);
     }
 
     /**
@@ -2287,7 +2287,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Condensed Light
      */
     public static Font getDINishCondensedLight() {
-        return getFont(DINISH_CONDENSED_LIGHT, STANDARD).setLineMetrics(0f, 0f, 0f, -0.4f);
+        return getFont(DINISH_CONDENSED_LIGHT, STANDARD).setLineMetrics(-0.1f, 0.15f, 0.3f, -0.6f);
     }
 
     /**
@@ -2325,7 +2325,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Condensed Light using the given DistanceFieldType
      */
     public static Font getDINishCondensedLight(DistanceFieldType dft) {
-        return getFont(DINISH_CONDENSED_LIGHT, dft).setLineMetrics(0f, 0f, 0f, -0.4f);
+        return getFont(DINISH_CONDENSED_LIGHT, dft).setLineMetrics(-0.1f, 0.15f, 0.3f, -0.6f);
     }
 
     /**
@@ -2351,7 +2351,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Expanded
      */
     public static Font getDINishExpanded() {
-        return getFont(DINISH_EXPANDED, STANDARD).setLineMetrics(-0.1f, 0f, 0.2f, 0f);
+        return getFont(DINISH_EXPANDED, STANDARD).setLineMetrics(-0.1f, 0.15f, 0.3f, -0.3f);
     }
 
     /**
@@ -2389,7 +2389,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Expanded using the given DistanceFieldType
      */
     public static Font getDINishExpanded(DistanceFieldType dft) {
-        return getFont(DINISH_EXPANDED, dft).setLineMetrics(-0.1f, 0f, 0.2f, 0f);
+        return getFont(DINISH_EXPANDED, dft).setLineMetrics(-0.1f, 0.15f, 0.3f, -0.3f);
     }
 
     /**
@@ -2415,7 +2415,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Expanded Heavy
      */
     public static Font getDINishExpandedHeavy() {
-        return getFont(DINISH_EXPANDED_HEAVY, STANDARD).setLineMetrics(-0.1f, 0f, 0.2f, 0.4f);
+        return getFont(DINISH_EXPANDED_HEAVY, STANDARD).setLineMetrics(-0.1f, 0.15f, 0.3f, 0.2f);
     }
 
     /**
@@ -2453,7 +2453,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Expanded Heavy using the given DistanceFieldType
      */
     public static Font getDINishExpandedHeavy(DistanceFieldType dft) {
-        return getFont(DINISH_EXPANDED_HEAVY, dft).setLineMetrics(-0.1f, 0f, 0.2f, 0.4f);
+        return getFont(DINISH_EXPANDED_HEAVY, dft).setLineMetrics(-0.1f, 0.15f, 0.3f, 0.2f);
     }
 
     /**
@@ -2479,7 +2479,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Expanded Light
      */
     public static Font getDINishExpandedLight() {
-        return getFont(DINISH_EXPANDED_LIGHT, STANDARD).setLineMetrics(0f, 0f, 0f, -0.4f);
+        return getFont(DINISH_EXPANDED_LIGHT, STANDARD).setLineMetrics(-0.1f, 0.15f, 0.3f, -0.6f);
     }
 
     /**
@@ -2517,7 +2517,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return the Font object that can represent many sizes of the font DINish Expanded Light using the given DistanceFieldType
      */
     public static Font getDINishExpandedLight(DistanceFieldType dft) {
-        return getFont(DINISH_EXPANDED_LIGHT, dft).setLineMetrics(0f, 0f, 0f, -0.4f);
+        return getFont(DINISH_EXPANDED_LIGHT, dft).setLineMetrics(-0.1f, 0.15f, 0.3f, -0.6f);
     }
 
     /**
