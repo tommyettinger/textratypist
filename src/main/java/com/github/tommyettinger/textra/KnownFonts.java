@@ -268,6 +268,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String DEJAVU_SERIF = "DejaVu-Serif";
     /** Base name for a variable-width Latin-and-Cyrillic road-sign font, with regular weight. */
     public static final String DINISH = "DINish";
+    /** Base name for a variable-width Latin-and-Cyrillic road-sign font, with light weight. */
+    public static final String DINISH_LIGHT = "DINish-Light";
     /** Base name for a variable-width Unicode-heavy serif font. */
     public static final String GENTIUM = "Gentium";
     /** Base name for a variable-width Unicode-heavy "swashbuckling" serif font. */
@@ -1927,12 +1929,13 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a Font already configured to use a variable-width road sign font that supports the Latin and Cyrillic
      * scripts. Uses the given distance field type. Caches the result for later calls. The font used is
-     * DINish, an open-source typeface modeled after the DIN 1451 standard for fonts used on the Autobahn. It supports
+     * <a href="https://fonts.playbeing.com/dinish/">DINish</a>, an open-source typeface modeled after the
+     * DIN 1451 standard for fonts used on the German Autobahn. It supports
      * a good amount of glyphs, including some extended Latin, and most Cyrillic. This does not use a distance field
      * effect. You may want to stick using just fonts that avoid distance fields if you have a family of fonts.
      * <br>
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH, Font.DistanceFieldType.STANDARD)}, which
-     * is unusual. It does make one change to the Font it returns; it widens underline and strikethrough lines.
+     * is unusual. It does make one change to the Font it returns; it lengthens underline and strikethrough lines.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
@@ -1952,11 +1955,12 @@ public final class KnownFonts implements LifecycleListener {
     /**
      * Returns a Font already configured to use a variable-width road sign font that supports the Latin and Cyrillic
      * scripts. Uses the given distance field type. Caches the result for later calls. The font used is
-     * DINish, an open-source typeface modeled after the DIN 1451 standard for fonts used on the Autobahn. It supports
+     * <a href="https://fonts.playbeing.com/dinish/">DINish</a>, an open-source typeface modeled after the
+     * DIN 1451 standard for fonts used on the German Autobahn. It supports
      * a good amount of glyphs, including some extended Latin, and most Cyrillic.
      * <br>
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH, dft)}, which
-     * is unusual. It does make one change to the Font it returns; it widens underline and strikethrough lines.
+     * is unusual. It does make one change to the Font it returns; it lengthens underline and strikethrough lines.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
@@ -1984,6 +1988,70 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getDINish(DistanceFieldType dft) {
         return getFont(DINISH, dft).setLineMetrics(-0.1f, 0f, 0.2f, 0f);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width light-weight road sign font that supports the Latin and
+     * Cyrillic scripts. Uses the given distance field type. Caches the result for later calls. The font used is
+     * <a href="https://fonts.playbeing.com/dinish/">DINish Light</a>, an open-source typeface modeled after the
+     * DIN 1451 standard for fonts used on the German Autobahn. It supports
+     * a good amount of glyphs, including some extended Latin, and most Cyrillic. This does not use a distance field
+     * effect. You may want to stick using just fonts that avoid distance fields if you have a family of fonts.
+     * <br>
+     * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH, Font.DistanceFieldType.STANDARD)}, which
+     * is unusual. It does make one change to the Font it returns; it thins underline and strikethrough lines.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Light-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DINish-Light-standard.json.lzma">DINish-Light-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DINish-Light-standard.png">DINish-Light-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DINish-License.txt">DINish-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font DINish Light
+     */
+    public static Font getDINishLight() {
+        return getFont(DINISH_LIGHT, STANDARD).setLineMetrics(0f, 0f, 0f, -0.4f);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width light-weight road sign font that supports the Latin and
+     * Cyrillic scripts. Uses the given distance field type. Caches the result for later calls. The font used is
+     * <a href="https://fonts.playbeing.com/dinish/">DINish Light</a>, an open-source typeface modeled after the
+     * DIN 1451 standard for fonts used on the German Autobahn. It supports
+     * a good amount of glyphs, including some extended Latin, and most Cyrillic.
+     * <br>
+     * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH, dft)}, which
+     * is unusual. It does make one change to the Font it returns; it thins underline and strikethrough lines.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Light-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DINish-Light-standard.json.lzma">DINish-Light-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DINish-Light-standard.png">DINish-Light-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DINish-License.txt">DINish-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DINish-Light-msdf.json.lzma">DINish-Light-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DINish-Light-msdf.png">DINish-Light-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DINish-License.txt">DINish-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DINish-Light-sdf.json.lzma">DINish-Light-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DINish-Light-sdf.png">DINish-Light-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/DINish-License.txt">DINish-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font DINish Light using the given DistanceFieldType
+     */
+    public static Font getDINishLight(DistanceFieldType dft) {
+        return getFont(DINISH_LIGHT, dft).setLineMetrics(0f, 0f, 0f, -0.4f);
     }
 
     /**
