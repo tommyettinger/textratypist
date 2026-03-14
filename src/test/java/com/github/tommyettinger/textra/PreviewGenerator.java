@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.nio.ByteBuffer;
 
 public class PreviewGenerator extends ApplicationAdapter {
+    public static final boolean DERIVATIVES = false;
 
     Font fnt;
     SpriteBatch batch;
@@ -49,6 +50,19 @@ public class PreviewGenerator extends ApplicationAdapter {
 
     @Override
     public void create() {
+        if(DERIVATIVES){
+            KnownFonts.initialize(null, null,
+                    Font.vertexShader, Font.sdfFragmentShaderUsingDerivatives,
+                    Font.vertexShader, Font.sdfBlackOutlineFragmentShaderUsingDerivatives,
+                    Font.vertexShader, Font.msdfFragmentShader);
+        } else {
+            KnownFonts.initialize(null, null,
+                    Font.vertexShader, Font.sdfFragmentShader,
+                    Font.vertexShader, Font.sdfBlackOutlineFragmentShader,
+                    Font.vertexShader, Font.msdfFragmentShader);
+
+        }
+
         batch = new SpriteBatch();
         viewport = new StretchViewport(1200, 675);
 
@@ -121,8 +135,22 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getMonogram().setName(KnownFonts.MONOGRAM + "-standard");
         all[idx++] = KnownFonts.getMonogramItalic().setName(KnownFonts.MONOGRAM_ITALIC + "-standard");
         all[idx++] = KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard");
- */
+*/
 
+        // SDF ONLY, TO COMPARE DERIVATIVE SHADERS
+        String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String[]::new);
+        Font[] all = new Font[jsonFiles.length * 2 + 2];
+        int idx = 0;
+        for (int i = 0; i < jsonFiles.length; i++) {
+            all[idx++] = KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName(jsonFiles[i] + Font.DistanceFieldType.SDF.filePart + (DERIVATIVES ? "" : "-nd"));
+            all[idx++] = KnownFonts.getFont(jsonFiles[i], Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName(jsonFiles[i] + "-sdf-outline" + (DERIVATIVES ? "" : "-nd"));
+        }
+        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("A-Starry-Tall" + Font.DistanceFieldType.SDF.filePart + (DERIVATIVES ? "" : "-nd"));
+        all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("A-Starry-Tall" + "-sdf-outline" + (DERIVATIVES ? "" : "-nd"));
+
+
+        // JUST DINISH FONTS
+        /*
         Font[] all = new Font[36];
         int idx = 0;
         all[idx++] = KnownFonts.getDINish(Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).setName("DINish" + Font.DistanceFieldType.STANDARD.filePart);
@@ -161,12 +189,14 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getDINishExpandedHeavy(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).setName("DINish-Expanded-Heavy" + Font.DistanceFieldType.MSDF.filePart);
         all[idx++] = KnownFonts.getDINishExpandedHeavy(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("DINish-Expanded-Heavy" + Font.DistanceFieldType.SDF.filePart);
         all[idx++] = KnownFonts.getDINishExpandedHeavy(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("DINish-Expanded-Heavy" + "-sdf-outline");
-
+*/
         // DEBUG
-//        Font[] all = new Font[]{
-//                KnownFonts.getLanaPixel().setName(KnownFonts.LANAPIXEL + "-standard")
-//                KnownFonts.getCozette().setName(KnownFonts.COZETTE + "-standard")
-//        };
+        /*
+        Font[] all = new Font[]{
+                KnownFonts.getLanaPixel().setName(KnownFonts.LANAPIXEL + "-standard")
+                KnownFonts.getCozette().setName(KnownFonts.COZETTE + "-standard")
+        };
+*/
 
         fnt = all[0];
 //        fnt = fonts[fonts.length - 1];
