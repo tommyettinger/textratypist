@@ -68,7 +68,7 @@ import java.util.Arrays;
  * @author Nathan Sweet
  * @author Tommy Ettinger
  */
-public class TextraField extends Widget implements Disableable, Disposable {
+public class TextraField extends Widget implements Disableable {
 	protected static final char BACKSPACE = '\b';
 	protected static final char CARRIAGE_RETURN = '\r';
 	protected static final char NEWLINE = '\n';
@@ -955,14 +955,6 @@ public class TextraField extends Widget implements Disableable, Disposable {
 	protected boolean continueCursor (int index, int offset) {
 		char c = text.charAt(index + offset);
 		return isWordCharacter(c);
-	}
-
-	/**
-	 * Releases all resources of this object.
-	 */
-	@Override
-	public void dispose() {
-		style.font.dispose();
 	}
 
 	protected class KeyRepeatTask extends Task {

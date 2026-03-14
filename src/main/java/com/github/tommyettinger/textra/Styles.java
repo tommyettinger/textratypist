@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Null;
 
 /**
@@ -591,8 +592,12 @@ public final class Styles {
 
     /**
      * The style for a text field, see {@link TextraField}.
+     * This is Disposable because it always copies any Font it is given (unless {@link #font} is directly assigned,
+     * which should be avoided). To avoid the copy becoming inaccessible while still holding native resources, you
+     * should dispose this style when you are completely finished using it (and don't intend to use it again). You can
+     * also just dispose the {@link #font}, which does the same thing as calling {@link #dispose()} on the style.
      */
-    public static class TextFieldStyle {
+    public static class TextFieldStyle implements Disposable {
         public Font font;
         public Color fontColor;
         public @Null Color focusedFontColor, disabledFontColor;
@@ -663,12 +668,11 @@ public final class Styles {
         }
 
         /**
-         * You should almost always avoid calling this constructor directly, because it allocates a new Font object
-         * every time (copying information from the given style), and it isn't easy to dispose the created Font.
+         * This constructor copies the BitmapFont in the given style, but so do all constructors for this class.
+         * Using a Font with Styles is normally encouraged instead of using a BitmapFont, though.
+         *
          * @param style a Label.LabelStyle that will have its data and BitmapFont copied into this and its Font
-         * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
          */
-        @Deprecated
         public TextFieldStyle(TextField.TextFieldStyle style) {
             font = new Font(style.font);
             if (style.fontColor != null) fontColor = new Color(style.fontColor);
@@ -682,6 +686,18 @@ public final class Styles {
             selection = style.selection;
 
             if (style.messageFontColor != null) messageFontColor = new Color(style.messageFontColor);
+        }
+
+        /**
+         * Releases all resources of this object.
+         * Calls {@link Font#dispose()} on {@link #font}, but does nothing else.
+         * This style is Disposable because it creates a copy of any Font it is given. If you are using the same
+         * TextFieldStyle for multiple TextraFields, then you should only dispose the TextFieldStyle when you are
+         * no longer using the style for any current or future TextraFields.
+         */
+        @Override
+        public void dispose() {
+            font.dispose();
         }
     }
 }
