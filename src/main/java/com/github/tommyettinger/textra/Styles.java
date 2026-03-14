@@ -499,7 +499,7 @@ public final class Styles {
         }
 
         public SelectBoxStyle(SelectBoxStyle style) {
-            font = new Font(style.font);
+            font = style.font;
             fontColor.set(style.fontColor);
 
             if (style.overFontColor != null) overFontColor = new Color(style.overFontColor);
