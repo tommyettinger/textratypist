@@ -35,15 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Clipboard;
-import com.badlogic.gdx.utils.FloatArray;
-import com.badlogic.gdx.utils.IntMap;
-import com.badlogic.gdx.utils.LongArray;
-import com.badlogic.gdx.utils.Null;
-import com.badlogic.gdx.utils.NumberUtils;
-import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.github.tommyettinger.textra.Styles.TextFieldStyle;
 import com.github.tommyettinger.textra.utils.StringUtils;
@@ -76,7 +68,7 @@ import java.util.Arrays;
  * @author Nathan Sweet
  * @author Tommy Ettinger
  */
-public class TextraField extends Widget implements Disableable {
+public class TextraField extends Widget implements Disableable, Disposable {
 	protected static final char BACKSPACE = '\b';
 	protected static final char CARRIAGE_RETURN = '\r';
 	protected static final char NEWLINE = '\n';
@@ -963,6 +955,14 @@ public class TextraField extends Widget implements Disableable {
 	protected boolean continueCursor (int index, int offset) {
 		char c = text.charAt(index + offset);
 		return isWordCharacter(c);
+	}
+
+	/**
+	 * Releases all resources of this object.
+	 */
+	@Override
+	public void dispose() {
+		style.font.dispose();
 	}
 
 	protected class KeyRepeatTask extends Task {

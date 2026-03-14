@@ -603,8 +603,10 @@ public final class Styles {
         }
 
         /**
+         * This copies the given TextFieldStyle's Font so it can have {@link Font#omitCurlyBraces} and
+         * {@link Font#enableSquareBrackets} both set to false, which other usage rarely wants to do.
          *
-         * @param font the non-null Font to use for text
+         * @param font the non-null Font to use for text; will be copied
          * @param fontColor the color to tint the given Font by default
          * @param cursor you probably want to use the predefined {@code skin.getDrawable("cursor")} for this
          * @param selection may be null, but is usually a solid block that will be stretched behind a selected area
@@ -639,6 +641,12 @@ public final class Styles {
             this.background = background;
         }
 
+        /**
+         * This copies the given TextFieldStyle's Font so it can have {@link Font#omitCurlyBraces} and
+         * {@link Font#enableSquareBrackets} both set to false, which other usage rarely wants to do.
+         *
+         * @param style an existing instance of this type, to copy
+         */
         public TextFieldStyle(TextFieldStyle style) {
             font = new Font(style.font);
             if (style.fontColor != null) fontColor = new Color(style.fontColor);
