@@ -1955,7 +1955,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH, Font.DistanceFieldType.STANDARD)}, which
      * is unusual. It does make one change to the Font it returns; it lengthens underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -1980,7 +1980,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH, dft)}, which
      * is unusual. It does make one change to the Font it returns; it lengthens underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-sdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2019,7 +2019,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_HEAVY, Font.DistanceFieldType.STANDARD)}, which
      * is unusual. It does make one change to the Font it returns; it thickens underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Heavy-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Heavy-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2044,7 +2044,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_HEAVY, dft)}, which
      * is unusual. It does make one change to the Font it returns; it thickens underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Heavy-sdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Heavy-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2083,7 +2083,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_LIGHT, Font.DistanceFieldType.STANDARD)}, which
      * is unusual. It does make one change to the Font it returns; it thins underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Light-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Light-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2108,7 +2108,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_LIGHT, dft)}, which
      * is unusual. It does make one change to the Font it returns; it thins underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Light-sdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Light-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2147,7 +2147,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_CONDENSED, Font.DistanceFieldType.STANDARD)}, which
      * is unusual. It does make one change to the Font it returns; it lengthens underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Condensed-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Condensed-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2172,7 +2172,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_CONDENSED, dft)}, which
      * is unusual. It does make one change to the Font it returns; it lengthens underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Condensed-sdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Condensed-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2211,7 +2211,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_CONDENSED_HEAVY, Font.DistanceFieldType.STANDARD)}, which
      * is unusual. It does make changes to the Font it returns; it lengthens and thickens underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Condensed-Heavy-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Condensed-Heavy-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2236,7 +2236,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_CONDENSED_HEAVY, dft)}, which
      * is unusual. It does make changes to the Font it returns; it lengthens and thickens underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Condensed-Heavy-sdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Condensed-Heavy-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2275,7 +2275,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_CONDENSED_LIGHT, Font.DistanceFieldType.STANDARD)}, which
      * is unusual. It does make one change to the Font it returns; it thins underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Condensed-Light-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Condensed-Light-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2300,7 +2300,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_CONDENSED_LIGHT, dft)}, which
      * is unusual. It does make one change to the Font it returns; it thins underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Condensed-Light-sdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Condensed-Light-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2339,7 +2339,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_EXPANDED, Font.DistanceFieldType.STANDARD)}, which
      * is unusual. It does make one change to the Font it returns; it lengthens underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Expanded-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Expanded-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2364,7 +2364,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_EXPANDED, dft)}, which
      * is unusual. It does make one change to the Font it returns; it lengthens underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Expanded-sdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Expanded-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2403,7 +2403,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_EXPANDED_HEAVY, Font.DistanceFieldType.STANDARD)}, which
      * is unusual. It does make changes to the Font it returns; it lengthens and thickens underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Expanded-Heavy-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Expanded-Heavy-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2428,7 +2428,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_EXPANDED_HEAVY, dft)}, which
      * is unusual. It does make changes to the Font it returns; it lengthens and thickens underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Expanded-Heavy-sdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Expanded-Heavy-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2467,7 +2467,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_EXPANDED_LIGHT, Font.DistanceFieldType.STANDARD)}, which
      * is unusual. It does make one change to the Font it returns; it thins underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Expanded-Light-standard.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Expanded-Light-standard.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
@@ -2492,7 +2492,7 @@ public final class KnownFonts implements LifecycleListener {
      * This does not just return {@code KnownFonts.getFont(KnownFonts.DINISH_EXPANDED_LIGHT, dft)}, which
      * is unusual. It does make one change to the Font it returns; it thins underline and strikethrough lines.
      * <br>
-     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/DINish-Expanded-Light-sdf.png" alt="Image preview" width="1200" height="675" />
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/DINish-Expanded-Light-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
      * Needs files:
      * <ul>
