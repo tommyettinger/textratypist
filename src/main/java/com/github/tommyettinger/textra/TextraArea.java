@@ -30,8 +30,6 @@ public class TextraArea extends TextraField {
         s.font.enableSquareBrackets = false;
         s.font.omitCurlyBraces = false;
         setStyle(s);
-        this.style.font.enableSquareBrackets = false;
-        this.style.font.omitCurlyBraces = false;
         label = new TypingLabel("", new Styles.LabelStyle(this.style.font, style.fontColor));
         label.workingLayout.targetWidth = 1f;
         label.setMaxLines(Integer.MAX_VALUE);
@@ -60,7 +58,8 @@ public class TextraArea extends TextraField {
         label.setAlignment(Align.topLeft);
         label.setWrap(true);
         label.setSelectable(true);
-        if(style.selection != null) label.selectionDrawable = style.selection;
+        if(style.selection != null)
+            label.selectionDrawable = style.selection;
         writeEnters = true;
         initialize();
         label.setSize(getPrefWidth(), getPrefHeight());
@@ -82,7 +81,7 @@ public class TextraArea extends TextraField {
 //		System.out.println("layoutHeight: " + layoutHeight + ", linesHeight: " + linesHeight);
         cursorPatch.draw(batch,
                 x + textOffset + glyphPositions.get(cursor) - glyphPositions.get(visibleTextStart) + fontOffset,
-                y + layoutHeight - linesHeight - lineHeight * 0.5f, cursorPatch.getMinWidth(), lineHeight);
+                y + layoutHeight - linesHeight, cursorPatch.getMinWidth(), lineHeight);
     }
 
     @Override

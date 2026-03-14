@@ -38,8 +38,8 @@ public class FieldTest extends ApplicationAdapter {
     Stage stage;
     TextraField ttField;
     TextField s2dField;
-//    TextraAreaMessy ttArea;
-//    TextraArea tt2Area;
+    TextraAreaMessy ttAreaMessy;
+    TextraArea ttArea;
     TextArea s2dArea;
     FWSkin skin;
 
@@ -98,10 +98,10 @@ public class FieldTest extends ApplicationAdapter {
 
 //        ttField.setCursorBlinking(false);
 
-//        ttArea = new TextraAreaMessy(longText, ttField.style);
-        //        ttArea.setCursorBlinking(false);
+        ttAreaMessy = new TextraAreaMessy(longText, ttField.style);
+//                ttArea.setCursorBlinking(false);
 
-//        tt2Area = new TextraArea(longText, ttField.style);
+        ttArea = new TextraArea(longText, ttField.style);
 
         s2dField = new TextField(text,
                 skin
@@ -120,10 +120,10 @@ public class FieldTest extends ApplicationAdapter {
         table.add(ttField).width(200).height(font.cellHeight * 2).row();
         table.add(new TextraLabel("S2Df ", font)).width(60).height(font.cellHeight * 2);
         table.add(s2dField).width(200).height(font.cellHeight * 2).row();
-//        table.add(new TextraLabel("TTa  ", font)).width(60).height(font.cellHeight * 2);
-//        table.add(ttArea).width(200).height(font.cellHeight * 5).row();
-//        table.add(new TextraLabel("TT2a ", font)).width(60).height(font.cellHeight * 2);
-//        table.add(tt2Area).width(200).height(font.cellHeight * 5).row();
+        table.add(new TextraLabel("TTaM ", font)).width(60).height(font.cellHeight * 2);
+        table.add(ttAreaMessy).width(200).height(font.cellHeight * 5).row();
+        table.add(new TextraLabel("TTa  ", font)).width(60).height(font.cellHeight * 2);
+        table.add(ttArea).width(200).height(font.cellHeight * 5).row();
 //        table.add(new TextraLabel("S2Da ", font)).width(60).height(font.cellHeight * 2);
 //        table.add(s2dArea).width(200).height(font.cellHeight * 5).row();
         stage.addActor(table);
@@ -144,8 +144,8 @@ public class FieldTest extends ApplicationAdapter {
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
         ttField.label.font.resizeDistanceField(width, height, stage.getViewport());
-//        ttArea.label.font.resizeDistanceField(width, height, stage.getViewport());
-//        tt2Area.label.font.resizeDistanceField(width, height, stage.getViewport());
+        ttAreaMessy.label.font.resizeDistanceField(width, height, stage.getViewport());
+        ttArea.label.font.resizeDistanceField(width, height, stage.getViewport());
     }
 
     @Override
