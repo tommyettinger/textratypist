@@ -6225,7 +6225,7 @@ public final class KnownFonts implements LifecycleListener {
      * retrieved by name, and names are always all-lower-case, separated by dashes ({@code '-'}). This caches the
      * Game-Icons.net atlas for later calls. This tries to load the files "Game-Icons.atlas" and "Game-Icons.png" from
      * the internal storage first, and if that fails, it tries to load them from local storage in the current working
-     * directory. There are 4131 images in this edition of the Game-Icons.net icons (from December 20, 2022), and
+     * directory. There are 4170 images in this edition of the Game-Icons.net icons (from May 4, 2025), and
      * <a href="https://game-icons.net/faq.html">it requires attribution to use</a>.
      * <br>
      * Since TextraTypist 1.0.0, icons display correctly with standard, SDF, and MSDF fonts, though they always look how
@@ -6267,7 +6267,7 @@ public final class KnownFonts implements LifecycleListener {
      * retrieved by name, and names are always all-lower-case, separated by dashes ({@code '-'}). This caches the
      * Game-Icons.net atlas for later calls. This tries to load the files "Game-Icons.atlas" and "Game-Icons.png" from
      * the internal storage first, and if that fails, it tries to load them from local storage in the current working
-     * directory. There are 4131 images in this edition of the Game-Icons.net icons (from December 20, 2022), and
+     * directory. There are 4170 images in this edition of the Game-Icons.net icons (from May 4, 2025), and
      * <a href="https://game-icons.net/faq.html">it requires attribution to use</a>.
      * <br>
      * Since TextraTypist 1.0.0, icons display correctly with standard, SDF, and MSDF fonts, though they always look how
@@ -6315,7 +6315,7 @@ public final class KnownFonts implements LifecycleListener {
      * retrieved by name, and names are always all-lower-case, separated by dashes ({@code '-'}). This caches the
      * Game-Icons.net atlas for later calls. This tries to load the files "Game-Icons.atlas" and "Game-Icons.png" from
      * the internal storage first, and if that fails, it tries to load them from local storage in the current working
-     * directory. There are 4131 images in this edition of the Game-Icons.net icons (from December 20, 2022), and
+     * directory. There are 4170 images in this edition of the Game-Icons.net icons (from May 4, 2025), and
      * <a href="https://game-icons.net/faq.html">it requires attribution to use</a>.
      * <br>
      * Since TextraTypist 1.0.0, icons display correctly with standard, SDF, and MSDF fonts, though they always look how
