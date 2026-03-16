@@ -4534,7 +4534,7 @@ public class Font implements Disposable {
         final float cs = MathUtils.cosDeg(rotation);
 
         float startX, startY, sizeX, sizeY, adjustment = 0f;
-        if(sequence.length == 8 && breadth != 1f && sequence[0] == 0 && sequence[5] == 0) {
+        if(sequence.length >= 8 && breadth != 1f && sequence[0] == 0 && sequence[5] == 0) {
             // lousy right angles where both the left side and the bottom side are connected.
             adjustment = (BlockUtils.THIN_ACROSS) - BlockUtils.THIN_ACROSS * breadth;
         }
@@ -4568,10 +4568,10 @@ public class Font implements Disposable {
                     else if (sizeY == BlockUtils.WIDE_OVER) sizeY += wideAcross * 0.5f;
                 }
 
-                if(startX == BlockUtils.THIN_START) startX -= thinAcross * 0.5f;
-                else if(startX == BlockUtils.WIDE_START) startX -= wideAcross * 0.5f;
-                if(startY == BlockUtils.THIN_START) startY -= thinAcross * 0.5f;
-                else if(startY == BlockUtils.WIDE_START) startY -= wideAcross * 0.5f;
+                if(startX == BlockUtils.THIN_START) startX -= thinAcross * 0.25f;
+                else if(startX == BlockUtils.WIDE_START) startX -= wideAcross * 0.25f;
+                if(startY == BlockUtils.THIN_START) startY -= thinAcross * 0.25f;
+                else if(startY == BlockUtils.WIDE_START) startY -= wideAcross * 0.25f;
             }
             startX = startX * width - halfWidth;
             startY = startY * height - halfHeight;
@@ -5451,23 +5451,21 @@ public class Font implements Disposable {
             }
             float[] boxes = BlockUtils.BOX_DRAWING[c - 0x2500];
 
-            if(c < 0x2580) {
-                if(((glyph & ALTERNATE_MODES_MASK) == HALO) || ((glyph & ALTERNATE_MODES_MASK) == NEON)) {
-                    for (int xi = 3; xi >= 1; xi--) {
-                            drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr),
-                                    ColorUtils.lerpColorsMultiplyAlpha(secondaryColor, color, Math.min(font.glowStrength * 0.6f / (xi * xi), 1f), batchAlpha1_5),
-                                    x, y,
-                                    font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation,
-                                    boxDrawingBreadth + xi);
-                    }
-                } else if ((glyph & BLACK_OUTLINE) == BLACK_OUTLINE) {
-                    // This block is also used when an outline ([#] token) is active, and so is an outline color mode.
+            if(((glyph & ALTERNATE_MODES_MASK) == HALO) || ((glyph & ALTERNATE_MODES_MASK) == NEON)) {
+                for (int xi = 3; xi >= 1; xi--) {
                     drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr),
-                            ColorUtils.multiplyAlpha(secondaryColor, batchAlpha1_5),
+                            ColorUtils.lerpColorsMultiplyAlpha(secondaryColor, color, Math.min(font.glowStrength * 0.6f / (xi * xi), 1f), batchAlpha1_5),
                             x, y,
                             font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation,
-                            boxDrawingBreadth + 1f);
+                            (c < 0x2580 ? boxDrawingBreadth : 1f) + xi);
                 }
+            } else if ((glyph & BLACK_OUTLINE) == BLACK_OUTLINE) {
+                // This block is also used when an outline ([#] token) is active, and so is an outline color mode.
+                drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr),
+                        ColorUtils.multiplyAlpha(secondaryColor, batchAlpha1_5),
+                        x, y,
+                        font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation,
+                        (c < 0x2580 ? boxDrawingBreadth : 1f) + 1f);
             }
 
             drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr), color,
