@@ -70,7 +70,7 @@ public class GameIconSDFTypingLabelTest extends ApplicationAdapter {
         // Create label
         final TypingLabel label = new TypingLabel(
                 "I love TextraTypist! [+keyboard] [gold][+saxophone]{HEARTBEAT}[deep richer pink][+heart-wings] OMG! [+heart-wings]{ENDHEARTBEAT}[rich apricot][+party-popper][white]\n"
-                + "But...{SICK}[_][+ophiuchus][_]. Nitty{ENDSICK} {CROWD}doesn't. [+vomiting] [#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}\n"
+                + "But...{SICK}[_][purple][+ophiuchus][white][_]. Nitty{ENDSICK} {CROWD}doesn't. [green][+vomiting] [#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}\n"
                 + "\n{RAINBOW}[+pineapple][+raccoon-head][+pterodactylus][+raised-fist][+wolf-howl][+western-hat][%]\n"
                 ,
                 font);
