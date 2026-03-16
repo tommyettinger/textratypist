@@ -4551,21 +4551,21 @@ public class Font implements Disposable {
                 if(sizeX == BlockUtils.THIN_ACROSS) sizeX = thinAcross;
                 else if(sizeX == BlockUtils.WIDE_ACROSS) sizeX = wideAcross;
                 else if(startX == 0f) {
-                    if (sizeX == BlockUtils.THIN_OVER) sizeX -= thinAcross * 0.5f + adjustment;
-                    else if (sizeX == BlockUtils.WIDE_OVER) sizeX -= wideAcross * 0.5f + adjustment;
+                    if (sizeX == BlockUtils.THIN_OVER) sizeX += thinAcross * 0.25f + adjustment;
+                    else if (sizeX == BlockUtils.WIDE_OVER) sizeX += wideAcross * 0.25f + adjustment;
                 } else if(startX > 0f) {
-                    if (sizeX == BlockUtils.THIN_OVER) sizeX += thinAcross * 0.5f;
-                    else if (sizeX == BlockUtils.WIDE_OVER) sizeX += wideAcross * 0.5f;
+                    if (sizeX == BlockUtils.THIN_OVER) sizeX += thinAcross * 0.25f;
+                    else if (sizeX == BlockUtils.WIDE_OVER) sizeX += wideAcross * 0.25f;
                 }
 
                 if(sizeY == BlockUtils.THIN_ACROSS) sizeY = thinAcross;
                 else if(sizeY == BlockUtils.WIDE_ACROSS) sizeY = wideAcross;
                 else if(startY == 0f) {
-                    if (sizeY == BlockUtils.THIN_OVER) sizeY -= thinAcross * 0.5f + adjustment;
-                    else if (sizeY == BlockUtils.WIDE_OVER) sizeY -= wideAcross * 0.5f + adjustment;
+                    if (sizeY == BlockUtils.THIN_OVER) sizeY += thinAcross * 0.25f + adjustment;
+                    else if (sizeY == BlockUtils.WIDE_OVER) sizeY += wideAcross * 0.25f + adjustment;
                 } else if(startY > 0f) {
-                    if (sizeY == BlockUtils.THIN_OVER) sizeY += thinAcross * 0.5f;
-                    else if (sizeY == BlockUtils.WIDE_OVER) sizeY += wideAcross * 0.5f;
+                    if (sizeY == BlockUtils.THIN_OVER) sizeY += thinAcross * 0.25f;
+                    else if (sizeY == BlockUtils.WIDE_OVER) sizeY += wideAcross * 0.25f;
                 }
 
                 if(startX == BlockUtils.THIN_START) startX -= thinAcross * 0.25f;
