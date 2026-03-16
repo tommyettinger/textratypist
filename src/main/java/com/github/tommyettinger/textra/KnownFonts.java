@@ -6369,7 +6369,7 @@ public final class KnownFonts implements LifecycleListener {
         }
         if (instance.gameIcons != null) {
             return changing.addAtlas(instance.gameIcons, prepend, append,
-                    offsetXChange - 20f, offsetYChange, xAdvanceChange);
+                    offsetXChange, offsetYChange, xAdvanceChange);
         }
         throw new RuntimeException("Assets 'Game-Icons.atlas' and 'Game-Icons.png' not found.");
     }

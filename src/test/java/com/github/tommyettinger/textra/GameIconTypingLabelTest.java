@@ -63,19 +63,14 @@ public class GameIconTypingLabelTest extends ApplicationAdapter {
 //        Font font = new Font("dawnlike/PlainAndSimplePlus-standard.fnt", atlas.findRegion("PlainAndSimplePlus-standard"), 0, 0, 2, 2);
 //        font.addImage("😀", atlas.findRegion("love box")).addImage("💀", atlas.findRegion("hate box"));
 //        font.scale(2, 2);
-        Font font = KnownFonts.addEmoji(KnownFonts.getNowAlt());
-        Font holder = KnownFonts.addGameIcons(KnownFonts.getNowAlt().setName("Icons"));//.scaleTo(font.cellHeight, font.cellHeight)
+        Font font = KnownFonts.addEmoji(KnownFonts.getNowAlt(Font.DistanceFieldType.SDF));
+        Font holder = KnownFonts.addGameIcons(KnownFonts.getNowAlt(Font.DistanceFieldType.SDF).setName("Icons"));//.scaleTo(font.cellHeight, font.cellHeight)
         font.setFamily(new Font.FontFamily(new Font[]{font, holder}));
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
         // Create label
 //        final TypingLabel label = new TypingLabel("WELCOME {STYLE=OBLIQUE}TO THE {STYLE=bold}{COLOR=11bb00}JUNGLE{RESET}, WE'VE GOT A MAN, A PLAN, A CANAL: PANAMA!",
 
-        // There's a strange bug that can happen with the WIND effect, but it only seems to happen when the affected
-        // text wraps across lines... Not totally sure what's happening.
-        // OK, it is definitely not something that requires different fonts to trigger. Specific widths cause line
-        // wrapping to somehow break the ENDWIND token (or RESET).
-//        final TextraLabel label = new TextraLabel(
         final TypingLabel label = new TypingLabel(
 //                "Behold, the [/Terror{RESET}-[*]Bunny[*]!",
 //                "{SHAKE=1,1,2}[@Medieval]Behold{RESET}, the [/]Terror{RESET}-{GRADIENT=WHITE;RED}Bunny!",
@@ -92,9 +87,12 @@ public class GameIconTypingLabelTest extends ApplicationAdapter {
 //                + "But...{SICK}[_][+⛎][_]. Nitty{ENDSICK} {CROWD}doesn't. [+🤮] [@Icons][#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}\n"
 //                + "\n{RAINBOW}[+pineapple][+raccoon-head][+pterodactylus][+raised-fist][+wolf-howl][+western-hat][@][%]\n"
 
-                "I love TextraTypist! [@Icons][+keyboard] [gold][+saxophone]{HEARTBEAT}[deep richer pink][+heart-wings] OMG! [+heart-wings]{ENDHEARTBEAT}[rich apricot][+party-popper][white][@]\n"
-                + "But...{SICK}[_][+⛎][_]. Nitty{ENDSICK} {CROWD}doesn't. [+🤮] [@Icons][#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}\n"
-                + "\n{RAINBOW}[+pineapple][+raccoon-head][+pterodactylus][+raised-fist][+wolf-howl][+western-hat][@][%]\n"
+//                "I love TextraTypist! [@Icons][+keyboard] [gold][+saxophone]{HEARTBEAT}[deep richer pink][+heart-wings] OMG! [+heart-wings]{ENDHEARTBEAT}[rich apricot][+party-popper][white][@]\n"
+//                + "But...{SICK}[_][+⛎][_]. Nitty{ENDSICK} {CROWD}doesn't. [+🤮] [@Icons][#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}\n"
+//                + "\n{RAINBOW}[+pineapple][+raccoon-head][+pterodactylus][+raised-fist][+wolf-howl][+western-hat][@][%]\n"
+                "[@Icons]I love TextraTypist! [+keyboard] [gold][+saxophone]{HEARTBEAT}[deep richer pink][+heart-wings] OMG! [+heart-wings]{ENDHEARTBEAT}[rich apricot][+party-popper][white]\n"
+                        + "But...{SICK}[_][purple][+ophiuchus][white][_]. Nitty{ENDSICK} {CROWD}doesn't. [green][+vomiting] [#BB1100][+broken-skull][#55AA22][+clown]{ENDCROWD}{CLEARCOLOR}\n"
+                        + "\n{RAINBOW}[+pineapple][+raccoon-head][+pterodactylus][+raised-fist][+wolf-howl][+western-hat][%]\n"
 
 //                + "Scale testing: [_][~][%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go![]\n"
                 ,
@@ -164,6 +162,7 @@ public class GameIconTypingLabelTest extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        label.font.resizeDistanceField(width, height, stage.getViewport());
     }
 
     @Override
