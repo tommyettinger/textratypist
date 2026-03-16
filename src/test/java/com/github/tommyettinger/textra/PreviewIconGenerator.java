@@ -48,16 +48,22 @@ public class PreviewIconGenerator extends ApplicationAdapter {
         viewport = new StretchViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
 
         Gdx.files.local("out/").mkdirs();
-        font = KnownFonts.addGameIcons(KnownFonts.getNowAlt(Font.DistanceFieldType.MSDF).fitCell(40, 40, true), 16f, -4f, 0f);
+        font = KnownFonts.addGameIcons(KnownFonts.getNowAlt(Font.DistanceFieldType.STANDARD).fitCell(40, 40, true), 0, -4f, 0f);
+        font.omitCurlyBraces = false;
         layout.setBaseColor(Color.WHITE);
         StringBuilder sb = new StringBuilder(4000);
-        sb.append("[%?blacken]");
+        sb.append("[#]");
         RandomXS128 random = new RandomXS128(23, 42);
         IntArray keys = font.mapping.keys().toArray();
         int ks = keys.size, ps = Palette.NAMES.size;
         for (int y = 0; y < 14; y++) {
             for (int x = 0; x < 29; x++) {
-                sb.append("[richmost white ").append(Palette.NAMES.get(random.nextInt(ps))).append(']').append((char)keys.get(random.nextInt(ks)));
+                sb.append("[richmost white ").append(Palette.NAMES.get(random.nextInt(ps))).append(']');
+                char ch = (char)keys.get(random.nextInt(ks));
+                if(ch == '[')
+                    sb.append('\u0002');
+                else
+                    sb.append(ch);
             }
             sb.append('\n');
         }
@@ -66,7 +72,7 @@ public class PreviewIconGenerator extends ApplicationAdapter {
         System.out.println(sb);
 
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
-        x = Gdx.graphics.getBackBufferWidth() * 0.5f;
+        x = Gdx.graphics.getBackBufferWidth() * 0.5f + font.cellWidth * 0.5f;
         y = Gdx.graphics.getBackBufferHeight() - font.cellHeight;
         viewport.update(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
         font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), viewport);
