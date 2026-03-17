@@ -50,7 +50,7 @@ public class PreviewIconGenerator extends ApplicationAdapter {
         viewport = new StretchViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
 
         Gdx.files.local("out/").mkdirs();
-        font = KnownFonts.addGameIcons(KnownFonts.getNowAlt(Font.DistanceFieldType.STANDARD).fitCell(40, 40, true), 0, -4f, 0f);
+        font = KnownFonts.addGameIcons(KnownFonts.getNowAlt(Font.DistanceFieldType.SDF).fitCell(40, 40, true), 0, -4f, 0f);
         font.omitCurlyBraces = false;
         layout.setBaseColor(Color.WHITE);
         StringBuilder sb = new StringBuilder(4000);
@@ -64,8 +64,8 @@ public class PreviewIconGenerator extends ApplicationAdapter {
         for (int y = 0; y < 14; y++) {
             for (int x = 0; x < 29; x++) {
                 sb.append("[richmost white ").append(names.get(random.nextInt(ps))).append(']');
-//                char ch = (char)keys.get(random.nextInt(ks));
-                char ch = BlockUtils.ALL_BLOCK_CHARS.charAt(random.nextInt(BlockUtils.ALL_BLOCK_CHARS.length()));
+                char ch = (char)keys.get(random.nextInt(ks));
+//                char ch = BlockUtils.ALL_BLOCK_CHARS.charAt(random.nextInt(BlockUtils.ALL_BLOCK_CHARS.length()));
                 if(ch == '[')
                     sb.append('\u0002');
                 else
