@@ -4533,11 +4533,7 @@ public class Font implements Disposable {
         final float sn = MathUtils.sinDeg(rotation);
         final float cs = MathUtils.cosDeg(rotation);
 
-        float startX, startY, sizeX, sizeY, adjustment = 0f;
-        if(sequence.length >= 8 && breadth != 1f && sequence[0] == 0 && sequence[5] == 0) {
-            // lousy right angles where both the left side and the bottom side are connected.
-            adjustment = (BlockUtils.THIN_ACROSS) - BlockUtils.THIN_ACROSS * breadth;
-        }
+        float startX, startY, sizeX, sizeY;
         for (int b = 0; b < sequence.length; b += 4) {
             startX = (sequence[b]);
             startY = (sequence[b + 1]);
@@ -4551,8 +4547,8 @@ public class Font implements Disposable {
                 if(sizeX == BlockUtils.THIN_ACROSS || sizeX == BlockUtils.TWIN_ACROSS) sizeX = thinAcross;
                 else if(sizeX == BlockUtils.WIDE_ACROSS) sizeX = wideAcross;
                 else if(startX == 0f) {
-                    if (sizeX == BlockUtils.THIN_OVER || sizeX == BlockUtils.TWIN_OVER1 || sizeX == BlockUtils.TWIN_OVER2) sizeX += thinAcross * 0.25f + adjustment;
-                    else if (sizeX == BlockUtils.WIDE_OVER) sizeX += wideAcross * 0.25f + adjustment;
+                    if (sizeX == BlockUtils.THIN_OVER || sizeX == BlockUtils.TWIN_OVER1 || sizeX == BlockUtils.TWIN_OVER2) sizeX += thinAcross * 0.25f;
+                    else if (sizeX == BlockUtils.WIDE_OVER) sizeX += wideAcross * 0.25f;
                 } else if(startX > 0f) {
                     if (sizeX == BlockUtils.THIN_OVER || sizeX == BlockUtils.TWIN_OVER1 || sizeX == BlockUtils.TWIN_OVER2) sizeX += thinAcross * 0.25f;
                     else if (sizeX == BlockUtils.WIDE_OVER) sizeX += wideAcross * 0.25f;
@@ -4561,8 +4557,8 @@ public class Font implements Disposable {
                 if(sizeY == BlockUtils.THIN_ACROSS || sizeY == BlockUtils.TWIN_ACROSS) sizeY = thinAcross;
                 else if(sizeY == BlockUtils.WIDE_ACROSS) sizeY = wideAcross;
                 else if(startY == 0f) {
-                    if (sizeY == BlockUtils.THIN_OVER || sizeY == BlockUtils.TWIN_OVER1 || sizeY == BlockUtils.TWIN_OVER2) sizeY += thinAcross * 0.25f + adjustment;
-                    else if (sizeY == BlockUtils.WIDE_OVER) sizeY += wideAcross * 0.25f + adjustment;
+                    if (sizeY == BlockUtils.THIN_OVER || sizeY == BlockUtils.TWIN_OVER1 || sizeY == BlockUtils.TWIN_OVER2) sizeY += thinAcross * 0.25f;
+                    else if (sizeY == BlockUtils.WIDE_OVER) sizeY += wideAcross * 0.25f;
                 } else if(startY > 0f) {
                     if (sizeY == BlockUtils.THIN_OVER || sizeY == BlockUtils.TWIN_OVER1 || sizeY == BlockUtils.TWIN_OVER2) sizeY += thinAcross * 0.25f;
                     else if (sizeY == BlockUtils.WIDE_OVER) sizeY += wideAcross * 0.25f;
