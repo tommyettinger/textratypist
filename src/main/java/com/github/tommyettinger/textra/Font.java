@@ -5453,7 +5453,7 @@ public class Font implements Disposable {
 
             if(((glyph & ALTERNATE_MODES_MASK) == HALO) || ((glyph & ALTERNATE_MODES_MASK) == NEON)) {
                 for (int xi = 3; xi >= 1; xi--) {
-                    drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr),
+                    drawBlockSequence(batch, (c <= 0x250B) ? BlockUtils.BOX_DRAWING[c & 3] : boxes, font.mapping.get(solidBlock, tr),
                             ColorUtils.lerpColorsMultiplyAlpha(secondaryColor, color, Math.min(font.glowStrength * 0.6f / (xi * xi), 1f), batchAlpha1_5),
                             x, y,
                             font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation,
@@ -5461,7 +5461,7 @@ public class Font implements Disposable {
                 }
             } else if ((glyph & BLACK_OUTLINE) == BLACK_OUTLINE) {
                 // This block is also used when an outline ([#] token) is active, and so is an outline color mode.
-                drawBlockSequence(batch, boxes, font.mapping.get(solidBlock, tr),
+                drawBlockSequence(batch, (c <= 0x250B) ? BlockUtils.BOX_DRAWING[c & 3] : boxes, font.mapping.get(solidBlock, tr),
                         ColorUtils.multiplyAlpha(secondaryColor, batchAlpha1_5),
                         x, y,
                         font.cellWidth * sizingX, font.cellHeight * scale * sizingY, rotation,
