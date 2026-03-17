@@ -1,0 +1,144 @@
+2.2.14 has a number of changes. There are some new effects: ThrobEffect makes text vibrate like a phone ringing,
+PinchEffect randomly selects glyphs to "squeeze," making them narrower briefly, and ShootEffect "fires" an underline
+or strikethrough line through the text over time. DINish is a newly-added open source font that looks similar to the
+road signs on the German Autobahn; it comes in 9 variants here. The Game-Icons.net set of icons was updated the current
+version, which adds a few dozen icons. An obscure feature needing fixing: Outlines around box-drawing chars were being
+placed in the wrong positions. A new class, EmojiProcessor, allows transforming text with bare emoji that don't
+use the `[+💖]` syntax into the right chars for a Font that uses emoji. Last but not least, TextraField works for
+single-line input now! This includes copying and pasting emoji, but entering them manually on desktop doesn't work due
+to libGDX limitations. In theory, text in a TextraField could be colored or have other markup applied to it, but nothing
+does that yet.
+
+2.2.13 is a larger update. It changes how scaled text interacts with alignment, allowing centered text with `[%400]`
+scaling to actually be centered. `TypingConfig.setDefaultInitialText(String)` allows setting a default token for both
+TypingLabel and TextraLabel, used to begin each label if set to a non-empty String. LanaPixel and Cozette had their
+metrics improved, with Cozette getting recreated entirely. Distance field fonts now reuse a single ShaderProgram of each
+variety, shared in KnownFonts' singleton instance, instead of existing per-Font. Finally, the TextureArray batches from
+[Hyperlap2D](https://github.com/rednblackgames/hyperlap2d-runtime-libgdx) were brought over to TextraTypist, along with
+some changes specifically to make distance field fonts work with them. Consider creating a new `Stage` with a
+`TextureArrayCpuPolygonSpriteBatch` next time, especially if you use many Textures.
+
+2.2.12 improves the appearance of SDF and SDF_OUTLINE fonts, sometimes significantly. It also adds the massive font
+Maple Mono to KnownFonts, which supports over 22,000 glyphs (mostly CJK chars)! Maple Mono looks significantly better
+at medium-to-large sizes with SDF or MSDF in use, so the improvement to SDF appearance also helps here.
+2.2.11 only updates RegExodus to a version that isn't broken on GWT.
+
+2.2.10 only fixes a small bug in how .fnt files load their associated images; if a prefix was in use, they usually
+wouldn't be able to find their image. Now they can! Structured JSON fonts weren't affected.
+
+2.2.9 has a variety of changes, mostly relating to underline, strikethrough, and rotation, but it also updates RegExodus
+to a new version that has a smaller JAR. Various earlier versions of TextraTypist have had to tweak rotation because
+improving rotation for single glyphs sometimes breaks text with multiple glyphs with different widths. In 2.2.8, and
+likely also earlier versions, multiple-glyph text would slide badly in all directions when rotated. Now, it only slides
+a tiny bit, and all as one unit, which is an improvement. The only feature addition here is that entering `[+]` can be
+used as a shortcut to enter the somewhat-common zero-width space character, which can be useful to cause lines to break
+apart without visually entering a space. The zero-width space also allows wrapping between things like CJK ideograms,
+where each character is conceptually its own word and doesn't need spaces between it and the next CJK ideogram. The
+update to RegExodus also gives TextraTypist (and libraries that depend on it) access to the `Compatibility` class. That
+provides some GWT-compatibility methods that use faster or more correct techniques on GWT and use normal JDK code on
+other target platforms (including TeaVM). TeaVM generally already uses faster/correct techniques where GWT uses some
+clunky code, like multiplying two large integers doesn't need `Compatibility.imul()` to be correct.
+
+2.2.8 fixes several bugs, ranging from `Font.omitCurlyBraces` incorrectly still permitting curly-brace effects
+sometimes, to the width of `TypingLabel`s sometimes exceeding their right boundary by a word or so, to a rare bug where
+multiple spaces with wrap enabled on a `TypingLabel` could cause effects to be misaligned. There's also a split between
+`TypingLabel.act(float)`, which handles normal `Actor` behavior with `Action`s, and `TypingLabel.subAct(float)`, which
+handles TypingLabel-specific activity, and is called normally by `act(float)`. A breaking change here is that a
+`TypingLabel` that doesn't have any parent (so no `Table` or `Container` holding it in a `Stage`) now won't always wrap
+correctly, though they should act the same when wrapping is disabled. Lots of `TypingLabel` behavior needs to run
+multiple times as it participates in scene2d.ui layout, and now one phase of creation (for wrapped labels) is delayed
+until the TypingLabel has been added to a parent and its `layout()` method is called. This helps also because wrap is
+usually enabled after a TypingLabel has been constructed, and typically needs to know the desired width of the widget.
+
+2.2.7 fixes TextraCheckBox and TypingCheckBox, which both didn't display the actual box with the check before. Whoops.
+
+2.2.6 fixes issue #36 , which was a crash when an ellipsis was inserted into wrapped text. It also fixes .fnt loading
+when both the .fnt file and the image it references are in the same subfolder, somewhere inside the assets root folder.
+There was a visual bug in TextraSelectBox and TypingSelectBox, where the labels displayed too low in their rows when the
+list and scroll pane appeared, but that should be fixed now.
+
+2.2.5 fixes the behavior of malformed .fnt files created without a space char, and now matches the behavior of
+BitmapFont when given one of those (it now matches the width of space, if none is provided, to the width of `'l'`).
+It also provides a way to handle Hiero's non-standard padding usage when it creates a .fnt with an outline or shadow,
+and that .fnt has been loaded into a BitmapFont. If you have to load a BitmapFont created by Hiero with some kind of
+extended effect that goes outside the normal glyph (such as a 1px outline), you can call the static method
+`Font.setPaddingForBitmapFont()` before using a Font constructor that takes a BitmapFont. You can give it, in the 1px
+outline case, `(-1, -1, -1, -1)` to reduce the amount of space cut off on each edge by 1, or for a drop shadow only
+extending 2px on the bottom, only pass -2 to the `bottom` parameter (the third one) and 0 to the rest. Note that you can
+also load .fnt files directly into a Font using any constructor that takes a String `fntName` or FileHandle `fntHandle`,
+where those ignore padding in the .fnt and will read in outlined .fnt files usually without additional config. You could
+also use FreeTypist to create an outlined and/or shadowed font in a skin JSON file, and load that to create a BitmapFont
+and a Font.
+
+2.2.4 includes fixes for TextraButton and TextraListBox (as well as Typing variants). It also improves
+the appearance of Small Caps mode, and updates some .fnt files that had visual issues. In core label code, monospaced
+fonts needed to stop offsetting the first character if its offsetX was negative; this mostly affects Cozette.
+
+2.2.3 only fixes one bug, but it affected both TextraLabel and TypingLabel when their Cell's width was set to expand,
+or to both grow and fill. In that case, a label that wrapped differently due to width growing wouldn't have its height
+updated to reflect changes from wrapping. That could leave either large amounts of extra space, or in the worst case,
+cause labels to overlap each other and not take up their correct amount of space.
+
+2.2.2 includes a few fixes. Using .ubj files works now, but counterintuitively, .ubj.lzma files tend to be faster to
+load despite being compressed. The LZMA files are smaller enough that loading them from storage should be faster, and
+decompression happens in memory, so if memory and processor speed are fast enough, the compression seems to help both
+file size and loading time. Justifying text with spaces-only modes now doesn't cause weird changes to line height. Debug
+prints that snuck into an earlier release are gone, though they only appeared when Gdx.app's log level was set to debug.
+Most importantly, the scaling of any Font created from a BitmapFont, including using BitmapFont configuration in a Skin,
+has been adjusted so setting scaledSize in a Skin actually sets capHeight (the same as BitmapFont), and sets it
+correctly now. Before, the scaling was effectively applied twice, so any decrease in size made a tiny font, and any
+increase in size made an extra-huge font. That also depended on the size of the font in the associated Texture, which
+isn't especially predictable, and changes a lot based on how many glyphs it has. Some fonts created from Skin won't see
+any change; if they didn't use scaledSize, they shouldn't be different, though a few pixels might be off. Mixing Font
+and BitmapFont should have more consistent sizing now, though the baseline position is different for many fonts.
+
+2.2.1 has some small but significant bugfixes. Adding a TextureAtlas with more than one Texture page works now. The
+escape for a single opening curly brace also works: `{{` becomes a single `{` when printed, and doesn't start an effect.
+If you have a TypingLabel with unescaped curly braces, it may (according to Font specs) treat the span between `{` and
+`}` as an invalid effect, and ignore its internal text (which is what TextraLabel almost always does). The difference
+here is that wrapping won't be broken by the ignored text anymore. Also, escaping curly braces didn't fully work before,
+and it's an important feature to have. No escape is necessary for `}` because it only has meaning when an
+unescaped curly brace has started an effect block, and `}` is invalid inside an effect block (it always ends it).
+
+2.2.0 updates libGDX to 1.14.0, which has several breaking changes of its own, but relatively few that affect
+TextraTypist. The `StringBuilder` class in libGDX was removed and replaced by expansions on `CharArray`'s API, which is
+unlikely to affect TextraTypist usage, but does break the earlier typing-label library's most recent version (at the
+time this was written). Some calls to Array's constructor that take a Class, such as `Thing.class`, should be changed to
+use `Thing[]::new` instead, to avoid deprecation. `Pools` has been deprecated, and a `PoolManager` is suggested in its
+place. Currently in TextraTypist, `Pools` is no longer used. The 2.1.x series still uses `Pools`.
+
+Higher versions in the 2.1.x series exist, and match the features of 2.2.x versions but still depend on libGDX 1.13.1.
+
+2.1.11 matches the features of 2.2.9.
+
+Other 2.1.x versions exist and match 2.2.x versions earlier than 2.2.9. You should probably avoid them.
+
+2.1.5 is mostly a feature update, for once! The biggest change is that underline, strikethrough, and box drawing
+characters now make use of outline state (as well as outline color modes, neon mode, and halo mode) over the extra line.
+This tends to look better than the old case, where white text with black outlines would have an un-outlined white
+strikethrough or underline drawn over it. Another change is the new ThinkingEffect, which makes letters pop up in
+random locations, drift around, and then fade in to their intended position. There's also two new fonts (with the option
+to use them both as one FontFamily), Monogram and Monogram Italic. These are small fixed-width pixel fonts with great
+coverage of the Unicode for European languages (Latin, Greek, and Cyrillic scripts are complete or close to it). The
+italic font is a "true italic," which we don't have many of here. Using `[/]` on a pixel font usually doesn't look very
+good, so the FontFamily option in `KnownFonts.getMonogramFamily()` allows switching to the italic font with `[@i]` or
+back with `[@r]` (or just `[@]` to reset the font). The behavior of NoiseUtils was adjusted to behave the same on GWT as
+on other platforms, though this should matter very rarely. There's some added utility code for colors and dealing with
+Lzma compression, but that's about it for this release.
+
+2.1.4 fixes a crashing bug that could occur if a TypingLabel wrapped under certain rare contexts with an inline image
+(such as an emoji) as the last character on a line, typically during window resizes but not necessarily limited to them.
+It also changes the behavior and appearance of rotating glyphs in non-monospace fonts, which previously and incorrectly
+used the "cell width" of that font (the width of its widest glyph, typically) instead of the actual width of the
+rotating glyph. This is noticeable in the animated preview at the top of the page, in the emoji on the first line.
+Before, it would rotate from an origin that wasn't in its center, leading to more movement, and now it rotates in-place.
+
+2.1.3 fixes two bugs: a wrapping/width issue in TextraLabel, and a compatibility issue when a `Drawable` background
+either isn't a `TransformDrawable` or doesn't implement all of its methods (such as with the TenPatch library).
+
+2.1.2 fixes checks for when the window is minimized, which could have checked incorrectly before.
+
+2.1.1 changes the copy constructor for Font so it now copies all fields that should be copied. In 2.1.0, a few
+newly-added fields would not have changes propagated into copied Fonts.
+
+Older changes are not tracked here. You can check README.md history on GitHub for some idea what changed and when.

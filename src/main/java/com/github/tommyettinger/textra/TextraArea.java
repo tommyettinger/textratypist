@@ -7,7 +7,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
 
 /**
- * A multiple-line {@link TextraField}; not ready for production yet.
+ * A multiple-line {@link TextraField} using a {@link Font}; not ready for production yet.
+ * <br>
+ * If you have to use {@link Font} but don't need multiple lines, {@link TextraField} should work.
+ * If you do need multiple-line input, you can use a libGDX BitmapFont with a scene2d.ui TextField.
+ * If you don't need input, just selectable text, you can make a {@link TypingLabel} selectable with
+ * {@link TypingLabel#setSelectable(boolean)}, probably also using {@link TypingLabel#skipToTheEnd()}.
  */
 public class TextraArea extends TextraField {
 
