@@ -12,10 +12,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.textra.utils.BlockUtils;
 import com.github.tommyettinger.textra.utils.Palette;
 
 import java.nio.ByteBuffer;
@@ -55,11 +57,15 @@ public class PreviewIconGenerator extends ApplicationAdapter {
         sb.append("[#]");
         RandomXS128 random = new RandomXS128(23, 42);
         IntArray keys = font.mapping.keys().toArray();
-        int ks = keys.size, ps = Palette.NAMES.size;
+        Array<String> names = new Array<>(Palette.NAMES);
+        names.removeValue("transparent", false);
+        names.removeValue("CLEAR", false);
+        int ks = keys.size, ps = names.size;
         for (int y = 0; y < 14; y++) {
             for (int x = 0; x < 29; x++) {
-                sb.append("[richmost white ").append(Palette.NAMES.get(random.nextInt(ps))).append(']');
-                char ch = (char)keys.get(random.nextInt(ks));
+                sb.append("[richmost white ").append(names.get(random.nextInt(ps))).append(']');
+//                char ch = (char)keys.get(random.nextInt(ks));
+                char ch = BlockUtils.ALL_BLOCK_CHARS.charAt(random.nextInt(BlockUtils.ALL_BLOCK_CHARS.length()));
                 if(ch == '[')
                     sb.append('\u0002');
                 else
