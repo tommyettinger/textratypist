@@ -336,7 +336,7 @@ public class TextraLabel extends Widget {
             baseY += cs * widgetHeight * 0.5f;
         }
 
-        float widgetWidth = getWidth();
+        float widgetWidth = getWidth() * getScaleX();
         if (Align.isRight(align)) {
             baseX += cs * widgetWidth;
             baseY += sn * widgetWidth;
@@ -408,6 +408,7 @@ public class TextraLabel extends Widget {
             if (line.glyphs.size == 0)
                 continue;
 
+            float lineWidth = line.width * getScaleX();
             float lineHeight = line.height * getScaleY();
 
             baseX += sn * lineHeight;
@@ -423,11 +424,11 @@ public class TextraLabel extends Widget {
             y = sn * fx + cs * fy + worldOriginY;
 
             if (Align.isCenterHorizontal(align)) {
-                x -= cs * (line.width * 0.5f);
-                y -= sn * (line.width * 0.5f);
+                x -= cs * (lineWidth * 0.5f);
+                y -= sn * (lineWidth * 0.5f);
             } else if (Align.isRight(align)) {
-                x -= cs * line.width;
-                y -= sn * line.width;
+                x -= cs * lineWidth;
+                y -= sn * lineWidth;
             }
             x -= sn * (0.5f * lineHeight);
             y += cs * (0.5f * lineHeight);
