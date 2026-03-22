@@ -120,7 +120,7 @@ public class TextraScalingTest extends ApplicationAdapter {
     }
 
     public void update(float delta) {
-        label.setScaleX(MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.25f) + 1f);
+        label.setScaleY(MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f) * 0.5f + 1f);
         stage.act(delta);
     }
 

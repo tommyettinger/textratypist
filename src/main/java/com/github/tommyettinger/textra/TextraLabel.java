@@ -319,7 +319,7 @@ public class TextraLabel extends Widget {
 
         // These two blocks use different height measurements, so center vertical is offset once by half the layout
         // height, and once by half the widget height.
-        float layoutHeight = layout.getHeight();
+        float layoutHeight = layout.getHeight() * getScaleY();
         if (Align.isBottom(align)) {
             baseX -= sn * layoutHeight;
             baseY += cs * layoutHeight;
@@ -327,7 +327,7 @@ public class TextraLabel extends Widget {
             baseX -= sn * layoutHeight * 0.5f;
             baseY += cs * layoutHeight * 0.5f;
         }
-        float widgetHeight = getHeight();
+        float widgetHeight = getHeight() * getScaleY();
         if (Align.isTop(align)) {
             baseX -= sn * widgetHeight;
             baseY += cs * widgetHeight;
@@ -408,8 +408,10 @@ public class TextraLabel extends Widget {
             if (line.glyphs.size == 0)
                 continue;
 
-            baseX += sn * line.height;
-            baseY -= cs * line.height;
+            float lineHeight = line.height * getScaleY();
+
+            baseX += sn * lineHeight;
+            baseY -= cs * lineHeight;
 
             float x = baseX, y = baseY;
 
@@ -427,8 +429,8 @@ public class TextraLabel extends Widget {
                 x -= cs * line.width;
                 y -= sn * line.width;
             }
-            x -= sn * (0.5f * line.height);
-            y += cs * (0.5f * line.height);
+            x -= sn * (0.5f * lineHeight);
+            y += cs * (0.5f * lineHeight);
 
             float xChange = 0, yChange = 0;
             Font f = null;
