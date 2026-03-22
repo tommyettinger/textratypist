@@ -23,10 +23,72 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class Issue13Test  extends ApplicationAdapter {
+
+//
+//    private Stage stage;
+//    private FWSkin skin;
+//
+//    @Override
+//    public void create () {
+//        stage = new Stage(new ScreenViewport());
+////        stage.setDebugAll(true);
+//        skin = new FWSkin(Gdx.files.internal("uiskin.json"));
+//
+//        int fitOneLineCount = 25;
+//        int extraSpaces = 10;
+//
+//        StringBuilder text = new StringBuilder();
+////        for (int count = 0; count < fitOneLineCount + extraSpaces; count++) {
+////            text.append(' ');
+////        }
+////        text.append("OK.");
+//
+//        // This seems to work here.
+//        // https://i.imgur.com/LFYLAPc.png
+//        text.append("this is a normal text test test        test!");
+//        // It works for TextraLabel and TypingLabel, in the same way.
+//        TextraLabel label;
+////        if("TEXTRA".equals("TYPING")) {
+//        if("TEXTRA".equals("TEXTRA")) {
+//            label = new TextraLabel(text.toString(), skin);
+//            label.setWrap(true);
+//            // Runs in the next render thread so the layout is ready.
+//            Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
+//        } else {
+//            label = new TypingLabel(text.toString(), skin);
+//            label.setWrap(true);
+//            // Runs in the next render thread so the layout is ready.
+//            Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
+//        }
+//        Table table = new Table();
+//        table.debug();
+//        table.add(label).prefWidth(100).row();
+//        // pack() sets the actual size to the preferred size and then validates the sizing.
+//        // without calling pack(), the actual height will be reported as one line's worth,
+//        // but after calling pack(), it should match the actual size.
+////        table.pack();
+//        Stack stack = new Stack(table);
+//        stack.setFillParent(true);
+//        stage.addActor(stack);
+//    }
+//
+//    @Override
+//    public void render () {
+//        ScreenUtils.clear(0, 0, 0, 1);
+//        stage.act();
+//        stage.draw();
+//    }
+//
+//    @Override
+//    public void dispose () {
+//        stage.dispose();
+//        skin.dispose();
+//    }
 
     private Stage stage;
     private FWSkin skin;
@@ -34,44 +96,36 @@ public class Issue13Test  extends ApplicationAdapter {
     @Override
     public void create () {
         stage = new Stage(new ScreenViewport());
-//        stage.setDebugAll(true);
+
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 
-        int fitOneLineCount = 25;
-        int extraSpaces = 10;
-
-        StringBuilder text = new StringBuilder();
-//        for (int count = 0; count < fitOneLineCount + extraSpaces; count++) {
-//            text.append(' ');
+        TextraLabel label = new TextraLabel("This is a test. This is a test. This is a test. This is a test. This is a test.", skin)
+//        {
+//            @Override
+//            public void layout() {
+//                float width = getWidth();
+//                if (style != null && style.background != null) {
+//                    width = (width - (style.background.getLeftWidth() + style.background.getRightWidth()));
+//                }
+//                if (wrap && layout.getTargetWidth() != width) {
+//                    if(width != 0)
+//                        layout.setTargetWidth(width);
+//                    font.regenerateLayout(layout);
+//                    //invalidateHierarchy(); // Uncomment this line to fix the issue.
+//                }
+//            }
 //        }
-//        text.append("OK.");
+        ;
+        label.setWrap(true);
+        label.setAlignment(Align.left);
 
-        // This seems to work here.
-        // https://i.imgur.com/LFYLAPc.png
-        text.append("this is a normal text test test        test!");
-        // It works for TextraLabel and TypingLabel, in the same way.
-        TextraLabel label;
-//        if("TEXTRA".equals("TYPING")) {
-        if("TEXTRA".equals("TEXTRA")) {
-            label = new TextraLabel(text.toString(), skin);
-            label.setWrap(true);
-            // Runs in the next render thread so the layout is ready.
-            Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
-        } else {
-            label = new TypingLabel(text.toString(), skin);
-            label.setWrap(true);
-            // Runs in the next render thread so the layout is ready.
-            Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
-        }
         Table table = new Table();
-        table.debug();
-        table.add(label).prefWidth(100).row();
-        // pack() sets the actual size to the preferred size and then validates the sizing.
-        // without calling pack(), the actual height will be reported as one line's worth,
-        // but after calling pack(), it should match the actual size.
-//        table.pack();
+        table.add(label).prefWidth(300).row();
+        table.add().growY();
+
         Stack stack = new Stack(table);
         stack.setFillParent(true);
+
         stage.addActor(stack);
     }
 
@@ -87,7 +141,6 @@ public class Issue13Test  extends ApplicationAdapter {
         stage.dispose();
         skin.dispose();
     }
-
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height);
