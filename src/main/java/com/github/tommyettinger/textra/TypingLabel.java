@@ -1124,7 +1124,7 @@ public class TypingLabel extends TextraLabel {
 
         // These two blocks use different height measurements, so center vertical is offset once by half the layout
         // height, and once by half the widget height.
-        float layoutHeight = workingLayout.getHeight();
+        float layoutHeight = workingLayout.getHeight() * getScaleY();
         if (Align.isBottom(align)) {
             baseX -= sn * layoutHeight;
             baseY += cs * layoutHeight;
@@ -1132,7 +1132,7 @@ public class TypingLabel extends TextraLabel {
             baseX -= sn * layoutHeight * 0.5f;
             baseY += cs * layoutHeight * 0.5f;
         }
-        float widgetHeight = getHeight();
+        float widgetHeight = getHeight() * getScaleY();
         if (Align.isTop(align)) {
             baseX -= sn * widgetHeight;
             baseY += cs * widgetHeight;
@@ -1141,7 +1141,7 @@ public class TypingLabel extends TextraLabel {
             baseY += cs * widgetHeight * 0.5f;
         }
 
-        float widgetWidth = getWidth();
+        float widgetWidth = getWidth() * getScaleX();
         if (Align.isRight(align)) {
             baseX += cs * widgetWidth;
             baseY += sn * widgetWidth;
@@ -1228,16 +1228,18 @@ public class TypingLabel extends TextraLabel {
             if(selectionEnd >= 0 && selectionEnd >= selectionStart) {
                 SELECTION_LINE:
                 for (int ln = 0; ln < lines; ln++) {
-                    Line glyphs = workingLayout.getLine(ln);
+                    Line line = workingLayout.getLine(ln);
 
-                    if (glyphs.glyphs.size == 0 || (toSkip += glyphs.glyphs.size) < startIndex)
+                    if (line.glyphs.size == 0 || (toSkip += line.glyphs.size) < startIndex)
                         continue;
 
                     float selectionDrawStartX = 0f, selectionDrawStartY = 0f;
                     float selectionWidth = 0f;
 
-                    tempBaseX += sn * glyphs.height;
-                    tempBaseY -= cs * glyphs.height;
+                    float lineWidth = line.width * getScaleX();
+                    float lineHeight = line.height * getScaleY();
+                    tempBaseX += sn * lineHeight;
+                    tempBaseY -= cs * lineHeight;
 
                     float x = tempBaseX, y = tempBaseY;
 
@@ -1251,26 +1253,26 @@ public class TypingLabel extends TextraLabel {
                     float xChange = 0, yChange = 0;
 
                     if (Align.isCenterHorizontal(align)) {
-                        x -= cs * (glyphs.width * 0.5f);
-                        y -= sn * (glyphs.width * 0.5f);
+                        x -= cs * (lineWidth * 0.5f);
+                        y -= sn * (lineWidth * 0.5f);
                     } else if (Align.isRight(align)) {
-                        x -= cs * glyphs.width;
-                        y -= sn * glyphs.width;
+                        x -= cs * lineWidth;
+                        y -= sn * lineWidth;
                     }
 
                     Font f = null;
                     int kern = -1,
-                            start = (toSkip - glyphs.glyphs.size < startIndex) ? startIndex - (toSkip - glyphs.glyphs.size) : 0,
+                            start = (toSkip - line.glyphs.size < startIndex) ? startIndex - (toSkip - line.glyphs.size) : 0,
                             end = endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex - 1);
-                    for (int i = start, n = glyphs.glyphs.size,
+                    for (int i = start, n = line.glyphs.size,
                          lim = Math.min(Math.min(Math.min(getRotations().size, getAdvances().size), getOffsets().size >> 1), getSizing().size >> 1);
                          i < n && r < lim; i++, gi++) {
                         if (gi > end) break SELECTION_LINE;
-                        long glyph = glyphs.glyphs.get(i);
+                        long glyph = line.glyphs.get(i);
                         char ch = (char) glyph;
                         if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                         if (f == null) f = font;
-                        float descent = f.descent * f.scaleY;
+                        float descent = f.descent * f.scaleY * getScaleY();
 
                         if(font.omitCurlyBraces) {
                             if (curly) {
@@ -1291,21 +1293,22 @@ public class TypingLabel extends TextraLabel {
                             }
                         }
 
-                        float a = getAdvances().get(r);
+                        float a = getAdvances().get(r) * getScaleY();
 
                         Font.GlyphRegion reg = f.mapping.get((char) glyph);
                         if(reg == null) reg = f.mapping.get(' ');
                         if(reg == null) continue;
 
                         if (i == start) {
-                            x -= f.cellWidth * 0.5f;
+                            float halfWidth = f.cellWidth * 0.5f * getScaleX();
+                            x -= halfWidth;
 
-                            x += cs * f.cellWidth * 0.5f;
-                            y += sn * f.cellWidth * 0.5f;
+                            x += cs * halfWidth;
+                            y += sn * halfWidth;
 
                             y += descent;
-                            x += sn * (descent /* - 0.5f * glyphs.height */);
-                            y -= cs * (descent /* - 0.5f * glyphs.height */);
+                            x += sn * descent;
+                            y -= cs * descent;
 
                             if (reg.offsetX < 0 && !f.isMono && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {
                                 float ox = reg.offsetX;
@@ -1329,7 +1332,7 @@ public class TypingLabel extends TextraLabel {
                         ++globalIndex;
                         if (selectionEnd < globalIndex)
                             break;
-                        float xx = x + xChange + getOffsets().get(o++), yy = y + yChange + getOffsets().get(o++);
+                        float xx = x + xChange + getOffsets().get(o++) * getScaleX(), yy = y + yChange + getOffsets().get(o++) * getScaleY();
                         if (f.integerPosition) {
                             xx = (int) xx;
                             yy = (int) yy;
@@ -1362,7 +1365,7 @@ public class TypingLabel extends TextraLabel {
                     }
                     // draw one selection drawable
                     if(selectionWidth > 0f)
-                        selectionDrawable.draw(batch, selectionDrawStartX, selectionDrawStartY, selectionWidth, glyphs.height);
+                        selectionDrawable.draw(batch, selectionDrawStartX, selectionDrawStartY, selectionWidth, line.height);
                 }
             }
         }
@@ -1381,8 +1384,11 @@ public class TypingLabel extends TextraLabel {
             if(line.glyphs.size == 0 || (toSkip += line.glyphs.size) < startIndex)
                 continue;
 
-            baseX += sn * line.height;
-            baseY -= cs * line.height;
+            float lineWidth = line.width * getScaleX();
+            float lineHeight = line.height * getScaleY();
+
+            baseX += sn * lineHeight;
+            baseY -= cs * lineHeight;
 
             float x = baseX, y = baseY;
 
@@ -1396,11 +1402,11 @@ public class TypingLabel extends TextraLabel {
             float xChange = 0, yChange = 0;
 
             if (Align.isCenterHorizontal(align)) {
-                x -= cs * (line.width * 0.5f);
-                y -= sn * (line.width * 0.5f);
+                x -= cs * (lineWidth * 0.5f);
+                y -= sn * (lineWidth * 0.5f);
             } else if (Align.isRight(align)) {
-                x -= cs * line.width;
-                y -= sn * line.width;
+                x -= cs * lineWidth;
+                y -= sn * lineWidth;
             }
             Font f = null;
             int kern = -1,
@@ -1414,7 +1420,7 @@ public class TypingLabel extends TextraLabel {
                 char ch = (char) glyph;
                 if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                 if (f == null) f = font;
-                float descent = f.descent * f.scaleY;
+                float descent = f.descent * f.scaleY * getScaleY();
 
                 if(font.omitCurlyBraces) {
                     if (curly) {
@@ -1435,17 +1441,19 @@ public class TypingLabel extends TextraLabel {
                         continue;
                     }
                 }
-                float a = getAdvances().get(r);
+                float a = getAdvances().get(r) * getScaleX();
+                float halfWidth = f.cellWidth * 0.5f * getScaleX();
+                float halfHeight = f.cellHeight * 0.5f * getScaleY();
 
                 if(i == start){
-                    x -= f.cellWidth * 0.5f;
+                    x -= halfWidth;
 
-                    x += cs * f.cellWidth * 0.5f;
-                    y += sn * f.cellWidth * 0.5f;
+                    x += cs * halfWidth;
+                    y += sn * halfWidth;
 
                     y += descent;
-                    x += sn * (descent - 0.5f * line.height);
-                    y -= cs * (descent - 0.5f * line.height);
+                    x += sn * (descent - halfHeight);
+                    y -= cs * (descent - halfHeight);
 
                     Font.GlyphRegion reg = f.mapping.get((char) glyph);
                     if (reg != null && reg.offsetX < 0 && !f.isMono && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {
@@ -1473,16 +1481,16 @@ public class TypingLabel extends TextraLabel {
                 else
                     bgc = 0;
 
-                float xx = x + xChange + getOffsets().get(o++), yy = y + yChange + getOffsets().get(o++);
+                float xx = x + xChange + getOffsets().get(o++) * getScaleX(), yy = y + yChange + getOffsets().get(o++) * getScaleY();
                 if(f.integerPosition){
                     xx = (int)xx;
                     yy = (int)yy;
                 }
 
-                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(r) + rot, getSizing().get(s++), getSizing().get(s++), bgc, a);
+                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(r) + rot, getSizing().get(s++) * getScaleX(), getSizing().get(s++) * getScaleY(), bgc, a);
                 r++;
                 if(trackingInput){
-                    if(xx <= inX && inX <= xx + single && yy - line.height * 0.5f <= inY && inY <= yy + line.height * 0.5f) {
+                    if(xx <= inX && inX <= xx + single && yy - halfHeight <= inY && inY <= yy + halfHeight) {
                         overIndex = globalIndex;
                         if (isTouchable()) {
                             if (Gdx.input.justTouched()) {
