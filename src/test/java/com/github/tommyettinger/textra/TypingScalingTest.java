@@ -147,6 +147,8 @@ public class TypingScalingTest extends ApplicationAdapter {
 //        final TypingLabel label = new TypingLabel("WELCOME [/]TO THE [*][GREEN]JUNGLE[]!", skin);
 //        final TypingLabel label = new TypingLabel("{WAIT=1}{SLOWER}Welcome, {VAR=title}!", skin);
         label.setAlignment(Align.center);
+        label.setScaleX(0.75f);
+        label.setSelectable(true);
         label.debug();
         // Make the label wrap to new lines, respecting the table's layout.
         label.setWrap(true);
@@ -191,7 +193,7 @@ public class TypingScalingTest extends ApplicationAdapter {
     public void update(float delta) {
         if(Gdx.input.isKeyJustPressed(Input.Keys.S) && !label.hasEnded())
             label.skipToTheEnd();
-        label.setScaleY(MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f) * 0.5f + 1f);
+//        label.setScaleY(MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f) * 0.5f + 1f);
         stage.act(delta);
 //        updateDebugLabel();
     }

@@ -1293,7 +1293,7 @@ public class TypingLabel extends TextraLabel {
                             }
                         }
 
-                        float a = getAdvances().get(r) * getScaleY();
+                        float a = getAdvances().get(r) * getScaleX();
 
                         Font.GlyphRegion reg = f.mapping.get((char) glyph);
                         if(reg == null) reg = f.mapping.get(' ');
