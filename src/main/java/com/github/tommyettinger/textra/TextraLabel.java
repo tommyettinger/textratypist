@@ -455,7 +455,7 @@ public class TextraLabel extends Widget {
                 if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                 if (f == null) f = font;
                 int even = start + i << 1, odd = even | 1;
-                float a = getAdvances().get(start + i);
+                float a = getAdvances().get(start + i) * getScaleX();
                 if (i == 0) {
                     x -= 0.5f * f.cellWidth;
                     x += cs * 0.5f * f.cellWidth;
@@ -483,13 +483,13 @@ public class TextraLabel extends Widget {
                     kern = -1;
                 }
                 bgc = 0;
-                float xx = x + xChange + getOffsets().get(even), yy = y + yChange + getOffsets().get(odd);
+                float xx = x + xChange + getOffsets().get(even) * getScaleX(), yy = y + yChange + getOffsets().get(odd) * getScaleY();
                 if(font.integerPosition){
                     xx = (int)xx;
                     yy = (int)yy;
                 }
 
-                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(start + i) + rot, getSizing().get(even), getSizing().get(odd), bgc, a);
+                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(start + i) + rot, getSizing().get(even) * getScaleX(), getSizing().get(odd) * getScaleY(), bgc, a);
                 xChange += cs * single;
                 yChange += sn * single;
             }
@@ -937,5 +937,4 @@ public class TextraLabel extends Widget {
     public void setDefaultToken(String defaultToken) {
         this.defaultToken = defaultToken == null ? "" : defaultToken;
     }
-
 }
