@@ -961,6 +961,14 @@ public class TextraField extends Widget implements Disableable {
 		}
 	}
 
+	protected void moveCursorVertically (boolean forward, boolean jump) {
+		if(jump)
+			cursor = forward ? text.length() : 0;
+		// I'm not sure if we want up and down to do anything when jump is false.
+//		else
+//			cursor = Math.min(Math.max(forward ? cursor + 1 : cursor - 1, 0), text.length());
+	}
+
 	protected boolean continueCursor (int index, int offset) {
 		char c = text.charAt(index + offset);
 		return isWordCharacter(c);
@@ -1092,7 +1100,7 @@ public class TextraField extends Widget implements Disableable {
 			if (disabled) return false;
 
 			cursorOn = focused;
-			if(blinkEnabled) {
+			if (blinkEnabled) {
 				blinkTask.cancel();
 				if (focused) Timer.schedule(blinkTask, blinkTime, blinkTime);
 			}
@@ -1106,39 +1114,39 @@ public class TextraField extends Widget implements Disableable {
 
 			if (ctrl) {
 				switch (keycode) {
-				case Keys.V:
-					paste(clipboard.getContents(), true);
-					repeat = true;
-					break;
-				case Keys.C:
-				case Keys.INSERT:
-					copy();
-					return true;
-				case Keys.X:
-					cut(true);
-					return true;
-				case Keys.A:
-					selectAll();
-					return true;
-				case Keys.Z:
-					String oldText = text;
-					setText(undoText);
-					undoText = oldText;
-					updateDisplayText();
-					return true;
-				default:
-					handled = false;
+					case Keys.V:
+						paste(clipboard.getContents(), true);
+						repeat = true;
+						break;
+					case Keys.C:
+					case Keys.INSERT:
+						copy();
+						return true;
+					case Keys.X:
+						cut(true);
+						return true;
+					case Keys.A:
+						selectAll();
+						return true;
+					case Keys.Z:
+						String oldText = text;
+						setText(undoText);
+						undoText = oldText;
+						updateDisplayText();
+						return true;
+					default:
+						handled = false;
 				}
 			}
 
 			if (UIUtils.shift()) {
 				switch (keycode) {
-				case Keys.INSERT:
-					paste(clipboard.getContents(), true);
-					break;
-				case Keys.FORWARD_DEL:
-					cut(true);
-					break;
+					case Keys.INSERT:
+						paste(clipboard.getContents(), true);
+						break;
+					case Keys.FORWARD_DEL:
+						cut(true);
+						break;
 				}
 
 				selection:
@@ -1147,31 +1155,41 @@ public class TextraField extends Widget implements Disableable {
 					keys:
 					{
 						switch (keycode) {
-						case Keys.LEFT:
-							moveCursor(false, jump);
-							repeat = true;
-							handled = true;
-							break keys;
-						case Keys.RIGHT:
-							moveCursor(true, jump);
-							repeat = true;
-							handled = true;
-							break keys;
-						case Keys.HOME:
-							goHome(jump);
-							handled = true;
-							break keys;
-						case Keys.END:
-							goEnd(jump);
-							handled = true;
-							break keys;
+							case Keys.LEFT:
+								moveCursor(false, jump);
+								repeat = true;
+								handled = true;
+								break keys;
+							case Keys.RIGHT:
+								moveCursor(true, jump);
+								repeat = true;
+								handled = true;
+								break keys;
+							case Keys.UP:
+								moveCursorVertically(false, jump);
+								repeat = true;
+								handled = true;
+								break keys;
+							case Keys.DOWN:
+								moveCursorVertically(true, jump);
+								repeat = true;
+								handled = true;
+								break keys;
+							case Keys.HOME:
+								goHome(jump);
+								handled = true;
+								break keys;
+							case Keys.END:
+								goEnd(jump);
+								handled = true;
+								break keys;
 						}
 						break selection;
 					}
 					if (!label.hasSelection()) {
 						label.selectionStart = temp;
 						label.selectionEnd = cursor;
-						if(temp < cursor)
+						if (temp < cursor)
 							label.selectionEnd--;
 						else
 							label.selectionStart--;
@@ -1180,9 +1198,9 @@ public class TextraField extends Widget implements Disableable {
 						int end = label.selectionEnd;
 						if (cursor < start) {
 							label.selectionStart = cursor;
-						} else if(cursor > end) {
+						} else if (cursor > end) {
 							label.selectionEnd = cursor - 1;
-						} else if(temp < cursor) {
+						} else if (temp < cursor) {
 							label.selectionStart = cursor;
 						} else {
 							label.selectionEnd = cursor - 1;
@@ -1192,28 +1210,40 @@ public class TextraField extends Widget implements Disableable {
 			} else {
 				// Cursor movement or other keys (kills selection).
 				switch (keycode) {
-				case Keys.LEFT:
-					moveCursor(false, jump);
-					clearSelection();
-					repeat = true;
-					handled = true;
-					break;
-				case Keys.RIGHT:
-					moveCursor(true, jump);
-					clearSelection();
-					repeat = true;
-					handled = true;
-					break;
-				case Keys.HOME:
-					goHome(jump);
-					clearSelection();
-					handled = true;
-					break;
-				case Keys.END:
-					goEnd(jump);
-					clearSelection();
-					handled = true;
-					break;
+					case Keys.LEFT:
+						moveCursor(false, jump);
+						clearSelection();
+						repeat = true;
+						handled = true;
+						break;
+					case Keys.RIGHT:
+						moveCursor(true, jump);
+						clearSelection();
+						repeat = true;
+						handled = true;
+						break;
+					case Keys.UP:
+						moveCursorVertically(false, jump);
+						clearSelection();
+						repeat = true;
+						handled = true;
+						break;
+					case Keys.DOWN:
+						moveCursorVertically(true, jump);
+						clearSelection();
+						repeat = true;
+						handled = true;
+						break;
+					case Keys.HOME:
+						goHome(jump);
+						clearSelection();
+						handled = true;
+						break;
+					case Keys.END:
+						goEnd(jump);
+						clearSelection();
+						handled = true;
+						break;
 				}
 			}
 
