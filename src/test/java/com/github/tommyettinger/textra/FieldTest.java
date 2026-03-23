@@ -107,6 +107,7 @@ public class FieldTest extends ApplicationAdapter {
         ttPane = new ScrollPane(ttArea, skin);
         ttPane.setFadeScrollBars(false);
         ttPane.setScrollbarsOnTop(true);
+        ttPane.setFlickScroll(false);
 
         s2dField = new TextField(text,
                 skin
