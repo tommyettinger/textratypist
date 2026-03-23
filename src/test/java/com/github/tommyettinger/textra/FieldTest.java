@@ -115,16 +115,16 @@ public class FieldTest extends ApplicationAdapter {
 
         Table table = new Table();
         table.setFillParent(true);
+        table.add(new TextraLabel("S2Df ", font)).width(60).height(font.cellHeight * 2);
+        table.add(s2dField).width(200).height(s2dField.getStyle().font.getLineHeight() * 2).row();
         table.add(new TextraLabel("TTf  ", font)).width(60).height(font.cellHeight * 2);
         table.add(ttField).width(200).height(font.cellHeight * 2).row();
-        table.add(new TextraLabel("S2Df ", font)).width(60).height(font.cellHeight * 2);
-        table.add(s2dField).width(200).height(font.cellHeight * 2).row();
 //        table.add(new TextraLabel("TTaM ", font)).width(60).height(font.cellHeight * 2);
 //        table.add(ttAreaMessy).width(200).height(font.cellHeight * 5).row();
+        table.add(new TextraLabel("S2Da ", font)).width(60).height(font.cellHeight * 2);
+        table.add(s2dArea).width(200).height(s2dArea.getStyle().font.getLineHeight() * 5.5f).row();
         table.add(new TextraLabel("TTa  ", font)).width(60).height(font.cellHeight * 2);
         table.add(ttArea).width(200).height(font.cellHeight * 5).row();
-//        table.add(new TextraLabel("S2Da ", font)).width(60).height(font.cellHeight * 2);
-//        table.add(s2dArea).width(200).height(font.cellHeight * 5).row();
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
