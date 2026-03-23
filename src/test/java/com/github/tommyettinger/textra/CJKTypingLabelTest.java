@@ -38,7 +38,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
         batch = new SpriteBatch();
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 //        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        skin.getFont("default-font");//.getData().setScale(0.5f);
+//        skin.getFont("default-font");//.getData().setScale(0.5f);
         stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
 
@@ -129,127 +129,13 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
         parameter.size = 15;
 
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("sc/NotoSansCJKsc-Regular.otf"));
-        parameter.incremental = true;
+        parameter.incremental = false;
         parameter.characters = "howdY " + "汉仪拜基火云体简汉仪拜基火云体繁汉仪拜基火云体W" +
                 "汉仪报宋简汉仪报宋繁" +
                 "汉仪碑刻黑简汉仪碑刻黑繁汉仪碑刻黑W\u200B";
 
         FreeTypeFontGenerator.setMaxTextureSize(1024);
-        FreeTypeFontGenerator.FreeTypeBitmapFontData data = new FreeTypeFontGenerator.FreeTypeBitmapFontData() {
-            public int getWrapIndex(Array<BitmapFont.Glyph> glyphs, int start) {
-                int i = start - 1;
-                for (; i >= 1; i--) {
-                    int startChar = glyphs.get(i).id;
-                    if (!legalAtStart(startChar)) continue;
-                    int endChar = glyphs.get(i - 1).id;
-                    if (!legalAtEnd(endChar)) continue;
-                    // Don't wrap between ASCII chars.
-                    if (startChar < 127 && endChar < 127 && !Character.isWhitespace(startChar)) continue;
-                    return i;
-                }
-                return start;
-            }
-
-            private boolean legalAtStart(int ch) {
-                switch (ch) {
-                    case '!':
-                    case '%':
-                    case ')':
-                    case ',':
-                    case '.':
-                    case ':':
-                    case ';':
-                    case '>':
-                    case '?':
-                    case ']':
-                    case '}':
-                    case '¢':
-                    case '¨':
-                    case '°':
-                    case '·':
-                    case 'ˇ':
-                    case 'ˉ':
-                    case '―':
-                    case '‖':
-                    case '’':
-                    case '”':
-                    case '„':
-                    case '‟':
-                    case '†':
-                    case '‡':
-                    case '›':
-                    case '℃':
-                    case '∶':
-                    case '、':
-                    case '。':
-                    case '〃':
-                    case '〆':
-                    case '〈':
-                    case '《':
-                    case '「':
-                    case '『':
-                    case '〕':
-                    case '〗':
-                    case '〞':
-                    case '﹘':
-                    case '﹚':
-                    case '﹜':
-                    case '！':
-                    case '＂':
-                    case '％':
-                    case '＇':
-                    case '）':
-                    case '，':
-                    case '．':
-                    case '：':
-                    case '；':
-                    case '？':
-                    case '］':
-                    case '｀':
-                    case '｜':
-                    case '｝':
-                    case '～':
-                        return false;
-                    default:
-                        return true;
-                }
-            }
-
-            private boolean legalAtEnd(int ch) {
-                switch (ch) {
-                    case '$':
-                    case '(':
-                    case '*':
-                    case ',':
-                    case '£':
-                    case '¥':
-                    case '·':
-                    case '‘':
-                    case '“':
-                    case '〈':
-                    case '《':
-                    case '「':
-                    case '『':
-                    case '【':
-                    case '〔':
-                    case '〖':
-                    case '〝':
-                    case '﹗':
-                    case '﹙':
-                    case '﹛':
-                    case '＄':
-                    case '（':
-                    case '．':
-                    case '［':
-                    case '｛':
-                    case '￡':
-                    case '￥':
-                        return false;
-                    default:
-                        return true;
-                }
-            }
-        };
+        FreeTypeFontGenerator.FreeTypeBitmapFontData data = new FreeTypeFontGenerator.FreeTypeBitmapFontData();
 
         // By default, latin chars are used for x and cap height, causing some fonts to display non-latin chars out of bounds.
         data.xChars = new char[]{'动'};
@@ -261,13 +147,14 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
     public TypingLabel newTypingLabel(String text) {
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{
-                        "HYYiHeXianJingW"
+                        "NotoSansCJKsc"
                 },
                 new Font[]{
                         new Font(newBitmapFont()),
                 });
         Font font = family.connected[0].setFamily(family);
 //        font.mapping.put('\u200B', new Font.GlyphRegion(font.mapping.get(' '), 0f, 0f, 0f));
+//        font.addSpacingGlyph('\u200B', 0f);
         final TypingLabel label = new TypingLabel(text, font);
 
         label.parseTokens();
@@ -276,18 +163,12 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
     }
 
     public TypingLabel createTypingLabel() {
-        Font font = KnownFonts.getStandardFamily();
-        for(Font f : font.family.connected) {
-            if(f != null)
-                KnownFonts.addEmoji(f);
-        }
-
         final TypingLabel label = newTypingLabel(Font.insertZeroWidthSpacesInCJK(
-                "{SPIRAL=2;0.5;-2.5}{STYLE=/}[%^SHADOW]YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY\u200BYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY[%]{STYLE=/}{ENDSPIRAL} " +
+                "{SPIRAL=2;0.5;-2.5}{STYLE=/}[?SHADOW]YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYW\u200BYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY[%]{STYLE=/}{ENDSPIRAL} " +
                 "YYYYYYYYYYYYYYYW\n" +
                 "YYYYY[RED]YYYYY[]\n" +
                 "[GREEN]YYYYYY[]YYYYYYYYYYYW\n\n"+
-                "{SPIRAL=2;0.5;-2.5}{STYLE=/}[%^SHADOW]汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简[%]{STYLE=/}{ENDSPIRAL} " +
+                "{SPIRAL=2;0.5;-2.5}{STYLE=/}[?SHADOW]汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简[%]{STYLE=/}{ENDSPIRAL} " +
                 "汉仪拜基火云体繁汉仪拜基火云体W\n" +
                 "汉仪报宋简[RED]汉仪报宋繁[]\n" +
                 "[GREEN]汉仪碑刻黑简[]汉仪碑刻黑繁汉仪碑刻黑W"));
@@ -297,6 +178,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
         // Make the label wrap to new lines, respecting the table's layout.
         label.setWrap(true);
         label.layout.maxLines = 15;
+        label.setWidth(400);
 
         // Finally parse tokens in the label text.
 //        label.parseTokens();

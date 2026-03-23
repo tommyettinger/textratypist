@@ -1609,7 +1609,7 @@ public class Font implements Disposable {
      * @return a String where every CJK char has a zero-width space (U+200B) appended after it
      */
     public static String insertZeroWidthSpacesInCJK(String text) {
-        return text.replace("([\u2E80-\u303F\u31C0-\u31EF\u3200-\u9FFF\uF900-\uFAFF\uFE30-\uFE4F])", "$1\u200B");
+        return text.replaceAll("([\u2E80-\u303F\u31C0-\u31EF\u3200-\u9FFF\uF900-\uFAFF\uFE30-\uFE4F])", "$1\u200B");
     }
 
     /**
