@@ -38,7 +38,7 @@ public class FieldTest extends ApplicationAdapter {
     Stage stage;
     TextraField ttField;
     TextField s2dField;
-    TextraAreaMessy ttAreaMessy;
+//    TextraAreaMessy ttAreaMessy;
     TextraArea ttArea;
     TextArea s2dArea;
     FWSkin skin;
@@ -46,7 +46,7 @@ public class FieldTest extends ApplicationAdapter {
     @Override
     public void create() {
         viewport = new ScreenViewport();
-        viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
+        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
         stage = new Stage(viewport);
         stage.setDebugAll(true);
@@ -89,7 +89,7 @@ public class FieldTest extends ApplicationAdapter {
         ttField = new TextraField(text,
 //skin
                 new Styles.TextFieldStyle(font, Color.WHITE.cpy(), skin.getDrawable("cursor"),
-                selection, background)
+                        selection, background)
         );
         ttField.setWidth(500);
         ttField.setPasswordMode(false);
@@ -98,15 +98,14 @@ public class FieldTest extends ApplicationAdapter {
 
 //        ttField.setCursorBlinking(false);
 
-        ttAreaMessy = new TextraAreaMessy(longText, ttField.style);
-//                ttArea.setCursorBlinking(false);
+//        ttAreaMessy = new TextraAreaMessy(longText, ttField.style);
 
         ttArea = new TextraArea(longText, ttField.style);
 
         s2dField = new TextField(text,
                 skin
 //        new TextField.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background)
-                 );
+        );
         s2dField.setWidth(500);
         s2dField.setPasswordMode(false);
         s2dField.setHeight(font.cellHeight * 3);
@@ -120,8 +119,8 @@ public class FieldTest extends ApplicationAdapter {
         table.add(ttField).width(200).height(font.cellHeight * 2).row();
         table.add(new TextraLabel("S2Df ", font)).width(60).height(font.cellHeight * 2);
         table.add(s2dField).width(200).height(font.cellHeight * 2).row();
-        table.add(new TextraLabel("TTaM ", font)).width(60).height(font.cellHeight * 2);
-        table.add(ttAreaMessy).width(200).height(font.cellHeight * 5).row();
+//        table.add(new TextraLabel("TTaM ", font)).width(60).height(font.cellHeight * 2);
+//        table.add(ttAreaMessy).width(200).height(font.cellHeight * 5).row();
         table.add(new TextraLabel("TTa  ", font)).width(60).height(font.cellHeight * 2);
         table.add(ttArea).width(200).height(font.cellHeight * 5).row();
 //        table.add(new TextraLabel("S2Da ", font)).width(60).height(font.cellHeight * 2);
@@ -144,30 +143,16 @@ public class FieldTest extends ApplicationAdapter {
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
         ttField.label.font.resizeDistanceField(width, height, stage.getViewport());
-        ttAreaMessy.label.font.resizeDistanceField(width, height, stage.getViewport());
+//        ttAreaMessy.label.font.resizeDistanceField(width, height, stage.getViewport());
         ttArea.label.font.resizeDistanceField(width, height, stage.getViewport());
     }
 
-    @Override
-    public void pause() {
-        // Invoked when your application is paused.
-    }
-
-    @Override
-    public void resume() {
-        // Invoked when your application is resumed after pause.
-    }
-
-    @Override
-    public void dispose() {
-        // Destroy screen's assets here.
-    }
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TextraLabel UI test");
         config.setWindowedMode(600, 600);
         config.disableAudio(true);
-		config.setForegroundFPS(60);
+        config.setForegroundFPS(60);
         config.useVsync(true);
         new Lwjgl3Application(new FieldTest(), config);
     }

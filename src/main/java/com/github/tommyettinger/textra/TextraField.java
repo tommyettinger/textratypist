@@ -240,7 +240,8 @@ public class TextraField extends Widget implements Disableable {
 
 	protected long wordUnderCursor () {
 		TypingLabel lb = this.label;
-		if(label.overIndex == -1) return lb.length() - 1;
+		// returning length - 1 is the same as left = 0, right = length - 1
+		if(label.overIndex < 0) return lb.length() - 1;
 		int len = lb.length(), start = label.overIndex, right = len - 1, left = start, index = start;
 		if (start >= len) {
 			for (index = len - 1; index > -1; index--) {
@@ -1067,8 +1068,8 @@ public class TextraField extends Widget implements Disableable {
 		}
 
 		protected void setCursorPosition (float x, float y) {
-			if (label.overIndex == -1) {
-				if (x < label.getX() + label.workingLayout.getWidth() * 0.5f) cursor = 0;
+			if (label.overIndex < 0) {
+				if (x < label.workingLayout.getWidth() * 0.5f) cursor = 0;
 				else cursor = label.length();
 			} else cursor = label.overIndex;
 
