@@ -111,10 +111,14 @@ public final class KnownFonts implements LifecycleListener {
      * sure that instance exists exactly once. If initialize() has been called at all during this run of an application,
      * then the singleton will exist and have been initialized. This is public so user code can opt to initialize
      * KnownFonts during a loading stage early on, instead of when Font instances are loaded.
+     * <br>
+     * This won't load any ShaderProgram instances if {@link Gdx#app} is a headless Application, since shaders can only
+     * be compiled if OpenGL is available.
      */
     public static void initialize() {
         if (instance == null) {
             instance = new KnownFonts();
+            if(Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop) return;
             instance.standardShader = null;
             instance.sdfShader = new ShaderProgram(Font.vertexShader,
                     Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
@@ -140,6 +144,15 @@ public final class KnownFonts implements LifecycleListener {
      * some changes to shaders. It can also be useful if you're using a "Texture Array Batch", or any sort of Batch
      * that needs alternative shaders with different attributes. This must be called before <em>any other methods</em>
      * in KnownFonts, including before {@link #setAssetPrefix(String)} (if it is called at all).
+     * <br>
+     * This won't load any ShaderProgram instances if {@link Gdx#app} is a headless Application, since shaders can only
+     * be compiled if OpenGL is available.
+     * <br>
+     * If you are using {@link TextureArrayCpuPolygonSpriteBatch} or any other Texture Array Batch, you can avoid
+     * manually calling this and use {@link TextureArrayShaders#initializeTextureArrayShaders()} (which uses the same
+     * shaders on all platforms) or {@link TextureArrayShaders#initializeAdaptiveTextureArrayShaders()} (which uses
+     * sometimes-higher-quality shaders when it can). Only one can be used. For equivalent behavior to the default
+     * here, {@link #initialize()}, use initializeAdaptiveTextureArrayShaders() when using a Texture Array Batch.
      */
     public static void initialize(String standardVertex, String standardFragment,
                                   String sdfVertex, String sdfFragment,
@@ -147,6 +160,7 @@ public final class KnownFonts implements LifecycleListener {
                                   String msdfVertex, String msdfFragment) {
         if (instance == null) {
             instance = new KnownFonts();
+            if(Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop) return;
             instance.standardShader = (standardVertex != null && standardFragment != null) ? new ShaderProgram(standardVertex, standardFragment) : null;
             if (instance.standardShader != null && !instance.standardShader.isCompiled())
                 Gdx.app.error("textratypist", "Standard shader failed to compile: " + instance.standardShader.getLog());

@@ -367,6 +367,8 @@ public final class TextureArrayShaders {
      * the SDF shaders depending on whether derivatives are available, and will use them if they are. If used heavily,
      * the shaders that use derivatives may not perform as well as the ones that don't. They may look better
      * (subjectively) when used, which can only be on desktop and mobile platforms right now (no web browsers).
+     * SDF shaders using derivatives tend to look considerably better than SDF without if text is scaled often in the
+     * same frame, though MSDF shaders can look even better in that case.
      */
     public static void initializeAdaptiveTextureArrayShaders() {
         final String vertexShader = defaultArrayVertexShader();

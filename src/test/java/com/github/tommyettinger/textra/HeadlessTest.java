@@ -22,7 +22,7 @@ public class HeadlessTest extends ApplicationAdapter {
             + "\n[_]underline (even for multiple words)[_], [~]strikethrough (same)[ ],"
             + "\nscaling: [%50]very [%75]small [%100]to [%150]quite [%200]large[ ], notes: [.]sub-[.], [=]mid-[=], and [^]super-[^]script,"
             + "\ncapitalization changes: [;]Each cap, [,]All lower, [!]Caps lock[ ],"
-            + "\n[%^small caps][*]Special[*][%] [%^whiten][/]Effects[/][%]: [%?shadow]drop shadow[%], [%?jostle]RaNsoM nOtE[%], [%?error]spell check[%]...",
+            + "\n[?small caps][*]Special[*][?] [?whiten][/]Effects[/][?]: [?shadow]drop shadow[?], [?jostle]RaNsoM nOtE[?], [?error]spell check[?]...",
     emojiSupport = "\nPlus, there's [_][*][TEAL]emoji[ ] and more! [WHITE][+🥳] [+👍🏻] [+🤙🏼] [+👌🏽] [+🤘🏾] [+✌🏿]";
 
     public static void main(String[] args){
