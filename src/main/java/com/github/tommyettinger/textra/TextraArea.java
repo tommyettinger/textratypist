@@ -45,9 +45,8 @@ public class TextraArea extends TextraField {
             label.selectionDrawable = style.selection;
         writeEnters = true;
         initialize();
-        label.setSize(getPrefWidth(), getPrefHeight());
+        label.setWidth(getPrefWidth());
         setText(text);
-        label.skipToTheEnd(true, true);
         updateDisplayText();
     }
 
@@ -67,23 +66,16 @@ public class TextraArea extends TextraField {
             label.selectionDrawable = style.selection;
         writeEnters = true;
         initialize();
-        label.setSize(getPrefWidth(), getPrefHeight());
+        label.setWidth(getPrefWidth());
         setText(text);
-        label.skipToTheEnd(true, true);
         updateDisplayText();
-    }
-
-    @Override
-    protected void sizeChanged() {
-        super.sizeChanged();
-        label.setSize(getWidth(), getHeight());
     }
 
     @Override
     protected void drawCursor (Drawable cursorPatch, Batch batch, Font font, float x, float y) {
         final float layoutHeight = label.getHeight(), linesHeight = label.getCumulativeLineHeight(cursor),
                 lineHeight = label.getLineHeight(cursor);
-//		System.out.println("layoutHeight: " + layoutHeight + ", linesHeight: " + linesHeight);
+
         cursorPatch.draw(batch,
                 x + textOffset + glyphPositions.get(cursor) - glyphPositions.get(visibleTextStart) + fontOffset,
                 y + layoutHeight - linesHeight, cursorPatch.getMinWidth(), lineHeight);
@@ -99,4 +91,8 @@ public class TextraArea extends TextraField {
         return textY;
     }
 
+    @Override
+    public float getPrefHeight() {
+        return label.getPrefHeight();
+    }
 }

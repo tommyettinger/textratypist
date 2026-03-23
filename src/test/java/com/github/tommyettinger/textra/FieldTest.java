@@ -23,6 +23,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -40,6 +41,7 @@ public class FieldTest extends ApplicationAdapter {
     TextField s2dField;
 //    TextraAreaMessy ttAreaMessy;
     TextraArea ttArea;
+    ScrollPane ttPane;
     TextArea s2dArea;
     FWSkin skin;
 
@@ -102,6 +104,10 @@ public class FieldTest extends ApplicationAdapter {
 
         ttArea = new TextraArea(longText, ttField.style);
 
+        ttPane = new ScrollPane(ttArea, skin);
+        ttPane.setFadeScrollBars(false);
+        ttPane.setScrollbarsOnTop(true);
+
         s2dField = new TextField(text,
                 skin
 //        new TextField.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background)
@@ -124,7 +130,7 @@ public class FieldTest extends ApplicationAdapter {
         table.add(new TextraLabel("S2Da ", font)).width(60).height(font.cellHeight * 2);
         table.add(s2dArea).width(200).height(s2dArea.getStyle().font.getLineHeight() * 5.5f).row();
         table.add(new TextraLabel("TTa  ", font)).width(60).height(font.cellHeight * 2);
-        table.add(ttArea).width(200).height(font.cellHeight * 5).row();
+        table.add(ttPane).width(200).height(font.cellHeight * 5).row();
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
