@@ -95,4 +95,35 @@ public class TextraArea extends TextraField {
     public float getPrefHeight() {
         return label.getPrefHeight();
     }
+
+    @Override
+    protected void moveCursorVertically(boolean forward, boolean jump) {
+        if(jump)
+            cursor = forward ? text.length() : 0;
+        else {
+            float gp = glyphPositions.get(cursor);
+            int currentLine = label.getLineIndexInLayout(label.workingLayout, cursor);
+            if(forward) {
+                if(currentLine >= label.getWorkingLayout().lines() - 1) {
+                    cursor = text.length();
+                    return;
+                }
+                int i = label.getWorkingLayout().countGlyphsBeforeLine(currentLine + 1);
+                for (int n = i + label.getWorkingLayout().getLine(currentLine + 1).glyphs.size; i < n; i++) {
+                    if(glyphPositions.get(i) + label.workingLayout.advances.get(i) * 0.5f > gp) break;
+                }
+                cursor = i;
+            } else {
+                if(currentLine <= 0) {
+                    cursor = 0;
+                    return;
+                }
+                int i = label.getWorkingLayout().countGlyphsBeforeLine(currentLine - 1);
+                for (int n = i + label.getWorkingLayout().getLine(currentLine - 1).glyphs.size; i < n; i++) {
+                    if(glyphPositions.get(i) + label.workingLayout.advances.get(i) * 0.5f > gp) break;
+                }
+                cursor = i;
+            }
+        }
+    }
 }
