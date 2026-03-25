@@ -1722,6 +1722,13 @@ public class TypingLabel extends TextraLabel {
         return "";
     }
 
+    /**
+     * Given a Layout, typically {@link #getWorkingLayout()}, and an index into that Layout, this returns the Line
+     * object that holds the glyph at that index.
+     * @param layout a Layout such as {@link #getWorkingLayout()}
+     * @param index an index into the given Layout
+     * @return the Line containing the given index, or null if the index is out of bounds
+     */
     public Line getLineInLayout(Layout layout, int index) {
         for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
             LongArray glyphs = layout.getLine(i).glyphs;
@@ -1732,6 +1739,29 @@ public class TypingLabel extends TextraLabel {
         }
         return null;
     }
+
+    /**
+     * Given a Layout, typically {@link #getWorkingLayout()}, and an index into that Layout, this returns the index of
+     * the Line in the Layout that holds the glyph at that index. With the line index, you can call
+     * {@link Layout#getLine(int)}.
+     * @param layout a Layout such as {@link #getWorkingLayout()}
+     * @param index an index into the given Layout
+     * @return the index of the Line in the Layout containing the given index; will be 0 if index is -1, or the last
+     * line index if index is -2 or out of bounds
+     */
+    public int getLineIndexInLayout(Layout layout, int index) {
+        if(index == -1) return 0;
+        if(index == -2) return layout.lines() - 1;
+        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
+            LongArray glyphs = layout.getLine(i).glyphs;
+            if (index < glyphs.size)
+                return i;
+            else
+                index -= glyphs.size;
+        }
+        return layout.lines() - 1;
+    }
+
     /**
      * Gets the height of the Line containing the glyph at the given index, in the working layout. If the index is out
      * of bounds, this just returns {@link Font#cellHeight}.
