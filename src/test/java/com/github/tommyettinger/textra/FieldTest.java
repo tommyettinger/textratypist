@@ -102,12 +102,12 @@ public class FieldTest extends ApplicationAdapter {
 
 //        ttAreaMessy = new TextraAreaMessy(longText, ttField.style);
 
-        ttArea = new TextraArea(longText, ttField.style);
+        ttArea = new TextraArea(longText, ttField.style, skin.get(ScrollPane.ScrollPaneStyle.class));
 
-        ttPane = new ScrollPane(ttArea, skin);
-        ttPane.setFadeScrollBars(false);
-        ttPane.setScrollbarsOnTop(true);
-        ttPane.setFlickScroll(false);
+//        ttPane = new ScrollPane(ttArea, skin);
+//        ttPane.setFadeScrollBars(false);
+//        ttPane.setScrollbarsOnTop(true);
+//        ttPane.setFlickScroll(false);
 
         s2dField = new TextField(text,
                 skin
@@ -131,7 +131,7 @@ public class FieldTest extends ApplicationAdapter {
         table.add(new TextraLabel("S2Da ", font)).width(60).height(font.cellHeight * 2);
         table.add(s2dArea).width(200).height(s2dArea.getStyle().font.getLineHeight() * 5.5f).row();
         table.add(new TextraLabel("TTa  ", font)).width(60).height(font.cellHeight * 2);
-        table.add(ttPane).width(200).height(font.cellHeight * 5).row();
+        table.add(ttArea).width(200).height(font.cellHeight * 5).row();
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }

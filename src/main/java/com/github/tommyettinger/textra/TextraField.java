@@ -200,6 +200,14 @@ public class TextraField extends Widget implements Disableable {
 		updateDisplayText();
 	}
 
+	protected void setSuperStage(Stage stage){
+		super.setStage(stage);
+	}
+
+	protected void setSuperParent(Group parent){
+		super.setParent(parent);
+	}
+
 	@Override
 	protected void setStage(Stage stage) {
 		super.setStage(stage);

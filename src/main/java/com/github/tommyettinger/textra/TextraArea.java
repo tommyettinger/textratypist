@@ -1,6 +1,9 @@
 package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
@@ -15,20 +18,21 @@ import com.badlogic.gdx.utils.Null;
  * {@link TypingLabel#setSelectable(boolean)}, probably also using {@link TypingLabel#skipToTheEnd()}.
  */
 public class TextraArea extends TextraField {
+    public ScrollPane scrollPane;
 
     public TextraArea(@Null String text, Skin skin) {
-        this(text, skin.get(Styles.TextFieldStyle.class));
+        this(text, skin.get(Styles.TextFieldStyle.class), skin.get(ScrollPane.ScrollPaneStyle.class));
     }
 
     public TextraArea(@Null String text, Skin skin, Font replacementFont) {
-        this(text, skin.get(Styles.TextFieldStyle.class), replacementFont);
+        this(text, skin.get(Styles.TextFieldStyle.class), skin.get(ScrollPane.ScrollPaneStyle.class), replacementFont);
     }
 
-    public TextraArea(@Null String text, Skin skin, String styleName) {
-        this(text, skin.get(styleName, Styles.TextFieldStyle.class));
+    public TextraArea(@Null String text, Skin skin, String styleName, String paneStyleName) {
+        this(text, skin.get(styleName, Styles.TextFieldStyle.class), skin.get(paneStyleName, ScrollPane.ScrollPaneStyle.class));
     }
 
-    public TextraArea(String text, Styles.TextFieldStyle style) {
+    public TextraArea(String text, Styles.TextFieldStyle style, ScrollPane.ScrollPaneStyle paneStyle) {
         super();
         Styles.TextFieldStyle s = new Styles.TextFieldStyle(style);
 //        s.font = new Font(style.font); // already done by TextFieldStyle constructor
@@ -48,9 +52,13 @@ public class TextraArea extends TextraField {
         label.setWidth(getPrefWidth());
         setText(text);
         updateDisplayText();
+        scrollPane = new ScrollPane(label, paneStyle);
+        scrollPane.setFadeScrollBars(false);
+        scrollPane.setScrollbarsOnTop(true);
+        scrollPane.setFlickScroll(false);
     }
 
-    public TextraArea(String text, Styles.TextFieldStyle style, Font replacementFont) {
+    public TextraArea(String text, Styles.TextFieldStyle style, ScrollPane.ScrollPaneStyle paneStyle, Font replacementFont) {
         super();
         setStyle(style);
         replacementFont = new Font(replacementFont);
@@ -69,6 +77,22 @@ public class TextraArea extends TextraField {
         label.setWidth(getPrefWidth());
         setText(text);
         updateDisplayText();
+        scrollPane = new ScrollPane(label, paneStyle);
+        scrollPane.setFadeScrollBars(false);
+        scrollPane.setScrollbarsOnTop(true);
+        scrollPane.setFlickScroll(false);
+    }
+
+    @Override
+    protected void setStage(Stage stage) {
+        setSuperStage(stage);
+        label.setStage(stage);
+    }
+
+    @Override
+    protected void setParent(Group parent) {
+        setSuperParent(parent);
+        label.setParent(parent);
     }
 
     @Override
