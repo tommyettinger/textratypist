@@ -190,7 +190,7 @@ public class Parser {
 
                         // If replacement is still null, get value from global scope
                         if (replacement == null) {
-                            replacement = TypingConfig.GLOBAL_VARS.get(param.toUpperCase());
+                            replacement = TypingConfig.GLOBAL_VARS.get(param.toUpperCase(Locale.ROOT));
                         }
 
                         // Make sure we're not inserting "null" to the text.
@@ -246,12 +246,12 @@ public class Parser {
 
         // If value is null, get it from maps.
         if(variableValue == null) {
-            variableValue = label.getVariables().get(variable.toUpperCase());
+            variableValue = label.getVariables().get(variable.toUpperCase(Locale.ROOT));
         }
 
         // If value is still null, get it from global scope
         if(variableValue == null) {
-            variableValue = TypingConfig.GLOBAL_VARS.get(variable.toUpperCase());
+            variableValue = TypingConfig.GLOBAL_VARS.get(variable.toUpperCase(Locale.ROOT));
         }
 
         // Ensure variable is never null
@@ -395,7 +395,7 @@ public class Parser {
                         break;
                     }
                     case EFFECT_START: {
-                        Effect.EffectBuilder eb = TypingConfig.EFFECT_START_TOKENS.get(tokenName.toUpperCase());
+                        Effect.EffectBuilder eb = TypingConfig.EFFECT_START_TOKENS.get(tokenName.toUpperCase(Locale.ROOT));
                         if (eb != null) {
                             effect = eb.produce(label, params);
                         }

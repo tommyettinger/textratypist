@@ -39,13 +39,13 @@ public class VariableTest extends ApplicationAdapter {
 //        stage.setDebugAll(true);
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 
-        label = new TypingLabel("Test: {VAR=test}", skin);
+        label = new TypingLabel("Test: {VAR=abbreviation}", skin);
         label.setWrap(true);
 //        label.setDefaultToken(""); // not needed if you parseTokens after changing variables.
-        label.setVariable("test", "firsttest");
+        TypingConfig.GLOBAL_VARS.put("ABBREVIATION", "firsttest");
         label.setTypingListener(new TypingAdapter() {
             public String replaceVariable (String variable)  {
-                if("test".equals(variable)) return "testvariable";
+                if("ABBREVIATION".equalsIgnoreCase(variable)) return "testvariable";
                 return "-- Unknown Variable --";
             }
         });

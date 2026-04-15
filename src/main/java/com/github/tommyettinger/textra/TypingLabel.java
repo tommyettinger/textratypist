@@ -676,7 +676,7 @@ public class TypingLabel extends TextraLabel {
      */
     public void removeVariable(String var) {
         if(var != null) {
-            String old = variables.remove(var.toUpperCase());
+            String old = variables.remove(var.toUpperCase(Locale.ROOT));
             if(old != null && (old.contains("[") || old.contains("{"))){
                 parsed = false;
             }
