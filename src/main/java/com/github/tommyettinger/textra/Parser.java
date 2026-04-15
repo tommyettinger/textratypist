@@ -27,6 +27,7 @@ import regexodus.REFlags;
 import regexodus.Replacer;
 
 import java.util.Collections;
+import java.util.Locale;
 
 /**
  * Utility class to parse tokens from a {@link TypingLabel}; not intended for external use in most situations.
@@ -184,7 +185,7 @@ public class Parser {
 
                         // If replacement is null, get value from maps.
                         if (replacement == null) {
-                            replacement = label.getVariables().get(param.toUpperCase());
+                            replacement = label.getVariables().get(param.toUpperCase(Locale.ROOT));
                         }
 
                         // If replacement is still null, get value from global scope
@@ -193,14 +194,14 @@ public class Parser {
                         }
 
                         // Make sure we're not inserting "null" to the text.
-                        if (replacement == null) replacement = param.toUpperCase();
+                        if (replacement == null) replacement = param.toUpperCase(Locale.ROOT);
                         break;
                     case IF:
                         // Process token
                         replacement = processIfToken(label, param);
 
                         // Make sure we're not inserting "null" to the text.
-                        if (replacement == null) replacement = param.toUpperCase();
+                        if (replacement == null) replacement = param.toUpperCase(Locale.ROOT);
                         break;
                     case RESET:
                         replacement = RESET_REPLACEMENT + label.getDefaultToken();
@@ -316,7 +317,7 @@ public class Parser {
                 if (!m.find()) break;
                 m2.find();
                 // Get token name and category
-                String tokenName = m.group(INDEX_TOKEN).toUpperCase();
+                String tokenName = m.group(INDEX_TOKEN).toUpperCase(Locale.ROOT);
                 TokenCategory tokenCategory = null;
                 InternalToken tmpToken = InternalToken.fromName(tokenName);
                 if (tmpToken == null) {

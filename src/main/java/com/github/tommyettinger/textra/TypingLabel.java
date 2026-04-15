@@ -662,7 +662,7 @@ public class TypingLabel extends TextraLabel {
      */
     public void setVariable(String var, String value) {
         if(var != null) {
-            String old = variables.put(var.toUpperCase(), value);
+            String old = variables.put(var.toUpperCase(Locale.ROOT), value);
             if (value.contains("[") || value.contains("{") || (old != null && (old.contains("[") || old.contains("{")))) {
                 parsed = false;
             }
@@ -691,7 +691,7 @@ public class TypingLabel extends TextraLabel {
         if (variableMap != null) {
             for (Entry<String, String> entry : variableMap.entries()) {
                 String value = entry.value;
-                String old = this.variables.put(entry.key.toUpperCase(), value);
+                String old = this.variables.put(entry.key.toUpperCase(Locale.ROOT), value);
                 if(value.contains("[") || value.contains("{") || (old != null && (old.contains("[") || old.contains("{")))) {
                     parsed = false;
                 }
@@ -709,7 +709,7 @@ public class TypingLabel extends TextraLabel {
             for (Map.Entry<String, String> entry : variableMap.entrySet()) {
                 if (entry.getKey() != null) {
                     String value = entry.getValue();
-                    String old = this.variables.put(entry.getKey().toUpperCase(), value);
+                    String old = this.variables.put(entry.getKey().toUpperCase(Locale.ROOT), value);
                     if(value.contains("[") || value.contains("{") || (old != null && (old.contains("[") || old.contains("{")))) {
                         parsed = false;
                     }

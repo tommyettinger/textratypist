@@ -166,7 +166,7 @@ public class TypingConfig {
      * @param builder        Typically a lambda or method reference that creates an Effect.
      */
     public static void registerEffect(String startTokenName, Effect.EffectBuilder builder) {
-        final String name = startTokenName.toUpperCase();
+        final String name = startTokenName.toUpperCase(Locale.ROOT);
         final Effect.EffectBuilder b = (label, params) -> builder.produce(label, params).assignTokenName(name);
         EFFECT_START_TOKENS.put(name, b);
         EFFECT_END_TOKENS.put("END"+name, b);
@@ -179,7 +179,7 @@ public class TypingConfig {
      * @param startTokenName Name of the token that starts the effect, such as WAVE.
      */
     public static void unregisterEffect(String startTokenName) {
-        String name = startTokenName.toUpperCase();
+        String name = startTokenName.toUpperCase(Locale.ROOT);
         EFFECT_START_TOKENS.remove(name);
         EFFECT_END_TOKENS.remove("END"+name);
         dirtyEffectMaps = true;

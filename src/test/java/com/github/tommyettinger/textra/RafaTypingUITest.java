@@ -36,6 +36,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.util.Locale;
+
 /**
  * Broken when libGDX 1.14.0 is used, because libGDX StringBuilder was removed (replaced with CharArray).
  */
@@ -213,8 +215,8 @@ public class RafaTypingUITest extends InputAdapter implements ApplicationListene
 		fpsLabel.skipToTheEnd(true, true);
 		fpsLabel.act(100000);
 		ttt.getActor().setText((System.currentTimeMillis() & 8) == 0
-				? ttt.getActor().getText().toString().toLowerCase()
-				: ttt.getActor().getText().toString().toUpperCase());
+				? ttt.getActor().getText().toString().toLowerCase(Locale.ROOT)
+				: ttt.getActor().getText().toString().toUpperCase(Locale.ROOT));
 //		int i;
 //		for (i = 0; i < s.length() && i < 5; i++) {
 //			fpsLabel.getOriginalText().setCharAt(5+i, s.charAt(i));

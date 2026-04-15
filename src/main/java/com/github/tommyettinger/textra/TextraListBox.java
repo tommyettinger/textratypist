@@ -37,6 +37,8 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.github.tommyettinger.textra.Styles.ListStyle;
 import regexodus.Category;
 
+import java.util.Locale;
+
 /**
  * A TextraListBox (based on {@link com.badlogic.gdx.scenes.scene2d.ui.List}) displays {@link TextraLabel}s and
  * highlights the currently selected item.
@@ -123,7 +125,7 @@ public class TextraListBox<T extends TextraLabel> extends Widget implements Cull
 				typeTimeout = time + 300;
 				prefix += Category.caseDown(character);
 				for (int i = 0, n = items.size; i < n; i++) {
-					if (items.get(i).toString().toLowerCase().startsWith(prefix)) {
+					if (items.get(i).toString().toLowerCase(Locale.ROOT).startsWith(prefix)) {
 						setSelectedIndex(i);
 						break;
 					}
