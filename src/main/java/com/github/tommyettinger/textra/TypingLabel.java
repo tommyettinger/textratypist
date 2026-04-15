@@ -35,6 +35,7 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.github.tommyettinger.textra.utils.ColorUtils;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 
 /**

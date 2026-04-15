@@ -22,6 +22,8 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.github.tommyettinger.textra.effects.*;
 
+import java.util.Locale;
+
 /**
  * Configuration class that easily allows the user to fine tune the library's functionality.
  */
