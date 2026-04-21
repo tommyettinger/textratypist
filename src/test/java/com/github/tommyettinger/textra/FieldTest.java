@@ -41,7 +41,7 @@ public class FieldTest extends ApplicationAdapter {
     TextField s2dField;
 //    TextraAreaMessy ttAreaMessy;
     TextraArea ttArea;
-    ScrollPane ttPane;
+//    ScrollPane ttPane;
     TextArea s2dArea;
     FWSkin skin;
 
@@ -104,10 +104,10 @@ public class FieldTest extends ApplicationAdapter {
 
         ttArea = new TextraArea(longText, ttField.style, skin.get(ScrollPane.ScrollPaneStyle.class));
 
-        ttPane = new ScrollPane(ttArea, skin);
-        ttPane.setFadeScrollBars(false);
-//        ttPane.setScrollbarsOnTop(false); // the default
-        ttPane.setFlickScroll(false);
+//        ttPane = new ScrollPane(ttArea, skin);
+//        ttPane.setFadeScrollBars(false);
+////        ttPane.setScrollbarsOnTop(false); // the default
+//        ttPane.setFlickScroll(false);
 
         s2dField = new TextField(text,
                 skin
@@ -131,7 +131,7 @@ public class FieldTest extends ApplicationAdapter {
         table.add(new TextraLabel("S2Da ", font)).width(60).height(font.cellHeight * 2);
         table.add(s2dArea).width(200).height(s2dArea.getStyle().font.getLineHeight() * 5.5f).row();
         table.add(new TextraLabel("TTa  ", font)).width(60).height(font.cellHeight * 2);
-        table.add(ttPane).width(200).height(font.cellHeight * 5).row();
+        table.add(ttArea).width(200).height(font.cellHeight * 5).row();
 //        table.add(ttArea).width(200).height(font.cellHeight * 5).row();
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
@@ -152,7 +152,7 @@ public class FieldTest extends ApplicationAdapter {
         stage.getViewport().update(width, height, true);
         ttField.label.font.resizeDistanceField(width, height, stage.getViewport());
 //        ttAreaMessy.label.font.resizeDistanceField(width, height, stage.getViewport());
-        ttArea.label.font.resizeDistanceField(width, height, stage.getViewport());
+        ttArea.getFont().resizeDistanceField(width, height, stage.getViewport());
     }
 
     public static void main(String[] args) {
