@@ -123,6 +123,17 @@ public class TextraArea extends Container<ScrollPane> {
 
         @Override
         protected void drawCursor (Drawable cursorPatch, Batch batch, Font font, float x, float y) {
+            if(cursor >= label.length()){
+                final int c = label.length() - 1;
+                final float layoutHeight = label.getHeight(), linesHeight = label.getCumulativeLineHeight(c),
+                        lineHeight = label.getLineHeight(c);
+
+                cursorPatch.draw(batch,
+                        x + textOffset + glyphPositions.get(c) + Font.xAdvance(label.font, label.workingLayout.advances.get(c), label.getInWorkingLayout(c)) * 0.5f + fontOffset,
+                        y + layoutHeight - linesHeight, cursorPatch.getMinWidth(), lineHeight);
+                return;
+            }
+
             final float layoutHeight = label.getHeight(), linesHeight = label.getCumulativeLineHeight(cursor),
                     lineHeight = label.getLineHeight(cursor);
 
