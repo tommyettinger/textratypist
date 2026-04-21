@@ -4786,7 +4786,7 @@ public class Font implements Disposable {
         layout.clear();
         markup(text, tempLayout);
         drawGlyphs(batch, tempLayout, x, y);
-        return tempLayout.countGlyphs();
+        return tempLayout.advances.size;
     }
 
     /**
@@ -4839,7 +4839,7 @@ public class Font implements Disposable {
      * @return the total distance in world units all drawn Lines use up from lines along the given rotation
      */
     public float drawGlyphs(Batch batch, Layout layout, float x, float y, int align, float rotation, float originX, float originY) {
-        if(layout == null || layout.countGlyphs() == 0) return 0f;
+        if(layout == null || layout.advances.size == 0) return 0f;
         float drawn = 0;
         float sn = MathUtils.sinDeg(rotation);
         float cs = MathUtils.cosDeg(rotation);

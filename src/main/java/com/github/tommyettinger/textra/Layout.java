@@ -426,7 +426,7 @@ public class Layout {
      */
     public StringBuilder appendSubstringInto(StringBuilder sb, int start, int end) {
         start = Math.max(0, start);
-        end = Math.min(Math.max(countGlyphs(), start), end);
+        end = Math.min(Math.max(advances.size, start), end);
         int index = start;
         sb.ensureCapacity(end - start);
         int glyphCount = 0;

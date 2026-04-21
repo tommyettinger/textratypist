@@ -834,7 +834,7 @@ public class TextraLabel extends Widget {
      */
     public String substring(int start, int end) {
         start = Math.max(0, start);
-        end = Math.min(layout.countGlyphs(), end);
+        end = Math.min(layout.advances.size, end);
         int index = start;
         StringBuilder sb = new StringBuilder(end - start);
         int glyphCount = 0;

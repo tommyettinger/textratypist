@@ -854,7 +854,7 @@ public class TypingLabel extends TextraLabel {
 
             // Get next character and calculate cooldown increment
 
-            int layoutSize = layout.countGlyphs();
+            int layoutSize = layout.advances.size;
 
             // If char progression is finished, or if text is empty, notify listener and abort routine
             if (layoutSize == 0 || glyphCharIndex >= layoutSize) {
@@ -1503,7 +1503,7 @@ public class TypingLabel extends TextraLabel {
                                 if (Gdx.input.isTouched()) {
                                     if((lastTouchedIndex == -2)) {
                                         selectionStart = globalIndex;
-                                        selectionEnd = workingLayout.countGlyphs() - 1;
+                                        selectionEnd = workingLayout.advances.size - 1;
                                     }
                                     else
                                     {
@@ -1693,7 +1693,7 @@ public class TypingLabel extends TextraLabel {
      */
     public String substring(int start, int end, boolean multiLine) {
         start = Math.max(0, start);
-        end = Math.min(Math.max(workingLayout.countGlyphs(), start), end);
+        end = Math.min(Math.max(workingLayout.advances.size, start), end);
         int index = start;
         StringBuilder sb = new StringBuilder(end - start);
         int glyphCount = 0;
@@ -1866,7 +1866,7 @@ public class TypingLabel extends TextraLabel {
      * @return the length in glyphs of the working layout (what is displayed)
      */
     public int length() {
-        return workingLayout.countGlyphs();
+        return workingLayout.advances.size;
     }
 
     /**
