@@ -148,17 +148,26 @@ public class TextraArea extends Container<ScrollPane> {
 
         @Override
         protected void moveCursorVertically(boolean forward, boolean jump) {
-            if(jump)
+            if(jump) {
                 cursor = forward ? text.length() : 0;
+                TextraArea.this.getActor().scrollTo(0, forward ? 0 : label.getHeight(), 1, TextraArea.this.getHeight());
+            }
             else {
                 float gp = glyphPositions.get(cursor);
                 int currentLine = label.getLineIndexInLayout(label.workingLayout, cursor);
                 if(forward) {
                     if(currentLine >= label.getWorkingLayout().lines() - 1) {
                         cursor = text.length();
+                        TextraArea.this.getActor().scrollTo(0, 0, 1, TextraArea.this.getHeight());
                         return;
                     }
                     int i = label.getWorkingLayout().countGlyphsBeforeLine(currentLine + 1);
+                    float scrollPos = label.getHeight(), latestLineHeight = 1;
+                    for (int ln = 0; ln < currentLine + 1; ln++) {
+                        scrollPos -= (latestLineHeight = label.getLineInLayout(label.workingLayout, ln).height);
+                    }
+                    TextraArea.this.getActor().scrollTo(0, scrollPos, 1, latestLineHeight);
+
                     for (int n = i + label.getWorkingLayout().getLine(currentLine + 1).glyphs.size; i < n; i++) {
                         if(glyphPositions.get(i) + label.workingLayout.advances.get(i) * 0.5f > gp) break;
                     }
@@ -166,9 +175,16 @@ public class TextraArea extends Container<ScrollPane> {
                 } else {
                     if(currentLine <= 0) {
                         cursor = 0;
+                        TextraArea.this.getActor().scrollTo(0, label.getHeight(), 1, TextraArea.this.getHeight());
                         return;
                     }
                     int i = label.getWorkingLayout().countGlyphsBeforeLine(currentLine - 1);
+                    float scrollPos = label.getHeight(), latestLineHeight = 1;
+                    for (int ln = 0; ln < currentLine - 1; ln++) {
+                        scrollPos -= (latestLineHeight = label.getLineInLayout(label.workingLayout, ln).height);
+                    }
+                    TextraArea.this.getActor().scrollTo(0, scrollPos, 1, latestLineHeight);
+
                     for (int n = i + label.getWorkingLayout().getLine(currentLine - 1).glyphs.size; i < n; i++) {
                         if(glyphPositions.get(i) + label.workingLayout.advances.get(i) * 0.5f > gp) break;
                     }
