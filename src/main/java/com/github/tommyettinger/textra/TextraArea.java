@@ -237,5 +237,11 @@ public class TextraArea extends Container<ScrollPane> {
                 }
             }
         }
+
+        @Override
+        void updateDisplayText() {
+            super.updateDisplayText();
+            label.invalidateHierarchy();
+        }
     }
 }
