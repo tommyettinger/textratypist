@@ -147,6 +147,34 @@ public class TextraArea extends Container<ScrollPane> {
         }
 
         @Override
+        protected void moveCursor(boolean forward, boolean jump) {
+            super.moveCursor(forward, jump);
+            if(jump) {
+                TextraArea.this.getActor().scrollTo(0, forward ? 0 : label.getHeight(), 1, TextraArea.this.getHeight());
+            }
+            else {
+                int currentLine = label.getLineIndexInLayout(label.workingLayout, cursor);
+                if(forward) {
+                    if(currentLine >= label.getWorkingLayout().lines() - 1) {
+                        TextraArea.this.getActor().scrollTo(0, 0, 1, TextraArea.this.getHeight());
+                        return;
+                    }
+                } else {
+                    if(currentLine <= 0) {
+                        TextraArea.this.getActor().scrollTo(0, label.getHeight(), 1, TextraArea.this.getHeight());
+                        return;
+                    }
+                }
+                float scrollPos = label.getHeight(), latestLineHeight = 1;
+                for (int ln = 0; ln < currentLine; ln++) {
+                    scrollPos -= (latestLineHeight = label.getLineInLayout(label.workingLayout, ln).height);
+                }
+                TextraArea.this.getActor().scrollTo(0, scrollPos, 1, latestLineHeight);
+            }
+
+        }
+
+        @Override
         protected void moveCursorVertically(boolean forward, boolean jump) {
             if(jump) {
                 cursor = forward ? text.length() : 0;
