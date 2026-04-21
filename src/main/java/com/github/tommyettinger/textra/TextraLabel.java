@@ -757,7 +757,7 @@ public class TextraLabel extends Widget {
      * @param parent May be null if the actor has been removed from the parent.
      */
     @Override
-    protected void setParent(Group parent) {
+    public void setParent(Group parent) {
         super.setParent(parent);
     }
 

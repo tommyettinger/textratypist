@@ -43,12 +43,13 @@ public class VariableTest extends ApplicationAdapter {
         label.setWrap(true);
 //        label.setDefaultToken(""); // not needed if you parseTokens after changing variables.
         TypingConfig.GLOBAL_VARS.put("ABBREVIATION", "firsttest");
-        label.setTypingListener(new TypingAdapter() {
-            public String replaceVariable (String variable)  {
-                if("ABBREVIATION".equalsIgnoreCase(variable)) return "testvariable";
-                return "-- Unknown Variable --";
-            }
-        });
+//        label.setTypingListener(new TypingAdapter() {
+//            public String replaceVariable (String variable)  {
+//                if("ABBREVIATION".equalsIgnoreCase(variable)) return "testvariable";
+//                return "-- Unknown Variable --";
+//            }
+//        });
+        label.parseTokens();
         // Runs in the next render thread so the layout is ready.
         Gdx.app.postRunnable(() -> System.out.println("Height: " + label.getHeight()));
         Table table = new Table();
@@ -66,7 +67,6 @@ public class VariableTest extends ApplicationAdapter {
     @Override
     public void render () {
         ScreenUtils.clear(0, 0, 0, 1);
-        label.parseTokens();
         stage.act();
         stage.draw();
         if((frame++) == 1000) System.out.println(Gdx.app.getJavaHeap());
@@ -88,7 +88,7 @@ public class VariableTest extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Space Wrapping Test");
+        config.setTitle("Variable Replacement Test");
         config.setWindowedMode(720, 480);
         config.setResizable(true);
         config.setForegroundFPS(0);
