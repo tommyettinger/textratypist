@@ -1595,6 +1595,13 @@ public class Font implements Disposable {
     );
 
     /**
+     * If false (the default), a specific list of chars is used to break up words where they appear, such as hyphens.
+     * If enabled by setting this to true, any char will be treated as a breaking char. This is mostly useful when a
+     * label cannot possibly exceed its allotted width for any word, even very long words.
+     */
+    public boolean hardWrap = false;
+
+    /**
      * Inserts a zero-width space character (Unicode U+200B) after every CJK ideographic character in text. This is
      * meant to create word breaks where there might otherwise be none, to allow breaking lines up how at least written
      * Chinese expects them to be broken up. This assumes there won't be any ideograms in color markup or effects, and
@@ -6478,6 +6485,7 @@ public class Font implements Disposable {
                             for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
                                 long curr;
                                 if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                        hardWrap ||
                                         Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                                     int leading = 0;
                                     boolean hyphenated = true;
@@ -6659,6 +6667,7 @@ public class Font implements Disposable {
                         for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
                             long curr;
                             if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                                    hardWrap ||
                                     Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                                 int leading = 0;
                                 boolean hyphenated = true;
@@ -6794,6 +6803,7 @@ public class Font implements Disposable {
         for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
             long curr;
             if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                    hardWrap ||
                     Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                 while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
                         Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
@@ -7883,7 +7893,7 @@ public class Font implements Disposable {
                         glyphs.add(applyChar(glyphs.isEmpty() ? 0L : glyphs.peek(), '\n'));
                         break;
                     }
-                    if (glyph >>> 32 == 0L) {
+                    if (glyph >>> 32 == 0L || hardWrap) {
                         breakPoint = i;
                         spacingPoint = i;
                         visibleWidth -= changedW;
@@ -7971,7 +7981,7 @@ public class Font implements Disposable {
                         }
                         break;
                     }
-                    if (glyph >>> 32 == 0L) {
+                    if (glyph >>> 32 == 0L || hardWrap) {
                         breakPoint = i;
                         spacingPoint = i;
                         visibleWidth -= changedW + amt;
