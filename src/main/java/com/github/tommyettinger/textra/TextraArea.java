@@ -241,12 +241,6 @@ public class TextraArea extends Container<ScrollPane> {
         }
 
         @Override
-        void updateDisplayText() {
-            super.updateDisplayText();
-            label.invalidateHierarchy();
-        }
-
-        @Override
         protected void sizeChanged() {
             super.sizeChanged();
             if(TextraArea.this.getActor() == null) return;
