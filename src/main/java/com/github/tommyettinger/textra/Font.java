@@ -1595,9 +1595,9 @@ public class Font implements Disposable {
     );
 
     /**
-     * If false (the default), a specific list of chars is used to break up words where they appear, such as hyphens.
-     * If enabled by setting this to true, any char will be treated as a breaking char. This is mostly useful when a
-     * label cannot possibly exceed its allotted width for any word, even very long words.
+     * If false (the default), very long words may exceed the width of a label or Layout.
+     * If enabled by setting this to true, very long words will wrap to a new line if they exceed the target width of
+     * a Layout.
      */
     public boolean hardWrap = false;
 
@@ -6485,7 +6485,6 @@ public class Font implements Disposable {
                             for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
                                 long curr;
                                 if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                        hardWrap ||
                                         Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                                     int leading = 0;
                                     boolean hyphenated = true;
@@ -6667,7 +6666,6 @@ public class Font implements Disposable {
                         for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
                             long curr;
                             if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                                    hardWrap ||
                                     Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                                 int leading = 0;
                                 boolean hyphenated = true;
@@ -6803,7 +6801,6 @@ public class Font implements Disposable {
         for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
             long curr;
             if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
-                    hardWrap ||
                     Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
                 while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
                         Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
@@ -7851,7 +7848,6 @@ public class Font implements Disposable {
                         if(ch == '}') curly = false;
                     }
 
-
                     if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW) > (targetWidth + 1f)) {
                         cutoff = breakPoint + 1;
                         Line next;
@@ -7893,7 +7889,7 @@ public class Font implements Disposable {
                         glyphs.add(applyChar(glyphs.isEmpty() ? 0L : glyphs.peek(), '\n'));
                         break;
                     }
-                    if (glyph >>> 32 == 0L || hardWrap) {
+                    if (glyph >>> 32 == 0L) {
                         breakPoint = i;
                         spacingPoint = i;
                         visibleWidth -= changedW;
@@ -7936,6 +7932,7 @@ public class Font implements Disposable {
                         changedW = 0;
                         if(ch == '}') curly = false;
                     }
+
                     if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW + amt) > (targetWidth + 1f)) {
                         cutoff = breakPoint + 1;
                         Line next;
@@ -7981,7 +7978,7 @@ public class Font implements Disposable {
                         }
                         break;
                     }
-                    if (glyph >>> 32 == 0L || hardWrap) {
+                    if (glyph >>> 32 == 0L) {
                         breakPoint = i;
                         spacingPoint = i;
                         visibleWidth -= changedW + amt;
