@@ -151,6 +151,11 @@ public class TextraArea extends Container<ScrollPane> {
         }
 
         @Override
+        protected String processLineBreaks(String text){
+            return text;
+        }
+
+        @Override
         protected float getTextY (Font font, @Null Drawable background) {
             float textY = 0;
             if (background != null) {
@@ -241,8 +246,15 @@ public class TextraArea extends Container<ScrollPane> {
         }
 
         @Override
+        protected void updateDisplayText() {
+            super.updateDisplayText();
+            invalidateHierarchy();
+        }
+
+        @Override
         protected void sizeChanged() {
             super.sizeChanged();
+
             if(TextraArea.this.getActor() == null) return;
             float scrollPos = label.getHeight(), latestLineHeight = 1;
             int currentLine = label.getLineIndexInLayout(label.workingLayout, cursor);

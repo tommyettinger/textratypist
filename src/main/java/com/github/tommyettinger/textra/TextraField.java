@@ -491,7 +491,11 @@ public class TextraField extends Widget implements Disableable {
 			y + lineHeight * 0.5f, cursorPatch.getMinWidth(), lineHeight);
 	}
 
-	void updateDisplayText () {
+	protected String processLineBreaks(String text){
+		return text.replace('\r', ' ').replace('\n', ' ');
+	}
+
+	protected void updateDisplayText () {
 		Font font = label.font;
 //		String text = this.text;
 //		int textLength = text.length();
@@ -505,7 +509,7 @@ public class TextraField extends Widget implements Disableable {
 
 		label.font.defaultValue = label.font.mapping.get(' ');
 
-		String newText = text.replace('\r', ' ').replace('\n', ' ');
+		String newText = processLineBreaks(text);
 		if(newText.isEmpty() && messageText != null) {
 			newText = messageText;
 			showingMessage = true;
