@@ -613,11 +613,6 @@ public class TextraField extends Widget implements Disableable {
 		return true;
 	}
 
-	protected String insert (int position, CharSequence text, String to) {
-		if (to.isEmpty()) return text.toString();
-		return to.substring(0, position) + text + to.substring(position);
-	}
-
 	protected int delete (boolean fireChangeEvent) {
 		int from = label.selectionStart;
 		if(showingMessage) return label.selectionStart;

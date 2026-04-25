@@ -255,16 +255,22 @@ public class TextraArea extends Container<ScrollPane> {
         protected void sizeChanged() {
             label.setSize(getWidth(), getHeight());
             updateDisplayText();
+        }
 
-            if(TextraArea.this.getActor() == null) return;
-            float scrollPos = label.getHeight(), latestLineHeight = 1;
-            int currentLine = label.getLineIndexInLayout(label.workingLayout, cursor);
-            for (int ln = 0; ln < currentLine; ln++) {
-                scrollPos -= (latestLineHeight = label.getLineInLayout(label.workingLayout, ln).height);
+        @Override
+        protected boolean insert(int position, CharSequence inserting) {
+            if(super.insert(position, inserting)){
+                if(TextraArea.this.getActor() == null) return true;
+                float scrollPos = label.getHeight(), latestLineHeight = 1;
+                int currentLine = label.getLineIndexInLayout(label.workingLayout, cursor);
+                for (int ln = 0; ln < currentLine; ln++) {
+                    scrollPos -= (latestLineHeight = label.getLineInLayout(label.workingLayout, ln).height);
+                }
+
+                TextraArea.this.getActor().scrollTo(0, scrollPos, 1, latestLineHeight);
+                return true;
             }
-
-            TextraArea.this.getActor().scrollTo(0, scrollPos, 1, latestLineHeight);
-
+            return false;
         }
     }
 }
