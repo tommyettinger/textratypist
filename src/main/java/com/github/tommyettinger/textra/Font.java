@@ -7848,8 +7848,8 @@ public class Font implements Disposable {
                         if(ch == '}') curly = false;
                     }
 
-                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW) > (targetWidth + 1f)) {
-                        cutoff = breakPoint + 1;
+                    if (visibleWidth + (breakPoint >= 0 && breakPoint == spacingPoint ? 0 : changedW) > (targetWidth + 1f)) {
+                        cutoff = (breakPoint >= 0) ? breakPoint + 1 : i;
                         Line next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLineBare();
