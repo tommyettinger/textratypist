@@ -253,7 +253,8 @@ public class TextraArea extends Container<ScrollPane> {
 
         @Override
         protected void sizeChanged() {
-            super.sizeChanged();
+            label.setSize(getWidth(), getHeight());
+            updateDisplayText();
 
             if(TextraArea.this.getActor() == null) return;
             float scrollPos = label.getHeight(), latestLineHeight = 1;
@@ -261,6 +262,7 @@ public class TextraArea extends Container<ScrollPane> {
             for (int ln = 0; ln < currentLine; ln++) {
                 scrollPos -= (latestLineHeight = label.getLineInLayout(label.workingLayout, ln).height);
             }
+
             TextraArea.this.getActor().scrollTo(0, scrollPos, 1, latestLineHeight);
 
         }
