@@ -44,7 +44,7 @@ public final class LzmaUtils {
         try (BufferedInputStream is = input.read(4096); OutputStream os = output.write(false)) {
             Lzma.decompress(is, os);
         } catch (Exception e) {
-            System.out.println("Decompression failed! " + input + " could not be decompressed to " + output +
+            System.err.println("Decompression failed! " + input + " could not be decompressed to " + output +
                     " because of the IOException: " + e.getMessage());
             throw new GdxRuntimeException("Decompression failed! " + input + " could not be decompressed to " + output,
                     e);
@@ -61,7 +61,7 @@ public final class LzmaUtils {
         try (BufferedInputStream is = input.read(4096); OutputStream os = output.write(false)) {
             Lzma.compress(is, os);
         } catch (Exception e) {
-            System.out.println("Compression failed! " + input + " could not be compressed to " + output +
+            System.err.println("Compression failed! " + input + " could not be compressed to " + output +
                     " because of the IOException: " + e.getMessage());
             throw new GdxRuntimeException("Compression failed! " + input + " could not be compressed to " + output, e);
         }

@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
 
 /**
- * A multiple-line {@link TextraField} using a {@link Font}.
+ * A multiple-line {@link TextraField} using a {@link Font}. This is not ready for use yet.
  */
 public class TextraArea extends Container<ScrollPane> {
     public final InnerTextraArea inner;
@@ -84,7 +84,7 @@ public class TextraArea extends Container<ScrollPane> {
     //        s.font = new Font(style.font); // already done by TextFieldStyle constructor
             s.font.enableSquareBrackets = false;
             s.font.omitCurlyBraces = false;
-            s.font.hardWrap = true;
+//            s.font.hardWrap = true;
             setStyle(s);
             label = new TypingLabel("", new Styles.LabelStyle(this.style.font, style.fontColor));
             label.workingLayout.targetWidth = 1f;
@@ -107,7 +107,7 @@ public class TextraArea extends Container<ScrollPane> {
             replacementFont = new Font(replacementFont);
             replacementFont.enableSquareBrackets = false;
             replacementFont.omitCurlyBraces = false;
-            replacementFont.hardWrap = true;
+//            replacementFont.hardWrap = true;
             label = new TypingLabel("", new Styles.LabelStyle(replacementFont, style.fontColor));
             label.workingLayout.targetWidth = 1f;
             label.setMaxLines(Integer.MAX_VALUE);
