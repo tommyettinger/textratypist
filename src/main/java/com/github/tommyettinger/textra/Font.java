@@ -3666,7 +3666,7 @@ public class Font implements Disposable {
         this.underY = underY;
         return this;
     }
-    
+
     public Font setUnderlineMetrics(float underX, float underY, float underLength, float underBreadth) {
         this.underX = underX;
         this.underY = underY;
@@ -3688,7 +3688,7 @@ public class Font implements Disposable {
         this.strikeY = strikeY;
         return this;
     }
-    
+
     public Font setStrikethroughMetrics(float strikeX, float strikeY, float strikeLength, float strikeBreadth) {
         this.strikeX = strikeX;
         this.strikeY = strikeY;
@@ -4260,10 +4260,10 @@ public class Font implements Disposable {
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
                 batch.setShader(shader);
-                    float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
-                    batch.flush();
-                    shader.setUniformf("u_smoothing", smoothing);
-                    smoothingValues.put(batch, smoothing);
+                float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                batch.flush();
+                shader.setUniformf("u_smoothing", smoothing);
+                smoothingValues.put(batch, smoothing);
 //                }
             } else {
                 batch.setShader(null);
@@ -4300,10 +4300,10 @@ public class Font implements Disposable {
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
-                    float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
-                    batch.flush();
-                    shader.setUniformf("u_smoothing", smoothing);
-                    smoothingValues.put(batch, smoothing);
+                float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
+                batch.flush();
+                shader.setUniformf("u_smoothing", smoothing);
+                smoothingValues.put(batch, smoothing);
 //                }
             }
         } else if(shader == null) {
@@ -7849,8 +7849,9 @@ public class Font implements Disposable {
                         if(ch == '}') curly = false;
                     }
 
-                    if (visibleWidth + (breakPoint >= 0 && breakPoint == spacingPoint ? 0 : changedW) > (targetWidth + 1f)) {
-                        cutoff = (breakPoint >= 0) ? breakPoint + 1 : i;
+
+                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW) > (targetWidth + 1f)) {
+                        cutoff = breakPoint + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLineBare();
@@ -7933,8 +7934,8 @@ public class Font implements Disposable {
                         changedW = 0;
                         if(ch == '}') curly = false;
                     }
-                    if (visibleWidth + (breakPoint >= 0 && breakPoint == spacingPoint ? 0 : changedW + amt) > (targetWidth + 1f)) {
-                        cutoff = (breakPoint >= 0) ? breakPoint + 1 : i;
+                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW + amt) > (targetWidth + 1f)) {
+                        cutoff = breakPoint + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLineBare();
@@ -8085,8 +8086,8 @@ public class Font implements Disposable {
                 actualCrispness = distanceFieldCrispness;
             } else {
                 actualCrispness = distanceFieldCrispness *
-                                  Math.max(width / Gdx.graphics.getBackBufferWidth(),
-                                          height / Gdx.graphics.getBackBufferHeight());
+                        Math.max(width / Gdx.graphics.getBackBufferWidth(),
+                                height / Gdx.graphics.getBackBufferHeight());
             }
         }
     }
@@ -8125,8 +8126,8 @@ public class Font implements Disposable {
                 actualCrispness = distanceFieldCrispness;
             } else {
                 actualCrispness = distanceFieldCrispness *
-                                  Math.max(width * viewport.getScreenWidth() / (viewport.getWorldWidth() * Gdx.graphics.getBackBufferWidth()),
-                                          height * viewport.getScreenHeight() / (viewport.getWorldHeight() * Gdx.graphics.getBackBufferHeight()));
+                        Math.max(width * viewport.getScreenWidth() / (viewport.getWorldWidth() * Gdx.graphics.getBackBufferWidth()),
+                                height * viewport.getScreenHeight() / (viewport.getWorldHeight() * Gdx.graphics.getBackBufferHeight()));
             }
         }
     }
