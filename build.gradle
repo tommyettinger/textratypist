@@ -20,8 +20,7 @@ def projectName = 'textratypist'
 version = "$VERSION_NAME"
 group = 'com.github.tommyettinger'
 
-import com.vanniktech.maven.publish.JavaLibrary
-import com.vanniktech.maven.publish.JavadocJar
+
 import com.vanniktech.maven.publish.SourcesJar
 
 mavenPublishing {
@@ -103,7 +102,12 @@ dependencies {
     }
     testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
     testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-    testImplementation "com.rafaskoberg.gdx:typing-label:1.4.0"
+
+    // Not compatible with libGDX 1.14.0 ...
+//    testImplementation "com.rafaskoberg.gdx:typing-label:1.4.0"
+    // Replaces rafaskoberg's repo until it is compatible with libGDX 1.14.0
+    testImplementation "com.github.tommyettinger:typing-label:6f1198f7cc"
+
     testImplementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     testImplementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
     testImplementation "com.github.raeleus.stripe:freetype:2.0.0"

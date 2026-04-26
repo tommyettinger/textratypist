@@ -39,7 +39,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import java.util.Locale;
 
 /**
- * Broken when libGDX 1.14.0 is used, because libGDX StringBuilder was removed (replaced with CharArray).
+ * Uses a fork of rafaskoberg/typing-label, because libGDX 1.14.0 removed StringBuilder (replaced with CharArray).
  */
 public class RafaTypingUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
