@@ -1,3 +1,11 @@
+2.2.15 mostly consists of internal changes to try to get TextraArea, which is a multi-line TextraField that uses Font
+instead of BitmapFont, to work. But, it also has some important fixes for users with Turkish locales. This is a widely
+encountered series of problems in I18N, due to how the Turkish language treats `i` and `I` as different letters that
+capitalize to different Unicode codepoints than they do in English, Spanish, German, and so on. This is fixed by using
+`Locale.ROOT` wherever a case conversion occurs that doesn't already use RegExodus' locale-insensitive code. This also
+includes a fix for `Font.insertZeroWidthSpacesInCJK()`, a fix for headless applications so they don't try to load
+shaders, and improvements for Actor scaling applied to TextraLabel and TypingLabel.
+
 2.2.14 has a number of changes. There are some new effects: ThrobEffect makes text vibrate like a phone ringing,
 PinchEffect randomly selects glyphs to "squeeze," making them narrower briefly, and ShootEffect "fires" an underline
 or strikethrough line through the text over time. DINish is a newly-added open source font that looks similar to the
