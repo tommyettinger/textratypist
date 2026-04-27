@@ -35,17 +35,17 @@ public final class TextureArrayShaders {
         return    "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
                 + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" //
                 + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
-                + "attribute float " + TextureArrayPolygonSpriteBatch.TEXTURE_INDEX_ATTRIBUTE + ";\n" //
+                + "attribute float " + TextureArrayPolygonSpriteBatch.TEXTURE_INDEX_ATTRIBUTE + ";\n" // changed from SpriteBatch
                 + "uniform mat4 u_projTrans;\n" //
                 + "varying vec4 v_color;\n" //
                 + "varying vec2 v_texCoords;\n" //
-                + "varying float v_texture_index;\n" //
+                + "varying float v_texture_index;\n" // changed from SpriteBatch
                 + "\n" //
                 + "void main() {\n" //
                 + "    v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" //
                 + "    v_color.a = v_color.a * (255.0/254.0);\n" //
                 + "    v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
-                + "    v_texture_index = " + TextureArrayPolygonSpriteBatch.TEXTURE_INDEX_ATTRIBUTE + ";\n" //
+                + "    v_texture_index = " + TextureArrayPolygonSpriteBatch.TEXTURE_INDEX_ATTRIBUTE + ";\n" // changed from SpriteBatch
                 + "    gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
                 + "}\n";
     }
@@ -64,13 +64,13 @@ public final class TextureArrayShaders {
                 + "#endif\n" //
                 + "varying LOWP vec4 v_color;\n" //
                 + "varying vec2 v_texCoords;\n" //
-                + "varying float v_texture_index;\n" //
-                + "uniform sampler2D u_textures[MAX_TEXTURE_UNITS];\n" //
+                + "varying float v_texture_index;\n" // changed from SpriteBatch
+                + "uniform sampler2D u_textures[MAX_TEXTURE_UNITS];\n" // changed from SpriteBatch
                 + "\n" //
-                + TextureArrayShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n"
+                + TextureArrayShaderCompiler.GET_TEXTURE_FROM_ARRAY_PLACEHOLDER + "\n" // changed from SpriteBatch
                 + "\n" //
                 + "void main() {\n"//
-                + "    gl_FragColor = v_color * getTextureFromArray(v_texCoords);\n" //
+                + "    gl_FragColor = v_color * getTextureFromArray(v_texCoords);\n" // changed from SpriteBatch
                 + "}\n");
     }
 
