@@ -51,8 +51,6 @@ compileTestJava {
     }
 }
 
-//api "com.github.tommyettinger:textratypist:1.0.0"
-
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
 // Disable JDK 8's doclint
