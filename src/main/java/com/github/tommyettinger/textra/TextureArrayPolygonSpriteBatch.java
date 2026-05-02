@@ -761,7 +761,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
 
         //Calculate how many vertices and triangles will be put in the batch
         int triangleCount = (count / 20) * 6;
-        float verticesCount = ((float) (count / 5)) * 6;
+        int verticesCount = (count / 5) * 6;
         if (this.triangleIndex + triangleCount > triangles.length || this.vertexIndex + verticesCount > vertices.length)
             flush();
 
@@ -789,7 +789,7 @@ public class TextureArrayPolygonSpriteBatch extends com.badlogic.gdx.graphics.g2
             vertices[vIn + 4] = spriteVertices[offsetIn + 4]; // v
             vertices[vIn + 5] = textureIndex; // texture index
         }
-        this.vertexIndex = (int) (vertexIndex + verticesCount);
+        this.vertexIndex = vertexIndex + verticesCount;
     }
 
     @Override
