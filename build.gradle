@@ -76,6 +76,10 @@ javadoc.destinationDir = file('docs/apidocs')
 processResources.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 processTestResources.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
+tasks.withType(AbstractTestTask).configureEach {
+    failOnNoDiscoveredTests = false
+}
+
 jar {
     archiveBaseName.set(projectName)
     manifest {

@@ -1,3 +1,6 @@
+2.3.0 updates to libGDX 1.14.1, which has some mostly-small breaking changes that do need the version updated.
+There are no other user-facing changes in this release relative to 2.2.16 .
+
 2.2.16 mostly consists of internal changes to try to get TextraArea, which is a multi-line TextraField that uses Font
 instead of BitmapFont, to work. But, it also has some important fixes for users with Turkish locales. This is a widely
 encountered series of problems in I18N, due to how the Turkish language treats `i` and `I` as different letters that
