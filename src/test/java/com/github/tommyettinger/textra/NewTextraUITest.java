@@ -171,7 +171,7 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 
 		textfield.setTextFieldListener(new TextFieldListener() {
 			public void keyTyped (TextField textField, char key) {
-				if (key == '\n') textField.getOnscreenKeyboard().show(false);
+				if (key == '\n') textField.getOnscreenKeyboard().close();
 			}
 		});
 

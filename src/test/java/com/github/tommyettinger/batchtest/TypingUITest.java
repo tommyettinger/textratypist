@@ -221,7 +221,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 
 		textfield.setTextFieldListener(new TextField.TextFieldListener() {
 			public void keyTyped (TextField textField, char key) {
-				if (key == '\n') textField.getOnscreenKeyboard().show(false);
+				if (key == '\n') textField.getOnscreenKeyboard().close();
 			}
 		});
 

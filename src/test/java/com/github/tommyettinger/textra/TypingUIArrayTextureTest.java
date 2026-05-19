@@ -207,7 +207,7 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 
 		textfield.setTextFieldListener(new TextFieldListener() {
 			public void keyTyped (TextField textField, char key) {
-				if (key == '\n') textField.getOnscreenKeyboard().show(false);
+				if (key == '\n') textField.getOnscreenKeyboard().close();
 			}
 		});
 
