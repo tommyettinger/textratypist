@@ -1868,13 +1868,15 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a Font by reading in the given .fnt file and loading any images it specifies. Tries an internal
-     * handle. Does not use a distance field effect.
+     * Delegates to {@link #Font(FileHandle)} with an internal FileHandle constructed from {@code fontName}.
+     * This means this can load either .fnt files (with no distance field) or structured JSON files (with the distance
+     * field effect determined by the file). A .fnt file contains a relative path to one or more images, while a
+     * structured JSON file will look up a sibling FileHandle with the same root filename but a .png extension.
      *
-     * @param fntName the file path and name to a .fnt file this will load
+     * @param fontName the file path and name to a .fnt or structured JSON file this will load
      */
-    public Font(String fntName) {
-        this(fntName, DistanceFieldType.STANDARD, 0f, 0f, 0f, 0f);
+    public Font(String fontName) {
+        this(Gdx.files.internal(fontName));
     }
 
     /**
@@ -2092,20 +2094,38 @@ public class Font implements Disposable {
     }
 
     /**
-     * Constructs a new Font by reading in a .fnt file from the given FileHandle and loading any images specified in
-     * that file. No distance field effect is used (this uses {@link DistanceFieldType#STANDARD}).
-     * This does no adjustments to x, y, width, or height. This won't create "grid glyphs" by default; it will use the
-     * underscore to draw underlines and the hyphen to draw strikethrough.
+     * Constructs a new Font by reading in the given FileHandle; behaves differently if the font in the FileHandle is a
+     * .fnt (AngelCode BMFont) file or a structured JSON file, such as a .json.lzma file.
+     * For a .fnt, it reads the .fnt and loads any images specified in that file. No distance field effect is used for
+     * .fnt fonts (this uses {@link DistanceFieldType#STANDARD}). For a structured JSON file, it reads the JSON file and
+     * loads a Texture from a sibling of {@code fontHandle} with the same filename but a .png extension instead of
+     * .json, .json.lzma, .dat, .ubj, or .ubj.lzma. This means the PNG must be in the same folder as the structured JSON
+     * file; if you need a different folder, use another constructor, but make sure to use one that takes a boolean
+     * {@code ignoredStructuredJsonFlag} as its last parameter. The distance field effect is determined by the
+     * structured JSON file if one is given. If you don't know if you want to use a distance field effect, you should
+     * probably use a "standard" structured JSON font, typically one with a file name ending in "-standard.json.lzma".
+     * <br>
+     * This does no adjustments to x, y, width, or height. This won't create "grid glyphs" by default for .fnt files;
+     * for those, it will use the underscore to draw underlines and the hyphen to draw strikethrough. For structured
+     * JSON files, it expects those to be created by FontWriter, which always allows "grid glyphs" to work, so it
+     * creates "grid glyphs" for those using a solid block character in the structured JSON font.
      *
-     *
-     * @param fntHandle      the FileHandle holding the path to a .fnt file
+     * @param fontHandle the FileHandle holding the path to a .fnt or structured JSON file
      */
-    public Font(FileHandle fntHandle) {
-        this.setDistanceField(DistanceFieldType.STANDARD);
-        if (fntHandle.exists()) {
-            loadFNT(fntHandle, 0, 0, 0, 0, false);
+    public Font(FileHandle fontHandle) {
+        if (fontHandle.exists()) {
+            if("fnt".equalsIgnoreCase(fontHandle.extension())) {
+                this.setDistanceField(DistanceFieldType.STANDARD);
+                loadFNT(fontHandle, 0, 0, 0, 0, false);
+            } else {
+                loadJSON(fontHandle,
+                        !canUseTextures
+                                ? new TexturelessRegion((TextureRegion) null, 0, 0, 2048, 2048)
+                                : new TextureRegion(new Texture(fontHandle.sibling(fontHandle.name().replaceFirst("\\..+$", ".png")))),
+                        xAdjust, yAdjust, widthAdjust, heightAdjust, true);
+            }
         } else {
-            throw new RuntimeException("Missing font file: " + fntHandle.name());
+            throw new RuntimeException("Missing font file: " + fontHandle.name());
         }
     }
 
@@ -3094,6 +3114,35 @@ public class Font implements Disposable {
                 ? new TexturelessRegion((TextureRegion) null, 0, 0, 2048, 2048)
                 : new TextureRegion(new Texture(Gdx.files.internal(jsonName.replaceFirst("\\..+$", ".png"))
         )), 0f, 0f, 0f, 0f, true, ignoredStructuredJsonFlag);
+    }
+
+    /**
+     * Creates a Font from a "Structured JSON" file produced by Chlumsky's msdf-atlas-gen tool, and uses it to assemble
+     * the many {@link GlyphRegion}s this has for each glyph. Reads the distance field type from the JSON. This always
+     * tries to load a PNG file with the same filename as (and different extension from) the JSON file, trying an
+     * internal file path. No matter what extension the JSON font uses, this will be able to load it
+     * (so this can load compressed .dat fonts as well as .json, .json.lzma, .ubj, and .ubj.lzma).
+     * This always makes grid glyphs.
+     * <br>
+     * <a href="https://github.com/Chlumsky/msdf-atlas-gen">The msdf-atlas-gen tool</a> can actually produce MSDF, SDF,
+     * PSDF, and "soft masked" (standard) fonts. It can't produce AngelCode BMFont .fnt files, but the JSON it can
+     * produce is fairly full-featured. Its handling of metrics seems significantly better than the tools that work with
+     * AngelCode BMFont .fnt files, so all but a few fonts in {@link KnownFonts} use JSON. A specialized version
+     * of msdf-atlas-gen that only writes structured JSON files (and optimizes the files at the right size) is available
+     * at <a href="https://github.com/tommyettinger/fontwriter">fontwriter</a> (Windows-only, for now).
+     *
+     * @param jsonHandle     the FileHandle of a structured JSON font file
+     * @param ignoredStructuredJsonFlag only present to distinguish this from other constructors; ignored
+     */
+    public Font(FileHandle jsonHandle, boolean ignoredStructuredJsonFlag) {
+        if (jsonHandle.exists()) {
+            loadJSON(jsonHandle,
+                    !canUseTextures
+                            ? new TexturelessRegion((TextureRegion) null, 0, 0, 2048, 2048)
+                            : new TextureRegion(new Texture(jsonHandle.sibling(jsonHandle.nameWithoutExtension() + ".png"))), xAdjust, yAdjust, widthAdjust, heightAdjust, true);
+        } else {
+            throw new RuntimeException("Missing font file: " + jsonHandle);
+        }
     }
 
     /**
