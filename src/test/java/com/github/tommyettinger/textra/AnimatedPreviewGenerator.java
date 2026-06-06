@@ -25,7 +25,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class AnimatedPreviewGenerator extends ApplicationAdapter {
     public static final int FRAMERATE = 30;
-    public static final boolean NOTO = true;
+    public static final boolean NOTO = false;
     FWSkin      skin;
     Stage       stage;
     SpriteBatch batch;
@@ -148,7 +148,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
                 QualityPalette pal = new QualityPalette();
                 pal.analyze(pms);
                 gif.setPalette(pal);
-                gif.setDitherAlgorithm(Dithered.DitherAlgorithm.MARTEN);
+                gif.setDitherAlgorithm(Dithered.DitherAlgorithm.BAYDIENT);
                 gif.setDitherStrength(0.2f);
                 if(NOTO)
                     gif.write(Gdx.files.local("preview-noto.gif"), pms, FRAMERATE);
