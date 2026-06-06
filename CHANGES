@@ -1,3 +1,8 @@
+2.4.0 updates to libGDX 1.14.2, which reverts some breaking changes in libGDX 1.14.1, and also includes some
+improvements that should be generally helpful. It adds or augments the Font constructors that only take a String name or
+FileHandle, which can now figure out when the file they are looking up is a Structured JSON font (not an AngelCode
+BMFont file), and load accordingly. There are no other user-facing changes.
+
 2.3.0 updates to libGDX 1.14.1, which has some mostly-small breaking changes that do need the version updated.
 There are no other user-facing changes in this release relative to 2.2.16 .
 
