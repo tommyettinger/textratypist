@@ -1383,7 +1383,7 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-standard.json.lzma">Comic-Mono-standard.json.lzma</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-standard.png">Comic-Mono-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-License.txt">Comic-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-License.txt">Comic-Mono-License.txt</a></li>
      * </ul>
      *
      * @return the Font object that can represent many sizes of the font Comic Mono
@@ -1405,19 +1405,19 @@ public final class KnownFonts implements LifecycleListener {
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-standard.json.lzma">Comic-Mono-standard.json.lzma</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-standard.png">Comic-Mono-standard.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-License.txt">Comic-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-License.txt">Comic-Mono-License.txt</a></li>
      * </ul>
      * <br>or,
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-sdf.json.lzma">Comic-Mono-sdf.json.lzma</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-sdf.png">Comic-Mono-sdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-License.txt">Comic-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-License.txt">Comic-Mono-License.txt</a></li>
      * </ul>
      * <br>or
      * <ul>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-msdf.json.lzma">Comic-Mono-msdf.json.lzma</a></li>
      *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-msdf.png">Comic-Mono-msdf.png</a></li>
-     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-License.txt">Comic-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Comic-Mono-License.txt">Comic-Mono-License.txt</a></li>
      * </ul>
      *
      * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
