@@ -316,6 +316,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String IOSEVKA = "Iosevka";
     /** Base name for a fixed-width Unicode-heavy slab-serif font. */
     public static final String IOSEVKA_SLAB = "Iosevka-Slab";
+    /** Base name for a fixed-width programmer-friendly font. */
+    public static final String JETBRAINS_MONO = "JetBrains-Mono";
     /** Base name for a variable-width ornate medieval font. */
     public static final String KINGTHINGS_FOUNDATION = "Kingthings-Foundation";
     /** Base name for a variable-width legible medieval font. */
@@ -396,8 +398,8 @@ public final class KnownFonts implements LifecycleListener {
             DINISH_CONDENSED, DINISH_CONDENSED_LIGHT, DINISH_CONDENSED_HEAVY,
             DINISH_EXPANDED, DINISH_EXPANDED_LIGHT, DINISH_EXPANDED_HEAVY,
             GENTIUM, GENTIUM_UN_ITALIC,
-            GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE, INCONSOLATA_LGC, IOSEVKA,
-            IOSEVKA_SLAB, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
+            GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE, INCONSOLATA_LGC, IOSEVKA, IOSEVKA_SLAB,
+            JETBRAINS_MONO, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
             LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MAPLE_MONO, MOON_DANCE, NOW_ALT, NUGOTHIC, OPEN_SANS,
             OSTRICH_BLACK, OVERLOCK, OVERLOCK_UN_ITALIC, OXANIUM, PANGOLIN, PROTEST_REVOLUTION,
             ROBOTO_CONDENSED, SANCREEK, SELAWIK, SELAWIK_BOLD, SOUR_GUMMY, SPECIAL_ELITE, TANGERINE,
@@ -3417,6 +3419,67 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getIosevkaSlab(DistanceFieldType dft) {
         return getFont(IOSEVKA_SLAB, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a programmer-friendly, fixed-width font, that should scale
+     * well from a height of about 80 pixels to about 15 pixels. Caches the result for later calls.
+     * The font used is JetBrains Mono, an open-source (OFL License) typeface
+     * by JetBrains (see <a href="https://www.jetbrains.com/lp/mono/">its website</a>).
+     * It supports (extended) Latin, Greek, and Cyrillic scripts, as well as APL chars.
+     * This uses a fairly-large standard bitmap font.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.JETBRAINS_MONO, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/JetBrains-Mono-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/JetBrains-Mono-standard.json.lzma">JetBrains-Mono-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/JetBrains-Mono-standard.png">JetBrains-Mono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/JetBrains-Mono-License.txt">JetBrains-Mono-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font JetBrains Mono
+     */
+    public static Font getJetBrainsMono() {
+        return getFont(JETBRAINS_MONO, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a programmer-friendly, fixed-width font.
+     * Uses the given distance field type. Caches the result for later calls.
+     * The font used is JetBrains Mono, an open-source (OFL License) typeface
+     * by JetBrains (see <a href="https://www.jetbrains.com/lp/mono/">its website</a>).
+     * It supports (extended) Latin, Greek, and Cyrillic scripts, as well as APL chars.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/JetBrains-Mono-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/JetBrains-Mono-standard.json.lzma">JetBrains-Mono-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/JetBrains-Mono-standard.png">JetBrains-Mono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/JetBrains-Mono-License.txt">JetBrains-Mono-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/JetBrains-Mono-sdf.json.lzma">JetBrains-Mono-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/JetBrains-Mono-sdf.png">JetBrains-Mono-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/JetBrains-Mono-License.txt">JetBrains-Mono-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/JetBrains-Mono-msdf.json.lzma">JetBrains-Mono-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/JetBrains-Mono-msdf.png">JetBrains-Mono-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/JetBrains-Mono-License.txt">JetBrains-Mono-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font JetBrains Mono using the given DistanceFieldType
+     */
+    public static Font getJetBrainsMono(DistanceFieldType dft) {
+        return getFont(JETBRAINS_MONO, dft);
     }
 
     /**
