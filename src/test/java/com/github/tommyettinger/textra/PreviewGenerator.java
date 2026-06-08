@@ -136,8 +136,8 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getMonogramItalic().setName(KnownFonts.MONOGRAM_ITALIC + "-standard");
         all[idx++] = KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard");
 */
-
         // SDF ONLY, TO COMPARE DERIVATIVE SHADERS
+/*
         String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String[]::new);
         Font[] all = new Font[jsonFiles.length * 2 + 2];
         int idx = 0;
@@ -147,6 +147,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         }
         all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("A-Starry-Tall" + Font.DistanceFieldType.SDF.filePart + (DERIVATIVES ? "" : "-nd"));
         all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("A-Starry-Tall" + "-sdf-outline" + (DERIVATIVES ? "" : "-nd"));
+ */
 
 
         // JUST DINISH FONTS
@@ -190,6 +191,14 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getDINishExpandedHeavy(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("DINish-Expanded-Heavy" + Font.DistanceFieldType.SDF.filePart);
         all[idx++] = KnownFonts.getDINishExpandedHeavy(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("DINish-Expanded-Heavy" + "-sdf-outline");
 */
+
+        Font[] all = new Font[4];
+        int idx = 0;
+        all[idx++] = KnownFonts.getJetBrainsMono(Font.DistanceFieldType.STANDARD).scaleHeightTo(32f).setName("JetBrains-Mono" + Font.DistanceFieldType.STANDARD.filePart);
+        all[idx++] = KnownFonts.getJetBrainsMono(Font.DistanceFieldType.MSDF).scaleHeightTo(32f).setName("JetBrains-Mono" + Font.DistanceFieldType.MSDF.filePart);
+        all[idx++] = KnownFonts.getJetBrainsMono(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("JetBrains-Mono" + Font.DistanceFieldType.SDF.filePart);
+        all[idx++] = KnownFonts.getJetBrainsMono(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("JetBrains-Mono" + "-sdf-outline");
+
         // DEBUG
         /*
         Font[] all = new Font[]{
