@@ -16,6 +16,7 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
     Stage       stage;
     SpriteBatch batch;
     TextraLabel label;
+    private Layout secondLayout;
 
     @Override
     public void create() {
@@ -30,7 +31,7 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
         stage.addActor(table);
 //        table.setFillParent(true);
         table.setSize(720, 400);
-        table.setPosition(50, 50);
+        table.setPosition(50, 150);
 
         label = createTextraLabel();
         label.debug();
@@ -41,7 +42,11 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
         table.row().uniform().expand().growX().space(40).center();
 
         table.pack();
-        label.font.justify(label.layout);
+        secondLayout = new Layout(label.font);
+        secondLayout.setTargetWidth(720);
+        label.font.markup("I love Textra[+]Typist!\n*[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
+                + "ButThisIsAnExtremelyVeryVeryVeryVeryLongWordThatInterferesWithWrappingSanelyAndAllPrettyLike!\n"
+                + "Maybe this works? [+party popper] [*]Whee[]!\n", secondLayout);
     }
 
     public void adjustTypingConfigs() {
@@ -84,6 +89,13 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
 
         stage.act();
         stage.draw();
+
+        stage.getBatch().begin();
+        label.font.drawGlyphs(stage.getBatch(),
+                secondLayout,
+                Gdx.graphics.getBackBufferWidth() * 0.5f, 120f, Align.center
+        );
+        stage.getBatch().end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
 
