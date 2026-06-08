@@ -77,6 +77,7 @@ import java.util.Arrays;
  *
  * @author mzechner
  * @author Nathan Sweet
+ * @author Berstanio
  * @author Tommy Ettinger
  */
 public class TextraField extends Widget implements Disableable {
@@ -87,8 +88,9 @@ public class TextraField extends Widget implements Disableable {
 	protected static final char DELETE = 127;
 	/**
 	 * Used as the default char to replace content when {@link #isPasswordMode() passwordMode} is on.
+	 * This defaults to the ASCII asterisk char, {@code '*'}.
 	 */
-	public static final char BULLET = 8226; // u2022, or '•'
+	public static final char BULLET = '*'; // different from libGDX default
 
 	private static final Vector2 tmp1 = new Vector2();
 	private static final Vector2 tmp2 = new Vector2();
@@ -956,7 +958,7 @@ public class TextraField extends Widget implements Disableable {
 		label.act(delta);
 	}
 
-	/** If true, the text in this text field will be shown as bullet characters.
+	/** If true, the text in this text field will be shown as asterisk or other password characters.
 	 * @see #setPasswordCharacter(char) */
 	public void setPasswordMode (boolean passwordMode) {
 		if(this.passwordMode != (this.passwordMode = passwordMode))
@@ -968,7 +970,7 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	/**
-	 * Gets the password character for the text field. Default is 8226 (the bullet char {@code •} , Unicode 0x2022).
+	 * Gets the password character for the text field. Default is the ASCII asterisk, the char {@code '*'}.
 	 * @return the current password character
 	 */
 	public char getPasswordCharacter() {
@@ -976,7 +978,7 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	/** Sets the password character for the text field. If the character is not present in the {@link Font}, this does
-	 * nothing. Default is 8226 (the bullet char {@code •} , Unicode 0x2022). */
+	 * nothing. Default is the ASCII asterisk, the char {@code '*'}. */
 	public void setPasswordCharacter (char passwordCharacter) {
 		if (label.font.mapping.containsKey(passwordCharacter) &&
 				this.passwordCharacter != (this.passwordCharacter = passwordCharacter) && passwordMode)
@@ -1082,10 +1084,10 @@ public class TextraField extends Widget implements Disableable {
 
 	/** An interface for onscreen keyboards. Can invoke the default keyboard or render your own keyboard!
 	 * @author mzechner */
-	static public interface OnscreenKeyboard {
-		public void show (TextraField textraField);
+	public interface OnscreenKeyboard {
+		void show(TextraField textraField);
 
-		public void close ();
+		void close();
 	}
 
 	/** The default {@link OnscreenKeyboard} used by all {@link TextraField} instances. Just uses
@@ -1103,7 +1105,7 @@ public class TextraField extends Widget implements Disableable {
 
 	/** An advanced {@link OnscreenKeyboard} utilising {@link Input#openTextInputField}. Might overlap your actual rendering, so
 	 * use with care! This is mutually exclusive with using the {@link DefaultOnscreenKeyboard} or
-	 * {@link Input#setOnscreenKeyboardVisible(boolean)} API */
+	 * {@link Input#setOnscreenKeyboardVisible(boolean)} API. */
 	static public class NativeOnscreenKeyboard implements OnscreenKeyboard {
 
 		public interface WidgetAdvance {
