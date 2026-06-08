@@ -19,8 +19,11 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Input.OnscreenKeyboardType;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.input.NativeInputConfiguration;
+import com.badlogic.gdx.input.TextInputWrapper;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -121,6 +124,9 @@ public class TextraField extends Widget implements Disableable {
 	protected float renderOffset;
 	protected int visibleTextStart, visibleTextEnd;
 	protected int maxLength;
+	private String[] autocompleteOptions;
+	private OnscreenKeyboardType keyboardType = OnscreenKeyboardType.Default;
+	private boolean preventAutoCorrection;
 
 	protected boolean focused;
 	protected boolean cursorOn;
@@ -288,6 +294,47 @@ public class TextraField extends Widget implements Disableable {
 
 	public int getMaxLength () {
 		return this.maxLength;
+	}
+
+	/** A list of possible strings that are valid to autocomplete Currently only has an effect on mobile with
+	 * {@link NativeOnscreenKeyboard} */
+	public void setAutocompleteOptions (String[] autocompleteOptions) {
+		this.autocompleteOptions = autocompleteOptions;
+	}
+
+	/** A list of possible strings that are valid to autocomplete Currently only has an effect on mobile with
+	 * {@link NativeOnscreenKeyboard} */
+	public String[] getAutocompleteOptions () {
+		return autocompleteOptions;
+	}
+
+	/** Which {@link OnscreenKeyboardType} to use. Mainly used for mobile, will also be referenced for password masking */
+	public void setKeyboardType (OnscreenKeyboardType keyboardType) {
+		this.keyboardType = keyboardType;
+	}
+
+	/** Which {@link OnscreenKeyboardType} to use. Mainly used for mobile, will also be referenced for password masking. `Default`
+	 * will be promoted to `Password` if `isPasswordMode` is true */
+	public OnscreenKeyboardType getResolvedKeyboardType () {
+		// If we are in password mode, assume that the user want to show password keyboard
+		return isPasswordMode() && keyboardType == OnscreenKeyboardType.Default ? OnscreenKeyboardType.Password : keyboardType;
+	}
+
+	/** Whether if autocorrection is provided by the system, it should be surpressed. Will be considered true, if
+	 * {@link OnscreenKeyboardType} is `Password` */
+	public void setPreventAutoCorrection (boolean preventAutoCorrection) {
+		this.preventAutoCorrection = preventAutoCorrection;
+	}
+
+	/** Whether if autocorrection is provided by the system, it should be suppressed. Will be considered true, if
+	 * {@link #getResolvedKeyboardType()} is `Password` */
+	public boolean shouldPreventAutoCorrection () {
+		return preventAutoCorrection || getResolvedKeyboardType() == OnscreenKeyboardType.Password;
+	}
+
+	/** Whether the TextraField does write enters to the text. */
+	public boolean isWriteEnters () {
+		return writeEnters;
 	}
 
 	/** When false, text set by {@link #setText(String)} may contain characters not in the font, a space will be displayed instead.
@@ -627,12 +674,14 @@ public class TextraField extends Widget implements Disableable {
 		return from;
 	}
 
-	/** Sets the {@link Stage#setKeyboardFocus(Actor) keyboard focus} to the next TextraField. If no next TextraField
-	 *  is found, the onscreen keyboard is hidden. Does nothing if the TextraField is not in a stage.
-	 * @param up If true, the text field with the same or next smallest y coordinate is found, else the next highest. */
-	public void next (boolean up) {
+
+	/** Sets the {@link Stage#setKeyboardFocus(Actor) keyboard focus} to the next TextraField. If no next text field is found, the
+	 * onscreen keyboard is hidden. Does nothing if the text field is not in a stage.
+	 * @param up If true, the text field with the same or next smallest y coordinate is found, else the next highest.
+	 * @return The TextraField the focus has been transferred too */
+	public TextraField next (boolean up) {
 		Stage stage = getStage();
-		if (stage == null) return;
+		if (stage == null) return null;
 		TextraField current = this;
 		Vector2 currentCoords = current.getParent().localToStageCoordinates(tmp2.set(current.getX(), current.getY()));
 		Vector2 bestCoords = tmp1;
@@ -646,18 +695,16 @@ public class TextraField extends Widget implements Disableable {
 				textraField = current.findNextTextraField(stage.getActors(), null, bestCoords, currentCoords, up);
 			}
 			if (textraField == null) {
-				Gdx.input.setOnscreenKeyboardVisible(false);
-				break;
+				return null;
 			}
 			if (stage.setKeyboardFocus(textraField)) {
 				textraField.selectAll();
-				break;
+				return textraField;
 			}
 			current = textraField;
 			currentCoords.set(bestCoords);
 		}
 	}
-
 	/** @return May be null. */
 	private @Null TextraField findNextTextraField(Array<Actor> actors, @Null TextraField best, Vector2 bestCoords,
 	                                              Vector2 currentCoords, boolean up) {
@@ -1035,16 +1082,145 @@ public class TextraField extends Widget implements Disableable {
 
 	/** An interface for onscreen keyboards. Can invoke the default keyboard or render your own keyboard!
 	 * @author mzechner */
-	public interface OnscreenKeyboard {
-		void show(boolean visible);
+	static public interface OnscreenKeyboard {
+		public void show (TextraField textraField);
+
+		public void close ();
 	}
 
 	/** The default {@link OnscreenKeyboard} used by all {@link TextraField} instances. Just uses
 	 * {@link Input#setOnscreenKeyboardVisible(boolean)} as appropriate. Might overlap your actual rendering, so use with care!
 	 * @author mzechner */
 	static public class DefaultOnscreenKeyboard implements OnscreenKeyboard {
-		public void show (boolean visible) {
-			Gdx.input.setOnscreenKeyboardVisible(visible);
+		public void show (TextraField textraField) {
+			Gdx.input.setOnscreenKeyboardVisible(true, textraField.getResolvedKeyboardType());
+		}
+
+		public void close () {
+			Gdx.input.setOnscreenKeyboardVisible(false);
+		}
+	}
+
+	/** An advanced {@link OnscreenKeyboard} utilising {@link Input#openTextInputField}. Might overlap your actual rendering, so
+	 * use with care! This is mutually exclusive with using the {@link DefaultOnscreenKeyboard} or
+	 * {@link Input#setOnscreenKeyboardVisible(boolean)} API */
+	static public class NativeOnscreenKeyboard implements OnscreenKeyboard {
+
+		public interface WidgetAdvance {
+			/** Defines the way a widget should advance if a confirmative action was done by the user. This usually means advancing
+			 * to the next keyboard focusable widget.
+			 * @return true, if the new widget requested itself a native onscreen keyboard. Caution, returning "true" but not calling
+			 *         {@link Input#openTextInputField(NativeInputConfiguration)} or returning "false" but calling
+			 *         `{@link Input#openTextInputField(NativeInputConfiguration)} will lead to undefined behavior. */
+			boolean advance (TextraField textraField);
+		}
+
+		private static final WidgetAdvance DEFAULT_WIDGET_ADVANCE = textraField -> {
+			// Do we want to somehow dismiss keyboard focus?
+			TextraField focused = textraField.next(false);
+			if (focused != null) {
+				focused.getOnscreenKeyboard().show(focused);
+				return true;
+			}
+
+			return false;
+		};
+
+		private final WidgetAdvance widgetAdvance;
+
+		public NativeOnscreenKeyboard () {
+			this(DEFAULT_WIDGET_ADVANCE);
+		}
+
+		public NativeOnscreenKeyboard (WidgetAdvance onConfirmAdvance) {
+			this.widgetAdvance = onConfirmAdvance;
+		}
+
+		public void close () {
+			Gdx.input.closeTextInputField(false);
+		}
+
+		public void show (TextraField textraField) {
+			if (Gdx.input.isTextInputFieldOpened()) {
+				Gdx.input.closeTextInputField(false, (confirmativeAction -> {
+					openNativeInputField(textraField);
+					return true;
+				}));
+				return;
+			}
+
+			openNativeInputField(textraField);
+		}
+
+		protected NativeInputConfiguration getNativeInputConfiguration (TextraField textraField) {
+			NativeInputConfiguration configuration = new NativeInputConfiguration();
+
+			//@off
+			configuration
+					.setType(textraField.getResolvedKeyboardType())
+					.setMaskInput(textraField.isPasswordMode())
+					.setShowUnmaskButton(textraField.isPasswordMode())
+					.setMaxLength(textraField.getMaxLength() <= 0 ? -1 : textraField.getMaxLength())
+					.setMultiLine(textraField.isWriteEnters())
+					.setPreventCorrection(textraField.shouldPreventAutoCorrection())
+					.setPlaceholder(textraField.getMessageText() == null ? "" : textraField.getMessageText())
+					.setAutoComplete(textraField.getAutocompleteOptions());
+			//@on
+
+			if (textraField.getTextFieldFilter() != null) {
+				configuration.setValidator(toCheck -> {
+					for (int i = 0; i < toCheck.length(); i++) {
+						if (!textraField.getTextFieldFilter().acceptChar(textraField, toCheck.charAt(i))) return false;
+					}
+					return true;
+				});
+			}
+
+			configuration.setCloseCallback(confirmativeAction -> {
+				if (confirmativeAction) {
+					return widgetAdvance.advance(textraField);
+				}
+
+				return false;
+			});
+
+			configuration.setTextInputWrapper(new TextInputWrapper() {
+				@Override
+				public String getText () {
+					return textraField.getText();
+				}
+
+				@Override
+				public int getSelectionStart () {
+					return textraField.getSelectionStart();
+				}
+
+				@Override
+				public int getSelectionEnd () {
+					return textraField.getCursorPosition();
+				}
+
+				@Override
+				public void writeResults (String text, int selectionStart, int selectionEnd) {
+					if (textraField.shouldPreventAutoCorrection()) {
+						text = text.trim();
+						selectionStart = Math.min(selectionStart, text.length());
+						selectionEnd = Math.min(selectionEnd, text.length());
+					}
+					textraField.setText(text);
+					if (selectionStart == selectionEnd) {
+						textraField.setCursorPosition(selectionEnd);
+					} else {
+						textraField.setSelection(selectionStart, selectionEnd);
+					}
+				}
+			});
+
+			return configuration;
+		}
+
+		protected void openNativeInputField (TextraField textraField) {
+			Gdx.input.openTextInputField(getNativeInputConfiguration(textraField));
 		}
 	}
 
@@ -1071,7 +1247,7 @@ public class TextraField extends Widget implements Disableable {
 
 			Stage stage = getStage();
 			if (stage != null) stage.setKeyboardFocus(TextraField.this);
-			keyboard.show(true);
+			keyboard.show(TextraField.this);
 			if(showingMessage)
 				clearMessage();
 			return true;
