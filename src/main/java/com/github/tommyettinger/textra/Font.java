@@ -6640,6 +6640,76 @@ public class Font implements Disposable {
                                     later.glyphs.addAll(glyphBuffer);
                                     later.height = Math.max(later.height, font.cellHeight * scale);
                                     break;
+                                } else {
+                                    // no break chars found, but a single word is wider than targetWidth
+                                    glyphBuffer.clear();
+                                    float change = 0f, changeNext = 0f;
+                                    if (font.kerning == null) {
+
+                                        // NO KERNING
+
+                                        boolean curly = false;
+                                        for (int k = j + 1; k < earlier.glyphs.size; k++) {
+                                            curr = earlier.glyphs.get(k);
+                                            if(omitCurlyBraces) {
+                                                if (curly) {
+                                                    glyphBuffer.add(curr);
+                                                    if ((char) curr == '{') {
+                                                        curly = false;
+                                                    } else if ((char) curr == '}') {
+                                                        curly = false;
+                                                        continue;
+                                                    } else continue;
+                                                }
+                                            }
+                                            if ((char) curr == '{') {
+                                                glyphBuffer.add(curr);
+                                                curly = omitCurlyBraces;
+                                                continue;
+                                            }
+
+                                            float adv = xAdvance(font, sclX, curr);
+                                            change += adv;
+                                        }
+                                    } else {
+                                        // YES KERNING
+
+                                        int k2 = (char) earlier.glyphs.get(j);
+                                        kern = -1;
+                                        boolean curly = false;
+                                        for (int k = j + 1; k < earlier.glyphs.size; k++) {
+                                            curr = earlier.glyphs.get(k);
+                                            char showCh = (char)curr;
+                                            if(omitCurlyBraces){
+                                                if (curly) {
+                                                    glyphBuffer.add(curr);
+                                                    if ((char) curr == '{') {
+                                                        curly = false;
+                                                    } else if ((char) curr == '}') {
+                                                        curly = false;
+                                                        continue;
+                                                    } else continue;
+                                                }
+                                            }
+                                            if (showCh == '{') {
+                                                glyphBuffer.add(curr);
+                                                curly = omitCurlyBraces;
+                                                continue;
+                                            }
+                                            k2 = k2 << 16 | showCh;
+                                            float adv = xAdvance(font, sclX, curr);
+                                            change += adv + font.kerning.get(k2, 0) * sclX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+                                        }
+                                    }
+                                    if (earlier.width - change > targetWidth)
+                                        continue;
+                                    earlier.glyphs.truncate(j + 1);
+                                    later.width = changeNext;
+                                    earlier.width -= change;
+                                    later.glyphs.addAll(glyphBuffer);
+                                    later.height = Math.max(later.height, font.cellHeight * scale);
+                                    break;
+
                                 }
                             }
                             if(later.glyphs.isEmpty()){
@@ -6825,6 +6895,79 @@ public class Font implements Disposable {
                                 later.glyphs.addAll(glyphBuffer);
                                 later.height = Math.max(later.height, font.cellHeight * scale);
                                 break;
+                            } else {
+                                // no break chars found, but a single word is wider than targetWidth
+                                glyphBuffer.clear();
+                                float change = 0f, changeNext = 0f;
+                                if (font.kerning == null) {
+
+                                    // NO KERNING
+
+                                    boolean curly = false;
+                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
+                                        curr = earlier.glyphs.get(k);
+                                        showCh = (curr & ALTERNATE_MODES_MASK) == SMALL_CAPS ? Category.caseUp((char)curr) : (char)curr;
+                                        if(omitCurlyBraces) {
+                                            if (curly) {
+                                                glyphBuffer.add(curr);
+                                                if ((char) curr == '{') {
+                                                    curly = false;
+                                                } else if ((char) curr == '}') {
+                                                    curly = false;
+                                                    continue;
+                                                } else continue;
+                                            }
+                                        }
+                                        if (showCh == '{') {
+                                            glyphBuffer.add(curr);
+                                            curly = omitCurlyBraces;
+                                            continue;
+                                        }
+
+                                        float adv = xAdvance(font, sclX, curr);
+                                        change += adv;
+                                    }
+                                } else {
+                                    // YES KERNING
+
+                                    int k2 = (char) earlier.glyphs.get(j);
+                                    kern = -1;
+                                    boolean curly = false;
+                                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
+                                        curr = earlier.glyphs.get(k);
+                                        showCh = (curr & ALTERNATE_MODES_MASK) == SMALL_CAPS ? Category.caseUp((char)curr) : (char)curr;
+                                        if(omitCurlyBraces){
+                                            if (curly) {
+                                                glyphBuffer.add(curr);
+                                                if ((char) curr == '{') {
+                                                    curly = false;
+                                                } else if ((char) curr == '}') {
+                                                    curly = false;
+                                                    continue;
+                                                } else continue;
+                                            }
+                                        }
+                                        if (showCh == '{') {
+                                            glyphBuffer.add(curr);
+                                            curly = omitCurlyBraces;
+                                            continue;
+                                        }
+                                        k2 = k2 << 16 | showCh;
+                                        float adv = xAdvance(font, sclX, curr);
+                                        change += adv + font.kerning.get(k2, 0) * sclX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+                                    }
+                                }
+                                // END KERNING-SPECIFIC
+
+                                if (earlier.width - change > targetWidth)
+                                    continue;
+                                earlier.glyphs.truncate(j + 1);
+                                later.width = changeNext;
+                                earlier.width -= change;
+                                later.glyphs.addAll(glyphBuffer);
+                                later.height = Math.max(later.height, font.cellHeight * scale);
+                                break;
+
                             }
                         }
                         if(later.glyphs.isEmpty()){
