@@ -105,8 +105,8 @@ public class TextraField extends Widget implements Disableable {
 	protected boolean showingMessage = false;
 	protected Clipboard clipboard;
 	protected InputListener inputListener;
-	protected @Null TextFieldListener listener;
-	protected @Null TextFieldFilter filter;
+	protected @Null TextraFieldListener listener;
+	protected @Null TextraFieldFilter filter;
 	protected OnscreenKeyboard keyboard = new DefaultOnscreenKeyboard();
 	protected boolean focusTraversal = true, onlyFontChars = true, disabled;
 	protected int textHAlign = Align.left;
@@ -228,7 +228,7 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	protected InputListener createInputListener () {
-		return new TextFieldClickListener();
+		return new TextraFieldClickListener();
 	}
 
 	protected boolean isWordCharacter (char c) {
@@ -627,8 +627,8 @@ public class TextraField extends Widget implements Disableable {
 		return from;
 	}
 
-	/** Sets the {@link Stage#setKeyboardFocus(Actor) keyboard focus} to the next TextraField. If no next text field is found, the
-	 * onscreen keyboard is hidden. Does nothing if the text field is not in a stage.
+	/** Sets the {@link Stage#setKeyboardFocus(Actor) keyboard focus} to the next TextraField. If no next TextraField
+	 *  is found, the onscreen keyboard is hidden. Does nothing if the TextraField is not in a stage.
 	 * @param up If true, the text field with the same or next smallest y coordinate is found, else the next highest. */
 	public void next (boolean up) {
 		Stage stage = getStage();
@@ -637,13 +637,13 @@ public class TextraField extends Widget implements Disableable {
 		Vector2 currentCoords = current.getParent().localToStageCoordinates(tmp2.set(current.getX(), current.getY()));
 		Vector2 bestCoords = tmp1;
 		while (true) {
-			TextraField textraField = current.findNextTextField(stage.getActors(), null, bestCoords, currentCoords, up);
+			TextraField textraField = current.findNextTextraField(stage.getActors(), null, bestCoords, currentCoords, up);
 			if (textraField == null) { // Try to wrap around.
 				if (up)
 					currentCoords.set(-Float.MAX_VALUE, -Float.MAX_VALUE);
 				else
 					currentCoords.set(Float.MAX_VALUE, Float.MAX_VALUE);
-				textraField = current.findNextTextField(stage.getActors(), null, bestCoords, currentCoords, up);
+				textraField = current.findNextTextraField(stage.getActors(), null, bestCoords, currentCoords, up);
 			}
 			if (textraField == null) {
 				Gdx.input.setOnscreenKeyboardVisible(false);
@@ -659,14 +659,14 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	/** @return May be null. */
-	private @Null TextraField findNextTextField (Array<Actor> actors, @Null TextraField best, Vector2 bestCoords,
-												 Vector2 currentCoords, boolean up) {
+	private @Null TextraField findNextTextraField(Array<Actor> actors, @Null TextraField best, Vector2 bestCoords,
+	                                              Vector2 currentCoords, boolean up) {
 		for (int i = 0, n = actors.size; i < n; i++) {
 			Actor actor = actors.get(i);
 			if (actor instanceof TextraField) {
 				if (actor == this) continue;
-				TextraField textField = (TextraField)actor;
-				if (textField.isDisabled() || !textField.focusTraversal || !textField.ascendantsVisible()) continue;
+				TextraField textraField = (TextraField)actor;
+				if (textraField.isDisabled() || !textraField.focusTraversal || !textraField.ascendantsVisible()) continue;
 				Vector2 actorCoords = actor.getParent().localToStageCoordinates(tmp3.set(actor.getX(), actor.getY()));
 				boolean below = actorCoords.y != currentCoords.y && (actorCoords.y < currentCoords.y ^ up);
 				boolean right = actorCoords.y == currentCoords.y && (actorCoords.x > currentCoords.x ^ up);
@@ -678,7 +678,7 @@ public class TextraField extends Widget implements Disableable {
 					bestCoords.set(actorCoords);
 				}
 			} else if (actor instanceof Group)
-				best = findNextTextField(((Group)actor).getChildren(), best, bestCoords, currentCoords, up);
+				best = findNextTextraField(((Group)actor).getChildren(), best, bestCoords, currentCoords, up);
 		}
 		return best;
 	}
@@ -688,16 +688,16 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	/** @param listener May be null. */
-	public void setTextFieldListener (@Null TextFieldListener listener) {
+	public void setTextFieldListener (@Null TextraFieldListener listener) {
 		this.listener = listener;
 	}
 
 	/** @param filter May be null. */
-	public void setTextFieldFilter (@Null TextFieldFilter filter) {
+	public void setTextFieldFilter (@Null TextraFieldFilter filter) {
 		this.filter = filter;
 	}
 
-	public @Null TextFieldFilter getTextFieldFilter () {
+	public @Null TextraFieldFilter getTextFieldFilter () {
 		return filter;
 	}
 
@@ -995,20 +995,20 @@ public class TextraField extends Widget implements Disableable {
 
 	/** Interface for listening to typed characters.
 	 * @author mzechner */
-	public interface TextFieldListener {
-		void keyTyped(TextraField textField, char c);
+	public interface TextraFieldListener {
+		void keyTyped(TextraField textraField, char c);
 	}
 
-	/** Interface for filtering characters entered into the text field.
+	/** Interface for filtering characters entered into the TextraField.
 	 * @author mzechner */
-	public interface TextFieldFilter {
-		boolean acceptChar(TextraField textField, char c);
+	public interface TextraFieldFilter {
+		boolean acceptChar(TextraField textraField, char c);
 
 		/**
 		 * This filter only accepts the chars {@code '0'} through {@code '9'}.
 		 */
-		class DigitsOnlyFilter implements TextFieldFilter {
-			public boolean acceptChar (TextraField textField, char c) {
+		class DigitsOnlyFilter implements TextraFieldFilter {
+			public boolean acceptChar (TextraField textraField, char c) {
 				return c >= '0' && c <= '9';
 			}
 		}
@@ -1016,8 +1016,8 @@ public class TextraField extends Widget implements Disableable {
 		/**
 		 * This filter only accepts what Unicode considers "letter characters."
 		 */
-		class LetterOnlyFilter implements TextFieldFilter {
-			public boolean acceptChar (TextraField textField, char c) {
+		class LetterOnlyFilter implements TextraFieldFilter {
+			public boolean acceptChar (TextraField textraField, char c) {
 				return StringUtils.LETTERS.get(c);
 			}
 		}
@@ -1026,8 +1026,8 @@ public class TextraField extends Widget implements Disableable {
 		 * This filter only accepts what Unicode considers "word characters" -- all letters, all numbers, and the
 		 * underscore (as well as all underscore-like punctuation, like its variant for vertical text).
 		 */
-		class WordOnlyFilter implements TextFieldFilter {
-			public boolean acceptChar (TextraField textField, char c) {
+		class WordOnlyFilter implements TextraFieldFilter {
+			public boolean acceptChar (TextraField textraField, char c) {
 				return StringUtils.WORD_CHARS.get(c);
 			}
 		}
@@ -1049,7 +1049,7 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	/** Basic input listener for the TextraField */
-	public class TextFieldClickListener extends ClickListener {
+	public class TextraFieldClickListener extends ClickListener {
 		public void clicked (InputEvent event, float x, float y) {
 			if(showingMessage)
 				clearMessage();

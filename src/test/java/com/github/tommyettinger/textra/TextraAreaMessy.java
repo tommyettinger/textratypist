@@ -368,7 +368,7 @@ public class TextraAreaMessy extends TextraField {
 	}
 
 	/** Input listener for the text area **/
-	public class TextAreaListener extends TextFieldClickListener {
+	public class TextAreaListener extends TextraFieldClickListener {
 		protected void setCursorPosition (float x, float y) {
 			moveOffset = -1;
 
