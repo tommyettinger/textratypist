@@ -46,10 +46,13 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
         table.pack();
         secondLayout = new Layout(font);
         secondLayout.setTargetWidth(720);
-        font.markup("I love TextraTypist!\n"
+        font.markup(
+//                "Textra[+]Typist!"
+                  "I love Textra[+]Typist!\n"
                 + "*[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
                 + "ButThisIsAnExtremelyVeryVeryVeryVeryLongWordThatInterferesWithWrappingSanelyAndAllPrettyLike!\n"
-                + "Maybe this works? [+party popper] [*]Whee[]!\n", secondLayout);
+                + "Maybe this works? [+party popper] [*]Whee[]!\n"
+                , secondLayout);
     }
 
     public void adjustTypingConfigs() {

@@ -6491,9 +6491,10 @@ public class Font implements Disposable {
                         if (len >= 0) {
                             c = font.nameLookup.get(StringUtils.safeSubstring(text, i + 1, i + len), '\u200B'); // zero-width space
                             i += len;
-                            sclX = scale * font.cellHeight / font.mapping.get(c, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
+                            sclX = scale * font.cellHeight / Math.max(font.mapping.get(c, font.defaultValue).getMaxDimension(), font.originalCellHeight) * font.inlineImageStretch;
                         } else {
                             c = '\u200B';
+                            sclX = scale * font.cellHeight / Math.max(font.mapping.get(c, font.defaultValue).getMaxDimension(), font.originalCellHeight) * font.inlineImageStretch;
                         }
                     }
                     if (font.kerning == null) {
