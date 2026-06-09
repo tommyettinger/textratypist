@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 public class LongWordTextraLabelTest extends ApplicationAdapter {
     Stage       stage;
     SpriteBatch batch;
-//    TextraLabel label;
+    TextraLabel label;
     Layout secondLayout;
     Font font;
 
@@ -35,24 +35,23 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
         table.setSize(720, 400);
         table.setPosition(50, 150);
 
-//        label = createTextraLabel();
-//        label.debug();
-//        label.setAlignment(Align.center);
+        label = createTextraLabel();
+        label.debug();
+        label.setAlignment(Align.center);
         table.pad(50f);
-//        table.add(label).width(720);
+        table.add(label).width(720);
         table.row();
         table.row().uniform().expand().growX().space(40).center();
 
         table.pack();
-        secondLayout = new Layout(font);
-        secondLayout.setTargetWidth(720);
-        font.markup(
-//                "Textra[+]Typist!"
-                  "I love Textra[+]Typist!\n"
-                + "*[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
-                + "ButThisIsAnExtremelyVeryVeryVeryVeryLongWordThatInterferesWithWrappingSanelyAndAllPrettyLike!\n"
-                + "Maybe this works? [+party popper] [*]Whee[]!\n"
-                , secondLayout);
+//        secondLayout = new Layout(font);
+//        secondLayout.setTargetWidth(720);
+//        font.markup(
+//                  "I love Textra[+]Typist!\n"
+//                + "*[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
+//                + "ButThisIsAnExtremelyVeryVeryVeryVeryLongWordThatInterferesWithWrappingSanelyAndAllPrettyLike!\n"
+//                + "Maybe this works? [+party popper] [*]Whee[]!\n"
+//                , secondLayout);
     }
 
     public void adjustTypingConfigs() {
@@ -68,9 +67,9 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
 
     public TextraLabel createTextraLabel() {
         final TextraLabel label = new TextraLabel(
-                        "I love Textra[+]Typist! *[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]* "
-                        + "ButThisIsAnExtremelyVeryVeryVeryVeryLongWordThatInterferesWithWrappingSanelyAndCleanly! "
-                        + "Maybe this works? [+party popper] [*]Whee[]!\n"
+                        "I love Textra[+]Typist!\n*[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
+                        + "ButThisIsAnExtremelyVeryVeryVeryVeryLongWordThatInterferesWithWrappingSanelyAndCleanly!\n"
+                        + "Maybe this works? [+party popper] [*]Whee[]!"
                 ,
                 font);
         label.setAlignment(Align.center);
@@ -94,12 +93,12 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
         stage.act();
         stage.draw();
 
-        stage.getBatch().begin();
-        font.drawGlyphs(stage.getBatch(),
-                secondLayout,
-                Gdx.graphics.getBackBufferWidth() * 0.5f, 190f, Align.center
-        );
-        stage.getBatch().end();
+//        stage.getBatch().begin();
+//        font.drawGlyphs(stage.getBatch(),
+//                secondLayout,
+//                Gdx.graphics.getBackBufferWidth() * 0.5f, 190f, Align.center
+//        );
+//        stage.getBatch().end();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
 

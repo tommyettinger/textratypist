@@ -8068,8 +8068,32 @@ public class Font implements Disposable {
                     }
 
 
-                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW) > (targetWidth + 1f)) {
-                        cutoff = breakPoint + 1;
+
+                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0f : changedW) > (targetWidth)) {
+                            cutoff = breakPoint + 1;
+                            Line next;
+                            if (changing.lines() == ln + 1) {
+                                next = changing.pushLineBare();
+                            } else
+                                next = changing.getLine(ln + 1);
+                            if (next == null) {
+                                glyphs.truncate(cutoff);
+                                if (handleEllipsis(changing)) {
+                                    calculateSize(changing);
+                                    return changing;
+                                }
+                                break;
+                            }
+                            next.height = Math.max(next.height, font.cellHeight * sizingY);
+
+                            int nextSize = next.glyphs.size;
+                            long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
+                            System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
+                            System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
+                            glyphs.truncate(cutoff);
+                            break;
+                    } else if(breakPoint == -2 && spacingPoint == -2 && visibleWidth > targetWidth) {
+                        cutoff = i;
                         Line next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLineBare();
@@ -8077,7 +8101,7 @@ public class Font implements Disposable {
                             next = changing.getLine(ln + 1);
                         if (next == null) {
                             glyphs.truncate(cutoff);
-                            if(handleEllipsis(changing)) {
+                            if (handleEllipsis(changing)) {
                                 calculateSize(changing);
                                 return changing;
                             }
@@ -8091,6 +8115,7 @@ public class Font implements Disposable {
                         System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
                         glyphs.truncate(cutoff);
                         break;
+
                     }
                     if (ch == '\n') {
                         Line next = changing.pushLineBare();
@@ -8152,7 +8177,7 @@ public class Font implements Disposable {
                         changedW = 0;
                         if(ch == '}') curly = false;
                     }
-                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW + amt) > (targetWidth + 1f)) {
+                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW + amt) > (targetWidth)) {
                         cutoff = breakPoint + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
@@ -8175,7 +8200,33 @@ public class Font implements Disposable {
                         System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
                         glyphs.truncate(cutoff);
                         break;
+                    } else if(breakPoint == -2 && spacingPoint == -2 && visibleWidth > targetWidth){
+                        cutoff = i;
+                        Line next;
+                        if (changing.lines() == ln + 1) {
+                            next = changing.pushLineBare();
+                        } else
+                            next = changing.getLine(ln + 1);
+                        if (next == null) {
+                            glyphs.truncate(cutoff);
+                            if(handleEllipsis(changing)) {
+                                calculateSize(changing);
+                                return changing;
+                            }
+                            break;
+                        }
+                        next.height = Math.max(next.height, font.cellHeight * sizingY);
+
+                        int nextSize = next.glyphs.size;
+                        long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
+                        System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
+                        System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
+                        glyphs.truncate(cutoff);
+                        break;
+
                     }
+
+
                     if (ch == '\n') {
                         Line next = changing.pushLineBare();
                         if (next == null) {
@@ -8219,12 +8270,8 @@ public class Font implements Disposable {
                     visibleWidth += changedW + amt;
                 }
             }
-//            System.out.println("Line " + ln + " has height " + line.height + ", with " + line.glyphs.size + " glyphs.");
         }
         calculateSize(changing);
-//        for (int ln = 0; ln < changing.lines(); ln++) {
-//            System.out.println("Line " + ln + " has height " + changing.getLine(ln).height);
-//        }
         return changing;
     }
 
