@@ -6926,6 +6926,18 @@ public class Font implements Disposable {
 
                                         float adv = xAdvance(font, sclX, curr);
                                         change += adv;
+
+                                        glyphBuffer.add(curr);
+                                        changeNext += adv;
+                                        if(glyphBuffer.size == 1){
+                                            if(!isMono && !(showCh >= '\uE000' && showCh < '\uF800')) {
+                                                float ox = font.mapping.get(showCh, font.defaultValue).offsetX;
+                                                if (Float.isNaN(ox)) ox = 0;
+                                                else ox *= sclX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
+                                                if (ox < 0) changeNext -= ox;
+                                            }
+                                            initial = false;
+                                        }
                                     }
                                 } else {
                                     // YES KERNING
@@ -6955,6 +6967,19 @@ public class Font implements Disposable {
                                         k2 = k2 << 16 | showCh;
                                         float adv = xAdvance(font, sclX, curr);
                                         change += adv + font.kerning.get(k2, 0) * sclX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+
+                                        kern = kern << 16 | showCh;
+                                        changeNext += adv + font.kerning.get(kern, 0) * sclX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+                                        glyphBuffer.add(curr);
+                                        if(glyphBuffer.size == 1){
+                                            if(!isMono && !(showCh >= '\uE000' && showCh < '\uF800')) {
+                                                float ox = font.mapping.get(showCh, font.defaultValue).offsetX;
+                                                if (Float.isNaN(ox)) ox = 0;
+                                                else ox *= sclX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
+                                                if (ox < 0) changeNext -= ox;
+                                            }
+                                            initial = false;
+                                        }
                                     }
                                 }
                                 // END KERNING-SPECIFIC
