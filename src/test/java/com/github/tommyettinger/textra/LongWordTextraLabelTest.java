@@ -15,12 +15,14 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 public class LongWordTextraLabelTest extends ApplicationAdapter {
     Stage       stage;
     SpriteBatch batch;
-    TextraLabel label;
-    private Layout secondLayout;
+//    TextraLabel label;
+    Layout secondLayout;
+    Font font;
 
     @Override
     public void create() {
         adjustTypingConfigs();
+        font = KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.MSDF));
 
         batch = new SpriteBatch();
         stage = new Stage(new StretchViewport(920, 405), batch);
@@ -33,18 +35,19 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
         table.setSize(720, 400);
         table.setPosition(50, 150);
 
-        label = createTextraLabel();
-        label.debug();
-        label.setAlignment(Align.center);
+//        label = createTextraLabel();
+//        label.debug();
+//        label.setAlignment(Align.center);
         table.pad(50f);
-        table.add(label).width(720);
+//        table.add(label).width(720);
         table.row();
         table.row().uniform().expand().growX().space(40).center();
 
         table.pack();
-        secondLayout = new Layout(label.font);
+        secondLayout = new Layout(font);
         secondLayout.setTargetWidth(720);
-        label.font.markup("I love Textra[+]Typist!\n*[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
+        font.markup("I love Textra[+]Typist!\n"
+                + "*[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]*\n"
                 + "ButThisIsAnExtremelyVeryVeryVeryVeryLongWordThatInterferesWithWrappingSanelyAndAllPrettyLike!\n"
                 + "Maybe this works? [+party popper] [*]Whee[]!\n", secondLayout);
     }
@@ -61,8 +64,6 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
     }
 
     public TextraLabel createTextraLabel() {
-        Font font = KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.MSDF));
-
         final TextraLabel label = new TextraLabel(
                         "I love Textra[+]Typist! *[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo[/]* "
                         + "ButThisIsAnExtremelyVeryVeryVeryVeryLongWordThatInterferesWithWrappingSanelyAndCleanly! "
@@ -91,7 +92,7 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
         stage.draw();
 
         stage.getBatch().begin();
-        label.font.drawGlyphs(stage.getBatch(),
+        font.drawGlyphs(stage.getBatch(),
                 secondLayout,
                 Gdx.graphics.getBackBufferWidth() * 0.5f, 120f, Align.center
         );
@@ -102,7 +103,7 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        label.font.resizeDistanceField(width, height, stage.getViewport());
+        font.resizeDistanceField(width, height, stage.getViewport());
     }
 
     @Override
