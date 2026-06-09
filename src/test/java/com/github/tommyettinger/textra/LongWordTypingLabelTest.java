@@ -12,10 +12,10 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-public class LongWordTextraLabelTest extends ApplicationAdapter {
+public class LongWordTypingLabelTest extends ApplicationAdapter {
     Stage       stage;
     SpriteBatch batch;
-    TextraLabel label;
+    TypingLabel label;
     Layout secondLayout;
     Font font;
 
@@ -35,7 +35,7 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
         table.setSize(720, 400);
         table.setPosition(50, 150);
 
-        label = createTextraLabel();
+        label = createTypingLabel();
         label.debug();
         label.setAlignment(Align.center);
         table.pad(50f);
@@ -65,8 +65,8 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
         TypingConfig.GLOBAL_VARS.put("ICE_WIND", "{GRADIENT=88ccff;eef8ff;-0.5;5}{WIND=2;4;0.25;0.1}{JOLT=1;0.6;inf;0.1;;}");
     }
 
-    public TextraLabel createTextraLabel() {
-        final TextraLabel label = new TextraLabel(
+    public TypingLabel createTypingLabel() {
+        final TypingLabel label = new TypingLabel(
                         "I love Textra[+]Typist! *[/]Plays a [#B10F]romantic[] [/][+🎷][/] solo for a very long time that pleases all the senses[/]* "
                         + "ButThisIsAnExtremelyVeryVeryVeryVeryLongWordThatInterferesWithWrappingSanelyAndCleanly!\n"
                         + "Maybe this works? [+party popper] [*]Whee[]!"
@@ -115,12 +115,12 @@ public class LongWordTextraLabelTest extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("TextraLabel Test");
+        config.setTitle("TypingLabel Test");
         config.setWindowedMode(920, 405);
         config.setResizable(true);
         config.setForegroundFPS(0);
         config.useVsync(true);
         config.disableAudio(true);
-        new Lwjgl3Application(new LongWordTextraLabelTest(), config);
+        new Lwjgl3Application(new LongWordTypingLabelTest(), config);
     }
 }
