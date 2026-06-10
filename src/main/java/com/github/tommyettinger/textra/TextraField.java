@@ -185,7 +185,7 @@ public class TextraField extends Widget implements Disableable {
 		initialize();
 		setText(text);
 		label.setSize(getPrefWidth(), getPrefHeight());
-		label.skipToTheEnd();
+		label.skipToTheEnd(true, true);
 		updateDisplayText();
 	}
 
@@ -204,7 +204,7 @@ public class TextraField extends Widget implements Disableable {
 		initialize();
 		setText(text);
 		label.setSize(getPrefWidth(), getPrefHeight());
-		label.skipToTheEnd();
+		label.skipToTheEnd(true, true);
 		updateDisplayText();
 	}
 
@@ -489,7 +489,7 @@ public class TextraField extends Widget implements Disableable {
 				} else
 					label.setColor(0.7f, 0.7f, 0.7f, color.a);
 				label.restart(messageText);
-				label.skipToTheEnd();
+				label.skipToTheEnd(false, false);
 				showingMessage = true;
 				updateDisplayText();
 				calculateOffsets();
@@ -505,6 +505,8 @@ public class TextraField extends Widget implements Disableable {
 		} else {
 			if(fontColor != null)
 				label.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * color.a);
+//			label.setText(text, false, false);
+//			label.font.regenerateLayout(label.layout);
 			calculateOffsets();
 			label.setPosition(x + bgLeftWidth + textOffset, y + textY);
 			label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);
@@ -580,7 +582,7 @@ public class TextraField extends Widget implements Disableable {
 				Arrays.fill(line.glyphs.items, 0, line.glyphs.size, passwordGlyph);
 			}
 		}
-		label.skipToTheEnd();
+		label.skipToTheEnd(true, true);
 
 		float end = 0f;
 		if(label.workingLayout.lines.notEmpty()) {
@@ -877,7 +879,7 @@ public class TextraField extends Widget implements Disableable {
 	private void clearMessage() {
 		showingMessage = false;
 		label.restart(text = "");
-		label.skipToTheEnd();
+		label.skipToTheEnd(true, true);
 		float end = 0f;
 		if(label.workingLayout.lines.notEmpty()) {
 			glyphPositions.clear();
