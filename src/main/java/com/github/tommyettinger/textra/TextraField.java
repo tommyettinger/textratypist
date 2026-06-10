@@ -505,8 +505,6 @@ public class TextraField extends Widget implements Disableable {
 		} else {
 			if(fontColor != null)
 				label.setColor(fontColor.r, fontColor.g, fontColor.b, fontColor.a * color.a);
-//			label.setText(text, false, false);
-//			label.font.regenerateLayout(label.layout);
 			calculateOffsets();
 			label.setPosition(x + bgLeftWidth + textOffset, y + textY);
 			label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);

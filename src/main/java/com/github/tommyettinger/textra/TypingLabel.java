@@ -1062,6 +1062,9 @@ public class TypingLabel extends TextraLabel {
                 font.regenerateLayout(workingLayout);
                 font.calculateSize(workingLayout);
 // We definitely don't want to invalidateHierarchy() here, because it would invalidate a lot every frame!
+
+                // At this point, the last layout() gets workingLayout correct...
+                System.out.println("workingLayout:\n" + workingLayout);
             }
 
 // If the call to calculateSize() changed workingLayout's height, we want to update height and invalidateHierarchy().

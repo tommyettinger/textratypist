@@ -8001,6 +8001,12 @@ public class Font implements Disposable {
         if (changing.font == null) {
             return changing;
         }
+
+        try {
+            throw new RuntimeException("Starting a call to regenerateLayout()...");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         if(!changing.font.equals(this)){
             changing.font = this;
         }
