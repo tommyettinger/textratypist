@@ -340,9 +340,13 @@ public class TypingLabel extends TextraLabel {
         if (wrap) {
             workingLayout.setTargetWidth(getWidth());
             font.markup(newText, workingLayout.clear().setJustification(defaultJustify));
+            font.regenerateLayout(workingLayout);
+            font.calculateSize(workingLayout);
         } else {
             workingLayout.setTargetWidth(0f);
             font.markup(newText, workingLayout.clear().setJustification(defaultJustify));
+            font.regenerateLayout(workingLayout);
+            font.calculateSize(workingLayout);
             setSuperWidth(workingLayout.getWidth() + (style != null && style.background != null ?
                     style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
         }
@@ -1065,7 +1069,7 @@ public class TypingLabel extends TextraLabel {
 // We definitely don't want to invalidateHierarchy() here, because it would invalidate a lot every frame!
 
                 // At this point, the last layout() gets workingLayout correct...
-                System.out.println("Wrapping layout() call... width is " + width + ", actualWidth is " + actualWidth + ", targetWidth is " + workingLayout.getTargetWidth() +
+                System.out.println("Wrapping layout() call... width is " + width + ", workingLayout.getWidth() is " + workingLayout.getWidth() + ", targetWidth is " + workingLayout.getTargetWidth() +
                         "\nworkingLayout:\n" + workingLayout);
             }
 
@@ -1084,18 +1088,11 @@ public class TypingLabel extends TextraLabel {
         if(!onStage && hasParent()){
             onStage = true;
             if(!ended) {
-//                invalidate();
-//                if(font.omitCurlyBraces)
-//                    this.setText(Parser.preprocess("{NORMAL}"+getDefaultToken() + originalText), false, false);
-//                else if(font.enableSquareBrackets)
-//                    this.setText(Parser.preprocess(getDefaultToken() + originalText), false, false);
-//                else
-//                    this.setText(getDefaultToken() + originalText, false, false);
-//                Parser.parseTokens(this);
+                invalidate();
                 parseTokens();
 //                restart();
-                font.regenerateLayout(workingLayout);
-                setSuperWidth(font.calculateSize(workingLayout));
+//                font.regenerateLayout(workingLayout);
+//                font.calculateSize(workingLayout);
             }
             System.out.println("Single restart in layout() call ("+ (ended ? "did not restart" : "did restart") +
                     "), workingLayout:\n" + workingLayout);
