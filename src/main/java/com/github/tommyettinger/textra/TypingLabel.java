@@ -1065,7 +1065,8 @@ public class TypingLabel extends TextraLabel {
 // We definitely don't want to invalidateHierarchy() here, because it would invalidate a lot every frame!
 
                 // At this point, the last layout() gets workingLayout correct...
-                System.out.println("Wrapping layout() call, workingLayout:\n" + workingLayout);
+                System.out.println("Wrapping layout() call... width is " + width + ", actualWidth is " + actualWidth + ", targetWidth is " + workingLayout.getTargetWidth() +
+                        "\nworkingLayout:\n" + workingLayout);
             }
 
 // If the call to calculateSize() changed workingLayout's height, we want to update height and invalidateHierarchy().
@@ -1083,16 +1084,18 @@ public class TypingLabel extends TextraLabel {
         if(!onStage && hasParent()){
             onStage = true;
             if(!ended) {
-                invalidate();
-                if(font.omitCurlyBraces)
-                    this.setText(Parser.preprocess("{NORMAL}"+getDefaultToken() + originalText), false, false);
-                else if(font.enableSquareBrackets)
-                    this.setText(Parser.preprocess(getDefaultToken() + originalText), false, false);
-                else
-                    this.setText(getDefaultToken() + originalText, false, false);
-                Parser.parseTokens(this);
-//                parseTokens();
+//                invalidate();
+//                if(font.omitCurlyBraces)
+//                    this.setText(Parser.preprocess("{NORMAL}"+getDefaultToken() + originalText), false, false);
+//                else if(font.enableSquareBrackets)
+//                    this.setText(Parser.preprocess(getDefaultToken() + originalText), false, false);
+//                else
+//                    this.setText(getDefaultToken() + originalText, false, false);
+//                Parser.parseTokens(this);
+                parseTokens();
 //                restart();
+                font.regenerateLayout(workingLayout);
+                setSuperWidth(font.calculateSize(workingLayout));
             }
             System.out.println("Single restart in layout() call ("+ (ended ? "did not restart" : "did restart") +
                     "), workingLayout:\n" + workingLayout);
