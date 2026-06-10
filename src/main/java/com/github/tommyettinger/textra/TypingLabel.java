@@ -459,6 +459,7 @@ public class TypingLabel extends TextraLabel {
      * Parses all tokens of this label. Use this after setting the text and any variables that should be replaced.
      */
     public void parseTokens() {
+        System.out.println("CALLING parseTokens() !");
         parsed = true;
         boolean actualEnd = ended;
         ended = false;
@@ -1081,8 +1082,18 @@ public class TypingLabel extends TextraLabel {
         // label was still not added to the Stage yet.
         if(!onStage && hasParent()){
             onStage = true;
-            if(!ended)
-                restart();
+            if(!ended) {
+                invalidate();
+                if(font.omitCurlyBraces)
+                    this.setText(Parser.preprocess("{NORMAL}"+getDefaultToken() + originalText), false, false);
+                else if(font.enableSquareBrackets)
+                    this.setText(Parser.preprocess(getDefaultToken() + originalText), false, false);
+                else
+                    this.setText(getDefaultToken() + originalText, false, false);
+                Parser.parseTokens(this);
+//                parseTokens();
+//                restart();
+            }
             System.out.println("Single restart in layout() call ("+ (ended ? "did not restart" : "did restart") +
                     "), workingLayout:\n" + workingLayout);
         }
