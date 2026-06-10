@@ -1064,7 +1064,7 @@ public class TypingLabel extends TextraLabel {
 // We definitely don't want to invalidateHierarchy() here, because it would invalidate a lot every frame!
 
                 // At this point, the last layout() gets workingLayout correct...
-                System.out.println("workingLayout:\n" + workingLayout);
+                System.out.println("Wrapping layout() call, workingLayout:\n" + workingLayout);
             }
 
 // If the call to calculateSize() changed workingLayout's height, we want to update height and invalidateHierarchy().
@@ -1083,6 +1083,8 @@ public class TypingLabel extends TextraLabel {
             onStage = true;
             if(!ended)
                 restart();
+            System.out.println("Single restart in layout() call ("+ (ended ? "did not restart" : "did restart") +
+                    "), workingLayout:\n" + workingLayout);
         }
     }
 

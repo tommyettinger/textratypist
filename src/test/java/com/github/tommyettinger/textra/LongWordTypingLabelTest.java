@@ -78,6 +78,12 @@ public class LongWordTypingLabelTest extends ApplicationAdapter {
         label.setWrap(true);
 //        label.skipToTheEnd();
 
+        label.setTypingListener(new TypingAdapter(){
+            @Override
+            public void end() {
+                System.out.println("Finished! \n" + label.getWorkingLayout());
+            }
+        });
         return label;
     }
 
