@@ -1204,11 +1204,6 @@ public class TextraField extends Widget implements Disableable {
 
 				@Override
 				public void writeResults (String text, int selectionStart, int selectionEnd) {
-					if (textraField.shouldPreventAutoCorrection()) {
-						text = text.trim();
-						selectionStart = Math.min(selectionStart, text.length());
-						selectionEnd = Math.min(selectionEnd, text.length());
-					}
 					textraField.setText(text);
 					if (selectionStart == selectionEnd) {
 						textraField.setCursorPosition(selectionEnd);
