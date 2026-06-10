@@ -8073,6 +8073,8 @@ public class Font implements Disposable {
                         if (ch == '}') curly = false;
                     }
 
+                    drawn += changedW;
+                    visibleWidth += changedW;
 
                     if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0f : changedW) > (targetWidth + 1f)) {
                         cutoff = breakPoint + 1;
@@ -8097,7 +8099,7 @@ public class Font implements Disposable {
                         System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
                         glyphs.truncate(cutoff);
                         break;
-                    } else if(breakPoint < 0 && visibleWidth > targetWidth){
+                    } else if(breakPoint < 0 && i > 0 && visibleWidth > targetWidth){
                         cutoff = i;
                         Line next;
                         if (changing.lines() == ln + 1) {
@@ -8155,8 +8157,8 @@ public class Font implements Disposable {
                     } else {
                         visibleWidth = drawn;
                     }
-                    drawn += changedW;
-                    visibleWidth += changedW;
+//                    drawn += changedW;
+//                    visibleWidth += changedW;
                 } else {
 
                     //// font has kerning
@@ -8182,6 +8184,10 @@ public class Font implements Disposable {
                         changedW = 0;
                         if (ch == '}') curly = false;
                     }
+
+                    drawn += changedW + amt;
+                    visibleWidth += changedW + amt;
+
                     if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW + amt) > (targetWidth + 1f)) {
                         cutoff = breakPoint + 1;
                         Line next;
@@ -8205,7 +8211,7 @@ public class Font implements Disposable {
                         System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
                         glyphs.truncate(cutoff);
                         break;
-                    } else if(breakPoint < 0 && visibleWidth > targetWidth) {
+                    } else if(breakPoint < 0 && i > 0 && visibleWidth > targetWidth) {
                         cutoff = i;
                         Line next;
                         if (changing.lines() == ln + 1) {
@@ -8267,8 +8273,8 @@ public class Font implements Disposable {
                     } else {
                         visibleWidth = drawn;
                     }
-                    drawn += changedW + amt;
-                    visibleWidth += changedW + amt;
+//                    drawn += changedW + amt;
+//                    visibleWidth += changedW + amt;
                 }
             }
         }
