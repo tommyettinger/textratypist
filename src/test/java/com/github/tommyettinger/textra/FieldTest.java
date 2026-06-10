@@ -21,7 +21,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -39,9 +38,7 @@ public class FieldTest extends ApplicationAdapter {
     Stage stage;
     TextraField ttField;
     TextField s2dField;
-//    TextraAreaMessy ttAreaMessy;
     TextraArea ttArea;
-//    ScrollPane ttPane;
     TextArea s2dArea;
     FWSkin skin;
 
@@ -53,16 +50,7 @@ public class FieldTest extends ApplicationAdapter {
         stage = new Stage(viewport);
         stage.setDebugAll(true);
 
-//        BitmapFont bmp = new BitmapFont(Gdx.files.internal("knownFonts/Gentium-standard.fnt"));
-//        bmp.getData().setScale(0.5f);
-//        bmp.setUseIntegerPositions(false);
-//        bmp.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-//        Font font = new Font(bmp, 0f, 10f, 0f, 0f);
-
-//        Font font = new Font("RaeleusScriptius-standard.fnt", Font.DistanceFieldType.STANDARD, 0, 8, 0, 0);
         Font font = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic()).scaleHeightTo(32);
-//        System.out.println("descent: "+font.descent + ", lineHeight: " + font.cellHeight);
-        BitmapFont bmFont = KnownFonts.getBitmapFont(KnownFonts.GENTIUM_UN_ITALIC);
         String text = "Emoji: '🎉'";
         String longText =
                 "Satchmo is a cat, who is extremely fat; when he sits " +
@@ -98,20 +86,10 @@ public class FieldTest extends ApplicationAdapter {
         ttField.setHeight(font.cellHeight * 3);
         ttField.setAlignment(left);
 
-//        ttField.setCursorBlinking(false);
-
-//        ttAreaMessy = new TextraAreaMessy(longText, ttField.style);
-
         ttArea = new TextraArea(longText, ttField.style, skin.get(ScrollPane.ScrollPaneStyle.class));
-
-//        ttPane = new ScrollPane(ttArea, skin);
-//        ttPane.setFadeScrollBars(false);
-////        ttPane.setScrollbarsOnTop(false); // the default
-//        ttPane.setFlickScroll(false);
 
         s2dField = new TextField(text,
                 skin
-//        new TextField.TextFieldStyle(bmFont, Color.WHITE.cpy(), pipe, selection, background)
         );
         s2dField.setWidth(500);
         s2dField.setPasswordMode(false);
@@ -126,13 +104,10 @@ public class FieldTest extends ApplicationAdapter {
         table.add(s2dField).width(200).height(s2dField.getStyle().font.getLineHeight() * 2).row();
         table.add(new TextraLabel("TTf  ", font)).width(60).height(font.cellHeight * 2);
         table.add(ttField).width(200).height(font.cellHeight * 2).row();
-//        table.add(new TextraLabel("TTaM ", font)).width(60).height(font.cellHeight * 2);
-//        table.add(ttAreaMessy).width(200).height(font.cellHeight * 5).row();
         table.add(new TextraLabel("S2Da ", font)).width(60).height(font.cellHeight * 2);
         table.add(s2dArea).width(200).height(s2dArea.getStyle().font.getLineHeight() * 5.5f).row();
         table.add(new TextraLabel("TTa  ", font)).width(60).height(font.cellHeight * 2);
         table.add(ttArea).width(200).height(font.cellHeight * 5).row();
-//        table.add(ttArea).width(200).height(font.cellHeight * 5).row();
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
@@ -151,7 +126,6 @@ public class FieldTest extends ApplicationAdapter {
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
         ttField.label.font.resizeDistanceField(width, height, stage.getViewport());
-//        ttAreaMessy.label.font.resizeDistanceField(width, height, stage.getViewport());
         ttArea.getFont().resizeDistanceField(width, height, stage.getViewport());
     }
 

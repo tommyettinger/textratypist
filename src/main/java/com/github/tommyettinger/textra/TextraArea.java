@@ -9,9 +9,16 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
 
 /**
- * A multiple-line {@link TextraField} using a {@link Font}. This is not ready for use yet.
+ * A multiple-line {@link TextraField} using a {@link Font}. This allows SDF and MSDF fonts to be used for text entry,
+ * as well as for emoji to be pasted into input fields. Entering emoji with an OS emoji picker doesn't work due to a
+ * limitation of libGDX on desktop platforms, though emoji can be copied from or pasted into a TextraArea. This creates
+ * a scroll bar if there are too many lines to be seen, and resizes the input area to account for the scroll bar. Unlike
+ * a scene2d.ui TextArea, this needs a {@link ScrollPane.ScrollPaneStyle} to provide a visual for the scroll bar.
  */
 public class TextraArea extends Container<ScrollPane> {
+    /**
+     * The actual widget that handles text entry; the rest of TextraArea only handles the scrolling through this widget.
+     */
     public final InnerTextraArea inner;
 
     public TextraArea(@Null String text, Skin skin) {
@@ -62,7 +69,8 @@ public class TextraArea extends Container<ScrollPane> {
 
     /**
      * A multiple-line {@link TextraField} using a {@link Font}; this is the inner multi-line text entry field
-     * that gets scrolled through by the parent class.
+     * that gets scrolled through by the parent class. This class is not {@code static} because it needs to pass data
+     * between itself and the parent that contains a ScrollPane for this widget.
      */
     public class InnerTextraArea extends TextraField {
 
@@ -78,13 +86,12 @@ public class TextraArea extends Container<ScrollPane> {
             this(text, skin.get(styleName, Styles.TextFieldStyle.class));
         }
 
-        public InnerTextraArea(String text, Styles.TextFieldStyle style) {
+        public InnerTextraArea(@Null String text, Styles.TextFieldStyle style) {
             super();
             Styles.TextFieldStyle s = new Styles.TextFieldStyle(style);
     //        s.font = new Font(style.font); // already done by TextFieldStyle constructor
             s.font.enableSquareBrackets = false;
             s.font.omitCurlyBraces = false;
-//            s.font.hardWrap = true;
             setStyle(s);
             label = new TypingLabel("", new Styles.LabelStyle(this.style.font, style.fontColor));
             label.setMaxLines(Integer.MAX_VALUE);
@@ -96,18 +103,16 @@ public class TextraArea extends Container<ScrollPane> {
             writeEnters = true;
             initialize();
             label.setWidth(getPrefWidth());
-//            label.workingLayout.targetWidth = getPrefWidth();
-            setText(text);
+            setText(text == null ? "" : text);
             updateDisplayText();
         }
 
-        public InnerTextraArea(String text, Styles.TextFieldStyle style, Font replacementFont) {
+        public InnerTextraArea(@Null String text, Styles.TextFieldStyle style, Font replacementFont) {
             super();
             setStyle(style);
             replacementFont = new Font(replacementFont);
             replacementFont.enableSquareBrackets = false;
             replacementFont.omitCurlyBraces = false;
-//            replacementFont.hardWrap = true;
             label = new TypingLabel("", new Styles.LabelStyle(replacementFont, style.fontColor));
             label.setMaxLines(Integer.MAX_VALUE);
             label.setAlignment(Align.topLeft);
@@ -118,8 +123,7 @@ public class TextraArea extends Container<ScrollPane> {
             writeEnters = true;
             initialize();
             label.setWidth(getPrefWidth());
-//            label.workingLayout.targetWidth = getPrefWidth();
-            setText(text);
+            setText(text == null ? "" : text);
             updateDisplayText();
         }
 

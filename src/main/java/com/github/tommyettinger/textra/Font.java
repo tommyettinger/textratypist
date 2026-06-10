@@ -1594,14 +1594,6 @@ public class Font implements Disposable {
             '\u200B' // Unicode space (zero-width)
     );
 
-    // TODO: Consider re-enabling this when we figure it out.
-//    /**
-//     * If false (the default), very long words may exceed the width of a label or Layout.
-//     * If enabled by setting this to true, very long words will wrap to a new line if they exceed the target width of
-//     * a Layout.
-//     */
-//    public boolean hardWrap = false;
-
     /**
      * Inserts a zero-width space character (Unicode U+200B) after every CJK ideographic character in text. This is
      * meant to create word breaks where there might otherwise be none, to allow breaking lines up how at least written
