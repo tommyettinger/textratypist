@@ -463,7 +463,6 @@ public class TypingLabel extends TextraLabel {
      * Parses all tokens of this label. Use this after setting the text and any variables that should be replaced.
      */
     public void parseTokens() {
-        System.out.println("CALLING parseTokens() !");
         parsed = true;
         boolean actualEnd = ended;
         ended = false;
@@ -1067,10 +1066,6 @@ public class TypingLabel extends TextraLabel {
                 font.regenerateLayout(workingLayout);
                 font.calculateSize(workingLayout);
 // We definitely don't want to invalidateHierarchy() here, because it would invalidate a lot every frame!
-
-                // At this point, the last layout() gets workingLayout correct...
-                System.out.println("Wrapping layout() call... width is " + width + ", workingLayout.getWidth() is " + workingLayout.getWidth() + ", targetWidth is " + workingLayout.getTargetWidth() +
-                        "\nworkingLayout:\n" + workingLayout);
             }
 
 // If the call to calculateSize() changed workingLayout's height, we want to update height and invalidateHierarchy().
@@ -1090,12 +1085,7 @@ public class TypingLabel extends TextraLabel {
             if(!ended) {
                 invalidate();
                 parseTokens();
-//                restart();
-//                font.regenerateLayout(workingLayout);
-//                font.calculateSize(workingLayout);
             }
-            System.out.println("Single restart in layout() call ("+ (ended ? "did not restart" : "did restart") +
-                    "), workingLayout:\n" + workingLayout);
         }
     }
 
