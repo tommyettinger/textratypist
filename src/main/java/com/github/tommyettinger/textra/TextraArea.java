@@ -87,7 +87,6 @@ public class TextraArea extends Container<ScrollPane> {
 //            s.font.hardWrap = true;
             setStyle(s);
             label = new TypingLabel("", new Styles.LabelStyle(this.style.font, style.fontColor));
-            label.workingLayout.targetWidth = 1f;
             label.setMaxLines(Integer.MAX_VALUE);
             label.setAlignment(Align.topLeft);
             label.setWrap(true);
@@ -97,6 +96,7 @@ public class TextraArea extends Container<ScrollPane> {
             writeEnters = true;
             initialize();
             label.setWidth(getPrefWidth());
+//            label.workingLayout.targetWidth = getPrefWidth();
             setText(text);
             updateDisplayText();
         }
@@ -109,7 +109,6 @@ public class TextraArea extends Container<ScrollPane> {
             replacementFont.omitCurlyBraces = false;
 //            replacementFont.hardWrap = true;
             label = new TypingLabel("", new Styles.LabelStyle(replacementFont, style.fontColor));
-            label.workingLayout.targetWidth = 1f;
             label.setMaxLines(Integer.MAX_VALUE);
             label.setAlignment(Align.topLeft);
             label.setWrap(true);
@@ -119,6 +118,7 @@ public class TextraArea extends Container<ScrollPane> {
             writeEnters = true;
             initialize();
             label.setWidth(getPrefWidth());
+//            label.workingLayout.targetWidth = getPrefWidth();
             setText(text);
             updateDisplayText();
         }

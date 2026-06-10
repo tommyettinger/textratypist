@@ -76,7 +76,7 @@ public class LongWordTypingLabelTest extends ApplicationAdapter {
         label.debug();
         // Make the label wrap to new lines, respecting the table's layout.
         label.setWrap(true);
-        label.skipToTheEnd();
+//        label.skipToTheEnd();
 
         return label;
     }
