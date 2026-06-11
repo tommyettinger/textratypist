@@ -53,10 +53,11 @@ public class FieldTest extends ApplicationAdapter {
         Font font = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic()).scaleHeightTo(32);
         String text = "Emoji: '🎉'";
         String longText =
-                "Satchmo is a cat, who is extremely fat; when he sits " +
-                        "down, throughout the town, we all think, 'What was that? Did it happen " +
-                        "again (that thunderous din)? What could ever make, such a powerful quake, but " +
-                        "a cat with a double chin?'";
+                "ABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxy";
+//                "Satchmo is a cat, who is extremely fat; when he sits " +
+//                        "down, throughout the town, we all think, 'What was that? Did it happen " +
+//                        "again (that thunderous din)? What could ever make, such a powerful quake, but " +
+//                        "a cat with a double chin?'";
 //                "[*]Локус контроля[*] - свойство " +
 //                "личности приписывать " +
 //                "свои неудачи и успехи " +
