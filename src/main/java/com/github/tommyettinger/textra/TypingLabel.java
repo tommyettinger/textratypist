@@ -1679,13 +1679,13 @@ public class TypingLabel extends TextraLabel {
     /**
      * Gets a String from the working layout of this label, made of only the char portions of the glyphs from start
      * (inclusive) to end (exclusive). This can retrieve text from across multiple lines. This delegates to
-     * {@link #substring(int, int, boolean)} with multiLine set to true.
+     * {@link #substring(int, int, boolean)} with multiLine set to false.
      * @param start inclusive start index
      * @param end exclusive end index
      * @return a String made of only the char portions of the glyphs from start to end
      */
     public String substring(int start, int end) {
-        return substring(start, end, true);
+        return substring(start, end, false);
     }
     /**
      * Gets a String from the working layout of this label, made of only the char portions of the glyphs from start
@@ -1699,12 +1699,12 @@ public class TypingLabel extends TextraLabel {
      */
     public String substring(int start, int end, boolean multiLine) {
         start = Math.max(0, start);
-        end = Math.min(Math.max(workingLayout.advances.size, start), end);
+        end = Math.min(Math.max(layout.advances.size, start), end);
         int index = start;
         StringBuilder sb = new StringBuilder(end - start);
         int glyphCount = 0;
-        for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
-            LongArray glyphs = workingLayout.getLine(i).glyphs;
+        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
+            LongArray glyphs = layout.getLine(i).glyphs;
             if (index < glyphs.size) {
                 for (int fin = index - start - glyphCount + end; index < fin && index < glyphs.size; index++) {
                     char c = (char) glyphs.get(index);

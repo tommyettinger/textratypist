@@ -18,6 +18,7 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
@@ -121,6 +122,12 @@ public class FieldTest extends ApplicationAdapter {
 
         stage.act();
         stage.draw();
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.INSERT)){
+            System.out.println(ttArea.inner.label.getWorkingLayout().toString().replace('\n', '\\'));
+            System.out.println();
+            System.err.println(ttArea.inner.label.layout.toString().replace('\n', '\\'));
+        }
     }
 
     @Override
