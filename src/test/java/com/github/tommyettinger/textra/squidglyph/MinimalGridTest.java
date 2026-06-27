@@ -71,12 +71,12 @@ public class MinimalGridTest extends ApplicationAdapter {
         stage = new Stage();
         screenStage = new Stage();
 //        Font gentium = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF));
-        Font mainFont = KnownFonts.addEmoji(KnownFonts.getComicMono(Font.DistanceFieldType.SDF), 0f, 0f, 0f);//.setInlineImageStretch(0.5f);
+        Font mainFont = KnownFonts.addEmoji(KnownFonts.getComicMono(Font.DistanceFieldType.STANDARD), 0f, 0f, 0f);//.setInlineImageStretch(0.5f);
 //        Font mainFont = KnownFonts.addEmoji(KnownFonts.getIosevka(Font.DistanceFieldType.MSDF));
-        Font supportFont = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF), 0f, 0f, 0f);//.setInlineImageStretch(0.5f);
+        Font supportFont = KnownFonts.addEmoji(KnownFonts.getAStarryTall(Font.DistanceFieldType.STANDARD), 0f, 0f, 0f);//.setInlineImageStretch(0.5f);
 
 //        varWidthFont = KnownFonts.getGentium();
-        varWidthFont = KnownFonts.getComicMono(Font.DistanceFieldType.SDF)
+        varWidthFont = KnownFonts.getComicMono(Font.DistanceFieldType.STANDARD)
                 .scaleHeightTo(30f);//.setOutlineStrength(1.5f);
 //        mainFont.adjustCellWidth(0.5f);
 //        mainFont.originalCellHeight *= 0.5f;
@@ -342,7 +342,7 @@ public class MinimalGridTest extends ApplicationAdapter {
 //                                0x808080FF |
                                         (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
                                                 * 0x01010100;
-                        gg.put(x, y, 0xCCBB33FE00000000L | Font.BLACK_OUTLINE | Font.YELLOW_OUTLINE | '$');
+                        gg.put(x, y, 0xCCBB33FE00000000L | '.');
                         break;
                     default:
                         gg.backgrounds[x][y] =
@@ -353,7 +353,7 @@ public class MinimalGridTest extends ApplicationAdapter {
 //                                0x808080FF |
                                 (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
                                         * 0x01010100;
-                        gg.put(x, y, 0xFF1133FE00000000L | Font.HALO | c);
+                        gg.put(x, y, 0xFF1133FE00000000L | c);
                 }
             }
         }
@@ -435,7 +435,10 @@ public class MinimalGridTest extends ApplicationAdapter {
     @Override
     public void render() {
 //        gg.font.glowStrength = 1f + MathUtils.sinDeg(TimeUtils.millis() >>> 1 & 0xFFFFFL) * 0.75f;
-        gg.font.boxDrawingBreadth = 1.5f + MathUtils.sinDeg(TimeUtils.millis() >>> 1 & 0xFFFFFL) * 0.75f;
+//        gg.font.boxDrawingBreadth = 1.5f + MathUtils.sinDeg(TimeUtils.millis() >>> 1 & 0xFFFFFL) * 0.5f;
+        gg.font.boxDrawingBreadth = 0.5f;
+//        gg.font.boxDrawingBreadth = 1.5f;
+//        gg.font.boxDrawingBreadth = 3f;
         processQueue();
         recolor();
         handleHeldKeys();
