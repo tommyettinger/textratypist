@@ -435,8 +435,8 @@ public class MinimalGridTest extends ApplicationAdapter {
     @Override
     public void render() {
 //        gg.font.glowStrength = 1f + MathUtils.sinDeg(TimeUtils.millis() >>> 1 & 0xFFFFFL) * 0.75f;
-//        gg.font.boxDrawingBreadth = 1.5f + MathUtils.sinDeg(TimeUtils.millis() >>> 1 & 0xFFFFFL) * 0.5f;
-        gg.font.boxDrawingBreadth = 0.5f;
+        gg.font.boxDrawingBreadth = 1.5f + MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f) * 0.75f;
+//        gg.font.boxDrawingBreadth = 0.5f;
 //        gg.font.boxDrawingBreadth = 1.5f;
 //        gg.font.boxDrawingBreadth = 3f;
         processQueue();
