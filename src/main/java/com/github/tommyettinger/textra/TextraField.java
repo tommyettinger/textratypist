@@ -1526,7 +1526,8 @@ public class TextraField extends Widget implements Disableable {
 						if (label.hasSelection())
 							cursor = delete(false);
 						String insertion = enter ? "\n" : String.valueOf(character);
-						insert(cursor++, insertion);
+						insert(cursor, insertion);
+						cursor += insertion.length();
 						text = label.layout.appendIntoDirect(new StringBuilder()).toString();
 					}
 					if (changeText(oldText, text)) {
@@ -1534,8 +1535,10 @@ public class TextraField extends Widget implements Disableable {
 						if (time - 750 > lastChangeTime) undoText = oldText;
 						lastChangeTime = time;
 						updateDisplayText();
-					} else if(!text.equals(oldText))
+					} else if(!text.equals(oldText)) {
+						// if this happens, the change was canceled
 						cursor = oldCursor;
+					}
 				}
 			}
 			if (listener != null) listener.keyTyped(TextraField.this, character);
