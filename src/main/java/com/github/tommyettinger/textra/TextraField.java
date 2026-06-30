@@ -643,7 +643,7 @@ public class TextraField extends Widget implements Disableable {
 			cursor = delete(fireChangeEvent);
 		if (fireChangeEvent) {
 			if (!changeText(cursor, buffer)) {
-				return;
+				buffer.setLength(0);
 			}
 		}
 		else {
