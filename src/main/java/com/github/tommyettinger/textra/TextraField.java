@@ -1527,7 +1527,6 @@ public class TextraField extends Widget implements Disableable {
 							cursor = delete(false);
 						String insertion = enter ? "\n" : String.valueOf(character);
 						insert(cursor, insertion);
-						cursor += insertion.length();
 						text = label.layout.appendIntoDirect(new StringBuilder()).toString();
 					}
 					if (changeText(oldText, text)) {
@@ -1535,6 +1534,7 @@ public class TextraField extends Widget implements Disableable {
 						if (time - 750 > lastChangeTime) undoText = oldText;
 						lastChangeTime = time;
 						updateDisplayText();
+						++cursor;
 					} else if(!text.equals(oldText)) {
 						// if this happens, the change was canceled
 						cursor = oldCursor;
