@@ -51,7 +51,7 @@ public class FieldTest extends ApplicationAdapter {
         stage = new Stage(viewport);
         stage.setDebugAll(true);
 
-        Font font = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic()).scaleHeightTo(32);
+        Font font = KnownFonts.addEmoji(KnownFonts.getDINishExpanded(Font.DistanceFieldType.SDF)).scaleHeightTo(32);
         String text = "Emoji: '🎉'";
         String longText =
                 "ABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxy";
@@ -79,8 +79,8 @@ public class FieldTest extends ApplicationAdapter {
         background.setMinHeight(1);
         background.setMinWidth(1);
         ttField = new TextraField(text,
-//skin
-                new Styles.TextFieldStyle(font, Color.WHITE.cpy(), skin.getDrawable("cursor"),
+//skin, font
+                new Styles.TextFieldStyle(font, Color.WHITE.cpy(), pipe,
                         selection, background)
         );
         ttField.setWidth(500);

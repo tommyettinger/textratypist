@@ -613,7 +613,7 @@ public final class Styles {
          *
          * @param font the non-null Font to use for text; will be copied
          * @param fontColor the color to tint the given Font by default
-         * @param cursor you probably want to use the predefined {@code skin.getDrawable("cursor")} for this
+         * @param cursor you can use a white pixel Drawable for this; set its min height to {@code font.cellHeight}
          * @param selection may be null, but is usually a solid block that will be stretched behind a selected area
          * @param background may be null; otherwise, drawn behind the widget as its background
          */
@@ -631,7 +631,7 @@ public final class Styles {
          * every time (copying information from the given BitmapFont), and it isn't easy to dispose the created Font.
          * @param font a BitmapFont that will be copied into a new Font
          * @param fontColor the color to tint the given BitmapFont
-         * @param cursor you probably want to use the predefined {@code skin.getDrawable("cursor")} for this
+         * @param cursor you can use a white pixel Drawable for this; set its min height to {@code font.cellHeight}
          * @param selection may be null, but is usually a solid block that will be stretched behind a selected area
          * @param background may be null; otherwise, drawn behind the widget as its background
          * @deprecated Create a Font from your BitmapFont once and pass that to constructors instead.
