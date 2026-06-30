@@ -641,10 +641,14 @@ public class TextraField extends Widget implements Disableable {
 
 		if (label.hasSelection())
 			cursor = delete(fireChangeEvent);
-		if (fireChangeEvent)
-			changeText(cursor, buffer);
-		else
+		if (fireChangeEvent) {
+			if (!changeText(cursor, buffer)) {
+				return;
+			}
+		}
+		else {
 			insert(cursor, buffer);
+		}
 		int bLen = buffer.length();
 		buffer.setLength(0);
 		text = label.layout.appendIntoDirect(buffer).toString();
