@@ -315,6 +315,8 @@ public final class KnownFonts implements LifecycleListener {
     /** Base name for a fixed-width Unicode-heavy sans font. */
     public static final String IOSEVKA = "Iosevka";
     /** Base name for a fixed-width Unicode-heavy slab-serif font. */
+    public static final String IOSEVKA_CHARON = "Iosevka-Charon";
+    /** Base name for a variable-width Unicode-heavy slightly-sci-fi font. */
     public static final String IOSEVKA_SLAB = "Iosevka-Slab";
     /** Base name for a fixed-width programmer-friendly font. */
     public static final String JETBRAINS_MONO = "JetBrains-Mono";
@@ -399,8 +401,8 @@ public final class KnownFonts implements LifecycleListener {
             DINISH, DINISH_LIGHT, DINISH_HEAVY, 
             DINISH_CONDENSED, DINISH_CONDENSED_LIGHT, DINISH_CONDENSED_HEAVY,
             DINISH_EXPANDED, DINISH_EXPANDED_LIGHT, DINISH_EXPANDED_HEAVY,
-            GENTIUM, GENTIUM_UN_ITALIC,
-            GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE, INCONSOLATA_LGC, IOSEVKA, IOSEVKA_SLAB,
+            GENTIUM, GENTIUM_UN_ITALIC, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE,
+            INCONSOLATA_LGC, IOSEVKA, IOSEVKA_CHARON, IOSEVKA_SLAB,
             JETBRAINS_MONO, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
             LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MAPLE_MONO, MOON_DANCE, NOW_ALT, NUGOTHIC, OPEN_SANS,
             OSTRICH_BLACK, OVERLOCK, OVERLOCK_UN_ITALIC, OXANIUM, PANGOLIN, PROTEST_REVOLUTION,
@@ -3299,6 +3301,66 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getIosevka(DistanceFieldType dft) {
         return getFont(IOSEVKA, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width slightly-sci-fi font, that should
+     * scale pretty well down, but not up. This supports a lot of Unicode, including Latin, Greek, and Cyrillic.
+     * Caches the result for later calls. The font used is Iosevka Charon, a free (OFL) typeface by
+     * <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.IOSEVKA_CHARON, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Charon-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Charon-standard.json.lzma">Iosevka-Charon-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Charon-standard.png">Iosevka-Charon-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Charon-License.txt">Iosevka-Charon-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Iosevka Charon
+     */
+    public static Font getIosevkaCharon() {
+        return getFont(IOSEVKA_CHARON, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width slightly-sci-fi font,
+     * using the given distance field type. This supports a lot of Unicode, including Latin, Greek, and Cyrillic.
+     * Caches the result for later calls. The font used is Iosevka Charon, a free (OFL) typeface by
+     * <a href="https://be5invis.github.io/Iosevka/">Belleve Invis</a>.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Iosevka-Charon-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Charon-standard.json.lzma">Iosevka-Charon-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Charon-standard.png">Iosevka-Charon-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Charon-License.txt">Iosevka-Charon-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Charon-msdf.json.lzma">Iosevka-Charon-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Charon-msdf.png">Iosevka-Charon-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Charon-License.txt">Iosevka-Charon-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Charon-sdf.json.lzma">Iosevka-Charon-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Charon-sdf.png">Iosevka-Charon-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Iosevka-Charon-License.txt">Iosevka-Charon-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Iosevka Charon using the given DistanceFieldType
+     */
+    public static Font getIosevkaCharon(DistanceFieldType dft) {
+        return getFont(IOSEVKA_CHARON, dft);
     }
 
     /**
