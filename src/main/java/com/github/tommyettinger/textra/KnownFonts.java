@@ -302,6 +302,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String GENTIUM = "Gentium";
     /** Base name for a variable-width Unicode-heavy "swashbuckling" serif font. */
     public static final String GENTIUM_UN_ITALIC = "Gentium-Un-Italic";
+    /** Base name for a variable-width, tall, rectangular font. */
+    public static final String GEO = "Geo";
     /** Base name for a variable-width geometric font. */
     public static final String GLACIAL_INDIFFERENCE = "Glacial-Indifference";
     /** Base name for a variable-width Unicode-heavy sans font. Uses a larger Texture, 4096x4096. */
@@ -405,7 +407,7 @@ public final class KnownFonts implements LifecycleListener {
             DINISH, DINISH_LIGHT, DINISH_HEAVY, 
             DINISH_CONDENSED, DINISH_CONDENSED_LIGHT, DINISH_CONDENSED_HEAVY,
             DINISH_EXPANDED, DINISH_EXPANDED_LIGHT, DINISH_EXPANDED_HEAVY,
-            GENTIUM, GENTIUM_UN_ITALIC, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE,
+            GENTIUM, GENTIUM_UN_ITALIC, GEO, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE,
             INCONSOLATA_LGC, INDIE_FLOWER, IOSEVKA, IOSEVKA_CHARON, IOSEVKA_SLAB,
             JETBRAINS_MONO, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
             LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MAPLE_MONO, MOON_DANCE, NOVA_MONO, NOW_ALT, NUGOTHIC, OPEN_SANS,
@@ -2743,6 +2745,64 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getGentiumUnItalic(DistanceFieldType dft) {
         return getFont(GENTIUM_UN_ITALIC, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, tall, rectangular font.
+     * Caches the result for later calls. The font used is Geo, a free (OFL) typeface designed by Ben Weiner.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
+     * well. This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GEO, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Geo-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Geo-standard.json.lzma">Geo-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Geo-standard.png">Geo-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Geo-License.txt">Geo-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Geo
+     */
+    public static Font getGeo() {
+        return getFont(GEO, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, tall, rectangular font.
+     * Uses the given distance field type. Caches the result for later calls.
+     * The font used is Geo, a free (OFL) typeface designed by Ben Weiner.
+     *
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Geo-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Geo-standard.json.lzma">Geo-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Geo-standard.png">Geo-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Geo-License.txt">Geo-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Geo-sdf.json.lzma">Geo-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Geo-sdf.png">Geo-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Geo-License.txt">Geo-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Geo-msdf.json.lzma">Geo-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Geo-msdf.png">Geo-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Geo-License.txt">Geo-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Geo using the given DistanceFieldType
+     */
+    public static Font getGeo(DistanceFieldType dft) {
+        return getFont(GEO, dft);
     }
 
     /**
