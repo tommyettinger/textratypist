@@ -338,6 +338,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String MA_SHAN_ZHENG = "Ma-Shan-Zheng";
     /** Base name for a fixed-width sans-serif font with support for many CJK glyphs (mostly at double width). */
     public static final String MAPLE_MONO = "Maple-Mono";
+    /** Base name for a variable-width, flowing, "groovy" display font. */
+    public static final String MOLLE = "Molle";
     /** Base name for a variable-width, sweeping, legible handwriting font. */
     public static final String MOON_DANCE = "Moon-Dance";
     /** Base name for a fixed-width capsule-shaped font. */
@@ -410,8 +412,8 @@ public final class KnownFonts implements LifecycleListener {
             GENTIUM, GENTIUM_UN_ITALIC, GEO, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE,
             INCONSOLATA_LGC, INDIE_FLOWER, IOSEVKA, IOSEVKA_CHARON, IOSEVKA_SLAB,
             JETBRAINS_MONO, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
-            LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MAPLE_MONO, MOON_DANCE, NOVA_MONO, NOW_ALT, NUGOTHIC, OPEN_SANS,
-            OSTRICH_BLACK, OVERLOCK, OVERLOCK_UN_ITALIC, OXANIUM, PANGOLIN, PROTEST_REVOLUTION,
+            LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MAPLE_MONO, MOLLE, MOON_DANCE, NOVA_MONO, NOW_ALT, NUGOTHIC,
+            OPEN_SANS, OSTRICH_BLACK, OVERLOCK, OVERLOCK_UN_ITALIC, OXANIUM, PANGOLIN, PROTEST_REVOLUTION,
             QUANTICO, ROBOTO_CONDENSED, SANCREEK, SELAWIK, SELAWIK_BOLD, SOUR_GUMMY, SPECIAL_ELITE, TANGERINE,
             TILLANA, YANONE_KAFFEESATZ, YATAGHAN);
 
@@ -4163,6 +4165,63 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getMapleMono(DistanceFieldType dft) {
         return getFont(MAPLE_MONO, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, flowing, "groovy" display font.
+     * Caches the result for later calls. The font used is Molle, a free (OFL) typeface designed by Sorkin Type Co.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
+     * well. This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.MOLLE, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Molle-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Molle-standard.json.lzma">Molle-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Molle-standard.png">Molle-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Molle-License.txt">Molle-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Molle
+     */
+    public static Font getMolle() {
+        return getFont(MOLLE, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width, flowing, "groovy" display font.
+     * Uses the given distance field type. Caches the result for later calls.
+     * The font used is Molle, a free (OFL) typeface designed by Sorkin Type Co.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Molle-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Molle-standard.json.lzma">Molle-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Molle-standard.png">Molle-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Molle-License.txt">Molle-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Molle-sdf.json.lzma">Molle-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Molle-sdf.png">Molle-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Molle-License.txt">Molle-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Molle-msdf.json.lzma">Molle-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Molle-msdf.png">Molle-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Molle-License.txt">Molle-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Molle using the given DistanceFieldType
+     */
+    public static Font getMolle(DistanceFieldType dft) {
+        return getFont(MOLLE, dft);
     }
 
     /**
