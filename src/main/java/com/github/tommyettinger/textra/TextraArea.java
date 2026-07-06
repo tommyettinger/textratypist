@@ -21,18 +21,76 @@ public class TextraArea extends Container<ScrollPane> {
      */
     public final InnerTextraArea inner;
 
+    /**
+     * Creates a TextraArea with the given initial text and skin to get styles from.
+     * Unlike {@link com.badlogic.gdx.scenes.scene2d.ui.TextArea} in scene2d.ui, this shows a scrollbar, so it needs a
+     * {@link ScrollPane.ScrollPaneStyle} given to style that scrollbar.
+     * <br>
+     * This gets a TextFieldStyle and a ScrollPaneStyle from skin. If a scene2d.ui TextFieldStyle is defined and an
+     * FWSkin (or subclass) reads in the Skin JSON file, this will be able to load the right TextFieldStyle from Styles
+     * in this package.
+     *
+     * @param text the initial text to hold in the TextraArea
+     * @param skin a scene2d.ui Skin, typically an {@link FWSkin} or one of its subclasses
+     */
     public TextraArea(@Null String text, Skin skin) {
         this(text, skin.get(Styles.TextFieldStyle.class), skin.get(ScrollPane.ScrollPaneStyle.class));
     }
 
+    /**
+     * Creates a TextraArea with the given initial text, skin to get styles from, and replacementFont.
+     * Unlike {@link com.badlogic.gdx.scenes.scene2d.ui.TextArea} in scene2d.ui, this shows a scrollbar, so it needs a
+     * {@link ScrollPane.ScrollPaneStyle} given to style that scrollbar.
+     * <br>
+     * Sets {@link Font#enableSquareBrackets} and {@link Font#omitCurlyBraces} each to false on
+     * {@code replacementFont}. This does not copy replacementFont; you can reuse an existing Font with those two
+     * fields set to false. Note that if you reuse a Font that is used in conjunction with markup, the modifications
+     * this makes to that Font will make that markup remain unparsed. You will typically want a different Font for
+     * your replacementFont used in TextraArea(s) than your Font(s) used elsewhere.
+     * <br>
+     * This gets a TextFieldStyle and a ScrollPaneStyle from skin. If a scene2d.ui TextFieldStyle is defined and an
+     * FWSkin (or subclass) reads in the Skin JSON file, this will be able to load the right TextFieldStyle from Styles
+     * in this package.
+     *
+     * @param text the initial text to hold in the TextraArea
+     * @param skin a scene2d.ui Skin, typically an {@link FWSkin} or one of its subclasses
+     * @param replacementFont a Font that will be modified in-place to diable brace/bracket markup parsing
+     */
     public TextraArea(@Null String text, Skin skin, Font replacementFont) {
         this(text, skin.get(Styles.TextFieldStyle.class), skin.get(ScrollPane.ScrollPaneStyle.class), replacementFont);
     }
 
+    /**
+     * Creates a TextraArea with the given initial text, skin to get styles from, and names of styles.
+     * Unlike {@link com.badlogic.gdx.scenes.scene2d.ui.TextArea} in scene2d.ui, this shows a scrollbar, so it needs a
+     * {@link ScrollPane.ScrollPaneStyle} given to style that scrollbar.
+     * <br>
+     * This gets a TextFieldStyle and a ScrollPaneStyle from skin. If a scene2d.ui TextFieldStyle is defined and an
+     * FWSkin (or subclass) reads in the Skin JSON file, this will be able to load the right TextFieldStyle from Styles
+     * in this package.
+     *
+     * @param text the initial text to hold in the TextraArea
+     * @param skin a scene2d.ui Skin, typically an {@link FWSkin} or one of its subclasses
+     * @param styleName the name of a TextFieldStyle in skin
+     * @param paneStyleName the name of a ScrollPaneStyle in skin
+     */
     public TextraArea(@Null String text, Skin skin, String styleName, String paneStyleName) {
         this(text, skin.get(styleName, Styles.TextFieldStyle.class), skin.get(paneStyleName, ScrollPane.ScrollPaneStyle.class));
     }
 
+    /**
+     * Creates an InnerTextraArea with the given initial text and styles.
+     * Unlike {@link com.badlogic.gdx.scenes.scene2d.ui.TextArea} in scene2d.ui, this shows a scrollbar, so it needs a
+     * {@link ScrollPane.ScrollPaneStyle} given to style that scrollbar.
+     * <br>
+     * This assumes the {@link Styles.TextFieldStyle#font} has not been modified; the constructor for TextFieldStyle
+     * copies any Font given to it so this can set {@link Font#enableSquareBrackets} and
+     * {@link Font#omitCurlyBraces} each to false on its copy without affecting other widget styles.
+     *
+     * @param text the initial text to hold in the TextraArea
+     * @param style a TextFieldStyle from {@link Styles}
+     * @param paneStyle a scene2d.ui ScrollPaneStyle
+     */
     public TextraArea(String text, Styles.TextFieldStyle style, ScrollPane.ScrollPaneStyle paneStyle) {
         super();
         inner = new InnerTextraArea(text, style);
@@ -43,6 +101,22 @@ public class TextraArea extends Container<ScrollPane> {
         super.setActor(scrollPane);
     }
 
+    /**
+     * Creates a TextraArea with the given initial text, styles, and replacementFont.
+     * Unlike {@link com.badlogic.gdx.scenes.scene2d.ui.TextArea} in scene2d.ui, this shows a scrollbar, so it needs a
+     * {@link ScrollPane.ScrollPaneStyle} given to style that scrollbar.
+     * <br>
+     * Sets {@link Font#enableSquareBrackets} and {@link Font#omitCurlyBraces} each to false on
+     * {@code replacementFont}. This does not copy replacementFont; you can reuse an existing Font with those two
+     * fields set to false. Note that if you reuse a Font that is used in conjunction with markup, the modifications
+     * this makes to that Font will make that markup remain unparsed. You will typically want a different Font for
+     * your replacementFont used in TextraArea(s) than your Font(s) used elsewhere.
+     *
+     * @param text the initial text to hold in the TextraArea
+     * @param style a TextFieldStyle from {@link Styles}
+     * @param paneStyle a {@link ScrollPane.ScrollPaneStyle} from scene2d.ui
+     * @param replacementFont a Font that will be modified in-place to diable brace/bracket markup parsing
+     */
     public TextraArea(String text, Styles.TextFieldStyle style, ScrollPane.ScrollPaneStyle paneStyle, Font replacementFont) {
         super();
         inner = new InnerTextraArea(text, style, replacementFont);
@@ -78,6 +152,19 @@ public class TextraArea extends Container<ScrollPane> {
             this(text, skin.get(Styles.TextFieldStyle.class));
         }
 
+        /**
+         * Creates an InnerTextraArea with the given initial text, skin to get a style from, and replacementFont.
+         * <br>
+         * Sets {@link Font#enableSquareBrackets} and {@link Font#omitCurlyBraces} each to false on
+         * {@code replacementFont}. This does not copy replacementFont; you can reuse an existing Font with those two
+         * fields set to false. Note that if you reuse a Font that is used in conjunction with markup, the modifications
+         * this makes to that Font will make that markup remain unparsed. You will typically want a different Font for
+         * your replacementFont used in TextraArea(s) than your Font(s) used elsewhere.
+         *
+         * @param text the initial text to hold in the TextraArea
+         * @param skin a scene2d.ui Skin, typically an {@link FWSkin} or one of its subclasses
+         * @param replacementFont a Font that will be modified in-place to diable brace/bracket markup parsing
+         */
         public InnerTextraArea(@Null String text, Skin skin, Font replacementFont) {
             this(text, skin.get(Styles.TextFieldStyle.class), replacementFont);
         }
@@ -86,6 +173,16 @@ public class TextraArea extends Container<ScrollPane> {
             this(text, skin.get(styleName, Styles.TextFieldStyle.class));
         }
 
+        /**
+         * Creates an InnerTextraArea with the given initial text, style, and replacementFont.
+         * <br>
+         * This assumes the {@link Styles.TextFieldStyle#font} has not been modified; the constructor for TextFieldStyle
+         * copies any Font given to it so this can set {@link Font#enableSquareBrackets} and
+         * {@link Font#omitCurlyBraces} each to false on its copy without affecting other widget styles.
+         *
+         * @param text the initial text to hold in the TextraArea
+         * @param style a TextFieldStyle from {@link Styles}
+         */
         public InnerTextraArea(@Null String text, Styles.TextFieldStyle style) {
             super();
             Styles.TextFieldStyle s = new Styles.TextFieldStyle(style);
@@ -107,10 +204,22 @@ public class TextraArea extends Container<ScrollPane> {
             updateDisplayText();
         }
 
+        /**
+         * Creates an InnerTextraArea with the given initial text, style, and replacementFont.
+         * <br>
+         * Sets {@link Font#enableSquareBrackets} and {@link Font#omitCurlyBraces} each to false on
+         * {@code replacementFont}. This does not copy replacementFont; you can reuse an existing Font with those two
+         * fields set to false. Note that if you reuse a Font that is used in conjunction with markup, the modifications
+         * this makes to that Font will make that markup remain unparsed. You will typically want a different Font for
+         * your replacementFont used in TextraArea(s) than your Font(s) used elsewhere.
+         *
+         * @param text the initial text to hold in the TextraArea
+         * @param style a TextFieldStyle from {@link Styles}
+         * @param replacementFont a Font that will be modified in-place to diable brace/bracket markup parsing
+         */
         public InnerTextraArea(@Null String text, Styles.TextFieldStyle style, Font replacementFont) {
             super();
             setStyle(style);
-            replacementFont = new Font(replacementFont);
             replacementFont.enableSquareBrackets = false;
             replacementFont.omitCurlyBraces = false;
             label = new TypingLabel("", new Styles.LabelStyle(replacementFont, style.fontColor));
