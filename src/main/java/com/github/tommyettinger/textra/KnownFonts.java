@@ -352,6 +352,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String PANGOLIN = "Pangolin";
     /** Base name for a variable-width brush-stroke font with a paint-like texture. */
     public static final String PROTEST_REVOLUTION = "Protest-Revolution";
+    /** Base name for a variable-width sharply-angled octagonal font. */
+    public static final String QUANTICO = "Quantico";
     /** Base name for a variable-width narrow sans font. */
     public static final String ROBOTO_CONDENSED = "Roboto-Condensed";
     /** Base name for a variable-width "Wild West" display font. */
@@ -402,7 +404,7 @@ public final class KnownFonts implements LifecycleListener {
             JETBRAINS_MONO, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
             LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MAPLE_MONO, MOON_DANCE, NOW_ALT, NUGOTHIC, OPEN_SANS,
             OSTRICH_BLACK, OVERLOCK, OVERLOCK_UN_ITALIC, OXANIUM, PANGOLIN, PROTEST_REVOLUTION,
-            ROBOTO_CONDENSED, SANCREEK, SELAWIK, SELAWIK_BOLD, SOUR_GUMMY, SPECIAL_ELITE, TANGERINE,
+            QUANTICO, ROBOTO_CONDENSED, SANCREEK, SELAWIK, SELAWIK_BOLD, SOUR_GUMMY, SPECIAL_ELITE, TANGERINE,
             TILLANA, YANONE_KAFFEESATZ, YATAGHAN);
 
     public static final OrderedSet<String> FNT_NAMES = OrderedSet.with(COZETTE, HANAZONO, LANAPIXEL,
@@ -4709,6 +4711,64 @@ public final class KnownFonts implements LifecycleListener {
             instance.loaded.put(rootName, found);
         }
         return new Font(found);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width angular octagonal sans-serif font, that should
+     * scale pretty well down, but not up. This supports ASCII and some extended Latin.
+     * Caches the result for later calls. The font used is Quantico, a free (OFL) typeface by Matthew Desmond.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.QUANTICO, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Quantico-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Quantico-standard.json.lzma">Quantico-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Quantico-standard.png">Quantico-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Quantico-License.txt">Quantico-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Quantico
+     */
+    public static Font getQuantico() {
+        return getFont(QUANTICO, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width angular octagonal sans-serif font
+     * using the given distance field type. This supports ASCII and some extended Latin.
+     * Caches the result for later calls. The font used is Quantico, a free (OFL) typeface by Matthew Desmond.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Quantico-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Quantico-standard.json.lzma">Quantico-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Quantico-standard.png">Quantico-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Quantico-License.txt">Quantico-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Quantico-msdf.json.lzma">Quantico-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Quantico-msdf.png">Quantico-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Quantico-License.txt">Quantico-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Quantico-sdf.json.lzma">Quantico-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Quantico-sdf.png">Quantico-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Quantico-License.txt">Quantico-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Quantico using the given DistanceFieldType
+     */
+    public static Font getQuantico(DistanceFieldType dft) {
+        return getFont(QUANTICO, dft);
     }
 
     /**
