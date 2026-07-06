@@ -330,14 +330,16 @@ public final class KnownFonts implements LifecycleListener {
     public static final String LIBERTINUS_SERIF = "Libertinus-Serif";
     /** Base name for a variable-width heavy-weight serif font. */
     public static final String LIBERTINUS_SERIF_SEMIBOLD = "Libertinus-Serif-Semibold";
-    /** Base name for a variable-width geometric font. */
-    public static final String NOW_ALT = "Now-Alt";
     /** Base name for a variable-width brush-stroke font with support for many CJK glyphs. */
     public static final String MA_SHAN_ZHENG = "Ma-Shan-Zheng";
     /** Base name for a fixed-width sans-serif font with support for many CJK glyphs (mostly at double width). */
     public static final String MAPLE_MONO = "Maple-Mono";
     /** Base name for a variable-width, sweeping, legible handwriting font. */
     public static final String MOON_DANCE = "Moon-Dance";
+    /** Base name for a fixed-width capsule-shaped font. */
+    public static final String NOVA_MONO = "Nova-Mono";
+    /** Base name for a variable-width geometric font. */
+    public static final String NOW_ALT = "Now-Alt";
     /** Base name for a variable-width, legible, modern-style Fraktur font. */
     public static final String NUGOTHIC = "Nugothic";
     /** Base name for a variable-width sans font. */
@@ -404,7 +406,7 @@ public final class KnownFonts implements LifecycleListener {
             GENTIUM, GENTIUM_UN_ITALIC, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE,
             INCONSOLATA_LGC, IOSEVKA, IOSEVKA_CHARON, IOSEVKA_SLAB,
             JETBRAINS_MONO, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
-            LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MAPLE_MONO, MOON_DANCE, NOW_ALT, NUGOTHIC, OPEN_SANS,
+            LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MAPLE_MONO, MOON_DANCE, NOVA_MONO, NOW_ALT, NUGOTHIC, OPEN_SANS,
             OSTRICH_BLACK, OVERLOCK, OVERLOCK_UN_ITALIC, OXANIUM, PANGOLIN, PROTEST_REVOLUTION,
             QUANTICO, ROBOTO_CONDENSED, SANCREEK, SELAWIK, SELAWIK_BOLD, SOUR_GUMMY, SPECIAL_ELITE, TANGERINE,
             TILLANA, YANONE_KAFFEESATZ, YATAGHAN);
@@ -4184,6 +4186,65 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getMoonDance(DistanceFieldType dft) {
         return getFont(MOON_DANCE, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a capsule-shaped, fixed-width font, that should scale
+     * well from a height of about 80 pixels to about 15 pixels. Caches the result for later calls.
+     * The font used is Nova Mono, an open-source (OFL License) typeface by wmk69.
+     * It supports (extended) Latin, and Greek scripts, as well as many math and technical symbols.
+     * This uses a fairly-large standard bitmap font.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.NOVA_MONO, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Nova-Mono-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nova-Mono-standard.json.lzma">Nova-Mono-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nova-Mono-standard.png">Nova-Mono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nova-Mono-License.txt">Nova-Mono-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Nova Mono
+     */
+    public static Font getNovaMono() {
+        return getFont(NOVA_MONO, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a capsule-shaped, fixed-width font.
+     * Uses the given distance field type. Caches the result for later calls.
+     * The font used is Nova Mono, an open-source (OFL License) typeface by wmk69.
+     * It supports (extended) Latin, and Greek scripts, as well as many math and technical symbols.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Nova-Mono-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nova-Mono-standard.json.lzma">Nova-Mono-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nova-Mono-standard.png">Nova-Mono-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nova-Mono-License.txt">Nova-Mono-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nova-Mono-sdf.json.lzma">Nova-Mono-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nova-Mono-sdf.png">Nova-Mono-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nova-Mono-License.txt">Nova-Mono-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nova-Mono-msdf.json.lzma">Nova-Mono-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nova-Mono-msdf.png">Nova-Mono-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Nova-Mono-License.txt">Nova-Mono-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Nova Mono using the given DistanceFieldType
+     */
+    public static Font getNovaMono(DistanceFieldType dft) {
+        return getFont(NOVA_MONO, dft);
     }
 
     /**
