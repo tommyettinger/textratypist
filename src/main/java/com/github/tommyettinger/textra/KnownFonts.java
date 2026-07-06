@@ -312,6 +312,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String IBM_8X16 = "IBM-8x16";
     /** Base name for a fixed-width geometric/programming font. */
     public static final String INCONSOLATA_LGC = "Inconsolata-LGC";
+    /** Base name for a variable-width natural handwriting font. */
+    public static final String INDIE_FLOWER = "Indie-Flower";
     /** Base name for a fixed-width Unicode-heavy sans font. */
     public static final String IOSEVKA = "Iosevka";
     /** Base name for a fixed-width Unicode-heavy slab-serif font. */
@@ -404,7 +406,7 @@ public final class KnownFonts implements LifecycleListener {
             DINISH_CONDENSED, DINISH_CONDENSED_LIGHT, DINISH_CONDENSED_HEAVY,
             DINISH_EXPANDED, DINISH_EXPANDED_LIGHT, DINISH_EXPANDED_HEAVY,
             GENTIUM, GENTIUM_UN_ITALIC, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE,
-            INCONSOLATA_LGC, IOSEVKA, IOSEVKA_CHARON, IOSEVKA_SLAB,
+            INCONSOLATA_LGC, INDIE_FLOWER, IOSEVKA, IOSEVKA_CHARON, IOSEVKA_SLAB,
             JETBRAINS_MONO, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
             LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MAPLE_MONO, MOON_DANCE, NOVA_MONO, NOW_ALT, NUGOTHIC, OPEN_SANS,
             OSTRICH_BLACK, OVERLOCK, OVERLOCK_UN_ITALIC, OXANIUM, PANGOLIN, PROTEST_REVOLUTION,
@@ -3183,6 +3185,67 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getInconsolata(DistanceFieldType dft) {
         return getFont(INCONSOLATA_LGC, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width "natural" handwriting font, that
+     * should scale pretty well from a height of about 100 down to a height of maybe 16.
+     * This font covers ASCII and a good amount of Latin used by European languages.
+     * Caches the result for later calls.
+     * The font used is Indie Flower, an OFL typeface by Kimberly Geswein.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.INDIE_FLOWER, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Indie-Flower-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Indie-Flower-standard.json.lzma">Indie-Flower-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Indie-Flower-standard.png">Indie-Flower-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Indie-Flower-License.txt">Indie-Flower-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Indie Flower
+     */
+    public static Font getIndieFlower() {
+        return getFont(INDIE_FLOWER, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width "natural" handwriting font.
+     * This font covers ASCII and a good amount of Latin used by European languages.
+     * Uses the given distance field type. Caches the result for later calls.
+     * The font used is Indie Flower, an OFL typeface by Kimberly Geswein.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Indie-Flower-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Indie-Flower-standard.json.lzma">Indie-Flower-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Indie-Flower-standard.png">Indie-Flower-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Indie-Flower-License.txt">Indie-Flower-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Indie-Flower-sdf.json.lzma">Indie-Flower-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Indie-Flower-sdf.png">Indie-Flower-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Indie-Flower-License.txt">Indie-Flower-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Indie-Flower-msdf.json.lzma">Indie-Flower-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Indie-Flower-msdf.png">Indie-Flower-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Indie-Flower-License.txt">Indie-Flower-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Indie Flower using the given DistanceFieldType
+     */
+    public static Font getIndieFlower(DistanceFieldType dft) {
+        return getFont(INDIE_FLOWER, dft);
     }
 
     /**
