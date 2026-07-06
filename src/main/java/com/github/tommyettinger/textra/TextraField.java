@@ -155,18 +155,67 @@ public class TextraField extends Widget implements Disableable {
 	 */
 	protected TextraField() {
 	}
+
+	/**
+	 * Creates a TextraField with the given initial text and skin to get a style from.
+	 * <br>
+	 * This gets a TextFieldStyle from skin. If a scene2d.ui TextFieldStyle is defined and an
+	 * FWSkin (or subclass) reads in the Skin JSON file, this will be able to load the right TextFieldStyle from Styles
+	 * in this package.
+	 *
+	 * @param text the initial text to hold in the TextraField
+	 * @param skin a scene2d.ui Skin, typically an {@link FWSkin} or a subclass
+	 */
 	public TextraField(@Null String text, Skin skin) {
 		this(text, skin.get(TextFieldStyle.class));
 	}
 
+	/**
+	 * Creates a TextraField with the given initial text, skin to get a style from, and replacementFont.
+	 * <br>
+	 * Sets {@link Font#enableSquareBrackets} and {@link Font#omitCurlyBraces} each to false on
+	 * {@code replacementFont}. This does not copy replacementFont; you can reuse an existing Font with those two
+	 * fields set to false. Note that if you reuse a Font that is used in conjunction with markup, the modifications
+	 * this makes to that Font will make that markup remain unparsed. You will typically want a different Font for
+	 * your replacementFont used in TextraField(s) than your Font(s) used elsewhere.
+	 * <br>
+	 * This gets a TextFieldStyle from skin. If a scene2d.ui TextFieldStyle is defined and an
+	 * FWSkin (or subclass) reads in the Skin JSON file, this will be able to load the right TextFieldStyle from Styles
+	 * in this package.
+	 *
+	 * @param text the initial text to hold in the TextraField
+	 * @param skin a scene2d.ui Skin, typically an {@link FWSkin} or one of its subclasses
+	 * @param replacementFont a Font that will be modified in-place to diable brace/bracket markup parsing
+	 */
 	public TextraField(@Null String text, Skin skin, Font replacementFont) {
 		this(text, skin.get(TextFieldStyle.class), replacementFont);
 	}
 
+	/**
+	 * Creates a TextraField with the given initial text, skin, and style name.
+	 * <br>
+	 * This gets a TextFieldStyle from skin. If a scene2d.ui TextFieldStyle is defined and an
+	 * FWSkin (or subclass) reads in the Skin JSON file, this will be able to load the right TextFieldStyle from Styles
+	 * in this package.
+	 *
+	 * @param text the initial text to hold in the TextraField
+	 * @param skin a scene2d.ui Skin, typically an {@link FWSkin} or a subclass
+	 * @param styleName the name of a TextFieldStyle to get from skin
+	 */
 	public TextraField(@Null String text, Skin skin, String styleName) {
 		this(text, skin.get(styleName, TextFieldStyle.class));
 	}
 
+	/**
+	 * Creates a TextraField with the given initial text and style.
+	 * <br>
+	 * This assumes the {@link Styles.TextFieldStyle#font} has not been modified; the constructor for TextFieldStyle
+	 * copies any Font given to it so this can set {@link Font#enableSquareBrackets} and
+	 * {@link Font#omitCurlyBraces} each to false on its copy without affecting other widget styles.
+	 *
+	 * @param text the initial text to hold in the TextraField
+	 * @param style a TextFieldStyle from {@link Styles}
+	 */
 	public TextraField(@Null String text, TextFieldStyle style) {
 		Styles.TextFieldStyle s = new Styles.TextFieldStyle(style);
 //        s.font = new Font(style.font); // already done by TextFieldStyle constructor
@@ -189,9 +238,21 @@ public class TextraField extends Widget implements Disableable {
 		updateDisplayText();
 	}
 
+	/**
+	 * Creates a TextraField with the given initial text, style, and replacementFont.
+	 * <br>
+	 * Sets {@link Font#enableSquareBrackets} and {@link Font#omitCurlyBraces} each to false on
+	 * {@code replacementFont}. This does not copy replacementFont; you can reuse an existing Font with those two
+	 * fields set to false. Note that if you reuse a Font that is used in conjunction with markup, the modifications
+	 * this makes to that Font will make that markup remain unparsed. You will typically want a different Font for
+	 * your replacementFont used in TextraField(s) than your Font(s) used elsewhere.
+	 *
+	 * @param text the initial text to hold in the TextraField
+	 * @param style a TextFieldStyle from {@link Styles}
+	 * @param replacementFont a Font that will be modified in-place to diable brace/bracket markup parsing
+	 */
 	public TextraField(@Null String text, TextFieldStyle style, Font replacementFont) {
 		setStyle(style);
-		replacementFont = new Font(replacementFont);
 		replacementFont.enableSquareBrackets = false;
 		replacementFont.omitCurlyBraces = false;
 		label = new TypingLabel("", new Styles.LabelStyle(replacementFont, style.fontColor));
@@ -206,14 +267,6 @@ public class TextraField extends Widget implements Disableable {
 		label.setSize(getPrefWidth(), getPrefHeight());
 		label.skipToTheEnd(true, true);
 		updateDisplayText();
-	}
-
-	protected void setSuperStage(Stage stage){
-		super.setStage(stage);
-	}
-
-	protected void setSuperParent(Group parent){
-		super.setParent(parent);
 	}
 
 	@Override
