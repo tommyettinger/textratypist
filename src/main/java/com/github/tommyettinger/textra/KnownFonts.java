@@ -262,6 +262,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String CAVEAT = "Caveat";
     /** Base name for a variable-width extra-heavy-weight "attention-getting" font. */
     public static final String CHANGA_ONE = "Changa-One";
+    /** Base name for a variable-width small-caps classical-era font. */
+    public static final String CINZEL = "Cinzel";
     /** Base name for a fixed-width dyslexia-friendly handwriting-like font. */
     public static final String COMIC_MONO = "Comic-Mono";
     /** Base name for a fixed-width octagonal font, possibly usable as "college-style" lettering. */
@@ -403,7 +405,7 @@ public final class KnownFonts implements LifecycleListener {
 
     public static final OrderedSet<String> JSON_NAMES = OrderedSet.with(
             A_STARRY, ABYSSINICA_SIL, ASUL, AUBREY, BIRDLAND_AEROPLANE, BITTER,
-            BONHEUR_ROYALE, CANADA1500, CASCADIA_MONO, CAVEAT, CHANGA_ONE,
+            BONHEUR_ROYALE, CANADA1500, CASCADIA_MONO, CAVEAT, CHANGA_ONE, CINZEL,
             COMIC_MONO, COMPUTER_SAYS_NO, CRETE_ROUND, DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO,
             DEJAVU_SANS, DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF, 
             DINISH, DINISH_LIGHT, DINISH_HEAVY, 
@@ -1376,6 +1378,68 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getChangaOne(DistanceFieldType dft) {
         return getFont(CHANGA_ONE, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width classical-era small-caps font, that
+     * should scale pretty well from a height of about 160 down to a height of maybe 20.
+     * This font covers only Western European languages. Caches the result for later calls.
+     * The font used is Cinzel, an OFL-licensed typeface by
+     * <a href="https://github.com/NDISCOVER/Cinzel">The Cinzel Project</a>.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.CINZEL, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cinzel-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cinzel-standard.json.lzma">Cinzel-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cinzel-standard.png">Cinzel-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cinzel-License.txt">Cinzel-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Cinzel
+     */
+    public static Font getCinzel() {
+        return getFont(CINZEL, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width classical-era small-caps font.
+     * Uses the given distance field type.
+     * This font covers only Western European languages. Caches the result for later calls.
+     * The font used is Cinzel, an OFL-licensed typeface by
+     * <a href="https://github.com/NDISCOVER/Cinzel">The Cinzel Project</a>.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Cinzel-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cinzel-standard.json.lzma">Cinzel-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cinzel-standard.png">Cinzel-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cinzel-License.txt">Cinzel-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cinzel-sdf.json.lzma">Cinzel-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cinzel-sdf.png">Cinzel-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cinzel-License.txt">Cinzel-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cinzel-msdf.json.lzma">Cinzel-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cinzel-msdf.png">Cinzel-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Cinzel-License.txt">Cinzel-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Cinzel using the given DistanceFieldType
+     */
+    public static Font getCinzel(DistanceFieldType dft) {
+        return getFont(CINZEL, dft);
     }
 
     /**
