@@ -268,6 +268,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String COMIC_MONO = "Comic-Mono";
     /** Base name for a fixed-width octagonal font, possibly usable as "college-style" lettering. */
     public static final String COMPUTER_SAYS_NO = "Computer-Says-No";
+    /** Base name for a fixed-width "plain" typewriter font. */
+    public static final String COURIER_PRIME = "Courier-Prime";
     /** Base name for a fixed-width, tall, thin pixel font. */
     public static final String CORDATA_16X26 = "Cordata-16x26";
     /** Base name for a variable-width, sturdy, slab-serif font with slightly rounded corners. */
@@ -408,8 +410,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final OrderedSet<String> JSON_NAMES = OrderedSet.with(
             A_STARRY, ABYSSINICA_SIL, ASUL, AUBREY, BIRDLAND_AEROPLANE, BITTER,
             BONHEUR_ROYALE, CANADA1500, CASCADIA_MONO, CAVEAT, CHANGA_ONE, CINZEL,
-            COMIC_MONO, COMPUTER_SAYS_NO, CRETE_ROUND, DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO,
-            DEJAVU_SANS, DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF, 
+            COMIC_MONO, COMPUTER_SAYS_NO, COURIER_PRIME, CRETE_ROUND,
+            DEJAVU_SANS_CONDENSED, DEJAVU_SANS_MONO, DEJAVU_SANS, DEJAVU_SERIF_CONDENSED, DEJAVU_SERIF,
             DINISH, DINISH_LIGHT, DINISH_HEAVY, 
             DINISH_CONDENSED, DINISH_CONDENSED_LIGHT, DINISH_CONDENSED_HEAVY,
             DINISH_EXPANDED, DINISH_EXPANDED_LIGHT, DINISH_EXPANDED_HEAVY,
@@ -1611,6 +1613,70 @@ public final class KnownFonts implements LifecycleListener {
         }
         return new Font(known).setName(baseName + dft.namePart).setDistanceField(dft);
     }
+    
+    /**
+     * Returns a Font already configured to use a fixed-width, "plain" typewriter font, that should scale
+     * pretty well from a height of about 160 down to a height of maybe 20. This font covers ASCII and enough Latin
+     * script for most Western and Eastern European languages. Caches the result for later calls.
+     * The font used is Courier Prime, an OFL typeface by
+     * <a href="https://github.com/quoteunquoteapps/CourierPrime">The Courier Prime Project</a>.
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.COURIER_PRIME, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Courier-Prime-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Courier-Prime-standard.json.lzma">Courier-Prime-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Courier-Prime-standard.png">Courier-Prime-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Courier-Prime-License.txt">Courier-Prime-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Courier Prime
+     */
+    public static Font getCourierPrime() {
+        return getFont(COURIER_PRIME, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a fixed-width, "plain" typewriter font.
+     * Uses the given distance field type.
+     * This font covers ASCII and enough Latin
+     * script for most Western and Eastern European languages. Caches the result for later calls.
+     * The font used is Courier Prime, an OFL typeface by
+     * <a href="https://github.com/quoteunquoteapps/CourierPrime">The Courier Prime Project</a>.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Courier-Prime-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Courier-Prime-standard.json.lzma">Courier-Prime-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Courier-Prime-standard.png">Courier-Prime-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Courier-Prime-License.txt">Courier-Prime-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Courier-Prime-sdf.json.lzma">Courier-Prime-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Courier-Prime-sdf.png">Courier-Prime-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Courier-Prime-License.txt">Courier-Prime-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Courier-Prime-msdf.json.lzma">Courier-Prime-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Courier-Prime-msdf.png">Courier-Prime-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Courier-Prime-License.txt">Courier-Prime-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Courier Prime using the given DistanceFieldType
+     */
+    public static Font getCourierPrime(DistanceFieldType dft) {
+        return getFont(COURIER_PRIME, dft);
+    }
+
     /**
      * Returns a Font configured to use a cozy fixed-width bitmap font,
      * <a href="https://github.com/slavfox/Cozette">Cozette by slavfox</a>. Cozette has broad coverage of Unicode,
