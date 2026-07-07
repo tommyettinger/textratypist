@@ -326,6 +326,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String IOSEVKA_SLAB = "Iosevka-Slab";
     /** Base name for a fixed-width programmer-friendly font. */
     public static final String JETBRAINS_MONO = "JetBrains-Mono";
+    /** Base name for a variable-width calligraphic font with flourishes. */
+    public static final String JIM_NIGHTSHADE = "Jim-Nightshade";
     /** Base name for a variable-width ornate medieval font. */
     public static final String KINGTHINGS_FOUNDATION = "Kingthings-Foundation";
     /** Base name for a variable-width legible medieval font. */
@@ -412,8 +414,8 @@ public final class KnownFonts implements LifecycleListener {
             DINISH_CONDENSED, DINISH_CONDENSED_LIGHT, DINISH_CONDENSED_HEAVY,
             DINISH_EXPANDED, DINISH_EXPANDED_LIGHT, DINISH_EXPANDED_HEAVY,
             GENTIUM, GENTIUM_UN_ITALIC, GEO, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE,
-            INCONSOLATA_LGC, INDIE_FLOWER, IOSEVKA, IOSEVKA_CHARON, IOSEVKA_SLAB,
-            JETBRAINS_MONO, KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
+            INCONSOLATA_LGC, INDIE_FLOWER, IOSEVKA, IOSEVKA_CHARON, IOSEVKA_SLAB, JETBRAINS_MONO, JIM_NIGHTSHADE,
+            KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
             LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MAPLE_MONO, MOLLE, MOON_DANCE, NOVA_MONO, NOW_ALT, NUGOTHIC,
             OPEN_SANS, OSTRICH_BLACK, OVERLOCK, OVERLOCK_UN_ITALIC, OXANIUM, PANGOLIN, PROTEST_REVOLUTION,
             QUANTICO, ROBOTO_CONDENSED, SANCREEK, SELAWIK, SELAWIK_BOLD, SOUR_GUMMY, SPECIAL_ELITE, TANGERINE,
@@ -3735,6 +3737,67 @@ public final class KnownFonts implements LifecycleListener {
      */
     public static Font getJetBrainsMono(DistanceFieldType dft) {
         return getFont(JETBRAINS_MONO, dft);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width calligraphic font with flourishes, that
+     * should scale pretty well from a height of about 100 down to a height of maybe 16.
+     * This font covers ASCII and a good amount of Latin used by European languages.
+     * Caches the result for later calls.
+     * The font used is Jim Nightshade, an OFL typeface by Brian J. Bonislawsky DBA Astigmatic (AOETI).
+     * This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very well.
+     * This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.JIM_NIGHTSHADE, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Jim-Nightshade-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Jim-Nightshade-standard.json.lzma">Jim-Nightshade-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Jim-Nightshade-standard.png">Jim-Nightshade-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Jim-Nightshade-License.txt">Jim-Nightshade-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Jim Nightshade
+     */
+    public static Font getJimNightshade() {
+        return getFont(JIM_NIGHTSHADE, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width calligraphic font with flourishes.
+     * This font covers ASCII and a good amount of Latin used by European languages.
+     * Uses the given distance field type. Caches the result for later calls.
+     * The font used is Jim Nightshade, an OFL typeface by Brian J. Bonislawsky DBA Astigmatic (AOETI).
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Jim-Nightshade-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Jim-Nightshade-standard.json.lzma">Jim-Nightshade-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Jim-Nightshade-standard.png">Jim-Nightshade-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Jim-Nightshade-License.txt">Jim-Nightshade-License.txt</a></li>
+     * </ul>
+     * <br>or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Jim-Nightshade-sdf.json.lzma">Jim-Nightshade-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Jim-Nightshade-sdf.png">Jim-Nightshade-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Jim-Nightshade-License.txt">Jim-Nightshade-License.txt</a></li>
+     * </ul>
+     * <br>or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Jim-Nightshade-msdf.json.lzma">Jim-Nightshade-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Jim-Nightshade-msdf.png">Jim-Nightshade-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Jim-Nightshade-License.txt">Jim-Nightshade-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Jim Nightshade using the given DistanceFieldType
+     */
+    public static Font getJimNightshade(DistanceFieldType dft) {
+        return getFont(JIM_NIGHTSHADE, dft);
     }
 
     /**

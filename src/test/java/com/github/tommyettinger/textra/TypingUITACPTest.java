@@ -72,11 +72,11 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.STANDARD).family;
+		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.SDF).family;
 		family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.STANDARD)
+				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.SDF)
 						.scaleTo(30, 35);
-		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.STANDARD);
+		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF);
 		font = family.connected[0];
 		font.family = family;
 		for(Font f : font.family.connected) {
