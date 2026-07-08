@@ -340,12 +340,10 @@ public class TypingLabel extends TextraLabel {
         if (wrap) {
             workingLayout.setTargetWidth(getWidth());
             font.markup(newText, workingLayout.clear().setJustification(defaultJustify));
-            font.regenerateLayout(workingLayout);
             font.calculateSize(workingLayout);
         } else {
             workingLayout.setTargetWidth(Float.MAX_VALUE);
             font.markup(newText, workingLayout.clear().setJustification(defaultJustify));
-            font.regenerateLayout(workingLayout);
             workingLayout.setTargetWidth(font.calculateSize(workingLayout));
             setSuperWidth(workingLayout.getWidth() + (style != null && style.background != null ?
                     style.background.getLeftWidth() + style.background.getRightWidth() : 0.0f));
