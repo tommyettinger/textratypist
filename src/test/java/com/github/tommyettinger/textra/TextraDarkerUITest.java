@@ -27,6 +27,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -35,6 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class TextraDarkerUITest extends InputAdapter implements ApplicationListener {
@@ -122,7 +124,7 @@ public class TextraDarkerUITest extends InputAdapter implements ApplicationListe
         rightSideTable.add(minSizeLabel).growX().row();
         rightSideTable.add(scrollPane2).grow();
         SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-        fpsLabel = new TextraLabel("fps:", skin);
+        fpsLabel = new TextraLabel("fps: 0    [^][SKY][[citation needed]", skin);
         fpsLabel.setAlignment(Align.left);
         // configures an example of a TextField in password mode.
         final TextraLabel passwordLabel = new TextraLabel("Textfield in secure password mode: ", skin);
@@ -201,7 +203,14 @@ public class TextraDarkerUITest extends InputAdapter implements ApplicationListe
     public void render () {
 //		profiler.reset();
         ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
-        fpsLabel.getFont().markup("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]", fpsLabel.layout.clear());
+        String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
+        int i;
+        for (i = 0; i < s.length() && i < 5; i++) {
+            fpsLabel.layout.getLine(0).glyphs.set(5+i, s.charAt(i) | 0xFFFFFFFF00000000L);
+        }
+        for (; i < 5; i++) {
+            fpsLabel.layout.getLine(0).glyphs.set(5+i, 0L);
+        }
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();

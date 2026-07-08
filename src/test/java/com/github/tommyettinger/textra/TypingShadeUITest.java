@@ -146,7 +146,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 		passwordTextField.setPasswordMode(true);
 
 		// window.debug();
-		TextraWindow window = new TextraWindow("TextraDialog", skin, title, true);
+		TypingWindow window = new TypingWindow("TextraDialog", skin, title, true);
 		window.getTitleTable().add(new TextraButton("X", skin, window.titleLabel.font)).height(window.getPadTop());
 		window.setPosition(0, 0);
 		window.defaults().spaceBottom(10);
