@@ -6528,6 +6528,7 @@ public class Font implements Disposable {
                         if (later == null) {
                             if(handleEllipsis(appendTo)) {
 //                            justify(appendTo);
+                                if(targetWidth != 0f) regenerateLayout(appendTo);
                                 return appendTo;
                             }
                         } else {
@@ -6776,6 +6777,7 @@ public class Font implements Disposable {
                     if (later == null) {
                         if(handleEllipsis(appendTo)) {
 //                            justify(appendTo);
+                            if(targetWidth != 0f) regenerateLayout(appendTo);
                             return appendTo;
                         }
                     } else {
@@ -7004,6 +7006,7 @@ public class Font implements Disposable {
             }
         }
 //        justify(appendTo);
+        if(targetWidth != 0f) regenerateLayout(appendTo);
         return appendTo;
     }
 

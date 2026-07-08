@@ -353,7 +353,7 @@ public class MinimalGridTest extends ApplicationAdapter {
 //                                0x808080FF |
                                 (int)((y + ((x + y) * (x + y + 1) >> 1)) * 0x9E3779B97F4A7C15L >>> 57)
                                         * 0x01010100;
-                        gg.put(x, y, 0xFF1133FE00000000L | c);
+                        gg.put(x, y, 0xFF1133FE00000000L | Font.NEON | c);
                 }
             }
         }
