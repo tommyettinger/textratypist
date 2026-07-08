@@ -68,11 +68,11 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-		final Font.FontFamily family = KnownFonts.getStandardFamily().family;
+		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.SDF).family;
 		family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz()
+				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.SDF)
 				.scaleHeightTo(32);
-		family.connected[0] = KnownFonts.getNowAlt().scaleHeightTo(30);
+		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF).scaleHeightTo(30);
 		font = family.connected[0];
 		font.family = family;
 		for(Font f : font.family.connected) {

@@ -69,6 +69,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
+		// DistanceFieldType must be STANDARD with TextureArraySpriteBatch
 		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.STANDARD).family;
 		family.connected[11] =
 				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.STANDARD)

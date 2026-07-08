@@ -120,17 +120,16 @@ public class TextraWindow extends Table {
         setTouchable(Touchable.enabled);
         setClip(true);
 
-        titleLabel = newLabel(title, replacementFont, style.titleFontColor);
         setStyle(style, replacementFont);
 
         font = replacementFont;
         if(scaleTitleFont) {
             Font labelFont = new Font(replacementFont);
             labelFont.scaleHeightTo(getBackground().getTopHeight());
-            titleLabel.setFont(labelFont);
+            titleLabel = newLabel(title, labelFont, style.titleFontColor);
         }
         else {
-            titleLabel.setFont(font);
+            titleLabel = newLabel(title, font, style.titleFontColor);
         }
         titleTable = new Table() {
             public void draw(Batch batch, float parentAlpha) {
@@ -286,8 +285,11 @@ public class TextraWindow extends Table {
         this.style = style;
 
         setBackground(style.background);
-        titleLabel.setFont(this.font = font);
-        if (style.titleFontColor != null) titleLabel.setColor(style.titleFontColor);
+        this.font = font;
+        if(titleLabel != null) {
+            titleLabel.setFont(this.font);
+            if (style.titleFontColor != null) titleLabel.setColor(style.titleFontColor);
+        }
         invalidateHierarchy();
     }
 
