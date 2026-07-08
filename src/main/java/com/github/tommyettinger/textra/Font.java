@@ -8071,7 +8071,7 @@ public class Font implements Disposable {
                     drawn += changedW;
                     visibleWidth += changedW;
 
-                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0f : changedW) > (targetWidth + 1f)) {
+                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? -changedW : 0f) > (targetWidth + 1f)) {
                         cutoff = breakPoint + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
@@ -8183,7 +8183,7 @@ public class Font implements Disposable {
                     drawn += changedW + amt;
                     visibleWidth += changedW + amt;
 
-                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? 0 : changedW + amt) > (targetWidth + 1f)) {
+                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? -changedW - amt : 0f) > (targetWidth + 1f)) {
                         cutoff = breakPoint + 1;
                         Line next;
                         if (changing.lines() == ln + 1) {
