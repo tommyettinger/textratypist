@@ -2688,6 +2688,46 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Gets the corresponding condensed/normal/expanded width and light/normal/heavy weight of DINish.
+     * You will need the appropriate assets for any width, and weight combination you use.
+     * See the docs on {@link #getDINishLight()}, {@link #getDINishCondensed()},
+     * {@link #getDINishExpandedHeavy()}, and so on for the assets needed.
+     *
+     * @param width if negative, condensed; if positive, expanded; if 0, normal width
+     * @param weight if negative, light; if positive, heavy; if 0, normal weight
+     * @return the Font object matching the appropriate DINish variant and STANDARD DistanceFieldType
+     */
+    public static Font getDINish(int width, int weight) {
+        return getDINish(width, weight, STANDARD);
+    }
+
+    /**
+     * Gets the corresponding condensed/normal/expanded width and light/normal/heavy weight of DINish.
+     * You will need the appropriate assets for any width, weight, and distance field combination you use.
+     * See the docs on {@link #getDINishLight(DistanceFieldType)}, {@link #getDINishCondensed(DistanceFieldType)},
+     * {@link #getDINishExpandedHeavy(DistanceFieldType)}, and so on for the assets needed.
+     *
+     * @param width if negative, condensed; if positive, expanded; if 0, normal width
+     * @param weight if negative, light; if positive, heavy; if 0, normal weight
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object matching the appropriate DINish variant and DistanceFieldType
+     */
+    public static Font getDINish(int width, int weight, DistanceFieldType dft) {
+        if(width < 0){
+            if(weight < 0) return getDINishCondensedLight(dft);
+            else if(weight > 0) return getDINishCondensedHeavy(dft);
+            return getDINishCondensed(dft);
+        } else if(width > 0){
+            if(weight < 0) return getDINishExpandedLight(dft);
+            else if(weight > 0) return getDINishExpandedHeavy(dft);
+            return getDINishExpanded(dft);
+        }
+        if(weight < 0) return getDINishLight(dft);
+        else if(weight > 0) return getDINishHeavy(dft);
+        return getDINish(dft);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width serif font with excellent Unicode support, that should
      * scale well from a height of about 132 down to a height of 24. Caches the result for later calls. The font used is
      * Gentium, an open-source (SIL Open Font License) typeface by SIL (see
