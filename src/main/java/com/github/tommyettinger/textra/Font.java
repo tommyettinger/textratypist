@@ -2805,7 +2805,7 @@ public class Font implements Disposable {
                 if(!canUseTextures){
                     parents = Array.of(true, 1, TextureRegion[]::new);
                     parents.add(new TexturelessRegion());
-                } else if ((textureHandle = Gdx.files.internal(textureName)).exists()) {
+                } else if ((textureHandle = fntHandle.sibling(textureName)).exists()) {
                     parents.add(new TextureRegion(new Texture(textureHandle)));
                     if (distanceField != DistanceFieldType.STANDARD)
                         parents.peek().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
