@@ -3293,6 +3293,37 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Gets the corresponding light/normal/heavy weight of Google Sans Flex.
+     * You will need the appropriate assets for the weight you use.
+     * See the docs on {@link #getGoogleSansFlexLight(DistanceFieldType)},
+     * {@link #getGoogleSansFlex(DistanceFieldType)}, and {@link #getGoogleSansFlexHeavy(DistanceFieldType)} for
+     * the assets needed.
+     *
+     * @param weight if negative, light; if positive, heavy; if 0, normal weight
+     * @return the Font object matching the appropriate Google Sans Flex variant and STANDARD DistanceFieldType
+     */
+    public static Font getGoogleSansFlex(int weight){
+        return getGoogleSansFlex(weight, STANDARD);
+    }
+
+    /**
+     * Gets the corresponding light/normal/heavy weight of Google Sans Flex.
+     * You will need the appropriate assets for any weight and distance field combination you use.
+     * See the docs on {@link #getGoogleSansFlexLight(DistanceFieldType)},
+     * {@link #getGoogleSansFlex(DistanceFieldType)}, and {@link #getGoogleSansFlexHeavy(DistanceFieldType)} for
+     * the assets needed.
+     *
+     * @param weight if negative, light; if positive, heavy; if 0, normal weight
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object matching the appropriate Google Sans Flex variant and DistanceFieldType
+     */
+    public static Font getGoogleSansFlex(int weight, DistanceFieldType dft){
+        if(weight < 0) return getGoogleSansFlexLight(dft);
+        else if(weight > 0) return getGoogleSansFlexHeavy(dft);
+        return getGoogleSansFlex(dft);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width, heavy-weight, legible gothic font.
      * Caches the result for later calls. The font used is Grenze, a free (OFL) typeface designed by the Manuale
      * Project. This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
