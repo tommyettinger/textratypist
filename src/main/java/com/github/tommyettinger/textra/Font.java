@@ -6528,7 +6528,7 @@ public class Font implements Disposable {
                         if (later == null) {
                             if(handleEllipsis(appendTo)) {
 //                            justify(appendTo);
-                                return regenerateLayout(appendTo);
+                                return appendTo;
                             }
                         } else {
                             for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
@@ -6776,7 +6776,7 @@ public class Font implements Disposable {
                     if (later == null) {
                         if(handleEllipsis(appendTo)) {
 //                            justify(appendTo);
-                            return regenerateLayout(appendTo);
+                            return appendTo;
                         }
                     } else {
 
@@ -7004,7 +7004,7 @@ public class Font implements Disposable {
             }
         }
 //        justify(appendTo);
-        return regenerateLayout(appendTo);
+        return appendTo;
     }
 
     protected boolean handleEllipsis(Layout appendTo) {

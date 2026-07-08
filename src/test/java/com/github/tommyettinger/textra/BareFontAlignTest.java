@@ -48,6 +48,7 @@ public class BareFontAlignTest extends ApplicationAdapter {
                 "[GRAY]A monster sniffs your corpse and says,\n"+
                 "[FOREST]'Ewww! Like, grody to the max! Gag me with a spoon...'\n" +
                 "[GRAY]q to quit.\n[YELLOW]r to restart.", gameOver);
+        font.regenerateLayout(gameOver);
 
     }
 
