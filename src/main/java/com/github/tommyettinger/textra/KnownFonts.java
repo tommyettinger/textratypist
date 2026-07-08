@@ -312,6 +312,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String GLACIAL_INDIFFERENCE = "Glacial-Indifference";
     /** Base name for a variable-width Unicode-heavy sans font. Uses a larger Texture, 4096x4096. */
     public static final String GO_NOTO_UNIVERSAL = "Go-Noto-Universal";
+    /** Base name for a variable-width geometric sans-serif font, with regular weight. */
+    public static final String GOOGLE_SANS_FLEX = "Google-Sans-Flex";
     /** Base name for a variable-width heavy-weight serif font, looking like early printing-press type. */
     public static final String GRENZE = "Grenze";
     /** Base name for a fixed-width "traditional" pixel font. */
@@ -415,7 +417,8 @@ public final class KnownFonts implements LifecycleListener {
             DINISH, DINISH_LIGHT, DINISH_HEAVY, 
             DINISH_CONDENSED, DINISH_CONDENSED_LIGHT, DINISH_CONDENSED_HEAVY,
             DINISH_EXPANDED, DINISH_EXPANDED_LIGHT, DINISH_EXPANDED_HEAVY,
-            GENTIUM, GENTIUM_UN_ITALIC, GEO, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL, GRENZE,
+            GENTIUM, GENTIUM_UN_ITALIC, GEO, GLACIAL_INDIFFERENCE, GO_NOTO_UNIVERSAL,
+            GOOGLE_SANS_FLEX, GRENZE,
             INCONSOLATA_LGC, INDIE_FLOWER, IOSEVKA, IOSEVKA_CHARON, IOSEVKA_SLAB, JETBRAINS_MONO, JIM_NIGHTSHADE,
             KINGTHINGS_FOUNDATION, KINGTHINGS_PETROCK, LEAGUE_GOTHIC, LIBERTINUS_SERIF,
             LIBERTINUS_SERIF_SEMIBOLD, MA_SHAN_ZHENG, MAPLE_MONO, MOLLE, MOON_DANCE, NOVA_MONO, NOW_ALT, NUGOTHIC,
@@ -3103,6 +3106,67 @@ public final class KnownFonts implements LifecycleListener {
     }
 
     /**
+     * Returns a Font already configured to use a variable-width geometric sans-serif font, with normal weight,
+     * that should scale cleanly to fairly large sizes or down to about 20 pixels.
+     * Caches the result for later calls. The font used is
+     * <a href="https://fonts.google.com/specimen/google+sans+flex">Google Sans Flex</a>, an open-source (SIL Open Font
+     * License) typeface. It supports mostly European languages using the Latin script.
+     * This uses a large standard bitmap font, which lets it be scaled down nicely but not scaled up very
+     * well. This may work well in a font family with other fonts that do not use a distance field effect.
+     * <br>
+     * This returns the same thing as {@code KnownFonts.getFont(KnownFonts.GOOGLE_SANS_FLEX, Font.DistanceFieldType.STANDARD)};
+     * using {@link #getFont(String, DistanceFieldType)} is preferred in new code unless a font needs special support.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Google-Sans-Flex-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Google-Sans-Flex-standard.json.lzma">Google-Sans-Flex-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Google-Sans-Flex-standard.png">Google-Sans-Flex-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Google-Sans-Flex-License.txt">Google-Sans-Flex-License.txt</a></li>
+     * </ul>
+     *
+     * @return the Font object that can represent many sizes of the font Google Sans Flex
+     */
+    public static Font getGoogleSansFlex() {
+        return getFont(GOOGLE_SANS_FLEX, STANDARD);
+    }
+
+    /**
+     * Returns a Font already configured to use a variable-width geometric sans-serif font, with normal weight.
+     * Uses the given distance field type. Caches the result for later calls. The font used is
+     * <a href="https://fonts.google.com/specimen/google+sans+flex">Google Sans Flex</a>, an open-source (SIL Open Font
+     * License) typeface. It supports mostly European languages using the Latin script.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Google-Sans-Flex-sdf.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Google-Sans-Flex-standard.json.lzma">Google-Sans-Flex-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Google-Sans-Flex-standard.png">Google-Sans-Flex-standard.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Google-Sans-Flex-License.txt">Google-Sans-Flex-License.txt</a></li>
+     * </ul>
+     * or,
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Google-Sans-Flex-msdf.json.lzma">Google-Sans-Flex-msdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Google-Sans-Flex-msdf.png">Google-Sans-Flex-msdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Google-Sans-Flex-License.txt">Google-Sans-Flex-License.txt</a></li>
+     * </ul>
+     * or
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Google-Sans-Flex-sdf.json.lzma">Google-Sans-Flex-sdf.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Google-Sans-Flex-sdf.png">Google-Sans-Flex-sdf.png</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Google-Sans-Flex-License.txt">Google-Sans-Flex-License.txt</a></li>
+     * </ul>
+     *
+     * @param dft which distance field type to use, such as {@link DistanceFieldType#STANDARD} or {@link DistanceFieldType#SDF}
+     * @return the Font object that can represent many sizes of the font Google Sans Flex using the given DistanceFieldType
+     */
+    public static Font getGoogleSansFlex(DistanceFieldType dft) {
+        return getFont(GOOGLE_SANS_FLEX, dft);
+    }
+
+    /**
      * Returns a Font already configured to use a variable-width, heavy-weight, legible gothic font.
      * Caches the result for later calls. The font used is Grenze, a free (OFL) typeface designed by the Manuale
      * Project. This uses a very-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
@@ -4258,8 +4322,7 @@ public final class KnownFonts implements LifecycleListener {
      * <a href="https://github.com/googlefonts/mashanzheng">Ma Shan Zheng</a>, an open-source (SIL Open Font
      * License) typeface. It supports an absolutely tremendous 7015 glyphs, all detailed-looking and most CJK glyphs,
      * to support the Chinese, Japanese, and Korean languages.
-     * This uses an unusually-large standard bitmap font, which lets it be scaled down nicely but not scaled up very
-     * well. Note, the .png for this Font is 4096x4096 instead of the 2048x2048 image most other Fonts use.
+     * Note, the .png for this Font is 4096x4096 instead of the 2048x2048 image most other Fonts use.
      * <br>
      * Preview: <img src="https://tommyettinger.github.io/fontwriter/knownFonts/previews/Ma-Shan-Zheng-sdf.png" alt="Image preview" width="1200" height="675" />
      * <br>
@@ -4288,7 +4351,6 @@ public final class KnownFonts implements LifecycleListener {
     public static Font getMaShanZheng(DistanceFieldType dft) {
         return getFont(MA_SHAN_ZHENG, dft);
     }
-
 
     /**
      * Returns a Font already configured to use a "two-width" sans-serif font with excellent CJK glyph support.
