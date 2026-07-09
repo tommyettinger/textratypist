@@ -69,7 +69,10 @@ public class TransparencyProcessor extends ApplicationAdapter {
         config.setWindowedMode(600, 400);
         config.disableAudio(true);
         config.useVsync(true);
-        new Lwjgl3Application(new TransparencyProcessor(new String[]{"src/test/resources/remake/Cozette-standard.png"}), config);
+
+        if(args == null || args.length == 0) args = new String[]{"src/test/resources/remake/Cozette-standard.png"};
+
+        new Lwjgl3Application(new TransparencyProcessor(args), config);
     }
 
 
@@ -90,9 +93,9 @@ public class TransparencyProcessor extends ApplicationAdapter {
 //            FileHandle[] files = {Gdx.files.local("knownFonts/" + "LanaPixel-standard.png")};
 //            FileHandle[] files = Gdx.files.local("knownFonts").list((dir, name) -> name.endsWith(".png") && !name.endsWith("-msdf.png"));
             FileHandle fontsHandle = Gdx.files.local("src/test/resources/");
-//            FileHandle[] files = fontsHandle.list((dir, name) -> name.endsWith(".png") && !name.endsWith("-msdf.png"));
-            FileHandle[] files = fontsHandle.list((dir, name) ->
-                    name.startsWith(BlockStamper.PREFIX) && name.endsWith(".png") && !name.endsWith("-msdf.png"));
+            FileHandle[] files = fontsHandle.list((dir, name) -> name.endsWith(".png") && !name.endsWith("-msdf.png"));
+//            FileHandle[] files = fontsHandle.list((dir, name) ->
+//                    name.startsWith(BlockStamper.PREFIX) && name.endsWith(".png") && !name.endsWith("-msdf.png"));
             for (FileHandle file : files)
                 rewrite(file);
         }
@@ -103,7 +106,7 @@ public class TransparencyProcessor extends ApplicationAdapter {
         Gdx.app.exit();
     }
 
-    private void rewrite (FileHandle file) {
+    public void rewrite (FileHandle file) {
         if(!file.exists()) {
             System.out.println("The specified file " + file + " does not exist; skipping.");
             return;
