@@ -3373,8 +3373,8 @@ public class Font implements Disposable {
                 gr.offsetX = xo + xAdjust;
             gr.offsetY = yo + yAdjust;
             gr.xAdvance = a + widthAdjust;
-
-            cellWidth = Math.max(a + widthAdjust, cellWidth);
+            if(c < 0xE000 || c >= 0xF800)
+                cellWidth = Math.max(a + widthAdjust, cellWidth);
             mapping.put(c, gr);
             if (c == '[') {
                 mapping.put(2, gr);

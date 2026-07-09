@@ -190,7 +190,8 @@ public class GridTest extends ApplicationAdapter {
         float x = 0, y = font.cellHeight * 13.5f;
         long since = TimeUtils.timeSinceMillis(startTime);
         font = fonts[(int) (since >>> 10 & 0x7FFFFFFF) % fonts.length];
-//        font = fonts[5];
+        // Google Sans Flex Heavy, possibly
+//        font = fonts[36];
 
 //        marquee.act(Gdx.graphics.getDeltaTime());
 //        link.act(Gdx.graphics.getDeltaTime());
