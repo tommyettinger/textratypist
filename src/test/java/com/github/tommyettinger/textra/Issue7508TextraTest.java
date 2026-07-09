@@ -37,6 +37,19 @@ import java.lang.management.ManagementFactory;
 208282576 bytes.
 [MEMORY] Java heap:
 258793992, Native heap: 258793992
+
+with 1000 chars, version 2.4.1:
+[MEMORY] text size: 1000 bytes
+[MEMORY] ThreadMXBean reports font16 uses
+2168376 bytes.
+[MEMORY] ThreadMXBean reports label uses
+1141368 bytes.
+[MEMORY] Java heap:
+4797768, Native heap: 4797768
+[MEMORY] Java heap:
+4831440, Native heap: 4831440
+[MEMORY] Java heap:
+5167008, Native heap: 5167008
  */
 public class Issue7508TextraTest extends ApplicationAdapter {
   private static final long OFFSET = measureInternal(() -> { });
@@ -72,8 +85,8 @@ public class Issue7508TextraTest extends ApplicationAdapter {
   public void create() {
 
     Gdx.app.setLogLevel(Application.LOG_DEBUG);
-    StringBuilder stringBuilder = new StringBuilder(10_000_000);
-    for (int i = 0; i < 1000000; i++) {
+    StringBuilder stringBuilder = new StringBuilder(1_000);
+    for (int i = 0; i < 100; i++) {
       stringBuilder.append("aaaaaaaaa\n");
     }
 
