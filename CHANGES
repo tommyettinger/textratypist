@@ -1,3 +1,8 @@
+2.4.2 actually fixes TextraField and TextraArea again; backspace and delete put the cursor in the wrong place. It also
+reduces memory usage drastically for very large (multi-line) Layouts run through Font.regenerateLayout(). There are some
+new constructors for TextraLabel and TypingLabel that allow you to set the layout (and potentially workingLayout) target
+width from the very start, which can help the performance of regenerateLayout() on large amounts of text.
+
 2.4.1 finally fixes TextraArea to the point that it should be usable, and TextraField as well. This required some
 changes to how very long words are handled; before, they would break wrapping and most behavior in TextraArea, and now
 they seem to mostly work. However, long words are handled by Font.regenerateLayout(), and code that relies purely on
