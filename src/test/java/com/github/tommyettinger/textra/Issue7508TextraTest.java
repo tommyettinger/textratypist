@@ -60,6 +60,20 @@ With 100000 chars, version 2.4.2-SNAPSHOT:
 [MEMORY] Java heap:
 4147433136, Native heap: 4147433136
 
+With shrink() in calculateSize():
+[MEMORY] text size: 100000 bytes
+[MEMORY] ThreadMXBean reports font16 uses
+34906992 bytes.
+[MEMORY] ThreadMXBean reports label uses
+4014174672 bytes.
+[MEMORY] Java heap:
+13765440, Native heap: 13765440
+[MEMORY] Java heap:
+15443280, Native heap: 15443280
+[MEMORY] Java heap:
+16403592, Native heap: 16403592
+
+
  */
 public class Issue7508TextraTest extends ApplicationAdapter {
   private static final long OFFSET = measureInternal(() -> { });
@@ -70,6 +84,7 @@ public class Issue7508TextraTest extends ApplicationAdapter {
   private static long measureInternal(final Runnable x) {
     final long now = getCurrentThreadAllocatedBytes();
     x.run();
+    System.gc();
     return getCurrentThreadAllocatedBytes() - now;
   }
 

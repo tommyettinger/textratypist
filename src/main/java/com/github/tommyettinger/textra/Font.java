@@ -5045,6 +5045,7 @@ public class Font implements Disposable {
             float scaleX;
             float advance;
             Line line = layout.getLine(ln);
+            line.glyphs.shrink();
             LongArray glyphs = line.glyphs;
             boolean curly = false, initial = true;
             int kern = -1;
