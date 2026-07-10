@@ -50,6 +50,16 @@ with 1000 chars, version 2.4.1:
 4831440, Native heap: 4831440
 [MEMORY] Java heap:
 5167008, Native heap: 5167008
+
+With 100000 chars, version 2.4.2-SNAPSHOT:
+[MEMORY] text size: 100000 bytes
+[MEMORY] ThreadMXBean reports font16 uses
+2169168 bytes.
+[MEMORY] ThreadMXBean reports label uses
+4013216744 bytes.
+[MEMORY] Java heap:
+4147433136, Native heap: 4147433136
+
  */
 public class Issue7508TextraTest extends ApplicationAdapter {
   private static final long OFFSET = measureInternal(() -> { });
@@ -85,8 +95,8 @@ public class Issue7508TextraTest extends ApplicationAdapter {
   public void create() {
 
     Gdx.app.setLogLevel(Application.LOG_DEBUG);
-    StringBuilder stringBuilder = new StringBuilder(1_000);
-    for (int i = 0; i < 100; i++) {
+    StringBuilder stringBuilder = new StringBuilder(100_000);
+    for (int i = 0; i < 10_000; i++) {
       stringBuilder.append("aaaaaaaaa\n");
     }
 
@@ -119,9 +129,9 @@ public class Issue7508TextraTest extends ApplicationAdapter {
     Gdx.app.log("MEMORY", "ThreadMXBean reports font16 uses\n" + memory + " bytes.");
 
     Styles.LabelStyle labelStyle = new Styles.LabelStyle(font16[0], Color.WHITE);
-    final TextraLabel[] label = {new TextraLabel("", labelStyle)};
+    final TextraLabel[] label = {new TextraLabel("", labelStyle, font16[0], 500)};
     memory = measure(() -> {
-      label[0] = new TextraLabel(text, labelStyle);
+      label[0] = new TextraLabel(text, labelStyle, font16[0], 500);
     });
     Gdx.app.log("MEMORY", "ThreadMXBean reports label uses\n" + memory + " bytes.");
 

@@ -241,8 +241,21 @@ public class TextraLabel extends Widget {
      * @param replacementFont a Font that will be used in place of the one in style
      */
     public TextraLabel(String text, Styles.LabelStyle style, Font replacementFont) {
+        this(text, style, replacementFont, 0f);
+    }
+
+    /**
+     * Creates a TextraLabel with the given text (which may be multi-line) and using the given style. This does not
+     * require a Skin to be available.
+     *
+     * @param text            the text to use; may be multi-line, but will default to not wrapping
+     * @param style           the Styles.LabelStyle to use, except for its font
+     * @param replacementFont a Font that will be used in place of the one in style
+     */
+    public TextraLabel(String text, Styles.LabelStyle style, Font replacementFont, float targetWidth) {
         font = replacementFont;
         layout = new Layout();
+        layout.setTargetWidth(targetWidth);
         if (style.fontColor != null) layout.setBaseColor(style.fontColor);
         this.style = style;
         defaultToken = TypingConfig.getDefaultInitialText();
@@ -250,16 +263,6 @@ public class TextraLabel extends Widget {
         font.markup(storedText, layout);
         invalidateHierarchy();
         setSize(layout.getWidth(), layout.getHeight());
-
-//        int glyphCount = layout.countGlyphs();
-//        layout.offsets.setSize(glyphCount + glyphCount);
-//        Arrays.fill(layout.offsets.items, 0, glyphCount + glyphCount, 0f);
-//        layout.sizing.setSize(glyphCount + glyphCount);
-//        Arrays.fill(layout.sizing.items, 0, glyphCount + glyphCount, 1f);
-//        layout.rotations.setSize(glyphCount);
-//        Arrays.fill(layout.rotations.items, 0, glyphCount, 0f);
-//        layout.advances.setSize(glyphCount);
-//        Arrays.fill(layout.advances.items, 0, glyphCount, 1f);
     }
 
     /**
@@ -291,6 +294,7 @@ public class TextraLabel extends Widget {
      * @param text  the text to use; may be multi-line, but will default to not wrapping
      * @param font  a Font from this library, such as one obtained from {@link KnownFonts}
      * @param color the color to use for the font when unspecified (at the start and when reset)
+     * @param justify a Justify enum constant; can be {@link Justify#NONE} to disable justification
      */
     public TextraLabel(String text, Font font, Color color, Justify justify) {
         this.font = font;

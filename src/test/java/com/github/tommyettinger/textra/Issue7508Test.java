@@ -50,6 +50,15 @@ With 1000 chars, version 2.4.1:
 [MEMORY] Java heap:
 3929088, Native heap: 3929088
 
+With 100000 chars, version 2.4.2-SNAPSHOT:
+[MEMORY] text size: 100000 bytes
+[MEMORY] ThreadMXBean reports font16 uses
+1303016 bytes.
+[MEMORY] ThreadMXBean reports label uses
+3120296 bytes.
+[MEMORY] Java heap:
+16756776, Native heap: 16756776
+
  */
 public class Issue7508Test extends ApplicationAdapter {
   private static final long OFFSET = measureInternal(() -> { });
@@ -85,8 +94,8 @@ public class Issue7508Test extends ApplicationAdapter {
   public void create() {
 
     Gdx.app.setLogLevel(Application.LOG_DEBUG);
-    StringBuilder stringBuilder = new StringBuilder(1_000);
-    for (int i = 0; i < 100; i++) {
+    StringBuilder stringBuilder = new StringBuilder(100_000);
+    for (int i = 0; i < 10_000; i++) {
       stringBuilder.append("aaaaaaaaa\n");
     }
 
