@@ -109,18 +109,30 @@ public class Issue7508Test extends ApplicationAdapter {
 
     // Uses 1615733248 for both Java and Native heap
     // ThreadMXBean reports 284068616 bytes used.
-    memory = measure(() -> {
-              FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("OpenSans-standard.ttf"));
-              FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-              parameter.size = 16;
-              font16[0] = generator.generateFont(parameter);
-              generator.dispose();
-    });
+//    memory = measure(() -> {
+//              FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("OpenSans-standard.ttf"));
+//              FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//              parameter.size = 16;
+//              font16[0] = generator.generateFont(parameter);
+//              generator.dispose();
+//    });
     // Uses 1623910080 for both Java and Native heap
     // ThreadMXBean reports 284068160 bytes used.
 //    memory = measure(() -> {
 //      font16[0] = new BitmapFont();
 //    });
+    /*
+[MEMORY] text size: 100000 bytes
+[MEMORY] ThreadMXBean reports font16 uses
+33911248 bytes.
+[MEMORY] ThreadMXBean reports label uses
+3119496 bytes.
+[MEMORY] Java heap:
+17163592, Native heap: 17163592
+     */
+    memory = measure(() -> {
+      font16[0] = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("Iosevka-Charon-standard.json.lzma"), "Iosevka-Charon-standard.png");
+    });
 
     Gdx.app.log("MEMORY", "ThreadMXBean reports font16 uses\n" + memory + " bytes.");
 
