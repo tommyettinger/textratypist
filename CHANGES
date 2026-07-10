@@ -1,3 +1,15 @@
+2.4.1 finally fixes TextraArea to the point that it should be usable, and TextraField as well. This required some
+changes to how very long words are handled; before, they would break wrapping and most behavior in TextraArea, and now
+they seem to mostly work. However, long words are handled by Font.regenerateLayout(), and code that relies purely on
+Font.markup() might need to manually call `myFont.regenerateLayout(myFont.markup("text", myLayout))` to get words to
+wrap normally. Thankfully, markup() calls regenerateLayout() itself when it can figure out it should, which works most
+of the time. Some TextraLabel usage seems to need regenerateLayout() or setting the targetWidth of the layout. There are
+fixes to box drawing chars when their breadth is adjusted; thanks to Laurent for figuring out the tricky math to get
+this working. Other changes in this release include new KnownFonts, ignoring private-use-area chars (which can include
+unusual glyphs like large logos) when calculating cell width in structured JSON fonts, and set() methods in Layout. The
+first two of those changes are related; Google Sans Flex is a new font in KnownFonts, and it includes a PUA glyph that
+is the full-size "Google" logo, 6 chars wide. We don't want the average glyph to be as wide as that, so it gets ignored.
+
 2.4.0 updates to libGDX 1.14.2, which reverts some breaking changes in libGDX 1.14.1, and also includes some
 improvements that should be generally helpful. It adds or augments the Font constructors that only take a String name or
 FileHandle, which can now figure out when the file they are looking up is a Structured JSON font (not an AngelCode
