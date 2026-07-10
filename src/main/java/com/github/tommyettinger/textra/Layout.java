@@ -177,6 +177,43 @@ public class Layout {
         }
     }
 
+    /**
+     * If {@code index} is at least 0 and less than {@link #countGlyphs()}, this will set the glyph at that index to be
+     * {@code newGlyph}. This also sets the various FloatArray fields to have potentially-new values at that index.
+     *
+     * @param index should be at least 0 and less than {@link #countGlyphs()}; the index to change
+     * @param newGlyph usually produced by {@link Font} to store color and style info with the char
+     * @param scale    1.0f if unchanged; multiplies the size of the glyph
+     * @param advance  1.0f if unchanged; multiplies the x-advance of the glyph, and is usually related to scale
+     * @param offsetX  0.0f if unchanged; added to the initial x-position of the glyph
+     * @param offsetY  0.0f if unchanged; added to the y-position of the glyph (with descenders lower than ascenders)
+     * @param rotation 0.0f if unchanged; added to the rotation of the glyph, in degrees
+     */
+    public void set(int index, long newGlyph, float scale, float advance, float offsetX, float offsetY, float rotation) {
+        sizing.set(index << 1, scale);
+        sizing.set(index << 1 | 1, scale);
+        advances.set(index, advance);
+        offsets.set(index << 1, offsetX);
+        offsets.set(index << 1 | 1, offsetY);
+        rotations.set(index, rotation);
+
+        for (int i = 0, n = lines.size; i < n && index >= 0; i++) {
+            LongArray glyphs = lines.get(i).glyphs;
+            if (i < lines.size && index < glyphs.size) {
+                glyphs.set(index, newGlyph);
+                return;
+            } else
+                index -= glyphs.size;
+        }
+    }
+
+    /**
+     * Clears the glyph contents of this Layout, but does not reset the {@link #getTargetWidth() targetWidth},
+     * {@link #getBaseColor() baseColor}, or {@link #getEllipsis() ellipsis}. One empty Line will be present in this
+     * Layout after it is cleared.
+     *
+     * @return this Layout, after changes, for chaining
+     */
     public Layout clear() {
         lines.clear();
         sizing.clear();
