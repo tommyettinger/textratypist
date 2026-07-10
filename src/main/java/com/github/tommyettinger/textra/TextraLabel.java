@@ -158,7 +158,22 @@ public class TextraLabel extends Widget {
      * @param colorName the name in the skin of the color to use for the font when unspecified (at the start and when reset)
      */
     public TextraLabel(String text, Skin skin, String styleName, String colorName) {
-        this(text, skin.get(styleName, Styles.LabelStyle.class));
+        this(text, skin, styleName, colorName, 0f);
+    }
+    /**
+     * Creates a TextraLabel with the given text (which may be multi-line), using the specified style from the given
+     * Skin, with the default Color overridden by the color with the given name in the skin.
+     * The skin should almost certainly be an {@link FWSkin} or one of its subclasses.
+     *
+     * @param text      the text to use; may be multi-line, but will default to not wrapping
+     * @param skin almost always an {@link FWSkin} or one of its subclasses; must have a
+     *             {@link Styles.LabelStyle} or {@link com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle} registered with the given styleName
+     * @param styleName the name of a Styles.LabelStyle to use from the Skin
+     * @param colorName the name in the skin of the color to use for the font when unspecified (at the start and when reset)
+     * @param targetWidth an initial target width for the layout; defaults to 0f, which may put one-char-per-line in some cases
+     */
+    public TextraLabel(String text, Skin skin, String styleName, String colorName, float targetWidth) {
+        this(text, skin.get(styleName, Styles.LabelStyle.class), targetWidth);
         if(colorName == null) return;
         Color color = skin.get(colorName, Color.class);
         if(color != null) layout.setBaseColor(color);
@@ -172,7 +187,19 @@ public class TextraLabel extends Widget {
      * @param style the Styles.LabelStyle to use
      */
     public TextraLabel(String text, Styles.LabelStyle style) {
-        this(text, style, false);
+        this(text, style, style.font);
+    }
+
+    /**
+     * Creates a TextraLabel with the given text (which may be multi-line) and using the given style. This does not
+     * require a Skin to be available.
+     *
+     * @param text  the text to use; may be multi-line, but will default to not wrapping
+     * @param style the Styles.LabelStyle to use
+     * @param targetWidth an initial target width for the layout; defaults to 0f, which may put one-char-per-line in some cases
+     */
+    public TextraLabel(String text, Styles.LabelStyle style, float targetWidth) {
+        this(text, style, style.font, targetWidth);
     }
 
     /**
@@ -251,6 +278,7 @@ public class TextraLabel extends Widget {
      * @param text            the text to use; may be multi-line, but will default to not wrapping
      * @param style           the Styles.LabelStyle to use, except for its font
      * @param replacementFont a Font that will be used in place of the one in style
+     * @param targetWidth     an initial target width for the layout; defaults to 0f, which may put one-char-per-line in some cases
      */
     public TextraLabel(String text, Styles.LabelStyle style, Font replacementFont, float targetWidth) {
         font = replacementFont;
@@ -297,8 +325,22 @@ public class TextraLabel extends Widget {
      * @param justify a Justify enum constant; can be {@link Justify#NONE} to disable justification
      */
     public TextraLabel(String text, Font font, Color color, Justify justify) {
+        this(text, font, color, justify, 0f);
+    }
+    /**
+     * Creates a TextraLabel with the given text (which may be multi-line), using the given Font, and using the given
+     * default color. This does not require a Skin to be available.
+     *
+     * @param text  the text to use; may be multi-line, but will default to not wrapping
+     * @param font  a Font from this library, such as one obtained from {@link KnownFonts}
+     * @param color the color to use for the font when unspecified (at the start and when reset)
+     * @param justify a Justify enum constant; can be {@link Justify#NONE} to disable justification
+     * @param targetWidth an initial target width for the layout; defaults to 0f, which may put one-char-per-line in some cases
+     */
+    public TextraLabel(String text, Font font, Color color, Justify justify, float targetWidth) {
         this.font = font;
         layout = new Layout();
+        layout.setTargetWidth(targetWidth);
         this.style = new Styles.LabelStyle();
         if (color != null) layout.setBaseColor(color);
         defaultToken = TypingConfig.getDefaultInitialText();

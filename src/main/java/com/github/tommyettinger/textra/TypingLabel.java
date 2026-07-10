@@ -210,9 +210,21 @@ public class TypingLabel extends TextraLabel {
      * @param style a style from {@link Styles} and not from scene2d.ui; often made manually
      */
     public TypingLabel(String text, Styles.LabelStyle style) {
-        super(Parser.handleBracketMinusMarkup(text), style);
+        this(text, style, 0f);
+    }
+    /**
+     * Creates a TypingLabel with the given markup text and style, without needing a skin.
+     * Note that you can obtain widget styles in {@link Styles} either by manually constructing the appropriate style,
+     * or by loading a skin JSON file with {@link FWSkin} or one of its subclasses.
+     * @param text markup text that can contain square-bracket tags and curly-brace tokens
+     * @param style a style from {@link Styles} and not from scene2d.ui; often made manually
+     * @param targetWidth an initial target width for the layout; defaults to 0f, which may put one-char-per-line in some cases
+     */
+    public TypingLabel(String text, Styles.LabelStyle style, float targetWidth) {
+        super(Parser.handleBracketMinusMarkup(text), style, targetWidth);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
+        workingLayout.setTargetWidth(targetWidth);
         Color.abgr8888ToColor(clearColor, layout.getBaseColor());
         setText(storedText, true);
     }
@@ -226,9 +238,23 @@ public class TypingLabel extends TextraLabel {
      * @param replacementFont will be used instead of the Font from the style
      */
     public TypingLabel(String text, Styles.LabelStyle style, Font replacementFont) {
-        super(Parser.handleBracketMinusMarkup(text), style, replacementFont);
+        this(text, style, replacementFont, 0f);
+    }
+
+    /**
+     * Creates a TypingLabel with the given markup text, style, and Font, without needing a skin.
+     * Note that you can obtain widget styles in {@link Styles} either by manually constructing the appropriate style,
+     * or by loading a skin JSON file with {@link FWSkin} or one of its subclasses.
+     * @param text markup text that can contain square-bracket tags and curly-brace tokens
+     * @param style a style from {@link Styles} and not from scene2d.ui; often made manually
+     * @param replacementFont will be used instead of the Font from the style
+     * @param targetWidth an initial target width for the layout; defaults to 0f, which may put one-char-per-line in some cases
+     */
+    public TypingLabel(String text, Styles.LabelStyle style, Font replacementFont, float targetWidth) {
+        super(Parser.handleBracketMinusMarkup(text), style, replacementFont, targetWidth);
         workingLayout.font(super.font);
         workingLayout.setBaseColor(layout.baseColor);
+        workingLayout.setTargetWidth(targetWidth);
         Color.abgr8888ToColor(clearColor, layout.getBaseColor());
         setText(storedText, true);
     }
@@ -251,9 +277,21 @@ public class TypingLabel extends TextraLabel {
      * @param color the default foreground color for text
      */
     public TypingLabel(String text, Font font, Color color) {
-        super(Parser.handleBracketMinusMarkup(text), font, color);
+        this(text, font, color, 0f);
+    }
+
+    /**
+     * Creates a TypingLabel with the given markup text, Font, and font color, without needing a skin.
+     * @param text markup text that can contain square-bracket tags and curly-brace tokens
+     * @param font will be used for all text
+     * @param color the default foreground color for text
+     * @param targetWidth an initial target width for the layout; defaults to 0f, which may put one-char-per-line in some cases
+     */
+    public TypingLabel(String text, Font font, Color color, float targetWidth) {
+        super(Parser.handleBracketMinusMarkup(text), font, color, Justify.NONE, targetWidth);
         workingLayout.font(font);
         workingLayout.setBaseColor(layout.baseColor);
+        workingLayout.setTargetWidth(targetWidth);
         Color.abgr8888ToColor(clearColor, layout.getBaseColor());
         setText(storedText, true);
     }
