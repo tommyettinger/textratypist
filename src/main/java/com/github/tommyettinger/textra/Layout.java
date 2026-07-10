@@ -159,6 +159,24 @@ public class Layout {
         return this;
     }
 
+    /**
+     * If {@code index} is at least 0 and less than {@link #countGlyphs()}, this will set the glyph at that index to be
+     * {@code newGlyph}. This does not change the sizing, advances, offsets, or rotations.
+     *
+     * @param index should be at least 0 and less than {@link #countGlyphs()}; the index to change
+     * @param newGlyph usually produced by {@link Font} to store color and style info with the char
+     */
+    public void set(int index, long newGlyph) {
+        for (int i = 0, n = lines.size; i < n && index >= 0; i++) {
+            LongArray glyphs = lines.get(i).glyphs;
+            if (i < lines.size && index < glyphs.size) {
+                glyphs.set(index, newGlyph);
+                return;
+            } else
+                index -= glyphs.size;
+        }
+    }
+
     public Layout clear() {
         lines.clear();
         sizing.clear();
