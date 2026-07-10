@@ -67,11 +67,11 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
         font = new ColorfulFont("Cozette-standard.fnt",
                 "Cozette-standard.png", STANDARD, -1, -5, 0, -1, false)
                 .useIntegerPositions(true)
-                .setDescent(-3f)
+                .setDescent(0f)
                 .setUnderlinePosition(0f, -0.125f)
                 .setStrikethroughPosition(0f, 0f)
                 .setInlineImageMetrics(-8f, -2f, -8f, 0.75f)
-                .setOutlineStrength(1.5f)
+                .setOutlineStrength(2f)
                 .setName("Cozette");
         font.PACKED_BLACK = Palette.BLACK;
 //        font.setColor(1f, 0.5f, 0.5f, 1f);
