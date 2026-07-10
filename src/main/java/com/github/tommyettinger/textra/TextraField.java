@@ -1570,6 +1570,7 @@ public class TextraField extends Widget implements Disableable {
 							if (delete && cursor < text.length()) {
 								text = text.substring(0, cursor) + text.substring(cursor + 1);
 							}
+							cursor = Math.min(Math.max(cursor - 1, -1), text.length());
 						}
 					}
 					if (add && !remove) {
