@@ -118,7 +118,7 @@ public class EffectPreviewGenerator extends ApplicationAdapter {
 //        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 
         label.selectable = true;
-        label.align = Align.topLeft;
+        label.align = Align.top;
 
         // Make the label wrap to new lines, respecting the table's layout.
         label.wrap = true;
