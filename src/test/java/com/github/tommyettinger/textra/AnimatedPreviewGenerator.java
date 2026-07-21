@@ -163,15 +163,11 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
         return label;
     }
 
-    public void update(float delta) {
-        stage.act(delta);
-    }
-
     @Override
     public void render() {
         ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1);
 
-        update(1f/FRAMERATE);
+        stage.act(1f/FRAMERATE);
 
         stage.draw();
         // Modified Pixmap.createFromFrameBuffer() code that uses RGB instead of RGBA
