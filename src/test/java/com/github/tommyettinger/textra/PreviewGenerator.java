@@ -109,7 +109,7 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        FileHandle[] sdfFiles = new FileHandle[0];
 
         // WHAT WE NORMALLY USE
-
+/*
         String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String[]::new);
         Font[] all = new Font[jsonFiles.length * 4 + 4 + 9];
         int idx = 0;
@@ -124,7 +124,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF).scaleHeightTo(32f).setName("A-Starry-Tall" + Font.DistanceFieldType.SDF.filePart);
         all[idx++] = KnownFonts.getAStarryTall(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("A-Starry-Tall" + "-sdf-outline");
 
-        // non-JSON standard-only fonts
+        // non-JSON or standard-only fonts
 
         all[idx++] = KnownFonts.getCordata16x26().setName(KnownFonts.CORDATA_16X26 + "-standard");
         all[idx++] = KnownFonts.getIBM8x16().setName(KnownFonts.IBM_8X16 + "-standard");
@@ -135,7 +135,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getMonogram().setName(KnownFonts.MONOGRAM + "-standard");
         all[idx++] = KnownFonts.getMonogramItalic().setName(KnownFonts.MONOGRAM_ITALIC + "-standard");
         all[idx++] = KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard");
-
+*/
         // SDF ONLY, TO COMPARE DERIVATIVE SHADERS
 /*
         String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String[]::new);
@@ -200,19 +200,16 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getJetBrainsMono(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("JetBrains-Mono" + "-sdf-outline");
 */
         // DEBUG
-        /*
         Font[] all = new Font[]{
-                KnownFonts.getLanaPixel().setName(KnownFonts.LANAPIXEL + "-standard")
-                KnownFonts.getCozette().setName(KnownFonts.COZETTE + "-standard")
+                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-standard")
         };
-*/
 
         fnt = all[0];
 //        fnt = fonts[fonts.length - 1];
 
-        for (int i = 0; i < all.length; i++) {
-            if(all[i].cellHeight <= 20) all[i].scale(2);
-        }
+//        for (int i = 0; i < all.length; i++) {
+//            if(all[i].cellHeight <= 20) all[i].scale(2);
+//        }
 
         Gdx.files.local("out/").mkdirs();
         for (int i = 0; i < all.length; i++) {
