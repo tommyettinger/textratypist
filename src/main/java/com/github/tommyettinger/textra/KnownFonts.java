@@ -308,6 +308,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String FUSION_PIXEL_KOREAN = "Fusion-Pixel-KO";
     /** Base name for a variable-width pixel font with extensive support for Simplified Chinese characters. */
     public static final String FUSION_PIXEL_SIMPLIFIED_CHINESE = "Fusion-Pixel-SC";
+    /** Base name for a variable-width pixel font with extensive support for Traditional Chinese characters. */
+    public static final String FUSION_PIXEL_TRADITIONAL_CHINESE = "Fusion-Pixel-TC";
     /** Base name for a variable-width Unicode-heavy serif font. */
     public static final String GENTIUM = "Gentium";
     /** Base name for a variable-width Unicode-heavy "swashbuckling" serif font. */
@@ -442,7 +444,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final OrderedSet<String> SAD_NAMES = OrderedSet.with(IBM_8X16_SAD);
 
     public static final OrderedSet<String> LIMITED_JSON_NAMES = OrderedSet.with(
-            CORDATA_16X26, FUSION_PIXEL_JAPANESE, FUSION_PIXEL_KOREAN, FUSION_PIXEL_SIMPLIFIED_CHINESE, IBM_8X16);
+            CORDATA_16X26, FUSION_PIXEL_JAPANESE, FUSION_PIXEL_KOREAN,
+            FUSION_PIXEL_SIMPLIFIED_CHINESE, FUSION_PIXEL_TRADITIONAL_CHINESE, IBM_8X16);
 
     public static final OrderedSet<String> STANDARD_NAMES = new OrderedSet<>(JSON_NAMES.size + LIMITED_JSON_NAMES.size + FNT_NAMES.size + SAD_NAMES.size);
     public static final OrderedSet<String> SDF_NAMES = new OrderedSet<>(JSON_NAMES);
@@ -2852,6 +2855,51 @@ public final class KnownFonts implements LifecycleListener {
         DistanceFieldType dft = STANDARD;
         initialize();
         String baseName = FUSION_PIXEL_SIMPLIFIED_CHINESE;
+        String rootName = baseName + dft.filePart;
+        Font known = instance.loaded.get(rootName);
+        if(known == null) {
+            known = new Font(Font.getJsonExtension(instance.prefix + rootName), true)
+                    .scaleHeightTo(15f)
+                    .setUnderlineMetrics(-0.5f, 0f, 0f, -0.25f)
+                    .setFancyLinePosition(-0.25f, 3f)
+                    .setStrikethroughMetrics(-0.5f, 0.1f, 0f, -0.25f)
+                    .setOutlineStrength(1.5f)
+                    .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
+                    .useIntegerPositions(true);
+            instance.loaded.put(rootName, known);
+        }
+        return new Font(known).setName(baseName + dft.namePart).setDistanceField(dft);
+    }
+
+    /**
+     * Returns a Font configured to use a 12px-tall, variable-width bitmap font with extensive Traditional Chinese
+     * support, Fusion Pixel 12px. The font incorporates several existing works with compatible
+     * licenses, and as a whole is OFL 1.1 licensed.
+     * It was made by several authors, including TakWolf, and is
+     * <a href="https://github.com/TakWolf/fusion-pixel-font">available here</a>.
+     * This does not scale well except to integer multiples, but it should look fairly
+     * crisp at its default size of 12 pixels in height. This might not match the actual height you
+     * get with {@link Font#scaleHeightTo(float)}! A height of 15f or a multiple thereof seems
+     * correct for this Font at this point in time. This defaults to having
+     * {@link Font#integerPosition} set to true, which is not the usual default.
+     * This may work well in a font family with other fonts that do not use a distance field
+     * effect, though they all could have different sizes.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Fusion-Pixel-TC-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Fusion-Pixel-License.txt">Fusion-Pixel-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Fusion-Pixel-TC-standard.json.lzma">Fusion-Pixel-TC-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Fusion-Pixel-TC-standard.png">Fusion-Pixel-TC-standard.png</a></li>
+     * </ul>
+     *
+     * @return the Font object that represents Fusion Pixel 12px proportional in Traditional Chinese character style
+     */
+    public static Font getFusionPixelTraditionalChinese() {
+        DistanceFieldType dft = STANDARD;
+        initialize();
+        String baseName = FUSION_PIXEL_TRADITIONAL_CHINESE;
         String rootName = baseName + dft.filePart;
         Font known = instance.loaded.get(rootName);
         if(known == null) {
