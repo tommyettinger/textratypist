@@ -302,6 +302,8 @@ public final class KnownFonts implements LifecycleListener {
     public static final String DINISH_EXPANDED_HEAVY = "DINish-Expanded-Heavy";
     /** Base name for an extra-wide Latin-and-Cyrillic road-sign font, with light weight. */
     public static final String DINISH_EXPANDED_LIGHT = "DINish-Expanded-Light";
+    /** Base name for a variable-width pixel font with extensive support for Japanese characters. */
+    public static final String FUSION_PIXEL_JAPANESE = "Fusion-Pixel-JA";
     /** Base name for a variable-width Unicode-heavy serif font. */
     public static final String GENTIUM = "Gentium";
     /** Base name for a variable-width Unicode-heavy "swashbuckling" serif font. */
@@ -435,7 +437,8 @@ public final class KnownFonts implements LifecycleListener {
 
     public static final OrderedSet<String> SAD_NAMES = OrderedSet.with(IBM_8X16_SAD);
 
-    public static final OrderedSet<String> LIMITED_JSON_NAMES = OrderedSet.with(CORDATA_16X26, IBM_8X16);
+    public static final OrderedSet<String> LIMITED_JSON_NAMES = OrderedSet.with(
+            CORDATA_16X26, FUSION_PIXEL_JAPANESE, IBM_8X16);
 
     public static final OrderedSet<String> STANDARD_NAMES = new OrderedSet<>(JSON_NAMES.size + LIMITED_JSON_NAMES.size + FNT_NAMES.size + SAD_NAMES.size);
     public static final OrderedSet<String> SDF_NAMES = new OrderedSet<>(JSON_NAMES);
@@ -1575,7 +1578,6 @@ public final class KnownFonts implements LifecycleListener {
         return getFont(COMPUTER_SAYS_NO, dft);
     }
 
-
     /**
      * Returns a Font configured to use a tall, thin, "retro," fixed-width bitmap font,
      * Cordata PPC 21 from the little-known Cordata computer line. This uses an extended
@@ -1586,7 +1588,7 @@ public final class KnownFonts implements LifecycleListener {
      * crisp at its default size of 16x26 pixels. This might not match the actual height you
      * get with {@link Font#scaleHeightTo(float)}! A height of 40f or a multiple thereof seems
      * correct for this Font at this point in time. This defaults to having
-     * {@link Font#integerPosition} set to false, which is the usual default.
+     * {@link Font#integerPosition} set to true, which is not the usual default.
      * This may work well in a font family with other fonts that do not use a distance field
      * effect, though they all could have different sizes.
      * <br>
@@ -2725,6 +2727,51 @@ public final class KnownFonts implements LifecycleListener {
         if(weight < 0) return getDINishLight(dft);
         else if(weight > 0) return getDINishHeavy(dft);
         return getDINish(dft);
+    }
+
+    /**
+     * Returns a Font configured to use a 12px-tall, variable-width bitmap font with extensive Japanese
+     * language support, Fusion Pixel 12px. The font incorporates several existing works with compatible
+     * licenses, and as a whole is OFL 1.1 licensed.
+     * It was made by several authors, including TakWolf, and is
+     * <a href="https://github.com/TakWolf/fusion-pixel-font">available here</a>.
+     * This does not scale well except to integer multiples, but it should look fairly
+     * crisp at its default size of 12 pixels in height. This might not match the actual height you
+     * get with {@link Font#scaleHeightTo(float)}! A height of 12f or a multiple thereof seems
+     * correct for this Font at this point in time. This defaults to having
+     * {@link Font#integerPosition} set to true, which is not the usual default.
+     * This may work well in a font family with other fonts that do not use a distance field
+     * effect, though they all could have different sizes.
+     * <br>
+     * Preview: <img src="https://tommyettinger.github.io/textratypist/previews/Fusion-Pixel-JA-standard.png" alt="Image preview" width="1200" height="675" />
+     * <br>
+     * Needs files:
+     * <ul>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Fusion-Pixel-License.txt">Fusion-Pixel-License.txt</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Fusion-Pixel-JA-standard.json.lzma">Fusion-Pixel-JA-standard.json.lzma</a></li>
+     *     <li><a href="https://github.com/tommyettinger/textratypist/blob/main/knownFonts/Fusion-Pixel-JA-standard.png">Fusion-Pixel-JA-standard.png</a></li>
+     * </ul>
+     *
+     * @return the Font object that represents Fusion Pixel 12px proportional in Japanese character style
+     */
+    public static Font getFusionPixelJapanese() {
+        DistanceFieldType dft = STANDARD;
+        initialize();
+        String baseName = FUSION_PIXEL_JAPANESE;
+        String rootName = baseName + dft.filePart;
+        Font known = instance.loaded.get(rootName);
+        if(known == null) {
+            known = new Font(Font.getJsonExtension(instance.prefix + rootName), true)
+                    .scaleHeightTo(12f)
+//                    .setUnderlineMetrics(0f, 0.05f, 0f, -0.5f)
+//                    .setStrikethroughMetrics(0f, 0.2f, 0f, -0.5f)
+//                    .setOutlineStrength(0.8f)
+                    .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
+//                    .setInlineImageMetrics(-4f, 0f, -8f, 0.75f)
+                    .useIntegerPositions(true);
+            instance.loaded.put(rootName, known);
+        }
+        return new Font(known).setName(baseName + dft.namePart).setDistanceField(dft);
     }
 
     /**
