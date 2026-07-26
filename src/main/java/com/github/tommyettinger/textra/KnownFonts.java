@@ -2764,6 +2764,7 @@ public final class KnownFonts implements LifecycleListener {
             known = new Font(Font.getJsonExtension(instance.prefix + rootName), true)
                     .scaleHeightTo(15f)
                     .setUnderlineMetrics(-0.5f, 0f, 0f, -0.25f)
+                    .setFancyLinePosition(-0.25f, 3f)
                     .setStrikethroughMetrics(-0.5f, 0.1f, 0f, -0.25f)
                     .setOutlineStrength(1.5f)
                     .setTextureFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)

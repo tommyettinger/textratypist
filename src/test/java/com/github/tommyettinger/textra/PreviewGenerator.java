@@ -201,26 +201,29 @@ public class PreviewGenerator extends ApplicationAdapter {
 */
         // DEBUG
         Font[] all = new Font[]{
-//                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-standard")
-                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-10").scaleHeightTo(10),
-                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-11").scaleHeightTo(11),
-                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-12").scaleHeightTo(12),
-                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-13").scaleHeightTo(13),
-                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-14").scaleHeightTo(14),
-                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-15").scaleHeightTo(15),
-                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-16").scaleHeightTo(16),
-                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-17").scaleHeightTo(17),
-                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-18").scaleHeightTo(18),
-                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-19").scaleHeightTo(19),
-                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-20").scaleHeightTo(20),
+                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-standard")
         };
+        // PIXEL FONT SIZE TESTING
+//        Font[] all = new Font[]{
+//                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-10").scaleHeightTo(10),
+//                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-11").scaleHeightTo(11),
+//                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-12").scaleHeightTo(12),
+//                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-13").scaleHeightTo(13),
+//                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-14").scaleHeightTo(14),
+//                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-15").scaleHeightTo(15),
+//                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-16").scaleHeightTo(16),
+//                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-17").scaleHeightTo(17),
+//                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-18").scaleHeightTo(18),
+//                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-19").scaleHeightTo(19),
+//                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-20").scaleHeightTo(20),
+//        };
 
         fnt = all[0];
 //        fnt = fonts[fonts.length - 1];
 
-//        for (int i = 0; i < all.length; i++) {
-//            if(all[i].cellHeight <= 20) all[i].scale(2);
-//        }
+        for (int i = 0; i < all.length; i++) {
+            if(all[i].cellHeight <= 20) all[i].scale(2);
+        }
 
         Gdx.files.local("out/").mkdirs();
         for (int i = 0; i < all.length; i++) {
