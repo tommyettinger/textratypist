@@ -203,6 +203,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         Font[] all = new Font[]{
                 KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-standard"),
                 KnownFonts.getFusionPixelKorean().setName(KnownFonts.FUSION_PIXEL_KOREAN + "-standard"),
+                KnownFonts.getFusionPixelSimplifiedChinese().setName(KnownFonts.FUSION_PIXEL_SIMPLIFIED_CHINESE + "-standard"),
         };
         // PIXEL FONT SIZE TESTING
 //        Font[] all = new Font[]{
