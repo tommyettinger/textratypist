@@ -201,7 +201,8 @@ public class PreviewGenerator extends ApplicationAdapter {
 */
         // DEBUG
         Font[] all = new Font[]{
-                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-standard")
+                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-standard"),
+                KnownFonts.getFusionPixelKorean().setName(KnownFonts.FUSION_PIXEL_KOREAN + "-standard"),
         };
         // PIXEL FONT SIZE TESTING
 //        Font[] all = new Font[]{
