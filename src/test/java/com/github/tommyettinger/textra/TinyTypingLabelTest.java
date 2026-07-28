@@ -200,8 +200,9 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[?], Context: [?context]interesting[?], Suggest: [?suggest]neat[?]\n" +
 //                "OUTLINES! [?blacken]Black[#], [?whiten]White[#], [?bluen]Blue[#], [?redden]Red[#], [?yellowen]Yellow[#]\n" +
 //                "RADIANT! [@Geometric][RED][?neon]Hot Food! [GREEN]Low Prices! [YELLOW][?halo]Believe it![ ]\n"
-                "{THINKING=3;5;1;y}1 + 1 = [~]3?[~] [*]2[*]{ENDTHINKING}\n" +
-                "{THINKING=-3;1;0}2 + 2 = [~]5?[~] [*]4[*]{ENDTHINKING}\n"
+//                "{THINKING=3;5;1;y}1 + 1 = [~]3?[~] [*]2[*]{ENDTHINKING}\n" +
+//                "{THINKING=-3;1;0}2 + 2 = [~]5?[~] [*]4[*]{ENDTHINKING}\n"
+                "Do you want to tempt fate? Click here... {HIDE}YOU DIED...{ENDHIDE} Hehehe...\n"
                 ,
                 font);
         label.setDefaultToken("{EASE}{SPEED=0.1}[%130]");
@@ -233,13 +234,10 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 
             @Override
             public void end() {
-//                label.setVariable("A", "hide");
-
-                label.parseTokens();
-//                System.out.println(label);
-                if(label.length() < 150)
-                    label.appendText("\n{IF=controller;yes=A is enabled! Press A on your controller to confirm!;=A is disabled! Click to confirm!}");
-                label.setVariable("controller", "no");
+//                label.parseTokens();
+//                if(label.length() < 150)
+//                    label.appendText("\n{IF=controller;yes=A is enabled! Press A on your controller to confirm!;=A is disabled! Click to confirm!}");
+//                label.setVariable("controller", "no");
             }
         });
 
