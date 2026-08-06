@@ -6,7 +6,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
@@ -30,7 +33,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     TextButton  buttonRestart;
     TextButton  buttonRebuild;
     TextButton  buttonSkip;
-    int adj = 0;
+//    int adj = 0;
     long startTime;
 
     @Override
@@ -146,12 +149,28 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                        KnownFonts.getYanoneKaffeesatz().scaleTo(32, 35)/*.scale(1.15f, 1.15f)*/.adjustLineHeight(0.85f)
 //                });
 //        Font font = family.connected[0].setFamily(family);
-        Font font = KnownFonts.getStandardFamily();
-        for(Font f : font.family.connected) {
-            if (f != null) {
-                KnownFonts.addEmoji(f);
-            }
-        }
+
+//        Font font = KnownFonts.getStandardFamily();
+//        for(Font f : font.family.connected) {
+//            if (f != null) {
+//                KnownFonts.addEmoji(f);
+//            }
+//        }
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("mo/Roboto-Condensed.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 20;
+        parameter.minFilter = Texture.TextureFilter.Linear;
+        parameter.magFilter = Texture.TextureFilter.Linear;
+        parameter.borderColor = Color.BLACK;
+        parameter.borderStraight = true;
+        parameter.borderWidth = 1;
+        parameter.hinting = FreeTypeFontGenerator.Hinting.Full;
+        BitmapFont light = generator.generateFont(parameter);
+        light.getData().breakChars = new char[]{'-'};
+        generator.dispose();
+
+        Font font = KnownFonts.addEmoji(new Font(light));
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
         // Create label
@@ -254,22 +273,22 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     @Override
     public void render() {
         update(Gdx.graphics.getDeltaTime());
-        label.font.family.get("Geometric").glowStrength = (NoiseUtils.octaveNoise1D(TimeUtils.timeSinceMillis(startTime) * 0.002f, 12345) + 1f) * 0.8f;
+//        label.font.family.get("Geometric").glowStrength = (NoiseUtils.octaveNoise1D(TimeUtils.timeSinceMillis(startTime) * 0.002f, 12345) + 1f) * 0.8f;
         ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1);
-        if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
-        {
-            adj = adj + 15 & 15;
-            System.out.println("Adjusting " + label.font.family.connected[adj].name);
-        }
-        else if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
-        {
-            adj = adj + 1 & 15;
-            System.out.println("Adjusting " + label.font.family.connected[adj].name);
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
-            System.out.println(label.font.family.connected[adj].setDescent(label.font.family.connected[adj].descent + 1).descent + " " + label.font.family.connected[adj].name);
-        else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
-            System.out.println(label.font.family.connected[adj].setDescent(label.font.family.connected[adj].descent - 1).descent + " " + label.font.family.connected[adj].name);
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
+//        {
+//            adj = adj + 15 & 15;
+//            System.out.println("Adjusting " + label.font.family.connected[adj].name);
+//        }
+//        else if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
+//        {
+//            adj = adj + 1 & 15;
+//            System.out.println("Adjusting " + label.font.family.connected[adj].name);
+//        }
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
+//            System.out.println(label.font.family.connected[adj].setDescent(label.font.family.connected[adj].descent + 1).descent + " " + label.font.family.connected[adj].name);
+//        else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
+//            System.out.println(label.font.family.connected[adj].setDescent(label.font.family.connected[adj].descent - 1).descent + " " + label.font.family.connected[adj].name);
         stage.draw();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }

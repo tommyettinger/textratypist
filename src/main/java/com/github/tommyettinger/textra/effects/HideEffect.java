@@ -42,8 +42,8 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
  * <br>
  * Example usage:
  * <code>
- * {FADE=RED;LIGHT BLUE;2.0}This text will fade from red to light blue over 2 seconds.{ENDFADE}
- * {FADE=0.0;1.0;0.5}This text will go from invisible to the default color in half a second.{ENDFADE}
+ * {HIDE=RED;LIGHT BLUE;2.0}This text will fade from red to light blue over 2 seconds.{ENDHIDE}
+ * {HIDE=0.0;1.0;0.5}This text will go from invisible to the default color in half a second.{ENDHIDE}
  * </code>
  */
 public class HideEffect extends Effect {

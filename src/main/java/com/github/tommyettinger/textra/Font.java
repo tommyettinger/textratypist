@@ -2717,8 +2717,8 @@ public class Font implements Disposable {
         }
         solidBlock = '█';
 
-        if (makeGridGlyphs) {
-            GlyphRegion block;
+        GlyphRegion block;
+        if(!mapping.containsKey(solidBlock)) {
             Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
             temp.setColor(Color.WHITE);
             temp.fill();
@@ -2727,6 +2727,11 @@ public class Font implements Disposable {
             whiteBlock.draw(temp, 0, 0);
             mapping.put(solidBlock, block = new GlyphRegion(new TextureRegion(whiteBlock, 1, 1, 1, 1)));
             temp.dispose();
+        }
+        else {
+            block = mapping.get(solidBlock);
+        }
+        if (makeGridGlyphs) {
             for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
                 if (BlockUtils.isBlockGlyph(i)) {
                     mapping.put(i, new GlyphRegion(block, Float.NaN, cellHeight, cellWidth));
