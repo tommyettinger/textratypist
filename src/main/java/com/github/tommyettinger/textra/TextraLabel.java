@@ -643,6 +643,16 @@ public class TextraLabel extends Widget {
         invalidateHierarchy();
     }
 
+    @Override
+    public void setBounds(float x, float y, float width, float height) {
+        if (this.getX() != x || this.getY() != y) {
+            setPosition(x, y);
+        }
+        if (this.getWidth() != width || this.getHeight() != height) {
+            setSize(width, height);
+        }
+    }
+
     /**
      * This only exists so code that needs to use {@link com.badlogic.gdx.scenes.scene2d.Actor#setWidth(float)} still
      * can, even with setWidth() implemented here.

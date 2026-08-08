@@ -31,7 +31,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class WelcomeScreen extends ApplicationAdapter {
 
   private Stage stage;
-  private TypingLabel typingLabel;
+  private TextraLabel typingLabel;
 
   public WelcomeScreen() {
   }
@@ -52,7 +52,7 @@ public class WelcomeScreen extends ApplicationAdapter {
             "I am legally required to inform you that this tribute has been linked with hearing loss, seizures, and birth defects."
     ).replace(" ", "  ");
     Label label = new Label(text, style);
-    typingLabel = new TypingLabel(text, style2);
+    typingLabel = new TextraLabel(text, style2);
     label.setWrap(true);
     typingLabel.setWrap(true);
 
