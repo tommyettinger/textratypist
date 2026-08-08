@@ -24,12 +24,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class WelcomeScreen extends ApplicationAdapter {
 
   private Stage stage;
+  private TypingLabel typingLabel;
 
   public WelcomeScreen() {
   }
@@ -37,6 +39,7 @@ public class WelcomeScreen extends ApplicationAdapter {
   @Override
   public void create() {
     stage = new Stage(new ScreenViewport());
+    stage.setDebugAll(true);
     BitmapFont font = new BitmapFont();
     font.setUseIntegerPositions(false);
     Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
@@ -49,13 +52,29 @@ public class WelcomeScreen extends ApplicationAdapter {
             "I am legally required to inform you that this tribute has been linked with hearing loss, seizures, and birth defects."
     ).replace(" ", "  ");
     Label label = new Label(text, style);
-    TypingLabel typingLabel = new TypingLabel(text, style2);
-
-    Stack stack = new Stack(label, typingLabel);
-    stack.setFillParent(true);
-    stage.addActor(stack);
+    typingLabel = new TypingLabel(text, style2);
     label.setWrap(true);
     typingLabel.setWrap(true);
+
+    // The main way we test this.
+//    Stack stack = new Stack(label, typingLabel);
+//    stack.setFillParent(true);
+//    stage.addActor(stack);
+
+    // we could use this instead of a Stack.
+//    label.setFillParent(true);
+//    typingLabel.setFillParent(true);
+
+    // Testing manual size and position.
+    label.setSize(420, 420);
+    typingLabel.setSize(420, 420);
+    label.setPosition(25, 25);
+    typingLabel.setPosition(25, 25);
+    stage.addActor(label);
+    stage.addActor(typingLabel);
+
+    // TODO: setBounds() on TypingLabel doesn't currently act like using setSize() and setPosition() separately.
+
   }
 
   @Override
@@ -64,6 +83,8 @@ public class WelcomeScreen extends ApplicationAdapter {
     stage.act();
     stage.getViewport().apply(true);
     stage.draw();
+    // prints 25 over and over.
+    System.out.println(typingLabel.getY());
   }
 
   @Override
