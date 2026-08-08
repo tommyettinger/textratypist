@@ -1069,7 +1069,6 @@ public class TypingLabel extends TextraLabel {
         if (this.getWidth() != width || this.getHeight() != height) {
             setSize(width, height);
         }
-
     }
 
     @Override
