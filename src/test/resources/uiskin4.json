@@ -1,9 +1,6 @@
 {
 BitmapFont: {
-	default-font: { file: experimental/GentiumUnItalic-bmfont.fnt, scaledSize: 14, flip: true}
-},
-	com.github.tommyettinger.textra.Font: {
-	default-font: { file: experimental/GentiumUnItalic-bmfont.fnt, scaledSize: 14, flip: true}
+	default-font: { file: Crete-Round-sdf.json.lzma, scaledSize: 14}
 },
 Color: {
 	green: { a: 1, b: 0, g: 1, r: 0 },
