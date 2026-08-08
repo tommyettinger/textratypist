@@ -74,10 +74,10 @@ public class PinchEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate scales
-        long time = TimeUtils.millis();
-        if (likelihood > determineFloat((time >>> 10) * globalIndex + localIndex)) {
+        long time = (long) totalTime;
+        if (likelihood > determineFloat(time * globalIndex + localIndex)) {
             float lineHeight = label.getLineHeight(globalIndex);
-            float progress = (time & 1023) * 0x1p-10f;
+            float progress = calculateProgress(1f, 0f, false);
             // Apply fadeout
             float fadeout = calculateFadeout() * strength;
 
