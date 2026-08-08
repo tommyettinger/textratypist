@@ -2,7 +2,6 @@ package com.github.tommyettinger.textra;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
@@ -13,27 +12,23 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.github.tommyettinger.textra.utils.NoiseUtils;
 
 public class TinyTypingLabelTest extends ApplicationAdapter {
-    Skin        skin;
-    Stage       stage;
-    SpriteBatch batch;
-    TypingLabel label;
-    TextButton  buttonPause;
-    TextButton  buttonResume;
-    TextButton  buttonRestart;
-    TextButton  buttonRebuild;
-    TextButton  buttonSkip;
-//    int adj = 0;
+    FWSkin       skin;
+    Stage        stage;
+    SpriteBatch  batch;
+    TypingLabel  label;
+    TextraButton buttonPause;
+    TextraButton buttonResume;
+    TextraButton buttonRestart;
+    TextraButton buttonRebuild;
+    TextraButton buttonSkip;
     long startTime;
 
     @Override
@@ -42,7 +37,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
-        skin = new FWSkin(Gdx.files.internal("uiskin.json"));
+        skin = new FWSkin(Gdx.files.internal("uiskin4.json"));
 //        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         //skin.getFont("default-font");//.getData().setScale(0.5f);
         stage = new Stage(new ScreenViewport(), batch);
@@ -54,7 +49,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 
         label = createTypingLabel();
 
-        buttonPause = new TextButton("Pause", skin);
+        buttonPause = new TextraButton("Pause", skin);
         buttonPause.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -62,7 +57,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
             }
         });
 
-        buttonResume = new TextButton("Resume", skin);
+        buttonResume = new TextraButton("Resume", skin);
         buttonResume.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -70,7 +65,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
             }
         });
 
-        buttonRestart = new TextButton("Restart", skin);
+        buttonRestart = new TextraButton("Restart", skin);
         buttonRestart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -85,7 +80,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
             }
         });
 
-        buttonRebuild = new TextButton("Rebuild", skin);
+        buttonRebuild = new TextraButton("Rebuild", skin);
         buttonRebuild.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -101,7 +96,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
             }
         });
 
-        buttonSkip = new TextButton("Skip", skin);
+        buttonSkip = new TextraButton("Skip", skin);
         buttonSkip.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -296,6 +291,7 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        skin.resizeDistanceFields(width, height, stage.getViewport());
     }
 
     @Override
