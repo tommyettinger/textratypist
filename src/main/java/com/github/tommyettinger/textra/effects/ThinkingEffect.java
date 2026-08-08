@@ -16,7 +16,6 @@
 
 package com.github.tommyettinger.textra.effects;
 
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.IntFloatMap;
 import com.github.tommyettinger.textra.Effect;
@@ -84,9 +83,6 @@ public class ThinkingEffect extends Effect {
         float timePassed = timePassedByGlyphIndex.getAndIncrement(localIndex, 0, delta);
         float progress = MathUtils.clamp(timePassed / realExtent, 0, 1);
 
-        // Calculate offset
-//        Interpolation interpolation = Interpolation.linear;
-//        float interpolatedValue = interpolation.apply(1, 0, progress);
         // randomized angles
         int random = ((globalIndex ^ 0xDE82EF95) * 0xD1343 ^ 0xDE82EF95) * 0xD1343;
         float angle = (random >>> 9) * 0x1p-23f * MathUtils.PI2;

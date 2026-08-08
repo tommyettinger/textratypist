@@ -44,7 +44,6 @@ import com.github.tommyettinger.textra.Styles.TextFieldStyle;
 import com.github.tommyettinger.textra.utils.StringUtils;
 import regexodus.Replacer;
 
-import java.lang.StringBuilder;
 import java.util.Arrays;
 
 /** A single-line text input field using a {@link Font}.

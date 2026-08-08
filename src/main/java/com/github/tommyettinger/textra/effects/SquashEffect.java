@@ -20,7 +20,6 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.IntFloatMap;
 import com.github.tommyettinger.textra.Effect;
-import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.TypingLabel;
 
 /**

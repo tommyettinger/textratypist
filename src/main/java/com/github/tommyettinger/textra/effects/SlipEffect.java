@@ -16,7 +16,6 @@
 
 package com.github.tommyettinger.textra.effects;
 
-import com.badlogic.gdx.utils.TimeUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 import com.github.tommyettinger.textra.utils.NoiseUtils;
@@ -40,7 +39,6 @@ import com.github.tommyettinger.textra.utils.NoiseUtils;
  */
 public class SlipEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.5f;
-    private static final float DEFAULT_SPEED = 0.001f;
 
     private float distance = 5f; // How far a glyph can be offset on x from its original position, in viewport units
     private float speed = 1; // How fast the glyphs should move
@@ -67,7 +65,7 @@ public class SlipEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate offset
-        float slip = (1f + NoiseUtils.octaveNoise1D((TimeUtils.millis() & 0xFFFFFF) * speed * DEFAULT_SPEED + globalIndex * 0.2357f, 0x12345678)) * distance * DEFAULT_DISTANCE;
+        float slip = (1f + NoiseUtils.octaveNoise1D(totalTime * speed + globalIndex * 0.2357f, 0x12345678)) * distance * DEFAULT_DISTANCE;
 
         // Calculate fadeout
         float fadeout = calculateFadeout();

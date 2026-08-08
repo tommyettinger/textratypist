@@ -17,7 +17,6 @@
 package com.github.tommyettinger.textra.effects;
 
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 

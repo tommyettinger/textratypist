@@ -19,7 +19,6 @@ package com.github.tommyettinger.textra.effects;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.FloatArray;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 
@@ -48,7 +47,7 @@ import com.github.tommyettinger.textra.TypingLabel;
 public class JoltEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.12f;
     private static final float DEFAULT_SPEED = 0.5f;
-    private static final float DEFAULT_LIKELIHOOD = 0.05f;
+    private static final float DEFAULT_LIKELIHOOD = 0.1f;
 
     private final FloatArray lastOffsets = new FloatArray();
 
@@ -107,7 +106,7 @@ public class JoltEffect extends Effect {
 
         // Calculate new offsets
         float x = 0f, y = 0f;
-        if (likelihood > determineFloat((TimeUtils.millis() >>> 10) * globalIndex + localIndex)) {
+        if (likelihood > determineFloat((long)totalTime * globalIndex + localIndex)) {
             float shakeMul = label.getLineHeight(globalIndex) * shakeDistance * DEFAULT_DISTANCE;
             x = shakeMul * MathUtils.random(-1f, 1f);
             y = shakeMul * MathUtils.random(-1f, 1f);
