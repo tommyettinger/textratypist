@@ -41,7 +41,6 @@ import com.github.tommyettinger.textra.utils.NoiseUtils;
 public class SputterEffect extends Effect {
     private static final float DEFAULT_WIDEN = 5;
     private static final float DEFAULT_HEIGHTEN = 5;
-    private static final float DEFAULT_SPEED = 0.001f;
 
     private float widen = 0.25f; // What fraction of the original width a glyph is allows to stretch or shrink by
     private float heighten = 0.25f; // What fraction of the original height a glyph is allows to stretch or shrink by
@@ -75,7 +74,7 @@ public class SputterEffect extends Effect {
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate offset
 
-        float timing = (TimeUtils.millis() & 0xFFFFFF) * speed * DEFAULT_SPEED + globalIndex * 0.1f;
+        float timing = totalTime * speed + globalIndex * 0.1f;
         // horizontal
         float h = NoiseUtils.octaveNoise1D(timing, globalIndex);
         // vertical
