@@ -1062,6 +1062,17 @@ public class TypingLabel extends TextraLabel {
     }
 
     @Override
+    public void setBounds(float x, float y, float width, float height) {
+        if (this.getX() != x || this.getY() != y) {
+            setPosition(x, y);
+        }
+        if (this.getWidth() != width || this.getHeight() != height) {
+            setSize(width, height);
+        }
+
+    }
+
+    @Override
     public float getPrefWidth() {
         if (!parsed) {
             parseTokens();

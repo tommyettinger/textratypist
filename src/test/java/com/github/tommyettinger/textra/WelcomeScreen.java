@@ -39,7 +39,7 @@ public class WelcomeScreen extends ApplicationAdapter {
   @Override
   public void create() {
     stage = new Stage(new ScreenViewport());
-    stage.setDebugAll(true);
+//    stage.setDebugAll(true);
     BitmapFont font = new BitmapFont();
     font.setUseIntegerPositions(false);
     Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
@@ -66,14 +66,19 @@ public class WelcomeScreen extends ApplicationAdapter {
 //    typingLabel.setFillParent(true);
 
     // Testing manual size and position.
-    label.setSize(420, 420);
-    typingLabel.setSize(420, 420);
-    label.setPosition(25, 25);
-    typingLabel.setPosition(25, 25);
+//    label.setSize(420, 400);
+//    typingLabel.setSize(420, 400);
+//    label.setPosition(25, 25);
+//    typingLabel.setPosition(25, 25);
+
+    // Making sure setBounds() works the same for Label and TypingLabel.
+    label.setBounds(25, 25, 420, 400);
+    typingLabel.setBounds(25, 25, 420, 400);
+
+    typingLabel.setDebug(true);
     stage.addActor(label);
     stage.addActor(typingLabel);
 
-    // TODO: setBounds() on TypingLabel doesn't currently act like using setSize() and setPosition() separately.
 
   }
 
@@ -83,8 +88,6 @@ public class WelcomeScreen extends ApplicationAdapter {
     stage.act();
     stage.getViewport().apply(true);
     stage.draw();
-    // prints 25 over and over.
-    System.out.println(typingLabel.getY());
   }
 
   @Override
