@@ -649,7 +649,11 @@ public class TextraLabel extends Widget {
             setPosition(x, y);
         }
         if (this.getWidth() != width || this.getHeight() != height) {
-            setSize(width, height);
+            if(Gdx.graphics.getWidth() <= 0 || Gdx.graphics.getHeight() <= 0) return;
+            super.setSize(width, height);
+            layout.setTargetWidth(width);
+            font.regenerateLayout(layout);
+//            invalidateHierarchy(); // for some reason, this breaks TextraSelectBox.
         }
     }
 

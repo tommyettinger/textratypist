@@ -290,7 +290,9 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 	public void render () {
 //		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
-		fpsLabel.getFont().markup("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]", fpsLabel.layout.clear());
+		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]");
+		fpsLabel.layout.setTargetWidth(300);
+		fpsLabel.regenerateLayout();
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
