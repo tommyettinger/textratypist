@@ -11,9 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -22,7 +20,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class TypingLabelTest extends ApplicationAdapter {
-    Skin          skin;
+    FWSkin        skin;
     Stage         stage;
     SpriteBatch   batch;
     TypingLabel   label;
@@ -313,6 +311,7 @@ public class TypingLabelTest extends ApplicationAdapter {
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
         label.getFont().family.resizeDistanceFields(width, height, stage.getViewport());
+        skin.resizeDistanceFields(width, height, stage.getViewport());
     }
 
     @Override

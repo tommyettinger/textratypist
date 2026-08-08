@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -20,7 +19,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 /**
  */
 public class EffectShowcaseGdx extends ApplicationAdapter {
-    Skin        skin;
+    FWSkin      skin;
     Stage       stage;
     SpriteBatch batch;
     TypingLabel label;
@@ -200,6 +199,7 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        skin.resizeDistanceFields(width, height, stage.getViewport());
     }
 
     @Override
