@@ -16,7 +16,6 @@
 
 package com.github.tommyettinger.textra.effects;
 
-import com.badlogic.gdx.utils.TimeUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
 import com.github.tommyettinger.textra.utils.NoiseUtils;
@@ -39,9 +38,6 @@ import com.github.tommyettinger.textra.utils.NoiseUtils;
  * </code>
  */
 public class CrowdEffect extends Effect {
-    private static final float DEFAULT_ROTATION_STRENGTH = 1f;
-    private static final float DEFAULT_SPEED = 0.001f;
-
     private float rotationAmount = 15; // How many degrees a glyph can rotate, clockwise or counterclockwise
     private float speed = 1; // How fast the glyphs should move
 
@@ -67,7 +63,7 @@ public class CrowdEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate offset
-        float rot = NoiseUtils.octaveNoise1D((TimeUtils.millis() & 0xFFFFFF) * speed * DEFAULT_SPEED + globalIndex * 0.42f, globalIndex) * rotationAmount * DEFAULT_ROTATION_STRENGTH;
+        float rot = NoiseUtils.octaveNoise1D(totalTime * speed + globalIndex * 0.42f, globalIndex) * rotationAmount;
 
         // Calculate fadeout
         float fadeout = calculateFadeout();
