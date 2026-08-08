@@ -13,10 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -25,20 +23,18 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
     Stage       stage;
     SpriteBatch batch;
     TypingLabel label;
-    TextButton  buttonPause;
-    TextButton  buttonResume;
-    TextButton  buttonRestart;
-    TextButton  buttonRebuild;
-    TextButton  buttonSkip;
+    TextraButton  buttonPause;
+    TextraButton  buttonResume;
+    TextraButton  buttonRestart;
+    TextraButton  buttonRebuild;
+    TextraButton  buttonSkip;
 
     @Override
     public void create() {
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
-        skin = new FWSkin(Gdx.files.internal("uiskin.json"));
-//        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-//        skin.getFont("default-font");//.getData().setScale(0.5f);
+        skin = new FWSkin(Gdx.files.internal("uiskin4.json"));
         stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
 
@@ -48,7 +44,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
 
         label = createTypingLabel();
 
-        buttonPause = new TextButton("Pause", skin);
+        buttonPause = new TextraButton("Pause", skin);
         buttonPause.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -56,7 +52,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
             }
         });
 
-        buttonResume = new TextButton("Resume", skin);
+        buttonResume = new TextraButton("Resume", skin);
         buttonResume.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -64,7 +60,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
             }
         });
 
-        buttonRestart = new TextButton("Restart", skin);
+        buttonRestart = new TextraButton("Restart", skin);
         buttonRestart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -79,7 +75,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
             }
         });
 
-        buttonRebuild = new TextButton("Rebuild", skin);
+        buttonRebuild = new TextraButton("Rebuild", skin);
         buttonRebuild.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -95,7 +91,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
             }
         });
 
-        buttonSkip = new TextButton("Skip", skin);
+        buttonSkip = new TextraButton("Skip", skin);
         buttonSkip.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
