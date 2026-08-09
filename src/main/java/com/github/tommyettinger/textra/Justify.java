@@ -45,4 +45,44 @@ public enum Justify {
         affectSpaces = spaces;
         affectAllGlyphs = all;
     }
+
+    /**
+     * Attempts to convert between a libGDX Justify enum and a TextraTypist Justify enum. Currently, TextraTypist
+     * doesn't distinguish wrapped lines from unwrapped ones, though it could in the future. The libGDX constants
+     * {@link com.badlogic.gdx.utils.Justify#WrappedLinesBySpace} is matched to {@link #SPACES_ON_PARAGRAPH} here, and
+     * {@link com.badlogic.gdx.utils.Justify#WrappedLinesByGlyph} is matched to {@link #FULL_ON_PARAGRAPH}.
+     *
+     * @param gdx a Justify enum from recent libGDX versions
+     * @return the closest TextraTypist Justify enum there is to the given libGDX Justify enum
+     */
+    public static Justify fromGdx(com.badlogic.gdx.utils.Justify gdx){
+        switch (gdx){
+            case AllLinesBySpace: return SPACES_ON_ALL_LINES;
+            case AllLinesByGlyph: return FULL_ON_ALL_LINES;
+            case WrappedLinesBySpace:
+            case ParagraphBySpace: return SPACES_ON_PARAGRAPH;
+            case WrappedLinesByGlyph:
+            case ParagraphByGlyph: return FULL_ON_PARAGRAPH;
+            default: return NONE;
+        }
+    }
+
+    /**
+     * Converts between a TextraTypist Justify enum and a libGDX Justify enum. This matches the five possible enum
+     * constants here to direct analogs in libGDX, and cannot return
+     * {@link com.badlogic.gdx.utils.Justify#WrappedLinesByGlyph} or
+     * {@link com.badlogic.gdx.utils.Justify#WrappedLinesBySpace}.
+     * 
+     * @param textra a Justify enum from TextraTypist
+     * @return the closest Justify enum from libGDX to the given TextraTypist Justify enum
+     */
+    public static com.badlogic.gdx.utils.Justify toGdx(Justify textra){
+        switch (textra){
+            case SPACES_ON_ALL_LINES: return com.badlogic.gdx.utils.Justify.AllLinesBySpace;
+            case FULL_ON_ALL_LINES: return com.badlogic.gdx.utils.Justify.AllLinesByGlyph;
+            case SPACES_ON_PARAGRAPH: return com.badlogic.gdx.utils.Justify.ParagraphBySpace;
+            case FULL_ON_PARAGRAPH: return com.badlogic.gdx.utils.Justify.ParagraphByGlyph;
+            default: return com.badlogic.gdx.utils.Justify.None;
+        }
+    }
 }
