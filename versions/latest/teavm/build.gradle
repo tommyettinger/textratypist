@@ -1,39 +1,61 @@
 plugins {
   id 'java'
-  id 'org.gretty' version "3.1.8"
-}
-
-gretty {
-  contextPath = '/'
-  extraResourceBase 'build/dist/webapp'
 }
 
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 project.ext.mainClassName = "com.github.tommyettinger.teavm.TeaVMBuilder"
 eclipse.project.name = appName + "-teavm"
 
-// This must be at least 11, and no higher than the JDK version this project is built with.
-java.targetCompatibility = "11"
+// This must be at least 17, and no higher than the JDK version this project is built with.
+java.targetCompatibility = "17"
 // This should probably be equal to targetCompatibility, above. This only affects the TeaVM module.
-java.sourceCompatibility = "11"
+java.sourceCompatibility = "17"
 
 
 dependencies {
-  implementation "com.github.xpenatan.gdx-teavm:backend-teavm:$gdxTeaVMVersion"
-  implementation "com.github.xpenatan.gdx-teavm:gdx-freetype-teavm:$gdxTeaVMVersion"
+  implementation "com.github.xpenatan.gdx-teavm:backend-web:$gdxTeaVMVersion"
+  implementation "com.github.xpenatan.gdx-teavm:gdx-freetype-web:$gdxTeaVMVersion"
   implementation project(':core')
 
 }
 
-tasks.register("buildJavaScript", JavaExec) {
-  dependsOn classes
-  setDescription("Transpile bytecode to JavaScript via TeaVM")
+tasks.register("runRelease", JavaExec) {
+  description = "Run the TeaVM application hosted via a local Jetty server at http://localhost:8080/"
+  group("application")
+  dependsOn(classes)
+  mainClass.set(project.mainClassName)
+  setClasspath(sourceSets.main.runtimeClasspath)
+  args += ["run"]
+}
+
+tasks.register("runDebug", JavaExec) {
+  description = "Run the TeaVM application with debug enabled hosted via a local Jetty server at http://localhost:8080/"
+  group("application")
+  dependsOn(classes)
+  mainClass.set(project.mainClassName)
+  setClasspath(sourceSets.main.runtimeClasspath)
+  args += ["debug", "run"]
+}
+
+tasks.register("buildRelease", JavaExec) {
+  description = "Build the TeaVM application; doesn't run directly"
+  group("build")
+  dependsOn(classes)
   mainClass.set(project.mainClassName)
   setClasspath(sourceSets.main.runtimeClasspath)
 }
-build.dependsOn buildJavaScript
 
-tasks.register("run") {
-  description = "Run the JavaScript application hosted via a local Jetty server at http://localhost:8080/"
-  dependsOn(buildJavaScript, tasks.named("jettyRun"))
+tasks.register("buildDebug", JavaExec) {
+  description = "Build the TeaVM application with debug enabled; doesn't run directly"
+  group("build")
+  dependsOn(classes)
+  mainClass.set(project.mainClassName)
+  setClasspath(sourceSets.main.runtimeClasspath)
+  args += ["debug"]
 }
+
+// For backwards compatibility with the earlier run and build tasks.
+tasks.register("run"){
+  dependsOn runRelease
+}
+build.dependsOn buildRelease
