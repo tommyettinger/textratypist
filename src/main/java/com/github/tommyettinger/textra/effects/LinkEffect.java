@@ -37,6 +37,9 @@ import com.github.tommyettinger.textra.utils.StringUtils;
  * <code>
  * {LINK=https://github.com/tommyettinger/textratypist}Text effects!{ENDLINK}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/link.gif">Animated preview here.</a>
+ * This doesn't look different from the normal typing effect because it needs mouse/touch interaction.
  */
 public class LinkEffect extends Effect {
     private String link = "https://libgdx.com";

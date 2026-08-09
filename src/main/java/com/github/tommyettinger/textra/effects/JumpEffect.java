@@ -36,6 +36,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {JUMP=0.5;1.5;0.8;_}Each glyph here will jump a little and with slower movement, but more often; the jumps will go on forever.{ENDJUMP}
  * {JUMP=2.5;0.25;1.0;5}Each glyph here will jump very high, infrequently, at normal speed, for 5 seconds total.{ENDJUMP}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/jump.gif">Animated preview here.</a>
  */
 public class JumpEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 50f;

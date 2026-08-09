@@ -35,6 +35,9 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {ATTENTION=1000;50}Roughly 10 glyphs in either direction will get squashed to a shorter height on mouse-over.{ENDATTENTION}
  * {ATTENTION=300;200}Roughly 3 glyphs in either direction will stretch to approach double-height on mouse-over.{ENDATTENTION}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/attention.gif">Animated preview here.</a>
+ * This doesn't look different from the normal typing effect because it needs mouse/touch interaction.
  */
 public class AttentionEffect extends Effect {
     private float spread = 5; // How many glyphs in either direction of the pointer to scale

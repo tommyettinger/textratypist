@@ -37,6 +37,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {EASE=5;2.8;y}Each glyph here will wiggle into position from very high above, doing so quickly.{ENDEASE}
  * {EASE=-3;0.3}Each glyph here will slide up and into place very slowly.{ENDEASE}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/ease.gif">Animated preview here.</a>
  */
 public class EaseEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.15f;

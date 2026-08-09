@@ -38,6 +38,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {MEET=5;2.8;y;y}Each glyph here will wiggle into position from very randomly-scattered points, doing so quickly.{ENDMEET}
  * {MEET=-3;0.3}Each glyph here will slide from an equal distance and random angle, going into place very slowly.{ENDMEET}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/meet.gif">Animated preview here.</a>
  */
 public class MeetEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 1f;

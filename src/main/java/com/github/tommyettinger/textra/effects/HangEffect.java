@@ -36,6 +36,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {HANG=2.0;1.3}Each glyph here will hang higher and drop a little more quickly.{ENDHANG}
  * {HANG=-0.5;3.0}Each glyph here will pop up quickly from a short distance below, instead of dropping down.{ENDHANG}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/hang.gif">Animated preview here.</a>
  */
 public class HangEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.7f;

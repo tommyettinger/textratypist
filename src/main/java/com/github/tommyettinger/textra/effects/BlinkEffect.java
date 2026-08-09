@@ -39,6 +39,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {BLINK=RED;LIGHT BLUE}This text will blink between red and light blue.{ENDBLINK}
  * {BLINK=1.0;0.0;5.0;0.9}This text will briefly flicker to transparent several times a second.{ENDBLINK}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/blink.gif">Animated preview here.</a>
  */
 public class BlinkEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 1f;

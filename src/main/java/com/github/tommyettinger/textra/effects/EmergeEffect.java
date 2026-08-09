@@ -35,6 +35,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {EMERGE=2.8;y}Each glyph here will wiggle into its full size quickly.{ENDEMERGE}
  * {EMERGE=0.3}Each glyph here will very slowly stretch to its full size.{ENDEMERGE}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/emerge.gif">Animated preview here.</a>
  */
 public class EmergeEffect extends Effect {
     private static final float DEFAULT_SPEED = 0.125f;

@@ -43,6 +43,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {JOLT=1;1;_;0.05;DARKEST RED;RED}This text will default to very dark red but will make individual characters pop out
  * in shaking bright red text. The effect won't ever end.{ENDJOLT}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/jolt.gif">Animated preview here.</a>
  */
 public class JoltEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.12f;

@@ -31,6 +31,9 @@ import com.github.tommyettinger.textra.TypingLabel;
  * <code>
  * {INSTANT}This text will show up all at once.{ENDINSTANT}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/instant.gif">Animated preview here.</a>
+ * This doesn't look different from still text because it appears immediately (after a blank frame).
  */
 public class InstantEffect extends Effect {
     public InstantEffect(TypingLabel label, String[] params) {

@@ -36,6 +36,8 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
  * {GRADIENT=RED;LIGHT BLUE;1.0;0.3}This text will blend slowly between from red to light blue.{ENDGRADIENT}
  * {GRADIENT=#111111FF;#EEEEEEFF;1.0;3.0}This text will blend quickly between from dark gray and light gray.{ENDGRADIENT}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/gradient.gif">Animated preview here.</a>
  */
 public class GradientEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.975f;

@@ -42,6 +42,9 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
  * {HIGHLIGHT=default;1;1;1;0.5;true}This whole span of text will be highlighted vividly on mouse-over.{ENDHIGHLIGHT}
  * {HIGHLIGHT=default;1;0.4;0.6;0.7;false}Individual glyphs will be highlighted slowly in pastel colors on mouse-over.{ENDHIGHLIGHT}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/highlight.gif">Animated preview here.</a>
+ * This doesn't look different from the normal typing effect because it needs mouse/touch interaction.
  */
 public class HighlightEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.975f;

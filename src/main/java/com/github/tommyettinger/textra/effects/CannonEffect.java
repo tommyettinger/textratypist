@@ -40,6 +40,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {CANNON=0.5;1.5;0.25;0.3;0.2}This text will start smaller, travel faster, arc less, and not shake much.{ENDCANNON}
  * {CANNON=2.5;0.75;1.5;1.7;2.1}This text will start larger, travel more slowly, arc more, shake longer, and shake much more.{ENDCANNON}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/cannon.gif">Animated preview here.</a>
  */
 public class CannonEffect extends Effect {
     private static final float DEFAULT_STRETCH = 3f;

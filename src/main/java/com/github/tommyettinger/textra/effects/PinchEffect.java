@@ -37,6 +37,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {PINCH=0.3;5;0.03;t}This text will select glyphs to squeeze infrequently, and squeeze less than usual; it will be
  * elastic at the end of each pinch. The effect will end after 5 seconds.{ENDPINCH}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/pinch.gif">Animated preview here.</a>
  */
 public class PinchEffect extends Effect {
     private static final float DEFAULT_STRENGTH = 0.5f;

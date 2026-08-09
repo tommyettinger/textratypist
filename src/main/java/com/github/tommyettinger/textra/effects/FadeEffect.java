@@ -40,6 +40,8 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
  * {FADE=RED;LIGHT BLUE;2.0}This text will fade from red to light blue over 2 seconds.{ENDFADE}
  * {FADE=0.0;1.0;0.5}This text will go from invisible to the default color in half a second.{ENDFADE}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/fade.gif">Animated preview here.</a>
  */
 public class FadeEffect extends Effect {
     private int color1 = 256; // First color of the effect.

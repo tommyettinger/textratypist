@@ -36,6 +36,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {CAROUSEL=0.5;_}Each glyph here will slowly spin forever.{ENDCAROUSEL}
  * {CAROUSEL=2;5}Each glyph here will spin quickly for 5 seconds total.{ENDCAROUSEL}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/carousel.gif">Animated preview here.</a>
  */
 public class CarouselEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 0.5f;

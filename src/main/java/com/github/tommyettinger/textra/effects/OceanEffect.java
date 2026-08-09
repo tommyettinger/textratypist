@@ -39,6 +39,8 @@ import com.github.tommyettinger.textra.utils.NoiseUtils;
  * {OCEAN=1;0.25;0.5;0.8;0.25}This text will slowly shift between darker and lighter blue and blue-green.{ENDGRADIENT}
  * {OCEAN=0.7;1.25;0.11;1.0;0.65}This text will burn with the cleansing power of fire!{ENDGRADIENT}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/ocean.gif">Animated preview here.</a>
  */
 public class OceanEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.975f;

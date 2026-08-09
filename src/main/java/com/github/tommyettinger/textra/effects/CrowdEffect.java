@@ -36,6 +36,8 @@ import com.github.tommyettinger.textra.utils.NoiseUtils;
  * {CROWD=50;0.8;_}Each glyph here will rotate a lot, but slowly, and will do so forever.{ENDCROWD}
  * {CROWD=10;4;5}Each glyph here will rotate a little, but quickly, for 5 seconds total.{ENDCROWD}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/crowd.gif">Animated preview here.</a>
  */
 public class CrowdEffect extends Effect {
     private float rotationAmount = 15; // How many degrees a glyph can rotate, clockwise or counterclockwise

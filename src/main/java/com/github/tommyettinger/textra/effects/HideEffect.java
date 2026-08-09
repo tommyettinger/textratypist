@@ -45,6 +45,9 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
  * {HIDE=RED;LIGHT BLUE;2.0}This text will fade from red to light blue over 2 seconds.{ENDHIDE}
  * {HIDE=0.0;1.0;0.5}This text will go from invisible to the default color in half a second.{ENDHIDE}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/gradient.gif">Animated preview here.</a>
+ * This doesn't show anything other than the "note" underline because it needs mouse/touch interaction.
  */
 public class HideEffect extends Effect {
     private int color1 = 256; // First color of the effect.

@@ -38,6 +38,8 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
  * {RAINBOW=1;1;1;0.5}This span of text will use a vividly-saturated rainbow.{ENDRAINBOW}
  * {RAINBOW=1;0.4;0.6;0.7}This span of text will use a slower-changing pastel rainbow.{ENDRAINBOW}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/rainbow.gif">Animated preview here.</a>
  */
 public class RainbowEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.975f;

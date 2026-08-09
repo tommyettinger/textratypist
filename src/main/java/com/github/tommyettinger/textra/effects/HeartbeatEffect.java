@@ -35,6 +35,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {HEARTBEAT=0.75;0.5;_}Each glyph here will slowly pulse by a smaller amount forever.{ENDHEARTBEAT}
  * {HEARTBEAT=2.5;2;5}Each glyph here will pulse quickly by a large amount for 5 seconds total.{ENDHEARTBEAT}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/heartbeat.gif">Animated preview here.</a>
  */
 public class HeartbeatEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 1f;
