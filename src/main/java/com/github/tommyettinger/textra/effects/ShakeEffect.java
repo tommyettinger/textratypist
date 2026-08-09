@@ -37,6 +37,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {SHAKE=0.5;0.8;_}Each glyph here will shake a little and with slower movement; the shaking will go on forever.{ENDSHAKE}
  * {SHAKE=2.5;1.0;5}Each glyph here will shake a lot, at normal speed, for 5 seconds total.{ENDSHAKE}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/shake.gif">Animated preview here.</a>
  */
 public class ShakeEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.12f;

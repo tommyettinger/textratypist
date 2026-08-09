@@ -36,6 +36,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {SHRINK=5;2.8;y}Each glyph here will shrink "bouncily" into position from a very large size, doing so quickly.{ENDSHRINK}
  * {SHRINK=1.5;0.3}Each glyph here will shrink into position from a somewhat-large size, and very slowly.{ENDSHRINK}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/shrink.gif">Animated preview here.</a>
  */
 public class ShrinkEffect extends Effect {
     private static final float DEFAULT_EXPANSION = 3f;

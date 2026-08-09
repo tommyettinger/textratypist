@@ -35,6 +35,9 @@ import com.github.tommyettinger.textra.utils.StringUtils;
  * <code>
  * {TRIGGER=party}When you click this, the party starts! If an event is registered for "party"...{ENDTRIGGER}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/trigger.gif">Animated preview here.</a>
+ * This doesn't look different from the normal typing effect because it needs mouse/touch interaction.
  */
 public class TriggerEffect extends Effect {
     private String event = "start";

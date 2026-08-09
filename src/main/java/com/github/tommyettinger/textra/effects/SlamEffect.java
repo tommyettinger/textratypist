@@ -40,6 +40,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {SLAM=0.5;2.0;2.5;1.5;2.0}This text will hang briefly, travel faster, start higher, and shake longer, and shake a lot.{ENDSLAM}
  * {SLAM=2.5;0.75;-0.5;0.7;0.9}This text will hang longer, travel more slowly, start a little below the destination, shake less time, and shake less.{ENDSLAM}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/slam.gif">Animated preview here.</a>
  */
 public class SlamEffect extends Effect {
     private static final float DEFAULT_HANG_TIME = 1f;

@@ -41,6 +41,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {THROB=0.5;0.8;0.5;_}Each glyph here will shake a little, with slower movement, and will change strength slowly; the shaking will go on forever.{ENDTHROB}
  * {THROB=2.5;1.0;3.0;5}Each glyph here will shake a lot, at normal speed, with rapidly changing strength, for 5 seconds total.{ENDTHROB}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/throb.gif">Animated preview here.</a>
  */
 public class ThrobEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.12f;

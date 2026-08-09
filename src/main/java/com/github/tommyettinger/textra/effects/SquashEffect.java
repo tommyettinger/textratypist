@@ -36,6 +36,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {SQUASH=2.8;y}Each glyph here will wiggle "bouncily" into a squashed size and back again quickly.{ENDSQUASH}
  * {SQUASH=0.3}Each glyph here will very slowly be crushed down to a squashed size and back again.{ENDSQUASH}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/squash.gif">Animated preview here.</a>
  */
 public class SquashEffect extends Effect {
     private static final float DEFAULT_SPEED = 0.125f;

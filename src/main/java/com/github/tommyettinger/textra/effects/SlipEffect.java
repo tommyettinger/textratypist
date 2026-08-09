@@ -36,6 +36,8 @@ import com.github.tommyettinger.textra.utils.NoiseUtils;
  * {SLIP=5;0.8;_}Each glyph here will slip a lot, but slowly, and will do so forever.{ENDSLIP}
  * {SLIP=0.25;4;5}Each glyph here will slip a little, but quickly, for 5 seconds total.{ENDSLIP}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/slip.gif">Animated preview here.</a>
  */
 public class SlipEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.5f;

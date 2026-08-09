@@ -37,6 +37,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {EASE=5;2.8;y}Each glyph here will wiggle into position from very far to the right, doing so quickly.{ENDEASE}
  * {EASE=-2;0.3}Each glyph here will slide into place from the left, very slowly.{ENDEASE}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/slide.gif">Animated preview here.</a>
  */
 public class SlideEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 2f;

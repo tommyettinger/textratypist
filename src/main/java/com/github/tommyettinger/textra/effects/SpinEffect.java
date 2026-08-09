@@ -36,6 +36,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {SPIN=5;2;y}Each glyph here will wiggle-spin very quickly twice.{ENDSPIN}
  * {SPIN=0.4;6}Each glyph here will spin slowly six times.{ENDSPIN}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/spin.gif">Animated preview here.</a>
  */
 public class SpinEffect extends Effect {
     private static final float DEFAULT_EXTENT = 1.0f;

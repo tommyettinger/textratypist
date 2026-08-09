@@ -37,6 +37,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {SICK=0.5;0.8;_}Each glyph here will shake a little and with slower movement; the shaking will go on forever.{ENDSICK}
  * {SICK=2.5;1.0;5}Each glyph here will shake a lot, at normal speed, for 5 seconds total.{ENDSICK}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/sick.gif">Animated preview here.</a>
  */
 public class SickEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 50f;

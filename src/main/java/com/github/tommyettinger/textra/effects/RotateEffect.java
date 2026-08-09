@@ -31,6 +31,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {ROTATE=30}Rotates characters 30 degrees counterclockwise, which would "undo" italic effects, mostly.{ENDROTATE}
  * {ROTATE=180}Rotates characters 180 degrees counterclockwise, which flips them upside-down.{ENDROTATE}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/rotate.gif">Animated preview here.</a>
  */
 public class RotateEffect extends Effect {
     private float rotation = 90; // how many degrees to rotate each glyph, counter-clockwise

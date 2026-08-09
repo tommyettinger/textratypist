@@ -36,6 +36,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {SCALE=1.5}Makes glyphs 1.5x wider and 1.5x taller.{ENDSCALE}
  * {SCALE=2;1}Makes glyphs 2x wider and their normal height.{ENDSCALE}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/scale.gif">Animated preview here.</a>
  */
 public class ScaleEffect extends Effect {
     private float sizeX = 0.75f; // How much of their width they should start expanded by on x

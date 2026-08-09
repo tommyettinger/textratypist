@@ -37,6 +37,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {ZIPPER=5;2.8;y}Each glyph here will zip elastically into position from very high out, doing so quickly.{ENDZIPPER}
  * {ZIPPER=-3;0.3}Each glyph here will zip smoothly into place very slowly.{ENDZIPPER}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/zipper.gif">Animated preview here.</a>
  */
 public class ZipperEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 0.75f;

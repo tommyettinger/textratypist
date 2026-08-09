@@ -36,6 +36,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {WAVE=0.5;1.5;0.8;_}Each glyph here will rise/fall a little and with slower movement, but more often; the wave will go on forever.{ENDWAVE}
  * {WAVE=2.5;0.25;1.0;5}Each glyph here will rise/fall a lot, infrequently, at normal speed, for 5 seconds total.{ENDWAVE}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/wave.gif">Animated preview here.</a>
  */
 public class WaveEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 15f;

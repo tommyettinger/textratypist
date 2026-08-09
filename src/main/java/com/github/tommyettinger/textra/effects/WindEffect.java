@@ -37,6 +37,8 @@ import com.github.tommyettinger.textra.utils.NoiseUtils;
  * {WIND=2;4;0.5;0.5;_}Glyphs here will move more vertically than horizontally, with little spacing and lower intensity; the wind will go on forever.{ENDWIND}
  * {WIND=3;0.5;2.5;1.5;10}Glyphs here will move much more horizontally than vertically, with more spacing and stronger intensity; the wind will go on for 10 seconds.{ENDWIND}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/wind.gif">Animated preview here.</a>
  */
 public class WindEffect extends Effect {
     private static final float DEFAULT_SPACING = 10f;

@@ -80,6 +80,9 @@ import com.github.tommyettinger.textra.utils.CaseInsensitiveIntMap;
  * {STYLIST=italic all}This whole span of text will become oblique/italicized on mouse-over.{ENDSTYLIST}
  * {STYLIST=bold strike}Individual glyphs will be set to bold and be struck through while moused-over.{ENDSTYLIST}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/stylist.gif">Animated preview here.</a>
+ * This doesn't look different from the normal typing effect because it needs mouse/touch interaction.
  */
 public class StylistEffect extends Effect {
     private long effects = 0L;//Font.BOLD | Font.OBLIQUE | Font.UNDERLINE | Font.STRIKETHROUGH | Font.SUPERSCRIPT;

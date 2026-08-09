@@ -35,6 +35,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {SPIN=2.5;5;2}Each glyph here will spiral in twice from fairly far away, very quickly.{ENDSPIN}
  * {SPIN=0.8;0.5;4}Each glyph here will spiral in four times from close-by, slowly.{ENDSPIN}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/spiral.gif">Animated preview here.</a>
  */
 public class SpiralEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 1f;

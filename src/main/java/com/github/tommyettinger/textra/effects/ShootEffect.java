@@ -36,6 +36,8 @@ import com.github.tommyettinger.textra.utils.NoiseUtils;
  * {SHOOT=f;t;0.4;2}This text will draw a longer line than usual as strikethrough only, and will move more quickly.{ENDSHOOT}
  * {SHOOT=t;f;0.1;0.5}This text will draw a shorter line as underline only, and will move more slowly.{ENDSHOOT}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/shoot.gif">Animated preview here.</a>
  */
 public class ShootEffect extends Effect {
     private static final float DEFAULT_FREQUENCY = 3f;

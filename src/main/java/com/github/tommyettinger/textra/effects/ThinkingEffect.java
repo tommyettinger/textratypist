@@ -39,6 +39,8 @@ import com.github.tommyettinger.textra.TypingLabel;
  * {THINKING=5;10;1;y}Each glyph here will fade into position from very randomly-scattered points, drifting before doing so slowly.{ENDTHINKING}
  * {THINKING=-3;0.3;0}Each glyph here will start at an equal distance and random angle, not drifting and blinking into place very quickly.{ENDTHINKING}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/thinking.gif">Animated preview here.</a>
  */
 public class ThinkingEffect extends Effect {
     private static final float DEFAULT_DISTANCE = 1f;

@@ -36,6 +36,8 @@ import com.github.tommyettinger.textra.utils.NoiseUtils;
  * {SPUTTER=50;0.8;_}Each glyph here will rotate a lot, but slowly, and will do so forever.{ENDSPUTTER}
  * {SPUTTER=10;4;5}Each glyph here will rotate a little, but quickly, for 5 seconds total.{ENDSPUTTER}
  * </code>
+ * <br>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/sputter.gif">Animated preview here.</a>
  */
 public class SputterEffect extends Effect {
     private static final float DEFAULT_WIDEN = 5;
