@@ -49,7 +49,7 @@ public class ImageTextraButton extends Button {
     }
 
     public ImageTextraButton(@Null String text, ImageTextButtonStyle style) {
-        this(text, style, new Font(style.font));
+        this(text, style, style.font);
     }
 
     public ImageTextraButton(@Null String text, Skin skin, Font replacementFont) {

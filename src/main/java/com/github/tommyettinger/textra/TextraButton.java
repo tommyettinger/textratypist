@@ -45,7 +45,7 @@ public class TextraButton extends Button {
     }
 
     public TextraButton(@Null String text, TextButtonStyle style) {
-        this(text, style, new Font(style.font));
+        this(text, style, style.font);
     }
 
 

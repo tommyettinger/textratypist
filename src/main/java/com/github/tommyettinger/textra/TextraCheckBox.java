@@ -45,7 +45,7 @@ public class TextraCheckBox extends TextraButton {
     }
 
     public TextraCheckBox(@Null String text, CheckBoxStyle style) {
-        this(text, style, new Font(style.font));
+        this(text, style, style.font);
     }
 
     public TextraCheckBox(@Null String text, Skin skin, Font replacementFont) {

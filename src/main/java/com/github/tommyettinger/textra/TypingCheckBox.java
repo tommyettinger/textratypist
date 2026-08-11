@@ -45,7 +45,7 @@ public class TypingCheckBox extends TypingButton {
     }
 
     public TypingCheckBox(@Null String text, CheckBoxStyle style) {
-        this(text, style, new Font(style.font));
+        this(text, style, style.font);
     }
 
     public TypingCheckBox(@Null String text, Skin skin, Font replacementFont) {

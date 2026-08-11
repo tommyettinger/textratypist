@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class CJKTypingLabelTest extends ApplicationAdapter {
@@ -38,7 +39,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
         adjustTypingConfigs();
 
         skin = new FWSkin(Gdx.files.internal("uiskin4.json"));
-        stage = new Stage(new ScreenViewport(), batch);
+        stage = new Stage(new FitViewport(720, 405), batch);
         Gdx.input.setInputProcessor(stage);
 
         final Table table = new Table();
@@ -232,7 +233,7 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TypingLabel CJK Test");
         config.setWindowedMode(720, 405);
-        config.setResizable(false);
+        config.setResizable(true);
         config.setForegroundFPS(60);
         config.useVsync(true);
         config.disableAudio(true);

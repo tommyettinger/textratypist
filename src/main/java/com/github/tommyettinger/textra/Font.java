@@ -3302,12 +3302,15 @@ public class Font implements Disposable {
         String dfType = atlas.getString("type", "");
         if("msdf".equals(dfType) || "mtsdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.MSDF);
-            setCrispness(atlas.getFloat("distanceRange", 8f) * 0.2f); // maybe we don't need to read this?
+            setCrispness(atlas.getFloat("distanceRange", 8f) * 0.2f);
+            // fallback setting that works if resizeDistanceField is not called, for x1 zoom only
+            actualCrispness = distanceFieldCrispness;
         }
         else if("sdf".equals(dfType) || "psdf".equals(dfType)) {
             this.setDistanceField(DistanceFieldType.SDF);
             setCrispness(atlas.getFloat("distanceRange", 8f) * 0.2f);
-//            setCrispness(0.03125f * atlas.getFloat("distanceRange", 4f)); // maybe we don't need to read this?
+            // fallback setting that works if resizeDistanceField is not called, for x1 zoom only
+            actualCrispness = distanceFieldCrispness;
         }
         else // softmask, hardmask
             this.setDistanceField(DistanceFieldType.STANDARD);
