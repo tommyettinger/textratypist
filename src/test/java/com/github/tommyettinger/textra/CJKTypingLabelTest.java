@@ -20,7 +20,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class CJKTypingLabelTest extends ApplicationAdapter {
     FWSkin      skin;
     Stage       stage;
-    SpriteBatch batch;
+//    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     TypingLabel label;
     TextraButton  buttonPause;
     TextraButton  buttonResume;
@@ -30,9 +31,12 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void create() {
+//        batch = new SpriteBatch(1000);
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         adjustTypingConfigs();
 
-        batch = new SpriteBatch();
         skin = new FWSkin(Gdx.files.internal("uiskin4.json"));
         stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
@@ -206,6 +210,10 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
 //            System.out.println(label.font.family.connected[adj].setDescent(label.font.family.connected[adj].descent - 1).descent + " " + label.font.family.connected[adj].name);
         stage.draw();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
+        System.out.println("actualCrispness from skin:   " + skin.get(Styles.TextButtonStyle.class).font.actualCrispness);
+        System.out.println("actualCrispness from button: " + buttonPause.getTextraLabel().font.actualCrispness);
+        System.out.println("distanceField from button:   " + buttonPause.getTextraLabel().font.distanceField);
+
     }
 
     @Override

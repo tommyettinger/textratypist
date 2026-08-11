@@ -72,7 +72,7 @@ public enum Justify {
      * constants here to direct analogs in libGDX, and cannot return
      * {@link com.badlogic.gdx.utils.Justify#WrappedLinesByGlyph} or
      * {@link com.badlogic.gdx.utils.Justify#WrappedLinesBySpace}.
-     * 
+     *
      * @param textra a Justify enum from TextraTypist
      * @return the closest Justify enum from libGDX to the given TextraTypist Justify enum
      */

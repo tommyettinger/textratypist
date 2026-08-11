@@ -6,7 +6,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -20,18 +19,19 @@ import regexodus.Replacer;
 public class BareEmojiTypingLabelTest extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     TypingLabel label;
     Font font;
     Replacer processor;
 
     @Override
     public void create() {
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
         font = KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.MSDF));
         processor = EmojiProcessor.getReplacer(font);
         adjustTypingConfigs();
 
-        batch = new SpriteBatch();
         skin = new FreeTypistSkin(Gdx.files.internal("uiskin.json"));
         stage = new Stage(new ExtendViewport(720, 405), batch);
         stage.setDebugAll(true);
