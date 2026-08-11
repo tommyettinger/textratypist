@@ -7,7 +7,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -28,7 +27,7 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
     public static final boolean NOTO = false;
     FWSkin      skin;
     Stage       stage;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     TypingLabel label;
     TypingLabel labelEvent;
     AnimatedGif gif;
@@ -36,11 +35,13 @@ public class AnimatedPreviewGenerator extends ApplicationAdapter {
 
     @Override
     public void create() {
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         gif = new AnimatedGif();
 
         adjustTypingConfigs();
 
-        batch = new SpriteBatch();
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
         stage = new Stage(new StretchViewport(720, 400), batch);
         Gdx.input.setInputProcessor(stage);

@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -18,7 +17,7 @@ import java.nio.ByteBuffer;
 public class DebugPreviewGenerator extends ApplicationAdapter {
 
     Font font;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     Viewport viewport;
     Layout layout = new Layout().setTargetWidth(1200);
     long startTime;
@@ -65,7 +64,8 @@ YanoneKaffeesatz-standard.fnt has descent: -19
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
         viewport = new StretchViewport(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 
         // investigating a GPU-related bug... seems fixed now, sometimes?

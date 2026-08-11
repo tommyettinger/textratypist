@@ -25,9 +25,8 @@ import java.nio.ByteBuffer;
  */
 public class EffectPreviewGenerator extends ApplicationAdapter {
     public static final int FRAMERATE = 60;
-    Skin        skin;
     Stage       stage;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     TypingLabel label;
     AnimatedGif gif;
     Array<Pixmap> pms = new Array<>(Pixmap[]::new);
@@ -37,6 +36,9 @@ public class EffectPreviewGenerator extends ApplicationAdapter {
 
     @Override
     public void create() {
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeAdaptiveTextureArrayShaders();
+
         Gdx.files.local("out/effects").mkdirs();
         gif = new AnimatedGif();
         starts = TypingConfig.EFFECT_START_TOKENS.orderedKeys();
@@ -45,8 +47,6 @@ public class EffectPreviewGenerator extends ApplicationAdapter {
         ends.sort();
 
         adjustTypingConfigs();
-
-        batch = new SpriteBatch();
 
         stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);

@@ -20,26 +20,22 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class BareFontAlignTest extends ApplicationAdapter {
 
-    private SpriteBatch batch;
+    private TextureArrayCpuPolygonSpriteBatch batch;
     private Layout gameOver;
     private ScreenViewport viewport;
     private Font font;
 
     @Override
     public void create () {
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
 
-        batch = new SpriteBatch();
         viewport = new ScreenViewport();
         font = KnownFonts.getLanaPixel().scale(3);
         gameOver = new Layout(font);

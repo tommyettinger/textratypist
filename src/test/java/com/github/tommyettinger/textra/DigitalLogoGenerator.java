@@ -23,7 +23,7 @@ public class DigitalLogoGenerator extends ApplicationAdapter {
     private static final int WIDTH = 300;
     private static final int HEIGHT = 100;
 
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     Viewport viewport;
     Layout layout = new Layout().setTargetWidth(WIDTH);
 
@@ -41,7 +41,9 @@ public class DigitalLogoGenerator extends ApplicationAdapter {
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeAdaptiveTextureArrayShaders();
+
         viewport = new StretchViewport(WIDTH, HEIGHT);
 
         Font font = KnownFonts.getAStarry(Font.DistanceFieldType.SDF).scale(0.5f);
