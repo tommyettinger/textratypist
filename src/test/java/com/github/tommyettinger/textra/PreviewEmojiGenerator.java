@@ -54,7 +54,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
         IntArray keys = font.mapping.keys().toArray();
         int ks = keys.size;
         for (int y = 0; y < 24; y++) {
-            for (int x = 0; x < 50; x++) {
+            for (int x = 0; x < 49; x++) {
                 char rc;
                 do {
                     rc = (char)keys.get(random.nextInt(ks));
@@ -66,7 +66,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
         font.markup(sb.toString(), layout);
 
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
-        x = Gdx.graphics.getBackBufferWidth() * 0.5f;
+        x = (Gdx.graphics.getBackBufferWidth() + font.cellWidth) * 0.5f;
         y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight() - font.cellHeight * 2) * 0.5f + font.descent * font.scaleY;
         batch.begin();
         font.enableShader(batch);

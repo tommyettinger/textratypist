@@ -3681,6 +3681,7 @@ public class Font implements Disposable {
                 GlyphRegion g = ent.value;
                 if(ent.key >= 0xE000 && ent.key < 0xF800) {
 //                    g.offsetY -= descent;
+                    g.xAdvance = g.getMaxDimension();
                 } else{
                     g.offsetX += (wsx - g.xAdvance) * 0.5f;
                     g.xAdvance = wsx;
@@ -3690,7 +3691,7 @@ public class Font implements Disposable {
             while (vs.hasNext) {
                 IntMap.Entry<GlyphRegion> ent = vs.next();
                 if(ent.key >= 0xE000 && ent.key < 0xF800) {
-//                    ent.value.offsetY -= descent;
+                    ent.value.xAdvance = ent.value.getMaxDimension();
                 } else{
                     ent.value.xAdvance = wsx;
                 }
