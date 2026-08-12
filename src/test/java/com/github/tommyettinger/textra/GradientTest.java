@@ -20,6 +20,12 @@ public class GradientTest extends ApplicationAdapter {
 
   @Override
   public void create() {
+    // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+    TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+    // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+    // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+    TextureArrayShaders.initializeTextureArrayShaders();
+
     font = new Font();
     font.omitCurlyBraces = false;
 
@@ -32,7 +38,7 @@ public class GradientTest extends ApplicationAdapter {
     Stack stack = new Stack(table);
     stack.setFillParent(true);
 
-    stage = new Stage(new ScreenViewport());
+    stage = new Stage(new ScreenViewport(), batch);
     stage.addActor(stack);
   }
 

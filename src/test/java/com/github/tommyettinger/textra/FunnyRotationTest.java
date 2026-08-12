@@ -24,10 +24,8 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -37,7 +35,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import static com.badlogic.gdx.utils.Align.*;
 
 public class FunnyRotationTest extends ApplicationAdapter {
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     FitViewport viewport;
     OrthographicCamera camera;
     Stage stage;
@@ -50,21 +48,23 @@ public class FunnyRotationTest extends ApplicationAdapter {
     TextureRegion texture;
     float rot = 0;
     Table table;
-    ShapeRenderer sr;
 
     static final int[] aligns = {left, topLeft, top, topRight, right, bottomRight, bottom, bottomLeft, center};
 
     @Override
     public void create() {
-        // Prepare your screen here.
-        batch = new SpriteBatch();
-        sr = new ShapeRenderer();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         camera = new OrthographicCamera(1000,540);
         camera.position.set(960,540,1);
         viewport = new FitViewport(1000,540,camera);
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
         texture = new TextureRegion(new Texture(Gdx.files.internal("tilerb.png")));
-        stage = new Stage(viewport);
+        stage = new Stage(viewport, batch);
         FWSkin skin = new FWSkin(Gdx.files.internal("shadeui/uiskin.json"));
 
         Font tFont = new Font("RaeleusScriptius-standard.fnt", 0, 12, 0, 8).setLineMetrics(-0.25f, -0.1f, 0f, 0.1f);
@@ -219,7 +219,6 @@ public class FunnyRotationTest extends ApplicationAdapter {
         config.disableAudio(true);
         ShaderProgram.prependVertexCode = "#version 110\n";
         ShaderProgram.prependFragmentCode = "#version 110\n";
-//		config.enableGLDebugOutput(true, System.out);
 		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.useVsync(true);
 //        config.setForegroundFPS(60);
