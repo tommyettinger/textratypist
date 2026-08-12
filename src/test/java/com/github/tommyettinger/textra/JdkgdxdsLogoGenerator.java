@@ -23,7 +23,7 @@ public class JdkgdxdsLogoGenerator extends ApplicationAdapter {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 200;
 
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     Viewport viewport;
     Layout layout = new Layout().setTargetWidth(WIDTH);
 
@@ -41,7 +41,12 @@ public class JdkgdxdsLogoGenerator extends ApplicationAdapter {
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeAdaptiveTextureArrayShaders();;
+
         viewport = new StretchViewport(WIDTH, HEIGHT);
 
         Font font = KnownFonts.getCozette();
@@ -54,6 +59,9 @@ public class JdkgdxdsLogoGenerator extends ApplicationAdapter {
                 "┌───┬───┬──┐\n" +
                 "│[#18b]jdk[#999]│[#e74a45]gdx[#999]│[#4a5]ds[#999]│\n" +
                 "└───┴───┴──┘";
+//                "┌───┬───┬──┐\n" +
+//                "│[_]jdk[_]│[~]gdx[~]│ds│\n" +
+//                "└───┴───┴──┘";
 //                "┌───┬───┬──┐\n" +
 //                "│jdk│gdx│ds│\n" +
 //                "└───┴───┴──┘";
@@ -69,8 +77,8 @@ public class JdkgdxdsLogoGenerator extends ApplicationAdapter {
         layout.setMaxLines(20);
         font.markup(text, layout);
         ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1f);
-        float x = 6 * 7 * 5 - 18;
-        float y = 12 * 3 * 5;
+        float x = 6 * 7 * 5 - 14;
+        float y = 12 * 3 * 5 - 24;
         batch.begin();
         font.enableShader(batch);
         font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), viewport);
