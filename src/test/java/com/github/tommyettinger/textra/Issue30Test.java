@@ -30,9 +30,15 @@ public class Issue30Test extends ApplicationAdapter {
 
     @Override
     public void create() {
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         Font font = KnownFonts.getDejaVuSans().scaleHeightTo(20);
 
-        stage = new Stage(new FitViewport(320, 240));
+        stage = new Stage(new FitViewport(320, 240), batch);
 
         final String iconA = "a";
         final String iconB = "b";

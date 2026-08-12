@@ -24,13 +24,20 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class Issue27Test extends ApplicationAdapter {
     Stage stage;
     Font font;
     @Override
     public void create() {
-        stage = new Stage();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
+        stage = new Stage(new ScreenViewport(), batch);
         stage.setDebugAll(true);
         font = KnownFonts.getDejaVuSans();
         final TextraLabel label = new TextraLabel("xxxxx qqqqqqqqq\nxxxx", font);
