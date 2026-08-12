@@ -36,7 +36,13 @@ public class IncongruityDistanceFieldTest extends ApplicationAdapter {
 
     @Override
     public void create() {
-        stage = new Stage(new ExtendViewport(1800, 900));
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
+        stage = new Stage(new ExtendViewport(1800, 900), batch);
         Skin skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
         Table root = new Table(skin);
 

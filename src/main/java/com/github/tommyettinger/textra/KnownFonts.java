@@ -7696,7 +7696,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return a new array containing all non-distance-field Font instances this knows
      */
     public static Font[] getAllStandard() {
-        Font[] found = new Font[JSON_NAMES.size+FNT_NAMES.size+ SAD_NAMES.size+3];
+        Font[] found = new Font[JSON_NAMES.size+FNT_NAMES.size+ SAD_NAMES.size+LIMITED_JSON_NAMES.size+1];
         int i = 0;
         // Structured JSON format
         for(String name : JSON_NAMES){
@@ -7705,6 +7705,10 @@ public final class KnownFonts implements LifecycleListener {
         // special JSON config
         found[i++] = getAStarryTall();
         found[i++] = getCordata16x26();
+        found[i++] = getFusionPixelJapanese();
+        found[i++] = getFusionPixelKorean();
+        found[i++] = getFusionPixelSimplifiedChinese();
+        found[i++] = getFusionPixelTraditionalChinese();
         found[i++] = getIBM8x16();
         // AngelCode BMFont format
         found[i++] = getCozette();

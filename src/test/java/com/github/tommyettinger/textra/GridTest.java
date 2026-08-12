@@ -40,7 +40,7 @@ public class GridTest extends ApplicationAdapter {
     Font[] fonts;
     Viewport viewport;
     Stage stage;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     int[][] backgrounds;
     char[][] lines;
     Layout layout;
@@ -62,6 +62,12 @@ public class GridTest extends ApplicationAdapter {
 
     @Override
     public void create() {
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         random = new RandomXS128(123);
         lines = new char[40][10];
         int c = -1;
@@ -74,7 +80,6 @@ public class GridTest extends ApplicationAdapter {
             }
         }
 
-        batch = new SpriteBatch();
         viewport = new StretchViewport(PIXEL_WIDTH, PIXEL_HEIGHT);
         stage = new Stage(viewport, batch);
 
