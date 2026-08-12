@@ -20,14 +20,16 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 
 public class EmojiTextraLabelTest extends ApplicationAdapter {
     Stage       stage;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     TextraLabel label;
 
     @Override
     public void create() {
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         adjustTypingConfigs();
 
-        batch = new SpriteBatch();
         stage = new Stage(new StretchViewport(720, 405), batch);
 //        stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);

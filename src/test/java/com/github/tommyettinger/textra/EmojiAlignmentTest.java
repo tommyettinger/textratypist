@@ -29,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class EmojiAlignmentTest extends ApplicationAdapter {
     public Stage stage;
@@ -38,8 +39,11 @@ public class EmojiAlignmentTest extends ApplicationAdapter {
     long startTime;
     @Override
     public void create() {
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         startTime = TimeUtils.millis();
-        stage = new Stage();
+        stage = new Stage(new FitViewport(1300, 480), batch);
 //        font = KnownFonts.getAStarry().scaleTo(8f, 16f);
 //        font = KnownFonts.getOxanium().scaleTo(16f, 18f);
 //        font = new Font("QuanPixel-standard.fnt", 0, 2, 0, 2).useIntegerPositions(true);

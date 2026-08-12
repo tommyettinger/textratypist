@@ -23,22 +23,20 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 
 public class EmojiTypingLabelTest extends ApplicationAdapter {
-    Skin        skin;
     Stage       stage;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     TypingLabel label;
 //    TypingLabel debugLabel;
     Font font;
 
     @Override
     public void create() {
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         font = KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.MSDF));
         adjustTypingConfigs();
 
-        batch = new SpriteBatch();
-        skin = new FreeTypistSkin(Gdx.files.internal("uiskin.json"));
-//        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-//        skin.getFont("default-font").getData().setScale(0.5f);
         stage = new Stage(new ExtendViewport(720, 405), batch);
         stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);
@@ -221,7 +219,6 @@ public class EmojiTypingLabelTest extends ApplicationAdapter {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
     }
 
     public static void main(String[] arg) {

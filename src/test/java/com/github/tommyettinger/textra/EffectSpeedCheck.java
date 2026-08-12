@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class EffectSpeedCheck extends ApplicationAdapter {
     FWSkin      skin;
     Stage       stage;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     TypingLabel label;
     TextraButton  buttonPause;
     TextraButton  buttonResume;
@@ -30,9 +30,11 @@ public class EffectSpeedCheck extends ApplicationAdapter {
 
     @Override
     public void create() {
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         adjustTypingConfigs();
 
-        batch = new SpriteBatch();
         skin = new FWSkin(Gdx.files.internal("uiskin4.json"));
 //        skin.getFont("default-font");//.getData().setScale(0.5f);
         stage = new Stage(new ScreenViewport(), batch);

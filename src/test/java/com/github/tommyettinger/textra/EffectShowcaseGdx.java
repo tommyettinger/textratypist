@@ -21,19 +21,22 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class EffectShowcaseGdx extends ApplicationAdapter {
     FWSkin      skin;
     Stage       stage;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     TypingLabel label;
     TextraButton  buttonPause;
     TextraButton  buttonResume;
     TextraButton  buttonRestart;
     TextraButton  buttonRebuild;
     TextraButton  buttonSkip;
+    Font font;
 
     @Override
     public void create() {
-        adjustTypingConfigs();
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
 
-        batch = new SpriteBatch();
+        adjustTypingConfigs();
+        font = KnownFonts.getAStarryTall(Font.DistanceFieldType.MSDF);
         skin = new FWSkin(Gdx.files.internal("uiskin4.json"));
         stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
@@ -122,8 +125,6 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
 //                        KnownFonts.getYanoneKaffeesatz().scaleTo(36, 39).adjustLineHeight(0.85f)
 //                });
 //        Font font = family.connected[0].setFamily(family);
-        Font font =
-                KnownFonts.getAStarryTall();
 //                KnownFonts.getStandardFamily();
 //                KnownFonts.getGentiumSDF().scale(1.1f, 1.1f).multiplyCrispness(1.3f);
 //        String text = " [BLACK]lib[#e74a45]GDX   " +
@@ -199,6 +200,7 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        font.resizeDistanceField(width, height, stage.getViewport());
         skin.resizeDistanceFields(width, height, stage.getViewport());
     }
 
@@ -212,7 +214,7 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("TypingLabel Test");
         config.setWindowedMode(720, 700);
-        config.setResizable(false);
+        config.setResizable(true);
         config.setForegroundFPS(60);
         config.useVsync(true);
         config.disableAudio(true);
