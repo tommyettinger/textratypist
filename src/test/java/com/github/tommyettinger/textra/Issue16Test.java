@@ -31,11 +31,17 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class Issue16Test extends ApplicationAdapter {
 
   private Stage stage;
-  private Skin skin;
+  private FWSkin skin;
 
   @Override
   public void create () {
-    stage = new Stage(new ScreenViewport());
+    // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+    TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+    // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+    // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+    TextureArrayShaders.initializeTextureArrayShaders();
+
+    stage = new Stage(new ScreenViewport(), batch);
 
     skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 
@@ -67,7 +73,7 @@ public class Issue16Test extends ApplicationAdapter {
 
     Table table = new Table(skin);
     table.setBackground("default-pane");
-    table.add(label).prefWidth(300).row();
+    table.add(label).prefWidth(300).prefHeight(200).row();
 
     Table wrappingTable = new Table();
     wrappingTable.add(table).row();

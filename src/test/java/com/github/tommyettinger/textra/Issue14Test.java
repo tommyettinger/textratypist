@@ -33,7 +33,13 @@ public class Issue14Test extends ApplicationAdapter {
 
   @Override
   public void create() {
-    stage = new Stage(new ScreenViewport());
+    // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+    TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+    // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+    // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+    TextureArrayShaders.initializeTextureArrayShaders();
+
+    stage = new Stage(new ScreenViewport(), batch);
     Font font = new Font();
     KnownFonts.addEmoji(font);
     TypingLabel label = new TypingLabel("[+🤡] This is a [+😄]test message.", font);

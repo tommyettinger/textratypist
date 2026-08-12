@@ -39,9 +39,15 @@ public class Issue6Test extends ApplicationAdapter {
 
     @Override
     public void create() {
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         viewport = new ScreenViewport();
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
-        stage = new Stage(viewport);
+        stage = new Stage(viewport, batch);
 //        stage.setDebugAll(true);
 
         Font gentium = KnownFonts.getGentium();
@@ -59,7 +65,7 @@ public class Issue6Test extends ApplicationAdapter {
         typingLabel = new TypingLabel(
                 text, new Styles.LabelStyle(), gentium);
         typingLabel.setWrap(true);
-        typingLabel.setWidth(25f);
+        typingLabel.setWidth(50f);
         typingLabel.skipToTheEnd();
         typingLabel.setAlignment(center);
         typingLabel.debug();
@@ -67,14 +73,14 @@ public class Issue6Test extends ApplicationAdapter {
         textraLabel = new TextraLabel(
                 "[RED]" + text, new Styles.LabelStyle(), gentium);
         textraLabel.setWrap(true);
-        textraLabel.setWidth(25f);
+        textraLabel.setWidth(50f);
         textraLabel.skipToTheEnd();
         textraLabel.setAlignment(center);
         Stack stack = new Stack(textraLabel, typingLabel);
 //        Stack stack = new Stack(typingLabel);
         Table table = new Table();
         Cell<Actor> stackCell = table.add(stack);
-        stackCell.width(25f);
+        stackCell.width(50f);
         table.setFillParent(true);
         stage.addActor(table);
     }
