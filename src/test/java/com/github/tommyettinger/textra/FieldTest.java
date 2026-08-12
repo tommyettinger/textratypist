@@ -45,10 +45,12 @@ public class FieldTest extends ApplicationAdapter {
 
     @Override
     public void create() {
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
         viewport = new ScreenViewport();
         viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
-        stage = new Stage(viewport);
+        stage = new Stage(viewport, batch);
         stage.setDebugAll(true);
 
         Font font = KnownFonts.addEmoji(KnownFonts.getDINishExpanded(Font.DistanceFieldType.SDF)).scaleHeightTo(32);

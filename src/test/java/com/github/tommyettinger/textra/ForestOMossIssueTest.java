@@ -46,9 +46,12 @@ public class ForestOMossIssueTest extends ApplicationAdapter {
 
     @Override
     public void create() {
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         viewport = new ScreenViewport();
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
-        stage = new Stage(viewport);
+        stage = new Stage(viewport, batch);
         stage.setDebugAll(true);
 
         // These fonts aren't in the GitHub repo. To reproduce the bug, I'm using local copies of this

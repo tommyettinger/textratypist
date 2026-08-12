@@ -42,16 +42,18 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
  */
 public class FreeTypeIncrementalTest extends ApplicationAdapter {
     FitViewport viewport;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     GlyphLayout layout;
     BitmapFont messageBoxFont, menuDesc, menuFont, menuLabel, titleLabel, battleLabel;
     FreeTypeFontGenerator generator;
 
     @Override
     public void create() {
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         viewport = new FitViewport(600,480);
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
-        batch = new SpriteBatch();
 
         generator = new FreeTypeFontGenerator(Gdx.files.internal("NotoSansSC-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();

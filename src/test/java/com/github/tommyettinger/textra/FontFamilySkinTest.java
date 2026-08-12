@@ -24,7 +24,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.github.tommyettinger.textra.Font.FontFamily;
 
 public class FontFamilySkinTest extends InputAdapter implements ApplicationListener {
@@ -33,10 +33,13 @@ public class FontFamilySkinTest extends InputAdapter implements ApplicationListe
 
 	@Override
 	public void create () {
+		TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+		TextureArrayShaders.initializeTextureArrayShaders();
+
 		skin = new FWSkin(Gdx.files.internal("shadeui/uiskin.json"));
 		final FontFamily family = new FontFamily(skin);
 		
-		stage = new Stage(new ScreenViewport());
+		stage = new Stage(new FitViewport(640, 540), batch);
 		Gdx.input.setInputProcessor(stage);
 
 		Table root = new Table();

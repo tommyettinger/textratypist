@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class FontSwitchTest extends ApplicationAdapter {
 
     Font font;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     Layout layout = new Layout().setTargetWidth(780);
     Array<String> colorNames;
     long startTime;
@@ -34,7 +34,9 @@ public class FontSwitchTest extends ApplicationAdapter {
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         colorNames = Colors.getColors().keys().toArray();
         Font.FontFamily family = new Font.FontFamily(
                 new String[]{
