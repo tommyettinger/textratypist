@@ -37,12 +37,19 @@ public class IssueButtonsTest extends ApplicationAdapter {
 
     @Override
     public void create() {
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         viewport = new ScreenViewport();
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
-        stage = new Stage(viewport);
+        stage = new Stage(viewport, batch);
 //        stage.setDebugAll(true);
 
         Skin skin = new FWSkin(Gdx.files.internal("paafomir/Homestuck_Skin/Homestuck_Skin.json"));
+        skin.get("Typostuck", Font.class).setLineMetrics(-0.5f, 0f, 0f, 0f);
         test1 = new TextButton("TextButton", skin);
         test2 = new TypingButton("[_]Textra[_][~]Button[~]", skin);
 

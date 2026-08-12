@@ -23,6 +23,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.CpuSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -101,6 +102,8 @@ public class Issue7508Test extends ApplicationAdapter {
 
     String text = stringBuilder.toString();
     Gdx.app.log("MEMORY", "text size: " + text.length() + " bytes"); // size is 10 MB
+
+    // This must use a SpriteBatch because TextureArrayCpuPolygonSpriteBatch doesn't work with massive batches.
 
     stage = new Stage(new ScreenViewport());
 
