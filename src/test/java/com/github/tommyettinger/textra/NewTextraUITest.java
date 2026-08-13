@@ -54,6 +54,12 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 	public void create () {
 //		profiler = new GLProfiler(Gdx.graphics);
 //		profiler.enable();
+		// TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+		TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+		// When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+		// Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+		TextureArrayShaders.initializeTextureArrayShaders();;
+
 		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
@@ -73,7 +79,7 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 		}
 
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
-		stage = new Stage(new ScreenViewport());
+		stage = new Stage(new ScreenViewport(), batch);
 		Gdx.input.setInputProcessor(stage);
 
 //		 stage.setDebugAll(true);
@@ -125,7 +131,7 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
 		fpsLabel = new TextraLabel("fps:", skin, font);
-		fpsLabel.layout.setTargetWidth(200);
+		fpsLabel.layout.setTargetWidth(300);
 		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
 		final TextraLabel passwordLabel = new TextraLabel("[@Humanist]Textfield in [~]secure[ ] password mode: ", font);
@@ -205,7 +211,9 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 //		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
 		
-		fpsLabel.getFont().markup("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]", fpsLabel.layout.clear());
+		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]");
+		fpsLabel.layout.setTargetWidth(300);
+		fpsLabel.regenerateLayout();
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));

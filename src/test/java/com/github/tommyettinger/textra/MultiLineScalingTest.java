@@ -24,13 +24,20 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MultiLineScalingTest extends ApplicationAdapter {
     Stage stage;
     Font font;
     @Override
     public void create() {
-        stage = new Stage();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();;
+
+        stage = new Stage(new ScreenViewport(), batch);
         stage.setDebugAll(true);
         font = KnownFonts.getRobotoCondensed(Font.DistanceFieldType.MSDF).scaleHeightTo(32);
 
@@ -42,21 +49,24 @@ public class MultiLineScalingTest extends ApplicationAdapter {
         testLabel1.setWrap(true);
         testLabel1.setAlignment(Align.left);
         Container<TextraLabel> c1 = new Container<>(testLabel1).width(200);
-        c1.setPosition(140, 200, Align.left);
+        c1.pack();
+        c1.setPosition(40, 200 - c1.getHeight() * 0.5f, Align.bottomLeft);
         stage.addActor(c1);
 
         final TextraLabel testLabel2 = new TextraLabel(text, style);
         testLabel2.setWrap(true);
         testLabel2.setAlignment(Align.left);
         Container<TextraLabel> c2 = new Container<>(testLabel2).width(200);
-        c2.setPosition(10 + c1.getX() + 200, 200, Align.left);
+        c2.pack();
+        c2.setPosition(10 + c1.getX() + 200, 200 - c2.getHeight() * 0.5f, Align.bottomLeft);
         stage.addActor(c2);
 
         final TextraLabel testLabel3 = new TextraLabel("{SCALE=150%}" + text, style);
         testLabel3.setWrap(true);
         testLabel3.setAlignment(Align.left);
         Container<TextraLabel> c3 = new Container<>(testLabel3).width(200);
-        c3.setPosition(10 + c2.getX() + 200, 200, Align.left);
+        c3.pack();
+        c3.setPosition(10 + c2.getX() + 200, 200 - c3.getHeight() * 0.5f, Align.bottomLeft);
         stage.addActor(c3);
     }
 

@@ -45,13 +45,19 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 	Stage stage;
 	Texture texture1;
 	Texture texture2;
-	TypingLabel fpsLabel;
+	TextraLabel fpsLabel;
 //	GLProfiler profiler;
 
 	@Override
 	public void create () {
 //		profiler = new GLProfiler(Gdx.graphics);
 //		profiler.enable();
+		// TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+		TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+		// When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+		// Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+		TextureArrayShaders.initializeTextureArrayShaders();;
+
 		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
@@ -69,7 +75,7 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 				KnownFonts.addEmoji(f, 0f, 0f, 0f);
 		}
 
-		stage = new Stage(new ScreenViewport());
+		stage = new Stage(new ScreenViewport(), batch);
 		Gdx.input.setInputProcessor(stage);
 
 //		stage.setDebugAll(true);
@@ -122,8 +128,9 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin, font);
-		fpsLabel.setAlignment(Align.center);
+		fpsLabel = new TextraLabel("fps: 0    [^][SKY][[citation needed]", skin, font);
+		fpsLabel.layout.setTargetWidth(300);
+		fpsLabel.setAlignment(Align.left);
 		// configures an example of a TextField in password mode.
 		final TypingLabel passwordLabel = new TypingLabel("[@Humanist]Textfield in [~]secure[ ] password mode: ", skin, font);
 		final TextField passwordTextField = new TextField("", skin);
@@ -161,7 +168,7 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 		window.add(passwordLabel).align(Align.topLeft).colspan(2);
 		window.add(passwordTextField).minWidth(100).expandX().fillX().colspan(2);
 		window.row();
-		window.add(fpsLabel).align(Align.topLeft).colspan(4);
+		window.add(fpsLabel).align(Align.left).colspan(4);
 		window.pack();
 
 		// stage.addActor(new Button("Behind Window", skin));
@@ -201,16 +208,12 @@ public class NewTypingUITest extends InputAdapter implements ApplicationListener
 	public void render () {
 //		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
-		
-		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
-		int i;
-		for (i = 0; i < s.length() && i < 5; i++) {
-			fpsLabel.setInWorkingLayout(5+i, s.charAt(i) | 0xFFFFFFFF00000000L);
-		}
-		for (; i < 5; i++) {
-			fpsLabel.setInWorkingLayout(5+i, 0L);
-		}
+
+		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]");
+		fpsLabel.layout.setTargetWidth(300);
+		fpsLabel.regenerateLayout();
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
+
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 //		if(Gdx.input.isKeyJustPressed(Keys.SPACE))

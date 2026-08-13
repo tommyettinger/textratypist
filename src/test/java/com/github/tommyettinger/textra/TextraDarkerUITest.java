@@ -53,6 +53,12 @@ public class TextraDarkerUITest extends InputAdapter implements ApplicationListe
     public void create () {
 //		profiler = new GLProfiler(Gdx.graphics);
 //		profiler.enable();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();;
+
         skin = new FWSkin(Gdx.files.internal("uiskinDarker.json"));
         texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
         texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
@@ -60,7 +66,7 @@ public class TextraDarkerUITest extends InputAdapter implements ApplicationListe
         TextureRegion imageFlipped = new TextureRegion(image);
         imageFlipped.flip(true, true);
         TextureRegion image2 = new TextureRegion(texture2);
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
 
         // stage.setDebugAll(true);
@@ -199,14 +205,10 @@ public class TextraDarkerUITest extends InputAdapter implements ApplicationListe
     public void render () {
 //		profiler.reset();
         ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
-        String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
-        int i;
-        for (i = 0; i < s.length() && i < 5; i++) {
-            fpsLabel.layout.getLine(0).glyphs.set(5+i, s.charAt(i) | 0xFFFFFFFF00000000L);
-        }
-        for (; i < 5; i++) {
-            fpsLabel.layout.getLine(0).glyphs.set(5+i, 0L);
-        }
+        fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]");
+        fpsLabel.layout.setTargetWidth(300);
+        fpsLabel.regenerateLayout();
+        fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
