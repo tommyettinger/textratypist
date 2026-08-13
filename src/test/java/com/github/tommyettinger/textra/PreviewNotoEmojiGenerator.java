@@ -22,7 +22,7 @@ import java.nio.ByteBuffer;
 public class PreviewNotoEmojiGenerator extends ApplicationAdapter {
 
     Font font;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     Viewport viewport;
     Layout layout = new Layout().setTargetWidth(1200);
     float x, y;
@@ -42,11 +42,17 @@ public class PreviewNotoEmojiGenerator extends ApplicationAdapter {
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();;
+
         viewport = new StretchViewport(1200, 600);
 
         Gdx.files.local("out/").mkdirs();
         font = KnownFonts.addNotoEmoji(KnownFonts.getAStarry(Font.DistanceFieldType.MSDF).scaleHeightTo(24)).fitCell(32, 32, true);
+        font.omitCurlyBraces = false;
         layout.setBaseColor(Color.WHITE);
         StringBuilder sb = new StringBuilder(4000);
         sb.append("[%?blacken]");
@@ -56,7 +62,7 @@ public class PreviewNotoEmojiGenerator extends ApplicationAdapter {
         for (int y = 0; y < 18; y++) {
             for (int x = 0; x < 35; x++) {
                 char c = (char)keys.get(random.nextInt(ks));
-                while (font.breakChars.contains(c) || !font.mapping.containsKey(c))
+                while (c == '[' || font.breakChars.contains(c) || !font.mapping.containsKey(c))
                     c = (char)keys.get(random.nextInt(ks));
                 sb.append(c);
             }

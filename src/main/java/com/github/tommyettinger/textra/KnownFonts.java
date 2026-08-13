@@ -7155,7 +7155,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addNotoEmoji(Font changing) {
-        return addNotoEmoji(changing, 2f, -1f, 4f);
+        return addNotoEmoji(changing, 0f, -2f, 4f);
     }
 
     /**

@@ -25,7 +25,7 @@ public class PreviewIconGenerator extends ApplicationAdapter {
 
     public static final int SCREEN_WIDTH = 1200, SCREEN_HEIGHT = 600;
     Font font;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     Viewport viewport;
     Layout layout = new Layout().setTargetWidth(1200);
     float x, y;
@@ -45,7 +45,12 @@ public class PreviewIconGenerator extends ApplicationAdapter {
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();;
+
         viewport = new StretchViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
 
         Gdx.files.local("out/").mkdirs();

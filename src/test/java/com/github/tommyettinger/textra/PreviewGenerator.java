@@ -19,7 +19,7 @@ public class PreviewGenerator extends ApplicationAdapter {
     public static final boolean DERIVATIVES = false;
 
     Font fnt;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     Viewport viewport;
     Layout layout = new Layout().setTargetWidth(1200);
     long startTime;
@@ -50,20 +50,15 @@ public class PreviewGenerator extends ApplicationAdapter {
 
     @Override
     public void create() {
-        if(DERIVATIVES){
-            KnownFonts.initialize(null, null,
-                    Font.vertexShader, Font.sdfFragmentShaderUsingDerivatives,
-                    Font.vertexShader, Font.sdfBlackOutlineFragmentShaderUsingDerivatives,
-                    Font.vertexShader, Font.msdfFragmentShader);
-        } else {
-            KnownFonts.initialize(null, null,
-                    Font.vertexShader, Font.sdfFragmentShader,
-                    Font.vertexShader, Font.sdfBlackOutlineFragmentShader,
-                    Font.vertexShader, Font.msdfFragmentShader);
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
 
+        if(DERIVATIVES){
+            TextureArrayShaders.initializeAdaptiveTextureArrayShaders();;
+        } else {
+            TextureArrayShaders.initializeTextureArrayShaders();;
         }
 
-        batch = new SpriteBatch();
         viewport = new StretchViewport(1200, 675);
 
         // investigating a GPU-related bug... seems fixed now, sometimes?
