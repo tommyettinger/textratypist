@@ -405,6 +405,33 @@ public class ColorUtils {
     }
 
     /**
+     * Returns {@link #lighten(float, float)} if change is positive or {@link #darken(float, float)} if change is
+     * negative (negating change to make it in the expected range). If change is 0f, returns start as-is.
+     *
+     * @param start the starting color as an ABGR8888 packed float color
+     * @param change between -1 and 1, with negative numbers darkening and positive ones lightening
+     * @return a packed float that represents a color between start and black or white
+     */
+    public static float changeLightness(final float start, final float change) {
+        if(change > 0f) return lighten(start, change);
+        return darken(start, -change);
+    }
+
+    /**
+     * Returns {@link #lighten(int, float)} if change is positive or {@link #darken(int, float)} if change is negative
+     * (negating change to make it in the expected range). If change is 0f, returns start as-is.
+     *
+     * @param start the starting color as an RGBA8888 int
+     * @param change between -1 and 1, with negative numbers darkening and positive ones lightening
+     * @return an RGBA8888 int that represents a color between start and black or white
+     */
+    public static int changeLightness(final int start, final float change) {
+        if(change > 0f) return lighten(start, change);
+        return darken(start, -change);
+
+    }
+
+    /**
      * Brings the chromatic components of {@code start} closer to grayscale by {@code change} (desaturating them). While
      * change should be between 0f (return start as-is) and 1f (return fully gray), start should be an RGBA8888 int
      * color. This leaves alpha alone.
