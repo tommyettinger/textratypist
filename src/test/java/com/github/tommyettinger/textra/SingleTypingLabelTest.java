@@ -23,6 +23,8 @@ public class SingleTypingLabelTest extends ApplicationAdapter {
     @Override
     public void create() {
         font = KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.MSDF)).scale(0.75f);
+        font.topEdgeLightnessChange = 0.3f;
+        font.bottomEdgeLightnessChange = -0.3f;
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
@@ -60,9 +62,10 @@ public class SingleTypingLabelTest extends ApplicationAdapter {
 
     public TypingLabel createTypingLabel() {
         final TypingLabel label = new TypingLabel(
-                "I [/]love[] TextraTypist! 😀\n" +
-                "But [*]U. Nitty[ ] doesn't. 💀",
-                font, Color.LIGHT_GRAY);
+                "I [/]love[] TextraTypist! [+😀]\n" +
+                "[rich butter 2 brown 3 orange][#][*]Welcome to the planet Жфюй![*][#][white] [+🚀]",
+//                "But [*]U. Nitty[ ] doesn't. [+💀]",
+                font);
         label.setAlignment(Align.center);
         label.debug();
         // Make the label wrap to new lines, respecting the table's layout.
