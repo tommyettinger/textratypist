@@ -22,7 +22,7 @@ import java.nio.ByteBuffer;
 public class PreviewEmojiGenerator extends ApplicationAdapter {
 
     Font font;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     Viewport viewport;
     Layout layout = new Layout().setTargetWidth(1200);
     float x, y;
@@ -42,7 +42,12 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();;
+
         viewport = new StretchViewport(1200, 600);
 
         Gdx.files.local("out/").mkdirs();

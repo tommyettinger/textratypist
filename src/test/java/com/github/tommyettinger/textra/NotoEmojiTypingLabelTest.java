@@ -19,15 +19,19 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 public class NotoEmojiTypingLabelTest extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;
-    SpriteBatch batch;
     TypingLabel label;
 //    TypingLabel debugLabel;
 
     @Override
     public void create() {
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();;
+
         adjustTypingConfigs();
 
-        batch = new SpriteBatch();
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 //        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         skin.getFont("default-font");//.getData().setScale(0.5f);

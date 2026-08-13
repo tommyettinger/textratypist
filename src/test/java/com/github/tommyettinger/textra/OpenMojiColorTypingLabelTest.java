@@ -31,9 +31,14 @@ public class OpenMojiColorTypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void create() {
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();;
+
         adjustTypingConfigs();
 
-        batch = new SpriteBatch();
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
 //        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         skin.getFont("default-font");//.getData().setScale(0.5f);
@@ -167,16 +172,17 @@ public class OpenMojiColorTypingLabelTest extends ApplicationAdapter {
 //        });
 //        // Finally parse tokens in the label text.
 //        label.parseTokens();
-        Action action = Actions.repeat(2,
-                Actions.sequence(
-                        delay(1.5f),
-                        moveBy(0, 100, 0.4f, Interpolation.pow2Out),
-                        moveBy(0, -100, 0.3f, Interpolation.pow2In),
-                        moveBy(0, 100 * .5f, 0.4f, Interpolation.pow2Out),
-                        moveBy(0, -100 * .5f, 0.3f, Interpolation.pow2In)
-                )
-        );
-        label.addAction(action);
+
+//        Action action = Actions.repeat(2,
+//                Actions.sequence(
+//                        delay(1.5f),
+//                        moveBy(0, 100, 0.4f, Interpolation.pow2Out),
+//                        moveBy(0, -100, 0.3f, Interpolation.pow2In),
+//                        moveBy(0, 100 * .5f, 0.4f, Interpolation.pow2Out),
+//                        moveBy(0, -100 * .5f, 0.3f, Interpolation.pow2In)
+//                )
+//        );
+//        label.addAction(action);
 
         return label;
     }

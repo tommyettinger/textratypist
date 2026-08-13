@@ -27,7 +27,13 @@ public class OutlineFontTest extends ApplicationAdapter {
 
     @Override
     public void create() {
-        stage = new Stage(new ScreenViewport());
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();;
+
+        stage = new Stage(new ScreenViewport(), batch);
 
 //        Top of the outline is cut off. Font was generated with... not currently known, but
 //        the outlines have pointy corners rather than rounded ones.
