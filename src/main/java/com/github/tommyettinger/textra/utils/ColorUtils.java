@@ -413,6 +413,7 @@ public class ColorUtils {
      * @return a packed float that represents a color between start and black or white
      */
     public static float changeLightness(final float start, final float change) {
+        if(change == 0f) return start;
         if(change > 0f) return lighten(start, change);
         return darken(start, -change);
     }
@@ -426,6 +427,7 @@ public class ColorUtils {
      * @return an RGBA8888 int that represents a color between start and black or white
      */
     public static int changeLightness(final int start, final float change) {
+        if(change == 0f) return start;
         if(change > 0f) return lighten(start, change);
         return darken(start, -change);
 

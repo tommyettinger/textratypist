@@ -1538,6 +1538,18 @@ public class Font implements Disposable {
      */
     public boolean enableSquareBrackets = true;
 
+    /**
+     * Between -1f and 1f, this either darkens (if negative) or lightens (if positive) the top edge of each glyph
+     * in the Font (except box-drawing glyphs). If this is 0f, no change is applied to the top edge color.
+     */
+    public float topEdgeLightnessChange = 0f;
+
+    /**
+     * Between -1f and 1f, this either darkens (if negative) or lightens (if positive) the bottom edge of each glyph
+     * in the Font (except box-drawing glyphs). If this is 0f, no change is applied to the bottom edge color.
+     */
+    public float bottomEdgeLightnessChange = 0f;
+
     protected final transient float[] vertices = new float[20];
     protected final transient Layout tempLayout = new Layout();
     protected final transient LongArray glyphBuffer = new LongArray(128);
@@ -1936,6 +1948,8 @@ public class Font implements Disposable {
         fancyY = toCopy.fancyY;
         boxDrawingBreadth = toCopy.boxDrawingBreadth;
         glowStrength = toCopy.glowStrength;
+        topEdgeLightnessChange = toCopy.topEdgeLightnessChange;
+        bottomEdgeLightnessChange = toCopy.bottomEdgeLightnessChange;
 
         xAdjust =      toCopy.xAdjust;
         yAdjust =      toCopy.yAdjust;
@@ -5460,8 +5474,18 @@ public class Font implements Disposable {
         } else {
             secondaryColor = PACKED_BLACK;
         }
+
+        float topEdgeColor;
+        float bottomEdgeColor;
+        if(!BlockUtils.isBlockGlyph(c)) {
+            // These are no-ops if their lightnessChange field is 0f, which is the default.
+            topEdgeColor = ColorUtils.changeLightness(color, topEdgeLightnessChange);
+            bottomEdgeColor = ColorUtils.changeLightness(color, bottomEdgeLightnessChange);
+        }else {
+            topEdgeColor = bottomEdgeColor = color;
+        }
         float scale = 1f;
-        float scaleX, fsx, osx;
+        float scaleX, fsx;
         float scaleY, fsy, osy;
         if(c >= 0xE000 && c < 0xF800){
             fsx = font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
@@ -5472,11 +5496,7 @@ public class Font implements Disposable {
         {
             scaleX = (fsx = font.scaleX) * scale;
             scaleY = (fsy = font.scaleY) * scale;
-//            y -= descent * scaleY;
         }
-//        osx = font.scaleX * scale;
-//        osy = font.scaleY;
-        osx = fsx * (scale + 1f) * 0.5f;
         osy = fsy * (scale + 1f) * 0.5f;
         float centerX = tr.xAdvance * scaleX * advanceMultiplier * 0.5f;
         float centerY = font.originalCellHeight * scaleY * 0.5f;
@@ -5484,7 +5504,7 @@ public class Font implements Disposable {
         float oCenterX = tr.xAdvance * scaleX * advanceMultiplier * 0.5f;
         float oCenterY = font.originalCellHeight * osy * 0.5f;
 
-        float scaleCorrection = font.descent * font.scaleY * 2f;// - font.descent * osy;
+        float scaleCorrection = font.descent * font.scaleY * 2f;
         y += scaleCorrection * scale;
 
         float ox = x, oy = y;
@@ -5766,10 +5786,10 @@ public class Font implements Disposable {
         }
 
         // actually draw the main glyph
-        vertices[2] = color;
-        vertices[7] = color;
-        vertices[12] = color;
-        vertices[17] = color;
+        vertices[2] = topEdgeColor;
+        vertices[7] = bottomEdgeColor;
+        vertices[12] = bottomEdgeColor;
+        vertices[17] = topEdgeColor;
 
 //        vertices[15] = ((vertices[0] = (x + cos * p0x - sin * p0y)) - (vertices[5] = (x + cos * p1x - sin * p1y)) + (vertices[10] = (x + cos * p2x - sin * p2y)));
 //        vertices[16] = ((vertices[1] = (y + sin * p0x + cos * p0y)) - (vertices[6] = (y + sin * p1x + cos * p1y)) + (vertices[11] = (y + sin * p2x + cos * p2y)));
