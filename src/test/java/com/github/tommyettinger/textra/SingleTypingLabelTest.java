@@ -13,18 +13,17 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+import java.util.ArrayList;
+
 public class SingleTypingLabelTest extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;
     SpriteBatch batch;
     TypingLabel label;
-    Font font;
+    ArrayList<Font> fonts = new ArrayList<>();
 
     @Override
     public void create() {
-        font = KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.MSDF)).scale(0.75f);
-        font.topEdgeLightnessChange = 0.3f;
-        font.bottomEdgeLightnessChange = -0.3f;
         adjustTypingConfigs();
 
         batch = new SpriteBatch();
@@ -37,13 +36,18 @@ public class SingleTypingLabelTest extends ApplicationAdapter {
         stage.addActor(table);
         table.setFillParent(true);
 
-        label = createTypingLabel();
+        for (int i = 0; i <= 10; i++) {
 
-//        label.debug();
-        label.setAlignment(Align.center);
-        table.pad(50f);
-        table.add(label).colspan(5).growX();
-        table.row();
+                Font font;
+                font = KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.DEJAVU_SANS_CONDENSED, Font.DistanceFieldType.MSDF)).scaleHeightTo(16);
+                font.topEdgeLightnessChange = i * 0.1f;
+                font.bottomEdgeLightnessChange = 0f;
+                fonts.add(font);
+                label = createTypingLabel(font);
+                label.setAlignment(Align.center);
+                table.pad(20f);
+                table.add(label).colspan(5).growX().row();
+        }
         table.row().uniform().expand().growX().space(40).center();
 
         table.pack();
@@ -60,14 +64,13 @@ public class SingleTypingLabelTest extends ApplicationAdapter {
         TypingConfig.GLOBAL_VARS.put("ICE_WIND", "{GRADIENT=88ccff;eef8ff;-0.5;5}{WIND=2;4;0.25;0.1}{JOLT=1;0.6;inf;0.1;;}");
     }
 
-    public TypingLabel createTypingLabel() {
+    public TypingLabel createTypingLabel(Font font) {
         final TypingLabel label = new TypingLabel(
-                "I [/]love[] TextraTypist! [+😀]\n" +
-                "[rich butter 2 brown 3 orange][#][*]Welcome to the planet Жфюй![*][#][white] [+🚀]",
+//                "I [/]love[] TextraTypist! [+😀]\n" +
+                "[gold 3 orange][#][*]The Planet Жфюй![*][#][white] [+🚀]",
 //                "But [*]U. Nitty[ ] doesn't. [+💀]",
                 font);
         label.setAlignment(Align.center);
-        label.debug();
         // Make the label wrap to new lines, respecting the table's layout.
         label.setWrap(true);
         label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
@@ -91,7 +94,9 @@ public class SingleTypingLabelTest extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        font.resizeDistanceField(width, height, stage.getViewport());
+        for (int i = 0; i < fonts.size(); i++) {
+            fonts.get(i).resizeDistanceField(width, height, stage.getViewport());
+        }
     }
 
     @Override
