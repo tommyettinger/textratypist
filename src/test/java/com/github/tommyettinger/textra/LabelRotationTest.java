@@ -24,7 +24,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -39,7 +38,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import static com.badlogic.gdx.utils.Align.*;
 
 public class LabelRotationTest extends ApplicationAdapter {
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     FitViewport viewport;
     OrthographicCamera camera;
     Stage stage;
@@ -65,14 +64,19 @@ public class LabelRotationTest extends ApplicationAdapter {
     @Override
     public void create() {
         // Prepare your screen here.
-        batch = new SpriteBatch();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();;
+
         sr = new ShapeRenderer();
         camera = new OrthographicCamera(1000,540);
         camera.position.set(960,540,1);
         viewport = new FitViewport(1000,540,camera);
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
         texture = new TextureRegion(new Texture(Gdx.files.internal("tilerb.png")));
-        stage = new Stage(viewport);
+        stage = new Stage(viewport, batch);
 //        BitmapFont font = new BitmapFont();
 //        BitmapFont font = new BitmapFont(Gdx.files.internal("GoNotoUniversal-standard.fnt"), Gdx.files.internal("GoNotoUniversal-standard.png"), false);
         BitmapFont font = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("DejaVu-Sans-Condensed-standard.json.lzma"), "DejaVu-Sans-Condensed-standard.png");

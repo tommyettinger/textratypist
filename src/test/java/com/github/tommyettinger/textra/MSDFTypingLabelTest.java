@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 public class MSDFTypingLabelTest extends ApplicationAdapter {
     FWSkin      skin;
     Stage       stage;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     Font        font;
     TypingLabel label;
     TextraButton  buttonPause;
@@ -29,12 +29,18 @@ public class MSDFTypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void create() {
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();;
+
         font = KnownFonts.addEmoji(KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.MSDF));
+        font.topEdgeLightnessChange = 0.3f;
         // equivalent to
 //        font = new Font("Yanone-Kaffeesatz-msdf.dat", true).scaleHeightTo(32);
         adjustTypingConfigs();
 
-        batch = new SpriteBatch();
         skin = new FWSkin(Gdx.files.internal("uiskin4.json"));
 //        skin.getAtlas().getTextures().iterator().next().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         skin.getFont("default-font");//.getData().setScale(0.5f);

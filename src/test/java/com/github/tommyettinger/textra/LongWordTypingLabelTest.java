@@ -14,17 +14,22 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class LongWordTypingLabelTest extends ApplicationAdapter {
     Stage       stage;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     TypingLabel label;
     Layout secondLayout;
     Font font;
 
     @Override
     public void create() {
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();;
+
         adjustTypingConfigs();
         font = KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.GENTIUM, Font.DistanceFieldType.MSDF));
 
-        batch = new SpriteBatch();
         stage = new Stage(new StretchViewport(920, 405), batch);
 //        stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);
@@ -33,15 +38,14 @@ public class LongWordTypingLabelTest extends ApplicationAdapter {
         stage.addActor(table);
 //        table.setFillParent(true);
         table.setSize(720, 400);
-        table.setPosition(50, 150);
+        table.setPosition(50, 50);
 
         label = createTypingLabel();
         label.debug();
         label.setAlignment(Align.center);
         table.pad(50f);
-        table.add(label).width(720);
+        table.add(label).width(720).height(200);
         table.row();
-        table.row().uniform().expand().growX().space(40).center();
 
         table.pack();
 //        secondLayout = new Layout(font);

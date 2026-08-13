@@ -20,7 +20,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -35,12 +34,17 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class LayoutRoundingTest extends ApplicationAdapter {
 	Skin skin;
 	Stage stage;
-	SpriteBatch batch;
+	TextureArrayCpuPolygonSpriteBatch batch;
 
 	public void create () {
-		batch = new SpriteBatch();
+		// TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+		batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+		// When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+		// Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+		TextureArrayShaders.initializeTextureArrayShaders();;
+
 		skin = new FWSkin(Gdx.files.internal("uiskin.json"));
-		stage = new Stage(new ScreenViewport());
+		stage = new Stage(new ScreenViewport(), batch);
 
 		skin.getFont("default-font").getData().setScale(1.23f);
 
