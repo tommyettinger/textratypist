@@ -37,7 +37,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class ResizeTestApplication extends ApplicationAdapter {
 
-    private SpriteBatch batch;
     private Texture backgroundImage;
 
     private Stage ui;
@@ -62,8 +61,13 @@ public class ResizeTestApplication extends ApplicationAdapter {
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        ui = new Stage(new ScreenViewport());
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
+        ui = new Stage(new ScreenViewport(), batch);
 //        ui = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         Gdx.input.setInputProcessor(ui);
 
@@ -138,7 +142,6 @@ public class ResizeTestApplication extends ApplicationAdapter {
     public void dispose() {
         Gdx.input.setInputProcessor(null);
         ui.dispose();
-        batch.dispose();
     }
 
     @Override

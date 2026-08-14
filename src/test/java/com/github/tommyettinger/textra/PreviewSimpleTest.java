@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class PreviewSimpleTest extends ApplicationAdapter {
 
     Font fnt;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     Viewport viewport;
     Layout layout = new Layout().setTargetWidth(1200);
     int idx;
@@ -55,12 +55,15 @@ public class PreviewSimpleTest extends ApplicationAdapter {
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         viewport = new StretchViewport(1200, 675);
 
         // WHAT WE NORMALLY USE
-        /*
-
         jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String[]::new);
         int limit = jsonFiles.length + 1; // + 1 is AStarryTall
         all = new Font[limit * 4 + 9]; // * 4 are the 4 DistanceFieldTypes, + 9 is for the 9 .fnt fonts.
@@ -86,14 +89,13 @@ public class PreviewSimpleTest extends ApplicationAdapter {
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getMonogram().setName(KnownFonts.MONOGRAM + "-standard"));
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getMonogramItalic().setName(KnownFonts.MONOGRAM_ITALIC + "-standard"));
         all[idx++] = KnownFonts.addEmoji(KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard"));
-        */
 
         // FOR DEBUGGING ONE FONT AT A TIME
+/*
         Font[] all = new Font[]{
-//                KnownFonts.addEmoji(KnownFonts.getLanaPixel().setName(KnownFonts.LANAPIXEL + "-standard"))
                 KnownFonts.addEmoji(KnownFonts.getCozette().setName(KnownFonts.COZETTE + "-standard"))
         };
-
+*/
         fnt = all[0];
         for (int i = 0; i < all.length; i++) {
             if(all[i].cellHeight <= 20) all[i].scale(2);

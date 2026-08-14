@@ -31,7 +31,7 @@ import static com.github.tommyettinger.textra.utils.ColorUtils.lerpColors;
 
 public class RotationTest extends ApplicationAdapter {
     Font font;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     int[][] backgrounds;
     Layout layout;
     long startTime;
@@ -55,7 +55,12 @@ public class RotationTest extends ApplicationAdapter {
 //        profiler = new GLProfiler(Gdx.graphics);
 //        profiler.enable();
 
-        batch = new SpriteBatch();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
 //        font = new Font("RaeleusScriptius-standard.fnt", 0, 14, 0, 0).scale(0.75f, 0.75f);
         font = KnownFonts.getGentiumUnItalic().scaleHeightTo(32);
 //        font = KnownFonts.getAStarry().scaleTo(16, 32);
