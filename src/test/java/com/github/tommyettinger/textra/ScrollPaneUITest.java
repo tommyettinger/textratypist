@@ -35,9 +35,15 @@ public class ScrollPaneUITest extends InputAdapter implements ApplicationListene
 
 	@Override
 	public void create () {
+		// TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+		TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+		// When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+		// Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+		TextureArrayShaders.initializeTextureArrayShaders();
+
 		skin = new FreeTypistSkin(Gdx.files.internal("uiskin2.json"));
 		final Font font = KnownFonts.getStandardFamily().scaleHeightTo(32);
-		stage = new Stage(new ScreenViewport());
+		stage = new Stage(new ScreenViewport(), batch);
 		Gdx.input.setInputProcessor(stage);
 
 		Table root = new Table();

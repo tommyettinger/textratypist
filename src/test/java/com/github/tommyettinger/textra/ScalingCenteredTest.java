@@ -17,7 +17,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 public class ScalingCenteredTest extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;
-    SpriteBatch batch;
     TypingLabel label;
     Font font;
 
@@ -35,11 +34,16 @@ public class ScalingCenteredTest extends ApplicationAdapter {
 
     @Override
     public void create() {
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         font = getMonogramFamilySized();
 
         adjustTypingConfigs();
 
-        batch = new SpriteBatch();
         skin = new FWSkin(Gdx.files.internal("uiskin.json"));
         stage = new Stage(new ExtendViewport(720, 405), batch);
 //        stage.setDebugAll(true);
