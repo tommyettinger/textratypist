@@ -15,7 +15,7 @@ public class WrapEmojiEllipsisCrashTest extends ApplicationAdapter {
 
   private Font font;
   private Layout layout;
-  private SpriteBatch batch;
+  private TextureArrayCpuPolygonSpriteBatch batch;
 
   private ScreenViewport viewport;
 
@@ -24,6 +24,12 @@ public class WrapEmojiEllipsisCrashTest extends ApplicationAdapter {
 
   @Override
   public void create() {
+    // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+    batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+    // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+    // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+    TextureArrayShaders.initializeTextureArrayShaders();
+
     BitmapFont bitmapFont = new BitmapFont(Gdx.files.internal("the_works/open_sans_big.fnt"));
     bitmapFont.setUseIntegerPositions(false);
 
@@ -44,8 +50,6 @@ public class WrapEmojiEllipsisCrashTest extends ApplicationAdapter {
     layout.setEllipsis("...");
 
     font.markup("Testtt:\ntesting-test, W-i-n-n-e-r haha-hehe testing-t-t-t-test W-i-n haha-hehe", layout);
-
-    batch = new SpriteBatch();
 
     viewport = new ScreenViewport();
     viewport.setUnitsPerPixel(0.45714286f);

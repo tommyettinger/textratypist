@@ -36,7 +36,13 @@ public class WelcomeScreen extends ApplicationAdapter {
 
   @Override
   public void create() {
-    stage = new Stage(new ScreenViewport());
+    // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+    TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(10000); // large Labels need larger value than normal 1000
+    // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+    // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+    TextureArrayShaders.initializeTextureArrayShaders();
+
+    stage = new Stage(new ScreenViewport(), batch);
 //    stage.setDebugAll(true);
     BitmapFont font = new BitmapFont();
     font.setUseIntegerPositions(false);
