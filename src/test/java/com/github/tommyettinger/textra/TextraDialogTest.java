@@ -35,9 +35,15 @@ public class TextraDialogTest extends ApplicationAdapter {
     TextraDialog dialog;
     @Override
     public void create() {
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         viewport = new ScreenViewport();
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
-        stage = new Stage(viewport);
+        stage = new Stage(viewport, batch);
         Font gentium = KnownFonts.getGentium();
         Styles.WindowStyle style = new Styles.WindowStyle();
         style.titleFont = gentium;

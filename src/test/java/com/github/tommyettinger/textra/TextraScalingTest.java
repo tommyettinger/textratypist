@@ -16,14 +16,18 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class TextraScalingTest extends ApplicationAdapter {
     Stage       stage;
-    SpriteBatch batch;
     TextraLabel label;
 
     @Override
     public void create() {
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         adjustTypingConfigs();
 
-        batch = new SpriteBatch();
         stage = new Stage(new StretchViewport(720, 405), batch);
 //        stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);

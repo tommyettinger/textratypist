@@ -30,13 +30,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class TableWrapTest extends ApplicationAdapter {
     Stage stage;
 
     @Override
     public void create() {
-        stage = new Stage();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
+        stage = new Stage(new ScreenViewport(), batch);
         Skin skin = new FreeTypistSkin(Gdx.files.internal("uiskinOS.json"));
         Table root = new Table(skin);
         root.setSize(780, 600);
