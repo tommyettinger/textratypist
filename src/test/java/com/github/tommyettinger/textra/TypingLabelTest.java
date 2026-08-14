@@ -22,7 +22,6 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 public class TypingLabelTest extends ApplicationAdapter {
     FWSkin        skin;
     Stage         stage;
-    SpriteBatch   batch;
     TypingLabel   label;
     TypingLabel   labelEvent;
     TextraButton  buttonPause;
@@ -33,9 +32,14 @@ public class TypingLabelTest extends ApplicationAdapter {
 
     @Override
     public void create() {
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         adjustTypingConfigs();
 
-        batch = new SpriteBatch();
         skin = new FWSkin(Gdx.files.internal("uiskin4.json"));
         stage = new Stage(new StretchViewport(720, 400), batch);
         Gdx.input.setInputProcessor(stage);
