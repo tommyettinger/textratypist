@@ -55,6 +55,12 @@ public class StandardShadeUITest extends InputAdapter implements ApplicationList
 	public void create () {
 //		profiler = new GLProfiler(Gdx.graphics);
 //		profiler.enable();
+		// TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+		TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+		// When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+		// Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+		TextureArrayShaders.initializeTextureArrayShaders();
+
 		skin = new FWSkin(Gdx.files.internal("shadeui/standard/uiskin-standard.json"));
 		texture1 = new Texture(Gdx.files.internal("badlogicsmall.jpg"));
 		texture2 = new Texture(Gdx.files.internal("badlogic.jpg"));
@@ -63,7 +69,7 @@ public class StandardShadeUITest extends InputAdapter implements ApplicationList
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 		// stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, new PolygonSpriteBatch());
-		stage = new Stage(new ScreenViewport());
+		stage = new Stage(new ScreenViewport(), batch);
 		Gdx.input.setInputProcessor(stage);
 
 		// stage.setDebugAll(true);
@@ -229,7 +235,7 @@ public class StandardShadeUITest extends InputAdapter implements ApplicationList
 	public static void main(String[] args){
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("Label UI test");
-		config.setWindowedMode(640, 540);
+		config.setWindowedMode(840, 740);
 		config.disableAudio(true);
 		ShaderProgram.prependVertexCode = "#version 110\n";
 		ShaderProgram.prependFragmentCode = "#version 110\n";

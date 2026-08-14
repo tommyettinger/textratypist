@@ -29,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class StressTest extends ApplicationAdapter {
     Stage stage;
@@ -37,7 +38,13 @@ public class StressTest extends ApplicationAdapter {
     public void create() {
         Gdx.app.setLogLevel(Application.LOG_INFO);
         long startMillis = TimeUtils.millis();
-        stage = new Stage();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
+        stage = new Stage(new ScreenViewport(), batch);
         Skin skin = new FreeTypistSkin(Gdx.files.internal("uiskin3.json"));
         Table root = new Table(skin);
 
