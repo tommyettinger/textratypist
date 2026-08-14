@@ -62,7 +62,7 @@ public class PreviewNotoEmojiGenerator extends ApplicationAdapter {
         for (int y = 0; y < 18; y++) {
             for (int x = 0; x < 35; x++) {
                 char c = (char)keys.get(random.nextInt(ks));
-                while (c == '[' || font.breakChars.contains(c) || !font.mapping.containsKey(c))
+                while (c == '[' || c == '\n' || font.breakChars.contains(c) || !font.mapping.containsKey(c))
                     c = (char)keys.get(random.nextInt(ks));
                 sb.append(c);
             }

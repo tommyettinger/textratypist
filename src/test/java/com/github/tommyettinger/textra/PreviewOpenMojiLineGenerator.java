@@ -25,7 +25,7 @@ import java.nio.ByteBuffer;
 public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
 
     Font font;
-    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
     Viewport viewport;
     Layout layout = new Layout().setTargetWidth(1200);
     float x, y;
@@ -46,42 +46,38 @@ public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();;
+
         viewport = new StretchViewport(1200, 675);
 
         Gdx.files.local("out/").mkdirs();
-//        font = KnownFonts.addGameIcons(KnownFonts.getNowAlt(Font.DistanceFieldType.MSDF).fitCell(40, 40, true), 16f, -8f, 0f);
-
         font = KnownFonts.addOpenMoji(KnownFonts.getNowAlt(Font.DistanceFieldType.MSDF).scaleHeightTo(32), false, 0f, -2f, 0f).fitCell(32, 32, true);
-//        font = KnownFonts.addOpenMoji(KnownFonts.getNowAlt(), false, 0f, 0f, 0f).fitCell(32, 32, true);
         layout.setBaseColor(Color.DARK_GRAY);
+        font.omitCurlyBraces = false;
         StringBuilder sb = new StringBuilder(4000);
-        sb.append("[%?whiten]");
+        sb.append("[?whiten]");
         RandomXS128 random = new RandomXS128(1, 42);
-        font.mapping.remove('[');
-        font.mapping.remove(']');
-        font.mapping.remove('{');
-        font.mapping.remove('}');
-        font.mapping.remove('\n');
-        font.mapping.remove('\r');
-        font.mapping.remove('\t');
-        font.mapping.remove(' ');
         Palette.NAMES.removeValue("transparent", false);
         Palette.NAMES.removeValue("CLEAR", false);
         IntArray keys = font.mapping.keys().toArray();
         int ks = keys.size, ps = Palette.LIST.size;
-
         for (int y = 0; y < 19; y++) {
             for (int x = 0; x < 36; x++) {
+                char c = (char)keys.get(random.nextInt(ks));
+                while (c == '[' || c == '\n' || font.breakChars.contains(c) || !font.mapping.containsKey(c))
+                    c = (char)keys.get(random.nextInt(ks));
                 sb.append("[richmost darker ").append(Palette.NAMES.get(random.nextInt(ps))).append(']');
-//                StringUtils.appendUnsignedHex(sb.append("[#"), ColorUtils.darken(Palette.LIST.get(random.nextInt(ps)), 0.25f)).append(']');
-                sb.append((char)keys.get(random.nextInt(ks)));
+                sb.append(c);
             }
             sb.append('\n');
         }
         font.markup(sb.toString(), layout);
         font.calculateSize(layout);
-        System.out.println(sb);
+        System.out.println(layout);
 
         ScreenUtils.clear(0.35f, 0.35f, 0.35f, 1f);
         x = Gdx.graphics.getBackBufferWidth() * 0.5f;
