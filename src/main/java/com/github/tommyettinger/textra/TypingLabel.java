@@ -1463,6 +1463,8 @@ public class TypingLabel extends TextraLabel {
                 x -= cs * lineWidth;
                 y -= sn * lineWidth;
             }
+            x -= sn * (0.5f * lineHeight);
+            y += cs * (0.5f * lineHeight);
             Font f = null;
             int kern = -1,
                     start = (toSkip - line.glyphs.size < startIndex) ? startIndex - (toSkip - line.glyphs.size) : 0,
@@ -1475,7 +1477,7 @@ public class TypingLabel extends TextraLabel {
                 char ch = (char) glyph;
                 if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                 if (f == null) f = font;
-                float descent = f.descent * f.scaleY * getScaleY();
+//                float descent = f.descent * f.scaleY * getScaleY();
 
                 if(font.omitCurlyBraces) {
                     if (curly) {
@@ -1506,9 +1508,9 @@ public class TypingLabel extends TextraLabel {
                     x += cs * halfWidth;
                     y += sn * halfWidth;
 
-                    y += descent;
-                    x += sn * (descent - halfHeight);
-                    y -= cs * (descent - halfHeight);
+//                    y += descent;
+//                    x += sn * (descent - halfHeight);
+//                    y -= cs * (descent - halfHeight);
 
                     Font.GlyphRegion reg = f.mapping.get((char) glyph);
                     if (reg != null && reg.offsetX < 0 && !f.isMono && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {

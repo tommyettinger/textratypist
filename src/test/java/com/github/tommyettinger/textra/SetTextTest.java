@@ -23,6 +23,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -42,18 +43,19 @@ public class SetTextTest extends ApplicationAdapter {
     long ctr = 1;
     @Override
     public void create() {
+        // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
+        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
+        // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
+        TextureArrayShaders.initializeTextureArrayShaders();
+
         viewport = new ScreenViewport();
         viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),true);
-        stage = new Stage(viewport);
+        stage = new Stage(viewport, batch);
         stage.setDebugAll(true);
         random = new RandomXS128(ctr);
 
         Font font = KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF);
-//        Font font = new Font("mk/Military_Kid.fnt", "mk/Military_Kid.png", Font.DistanceFieldType.MSDF, 0, 0, 0f, 0f, false);
-//        font.distanceFieldCrispness = 6;
-//        font.setDescent(-16);
-//        font.scale(0.5f, 0.5f);
-//                KnownFonts.getRobotoCondensed();
 
         text =
                 "[%150]Satchmo[%] is a [#]{RAINBOW}cat{ENDRAINBOW}[#], [%50]who[%] [%75]is[%] extremely {SPEED=0.05}fat{NORMAL}; when he sits " +
@@ -74,27 +76,26 @@ public class SetTextTest extends ApplicationAdapter {
                 text, new Styles.LabelStyle(), font);
         typingLabel.setWrap(true);
         typingLabel.setAlignment(center);
-        typingLabel.setMaxLines(5);
         typingLabel.setEllipsis("...");
         typingLabel.setText(text);
         typingLabel.parseTokens();
         typingLabel.skipToTheEnd();
         textraLabel = new TextraLabel(
-                "[#FFF]" + textra, new Styles.LabelStyle(), font);
+                "[RED]" + textra, new Styles.LabelStyle(), font);
         textraLabel.setWrap(true);
         textraLabel.setAlignment(center);
 //        textraLabel.layout.setMaxLines(5);
         textraLabel.layout.setEllipsis("...");
         textraLabel.skipToTheEnd();
-//        Stack stack = new Stack(textraLabel);
-//        stack.setFillParent(true);
-//        stack.pack();
-//        stage.addActor(stack);
-        Table root = new Table();
-        root.add(typingLabel).right().fillY().growX();
-        root.pack();
-        root.setFillParent(true);
-        stage.addActor(root);
+        Stack stack = new Stack(textraLabel, typingLabel);
+        stack.setFillParent(true);
+        stack.pack();
+        stage.addActor(stack);
+//        Table root = new Table();
+//        root.add(typingLabel).right().fillY().growX();
+//        root.pack();
+//        root.setFillParent(true);
+//        stage.addActor(root);
         System.out.println("Typing: " + typingLabel);
         System.out.println("Textra: " + textraLabel);
     }

@@ -505,10 +505,13 @@ public class TextraLabel extends Widget {
                 if (f == null) f = font;
                 int even = start + i << 1, odd = even | 1;
                 float a = getAdvances().get(start + i) * getScaleX();
+                float halfWidth = f.cellWidth * 0.5f * getScaleX();
+
                 if (i == 0) {
-                    x -= 0.5f * f.cellWidth;
-                    x += cs * 0.5f * f.cellWidth;
-                    y += sn * 0.5f * f.cellWidth;
+                    x -= halfWidth;
+
+                    x += cs * halfWidth;
+                    y += sn * halfWidth;
 
                     if(font.integerPosition){
                         x = (int)x;
