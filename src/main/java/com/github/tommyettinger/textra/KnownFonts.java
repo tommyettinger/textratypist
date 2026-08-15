@@ -7677,32 +7677,6 @@ public final class KnownFonts implements LifecycleListener {
         throw new RuntimeException("Assets 'Material-Design.atlas' and 'Material-Design.png' not found.");
     }
 
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-        if(instance.standardShader != null) instance.standardShader.dispose();
-        if(instance.sdfShader != null) instance.sdfShader.dispose();
-        if(instance.sdfOutlineShader != null) instance.sdfOutlineShader.dispose();
-        if(instance.msdfShader != null) instance.msdfShader.dispose();
-
-        instance.standardShader = (standardVertex != null && standardFragment != null) ? new ShaderProgram(standardVertex, standardFragment) : null;
-        if (instance.standardShader != null && !instance.standardShader.isCompiled())
-            Gdx.app.error("textratypist", "Standard shader failed to compile: " + instance.standardShader.getLog());
-        instance.sdfShader = (sdfVertex != null && sdfFragment != null) ? new ShaderProgram(sdfVertex, sdfFragment) : null;
-        if (instance.sdfShader != null && !instance.sdfShader.isCompiled())
-            Gdx.app.error("textratypist", "SDF shader failed to compile: " + instance.sdfShader.getLog());
-        instance.sdfOutlineShader = (sdfOutlineVertex != null && sdfOutlineFragment != null) ? new ShaderProgram(sdfOutlineVertex, sdfOutlineFragment) : null;
-        if (instance.sdfOutlineShader != null && !instance.sdfOutlineShader.isCompiled())
-            Gdx.app.error("textratypist", "SDF Outline shader failed to compile: " + instance.sdfOutlineShader.getLog());
-        instance.msdfShader = (msdfVertex != null && msdfFragment != null) ? new ShaderProgram(msdfVertex, msdfFragment) : null;
-        if (instance.msdfShader != null && !instance.msdfShader.isCompiled())
-            Gdx.app.error("textratypist", "MSDF shader failed to compile: " + instance.msdfShader.getLog());
-    }
-
     /**
      * Returns a new array of Font instances, calling each getXyz() method in this class that returns any Font.
      * This will only function at all if all the assets (for every known Font) are present and load-able.
@@ -7936,6 +7910,35 @@ public final class KnownFonts implements LifecycleListener {
         // special JSON config
         found[i++] = getAStarryTall(MSDF);
         return found;
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+        if(instance.standardShader != null) instance.standardShader.dispose();
+        if(instance.sdfShader != null) instance.sdfShader.dispose();
+        if(instance.sdfOutlineShader != null) instance.sdfOutlineShader.dispose();
+        if(instance.msdfShader != null) instance.msdfShader.dispose();
+
+        instance.standardShader = (standardVertex != null && standardFragment != null) ? new ShaderProgram(standardVertex, standardFragment) : null;
+        if (instance.standardShader != null && !instance.standardShader.isCompiled())
+            Gdx.app.error("textratypist", "Standard shader failed to compile: " + instance.standardShader.getLog());
+        instance.sdfShader = (sdfVertex != null && sdfFragment != null) ? new ShaderProgram(sdfVertex, sdfFragment) : null;
+        if (instance.sdfShader != null && !instance.sdfShader.isCompiled())
+            Gdx.app.error("textratypist", "SDF shader failed to compile: " + instance.sdfShader.getLog());
+        instance.sdfOutlineShader = (sdfOutlineVertex != null && sdfOutlineFragment != null) ? new ShaderProgram(sdfOutlineVertex, sdfOutlineFragment) : null;
+        if (instance.sdfOutlineShader != null && !instance.sdfOutlineShader.isCompiled())
+            Gdx.app.error("textratypist", "SDF Outline shader failed to compile: " + instance.sdfOutlineShader.getLog());
+        instance.msdfShader = (msdfVertex != null && msdfFragment != null) ? new ShaderProgram(msdfVertex, msdfFragment) : null;
+        if (instance.msdfShader != null && !instance.msdfShader.isCompiled())
+            Gdx.app.error("textratypist", "MSDF shader failed to compile: " + instance.msdfShader.getLog());
+        // TODO: REMOVE THESE LOGS!
+        if(msdfVertex == null || msdfFragment == null) Gdx.app.error("TEXT", "MSDF shader text is null and should not be!");
+        if(msdfShader == null) Gdx.app.error("SHADER", "MSDF ShaderProgram is null and should not be!");
     }
 
     @Override
