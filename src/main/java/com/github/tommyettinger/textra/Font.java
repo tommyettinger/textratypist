@@ -1260,8 +1260,11 @@ public class Font implements Disposable {
      * The color black, as a packed float using the default RGBA color space.
      * This can be edited for Fonts that either use a different color space,
      * or want to use a different color in place of black for effects like {@link #BLACK_OUTLINE}.
+     * This is only actually used as the default color for black outlines, so changing this only affects text using the
+     * {@code [#]} markup or any of its aliases.
      */
     public float PACKED_BLACK = NumberUtils.intBitsToFloat(0xFE000000);
+
     /**
      * The color white, as a packed float using the default RGBA color space.
      * This can be edited for Fonts that either use a different color space,
@@ -8633,7 +8636,8 @@ public class Font implements Disposable {
 
     public String debugString() {
         return "Font{" +
-                "distanceField=" + distanceField +
+                "name='" + name + '\'' +
+                ", distanceField=" + distanceField +
                 ", isMono=" + isMono +
                 ", kerning=" + (kerning == null ? "null" : kerning.size + " pairs") +
                 ", actualCrispness=" + actualCrispness +
@@ -8651,9 +8655,13 @@ public class Font implements Disposable {
                 ", obliqueStrength=" + obliqueStrength +
                 ", boldStrength=" + boldStrength +
                 ", outlineStrength=" + outlineStrength +
-                ", name='" + name + '\'' +
+                ", topEdgeLightnessChange=" + topEdgeLightnessChange +
+                ", bottomEdgeLightnessChange=" + bottomEdgeLightnessChange +
                 ", PACKED_BLACK=" + PACKED_BLACK +
                 ", PACKED_WHITE=" + PACKED_WHITE +
+                ", PACKED_BLUE=" + PACKED_BLUE +
+                ", PACKED_RED=" + PACKED_RED +
+                ", PACKED_YELLOW=" + PACKED_YELLOW +
                 ", PACKED_ERROR_COLOR=" + PACKED_ERROR_COLOR +
                 ", PACKED_WARN_COLOR=" + PACKED_WARN_COLOR +
                 ", PACKED_NOTE_COLOR=" + PACKED_NOTE_COLOR +
