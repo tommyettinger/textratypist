@@ -99,6 +99,14 @@ import static com.github.tommyettinger.textra.Font.DistanceFieldType.*;
 @SuppressWarnings("CallToPrintStackTrace")
 public final class KnownFonts implements LifecycleListener {
     private static KnownFonts instance;
+    private static String standardVertex;
+    private static String standardFragment;
+    private static String sdfVertex;
+    private static String sdfFragment;
+    private static String sdfOutlineVertex;
+    private static String sdfOutlineFragment;
+    private static String msdfVertex;
+    private static String msdfFragment;
 
     private KnownFonts() {
         if (Gdx.app == null)
@@ -119,20 +127,23 @@ public final class KnownFonts implements LifecycleListener {
         if (instance == null) {
             instance = new KnownFonts();
             if(Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop) return;
+            standardVertex = null;
+            standardFragment = null;
             instance.standardShader = null;
-            instance.sdfShader = new ShaderProgram(Font.vertexShader,
-                    Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
+            instance.sdfShader = new ShaderProgram(sdfVertex = Font.vertexShader,
+                    sdfFragment = Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
                             ? Font.sdfFragmentShaderUsingDerivatives
                             : Font.sdfFragmentShader);
             if (!instance.sdfShader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + instance.sdfShader.getLog());
-            instance.sdfOutlineShader = new ShaderProgram(Font.vertexShader,
-                    Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
+            instance.sdfOutlineShader = new ShaderProgram(sdfOutlineVertex = Font.vertexShader,
+                    sdfOutlineFragment = Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
                             ? Font.sdfBlackOutlineFragmentShaderUsingDerivatives
                             : Font.sdfBlackOutlineFragmentShader);
             if (!instance.sdfOutlineShader.isCompiled())
                 Gdx.app.error("textratypist", "SDF Outline shader failed to compile: " + instance.sdfOutlineShader.getLog());
-            instance.msdfShader = new ShaderProgram(Font.vertexShader, Font.msdfFragmentShader);
+            instance.msdfShader = new ShaderProgram(msdfVertex = Font.vertexShader,
+                    msdfFragment = Font.msdfFragmentShader);
             if (!instance.msdfShader.isCompiled())
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + instance.msdfShader.getLog());
         }
@@ -161,6 +172,14 @@ public final class KnownFonts implements LifecycleListener {
         if (instance == null) {
             instance = new KnownFonts();
             if(Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop) return;
+            KnownFonts.standardVertex = standardVertex;
+            KnownFonts.standardFragment = standardFragment;
+            KnownFonts.sdfVertex = sdfVertex;
+            KnownFonts.sdfFragment = sdfFragment;
+            KnownFonts.sdfOutlineVertex = sdfOutlineVertex;
+            KnownFonts.sdfOutlineFragment = sdfOutlineFragment;
+            KnownFonts.msdfVertex = msdfVertex;
+            KnownFonts.msdfFragment = msdfFragment;
             instance.standardShader = (standardVertex != null && standardFragment != null) ? new ShaderProgram(standardVertex, standardFragment) : null;
             if (instance.standardShader != null && !instance.standardShader.isCompiled())
                 Gdx.app.error("textratypist", "Standard shader failed to compile: " + instance.standardShader.getLog());
@@ -7650,7 +7669,23 @@ public final class KnownFonts implements LifecycleListener {
 
     @Override
     public void resume() {
+        if(instance.standardShader != null) instance.standardShader.dispose();
+        if(instance.sdfShader != null) instance.sdfShader.dispose();
+        if(instance.sdfOutlineShader != null) instance.sdfOutlineShader.dispose();
+        if(instance.msdfShader != null) instance.msdfShader.dispose();
 
+        instance.standardShader = (standardVertex != null && standardFragment != null) ? new ShaderProgram(standardVertex, standardFragment) : null;
+        if (instance.standardShader != null && !instance.standardShader.isCompiled())
+            Gdx.app.error("textratypist", "Standard shader failed to compile: " + instance.standardShader.getLog());
+        instance.sdfShader = (sdfVertex != null && sdfFragment != null) ? new ShaderProgram(sdfVertex, sdfFragment) : null;
+        if (instance.sdfShader != null && !instance.sdfShader.isCompiled())
+            Gdx.app.error("textratypist", "SDF shader failed to compile: " + instance.sdfShader.getLog());
+        instance.sdfOutlineShader = (sdfOutlineVertex != null && sdfOutlineFragment != null) ? new ShaderProgram(sdfOutlineVertex, sdfOutlineFragment) : null;
+        if (instance.sdfOutlineShader != null && !instance.sdfOutlineShader.isCompiled())
+            Gdx.app.error("textratypist", "SDF Outline shader failed to compile: " + instance.sdfOutlineShader.getLog());
+        instance.msdfShader = (msdfVertex != null && msdfFragment != null) ? new ShaderProgram(msdfVertex, msdfFragment) : null;
+        if (instance.msdfShader != null && !instance.msdfShader.isCompiled())
+            Gdx.app.error("textratypist", "MSDF shader failed to compile: " + instance.msdfShader.getLog());
     }
 
     /**
@@ -7924,21 +7959,22 @@ public final class KnownFonts implements LifecycleListener {
             gameIconsFont = null;
         }
 
-//        if(standardShader != null){
-//            standardShader.dispose();
-//            standardShader = null;
-//        }
-//        if(sdfShader != null){
-//            sdfShader.dispose();
-//            sdfShader = null;
-//        }
-//        if(sdfOutlineShader != null){
-//            sdfOutlineShader.dispose();
-//            sdfOutlineShader = null;
-//        }
-//        if(msdfShader != null){
-//            msdfShader.dispose();
-//            msdfShader = null;
-//        }
+        if(standardShader != null){
+            standardShader.dispose();
+            standardShader = null;
+        }
+        if(sdfShader != null){
+            sdfShader.dispose();
+            sdfShader = null;
+        }
+        if(sdfOutlineShader != null){
+            sdfOutlineShader.dispose();
+            sdfOutlineShader = null;
+        }
+        if(msdfShader != null){
+            msdfShader.dispose();
+            msdfShader = null;
+        }
     }
+
 }
