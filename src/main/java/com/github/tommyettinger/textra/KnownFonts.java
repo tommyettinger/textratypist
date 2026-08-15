@@ -7924,21 +7924,21 @@ public final class KnownFonts implements LifecycleListener {
             gameIconsFont = null;
         }
 
-        if(standardShader != null){
-            standardShader.dispose();
-            standardShader = null;
-        }
-        if(sdfShader != null){
-            sdfShader.dispose();
-            sdfShader = null;
-        }
-        if(sdfOutlineShader != null){
-            sdfOutlineShader.dispose();
-            sdfOutlineShader = null;
-        }
-        if(msdfShader != null){
-            msdfShader.dispose();
-            msdfShader = null;
-        }
+//        if(standardShader != null){
+//            standardShader.dispose();
+//            standardShader = null;
+//        }
+//        if(sdfShader != null){
+//            sdfShader.dispose();
+//            sdfShader = null;
+//        }
+//        if(sdfOutlineShader != null){
+//            sdfOutlineShader.dispose();
+//            sdfOutlineShader = null;
+//        }
+//        if(msdfShader != null){
+//            msdfShader.dispose();
+//            msdfShader = null;
+//        }
     }
 }
