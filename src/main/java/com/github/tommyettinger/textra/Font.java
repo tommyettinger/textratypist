@@ -8603,13 +8603,11 @@ public class Font implements Disposable {
      */
     @Override
     public void dispose() {
-        if (shader != null)
-        {
+        if (shader != null) {
             shader.dispose();
             shader = null;
         }
-        if(whiteBlock != null)
-        {
+        if(whiteBlock != null) {
             whiteBlock.dispose();
             whiteBlock = null;
         }

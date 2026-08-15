@@ -127,23 +127,38 @@ public final class KnownFonts implements LifecycleListener {
         if (instance == null) {
             instance = new KnownFonts();
             if(Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop) return;
-            standardVertex = null;
-            standardFragment = null;
-            instance.standardShader = null;
-            instance.sdfShader = new ShaderProgram(sdfVertex = Font.vertexShader,
-                    sdfFragment = Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
-                            ? Font.sdfFragmentShaderUsingDerivatives
-                            : Font.sdfFragmentShader);
+
+            instance.standardShader = (standardVertex != null && standardFragment != null)
+                    ? new ShaderProgram(standardVertex, standardFragment)
+                    : null;
+
+            if(sdfVertex == null)
+                sdfVertex = Font.vertexShader;
+            if(sdfFragment == null)
+                sdfFragment = Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
+                    ? Font.sdfFragmentShaderUsingDerivatives
+                    : Font.sdfFragmentShader;
+            instance.sdfShader = new ShaderProgram(sdfVertex, sdfFragment);
             if (!instance.sdfShader.isCompiled())
                 Gdx.app.error("textratypist", "SDF shader failed to compile: " + instance.sdfShader.getLog());
-            instance.sdfOutlineShader = new ShaderProgram(sdfOutlineVertex = Font.vertexShader,
-                    sdfOutlineFragment = Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
-                            ? Font.sdfBlackOutlineFragmentShaderUsingDerivatives
-                            : Font.sdfBlackOutlineFragmentShader);
+
+            if(sdfOutlineVertex == null)
+                sdfOutlineVertex = Font.vertexShader;
+            if(sdfOutlineFragment == null)
+                sdfOutlineFragment = Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
+                        ? Font.sdfBlackOutlineFragmentShaderUsingDerivatives
+                        : Font.sdfBlackOutlineFragmentShader;
+            instance.sdfOutlineShader = new ShaderProgram(sdfOutlineVertex,
+                    sdfOutlineFragment);
             if (!instance.sdfOutlineShader.isCompiled())
                 Gdx.app.error("textratypist", "SDF Outline shader failed to compile: " + instance.sdfOutlineShader.getLog());
-            instance.msdfShader = new ShaderProgram(msdfVertex = Font.vertexShader,
-                    msdfFragment = Font.msdfFragmentShader);
+
+            if(msdfVertex == null)
+                msdfVertex = Font.vertexShader;
+            if(msdfFragment == null)
+                msdfFragment = Font.msdfFragmentShader;
+            instance.msdfShader = new ShaderProgram(msdfVertex,
+                    msdfFragment);
             if (!instance.msdfShader.isCompiled())
                 Gdx.app.error("textratypist", "MSDF shader failed to compile: " + instance.msdfShader.getLog());
         }
