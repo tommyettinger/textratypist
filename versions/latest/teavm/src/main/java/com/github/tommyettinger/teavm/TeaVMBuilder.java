@@ -20,14 +20,15 @@ public class TeaVMBuilder {
             else if ("run".equals(arg)) startJetty = true;
         }
         WebBackend backend = new WebBackend()
-            .setHtmlWidth(800) /* Change this to fit your game's requirements. */
-            .setHtmlHeight(600) /* Change this to fit your game's requirements. */
-            .setHtmlTitle("TextraTypistLatest")
-            .setWebAssembly(true) /* Uncomment this line to use WASM output instead of JavaScript output. */
-            .setStartJettyAfterBuild(startJetty)
-            .setJettyPort(8080);
+                .setHtmlWidth(800) /* Change this to fit your game's requirements. */
+                .setHtmlHeight(600) /* Change this to fit your game's requirements. */
+                .setHtmlTitle("latest")
+//                .setWebAssembly(true) /* Uncomment this line to use WASM output instead of JavaScript output. */
+                .setStartJettyAfterBuild(startJetty)
+                .setJettyPort(8080);
         new TeaBuilder(backend)
             .addAssets(new AssetFileHandle("../assets"))
+            
             .setOptimizationLevel(debug ? TeaVMOptimizationLevel.SIMPLE : TeaVMOptimizationLevel.ADVANCED)
             .setMainClass(TeaVMLauncher.class.getName())
             .setObfuscated(!debug)
@@ -36,8 +37,7 @@ public class TeaVMBuilder {
             .setSourceFilePolicy(TeaVMSourceFilePolicy.COPY)
             .addSourceFileProvider(new DirectorySourceFileProvider(new File("../core/src/main/java/")))
             // You can also register any classes or packages that require reflection here:
-            .addReflectionClass("com.github.tommyettinger.textra.Styles")
+            //.addReflectionClass("com.github.tommyettinger.reflect")
             .build(new File("build/dist/" + (backend.isWebAssembly ? "wasm" : "js")));
     }
-
 }

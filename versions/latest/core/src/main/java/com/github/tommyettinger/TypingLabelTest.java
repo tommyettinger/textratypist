@@ -30,7 +30,6 @@ public class TypingLabelTest extends ApplicationAdapter {
     TextraButton  buttonRestart;
     TextraButton  buttonRebuild;
     TextraButton  buttonSkip;
-    Color flashColor = new Color(1, 1, 0.6f, 1f);
 
     @Override
     public void create() {

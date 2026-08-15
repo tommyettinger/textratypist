@@ -1,8 +1,8 @@
 package com.github.tommyettinger.teavm;
 
-import com.github.tommyettinger.TypingLabelTest;
 import com.github.xpenatan.gdx.teavm.backends.web.WebApplicationConfiguration;
 import com.github.xpenatan.gdx.teavm.backends.web.WebApplication;
+import com.github.tommyettinger.Main;
 
 /**
  * Launches the TeaVM/HTML application.
@@ -16,6 +16,6 @@ public class TeaVMLauncher {
         //// If width and height are both 0, then the app will use all available space.
         config.width = 0;
         config.height = 0;
-        new WebApplication(new TypingLabelTest(), config);
+        new WebApplication(new Main(), config);
     }
 }

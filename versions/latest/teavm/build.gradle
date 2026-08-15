@@ -14,7 +14,6 @@ java.sourceCompatibility = "17"
 
 dependencies {
   implementation "com.github.xpenatan.gdx-teavm:backend-web:$gdxTeaVMVersion"
-  implementation "com.github.xpenatan.gdx-teavm:gdx-freetype-web:$gdxTeaVMVersion"
   implementation project(':core')
 
 }
