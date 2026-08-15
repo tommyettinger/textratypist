@@ -6,8 +6,9 @@ The setBounds() and setSize() methods got some fixes in TypingLabel and TextraLa
 used, TypingLabel and TextraLabel now behave the same regarding line position. Fonts created by copying a BitmapFont
 will now always have a solidBlock character, which allows fancy underlines to always work for them. You can set a Font's
 topEdgeLightnessChange and bottomEdgeLightnessChange to create simple vertical lightness gradients in a Font, even a
-distance field font. The logic for fitCell() was fixed for inline images. Lastly, four new fonts were added to
-KnownFonts, all different variants on Fusion Pixel for Japanese, Korean, Simplified Chinese, and Traditional Chinese.
+distance field font. The logic for fitCell() was fixed for inline images. Four new fonts were added to KnownFonts, all
+different variants on Fusion Pixel for Japanese, Korean, Simplified Chinese, and Traditional Chinese. The documentation
+for each effect now includes a link to an animated GIF preview.
 
 2.4.2 actually fixes TextraField and TextraArea again; backspace and delete put the cursor in the wrong place. It also
 reduces memory usage drastically for very large (multi-line) Layouts run through Font.regenerateLayout(). There are some
