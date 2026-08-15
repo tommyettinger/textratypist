@@ -4316,12 +4316,14 @@ public class Font implements Disposable {
     public void enableShader(Batch batch) {
         if (batch.getShader() != shader) {
             if (distanceField == DistanceFieldType.MSDF) {
+                setDistanceField(distanceField);
                 batch.setShader(shader);
                 float smoothing = 8f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
                 shader.setUniformf("u_smoothing", smoothing);
                 smoothingValues.put(batch, smoothing);
             } else if (distanceField == DistanceFieldType.SDF || distanceField == DistanceFieldType.SDF_OUTLINE) {
+                setDistanceField(distanceField);
                 batch.setShader(shader);
                 float smoothing = 4f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
@@ -8602,9 +8604,15 @@ public class Font implements Disposable {
     @Override
     public void dispose() {
         if (shader != null)
+        {
             shader.dispose();
+            shader = null;
+        }
         if(whiteBlock != null)
+        {
             whiteBlock.dispose();
+            whiteBlock = null;
+        }
     }
 
     /**
