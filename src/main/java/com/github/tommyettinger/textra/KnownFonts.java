@@ -124,7 +124,7 @@ public final class KnownFonts implements LifecycleListener {
      * be compiled if OpenGL is available.
      */
     public static void initialize() {
-        if (instance == null) {
+        if (instance == null || instance.disposed) {
             instance = new KnownFonts();
             if(Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop) return;
 
@@ -184,7 +184,7 @@ public final class KnownFonts implements LifecycleListener {
                                   String sdfVertex, String sdfFragment,
                                   String sdfOutlineVertex, String sdfOutlineFragment,
                                   String msdfVertex, String msdfFragment) {
-        if (instance == null) {
+        if (instance == null || instance.disposed) {
             instance = new KnownFonts();
             if(Gdx.app.getType() == Application.ApplicationType.HeadlessDesktop) return;
             KnownFonts.standardVertex = standardVertex;
@@ -216,6 +216,8 @@ public final class KnownFonts implements LifecycleListener {
     private ShaderProgram sdfShader = null;
     private ShaderProgram sdfOutlineShader = null;
     private ShaderProgram msdfShader = null;
+
+    private boolean disposed = false;
 
     /**
      * Gets the single ShaderProgram used to draw {@link DistanceFieldType#STANDARD} Fonts.
@@ -7919,6 +7921,7 @@ public final class KnownFonts implements LifecycleListener {
 
     @Override
     public void resume() {
+        if(!disposed) return;
         if(instance.standardShader != null) instance.standardShader.dispose();
         if(instance.sdfShader != null) instance.sdfShader.dispose();
         if(instance.sdfOutlineShader != null) instance.sdfOutlineShader.dispose();
@@ -7936,9 +7939,7 @@ public final class KnownFonts implements LifecycleListener {
         instance.msdfShader = (msdfVertex != null && msdfFragment != null) ? new ShaderProgram(msdfVertex, msdfFragment) : null;
         if (instance.msdfShader != null && !instance.msdfShader.isCompiled())
             Gdx.app.error("textratypist", "MSDF shader failed to compile: " + instance.msdfShader.getLog());
-        // TODO: REMOVE THESE LOGS!
-        if(msdfVertex == null || msdfFragment == null) Gdx.app.error("TEXT", "MSDF shader text is null and should not be!");
-        if(msdfShader == null) Gdx.app.error("SHADER", "MSDF ShaderProgram is null and should not be!");
+        disposed = false;
     }
 
     @Override
@@ -7993,6 +7994,7 @@ public final class KnownFonts implements LifecycleListener {
             msdfShader.dispose();
             msdfShader = null;
         }
+        disposed = true;
     }
 
 }

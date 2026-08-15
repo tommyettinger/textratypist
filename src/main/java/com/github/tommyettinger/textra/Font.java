@@ -4317,8 +4317,6 @@ public class Font implements Disposable {
         if (batch.getShader() != shader) {
             if (distanceField == DistanceFieldType.MSDF) {
                 setDistanceField(distanceField);
-                // TODO: REMOVE THIS LOG STATEMENT!
-                Gdx.app.error("TEXTRATYPIST", "MSDF shader has value: " + shader);
                 batch.setShader(shader);
                 float smoothing = 8f * actualCrispness * Math.max(cellHeight / originalCellHeight, cellWidth / originalCellWidth);
                 batch.flush();
