@@ -41,9 +41,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  * <br>
  * Calls: 633, draw calls: 33, shader switches: 1, texture bindings: 33
  * <br>
- * Using more SDF fonts:
+ * Using only standard fonts in 2.4.3:
  * <br>
- * Calls: 841, draw calls: 38, shader switches: 33, texture bindings: 38
+ * Calls: 633, draw calls: 33, shader switches: 1, texture bindings: 33
  */
 public class TypingUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
@@ -72,11 +72,11 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.SDF).family;
+		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.STANDARD).family;
 		family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.SDF)
+				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.STANDARD)
 				.scaleHeightTo(32);
-		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF).scaleHeightTo(30);
+		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.STANDARD).scaleHeightTo(30);
 		font = family.connected[0];
 		font.family = family;
 		for(Font f : font.family.connected) {

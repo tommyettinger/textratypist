@@ -22,34 +22,30 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureArraySpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
- * This should be compared to {@link TypingUIArrayTextureTest} and {@link TypingUITest}.
+ * This should be compared to {@link TypingUIArrayTextureTest} and {@link TypingUITextureArrayTest}.
  * <br>
- * Calls: 261, draw calls: 10, shader switches: 1, texture bindings: 6
+ * Calls: 633, draw calls: 33, shader switches: 1, texture bindings: 33
  * <br>
- * Using more SDF fonts in 2.4.3, it just crashes.
+ * Using more SDF fonts:
  * <br>
- * Using only standard fonts in 2.4.3:
- * <br>
- * Calls: 261, draw calls: 10, shader switches: 1, texture bindings: 6
+ * Calls: 841, draw calls: 38, shader switches: 33, texture bindings: 38
  */
-public class TypingUITextureArrayTest extends InputAdapter implements ApplicationListener {
+public class TypingUISDFTest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
 		"And another one3", "The meaning of life3", "Is hard to come by3", "This is a list entry4", "And another one4",
@@ -57,11 +53,12 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 		"Is hard to come by5"};
 
 	Skin skin;
+	Font font;
+	TypingWindow window;
 	Stage stage;
 	Texture texture1;
 	Texture texture2;
 	TypingLabel fpsLabel;
-	Font font;
 	GLProfiler profiler;
 
 	@Override
@@ -75,20 +72,20 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 		TextureRegion imageFlipped = new TextureRegion(image);
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
-		// DistanceFieldType must be STANDARD with TextureArraySpriteBatch
-		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.STANDARD).family;
+		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.SDF).family;
 		family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.STANDARD)
-						.scaleTo(30, 35);
-		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.STANDARD);
+				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.SDF)
+				.scaleHeightTo(32);
+		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF).scaleHeightTo(30);
 		font = family.connected[0];
 		font.family = family;
 		for(Font f : font.family.connected) {
 			if(f != null)
 				KnownFonts.addEmoji(f);
+//				KnownFonts.addNotoEmoji(f);
+//				KnownFonts.addOpenMoji(f, false);
 		}
-//		stage = new Stage(new ScreenViewport(), new SpriteBatch());
-		stage = new Stage(new ScreenViewport(), new TextureArraySpriteBatch());
+		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
 //		stage.setDebugAll(true);
@@ -118,7 +115,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
-		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering[+saxophone][+clown face][+saxophone]", skin, font);
+		final TypingCheckBox checkBox = new TypingCheckBox(" Continuous rendering[+saxophone][+🤡][+saxophone]", skin, font);
 		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
@@ -143,8 +140,12 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 		selectBox.setSelectedIndex(20);
 		Image imageActor = new Image(image2);
 		ScrollPane scrollPane = new ScrollPane(imageActor);
-		List<String> list = new List<>(skin);
-		list.setItems(listEntries);
+		TypingListBox<TypingLabel> list = new TypingListBox<>(skin);
+		TypingLabel[] listEntryLabels = new TypingLabel[listEntries.length];
+		for (int i = 0; i < listEntries.length; i++) {
+			listEntryLabels[i] = new TypingLabel(listEntries[i], skin, font);
+		}
+		list.setItems(listEntryLabels);
 		list.getSelection().setMultiple(true);
 		list.getSelection().setRequired(false);
 		// list.getSelection().setToggle(true);
@@ -173,7 +174,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 		imgButton.addListener(new Tooltip<>(tooltipTable));
 
 		// window.debug();
-		TypingWindow window = new TypingWindow("TypingWindow", skin, "default", font, true);
+		window = new TypingWindow("TypingWindow", skin, "default", new Font(font).scaleHeightTo(16), false);
 //		window.font.adjustLineHeight(0.75f);
 //		float ratio = window.getPadTop() / font.cellHeight;
 //		Font baby = new Font(font).scaleTo(font.cellWidth * ratio, window.getPadTop());//.scale(ratio, ratio);
@@ -208,7 +209,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 		// stage.addActor(new Button("Behind Window", skin));
 		stage.addActor(window);
 
-		textfield.setTextFieldListener(new TextFieldListener() {
+		textfield.setTextFieldListener(new TextField.TextFieldListener() {
 			public void keyTyped (TextField textField, char key) {
 				if (key == '\n') textField.getOnscreenKeyboard().close();
 			}
@@ -222,7 +223,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 
 		iconButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				new TextraDialog("Some TextraDialog", skin, "dialog", font) {
+				new TextraDialog("Some TextraDialog", skin, "dialog") {
 					protected void result (Object object) {
 						System.out.println("Chosen: " + object);
 					}
@@ -240,9 +241,9 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 
 	@Override
 	public void render () {
-		if(profiler.isEnabled())
-			profiler.reset();
-		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1f);
+		profiler.reset();
+		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
 		int i;
 		for (i = 0; i < s.length() && i < 5; i++) {
@@ -276,7 +277,8 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 	@Override
 	public void resize (int width, int height) {
 		stage.getViewport().update(width, height, true);
-//		font.family.resizeDistanceFields(width, height, stage.getViewport());
+		font.resizeDistanceField(width, height, stage.getViewport());
+		window.font.resizeDistanceField(width, height, stage.getViewport());
 	}
 
 	@Override
@@ -292,11 +294,10 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 		config.setTitle("TypingLabel UI test");
 		config.setWindowedMode(760, 640);
 		config.disableAudio(true);
-//		config.setBackBufferConfig(8, 8, 8, 8, 16, 0, 2);
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
 		config.useVsync(false);
 		config.setForegroundFPS(0);
-		new Lwjgl3Application(new TypingUITextureArrayTest(), config);
+		new Lwjgl3Application(new TypingUISDFTest(), config);
 	}
 
 }

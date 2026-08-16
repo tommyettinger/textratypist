@@ -47,9 +47,13 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  * The count of texture bindings seems wrong, since this is drawing from several textures, unless all textures are being
  * bound at once.
  * <br>
- * When rendering the same SDF fonts as other demos, this doesn't use the shader at all, and looks glitchy.
+ * When rendering the same SDF fonts as SDF demos, this doesn't use the shader at all, and looks glitchy.
  * <br>
  * Calls: 557, draw calls: 27, shader switches: 21, texture bindings: 1
+ * <br>
+ * Using only standard fonts in 2.4.3:
+ * <br>
+ * Calls: 120, draw calls: 10, shader switches: 1, texture bindings: 1
  */
 public class TypingUIArrayTextureTest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
@@ -77,11 +81,11 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 		// DistanceFieldType must be STANDARD with ArrayTextureSpriteBatch
-		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.SDF).family;
+		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.STANDARD).family;
 		family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.SDF)
+				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.STANDARD)
 				.scaleTo(30, 35);
-		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF);
+		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.STANDARD);
 		Font font = family.connected[0];
 		font.family = family;
 		for(Font f : font.family.connected) {
