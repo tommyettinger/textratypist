@@ -42,6 +42,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  * {@link TypingUITest}. This uses {@link TextureArrayCpuPolygonSpriteBatch}.
  * <br>
  * Calls: 229, draw calls: 8, shader switches: 1, texture bindings: 17
+ * <br>
+ * Using more SDF fonts in 2.4.3:
+ * <br>
+ * Calls: 729, draw calls: 27, shader switches: 21, texture bindings: 21
  */
 public class TypingUITACPTest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",

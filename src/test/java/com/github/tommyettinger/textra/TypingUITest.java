@@ -40,6 +40,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  * This should be compared to {@link TypingUIArrayTextureTest} and {@link TypingUITextureArrayTest}.
  * <br>
  * Calls: 633, draw calls: 33, shader switches: 1, texture bindings: 33
+ * <br>
+ * Using more SDF fonts:
+ * <br>
+ * Calls: 841, draw calls: 38, shader switches: 33, texture bindings: 38
  */
 public class TypingUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",

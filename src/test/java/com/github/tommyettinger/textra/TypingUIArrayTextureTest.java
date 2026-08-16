@@ -46,6 +46,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  * <br>
  * The count of texture bindings seems wrong, since this is drawing from several textures, unless all textures are being
  * bound at once.
+ * <br>
+ * When rendering the same SDF fonts as other demos, this doesn't use the shader at all, and looks glitchy.
+ * <br>
+ * Calls: 557, draw calls: 27, shader switches: 21, texture bindings: 1
  */
 public class TypingUIArrayTextureTest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
@@ -73,11 +77,11 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 		imageFlipped.flip(true, true);
 		TextureRegion image2 = new TextureRegion(texture2);
 		// DistanceFieldType must be STANDARD with ArrayTextureSpriteBatch
-		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.STANDARD).family;
+		final Font.FontFamily family = KnownFonts.getFamily(Font.DistanceFieldType.SDF).family;
 		family.connected[11] =
-				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.STANDARD)
+				KnownFonts.getYanoneKaffeesatz(Font.DistanceFieldType.SDF)
 				.scaleTo(30, 35);
-		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.STANDARD);
+		family.connected[0] = KnownFonts.getNowAlt(Font.DistanceFieldType.SDF);
 		Font font = family.connected[0];
 		font.family = family;
 		for(Font f : font.family.connected) {
