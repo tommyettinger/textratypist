@@ -1553,7 +1553,7 @@ public class Font implements Disposable {
      */
     public float bottomEdgeLightnessChange = 0f;
 
-    protected final transient float[] vertices = new float[20];
+    protected final transient float[] vertices = new float[24];
     protected final transient Layout tempLayout = new Layout();
     protected final transient LongArray glyphBuffer = new LongArray(128);
     protected final transient LongArray historyBuffer = new LongArray(64);
