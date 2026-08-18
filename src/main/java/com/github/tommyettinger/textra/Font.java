@@ -1021,6 +1021,33 @@ public class Font implements Disposable {
     public float descent = 0f;
 
     /**
+     * The emSize loaded from a JSON file or the line height loaded from a .fnt file.
+     * This is not necessarily used at all by the Font normally, but knowing it can be helpful for some fonts.
+     */
+    public float sizeInFile;
+    /**
+     * The ascender loaded from a JSON file or the line height plus the descent loaded from a .fnt file.
+     * This is not necessarily used at all by the Font normally, but knowing it can be helpful for some fonts.
+     */
+    public float ascenderInFile;
+    /**
+     * The descender loaded from a JSON file or the descent loaded from a .fnt file.
+     * This is not necessarily used at all by the Font normally, but knowing it can be helpful for some fonts.
+     * Normally, JSON files don't load this and use -0.25f instead for all Fonts.
+     */
+    public float descenderInFile;
+    /**
+     * The underlineY loaded from a JSON file, or a default value -0.05f for .fnt files.
+     * This is not necessarily used at all by the Font normally, but knowing it can be helpful for some fonts.
+     */
+    public float underlineYInFile;
+    /**
+     * The strikeY loaded from a JSON file, or a default value 0.15f for .fnt files.
+     * This is not necessarily used at all by the Font normally, but knowing it can be helpful for some fonts.
+     */
+    public float strikeYInFile;
+
+    /**
      * A char that will be used to draw solid blocks with {@link #drawBlocks(Batch, int[][], float, float)}, and to draw
      * box-drawing/block-element characters if {@code makeGridGlyphs} is true in the constructor. The glyph
      * that corresponds to this char should be a 1x1 pixel block of solid white pixels in most cases. Because there is
@@ -2807,9 +2834,13 @@ public class Font implements Disposable {
         int padBottom = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, ",", idx+1));
         int padLeft = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "lineHeight=", idx+1));
 
-        float rawLineHeight = StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "base=", idx));
+        sizeInFile = StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "base=", idx));
         float baseline = StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "pages=", idx));
-//        descent = baseline - rawLineHeight;
+        descenderInFile = baseline - sizeInFile;
+        ascenderInFile = sizeInFile - baseline;
+        underlineYInFile = -0.05f;
+        strikeYInFile = 0.15f;
+
         descent = 0;
 
         // The SDF and MSDF fonts have essentially garbage for baseline, since Glamer can't accurately guess it.
@@ -3029,9 +3060,13 @@ public class Font implements Disposable {
 
         int columns = fnt.getInt("Columns");
         int padding = fnt.getInt("GlyphPadding");
-        cellHeight = fnt.getInt("GlyphHeight");
+        sizeInFile = cellHeight = fnt.getInt("GlyphHeight");
         cellWidth = fnt.getInt("GlyphWidth");
-        descent = Math.round(cellHeight * -0.25f);
+        descenderInFile = descent = Math.round(cellHeight * -0.25f);
+        ascenderInFile = cellHeight * 0.8f;
+        underlineYInFile = -0.05f;
+        strikeYInFile = 0.15f;
+        
         int rows = (parent.getRegionHeight() - padding) / ((int) cellHeight + padding);
         int size = rows * columns;
         mapping = new IntMap<>(size + 1);
@@ -3334,20 +3369,20 @@ public class Font implements Disposable {
 
         float size = atlas.getFloat("size", 16f);
 
-//        JsonValue metrics = fnt.get("metrics");
+        JsonValue metrics = fnt.get("metrics");
 
-        // SHOULD USE metrics ?
-//        size *= metrics.getFloat("emSize", 1f);
+        // We should record what metrics are loaded from a font so they could be used, potentially.
+        sizeInFile       = metrics.getFloat("emSize", 1f);
+        ascenderInFile   = metrics.getFloat("ascender", 0.8f);
+        descenderInFile  = metrics.getFloat("descender", -0.25f);
+        underlineYInFile = metrics.getFloat("underlineY", -0.05f);
+        strikeYInFile    = metrics.getFloat("strikeY", 0.15f);
 
-//        float ascender = metrics.getFloat("ascender", 0.8f);
-        // SHOULD USE metrics (both lines)?
-        descent = size * -0.25f;//metrics.getFloat("descender", -0.25f);
+        descent = size * -0.25f;
         originalCellHeight = cellHeight = heightAdjust - descent + size;// * metrics.getFloat("lineHeight", 1f);
 
-        // SHOULD USE metrics ?
-        underY = 0.05f;//0.5f * metrics.getFloat("underlineY", -0.1f);
-        // SHOULD USE metrics ?
-        strikeY = 0.15f;//metrics.getFloat("strikeY", 0f);
+        underY = 0.05f;
+        strikeY = 0.15f;
         strikeBreadth = underBreadth = -0.375f;
         if(makeGridGlyphs){
             underLength = strikeLength = 0.0f;
