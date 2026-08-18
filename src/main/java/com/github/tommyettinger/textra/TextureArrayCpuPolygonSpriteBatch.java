@@ -845,7 +845,7 @@ public class TextureArrayCpuPolygonSpriteBatch extends TextureArrayPolygonSprite
             final float[] vertices = this.vertices;
 
             //Calculate how many vertices will be put in the batch
-            int vCount = (verticesCount / 5) * 6;
+            int vCount = (verticesCount / GDX_VERTEX_SIZE) * 6;
 
             if (triangleIndex + trianglesCount > triangles.length || vertexIndex + vCount > vertices.length) //
                 flush();
@@ -862,7 +862,7 @@ public class TextureArrayCpuPolygonSpriteBatch extends TextureArrayPolygonSprite
 
             Affine2 t = adjustAffine;
             int vIn = vertexIndex;
-            for (int offsetIn = verticesOffset; offsetIn < verticesCount + verticesOffset; offsetIn += 5, vIn += VERTEX_SIZE) {
+            for (int offsetIn = verticesOffset; offsetIn < verticesCount + verticesOffset; offsetIn += GDX_VERTEX_SIZE, vIn += VERTEX_SIZE) {
                 float x = polygonVertices[offsetIn];
                 float y = polygonVertices[offsetIn + 1];
 
@@ -891,17 +891,19 @@ public class TextureArrayCpuPolygonSpriteBatch extends TextureArrayPolygonSprite
         final float[] vertices = this.vertices;
 
         // Max vertices/triangles that fit into a single flush, in terms of input floats
-        final int maxVerticesInBatch = (vertices.length / VERTEX_SIZE) * 5;
-        final int maxTrianglesInBatch = (triangles.length / 6) * 20;
-        final int maxCountPerBatch = Math.min(maxVerticesInBatch, maxTrianglesInBatch);
+        final int maxVerticesInBatch = (vertices.length / VERTEX_SIZE) * GDX_VERTEX_SIZE;
+        //Each quad is made by two triangles -> 6 indices are required
+        final int maxTrianglesInBatch = (triangles.length / 6) * GDX_SPRITE_SIZE;
+        //Round down to a whole number of quads, a batch must never be split in the middle of a sprite
+        final int maxCountPerBatch = (Math.min(maxVerticesInBatch, maxTrianglesInBatch) / GDX_SPRITE_SIZE) * GDX_SPRITE_SIZE;
 
         final Affine2 t = adjustAffine;
 
         while (count > 0) {
             final int batchCount = Math.min(count, maxCountPerBatch);
 
-            final int triangleCount = (batchCount / 20) * 6;
-            final int verticesCount = (batchCount / 5) * 6;
+            final int triangleCount = (batchCount / GDX_SPRITE_SIZE) * 6;
+            final int verticesCount = (batchCount / GDX_VERTEX_SIZE) * 6;
 
             if (this.triangleIndex + triangleCount > triangles.length || this.vertexIndex + verticesCount > vertices.length)
                 flush();
@@ -922,7 +924,7 @@ public class TextureArrayCpuPolygonSpriteBatch extends TextureArrayPolygonSprite
             this.triangleIndex = triangleIndex;
 
             int vdin = vertexIndex;
-            for (int offsetin = offset; offsetin < batchCount + offset; offsetin += 5, vdin += VERTEX_SIZE) {
+            for (int offsetin = offset; offsetin < batchCount + offset; offsetin += GDX_VERTEX_SIZE, vdin += VERTEX_SIZE) {
                 final float x = spriteVertices[offsetin];
                 final float y = spriteVertices[offsetin + 1];
 
