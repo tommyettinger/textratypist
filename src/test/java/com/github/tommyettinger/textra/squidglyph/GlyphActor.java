@@ -30,7 +30,7 @@ public class GlyphActor extends Actor {
     public Font font;
 
     public GlyphActor() {
-        this(0xFFFFFFFE00000000L | '@', null);
+        this(Font.COLOR_MASK | '@', null);
     }
 
     public GlyphActor(long g, Font f) {
@@ -39,12 +39,12 @@ public class GlyphActor extends Actor {
     }
 
     public GlyphActor(char c, Font f) {
-        glyph = 0xFFFFFFFE00000000L | c;
+        glyph = Font.COLOR_MASK | c;
         font = f;
     }
 
     public GlyphActor(char c, int color, Font f) {
-        glyph = ((long) color << 32 & 0xFFFFFFFE00000000L) | c;
+        glyph = ((long) color << 32 & Font.COLOR_MASK) | c;
         font = f;
     }
 
@@ -72,19 +72,19 @@ public class GlyphActor extends Actor {
     public void setColor(int color) {
         super.getColor().set(color);
         super.setColor(super.getColor());
-        glyph = (glyph & 0xFFFFFFFFL) | ((long) color << 32 & 0xFFFFFFFE00000000L);
+        glyph = (glyph & 0xFFFFFFFFL) | ((long) color << 32 & Font.COLOR_MASK);
     }
 
     @Override
     public void setColor(Color color) {
         super.setColor(color);
-        glyph = (glyph & 0xFFFFFFFFL) | ((long) Color.rgba8888(color) << 32 & 0xFFFFFFFE00000000L);
+        glyph = (glyph & 0xFFFFFFFFL) | ((long) Color.rgba8888(color) << 32 & Font.COLOR_MASK);
     }
 
     @Override
     public void setColor(float r, float g, float b, float a) {
         super.setColor(r, g, b, a);
-        glyph = (glyph & 0xFFFFFFFFL) | ((long) Color.rgba8888(super.getColor()) << 32 & 0xFFFFFFFE00000000L);
+        glyph = (glyph & 0xFFFFFFFFL) | ((long) Color.rgba8888(super.getColor()) << 32 & Font.COLOR_MASK);
     }
 
     @Override

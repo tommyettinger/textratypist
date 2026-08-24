@@ -211,7 +211,7 @@ public class GridTest extends ApplicationAdapter {
             root.draw(batch, 1.0F);
         for (int xx = 0; xx < lines.length; xx++) {
             for (int yy = 0; yy < lines[0].length; yy++) {
-                font.drawGlyph(batch, 0xFFFFFFFE00000000L | lines[xx][yy], font.cellWidth * xx, y + font.cellHeight * (1 + yy));
+                font.drawGlyph(batch, Font.COLOR_MASK | lines[xx][yy], font.cellWidth * xx, y + font.cellHeight * (1 + yy));
             }
         }
 //        long color = (long) DescriptiveColor.lerpColors(

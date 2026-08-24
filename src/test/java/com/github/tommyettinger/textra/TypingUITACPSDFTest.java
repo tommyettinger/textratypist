@@ -246,7 +246,7 @@ public class TypingUITACPSDFTest extends InputAdapter implements ApplicationList
 		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
 		int i;
 		for (i = 0; i < s.length() && i < 5; i++) {
-			fpsLabel.setInWorkingLayout(5+i, s.charAt(i) | 0xFFFFFFFF00000000L);
+			fpsLabel.setInWorkingLayout(5+i, s.charAt(i) | Font.COLOR_MASK);
 		}
 		for (; i < 5; i++) {
 			fpsLabel.setInWorkingLayout(5+i, 0L);

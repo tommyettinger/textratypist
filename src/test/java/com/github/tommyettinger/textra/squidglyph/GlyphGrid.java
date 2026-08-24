@@ -167,7 +167,7 @@ public class GlyphGrid extends Group {
      * @param codepoint the character, with or without style information, to place
      */
     public void put(int x, int y, int codepoint) {
-        map.put(new GridPoint2(x, y), (codepoint & 0xFFFFFFFFL) | 0xFFFFFFFE00000000L);
+        map.put(new GridPoint2(x, y), (codepoint & 0xFFFFFFFFL) | Font.COLOR_MASK);
     }
 
     /**
