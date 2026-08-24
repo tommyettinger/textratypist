@@ -1284,6 +1284,12 @@ public class Font implements Disposable {
     public static final long NOTE = 11L << 20;
 
     /**
+     * The bits in a glyph used to store the glyph's RGBA color.
+     * These are all the upper 31 bits, with one bit of alpha ignored because libGDX doesn't use all alpha bits.
+     */
+    public static final long COLOR_MASK = 0xFFFFFFFE00000000L;
+
+    /**
      * The color black, as a packed float using the default RGBA color space.
      * This can be edited for Fonts that either use a different color space,
      * or want to use a different color in place of black for effects like {@link #BLACK_OUTLINE}.
@@ -3066,7 +3072,7 @@ public class Font implements Disposable {
         ascenderInFile = cellHeight * 0.8f;
         underlineYInFile = -0.05f;
         strikeYInFile = 0.15f;
-        
+
         int rows = (parent.getRegionHeight() - padding) / ((int) cellHeight + padding);
         int size = rows * columns;
         mapping = new IntMap<>(size + 1);
@@ -6162,8 +6168,8 @@ public class Font implements Disposable {
         float scale = 1f, rotation = 0f;
         Font font = this;
         float sclX;
-        final long COLOR_MASK = 0xFFFFFFFF00000000L;
-        long baseColor = Long.reverseBytes(NumberUtils.floatToIntBits(appendTo.getBaseColor())) & 0xFFFFFFFE00000000L;
+
+        long baseColor = Long.reverseBytes(NumberUtils.floatToIntBits(appendTo.getBaseColor())) & COLOR_MASK;
         long color = baseColor;
         long current = color;
         if (appendTo.font == null || !appendTo.font.equals(this)) {
@@ -6485,7 +6491,7 @@ public class Font implements Disposable {
                             else if (len >= 7 && len < 9)
                                 color = StringUtils.longFromHex(text, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
-                                color = StringUtils.longFromHex(text, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
+                                color = StringUtils.longFromHex(text, i + 1, i + 9) << 32 & COLOR_MASK;
                             else if(len == 1){
                                 // [#] is used to toggle the outline.
                                 current ^= BLACK_OUTLINE;
@@ -7330,8 +7336,7 @@ public class Font implements Disposable {
         boolean capitalize = false,
                 capsLock = false, lowerCase = false;
         int c, scale = 3, fontIndex = -1;
-        final long COLOR_MASK = 0xFFFFFFFF00000000L;
-        long baseColor = 0xFFFFFFFE00000000L;
+        long baseColor = COLOR_MASK;
         long color = baseColor;
         long current = color;
         Font font = this;
@@ -7615,7 +7620,7 @@ public class Font implements Disposable {
                             else if (len >= 7 && len < 9)
                                 color = StringUtils.longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
-                                color = StringUtils.longFromHex(markup, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
+                                color = StringUtils.longFromHex(markup, i + 1, i + 9) << 32 & COLOR_MASK;
                             else if(len == 1){
                                 // [#] is used to toggle the outline.
                                 current ^= BLACK_OUTLINE;
@@ -7833,8 +7838,7 @@ public class Font implements Disposable {
     public static long markupGlyph(char chr, String markup, ColorLookup colorLookup, FontFamily family) {
         boolean capsLock = false, lowerCase = false;
         int c;
-        final long COLOR_MASK = 0xFFFFFFFF00000000L;
-        long baseColor = 0xFFFFFFFE00000000L | chr;
+        long baseColor = COLOR_MASK | chr;
         long color = baseColor;
         long current = color;
         for (int i = 0, n = markup.length(); i < n; i++) {
@@ -8023,7 +8027,7 @@ public class Font implements Disposable {
                             else if (len >= 7 && len < 9)
                                 color = StringUtils.longFromHex(markup, i + 1, i + 7) << 40 | 0x000000FE00000000L;
                             else if (len >= 9)
-                                color = StringUtils.longFromHex(markup, i + 1, i + 9) << 32 & 0xFFFFFFFE00000000L;
+                                color = StringUtils.longFromHex(markup, i + 1, i + 9) << 32 & COLOR_MASK;
                             else if(len == 1){
                                 // [#] is used to toggle the outline.
                                 current ^= BLACK_OUTLINE;
@@ -8486,7 +8490,7 @@ public class Font implements Disposable {
      * @return another long glyph that uses the specified color
      */
     public static long applyColor(long glyph, int color) {
-        return (glyph & 0xFFFFFFFFL) | ((long) color << 32 & 0xFFFFFFFE00000000L);
+        return (glyph & 0xFFFFFFFFL) | ((long) color << 32 & COLOR_MASK);
     }
 
     /**
