@@ -255,8 +255,6 @@ public class TextraArea extends Container<ScrollPane> {
                 return;
             }
 
-            final float layoutHeight = label.getHeight(), linesHeight = label.getCumulativeLineHeight(cursor),
-                    lineHeight = label.getLineHeight(cursor);
             final float lineHeight = label.getLineHeight(cursor);
             final float linesHeight = label.getCumulativeLineHeight(cursor);
             float labelHeight = label.getHeight() - linesHeight;
