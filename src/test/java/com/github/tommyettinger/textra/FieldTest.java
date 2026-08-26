@@ -81,9 +81,9 @@ public class FieldTest extends ApplicationAdapter {
         background.setMinHeight(1);
         background.setMinWidth(1);
         ttField = new TextraField(text,
-//skin, font
-                new Styles.TextFieldStyle(font, Color.WHITE.cpy(), pipe,
-                        selection, background)
+skin, font
+//                new Styles.TextFieldStyle(font, Color.WHITE.cpy(), pipe,
+//                        selection, background)
         );
         ttField.setWidth(500);
         ttField.setPasswordMode(false);
@@ -107,7 +107,7 @@ public class FieldTest extends ApplicationAdapter {
         table.add(new TextraLabel("S2Df ", font)).width(60).height(font.cellHeight * 2);
         table.add(s2dField).width(200).height(s2dField.getStyle().font.getLineHeight() * 2).row();
         table.add(new TextraLabel("TTf  ", font)).width(60).height(font.cellHeight * 2);
-        table.add(ttField).width(200).height(font.cellHeight * 2).row();
+        table.add(ttField).width(200).height(font.cellHeight * 3).row();
         table.add(new TextraLabel("S2Da ", font)).width(60).height(font.cellHeight * 2);
         table.add(s2dArea).width(200).height(s2dArea.getStyle().font.getLineHeight() * 5.5f).row();
         table.add(new TextraLabel("TTa  ", font)).width(60).height(font.cellHeight * 2);

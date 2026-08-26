@@ -5527,7 +5527,7 @@ public class Font implements Disposable {
             // These are no-ops if their lightnessChange field is 0f, which is the default.
             topEdgeColor = ColorUtils.changeLightness(color, topEdgeLightnessChange);
             bottomEdgeColor = ColorUtils.changeLightness(color, bottomEdgeLightnessChange);
-        }else {
+        } else {
             topEdgeColor = bottomEdgeColor = color;
         }
         float scale = 1f;
@@ -5537,9 +5537,7 @@ public class Font implements Disposable {
             fsx = font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
             fsy = fsx;
             scaleX = scaleY = scale * fsx;
-        }
-        else
-        {
+        } else {
             scaleX = (fsx = font.scaleX) * scale;
             scaleY = (fsy = font.scaleY) * scale;
         }
