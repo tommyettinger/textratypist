@@ -426,32 +426,44 @@ public class TextraField extends Widget implements Disableable {
 //		System.out.println("Textra: workingLayout glyphs: " + label.workingLayout.getLine(0).glyphs.size);
 //		System.out.println("Textra: workingLayout lines: " + label.workingLayout.lines());
 
-		int glyphCount = this.glyphPositions.size;
+		int glyphCount = this.glyphPositions.size - 1;
 		float[] glyphPositions = this.glyphPositions.items;
 
-//		System.out.println("Textra: cursor: " + cursor + ", will be clamped to less than " + glyphCount);
+		System.out.println("Textra: cursor: " + cursor + ", will be clamped to no more than " + glyphCount);
+		System.out.println("Label lines: " + label.getWorkingLayout().lines());
 		// Check if the cursor has gone out the left or right side of the visible area and adjust renderOffset.
-		cursor = MathUtils.clamp(cursor, 0, glyphCount - 1);
+		cursor = MathUtils.clamp(cursor, 0, glyphCount);
 		float distance = glyphPositions[Math.max(0, cursor - 1)] + renderOffset;
-		if (distance <= 0)
+		if (distance <= 0) {
 			renderOffset -= distance;
+			// TODO: remove debug print
+			if(renderOffset < 0f) System.out.println("First if block, renderOffset=" + renderOffset);
+		}
 		else {
-			int index = Math.min(glyphCount - 1, cursor + 1);
+			int index = Math.min((label.getWorkingLayout().getMaxLines() == 1 ? glyphCount : glyphCount - 1), cursor);
 			float minX = glyphPositions[index] - visibleWidth;
 			if (-renderOffset < minX) renderOffset = -minX;
+
+			// TODO: remove debug print
+			if(renderOffset < 0f) System.out.println("First else block, renderOffset=" + renderOffset + " with cursor=" + cursor);
 		}
 
 		// Prevent renderOffset from starting too close to the end, e.g. after text was deleted.
 		float maxOffset = 0;
-		float width = glyphPositions[glyphCount - 1];
-		for (int i = glyphCount - 2; i >= 0; i--) {
+		float width = glyphPositions[glyphCount];
+		for (int i = glyphCount - 1; i >= 0; i--) {
 			float x = glyphPositions[i];
 			if (width - x > visibleWidth) break;
 			maxOffset = x;
 		}
-		if (-renderOffset > maxOffset) renderOffset = -maxOffset;
+		if (-renderOffset > maxOffset) {
+			renderOffset = -maxOffset;
+			// TODO: remove debug print
+			if(renderOffset < 0f) System.out.println("Second block, renderOffset=" + renderOffset);
+		}
 
-//		System.out.println("Textra: renderOffset: " + renderOffset);
+		// TODO: remove debug print
+		System.out.println("Textra: renderOffset: " + renderOffset);
 
 		// calculate first visible char based on render offset
 		visibleTextStart = 0;

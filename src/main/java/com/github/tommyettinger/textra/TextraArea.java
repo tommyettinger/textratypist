@@ -246,12 +246,14 @@ public class TextraArea extends Container<ScrollPane> {
             }
             if(cursor >= label.length()){
                 final int c = label.length() - 1;
-                final float layoutHeight = label.getHeight(), linesHeight = label.getCumulativeLineHeight(c),
+                final float linesHeight = label.getCumulativeLineHeight(c),
                         lineHeight = label.getLineHeight(c);
+                float labelHeight = label.getHeight() - linesHeight;
 
                 cursorPatch.draw(batch,
-                        x + textOffset + glyphPositions.get(c) + Font.xAdvance(label.font, label.workingLayout.advances.get(c), label.getInWorkingLayout(c)) * 0.5f + fontOffset,
-                        y + layoutHeight - linesHeight, cursorPatch.getMinWidth(), lineHeight);
+                        x + textOffset + glyphPositions.get(c) - glyphPositions.get(visibleTextStart)
+                                + Font.xAdvance(label.font, label.workingLayout.advances.get(c), label.getInWorkingLayout(c)) + fontOffset,
+                        y + labelHeight, cursorPatch.getMinWidth(), lineHeight);
                 return;
             }
 
