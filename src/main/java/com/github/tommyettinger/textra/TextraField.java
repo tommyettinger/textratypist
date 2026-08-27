@@ -447,26 +447,29 @@ public class TextraField extends Widget implements Disableable {
 		// calculate first visible char based on render offset
 		visibleTextStart = 0;
 		float startX = 0;
-		for (int i = 0; i < glyphCount; i++) {
-			if (glyphPositions[i] >= -renderOffset) {
-				visibleTextStart = i;
-				startX = glyphPositions[i];
-				break;
+		if(singleLine) {
+			for (int i = 0; i < glyphCount; i++) {
+				if (glyphPositions[i] >= -renderOffset) {
+					visibleTextStart = i;
+					startX = glyphPositions[i];
+					break;
+				}
 			}
 		}
-
 		// calculate last visible char based on visible width and render offset
 		int end = visibleTextStart + 1;
 		float endX = visibleWidth - renderOffset;
 		for (int n = Math.min(label.length(), glyphCount); end <= n; end++)
 			if (glyphPositions[end] > endX) break;
-		visibleTextEnd = end;
+		visibleTextEnd = singleLine ? end : glyphCount;
 
-		if ((textHAlign & Align.left) == 0) {
-			textOffset = visibleWidth - glyphPositions[visibleTextEnd] - fontOffset + startX;
-			if ((textHAlign & Align.center) != 0) textOffset = Math.round(textOffset * 0.5f);
-		} else
-			textOffset = startX + renderOffset;
+		if(singleLine) {
+			if ((textHAlign & Align.left) == 0) {
+				textOffset = visibleWidth - glyphPositions[visibleTextEnd] - fontOffset + startX;
+				if ((textHAlign & Align.center) != 0) textOffset = Math.round(textOffset * 0.5f);
+			} else
+				textOffset = startX + renderOffset;
+		}
 
 //		// calculate the selection's x-position and width
 //		if (hasSelection) {
