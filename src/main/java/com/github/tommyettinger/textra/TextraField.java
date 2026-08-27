@@ -413,39 +413,24 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	protected void calculateOffsets () {
+		final boolean singleLine = label.getWorkingLayout().getMaxLines() == 1;
 		float visibleWidth = getWidth();
 		Drawable background = getBackgroundDrawable();
 		if (background != null) visibleWidth -= background.getLeftWidth() + background.getRightWidth();
 
-		// these next two can be strangely mismatched; text can be longer than label.
-//		System.out.println("Textra: text : " + text);
-//		System.out.println("Textra: label: " + label.toString());
-
-//		System.out.println("Textra: layout glyphs: " + label.layout.getLine(0).glyphs.size);
-//		System.out.println("Textra: layout lines: " + label.layout.lines());
-//		System.out.println("Textra: workingLayout glyphs: " + label.workingLayout.getLine(0).glyphs.size);
-//		System.out.println("Textra: workingLayout lines: " + label.workingLayout.lines());
-
 		int glyphCount = this.glyphPositions.size - 1;
 		float[] glyphPositions = this.glyphPositions.items;
 
-		System.out.println("Textra: cursor: " + cursor + ", will be clamped to no more than " + glyphCount);
-		System.out.println("Label lines: " + label.getWorkingLayout().lines());
 		// Check if the cursor has gone out the left or right side of the visible area and adjust renderOffset.
 		cursor = MathUtils.clamp(cursor, 0, glyphCount);
-		float distance = glyphPositions[Math.max(0, cursor - 1)] + renderOffset;
+		float distance = glyphPositions[Math.max(0, cursor)] + renderOffset;
 		if (distance <= 0) {
 			renderOffset -= distance;
-			// TODO: remove debug print
-			if(renderOffset < 0f) System.out.println("First if block, renderOffset=" + renderOffset);
 		}
 		else {
-			int index = Math.min((label.getWorkingLayout().getMaxLines() == 1 ? glyphCount : glyphCount - 1), cursor);
+			int index = Math.min((singleLine ? glyphCount : glyphCount - 1), cursor);
 			float minX = glyphPositions[index] - visibleWidth;
 			if (-renderOffset < minX) renderOffset = -minX;
-
-			// TODO: remove debug print
-			if(renderOffset < 0f) System.out.println("First else block, renderOffset=" + renderOffset + " with cursor=" + cursor);
 		}
 
 		// Prevent renderOffset from starting too close to the end, e.g. after text was deleted.
@@ -456,14 +441,8 @@ public class TextraField extends Widget implements Disableable {
 			if (width - x > visibleWidth) break;
 			maxOffset = x;
 		}
-		if (-renderOffset > maxOffset) {
+		if (-renderOffset > maxOffset)
 			renderOffset = -maxOffset;
-			// TODO: remove debug print
-			if(renderOffset < 0f) System.out.println("Second block, renderOffset=" + renderOffset);
-		}
-
-		// TODO: remove debug print
-		System.out.println("Textra: renderOffset: " + renderOffset);
 
 		// calculate first visible char based on render offset
 		visibleTextStart = 0;
@@ -573,10 +552,6 @@ public class TextraField extends Widget implements Disableable {
 //			label.font.regenerateLayout(label.layout);
 			calculateOffsets();
 			label.setPosition(x + bgLeftWidth + textOffset, y + textY);
-			// TODO: remove debug print
-			System.out.println("Visible text start=" + visibleTextStart + ", end=" + visibleTextEnd);
-			String labelText = label.toString();
-			System.out.println("With length=" + labelText.length() + ":" + labelText);
 			label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);
 //			font.draw(batch, displayText, x + bgLeftWidth + textOffset, y + textY, visibleTextStart, visibleTextEnd, 0, Align.left, false);
 		}

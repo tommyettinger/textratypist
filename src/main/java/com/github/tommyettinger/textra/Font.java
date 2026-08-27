@@ -5221,12 +5221,6 @@ public class Font implements Disposable {
                 for (int g = 0, n = lastIndex; g < n; g++) {
                     layout.advances.mul(start + g, multiplier);
                 }
-//                System.out.println("last used char is " + (char)currentLine.glyphs.get(lastIndex) + " with advance " + layout.advances.get(start + lastIndex));
-//                System.out.println("last real char is " + (char)currentLine.glyphs.get(currentLine.glyphs.size - 1) + " with advance " + layout.advances.get(start + currentLine.glyphs.size - 1));
-
-//                for (int g = lastIndex + 1, n = currentLine.glyphs.size; g < n; g++) {0
-//                    layout.advances.mul(start + g, 0f);
-//                }
                 if(currentLine.glyphs.size > 1) currentLine.width = layout.targetWidth;
             }
             else if(layout.justification.affectSpaces) {
