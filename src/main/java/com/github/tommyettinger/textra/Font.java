@@ -5286,17 +5286,17 @@ public class Font implements Disposable {
                     if (curly) {
                         if (ch == '}') {
                             curly = false;
-                            advances.add(0f);
+                            advances.add(total);
                             continue;
                         } else if (ch == '{')
                             curly = false;
                         else {
-                            advances.add(0f);
+                            advances.add(total);
                             continue;
                         }
                     } else if (ch == '{') {
                         curly = true;
-                        advances.add(0f);
+                        advances.add(total);
                         continue;
                     }
                 }
@@ -5305,7 +5305,7 @@ public class Font implements Disposable {
                 if (font == null) font = this;
                 GlyphRegion tr = font.mapping.get(ch);
                 if (tr == null) {
-                    advances.add(0f);
+                    advances.add(total);
                     continue;
                 }
                 if (font.kerning != null) {
