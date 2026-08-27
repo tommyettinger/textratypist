@@ -469,7 +469,7 @@ public class TextraField extends Widget implements Disableable {
 		float endX = visibleWidth - renderOffset;
 		for (int n = Math.min(label.length(), glyphCount); end <= n; end++)
 			if (glyphPositions[end] > endX) break;
-		visibleTextEnd = Math.max(0, end - 1);
+		visibleTextEnd = end;
 
 		if ((textHAlign & Align.left) == 0) {
 			textOffset = visibleWidth - glyphPositions[visibleTextEnd] - fontOffset + startX;
@@ -561,6 +561,10 @@ public class TextraField extends Widget implements Disableable {
 //			label.font.regenerateLayout(label.layout);
 			calculateOffsets();
 			label.setPosition(x + bgLeftWidth + textOffset, y + textY);
+			// TODO: remove debug print
+			System.out.println("Visible text start=" + visibleTextStart + ", end=" + visibleTextEnd);
+			String labelText = label.toString();
+			System.out.println("With length=" + labelText.length() + ":" + labelText);
 			label.drawSection(batch, parentAlpha, visibleTextStart, visibleTextEnd);
 //			font.draw(batch, displayText, x + bgLeftWidth + textOffset, y + textY, visibleTextStart, visibleTextEnd, 0, Align.left, false);
 		}
@@ -649,8 +653,8 @@ public class TextraField extends Widget implements Disableable {
 		} else
 			fontOffset = 0;
 		glyphPositions.add(end);
-		visibleTextStart = Math.min(visibleTextStart, glyphPositions.size - 1);
-		visibleTextEnd = MathUtils.clamp(visibleTextEnd, visibleTextStart, glyphPositions.size - 1);
+		visibleTextStart = Math.min(visibleTextStart, glyphPositions.size);
+		visibleTextEnd = MathUtils.clamp(visibleTextEnd, visibleTextStart, glyphPositions.size);
 
 		label.selectionStart = Math.min(label.selectionStart, label.length() - 1);
 	}
