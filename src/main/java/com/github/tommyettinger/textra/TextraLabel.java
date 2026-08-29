@@ -656,7 +656,7 @@ public class TextraLabel extends Widget {
             super.setSize(width, height);
             layout.setTargetWidth(width);
             font.regenerateLayout(layout);
-//            invalidateHierarchy(); // for some reason, this breaks TextraSelectBox.
+            invalidateHierarchy();
         }
     }
 

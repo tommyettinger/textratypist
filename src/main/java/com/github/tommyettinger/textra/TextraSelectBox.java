@@ -205,14 +205,16 @@ public class TextraSelectBox extends Widget implements Disableable {
 //                selected.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth());
                 prefWidth += selected.font.calculateSize(selected.layout);
             }
-            prefWidth = Math.min(Math.max(prefWidth, getMaxWidth()), getMinWidth());
+            setWidth(prefWidth);
         } else {
             float maxItemWidth = 0;
             TextraLabel item;
             for (int i = 0; i < items.size; i++) {
                 item = items.get(i);
-//                item.layout.setTargetWidth(Gdx.graphics.getBackBufferWidth());
-                maxItemWidth = Math.max(item.font.calculateSize(item.layout), maxItemWidth);
+                float itemWidth = item.font.calculateSize(item.layout);
+//                item.layout.setTargetWidth(Integer.MAX_VALUE);
+                maxItemWidth = Math.max(itemWidth, maxItemWidth);
+//                System.out.println("Item " + i + " has width " + itemWidth);
             }
 
             prefWidth = maxItemWidth;
@@ -228,7 +230,8 @@ public class TextraSelectBox extends Widget implements Disableable {
                         style.scrollStyle.vScrollKnob != null ? style.scrollStyle.vScrollKnob.getMinWidth() : 0);
             }
             prefWidth = Math.max(prefWidth, scrollWidth);
-            prefWidth = Math.min(Math.max(prefWidth, getMaxWidth()), getMinWidth());
+//            prefWidth = Math.max(prefWidth, getMinWidth());
+            setWidth(prefWidth);
         }
     }
 
