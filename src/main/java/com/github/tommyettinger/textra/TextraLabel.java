@@ -623,8 +623,7 @@ public class TextraLabel extends Widget {
         if(Gdx.graphics.getWidth() <= 0 || Gdx.graphics.getHeight() <= 0) return;
         super.setWidth(width);
         layout.setTargetWidth(width);
-//        font.regenerateLayout(layout);
-        font.calculateSize(layout);
+        font.regenerateLayout(layout);
         invalidateHierarchy();
     }
 
@@ -633,8 +632,7 @@ public class TextraLabel extends Widget {
         // If the window is minimized, we have invalid dimensions and shouldn't process resizing.
         if(Gdx.graphics.getWidth() <= 0 || Gdx.graphics.getHeight() <= 0) return;
         super.setHeight(height);
-//        font.regenerateLayout(layout);
-        font.calculateSize(layout);
+        font.regenerateLayout(layout);
         invalidateHierarchy();
     }
 
@@ -644,8 +642,7 @@ public class TextraLabel extends Widget {
         if(Gdx.graphics.getWidth() <= 0 || Gdx.graphics.getHeight() <= 0) return;
         super.setSize(width, height);
         layout.setTargetWidth(width);
-//        font.regenerateLayout(layout);
-        font.calculateSize(layout);
+        font.regenerateLayout(layout);
         invalidateHierarchy();
     }
 
@@ -658,8 +655,7 @@ public class TextraLabel extends Widget {
             if(Gdx.graphics.getWidth() <= 0 || Gdx.graphics.getHeight() <= 0) return;
             super.setSize(width, height);
             layout.setTargetWidth(width);
-//        font.regenerateLayout(layout);
-            font.calculateSize(layout);
+            font.regenerateLayout(layout);
             invalidateHierarchy();
         }
     }
