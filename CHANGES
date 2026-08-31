@@ -1,3 +1,10 @@
+2.4.4 improves the flush behavior of TextureArrayCpuPolygonSpriteBatch when drawing any large BitmapFontCache; it won't
+crash given large blocks of text for BitmapFont to render. It reverts a change to TextraLabel's sizing logic to restore
+the behavior of version 2.4.2 for TextraLabel. Font now stores any metrics it loads from .fnt or structured JSON files
+that it ignores by default, to allow user code to still access those metrics. There were a lot of changes to TextraArea
+and TextraField to improve their behavior and rendering, including cursor position, last-glyph rendering, and vertical
+alignment. Font now uses up to 24 floats (20 for SpriteBatch, 24 for texture array batches) for its vertices.
+
 2.4.3 fixes shader loading on Android, related to the static singleton in KnownFonts. It also fixes a quirk in the
 style usage for TextraButton, ImageTextraButton, TextraCheckBox, and TypingCheckBox, where those classes would copy the
 Font from the style for no good reason. The effects Jolt, Slip, Sputter, Pinch, and Crowd all now respect delta time.
