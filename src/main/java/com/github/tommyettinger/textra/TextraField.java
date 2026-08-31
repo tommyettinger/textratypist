@@ -559,15 +559,20 @@ public class TextraField extends Widget implements Disableable {
 //			font.draw(batch, displayText, x + bgLeftWidth + textOffset, y + textY, visibleTextStart, visibleTextEnd, 0, Align.left, false);
 		}
 		if (!disabled && cursorOn && cursorPatch != null) {
-			drawCursor(cursorPatch, batch, font, x + bgLeftWidth, y + textY);
+			drawCursor(cursorPatch, batch, font, x + bgLeftWidth, y);
 		}
 	}
 
 	protected float getTextY (Font font, @Null Drawable background) {
-		float textY = 0;
+		final float lineHeight = label.getLineHeight(cursor);
+		float textY = label.getHeight() - lineHeight;
+		if(Align.isTop(getAlignment())) textY *= 0.5f;
+		if(Align.isCenterVertical(getAlignment())) textY = 0f;
+		else if(Align.isBottom(getAlignment())) textY *= -0.5f;
+
 		if (background != null) {
 			float bottom = background.getBottomHeight();
-			textY = (-background.getTopHeight() - bottom) * 0.5f + bottom;
+			textY += (-background.getTopHeight() - bottom) * 0.5f + bottom;
 		}
 		if (font.integerPosition) textY = (int)textY;
 		return textY;

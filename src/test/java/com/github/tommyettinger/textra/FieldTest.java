@@ -32,7 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import static com.badlogic.gdx.utils.Align.left;
+import static com.badlogic.gdx.utils.Align.*;
 
 public class FieldTest extends ApplicationAdapter {
     ScreenViewport viewport;
@@ -88,7 +88,7 @@ skin, font
         ttField.setWidth(500);
         ttField.setPasswordMode(false);
         ttField.setHeight(font.cellHeight * 3);
-        ttField.setAlignment(left);
+        ttField.setAlignment(topLeft);
 
         ttArea = new TextraArea(longText, ttField.style, skin.get(ScrollPane.ScrollPaneStyle.class));
 
