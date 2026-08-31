@@ -162,7 +162,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		selectBox.setAlignment(Align.right);
 		selectBox.getList().setAlignment(Align.right);
 		selectBox.getStyle().font = font;
-		selectBox.getStyle().listStyle.selection.setRightWidth(20);
+		selectBox.getStyle().listStyle.selection.setRightWidth(10);
 		selectBox.getStyle().listStyle.selection.setLeftWidth(20);
 		selectBox.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
@@ -242,7 +242,7 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 		window.add(checkBox);
 		window.add(slider).minWidth(100).fillX().colspan(3);
 		window.row();
-		window.add(selectBox).maxWidth(250);
+		window.add(selectBox);
 		window.add(textfield).minWidth(100).expandX().fillX().colspan(3);
 		window.row();
 		window.add(splitPane).fill().expand().colspan(4).maxHeight(200);

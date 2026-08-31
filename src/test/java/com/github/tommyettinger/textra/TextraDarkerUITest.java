@@ -157,7 +157,7 @@ public class TextraDarkerUITest extends InputAdapter implements ApplicationListe
         window.add(checkBox);
         window.add(slider).minWidth(100).fillX().colspan(3);
         window.row();
-        window.add(selectBox).maxWidth(100);
+        window.add(selectBox);
         window.add(textfield).minWidth(100).expandX().fillX().colspan(3);
         window.row();
         window.add(splitPane).fill().expand().colspan(4).maxHeight(200);
