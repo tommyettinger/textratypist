@@ -5611,11 +5611,11 @@ public class Font implements Disposable {
         float changedW = xAdvance * scaleX * advanceMultiplier;
 
         // rotation isn't centered always, but rotating a label won't make every glyph slide differently.
-        x += cellWidth * 0.5f;
-        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - cellWidth * 0.5f;
+//        x += cellWidth * 0.5f;
+//        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - cellWidth * 0.5f;
         // rotation is centered for single glyphs, but looks terrible for multiple variable-width chars.
-//        x += changedW * 0.5f;
-//        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - changedW * 0.5f;
+        x += changedW * 0.5f;
+        float xc = (tr.offsetX * scaleX * sizingX) - cos * centerX - changedW * 0.5f;
 
         float trrh = tr.getRegionHeight();
         float yt = ((font.originalCellHeight - (trrh + tr.offsetY) + font.descent) * sizingY - font.descent) * scaleY + sin * centerX - centerY;

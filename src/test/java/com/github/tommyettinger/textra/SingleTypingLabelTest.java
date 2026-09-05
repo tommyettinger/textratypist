@@ -70,7 +70,7 @@ public class SingleTypingLabelTest extends ApplicationAdapter {
 
     public TypingLabel createTypingLabel(Font font) {
         final TypingLabel label = new TypingLabel(
-                "I [/]love[] TextraTypist! [+😀]\n" +
+                "I [/]love[] TextraTypist! {METRONOME}[+😀]{ENDMETRONOME}\n" +
                 "But [*]U. Nitty[ ] doesn't. {METRONOME}[+☝️]{ENDMETRONOME}",
 //                "[gold 3 orange][#][*]The Planet Жфюй![*][#][white] [+🚀]",
                 font);
