@@ -43,7 +43,7 @@ public class SingleTypingLabelTest extends ApplicationAdapter {
         for (int i = 0; i <= 10; i++) {
 
                 Font font;
-                font = KnownFonts.addEmoji(KnownFonts.getFont(KnownFonts.DEJAVU_SANS_CONDENSED, Font.DistanceFieldType.MSDF)).scaleHeightTo(16);
+                font = KnownFonts.addEmoji(KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.MSDF)).scaleHeightTo(32);
                 font.topEdgeLightnessChange = i * 0.1f;
                 font.bottomEdgeLightnessChange = 0f;
                 fonts.add(font);
@@ -70,9 +70,9 @@ public class SingleTypingLabelTest extends ApplicationAdapter {
 
     public TypingLabel createTypingLabel(Font font) {
         final TypingLabel label = new TypingLabel(
-//                "I [/]love[] TextraTypist! [+😀]\n" +
-                "[gold 3 orange][#][*]The Planet Жфюй![*][#][white] [+🚀]",
-//                "But [*]U. Nitty[ ] doesn't. [+💀]",
+                "I [/]love[] TextraTypist! [+😀]\n" +
+                "But [*]U. Nitty[ ] doesn't. {METRONOME}[+☝️]{ENDMETRONOME}",
+//                "[gold 3 orange][#][*]The Planet Жфюй![*][#][white] [+🚀]",
                 font);
         label.setAlignment(Align.center);
         // Make the label wrap to new lines, respecting the table's layout.

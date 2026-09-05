@@ -240,6 +240,7 @@ public class TypingConfig {
         registerEffect("PINCH", PinchEffect::new);
         registerEffect("SHOOT", ShootEffect::new);
         registerEffect("HIDE", HideEffect::new);
+        registerEffect("METRONOME", MetronomeEffect::new);
 
         initializeGlobalVars();
     }
