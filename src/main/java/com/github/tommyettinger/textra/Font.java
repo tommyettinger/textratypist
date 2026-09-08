@@ -30,6 +30,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
@@ -116,11 +117,15 @@ import java.util.Arrays;
  * <code>{RESET}</code> to <code>[-RESET]</code>, with the {@code -} at the start making it ignored by markup here but
  * usable to TypingLabel.
  * <br>
- * Most things this can draw can be drawn with a rotation, and usually an origin can be specified (where it makes
- * sense). The rotation can't be configured from markup, but the widgets that understand this class, like
- * {@link TextraLabel} and {@link TypingLabel}, can have their rotation set using the standard scene2d.ui method
- * {@link com.badlogic.gdx.scenes.scene2d.Actor#setRotation(float)}, and then they will request the correct rotation
- * from this class. This is different from {@link com.badlogic.gdx.scenes.scene2d.ui.Label}, which ignores rotation!
+ * Using any rotation other than 0 is discouraged for drawing a Layout with length more than 1. If you want to draw
+ * a block of text with rotation, you should create a TextraLabel instead, put it in a
+ * {@link Container}, set its transform to true with {@link Container#setTransform(boolean)}, and rotate that using
+ * {@link Container#setRotation(float)} or any scene2d {@link com.badlogic.gdx.scenes.scene2d.Action} that changes
+ * rotation. Rotated text looks a lot better using a transformed Group such as a Container, and if you're using a
+ * {@link com.badlogic.gdx.graphics.g2d.CpuSpriteBatch} or TextraTypist's {@link TextureArrayCpuPolygonSpriteBatch},
+ * there's no batch flush needed to draw transformed Groups. If you need to rotate only a single glyph at a time,
+ * you can use {@link #drawGlyph(Batch, long, float, float, float)} without problems. Effects used with
+ * {@link TypingLabel} can modify the rotation per-glyph, which is different from rotating an entire Layout.
  * <br>
  * There are some features here that cannot be used purely from markup, such as per-character rotation and smooth
  * scaling, but these can be used by TypingLabel and its Effect assortment.
@@ -4949,13 +4954,23 @@ public class Font implements Disposable {
      * Draws the specified Layout of glyphs with a Batch at a given x, y position, rotated using degrees around the
      * given origin point, using {@code align} to determine how to position the text. Typically, align is
      * {@link Align#left}, {@link Align#center}, or {@link Align#right}, but it can have a vertical component as well.
+     * <br>
+     * Using any rotation other than 0 is discouraged for drawing a Layout with length more than 1. If you want to draw
+     * a block of text with rotation, you should create a TextraLabel instead, put it in a
+     * {@link Container}, set its transform to true with {@link Container#setTransform(boolean)}, and rotate that using
+     * {@link Container#setRotation(float)} or any scene2d {@link com.badlogic.gdx.scenes.scene2d.Action} that changes
+     * rotation. Rotated text looks a lot better using a transformed Group such as a Container, and if you're using a
+     * {@link com.badlogic.gdx.graphics.g2d.CpuSpriteBatch} or TextraTypist's {@link TextureArrayCpuPolygonSpriteBatch},
+     * there's no batch flush needed to draw transformed Groups. If you need to rotate only a single glyph at a time,
+     * you can use {@link #drawGlyph(Batch, long, float, float, float)} without problems. Effects used with
+     * {@link TypingLabel} can modify the rotation per-glyph, which is different from rotating an entire Layout.
      *
      * @param batch    typically a SpriteBatch
      * @param layout   typically returned by {@link #markup(String, Layout)}
      * @param x        the x position in world space to start drawing the glyph at (where this is depends on align)
      * @param y        the y position in world space to start drawing the glyph at (where this is depends on align)
      * @param align    an {@link Align} constant; if {@link Align#left}, x and y refer to the left edge of the first Line
-     * @param rotation measured in degrees counterclockwise, typically 0-360, and applied to the whole Layout
+     * @param rotation measured in degrees counterclockwise and applied to the whole Layout; should usually be 0
      * @param originX the x position in world space of the point to rotate around
      * @param originY the y position in world space of the point to rotate around
      * @return the total distance in world units all drawn Lines use up from lines along the given rotation
