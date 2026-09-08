@@ -23,6 +23,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -33,8 +34,10 @@ public class RotationTest extends ApplicationAdapter {
     Font font;
     TextureArrayCpuPolygonSpriteBatch batch;
     int[][] backgrounds;
-    Layout layout;
+    TextraLabel layout;
+    Container<TextraLabel> spin;
     long startTime;
+    long ampersand;
 
 //    GLProfiler profiler;
 
@@ -62,7 +65,7 @@ public class RotationTest extends ApplicationAdapter {
         TextureArrayShaders.initializeTextureArrayShaders();
 
 //        font = new Font("RaeleusScriptius-standard.fnt", 0, 14, 0, 0).scale(0.75f, 0.75f);
-        font = KnownFonts.getGentiumUnItalic().scaleHeightTo(32);
+        font = KnownFonts.getGentiumUnItalic(Font.DistanceFieldType.SDF).scaleHeightTo(32);
 //        font = KnownFonts.getAStarry().scaleTo(16, 32);
 //        font = KnownFonts.getInconsolata().scaleTo(16, 32);
 //        font = KnownFonts.getCascadiaMono().scaleTo(12, 24);
@@ -86,7 +89,21 @@ public class RotationTest extends ApplicationAdapter {
 
 //        font.kerning = null; // for debugging
 
-        layout = new Layout(font).setTargetWidth(Gdx.graphics.getWidth());
+        ampersand = font.markupGlyph('&', "[#BB0011]");
+        layout = new TextraLabel("Test [*]TEST [/]Test [*]TEST[ ][.]test [=]Test [^]TEST [ ][_]Test [~]te[RED]s[WHITE]t[_] Test[ ]"
+                + "\n┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬[RED]┴[ ]┬┴"
+                + "\nThe [#800000]MAW[ ] of the [/][#66DDFF]wendigo[/][ ] ([~]wendigo[ ]) [*]appears[*]!"
+                + "\nThe [_][#666666]BLADE[ ] of [*][/][#FFFF44]DYNAST-KINGS[ ] strikes!"
+                + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[ ], [?]Unknown[ ]?"
+                + "\n[#BBAA44]φ[ ] = (1 + 5[^]0.5[^]) * 0.5 ┼┌─┤"
+                + "\n[#FF8822]¿Qué son estos? ¡Arribate, mijo![ ]"
+                + "\nPchnąć[ ] w tę łódź [#775522]jeża[ ] lub ośm skrzyń [#CC00CC]fig[ ].", font);
+        layout.align = Align.center;
+        layout.layout.setTargetWidth(Gdx.graphics.getWidth());
+        layout.setWrap(true);
+        spin = new Container<>(layout);
+        spin.setTransform(true);
+        spin.setPosition(PIXEL_WIDTH * 0.5f, layout.getHeight(), Align.center);
         backgrounds = new int[(int) Math.ceil(PIXEL_WIDTH / font.cellWidth)][(int) Math.ceil(PIXEL_HEIGHT / font.cellHeight)];
         int sw = 0x669E83FF, se = 0x2A8528FF, nw = 0xF0DDA0FF, ne = 0x7A4A31FF;
         backgrounds[0][0] = sw;
@@ -113,16 +130,6 @@ public class RotationTest extends ApplicationAdapter {
 //
 //        font.markup("\n[*]Водяной[] — в славянской мифологии дух, обитающий в воде, хозяин вод[^][BLUE][[2][]."
 //                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][[citation needed][].", layout);
-//
-        font.markup("Test [*]TEST [/]Test [*]TEST[ ][.]test [=]Test [^]TEST [ ][_]Test [~]te[RED]s[WHITE]t[_] Test[ ]"
-                        + "\n┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬┴┬[RED]┴[ ]┬┴"
-                        + "\nThe [#800000]MAW[ ] of the [/][#66DDFF]wendigo[/][ ] ([~]wendigo[ ]) [*]appears[*]!"
-                        + "\nThe [_][#666666]BLADE[ ] of [*][/][#FFFF44]DYNAST-KINGS[ ] strikes!"
-                        + "\n[_][;]Each cap, [,]All lower, [!]Caps lock[ ], [?]Unknown[ ]?"
-                        + "\n[#BBAA44]φ[ ] = (1 + 5[^]0.5[^]) * 0.5 ┼┌─┤"
-                        + "\n[#FF8822]¿Qué son estos? ¡Arribate, mijo![ ]"
-                        + "\nPchnąć[ ] w tę łódź [#775522]jeża[ ] lub ośm skrzyń [#CC00CC]fig[ ]."
-                , layout);
 
 //        font.markup("\"You are ever more the [/]fool[/] than the pitiable cutpurse who [*]dares waylay[*] my castle road!\" the [dark rich gold]King[] admonished."
 //                +" \"Forsooth! Had [_]I[_] my right mind, I would have [dark red]both of [_]your heads[] by morning. But alas, I am stricken with" +
@@ -149,12 +156,10 @@ public class RotationTest extends ApplicationAdapter {
 
         font.drawBlocks(batch, backgrounds, 0f, 0f);
         long since = TimeUtils.timeSinceMillis(startTime);
-        for (float g = 0; g < PIXEL_HEIGHT; g+= font.cellHeight) {
 
-            font.drawGlyph(batch, 0xBB0011FE00000000L | '&',//0xBB0011FE00200000L
-//                    2f * font.cellWidth,
+        for (float g = 0; g < PIXEL_HEIGHT; g+= font.cellHeight) {
+            font.drawGlyph(batch, ampersand,
                     (int)((MathUtils.sinDeg(10f * g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length), g,
-//                    (MathUtils.sinDeg(since * 0.01f + g) * 0.4f + 0.5f) * font.cellWidth * backgrounds.length, g,
                     since * 0.0625f);
         }
 //        switch ((int)((since >>> 12) % 3)) {
@@ -164,10 +169,14 @@ public class RotationTest extends ApplicationAdapter {
 //                    , since * 0.05f, 0f, 0f);
 //            break;
 //            case 1:
-                font.drawGlyphs(batch, layout,
-                        PIXEL_WIDTH * 0.5f, y, Align.center
-                        , since * 0.015f, 0f, 0f
-                );
+
+        spin.setRotation(since * 0.015f);
+        spin.act(Gdx.graphics.getDeltaTime());
+        spin.draw(batch, 1f);
+//                font.drawGlyphs(batch, layout,
+//                        PIXEL_WIDTH * 0.5f, y, Align.center
+//                        , since * 0.015f, 0f, 0f
+//                );
 //            break;
 //            default:
 //                font.drawGlyphs(batch, layout,
