@@ -84,8 +84,8 @@ public class LabelRotationTest extends ApplicationAdapter {
         BitmapFont font = BitmapFontSupport.loadStructuredJson(Gdx.files.internal("DejaVu-Sans-Condensed-standard.json.lzma"), "DejaVu-Sans-Condensed-standard.png");
         Font tFont = new Font("DejaVu-Sans-Condensed-standard.json.lzma", new TextureRegion(new Texture("DejaVu-Sans-Condensed-standard.png")), 0, 0, 0, 0, true, true);
         // Something is wrong with the underline and strikethrough here.
-//        Font tFont2 = new Font(font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true);
-        Font tFont2 = KnownFonts.getDejaVuSansCondensed();
+        Font tFont2 = new Font(font, Font.DistanceFieldType.STANDARD, 0, 0, 0, 0, true);
+//        Font tFont2 = KnownFonts.getDejaVuSansCondensed();
         tFont.scale(0.5f, 0.5f);
         tFont2.scale(0.5f, 0.5f);
         tFont.useIntegerPositions(false);
@@ -126,21 +126,21 @@ public class LabelRotationTest extends ApplicationAdapter {
         textraLabel3.pack();
         textraLabel3.setOrigin(center);
 
-        typingLabel1 = new TypingLabel("สวัสดีครับ", tFont);
-//        typingLabel1 = new TypingLabel("Test", tFont);
+        typingLabel1 = new TypingLabel("สวัสดีครับ", tFont2);
+//        typingLabel1 = new TypingLabel("Test", tFont2);
 //        typingLabel1.setText("Test");
         typingLabel1.setText("สวัสดีครับ");
         typingLabel1.setPosition(200,200);
         typingLabel1.style = style;
         typingLabel1.pack();
         typingLabel1.setOrigin(center);
-        typingLabel2 = new TypingLabel("Test", tFont);
+        typingLabel2 = new TypingLabel("Test", tFont2);
         typingLabel2.setText("Check check, [_]one two[_], [~]one two[~]...");
         typingLabel2.setPosition(400,200);
         typingLabel2.style = style;
         typingLabel2.pack();
         typingLabel2.setOrigin(center);
-        typingLabel3 = new TypingLabel("Test", tFont);
+        typingLabel3 = new TypingLabel("Test", tFont2);
         typingLabel3.setText("We're no strangers to love...\nYou [_]know[_] the [_]rules[_],\nand [~]so do I[~]!");
         typingLabel3.setPosition(600,300);
         typingLabel3.style = style;

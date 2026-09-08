@@ -2766,8 +2766,10 @@ public class Font implements Disposable {
         }
         solidBlock = '█';
 
-        GlyphRegion block;
-        if(!mapping.containsKey(solidBlock)) {
+        GlyphRegion block = mapping.get(solidBlock, null);
+        // When a compatible tool has added a small white square to a font, it will have region width 1.
+        // In other cases, the full block char could easily be incompatible, and we will need to draw our own.
+        if(block == null || block.getRegionWidth() != 1) {
             Pixmap temp = new Pixmap(3, 3, Pixmap.Format.RGBA8888);
             temp.setColor(Color.WHITE);
             temp.fill();
@@ -2776,9 +2778,6 @@ public class Font implements Disposable {
             whiteBlock.draw(temp, 0, 0);
             mapping.put(solidBlock, block = new GlyphRegion(new TextureRegion(whiteBlock, 1, 1, 1, 1)));
             temp.dispose();
-        }
-        else {
-            block = mapping.get(solidBlock);
         }
         if (makeGridGlyphs) {
             for (int i = 0x2500; i < 0x2500 + BlockUtils.BOX_DRAWING.length; i++) {
