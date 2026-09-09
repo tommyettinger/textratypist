@@ -71,7 +71,9 @@ public class SingleTypingLabelTest extends ApplicationAdapter {
     public TypingLabel createTypingLabel(Font font) {
         final TypingLabel label = new TypingLabel(
                 "I [/]love[] TextraTypist! {METRONOME}[+😀]{ENDMETRONOME}\n" +
-                "But [*]U. Nitty[ ] doesn't. {METRONOME}[+☝️]{ENDMETRONOME}",
+//                "But [*]U. Nitty[ ] doesn't. {METRONOME}[+☝️]{ENDMETRONOME}",
+                "But [*]U. Nitty[ ] doesn't. {LOCKSTEP=25;180}[+🤡]{ENDLOCKSTEP}\n" +
+                "That's [#]funny[#], haha! {METRONOME=180}[+🤣]{ENDMETRONOME}",
 //                "[gold 3 orange][#][*]The Planet Жфюй![*][#][white] [+🚀]",
                 font);
         label.setAlignment(Align.center);

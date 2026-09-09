@@ -241,6 +241,7 @@ public class TypingConfig {
         registerEffect("SHOOT", ShootEffect::new);
         registerEffect("HIDE", HideEffect::new);
         registerEffect("METRONOME", MetronomeEffect::new);
+        registerEffect("LOCKSTEP", LockstepEffect::new);
 
         initializeGlobalVars();
     }
