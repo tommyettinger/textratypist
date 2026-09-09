@@ -162,8 +162,7 @@ public class TypingUITextureArrayTest extends InputAdapter implements Applicatio
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
 		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin, font);
 		fpsLabel.setAlignment(Align.center);
-		fpsContainer = new Container<>(fpsLabel);
-		fpsContainer.setTransform(true);
+		fpsContainer = new TransformContainer<>(fpsLabel);
 		// configures an example of a TextField in password mode.
 		final TypingLabel passwordLabel = new TypingLabel("[@Medieval]Textfield in [~]secure[ ] password mode: ", skin, font);
 		final TextField passwordTextField = new TextField("", skin);

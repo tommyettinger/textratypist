@@ -101,8 +101,7 @@ public class RotationTest extends ApplicationAdapter {
         layout.align = Align.center;
         layout.layout.setTargetWidth(Gdx.graphics.getWidth());
         layout.setWrap(true);
-        spin = new Container<>(layout);
-        spin.setTransform(true);
+        spin = new TransformContainer<>(layout);
         spin.setPosition(PIXEL_WIDTH * 0.5f, layout.getHeight(), Align.center);
         backgrounds = new int[(int) Math.ceil(PIXEL_WIDTH / font.cellWidth)][(int) Math.ceil(PIXEL_HEIGHT / font.cellHeight)];
         int sw = 0x669E83FF, se = 0x2A8528FF, nw = 0xF0DDA0FF, ne = 0x7A4A31FF;
