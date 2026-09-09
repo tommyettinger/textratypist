@@ -1,3 +1,14 @@
+2.5.0 has some behavior changes for how per-character and per-Layout rotation looks. This generally improves per-char
+rotation done by effects, and the origin looks more how you would expect, but it changes how whole Layouts are drawn
+with rotation. Thankfully, we fully support CpuSpriteBatch and TextureArrayCpuPolygonSpriteBatch now, and both of those
+can draw scene2d Group s with transform enabled at essentially no extra cost. Drawing a TextraLabel or TypingLabel in a
+TransformContainer (which is just a Container with transform enabled by default) actually resolves several lingering
+display bugs with underline, strikethrough, and some other rotation issues, so using that is recommended instead of
+rotating a Layout or setting the rotation of a TextraLabel/TypingLabel directly. Other changes include the new
+Metronome and Lockstep effects, which are exactly like each other in that they make all glyphs rotate in unison;
+Metronome moves smoothly, and Lockstep moves sharply. TransformContainer is also new, though it's mostly here to make
+transforming Container s take a single line less code.
+
 2.4.4 improves the flush behavior of TextureArrayCpuPolygonSpriteBatch when drawing any large BitmapFontCache; it won't
 crash given large blocks of text for BitmapFont to render. It reverts a change to TextraLabel's sizing logic to restore
 the behavior of version 2.4.2 for TextraLabel. Font now stores any metrics it loads from .fnt or structured JSON files
