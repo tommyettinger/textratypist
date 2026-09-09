@@ -19,15 +19,15 @@ package com.github.tommyettinger.textra.effects;
 import com.badlogic.gdx.math.MathUtils;
 import com.github.tommyettinger.textra.Effect;
 import com.github.tommyettinger.textra.TypingLabel;
-import com.github.tommyettinger.textra.utils.NoiseUtils;
 
 /**
- * Rotates each glyph slightly back and forth, all glyphs moving in the same way based on the current time.
+ * Rotates each glyph sharply back and forth, with no smoothing, and all glyphs moving in the same way based on the
+ * current time.
  * <br>
  * Parameters: {@code rotationAmount;tilt;speed;duration}
  * <br>
- * The {@code rotationAmount} is how many degrees a glyph is allowed to rotate clockwise or counterclockwise; defaults
- * to 15 degrees.
+ * The {@code rotationAmount} is how many degrees a glyph will rotate, going between clockwise, 0, counterclockwise, and
+ * 0; default to 15 degrees.
  * The {@code tilt} is how many degrees counterclockwise to rotate the center of the back-and-forth turning; defaults
  * to +0 degrees.
  * The {@code speed} affects how fast the glyphs should rotate; defaults to 1.0 .
@@ -36,18 +36,18 @@ import com.github.tommyettinger.textra.utils.NoiseUtils;
  * <br>
  * Example usage:
  * <code>
- * {METRONOME=50;0;0.8;_}Each glyph here will rotate a lot, but slowly, and will do so forever.{ENDMETRONOME}
- * {METRONOME=10;20;4;5}Each glyph here will rotate a little, but quickly, for 5 seconds total, with a 20 degree tilt.{ENDMETRONOME}
+ * {LOCKSTEP=50;0;0.8;_}Each glyph here will rotate a lot, but slowly, and will do so forever.{ENDLOCKSTEP}
+ * {LOCKSTEP=10;20;4;5}Each glyph here will rotate a little, but quickly, for 5 seconds total, with a 20 degree tilt.{ENDLOCKSTEP}
  * </code>
  * <br>
- * <a href="https://tommyettinger.github.io/textratypist/effects/metronome.gif">Animated preview here.</a>
+ * <a href="https://tommyettinger.github.io/textratypist/effects/lockstep.gif">Animated preview here.</a>
  */
-public class MetronomeEffect extends Effect {
+public class LockstepEffect extends Effect {
     private float rotationAmount = 15; // How many degrees a glyph can rotate, clockwise or counterclockwise
     private float tilt = 0; // How many degrees the center of the rotation should be offset
     private float speed = 1; // How fast the glyphs should move
 
-    public MetronomeEffect(TypingLabel label, String[] params) {
+    public LockstepEffect(TypingLabel label, String[] params) {
         super(label);
 
         // Rotation Amount
@@ -74,7 +74,8 @@ public class MetronomeEffect extends Effect {
     @Override
     protected void onApply(long glyph, int localIndex, int globalIndex, float delta) {
         // Calculate offset
-        float rot = MathUtils.sin(totalTime * speed * MathUtils.PI2) * rotationAmount + tilt;
+        // I'm only using sqrt(2) times sin, truncated, because it's similar to the existing metronome effect.
+        float rot = (int)(MathUtils.sin(totalTime * speed * MathUtils.PI2) * 1.41421356237f) * rotationAmount + tilt;
 
         // Calculate fadeout
         float fadeout = calculateFadeout();
