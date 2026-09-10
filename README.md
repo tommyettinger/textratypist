@@ -43,7 +43,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.4.4"
+implementation "com.github.tommyettinger:textratypist:2.5.0"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on either version 1.13.1 or 1.14.0 (never 1.13.5),
@@ -52,14 +52,14 @@ depending on whether you are using the 2.1.x release series (compatible with lib
 receiving updates anymore.
 
 TextraTypist 2.4.1 and up uses JitPack to distribute releases instead of Maven Central. The group and artifact IDs are
-the same; the only change should be going from 2.4.0 (or older) to 2.4.4 in a typical project. If you didn't create your
+the same; the only change should be going from 2.4.0 (or older) to 2.5.0 in a typical project. If you didn't create your
 project with gdx-liftoff (or the older gdx-setup), you may need to add JitPack as a repository; see
 [JitPack's instructions here](https://jitpack.io/#tommyettinger/textratypist) for the build tool you use, in step 1.
 
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.4.4:sources"
+implementation "com.github.tommyettinger:textratypist:2.5.0:sources"
 implementation "com.github.tommyettinger:regexodus:0.1.21:sources"
 ```
 
@@ -72,7 +72,7 @@ GWT also needs this in the GdxDefinition.gwt.xml file:
 RegExodus is the GWT-compatible regular-expression library this uses to match some complex patterns internally. Other
 than libGDX itself, RegExodus is the only dependency this project has.
 
-If you need compatibility with libGDX 1.13.1, change `2.4.4` to `2.1.11`; it should have feature parity with `2.2.9`.
+If you need compatibility with libGDX 1.13.1, change `2.5.0` to `2.1.11`; it should have feature parity with `2.2.9`.
 TextraTypist 2.1.11 should use RegExodus 0.1.21, the same version used by TextraTypist 2.2.11 and up. It may need this
 explicitly given as a dependency:
 
@@ -97,16 +97,16 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.4.4.0"
+implementation "com.github.tommyettinger:freetypist:2.5.0.0"
 ```
 
-(Now, FreeTypist 2.4.4.0 uses TextraTypist 2.4.4, and that means it uses libGDX 1.14.2 . There's also FreeTypist
+(Now, FreeTypist 2.5.0.0 uses TextraTypist 2.5.0, and that means it uses libGDX 1.14.2 . There's also FreeTypist
 2.1.11.0 that uses TextraTypist 2.1.11, and that means it uses libGDX 1.13.1 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.4.4.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.5.0.0:sources"
 ```
 
 And this inherits line:
@@ -579,7 +579,7 @@ outline thickness modified using `Font.setOutlineStrength()`. The oblique angle 
 `descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
 as it is for Structured JSON fonts!
 
-Version 2.1.0 through 2.4.4 are out, and while they have fewer breaking changes, there are still several of them.
+Version 2.1.0 through 2.5.0 are out, and while they have fewer breaking changes, there are still several of them.
 Notably, the syntax for modes is no longer linked to the syntax for scaling, and you can set modes independently of both
 the current scale and the current status of an outline around text. Some modes enable the outline and set its color; if
 you disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`,
@@ -626,22 +626,33 @@ several big new features, though; see [CHANGES](CHANGES). 2.4.2 fixes one of tho
 optimizations. 2.4.3 has a much larger list of changes. 2.4.4 focuses on text input, but also has an important fix for a
 bug in 2.4.3 .
 
+The 2.5.x line starts with a breaking change to how rotating a Layout/TextraLabel/TypingLabel looks, which wasn't fully
+correct before. It actually got less-correct here if you're rotating more than one glyph at a time, but individual
+glyphs rotating as part of effects are pretty much good now, instead of rotating around some strange origin point.
+To compensate for label and Layout rotation looking worse if you rotate that directly, you can use any scene2d Group
+with transform enabled and rotate that. This performs fine if you're using a CpuSpriteBatch or TextraTypist's own
+TextureArrayCpuPolygonSpriteBatch, and you can use TextraTypist's TransformContainer to easily wrap a TextraLabel or
+TypingLabel in something that can rotate. Rotating a TransformContainer looks perfect, finally, so there won't be
+further work done into rotating whole Layouts or labels without a transforming Group.
+
 ## Why doesn't something work?
 
-The quick checklist for the latest code (version 2.4.4 or newer commits from JitPack):
+The quick checklist for the latest code (version 2.5.0 or newer commits from JitPack):
 
 - Use FWSkin or one of its subclasses, not a plain scene2d.ui Skin. FreeTypistSkin is fine. Skin is not!
   - You can assign a FWSkin to a Skin, but it still really needs to be an FWSkin internally, or one of its subclasses. 
 - Avoid deprecated methods that allocate Font objects without a good way to dispose them.
 - Double-check syntax changes for outlined text, which is now an option everywhere, and scaling text using `[%1234]`.
-- TextraField is not ready yet! Don't use it. Use a scene2d.ui TextField with a BitmapFont for now.
-  - Yes, it is still in need of serious work!
 - If a known font can't be found, you should probably copy in the latest version, which likely has changed to a 
   .json.lzma file and has a different .png as well.
 - TextraTypist 2.3.x depends on libGDX 1.14.1, and 2.2.x depends on libGDX 1.14.0, but the 2.1.x line has backports for
   most 2.2.x features while depending only on libGDX 1.13.1 .
   - You should avoid depending on 1.13.5 at this point in time, or any dependencies that pull in 1.13.5 .
     - These problematic dependency versions include GDX-TeaVM 1.2.1 and VisUI 1.5.7 . Use earlier or later versions! 
+- If you rotated a Layout directly using Font methods, you should probably switch to a TextraLabel in a
+  TransformContainer instead. If you used `TextraLabel.setRotation()`, you should also use a TransformContainer.
+  - Rotating individual glyphs looks better as of 2.5.0, including as part of TypingLabel effects; it's just whole
+    Layouts and labels that have problems without a transforming Group. 
 
 Some parts of TextraTypist act differently from their counterparts in scene2d.ui and Rafa Skoberg's typing-label.
 
@@ -803,7 +814,7 @@ to target Java 7 for its library code, it wouldn't compile with Java 20 or later
 for over three years.
 
 If you want to make your own Fonts, you can use Hiero or AngelCode BMFont as you always have been able to, but now you
-can also use [FontWriter](https://github.com/tommyettinger/fontwriter) (though it is Windows-only for now). FontWriter
+can also use [FontWriter](https://github.com/tommyettinger/fontwriter). FontWriter
 can output SDF and MSDF distance field fonts, as well as standard bitmap fonts, and it always ensures the files have
 been processed how TextraTypist prefers them (they need a small white square in the lower right to use for block drawing
 and underline/strikethrough, plus a specific transparency change makes certain overlapping renders with alpha keep their
@@ -817,8 +828,9 @@ You only need the .png file AND (either the .json file or one of its compressed 
 plaint-text JSON file, so it is usually preferred.
 The .json file can be hand-edited, but it isn't very easy to do that given how it is inside.
 
-I'm not happy with FontWriter being Windows-only right now, and I'm looking at ways to automatically build it on Linux
-and macOS. In the meantime, if you have a freely-usable font (one with a commercially-usable license), feel free to post
+~~I'm not happy with FontWriter being Windows-only right now, and I'm looking at ways to automatically build it on Linux
+and macOS.~~ FontWriter should have usable builds on Linux and macOS now.
+If you have a freely-usable font (one with a commercially-usable license), feel free to post
 an issue on [FontWriter's repo](https://github.com/tommyettinger/fontwriter/issues) with links to the font and its
 distributor, and I can make a Structured JSON version of it to host in FontWriter's known fonts. I like this approach
 because it helps me better understand what types of fonts people want supplied, and making a new font with FontWriter
