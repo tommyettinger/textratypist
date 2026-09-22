@@ -118,4 +118,5 @@ dependencies {
     testImplementation "com.github.tommyettinger:colorful:0.10.0"
 
     testImplementation "com.github.tommyettinger:jsonbiter:bc4f2acfea"
+    testImplementation "org.apache.fory:fory-json:1.7.4"
 }
