@@ -13,7 +13,8 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 
 /**
- * Loading Maple-Mono-standard.json.lzma took 0.3275592 seconds.
+ * Specific JSON loading took 0.25351460000000003 seconds.
+ * Loading Maple-Mono-standard.json.lzma took 0.3067751 seconds.
  */
 public class StructureLoadTest {
     public static void main(String[] args) throws IOException {
@@ -25,9 +26,11 @@ public class StructureLoadTest {
         BufferedInputStream bais = jsonHandle.read(4096);
         StreamUtils.OptimizedByteArrayOutputStream baos = new StreamUtils.OptimizedByteArrayOutputStream(4096);
         Lzma.decompress(bais, baos);
+        long innerTime = System.nanoTime();
         Json json = new Json(JsonWriter.OutputType.json);
         FontData fd = json.fromJson(FontData.class, baos.toString("UTF-8"));
 
+        System.out.println("Specific JSON loading took " + (System.nanoTime() - innerTime) * 1E-9 + " seconds.");
         System.out.println("Loading " + jsonHandle.name() + " took " + (System.nanoTime() - startTime) * 1E-9 + " seconds.");
         System.out.println();
         System.out.println(fd.atlas.type);
