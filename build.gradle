@@ -115,5 +115,7 @@ dependencies {
     testImplementation "com.github.raeleus.stripe:freetype:2.0.0"
     testImplementation "com.github.raeleus.TenPatch:tenpatch:5.2.3"
     testImplementation "com.github.tommyettinger:anim8-gdx:$anim8Version"
-    testImplementation 'com.github.tommyettinger:colorful:0.10.0'
+    testImplementation "com.github.tommyettinger:colorful:0.10.0"
+
+    testImplementation "com.github.tommyettinger:jsonbiter:bc4f2acfea"
 }
