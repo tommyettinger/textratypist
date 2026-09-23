@@ -5,8 +5,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Files;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.StreamUtils;
 import com.badlogic.gdx.utils.compression.Lzma;
-import com.github.tommyettinger.jsonbiter.JsonIterator;
-import com.github.tommyettinger.jsonbiter.spi.Config;
 import com.github.tommyettinger.textra.json.FontData;
 import org.apache.fory.json.ForyJson;
 

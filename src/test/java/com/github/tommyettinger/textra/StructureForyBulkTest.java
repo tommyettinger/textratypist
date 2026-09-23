@@ -7,8 +7,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.LongArray;
 import com.badlogic.gdx.utils.StreamUtils;
 import com.badlogic.gdx.utils.compression.Lzma;
-import com.github.tommyettinger.jsonbiter.JsonIterator;
-import com.github.tommyettinger.jsonbiter.spi.Config;
 import com.github.tommyettinger.textra.json.FontData;
 import org.apache.fory.json.ForyJson;
 
