@@ -117,6 +117,6 @@ dependencies {
     testImplementation "com.github.tommyettinger:anim8-gdx:$anim8Version"
     testImplementation "com.github.tommyettinger:colorful:0.10.0"
 
-    testImplementation "com.github.tommyettinger:jsonbiter:bc4f2acfea"
+    testImplementation "com.github.tommyettinger:jsonbiter:356e7babc5"
     testImplementation "org.apache.fory:fory-json:1.7.4"
 }
