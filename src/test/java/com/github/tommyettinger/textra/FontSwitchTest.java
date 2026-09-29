@@ -87,7 +87,7 @@ public class FontSwitchTest extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(0.8f, 0.8f, 0.8f, 1);
         
-        layout.getLine(0).glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
+        layout.glyphs.set(0, font.markupGlyph('@', "[" + colorNames.get((int)(TimeUtils.timeSinceMillis(startTime) >>> 8) % colorNames.size) + "]"));
         float x = 400, y = layout.getHeight();
         batch.begin();
         font.family.connected[3].enableShader(batch);

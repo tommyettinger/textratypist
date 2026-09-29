@@ -311,7 +311,7 @@ public class TextraArea extends Container<ScrollPane> {
                 }
                 float scrollPos = label.getHeight(), latestLineHeight = 1;
                 for (int ln = 0; ln < currentLine; ln++) {
-                    scrollPos -= (latestLineHeight = label.getLineInLayout(label.workingLayout, ln).height);
+                    scrollPos -= (latestLineHeight = label.workingLayout.getLineHeight(ln));
                 }
                 TextraArea.this.getActor().scrollTo(0, scrollPos, 1, latestLineHeight);
             }
@@ -336,7 +336,7 @@ public class TextraArea extends Container<ScrollPane> {
                     int i = label.getWorkingLayout().countGlyphsBeforeLine(currentLine + 1);
                     float scrollPos = label.getHeight(), latestLineHeight = 1;
                     for (int ln = 0; ln < currentLine + 1; ln++) {
-                        scrollPos -= (latestLineHeight = label.getLineInLayout(label.workingLayout, ln).height);
+                        scrollPos -= (latestLineHeight = label.workingLayout.getLineHeight(ln));
                     }
                     TextraArea.this.getActor().scrollTo(0, scrollPos, 1, latestLineHeight);
 
@@ -353,7 +353,7 @@ public class TextraArea extends Container<ScrollPane> {
                     int i = label.getWorkingLayout().countGlyphsBeforeLine(currentLine - 1);
                     float scrollPos = label.getHeight(), latestLineHeight = 1;
                     for (int ln = 0; ln < currentLine - 1; ln++) {
-                        scrollPos -= (latestLineHeight = label.getLineInLayout(label.workingLayout, ln).height);
+                        scrollPos -= (latestLineHeight = label.workingLayout.getLineHeight(ln));
                     }
                     TextraArea.this.getActor().scrollTo(0, scrollPos, 1, latestLineHeight);
 
@@ -384,7 +384,7 @@ public class TextraArea extends Container<ScrollPane> {
                 float scrollPos = label.getHeight(), latestLineHeight = 1;
                 int currentLine = label.getLineIndexInLayout(label.workingLayout, cursor);
                 for (int ln = 0; ln < currentLine; ln++) {
-                    scrollPos -= (latestLineHeight = label.getLineInLayout(label.workingLayout, ln).height);
+                    scrollPos -= (latestLineHeight = label.workingLayout.getLineHeight(ln));
                 }
 
                 TextraArea.this.getActor().scrollTo(0, scrollPos, 1, latestLineHeight);
