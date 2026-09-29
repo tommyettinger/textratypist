@@ -8102,7 +8102,7 @@ public class Font implements Disposable {
         Font font = null;
         float scaleX;
         float targetWidth = changing.getTargetWidth();
-        int oldLength = changing.lines.size;
+        int oldLength = changing.lines();
         Line firstLine = changing.getLine(0);
         for (int i = 1; i < oldLength; i++) {
             firstLine.glyphs.addAll(changing.getLine(i).glyphs);

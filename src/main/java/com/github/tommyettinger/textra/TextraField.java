@@ -634,15 +634,12 @@ public class TextraField extends Widget implements Disableable {
 //			}
 //			displayText = passwordBuffer.toString();
 			final long passwordGlyph = (long)Integer.reverseBytes(NumberUtils.floatToIntBits(label.workingLayout.baseColor)) << 32 | passwordCharacter;
-			for (int ln = 0; ln < label.workingLayout.lines(); ln++) {
-				Line line = label.workingLayout.getLine(ln);
-				Arrays.fill(line.glyphs.items, 0, line.glyphs.size, passwordGlyph);
-			}
+			Arrays.fill(label.workingLayout.glyphs.items, 0, label.workingLayout.glyphs.size, passwordGlyph);
 		}
 		label.skipToTheEnd(true, true);
 
 		float end = 0f;
-		if(label.workingLayout.lines.notEmpty()) {
+		if(label.workingLayout.glyphs.notEmpty()) {
 			glyphPositions.clear();
 			end = font.calculateXAdvances(label.workingLayout, glyphPositions);
 		} else
@@ -942,7 +939,7 @@ public class TextraField extends Widget implements Disableable {
 		label.restart(text = "");
 		label.skipToTheEnd(true, true);
 		float end = 0f;
-		if(label.workingLayout.lines.notEmpty()) {
+		if(label.workingLayout.glyphs.notEmpty()) {
 			glyphPositions.clear();
 			end = label.font.calculateXAdvances(label.workingLayout, glyphPositions);
 		} else

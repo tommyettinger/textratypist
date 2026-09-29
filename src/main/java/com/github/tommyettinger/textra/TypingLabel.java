@@ -616,14 +616,8 @@ public class TypingLabel extends TextraLabel {
      * @param newText the String, StringBuilder, or other CharSequence that this TypingLabel will start displaying
      */
     public void restart(CharSequence newText) {
-        workingLayout.atLimit = false;
-
         // Reset cache collections
-        Line first = workingLayout.lines.first();
-        first.glyphs.clear();
-        first.width = first.height = 0;
-        workingLayout.lines.clear();
-        workingLayout.lines.add(first);
+        workingLayout.clear();
         activeEffects.clear();
 
         // Reset state
@@ -1244,7 +1238,7 @@ public class TypingLabel extends TextraLabel {
             }
         }
 
-        if (layout.lines.isEmpty() || parentAlpha <= 0f) return;
+        if (layout.glyphs.isEmpty() || parentAlpha <= 0f) return;
 
 //        baseY += workingLayout.lines.first().height * 0.25f;
 
