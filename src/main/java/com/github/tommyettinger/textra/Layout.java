@@ -40,6 +40,16 @@ public class Layout {
     protected float baseColor = Color.WHITE_FLOAT_BITS;
     protected Justify justification = Justify.NONE;
     /**
+     * Contains one long per glyph; each long encodes a 16-bit char, 32-bit color, and 16 bits of style info.
+     * If a glyph's upper 32 bits are all 0, it is fully transparent, which can be used as a sort of neutral value.
+     */
+    public final LongArray glyphs = new LongArray();
+    /**
+     * Contains two floats per line of text; even items are line widths (0-indexed), odd items are line heights.
+     * There is no neutral value for a line size, but 0 is reasonable for an empty line width and height.
+     */
+    public final FloatArray lineSizes = new FloatArray();
+    /**
      * Contains two floats per glyph; even items are x offsets (0-indexed), odd items are y offsets.
      * The neutral value for a glyph (the value that this defaults to, and means no change should be made) is 0.0f.
      */
@@ -61,12 +71,12 @@ public class Layout {
     public final FloatArray advances = new FloatArray();
 
     public Layout() {
-        lines.add(new Line());
+        lineSizes.add(0f, 0f);
     }
 
     public Layout(Font font) {
         this.font = font;
-        lines.add(new Line());
+        lineSizes.add(0f, 0f);
     }
 
     public Layout(Layout other) {
@@ -76,11 +86,13 @@ public class Layout {
         this.ellipsis = other.ellipsis;
         this.targetWidth = other.targetWidth;
         this.baseColor = other.baseColor;
-        for (int i = 0; i < other.lines(); i++) {
-            Line ln = new Line(), o = other.lines.get(i);
-            ln.glyphs.addAll(o.glyphs);
-            lines.add(ln.size(o.width, o.height));
-        }
+//        for (int i = 0; i < other.lines(); i++) {
+//            Line ln = new Line(), o = other.lines.get(i);
+//            ln.glyphs.addAll(o.glyphs);
+//            lines.add(ln.size(o.width, o.height));
+//        }
+        glyphs.addAll(other.glyphs);
+        lineSizes.addAll(other.lineSizes);
         rotations.addAll(other.rotations);
         offsets.addAll(other.offsets);
         sizing.addAll(other.sizing);
@@ -96,8 +108,8 @@ public class Layout {
     public Layout font(Font font) {
         if (this.font == null || !this.font.equals(font)) {
             this.font = font;
-            lines.clear();
-            lines.add(new Line());
+            glyphs.clear();
+            lineSizes.add(0f, 0f);
         }
         return this;
     }
@@ -139,16 +151,14 @@ public class Layout {
     public Layout add(long glyph, float scale, float advance, float offsetX, float offsetY, float rotation) {
         if (!atLimit) {
             if ((glyph & 0xFFFFL) == 10L) {
-                if (lines.size >= maxLines) {
+                if (lineSizes.size >= maxLines + maxLines) {
                     atLimit = true;
                     return null;
                 }
-                Line line = new Line(), prev = lines.peek();
-                prev.glyphs.add('\n');
-                line.height = 0;
-                lines.add(line);
+                glyphs.add('\n');
+                lineSizes.add(0f, 0f);
             } else {
-                lines.peek().glyphs.add(glyph);
+                glyphs.add(glyph);
             }
             sizing.add(scale, scale);
             advances.add(advance);
@@ -167,13 +177,8 @@ public class Layout {
      * @param newGlyph usually produced by {@link Font} to store color and style info with the char
      */
     public void set(int index, long newGlyph) {
-        for (int i = 0, n = lines.size; i < n && index >= 0; i++) {
-            LongArray glyphs = lines.get(i).glyphs;
-            if (i < lines.size && index < glyphs.size) {
-                glyphs.set(index, newGlyph);
-                return;
-            } else
-                index -= glyphs.size;
+        if (index >= 0 && index < glyphs.size) {
+            glyphs.set(index, newGlyph);
         }
     }
 
@@ -190,20 +195,14 @@ public class Layout {
      * @param rotation 0.0f if unchanged; added to the rotation of the glyph, in degrees
      */
     public void set(int index, long newGlyph, float scale, float advance, float offsetX, float offsetY, float rotation) {
-        sizing.set(index << 1, scale);
-        sizing.set(index << 1 | 1, scale);
-        advances.set(index, advance);
-        offsets.set(index << 1, offsetX);
-        offsets.set(index << 1 | 1, offsetY);
-        rotations.set(index, rotation);
-
-        for (int i = 0, n = lines.size; i < n && index >= 0; i++) {
-            LongArray glyphs = lines.get(i).glyphs;
-            if (i < lines.size && index < glyphs.size) {
-                glyphs.set(index, newGlyph);
-                return;
-            } else
-                index -= glyphs.size;
+        if (index >= 0 && index < glyphs.size) {
+            sizing.set(index << 1, scale);
+            sizing.set(index << 1 | 1, scale);
+            advances.set(index, advance);
+            offsets.set(index << 1, offsetX);
+            offsets.set(index << 1 | 1, offsetY);
+            rotations.set(index, rotation);
+            glyphs.set(index, newGlyph);
         }
     }
 
@@ -215,36 +214,36 @@ public class Layout {
      * @return this Layout, after changes, for chaining
      */
     public Layout clear() {
-        lines.clear();
         sizing.clear();
         advances.clear();
         offsets.clear();
         rotations.clear();
-
-        lines.add(new Line());
+        glyphs.clear();
+        lineSizes.clear();
+        lineSizes.add(0f, 0f);
         atLimit = false;
         return this;
     }
 
     public float getWidth() {
-        if(justification != Justify.NONE && (lines.size > 1 && !justification.ignoreLastLine)) return targetWidth;
+        if(justification != Justify.NONE && (lineSizes.size > 2 && !justification.ignoreLastLine)) return targetWidth;
         float w = 0;
-        for (int i = 0, n = lines.size; i < n; i++) {
-            w = Math.max(w, lines.get(i).width);
+        for (int i = 0, n = lineSizes.size; i < n; i+= 2) {
+            w = Math.max(w, lineSizes.get(i));
         }
         return w;
     }
 
     public float getHeight() {
         float h = 0;
-        for (int i = 0, n = lines.size; i < n; i++) {
-            h += lines.get(i).height;
+        for (int i = 1, n = lineSizes.size; i < n; i += 2) {
+            h += lineSizes.get(i);
         }
         return h;
     }
 
     public int lines() {
-        return lines.size;
+        return lineSizes.size >>> 1;
     }
 
     /**
@@ -262,45 +261,28 @@ public class Layout {
         return lines.peek();
     }
 
-    public Line pushLine() {
-        if (lines.size >= maxLines) {
-            atLimit = true;
-            return null;
-        }
-
-        Line line = new Line();
-        if(advances.isEmpty())
-            add('\n');
-        else
-            add('\n', sizing.peek(), advances.peek(), offsets.get(offsets.size - 2), offsets.peek(), rotations.peek());
-        line.height = 0;
-        lines.add(line);
-        return line;
+    public float getLineWidth(int ln){
+        return lineSizes.get(ln + ln);
     }
 
-    public Line pushLineBare() {
-        if (lines.size >= maxLines) {
-            atLimit = true;
-            return null;
-        }
-
-        Line line = new Line();
-        line.height = 0;
-        lines.add(line);
-        return line;
+    public float getLineHeight(int ln){
+        return lineSizes.get(ln + ln + 1);
     }
 
-    public Line insertLine(int index) {
-        if (lines.size >= maxLines) {
+    /**
+     * Adds a new size-0 line if this hasn't reached its limit and returns true, or returns false if this has reached
+     * its limit of {@link #getMaxLines()}.
+     *
+     * @return true if a new line was added, or false if this couldn't add a line because it has reached its limit
+     */
+    public boolean pushLineBare() {
+        if (lineSizes.size >= maxLines + maxLines) {
             atLimit = true;
-            return null;
+            return false;
         }
-        if (index < 0 || index >= maxLines) return null;
-        Line line = new Line(), prev = lines.get(index);
-        prev.glyphs.add('\n');
-        line.height = 0;
-        lines.insert(index + 1, line);
-        return line;
+
+        lineSizes.add(0f, 0f);
+        return true;
     }
 
     public float getTargetWidth() {
@@ -403,33 +385,27 @@ public class Layout {
     }
 
     /**
-     * Calculates how many {@code long} glyphs are currently in this layout, and returns that count. This takes time
-     * proportional to the value of {@link #lines()}, not the number of glyphs.
+     * Returns how many {@code long} glyphs are currently in this layout. This takes constant time.
+     *
      * @return how many {@code long} glyphs are in this Layout
      */
     public int countGlyphs(){
-        int layoutSize = 0;
-        for (int i = 0, n = lines.size; i < n; i++) {
-            layoutSize += lines.get(i).glyphs.size;
-        }
-        return layoutSize;
+        return glyphs.size;
     }
 
     /**
-     * Calculates how many {@code long} glyphs are currently in this layout before the start of the Line with the given
-     * {@code lineIndex}, and returns that count. This is mainly useful for mapping an index into a Line to an index in
-     * a Layout's non-Line-based FloatArray fields, such as {@link #advances} or {@link #rotations}. Some FloatArray
-     * fields use two floats per glyph, such as {@link #offsets} and {@link #sizing}; see their docs for more.
+     * Calculates how many {@code long} glyphs are currently in this layout before the start of the line with the given
+     * {@code lineIndex}, and returns that count.
      * <br>
-     * This takes time proportional to the value of {@code lineIndex}, not the number of glyphs.
+     * This takes time proportional to the number of glyphs.
      * @return how many {@code long} glyphs exist in this Layout before the start of the given Line
      */
     public int countGlyphsBeforeLine(int lineIndex){
-        int layoutSize = 0;
-        for (int i = 0, n = Math.min(lines.size, lineIndex); i < n; i++) {
-            layoutSize += lines.get(i).glyphs.size;
+        for (int i = 0, n = glyphs.size; i < n; i++) {
+            if(lineIndex <= 0) return i;
+            if((glyphs.get(i) & 0xFFFF) == '\n') lineIndex--;
         }
-        return layoutSize;
+        return glyphs.size;
     }
 
     /**
@@ -456,13 +432,8 @@ public class Layout {
      * @return sb, for chaining
      */
     public StringBuilder appendIntoDirect(StringBuilder sb) {
-        long gl;
-        for (int i = 0, n = lines.size; i < n; i++) {
-            Line line = lines.get(i);
-            for (int j = 0, ln = line.glyphs.size; j < ln; j++) {
-                gl = line.glyphs.get(j);
-                sb.append((char) gl);
-            }
+        for (int i = 0, n = glyphs.size; i < n; i++) {
+            sb.append((char) glyphs.get(i));
         }
         return sb;
     }
@@ -472,8 +443,9 @@ public class Layout {
      * (inclusive) to end (exclusive). This can retrieve text from across multiple lines. If this encounters the special
      * placeholder character u0002, it treats it as {@code '['}, like the rest of the library does. If this encounters
      * emoji, icons, or other inline images assigned to the font with {@link Font#addAtlas(TextureAtlas)}, then this
-     * will use a name that can be used to look up that inline image (such as an actual emoji like 🤖 instead of the
-     * gibberish character that {@code [+robot]} produces internally).
+     * will use a name that can be used to look up that inline image. For example, it will show an actual emoji like 🤖
+     * instead of the gibberish character that {@code [+robot]} produces internally.
+     *
      * @param sb a non-null StringBuilder from the JDK; will be modified if this Layout is non-empty
      * @param start inclusive start index to begin taking chars from
      * @param end exclusive end index to stop taking chars before
@@ -481,32 +453,19 @@ public class Layout {
      */
     public StringBuilder appendSubstringInto(StringBuilder sb, int start, int end) {
         start = Math.max(0, start);
-        end = Math.min(Math.max(advances.size, start), end);
+        end = Math.min(Math.max(glyphs.size, start), end);
         int index = start;
         sb.ensureCapacity(end - start);
-        int glyphCount = 0;
-        for (int i = 0, n = lines.size; i < n && index >= 0; i++) {
-            LongArray glyphs = lines.get(i).glyphs;
-            if (index < glyphs.size) {
-                for (int fin = index - start - glyphCount + end; index < fin && index < glyphs.size; index++) {
-                    char c = (char) glyphs.get(index);
-                    if (c >= 0xE000 && c <= 0xF800) {
-                        String name = font.namesByCharCode.get(c);
-                        if (name != null) sb.append(name);
-                        else sb.append(c);
-                    } else {
-                        if (c == 2) sb.append('[');
-                        else sb.append(c);
-                    }
-                    glyphCount++;
-                }
-                if(glyphCount == end - start)
-                    return sb;
-                index = 0;
+        for (int i = index, n = end; i < n; i++) {
+            char c = (char) glyphs.get(i);
+            if (c >= 0xE000 && c <= 0xF800) {
+                String name = font.namesByCharCode.get(c);
+                if (name != null) sb.append(name);
+                else sb.append(c);
+            } else {
+                if (c == 2) sb.append('[');
+                else sb.append(c);
             }
-            else
-                index -= glyphs.size;
-            sb.append('\n');
         }
         return sb;
     }
@@ -515,8 +474,9 @@ public class Layout {
      * Primarily used by {@link #toString()}, but can be useful if you want to append many Layouts into a StringBuilder.
      * If this encounters the special placeholder character u0002, it treats it as {@code '['}, like the rest of the
      * library does. If this encounters emoji, icons, or other inline images assigned to the font with
-     * {@link Font#addAtlas(TextureAtlas)}, then this will use a name that can be used to look up that inline image
-     * (such as an actual emoji like 🤖 instead of the gibberish character that {@code [+robot]} produces internally).
+     * {@link Font#addAtlas(TextureAtlas)}, then this will use a name that can be used to look up that inline image.
+     * For example, it will show an actual emoji like 🤖 instead of the gibberish character that {@code [+robot]}
+     * produces internally.
      * This does not add or remove newlines from the Layout's contents, and can produce line breaks if they appear.
      *
      * @param sb a non-null StringBuilder from the JDK; will be modified if this Layout is non-empty
@@ -537,13 +497,14 @@ public class Layout {
     }
 
     /**
-     * Mostly intended for internal use; when any of {@link #lines} have been reduced in size but the other fields here
+     * Mostly intended for internal use; when lines have been removed but the other fields here
      * have not been changed, this will trim {@link #advances}, {@link #rotations}, {@link #sizing}, and
      * {@link #offsets} to match the size of the total glyphs in all lines.
      * @param i the length to truncate to; often {@link #countGlyphs()}
      * @return this, for chaining
      */
     public Layout truncateExtra(int i) {
+        glyphs.truncate(i);
         advances.truncate(i);
         rotations.truncate(i);
         sizing.truncate(i << 1);
