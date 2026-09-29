@@ -7107,17 +7107,17 @@ public class Font implements Disposable {
 
     protected boolean handleEllipsis(Layout appendTo) {
         Font font = null;
-        Line earlier = appendTo.peekLine();
+        int earlier = appendTo.glyphs.lastIndexOf('\n');
         //// ELLIPSIS FOR VISIBLE
 
         // here, the max lines have been reached, and an ellipsis may need to be added
         // to the last line.
         String ellipsis = (appendTo.ellipsis == null) ? "" : appendTo.ellipsis;
-        for (int j = earlier.glyphs.size - 2; j >= 0; j--) {
+        for (int j = appendTo.glyphs.size - 2; j > earlier; j--) {
             long curr;
-            if ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+            if ((curr = appendTo.glyphs.get(j)) >>> 32 == 0L ||
                     Arrays.binarySearch(breakChars.items, 0, breakChars.size, (char) curr) >= 0) {
-                while (j > 0 && ((curr = earlier.glyphs.get(j)) >>> 32 == 0L ||
+                while (j > 0 && ((curr = appendTo.glyphs.get(j)) >>> 32 == 0L ||
                         Arrays.binarySearch(spaceChars.items, 0, spaceChars.size, (char) curr) >= 0)) {
                     --j;
                 }
@@ -7130,8 +7130,8 @@ public class Font implements Disposable {
                     // NO KERNING
 
                     boolean curly = false;
-                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
-                        curr = earlier.glyphs.get(k);
+                    for (int k = j + 1; k < appendTo.glyphs.size; k++) {
+                        curr = appendTo.glyphs.get(k);
                         if (family != null) font = family.connected[(int) (curr >>> 16 & 15)];
                         if (font == null) font = this;
 
@@ -7163,10 +7163,10 @@ public class Font implements Disposable {
 
                     // YES KERNING
 
-                    int k2 = (char) earlier.glyphs.get(j);
+                    int k2 = (char) appendTo.glyphs.get(j);
                     boolean curly = false;
-                    for (int k = j + 1; k < earlier.glyphs.size; k++) {
-                        curr = earlier.glyphs.get(k);
+                    for (int k = j + 1; k < appendTo.glyphs.size; k++) {
+                        curr = appendTo.glyphs.get(k);
                         if (family != null) font = family.connected[(int) (curr >>> 16 & 15)];
                         if (font == null) font = this;
                         if(omitCurlyBraces) {
@@ -7195,15 +7195,15 @@ public class Font implements Disposable {
                         change -= adv + font.kerning.get(k2, 0) * scaleX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
                     }
                 }
-                if (earlier.width - change > appendTo.targetWidth)
+                if (appendTo.getLastWidth() - change > appendTo.targetWidth)
                     continue;
-                earlier.glyphs.truncate(j + 1);
+                appendTo.glyphs.truncate(j + 1);
                 appendTo.truncateExtra(appendTo.countGlyphs());
                 for (int e = 0; e < ellipsis.length(); e++) {
                     // 0xFFFFFFFF81FF0000L masks to include everything but style and char
                     appendTo.add((curr & 0xFFFFFFFF81FF0000L) | ellipsis.charAt(e));
                 }
-                earlier.width -= change;
+                appendTo.addToLastWidth(-change);
                 return true;
             }
         }
