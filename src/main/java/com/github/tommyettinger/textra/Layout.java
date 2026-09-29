@@ -519,4 +519,28 @@ public class Layout {
         offsets.truncate(i << 1);
         return this;
     }
+
+    public float getLastWidth() {
+        return lineSizes.items[lineSizes.size - 2];
+    }
+
+    public float getLastHeight() {
+        return lineSizes.items[lineSizes.size - 1];
+    }
+
+    public float setLastWidth(float newValue) {
+        return lineSizes.items[lineSizes.size - 2] = newValue;
+    }
+
+    public float setLastHeight(float newValue) {
+        return lineSizes.items[lineSizes.size - 1] = newValue;
+    }
+
+    public float addToLastWidth(float additional) {
+        return lineSizes.items[lineSizes.size - 2] += additional;
+    }
+
+    public float addToLastHeight(float additional) {
+        return lineSizes.items[lineSizes.size - 1] += additional;
+    }
 }
