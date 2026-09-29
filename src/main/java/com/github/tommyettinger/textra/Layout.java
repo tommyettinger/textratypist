@@ -265,8 +265,16 @@ public class Layout {
         return lineSizes.get(ln + ln);
     }
 
+    public void setLineWidth(int ln, float width){
+        lineSizes.set(ln + ln, width);
+    }
+
     public float getLineHeight(int ln){
         return lineSizes.get(ln + ln + 1);
+    }
+
+    public void setLineHeight(int ln, float height){
+        lineSizes.set(ln + ln + 1, height);
     }
 
     /**

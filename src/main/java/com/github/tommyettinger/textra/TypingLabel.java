@@ -1862,59 +1862,37 @@ public class TypingLabel extends TextraLabel {
     }
 
     public void setInLayout(Layout layout, int index, long newGlyph) {
-        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
-            LongArray glyphs = layout.getLine(i).glyphs;
-            if (index < glyphs.size) {
-                glyphs.set(index, newGlyph);
-                return;
-            } else
-                index -= glyphs.size;
-        }
+        layout.glyphs.set(index, newGlyph);
     }
 
     public void insertInLayout(Layout layout, int index, long newGlyph) {
-        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
-            LongArray glyphs = layout.getLine(i).glyphs;
-            if (index <= glyphs.size) {
-                glyphs.insert(index, newGlyph);
-                return;
-            } else
-                index -= glyphs.size;
-        }
+        if (index >= 0 && index < layout.glyphs.size) {
+            layout.glyphs.insert(index, newGlyph);
+        } else
+            layout.glyphs.add(newGlyph);
     }
 
     public void insertInLayout(Layout layout, int index, CharSequence text) {
         long current = (Integer.reverseBytes(NumberUtils.floatToIntBits(layout.baseColor)) & -2L) << 32;
-        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
-            LongArray glyphs = layout.getLine(i).glyphs;
-            if (index < glyphs.size) { // inserting mid-line
-                current = glyphs.get(index) & 0xFFFFFFFFFFFF0000L;
-                for (int j = 0; j < text.length(); j++) {
-                    glyphs.insert(index + j, current | text.charAt(j));
-                }
-                return;
-            } else if (index == glyphs.size) { // appending to a line
-                if(index != 0)
-                    current = glyphs.get(index - 1) & 0xFFFFFFFFFFFF0000L;
-                for (int j = 0; j < text.length(); j++) {
-                    glyphs.insert(index + j, current | text.charAt(j));
-                }
-                return;
-            } else {
-                index -= glyphs.size;
+        LongArray glyphs = layout.glyphs;
+        if (index < glyphs.size) { // inserting mid-text
+            current = glyphs.get(index) & 0xFFFFFFFFFFFF0000L;
+            glyphs.insertRange(index, text.length());
+            for (int j = 0; j < text.length(); j++) {
+                glyphs.set(index + j, current | text.charAt(j));
+            }
+        } else { // appending to layout
+            if (index != 0)
+                current = glyphs.get(glyphs.size - 1) & 0xFFFFFFFFFFFF0000L;
+            glyphs.ensureCapacity(text.length());
+            for (int j = 0; j < text.length(); j++) {
+                glyphs.add(current | text.charAt(j));
             }
         }
     }
 
     public void setInWorkingLayout(int index, long newGlyph) {
-        for (int i = 0, n = workingLayout.lines(); i < n && index >= 0; i++) {
-            LongArray glyphs = workingLayout.getLine(i).glyphs;
-            if (i < workingLayout.lines() && index < glyphs.size) {
-                glyphs.set(index, newGlyph);
-                return;
-            } else
-                index -= glyphs.size;
-        }
+        workingLayout.glyphs.set(index, newGlyph);
     }
 
     /**
@@ -1922,7 +1900,7 @@ public class TypingLabel extends TextraLabel {
      * @return the length in glyphs of the working layout (what is displayed)
      */
     public int length() {
-        return workingLayout.advances.size;
+        return workingLayout.glyphs.size;
     }
 
     /**
