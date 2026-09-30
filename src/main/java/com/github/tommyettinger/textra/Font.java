@@ -8102,23 +8102,21 @@ public class Font implements Disposable {
         Font font = null;
         float scaleX;
         float targetWidth = changing.getTargetWidth();
-        int oldLength = changing.lines();
-        Line firstLine = changing.getLine(0);
-        for (int i = 1; i < oldLength; i++) {
-            firstLine.glyphs.addAll(changing.getLine(i).glyphs);
-        }
-        changing.lines.truncate(1);
         boolean curly = false;
+        changing.lineSizes.clear();
+        changing.lineSizes.add(0f, 0f);
+
         for (int ln = 0; ln < changing.lines(); ln++) {
-            Line line = changing.getLine(ln);
-            line.height = 0;
-            int a = changing.countGlyphsBeforeLine(ln);
+            int a = changing.lineStarts.get(ln);
+            float lineHeight = 0;
             float drawn = 0f, visibleWidth = 0f;
             int cutoff, breakPoint = -2, spacingPoint = -2;
-            LongArray glyphs = line.glyphs;
+            LongArray glyphs = changing.glyphs;
             int kern = -1;
             float amt;
-            for (int i = 0, n = glyphs.size; i < n; i++) {
+            int n = (ln + 1 == changing.lines()) ? glyphs.size : changing.lineStarts.get(ln + 1);
+            int lineLength = n - a;
+            for (int i = a; i < n; i++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
                 float advance = changing.advances.get(a);
@@ -8140,7 +8138,7 @@ public class Font implements Disposable {
 
                     //// no kerning
 
-                    line.height = Math.max(line.height, font.cellHeight * sizingY);
+                    changing.setLineHeight(ln, lineHeight = Math.max(lineHeight, font.cellHeight * sizingY));
                     if (ch >= 0xE000 && ch < 0xF800)
                         scaleX = advance * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
                     else
@@ -8166,12 +8164,19 @@ public class Font implements Disposable {
 
                     if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? -changedW : 0f) > (targetWidth + 1f)) {
                         cutoff = breakPoint + 1;
-                        Line next;
+                        boolean next;
+//                        int nextStart;
+//                        int nextSize;
                         if (changing.lines() == ln + 1) {
+//                            nextStart = glyphs.size;
                             next = changing.pushLineBare();
-                        } else
-                            next = changing.getLine(ln + 1);
-                        if (next == null) {
+//                            nextSize = 0;
+                        } else {
+                            next = true;
+//                            nextStart = changing.lineStarts.get(ln + 1);
+//                            nextSize = ((ln + 2 == changing.lineStarts.size) ? glyphs.size : changing.lineStarts.get(ln + 2)) - nextStart;
+                        }
+                        if (!next) {
                             glyphs.truncate(cutoff);
                             if (handleEllipsis(changing)) {
                                 calculateSize(changing);
@@ -8179,22 +8184,23 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = Math.max(next.height, font.cellHeight * sizingY);
+                        changing.setLastHeight(Math.max(changing.getLastHeight(), font.cellHeight * sizingY));
 
-                        int nextSize = next.glyphs.size;
-                        long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
-                        System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
-                        System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
-                        glyphs.truncate(cutoff);
+//                        long[] arr = next.glyphs.setSize(nextSize + lineLength - cutoff);
+//                        System.arraycopy(arr, 0, arr, lineLength - cutoff, nextSize);
+//                        System.arraycopy(glyphs.items, cutoff, arr, 0, lineLength - cutoff);
+//                        glyphs.truncate(cutoff);
+                        changing.lineStarts.set(ln + 1, cutoff);
                         break;
                     } else if(breakPoint < 0 && i > 0 && visibleWidth > targetWidth){
                         cutoff = i;
-                        Line next;
+                        boolean next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLineBare();
-                        } else
-                            next = changing.getLine(ln + 1);
-                        if (next == null) {
+                        } else {
+                            next = true;
+                        }
+                        if (!next) {
                             glyphs.truncate(cutoff);
                             if (handleEllipsis(changing)) {
                                 calculateSize(changing);
@@ -8202,13 +8208,14 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        next.height = Math.max(next.height, font.cellHeight * sizingY);
+                        changing.setLastHeight(Math.max(changing.getLastHeight(), font.cellHeight * sizingY));
 
-                        int nextSize = next.glyphs.size;
-                        long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
-                        System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
-                        System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
-                        glyphs.truncate(cutoff);
+//                        int nextSize = next.glyphs.size;
+//                        long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
+//                        System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
+//                        System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
+//                        glyphs.truncate(cutoff);
+                        changing.lineStarts.set(ln + 1, cutoff);
                         break;
                     }
 
