@@ -8232,8 +8232,8 @@ public class Font implements Disposable {
 //                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
 //                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
 //                        glyphs.truncate(i);
-                        changing.lineStarts.set(ln + 1, a);
-                        glyphs.set(a+1, applyChar(lineLength == 0 ? 0L : glyphs.peek(), '\n'));
+                        changing.lineStarts.set(ln + 1, a+1);
+                        glyphs.set(a, applyChar(lineLength == 0 ? 0L : glyphs.peek(), '\n'));
                         break;
                     }
                     if (glyph >>> 32 == 0L) {
@@ -8369,8 +8369,8 @@ public class Font implements Disposable {
 //                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
 //                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
 //                        glyphs.truncate(i);
-                        changing.lineStarts.set(ln + 1, a);
-                        glyphs.set(a+1, applyChar(lineLength == 0 ? 0L : glyphs.peek(), '\n'));
+                        changing.lineStarts.set(ln + 1, a+1);
+                        glyphs.set(a, applyChar(lineLength == 0 ? 0L : glyphs.peek(), '\n'));
                         break;
                     }
                     if (glyph >>> 32 == 0L) {
