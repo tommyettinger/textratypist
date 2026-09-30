@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
+import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.LongArray;
 
 /**
@@ -44,6 +45,12 @@ public class Layout {
      * If a glyph's upper 32 bits are all 0, it is fully transparent, which can be used as a sort of neutral value.
      */
     public final LongArray glyphs = new LongArray();
+    /**
+     * Contains one int per line of text, with each int the index in {@link #glyphs} of the first glyph on that line.
+     * This should always start with an item {@code 0}, and the exclusive end index of the last line can be obtained
+     * with {@link #countGlyphs()}.
+     */
+    public final IntArray lineStarts = new IntArray();
     /**
      * Contains two floats per line of text; even items are line widths (0-indexed), odd items are line heights.
      * There is no neutral value for a line size, but 0 is reasonable for an empty line width and height.
@@ -72,11 +79,13 @@ public class Layout {
 
     public Layout() {
         lineSizes.add(0f, 0f);
+        lineStarts.add(0);
     }
 
     public Layout(Font font) {
         this.font = font;
         lineSizes.add(0f, 0f);
+        lineStarts.add(0);
     }
 
     public Layout(Layout other) {
@@ -93,6 +102,7 @@ public class Layout {
 //        }
         glyphs.addAll(other.glyphs);
         lineSizes.addAll(other.lineSizes);
+        lineStarts.addAll(other.lineStarts);
         rotations.addAll(other.rotations);
         offsets.addAll(other.offsets);
         sizing.addAll(other.sizing);
@@ -110,6 +120,7 @@ public class Layout {
             this.font = font;
             glyphs.clear();
             lineSizes.add(0f, 0f);
+            lineStarts.add(0);
         }
         return this;
     }
@@ -150,13 +161,14 @@ public class Layout {
      */
     public Layout add(long glyph, float scale, float advance, float offsetX, float offsetY, float rotation) {
         if (!atLimit) {
-            if ((glyph & 0xFFFFL) == 10L) {
+            if ((char)glyph == '\n') {
                 if (lineSizes.size >= maxLines + maxLines) {
                     atLimit = true;
                     return null;
                 }
                 glyphs.add('\n');
                 lineSizes.add(0f, 0f);
+                lineStarts.add(glyphs.size);
             } else {
                 glyphs.add(glyph);
             }
@@ -221,6 +233,8 @@ public class Layout {
         glyphs.clear();
         lineSizes.clear();
         lineSizes.add(0f, 0f);
+        lineStarts.clear();
+        lineStarts.add(0);
         atLimit = false;
         return this;
     }
@@ -243,7 +257,7 @@ public class Layout {
     }
 
     public int lines() {
-        return lineSizes.size >>> 1;
+        return lineStarts.size;
     }
 
     /**
@@ -255,10 +269,6 @@ public class Layout {
     public Line getLine(int i) {
         if (i >= lines.size) return null;
         return lines.get(i);
-    }
-
-    public Line peekLine() {
-        return lines.peek();
     }
 
     public float getLineWidth(int ln){
@@ -290,6 +300,7 @@ public class Layout {
         }
 
         lineSizes.add(0f, 0f);
+        lineStarts.add(glyphs.size);
         return true;
     }
 
@@ -402,18 +413,14 @@ public class Layout {
     }
 
     /**
-     * Calculates how many {@code long} glyphs are currently in this layout before the start of the line with the given
+     * Gets how many {@code long} glyphs are currently in this layout before the start of the line with the given
      * {@code lineIndex}, and returns that count.
      * <br>
-     * This takes time proportional to the number of glyphs.
+     * This takes constant time.
      * @return how many {@code long} glyphs exist in this Layout before the start of the given Line
      */
     public int countGlyphsBeforeLine(int lineIndex){
-        for (int i = 0, n = glyphs.size; i < n; i++) {
-            if(lineIndex <= 0) return i;
-            if((glyphs.get(i) & 0xFFFF) == '\n') lineIndex--;
-        }
-        return glyphs.size;
+        return lineStarts.get(lineIndex);
     }
 
     /**
