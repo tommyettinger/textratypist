@@ -5136,78 +5136,84 @@ public class Font implements Disposable {
         float w = 0f;
         float currentHeight = 0f;
         int a = 0;
-        for (int ln = 0; ln < layout.lines(); ln++) {
-            float drawn = 0f;
-            float scaleX;
-            float advance;
-            Line line = layout.getLine(ln);
-            line.glyphs.shrink();
-            LongArray glyphs = line.glyphs;
-            boolean curly = false, initial = true;
-            int kern = -1;
-            float amt;
-            line.height = currentHeight;
-            for (int i = 0, n = glyphs.size; i < n; i++) {
-                long glyph = glyphs.get(i);
-                char ch = (char) glyph;
-                advance = layout.advances.get(a);
-                a++;
-                if((glyph & ALTERNATE_MODES_MASK) == SMALL_CAPS) ch = Category.caseUp(ch);
-                if(omitCurlyBraces) {
-                    if (curly) {
-                        if (ch == '}') {
-                            curly = false;
-                            continue;
-                        } else if (ch == '{')
-                            curly = false;
-                        else continue;
-                    } else if (ch == '{') {
-                        curly = true;
+        int ln = -1;
+        LongArray glyphs = layout.glyphs;
+        float drawn = 0f;
+        float scaleX;
+        float advance;
+        boolean curly = false;
+        boolean initial = true;
+        float amt;
+        int kern = -1;
+        for (int i = 0, n = glyphs.size; i < n; i++) {
+            if (ln < layout.lineStarts.size && i == layout.lineStarts.get(ln + 1)) {
+                drawn = 0f;
+                curly = false;
+                initial = true;
+                kern = -1;
+                layout.setLineHeight(ln, currentHeight);
+                ln++;
+            } else {
+                initial = false;
+            }
+            long glyph = glyphs.get(i);
+            char ch = (char) glyph;
+            advance = layout.advances.get(a);
+            a++;
+            if ((glyph & ALTERNATE_MODES_MASK) == SMALL_CAPS) ch = Category.caseUp(ch);
+            if (omitCurlyBraces) {
+                if (curly) {
+                    if (ch == '}') {
+                        curly = false;
                         continue;
-                    }
-                }
-                Font font = null;
-                if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
-                if (font == null) font = this;
-                GlyphRegion tr = font.mapping.get(ch);
-                if (tr == null) continue;
-                if (font.kerning != null) {
-                    kern = kern << 16 | ch;
-                    if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = advance * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
-                    else
-                        scaleX = font.scaleX * advance * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
-                    if(ch != ' ')
-                        line.height = Math.max(line.height, (currentHeight = font.cellHeight * advance));
-                    amt = font.kerning.get(kern, 0) * scaleX;
-                    float changedW = tr.xAdvance * scaleX;
-                    if(Float.isNaN(tr.offsetX))
-                        changedW = font.cellWidth * advance;
-                    else if(initial && !font.isMono /* && !(ch >= '\uE000' && ch < '\uF800') */ ){
-                        float ox = tr.offsetX * scaleX;
-                        if(ox < 0) changedW -= ox;
-                    }
-                    initial = false;
-                    drawn += changedW + amt;
-                } else {
-                    if(ch != ' ')
-                        line.height = Math.max(line.height, (currentHeight = font.cellHeight * advance));
-                    if(ch >= 0xE000 && ch < 0xF800)
-                        scaleX = advance * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
-                    else
-                        scaleX = font.scaleX * advance * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
-                    float changedW = tr.xAdvance * scaleX;
-                    if(Float.isNaN(tr.offsetX))
-                        changedW = font.cellWidth * advance;
-                    else if(initial && !font.isMono /* && !(ch >= '\uE000' && ch < '\uF800') */ ){
-                        float ox = tr.offsetX * scaleX;
-                        if(ox < 0) changedW -= ox;
-                    }
-                    initial = false;
-                    drawn += changedW;
+                    } else if (ch == '{')
+                        curly = false;
+                    else continue;
+                } else if (ch == '{') {
+                    curly = true;
+                    continue;
                 }
             }
-            line.width = drawn;
+            Font font = null;
+            if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
+            if (font == null) font = this;
+            GlyphRegion tr = font.mapping.get(ch);
+            if (tr == null) continue;
+            if (font.kerning != null) {
+                kern = kern << 16 | ch;
+                if (ch >= 0xE000 && ch < 0xF800)
+                    scaleX = advance * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
+                else
+                    scaleX = font.scaleX * advance * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
+                if (ch != ' ')
+                    layout.setLineHeight(ln, Math.max(layout.getLineHeight(ln), (currentHeight = font.cellHeight * advance)));
+                amt = font.kerning.get(kern, 0) * scaleX;
+                float changedW = tr.xAdvance * scaleX;
+                if (Float.isNaN(tr.offsetX))
+                    changedW = font.cellWidth * advance;
+                else if (initial && !font.isMono /* && !(ch >= '\uE000' && ch < '\uF800') */) {
+                    float ox = tr.offsetX * scaleX;
+                    if (ox < 0) changedW -= ox;
+                }
+                drawn += changedW + amt;
+            } else {
+                if (ch != ' ')
+                    layout.setLineHeight(ln, Math.max(layout.getLineHeight(ln), (currentHeight = font.cellHeight * advance)));
+                if (ch >= 0xE000 && ch < 0xF800)
+                    scaleX = advance * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
+                else
+                    scaleX = font.scaleX * advance * ((glyph & SUPERSCRIPT) != 0L && !font.isMono ? 0.5f : 1.0f);
+                float changedW = tr.xAdvance * scaleX;
+                if (Float.isNaN(tr.offsetX))
+                    changedW = font.cellWidth * advance;
+                else if (initial && !font.isMono /* && !(ch >= '\uE000' && ch < '\uF800') */) {
+                    float ox = tr.offsetX * scaleX;
+                    if (ox < 0) changedW -= ox;
+                }
+                drawn += changedW;
+            }
+
+            layout.setLineWidth(ln, drawn);
             w = Math.max(w, drawn);
         }
         return layout.getWidth();
