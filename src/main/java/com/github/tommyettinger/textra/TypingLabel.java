@@ -1727,8 +1727,8 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Given a Layout, typically {@link #getWorkingLayout()}, and an index into that Layout, this returns the index of
-     * the Line in the Layout that holds the glyph at that index. With the line index, you can call
-     * {@link Layout#getLine(int)}.
+     * the Line in the Layout that holds the glyph at that index.
+     *
      * @param layout a Layout such as {@link #getWorkingLayout()}
      * @param index an index into the given Layout
      * @return the index of the Line in the Layout containing the given index; will be 0 if index is -1, or the last
@@ -1737,12 +1737,10 @@ public class TypingLabel extends TextraLabel {
     public int getLineIndexInLayout(Layout layout, int index) {
         if(index == -1) return 0;
         if(index == -2) return layout.lines() - 1;
-        LongArray glyphs = layout.glyphs;
-        int line = 0;
-        for (int i = 0; i < index; i++) {
-            if((glyphs.get(i) & 0xFFFF) == '\n') line++;
+        for (int i = 1, n = layout.lineStarts.size; i < n; i++) {
+            if(layout.lineStarts.get(i) > index) return i - 1;
         }
-        return line;
+        return layout.lines() - 1;
     }
 
     /**
