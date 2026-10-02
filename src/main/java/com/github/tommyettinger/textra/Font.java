@@ -8694,14 +8694,11 @@ public class Font implements Disposable {
     }
 
     /**
-     * Releases all resources of this object.
+     * Releases all resources of this object, which in this case is just {@link #whiteBlock}.
+     * This does not dispose the {@link #shader}, because that should be handled by the lifecycle in KnownFonts.
      */
     @Override
     public void dispose() {
-        if (shader != null) {
-            shader.dispose();
-            shader = null;
-        }
         if(whiteBlock != null) {
             whiteBlock.dispose();
             whiteBlock = null;
