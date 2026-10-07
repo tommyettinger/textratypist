@@ -162,7 +162,7 @@ public class Layout {
     public Layout add(long glyph, float scale, float advance, float offsetX, float offsetY, float rotation) {
         if (!atLimit) {
             if ((char)glyph == '\n') {
-                if (lineSizes.size >= maxLines + maxLines) {
+                if (lineStarts.size >= maxLines) {
                     atLimit = true;
                     return null;
                 }
@@ -240,7 +240,7 @@ public class Layout {
     }
 
     public float getWidth() {
-        if(justification != Justify.NONE && (lineSizes.size > 2 && !justification.ignoreLastLine)) return targetWidth;
+        if(justification != Justify.NONE && (lineStarts.size > 1 && !justification.ignoreLastLine)) return targetWidth;
         float w = 0;
         for (int i = 0, n = lineSizes.size; i < n; i+= 2) {
             w = Math.max(w, lineSizes.get(i));
@@ -294,7 +294,7 @@ public class Layout {
      * @return true if a new line was added, or false if this couldn't add a line because it has reached its limit
      */
     public boolean pushLineBare() {
-        if (lineSizes.size >= maxLines + maxLines) {
+        if (lineStarts.size >= maxLines) {
             atLimit = true;
             return false;
         }
