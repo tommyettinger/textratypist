@@ -108,9 +108,9 @@ public class Issue7508TextraTest extends ApplicationAdapter {
   public void create() {
 
     Gdx.app.setLogLevel(Application.LOG_DEBUG);
-    StringBuilder stringBuilder = new StringBuilder(100);
-    for (int i = 0; i < 10; i++) {
-      stringBuilder.append("aaaaaaaaa\n");
+    StringBuilder stringBuilder = new StringBuilder(15);
+    for (int i = 0; i < 3; i++) {
+      stringBuilder.append("aaaa\n");
     }
 
     String text = stringBuilder.toString();

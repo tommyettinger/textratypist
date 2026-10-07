@@ -5151,7 +5151,8 @@ public class Font implements Disposable {
                 curly = false;
                 initial = true;
                 kern = -1;
-                layout.setLineHeight(ln, currentHeight);
+                if(ln >= 0)
+                    layout.setLineHeight(ln, currentHeight);
                 ln++;
             } else {
                 initial = false;
@@ -8115,7 +8116,6 @@ public class Font implements Disposable {
         for (int ln = 0; ln < changing.lines(); ln++) {
             int currentLineStart = changing.lineStarts.get(ln);
             int a = currentLineStart;
-            float lineHeight = 0;
             float drawn = 0f, visibleWidth = 0f;
             int cutoff, breakPoint = -2, spacingPoint = -2;
             LongArray glyphs = changing.glyphs;
@@ -8123,12 +8123,11 @@ public class Font implements Disposable {
             float amt;
             int n = (ln + 1 == changing.lines()) ? glyphs.size : changing.lineStarts.get(ln + 1);
             int lineLength = n - a;
-            for (int i = a; i < n; i++) {
+            for (int i = a; i < n; i++, a++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
                 float advance = changing.advances.get(a);
                 float sizingY = changing.sizing.get(a << 1 | 1);
-                a++;
                 if (omitCurlyBraces && ch == '{') {
                     if (curly) {
                         curly = false;

@@ -119,6 +119,8 @@ public class Layout {
         if (this.font == null || !this.font.equals(font)) {
             this.font = font;
             glyphs.clear();
+            lineSizes.clear();
+            lineStarts.clear();
             lineSizes.add(0f, 0f);
             lineStarts.add(0);
         }
