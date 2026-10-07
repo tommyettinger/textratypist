@@ -448,103 +448,109 @@ public class TextraLabel extends Widget {
 
         float single;
 
-        for (int ln = 0; ln < lines; ln++) {
-            Line line = layout.getLine(ln);
+        Font f = null;
 
-            if (line.glyphs.size == 0)
-                continue;
+        int ln = -1;
+        int nextIndex = 0;
+        int kern = -1;
 
-            float lineWidth = line.width * getScaleX();
-            float lineHeight = line.height * getScaleY();
+        float lineWidth = 0, lineHeight = 0;
+        float x = 0, y = 0, fx = 0, fy = 0, worldOriginX = baseX, worldOriginY = baseY;
+        float xChange = 0, yChange = 0;
+        boolean curly = false;
 
-            baseX += sn * lineHeight;
-            baseY -= cs * lineHeight;
+        for (int i = 0, n = layout.glyphs.size; i < n; i++) {
+            if(i == nextIndex){
+                ++ln;
+                nextIndex = ln + 1 >= lines ? layout.countGlyphs() : layout.countGlyphsBeforeLine(ln + 1);
 
-            float x = baseX, y = baseY;
+                lineWidth = layout.getLineWidth(ln) * getScaleX();
+                lineHeight = layout.getLineHeight(ln) * getScaleY();
 
-            final float worldOriginX = x + originX;
-            final float worldOriginY = y + originY;
-            float fx = -originX;
-            float fy = -originY;
-            x = cs * fx - sn * fy + worldOriginX;
-            y = sn * fx + cs * fy + worldOriginY;
+                baseX += sn * lineHeight;
+                baseY -= cs * lineHeight;
 
-            if (Align.isCenterHorizontal(align)) {
-                x -= cs * (lineWidth * 0.5f);
-                y -= sn * (lineWidth * 0.5f);
-            } else if (Align.isRight(align)) {
-                x -= cs * lineWidth;
-                y -= sn * lineWidth;
+                worldOriginX = baseX + originX;
+                worldOriginY = baseY + originY;
+                fx = -originX;
+                fy = -originY;
+                x = cs * fx - sn * fy + worldOriginX;
+                y = sn * fx + cs * fy + worldOriginY;
+
+                if (Align.isCenterHorizontal(align)) {
+                    x -= cs * (lineWidth * 0.5f);
+                    y -= sn * (lineWidth * 0.5f);
+                } else if (Align.isRight(align)) {
+                    x -= cs * lineWidth;
+                    y -= sn * lineWidth;
+                }
+                x -= sn * (0.5f * lineHeight);
+                y += cs * (0.5f * lineHeight);
+
+                xChange = 0;
+                yChange = 0;
+                kern = -1;
+                curly = false;
             }
-            x -= sn * (0.5f * lineHeight);
-            y += cs * (0.5f * lineHeight);
-
-            float xChange = 0, yChange = 0;
-            Font f = null;
-            int kern = -1;
-            boolean curly = false;
-            int start = layout.countGlyphsBeforeLine(ln);
-            for (int i = 0, n = line.glyphs.size; i < n; i++) {
-                long glyph = line.glyphs.get(i);
-                char ch = (char) glyph;
-                if(font.omitCurlyBraces) {
-                    if (curly) {
-                        if (ch == '}') {
-                            curly = false;
-                            continue;
-                        } else if (ch == '{')
-                            curly = false;
-                        else continue;
-                    } else if (ch == '{') {
-                        curly = true;
+            long glyph = layout.glyphs.get(i);
+            char ch = (char) glyph;
+            if (font.omitCurlyBraces) {
+                if (curly) {
+                    if (ch == '}') {
+                        curly = false;
                         continue;
-                    }
+                    } else if (ch == '{')
+                        curly = false;
+                    else continue;
+                } else if (ch == '{') {
+                    curly = true;
+                    continue;
                 }
-
-                if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
-                if (f == null) f = font;
-                int even = start + i << 1, odd = even | 1;
-                float a = getAdvances().get(start + i) * getScaleX();
-                float halfWidth = f.cellWidth * 0.5f * getScaleX();
-
-                if (i == 0) {
-                    x -= halfWidth;
-
-                    x += cs * halfWidth;
-                    y += sn * halfWidth;
-
-                    if(font.integerPosition){
-                        x = (int)x;
-                        y = (int)y;
-                    }
-
-                    Font.GlyphRegion reg = font.mapping.get((char) glyph);
-                    if (reg != null && reg.offsetX < 0 && !font.isMono) {
-                        float ox = reg.offsetX * f.scaleX * a;
-                        xChange -= cs * ox;
-                        yChange -= sn * ox;
-                    }
-                }
-
-                if (f.kerning != null) {
-                    kern = kern << 16 | (int) ((glyph = line.glyphs.get(i)) & 0xFFFF);
-                    float amt = f.kerning.get(kern, 0) * f.scaleX * a;
-                    xChange += cs * amt;
-                    yChange += sn * amt;
-                } else {
-                    kern = -1;
-                }
-                bgc = 0;
-                float xx = x + xChange + getOffsets().get(even) * getScaleX(), yy = y + yChange + getOffsets().get(odd) * getScaleY();
-                if(font.integerPosition){
-                    xx = (int)xx;
-                    yy = (int)yy;
-                }
-
-                single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(start + i) + rot, getSizing().get(even) * getScaleX(), getSizing().get(odd) * getScaleY(), bgc, a);
-                xChange += cs * single;
-                yChange += sn * single;
             }
+
+            if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
+            if (f == null) f = font;
+            int even = i << 1, odd = even | 1;
+            float a = getAdvances().get(i) * getScaleX();
+            float halfWidth = f.cellWidth * 0.5f * getScaleX();
+
+            if (i == 0) {
+                x -= halfWidth;
+
+                x += cs * halfWidth;
+                y += sn * halfWidth;
+
+                if (font.integerPosition) {
+                    x = (int) x;
+                    y = (int) y;
+                }
+
+                Font.GlyphRegion reg = font.mapping.get((char) glyph);
+                if (reg != null && reg.offsetX < 0 && !font.isMono) {
+                    float ox = reg.offsetX * f.scaleX * a;
+                    xChange -= cs * ox;
+                    yChange -= sn * ox;
+                }
+            }
+
+            if (f.kerning != null) {
+                kern = kern << 16 | (int) (glyph & 0xFFFF);
+                float amt = f.kerning.get(kern, 0) * f.scaleX * a;
+                xChange += cs * amt;
+                yChange += sn * amt;
+            } else {
+                kern = -1;
+            }
+            bgc = 0;
+            float xx = x + xChange + getOffsets().get(even) * getScaleX(), yy = y + yChange + getOffsets().get(odd) * getScaleY();
+            if (font.integerPosition) {
+                xx = (int) xx;
+                yy = (int) yy;
+            }
+
+            single = f.drawGlyph(batch, glyph, xx, yy, getRotations().get(i) + rot, getSizing().get(even) * getScaleX(), getSizing().get(odd) * getScaleY(), bgc, a);
+            xChange += cs * single;
+            yChange += sn * single;
         }
 
         if (resetShader)
