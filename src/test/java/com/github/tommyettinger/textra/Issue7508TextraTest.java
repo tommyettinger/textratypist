@@ -71,6 +71,16 @@ With shrink() in calculateSize():
 [MEMORY] Java heap:
 16403592, Native heap: 16403592
 
+With major huge probably breaking removal of Line and its whole story:
+[MEMORY] text size: 100000 bytes
+[MEMORY] ThreadMXBean reports font16 uses
+34701640 bytes.
+[MEMORY] ThreadMXBean reports label uses
+10312432 bytes.
+[MEMORY] Java heap:
+9344504, Native heap: 9344504
+[MEMORY] Java heap:
+9435160, Native heap: 9435160
 
  */
 public class Issue7508TextraTest extends ApplicationAdapter {
@@ -108,9 +118,9 @@ public class Issue7508TextraTest extends ApplicationAdapter {
   public void create() {
 
     Gdx.app.setLogLevel(Application.LOG_DEBUG);
-    StringBuilder stringBuilder = new StringBuilder(15);
-    for (int i = 0; i < 3; i++) {
-      stringBuilder.append("aaaa\n");
+    StringBuilder stringBuilder = new StringBuilder(100_000);
+    for (int i = 0; i < 10_000; i++) {
+      stringBuilder.append("aaaaaaaaa\n");
     }
 
     String text = stringBuilder.toString();
