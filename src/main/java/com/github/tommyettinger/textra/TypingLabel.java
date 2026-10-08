@@ -655,20 +655,8 @@ public class TypingLabel extends TextraLabel {
 
         workingLayout.atLimit = false;
 
-//        // Reset cache collections
-//        Line first = workingLayout.lines.first();
-//        first.glyphs.clear();
-//        first.width = first.height = 0;
-//        workingLayout.lines.clear();
-//        workingLayout.lines.add(first);
-//        activeEffects.clear();
-
         // Reset state
-//        textSpeed = TypingConfig.DEFAULT_SPEED_PER_CHAR;
         charCooldown = textSpeed;
-//        rawCharIndex = -2;
-//        glyphCharIndex = -1;
-//        glyphCharCompensation = 0;
         parsed = false;
         paused = false;
         ended = false;
@@ -1268,154 +1256,154 @@ public class TypingLabel extends TextraLabel {
                         inX < getX() ? -1 : inX > getX() + getWidth() ? -2 : -1;
             overIndex = -1;
         }
+        int ln = -1;
+        int nextIndex = 0;
+        int kern = -1;
 
         float single, tempBaseX = baseX, tempBaseY = baseY;
         int toSkip = 0;
-        boolean curly = false;
+        float lineWidth = 0, lineHeight = 0;
+        float x = 0, y = 0, fx = 0, fy = 0, worldOriginX = baseX, worldOriginY = baseY;
+        float xChange = 0, yChange = 0;
+        float selectionDrawStartX = 0f, selectionDrawStartY = 0f;
+        float selectionWidth = 0f;
+        boolean curly = false, initial = true;
+
+        Font f = null;
 
         if(selectable && selectionDrawable != null) {
-            if(selectionEnd >= 0 && selectionEnd >= selectionStart) {
-                SELECTION_LINE:
-                for (int ln = 0; ln < lines; ln++) {
-                    Line line = workingLayout.getLine(ln);
+            if (selectionEnd >= 0 && selectionEnd >= selectionStart) {
+                for (int i = 0,
+                     n = Math.min(layout.glyphs.size, endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex));
+                     i < n; i++) {
+                    if (i < startIndex) continue;
+                    if (i >= nextIndex) {
+                        ++ln;
+                        nextIndex = ln + 1 >= lines ? layout.countGlyphs() : layout.countGlyphsBeforeLine(ln + 1);
 
-                    if (line.glyphs.size == 0 || (toSkip += line.glyphs.size) < startIndex)
-                        continue;
+                        selectionDrawStartX = 0f;
+                        selectionDrawStartY = 0f;
+                        selectionWidth = 0f;
 
-                    float selectionDrawStartX = 0f, selectionDrawStartY = 0f;
-                    float selectionWidth = 0f;
+                        lineWidth = layout.getLineWidth(ln) * getScaleX();
+                        lineHeight = layout.getLineHeight(ln) * getScaleY();
+                        tempBaseX += sn * lineHeight;
+                        tempBaseY -= cs * lineHeight;
 
-                    float lineWidth = line.width * getScaleX();
-                    float lineHeight = line.height * getScaleY();
-                    tempBaseX += sn * lineHeight;
-                    tempBaseY -= cs * lineHeight;
+                        worldOriginX = tempBaseX + originX;
+                        worldOriginY = tempBaseY + originY;
+                        fx = -originX;
+                        fy = -originY;
+                        x = cs * fx - sn * fy + worldOriginX;
+                        y = sn * fx + cs * fy + worldOriginY;
 
-                    float x = tempBaseX, y = tempBaseY;
+                        xChange = 0;
+                        yChange = 0;
+                        kern = -1;
 
-                    final float worldOriginX = x + originX;
-                    final float worldOriginY = y + originY;
-                    float fx = -originX;
-                    float fy = -originY;
-                    x = cs * fx - sn * fy + worldOriginX;
-                    y = sn * fx + cs * fy + worldOriginY;
+                        if (Align.isCenterHorizontal(align)) {
+                            x -= cs * (lineWidth * 0.5f);
+                            y -= sn * (lineWidth * 0.5f);
+                        } else if (Align.isRight(align)) {
+                            x -= cs * lineWidth;
+                            y -= sn * lineWidth;
+                        }
 
-                    float xChange = 0, yChange = 0;
-
-                    if (Align.isCenterHorizontal(align)) {
-                        x -= cs * (lineWidth * 0.5f);
-                        y -= sn * (lineWidth * 0.5f);
-                    } else if (Align.isRight(align)) {
-                        x -= cs * lineWidth;
-                        y -= sn * lineWidth;
+                        f = null;
+                        initial = true;
                     }
+                    long glyph = layout.glyphs.get(i);
+                    char ch = (char) glyph;
+                    if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
+                    if (f == null) f = font;
+                    float descent = f.descent * f.scaleY * getScaleY();
 
-                    Font f = null;
-                    int kern = -1,
-                            start = (toSkip - line.glyphs.size < startIndex) ? startIndex - (toSkip - line.glyphs.size) : 0,
-                            end = endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex - 1);
-                    for (int i = start, n = line.glyphs.size,
-                         lim = Math.min(Math.min(Math.min(getRotations().size, getAdvances().size), getOffsets().size >> 1), getSizing().size >> 1);
-                         i < n && r < lim; i++, gi++) {
-                        if (gi > end) break SELECTION_LINE;
-                        long glyph = line.glyphs.get(i);
-                        char ch = (char) glyph;
-                        if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
-                        if (f == null) f = font;
-                        float descent = f.descent * f.scaleY * getScaleY();
-
-                        if(font.omitCurlyBraces) {
-                            if (curly) {
-                                if(i == start)
-                                    start++;
-                                if (ch == '}') {
-                                    curly = false;
-                                    continue;
-                                } else if (ch == '{') {
-                                    curly = false;
-                                }
-                                else continue;
-                            } else if (ch == '{') {
-                                curly = true;
-                                if(i == start)
-                                    start++;
+                    if (font.omitCurlyBraces) {
+                        if (curly) {
+                            if (ch == '}') {
+                                curly = false;
                                 continue;
-                            }
+                            } else if (ch == '{') {
+                                curly = false;
+                            } else continue;
+                        } else if (ch == '{') {
+                            curly = true;
+                            continue;
                         }
-
-                        float a = getAdvances().get(r) * getScaleX();
-
-                        Font.GlyphRegion reg = f.mapping.get((char) glyph);
-                        if(reg == null) reg = f.mapping.get(' ');
-                        if(reg == null) continue;
-
-                        if (i == start) {
-                            float halfWidth = f.cellWidth * 0.5f * getScaleX();
-                            x -= halfWidth;
-
-                            x += cs * halfWidth;
-                            y += sn * halfWidth;
-
-                            y += descent;
-                            x += sn * descent;
-                            y -= cs * descent;
-
-                            if (reg.offsetX < 0 && !f.isMono && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {
-                                float ox = reg.offsetX;
-                                ox *= f.scaleX * a;
-                                if (ox < 0) {
-                                    xChange -= cs * ox;
-                                    yChange -= sn * ox;
-                                }
-                            }
-
-                        }
-
-                        if (f.kerning != null) {
-                            kern = kern << 16 | (ch & 0xFFFF);
-                            float amt = f.kerning.get(kern, 0) * f.scaleX * a;
-                            xChange += cs * amt;
-                            yChange += sn * amt;
-                        } else {
-                            kern = -1;
-                        }
-                        ++globalIndex;
-                        if (selectionEnd < globalIndex)
-                            break;
-                        float xx = x + xChange + getOffsets().get(o++) * getScaleX(), yy = y + yChange + getOffsets().get(o++) * getScaleY();
-                        if (f.integerPosition) {
-                            xx = (int) xx;
-                            yy = (int) yy;
-                        }
-
-                        float scaleX;
-                        if(ch >= 0xE000 && ch < 0xF800)
-                            scaleX = a * f.cellHeight / reg.getMaxDimension() * f.inlineImageStretch;
-                        else
-                            scaleX = f.scaleX * a * ((glyph & Font.SUPERSCRIPT) != 0L && !f.isMono ? 0.5f : 1.0f);
-                        single = reg.xAdvance * scaleX;
-                        if(Float.isNaN(reg.offsetX))
-                            single = f.cellWidth * a;
-                        else if(i == start && !f.isMono){
-                            float ox = reg.offsetX * scaleX;
-                            if(ox < 0) single -= ox;
-                        }
-
-
-                        r++;
-                        if(selectionWidth == 0f)
-                        {
-                            selectionDrawStartX = xx;
-                            selectionDrawStartY = yy;
-                        }
-                        if (selectionStart <= globalIndex)
-                            selectionWidth += single;
-                        xChange += cs * single;
-                        yChange += sn * single;
                     }
-                    // draw one selection drawable
-                    if(selectionWidth > 0f)
-                        selectionDrawable.draw(batch, selectionDrawStartX, selectionDrawStartY, selectionWidth, line.height);
+
+                    float a = getAdvances().get(r) * getScaleX();
+
+                    Font.GlyphRegion reg = f.mapping.get((char) glyph);
+                    if (reg == null) reg = f.mapping.get(' ');
+                    if (reg == null) continue;
+
+                    if (initial) {
+                        initial = false;
+                        float halfWidth = f.cellWidth * 0.5f * getScaleX();
+                        x -= halfWidth;
+
+                        x += cs * halfWidth;
+                        y += sn * halfWidth;
+
+                        y += descent;
+                        x += sn * descent;
+                        y -= cs * descent;
+
+                        if (reg.offsetX < 0 && !f.isMono && !((char) glyph >= '\uE000' && (char) glyph < '\uF800')) {
+                            float ox = reg.offsetX;
+                            ox *= f.scaleX * a;
+                            if (ox < 0) {
+                                xChange -= cs * ox;
+                                yChange -= sn * ox;
+                            }
+                        }
+
+                    }
+
+                    if (f.kerning != null) {
+                        kern = kern << 16 | (ch & 0xFFFF);
+                        float amt = f.kerning.get(kern, 0) * f.scaleX * a;
+                        xChange += cs * amt;
+                        yChange += sn * amt;
+                    } else {
+                        kern = -1;
+                    }
+                    if (selectionEnd <= i)
+                        break;
+                    float xx = x + xChange + getOffsets().get(o++) * getScaleX(), yy = y + yChange + getOffsets().get(o++) * getScaleY();
+                    if (f.integerPosition) {
+                        xx = (int) xx;
+                        yy = (int) yy;
+                    }
+
+                    float scaleX;
+                    if (ch >= 0xE000 && ch < 0xF800)
+                        scaleX = a * f.cellHeight / reg.getMaxDimension() * f.inlineImageStretch;
+                    else
+                        scaleX = f.scaleX * a * ((glyph & Font.SUPERSCRIPT) != 0L && !f.isMono ? 0.5f : 1.0f);
+                    single = reg.xAdvance * scaleX;
+                    if (Float.isNaN(reg.offsetX))
+                        single = f.cellWidth * a;
+                    else if (xChange <= 0 && !f.isMono) {
+                        float ox = reg.offsetX * scaleX;
+                        if (ox < 0) single -= ox;
+                    }
+
+
+                    r++;
+                    if (selectionWidth == 0f) {
+                        selectionDrawStartX = xx;
+                        selectionDrawStartY = yy;
+                    }
+                    if (selectionStart <= i)
+                        selectionWidth += single;
+                    xChange += cs * single;
+                    yChange += sn * single;
                 }
+                // draw one selection drawable
+                if (selectionWidth > 0f)
+                    selectionDrawable.draw(batch, selectionDrawStartX, selectionDrawStartY, selectionWidth, layout.getLineHeight(ln));
             }
         }
 
