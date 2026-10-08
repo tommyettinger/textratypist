@@ -86,13 +86,13 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 		Button imgButton = new Button(new Image(image), skin);
 		Button imgToggleButton = new Button(new Image(image), skin, "toggle");
 
-		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering[+saxophone][+clown face][+saxophone]", skin, font);
-		checkBox.setChecked(true);
+//		final TextraCheckBox checkBox = new TextraCheckBox(" Continuous rendering[+saxophone][+clown face][+saxophone]", skin, font);
+//		checkBox.setChecked(true);
 		final Slider slider = new Slider(0, 10, 1, false, skin);
 		slider.setAnimateDuration(0.3f);
-		TextraLabel minSizeLabel = new TextraLabel("[@Medieval]ginWidth cell", skin, font);
-		Table rightSideTable = new Table(skin);
-		rightSideTable.add(minSizeLabel).growX().row();
+//		TextraLabel minSizeLabel = new TextraLabel("[@Medieval]ginWidth cell", skin, font);
+//		Table rightSideTable = new Table(skin);
+//		rightSideTable.add(minSizeLabel).growX().row();
 
 		buttonMulti.addListener(new TextraTooltip(
 			"This is a tooltip! [~]This is a tooltip! [_]This is a tooltip! [/]This is a tooltip![~] This is a tooltip![_] This is a tooltip!",
@@ -114,10 +114,10 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 		window.add(imgButton);
 		window.add(imgToggleButton);
 		window.row();
-		window.add(checkBox);
+//		window.add(checkBox);
 		window.add(slider).minWidth(100).fillX().colspan(3);
-		window.row();
-		window.add(rightSideTable).fill().expand().colspan(4).maxHeight(200);
+//		window.row();
+//		window.add(rightSideTable).fill().expand().colspan(4).maxHeight(200);
 		window.pack();
 
 		// stage.addActor(new Button("Behind Window", skin));
@@ -140,11 +140,11 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 			}
 		});
 
-		checkBox.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				Gdx.graphics.setContinuousRendering(checkBox.isChecked());
-			}
-		});
+//		checkBox.addListener(new ChangeListener() {
+//			public void changed (ChangeEvent event, Actor actor) {
+//				Gdx.graphics.setContinuousRendering(checkBox.isChecked());
+//			}
+//		});
 	}
 
 	@Override

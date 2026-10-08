@@ -5144,6 +5144,10 @@ public class Font implements Disposable {
      * @return the total width of the measured Layout, as a float
      */
     public float calculateSize(Layout layout) {
+        System.out.println(layout);
+        System.out.println("lineStarts: " + layout.lineStarts);
+        System.out.println("lineSizes: " + layout.lineSizes);
+        System.out.println("targetWidth: " + layout.targetWidth);
         float w = 0f;
         float currentHeight = 0f;
         int a = 0;
@@ -8120,11 +8124,17 @@ public class Font implements Disposable {
         Font font = null;
         float scaleX;
         float targetWidth = changing.getTargetWidth();
+        if(targetWidth <= 0f) targetWidth = Float.MAX_VALUE;
         boolean curly = false;
         changing.lineSizes.clear();
         changing.lineSizes.add(0f, 0f);
 
-        for (int ln = 0; ln < changing.lines(); ln++) {
+        for (int ln = 0; ln < changing.lineSizes.size >>> 1; ln++) {
+            if(ln >= changing.lineStarts.size){
+                changing.lineSizes.pop();
+                changing.lineSizes.pop();
+                break;
+            }
             int currentLineStart = changing.lineStarts.get(ln);
             int a = currentLineStart;
             float drawn = 0f, visibleWidth = 0f;
@@ -8196,7 +8206,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        changing.setLineHeight(ln + 1, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
+                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
 
 
 //                        long[] arr = next.glyphs.setSize(nextSize + lineLength - cutoff);
@@ -8221,7 +8231,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        changing.setLineHeight(ln + 1, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
+                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
 
 //                        int nextSize = next.glyphs.size;
 //                        long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
@@ -8242,7 +8252,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        changing.setLineHeight(ln + 1, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
+                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
 
 
 //                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
@@ -8335,7 +8345,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        changing.setLineHeight(ln + 1, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
+                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
 
 //                        long[] arr = next.glyphs.setSize(nextSize + lineLength - cutoff);
 //                        System.arraycopy(arr, 0, arr, lineLength - cutoff, nextSize);
@@ -8359,7 +8369,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        changing.setLineHeight(ln + 1, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
+                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
 
 //                        int nextSize = next.glyphs.size;
 //                        long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
@@ -8380,7 +8390,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        changing.setLineHeight(ln + 1, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
+                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
 
 //                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
 //                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
