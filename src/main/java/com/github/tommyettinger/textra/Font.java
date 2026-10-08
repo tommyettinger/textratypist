@@ -5146,7 +5146,7 @@ public class Font implements Disposable {
         float amt;
         int kern = -1;
         for (int i = 0, n = glyphs.size; i < n; i++) {
-            if (ln < layout.lineStarts.size && i == layout.lineStarts.get(ln + 1)) {
+            if (ln + 1 < layout.lineStarts.size && i == layout.lineStarts.get(ln + 1)) {
                 drawn = 0f;
                 curly = false;
                 initial = true;
