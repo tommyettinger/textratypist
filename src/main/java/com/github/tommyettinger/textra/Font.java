@@ -1041,6 +1041,8 @@ public class Font implements Disposable {
     /**
      * The emSize loaded from a JSON file or the line height loaded from a .fnt file.
      * This is not necessarily used at all by the Font normally, but knowing it can be helpful for some fonts.
+     * To get the lineHeight from a JSON file, you can use {@link #lineHeightInFile}. The em size isn't stored
+     * in .fnt files.
      */
     public float sizeInFile;
     /**
@@ -1064,6 +1066,13 @@ public class Font implements Disposable {
      * This is not necessarily used at all by the Font normally, but knowing it can be helpful for some fonts.
      */
     public float strikeYInFile;
+    /**
+     * The lineHeight loaded from a JSON or .fnt file.
+     * This is not necessarily used at all by the Font normally, but knowing it can be helpful for some fonts.
+     * Normally, JSON files don't load this and use {@code 1.25f * size + heightAdjust}, where size is loaded from the
+     * JSON and heightAdjust is a parameter to loadJSON, instead for all Fonts.
+     */
+    public float lineHeightInFile;
 
     /**
      * A char that will be used to draw solid blocks with {@link #drawBlocks(Batch, int[][], float, float)}, and to draw
@@ -2858,6 +2867,7 @@ public class Font implements Disposable {
         int padLeft = StringUtils.intFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "lineHeight=", idx+1));
 
         sizeInFile = StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "base=", idx));
+        lineHeightInFile = sizeInFile;
         float baseline = StringUtils.floatFromDec(fnt, idx, idx = StringUtils.indexAfter(fnt, "pages=", idx));
         descenderInFile = baseline - sizeInFile;
         ascenderInFile = sizeInFile - baseline;
@@ -3400,9 +3410,10 @@ public class Font implements Disposable {
         descenderInFile  = metrics.getFloat("descender", -0.25f);
         underlineYInFile = metrics.getFloat("underlineY", -0.05f);
         strikeYInFile    = metrics.getFloat("strikeY", 0.15f);
+        lineHeightInFile = metrics.getFloat("lineHeight", 1f);
 
         descent = size * -0.25f;
-        originalCellHeight = cellHeight = heightAdjust - descent + size;// * metrics.getFloat("lineHeight", 1f);
+        originalCellHeight = cellHeight = heightAdjust - descent + size;
 
         underY = 0.05f;
         strikeY = 0.15f;
