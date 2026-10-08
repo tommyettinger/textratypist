@@ -450,7 +450,7 @@ public class TextraLabel extends Widget {
         float lineWidth = 0, lineHeight = 0;
         float x = 0, y = 0, fx = 0, fy = 0, worldOriginX = baseX, worldOriginY = baseY;
         float xChange = 0, yChange = 0;
-        boolean curly = false;
+        boolean curly = false, initial = true;
 
         for (int i = 0, n = layout.glyphs.size; i < n; i++) {
             if(i == nextIndex){
@@ -484,6 +484,7 @@ public class TextraLabel extends Widget {
                 yChange = 0;
                 kern = -1;
                 curly = false;
+                initial = true;
             }
             long glyph = layout.glyphs.get(i);
             char ch = (char) glyph;
@@ -507,7 +508,8 @@ public class TextraLabel extends Widget {
             float a = getAdvances().get(i) * getScaleX();
             float halfWidth = f.cellWidth * 0.5f * getScaleX();
 
-            if (xChange <= 0) {
+            if (initial) {
+                initial = false;
                 x -= halfWidth;
 
                 x += cs * halfWidth;
