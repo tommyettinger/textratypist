@@ -837,14 +837,7 @@ public class TextraLabel extends Widget {
      * @return the glyph, if it was found, or 16777215 (0xFFFFFF in hexadecimal) if the index was out of bounds
      */
     public long getGlyph(int index) {
-        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
-            LongArray glyphs = layout.getLine(i).glyphs;
-            if (index < glyphs.size)
-                return glyphs.get(index);
-            else
-                index -= glyphs.size;
-        }
-        return 0xFFFFFFL;
+        return index >= 0 && index < layout.glyphs.size ? layout.glyphs.get(index) : 0xFFFFFFL;
     }
 
     /**
@@ -897,33 +890,8 @@ public class TextraLabel extends Widget {
      */
     public String substring(int start, int end) {
         start = Math.max(0, start);
-        end = Math.min(layout.advances.size, end);
-        int index = start;
-        StringBuilder sb = new StringBuilder(end - start);
-        int glyphCount = 0;
-        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
-            LongArray glyphs = layout.getLine(i).glyphs;
-            if (index < glyphs.size) {
-                for (int fin = index - start - glyphCount + end; index < fin && index < glyphs.size; index++) {
-                    char c = (char) glyphs.get(index);
-                    if (c >= '\uE000' && c <= '\uF800') {
-                        String name = font.namesByCharCode.get(c);
-                        if (name != null) sb.append(name);
-                        else sb.append(c);
-                    } else {
-                        if (c == '\u0002') sb.append('[');
-                        else if(c != '\u200B') sb.append(c); // do not print zero-width space
-                    }
-                    glyphCount++;
-                }
-                if(glyphCount == end - start)
-                    return sb.toString();
-                index = 0;
-            }
-            else
-                index -= glyphs.size;
-        }
-        return "";
+        end = Math.min(Math.max(layout.glyphs.size, start), end);
+        return layout.appendSubstringInto(new StringBuilder(end - start), start, end).toString();
     }
 
     /**
