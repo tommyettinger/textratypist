@@ -439,13 +439,6 @@ public class TextraLabel extends Widget {
         batch.getColor().set(getColor()).a *= parentAlpha;
         batch.setColor(batch.getColor());
 
-//        baseX -= 0.5f * font.cellWidth;
-//
-//        baseX += cs * 0.5f * font.cellWidth;
-//        baseY += sn * 0.5f * font.cellWidth;
-//        baseX -= sn * 0.5f * (font.cellHeight);
-//        baseY += cs * 0.5f * (font.cellHeight);
-
         float single;
 
         Font f = null;
@@ -514,7 +507,7 @@ public class TextraLabel extends Widget {
             float a = getAdvances().get(i) * getScaleX();
             float halfWidth = f.cellWidth * 0.5f * getScaleX();
 
-            if (i == 0) {
+            if (xChange <= 0) {
                 x -= halfWidth;
 
                 x += cs * halfWidth;
