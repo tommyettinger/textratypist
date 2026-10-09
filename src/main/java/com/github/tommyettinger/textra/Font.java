@@ -8210,7 +8210,7 @@ public class Font implements Disposable {
 //                        System.arraycopy(arr, 0, arr, lineLength - cutoff, nextSize);
 //                        System.arraycopy(glyphs.items, cutoff, arr, 0, lineLength - cutoff);
 //                        glyphs.truncate(cutoff);
-                        changing.lineStarts.set(ln + 1, currentLineStart + cutoff);
+                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, currentLineStart + cutoff);
                         break;
                     } else if(breakPoint < 0 && i > 0 && visibleWidth > targetWidth){
                         cutoff = i;
@@ -8237,7 +8237,7 @@ public class Font implements Disposable {
 //                        System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
 //                        System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
 //                        glyphs.truncate(cutoff);
-                        changing.lineStarts.set(ln + 1, currentLineStart + cutoff);
+                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, currentLineStart + cutoff);
                         break;
                     }
 
@@ -8259,7 +8259,7 @@ public class Font implements Disposable {
 //                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
 //                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
 //                        glyphs.truncate(i);
-                        changing.lineStarts.set(ln + 1, a+1);
+                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, a+1);
                         glyphs.set(a, applyChar(lineLength == 0 ? 0L : glyphs.peek(), '\n'));
                         break;
                     }
@@ -8356,7 +8356,7 @@ public class Font implements Disposable {
 //                        System.arraycopy(arr, 0, arr, lineLength - cutoff, nextSize);
 //                        System.arraycopy(glyphs.items, cutoff, arr, 0, lineLength - cutoff);
 //                        glyphs.truncate(cutoff);
-                        changing.lineStarts.set(ln + 1, currentLineStart + cutoff);
+                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, currentLineStart + cutoff);
                         break;
                     } else if(breakPoint < 0 && i > 0 && visibleWidth > targetWidth) {
                         cutoff = i;
@@ -8383,7 +8383,7 @@ public class Font implements Disposable {
 //                        System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
 //                        System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
 //                        glyphs.truncate(cutoff);
-                        changing.lineStarts.set(ln + 1, currentLineStart + cutoff);
+                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, currentLineStart + cutoff);
                         break;
 
                     }
@@ -8404,7 +8404,7 @@ public class Font implements Disposable {
 //                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
 //                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
 //                        glyphs.truncate(i);
-                        changing.lineStarts.set(ln + 1, a+1);
+                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, a+1);
                         glyphs.set(a, applyChar(lineLength == 0 ? 0L : glyphs.peek(), '\n'));
                         break;
                     }
