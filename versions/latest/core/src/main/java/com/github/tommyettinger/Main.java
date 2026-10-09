@@ -5,13 +5,11 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.github.tommyettinger.textra.Font;
-import com.github.tommyettinger.textra.KnownFonts;
-import com.github.tommyettinger.textra.Styles;
-import com.github.tommyettinger.textra.TextraButton;
+import com.github.tommyettinger.textra.*;
 
 public class Main extends ApplicationAdapter {
     private Stage uiStage;
@@ -21,18 +19,30 @@ public class Main extends ApplicationAdapter {
     public void create() {
         Gdx.app.setLogLevel(Application.LOG_ERROR);
         uiStage = new Stage(new ScreenViewport());
+        Table table = new Table();
+        table.setFillParent(true);
         Styles.TextButtonStyle style = new Styles.TextButtonStyle();
         font = KnownFonts.getRobotoCondensed(Font.DistanceFieldType.MSDF);
-        font.scale(4.0f);
         style.font = font;
         TextraButton textraButton = new TextraButton("EXIT THE APP!", style);
-        uiStage.addActor(textraButton);
         textraButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
             }
         });
+
+        String text = "{IF=PRONOUNS;1=Funcionária do mês;2=Funcionário do mês;Funcionárie do mês}";
+        TypingLabel label1 = new TypingLabel(text + " should be " + "Funcionária do mês", font); label1.setVariable("PRONOUNS", "1");
+        TypingLabel label2 = new TypingLabel(text + " should be " + "Funcionário do mês", font); label2.setVariable("PRONOUNS", "2");
+        TypingLabel label3 = new TypingLabel(text + " should be " + "Funcionárie do mês", font); label3.setVariable("PRONOUNS", "3");
+        table.add(label1).row();
+        table.add(label2).row();
+        table.add(label3).row();
+        table.add(textraButton);
+
+        uiStage.addActor(table);
+
         Gdx.input.setInputProcessor(uiStage);
     }
 
