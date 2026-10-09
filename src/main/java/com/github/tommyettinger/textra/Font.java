@@ -5248,35 +5248,40 @@ public class Font implements Disposable {
     public float justify(Layout layout) {
         if(layout.justification == Justify.NONE) return layout.getWidth();
         int lineCount = layout.lines();
+        LongArray glyphs = layout.glyphs;
+
         PER_LINE:
-        for (int l = 0; l < lineCount; l++) {
-            Line currentLine = layout.getLine(l);
-            if(layout.justification.ignoreLastLine && (l + 1 == lineCount || (currentLine.glyphs.isEmpty() || (char)currentLine.glyphs.peek() == '\n'))) {
+        for (int ln = 0; ln < lineCount; ln++) {
+            int start = layout.lineStarts.get(ln);
+            int a = start;
+            int n = (ln + 1 == lineCount) ? glyphs.size : layout.lineStarts.get(ln + 1);
+            int lineLength = n - a;
+
+            if(layout.justification.ignoreLastLine && (ln + 1 == lineCount || glyphs.isEmpty() || ((char)glyphs.get(n - 1) == '\n'))) {
                 continue;
             }
-            int start = layout.countGlyphsBeforeLine(l);
             if(layout.justification.affectAllGlyphs) {
                 Font font = null;
-                int lastIndex = currentLine.glyphs.size - 1;
-                long glyph = currentLine.glyphs.get(lastIndex);
+                int lastIndex = n - 1;
+                long glyph = glyphs.get(lastIndex);
                 while ((char)glyph == '\n' || (char)glyph == ' ') {
                     --lastIndex;
-                    if(lastIndex < 0) continue PER_LINE;
-                    glyph = currentLine.glyphs.get(lastIndex);
+                    if(lastIndex < start) continue PER_LINE;
+                    glyph = glyphs.get(lastIndex);
                 }
                 if (family != null) font = family.connected[(int) (glyph >>> 16 & 15)];
                 if (font == null) font = this;
                 float lastAdvance = xAdvance(font, font.scaleX * layout.advances.get(start + lastIndex), glyph);
-                float multiplier = (layout.targetWidth - lastAdvance) / (currentLine.width - lastAdvance);
-                for (int g = 0, n = lastIndex; g < n; g++) {
+                float multiplier = (layout.targetWidth - lastAdvance) / (layout.getLineWidth(ln) - lastAdvance);
+                for (int g = 0, lim = lastIndex; g < lim; g++) {
                     layout.advances.mul(start + g, multiplier);
                 }
-                if(currentLine.glyphs.size > 1) currentLine.width = layout.targetWidth;
+                if(lineLength > 1) layout.setLineWidth(ln, layout.targetWidth);
             }
             else if(layout.justification.affectSpaces) {
                 float sumWidth = 0f;
-                for (int g = 0, n = currentLine.glyphs.size - 1; g < n; g++) {
-                    long glyph = currentLine.glyphs.get(g);
+                for (int g = a, lim = n - 1; g < lim; g++) {
+                    long glyph = glyphs.get(g);
                     char ch = (char) glyph;
                     if (ch == ' ') {
                         Font font = null;
@@ -5284,24 +5289,24 @@ public class Font implements Disposable {
                         if (font == null) font = this;
                         GlyphRegion tr = font.mapping.get(ch);
                         if (tr == null) continue; // if space cannot be rendered, don't use it!
-                        float advance = xAdvance(font, font.scaleX * layout.advances.get(start + g), glyph);
+                        float advance = xAdvance(font, font.scaleX * layout.advances.get(g), glyph);
                         sumWidth += advance;
                     }
                 }
-                if (!MathUtils.isZero(sumWidth) && currentLine.glyphs.size > 1) {
-                    int lastIndex = currentLine.glyphs.size - 1;
-                    long glyph = currentLine.glyphs.get(lastIndex);
+                if (!MathUtils.isZero(sumWidth) && lineLength > 1) {
+                    int lastIndex = n - 1;
+                    long glyph = glyphs.get(lastIndex);
                     while ((char)glyph == '\n' || (char)glyph == ' ') {
                         --lastIndex;
-                        if(lastIndex < 0) continue PER_LINE;
-                        glyph = currentLine.glyphs.get(lastIndex);
+                        if(lastIndex < start) continue PER_LINE;
+                        glyph = glyphs.get(lastIndex);
                     }
-                    float multiplier = (layout.targetWidth - currentLine.width + sumWidth) / (sumWidth);
-                    for (int g = 0, n = lastIndex; g < n; g++) {
-                        if ((char) currentLine.glyphs.get(g) == ' ')
-                            layout.advances.mul(start + g, multiplier);
+                    float multiplier = (layout.targetWidth - layout.getLineWidth(ln) + sumWidth) / (sumWidth);
+                    for (int g = start, lim = lastIndex; g < lim; g++) {
+                        if ((char) glyphs.get(g) == ' ')
+                            layout.advances.mul(g, multiplier);
                     }
-                    currentLine.width = layout.targetWidth;
+                    layout.setLineWidth(ln, layout.targetWidth);
                 }
             }
         }
@@ -8125,6 +8130,8 @@ public class Font implements Disposable {
         float scaleX;
         float targetWidth = changing.getTargetWidth();
         if(targetWidth <= 0f) targetWidth = Float.MAX_VALUE;
+        LongArray glyphs = changing.glyphs;
+
         boolean curly = false;
         changing.lineSizes.clear();
         changing.lineSizes.add(0f, 0f);
@@ -8132,13 +8139,12 @@ public class Font implements Disposable {
         for (int ln = 0; ln < changing.lines(); ln++) {
             int currentLineStart = changing.lineStarts.get(ln);
             int a = currentLineStart;
-            float drawn = 0f, visibleWidth = 0f;
-            int cutoff, breakPoint = -2, spacingPoint = -2;
-            LongArray glyphs = changing.glyphs;
-            int kern = -1;
-            float amt;
             int n = (ln + 1 == changing.lines()) ? glyphs.size : changing.lineStarts.get(ln + 1);
             int lineLength = n - a;
+            float drawn = 0f, visibleWidth = 0f;
+            int cutoff, breakPoint = -2, spacingPoint = -2;
+            int kern = -1;
+            float amt;
             for (int i = a; i < n; i++, a++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
