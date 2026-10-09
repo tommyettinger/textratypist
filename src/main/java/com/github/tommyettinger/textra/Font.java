@@ -8129,12 +8129,7 @@ public class Font implements Disposable {
         changing.lineSizes.clear();
         changing.lineSizes.add(0f, 0f);
 
-        for (int ln = 0; ln < changing.lineSizes.size >>> 1; ln++) {
-            if(ln >= changing.lineStarts.size){
-                changing.lineSizes.pop();
-                changing.lineSizes.pop();
-                break;
-            }
+        for (int ln = 0; ln < changing.lines(); ln++) {
             int currentLineStart = changing.lineStarts.get(ln);
             int a = currentLineStart;
             float drawn = 0f, visibleWidth = 0f;
@@ -8165,7 +8160,7 @@ public class Font implements Disposable {
 
                     //// no kerning
 
-                    changing.setLineHeight(ln, Math.max(changing.getLineHeight(ln), font.cellHeight * sizingY));
+//                    changing.setLineHeight(ln, Math.max(changing.getLineHeight(ln), font.cellHeight * sizingY));
 
                     if (ch >= 0xE000 && ch < 0xF800)
                         scaleX = advance * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
@@ -8195,6 +8190,8 @@ public class Font implements Disposable {
                         boolean next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLineBare();
+                            if(next)
+                                changing.lineStarts.pop();
                         } else {
                             next = true;
                         }
@@ -8206,7 +8203,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
+//                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
 
 
 //                        long[] arr = next.glyphs.setSize(nextSize + lineLength - cutoff);
@@ -8220,6 +8217,8 @@ public class Font implements Disposable {
                         boolean next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLineBare();
+                            if(next)
+                                changing.lineStarts.pop();
                         } else {
                             next = true;
                         }
@@ -8245,6 +8244,8 @@ public class Font implements Disposable {
 
                     if (ch == '\n') {
                         boolean next = changing.pushLineBare();
+                        if(next)
+                            changing.lineStarts.pop();
                         if (!next) {
                             if (handleEllipsis(changing)) {
                                 calculateSize(changing);
@@ -8252,7 +8253,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
+//                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
 
 
 //                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
@@ -8283,7 +8284,7 @@ public class Font implements Disposable {
 
                     //// font has kerning
 
-                    changing.setLineHeight(ln, Math.max(changing.getLineHeight(ln), font.cellHeight * sizingY));
+//                    changing.setLineHeight(ln, Math.max(changing.getLineHeight(ln), font.cellHeight * sizingY));
                     if (ch >= 0xE000 && ch < 0xF800)
                         scaleX = advance * font.cellHeight / font.mapping.get(ch, font.defaultValue).getMaxDimension() * font.inlineImageStretch;
                     else
@@ -8334,6 +8335,9 @@ public class Font implements Disposable {
                         boolean next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLineBare();
+                            if(next)
+                                changing.lineStarts.pop();
+
                         } else {
                             next = true;
                         }
@@ -8345,7 +8349,8 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
+//                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
+//                        changing.setLastHeight(Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
 
 //                        long[] arr = next.glyphs.setSize(nextSize + lineLength - cutoff);
 //                        System.arraycopy(arr, 0, arr, lineLength - cutoff, nextSize);
@@ -8358,6 +8363,8 @@ public class Font implements Disposable {
                         boolean next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLineBare();
+                            if(next)
+                                changing.lineStarts.pop();
                         } else {
                             next = true;
                         }
@@ -8369,7 +8376,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
+//                        changing.setLastHeight(Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
 
 //                        int nextSize = next.glyphs.size;
 //                        long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
@@ -8383,6 +8390,8 @@ public class Font implements Disposable {
 
                     if (ch == '\n') {
                         boolean next = changing.pushLineBare();
+                        if(next)
+                            changing.lineStarts.pop();
                         if (!next) {
                             if (handleEllipsis(changing)) {
                                 calculateSize(changing);
@@ -8390,7 +8399,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
+//                        changing.setLastHeight(Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
 
 //                        long[] arr = next.glyphs.setSize(glyphs.size - i - 1);
 //                        System.arraycopy(glyphs.items, i + 1, arr, 0, glyphs.size - i - 1);
