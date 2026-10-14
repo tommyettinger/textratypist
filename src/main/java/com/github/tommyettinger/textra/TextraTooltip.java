@@ -77,10 +77,10 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
 
     public TextraTooltip(@Null String text, final TooltipManager manager, TextTooltipStyle style, Font replacementFont) {
         super(null, manager);
+        getContainer().width(style.wrapWidth).background(style.background);
         setActor(newLabel(text, style.label, replacementFont));
         getActor().setAlignment(Align.center);
         getActor().setWrap(true);
-        getContainer().width(style.wrapWidth).background(style.background);
     }
 
     protected TextraLabel newLabel(String text, Styles.LabelStyle style) {
@@ -105,14 +105,13 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
         // we don't want to regenerate the layout yet, so the last parameter is false.
         getActor().setFont(style.label.font, false);
         // we set the target width first.
-//        getActor().layout.targetWidth = style.wrapWidth;
+        getActor().layout.targetWidth = style.wrapWidth;
+        container.width(style.wrapWidth);
         if (style.label.fontColor != null) getActor().setColor(style.label.fontColor);
         // and then we can regenerate the layout.
         getActor().getFont().regenerateLayout(getActor().layout);
-//        getActor().getFont().calculateSize(getActor().layout);
         getActor().setSize(getActor().layout.getWidth(), getActor().layout.getHeight());
         container.setBackground(style.background);
-        container.width(style.wrapWidth);
     }
 
     public void setStyle(TextTooltipStyle style, Font font) {
@@ -120,12 +119,12 @@ public class TextraTooltip extends Tooltip<TextraLabel> {
         Container<TextraLabel> container = getContainer();
         getActor().setFont(font, false);
         getActor().layout.targetWidth = style.wrapWidth;
+        container.maxWidth(style.wrapWidth);
         if (style.label.fontColor != null) getActor().setColor(style.label.fontColor);
         font.regenerateLayout(getActor().layout);
 //        font.calculateSize(getActor().layout);
         getActor().setSize(getActor().layout.getWidth(), getActor().layout.getHeight());
         container.setBackground(style.background);
-        container.maxWidth(style.wrapWidth);
     }
 
     /**
