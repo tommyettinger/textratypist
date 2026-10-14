@@ -8236,7 +8236,7 @@ public class Font implements Disposable {
                             }
                             break;
                         }
-                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
+//                        changing.lineSizes.add(0, Math.max(changing.getLineHeight(ln + 1), font.cellHeight * sizingY));
 
 //                        int nextSize = next.glyphs.size;
 //                        long[] arr = next.glyphs.setSize(nextSize + glyphs.size - cutoff);
