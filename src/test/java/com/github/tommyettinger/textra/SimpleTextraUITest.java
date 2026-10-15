@@ -158,6 +158,7 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 //			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
 //					profiler.getCalls(), profiler.getDrawCalls(),
 //					profiler.getShaderSwitches(), profiler.getTextureBindings());
+		Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
 	}
 
 	@Override
@@ -192,7 +193,7 @@ public class SimpleTextraUITest extends InputAdapter implements ApplicationListe
 		ShaderProgram.prependFragmentCode = "#version 110\n";
 //		config.enableGLDebugOutput(true, System.out);
 //		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
-		config.useVsync(true);
+		config.useVsync(false);
 		config.setForegroundFPS(0);
 		new Lwjgl3Application(new SimpleTextraUITest(), config);
 	}
