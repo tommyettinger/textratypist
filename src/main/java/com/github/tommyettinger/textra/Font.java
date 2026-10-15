@@ -8238,7 +8238,7 @@ public class Font implements Disposable {
 
 
                     if (ch == '\n') {
-                        boolean next = changing.lineStarts.size < changing.maxLines;
+                        boolean next = changing.pushLineBare();
                         if (!next) {
                             changing.atLimit = true;
                             if (handleEllipsis(changing)) {
@@ -8349,7 +8349,7 @@ public class Font implements Disposable {
                     }
 
                     if (ch == '\n') {
-                        boolean next = changing.lineStarts.size < changing.maxLines;
+                        boolean next = changing.pushLineBare();
                         if (!next) {
                             changing.atLimit = true;
                             if (handleEllipsis(changing)) {
