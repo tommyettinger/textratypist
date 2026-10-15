@@ -5145,9 +5145,6 @@ public class Font implements Disposable {
      */
     public float calculateSize(Layout layout) {
         System.out.println(layout);
-        System.out.println("lineStarts: " + layout.lineStarts);
-        System.out.println("lineSizes: " + layout.lineSizes);
-        System.out.println("targetWidth: " + layout.targetWidth);
         float w = 0f;
         float currentHeight = 0f;
         int a = 0;
@@ -5232,6 +5229,9 @@ public class Font implements Disposable {
             layout.setLineWidth(ln, drawn);
             w = Math.max(w, drawn);
         }
+        System.out.println("after calculateSize(), lineStarts: " + layout.lineStarts);
+        System.out.println("after calculateSize(), lineSizes: " + layout.lineSizes);
+        System.out.println("after calculateSize(), targetWidth: " + layout.targetWidth);
         return layout.getWidth();
     }
 
