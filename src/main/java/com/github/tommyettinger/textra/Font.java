@@ -6760,7 +6760,7 @@ public class Font implements Disposable {
                                     if(!hyphenated)
                                         appendTo.glyphs.add(applyChar(appendTo.glyphs.isEmpty() ? 0L : appendTo.glyphs.peek(), ' '));
                                     appendTo.setLastWidth(changeNext);
-                                    appendTo.setLineWidth(appendTo.lines() - 2, lastWidth - change);
+                                    appendTo.setLineWidth(appendTo.lines() - 1, lastWidth - change);
                                     appendTo.glyphs.addAll(glyphBuffer);
                                     appendTo.setLastHeight(Math.max(appendTo.getLastHeight(), font.cellHeight * scale));
                                     break;
@@ -6829,7 +6829,7 @@ public class Font implements Disposable {
                                         continue;
                                     appendTo.glyphs.truncate(j + 1);
                                     appendTo.setLastWidth(changeNext);
-                                    appendTo.setLineWidth(appendTo.lines() - 2, lastWidth - change);
+                                    appendTo.setLineWidth(appendTo.lines() - 1, lastWidth - change);
                                     appendTo.glyphs.addAll(glyphBuffer);
                                     appendTo.setLastHeight(Math.max(appendTo.getLastHeight(), font.cellHeight * scale));
                                     break;
@@ -7016,7 +7016,7 @@ public class Font implements Disposable {
                                 if(!hyphenated)
                                     appendTo.glyphs.add(applyChar(appendTo.glyphs.isEmpty() ? 0L : appendTo.glyphs.peek(), ' '));
                                 appendTo.setLastWidth(changeNext);
-                                appendTo.setLineWidth(appendTo.lines() - 2, lastWidth - change);
+                                appendTo.setLineWidth(appendTo.lines() - 1, lastWidth - change);
                                 appendTo.glyphs.addAll(glyphBuffer);
                                 appendTo.setLastHeight(Math.max(appendTo.getLastHeight(), font.cellHeight * scale));
                                 break;
@@ -7113,7 +7113,7 @@ public class Font implements Disposable {
                                     continue;
                                 appendTo.glyphs.truncate(j + 1);
                                 appendTo.setLastWidth(changeNext);
-                                appendTo.setLineWidth(appendTo.lines() - 2, lastWidth - change);
+                                appendTo.setLineWidth(appendTo.lines() - 1, lastWidth - change);
                                 appendTo.glyphs.addAll(glyphBuffer);
                                 appendTo.setLastHeight(Math.max(appendTo.getLastHeight(), font.cellHeight * scale));
                                 break;
