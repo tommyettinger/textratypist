@@ -8222,15 +8222,15 @@ public class Font implements Disposable {
 //                        System.arraycopy(arr, 0, arr, lineLength - cutoff, nextSize);
 //                        System.arraycopy(glyphs.items, cutoff, arr, 0, lineLength - cutoff);
 //                        glyphs.truncate(cutoff);
-                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, currentLineStart + cutoff);
+                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, cutoff);
                         break;
                     } else if(breakPoint < 0 && i > 0 && visibleWidth > targetWidth){
                         cutoff = i;
                         boolean next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLineBare();
-                            if(next)
-                                changing.lineStarts.pop();
+//                            if(next)
+//                                changing.lineStarts.pop();
                         } else {
                             next = true;
                         }
@@ -8251,7 +8251,7 @@ public class Font implements Disposable {
 //                        System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
 //                        System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
 //                        glyphs.truncate(cutoff);
-                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, currentLineStart + cutoff);
+                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, cutoff);
                         break;
                     }
 
@@ -8372,7 +8372,7 @@ public class Font implements Disposable {
 //                        System.arraycopy(arr, 0, arr, lineLength - cutoff, nextSize);
 //                        System.arraycopy(glyphs.items, cutoff, arr, 0, lineLength - cutoff);
 //                        glyphs.truncate(cutoff);
-                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, currentLineStart + cutoff);
+                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, cutoff);
                         break;
                     } else if(breakPoint < 0 && i > 0 && visibleWidth > targetWidth) {
                         cutoff = i;
@@ -8399,7 +8399,7 @@ public class Font implements Disposable {
 //                        System.arraycopy(arr, 0, arr, glyphs.size - cutoff, nextSize);
 //                        System.arraycopy(glyphs.items, cutoff, arr, 0, glyphs.size - cutoff);
 //                        glyphs.truncate(cutoff);
-                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, currentLineStart + cutoff);
+                        if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, cutoff);
                         break;
 
                     }
