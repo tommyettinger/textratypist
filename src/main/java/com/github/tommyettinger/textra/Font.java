@@ -5145,6 +5145,9 @@ public class Font implements Disposable {
      */
     public float calculateSize(Layout layout) {
         System.out.println(layout);
+        layout.lineSizes.clear();
+        layout.lineSizes.setSize(layout.lineStarts.size << 1);
+        Arrays.fill(layout.lineSizes.items, 0, layout.lineSizes.size, 0f);
         float w = 0f;
         float currentHeight = 0f;
         int a = 0;
@@ -8119,6 +8122,7 @@ public class Font implements Disposable {
      * @return {@code changing}, after modifications
      */
     public Layout regenerateLayout(Layout changing) {
+        System.out.println("regen, layout: " + changing);
         if (changing.font == null) {
             return changing;
         }
@@ -8133,8 +8137,8 @@ public class Font implements Disposable {
         LongArray glyphs = changing.glyphs;
 
         boolean curly = false;
-        changing.lineSizes.clear();
-        changing.lineSizes.add(0f, 0f);
+//        changing.lineSizes.clear();
+//        changing.lineSizes.add(0f, 0f);
 
         for (int ln = 0; ln < changing.lines(); ln++) {
             int currentLineStart = changing.lineStarts.get(ln);
@@ -8196,11 +8200,13 @@ public class Font implements Disposable {
                         boolean next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLineBare();
-                            if(next)
-                                changing.lineStarts.pop();
+//                            if(next)
+//                                changing.lineStarts.pop();
                         } else {
                             next = true;
                         }
+                        System.out.println("regen, first wrap block, lineStarts: " + changing.lineStarts);
+                        System.out.println("regen, first wrap block, lineSizes: " + changing.lineSizes);
                         if (!next) {
                             glyphs.truncate(cutoff);
                             if (handleEllipsis(changing)) {
@@ -8228,6 +8234,8 @@ public class Font implements Disposable {
                         } else {
                             next = true;
                         }
+                        System.out.println("regen, second wrap block, lineStarts: " + changing.lineStarts);
+                        System.out.println("regen, second wrap block, lineSizes: " + changing.lineSizes);
                         if (!next) {
                             glyphs.truncate(cutoff);
                             if (handleEllipsis(changing)) {
@@ -8252,6 +8260,8 @@ public class Font implements Disposable {
                         boolean next = changing.pushLineBare();
                         if(next)
                             changing.lineStarts.pop();
+                        System.out.println("regen, newline, lineStarts: " + changing.lineStarts);
+                        System.out.println("regen, newline, lineSizes: " + changing.lineSizes);
                         if (!next) {
                             if (handleEllipsis(changing)) {
                                 calculateSize(changing);
