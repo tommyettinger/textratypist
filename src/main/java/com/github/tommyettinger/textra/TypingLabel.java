@@ -1226,7 +1226,7 @@ public class TypingLabel extends TextraLabel {
             }
         }
 
-        if (layout.glyphs.isEmpty() || parentAlpha <= 0f) return;
+        if (workingLayout.glyphs.isEmpty() || parentAlpha <= 0f) return;
 
         int o = 0, s = 0, r = 0, gi = 0;
         boolean resetShader = font.getDistanceField() != Font.DistanceFieldType.STANDARD && batch.getShader() != font.shader;
@@ -1269,19 +1269,19 @@ public class TypingLabel extends TextraLabel {
         if(selectable && selectionDrawable != null) {
             if (selectionEnd >= 0 && selectionEnd >= selectionStart) {
                 for (int i = 0,
-                     n = Math.min(layout.glyphs.size, endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex));
+                     n = Math.min(workingLayout.glyphs.size, endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex));
                      i < n; i++) {
                     if (i < startIndex) continue;
                     if (i >= nextIndex) {
                         ++ln;
-                        nextIndex = ln + 1 >= lines ? layout.countGlyphs() : layout.countGlyphsBeforeLine(ln + 1);
+                        nextIndex = ln + 1 >= lines ? workingLayout.countGlyphs() : workingLayout.countGlyphsBeforeLine(ln + 1);
 
                         selectionDrawStartX = 0f;
                         selectionDrawStartY = 0f;
                         selectionWidth = 0f;
 
-                        lineWidth = layout.getLineWidth(ln) * getScaleX();
-                        lineHeight = layout.getLineHeight(ln) * getScaleY();
+                        lineWidth = workingLayout.getLineWidth(ln) * getScaleX();
+                        lineHeight = workingLayout.getLineHeight(ln) * getScaleY();
                         tempBaseX += sn * lineHeight;
                         tempBaseY -= cs * lineHeight;
 
@@ -1307,7 +1307,7 @@ public class TypingLabel extends TextraLabel {
                         f = null;
                         initial = true;
                     }
-                    long glyph = layout.glyphs.get(i);
+                    long glyph = workingLayout.glyphs.get(i);
                     char ch = (char) glyph;
                     if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
                     if (f == null) f = font;
@@ -1398,7 +1398,7 @@ public class TypingLabel extends TextraLabel {
                 }
                 // draw one selection drawable
                 if (selectionWidth > 0f)
-                    selectionDrawable.draw(batch, selectionDrawStartX, selectionDrawStartY, selectionWidth, layout.getLineHeight(ln));
+                    selectionDrawable.draw(batch, selectionDrawStartX, selectionDrawStartY, selectionWidth, workingLayout.getLineHeight(ln));
             }
         }
 
@@ -1408,15 +1408,15 @@ public class TypingLabel extends TextraLabel {
         curly = false;
 
         for (int i = 0,
-             n = Math.min(layout.glyphs.size, endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex));
+             n = Math.min(workingLayout.glyphs.size, endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex));
              i < n; i++) {
             if (i < startIndex) continue;
             if (i == nextIndex) {
                 ++ln;
-                nextIndex = ln + 1 >= lines ? layout.countGlyphs() : layout.countGlyphsBeforeLine(ln + 1);
+                nextIndex = ln + 1 >= lines ? workingLayout.countGlyphs() : workingLayout.countGlyphsBeforeLine(ln + 1);
 
-                lineWidth = layout.getLineWidth(ln) * getScaleX();
-                lineHeight = layout.getLineHeight(ln) * getScaleY();
+                lineWidth = workingLayout.getLineWidth(ln) * getScaleX();
+                lineHeight = workingLayout.getLineHeight(ln) * getScaleY();
 
                 baseX += sn * lineHeight;
                 baseY -= cs * lineHeight;
@@ -1444,7 +1444,7 @@ public class TypingLabel extends TextraLabel {
                 curly = false;
                 initial = true;
             }
-            long glyph = layout.glyphs.get(i);
+            long glyph = workingLayout.glyphs.get(i);
             char ch = (char) glyph;
             if (font.family != null) f = font.family.connected[(int) (glyph >>> 16 & 15)];
             if (f == null) f = font;
