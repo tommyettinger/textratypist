@@ -301,7 +301,7 @@ public class Layout {
             return false;
         }
 
-        lineSizes.add(0f, 0f);
+//        lineSizes.add(0f, 0f);
         lineStarts.add(glyphs.size);
         return true;
     }
