@@ -8195,9 +8195,8 @@ public class Font implements Disposable {
                         cutoff = breakPoint + 1;
                         boolean next;
                         if (changing.lines() == ln + 1) {
-                            next = changing.pushLineBare();
-                            if(next)
-                                changing.lineStarts.pop();
+                            next = changing.lineStarts.size < changing.maxLines;
+                            changing.atLimit = true;
                         } else {
                             next = true;
                         }
@@ -8222,9 +8221,8 @@ public class Font implements Disposable {
                         cutoff = i;
                         boolean next;
                         if (changing.lines() == ln + 1) {
-                            next = changing.pushLineBare();
-                            if(next)
-                                changing.lineStarts.pop();
+                            next = changing.lineStarts.size < changing.maxLines;
+                            changing.atLimit = true;
                         } else {
                             next = true;
                         }
@@ -8249,9 +8247,8 @@ public class Font implements Disposable {
 
 
                     if (ch == '\n') {
-                        boolean next = changing.pushLineBare();
-                        if(next)
-                            changing.lineStarts.pop();
+                        boolean next = changing.lineStarts.size < changing.maxLines;
+                        changing.atLimit = true;
                         if (!next) {
                             if (handleEllipsis(changing)) {
                                 calculateSize(changing);
@@ -8340,10 +8337,8 @@ public class Font implements Disposable {
                         cutoff = breakPoint + 1;
                         boolean next;
                         if (changing.lines() == ln + 1) {
-                            next = changing.pushLineBare();
-                            if(next)
-                                changing.lineStarts.pop();
-
+                            next = changing.lineStarts.size < changing.maxLines;
+                            changing.atLimit = true;
                         } else {
                             next = true;
                         }
@@ -8368,9 +8363,8 @@ public class Font implements Disposable {
                         cutoff = i;
                         boolean next;
                         if (changing.lines() == ln + 1) {
-                            next = changing.pushLineBare();
-                            if(next)
-                                changing.lineStarts.pop();
+                            next = changing.lineStarts.size < changing.maxLines;
+                            changing.atLimit = true;
                         } else {
                             next = true;
                         }
@@ -8395,9 +8389,8 @@ public class Font implements Disposable {
                     }
 
                     if (ch == '\n') {
-                        boolean next = changing.pushLineBare();
-                        if(next)
-                            changing.lineStarts.pop();
+                        boolean next = changing.lineStarts.size < changing.maxLines;
+                        changing.atLimit = true;
                         if (!next) {
                             if (handleEllipsis(changing)) {
                                 calculateSize(changing);
