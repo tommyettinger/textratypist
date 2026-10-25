@@ -346,7 +346,6 @@ public class Parser {
 
                 // Process tokens
                 float floatValue = 0;
-                String stringValue = null;
                 Effect effect = null;
 
                 switch (tokenCategory) {
@@ -356,7 +355,6 @@ public class Parser {
                         break;
                     }
                     case EVENT: {
-                        stringValue = paramsString;
 //                    indexOffset = -1;
                         break;
                     }
@@ -407,7 +405,7 @@ public class Parser {
                 }
 
                 // Register token
-                TokenEntry entry = new TokenEntry(tokenName, tokenCategory, index + indexOffset, m.end(0), floatValue, stringValue);
+                TokenEntry entry = new TokenEntry(tokenName, tokenCategory, index + indexOffset, m.end(0), floatValue, paramsString);
                 entry.effect = effect;
                 label.tokenEntries.add(entry);
 

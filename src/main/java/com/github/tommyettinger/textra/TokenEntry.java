@@ -42,4 +42,8 @@ class TokenEntry implements Comparable<TokenEntry> {
         return Integer.compare(o.index, index);
     }
 
+    @Override
+    public String toString() {
+        return "{" + (stringValue == null ? token : token + "=" + stringValue) + "} at " + index + " to " + endIndex;
+    }
 }
