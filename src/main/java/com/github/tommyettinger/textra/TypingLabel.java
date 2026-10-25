@@ -1304,7 +1304,6 @@ public class TypingLabel extends TextraLabel {
                             y -= sn * lineWidth;
                         }
 
-                        f = null;
                         initial = true;
                     }
                     long glyph = workingLayout.glyphs.get(i);
