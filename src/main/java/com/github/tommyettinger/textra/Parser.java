@@ -37,6 +37,7 @@ public class Parser {
     private static final Matcher MATCHER_MARKUP_STRIP = PATTERN_MARKUP_STRIP.matcher();
     private static final Replacer RESET_TAG = new Replacer(Pattern.compile("((?<!\\[)\\[ (?:\\]))"), "{RESET}");
     private static final Replacer UNDO_TAG =  new Replacer(Pattern.compile("((?<!\\[)\\[(?:\\]))"), "{UNDO}");
+    private static final Replacer WAIT_ZWS =  new Replacer(Pattern.compile("((?<!\\{)\\{WAIT)"), "\u200B{WAIT");
     private static final Replacer COLOR_MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[(?:(?:#({=m}[A-Fa-f0-9]{3,8}))|(?:\\|?({=m}[\\pL\\pN][^\\[\\]]*)))(\\])"), "{COLOR=${\\m}}");
     private static final Replacer MARKUP_TO_TAG = new Replacer(Pattern.compile("(?<!\\[)\\[([^\\[\\]\\+][^\\[\\]]*)(\\])"), "{STYLE=$1}");
     private static final Pattern PATTERN_COLOR_HEX_NO_HASH = Pattern.compile("[A-Fa-f0-9]{3,8}");
@@ -80,6 +81,7 @@ public class Parser {
      * @return {@code text} with square bracket style markup changed to curly-brace style tags
      */
     public static String preprocess(String text) {
+        text = WAIT_ZWS.replace(text);
         text = RESET_TAG.replace(text);
         text = UNDO_TAG.replace(text);
         text = COLOR_MARKUP_TO_TAG.replace(text);
@@ -336,7 +338,6 @@ public class Parser {
                 final String[] params = paramsString == null ? new String[0] : paramsString.split(";");
                 final String firstParam = params.length > 0 ? params[0] : null;
                 final int index = m.start(0);
-                int indexOffset = 0;
 
                 // If token couldn't be parsed, move one index forward to continue the search
                 if (tokenCategory == null) {
@@ -351,7 +352,6 @@ public class Parser {
                 switch (tokenCategory) {
                     case WAIT: {
                         floatValue = stringToFloat(firstParam, TypingConfig.DEFAULT_WAIT_VALUE);
-//                        indexOffset = 1;
                         break;
                     }
                     case EVENT: {
@@ -405,7 +405,7 @@ public class Parser {
                 }
 
                 // Register token
-                TokenEntry entry = new TokenEntry(tokenName, tokenCategory, index + indexOffset, m.end(0), floatValue, paramsString);
+                TokenEntry entry = new TokenEntry(tokenName, tokenCategory, index, m.end(0), floatValue, paramsString);
                 entry.effect = effect;
                 label.tokenEntries.add(entry);
 
@@ -415,7 +415,6 @@ public class Parser {
                 text2 = m2.replaceFirst("");
             }
         }
-        System.out.println(label.tokenEntries);
         // Update label text
         label.setIntermediateText(text2, false, false);
     }

@@ -878,7 +878,7 @@ public class TypingLabel extends TextraLabel {
 
             // Get next character and calculate cooldown increment
 
-            int layoutSize = layout.advances.size;
+            int layoutSize = layout.glyphs.size;
 
             // If char progression is finished, or if text is empty, notify listener and abort routine
             if (layoutSize == 0 || glyphCharIndex >= layoutSize) {
