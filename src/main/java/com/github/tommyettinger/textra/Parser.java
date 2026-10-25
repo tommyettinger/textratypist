@@ -51,7 +51,7 @@ public class Parser {
     private static Pattern PATTERN_TOKEN_STRIP;
     private static Matcher MATCHER_TOKEN_STRIP;
     private static Matcher MATCHER_TOKEN_STRIP_2;
-    private static String RESET_REPLACEMENT;
+//    private static String RESET_REPLACEMENT;
 
     /**
      * Replaces any square-bracket markup of the form {@code [-SOMETHING]} with the curly-brace tag form
@@ -97,9 +97,9 @@ public class Parser {
             MATCHER_TOKEN_STRIP = PATTERN_TOKEN_STRIP.matcher();
             MATCHER_TOKEN_STRIP_2 = PATTERN_TOKEN_STRIP.matcher();
         }
-        if (RESET_REPLACEMENT == null || TypingConfig.dirtyEffectMaps) {
-            RESET_REPLACEMENT = getResetReplacement();
-        }
+//        if (RESET_REPLACEMENT == null || TypingConfig.dirtyEffectMaps) {
+//            RESET_REPLACEMENT = getResetReplacement();
+//        }
 
         // Remove any previous entries
         label.tokenEntries.clear();
@@ -204,7 +204,7 @@ public class Parser {
                         if (replacement == null) replacement = param.toUpperCase(Locale.ROOT);
                         break;
                     case RESET:
-                        replacement = RESET_REPLACEMENT + label.getDefaultToken();
+                        replacement = "{END}{NORMAL}[ ]" + label.getDefaultToken();
                         break;
                     case UNDO:
                         replacement = "[]";
@@ -351,7 +351,7 @@ public class Parser {
                 switch (tokenCategory) {
                     case WAIT: {
                         floatValue = stringToFloat(firstParam, TypingConfig.DEFAULT_WAIT_VALUE);
-//                    indexOffset = 1;
+//                        indexOffset = 1;
                         break;
                     }
                     case EVENT: {
@@ -415,6 +415,7 @@ public class Parser {
                 text2 = m2.replaceFirst("");
             }
         }
+        System.out.println(label.tokenEntries);
         // Update label text
         label.setIntermediateText(text2, false, false);
     }
@@ -626,7 +627,7 @@ public class Parser {
         Array<String> tokens = new Array<>();
         TypingConfig.EFFECT_START_TOKENS.keys().toArray(tokens);
         TypingConfig.EFFECT_END_TOKENS.keys().toArray(tokens);
-        for (InternalToken token : InternalToken.values()) {
+        for (InternalToken token : InternalToken.ALL) {
             tokens.add(token.name);
         }
         for (int i = 0; i < tokens.size; i++) {

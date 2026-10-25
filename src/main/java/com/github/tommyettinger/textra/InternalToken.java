@@ -38,7 +38,8 @@ enum InternalToken {
     EVENT("EVENT", TokenCategory.EVENT),
     RESET("RESET", TokenCategory.RESET),
     SKIP("SKIP", TokenCategory.SKIP),
-    UNDO("UNDO", TokenCategory.UNDO);
+    UNDO("UNDO", TokenCategory.UNDO),
+    END("END", TokenCategory.END);
 
     final String name;
     final TokenCategory category;

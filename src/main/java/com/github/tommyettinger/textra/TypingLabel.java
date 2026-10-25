@@ -911,7 +911,8 @@ public class TypingLabel extends TextraLabel {
                         continue;
                     }
                     case EFFECT_START:
-                    case EFFECT_END: {
+                    case EFFECT_END:
+                    case END: {
                         // Get effect class
                         boolean isStart = category == TokenCategory.EFFECT_START;
                         String effectName = isStart ? token : token.substring(3);
@@ -920,7 +921,7 @@ public class TypingLabel extends TextraLabel {
                         for (int i = 0, s = activeEffects.size(); i < s; i++) {
                             Effect effect = activeEffects.get(i);
                             if (effect.indexEnd < 0) {
-                                if (effectName.equals(effect.name)) {
+                                if ("".equals(effectName) || effectName.equals(effect.name)) {
                                     effect.indexEnd = glyphCharIndex;
                                 }
                             }
