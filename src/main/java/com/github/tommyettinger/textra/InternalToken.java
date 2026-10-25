@@ -48,6 +48,8 @@ enum InternalToken {
         this.category = category;
     }
 
+    static final InternalToken[] ALL = values();
+
     @Override
     public String toString() {
         return name;
@@ -55,7 +57,8 @@ enum InternalToken {
 
     static InternalToken fromName(String name) {
         if (name != null) {
-            for (InternalToken token : values()) {
+            for (int i = 0, allLength = ALL.length; i < allLength; i++) {
+                InternalToken token = ALL[i];
                 if (name.equalsIgnoreCase(token.name)) {
                     return token;
                 }
