@@ -197,6 +197,7 @@ public class TypingConfig {
         INTERVAL_MULTIPLIERS_BY_CHAR.put('!', 5.0f);
         INTERVAL_MULTIPLIERS_BY_CHAR.put('?', 5.0f);
         INTERVAL_MULTIPLIERS_BY_CHAR.put('\n', 2.5f);
+        INTERVAL_MULTIPLIERS_BY_CHAR.put('\u200B', 0.0f);
 
         // Register default tokens
         registerEffect("EASE", EaseEffect::new);
