@@ -52,7 +52,6 @@ public class Parser {
     private static Pattern PATTERN_TOKEN_STRIP;
     private static Matcher MATCHER_TOKEN_STRIP;
     private static Matcher MATCHER_TOKEN_STRIP_2;
-//    private static String RESET_REPLACEMENT;
 
     /**
      * Replaces any square-bracket markup of the form {@code [-SOMETHING]} with the curly-brace tag form
@@ -98,10 +97,8 @@ public class Parser {
             PATTERN_TOKEN_STRIP = compileTokenPattern();
             MATCHER_TOKEN_STRIP = PATTERN_TOKEN_STRIP.matcher();
             MATCHER_TOKEN_STRIP_2 = PATTERN_TOKEN_STRIP.matcher();
+            TypingConfig.dirtyEffectMaps = false;
         }
-//        if (RESET_REPLACEMENT == null || TypingConfig.dirtyEffectMaps) {
-//            RESET_REPLACEMENT = getResetReplacement();
-//        }
 
         // Remove any previous entries
         label.tokenEntries.clear();
@@ -636,21 +633,4 @@ public class Parser {
         sb.append(")(?:\\=([^\\{\\}]+))?\\}");
         return Pattern.compile(sb.toString(), REFlags.IGNORE_CASE);
     }
-
-    /**
-     * Returns the replacement string intended to be used on {RESET} tokens.
-     */
-    private static String getResetReplacement() {
-        Array<String> tokens = new Array<>();
-        TypingConfig.EFFECT_END_TOKENS.keys().toArray(tokens);
-        tokens.add("NORMAL");
-
-        StringBuilder sb = new StringBuilder("[ ]");
-        for (String token : tokens) {
-            sb.append('{').append(token).append('}');
-        }
-        TypingConfig.dirtyEffectMaps = false;
-        return sb.toString();
-    }
-
 }
