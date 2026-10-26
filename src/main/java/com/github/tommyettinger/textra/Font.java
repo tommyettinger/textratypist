@@ -5166,15 +5166,14 @@ public class Font implements Disposable {
                 initial = true;
                 kern = -1;
                 if(ln >= 0)
-                    layout.setLineHeight(ln, currentHeight);
+                    layout.setLineHeight(ln, Math.max(layout.getLineHeight(ln), currentHeight));
                 ln++;
             } else {
                 initial = false;
             }
             long glyph = glyphs.get(i);
             char ch = (char) glyph;
-            advance = layout.advances.get(a);
-            a++;
+            advance = layout.advances.get(i);
             if ((glyph & ALTERNATE_MODES_MASK) == SMALL_CAPS) ch = Category.caseUp(ch);
             if (omitCurlyBraces) {
                 if (curly) {

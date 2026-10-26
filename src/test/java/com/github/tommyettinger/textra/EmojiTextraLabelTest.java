@@ -74,7 +74,7 @@ public class EmojiTextraLabelTest extends ApplicationAdapter {
                         + "That's OK, I don't like loot crates. [+party popper] [*]Whee[]!\n"
                         +"[+⚖️][~][_][+⚖️][ ] testing:\n" //[_][~]
                         // the [+] is a zero-width space, which is invisible but gets the 100% line height we want after this.
-                        + "[%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ][+]\n\n"
+                        + "[%25]go[%50]go[%75]go[red][%100]go[white][%125]go[%150]go[%175]go[%200]go[%225]go[%250]go![ ][+]\n"
                         + "@ {NATURAL=0.5}Natural testing: The quick brown fox jumps over the lazy dog.[+"
 
                 ,
