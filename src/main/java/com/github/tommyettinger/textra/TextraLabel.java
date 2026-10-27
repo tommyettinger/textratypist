@@ -28,7 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.FloatArray;
-import com.badlogic.gdx.utils.LongArray;
 
 /**
  * A scene2d.ui Widget that displays text using a {@link Font} rather than a libGDX BitmapFont. This supports being
@@ -903,7 +902,7 @@ public class TextraLabel extends Widget {
      */
     public float getLineHeight(int index) {
         if(index >= 0 && index < layout.glyphs.size)
-            return layout.getLineHeight(Layout.getLineIndexInLayout(layout, index));
+            return layout.getLineHeight(layout.getLineIndex(index));
         return font.cellHeight;
     }
 

@@ -116,21 +116,21 @@ public class Layout {
     }
 
     /**
-     * Given a Layout and an index into that Layout, this returns the index of
-     * the line in the Layout that holds the glyph at that index.
+     * Given an index into this Layout's {@link #glyphs}, this returns the index of
+     * the line in the Layout that holds the glyph at that index. A line index can be
+     * used with {@link #setLineHeight(int, float)}, {@link #getLineWidth(int)} and similar methods.
      *
-     * @param layout a Layout such as {@link TextraLabel#layout} or {@link TypingLabel#workingLayout}
      * @param index an index into the given Layout
      * @return the index of the line in the Layout containing the given index; will be 0 if index is -1, or the last
      * line index if index is -2 or out of bounds
      */
-    public static int getLineIndexInLayout(Layout layout, int index) {
+    public int getLineIndex(int index) {
         if(index == -1) return 0;
-        if(index == -2) return layout.lines() - 1;
-        for (int i = 1, n = layout.lineStarts.size; i < n; i++) {
-            if(layout.lineStarts.get(i) > index) return i - 1;
+        if(index == -2) return lines() - 1;
+        for (int i = 1, n = lineStarts.size; i < n; i++) {
+            if(lineStarts.get(i) > index) return i - 1;
         }
-        return layout.lines() - 1;
+        return lines() - 1;
     }
 
     /**

@@ -297,7 +297,7 @@ public class TextraArea extends Container<ScrollPane> {
                 TextraArea.this.getActor().scrollTo(0, forward ? 0 : label.getHeight(), 1, TextraArea.this.getHeight());
             }
             else {
-                int currentLine = Layout.getLineIndexInLayout(label.workingLayout, cursor);
+                int currentLine = label.workingLayout.getLineIndex(cursor);
                 if(forward) {
                     if(currentLine >= label.workingLayout.lines() - 1) {
                         TextraArea.this.getActor().scrollTo(0, 0, 1, TextraArea.this.getHeight());
@@ -326,7 +326,7 @@ public class TextraArea extends Container<ScrollPane> {
             }
             else {
                 float gp = glyphPositions.get(cursor);
-                int currentLine = Layout.getLineIndexInLayout(label.workingLayout, cursor);
+                int currentLine = label.workingLayout.getLineIndex(cursor);
                 if(forward) {
                     if(currentLine >= label.workingLayout.lines() - 1) {
                         cursor = text.length();
@@ -382,7 +382,7 @@ public class TextraArea extends Container<ScrollPane> {
             if(super.insert(position, inserting)){
                 if(TextraArea.this.getActor() == null) return true;
                 float scrollPos = label.getHeight(), latestLineHeight = 1;
-                int currentLine = Layout.getLineIndexInLayout(label.workingLayout, cursor);
+                int currentLine = label.workingLayout.getLineIndex(cursor);
                 for (int ln = 0; ln < currentLine; ln++) {
                     scrollPos -= (latestLineHeight = label.workingLayout.getLineHeight(ln));
                 }
