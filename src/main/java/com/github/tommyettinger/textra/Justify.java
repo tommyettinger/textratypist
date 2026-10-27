@@ -28,12 +28,12 @@ public enum Justify {
     FULL_ON_ALL_LINES(false, false, true),
     /**
      * Adds extra x-advance to every space (the char {@code ' '}) so the text fills all the way to the right edge,
-     * except for the last Line (or only Line) of a paragraph.
+     * except for the last line (or only line) of a paragraph.
      */
     SPACES_ON_PARAGRAPH(true, true, false),
     /**
-     * Adds extra space to every glyph so the text fills all the way to the right edge, except for the last Line (or
-     * only Line) of a paragraph.
+     * Adds extra space to every glyph so the text fills all the way to the right edge, except for the last line (or
+     * only line) of a paragraph.
      */
     FULL_ON_PARAGRAPH(true, false, true),
     ;

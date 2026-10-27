@@ -25,10 +25,15 @@ import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.LongArray;
 
 /**
- * A replacement for libGDX's GlyphLayout, more or less; stores one or more (possibly empty) {@link Line}s of text,
+ * A replacement for libGDX's GlyphLayout, more or less; stores one or more (possibly empty) lines of text,
  * which can use color and style markup from {@link Font}, and can be drawn with
  * {@link Font#drawGlyphs(Batch, Layout, float, float, int)}. You can obtain a Layout with
  * {@code new Layout()} followed by setting the font, or just using a constructor.
+ * <br>
+ * As of TextraTypist 2.6.0, Layout no longer uses Line objects at all. In all earlier versions, a Layout
+ * contained one or more Line objects, and each Line knew its own width, height, and glyph contents. Now,
+ * since Layout was already tracking advances, sizing, rotations, and so on independently of lines, it also
+ * tracks glyphs, the starting indices of lines, and the sizes of lines.
  */
 public class Layout {
 
@@ -222,7 +227,7 @@ public class Layout {
 
     /**
      * Clears the glyph contents of this Layout, but does not reset the {@link #getTargetWidth() targetWidth},
-     * {@link #getBaseColor() baseColor}, or {@link #getEllipsis() ellipsis}. One empty Line will be present in this
+     * {@link #getBaseColor() baseColor}, or {@link #getEllipsis() ellipsis}. One empty line will be present in this
      * Layout after it is cleared.
      *
      * @return this Layout, after changes, for chaining
@@ -354,19 +359,19 @@ public class Layout {
     }
 
     /**
-     * The maximum number of {@link Line}s this Layout can contain.
+     * The maximum number of lines this Layout can contain.
      *
-     * @return the maximum number of {@link Line} objects this Layout can contain
+     * @return the maximum number of lines this Layout can contain
      */
     public int getMaxLines() {
         return maxLines;
     }
 
     /**
-     * Sets the maximum number of {@link Line}s this Layout can contain; this is always at least 1.
+     * Sets the maximum number of lines this Layout can contain; this is always at least 1.
      * For effectively unlimited lines, pass {@link Integer#MAX_VALUE} to this.
      *
-     * @param maxLines the limit for how many Line objects this Layout can contain; always 1 or more
+     * @param maxLines the limit for how many lines this Layout can contain; always 1 or more
      */
     public Layout setMaxLines(int maxLines) {
         this.maxLines = Math.max(1, maxLines);
@@ -419,7 +424,7 @@ public class Layout {
      * {@code lineIndex}, and returns that count.
      * <br>
      * This takes constant time.
-     * @return how many {@code long} glyphs exist in this Layout before the start of the given Line
+     * @return how many {@code long} glyphs exist in this Layout before the start of the given line
      */
     public int countGlyphsBeforeLine(int lineIndex){
         return lineStarts.get(lineIndex);

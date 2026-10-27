@@ -4994,7 +4994,7 @@ public class Font implements Disposable {
      * @param layout   typically returned by {@link #markup(String, Layout)}
      * @param x        the x position in world space to start drawing the glyph at (where this is depends on align)
      * @param y        the y position in world space to start drawing the glyph at (where this is depends on align)
-     * @param align    an {@link Align} constant; if {@link Align#left}, x and y refer to the left edge of the first Line
+     * @param align    an {@link Align} constant; if {@link Align#left}, x and y refer to the left edge of the first line
      * @param rotation measured in degrees counterclockwise and applied to the whole Layout; should usually be 0
      * @param originX the x position in world space of the point to rotate around
      * @param originY the y position in world space of the point to rotate around
@@ -5117,7 +5117,7 @@ public class Font implements Disposable {
      *
      * @param font  the Font object to use to measure
      * @param scale the scale to draw the glyph at, usually {@link #scaleX} and possibly adjusted by per-glyph scaling
-     * @param glyph a long encoding the color, style information, and char of a glyph, as from a {@link Line}
+     * @param glyph a long encoding the color, style information, and char of a glyph, as from {@link Layout#glyphs}
      * @return the (possibly non-integer) amount to advance the cursor when you draw the given glyph, not counting kerning
      */
     public static float xAdvance(Font font, float scale, long glyph) {
@@ -5136,7 +5136,7 @@ public class Font implements Disposable {
     }
 
     /**
-     * Given a Layout that uses this Font, this will recalculate the width and height of each Line in layout, changing
+     * Given a Layout that uses this Font, this will recalculate the width and height of each line in layout, changing
      * the values in layout if they are incorrect. This returns the total width of the measured Layout. Most usage will
      * not necessarily need the return value; either this is called to fix incorrect size information on a Layout, or
      * the Layout this modifies will be queried for its {@link Layout#getWidth()} and/or {@link Layout#getHeight()}.
@@ -6140,7 +6140,7 @@ public class Font implements Disposable {
 
     /**
      * Reads markup from text, along with the chars to receive markup, processes it, and appends into appendTo, which is
-     * a {@link Layout} holding one or more {@link Line}s. This parses an extension of libGDX markup and uses it to
+     * a {@link Layout}. This parses an extension of libGDX markup and uses it to
      * determine color, size, position, shape, strikethrough, underline, case, and scale of the given CharSequence.
      * It also reads typing markup, for effects, but passes it through without changing it and without considering it
      * for line wrapping or text position.
@@ -6206,7 +6206,7 @@ public class Font implements Disposable {
      * You can render {@code appendTo} using {@link #drawGlyphs(Batch, Layout, float, float)}.
      *
      * @param text     text, typically with square-bracket markup
-     * @param appendTo a Layout that stores one or more Line objects, carrying color, style, chars, and size
+     * @param appendTo a Layout that stores potentially many glyphs, carrying color, style, chars, and size
      * @return appendTo, for chaining
      */
     public Layout markup(String text, Layout appendTo) {
@@ -8519,7 +8519,7 @@ public class Font implements Disposable {
     /**
      * Given a glyph as a long, this returns the RGBA8888 color it uses.
      *
-     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param glyph a glyph as a long, as used by {@link Layout}
      * @return the int color used by the given glyph, as RGBA8888
      */
     public static int extractColor(long glyph) {
@@ -8529,7 +8529,7 @@ public class Font implements Disposable {
     /**
      * Replaces the section of glyph that stores its color with the given RGBA8888 int color.
      *
-     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param glyph a glyph as a long, as used by {@link Layout}
      * @param color the int color to use, as an RGBA8888 int
      * @return another long glyph that uses the specified color
      */
@@ -8542,7 +8542,7 @@ public class Font implements Disposable {
      * {@link #BOLD}, {@link #OBLIQUE}, {@link #UNDERLINE}, {@link #STRIKETHROUGH}, {@link #SUBSCRIPT},
      * {@link #MIDSCRIPT}, {@link #SUPERSCRIPT}, and {@link #BLACK_OUTLINE}.
      *
-     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param glyph a glyph as a long, as used by {@link Layout}
      * @return the style bits used by the given glyph
      */
     public static long extractStyle(long glyph) {
@@ -8555,7 +8555,7 @@ public class Font implements Disposable {
      * {@link #MIDSCRIPT}, {@link #SUPERSCRIPT}, and {@link #BLACK_OUTLINE}. Because only a small section is used from
      * style, you can pass an existing styled glyph as the second parameter to copy its style information into glyph.
      *
-     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param glyph a glyph as a long, as used by {@link Layout}
      * @param style the long style bits to use, which should usually be bits from the aforementioned constants
      * @return another long glyph that uses the specified style
      */
@@ -8600,7 +8600,7 @@ public class Font implements Disposable {
      * TypingLabel effects are in use) in {@link Layout#advances}. These both store multipliers to the
      * GlyphRegion's already-stored-per-region metrics.
      *
-     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param glyph a glyph as a long, as used by {@link Layout}
      * @param scale ignored
      * @return glyph, without changes
      * @deprecated scaling is now stored in both the {@link Layout#sizing}and {@link Layout#advances} fields in a Layout
@@ -8636,7 +8636,7 @@ public class Font implements Disposable {
      * The last constant of each line is the mode that line checks for. Each constant is defined in Font.
      * If no alternate mode is not enabled, this returns 0.
      *
-     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param glyph a glyph as a long, as used by {@link Layout}
      * @return the bit flags for the current alternate mode, if enabled; see docs
      */
     public static long extractMode(long glyph) {
@@ -8651,7 +8651,7 @@ public class Font implements Disposable {
      * it will use a different color. You can make an outline present with {@link #applyStyle(long, long)} and
      * {@link #BLACK_OUTLINE}; if the mode {@link #RED_OUTLINE} is also present, the outline will be drawn in red.
      *
-     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param glyph a glyph as a long, as used by {@link Layout}
      * @param modeFlags bit flags typically obtained from {@link #extractMode(long)}
      * @return another long glyph that uses the specified mode
      */
@@ -8663,7 +8663,7 @@ public class Font implements Disposable {
      * Given a glyph as a long, this returns the char it displays. This automatically corrects the placeholder char
      * u0002 to the glyph it displays as, {@code '['}.
      *
-     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param glyph a glyph as a long, as used by {@link Layout}
      * @return the char used by the given glyph
      */
     public static char extractChar(long glyph) {
@@ -8676,7 +8676,7 @@ public class Font implements Disposable {
      * {@code '['} by using the char {@code (char)2}, or possibly by using an actual {@code '['} char. This last option
      * is untested and unrecommended, but may have uses if you are willing to dig deep into the internals here.
      *
-     * @param glyph a glyph as a long, as used by {@link Layout} and {@link Line}
+     * @param glyph a glyph as a long, as used by {@link Layout}
      * @param c     the char to use
      * @return another long glyph that uses the specified char
      */

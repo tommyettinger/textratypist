@@ -841,19 +841,19 @@ public class TextraLabel extends Widget {
     }
 
     /**
-     * The maximum number of {@link Line}s this label can display.
+     * The maximum number of lines this label can display.
      *
-     * @return the maximum number of {@link Line} objects this label can display
+     * @return the maximum number of lines this label can display
      */
     public int getMaxLines() {
         return layout.maxLines;
     }
 
     /**
-     * Sets the maximum number of {@link Line}s this Layout can display; this is always at least 1.
+     * Sets the maximum number of lines this Layout can display; this is always at least 1.
      * For effectively unlimited lines, pass {@link Integer#MAX_VALUE} to this.
      *
-     * @param maxLines the limit for how many Line objects this Layout can display; always 1 or more
+     * @param maxLines the limit for how many lines this Layout can display; always 1 or more
      */
     public void setMaxLines(int maxLines) {
         layout.setMaxLines(maxLines);
@@ -895,10 +895,10 @@ public class TextraLabel extends Widget {
     }
 
     /**
-     * Gets the height of the Line containing the glyph at the given index. If the index is out of bounds, this just
+     * Gets the height of the line containing the glyph at the given index. If the index is out of bounds, this just
      * returns {@link Font#cellHeight}.
      * @param index the 0-based index of the glyph to measure
-     * @return the height of the Line containing the specified glyph
+     * @return the height of the line containing the specified glyph
      */
     public float getLineHeight(int index) {
         for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {

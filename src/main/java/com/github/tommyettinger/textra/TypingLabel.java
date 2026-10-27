@@ -1634,19 +1634,19 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * The maximum number of {@link Line}s this label can display.
+     * The maximum number of lines this label can display.
      *
-     * @return the maximum number of {@link Line} objects this label can display
+     * @return the maximum number of lines this label can display
      */
     public int getMaxLines() {
         return workingLayout.maxLines;
     }
 
     /**
-     * Sets the maximum number of {@link Line}s this Layout can display; this is always at least 1.
+     * Sets the maximum number of lines this Layout can display; this is always at least 1.
      * For effectively unlimited lines, pass {@link Integer#MAX_VALUE} to this.
      *
-     * @param maxLines the limit for how many Line objects this Layout can display; always 1 or more
+     * @param maxLines the limit for how many lines this Layout can display; always 1 or more
      */
     public void setMaxLines(int maxLines) {
         workingLayout.setMaxLines(maxLines);
@@ -1689,11 +1689,11 @@ public class TypingLabel extends TextraLabel {
 
     /**
      * Given a Layout, typically {@link #getWorkingLayout()}, and an index into that Layout, this returns the index of
-     * the Line in the Layout that holds the glyph at that index.
+     * the line in the Layout that holds the glyph at that index.
      *
      * @param layout a Layout such as {@link #getWorkingLayout()}
      * @param index an index into the given Layout
-     * @return the index of the Line in the Layout containing the given index; will be 0 if index is -1, or the last
+     * @return the index of the line in the Layout containing the given index; will be 0 if index is -1, or the last
      * line index if index is -2 or out of bounds
      */
     public int getLineIndexInLayout(Layout layout, int index) {
@@ -1706,11 +1706,11 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * Gets the height of the Line containing the glyph at the given index, in the working layout. If the index is out
+     * Gets the height of the line containing the glyph at the given index, in the working layout. If the index is out
      * of bounds, this just returns {@link Font#cellHeight}.
      *
      * @param index the 0-based index of the glyph to measure
-     * @return the height of the Line containing the specified glyph
+     * @return the height of the line containing the specified glyph
      */
     public float getLineHeight(int index) {
         if(index >= 0 && index < workingLayout.glyphs.size)
@@ -1718,12 +1718,12 @@ public class TypingLabel extends TextraLabel {
         return font.cellHeight;
     }
     /**
-     * Gets the height of the Line containing the glyph at the given index, plus the heights of all preceding lines, in
+     * Gets the height of the line containing the glyph at the given index, plus the heights of all preceding lines, in
      * the working layout. If the index is out of bounds, this returns either 0 if index was too low, or the height of
      * all lines together if the index was too high.
      *
      * @param index the 0-based index of the glyph to measure
-     * @return the sum of the height of the Line containing the specified glyph and all preceding line heights
+     * @return the sum of the height of the line containing the specified glyph and all preceding line heights
      */
     public float getCumulativeLineHeight(int index) {
         if(index < 0) return 0f;
