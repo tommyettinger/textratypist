@@ -74,7 +74,11 @@ public class TypingLabel extends TextraLabel {
     // Internal state
     private final StringBuilder originalText = new StringBuilder();
     private final StringBuilder intermediateText = new StringBuilder();
-    protected final Layout workingLayout = new Layout();
+    /**
+     * The Layout that is displayed partially as the typing effect proceeds. This is different from the inherited
+     * {@link #layout}, which stores the complete text without changes from the typing effect.
+     */
+    public final Layout workingLayout = new Layout();
 
     protected Justify defaultJustify = Justify.NONE;
 
@@ -1843,7 +1847,7 @@ public class TypingLabel extends TextraLabel {
      * Contains one float per glyph; each is a rotation in degrees to apply to that glyph (around its center).
      * This should not be confused with {@link #getRotation()}, which refers to the rotation of the label itself.
      * This getter accesses the rotation of each glyph around its center instead.
-     * This is a direct reference to the current {@link #getWorkingLayout() working layout}'s {@link Layout#rotations}.
+     * This is a direct reference to the current {@link workingLayout working layout}'s {@link Layout#rotations}.
      */
     public FloatArray getRotations() {
         return workingLayout.rotations;
@@ -1852,7 +1856,7 @@ public class TypingLabel extends TextraLabel {
     /**
      * Contains two floats per glyph; even items are x offsets, odd items are y offsets.
      * This getter accesses the x- and y-offsets of each glyph from its normal position.
-     * This is a direct reference to the current {@link #getWorkingLayout() working layout}'s {@link Layout#offsets}.
+     * This is a direct reference to the current {@link workingLayout working layout}'s {@link Layout#offsets}.
      */
     public FloatArray getOffsets() {
         return workingLayout.offsets;
@@ -1862,7 +1866,7 @@ public class TypingLabel extends TextraLabel {
      * Contains two floats per glyph, as size multipliers; even items apply to x, odd items apply to y.
      * This getter accesses the x-and y-scaling of each glyph in its normal location, without changing line height or
      * the x-advance of each glyph. It is usually meant for temporary or changing effects, not permanent scaling.
-     * This is a direct reference to the current {@link #getWorkingLayout() working layout}'s {@link Layout#sizing}.
+     * This is a direct reference to the current {@link workingLayout working layout}'s {@link Layout#sizing}.
      */
     public FloatArray getSizing() {
         return workingLayout.sizing;
@@ -1872,7 +1876,7 @@ public class TypingLabel extends TextraLabel {
      * Contains one float per glyph; each is a multiplier that affects the x-advance of that glyph.
      * This getter uses the same types of values as {@link #getSizing()}, so if you change the x-scaling of a glyph with
      * that variable, you can also change its x-advance here by assigning the same value for that glyph here.
-     * This is a direct reference to the current {@link #getWorkingLayout() working layout}'s {@link Layout#rotations}.
+     * This is a direct reference to the current {@link workingLayout working layout}'s {@link Layout#rotations}.
      */
     public FloatArray getAdvances() {
         return workingLayout.advances;

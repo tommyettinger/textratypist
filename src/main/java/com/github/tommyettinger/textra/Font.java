@@ -112,7 +112,7 @@ import java.util.Arrays;
  * <br>
  * This interacts with the {@link Layout} class, with a Layout referencing a Font, and various methods in Font taking
  * a Layout. The Layout is usually stored inside a {@link TextraLabel} or {@link TypingLabel}, available by
- * the {@link TextraLabel#layout} field or the {@link TypingLabel#getWorkingLayout()} method for the subtly-different
+ * the {@link TextraLabel#layout} field, or the {@link TypingLabel#workingLayout} field for the subtly-different
  * "working" Layout that a TypingLabel adds to over time. You can also render a Layout on your own using methods in this
  * class, but that gives up some features. Rendering a Layout directly is mostly similar to using a TextraLabel; a
  * TypingLabel has significantly more functionality.
@@ -5239,7 +5239,7 @@ public class Font implements Disposable {
      * Uses the given Layout's {@link Layout#getJustification()} setting to justify all applicable Lines.
      * This is not called automatically. It uses the justification setting on the Layout to determine how it works.
      * It must be called after the Layout's target width has been set to the desired value. This is much more likely
-     * to work well with a {@link TextraLabel#layout} than a {@link TypingLabel#getWorkingLayout()} in the process of
+     * to work well with a {@link TextraLabel#layout} than a {@link TypingLabel#workingLayout} in the process of
      * being typed out.
      *
      * @param layout a Layout that will be modified if its {@link Layout#getJustification()} was set

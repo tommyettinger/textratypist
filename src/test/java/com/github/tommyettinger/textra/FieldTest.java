@@ -126,7 +126,7 @@ skin, font
         stage.draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.INSERT)){
-            System.out.println(ttArea.inner.label.getWorkingLayout().toString().replace('\n', '\\'));
+            System.out.println(ttArea.inner.label.workingLayout.toString().replace('\n', '\\'));
             System.out.println();
             System.err.println(ttArea.inner.label.layout.toString().replace('\n', '\\'));
         }

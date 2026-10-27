@@ -413,7 +413,7 @@ public class TextraField extends Widget implements Disableable {
 	}
 
 	protected void calculateOffsets () {
-		final boolean singleLine = label.getWorkingLayout().getMaxLines() == 1;
+		final boolean singleLine = label.workingLayout.getMaxLines() == 1;
 		float visibleWidth = getWidth();
 		Drawable background = getBackgroundDrawable();
 		if (background != null) visibleWidth -= background.getLeftWidth() + background.getRightWidth();
