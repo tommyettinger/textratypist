@@ -5007,12 +5007,15 @@ public class Font implements Disposable {
         float cs = MathUtils.cosDeg(rotation);
         final int lines = layout.lines();
         float baseX = x, baseY = y;
-        int a = 0;
+        LongArray glyphs = layout.glyphs;
 
         for (int ln = 0; ln < lines; ln++) {
-            Line line = layout.getLine(ln);
-            baseX += sn * line.height;
-            baseY -= cs * line.height;
+            int a = layout.lineStarts.get(ln);
+            int n = (ln + 1 == layout.lines()) ? glyphs.size : layout.lineStarts.get(ln + 1);
+            float lineWidth = layout.getLineWidth(ln);
+            float lineHeight = layout.getLineHeight(ln);
+            baseX += sn * lineHeight;
+            baseY -= cs * lineHeight;
 
             x = baseX;
             y = baseY;
@@ -5025,27 +5028,23 @@ public class Font implements Disposable {
             y = sn * fx + cs * fy + worldOriginY;
 
             if (Align.isCenterHorizontal(align)) {
-                x -= cs * (line.width * 0.5f);
-                y -= sn * (line.width * 0.5f);
+                x -= cs * (lineWidth * 0.5f);
+                y -= sn * (lineWidth * 0.5f);
             } else if (Align.isRight(align)) {
-                x -= cs * line.width;
-                y -= sn * line.width;
+                x -= cs * lineWidth;
+                y -= sn * lineWidth;
             }
-//            x -= sn * (0.5f * line.height);
-//            y += cs * (0.5f * line.height);
 
             int kern = -1;
-            long glyph;
             float single, xChange = 0f, yChange = 0f;
 
             boolean curly = false, initial = true;
-            for (int i = 0, n = line.glyphs.size; i < n; i++) {
-                glyph = line.glyphs.get(i);
+            for (int i = a; i < n; i++, a++) {
+                long glyph = glyphs.get(i);
                 char ch = (char) glyph;
                 float advance = layout.advances.get(a);
                 float sizingX = layout.sizing.get(a << 1);
                 float sizingY = layout.sizing.get(a << 1 | 1);
-                a++;
                 if(omitCurlyBraces) {
                     if (curly) {
                         if (ch == '}') {
@@ -5081,8 +5080,8 @@ public class Font implements Disposable {
                     xChange += sn * font.descent * font.scaleY * 0.5f;
                     yChange -= cs * font.descent * font.scaleY * 0.5f;
 
-                    xChange -= sn * line.height * 0.5f;
-                    yChange += cs * line.height * 0.5f;
+                    xChange -= sn * lineHeight * 0.5f;
+                    yChange += cs * lineHeight * 0.5f;
 
                     final Font.GlyphRegion reg = font.mapping.get((int) (glyph & 0xFFFF));
                     if(!isMono && reg != null && !(ch >= '\uE000' && ch < '\uF800')) {
