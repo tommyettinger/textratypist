@@ -5323,21 +5323,22 @@ public class Font implements Disposable {
      */
     public float calculateXAdvances(Layout layout, FloatArray advances) {
         float max = -1e30f;
-        int a = 0;
+        LongArray glyphs = layout.glyphs;
+        advances.ensureCapacity(layout.glyphs.size + 1);
         for (int ln = 0, len = layout.lines(); ln < len; ln++) {
-            Line line = layout.getLine(ln);
+            int a = layout.lineStarts.get(ln);
+            int n = (ln + 1 == layout.lines()) ? glyphs.size : layout.lineStarts.get(ln + 1);
+
             float scaleX;
             float scale;
-            LongArray glyphs = line.glyphs;
-            advances.ensureCapacity(line.glyphs.size + 1);
+
             boolean curly = false, initial = true;
             int kern = -1;
             float amt, total = 0f;
-            line.height = 0f;
-            for (int i = 0, n = glyphs.size; i < n; i++) {
+            for (int i = a; i < n; i++, a++) {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
-                float advance = layout.advances.get(a++);
+                float advance = layout.advances.get(a);
                 if(omitCurlyBraces) {
                     if (curly) {
                         if (ch == '}') {
@@ -5371,7 +5372,6 @@ public class Font implements Disposable {
                         scaleX = scale * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
                     else
                         scaleX = font.scaleX * scale * (1f + 0.5f * (-(glyph & SUPERSCRIPT) >> 63));
-                    line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
                     amt = font.kerning.get(kern, 0) * scaleX;
                     float changedW = xAdvance(font, scaleX, glyph);
                     if(initial && !font.isMono) {
@@ -5386,7 +5386,6 @@ public class Font implements Disposable {
                     total += changedW + amt;
                 } else {
                     scale = advance;
-                    line.height = Math.max(line.height, (font.cellHeight /* - font.descent * font.scaleY */) * scale);
                     if((char)glyph >= 0xE000 && (char)glyph < 0xF800){
                         scaleX = scale * font.cellHeight / tr.getMaxDimension() * font.inlineImageStretch;
                     }
@@ -8136,8 +8135,7 @@ public class Font implements Disposable {
         boolean curly = false;
 
         for (int ln = 0; ln < changing.lines(); ln++) {
-            int currentLineStart = changing.lineStarts.get(ln);
-            int a = currentLineStart;
+            int a = changing.lineStarts.get(ln);
             int n = (ln + 1 == changing.lines()) ? glyphs.size : changing.lineStarts.get(ln + 1);
             int lineLength = n - a;
             float drawn = 0f, visibleWidth = 0f;
@@ -8148,7 +8146,6 @@ public class Font implements Disposable {
                 long glyph = glyphs.get(i);
                 char ch = (char) glyph;
                 float advance = changing.advances.get(a);
-                float sizingY = changing.sizing.get(a << 1 | 1);
                 if (omitCurlyBraces && ch == '{') {
                     if (curly) {
                         curly = false;
