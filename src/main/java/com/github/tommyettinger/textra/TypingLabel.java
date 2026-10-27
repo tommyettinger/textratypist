@@ -1692,24 +1692,6 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * Given a Layout, typically {@link #getWorkingLayout()}, and an index into that Layout, this returns the index of
-     * the line in the Layout that holds the glyph at that index.
-     *
-     * @param layout a Layout such as {@link #getWorkingLayout()}
-     * @param index an index into the given Layout
-     * @return the index of the line in the Layout containing the given index; will be 0 if index is -1, or the last
-     * line index if index is -2 or out of bounds
-     */
-    public int getLineIndexInLayout(Layout layout, int index) {
-        if(index == -1) return 0;
-        if(index == -2) return layout.lines() - 1;
-        for (int i = 1, n = layout.lineStarts.size; i < n; i++) {
-            if(layout.lineStarts.get(i) > index) return i - 1;
-        }
-        return layout.lines() - 1;
-    }
-
-    /**
      * Gets the height of the line containing the glyph at the given index, in the working layout. If the index is out
      * of bounds, this just returns {@link Font#cellHeight}.
      *
@@ -1718,7 +1700,7 @@ public class TypingLabel extends TextraLabel {
      */
     public float getLineHeight(int index) {
         if(index >= 0 && index < workingLayout.glyphs.size)
-            return workingLayout.getLineHeight(getLineIndexInLayout(workingLayout, index));
+            return workingLayout.getLineHeight(Layout.getLineIndexInLayout(workingLayout, index));
         return font.cellHeight;
     }
     /**
@@ -1739,7 +1721,7 @@ public class TypingLabel extends TextraLabel {
             return total;
         }
         float cumulative = 0f;
-        int last = getLineIndexInLayout(workingLayout, index);
+        int last = Layout.getLineIndexInLayout(workingLayout, index);
         for (int i = 0; i <= last; i++) {
             cumulative += workingLayout.getLineHeight(i);
         }

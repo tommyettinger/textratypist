@@ -895,19 +895,15 @@ public class TextraLabel extends Widget {
     }
 
     /**
-     * Gets the height of the line containing the glyph at the given index. If the index is out of bounds, this just
-     * returns {@link Font#cellHeight}.
+     * Gets the height of the line containing the glyph at the given index, in the working layout. If the index is out
+     * of bounds, this just returns {@link Font#cellHeight}.
+     *
      * @param index the 0-based index of the glyph to measure
      * @return the height of the line containing the specified glyph
      */
     public float getLineHeight(int index) {
-        for (int i = 0, n = layout.lines(); i < n && index >= 0; i++) {
-            LongArray glyphs = layout.getLine(i).glyphs;
-            if (index < glyphs.size)
-                return layout.getLine(i).height;
-            else
-                index -= glyphs.size;
-        }
+        if(index >= 0 && index < layout.glyphs.size)
+            return layout.getLineHeight(Layout.getLineIndexInLayout(layout, index));
         return font.cellHeight;
     }
 

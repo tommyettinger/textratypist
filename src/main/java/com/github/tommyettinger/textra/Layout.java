@@ -114,6 +114,25 @@ public class Layout {
         advances.addAll(other.advances);
         justification = other.justification;
     }
+
+    /**
+     * Given a Layout and an index into that Layout, this returns the index of
+     * the line in the Layout that holds the glyph at that index.
+     *
+     * @param layout a Layout such as {@link TextraLabel#layout} or {@link TypingLabel#workingLayout}
+     * @param index an index into the given Layout
+     * @return the index of the line in the Layout containing the given index; will be 0 if index is -1, or the last
+     * line index if index is -2 or out of bounds
+     */
+    public static int getLineIndexInLayout(Layout layout, int index) {
+        if(index == -1) return 0;
+        if(index == -2) return layout.lines() - 1;
+        for (int i = 1, n = layout.lineStarts.size; i < n; i++) {
+            if(layout.lineStarts.get(i) > index) return i - 1;
+        }
+        return layout.lines() - 1;
+    }
+
     /**
      * One of the ways to set the font on a Layout; this one returns this Layout for chaining.
      *
