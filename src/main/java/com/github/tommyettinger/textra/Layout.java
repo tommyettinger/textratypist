@@ -19,7 +19,6 @@ package com.github.tommyettinger.textra;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.LongArray;
@@ -38,7 +37,6 @@ import com.badlogic.gdx.utils.LongArray;
 public class Layout {
 
     protected Font font;
-    protected final Array<Line> lines = new Array<>(true, 8);
     protected int maxLines = Integer.MAX_VALUE;
     protected boolean atLimit = false;
     protected String ellipsis = null;
@@ -284,17 +282,6 @@ public class Layout {
 
     public int lines() {
         return lineStarts.size;
-    }
-
-    /**
-     * Gets a Line from this by its index.
-     *
-     * @param i index for the Line to fetch; must be at least 0 and less than {@link #lines()}.
-     * @return the Line at the given index
-     */
-    public Line getLine(int i) {
-        if (i >= lines.size) return null;
-        return lines.get(i);
     }
 
     public int getLineLength(int ln){

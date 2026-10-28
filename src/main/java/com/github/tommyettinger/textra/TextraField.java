@@ -723,7 +723,7 @@ public class TextraField extends Widget implements Disableable {
 	protected int delete (boolean fireChangeEvent) {
 		int from = label.selectionStart;
 		if(showingMessage) return label.selectionStart;
-		LongArray glyphs = label.layout.getLine(0).glyphs;
+		LongArray glyphs = label.layout.glyphs;
 		if(glyphs.size > 0 && label.selectionEnd >= 0 && label.selectionStart <= label.selectionEnd)
 			glyphs.removeRange(label.selectionStart, Math.max(Math.min(glyphs.size - 1, label.selectionEnd), 0));
 		if (fireChangeEvent)
@@ -842,7 +842,7 @@ public class TextraField extends Widget implements Disableable {
 		clearSelection();
 		String oldText = text;
 		text = "";
-		label.layout.getLine(0).glyphs.clear();
+		label.layout.glyphs.clear();
 		cursor = 0;
 		paste(str, false);
 		if (programmaticChangeEvents)

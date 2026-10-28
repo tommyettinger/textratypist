@@ -76,9 +76,6 @@ public class FontSwitchTest extends ApplicationAdapter {
 //        font.markup("Good day to you all, sirs and madams!"
 //                + "\n[*]Водяно́й[] — в славянской мифологии дух, обитающий в воде, хозяин вод[^][BLUE][[2][]."
 //                + "\nВоплощение стихии воды как отрицательного и опасного начала[^][BLUE][[3][].", layout);
-
-//        for(Line line : layout.lines)
-//            font.calculateSize(line);
         System.out.println(layout);
         startTime = TimeUtils.millis();
     }
