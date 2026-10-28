@@ -340,7 +340,7 @@ public class TextraArea extends Container<ScrollPane> {
                     }
                     TextraArea.this.getActor().scrollTo(0, scrollPos, 1, latestLineHeight);
 
-                    for (int n = i + label.workingLayout.getLine(currentLine + 1).glyphs.size; i < n; i++) {
+                    for (int n = i + label.workingLayout.getLineLength(currentLine + 1); i < n; i++) {
                         if(glyphPositions.get(i) + label.workingLayout.advances.get(i) * 0.5f > gp) break;
                     }
                     cursor = i;
@@ -357,7 +357,7 @@ public class TextraArea extends Container<ScrollPane> {
                     }
                     TextraArea.this.getActor().scrollTo(0, scrollPos, 1, latestLineHeight);
 
-                    for (int n = i + label.workingLayout.getLine(currentLine - 1).glyphs.size; i < n; i++) {
+                    for (int n = i + label.workingLayout.getLineLength(currentLine - 1); i < n; i++) {
                         if(glyphPositions.get(i) + label.workingLayout.advances.get(i) * 0.5f > gp) break;
                     }
                     cursor = i;

@@ -297,6 +297,10 @@ public class Layout {
         return lines.get(i);
     }
 
+    public int getLineLength(int ln){
+        return (ln + 1 < lineStarts.size ? lineStarts.get(ln + 1) : glyphs.size) - lineStarts.get(ln);
+    }
+
     public float getLineWidth(int ln){
         return lineSizes.get(ln + ln);
     }
