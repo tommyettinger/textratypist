@@ -60,7 +60,7 @@ public class HideEffect extends Effect {
 
     public HideEffect(TypingLabel label, String[] params) {
         super(label);
-        label.trackingInput = true;
+        label.setTrackingInput(true);
 
         // Color 1 or Alpha 1
         if (params.length > 0) {

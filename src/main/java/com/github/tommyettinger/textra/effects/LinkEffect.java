@@ -46,7 +46,7 @@ public class LinkEffect extends Effect {
 
     public LinkEffect(TypingLabel label, String[] params) {
         super(label);
-        label.trackingInput = true;
+        label.setTrackingInput(true);
 
         // URL
         if (params.length > 0) {

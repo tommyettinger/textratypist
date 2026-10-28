@@ -163,7 +163,7 @@ public class EffectShowcaseGdx extends ApplicationAdapter {
 //        final TypingLabel label = new TypingLabel("", font);
 //        label.setText(sb.toString());
 
-        label.selectable = true;
+        label.setSelectable(true);
         label.align = Align.topLeft;
 
         label.setWrap(true);

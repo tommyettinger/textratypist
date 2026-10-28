@@ -182,7 +182,7 @@ public class EffectSpeedCheck extends ApplicationAdapter {
 //        final TypingLabel label = new TypingLabel("", font);
 //        label.setText(sb.toString());
 
-        label.selectable = true;
+        label.setSelectable(true);
         label.align = Align.topLeft;
 
         // Make the label wrap to new lines, respecting the table's layout.

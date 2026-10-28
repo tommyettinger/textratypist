@@ -86,17 +86,9 @@ public class TypingLabel extends TextraLabel {
      * If true, this will attempt to track which glyph the user's mouse or other pointer is over (see {@link #overIndex}
      * and {@link #lastTouchedIndex}).
      */
-    public boolean trackingInput = false;
+    private boolean trackingInput = false;
 
-    /**
-     * If true, this label will allow clicking and dragging to select a range of text, if {@link #trackingInput} is also
-     * true. This does not allow the text to be edited unless so implemented by another class. If text can be selected,
-     * then you can use {@link #getSelectedText()} to get the selected String, or {@link #copySelectedText()} to copy
-     * that text directly. To copy automatically, use a listener that checks {@link TypingListener#event(String)}, and
-     * when the event String is {@code "*SELECTED"}, that means a click-and-drag selected a range of text in this label,
-     * and you can do what you want with the selected text (such as call {@link #copySelectedText()}).
-     */
-    public boolean selectable = false;
+    private boolean selectable = false;
 
     public Drawable selectionDrawable = null;
     /**
@@ -1802,20 +1794,26 @@ public class TypingLabel extends TextraLabel {
     }
 
     /**
-     * Returns true if and only if {@link #selectable} is true and {@link #trackingInput} is true; otherwise false.
-     * @return whether the text of this label is selectable
+     * If true, this label will allow clicking and dragging to select a range of text, if {@link #isTrackingInput()} is also
+     * true. This does not allow the text to be edited unless so implemented by another class. If text can be selected,
+     * then you can use {@link #getSelectedText()} to get the selected String, or {@link #copySelectedText()} to copy
+     * that text directly. To copy automatically, use a listener that checks {@link TypingListener#event(String)}, and
+     * when the event String is {@code "*SELECTED"}, that means a click-and-drag selected a range of text in this label,
+     * and you can do what you want with the selected text (such as call {@link #copySelectedText()}).
+     * @return true if this is both selectable and is tracking input
      */
     public boolean isSelectable() {
         return selectable && trackingInput;
     }
 
     /**
-     * If given {@code true}, this makes the text of this label {@link #selectable} and ensures {@link #trackingInput}
-     * is true. Otherwise, this makes the label not-selectable and doesn't change {@link #trackingInput}. The
+     * If given {@code true}, this makes the text of this label {@link #selectable} and ensures {@link #isTrackingInput()}
+     * is true. Otherwise, this makes the label not-selectable and doesn't change {@link #isTrackingInput()}. The
      * application should usually be set to copy the selected text using {@link #copySelectedText()} when the user
      * expects it to be copied. Often, a {@link TypingListener} that checks for the event {@code "*SELECTED"} works.
      * This also sets the {@link #selectionDrawable} to something nicer-looking than the default, but it can only do
      * this if {@link #font} has a {@link Font#solidBlock}.
+     *
      * @param selectable true if the text of this label should be selectable
      * @return this, for chaining
      */
@@ -1827,6 +1825,29 @@ public class TypingLabel extends TextraLabel {
             spr.setColor(0.5f, 0.5f, 0.5f, 0.5f);
             selectionDrawable = new SpriteDrawable(spr);
         }
+        return this;
+    }
+
+    /**
+     * Returns true if this tracks where the mouse is relative to this TypingLabel, for effects that change on mouse
+     * hover and potentially selecting text. Selecting text also requires {@link #isSelectable()}.
+     * See {@link #overIndex} and {@link #lastTouchedIndex} for how this tracks mouse input.
+     *
+     * @return true if this tracks where the mouse is relative to this TypingLabel
+     */
+    public boolean isTrackingInput() {
+        return trackingInput;
+    }
+
+    /**
+     * Sets whether this should track where the mouse is relative to this TypingLabel.
+     * See {@link #overIndex} and {@link #lastTouchedIndex} for how this tracks mouse input.
+     *
+     * @param shouldTrackInput true if this should track mouse input
+     * @return this, for chaining
+     */
+    public TypingLabel setTrackingInput(boolean shouldTrackInput){
+        trackingInput = shouldTrackInput;
         return this;
     }
 

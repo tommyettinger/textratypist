@@ -44,7 +44,7 @@ public class TriggerEffect extends Effect {
 
     public TriggerEffect(TypingLabel label, String[] params) {
         super(label);
-        label.trackingInput = true;
+        label.setTrackingInput(true);
 
         // Event name
         if (params.length > 0) {

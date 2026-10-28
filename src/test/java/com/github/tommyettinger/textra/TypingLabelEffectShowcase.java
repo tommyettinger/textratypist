@@ -144,7 +144,7 @@ public class TypingLabelEffectShowcase extends ApplicationAdapter {
                 font);
 //        label.setDefaultToken("{EASE}{FADE=0;1;0.33}");
 
-        label.selectable = true;
+        label.setSelectable(true);
         label.align = Align.topLeft;
 
         // Make the label wrap to new lines, respecting the table's layout.

@@ -90,7 +90,7 @@ public class StylistEffect extends Effect {
 
     public StylistEffect(TypingLabel label, String[] params) {
         super(label);
-        label.trackingInput = true;
+        label.setTrackingInput(true);
 
         // Bold
         if (params.length > 0) {

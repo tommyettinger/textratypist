@@ -60,7 +60,7 @@ public class HighlightEffect extends Effect {
 
     public HighlightEffect(TypingLabel label, String[] params) {
         super(label);
-        label.trackingInput = true;
+        label.setTrackingInput(true);
 
         // Base color
         if (params.length > 0) {

@@ -255,9 +255,8 @@ public class TypingLabelTest extends ApplicationAdapter {
         // Set variable replacements for the {VAR} token
         label.setVariable("title", "curious human");
 
-        label.selectable = true;
-        label.trackingInput = true;
-
+        label.setSelectable(true);
+        
         // Set an event listener for when the {EVENT} token is reached and for the char progression ends.
         label.setTypingListener(new TypingAdapter() {
             @Override
