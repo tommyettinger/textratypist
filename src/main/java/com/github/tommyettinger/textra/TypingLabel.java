@@ -1253,13 +1253,24 @@ public class TypingLabel extends TextraLabel {
         int nextIndex = 0;
         int kern = -1;
 
-        float single, tempBaseX = baseX, tempBaseY = baseY;
-        float lineWidth = 0, lineHeight = 0;
-        float x = 0, y = 0, fx = 0, fy = 0, worldOriginX = baseX, worldOriginY = baseY;
-        float xChange = 0, yChange = 0;
-        float selectionDrawStartX = 0f, selectionDrawStartY = 0f;
+        float single;
+        float tempBaseX = baseX;
+        float tempBaseY = baseY;
+        float lineWidth = 0;
+        float lineHeight = 0;
+        float x = 0;
+        float y = 0;
+        float fx = 0;
+        float fy = 0;
+        float worldOriginX = baseX;
+        float worldOriginY = baseY;
+        float xChange = 0;
+        float yChange = 0;
+        float selectionDrawStartX = 0f;
+        float selectionDrawStartY = 0f;
         float selectionWidth = 0f;
-        boolean curly = false, initial = true;
+        boolean curly = false;
+        boolean initial = true;
 
         Font f = null;
 
@@ -1401,7 +1412,18 @@ public class TypingLabel extends TextraLabel {
 
         o = 0;
         r = 0;
+        ln = -1;
+        nextIndex = 0;
+        kern = -1;
+
+        x = 0;
+        y = 0;
+        xChange = 0;
+        yChange = 0;
         curly = false;
+        initial = true;
+
+        f = null;
 
         for (int i = 0,
              n = Math.min(workingLayout.glyphs.size, endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex));
