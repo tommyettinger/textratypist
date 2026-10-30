@@ -8381,11 +8381,14 @@ public class Font implements Disposable {
             }
         }
         int totalGlyphs = changing.glyphs.size;
+//        int extraLines = 0;
         while (changing.lineStarts.notEmpty() && changing.lineStarts.peek() == totalGlyphs) {
             changing.lineStarts.pop();
             changing.lineSizes.pop();
             changing.lineSizes.pop();
+//            extraLines++;
         }
+//        System.out.println(changing + "\n... had " + extraLines + " extra lines.");
         calculateSize(changing);
         return changing;
     }

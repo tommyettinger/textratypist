@@ -317,7 +317,8 @@ public class Layout {
         }
 
 //        lineSizes.add(0f, 0f);
-        lineStarts.add(glyphs.size);
+        if(lineStarts.peek() != glyphs.size)
+            lineStarts.add(glyphs.size);
         return true;
     }
 
