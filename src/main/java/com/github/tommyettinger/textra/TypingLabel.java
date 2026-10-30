@@ -1145,7 +1145,6 @@ public class TypingLabel extends TextraLabel {
      */
     public void drawSection(Batch batch, float parentAlpha, int startIndex, int endIndex) {
         super.validate();
-
         final float rot = getRotation();
         final float originX = getOriginX();
         final float originY = getOriginY();
@@ -1250,7 +1249,7 @@ public class TypingLabel extends TextraLabel {
             overIndex = -1;
         }
         int ln = -1;
-        int nextIndex = 0;
+        int nextIndex = startIndex;
         int kern = -1;
 
         float single;
@@ -1276,10 +1275,10 @@ public class TypingLabel extends TextraLabel {
 
         if(selectable && selectionDrawable != null) {
             if (selectionEnd >= 0 && selectionEnd >= selectionStart) {
-                for (int i = 0,
+                for (int i = startIndex,
                      n = Math.min(workingLayout.glyphs.size, endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex));
                      i < n; i++) {
-                    if (i < startIndex) continue;
+//                    if (i < startIndex) continue;
                     if (i >= nextIndex) {
                         ++ln;
                         nextIndex = ln + 1 >= lines ? workingLayout.countGlyphs() : workingLayout.countGlyphsBeforeLine(ln + 1);
@@ -1413,7 +1412,7 @@ public class TypingLabel extends TextraLabel {
         o = 0;
         r = 0;
         ln = -1;
-        nextIndex = 0;
+        nextIndex = startIndex;
         kern = -1;
 
         x = 0;
@@ -1425,10 +1424,9 @@ public class TypingLabel extends TextraLabel {
 
         f = null;
 
-        for (int i = 0,
+        for (int i = startIndex,
              n = Math.min(workingLayout.glyphs.size, endIndex < 0 ? glyphCharIndex : Math.min(glyphCharIndex, endIndex));
              i < n; i++) {
-            if (i < startIndex) continue;
             if (i == nextIndex) {
                 ++ln;
                 nextIndex = ln + 1 >= lines ? workingLayout.countGlyphs() : workingLayout.countGlyphsBeforeLine(ln + 1);
