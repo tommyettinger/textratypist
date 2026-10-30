@@ -8184,7 +8184,7 @@ public class Font implements Disposable {
                     drawn += changedW;
                     visibleWidth += changedW;
 
-                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? -changedW : 0f) > (targetWidth + 1f)) {
+                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? -changedW : 0f) > (targetWidth)) {
                         cutoff = breakPoint + 1;
                         boolean next;
                         if (changing.lines() == ln + 1) {
@@ -8207,7 +8207,7 @@ public class Font implements Disposable {
                         if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, cutoff);
                         break;
                     } else if(breakPoint < 0 && i > 0 && visibleWidth > targetWidth){
-                        cutoff = i;
+                        cutoff = i - 1;
                         boolean next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLineBare();
@@ -8295,7 +8295,7 @@ public class Font implements Disposable {
                     drawn += changedW + amt;
                     visibleWidth += changedW + amt;
 
-                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? -changedW - amt : 0f) > (targetWidth + 1f)) {
+                    if (breakPoint >= 0 && visibleWidth + (breakPoint == spacingPoint ? -changedW - amt : 0f) > (targetWidth)) {
                         cutoff = breakPoint + 1;
                         boolean next;
                         if (changing.lines() == ln + 1) {
@@ -8318,7 +8318,7 @@ public class Font implements Disposable {
                         if(ln + 1 < changing.lines()) changing.lineStarts.set(ln + 1, cutoff);
                         break;
                     } else if(breakPoint < 0 && i > 0 && visibleWidth > targetWidth) {
-                        cutoff = i;
+                        cutoff = i - 1;
                         boolean next;
                         if (changing.lines() == ln + 1) {
                             next = changing.pushLineBare();

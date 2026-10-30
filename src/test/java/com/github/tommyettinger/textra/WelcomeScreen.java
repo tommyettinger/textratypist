@@ -45,6 +45,7 @@ public class WelcomeScreen extends ApplicationAdapter {
     stage = new Stage(new ScreenViewport(), batch);
 //    stage.setDebugAll(true);
     BitmapFont font = new BitmapFont();
+    font.getData().padRight = 0; // needed because of the 1px drop shadow on the font
     font.setUseIntegerPositions(false);
     Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
     Styles.LabelStyle style2 = new Styles.LabelStyle(new Font(), Color.RED);

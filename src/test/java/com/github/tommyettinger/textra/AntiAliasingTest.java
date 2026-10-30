@@ -38,10 +38,11 @@ public class AntiAliasingTest extends ApplicationAdapter {
     @Override
     public void create() {
         stage = new Stage();
+        stage.setDebugAll(true);
         msdf = KnownFonts.getRobotoCondensed(Font.DistanceFieldType.MSDF).scaleHeightTo(30).multiplyCrispness(0.75f);
 
         String content = "libGDX is a free and open-source game-development application framework written in the " +
-                "Java programming language with some C and C++ components for performance dependent code.";
+                "Java programming language with some C and C++ components for performance dependent code. Let's go!";
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("mo/Roboto-Condensed.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -56,22 +57,17 @@ public class AntiAliasingTest extends ApplicationAdapter {
         Label.LabelStyle lightRoboto = new Label.LabelStyle(light, Color.WHITE);
         lightRoboto.font.getData().setLineHeight(30);
 
-        TextraLabel textra = new TextraLabel("Stretched TextraLabel:\n" + content, new Styles.LabelStyle(lightRoboto));
+        TextraLabel textra = new TextraLabel("Stretched TextraLabel:\n" + content, new Styles.LabelStyle(msdf, Color.WHITE));
         textra.setWrap(true);
         textra.setAlignment(left);
-        textra.getFont().scaleHeightTo(30);
-        textra.getFont().adjustLineHeight(1.2f);
-        textra.getFont().useIntegerPositions(true);
 
         Label label = new Label("Label:\n" + content, lightRoboto);
         label.setAlignment(topLeft);
         label.setWrap(true);
 
-        TextraLabel textra2 = new TextraLabel("TextraLabel:\n" + content, new Styles.LabelStyle(lightRoboto));
+        TextraLabel textra2 = new TextraLabel("TextraLabel:\n" + content, new Styles.LabelStyle(msdf, Color.WHITE));
         textra2.setWrap(true);
         textra2.setAlignment(left);
-        textra2.getFont().scaleHeightTo(30);
-        textra2.getFont().useIntegerPositions(true);
 
         Table table = new Table();
         table.setFillParent(true);
