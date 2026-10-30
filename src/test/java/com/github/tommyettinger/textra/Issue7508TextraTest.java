@@ -82,6 +82,17 @@ With major huge probably breaking removal of Line and its whole story:
 [MEMORY] Java heap:
 9435160, Native heap: 9435160
 
+After Line was fully removed and RegExodus updated to 0.1.22:
+[MEMORY] text size: 100000 bytes
+[MEMORY] ThreadMXBean reports font16 uses
+34701544 bytes.
+[MEMORY] ThreadMXBean reports label uses
+10153088 bytes.
+[MEMORY] Java heap:
+9245192, Native heap: 9245192
+[MEMORY] Java heap:
+9337864, Native heap: 9337864
+
  */
 public class Issue7508TextraTest extends ApplicationAdapter {
   private static final long OFFSET = measureInternal(() -> { });
