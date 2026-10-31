@@ -28,6 +28,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+// Checked with 2.6.0, even though TextraTypist isn't used in this test.
+
 /**
  * This can be used to demonstrate how to use FreeType's incremental mode with BitmapFont (not Font).
  * It can also be used to see what a BitmapFont looks like when drawn after it has been disposed, by pressing 'd'.

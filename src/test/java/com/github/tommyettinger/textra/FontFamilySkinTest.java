@@ -27,6 +27,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.github.tommyettinger.textra.Font.FontFamily;
 
+// Checked with 2.6.0 .
+
+/**
+ * Checks that a FontFamily can be created from a Skin.
+ */
 public class FontFamilySkinTest extends InputAdapter implements ApplicationListener {
 	FWSkin skin;
 	Stage stage;

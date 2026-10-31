@@ -12,6 +12,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
+// Checked with 2.6.0 .
+
+/**
+ * Checks that a simple text can involve font family switches.
+ */
 public class FontSwitchTest extends ApplicationAdapter {
 
     Font font;

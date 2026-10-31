@@ -35,6 +35,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.tommyettinger.textra.utils.Palette;
 
+// Checked with 2.6.0 .
+
+/**
+ * Checks an issue reported on Discord. I think it was a background issue for TypingLabel. It has been fixed.
+ */
 public class ForestOMossIssueTest extends ApplicationAdapter {
     ScreenViewport viewport;
     Stage stage;

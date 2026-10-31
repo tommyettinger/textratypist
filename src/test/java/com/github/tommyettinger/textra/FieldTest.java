@@ -34,6 +34,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import static com.badlogic.gdx.utils.Align.*;
 
+// Checked with 2.6.0 .
+
+/**
+ * Compares TextField and TextArea from scene2d.ui with TextraField and TextraArea. The TextraField one checks emoji.
+ */
 public class FieldTest extends ApplicationAdapter {
     ScreenViewport viewport;
     Stage stage;
