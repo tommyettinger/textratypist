@@ -35,6 +35,11 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import static com.badlogic.gdx.utils.Align.*;
 
+// Checked with 2.6.0 .
+
+/**
+ * Checks rotating using {@link TransformContainer}s holding {@link TypingLabel}s.
+ */
 public class FunnyRotationTest extends ApplicationAdapter {
     TextureArrayCpuPolygonSpriteBatch batch;
     FitViewport viewport;

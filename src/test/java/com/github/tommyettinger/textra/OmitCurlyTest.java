@@ -10,12 +10,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class GradientTest extends ApplicationAdapter {
+// Checked with 2.6.0 .
+
+/**
+ * Makes sure {@link Font#omitCurlyBraces} can disable curly-brace effect handling and the removal of curly-brace text.
+ */
+public class OmitCurlyTest extends ApplicationAdapter {
 
   private Font font;
   private Stage stage;
 
-  public GradientTest() {
+  public OmitCurlyTest() {
   }
 
   @Override
@@ -68,6 +73,6 @@ public class GradientTest extends ApplicationAdapter {
     config.disableAudio(true);
     config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
     config.useVsync(true);
-    new Lwjgl3Application(new GradientTest(), config);
+    new Lwjgl3Application(new OmitCurlyTest(), config);
   }
 }

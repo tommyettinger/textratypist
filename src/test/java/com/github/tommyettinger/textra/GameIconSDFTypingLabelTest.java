@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+// Checked with 2.6.0 ; it doesn't work, which is expected.
+
 /**
  * This test should not be expected to look correct. SDF atlases are not currently handled.
  */

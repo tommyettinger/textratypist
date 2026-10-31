@@ -11,6 +11,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Makes sure {@link KnownFonts#addGameIcons(Font)} works with a TypingLabel.
+ */
 public class GameIconTypingLabelTest extends ApplicationAdapter {
     FWSkin      skin;
     Stage       stage;
