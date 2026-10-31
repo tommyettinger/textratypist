@@ -1248,7 +1248,7 @@ public class TypingLabel extends TextraLabel {
                         inX < getX() ? -1 : inX > getX() + getWidth() ? -2 : -1;
             overIndex = -1;
         }
-        int ln = -1;
+        int ln = workingLayout.getLineIndex(startIndex) - 1;
         int nextIndex = startIndex;
         int kern = -1;
 
@@ -1401,10 +1401,10 @@ public class TypingLabel extends TextraLabel {
                         selectionWidth += single;
                     xChange += cs * single;
                     yChange += sn * single;
+                    // draw one selection drawable
+                    if (selectionWidth > 0f && (i + 1 == nextIndex || i + 1 == selectionEnd))
+                        selectionDrawable.draw(batch, selectionDrawStartX, selectionDrawStartY, selectionWidth, workingLayout.getLineHeight(ln));
                 }
-                // draw one selection drawable
-                if (selectionWidth > 0f)
-                    selectionDrawable.draw(batch, selectionDrawStartX, selectionDrawStartY, selectionWidth, workingLayout.getLineHeight(ln));
             }
         }
 
