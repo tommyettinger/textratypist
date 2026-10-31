@@ -31,6 +31,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Compares loading a Font from a BitmapFont vs. loading from a .json.lzma file directly. Makes sure the inline images,
+ * which are emoji in this case, render at the same spots. One font is translucent red, the other translucent blue, so
+ * the text should all be purple.
+ */
 public class EmojiAlignmentTest extends ApplicationAdapter {
     public Stage stage;
     public Font font, font2;

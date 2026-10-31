@@ -11,6 +11,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests that emoji and square-bracket modes work in a TextraLabel.
+ */
 public class EmojiTextraLabelTest extends ApplicationAdapter {
     Stage       stage;
     TextureArrayCpuPolygonSpriteBatch batch;

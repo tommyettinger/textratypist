@@ -14,7 +14,10 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
 /**
+ * Shows how speed/intensity changes to different effects change how they look.
  */
 public class EffectSpeedCheck extends ApplicationAdapter {
     FWSkin      skin;

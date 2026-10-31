@@ -14,6 +14,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests that emoji and square-bracket modes work in a TypingLabel.
+ */
 public class EmojiTypingLabelTest extends ApplicationAdapter {
     Stage       stage;
     TextureArrayCpuPolygonSpriteBatch batch;
