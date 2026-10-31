@@ -30,6 +30,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Compares Font to BitmapFont for every Font in KnownFonts. The baseline is higher for Font.
+ */
 public class IncongruityTest extends ApplicationAdapter {
     Stage stage;
 

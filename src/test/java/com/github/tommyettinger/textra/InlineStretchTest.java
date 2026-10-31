@@ -25,6 +25,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Makes sure {@link Font#setInlineImageStretch(float)} works. It doesn't seem to change the size of the TypingLabel.
+ */
 public class InlineStretchTest extends ApplicationAdapter {
 
   private Font font;

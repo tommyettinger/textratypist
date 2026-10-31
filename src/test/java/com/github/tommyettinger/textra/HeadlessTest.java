@@ -6,6 +6,11 @@ import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 
+// Checked with 2.6.0 .
+
+/**
+ * Checks that metrics can still be loaded by a headless app.
+ */
 public class HeadlessTest extends ApplicationAdapter {
 
     Font fnt;

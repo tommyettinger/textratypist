@@ -34,6 +34,12 @@ import com.github.tommyettinger.textra.utils.ColorUtils;
 
 import static com.github.tommyettinger.textra.utils.ColorUtils.lerpColors;
 
+// Checked with 2.6.0 .
+
+/**
+ * One of the earliest tests, this mostly checks that box-drawing characters line up and
+ * {@link Font#fitCell(float, float, boolean)} works.
+ */
 public class GridTest extends ApplicationAdapter {
     Font font;
     Font[] fonts;
@@ -46,7 +52,6 @@ public class GridTest extends ApplicationAdapter {
     TypingLabel marquee, link;
     long startTime;
     RandomXS128 random;
-    long glyph;
 
     static final int PIXEL_WIDTH = 1000, PIXEL_HEIGHT = 650;
 

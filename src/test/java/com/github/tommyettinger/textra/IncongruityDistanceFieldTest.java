@@ -29,6 +29,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Compares SDF to MSDF fonts for every Font in KnownFonts with both types.
+ */
 public class IncongruityDistanceFieldTest extends ApplicationAdapter {
     Stage stage;
     Font[] sdfFonts;
