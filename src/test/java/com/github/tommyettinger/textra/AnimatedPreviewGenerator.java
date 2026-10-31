@@ -24,7 +24,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class AnimatedPreviewGenerator extends ApplicationAdapter {
     public static final int FRAMERATE = 30;
-    public static final boolean NOTO = false;
+    public static final boolean NOTO = true;
     FWSkin      skin;
     Stage       stage;
     TextureArrayCpuPolygonSpriteBatch batch;

@@ -7191,7 +7191,7 @@ public final class KnownFonts implements LifecycleListener {
      * @return {@code changing}, after the emoji atlas has been added
      */
     public static Font addNotoEmoji(Font changing) {
-        return addNotoEmoji(changing, 0f, -2f, 4f);
+        return addNotoEmoji(changing, 0f, 0f, 4f);
     }
 
     /**
@@ -7226,8 +7226,8 @@ public final class KnownFonts implements LifecycleListener {
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
-     * If you aren't sure what to use, the simplest overload uses the parameters {@code 2f, -1f, 4f}, which pushes each
-     * emoji to the right, a little down, and gives more room between it and the next glyph.
+     * If you aren't sure what to use, the simplest overload uses the parameters {@code 0f, 0f, 4f}, which pushes each
+     * emoji 0 units to the right, 0 units up, and gives 4 units more room between it and the next glyph.
      * <br>
      * Noto Emoji might seem large in text when used with some fonts; you can call
      * {@link Font#setInlineImageStretch(float)} with a value like 0.9f to shrink the images.
@@ -7288,9 +7288,9 @@ public final class KnownFonts implements LifecycleListener {
      * other, and put both in a FontFamily, so you can access both atlases in the same block of text.
      * <br>
      * This overload allows customizing the x/y offsets and x-advance for every emoji this puts in a Font.
-     * If you aren't sure what to use, the simplest overload uses the parameters {@code 2f, -1f, 4f}, which pushes each
-     * emoji to the right, a little down, and gives more room between it and the next glyph. This also allows specifying
-     * Strings to prepend before and append after each name in the font, including emoji names.
+     * If you aren't sure what to use, the simplest overload uses the parameters {@code 0f, 0f, 4f}, which pushes each
+     * emoji 0 units to the right, 0 units up, and gives 4 units more room between it and the next glyph. This also
+     * allows specifying Strings to prepend before and append after each name in the font, including emoji names.
      * <br>
      * Noto Emoji might seem large in text when used with some fonts; you can call
      * {@link Font#setInlineImageStretch(float)} with a value like 0.9f to shrink the images.
