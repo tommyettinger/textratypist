@@ -1,0 +1,221 @@
+package com.github.tommyettinger.textra;
+
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+
+// Checked with 2.6.0 .
+
+/**
+ * Tests rendering CJK chars and wrapping them using {@link Font#insertZeroWidthSpacesInCJK(String)}.
+ * Uses Maple Mono as its font, with SDF mode to test yet one more thing.
+ */
+public class CJKTypingLabelFontTest extends ApplicationAdapter {
+    FWSkin      skin;
+    Stage       stage;
+//    SpriteBatch batch;
+    TextureArrayCpuPolygonSpriteBatch batch;
+    TypingLabel label;
+    TextraButton  buttonPause;
+    TextraButton  buttonResume;
+    TextraButton  buttonRestart;
+    TextraButton  buttonRebuild;
+    TextraButton  buttonSkip;
+
+    @Override
+    public void create() {
+//        batch = new SpriteBatch(1000);
+        batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+        TextureArrayShaders.initializeTextureArrayShaders();
+
+        adjustTypingConfigs();
+
+        skin = new FWSkin(Gdx.files.internal("uiskin4.json"));
+        stage = new Stage(new FitViewport(720, 405), batch);
+        Gdx.input.setInputProcessor(stage);
+
+        final Table table = new Table();
+        stage.addActor(table);
+        table.setFillParent(true);
+
+        label = createTypingLabel();
+
+        buttonPause = new TextraButton("Pause", skin);
+        buttonPause.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                label.pause();
+            }
+        });
+
+        buttonResume = new TextraButton("Resume", skin);
+        buttonResume.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                label.resume();
+            }
+        });
+
+        buttonRestart = new TextraButton("Restart", skin);
+        buttonRestart.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                label.restart();
+//                label.skipToTheEnd();
+                Cell<TypingLabel> labelCell = table.getCell(label);
+                table.pack();
+//                System.out.println("Label height: " + labelCell.getActorHeight()
+//                        + ", cell max height: " + labelCell.getMaxHeight()
+//                        + ", cell pref height: " + labelCell.getPrefHeight());
+
+            }
+        });
+
+        buttonRebuild = new TextraButton("Rebuild", skin);
+        buttonRebuild.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                adjustTypingConfigs();
+                Cell<TypingLabel> labelCell = table.getCell(label);
+                label = createTypingLabel();
+                labelCell.setActor(label);
+//                label.skipToTheEnd();
+                table.pack();
+//                System.out.println("Label height: " + labelCell.getActorHeight()
+//                        + ", cell max height: " + labelCell.getMaxHeight()
+//                        + ", cell pref height: " + labelCell.getPrefHeight());
+            }
+        });
+
+        buttonSkip = new TextraButton("Skip", skin);
+        buttonSkip.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                label.skipToTheEnd();
+            }
+        });
+
+        table.pad(50f);
+        table.add(label).width(400).colspan(5).growX();
+        table.row();
+        table.row().uniform().expand().growX().space(40).center();
+        table.add(buttonPause, buttonResume, buttonRestart, buttonSkip, buttonRebuild);
+
+        table.pack();
+    }
+
+    public void adjustTypingConfigs() {
+        // Only allow two chars per frame
+        TypingConfig.CHAR_LIMIT_PER_FRAME = 2;
+
+        // Change color used by CLEARCOLOR token
+        TypingConfig.DEFAULT_CLEAR_COLOR = Color.WHITE;
+
+        // Create some global variables to handle style
+        TypingConfig.GLOBAL_VARS.put("ICE_WIND", "{GRADIENT=88ccff;eef8ff;-0.5;5}{WIND=2;4;0.25;0.1}{JOLT=1;0.6;inf;0.1;;}");
+    }
+
+    public TypingLabel newTypingLabel(String text) {
+        Font.FontFamily family = new Font.FontFamily(
+                new String[]{
+                        "MapleMono"
+                },
+                new Font[]{
+                        KnownFonts.getMapleMono(Font.DistanceFieldType.SDF).scaleHeightTo(20),
+                });
+        Font font = family.connected[0].setFamily(family);
+//        font.mapping.put('\u200B', new Font.GlyphRegion(font.mapping.get(' '), 0f, 0f, 0f));
+//        font.addSpacingGlyph('\u200B', 0f);
+        final TypingLabel label = new TypingLabel(text, font);
+
+        label.parseTokens();
+
+        return label;
+    }
+
+    public TypingLabel createTypingLabel() {
+        final TypingLabel label = newTypingLabel(Font.insertZeroWidthSpacesInCJK(
+                "{SPIRAL=2;0.5;-2.5}{STYLE=/}[?SHADOW]YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYW\u200BYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY[%]{STYLE=/}{ENDSPIRAL} " +
+                "YYYYYYYYYYYYYYYW\n" +
+                "YYYYY[RED]YYYYY[]\n" +
+                "[GREEN]YYYYYY[]YYYYYYYYYYYW\n\n"+
+                "{SPIRAL=2;0.5;-2.5}{STYLE=/}[?SHADOW]汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简汉仪拜基火云体简[%]{STYLE=/}{ENDSPIRAL} " +
+                "汉仪拜基火云体繁汉仪拜基火云体W\n" +
+                "汉仪报宋简[RED]汉仪报宋繁[]\n" +
+                "[GREEN]汉仪碑刻黑简[]汉仪碑刻黑繁汉仪碑刻黑W"));
+        label.setDefaultToken("{EASE}{FADE=0;1;0.33}{SLOW}");
+        label.align = Align.topLeft;
+
+        // Make the label wrap to new lines, respecting the table's layout.
+        label.setWrap(true);
+        label.layout.maxLines = 15;
+        label.setWidth(400);
+
+        // Finally parse tokens in the label text.
+//        label.parseTokens();
+
+        return label;
+    }
+
+    public void update(float delta) {
+        stage.act(delta);
+    }
+
+    @Override
+    public void render() {
+        update(Gdx.graphics.getDeltaTime());
+
+        ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1);
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
+//        {
+//            adj = adj + 15 & 15;
+//            System.out.println("Adjusting " + label.font.family.connected[adj].name);
+//        }
+//        else if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
+//        {
+//            adj = adj + 1 & 15;
+//            System.out.println("Adjusting " + label.font.family.connected[adj].name);
+//        }
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
+//            System.out.println(label.font.family.connected[adj].setDescent(label.font.family.connected[adj].descent + 1).descent + " " + label.font.family.connected[adj].name);
+//        else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
+//            System.out.println(label.font.family.connected[adj].setDescent(label.font.family.connected[adj].descent - 1).descent + " " + label.font.family.connected[adj].name);
+        stage.draw();
+        Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+        label.getFont().resizeDistanceField(width, height, stage.getViewport());
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        skin.dispose();
+    }
+
+    public static void main(String[] arg) {
+        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+        config.setTitle("TypingLabel CJK Test");
+        config.setWindowedMode(720, 405);
+        config.setResizable(true);
+        config.setForegroundFPS(60);
+        config.useVsync(true);
+        config.disableAudio(true);
+        new Lwjgl3Application(new CJKTypingLabelFontTest(), config);
+    }
+}

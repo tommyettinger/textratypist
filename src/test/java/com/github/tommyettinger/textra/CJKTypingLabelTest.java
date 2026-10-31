@@ -16,6 +16,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests generating CJK chars with FreeType and loading that via BitmapFont.
+ * Note that FreeTypeFontGenerator must be configured to have incremental set to false.
+ */
 public class CJKTypingLabelTest extends ApplicationAdapter {
     FWSkin      skin;
     Stage       stage;
@@ -209,10 +215,6 @@ public class CJKTypingLabelTest extends ApplicationAdapter {
 //            System.out.println(label.font.family.connected[adj].setDescent(label.font.family.connected[adj].descent - 1).descent + " " + label.font.family.connected[adj].name);
         stage.draw();
         Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
-        System.out.println("actualCrispness from skin:   " + skin.get(Styles.TextButtonStyle.class).font.actualCrispness);
-        System.out.println("actualCrispness from button: " + buttonPause.getTextraLabel().font.actualCrispness);
-        System.out.println("distanceField from button:   " + buttonPause.getTextraLabel().font.distanceField);
-
     }
 
     @Override

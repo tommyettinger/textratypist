@@ -25,6 +25,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -38,6 +39,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.tommyettinger.batch.TextureArrayCpuPolygonSpriteBatch;
 
+// Checked with 2.6.0 .
+
+/**
+ * Calls: 163, draw calls: 6, shader switches: 1, texture bindings: 6
+ */
 public class StandardUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
@@ -50,12 +56,12 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 	Texture texture1;
 	Texture texture2;
 	Label fpsLabel;
-//	GLProfiler profiler;
+	GLProfiler profiler;
 
 	@Override
 	public void create () {
-//		profiler = new GLProfiler(Gdx.graphics);
-//		profiler.enable();
+		profiler = new GLProfiler(Gdx.graphics);
+		profiler.disable();
 		TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch();
 		stage = new Stage(new ScreenViewport(), batch);
 		Gdx.input.setInputProcessor(stage);
@@ -207,7 +213,7 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 
 	@Override
 	public void render () {
-//		profiler.reset();
+		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
 		
 		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[citation needed]");
@@ -215,10 +221,12 @@ public class StandardUITest extends InputAdapter implements ApplicationListener 
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime());
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
-//		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
-//			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
-//					profiler.getCalls(), profiler.getDrawCalls(),
-//					profiler.getShaderSwitches(), profiler.getTextureBindings());
+		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
+			System.out.printf("Calls: %d, draw calls: %d, shader switches: %d, texture bindings: %d\n",
+					profiler.getCalls(), profiler.getDrawCalls(),
+					profiler.getShaderSwitches(), profiler.getTextureBindings());
+		if(Gdx.input.isKeyJustPressed(Keys.P))
+			profiler.enable();
 
 	}
 

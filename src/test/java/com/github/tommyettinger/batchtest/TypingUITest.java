@@ -51,8 +51,10 @@ import com.github.tommyettinger.textra.TypingTooltip;
 import com.github.tommyettinger.textra.TypingWindow;
 import com.github.tommyettinger.batch.TextureArrayCpuPolygonSpriteBatch;
 
+// Checked with 2.6.0 .
+
 /**
- * Calls: 633, draw calls: 33, shader switches: 1, texture bindings: 33
+ * Calls: 273, draw calls: 10, shader switches: 1, texture bindings: 17
  */
 public class TypingUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",

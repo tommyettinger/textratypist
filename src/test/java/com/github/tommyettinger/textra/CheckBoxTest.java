@@ -15,6 +15,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.textra.TextraCheckBox;
 
+// Checked with 2.6.0 .
+
+/**
+ * Makes sure TextraCheckBox and TypingCheckBox act like CheckBox in scene2d.ui.
+ */
 public class CheckBoxTest extends ApplicationAdapter {
 
     private static final float IMAGE_BUTTON_WIDTH = 3 * 32;
