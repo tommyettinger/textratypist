@@ -25,10 +25,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-// Checked with 2.6.0 before release, something is wrong.
+// Checked with 2.6.0 .
 
 /**
- * Checks an issue where apparently emoji get removed during {@link TextraLabel#setText(String)}...
+ * Checks an issue where emoji could have been removed during {@link TextraLabel#setText(String)}.
  */
 public class ColorWrappingTest extends ApplicationAdapter {
     Stage stage;
@@ -43,7 +43,6 @@ public class ColorWrappingTest extends ApplicationAdapter {
         final String text = "Did you know orange is my favorite color? Did[+👌🏼] YOU know orange is my favorite color? Did YOU know orange is my favorite color?";
 
         String initTo = "[#ffff00ff][%50]" + text;
-        System.out.println(initTo);
         final TextraLabel label = new TextraLabel(initTo, font);
         label.setSize(300, 300);
         label.setPosition(100, 400);
@@ -57,7 +56,6 @@ public class ColorWrappingTest extends ApplicationAdapter {
                         Actions.run(() -> {
                             // change to same color it starts with, to see if color is the culprit
                             String setTo = "[#ffff00ff][%50]" + text;
-                            System.out.println(setTo);
                             label.setText(setTo);
                             System.out.println(label);
                         }),
@@ -65,7 +63,6 @@ public class ColorWrappingTest extends ApplicationAdapter {
                         Actions.run(() -> {
                             // change to the default color, to see if color is the culprit
                             String setTo = "[%50]" + text;
-                            System.out.println(setTo);
                             label.setText(setTo);
                             System.out.println(label);
                         }),
@@ -73,7 +70,6 @@ public class ColorWrappingTest extends ApplicationAdapter {
                         Actions.run(() -> {
                             // change to a different color
                             String setTo = "[#ff0000ff][%50]" + text;
-                            System.out.println(setTo);
                             label.setText(setTo);
                             System.out.println(label);
                         })

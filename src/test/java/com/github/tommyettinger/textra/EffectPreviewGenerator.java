@@ -19,7 +19,10 @@ import com.github.tommyettinger.anim8.QualityPalette;
 
 import java.nio.ByteBuffer;
 
+// Checked with 2.6.0 .
+
 /**
+ * Generates an animated GIF for every effect this has registered.
  */
 public class EffectPreviewGenerator extends ApplicationAdapter {
     public static final int FRAMERATE = 60;
@@ -128,7 +131,7 @@ public class EffectPreviewGenerator extends ApplicationAdapter {
                 gif.setPalette(pal);
                 gif.setDitherAlgorithm(Dithered.DitherAlgorithm.BAYDIENT);
                 gif.setDitherStrength(0.2f);
-                gif.write(Gdx.files.local("out/effects/"+label+".gif"), pms, FRAMERATE);
+                gif.write(Gdx.files.local("out/effects/"+starts.get(index).toLowerCase()+".gif"), pms, FRAMERATE);
                 keepGoing = false;
             }
         });
@@ -166,7 +169,7 @@ public class EffectPreviewGenerator extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("TypingLabel Test");
+        config.setTitle("Effect Preview Generator");
         config.setWindowedMode(200, 150);
         config.setResizable(false);
         config.setForegroundFPS(60);
