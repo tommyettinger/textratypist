@@ -36,6 +36,12 @@ import com.github.tommyettinger.colorful.oklab.Palette;
 import static com.badlogic.gdx.Gdx.input;
 import static com.github.tommyettinger.textra.Font.DistanceFieldType.STANDARD;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests compatibility with the colorful-gdx external library. Needs {@link ColorfulFont} to be used instead of Font,
+ * which is Oklab-specific. There's also {@link ColorfulRgbBatchFontTest} for RGB instead of Oklab color.
+ */
 public class ColorfulBatchFontTest extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 810;
     public static final int SCREEN_HEIGHT = 51 * 15;
@@ -73,7 +79,7 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
                 .setInlineImageMetrics(-8f, -2f, -8f, 0.75f)
                 .setOutlineStrength(2f)
                 .setName("Cozette");
-        font.PACKED_BLACK = Palette.BLACK;
+
 //        font.setColor(1f, 0.5f, 0.5f, 1f);
         batch = new ColorfulBatch(1000);
         screenView = new ScreenViewport();
@@ -147,7 +153,7 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
             Gdx.app.exit();
         else if (input.isKeyJustPressed(Input.Keys.C)) // CHAOS!
         {
-            selectedIndex = MathUtils.random(Palette.NAMES_BY_HUE.size-1);
+            selectedIndex = MathUtils.random(Palette.NAMES_BY_HUE.size - 1);
             selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
             selected = Palette.NAMED.get(selectedName, Palette.GRAY);
         } else if (input.isKeyJustPressed(Input.Keys.P)) // print
@@ -156,25 +162,46 @@ public class ColorfulBatchFontTest extends ApplicationAdapter {
                     + " with L=" + ColorTools.channelL(selected) + ",A=" + ColorTools.channelA(selected)
                     + ",B=" + ColorTools.channelB(selected) + ",alpha=1.0 ."
             );
-        } else if (TimeUtils.timeSinceMillis(lastProcessedTime) > 180) {
-            lastProcessedTime = TimeUtils.millis();
-            if (input.isKeyPressed(Input.Keys.RIGHT) || input.isKeyPressed(Input.Keys.DOWN)) {
-                selectedIndex = (selectedIndex + 1) % Palette.NAMES_BY_HUE.size;
-                selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
-                selected = Palette.NAMED.get(selectedName, Palette.GRAY);
-            } else if (input.isKeyPressed(Input.Keys.LEFT) || input.isKeyPressed(Input.Keys.UP)) {
-                selectedIndex = (selectedIndex + Palette.NAMES_BY_HUE.size - 1) % Palette.NAMES_BY_HUE.size;
-                selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
-                selected = Palette.NAMED.get(selectedName, Palette.GRAY);
-            }
+        } else if (input.isKeyJustPressed(Input.Keys.RIGHT) || input.isKeyJustPressed(Input.Keys.DOWN)) {
+            selectedIndex = (selectedIndex + 1) % Palette.NAMES_BY_HUE.size;
+            selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
+            selected = Palette.NAMED.get(selectedName, Palette.GRAY);
+        } else if (input.isKeyJustPressed(Input.Keys.LEFT) || input.isKeyJustPressed(Input.Keys.UP)) {
+            selectedIndex = (selectedIndex + Palette.NAMES_BY_HUE.size - 1) % Palette.NAMES_BY_HUE.size;
+            selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
+            selected = Palette.NAMED.get(selectedName, Palette.GRAY);
         }
     }
 
+    /**
+     * Extends Font to be used with an Oklab ColorfulBatch. This also needs to change the PACKED_??? fields it inherits
+     * from Font, so they use colors from the Oklab {@link Palette} rather than RGBA ones.
+     */
     public static class ColorfulFont extends Font {
         private final float[] vertices = new float[24];
 
         public ColorfulFont(String fntName, String textureName, DistanceFieldType distanceField, float xAdjust, float yAdjust, float widthAdjust, float heightAdjust, boolean makeGridGlyphs) {
             super(fntName, textureName, distanceField, xAdjust, yAdjust, widthAdjust, heightAdjust, makeGridGlyphs);
+            PACKED_HALO_COLOR = PACKED_BLACK = Palette.BLACK;
+            PACKED_WHITE = Palette.WHITE;
+            PACKED_ERROR_COLOR = PACKED_RED = Palette.RED;
+            PACKED_WARN_COLOR = PACKED_YELLOW = Palette.YELLOW;
+            PACKED_NOTE_COLOR = PACKED_BLUE = Palette.BLUE;
+            PACKED_CONTEXT_COLOR = Palette.IVY_GREEN;
+            PACKED_SUGGEST_COLOR = Palette.CHINCHILLA;
+            PACKED_SHADOW_COLOR = ColorTools.oklab(0.13f, 0.13f, 0.13f, 0.5f);
+        }
+
+        public ColorfulFont(Font font){
+            super(font);
+            PACKED_HALO_COLOR = PACKED_BLACK = Palette.BLACK;
+            PACKED_WHITE = Palette.WHITE;
+            PACKED_ERROR_COLOR = PACKED_RED = Palette.RED;
+            PACKED_WARN_COLOR = PACKED_YELLOW = Palette.YELLOW;
+            PACKED_NOTE_COLOR = PACKED_BLUE = Palette.BLUE;
+            PACKED_CONTEXT_COLOR = Palette.IVY_GREEN;
+            PACKED_SUGGEST_COLOR = Palette.CHINCHILLA;
+            PACKED_SHADOW_COLOR = ColorTools.oklab(0.13f, 0.13f, 0.13f, 0.5f);
         }
 //
 //        @Override
