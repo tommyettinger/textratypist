@@ -1370,7 +1370,7 @@ public class TypingLabel extends TextraLabel {
                     } else {
                         kern = -1;
                     }
-                    if (selectionEnd <= i)
+                    if (selectionEnd < i)
                         break;
                     float xx = x + xChange + getOffsets().get(o++) * getScaleX(), yy = y + yChange + getOffsets().get(o++) * getScaleY();
                     if (f.integerPosition) {
@@ -1402,7 +1402,7 @@ public class TypingLabel extends TextraLabel {
                     xChange += cs * single;
                     yChange += sn * single;
                     // draw one selection drawable
-                    if (selectionWidth > 0f && (i + 1 == nextIndex || i + 1 == selectionEnd))
+                    if (selectionWidth > 0f && (i + 1 == nextIndex || i == selectionEnd))
                         selectionDrawable.draw(batch, selectionDrawStartX, selectionDrawStartY, selectionWidth, workingLayout.getLineHeight(ln));
                 }
             }
