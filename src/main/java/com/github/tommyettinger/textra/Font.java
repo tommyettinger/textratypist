@@ -6652,6 +6652,8 @@ public class Font implements Disposable {
                                 return appendTo;
                             }
                         } else {
+
+                            //// WRAP VISIBLE
                             glyphBuffer.clear();
                             for (int j = appendTo.glyphs.size - 2; j > earlier; j--) {
                                 long curr;
@@ -6685,26 +6687,22 @@ public class Font implements Disposable {
                                                     } else continue;
                                                 }
                                             }
-                                            if ((char) curr == '{') {
-                                                glyphBuffer.add(curr);
-                                                curly = omitCurlyBraces;
-                                                continue;
-                                            }
 
                                             float adv = xAdvance(font, sclX, curr);
                                             change += adv;
                                             if (--leading < 0) {
                                                 glyphBuffer.add(curr);
                                                 changeNext += adv;
-                                                if(glyphBuffer.size == 1) {
-                                                    if(!isMono && !((char) curr >= '\uE000' && (char) curr  < '\uF800')) {
-                                                        float ox = font.mapping.get((char) curr, font.defaultValue).offsetX;
+                                                if(glyphBuffer.size == 1){
+                                                    if(!isMono && !(c >= '\uE000' && c < '\uF800')) {
+                                                        float ox = font.mapping.get(c, font.defaultValue).offsetX;
                                                         if (Float.isNaN(ox)) ox = 0;
                                                         else ox *= sclX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                                                         if (ox < 0) changeNext -= ox;
                                                     }
                                                     initial = false;
                                                 }
+
                                             }
                                         }
                                     } else {
@@ -6715,7 +6713,6 @@ public class Font implements Disposable {
                                         boolean curly = false;
                                         for (int k = j + 1; k < appendTo.glyphs.size; k++) {
                                             curr = appendTo.glyphs.get(k);
-                                            char showCh = (char)curr;
                                             if(omitCurlyBraces){
                                                 if (curly) {
                                                     glyphBuffer.add(curr);
@@ -6727,21 +6724,16 @@ public class Font implements Disposable {
                                                     } else continue;
                                                 }
                                             }
-                                            if (showCh == '{') {
-                                                glyphBuffer.add(curr);
-                                                curly = omitCurlyBraces;
-                                                continue;
-                                            }
-                                            k2 = k2 << 16 | showCh;
+                                            k2 = k2 << 16 | c;
                                             float adv = xAdvance(font, sclX, curr);
                                             change += adv + font.kerning.get(k2, 0) * sclX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
                                             if (--leading < 0) {
-                                                kern = kern << 16 | showCh;
+                                                kern = kern << 16 | c;
                                                 changeNext += adv + font.kerning.get(kern, 0) * sclX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
                                                 glyphBuffer.add(curr);
                                                 if(glyphBuffer.size == 1){
-                                                    if(!isMono && !(showCh >= '\uE000' && showCh < '\uF800')) {
-                                                        float ox = font.mapping.get(showCh, font.defaultValue).offsetX;
+                                                    if(!isMono && !(c >= '\uE000' && c < '\uF800')) {
+                                                        float ox = font.mapping.get(c, font.defaultValue).offsetX;
                                                         if (Float.isNaN(ox)) ox = 0;
                                                         else ox *= sclX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
                                                         if (ox < 0) changeNext -= ox;
@@ -6751,6 +6743,8 @@ public class Font implements Disposable {
                                             }
                                         }
                                     }
+                                    // END KERNING-SPECIFIC
+
                                     if (lastWidth - change > targetWidth)
                                         continue;
                                     appendTo.glyphs.truncate(j + 1);
@@ -6783,14 +6777,21 @@ public class Font implements Disposable {
                                                     } else continue;
                                                 }
                                             }
-                                            if ((char) curr == '{') {
-                                                glyphBuffer.add(curr);
-                                                curly = omitCurlyBraces;
-                                                continue;
-                                            }
 
                                             float adv = xAdvance(font, sclX, curr);
                                             change += adv;
+
+                                            glyphBuffer.add(curr);
+                                            changeNext += adv;
+                                            if(glyphBuffer.size == 1){
+                                                if(!isMono && !(c >= '\uE000' && c < '\uF800')) {
+                                                    float ox = font.mapping.get(c, font.defaultValue).offsetX;
+                                                    if (Float.isNaN(ox)) ox = 0;
+                                                    else ox *= sclX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
+                                                    if (ox < 0) changeNext -= ox;
+                                                }
+                                                initial = false;
+                                            }
                                         }
                                     } else {
                                         // YES KERNING
@@ -6800,7 +6801,6 @@ public class Font implements Disposable {
                                         boolean curly = false;
                                         for (int k = j + 1; k < appendTo.glyphs.size; k++) {
                                             curr = appendTo.glyphs.get(k);
-                                            char showCh = (char)curr;
                                             if(omitCurlyBraces){
                                                 if (curly) {
                                                     glyphBuffer.add(curr);
@@ -6812,16 +6812,26 @@ public class Font implements Disposable {
                                                     } else continue;
                                                 }
                                             }
-                                            if (showCh == '{') {
-                                                glyphBuffer.add(curr);
-                                                curly = omitCurlyBraces;
-                                                continue;
-                                            }
-                                            k2 = k2 << 16 | showCh;
+                                            k2 = k2 << 16 | c;
                                             float adv = xAdvance(font, sclX, curr);
                                             change += adv + font.kerning.get(k2, 0) * sclX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+
+                                            kern = kern << 16 | c;
+                                            changeNext += adv + font.kerning.get(kern, 0) * sclX * (isMono || (curr & SUPERSCRIPT) == 0L ? 1f : 0.5f);
+                                            glyphBuffer.add(curr);
+                                            if(glyphBuffer.size == 1){
+                                                if(!isMono && !(c >= '\uE000' && c < '\uF800')) {
+                                                    float ox = font.mapping.get(c, font.defaultValue).offsetX;
+                                                    if (Float.isNaN(ox)) ox = 0;
+                                                    else ox *= sclX * (1f + 0.5f * (-(current & SUPERSCRIPT) >> 63));
+                                                    if (ox < 0) changeNext -= ox;
+                                                }
+                                                initial = false;
+                                            }
                                         }
                                     }
+                                    // END KERNING-SPECIFIC
+
                                     if (lastWidth - change > targetWidth)
                                         continue;
                                     appendTo.glyphs.truncate(j + 1);
