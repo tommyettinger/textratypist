@@ -32,6 +32,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import static com.badlogic.gdx.utils.Align.left;
 import static com.badlogic.gdx.utils.Align.topLeft;
 
+// Checked with 2.6.0 .
+
+/**
+ * I'm not entirely sure what this was meant to test; I think it was FreeType hinting originally. As long as you don't
+ * use an "Auto" hinting mode, FreeType should be fine. That means to use
+ * {@link com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.Hinting#Medium}, not
+ * {@link com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.Hinting#AutoMedium}, and so on.
+ */
 public class AntiAliasingTest extends ApplicationAdapter {
     Stage stage;
     Font msdf;

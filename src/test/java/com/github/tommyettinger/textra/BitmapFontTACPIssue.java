@@ -27,6 +27,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests an old bug that isn't present anymore, where TextureArrayCpuPolygonSpriteBatch couldn't
+ * draw long texts with BitmapFont.
+ */
 public class BitmapFontTACPIssue extends ApplicationAdapter {
 
   private Stage stage;
@@ -37,13 +43,11 @@ public class BitmapFontTACPIssue extends ApplicationAdapter {
   @Override
   public void create() {
     // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
-    TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000); // fails, debugging
+    TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
     // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
     // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
     TextureArrayShaders.initializeTextureArrayShaders();
 
-    // works fine.
-//    PolygonSpriteBatch batch = new PolygonSpriteBatch(1000);
     stage = new Stage(new ScreenViewport(), batch);
     BitmapFont font = new BitmapFont();
     font.setUseIntegerPositions(false);

@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+// Checked with 2.6.0 .
+
 /**
  * Testing the effects of scaling on atlas images, and larger-than-normal atlas images.
  */

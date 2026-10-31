@@ -24,6 +24,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests drawing a Layout without creating a TextraLabel or TypingLabel.
+ */
 public class BareFontAlignTest extends ApplicationAdapter {
 
     private TextureArrayCpuPolygonSpriteBatch batch;

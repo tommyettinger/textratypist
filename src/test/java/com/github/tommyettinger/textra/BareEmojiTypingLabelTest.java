@@ -16,6 +16,11 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import regexodus.Replacer;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests using {@link EmojiProcessor} to turn "bare" emoji in a TypingLabel into printable emoji.
+ */
 public class BareEmojiTypingLabelTest extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;

@@ -22,6 +22,12 @@ import java.nio.ByteBuffer;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
+// Checked with 2.6.0 .
+
+/**
+ * Generates the animated GIF version of {@link TypingLabelTest} to show in the README.md .
+ * Has an option to use Noto Color Emoji.
+ */
 public class AnimatedPreviewGenerator extends ApplicationAdapter {
     public static final int FRAMERATE = 30;
     public static final boolean NOTO = true;
