@@ -25,6 +25,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+// Checked with 2.6.0 before release, something is wrong.
+
+/**
+ * Checks an issue where apparently emoji get removed during {@link TextraLabel#setText(String)}...
+ */
 public class ColorWrappingTest extends ApplicationAdapter {
     Stage stage;
     Font font;
@@ -32,35 +37,45 @@ public class ColorWrappingTest extends ApplicationAdapter {
     public void create() {
         stage = new Stage();
         stage.setDebugAll(true);
-        // Noto emoji use different names.
-//        String text = "Did you know orange is my favorite color? Did[+ok_hand_tone2] YOU know orange is my favorite color? Did YOU know orange is my favorite color?";
-        String text = "Did you know orange is my favorite color? Did[+OK hand, medium-light skin tone] YOU know orange is my favorite color? Did YOU know orange is my favorite color?";
 
         font = KnownFonts.getDejaVuSans().setInlineImageStretch(0.75f);
         KnownFonts.addEmoji(font, 0, 5, -8f);
+        final String text = "Did you know orange is my favorite color? Did[+👌🏼] YOU know orange is my favorite color? Did YOU know orange is my favorite color?";
 
-        final TextraLabel label = new TextraLabel("[#ffff00ff][%50]" + text, font);
+        String initTo = "[#ffff00ff][%50]" + text;
+        System.out.println(initTo);
+        final TextraLabel label = new TextraLabel(initTo, font);
         label.setSize(300, 300);
         label.setPosition(100, 400);
         label.setWrap(true);
         label.setDebug(true);
 //        label.setText("[#ffff00ff][%50]" + text);
+        System.out.println(label);
         stage.addAction(
                 Actions.sequence(
                         Actions.delay(2.0f),
                         Actions.run(() -> {
                             // change to same color it starts with, to see if color is the culprit
-                            label.setText("[#ffff00ff][%50]" + text);
+                            String setTo = "[#ffff00ff][%50]" + text;
+                            System.out.println(setTo);
+                            label.setText(setTo);
+                            System.out.println(label);
                         }),
                         Actions.delay(3.0f),
                         Actions.run(() -> {
-                            // change to same color it starts with, to see if color is the culprit
-                            label.setText("[%50]" + text);
+                            // change to the default color, to see if color is the culprit
+                            String setTo = "[%50]" + text;
+                            System.out.println(setTo);
+                            label.setText(setTo);
+                            System.out.println(label);
                         }),
                         Actions.delay(4.0f),
                         Actions.run(() -> {
                             // change to a different color
-                            label.setText("[#ff0000ff][%50]" + text);
+                            String setTo = "[#ff0000ff][%50]" + text;
+                            System.out.println(setTo);
+                            label.setText(setTo);
+                            System.out.println(label);
                         })
                 )
         );
