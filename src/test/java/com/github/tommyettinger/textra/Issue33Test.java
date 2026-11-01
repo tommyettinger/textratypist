@@ -30,6 +30,18 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Stress-tests with 100 TypingLabels running at once.
+ * <br>
+ * <pre>
+ * [TIMING] create() took   : 540 ms
+ * [HEAP] native heap used: 26507168
+ * [HEAP] java heap used  : 26507168
+ * [HEIGHT] label height    : 150.0
+ * </pre>
+ */
 public class Issue33Test extends ApplicationAdapter {
     Stage stage;
 

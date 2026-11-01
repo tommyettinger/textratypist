@@ -25,6 +25,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests inline image positions shifting when text is scaled, which isn't fully resolved.
+ */
 public class Issue23Test extends ApplicationAdapter {
     Stage stage;
     Font font;
@@ -41,8 +46,8 @@ public class Issue23Test extends ApplicationAdapter {
         font = KnownFonts.getRobotoCondensed(Font.DistanceFieldType.MSDF).scaleHeightTo(32);
         TextureAtlas atlas = new TextureAtlas("controller_white.atlas");
         font.addAtlas(atlas, 0, 8, 0);
-        font.addImage("\uE777", atlas.findRegion("white"));
-        font.addImage(";", atlas.findRegion("white"));
+        font.addImage("\uE777", atlas.findRegion("white"), 0, 8, 0);
+        font.addImage(";", atlas.findRegion("white"), 0, 8, 0);
         Styles.LabelStyle style = new Styles.LabelStyle(font, Color.WHITE);
 
         final String text = "Did YOU[+white] know orange, [+controller_B] it is my favorite color? Did YOU\uE777 know orange, it is my favorite color?";
