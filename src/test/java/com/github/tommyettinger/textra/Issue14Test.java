@@ -24,6 +24,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests positioning of inline images next to text.
+ */
 public class Issue14Test extends ApplicationAdapter {
 
   private Stage stage;
@@ -64,7 +69,7 @@ public class Issue14Test extends ApplicationAdapter {
 
   public static void main(String[] args){
     Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-    config.setTitle("TextraLabel vs. Label test");
+    config.setTitle("Emoji Test");
     config.setWindowedMode(400, 300);
     config.disableAudio(true);
     config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);

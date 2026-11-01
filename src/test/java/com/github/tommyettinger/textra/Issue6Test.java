@@ -31,6 +31,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import static com.badlogic.gdx.utils.Align.center;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests that TextraLabel and TypingLabel are aligned identically, even in very narrow labels.
+ */
 public class Issue6Test extends ApplicationAdapter {
     ScreenViewport viewport;
     Stage stage;

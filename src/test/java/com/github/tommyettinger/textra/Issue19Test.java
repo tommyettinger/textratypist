@@ -25,6 +25,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests some incongruity in wrapping...? This is an old one...
+ */
 public class Issue19Test extends ApplicationAdapter {
     Stage stage;
     Font font;

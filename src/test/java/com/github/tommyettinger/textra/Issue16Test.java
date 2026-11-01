@@ -27,6 +27,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests Font scaling.
+ */
 public class Issue16Test extends ApplicationAdapter {
 
   private Stage stage;
