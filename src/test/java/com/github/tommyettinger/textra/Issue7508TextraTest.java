@@ -82,17 +82,24 @@ With major huge probably breaking removal of Line and its whole story:
 [MEMORY] Java heap:
 9435160, Native heap: 9435160
 
-After Line was fully removed and RegExodus updated to 0.1.22:
+After Line was fully removed and RegExodus updated to 0.1.22, using Iosevka Charon as the Font:
 [MEMORY] text size: 100000 bytes
 [MEMORY] ThreadMXBean reports font16 uses
-34701544 bytes.
+34701448 bytes.
 [MEMORY] ThreadMXBean reports label uses
-10153088 bytes.
+10062120 bytes.
 [MEMORY] Java heap:
-9245192, Native heap: 9245192
+9321088, Native heap: 9321088
 [MEMORY] Java heap:
-9337864, Native heap: 9337864
+9321088, Native heap: 9321088
 
+ */
+
+// Checked with 2.6.0 .
+
+/**
+ * Tests <a href="https://github.com/libgdx/libgdx/issues/7508">libGDX issue 7508</a> but for TextraTypist, using
+ * a stress-test for very large TextraLabels.
  */
 public class Issue7508TextraTest extends ApplicationAdapter {
   private static final long OFFSET = measureInternal(() -> { });

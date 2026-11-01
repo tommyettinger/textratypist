@@ -26,6 +26,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests metrics for TypoStuck, a font that isn't distributed with TextraTypist sources for licensing reasons.
+ */
 public class IssueButtonsTest extends ApplicationAdapter {
     ScreenViewport viewport;
     Stage stage;

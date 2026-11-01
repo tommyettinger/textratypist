@@ -29,6 +29,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests <a href="https://github.com/libgdx/libgdx/issues/6933">libGDX issue 6933</a>, which seems likely to be a
+ * BitmapFont getting disposed while being used, based on how the screenshot looks.
+ */
 public class Issue6933Test extends ApplicationAdapter {
     FitViewport viewport;
     Stage stage;

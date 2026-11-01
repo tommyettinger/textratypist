@@ -38,7 +38,7 @@ import java.lang.management.ManagementFactory;
 [MEMORY] Java heap:
 1541253304, Native heap: 1541253304
 
-With 1000 chars, version 2.4.1:
+With 1000 chars, libGDX 1.14.2:
 [MEMORY] text size: 1000 bytes
 [MEMORY] ThreadMXBean reports font16 uses
 1303016 bytes.
@@ -49,7 +49,7 @@ With 1000 chars, version 2.4.1:
 [MEMORY] Java heap:
 3929088, Native heap: 3929088
 
-With 100000 chars, version 2.4.2-SNAPSHOT:
+With 100000 chars, libGDX 1.14.2:
 [MEMORY] text size: 100000 bytes
 [MEMORY] ThreadMXBean reports font16 uses
 1303016 bytes.
@@ -58,6 +58,24 @@ With 100000 chars, version 2.4.2-SNAPSHOT:
 [MEMORY] Java heap:
 16756776, Native heap: 16756776
 
+With 100000 using Iosevka Charon as the font, using libGDX 1.14.2:
+[MEMORY] text size: 100000 bytes
+[MEMORY] ThreadMXBean reports font16 uses
+33943400 bytes.
+[MEMORY] ThreadMXBean reports label uses
+3142816 bytes.
+[MEMORY] Java heap:
+17716680, Native heap: 17716680
+[MEMORY] Java heap:
+17884472, Native heap: 17884472
+
+ */
+
+// Checked with 2.6.0 .
+
+/**
+ * Tests <a href="https://github.com/libgdx/libgdx/issues/7508">libGDX issue 7508</a>, using a stress-test for
+ * very large Labels.
  */
 public class Issue7508Test extends ApplicationAdapter {
   private static final long OFFSET = measureInternal(() -> { });

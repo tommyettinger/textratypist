@@ -16,6 +16,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.nio.ByteBuffer;
 
+// Checked with 2.6.0 .
+
+/**
+ * Generates a quick logo for the jdkgdxds library.
+ */
 public class JdkgdxdsLogoGenerator extends ApplicationAdapter {
 
     private static final String LOGO_NAME = "jdkgdxds";
