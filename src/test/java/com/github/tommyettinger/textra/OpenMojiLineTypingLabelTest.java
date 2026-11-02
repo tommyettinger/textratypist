@@ -22,6 +22,11 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests OpenMoji Monochrome as an alternative to Twemoji.
+ */
 public class OpenMojiLineTypingLabelTest extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;

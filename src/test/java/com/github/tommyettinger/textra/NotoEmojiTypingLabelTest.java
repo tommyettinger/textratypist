@@ -16,6 +16,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests Noto Color Emoji as an alternative to Twemoji.
+ */
 public class NotoEmojiTypingLabelTest extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;

@@ -2,6 +2,11 @@ package com.github.tommyettinger.textra;
 
 import com.github.tommyettinger.textra.utils.NoiseUtils;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests NoiseUtils with specific x-values that could be problems.
+ */
 public class NoiseUtilsTest {
     public static void main(String[] args) {
         int seed = 11;
