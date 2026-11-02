@@ -15,6 +15,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Makes sure MSDF Fonts and {@link Font#topEdgeLightnessChange} work.
+ */
 public class MSDFTypingLabelTest extends ApplicationAdapter {
     FWSkin      skin;
     Stage       stage;

@@ -25,6 +25,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -33,8 +34,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * One of the many UI tests based on a libGDX scene2d.ui "kitchen sink" demo.
+ */
 public class NewTextraUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
@@ -48,6 +55,7 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 	Texture texture1;
 	Texture texture2;
 	TextraLabel fpsLabel;
+	Container<TextraLabel> fpsContainer;
 //	GLProfiler profiler;
 
 	@Override
@@ -130,9 +138,10 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 		rightSideTable.add(minSizeLabel).growX().row();
 		rightSideTable.add(scrollPane2).grow();
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
-		fpsLabel = new TextraLabel("fps:", skin, font);
-		fpsLabel.layout.setTargetWidth(300);
-		fpsLabel.setAlignment(Align.left);
+		fpsLabel = new TextraLabel("fps: 0    [^][SKY][[citation needed]", skin, font);
+		fpsLabel.setAlignment(Align.center);
+		fpsContainer = new TransformContainer<>(fpsLabel);
+
 		// configures an example of a TextField in password mode.
 		final TextraLabel passwordLabel = new TextraLabel("[@Humanist]Textfield in [~]secure[ ] password mode: ", font);
 		final TextField passwordTextField = new TextField("", skin);
@@ -170,7 +179,7 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 		window.add(passwordLabel).left().colspan(2);
 		window.add(passwordTextField).minWidth(100).expandX().fillX().colspan(2);
 		window.row();
-		window.add(fpsLabel).left().colspan(4);
+		window.add(fpsContainer).align(Align.topLeft).colspan(4);
 		window.pack();
 
 		// stage.addActor(new Button("Behind Window", skin));
@@ -210,11 +219,16 @@ public class NewTextraUITest extends InputAdapter implements ApplicationListener
 	public void render () {
 //		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
-		
-		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]");
-		fpsLabel.layout.setTargetWidth(300);
-		fpsLabel.regenerateLayout();
-		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
+
+		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
+		int i;
+		for (i = 0; i < s.length() && i < 5; i++) {
+			fpsLabel.layout.glyphs.set(5+i, s.charAt(i) | Font.COLOR_MASK);
+		}
+		for (; i < 5; i++) {
+			fpsLabel.layout.glyphs.set(5+i, 0L);
+		}
+		fpsContainer.setRotation(20f + 20f * MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f));
 
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();

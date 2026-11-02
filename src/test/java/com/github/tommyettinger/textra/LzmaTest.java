@@ -7,6 +7,11 @@ import com.github.tommyettinger.textra.utils.LzmaUtils;
 
 import java.util.Arrays;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests binary LZMA compression, both to and from. This is the newer .json.lzma format.
+ */
 public class LzmaTest {
 
     public static void main(String[] args) {

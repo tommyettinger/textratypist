@@ -26,6 +26,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests scaling changing TextraLabel height when the wrap increases the number of lines.
+ */
 public class MultiLineScalingTest extends ApplicationAdapter {
     Stage stage;
     Font font;
