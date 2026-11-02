@@ -31,8 +31,10 @@ import com.badlogic.gdx.utils.ByteArray;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.github.tommyettinger.textra.utils.LZBCompression;
 
+// Checked with 2.6.0 .
+
 /**
- * Tests binary LZ (String) compression, both to and from.
+ * Tests binary LZ (String) compression, both to and from. This is the older .dat format.
  */
 public class LZBTest extends ApplicationAdapter {
     Stage stage;

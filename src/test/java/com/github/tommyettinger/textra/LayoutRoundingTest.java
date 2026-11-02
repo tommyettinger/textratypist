@@ -25,6 +25,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
 /**
  * Tests <a href="https://github.com/libgdx/libgdx/pull/7276">libGDX PR 7276</a>, which
  * relates to how widgets size themselves and their containing layouts. This currently

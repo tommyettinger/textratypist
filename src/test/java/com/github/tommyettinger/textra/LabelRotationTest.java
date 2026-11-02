@@ -39,6 +39,11 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import static com.badlogic.gdx.utils.Align.*;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests rotating Label, TextraLabel, and TypingLabel in TransformContainers while alignment changes.
+ */
 public class LabelRotationTest extends ApplicationAdapter {
     TextureArrayCpuPolygonSpriteBatch batch;
     FitViewport viewport;

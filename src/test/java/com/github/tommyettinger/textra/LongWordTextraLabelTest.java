@@ -11,6 +11,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests words longer than a TextraLabel allows in its width, to see if they wrap correctly.
+ */
 public class LongWordTextraLabelTest extends ApplicationAdapter {
     Stage       stage;
     TextraLabel label;

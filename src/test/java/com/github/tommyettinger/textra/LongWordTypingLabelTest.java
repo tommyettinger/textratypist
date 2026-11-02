@@ -12,6 +12,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests words longer than a TypingLabel allows in its width, to see if they wrap correctly.
+ */
 public class LongWordTypingLabelTest extends ApplicationAdapter {
     Stage       stage;
     TextureArrayCpuPolygonSpriteBatch batch;
