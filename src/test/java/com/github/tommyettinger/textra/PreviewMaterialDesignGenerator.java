@@ -8,12 +8,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -21,6 +19,11 @@ import com.github.tommyettinger.textra.utils.Palette;
 
 import java.nio.ByteBuffer;
 
+// Checked with 2.6.0 .
+
+/**
+ * Generates a huge grid of random icons from the Material Design atlas, along with some other chars.
+ */
 public class PreviewMaterialDesignGenerator extends ApplicationAdapter {
 
     public static final int SCREEN_WIDTH = 1200, SCREEN_HEIGHT = 600;
@@ -49,7 +52,7 @@ public class PreviewMaterialDesignGenerator extends ApplicationAdapter {
         batch = new TextureArrayCpuPolygonSpriteBatch(1000);
         // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
         // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
-        TextureArrayShaders.initializeTextureArrayShaders();;
+        TextureArrayShaders.initializeTextureArrayShaders();
 
         viewport = new StretchViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -59,7 +62,6 @@ public class PreviewMaterialDesignGenerator extends ApplicationAdapter {
         StringBuilder sb = new StringBuilder(4000);
 //        sb.append("[%?blacken]");
         RandomXS128 random = new RandomXS128(23, 42);
-        IntArray keys = font.mapping.keys().toArray();
         int ps = Palette.NAMES.size;
         Array<String> names = font.namesByCharCode.values().toArray();
         int ns = names.size;
@@ -71,7 +73,6 @@ public class PreviewMaterialDesignGenerator extends ApplicationAdapter {
         }
         font.markup(sb.toString(), layout);
         font.calculateSize(layout);
-        System.out.println(sb);
 
         ScreenUtils.clear(0.15f, 0.15f, 0.15f, 1f);
         x = Gdx.graphics.getBackBufferWidth() * 0.5f + 12f;

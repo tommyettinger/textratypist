@@ -21,6 +21,11 @@ import com.github.tommyettinger.textra.utils.Palette;
 
 import java.nio.ByteBuffer;
 
+// Checked with 2.6.0 .
+
+/**
+ * Generates a huge grid of random icons from the Game-Icons.net atlas, along with some other chars.
+ */
 public class PreviewIconGenerator extends ApplicationAdapter {
 
     public static final int SCREEN_WIDTH = 1200, SCREEN_HEIGHT = 600;

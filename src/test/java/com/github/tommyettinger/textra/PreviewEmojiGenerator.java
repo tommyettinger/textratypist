@@ -19,6 +19,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.nio.ByteBuffer;
 
+// Checked with 2.6.0 .
+
+/**
+ * Generates a huge grid of mostly randomly-selected Twemoji emoji, but also some other chars strewn in.
+ */
 public class PreviewEmojiGenerator extends ApplicationAdapter {
 
     Font font;
@@ -74,7 +79,7 @@ public class PreviewEmojiGenerator extends ApplicationAdapter {
 
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
         x = (Gdx.graphics.getBackBufferWidth() + font.cellWidth) * 0.5f;
-        y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight() - font.cellHeight * 2) * 0.5f + font.descent * font.scaleY;
+        y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight() - font.cellHeight) * 0.5f + font.descent * font.scaleY;
         batch.begin();
         font.enableShader(batch);
         font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());

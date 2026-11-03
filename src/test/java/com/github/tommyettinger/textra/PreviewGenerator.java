@@ -15,11 +15,15 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.nio.ByteBuffer;
 
+// Checked with 2.6.0 .
+
+/**
+ * Generates preview images for every Font in KnownFonts.
+ */
 public class PreviewGenerator extends ApplicationAdapter {
-    public static final boolean DERIVATIVES = false;
+    public static final boolean DERIVATIVES = true;
 
     Font fnt;
-    TextureArrayCpuPolygonSpriteBatch batch;
     Viewport viewport;
     Layout layout = new Layout().setTargetWidth(1200);
     long startTime;
@@ -104,7 +108,7 @@ public class PreviewGenerator extends ApplicationAdapter {
 //        FileHandle[] sdfFiles = new FileHandle[0];
 
         // WHAT WE NORMALLY USE
-/*
+// /*
         String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String[]::new);
         Font[] all = new Font[jsonFiles.length * 4 + 4 + 9];
         int idx = 0;
@@ -130,7 +134,7 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getMonogram().setName(KnownFonts.MONOGRAM + "-standard");
         all[idx++] = KnownFonts.getMonogramItalic().setName(KnownFonts.MONOGRAM_ITALIC + "-standard");
         all[idx++] = KnownFonts.getQuanPixel().setName(KnownFonts.QUANPIXEL + "-standard");
-*/
+// */
         // SDF ONLY, TO COMPARE DERIVATIVE SHADERS
 /*
         String[] jsonFiles = KnownFonts.JSON_NAMES.orderedItems().toArray(String[]::new);
@@ -195,12 +199,12 @@ public class PreviewGenerator extends ApplicationAdapter {
         all[idx++] = KnownFonts.getJetBrainsMono(Font.DistanceFieldType.SDF_OUTLINE).scaleHeightTo(32f).setName("JetBrains-Mono" + "-sdf-outline");
 */
         // DEBUG
-        Font[] all = new Font[]{
-                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-standard"),
-                KnownFonts.getFusionPixelKorean().setName(KnownFonts.FUSION_PIXEL_KOREAN + "-standard"),
-                KnownFonts.getFusionPixelSimplifiedChinese().setName(KnownFonts.FUSION_PIXEL_SIMPLIFIED_CHINESE + "-standard"),
-                KnownFonts.getFusionPixelTraditionalChinese().setName(KnownFonts.FUSION_PIXEL_TRADITIONAL_CHINESE + "-standard"),
-        };
+//        Font[] all = new Font[]{
+//                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-standard"),
+//                KnownFonts.getFusionPixelKorean().setName(KnownFonts.FUSION_PIXEL_KOREAN + "-standard"),
+//                KnownFonts.getFusionPixelSimplifiedChinese().setName(KnownFonts.FUSION_PIXEL_SIMPLIFIED_CHINESE + "-standard"),
+//                KnownFonts.getFusionPixelTraditionalChinese().setName(KnownFonts.FUSION_PIXEL_TRADITIONAL_CHINESE + "-standard"),
+//        };
         // PIXEL FONT SIZE TESTING
 //        Font[] all = new Font[]{
 //                KnownFonts.getFusionPixelJapanese().setName(KnownFonts.FUSION_PIXEL_JAPANESE + "-10").scaleHeightTo(10),

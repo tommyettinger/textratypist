@@ -19,6 +19,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.nio.ByteBuffer;
 
+// Checked with 2.6.0 .
+
+/**
+ * Generates a huge grid of mostly randomly-selected Noto Color emoji, but also some other chars strewn in.
+ */
 public class PreviewNotoEmojiGenerator extends ApplicationAdapter {
 
     Font font;
@@ -60,7 +65,7 @@ public class PreviewNotoEmojiGenerator extends ApplicationAdapter {
         IntArray keys = font.mapping.keys().toArray();
         int ks = keys.size;
         for (int y = 0; y < 18; y++) {
-            for (int x = 0; x < 35; x++) {
+            for (int x = 0; x < 36; x++) {
                 char c = (char)keys.get(random.nextInt(ks));
                 while (c == '[' || c == '\n' || font.breakChars.contains(c) || !font.mapping.containsKey(c))
                     c = (char)keys.get(random.nextInt(ks));
@@ -73,8 +78,8 @@ public class PreviewNotoEmojiGenerator extends ApplicationAdapter {
         System.out.println(layout.toString());
 
         ScreenUtils.clear(0.75f, 0.75f, 0.75f, 1f);
-        x = Gdx.graphics.getBackBufferWidth() * 0.5f;
-        y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight() - font.cellHeight * 2) * 0.5f + font.descent * font.scaleY;
+        x = (Gdx.graphics.getBackBufferWidth() + font.cellWidth) * 0.5f;
+        y = (Gdx.graphics.getBackBufferHeight() + layout.getHeight() - font.cellHeight) * 0.5f + font.descent * font.scaleY;
         batch.begin();
         font.enableShader(batch);
         font.resizeDistanceField(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
