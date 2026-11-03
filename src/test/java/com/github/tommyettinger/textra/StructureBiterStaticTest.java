@@ -14,7 +14,11 @@ import com.github.tommyettinger.textra.json.FontData;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 
+// Checked with 2.6.0 .
+
 /**
+ * Tests loading one large font using JsonBiter's static mode.
+ * <br>
  * Specific JSON loading took 0.1457343 seconds.
  * Loading Maple-Mono-standard.json.lzma took 0.1987903 seconds.
  */
