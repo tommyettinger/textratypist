@@ -26,7 +26,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+// Checked with 2.6.0 .
 
+/**
+ * Tests state storage and restoring state in TypingLabel.
+ */
 public class StateTest extends ApplicationAdapter {
 
     private Stage stage;

@@ -31,6 +31,27 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests creating a lot of TextraLabels with the "wrong way" or "right way" of using Styles.
+ * <br>
+ * Wrong way:
+ * <pre>
+ * [TIMING] create() took   : 452 ms
+ * [HEAP] native heap used: 74521016
+ * [HEAP] java heap used  : 74521016
+ * [HEIGHT] label height    : 50.0
+ * </pre>
+ * <br>
+ * Right way:
+ * <pre>
+ * [TIMING] create() took   : 377 ms
+ * [HEAP] native heap used: 19510232
+ * [HEAP] java heap used  : 19510232
+ * [HEIGHT] label height    : 50.0
+ * </pre>
+ */
 public class StressTest extends ApplicationAdapter {
     Stage stage;
 
@@ -52,9 +73,9 @@ public class StressTest extends ApplicationAdapter {
         labels.defaults().pad(5);
         for (int i = 0; i < 300; i++) {
             // intentionally doing the wrong thing!
-            TextraLabel label = new TextraLabel("Lorem ipsum etc. " + i, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));
+//            TextraLabel label = new TextraLabel("Lorem ipsum etc. " + i, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));
             // this would be better, but makes very little difference
-//            TextraLabel label = new TextraLabel("Lorem ipsum etc. " + i, skin);
+            TextraLabel label = new TextraLabel("Lorem ipsum etc. " + i, skin);
             labels.add(label).expandX().left();
             // wrong thing again
 //            TextraLabel label2 = new TextraLabel("Lorem ipsum etc. " + ++i, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));
@@ -62,9 +83,9 @@ public class StressTest extends ApplicationAdapter {
             TextraLabel label2 = new TextraLabel("Lorem ipsum etc. " + ++i, skin);
             labels.add(label2).expandX().center();
             // wrong thing again
-            TextraLabel label3 = new TextraLabel("Lorem ipsum etc. " + ++i, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));
+//            TextraLabel label3 = new TextraLabel("Lorem ipsum etc. " + ++i, new Styles.LabelStyle(skin.get(Label.LabelStyle.class)));
             // this would be better
-//            TextraLabel label3 = new TextraLabel("Lorem ipsum etc. " + ++i, skin);
+            TextraLabel label3 = new TextraLabel("Lorem ipsum etc. " + ++i, skin);
             labels.add(label3).expandX().right();
             labels.row();
         }
