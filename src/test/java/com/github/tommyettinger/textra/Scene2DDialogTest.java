@@ -31,6 +31,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests putting TextraButton and TypingLabel in a scene2d.ui Dialog.
+ */
 public class Scene2DDialogTest extends ApplicationAdapter {
     ScreenViewport viewport;
     Stage stage;

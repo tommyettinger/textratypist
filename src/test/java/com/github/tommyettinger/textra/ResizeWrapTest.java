@@ -34,6 +34,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
 /**
  * Thanks to Discord user mas omenos for contributing this test. It shows a challenging issue that should be mostly
  * fixed now: Changing the Font on a TextraLabel didn't automatically update the sizing, wrapping, and layout.

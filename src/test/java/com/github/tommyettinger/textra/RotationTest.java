@@ -30,6 +30,11 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import static com.github.tommyettinger.textra.utils.ColorUtils.lerpColors;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests rotating both individual glyphs and a TransformContainer holding a TextraLabel.
+ */
 public class RotationTest extends ApplicationAdapter {
     Font font;
     TextureArrayCpuPolygonSpriteBatch batch;

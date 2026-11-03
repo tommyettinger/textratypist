@@ -14,6 +14,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests centered alignment on scaled text.
+ */
 public class ScalingCenteredTest extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;
