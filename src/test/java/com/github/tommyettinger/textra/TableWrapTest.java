@@ -32,6 +32,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests a weird issue where changing a Font's scale can cause wrap issues in widgets that change text size without
+ * their layout-related info changing.
+ */
 public class TableWrapTest extends ApplicationAdapter {
     Stage stage;
 
@@ -54,6 +60,10 @@ public class TableWrapTest extends ApplicationAdapter {
         labels.defaults().width(540).growY();
         boolean wr = true;
         final TextraButton button = new TextraButton("Text Size", skin, font);
+        // without this, the TextraLabel can only take up less space horizontally, not more.
+        // if the size increases too much, it will try to wrap in an impossible way.
+        button.getTextraLabelCell().width(540);
+
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

@@ -12,7 +12,11 @@ import com.github.tommyettinger.textra.json.FontData;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 
+// Checked with 2.6.0 .
+
 /**
+ * Tests loading one large JSON Font using libGDX Json.
+ * <br>
  * Specific JSON loading took 0.25351460000000003 seconds.
  * Loading Maple-Mono-standard.json.lzma took 0.3067751 seconds.
  */

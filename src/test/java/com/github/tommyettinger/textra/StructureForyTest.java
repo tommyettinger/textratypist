@@ -11,7 +11,11 @@ import org.apache.fory.json.ForyJson;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 
+// Checked with 2.6.0 .
+
 /**
+ * Tests loading one large JSON Font using Fory-JSON.
+ * <br>
  * Specific JSON loading took 0.2912185 seconds.
  * Loading Maple-Mono-standard.json.lzma took 0.3545185 seconds.
  */
