@@ -33,6 +33,12 @@ import regexodus.Replacer;
 
 import static com.badlogic.gdx.utils.Align.center;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests {@link TypingLabel#setText(String)} on shuffled poems.
+ * Compares the TypingLabel to a TextraLabel to see if there's any mis-alignment.
+ */
 public class SetTextTest extends ApplicationAdapter {
     ScreenViewport viewport;
     Stage stage;

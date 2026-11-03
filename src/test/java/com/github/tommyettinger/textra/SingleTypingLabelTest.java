@@ -15,6 +15,12 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import java.util.ArrayList;
 
+// Checked with 2.6.0 .
+
+/**
+ * A very simple test that just checks one TypingLabel.
+ * Commonly used to test new Effects.
+ */
 public class SingleTypingLabelTest extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;

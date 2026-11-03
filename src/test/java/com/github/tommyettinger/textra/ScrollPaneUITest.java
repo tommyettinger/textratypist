@@ -29,6 +29,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests a ScrollPane that scrolls through a TypingLabel.
+ */
 public class ScrollPaneUITest extends InputAdapter implements ApplicationListener {
 	Skin skin;
 	Stage stage;

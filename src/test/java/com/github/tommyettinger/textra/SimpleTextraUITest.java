@@ -33,6 +33,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * A simpler, smaller version of the "Kitchen Sink" UI demo. Uses Textra widgets.
+ */
 public class SimpleTextraUITest extends InputAdapter implements ApplicationListener {
 	Skin skin;
 	Stage stage;
