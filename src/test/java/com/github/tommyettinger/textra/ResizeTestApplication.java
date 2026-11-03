@@ -35,6 +35,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests some older bug wih resizing the window and laying out TypingLabels.
+ */
 public class ResizeTestApplication extends ApplicationAdapter {
 
     private Texture backgroundImage;

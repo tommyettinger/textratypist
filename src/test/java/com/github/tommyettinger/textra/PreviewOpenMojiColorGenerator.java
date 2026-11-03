@@ -22,6 +22,11 @@ import com.github.tommyettinger.textra.utils.Palette;
 
 import java.nio.ByteBuffer;
 
+// Checked with 2.6.0 .
+
+/**
+ * Generates a huge grid of mostly randomly-selected OpenMoji Color emoji, but also some other chars strewn in.
+ */
 public class PreviewOpenMojiColorGenerator extends ApplicationAdapter {
 
     Font font;

@@ -38,7 +38,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.Locale;
 
+// Checked with 2.6.0 .
+
 /**
+ * Tests the original typing-label widgets in the same way as the TextraTypist ones.
+ * <br>
  * Uses a fork of rafaskoberg/typing-label, because libGDX 1.14.0 removed StringBuilder (replaced with CharArray).
  */
 public class RafaTypingUITest extends InputAdapter implements ApplicationListener {

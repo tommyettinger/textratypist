@@ -13,6 +13,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Like PreviewGenerator, but allows interactively selecting a Font to preview.
+ */
 public class PreviewSimpleTest extends ApplicationAdapter {
 
     Font fnt;

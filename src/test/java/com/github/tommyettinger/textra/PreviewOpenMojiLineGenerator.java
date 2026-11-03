@@ -22,6 +22,11 @@ import com.github.tommyettinger.textra.utils.Palette;
 
 import java.nio.ByteBuffer;
 
+// Checked with 2.6.0 .
+
+/**
+ * Generates a huge grid of mostly randomly-selected OpenMoji Monochrome emoji, but also some other chars strewn in.
+ */
 public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
 
     Font font;
@@ -59,7 +64,7 @@ public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
         layout.setBaseColor(Color.DARK_GRAY);
         font.omitCurlyBraces = false;
         StringBuilder sb = new StringBuilder(4000);
-        sb.append("[?whiten]");
+        sb.append("[#]");
         RandomXS128 random = new RandomXS128(1, 42);
         Palette.NAMES.removeValue("transparent", false);
         Palette.NAMES.removeValue("CLEAR", false);
@@ -70,7 +75,7 @@ public class PreviewOpenMojiLineGenerator extends ApplicationAdapter {
                 char c = (char)keys.get(random.nextInt(ks));
                 while (c == '[' || c == '\n' || font.breakChars.contains(c) || !font.mapping.containsKey(c))
                     c = (char)keys.get(random.nextInt(ks));
-                sb.append("[richmost darker ").append(Palette.NAMES.get(random.nextInt(ps))).append(']');
+                sb.append("[richmost ").append(Palette.NAMES.get(random.nextInt(ps))).append(']');
                 sb.append(c);
             }
             sb.append('\n');
