@@ -8,7 +8,7 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.36.0'
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.37.0'
     }
 }
 
@@ -118,5 +118,5 @@ dependencies {
     testImplementation "com.github.tommyettinger:colorful:0.10.0"
 
     testImplementation "com.github.tommyettinger:jsonbiter:356e7babc5"
-    testImplementation "org.apache.fory:fory-json:1.7.6"
+    testImplementation "org.apache.fory:fory-json:1.7.7"
 }

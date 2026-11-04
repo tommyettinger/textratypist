@@ -43,7 +43,7 @@ games, and it looks like a typewriter is putting up each letter at some slower-t
 You probably want to get TextraTypist with Gradle! The dependency for a libGDX project's core module looks like:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.5.0"
+implementation "com.github.tommyettinger:textratypist:2.6.0"
 ```
 
 This assumes you already depend on libGDX; TextraTypist depends on either version 1.13.1 or 1.14.0 (never 1.13.5),
@@ -52,15 +52,15 @@ depending on whether you are using the 2.1.x release series (compatible with lib
 receiving updates anymore.
 
 TextraTypist 2.4.1 and up uses JitPack to distribute releases instead of Maven Central. The group and artifact IDs are
-the same; the only change should be going from 2.4.0 (or older) to 2.5.0 in a typical project. If you didn't create your
+the same; the only change should be going from 2.4.0 (or older) to 2.6.0 in a typical project. If you didn't create your
 project with gdx-liftoff (or the older gdx-setup), you may need to add JitPack as a repository; see
 [JitPack's instructions here](https://jitpack.io/#tommyettinger/textratypist) for the build tool you use, in step 1.
 
 If you use GWT, this should be compatible. It needs these dependencies in the html module:
 
 ```groovy
-implementation "com.github.tommyettinger:textratypist:2.5.0:sources"
-implementation "com.github.tommyettinger:regexodus:0.1.21:sources"
+implementation "com.github.tommyettinger:textratypist:2.6.0:sources"
+implementation "com.github.tommyettinger:regexodus:0.1.22:sources"
 ```
 
 GWT also needs this in the GdxDefinition.gwt.xml file:
@@ -72,12 +72,12 @@ GWT also needs this in the GdxDefinition.gwt.xml file:
 RegExodus is the GWT-compatible regular-expression library this uses to match some complex patterns internally. Other
 than libGDX itself, RegExodus is the only dependency this project has.
 
-If you need compatibility with libGDX 1.13.1, change `2.5.0` to `2.1.11`; it should have feature parity with `2.2.9`.
-TextraTypist 2.1.11 should use RegExodus 0.1.21, the same version used by TextraTypist 2.2.11 and up. It may need this
-explicitly given as a dependency:
+If you need compatibility with libGDX 1.13.1, you can use version `2.1.11`; it should have feature parity with `2.2.9`.
+TextraTypist 2.1.11 can use RegExodus 0.1.21, the same version used by TextraTypist 2.2.11 and up, or 0.1.22, which has
+a small bugfix. It may need this explicitly given as a dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:regexodus:0.1.21"
+implementation "com.github.tommyettinger:regexodus:0.1.22"
 ```
 
 There is at least one release in the [Releases](https://github.com/tommyettinger/textratypist/releases) section of this
@@ -97,16 +97,16 @@ but you should not use `-SNAPSHOT` -- it can change without your requesting it t
 You can also depend on FreeTypist using:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.5.0.0"
+implementation "com.github.tommyettinger:freetypist:2.6.0.0"
 ```
 
-(Now, FreeTypist 2.5.0.0 uses TextraTypist 2.5.0, and that means it uses libGDX 1.14.2 . There's also FreeTypist
+(Now, FreeTypist 2.6.0.0 uses TextraTypist 2.6.0, and that means it uses libGDX 1.14.2 . There's also FreeTypist
 2.1.11.0 that uses TextraTypist 2.1.11, and that means it uses libGDX 1.13.1 .)
 
 And if you target HTML and have FreeType working somehow, you would use this Gradle dependency:
 
 ```groovy
-implementation "com.github.tommyettinger:freetypist:2.5.0.0:sources"
+implementation "com.github.tommyettinger:freetypist:2.6.0.0:sources"
 ```
 
 And this inherits line:
@@ -579,7 +579,7 @@ outline thickness modified using `Font.setOutlineStrength()`. The oblique angle 
 `descent` doesn't need the extreme amount of fiddling it needed in earlier versions, and you can usually just leave it
 as it is for Structured JSON fonts!
 
-Version 2.1.0 through 2.5.0 are out, and while they have fewer breaking changes, there are still several of them.
+Version 2.1.0 through 2.6.0 are out, and while they have fewer breaking changes, there are still several of them.
 Notably, the syntax for modes is no longer linked to the syntax for scaling, and you can set modes independently of both
 the current scale and the current status of an outline around text. Some modes enable the outline and set its color; if
 you disable that mode, the outline stays active unless disabled with `[#]`. Using the syntax to revert a change, `[]`,
@@ -637,7 +637,7 @@ further work done into rotating whole Layouts or labels without a transforming G
 
 ## Why doesn't something work?
 
-The quick checklist for the latest code (version 2.5.0 or newer commits from JitPack):
+The quick checklist for the latest code (version 2.6.0 or newer commits from JitPack):
 
 - Use FWSkin or one of its subclasses, not a plain scene2d.ui Skin. FreeTypistSkin is fine. Skin is not!
   - You can assign a FWSkin to a Skin, but it still really needs to be an FWSkin internally, or one of its subclasses. 
@@ -649,10 +649,13 @@ The quick checklist for the latest code (version 2.5.0 or newer commits from Jit
   most 2.2.x features while depending only on libGDX 1.13.1 .
   - You should avoid depending on 1.13.5 at this point in time, or any dependencies that pull in 1.13.5 .
     - These problematic dependency versions include GDX-TeaVM 1.2.1 and VisUI 1.5.7 . Use earlier or later versions! 
-- If you rotated a Layout directly using Font methods, you should probably switch to a TextraLabel in a
-  TransformContainer instead. If you used `TextraLabel.setRotation()`, you should also use a TransformContainer.
+- If you rotated a Layout directly using Font methods, you might want to switch to a TextraLabel in a
+  TransformContainer instead. If you used `TextraLabel.setRotation()`, you could also use a TransformContainer.
   - Rotating individual glyphs looks better as of 2.5.0, including as part of TypingLabel effects; it's just whole
     Layouts and labels that have problems without a transforming Group. 
+  - Transforming a Container is slower, for unclear reasons, than drawing a rotated TextraLabel or TypingLabel.
+  - However, Container will get underline, strikethrough, and box-drawing characters correct when rotated, while just
+    setting the rotation on a label will cause those lines to slip and slide.
 
 Some parts of TextraTypist act differently from their counterparts in scene2d.ui and Rafa Skoberg's typing-label.
 

@@ -1,3 +1,5 @@
+// Checked with 2.6.0 .
+
 /**
  * Specific to JsonBiter/Jsoniter, so probably not useful anywhere else.
  * <br>
@@ -5,6 +7,8 @@
  * could speed up loading times. In short, both Fory-JSON and JsonBiter had enough startup overhead doing dynamic
  * class building to overshadow the time needed to load a relatively-small .json.lzma file.
  * The experiment was stopped there.
+ * <br>
+ * This needs the working directory set to src/test/java , relative to the project root.
  */
 public class StaticGenerator {
     public static void main(String[] args) throws Exception {

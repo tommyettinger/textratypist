@@ -1,3 +1,27 @@
+2.6.0 has a major internal overhaul of how Layout works, and eliminates the Line class that was here from the start.
+Initially, a Layout was just a group of Lines that also stored a few pieces of extra data about the whole body of text.
+However, over time, rotations, scaling, and a variety of other bits of info were added to Layout, using indices that
+referred to the position in the Layout -- not any particular Line. This became a problem when Font.regenerateLayout()
+tried to put the entire set of text on one Line, then rearrange it back into the appropriate wrapped set of Lines. For
+large Layouts, this could put thousands of glyphs on one Line, even when only a few dozen actually belonged on the first
+Line. This increased the capacity of the LongArray holding all glyphs to be able to fit thousands, rather than dozens,
+of glyphs. Then the same thing would happen to the second Line, just without the first Line's glyphs. This allocated a
+lot of memory when regenerateLayout() was called, just for empty capacity. A workaround was to shrink the LongArrays to
+match their capacity when calculateSize() was called, but this wasn't a good solution, since before that, a lot of RAM
+was still needed just for the temporary extra capacity. The solution in this version is to track, instead of a LongArray
+per Line, one LongArray of all glyphs per Layout. Instead of each Line knowing its length, the Layout tracks lineStarts,
+one int per line. Instead of each Line knowing its width and height, the Layout tracks lineSizes, two floats per line.
+This makes a lot of calculations easier, and avoids needing extra capacity pretty much at all in regenerateLayout().
+Other changes here are an update to RegExodus 0.1.22, which is a bugfix release for some fairly rare bugs. The `{RESET}`
+token no longer has to turn into an "END" token for every effect type; now it just can end all effects on its own. That
+reduces the size of some internal TypingLabel Layouts, a lot. Every test was run and made sure it either works or is
+documented why it doesn't work. The only ones that don't work are tests like TypingUITextureArrayGL30Test, which was
+experimental and doesn't test this library anyway, or tests that require assets not shipped with the repo. This is a
+large release and may need bug fixes published after it, depending on what might be found to not work as intended. A
+known difference in behavior is that calling setText() on a TextraLabel or TypingLabel may need `label.setWidth()`
+called first with a larger width, rather than after as was acceptable before. This seems to only be needed if the height
+of a Label is restricted and the width doesn't allow enough lines to be shown for the new text, but it isn't clear.
+
 2.5.0 has some behavior changes for how per-character and per-Layout rotation looks. This generally improves per-char
 rotation done by effects, and the origin looks more how you would expect, but it changes how whole Layouts are drawn
 with rotation. Thankfully, we fully support CpuSpriteBatch and TextureArrayCpuPolygonSpriteBatch now, and both of those
