@@ -40,6 +40,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
 /**
  * This should be compared to {@link TypingUITextureArrayTest} and {@link TypingUITest}.
  * <br>
@@ -59,6 +61,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  * Using a Container around fpsLabel and rotating it:
  * <br>
  * Calls: 131, draw calls: 11, shader switches: 1, texture bindings: 1
+ * <br>
+ * In 2.6.0, this crashes in native code...
  */
 public class TypingUITextureArrayGL30Test extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",

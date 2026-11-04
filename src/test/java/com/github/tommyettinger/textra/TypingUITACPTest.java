@@ -37,9 +37,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
 /**
  * This should be compared to {@link TypingUIArrayTextureTest}, {@link TypingUITextureArrayTest}, and
- * {@link TypingUITest}. This uses {@link TextureArrayCpuPolygonSpriteBatch}.
+ * {@link TypingUITest}. This uses {@link TextureArrayCpuPolygonSpriteBatch}. This uses standard Fonts.
  * <br>
  * Calls: 229, draw calls: 8, shader switches: 1, texture bindings: 17
  * <br>
@@ -50,6 +52,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  * Using a Container around fpsLabel and rotating it:
  * <br>
  * Calls: 185, draw calls: 6, shader switches: 1, texture bindings: 17
+ * <br>
+ * Using no Container, and rotating fpsLabel directly:
+ * <br>
+ * Calls: 185, draw calls: 6, shader switches: 1, texture bindings: 17
+ * Unlike the SDF tests, the performance here is about the same with and without TextureArrayCpuPolygonBatch.
  */
 public class TypingUITACPTest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
@@ -63,7 +70,6 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 	Texture texture1;
 	Texture texture2;
 	TypingLabel fpsLabel;
-	Container<TypingLabel> fpsContainer;
 	TypingWindow window;
 	Font font;
 	GLProfiler profiler;
@@ -162,7 +168,7 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
 		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin, font);
 		fpsLabel.setAlignment(Align.center);
-		fpsContainer = new TransformContainer<>(fpsLabel);
+
 		// configures an example of a TextField in password mode.
 		final TypingLabel passwordLabel = new TypingLabel("[@Medieval]Textfield in [~]secure[ ] password mode: ", skin, font);
 		final TextField passwordTextField = new TextField("", skin);
@@ -208,7 +214,7 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 		window.add(passwordLabel).align(Align.topLeft).colspan(2);
 		window.add(passwordTextField).minWidth(100).expandX().fillX().colspan(2);
 		window.row();
-		window.add(fpsContainer).align(Align.topLeft).colspan(4);
+		window.add(fpsLabel).align(Align.topLeft).colspan(4);
 		window.pack();
 
 		// stage.addActor(new Button("Behind Window", skin));
@@ -257,7 +263,7 @@ public class TypingUITACPTest extends InputAdapter implements ApplicationListene
 		for (; i < 5; i++) {
 			fpsLabel.setInWorkingLayout(5+i, 0L);
 		}
-		fpsContainer.setRotation(20f + 20f * MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f));
+		fpsLabel.setRotation(20f + 20f * MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f));
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE) && profiler.isEnabled())

@@ -59,6 +59,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  * <br>
  * Going back to rotating without a CpuSpriteBatch or TransformContainer:
  * Calls: 633, draw calls: 33, shader switches: 1, texture bindings: 33, but FPS are more than double before.
+ * Unlike the SDF tests, the performance here is about the same with and without TextureArrayCpuPolygonBatch.
  */
 public class TypingUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
