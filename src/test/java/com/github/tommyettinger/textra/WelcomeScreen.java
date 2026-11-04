@@ -26,6 +26,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Compares pixel-exact same rendering for a BitmapFont and a Font both created from the default constructor...
+ * Just with the BitmapFont's padRight set to 0 here. That is needed because of the drop shadow, apparently.
+ */
 public class WelcomeScreen extends ApplicationAdapter {
 
   private Stage stage;

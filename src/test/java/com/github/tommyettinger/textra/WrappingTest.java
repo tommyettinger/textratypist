@@ -30,6 +30,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Checks that wrapping works in the presence of newlines and other whitespace.
+ */
 public class WrappingTest extends ApplicationAdapter {
     Stage stage;
     Font font;

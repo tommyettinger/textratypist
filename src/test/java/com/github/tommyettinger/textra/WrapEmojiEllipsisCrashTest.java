@@ -11,6 +11,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests a bug where an ellipsis being used could result in a crash. It doesn't happen anymore.
+ */
 public class WrapEmojiEllipsisCrashTest extends ApplicationAdapter {
 
   private Font font;

@@ -26,6 +26,11 @@ import java.util.ArrayDeque;
 import static com.badlogic.gdx.Gdx.input;
 import static com.badlogic.gdx.Input.Keys.*;
 
+/**
+ * Imported from SquidSquad's squidglyph package, this tests a grid of box drawing chars with smoothly-sliding Actors
+ * on that grid. The Actors will rotate if they bump into walls. They can be swapped between emoji and @ signs with the
+ * e and 2 keys.
+ */
 public class MinimalGridTest extends ApplicationAdapter {
 
     private Stage stage;
