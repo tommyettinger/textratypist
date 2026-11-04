@@ -36,6 +36,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests the "Kitchen Sink" UI demo with the Shade UI skin. Uses TypingLabel widgets.
+ */
 public class TypingShadeUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntriesText = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
 		"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
@@ -213,7 +218,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 	public void render () {
 //		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
-		
+
 		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
 		int i;
 		for (i = 0; i < s.length() && i < 5; i++) {
@@ -223,6 +228,7 @@ public class TypingShadeUITest extends InputAdapter implements ApplicationListen
 			fpsLabel.setInWorkingLayout(5+i, 0L);
 		}
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
+
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 //		if(Gdx.input.isKeyJustPressed(Keys.SPACE))

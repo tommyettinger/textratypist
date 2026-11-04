@@ -39,6 +39,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
 /**
  * This should be compared to {@link TypingUITextureArrayTest} and {@link TypingUITest}.
  * <br>

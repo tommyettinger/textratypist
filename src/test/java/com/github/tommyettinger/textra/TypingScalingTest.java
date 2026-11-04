@@ -14,6 +14,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests horizontally scaling the width of a whole TypingLabel.
+ */
 public class TypingScalingTest extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;
