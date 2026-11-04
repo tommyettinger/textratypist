@@ -14,6 +14,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests horizontally scaling the width of a whole TextraLabel.
+ */
 public class TextraScalingTest extends ApplicationAdapter {
     Stage       stage;
     TextraLabel label;

@@ -35,6 +35,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests the "Kitchen Sink" UI demo with a darkening tint on the skin. Uses TextraLabel widgets.
+ */
 public class TextraDarkerUITest extends InputAdapter implements ApplicationListener {
     String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
             "This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
@@ -205,8 +210,8 @@ public class TextraDarkerUITest extends InputAdapter implements ApplicationListe
     public void render () {
 //		profiler.reset();
         ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
+        fpsLabel.setWidth(300);
         fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]");
-        fpsLabel.layout.setTargetWidth(300);
         fpsLabel.regenerateLayout();
         fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 

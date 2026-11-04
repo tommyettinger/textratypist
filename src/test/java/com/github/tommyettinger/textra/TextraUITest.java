@@ -36,6 +36,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests the "Kitchen Sink" UI demo with the standard skin. Uses TextraLabel widgets.
+ */
 public class TextraUITest extends InputAdapter implements ApplicationListener {
 
 //	TestWindow tw;
@@ -295,8 +300,8 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 	public void render () {
 //		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
+		fpsLabel.setWidth(300);
 		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]");
-		fpsLabel.layout.setTargetWidth(300);
 		fpsLabel.regenerateLayout();
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 
