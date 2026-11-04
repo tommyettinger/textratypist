@@ -38,10 +38,14 @@ public class TypingLabelTest extends ApplicationAdapter {
     @Override
     public void create() {
         // TextureArrayCpuPolygonSpriteBatch is an alternative to SpriteBatch that does some things better.
-        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
+//        TextureArrayCpuPolygonSpriteBatch batch = new TextureArrayCpuPolygonSpriteBatch(1000);
         // When using a TextureArray batch, you need to call this line before using anything from KnownFonts.
         // Usually this line goes right after creating a TextureArrayCpuPolygonSpriteBatch, at the start of create() .
-        TextureArrayShaders.initializeTextureArrayShaders();
+//        TextureArrayShaders.initializeTextureArrayShaders();
+
+        // Or, you can just use SpriteBatch, or CpuSpriteBatch, without much difference really.
+        // We aren't taking full advantage of the Texture Array part of the other Batch.
+        SpriteBatch batch = new SpriteBatch(1000);
 
         adjustTypingConfigs();
 
@@ -313,6 +317,7 @@ public class TypingLabelTest extends ApplicationAdapter {
         ScreenUtils.clear(0.3f, 0.3f, 0.3f, 1);
         stage.act();
         stage.draw();
+        Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " fps");
     }
 
     @Override
@@ -333,8 +338,13 @@ public class TypingLabelTest extends ApplicationAdapter {
         config.setTitle("TypingLabel Test");
         config.setWindowedMode(720, 400);
         config.setResizable(true);
+        // You can use these two lines to test unlimited framerate, and see how fast it gets.
+//        config.setForegroundFPS(0);
+//        config.useVsync(false);
+        // Normally, though, you should use these two lines to avoid screen tearing.
         config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate + 1);
         config.useVsync(true);
+
         config.disableAudio(true);
         new Lwjgl3Application(new TypingLabelTest(), config);
     }

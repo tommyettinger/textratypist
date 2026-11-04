@@ -42,7 +42,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 // Checked with 2.6.0 .
 
 /**
- * This should be compared to {@link TypingUITextureArrayTest} and {@link TypingUITest}.
+ * This should be compared to {@link TypingUITACPTest} and {@link TypingUITest}.
  * <br>
  * Calls: 120, draw calls: 10, shader switches: 1, texture bindings: 1
  * <br>
@@ -60,6 +60,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  * Using a Container around fpsLabel and rotating it:
  * <br>
  * Calls: 131, draw calls: 11, shader switches: 1, texture bindings: 1
+ * <br>
+ * This is quite a bit slower than TypingUITest and TypingUITACPTest.
  */
 public class TypingUIArrayTextureTest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
@@ -73,7 +75,6 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 	Texture texture1;
 	Texture texture2;
 	TypingLabel fpsLabel;
-	Container<TypingLabel> fpsContainer;
 	GLProfiler profiler;
 
 	@Override
@@ -170,7 +171,7 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
 		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin, font);
 		fpsLabel.setAlignment(Align.center);
-		fpsContainer = new TransformContainer<>(fpsLabel);
+
 		// configures an example of a TextField in password mode.
 		final TypingLabel passwordLabel = new TypingLabel("[@Medieval]Textfield in [~]secure[ ] password mode: ", skin, font);
 		final TextField passwordTextField = new TextField("", skin);
@@ -216,7 +217,7 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 		window.add(passwordLabel).align(Align.topLeft).colspan(2);
 		window.add(passwordTextField).minWidth(100).expandX().fillX().colspan(2);
 		window.row();
-		window.add(fpsContainer).align(Align.topLeft).colspan(4);
+		window.add(fpsLabel).align(Align.topLeft).colspan(4);
 		window.pack();
 
 		// stage.addActor(new Button("Behind Window", skin));
@@ -266,7 +267,7 @@ public class TypingUIArrayTextureTest extends InputAdapter implements Applicatio
 		for (; i < 5; i++) {
 			fpsLabel.setInWorkingLayout(5+i, 0L);
 		}
-		fpsContainer.setRotation(20f + 20f * MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f));
+		fpsLabel.setRotation(20f + 20f * MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f));
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE) && profiler.isEnabled())

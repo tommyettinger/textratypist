@@ -76,7 +76,6 @@ public class TypingUITextureArrayGL30Test extends InputAdapter implements Applic
 	Texture texture1;
 	Texture texture2;
 	TypingLabel fpsLabel;
-	Container<TypingLabel> fpsContainer;
 	GLProfiler profiler;
 
 	@Override
@@ -207,7 +206,6 @@ public class TypingUITextureArrayGL30Test extends InputAdapter implements Applic
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
 		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin, font);
 		fpsLabel.setAlignment(Align.center);
-		fpsContainer = new TransformContainer<>(fpsLabel);
 		// configures an example of a TextField in password mode.
 		final TypingLabel passwordLabel = new TypingLabel("[@Medieval]Textfield in [~]secure[ ] password mode: ", skin, font);
 		final TextField passwordTextField = new TextField("", skin);
@@ -253,7 +251,7 @@ public class TypingUITextureArrayGL30Test extends InputAdapter implements Applic
 		window.add(passwordLabel).align(Align.topLeft).colspan(2);
 		window.add(passwordTextField).minWidth(100).expandX().fillX().colspan(2);
 		window.row();
-		window.add(fpsContainer).align(Align.topLeft).colspan(4);
+		window.add(fpsLabel).align(Align.topLeft).colspan(4);
 		window.pack();
 
 		// stage.addActor(new Button("Behind Window", skin));
@@ -303,7 +301,7 @@ public class TypingUITextureArrayGL30Test extends InputAdapter implements Applic
 		for (; i < 5; i++) {
 			fpsLabel.setInWorkingLayout(5+i, 0L);
 		}
-		fpsContainer.setRotation(20f + 20f * MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f));
+		fpsLabel.setRotation(20f + 20f * MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f));
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE) && profiler.isEnabled())
