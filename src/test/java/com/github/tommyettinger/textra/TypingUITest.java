@@ -34,8 +34,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+// Checked with 2.6.0 .
 
 /**
  * This should be compared to {@link TypingUIArrayTextureTest} and {@link TypingUITextureArrayTest}.
@@ -53,6 +56,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  * As above but using CpuSpriteBatch:
  * <br>
  * Calls: 613, draw calls: 33, shader switches: 1, texture bindings: 33
+ * <br>
+ * Going back to rotating without a CpuSpriteBatch or TransformContainer:
+ * Calls: 633, draw calls: 33, shader switches: 1, texture bindings: 33, but FPS are more than double before.
  */
 public class TypingUITest extends InputAdapter implements ApplicationListener {
 	String[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
@@ -68,7 +74,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	Texture texture1;
 	Texture texture2;
 	TypingLabel fpsLabel;
-	Container<TypingLabel> fpsContainer;
+
 	GLProfiler profiler;
 
 	@Override
@@ -96,9 +102,9 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 //				KnownFonts.addOpenMoji(f, false);
 		}
 		//Calls: 637, draw calls: 33, shader switches: 1, texture bindings: 33
-//		stage = new Stage(new ScreenViewport());
+		stage = new Stage(new ScreenViewport());
 		//Calls: 613, draw calls: 33, shader switches: 1, texture bindings: 33
-		stage = new Stage(new ScreenViewport(), new CpuSpriteBatch());
+//		stage = new Stage(new ScreenViewport(), new CpuSpriteBatch());
 		Gdx.input.setInputProcessor(stage);
 
 //		stage.setDebugAll(true);
@@ -171,7 +177,6 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		SplitPane splitPane = new SplitPane(scrollPane, rightSideTable, false, skin, "default-horizontal");
 		fpsLabel = new TypingLabel("fps: 0    [^][SKY][[citation needed]", skin, font);
 		fpsLabel.setAlignment(Align.center);
-		fpsContainer = new TransformContainer<>(fpsLabel);
 		// configures an example of a TextField in password mode.
 		final TypingLabel passwordLabel = new TypingLabel("[@Medieval]Textfield in [~]secure[ ] password mode: ", skin, font);
 		final TextField passwordTextField = new TextField("", skin);
@@ -217,7 +222,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		window.add(passwordLabel).align(Align.topLeft).colspan(2);
 		window.add(passwordTextField).minWidth(100).expandX().fillX().colspan(2);
 		window.row();
-		window.add(fpsContainer).align(Align.topLeft).colspan(4);
+		window.add(fpsLabel).align(Align.topLeft).colspan(4);
 		window.pack();
 
 		// stage.addActor(new Button("Behind Window", skin));
@@ -256,8 +261,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 	@Override
 	public void render () {
 		profiler.reset();
-		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
 		String s = String.valueOf(Gdx.graphics.getFramesPerSecond());
 		int i;
 		for (i = 0; i < s.length() && i < 5; i++) {
@@ -266,7 +270,7 @@ public class TypingUITest extends InputAdapter implements ApplicationListener {
 		for (; i < 5; i++) {
 			fpsLabel.setInWorkingLayout(5+i, 0L);
 		}
-		fpsContainer.setRotation(20f + 20f * MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f));
+		fpsLabel.setRotation(20f + 20f * MathUtils.sinDeg((TimeUtils.millis() & 0xFFFFFL) * 0.1f));
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE) && profiler.isEnabled())
