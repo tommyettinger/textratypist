@@ -13,6 +13,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests that events trigger at the right times.
+ */
 public class TypingLabelEventScheduling extends ApplicationAdapter {
     Skin        skin;
     Stage       stage;

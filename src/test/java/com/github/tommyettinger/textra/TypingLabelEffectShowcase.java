@@ -15,7 +15,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
 /**
+ * Tests all registered Effects in one long TypingLabel.
+ * <br>
  * <a href="https://i.imgur.com/X6jGO8F.gif">Animated Preview</a>.
  */
 public class TypingLabelEffectShowcase extends ApplicationAdapter {

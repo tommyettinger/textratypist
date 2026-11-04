@@ -19,6 +19,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+// Checked with 2.6.0 .
+
+/**
+ * Tests some features like conditional replacement that aren't checked by the big {@link TypingLabelTest}.
+ */
 public class TinyTypingLabelTest extends ApplicationAdapter {
     FWSkin       skin;
     Stage        stage;
@@ -149,27 +154,27 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                });
 //        Font font = family.connected[0].setFamily(family);
 
-//        Font font = KnownFonts.getStandardFamily();
-//        for(Font f : font.family.connected) {
-//            if (f != null) {
-//                KnownFonts.addEmoji(f);
-//            }
-//        }
+        Font font = KnownFonts.getStandardFamily();
+        for(Font f : font.family.connected) {
+            if (f != null) {
+                KnownFonts.addEmoji(f);
+            }
+        }
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("mo/Roboto-Condensed.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 20;
-        parameter.minFilter = Texture.TextureFilter.Linear;
-        parameter.magFilter = Texture.TextureFilter.Linear;
-        parameter.borderColor = Color.BLACK;
-        parameter.borderStraight = true;
-        parameter.borderWidth = 1;
-        parameter.hinting = FreeTypeFontGenerator.Hinting.Full;
-        BitmapFont light = generator.generateFont(parameter);
-        light.getData().breakChars = new char[]{'-'};
-        generator.dispose();
-
-        Font font = KnownFonts.addEmoji(new Font(light));
+//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("mo/Roboto-Condensed.ttf"));
+//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//        parameter.size = 20;
+//        parameter.minFilter = Texture.TextureFilter.Linear;
+//        parameter.magFilter = Texture.TextureFilter.Linear;
+//        parameter.borderColor = Color.BLACK;
+//        parameter.borderStraight = true;
+//        parameter.borderWidth = 1;
+//        parameter.hinting = FreeTypeFontGenerator.Hinting.Full;
+//        BitmapFont light = generator.generateFont(parameter);
+//        light.getData().breakChars = new char[]{'-'};
+//        generator.dispose();
+//
+//        Font font = KnownFonts.addEmoji(new Font(light));
 
 //        Font font = new Font(KnownFonts.getOpenSans().scale(0.5f, 0.5f).setTextureFilter());
         // Create label
@@ -204,8 +209,6 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
 //                "{VAR=SHOWIFA}A is enabled! Press A on your controller to confirm!{VAR=ENDSHOWIFA}{VAR=SHOWIFNOTA}A is disabled! Click to confirm!{VAR=ENDSHOWIFNOTA}\n" +
 
 //                "{IF=controller;yes=A is enabled! Press A on your controller to confirm!;=A is disabled! Click to confirm!}\n",
-/*                        +
-
                 "{SLAM}There's a [/][@Medieval]STORM{RESET} on {MEET=2;1;n;y}[@Future][GREEN]the way[][][-ENDMEET], " +
                 "{INSTANT}she's{VAR=SHIVERINGBLIZZARD} blowin' on down{ENDINSTANT}{RESET}, " +
                 "[@Handwriting]whippin'[] her [@Slab]way[] through the [*]{FONT=Sans}whole dang[][] town! " +
@@ -213,15 +216,13 @@ public class TinyTypingLabelTest extends ApplicationAdapter {
                 "this [light grey black][%125]storm[ ] will be [@Canada]there[@] on clouds{SPIN=2;1;false}[%75] one{CLEARSIZE}{ENDSPIN} through {SPIN=1;8;false}[%150]eight[%]{ENDSPIN}! " +
                 "Should a [@Retro]young[@] {IF=gender;m=lad;f=lass;t='un;e=[+🧒]} go [@Code]out[@], in the [@Humanist]wind[@] and [@Geometric]the {SHAKE=;;2}thunder{ENDSHAKE}[@], " +
                 "if {IF=gender;m=he makes;f=she makes;t=they make;e=[+🧒] makes} it [@Condensed]back[@], it [@Console]will[@] be a [;][%^]true wonder[%][;]!",
-*/
 //                "Welcome back {VAR=check case}, how are you doing?\nI hear those controllers are making a comeback...",
 //                "MODES! Error: [?error]oh no[?], Warn: [?warn]uh oh[?], Note: [?note]huh[?], Context: [?context]interesting[?], Suggest: [?suggest]neat[?]\n" +
 //                "OUTLINES! [?blacken]Black[#], [?whiten]White[#], [?bluen]Blue[#], [?redden]Red[#], [?yellowen]Yellow[#]\n" +
 //                "RADIANT! [@Geometric][RED][?neon]Hot Food! [GREEN]Low Prices! [YELLOW][?halo]Believe it![ ]\n"
 //                "{THINKING=3;5;1;y}1 + 1 = [~]3?[~] [*]2[*]{ENDTHINKING}\n" +
 //                "{THINKING=-3;1;0}2 + 2 = [~]5?[~] [*]4[*]{ENDTHINKING}\n"
-                "Do you want to tempt fate? Click here... {HIDE}YOU DIED...{ENDHIDE} Hehehe...\n"
-                ,
+//                "Do you want to tempt fate? Click here... {HIDE}YOU DIED...{ENDHIDE} Hehehe...\n",
                 font);
         label.setDefaultToken("{EASE}{SPEED=0.1}[%130]");
         label.align = Align.topLeft;

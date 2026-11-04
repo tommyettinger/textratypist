@@ -34,6 +34,8 @@ import java.util.zip.CheckedOutputStream;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 
+// Checked with 2.6.0, but is mostly incorporated already into FontWriter.
+
 /**
  * This is a somewhat strange runnable. Its purpose is to take images with up to 256 levels of transparency, but only
  * one color used (here, white), and correct the fully transparent color from 0x000000 to match the 0xFFFFFF used

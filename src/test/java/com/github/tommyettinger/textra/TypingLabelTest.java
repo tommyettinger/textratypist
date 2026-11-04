@@ -19,6 +19,11 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
+// Checked with 2.6.0 .
+
+/**
+ * The big test that should showcase most features of TypingLabel.
+ */
 public class TypingLabelTest extends ApplicationAdapter {
     FWSkin        skin;
     Stage         stage;
