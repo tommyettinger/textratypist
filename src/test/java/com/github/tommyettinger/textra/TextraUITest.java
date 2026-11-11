@@ -300,8 +300,16 @@ public class TextraUITest extends InputAdapter implements ApplicationListener {
 	public void render () {
 //		profiler.reset();
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
-		fpsLabel.setWidth(300);
+
+		// 2.6.0 code; the 2.5.0 version below will freeze 2.6.0 .
+//		fpsLabel.setWidth(300);
+//		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]");
+//		fpsLabel.regenerateLayout();
+//		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
+
+		// Tests 2.5.0 behavior, which should work in 2.6.1 also.
 		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "[^][SKY][[citation needed]");
+		fpsLabel.layout.setTargetWidth(300);
 		fpsLabel.regenerateLayout();
 		fpsLabel.rotateBy(Gdx.graphics.getDeltaTime() * 25f);
 
