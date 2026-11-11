@@ -1,3 +1,7 @@
+2.6.1 is a tiny update to fix the last "known difference in behavior" in 2.6.0, where TextraLabel.setText() could
+sometimes freeze an application if the width was substantially different before and after the call. Now setWidth()
+doesn't need to be called first, and existing applications using 2.5.0's style should be compatible with 2.6.1 .
+
 2.6.0 has a major internal overhaul of how Layout works, and eliminates the Line class that was here from the start.
 Initially, a Layout was just a group of Lines that also stored a few pieces of extra data about the whole body of text.
 However, over time, rotations, scaling, and a variety of other bits of info were added to Layout, using indices that
